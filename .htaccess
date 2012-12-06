@@ -1,0 +1,19 @@
+Options +FollowSymLinks
+RewriteEngine on
+RewriteBase /
+
+# RewriteRule ^(.*\.((js)|(css)))$ plugin/GzipFile.php?file=$1
+# RewriteRule \.css$ plugin/GzipFile.php?file=$1
+# RewriteRule \.js$ plugin/GzipFile.php?file=$1
+
+AddHandler application/x-httpd-php .html
+AddType application/x-javascript .js
+AddType text/css .css
+AddType text/xml .xml
+
+DirectoryIndex index.php
+
+php_value	upload_max_filesize	32M
+php_value	default_charset utf-8
+
+AddType text/x-component .htc
