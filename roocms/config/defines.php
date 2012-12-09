@@ -79,8 +79,8 @@ define('_SITE',				_ROOCMS.'/site.php');
 define('EMAIL_MESSAGE_PARAMETERS',	'content-Type: text/plain; charset="utf-8"');
 define('SCRIPT_NAME',				$_SERVER['SCRIPT_NAME']);
 define('CHARSET',					'text/html; charset=utf-8');
-define('ROOCMS_VERSION',			'1.00.10');
-define('VERSION',					'1.00 Nightly Build 10 dev');
-define('BUILD',						'10010');
+define('ROOCMS_VERSION',			'1.0.10');
+define('VERSION',					'1.0 Nightly Build 10');
+define('BUILD',						'1010');
 
 ?>
