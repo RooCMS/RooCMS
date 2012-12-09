@@ -1,71 +1,104 @@
 <?php
-/*=========================================================
-|	This script was developed by alex Roosso .
-|	Title: RooCMS acp menu
-|	Author:	alex Roosso
-|	Copyright: 2010-2011 (c) RooCMS. 
-|	Web: http://www.roocms.com
-|	All rights reserved.
-|----------------------------------------------------------
-|	This program is free software; you can redistribute it and/or modify
-|	it under the terms of the GNU General Public License as published by
-|	the Free Software Foundation; either version 2 of the License, or
-|	(at your option) any later version.
-|	
-|	Данное программное обеспечение является свободным и распространяется
-|	по лицензии Фонда Свободного ПО - GNU General Public License версия 2.
-|	При любом использовании данного ПО вы должны соблюдать все условия
-|	лицензии.
-|----------------------------------------------------------
-|	Build date: 		18:51 14.09.2010
-|	Last Bould: 		3:16 08.09.2011
-|	Version file:		1.00 build 7
-=========================================================*/
+/**
+* @package      RooCMS
+* @subpackage	Admin Control Panel
+* @subpackage	Menu
+* @author       alex Roosso
+* @copyright    2010-2014 (c) RooCMS
+* @link         http://www.roocms.com
+* @version      1.0.15
+* @since        $date$
+* @license      http://www.gnu.org/licenses/gpl-2.0.html
+*/
+
+/**
+*   This program is free software; you can redistribute it and/or modify
+*   it under the terms of the GNU General Public License as published by
+*   the Free Software Foundation; either version 2 of the License, or
+*   (at your option) any later version.
+*
+*   Данное программное обеспечение является свободным и распространяется
+*   по лицензии Фонда Свободного ПО - GNU General Public License версия 2.
+*   При любом использовании данного ПО вы должны соблюдать все условия
+*   лицензии.
+*/
 
 //#########################################################
 // Anti Hack
 //---------------------------------------------------------
-if(!defined('RooCMS')) die('Access Denied');
+if(!defined('RooCMS') || !defined('ACP')) die('Access Denied');
 //#########################################################
 
 
-// Load template ======================
-$tpl->load_template("acp_menu");
-//=====================================
-
-
-// news
-if(file_exists(_CMS."/acp/news.php") && file_exists(_CMS."/functions_news.php")) {
-	$html['menu_items_left'][] = $tpl->tpl->menu_items("acp.php?act=news", "img/acp/news_16.png", "Новости");
+/**
+* Structure
+*/
+if(file_exists(_ROOCMS."/acp/structure.php")) {
+	$menu_items_left[] = array('link'=>CP.'?act=structure','icon'=>str_replace(_ROOT, "", _SKIN).'/acp/img/structure_16.png','text'=>'Структура','window'=>'_self');
 }
 
-// cms pages
-if(file_exists(_CMS."/acp/pages.php") && file_exists(_CMS."/functions_pages.php")) {
-	$html['menu_items_left'][] = $tpl->tpl->menu_items("acp.php?act=pages", "img/acp/page_16.png", "Страницы");
+/**
+* Pages
+*/
+if(file_exists(_ROOCMS."/acp/pages.php")) {
+	$menu_items_left[] = array('link'=>CP.'?act=pages','icon'=>str_replace(_ROOT, "", _SKIN).'/acp/img/pages_16.png','text'=>'Страницы','window'=>'_self');
 }
 
-// gallery
-if(file_exists(_CMS."/acp/gallery.php") && file_exists(_CMS."/functions_gallery.php")) {
-	$html['menu_items_left'][] = $tpl->tpl->menu_items("acp.php?act=gallery", "img/acp/gallery_16.png", "Галерея");
+/**
+* Feeds
+*/
+if(file_exists(_ROOCMS."/acp/feeds.php")) {
+	$menu_items_left[] = array('link'=>CP.'?act=feeds','icon'=>str_replace(_ROOT, "", _SKIN).'/acp/img/feeds_16.png','text'=>'Ленты','window'=>'_self');
 }
 
-// portfolio
-if(file_exists(_CMS."/acp/portfolio.php") && file_exists(_CMS."/functions_portfolio.php")) {
-	$html['menu_items_left'][] = $tpl->tpl->menu_items("acp.php?act=portfolio", "img/acp/portfolio_16.png", "Портфолио");
+/**
+* Blocks
+*/
+if(file_exists(_ROOCMS."/acp/blocks.php")) {
+	$menu_items_left[] = array('link'=>CP.'?act=blocks','icon'=>str_replace(_ROOT, "", _SKIN).'/acp/img/blocks_16.png','text'=>'Блоки','window'=>'_self');
 }
 
-// config page
-if(file_exists(_CMS."/acp/config.php")) {
-	$html['menu_items_left'][] = $tpl->tpl->menu_items("acp.php?act=config", "img/acp/config_16.png", "Настройки");
+/**
+* Configuration
+*/
+if(file_exists(_ROOCMS."/acp/config.php")) {
+	$menu_items_left[] = array('link'=>CP.'?act=config','icon'=>str_replace(_ROOT, "", _SKIN).'/acp/img/config_16.png','text'=>'Настройки','window'=>'_self');
 }
 
 
-$html['menu_items_left'][] = $tpl->tpl->menu_items("/", "img/acp/index_16.png", "На сайт", "_blank");
+/**
+* Help System
+*/
+//if(file_exists(_ROOCMS."/acp/help.php")) {
+//	$menu_items_right[] = array('link'=>CP.'?act=help','icon'=>str_replace(_ROOT, "", _SKIN).'/acp/img/help_16.png','text'=>'Помощь','window'=>'_self');
+//}
 
+/**
+* On site
+*/
+$menu_items_right[] = array('link'=>'/','icon'=>str_replace(_ROOT, "", _SKIN).'/acp/img/index_16.png','text'=>'На сайт','window'=>'_blank');
 
-// logout
-if(file_exists(_CMS."/acp/logout.php")) {
-	$html['menu_items_right'][] = $tpl->tpl->menu_items("acp.php?act=logout", "img/acp/logout_16.png", "Выход");
+/**
+* Logout
+*/
+if(file_exists(_ROOCMS."/acp/logout.php")) {
+	$menu_items_right[] = array('link'=>CP.'?act=logout','icon'=>str_replace(_ROOT, "", _SKIN).'/acp/img/logout_16.png','text'=>'Выход','window'=>'_self');
 }
+
+
+$date = date("d.m.Y",time());
+$rdate	= $parse->date->unix_to_rus(time());
+
+# assign vars
+$smarty->assign('date',		$date);
+$smarty->assign('rdate',	$rdate);
+$smarty->assign('userip',	$roocms->userip);
+
+$smarty->assign('menu_items_left',	$menu_items_left);
+$smarty->assign('menu_items_right',	$menu_items_right);
+
+# load template
+$cpmenu = $tpl->load_template("menu", true);
+$smarty->assign("cpmenu", $cpmenu);
 
 ?>

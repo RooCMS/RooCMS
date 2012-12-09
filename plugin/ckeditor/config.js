@@ -9,9 +9,10 @@ CKEDITOR.editorConfig = function( config )
 
 		config.uiColor = '#F7F2E5';
 		config.Defaultlanguage = 'ru';
-		// config.language = 'ru';
 		config.enterMode = CKEDITOR.ENTER_BR;
 		config.shiftenterMode = CKEDITOR.ENTER_P;
+		
+		//config.extraPlugins='codemirror';
 		
 		config.toolbarStartupExpanded = true;
 		
@@ -19,10 +20,13 @@ CKEDITOR.editorConfig = function( config )
 		
         //config.filebrowserBrowseUrl = '/browser/browse.php';
         //config.filebrowserUploadUrl = '/uploader/upload.php';
-        // config.filebrowserImageWindowWidth = '640';
-        // config.filebrowserImageWindowHeight = '480';
+        //config.filebrowserImageWindowWidth = '640';
+        //config.filebrowserImageWindowHeight = '480';
 
-		config.contentsCss = '/inc/style.css?v=3';
+		config.contentsCss = ['/skin/default/style.css', 
+							  '/inc/jquery-ui.css',
+							  '/plugin/plusstrap/css/plusstrap.min.css',
+							  '/plugin/plusstrap/css/plusstrap_moreclasses.min.css'];
 		config.bodyId = 'content';
 
 		config.coreStyles_bold = { element : 'b', overrides : 'strong' };
@@ -50,7 +54,7 @@ CKEDITOR.editorConfig = function( config )
 			['JustifyLeft','JustifyCenter','JustifyRight','JustifyBlock'],
 			['BidiLtr', 'BidiRtl'],
 			['Link','Unlink','Anchor'],
-			['Image','Flash','Table','HorizontalRule','Smiley','SpecialChar','PageBreak','Iframe'],
+			['Image','Flash','Table','HorizontalRule','SpecialChar','PageBreak','Iframe'],
 			'/',
 			['Styles','Format','Font','FontSize'],
 			['TextColor','BGColor'],
@@ -64,7 +68,6 @@ CKEDITOR.editorConfig = function( config )
 			['SelectAll', '-', 'Cut','Copy','Paste','PasteText','PasteFromWord'],
 			['Find','Replace'],
 			['Form', 'Checkbox', 'Radio', 'TextField', 'Textarea', 'Select', 'Button', 'ImageButton', 'HiddenField'],
-			['SpellChecker', 'Scayt'],
 			['RemoveFormat'],
 			'/',
 			['Bold','Italic','Underline','Strike','-','Subscript','Superscript'],
@@ -72,7 +75,7 @@ CKEDITOR.editorConfig = function( config )
 			['NumberedList','BulletedList','-','Outdent','Indent','Blockquote','CreateDiv'],
 			['BidiLtr', 'BidiRtl'],
 			['Link','Unlink','Anchor'],
-			['Image','Flash','Table','HorizontalRule','Smiley','SpecialChar','Iframe'],
+			['Image','Flash','Table','HorizontalRule','SpecialChar','Iframe'],
 			'/',
 			['Styles','Format','Font','FontSize'],
 			['TextColor','BGColor'],

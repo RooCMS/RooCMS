@@ -1,26 +1,25 @@
 <?php
-/*=========================================================
-|	This script was developed by alex Roosso .
-|	Title: RooCMS Template Class
-|	Author:	alex Roosso
-|	Copyright: 2010-2011 (c) RooCMS. 
-|	Web: http://www.roocms.com
-|	All rights reserved.
-|----------------------------------------------------------
-|	This program is free software; you can redistribute it and/or modify
-|	it under the terms of the GNU General Public License as published by
-|	the Free Software Foundation; either version 2 of the License, or
-|	(at your option) any later version.
-|	
-|	Данное программное обеспечение является свободным и распространяется
-|	по лицензии Фонда Свободного ПО - GNU General Public License версия 2.
-|	При любом использовании данного ПО вы должны соблюдать все условия
-|	лицензии.
-|----------------------------------------------------------
-|	Build: 			15:26 29.11.2010
-|	Last Build: 	15:23 28.10.2011
-|	Version file:	3.00 build 9
-=========================================================*/
+/**
+* @package		RooCMS
+* @subpackage	Engine RooCMS classes
+* @subpackage	Template Class
+* @author		alex Roosso
+* @copyright	2010-2014 (c) RooCMS
+* @link			http://www.roocms.com
+* @version		4.0.24
+* @since		$date$
+* @license		http://www.gnu.org/licenses/gpl-2.0.html
+*
+*   This program is free software; you can redistribute it and/or modify
+*   it under the terms of the GNU General Public License as published by
+*   the Free Software Foundation; either version 2 of the License, or
+*   (at your option) any later version.
+*
+*   Данное программное обеспечение является свободным и распространяется
+*   по лицензии Фонда Свободного ПО - GNU General Public License версия 2.
+*   При любом использовании данного ПО вы должны соблюдать все условия
+*   лицензии.
+*/
 
 //#########################################################
 // Anti Hack
@@ -29,307 +28,218 @@ if(!defined('RooCMS')) die('Access Denied');
 //#########################################################
 
 
+/**
+* Запускаем шаблонизатор
+*
+* @var template
+*/
 $tpl = new template;
 
 class template {
 
-	# template classes
-	public	$tpl;
-	
+	# vars
+	private $skinfolder = "default";	# [string]	skin templates folder
+
+	# other buffer
+	private $css		= "";			# [text]	CSS buffer
+	private $js			= "";			# [text]	JavaScript buffer
+
 	# output buffer
-	private $out 	= "";
+	private $out 		= "";			# [text]	output buffer
 
-	# other
-	private $css	= "";
-	private $js		= "";
-	
 
-	
-	//###############################################################
-	//#	Fucntion output template from /templates/*.tpl
-	//#	@tpl - name of template
-	//###############################################################
-	public function load_template($tpl, $buffer = false, $path = _TEMPLATES) {
-		
-		global $var, $Debug;
-		
-		$template = "";
 
-		// Если нет шаблона
-		if(!file_exists($path."/".$tpl.".html") && !file_exists($path."/".$tpl.".php") && $Debug->debug == 1) {
-			$Debug->debug_info .= "Не удалось найти шаблон: <br /><b>".$path."/".$tpl.".[html|php]</b><br />";
+	/**
+	* Инициализируем "шкурку"
+	*
+	* @param mixed $skin - указываем относительный путь к папке с "шкуркой" от папки _SKIN
+	*/
+	public function template($skin=false) {
+
+		global $site;
+
+		if(!$skin) {
+			if(defined('ACP')) $this->skinfolder = "acp";
+			elseif(defined('INSTALL')) $this->skinfolder = "../install/skin";
+			else $this->skinfolder = $site['skin'];
 		}
-		
-		if(file_exists($path."/".$tpl.".html") || file_exists($path."/".$tpl.".php")) {
-			// HTML
-			if(file_exists($path."/".$tpl.".html")) {
-				$f = file($path."/".$tpl.".html");
-				
-				// debug html comment
-				if($Debug->debug == 1)	$template .= "\n<!-- Start template: {$tpl} -->\n";
-				
-				// 	Собираем шаблон
-				foreach($f AS $k=>$v){ 
-					$template .= "{$v}";
-				}
-				
-				// debug html comment
-				if($Debug->debug == 1)	$template .= "\n<!-- End template: {$tpl} -->\n";
-			}
-			
-			//PHP
-			if(file_exists($path."/".$tpl.".php")) {
-				
-				require_once $path."/".$tpl.".php";
+		else $this->skinfolder = $skin;
 
-				// Init class TPL ==========
-				if(class_exists("tpl_items_".$tpl)) {
-					$inittpl = "\$this->tpl = new tpl_items_{$tpl};";
-					eval($inittpl);
-				}
-			
-				// HTML ====================
-				// debug html comment
-				if($Debug->debug == 1)	$template .= "\n<!-- start template: {$tpl} -->\n";
-				
-				// Запускаем основной шаблон
-				$template  	.= $this->tpl->tpl_page();
-				
-				// debug html comment
-				if($Debug->debug == 1)	$template .= "\n<!-- end template: {$tpl} -->\n";
-				
-				
-				// CSS =====================
-				$this->load_css($tpl);
-
-				// JS ======================
-				$this->load_js($tpl);
-			}
-		}
-		
-		
-		# Final
-		if($buffer) return $template; 			// возвращаем буфер
-		else 		$this->out .= $template; 	// помешаем в буфер основной шаблон
+		# init settings smarty
+		$this->set_smarty();
 	}
-	
-	
-	//###############################################################
-	//#	Fucntion output css from template
-	//###############################################################
-	private function load_css($tpl="") {
-	
-		global $Debug;
-	
-		// debug css comment
-		if($Debug->debug == 1 && trim($this->tpl->tpl_css()) != "")	
-			$this->css .= "\n/* css template: {$tpl} */\n";
-		
-		// Запускаем стили для шаблона
-			$this->css 	.= trim($this->tpl->tpl_css());
-		
-		// debug css comment
-		if($Debug->debug == 1 && trim($this->tpl->tpl_css()) != "")	
-			$this->css .= "\n/* end css template: {$tpl} */\n";
-	
+
+
+	/**
+	* set Smarty settings
+	*
+	*/
+	private function set_smarty() {
+
+		global $debug, $config, $smarty;
+
+		# set tempplates options
+        $smarty->template_dir 	= _SKIN."/".$this->skinfolder."/";
+        $smarty->compile_id 	=& $this->skinfolder;
+        $smarty->compile_dir  	= _CACHESKIN;
+        $smarty->cache_dir    	= _CACHE;
+
+		# set other options
+        $smarty->caching = false;
+		if(isset($config->tpl_recompile_force))	$smarty->force_compile = $config->tpl_recompile_force;
+		if(isset($config->if_modified_since)) 	$smarty->cache_modified_check = $config->if_modified_since;
+		//$smarty->config_fix_newlines = false;
+
+		# debug mode for smarty
+		$smarty->debugging =& $debug->debug;
+
+
+		# assign skin folders templates
+		$smarty->assign("SKIN",str_replace(_ROOT, "", _SKIN)."/".$this->skinfolder);
 	}
-	
-		
-	//###############################################################
-	//#	Fucntion output JSs from template
-	//###############################################################
-	private function load_js($tpl="") {
-	
-		global $Debug;
-		
-		if($Debug->debug == 1 && trim($this->tpl->tpl_js()) != "")	
-			$this->js .= "\n<!-- start js template: {$tpl} -->\n";
-			
-		// запускаем js для шаблона
-		$this->js .= "\n".trim($this->tpl->tpl_js());
 
-		
-		// debug js comment
-		if($Debug->debug == 1 && trim($this->tpl->tpl_js()) != "")	
-			$this->js .= "\n<!-- end js template: {$tpl} -->\n";
-	}
-			
 
-	//###############################################################
-	//# 	Init tamplates vars
-	//#	{*:variables}
-	//###############################################################
-	private function load_vars($code = "") {
 
-		if($code == "") $code =& $this->out;
-		
-		//preg_match_all('/(?:\{([^}]\S+?):([^}]\S+?)\})/', $code, $block);
-		preg_match_all('/(?:\{([\.\-_A-Za-z0-9]\S+?):([\.\-_A-Za-z0-9]\S+?)\})/', $code, $block);
+	/* ####################################################
+	 *		Load template
+     */
+	public function load_template($tpl, $return=false) {
 
-		$u = array_unique($block[0]);
-		$c = count($u);
-		
-		foreach($block[1] AS $key=>$value) {
-			if(isset($u[$key])) {
-				switch(mb_strtolower($value, 'utf8')) {
-					case 'html':
-						$this->load_html(mb_strtolower($block[2][$key], 'utf8'));
-						break;
-						
-					case 'module':
-						$this->load_module(mb_strtolower($block[2][$key], 'utf8'));
-						break;
-						
-					default:
-						$c--;
-						break;
-				}
-			}
+		global $smarty, $debug;
+
+		$path	= _SKIN."/".$this->skinfolder;
+		$out 	= "";
+
+		# Если нет шаблона
+		if(!file_exists($path."/".$tpl.".tpl") && $debug->debug == 1) {
+			$debug->debug_info .= "Не удалось найти шаблон: <br /><b>".$path."/".$tpl.".tpl</b><br />";
 		}
 
-		if($c != 0) $this->load_vars();
-		
-		if($code != "") return $code;
+		if(file_exists($path."/".$tpl.".tpl")) {
+			# load html
+			if($debug->debug && $tpl != "header") $out .= "\r\n<!-- begin template: {$tpl} -->\r\n";
+
+			$out .= $smarty->fetch($tpl.".tpl");
+			//$out .= $smarty->display($tpl.".html");
+
+
+			if($debug->debug) $out .= "\r\n<!-- end template: {$tpl} -->\r\n";
+		}
+
+		if($return) return $out;
+		else $this->out .= $out;
 	}
-			
-	//###############################################################
-	//# 	HTML construct
-	//#	{html:variables}
-	//###############################################################
-	private function load_html($param) {
-		
-		global $html, $Debug;
 
-		$buffer = "";		
-		if(isset($html[$param])) {
-			if(is_array($html[$param])) {
-				foreach($html[$param] AS $key=>$value) {
-					$buffer .= $value;
-				}
-			}
-			else $buffer = $html[$param];
-		}
-		elseif($Debug->debug == 1) {
-			$this->error .= "Не удалось найти переменную: <br /><b>{html:".$param."}</b><br />";
-		}
-		
-		$this->out = str_replace("{html:".$param."}", $buffer, $this->out);
-	}
-	
-	
-	//###############################################################
-	//# 	Module construct
-	//#	{module:variables}
-	//###############################################################
-	private function load_module($param) {
 
-		global $tpl, $html, $parse, $module, $Debug;
-
-		if(file_exists(_CMS."/modules/".$param.".php")) {
-			require_once _CMS."/modules/".$param.".php";
-			if(isset($module[$param])) $output = $module[$param];
-			else $output = "";
-		}
-		else {
-			if($Debug->debug == 1) $this->error .= "Не удалось найти модуль: <br /><b>{".$param."}</b><br />";
-			$output = "";
-		}
-
-		// output
-		$this->out = str_replace("{module:{$param}}", $output, $this->out);
-	}
-	
-
-	//###############################################################
-	//# 	Load Meta Tags
-	//###############################################################
-	private function load_meta() {
-	
-		global $config, $parse, $rss, $var;
-		
-		$this->info_popup();
-		
-		// init Meta
-		$this->out = str_ireplace("{title}",		$var['title'],				$this->out);
-		$this->out = str_ireplace("{charset}",		CHARSET,					$this->out);
-		$this->out = str_ireplace("{keywords}",		$config->meta_keywords ,	$this->out);
-		$this->out = str_ireplace("{description}",	$config->meta_description,	$this->out);
-		$this->out = str_ireplace("{domain}",		$config->baseurl,			$this->out);
-		$this->out = str_ireplace("{copyright}",	'Сделано на <a href="http://www.roocms.com/" target="_blank" title="RooCMS">RooCMS</a>  &copy; 2010-2011<br />Версия '.VERSION,	$this->out);
-		$this->out = str_ireplace("{info}",			$parse->info,				$this->out);
-		$this->out = str_ireplace("{error}",		$parse->error,				$this->out);
-		
-		//###########################################################
-		//#	FUCK YOU BILL GATES	|	FUCK YOU INTERNET EXPLORER
-		//###########################################################
-		if($config->fuckie && $parse->browser('ie', 8)) {
-			$this->out = str_ireplace("{FUCKIE}",	$this->load_template("fuck_IE",true),	$this->out);
-		}
-		else $this->out = str_ireplace("{FUCKIE}",	"",	 $this->out);
-
-		
-		// init CSS
-		if(trim($this->css) != "") $this->css = "<style type=\"text/css\" id=\"template_css\" media=\"screen\">\n".$this->css."\n</style>\n";
-		$this->out = str_ireplace("{CSS}",		$this->css,	$this->out);
-
-		// init RSS link
-		//	собаку мы используем только по одному случаю -> rss класс объявляется только в случае когда явно вызван. В остальных его нет.
-		if(@$rss->rss_link != "") $this->js .= "\n\n <!-- RSS --> \n <link rel=\"alternate\" type=\"application/rss+xml\" title=\"".$var['title']." - RSS Лента\" href=\"".$rss->rss_link."\" />";
-	
-		// init JavaScript
-		$this->out = str_ireplace("{JSCRIPT}",	$this->js,	$this->out);
-	}
-	
-	
-	//###############################################################
-	//# 	Parse error & info
-	//###############################################################
+	/**
+	* Parse error & info
+	*
+	*/
 	private function info_popup() {
-	
+
 		global $parse;
-	
-		if($parse->error != "") {
-			$parse->error = "<div id=\"error\">".$parse->error."</div>";
+
+		if(trim($parse->error) != "" && trim($parse->info) == "") {
 			$this->js .= "<script type=\"text/javascript\" src=\"inc/jquery.notice.js\"></script>";
 		}
-		
-		if($parse->info != "") {
-			$parse->info = "<div id=\"info\">".$parse->info."</div>";
+
+		if(trim($parse->info) != "") {
+			if(trim($parse->error) != "") {
+				$parse->info .= $parse->error;
+				$parse->error = "";
+			}
+
 			$this->js .= "<script type=\"text/javascript\" src=\"inc/jquery.notice.js\"></script>";
 		}
-	
+
 	}
-	
-	
-	//###############################################################
-	//# 	Out html
-	//###############################################################
+
+
+	/**
+	* Parse OUTPUT for eval blocks
+	*
+	*/
+	function init_blocks() {
+
+		global $blocks;
+
+		//preg_match_all('/(?:\{([\.\-_A-Za-z0-9]\S+?):([\.\-_A-Za-z0-9]\S+?)\})/', $this->out, $block);
+		preg_match_all('(\{\$blocks-\>load\(([a-zA-Z0-9_"\';&-]*?)\)\})', $this->out, $block);
+
+		$u = array_unique($block[1]);
+		foreach($u as $k=>$v) {
+			$v = str_ireplace('"', '', $v);
+			$buf = $blocks->load($v);
+			$this->out = str_ireplace("{\$blocks->load({$v})}", $buf, $this->out);
+		}
+	}
+
+
+	/**
+	* Выводим скомпилированный HTML на экран
+	*
+	*/
 	public function out() {
 
-		global $roocms, $rss, $var;
-		
-		if($roocms->rss && $rss->check_rss()) $this->out = $rss->out();
-		else {
-			
-			// инициализируем переменные
-			$this->load_vars();
-			
-			// Load meta_tags 
-			$this->load_meta();
+		global $roocms, $config, $db, $rss, $site, $structure, $smarty, $parse, $debug;
 
-			
-			$this->out = str_ireplace("{THIS}",			THIS_SCRIPT.".php",			$this->out);
-			//$this->out = str_ireplace("{RURI}",			$_SERVER['REQUEST_URI'],	$this->out);
-			$this->out = str_ireplace("{build}",		BUILD,						$this->out);
-			
-			
-			if(!$roocms->ajax) {
-				$this->out = str_ireplace('href="#',	'href="'.$_SERVER['REQUEST_URI'].'#',	$this->out);
+		# header & footer
+		if(!$roocms->ajax && !$roocms->rss) {
+
+			# check notice
+			$this->info_popup();
+
+            # noindex for robots
+            $robots = (!defined('ACP')) ? "index, follow, all" : "no-index,no-follow,all" ;
+            if(!defined('ACP')) if($structure->page_noindex == 1) $robots = "no-index,no-follow,all";
+
+
+            # global site title
+            if($config->global_site_title) $site['title'] .= " &bull; ".$config->site_title;
+
+			# assign tpl vars
+			$smarty->assign("site",			$site);
+			$smarty->assign("charset",		CHARSET);
+			$smarty->assign("build",		BUILD);
+			$smarty->assign("jscript",		$this->js);
+			$smarty->assign("robots",		$robots);
+
+			$smarty->assign("fuckie",		"");
+			$smarty->assign("error",		$parse->error);
+			$smarty->assign("info",			$parse->info);
+
+			$smarty->assign("rsslink",		$rss->rss_link);
+
+
+			# copyright text
+			$smarty->assign("copyright",		"<a href=\"http://www.roocms.com/\">RooCMS</a> &copy; 2010-".date("Y"));
+
+
+			$head = $this->load_template("header", true);
+
+			# debug_info in footer
+			if(isset($roocms->sess['acp'])) {
+				$smarty->assign("debug", 		$debug->debug);
+				$smarty->assign("devmode", 		$debug->dev_mode);
+				$smarty->assign("db_querys", 	$db->cnt_querys);
+				$smarty->assign("debug_timer",  $debug->endTimer());
 			}
+
+			$foot = $this->load_template("footer", true);
+
+			$this->out = $head.$this->out.$foot;
+
+			# blocks
+			if(!defined('ACP')) $this->init_blocks();
 		}
-	
-		// Выводим
-		return $this->out;
+
+
+		# output
+		echo (!$roocms->rss) ? $this->out : $rss->out() ;
+
+
+		# Close connection to DB (recommended)
+		$db->close();
 	}
 }
 

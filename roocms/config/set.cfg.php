@@ -1,26 +1,25 @@
 <?php
-/*=========================================================
-|	This script was developed by alex Roosso .
-|	Title: RooCMS Settings Config File
-|	Author:	alex Roosso
-|	Copyright: 2010-2011 (c) RooCMS. 
-|	Web: http://www.roocms.com
-|	All rights reserved.
-|----------------------------------------------------------
-|	This program is free software; you can redistribute it and/or modify
-|	it under the terms of the GNU General Public License as published by
-|	the Free Software Foundation; either version 2 of the License, or
-|	(at your option) any later version.
-|	
-|	Äàííîå ïðîãðàììíîå îáåñïå÷åíèå ÿâëÿåòñÿ ñâîáîäíûì è ðàñïðîñòðàíÿåòñÿ
-|	ïî ëèöåíçèè Ôîíäà Ñâîáîäíîãî ÏÎ - GNU General Public License âåðñèÿ 2.
-|	Ïðè ëþáîì èñïîëüçîâàíèè äàííîãî ÏÎ âû äîëæíû ñîáëþäàòü âñå óñëîâèÿ
-|	ëèöåíçèè.
-|----------------------------------------------------------
-|	Build: 			22:35 05.11.2010
-|	Last Build: 	14:57 28.10.2011
-|	Version file:	1.00 build 4
-=========================================================*/
+/**
+* @package		RooCMS
+* @subpackage	Configuration
+* @subpackage	Apache and PHP config
+* @author		alex Roosso
+* @copyright	2010-2014 (c) RooCMS
+* @link			http://www.roocms.com
+* @version		1.3
+* @since		$date$
+* @license		http://www.gnu.org/licenses/gpl-2.0.html
+*
+*   This program is free software; you can redistribute it and/or modify
+*   it under the terms of the GNU General Public License as published by
+*   the Free Software Foundation; either version 2 of the License, or
+*   (at your option) any later version.
+*
+*   Ð”Ð°Ð½Ð½Ð¾Ðµ Ð¿Ñ€Ð¾Ð³Ñ€Ð°Ð¼Ð¼Ð½Ð¾Ðµ Ð¾Ð±ÐµÑÐ¿ÐµÑ‡ÐµÐ½Ð¸Ðµ ÑÐ²Ð»ÑÐµÑ‚ÑÑ ÑÐ²Ð¾Ð±Ð¾Ð´Ð½Ñ‹Ð¼ Ð¸ Ñ€Ð°ÑÐ¿Ñ€Ð¾ÑÑ‚Ñ€Ð°Ð½ÑÐµÑ‚ÑÑ
+*   Ð¿Ð¾ Ð»Ð¸Ñ†ÐµÐ½Ð·Ð¸Ð¸ Ð¤Ð¾Ð½Ð´Ð° Ð¡Ð²Ð¾Ð±Ð¾Ð´Ð½Ð¾Ð³Ð¾ ÐŸÐž - GNU General Public License Ð²ÐµÑ€ÑÐ¸Ñ 2.
+*   ÐŸÑ€Ð¸ Ð»ÑŽÐ±Ð¾Ð¼ Ð¸ÑÐ¿Ð¾Ð»ÑŒÐ·Ð¾Ð²Ð°Ð½Ð¸Ð¸ Ð´Ð°Ð½Ð½Ð¾Ð³Ð¾ ÐŸÐž Ð²Ñ‹ Ð´Ð¾Ð»Ð¶Ð½Ñ‹ ÑÐ¾Ð±Ð»ÑŽÐ´Ð°Ñ‚ÑŒ Ð²ÑÐµ ÑƒÑÐ»Ð¾Ð²Ð¸Ñ
+*   Ð»Ð¸Ñ†ÐµÐ½Ð·Ð¸Ð¸.
+*/
 
 //#########################################################
 // Anti Hack
@@ -29,51 +28,73 @@ if(!defined('RooCMS')) die('Access Denied');
 //#########################################################
 
 
-###########################################################
+/**
+* Start GZip
+*/
 ob_start("ob_gzhandler", 9);
-###########################################################
 
 
-//=========================================================
-// Session
-ini_set("session.use_trand_sid", 	true); 	// 	session activated
-//ini_set("session.save_path", 		"tmp");	//	session save path
+
+/**
+* Initialisation session settings
+*/
+ini_set("session.use_trand_sid",	true); 	# 	session activated
+ini_set("session.gc_maxlifetime",	1440); 	# 	session max life time
+//ini_set("session.save_path",		"tmp");	#	session save path
 //session_save_path("tmp");
 session_start();
-//=========================================================
 
 
-//=========================================================
-// Cookie
-ini_set("session.use_cookie", 		true);	//	cookie activated
-ini_set("session.cookie_domain", 	"");	//	cookie domain
-ini_set("session.cookie_path", 		"/");	//	cookie path
-ini_set("session.cookie_secure", 	"");	//	cookie secure
-setcookie("",	"",	time()+3600);
-//=========================================================
+
+/**
+* Initialisation cookie settings
+*/
+ini_set("session.use_cookie",		true);	#	cookie activated
+ini_set("session.cookie_domain",	"");	#	cookie domain
+ini_set("session.cookie_path",		"/");	#	cookie path
+ini_set("session.cookie_secure",	"");	#	cookie secure
+setcookie("", "", time()+3600);
 
 
-//=========================================================
-// Cache
-ini_set("session.cache_limiter", 	"nocache");		//	no-cache
-//=========================================================
+
+/**
+* Initialisation cache settings
+*/
+ini_set("session.cache_limiter", 	"nocache");	#	no-cache
 
 
-//=========================================================
-//	Encoding
-header("Content-type: text/html; charset=utf-8");
-//=========================================================
 
-
+/**
+* Set PHP settings
+*/
 @set_magic_quotes_runtime(0);
-
-
 //setlocale(LC_ALL, 'ru_RU');
+ini_set("max_execution_time",	30);
+ini_set("memory_limit", 		"96M");
+
+ini_set("date.timezone",		"Europe/Moscow");
+ini_set("default_charset",		"utf-8");
 
 
-ini_set("max_execution_time", 	30);
-ini_set("memory_limit", 		"64M");
+/**
+* Multibyte settings
+*/
+@ini_set("mbstring.internal_encoding",		"UTF-8");
+@ini_set("mbstring.http_input",				"auto");
+@ini_set("mbstring.http_output",			"UTF-8");
+@ini_set("mbstring.substitute_character",	"none");
 
-ini_set("html_errors", "Off");
 
+/**
+* Set encoding header
+*/
+header("Content-type: text/html; charset=utf-8");
+
+
+/**
+* Set signature header
+*/
+header("X-Engine: Roocms");
+header("X-Engine-Copyright: 2010-2014 (c) RooCMS");
+header("X-Engine-Site: http://www.roocms.com");
 ?>

@@ -6,6 +6,7 @@ $(document).ready(function() {
 				var self = this,
 					select = this.element.hide(),
 					selected = select.children( ":selected" ),
+					disabled = select.children( ":disabled" ),
 					value = selected.val() ? selected.text() : "";
 				var input = this.input = $( "<input>" )
 					.insertAfter( select )
@@ -17,7 +18,7 @@ $(document).ready(function() {
 							var matcher = new RegExp( $.ui.autocomplete.escapeRegex(request.term), "i" );
 							response( select.children( "option" ).map(function() {
 								var text = $( this ).text();
-								if ( this.value && ( !request.term || matcher.test(text) ) )
+								if ( this.value && ( !request.term || matcher.test(text) ) && !this.disabled)
 									return {
 										label: text.replace(
 											new RegExp(

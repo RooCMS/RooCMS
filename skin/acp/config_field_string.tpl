@@ -1,0 +1,1 @@
+<input type="text" name="{$field['name']}" class="f_input{if $field['type'] == "color"} color{/if}" value="{$field['value']}"{if $field['type'] == "email"} pattern="^\s*\w+\.*\w*@\w+\.\w+\s*"{elseif $field['type'] == "int" OR $field['type'] == "integer"} pattern="^[ 0-9]+$"{/if}>

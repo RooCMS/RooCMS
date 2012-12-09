@@ -1,9 +1,8 @@
 <?php
 /*=========================================================
-|	This script was developed by alex Roosso.
 |	Title: RooCMS Plugin Utilites GZip JS|CSS
 |	Author:	alex Roosso
-|	Copyright: 2010-2011 (c) RooCMS. 
+|	Copyright: 2010-2014 (c) RooCMS. 
 |	Web: http://www.roocms.com
 |	All rights reserved.
 |----------------------------------------------------------
@@ -18,8 +17,8 @@
 |	лицензии.
 |----------------------------------------------------------
 |	Build date:		0:39 04.03.2011
-|	Last Build:		7:12 04.03.2011
-|	Version file: 	1.00
+|	Last Build:		4:06 01.11.2012
+|	Version file: 	1.00 build 2
 =========================================================*/
 
 # .htaccess
@@ -31,18 +30,15 @@
 
 ob_start("ob_gzhandler", 9);
 
-if(isset($_GET['file']) && trim($_GET['file']) != "") {
+if(isset($_GET['file']) && !empty($_GET['file'])) {
 	if(file_exists("../".$_GET['file'])) {
 	
 		$exp = explode(".",$_GET['file']);
 		$c = count($exp) - 1;
 		
-		if($exp[$c] == "js") 
-			$filetype = "application/x-javascript";
-		elseif($exp[$c] == "css") 
-			$filetype = "text/css";
-		else 
-			$filetype = "plain/text";
+		if($exp[$c] == "js")		$filetype = "application/x-javascript";
+		elseif($exp[$c] == "css")	$filetype = "text/css";
+		else						$filetype = "plain/text";
 	
 		header('HTTP/1.1 200 OK');
 		// header('Expires: ' . gmdate("D, d M Y H:i:s", date("U") + 31536000) . ' GMT');             	// Date in the past

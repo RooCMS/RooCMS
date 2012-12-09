@@ -1,0 +1,4 @@
+Deny from all
+<Files ~ "\.(css|js|jpg|gif|png)$">
+	Allow from all
+</Files>

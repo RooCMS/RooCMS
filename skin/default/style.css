@@ -1,0 +1,26 @@
+@charset "utf-8";
+body {
+	background: #fff; font-family: 'Trebuchet MS' !important;
+	padding: 0px 0px 0px 0px;margin: 0px 0px 0px 0px;
+	behavior: url("../../csshover.htc") !important;}
+img {behavior: url("../../iepngfix.htc") !important;}
+
+h1, h2, h3, h4, h5, h6 {font-family: 'Ubuntu' !important;}
+ul.nav {font-family: 'PT Sans' !important;}
+.pagination {font-family: 'Neucha' !important;}
+
+small {font-family: 'Ubuntu' !important;}
+
+.left		{text-align:left; }
+.center	{text-align:center; }
+.right	{text-align:right; }
+.justify	{text-align:justify; }
+
+p, .container {text-align: justify;}
+
+
+/* Fonts */
+@font-face { font-family: 'Ubuntu'; font-style: normal; font-weight: 400; src: local('Ubuntu'), url('../../inc/font/Ubuntu.woff') format('woff'); }
+@font-face { font-family: 'PT Sans'; font-style: normal; font-weight: 400; src: local('PT Sans'), local('PTSans-Regular'), url('../../inc/font/PT_Sans.woff') format('woff'); }
+@font-face { font-family: 'Neucha'; font-style: normal; font-weight: 400; src: local('Neucha'), url('../../inc/font/Neucha.woff') format('woff'); }
+

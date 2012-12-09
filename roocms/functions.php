@@ -1,26 +1,26 @@
 <?php
-/*=========================================================
-|	This script was developed by alex Roosso .
-|	Title: RooCMS Function
-|	Author:	alex Roosso
-|	Copyright: 2010-2011 (c) RooCMS. 
-|	Web: http://www.roocms.com
-|	All rights reserved.
-|----------------------------------------------------------
-|	This program is free software; you can redistribute it and/or modify
-|	it under the terms of the GNU General Public License as published by
-|	the Free Software Foundation; either version 2 of the License, or
-|	(at your option) any later version.
-|	
-|	Данное программное обеспечение является свободным и распространяется
-|	по лицензии Фонда Свободного ПО - GNU General Public License версия 2.
-|	При любом использовании данного ПО вы должны соблюдать все условия
-|	лицензии.
-|----------------------------------------------------------
-|	Build date:		20:26 28.11.2010
-|	Last Build:		3:02 17.10.2011
-|	Version file: 	1.00 build 13
-=========================================================*/
+/**
+* @package      RooCMS
+* @subpackage	Function
+* @author       alex Roosso
+* @copyright    2010-2014 (c) RooCMS
+* @link         http://www.roocms.com
+* @version      1.0.17
+* @since        $date$
+* @license      http://www.gnu.org/licenses/gpl-2.0.html
+*/
+
+/**
+*   This program is free software; you can redistribute it and/or modify
+*   it under the terms of the GNU General Public License as published by
+*   the Free Software Foundation; either version 2 of the License, or
+*   (at your option) any later version.
+*
+*   Данное программное обеспечение является свободным и распространяется
+*   по лицензии Фонда Свободного ПО - GNU General Public License версия 2.
+*   При любом использовании данного ПО вы должны соблюдать все условия
+*   лицензии.
+*/
 
 //#########################################################
 // Anti Hack
@@ -29,9 +29,14 @@ if(!defined('RooCMS')) die('Access Denied');
 //#########################################################
 
 
-//#########################################################
-// Generator Code
-function RndCode($ns, $symbols="ABCEFHKLMNPRSTVXYZ123456789") {
+/**
+* Generator Random Code
+*
+* @param int $ns        - количество символов в коде
+* @param mixed $symbols - Список символов для генерации кода
+* @return string $Code  - Возвращает сгенерированный код
+*/
+function randcode($ns, $symbols="ABCEFHKLMNPRSTVXYZ123456789") {
 	$Code = "";
 	$i = 0;
 	mt_srand((double)microtime() * 1000000);
@@ -43,54 +48,56 @@ function RndCode($ns, $symbols="ABCEFHKLMNPRSTVXYZ123456789") {
 }
 
 
-//#########################################################
-//# 		Check Valid Mail
-//#			$email = string
-//#########################################################
-function valid_email($email) {
-	if(preg_match('/^[\.\-_A-Za-z0-9]+?@[\.\-A-Za-z0-9]+?\.[A-Za-z0-9]{2,6}$/',$email)==1) 
-		return true;
-	else return false; 
-}
-
-
-//#########################################################
-// Send Mail
+/**
+* Send mail
+*
+* @param string $mail   - Адрес направления
+* @param string $theme  - Заголовок письма
+* @param text $text     - Тело письма
+* @param string $from   - Обратный адрес
+*/
 function sendmail($mail,$theme,$text, $from="robot") {
 
-	global $var;
-	
+	global $site;
+
 	$to			=	"".$mail."";
-	
+
 	$subject	=	"{$theme}";
-	
+
 	$text = str_replace("\\r", "", $text);
 	$text = str_replace("\\n", "\n", $text);
-	
-	if($from == "robot") $from = "robot@".$var['domain'];
-	
+
+	$site['domain'] = strtr($site['domain'], array('http://'=>'', 'www.'=>''));
+
+	if($from == "robot") $from = "robot@".$site['domain'];
+
 	$message 	=	"{$text}";
-	
+
 	$headers	=	"From: $from\n".EMAIL_MESSAGE_PARAMETERS;
-	$headers	.=	"X-Sender: <no-reply@".$var['domain'].">\n";
-	$headers	.=	"X-Mailer: PHP ".$var['domain']."\n";
-	$headers	.=	"Return-Path: <no-replay@".$var['domain'].">";
-	
-	mail($to,$subject,$message,$headers);
+	$headers	.=	"X-Sender: <no-reply@".$site['domain'].">\n";
+	$headers	.=	"X-Mailer: PHP ".$site['domain']."\n";
+	$headers	.=	"Return-Path: <no-replay@".$site['domain'].">";
+
+	mb_send_mail($to,$subject,$message,$headers);
 }
 
 
-//#########################################################
-// Функция вывода массива для печати. 
+/**
+* Функция вывода массива для печати.
+*
+* @param array $array       - Массив для печати
+* @param boolean $subarray  - флаг проверки на вложенность массивов
+* @return text $buffer      - Возвращает массив в текстовом представлении.
+*/
 function print_array($array,$subarray=false) {
-	
+
 	$c = count($array) - 1;
 	$t = 0;
-	
+
 	$buffer = "array(";
-	
+
 	foreach($array as $key=>$value) {
-		
+
 		if(is_array($value)) {
 			$buffer .= "'".$key."' => ".print_array($value,true);
 		}
@@ -98,43 +105,51 @@ function print_array($array,$subarray=false) {
 			$buffer .= "'".$key."' => '".$value."'";
 			if($t < $c) $buffer .= ",\n";
 		}
-		
+
 		$t++;
 	}
-	
+
 	$buffer .= ")";
 	if(!$subarray) $buffer .= ";\n";
 	else $buffer .= ",\n";
-	
+
 	return $buffer;
 }
 
 
-//#########################################################
-// HTTP Moved 
+/**
+* Переадресация
+*
+* @param url $str   - URL назначения
+* @param int $code  - Код переадресации
+*/
 function go($str, $code=301) {
 
-	if($code == 301)		header('HTTP/1.1 301 Moved Permanently');	// перемещен навсегда
-	elseif($code == 302)	header('HTTP/1.1 302 Found');				// перемещен временно
-	elseif($code == 303)	header('HTTP/1.1 303 See Other');			// GET на другой адрес
-	elseif($code == 307)	header('HTTP/1.1 307 Temporary Redirect');	// перемещен временно
-	else 					header('HTTP/1.1 301 Moved Permanently');
-	
+	if($code == 301)		header($_SERVER['SERVER_PROTOCOL'].' 301 Moved Permanently');	// перемещен навсегда
+	elseif($code == 302)	header($_SERVER['SERVER_PROTOCOL'].' 302 Found');				// перемещен временно
+	elseif($code == 303)	header($_SERVER['SERVER_PROTOCOL'].' 303 See Other');			// GET на другой адрес
+	elseif($code == 307)	header($_SERVER['SERVER_PROTOCOL'].' 307 Temporary Redirect');	// перемещен временно
+	else 					header($_SERVER['SERVER_PROTOCOL'].' 301 Moved Permanently');
+
 	header("Location: $str");
 	exit;
 }
 
 
-//#########################################################
-//	Move back
+/**
+* Вернуться назад
+*
+*/
 function goback() {
 	go(getenv("HTTP_REFERER"));
 	exit;
 }
 
 
-//#########################################################
-// NoCache
+/**
+* Заголовки некеширования
+*
+*/
 function nocache() {
 
 	$minute	= 60;
@@ -142,7 +157,7 @@ function nocache() {
 	$day	= $hour * 24;
 
 	$expires = time() + $minute;
-	
+
 	Header("Expires: ".gmdate("D, d M Y H:i:s", $expires)." GMT");
 	Header("Last-Modified: ".gmdate("D, d M Y H:i:s")." GMT");
 	Header("Cache-Control: no-cache, must-revalidate");

@@ -1,6 +1,8 @@
-// ColorBox v1.3.16 - a full featured, light-weight, customizable lightbox based on jQuery 1.3+
-// Copyright (c) 2011 Jack Moore - jack@colorpowered.com
-// Licensed under the MIT license: http://www.opensource.org/licenses/mit-license.php
+/**
+ *  ColorBox v1.3.16 - a full featured, light-weight, customizable lightbox based on jQuery 1.3+
+ * 	Copyright (c) 2011 Jack Moore - jack@colorpowered.com
+ * 	Licensed under the MIT license: http://www.opensource.org/licenses/mit-license.php
+*/ 
 document.write('<link rel="stylesheet" type="text/css" href="plugin/colorbox/colorbox.css" media="screen" />');
 (function ($, document, window) {
 	var
@@ -10,11 +12,11 @@ document.write('<link rel="stylesheet" type="text/css" href="plugin/colorbox/col
 		transition: "elastic",
 		speed: 400,
 		width: false,
-		initialWidth: "600",
+		initialWidth: "900",
 		innerWidth: false,
 		maxWidth: false,
 		height: false,
-		initialHeight: "450",
+		initialHeight: "650",
 		innerHeight: false,
 		maxHeight: false,
 		scalePhotos: true,
@@ -29,18 +31,18 @@ document.write('<link rel="stylesheet" type="text/css" href="plugin/colorbox/col
 		rel: false,
 		opacity: 0.5,
 		preloading: true,
-		current: "Изображение {current} из {total}",
-		previous: "Предыдущие",
-		next: "Следующее",
-		close: "Закрыть",
+		current: "{current} из {total}",
+		previous: " &larr; ",
+		next: " &rarr; ",
+		close: " X ",
 		open: false,
 		returnFocus: true,
 		loop: true,
 		slideshow: false,
 		slideshowAuto: true,
 		slideshowSpeed: 2500,
-		slideshowStart: "Начать показ",
-		slideshowStop: "Остановить показ",
+		slideshowStart: "&rarr;&rarr;",
+		slideshowStop: "[X]",
 		onOpen: false,
 		onLoad: false,
 		onComplete: false,

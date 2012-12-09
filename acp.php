@@ -1,40 +1,44 @@
 <?php
-/*=========================================================
-|	This script was developed by alex Roosso.
-|	Title: RooCMS
-|	Author:	alex Roosso
-|	Copyright: 2010-2011 (c) RooCMS. 
-|	Web: http://www.roocms.com
-|	All rights reserved.
-|----------------------------------------------------------
-|	This program is free software; you can redistribute it and/or modify
-|	it under the terms of the GNU General Public License as published by
-|	the Free Software Foundation; either version 2 of the License, or
-|	(at your option) any later version.
-|	
-|	Данное программное обеспечение является свободным и распространяется
-|	по лицензии Фонда Свободного ПО - GNU General Public License версия 2.
-|	При любом использовании данного ПО вы должны соблюдать все условия
-|	лицензии.
-|----------------------------------------------------------
-|	Build date: 		6:50 13.03.2011
-|	Last Build: 		6:50 13.03.2011
-|	Version file:		1.00
-=========================================================*/
+/**
+* @package      RooCMS
+* @subpackage	Admin Control Panel
+* @subpackage	Frontend Main page
+* @author       alex Roosso
+* @copyright    2010-2014 (c) RooCMS
+* @link         http://www.roocms.com
+* @version      2.1.1
+* @since        $date$
+* @license      http://www.gnu.org/licenses/gpl-2.0.html
+*/
 
-if(!defined('THIS_SCRIPT')) {
-	define('THIS_SCRIPT',	'acp');
-	require_once $_SERVER['DOCUMENT_ROOT']."/roocms/functions_header.php";
-}
+/**
+*   This program is free software; you can redistribute it and/or modify
+*   it under the terms of the GNU General Public License as published by
+*   the Free Software Foundation; either version 2 of the License, or
+*   (at your option) any later version.
+*
+*   Данное программное обеспечение является свободным и распространяется
+*   по лицензии Фонда Свободного ПО - GNU General Public License версия 2.
+*   При любом использовании данного ПО вы должны соблюдать все условия
+*   лицензии.
+*/
 
 
-// init cpadmin =================================
+/**
+* Инициализируем админ панель
+*/
+define('ACP', true);
+require_once $_SERVER['DOCUMENT_ROOT']."/roocms/init.php";
 require_once _ACP;
-//===============================================
 
 
-if(THIS_SCRIPT == 'acp') {
-	require_once _CMS."/functions_footer.php";
-}
+/**
+* Генерим HTML
+*
+* @var template
+* @return frontend html
+*/
+$tpl->out();
+
 
 ?>
