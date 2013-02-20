@@ -61,7 +61,7 @@ if(trim($adm['login']) != "" && trim($adm['passw']) != "") {
 else {
 	$site['title'] = "Установка RooCMS";
 
-	require_once "check_requiremrnt.php";
+	require_once "check_requirement.php";
 	require_once "install.php";
 }
 
