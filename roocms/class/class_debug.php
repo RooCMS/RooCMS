@@ -41,10 +41,10 @@ $debug = new Debug;
 class Debug {
 
 	# vars
-	public $debug			= true;				# [bool] 	on/off debug mode
-	public $show_debug 		= false;			# [bool] 	show full debug text
-	public $debug_info 		= "";				# [text] 	buffer for debug info text
-	public $dev_mode		= false;			# [bool]	developer mode on/off [пока что не реализовано]
+	public $debug			= false;		# [bool] 	on/off debug mode
+	public $show_debug 		= false;		# [bool] 	show full debug text
+	public $debug_info 		= "";			# [text] 	buffer for debug info text
+	public $dev_mode		= false;		# [bool]	developer mode on/off [пока что не реализовано]
 	public $phpextensions	= array();			# [array]	Список установленных PHP расширений
 	public $nophpextensions = array();			# [array]	Список отсуствующих PHP приложений, требуемых для RooCMS
 
