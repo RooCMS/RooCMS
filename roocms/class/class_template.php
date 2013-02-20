@@ -195,7 +195,7 @@ class template {
 
 
             # global site title
-            if($config->global_site_title) $site['title'] .= " &bull; ".$config->site_title;
+            if(isset($config->global_site_title)) $site['title'] .= " &bull; ".$config->site_title;
 
 			# assign tpl vars
 			$smarty->assign("site",			$site);
