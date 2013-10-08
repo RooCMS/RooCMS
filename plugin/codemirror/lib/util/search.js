@@ -68,7 +68,7 @@
 
   var replaceQueryDialog =
     'Найти для замены: <input type="text" style="width: 10em"/> <span style="color: #888">(используйте /re/ синтаксис для поиска регулярных выражений)</span>';
-  var replacementQueryDialog = 'ЗАменить на: <input type="text" style="width: 10em"/>';
+  var replacementQueryDialog = 'Заменить на: <input type="text" style="width: 10em"/>';
   var doReplaceConfirm = "Заменить? <button>Да</button> <button>Нет</button> <button>Остановить</button>";
   function replace(cm, all) {
     dialog(cm, replaceQueryDialog, "Найти для замены:", function(query) {
@@ -95,7 +95,7 @@
                   (start && cursor.from().line == start.line && cursor.from().ch == start.ch)) return;
             }
             cm.setSelection(cursor.from(), cursor.to());
-            confirmDialog(cm, doReplaceConfirm, "Replace?",
+            confirmDialog(cm, doReplaceConfirm, "Заменить?",
                           [function() {doReplace(match);}, advance]);
           }
           function doReplace(match) {

@@ -6,10 +6,10 @@ Options All -ExecCGI -Indexes -Includes +FollowSymLinks
 <IfModule mod_rewrite.c>
 	RewriteEngine on
 	RewriteBase /
-	RewriteCond %{HTTP_HOST} ^roocms
-	RewriteRule (.*) http://dev.roocms.com/$1 [R=301,L]
-	RewriteCond %{THE_REQUEST} ^[A-Z]{3,9}\ /index\.php\ HTTP/
-	RewriteRule ^index\.php$ http://dev.roocms.com/ [R=301,L]
+	#RewriteCond %{HTTP_HOST} ^roocms
+	#RewriteRule (.*) http://dev.roocms.com/$1 [R=301,L]
+	#RewriteCond %{THE_REQUEST} ^[A-Z]{3,9}\ /index\.php\ HTTP/
+	#RewriteRule ^index\.php$ http://dev.roocms.com/ [R=301,L]
 	#RewriteRule ^basket(.*)$ ?page=demo$1 [QSA,NE,L]
 </IfModule>
 
@@ -17,7 +17,8 @@ Options All -ExecCGI -Indexes -Includes +FollowSymLinks
 # REDIRICT __________________
 # Redirect 301 /index.html /index.php
 <IfModule mod_rewrite.c>
-	# RewriteRule ^(([^/]+/)*[^.]+)$ /$1.php [L]
+	# RewriteRule ^(([^/]+/)*[^.]+)/$ /index.php?page=$1 [L]
+	# RewriteRule ^(([^/]+/)*[^.]+)$ /index.php?page=$1 [L]
 	# RewriteRule ^news/([^/\.]+)/?$ news.php?news=$1 [L]
 </IfModule>
 # RedirectMatch 301 /blog(.*) http://www.roocms.com/$1
@@ -137,7 +138,7 @@ DirectoryIndex index.php
 
 # PHP _______________________
 php_value	upload_max_filesize	32M
-php_value	post_max_size		10M
+php_value	post_max_size		32M
 php_value	default_charset utf-8
 php_flag	magic_quotes_gpc Off
 php_flag	register_globals Off

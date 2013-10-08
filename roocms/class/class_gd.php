@@ -6,19 +6,44 @@
 * @author		alex Roosso
 * @copyright	2010-2014 (c) RooCMS
 * @link			http://www.roocms.com
-* @version		1.2.3
+* @version		1.2.5
 * @since		$date$
-* @license		http://www.gnu.org/licenses/gpl-2.0.html
+* @license		http://www.gnu.org/licenses/gpl-3.0.html
+*/
+
+/**
+*	RooCMS - Russian free content managment system
+*   Copyright (C) 2010-2014 alex Roosso aka alexandr Belov info@roocms.com
 *
-*   This program is free software; you can redistribute it and/or modify
+*   This program is free software: you can redistribute it and/or modify
 *   it under the terms of the GNU General Public License as published by
-*   the Free Software Foundation; either version 2 of the License, or
+*   the Free Software Foundation, either version 3 of the License, or
 *   (at your option) any later version.
 *
-*   Данное программное обеспечение является свободным и распространяется
-*   по лицензии Фонда Свободного ПО - GNU General Public License версия 2.
-*   При любом использовании данного ПО вы должны соблюдать все условия
-*   лицензии.
+*   This program is distributed in the hope that it will be useful,
+*   but WITHOUT ANY WARRANTY; without even the implied warranty of
+*   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+*   GNU General Public License for more details.
+*
+*   You should have received a copy of the GNU General Public License
+*   along with this program.  If not, see <http://www.gnu.org/licenses/
+*
+*
+*   RooCMS - Русская бесплатная система управления сайтом
+*   Copyright (C) 2010-2014 alex Roosso (александр Белов) info@roocms.com
+*
+*   Это программа является свободным программным обеспечением. Вы можете
+*   распространять и/или модифицировать её согласно условиям Стандартной
+*   Общественной Лицензии GNU, опубликованной Фондом Свободного Программного
+*   Обеспечения, версии 3 или, по Вашему желанию, любой более поздней версии.
+*
+*   Эта программа распространяется в надежде, что она будет полезной, но БЕЗ
+*   ВСЯКИХ ГАРАНТИЙ, в том числе подразумеваемых гарантий ТОВАРНОГО СОСТОЯНИЯ ПРИ
+*   ПРОДАЖЕ и ГОДНОСТИ ДЛЯ ОПРЕДЕЛЁННОГО ПРИМЕНЕНИЯ. Смотрите Стандартную
+*   Общественную Лицензию GNU для получения дополнительной информации.
+*
+*   Вы должны были получить копию Стандартной Общественной Лицензии GNU вместе
+*   с программой. В случае её отсутствия, посмотрите http://www.gnu.org/licenses/
 */
 
 //#########################################################
@@ -92,28 +117,30 @@ class GD {
 
 			# watermark string one
 			if(trim($config->gd_watermark_string_one) != "") {
-				$this->copyright = $config->gd_watermark_string_one;
+				$this->copyright = $parse->text->html($config->gd_watermark_string_one);
 			}
 			else $this->copyright =& $site['title'];
 
 			# watermark string two
 			if(trim($config->gd_watermark_string_two) != "") {
-				$this->domain = $config->gd_watermark_string_two;
+				$this->domain = $parse->text->html($config->gd_watermark_string_two);
 			}
 			else $this->domain = $_SERVER['SERVER_NAME'];
 		}
 	}
 
 
-	/* ####################################################
-	 * Загрузка картинок через $_POST
-	 * 		$file 		- [string] 	имя в массиве $_FILES
-	 * 		$prefix 	- [string] 	префикс для имения файла.
-	 * 		$thumbsize	- [array]	array(width,height) - размеры миниатюры будут изменен согласно параметрам.
-	 * 		$watermark	- [bool] 	флаг указывает наносить ли водяной знак на рисунок.
-	 * 		$path 		- [string] 	путь к папке для загрузки изображений.
-	 * 		$no_empty 	- [bool] 	определяет пропускать ли пустые элементы в массиве FILES или обозначать их в выходном буфере.
-	 */
+	/**
+	* Загрузка картинок через $_POST
+	*
+	* @param string $file - имя в массиве $_FILES
+	* @param string $prefix - префикс для имения файла.
+	* @param array $thumbsize - array(width,height) - размеры миниатюры будут изменен согласно параметрам.
+	* @param boolean $watermark - флаг указывает наносить ли водяной знак на рисунок.
+	* @param string $path - путь к папке для загрузки изображений.
+	* @param boolean $no_empty - определяет пропускать ли пустые элементы в массиве FILES или обозначать их в выходном буфере.
+	* @return string or array - возвращает имя файла или массив с именами файлов.
+	*/
 	public function upload_image($file, $prefix="", $thumbsize=array(), $watermark=true, $path=_UPLOADIMAGES, $no_empty=true) {
 
 		global $config, $files;
@@ -123,6 +150,7 @@ class GD {
 		require_once _LIB."/mimetype.php";
 
 		static $allow_exts = array();
+
 		if(empty($allow_exts)) {
 	        foreach($imagetype AS $itype) {
         		$allow_exts[$itype['type']] = $itype['ext'];
@@ -270,7 +298,7 @@ class GD {
 
 			# вносим в память пустую превью и оригинальный файл, для дальнейшего издевательства над ними.
 			$resize 	= imagecreatetruecolor($ns['new_width'], $ns['new_height']);
-	        $bgcolor 	= imagecolorallocatealpha($resize, $this->thumbbgcol['r'], $this->thumbbgcol['g'], $this->thumbbgcol['b'], 0);
+	        $bgcolor 	= imagecolorallocatealpha($resize, $this->thumbbgcol['r'], $this->thumbbgcol['g'], $this->thumbbgcol['b'], 0);    //127
 
 	        # alpha
 			if($ext == "gif" || $ext == "png") {
@@ -403,18 +431,22 @@ class GD {
 		//imagettfbbox($size, $angle, $fontfile, $this->domain);
 
 		//$this->copyright = $this->tounicode($this->copyright);
-		imagettftext($src, $size, $angle, 7+1, $h-18+1, $shadow, $fontfile, $this->copyright);
-		imagettftext($src, $size, $angle, 7-1, $h-18-1, $shadow, $fontfile, $this->copyright);
-		imagettftext($src, $size, $angle, 7+1, $h-18-1, $shadow, $fontfile, $this->copyright);
-		imagettftext($src, $size, $angle, 7-1, $h-18+1, $shadow, $fontfile, $this->copyright);
-		imagettftext($src, $size, $angle, 7, $h-18, $color, $fontfile, $this->copyright);
+		if(trim($this->copyright) != "") {
+			imagettftext($src, $size, $angle, 7+1, $h-18+1, $shadow, $fontfile, $this->copyright);
+			imagettftext($src, $size, $angle, 7-1, $h-18-1, $shadow, $fontfile, $this->copyright);
+			imagettftext($src, $size, $angle, 7+1, $h-18-1, $shadow, $fontfile, $this->copyright);
+			imagettftext($src, $size, $angle, 7-1, $h-18+1, $shadow, $fontfile, $this->copyright);
+			imagettftext($src, $size, $angle, 7, $h-18, $color, $fontfile, $this->copyright);
+		}
 
 		//$this->domain = $this->tounicode($this->domain);
-		imagettftext($src, $size, $angle, 7+1, $h-5+1, $shadow, $fontfile, $this->domain);
-		imagettftext($src, $size, $angle, 7-1, $h-5-1, $shadow, $fontfile, $this->domain);
-		imagettftext($src, $size, $angle, 7+1, $h-5-1, $shadow, $fontfile, $this->domain);
-		imagettftext($src, $size, $angle, 7-1, $h-5+1, $shadow, $fontfile, $this->domain);
-		imagettftext($src, $size, $angle, 7, $h-5, $color, $fontfile, $this->domain);
+		if(trim($this->domain) != "") {
+			imagettftext($src, $size, $angle, 7+1, $h-5+1, $shadow, $fontfile, $this->domain);
+			imagettftext($src, $size, $angle, 7-1, $h-5-1, $shadow, $fontfile, $this->domain);
+			imagettftext($src, $size, $angle, 7+1, $h-5-1, $shadow, $fontfile, $this->domain);
+			imagettftext($src, $size, $angle, 7-1, $h-5+1, $shadow, $fontfile, $this->domain);
+			imagettftext($src, $size, $angle, 7, $h-5, $color, $fontfile, $this->domain);
+		}
 
 
 

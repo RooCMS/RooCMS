@@ -1,43 +1,37 @@
 {* Значение PHP переменных *}
-<table width="99%" border="0" cellpadding="4" cellspacing="0">
-	<tr>
-		<td width="25%" align="left" valign="middle">
-			<b>Значение</b>
-		</td>
-		<td width="25%" align="left" valign="middle">
-			<b title="Действующее значение">Локальное значение</b>
-		</td>
-		<td width="25%" align="left" valign="middle">
-			<b>Значение на сервере</b>
-		</td>
-		<td width="25%" align="left" valign="middle">
-			<b>Доступ</b>
-		</td>
-	</tr>
-	{foreach from=$inivars item=inival key=ininame}
-		<tr class="option">
-			<td width="25%" align="left" valign="middle">
-				{$ininame}
-			</td>
-			<td width="25%" align="left" valign="middle">
-				{if $inival['local_value'] != $inival['global_value']}<b><font style="color: #009900;">{/if}{$inival['local_value']}{if $inival['local_value'] != $inival['global_value']}</font></b>{/if}
-			</td>
-			<td width="25%" align="left" valign="middle">
-				{$inival['global_value']}
-			</td>
-			<td width="25%" align="left" valign="middle">
+
+<h3>Значение PHP переменных</h3>
+
+<table class="table table-hover table-condensed">
+	{*<caption>Общая сводка</caption>*}
+	<thead>
+		<tr>
+			<th>Параметр</th>
+			<th>Локальное значение</th>
+			<th class="visible-lg">Значение на сервере</th>
+			<th class="hidden-xs">Разрешения</th>
+		</tr>
+	</thead>
+	<tbody>
+		{foreach from=$inivars item=inival key=ininame}
+		<tr{if $inival['local_value'] != $inival['global_value']} class="success"{/if}>
+    		<td>{$ininame}</td>
+    		<td{if $inival['local_value'] != $inival['global_value']} class="text-success bold"{/if}>{$inival['local_value']}{if $inival['local_value'] != $inival['global_value']}<small><br />{if trim($inival['global_value']) != ""}{$inival['global_value']}{else}пустое значение{/if}</small>{/if}</td>
+    		<td class="visible-lg">{$inival['global_value']}</td>
+    		<td class="hidden-xs">
 				{if $inival['access'] == 1}
 					Через пользовательские скрипты
 				{elseif $inival['access'] == 2 || $inival['access'] == 6}
-					<font color="#aaa">Через <b>.htaccess</b>, php.ini или httpd.conf</font>
+					<code>.htaccess</code>, <code>php.ini</code> или <code>httpd.conf</code>
 				{elseif $inival['access'] == 4}
-					<font color="#bbb">Через php.ini или httpd.conf</font>
+					<code>php.ini</code> или <code>httpd.conf</code>
 				{elseif $inival['access'] == 7}
-					<font color="#030">Полный</font>
+					<span class="text-primary">Полный доступ</span>
 				{else}
 					{$inival['access']}
 				{/if}
-			</td>
+    		</td>
 		</tr>
-	{/foreach}
+		{/foreach}
+	</tbody>
 </table>

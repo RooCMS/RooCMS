@@ -5,7 +5,11 @@ $(document).ready(function(){
 	$("a[rel='img']").colorbox({maxWidth: "98%", maxHeight: "98%"}); //, rel: true
 
 	$(".corner").corner("round 4px");
-	$(".button").corner("round 3px");
+
+    $("[rel='tooltip']").tooltip();
+    $("[rel='popover']").popover();
+    $(".alert").alert();
+    $(".affix").affix();
 });
 
 /**

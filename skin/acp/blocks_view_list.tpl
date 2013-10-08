@@ -1,51 +1,51 @@
-<div id="tabs">
-	<ul style="display: none;">
-		<li><a href="#blocks">Блоки сайта</a></li>
-	</ul>
-	<div id="blocks">
-		<noscript><h2>Блоки сайта</h2></noscript>
-		{if !empty($data)}
-			<table width="99%" border="0" cellpadding="4" cellspacing="0">
+{* Шаблон списка блоков *}
+
+<h3>Блоки</h3>
+
+{if empty($data)}
+<p class="lead">Воспользуйтесь ссылкой слева, что бы создать первый блок.</p>
+{else}
+<div class="row hidden-xs">
+	<div class="col-md-12">
+		<table class="table table-hover table-condensed">
+			<thead>
 				<tr>
-					<td width="3%" align="left" valign="top">
-						<b>ID</b>
-					</td>
-					<td width="10%" align="left" valign="top">
-						<b>Alias</b>
-					</td>
-					<td width="47%" align="left" valign="top">
-						<b>Название</b>
-					</td>
-					<td width="10%" align="left" valign="top">
-						<b>Тип</b>
-					</td>
-					<td width="30%" align="left" valign="top">
-						<b>Опции</b>
-					</td>
+					<th width="3%">ID</th>
+					<th width="10%">Alias</th>
+					<th width="47%">Название</th>
+					<th width="10%">Тип</th>
+					<th width="30%">Опции</th>
 				</tr>
-			{foreach from=$data item=block}
-				<tr class="option">
-					<td width="3%" align="left" valign="top">
-						<font style="vertical-align: middle;">{$block['id']}</font>
-					</td>
-					<td width="10%" align="left" valign="top">
-						<font style="vertical-align: middle;">{$block['alias']}</font>
-					</td>
-					<td width="47$" align="left" valign="top">
-						<a href="{$SCRIPT_NAME}?act=blocks&part=edit&block={$block['id']}" class="opt">{$block['title']}</a>
-					</td>
-					<td width="10%" align="left" valign="top">
-						<font class="upper" style="vertical-align: middle;">{$block['type']}</font>
-					</td>
-					<td width="30%" align="left" valign="top">
-						<nobr><a href="{$SCRIPT_NAME}?act=blocks&part=edit&block={$block['id']}" class="opt"><img src="{$SKIN}/img/ico_editblock.png" width="16" height="16" border="0" alt="" class="iconlink">Редактировать</a></nobr>
-						<nobr><a href="{$SCRIPT_NAME}?act=blocks&part=delete&block={$block['id']}" class="opt"><img src="{$SKIN}/img/ico_delblock.png" width="16" height="16" border="0" alt="" class="iconlink">Удалить</a> </nobr>
-					</td>
-				</tr>
-			{/foreach}
-			</table>
-		{else}
-			Воспользуйтесь ссылкой слева, что бы создать первый блок.
-		{/if}
+			</thead>
+			<tbody>
+            	{foreach from=$data item=block}
+                	<tr>
+                    	<td>{$block['id']}</td>
+                    	<td>{$block['alias']}</td>
+                    	<td><a href="{$SCRIPT_NAME}?act=blocks&part=edit&block={$block['id']}">{$block['title']}</a></td>
+                    	<td><span class="label label-primary upper">{$block['type']}</span></td>
+                    	<td>
+							<nobr><a href="{$SCRIPT_NAME}?act=blocks&part=edit&block={$block['id']}" class="btn btn-xs btn-default"><span class="icon-edit icon-fixed-width"></span>Редактировать</a></nobr>
+							<nobr><a href="{$SCRIPT_NAME}?act=blocks&part=delete&block={$block['id']}" class="btn btn-xs btn-danger"><span class="icon-trash icon-fixed-width"></span>Удалить</a> </nobr>
+                    	</td>
+                	</tr>
+            	{/foreach}
+			</tbody>
+		</table>
 	</div>
 </div>
+
+{foreach from=$data item=block}
+<div class="panel panel-default visible-xs">
+	<div class="panel-body">
+		<span class="label label-primary pull-right upper">{$block['type']}</span>
+		<a href="{$SCRIPT_NAME}?act=blocks&part=edit&block={$block['id']}">{$block['title']}</a>
+		<br /><a href="{$SCRIPT_NAME}?act=blocks&part=edit&block={$block['id']}" class="small text-muted">{$block['alias']}</a>
+	</div>
+	<div class="panel-footer text-right">
+		<nobr><a href="{$SCRIPT_NAME}?act=blocks&part=edit&block={$block['id']}" class="btn btn-xs btn-default"><span class="icon-edit icon-fixed-width"></span>Редактировать</a></nobr>
+		<nobr><a href="{$SCRIPT_NAME}?act=blocks&part=delete&block={$block['id']}" class="btn btn-xs btn-danger"><span class="icon-trash icon-fixed-width"></span>Удалить</a> </nobr>
+	</div>
+</div>
+{/foreach}
+{/if}

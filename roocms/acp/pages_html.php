@@ -7,21 +7,44 @@
 * @author       alex Roosso
 * @copyright    2010-2014 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.0.6
+* @version      1.2
 * @since        $date$
-* @license      http://www.gnu.org/licenses/gpl-2.0.html
+* @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
 
 /**
-*   This program is free software; you can redistribute it and/or modify
+*	RooCMS - Russian free content managment system
+*   Copyright (C) 2010-2014 alex Roosso aka alexandr Belov info@roocms.com
+*
+*   This program is free software: you can redistribute it and/or modify
 *   it under the terms of the GNU General Public License as published by
-*   the Free Software Foundation; either version 2 of the License, or
+*   the Free Software Foundation, either version 3 of the License, or
 *   (at your option) any later version.
 *
-*   Данное программное обеспечение является свободным и распространяется
-*   по лицензии Фонда Свободного ПО - GNU General Public License версия 2.
-*   При любом использовании данного ПО вы должны соблюдать все условия
-*   лицензии.
+*   This program is distributed in the hope that it will be useful,
+*   but WITHOUT ANY WARRANTY; without even the implied warranty of
+*   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+*   GNU General Public License for more details.
+*
+*   You should have received a copy of the GNU General Public License
+*   along with this program.  If not, see <http://www.gnu.org/licenses/
+*
+*
+*   RooCMS - Русская бесплатная система управления сайтом
+*   Copyright (C) 2010-2014 alex Roosso (александр Белов) info@roocms.com
+*
+*   Это программа является свободным программным обеспечением. Вы можете
+*   распространять и/или модифицировать её согласно условиям Стандартной
+*   Общественной Лицензии GNU, опубликованной Фондом Свободного Программного
+*   Обеспечения, версии 3 или, по Вашему желанию, любой более поздней версии.
+*
+*   Эта программа распространяется в надежде, что она будет полезной, но БЕЗ
+*   ВСЯКИХ ГАРАНТИЙ, в том числе подразумеваемых гарантий ТОВАРНОГО СОСТОЯНИЯ ПРИ
+*   ПРОДАЖЕ и ГОДНОСТИ ДЛЯ ОПРЕДЕЛЁННОГО ПРИМЕНЕНИЯ. Смотрите Стандартную
+*   Общественную Лицензию GNU для получения дополнительной информации.
+*
+*   Вы должны были получить копию Стандартной Общественной Лицензии GNU вместе
+*   с программой. В случае её отсутствия, посмотрите http://www.gnu.org/licenses/
 */
 
 //#########################################################
@@ -32,6 +55,21 @@ if(!defined('RooCMS') || !defined('ACP')) die('Access Denied');
 
 
 class ACP_PAGES_HTML {
+
+    # vars
+    private $structure;
+
+
+
+    /**
+    * Инициализируем класс
+    *
+    */
+    function __construct() {
+		require_once _CLASS."/class_structure.php";
+		$this->structure = new Structure(false, false);
+    }
+
 
 
 	//#####################################################
@@ -52,12 +90,17 @@ class ACP_PAGES_HTML {
 
 		# download attached images
 		$attachimg = array();
-		$attachimg = Structure::load_images("pagesid=".$sid);
+		$attachimg = $this->structure->load_images("pagesid=".$sid);
 		$smarty->assign("attachimg", $attachimg);
 
+		# show attached images
 		$attachedimages = $tpl->load_template("images_attach", true);
-		$imagesupload = $tpl->load_template("images_upload", true);
 		$smarty->assign("attachedimages", $attachedimages);
+
+		# show upload images form
+		require_once _LIB."/mimetype.php";
+		$smarty->assign("allow_images_type", $imagetype);
+		$imagesupload = $tpl->load_template("images_upload", true);
 		$smarty->assign("imagesupload", $imagesupload);
 
 		$content = $tpl->load_template("pages_edit_html", true);
@@ -69,15 +112,15 @@ class ACP_PAGES_HTML {
 	//	Update
 	function update($sid) {
 
-		global $db, $debug, $parse, $POST, $files, $gd;
+		global $db, $parse, $POST, $files, $gd;
 
 		#sortable images
 		if(isset($POST->sort)) {
-			$sortimg = Structure::load_images("pagesid=".$sid);
+			$sortimg = $this->structure->load_images("pagesid=".$sid);
 			foreach($sortimg AS $k=>$v) {
 				if(isset($POST->sort[$v['id']]) && $POST->sort[$v['id']] != $v['sort']) {
 					$db->query("UPDATE ".IMAGES_TABLE." SET sort='".$POST->sort[$v['id']]."' WHERE id='".$v['id']."'");
-					if($debug->debug) $parse->msg("Изображению ".$v['id']." успешно присвоен порядок ".$POST->sort[$v['id']]);
+					if(DEBUGMODE) $parse->msg("Изображению ".$v['id']." успешно присвоен порядок ".$POST->sort[$v['id']]);
 				}
 			}
 		}
@@ -87,10 +130,12 @@ class ACP_PAGES_HTML {
 		if($images) {
 			foreach($images AS $image) {
 				$db->query("INSERT INTO ".IMAGES_TABLE." (attachedto, filename) VALUES ('pagesid=".$sid."', '".$image."')");
-				if($debug->debug) $parse->msg("Изображение ".$image." успешно загружено на сервер");
+				if(DEBUGMODE) $parse->msg("Изображение ".$image." успешно загружено на сервер");
 			}
 		}
 
+
+		if(!isset($POST->content)) $POST->content = "";
 
 		$db->query("UPDATE ".PAGES_HTML_TABLE." SET content='".$POST->content."', date_modified='".time()."' WHERE sid='".$sid."'");
 

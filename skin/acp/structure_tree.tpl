@@ -1,61 +1,80 @@
-<form method="post" action="{$SCRIPT_NAME}?act=structure">
-	<div id="tabs">
-		<ul style="display: none;">
-			<li><a href="#structure">Структура сайта</a></li>
-		</ul>
-		<div id="structure">
-			<noscript><h2>Структура сайта</h2></noscript>
-			<table width="99%" border="0" cellpadding="4" cellspacing="0">
+{* Шаблон отображения структуры сайта *}
+
+<h3>Структура сайта</h3>
+
+<div class="row hidden-xs">
+	<div class="col-md-12">
+		<table class="table table-hover table-condensed">
+			<thead>
 				<tr>
-					<td width="3%" align="left" valign="middle">
-						<b>id</b>
-					</td>
-					<td width="10%" align="left" valign="middle">
-						<b>Alias</b>
-					</td>
-					<td width="47%" align="left" valign="middle">
-						<b>Название</b>
-					</td>
-					<td width="10%" align="left" valign="middle">
-						<b>Тип</b>
-					</td>
-					<td width="30%" align="left" valign="middle">
-						<b>Опции</b>
-					</td>
+					<th width="3%">ID</th>
+					<th width="17%">Alias страницы</th>
+					<th width="45%">Название страницы</th>
+					<th width="9%" class="text-center">Тип страницы</th>
+					<th width="26%">Опции</th>
 				</tr>
+			</thead>
+			<tbody>
 				{foreach from=$tree item=page}
-					<tr class="option">
-						<td width="3%" align="left" valign="middle">
-							<font style="vertical-align: middle;">{$page['id']}</font>
-						</td>
-						<td width="10%" align="left" valign="middle">
-							{if $page['id'] != 1}
-								<img src="{$SKIN}/img/strc.png" style="vertical-align: middle;padding-left: {($page['level']*10)-10}px;">
-							{/if}
-							<font style="vertical-align: middle;">{$page['alias']}</font>
-						</td>
-						<td width="47%" align="left" valign="middle">
-							{if $page['id'] != 1}
-								<img src="{$SKIN}/img/strc.png" style="vertical-align: middle;padding-left: {($page['level']*10)-10}px;">
-							{/if}
+				<tr>
+    				<td>{$page['id']}</td>
+    				<td>
+    					<nobr>
+    						{section name=foo start=1 loop=$page['level'] step=1}
+                				<span class="text-muted">&middot;</span>
+    						{/section}
+    						{$page['alias']}
+    					</nobr>
+    				</td>
+    				<td>
+    					<nobr>
+    						{section name=foo start=1 loop=$page['level'] step=1}
+                				<span class="text-muted">&middot;</span>
+    						{/section}
+
 							{if $page['type'] == "html" or $page['type'] == "php"}
-								<a href="{$SCRIPT_NAME}?act=pages&part=edit&page={$page['id']}" class="opt">{$page['title']}</a>
+								<a href="{$SCRIPT_NAME}?act=pages&part=edit&page={$page['id']}">{$page['title']}</a>
 							{else}
-								<a href="{$SCRIPT_NAME}?act=feeds&part=control&page={$page['id']}" class="opt">{$page['title']}</a> <small class="grey vmiddle">{$page['items']} эл.</small>
+								<a href="{$SCRIPT_NAME}?act=feeds&part=control&page={$page['id']}">{$page['title']}</a> <small class="label label-info">{$page['items']} эл.</small>
 							{/if}
-                            {if $page['noindex'] == 1}<small class="grey vmiddle bold">noindex</small>{/if}
-						</td>
-						<td width="10%" align="left" valign="middle">
-							<nobr><font style="vertical-align: middle;">{$page_types[$page['type']]}</font></nobr>
-						</td>
-						<td width="30%" align="left" valign="middle">
-							<nobr><a href="{$SCRIPT_NAME}?act=structure&part=edit&id={$page['id']}" class="opt"><img src="{$SKIN}/img/ico_page_settings_edit.png" width="16" height="16" border="0" alt="" class="iconlink">Редактировать</a></nobr>
-							{if $page['id'] != 1}<nobr><a href="{$SCRIPT_NAME}?act=structure&part=delete&id={$page['id']}" class="optat"><img src="{$SKIN}/img/ico_page_delete.png" width="16" height="16" border="0" alt="" class="iconlink">Удалить</a></nobr>{/if}
-						</td>
-					</tr>
+						</nobr>
+						{if $page['noindex'] == 1}<span class="text-muted"><sup>noindex</sup></span>{/if}
+    				</td>
+    				<td class="text-center"><span class="label label-default">{$page_types[$page['type']]}</span></td>
+    				<td>
+						<nobr><a href="{$SCRIPT_NAME}?act=structure&part=edit&id={$page['id']}" class="btn btn-xs btn-default"><span class="icon-edit icon-fixed-width"></span>Редактировать</a></nobr>
+						{if $page['id'] != 1}<nobr><a href="{$SCRIPT_NAME}?act=structure&part=delete&id={$page['id']}" class="btn btn-xs btn-danger"><span class="icon-trash icon-fixed-width"></span>Удалить</a></nobr>{/if}
+    				</td>
+				</tr>
 				{/foreach}
-			</table>
-			<div id="option" style="display: none;" align="right"><input type="submit" name="save" class="f_submit" value="Сохранить"></div>
-		</div>
+			</tbody>
+		</table>
 	</div>
-</form>
+</div>
+
+
+{foreach from=$tree item=page}
+<div class="panel panel-default visible-xs">
+    <div class="panel-heading">
+        <span class="label label-primary panel-title">{$page['id']}</span>
+		{if $page['type'] == "html" or $page['type'] == "php"}
+			<a href="{$SCRIPT_NAME}?act=pages&part=edit&page={$page['id']}" class="panel-title">{$page['title']}</a>
+		{else}
+			<a href="{$SCRIPT_NAME}?act=feeds&part=control&page={$page['id']}" class="panel-title">{$page['title']}</a>
+		{/if}
+    </div>
+	<div class="panel-body">
+		{if $page['noindex'] == 1}<span class="text-warning">Неиндексируется в поиске</span>
+        {else}<span class="text-info">Индексируется в поиске</span>
+		{/if}
+		{if $page['type'] != "html" and $page['type'] != "php"}
+			<span class="text-muted"><br />в ленте {$page['items']} элементов</span>
+		{/if}
+        <span class="label label-default pull-right">{$page_types[$page['type']]}</span>
+	</div>
+	<div class="panel-footer text-right">
+		<nobr><a href="{$SCRIPT_NAME}?act=structure&part=edit&id={$page['id']}" class="btn btn-xs btn-default"><span class="icon-edit icon-fixed-width"></span> Редактировать</a></nobr>
+		{if $page['id'] != 1}<nobr><a href="{$SCRIPT_NAME}?act=structure&part=delete&id={$page['id']}" class="btn btn-xs btn-danger"><span class="icon-trash icon-fixed-width"></span> Удалить</a></nobr>{/if}
+	</div>
+</div>
+{/foreach}

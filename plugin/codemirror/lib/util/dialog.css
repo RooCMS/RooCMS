@@ -5,8 +5,8 @@
 .CodeMirror-dialog > div {
   position: absolute;
   top: 0; left: 0; right: 0;
-  background: #F7F2E5;
-  border-bottom: 1px solid #ede1cc;
+  background: #ECECEC;
+  border-bottom: 1px solid #ccc;
   z-index: 15;
   padding: .1em .8em;
   overflow: hidden;

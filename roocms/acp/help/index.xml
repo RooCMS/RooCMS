@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<act name="index">
+	<part>
+		<uname>index</uname>
+		<title><![CDATA[Общая информация]]></title>
+		<description><![CDATA[В данном разделе отображается различная общая информация.]]></description>
+		<tab>
+			<uname>serverinfo</uname>
+			<title>Информация о сервере</title>
+			<description></description>
+			<option>
+				<uname>helpdesk_php_version</uname>
+				<title><![CDATA[Версия PHP]]></title>
+				<description><![CDATA[В данной строке отображена установленная на сервере версия интерпритатора языка php. <br />RooCMS работает только на основе PHP версии не ниже 5.2.*]]></description>
+			</option>
+			<option>
+				<uname>helpdesk_mysql_version</uname>
+				<title><![CDATA[Версия MySQL]]></title>
+				<description><![CDATA[В данной строке отображена установленная версия БД MySQL. <br />В случае возникновения проблем в работе БД, данная информация поможет при поиске решения проблем.]]></description>
+			</option>
+			<option>
+				<uname>helpdesk_apache_version</uname>
+				<title><![CDATA[Версия Apache (Web-Сервер)]]></title>
+				<description><![CDATA[В данной строке отображена установленная версия Apache или иного установленного веб-сервера (Например IIS для WINNT). 
+								<br />В случае возникновения проблем в работе скриптов, данная информация поможет при поиске решения проблем.]]></description>
+			</option>
+			<option>
+				<uname>helpdesk_server_name</uname>
+				<title><![CDATA[Имя сервера]]></title>
+				<description><![CDATA[В данной строке отображено имя сервера. <br />Как правило даное имя совпадает с доменным именем сайта.]]></description>
+			</option>
+			<option>
+				<uname>helpdesk_server_address</uname>
+				<title><![CDATA[Адрес сервера]]></title>
+				<description><![CDATA[В данной строке отображен IP-адрес сервера.]]></description>
+			</option>
+			<option>
+				<uname>helpdesk_os</uname>
+				<title><![CDATA[Операционная система]]></title>
+				<description><![CDATA[В данной строке отображена операционная система установленная на сервере.]]></description>
+			</option>
+			<option>
+				<uname>helpdesk_memory_limit</uname>
+				<title><![CDATA[Лимит ограничения памяти]]></title>
+				<description><![CDATA[В данной строке отображен лимит памяти выделнный для работы скрипта. Лимит задан в опциях конфигурации php.
+								<br />Данный лимит при необходимости можно увелечить.
+								<br />Для этого задайте свое значение в формате "nM" (где n - число Мегабайт)
+								<br />в файле: /roocms/config/set.cfg.php 
+								<br />в строке: ini_set("memory_limit", "64M");]]></description>
+			</option>
+			<option>
+				<uname>helpdesk_maxfilesize</uname>
+				<title><![CDATA[Лимит размера файлов для загрузки]]></title>
+				<description><![CDATA[В данной строке отображен лимит максимального допустимого размера файлов разрешенных для загрузки через multipart/data.
+								<br />Данный лимит при необходимости можно увелечить вручную.
+								<br />Для этого задайте свое значение в формате nM (где n - число Мегабайт)
+								<br />в файле: /.htaccess 
+								<br />в строке: php_value upload_max_filesize	32M]]></description>
+			</option>
+			<option>
+				<uname>helpdesk_postmaxsize</uname>
+				<title><![CDATA[Лимит размера данных для загрузки]]></title>
+				<description><![CDATA[В данной строке отображен лимит максимального допустимого размера загрузки данных через формы для ввода (method $_POST) кроме файлов. Для файлов смотрите строку выше и описание к ней.
+								<br />Данный лимит при необходимости можно увелечить вручную.
+								<br />Для этого задайте свое значение в формате nM (где n - число Мегабайт)
+								<br />в файле: /.htaccess
+								<br />в строке: php_value post_max_size	8M]]></description>
+			</option>
+			<option>
+				<uname>helpdesk_maxextime</uname>
+				<title><![CDATA[Лимит времени на выполнение скрипта]]></title>
+				<description><![CDATA[В данной строке отображен лимит серверного времени отпущенный на выполнение скрипта. Лимит отображается в секундах.
+								<br />Если по истечении заднного времени скрипт не прекратит свои вычесления, его работа будет приостановлена и появится уведомление о превышении заданного лимита.
+								<br />Данный лимит при необходимости можно увелечить вручную.
+								<br />Для этого задайте свое значение в формате n (где n - число секунд)
+								<br />в файле: /roocms/config/set.cfg.php 
+								<br />в строке: ini_set("max_execution_time", 	30);]]></description>
+			</option>
+			<option>
+				<uname>helpdesk_docroot</uname>
+				<title><![CDATA[Путь к документам на сервере]]></title>
+				<description><![CDATA[В данной строке отображено значение переменной $_SERVER["DOCUMENT_ROOT"], которое указывает на корневую директорию сервера или виртуального хоста, на котором используется данное ПО.]]></description>
+			</option>
+		</tab>
+		<tab>
+			<uname>filetypes</uname>
+			<title><![CDATA[Допустимые форматы и размеры]]></title>
+			<description><![CDATA[В данном разделе описаны разрешенные к загрузке форматы файлов.]]></description>
+			<option>
+				<uname>helpdesk_max_filesize</uname>
+				<title><![CDATA[Лимит размера файлов для загрузки]]></title>
+				<description><![CDATA[В данной строке отображен лимит максимального допустимого размера файлов разрешенных для загрузки через multipart/data.
+								<br />Данный лимит при необходимости можно увелечить вручную.
+								<br />Для этого задайте свое значение в формате nM (где n - число Мегабайт)
+								<br />в файле: /.htaccess 
+								<br />в строке: php_value upload_max_filesize	32M]]></description>
+			</option>
+			<option>
+				<uname>helpdesk_filytype_images</uname>
+				<title><![CDATA[Разрешенные форматы изображений]]></title>
+				<description><![CDATA[В данной строке отображены форматы изображений разрешенные к загрузке через формы (multiprt/data)
+								<br />При наведении курсора на иконку формата вы увидите его разрешенный mimetype]]></description>
+			</option>
+			<option>
+				<uname>helpdesk_filytype_files</uname>
+				<title><![CDATA[Разрешенные форматы файлов]]></title>
+				<description><![CDATA[В данной строке отображены форматы файлов (кроме изображений) разрешенные к загрузке через формы (multiprt/data)
+								<br />При наведении курсора на иконку формата вы увидите его разрешенный mimetype]]></description>
+			</option>
+		</tab>
+	</part>
+</act>
+
+<!--
+/*=========================================================
+|	Title: Help Desk for ACP RooCMS
+|	Author:	alex Roosso
+|	Copyright: 2010-2011 (c) RooCMS. 
+|	Web: http://www.roocms.com
+|	All rights reserved.
+|----------------------------------------------------------
+|	This program is free software; you can redistribute it and/or modify
+|	it under the terms of the GNU General Public License as published by
+|	the Free Software Foundation; either version 2 of the License, or
+|	(at your option) any later version.
+|	
+|	Данное программное обеспечение является свободным и распространяется
+|	по лицензии Фонда Свободного ПО - GNU General Public License версия 2.
+|	При любом использовании данного ПО вы должны соблюдать все условия
+|	лицензии.
+|----------------------------------------------------------
+|	Build: 				9:18 04.11.2011
+|	Last Build: 		4:51 08.11.2011
+|	Version file:		1.00 build 3
+=========================================================*/
+ -->

@@ -52,7 +52,7 @@
 .CodeMirror-gutter {
   position: absolute; left: 0; top: 0;
   z-index: 10;
-  background-color: #F7F2E5;
+  background-color: rgba(0, 0, 0, 0.075);
   border-right: 1px solid #eee;
   min-width: 2em;
   height: 100%;
@@ -172,15 +172,15 @@ div.CodeMirror span.CodeMirror-nonmatchingbracket {color: #f22;}
 .cke_skin_kama .CodeMirror {
     overflow-y: auto;
     overflow-x: scroll;
-    height: auto; /* варьируйте под размер поля CKEditor'a */
-    min-height: 100%; /* варьируйте под размер поля CKEditor'a */
-    max-width: 100%; /* варьируйте под размер поля CKEditor'a */
-    width: 100%; /* варьируйте под размер поля CKEditor'a */
+    height: auto; /* ?????????? ??? ?????? ???? CKEditor'a */
+    min-height: 100%; /* ?????????? ??? ?????? ???? CKEditor'a */
+    max-width: 100%; /* ?????????? ??? ?????? ???? CKEditor'a */
+    width: 100%; /* ?????????? ??? ?????? ???? CKEditor'a */
     line-height: 1em;
     _position: relative; /* IE6 hack */
     background-color:#fff;
 }
- 
+
 .cke_skin_kama .CodeMirror *
 {
     /*word-wrap:break-word;*/
@@ -188,7 +188,7 @@ div.CodeMirror span.CodeMirror-nonmatchingbracket {color: #f22;}
     vertical-align:bottom;
     white-space:pre;
 }
- 
+
 .cke_skin_kama .CodeMirror-gutter {
-    background:#F7F2E5;
+    background: rgba(0, 0, 0, 0.075);
 }

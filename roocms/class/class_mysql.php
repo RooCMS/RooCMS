@@ -6,21 +6,44 @@
 * @author       alex Roosso
 * @copyright    2010-2014 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      2.4.5
+* @version      2.4.6
 * @since        $date$
-* @license      http://www.gnu.org/licenses/gpl-2.0.html
+* @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
 
 /**
-*   This program is free software; you can redistribute it and/or modify
+*	RooCMS - Russian free content managment system
+*   Copyright (C) 2010-2014 alex Roosso aka alexandr Belov info@roocms.com
+*
+*   This program is free software: you can redistribute it and/or modify
 *   it under the terms of the GNU General Public License as published by
-*   the Free Software Foundation; either version 2 of the License, or
+*   the Free Software Foundation, either version 3 of the License, or
 *   (at your option) any later version.
 *
-*   Данное программное обеспечение является свободным и распространяется
-*   по лицензии Фонда Свободного ПО - GNU General Public License версия 2.
-*   При любом использовании данного ПО вы должны соблюдать все условия
-*   лицензии.
+*   This program is distributed in the hope that it will be useful,
+*   but WITHOUT ANY WARRANTY; without even the implied warranty of
+*   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+*   GNU General Public License for more details.
+*
+*   You should have received a copy of the GNU General Public License
+*   along with this program.  If not, see <http://www.gnu.org/licenses/
+*
+*
+*   RooCMS - Русская бесплатная система управления сайтом
+*   Copyright (C) 2010-2014 alex Roosso (александр Белов) info@roocms.com
+*
+*   Это программа является свободным программным обеспечением. Вы можете
+*   распространять и/или модифицировать её согласно условиям Стандартной
+*   Общественной Лицензии GNU, опубликованной Фондом Свободного Программного
+*   Обеспечения, версии 3 или, по Вашему желанию, любой более поздней версии.
+*
+*   Эта программа распространяется в надежде, что она будет полезной, но БЕЗ
+*   ВСЯКИХ ГАРАНТИЙ, в том числе подразумеваемых гарантий ТОВАРНОГО СОСТОЯНИЯ ПРИ
+*   ПРОДАЖЕ и ГОДНОСТИ ДЛЯ ОПРЕДЕЛЁННОГО ПРИМЕНЕНИЯ. Смотрите Стандартную
+*   Общественную Лицензию GNU для получения дополнительной информации.
+*
+*   Вы должны были получить копию Стандартной Общественной Лицензии GNU вместе
+*   с программой. В случае её отсутствия, посмотрите http://www.gnu.org/licenses/
 */
 
 //#########################################################
@@ -113,7 +136,6 @@ class DataBase {
 	* Поэтому если БД работает стабильно, лучше выключить данную функцию.
 	*/
 	private function charset() {
-
         $this->query("set character_set_client = 'utf8'");
         $this->query("set character_set_results = 'utf8'");
         $this->query("set collation_connection = 'utf8_general_ci'");
@@ -133,7 +155,7 @@ class DataBase {
 		global $debug;
 
 		# режим отладки
-		if($debug->debug) {
+		if(DEBUGMODE) {
 			$query = "<div style=\"padding: 5px;text-align: left;\"><font style=\"font-family: Tahoma; font-size: 12px;text-align: left;\">
 			Ошибка БД / MySQL Error: <b>".mysql_errno()."</b>
 			<br /> -- ".mysql_error()."
@@ -168,12 +190,12 @@ class DataBase {
 
 		global $debug;
 
-		if($this->db_connect || $debug->debug) {
+		if($this->db_connect || DEBUGMODE) {
 			# Выполняем запрос
 			$query = mysql_query($q) or die ($this->error($q));
 
 			# Считаем запросы
-			if($debug->debug || defined('ACP')) $this->cnt_querys++;
+			if(DEBUGMODE || defined('ACP')) $this->cnt_querys++;
 
 			# Выводим информацию по всем запросам
 			if($debug->show_debug) {
@@ -267,9 +289,7 @@ class DataBase {
 	*/
 	public function fetch_row($q) {
 
-		global $debug;
-
-		if($this->db_connect || $debug->debug) {
+		if($this->db_connect || DEBUGMODE) {
 			$result = mysql_fetch_row($q);
 			return $result;
 		}
@@ -284,9 +304,7 @@ class DataBase {
 	*/
 	public function fetch_assoc($q) {
 
-		global $debug;
-
-		if($this->db_connect || $debug->debug) {
+		if($this->db_connect || DEBUGMODE) {
 			$result = mysql_fetch_assoc($q);
 			return $result;
 		}
@@ -301,9 +319,7 @@ class DataBase {
 	*/
 	public function fetch_object($q) {
 
-		global $debug;
-
-		if($this->db_connect || $debug->debug) {
+		if($this->db_connect || DEBUGMODE) {
 			$obj = mysql_fetch_object($q);
 			return $obj;
 		}
@@ -316,9 +332,7 @@ class DataBase {
 	*/
 	public function insert_id() {
 
-		global $debug;
-
-		if($this->db_connect || $debug->debug) {
+		if($this->db_connect || DEBUGMODE) {
 			$id = mysql_insert_id();
 			return $id;
 		}
@@ -415,9 +429,7 @@ class DataBase {
 		}
 
 		# Если у нас в строке запроса указана страница, больше максимальной...
-		if($this->page > $this->pages) {
-			$this->page = $this->pages;
-		}
+		if($this->page > $this->pages) $this->page = $this->pages;
 
 		# Предыдущая и следующая страница
 		if($this->page > 1) 			$this->prev_page = $this->page - 1;
@@ -425,8 +437,11 @@ class DataBase {
 	}
 
 
-	//#####################################################
-	// Функция для расчета страниц, на случай когда не используется mySql
+	/**
+	* Функция для расчета страниц, на случай когда не используется mySql
+	*
+	* @param int $items - общее число элементов
+	*/
 	public function pages_non_mysql($items) {
 
 		# Если товаров больше чем на одну страницу...
@@ -452,9 +467,7 @@ class DataBase {
 		}
 
 		# Если у нас в строке запроса указана страница, больше максимальной...
-		if($this->page > $this->pages) {
-			$this->page = $this->pages;
-		}
+		if($this->page > $this->pages) $this->page = $this->pages;
 
 		# Предыдущая и следующая страница
 		if($this->page > 1) 			$this->prev_page = $this->page - 1;

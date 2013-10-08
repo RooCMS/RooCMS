@@ -1,36 +1,61 @@
+{* Шаблон редактирования HTML страницы *}
+
 <script type="text/javascript" src="plugin/ckeditor.php"></script>
-<form method="post" action="{$SCRIPT_NAME}?act=pages&part=update&page={$data['sid']}" enctype="multipart/form-data">
-	<div id="tabs">
-		<ul style="display: none;">
-			<li><a href="#edithtml">Редактор HTML страницы</a></li>
-		</ul>
-		<div id="edithtml">
-			<noscript><h2>Редактор HTML страницы</h2></noscript>
-			<div style="float: right;margin-right: 1px;">
-				<a href="{$SCRIPT_NAME}?act=structure&part=edit&id={$data['sid']}" class="opt"><img src="{$SKIN}/img/ico_page_settings_edit.png" width="16" height="16" border="0" alt="" class="iconlink">Редактировать теги</a>
-			</div>
-			<div style="float: left;text-align: right;margin-right: 5px;">
-				<b>ID #:
-				<br />Название страницы:
-				<br />Алиас страницы:
-				<br />Мета описание:
-				<br />Мета ключевые слова:
-				<br />Время последнего обновления:
-				</b>
-			</div>
-			<div  align="left">
-				{$data['sid']}
-				<br />{$data['title']}
-				<br />{$data['alias']}
-				<br />{$data['meta_description']}
-				<br />{$data['meta_keywords']}
-				<br />{$data['lm']}
-			</div>
-			<textarea id="content_field" class="f_textarea" name="content">{$data['content']}</textarea>
-			<br />{$attachedimages}
-			<br />{$imagesupload}
-			<script>{literal}CKEDITOR.replace( 'content_field', {toolbar: 'RooCMS'});{/literal}</script>
-			<div align="right"><input type="submit" name="update_page" class="f_submit" value="Обновить страницу"></div>
+
+<h3>Редактор HTML страницы</h3>
+<form method="post" action="{$SCRIPT_NAME}?act=pages&part=update&page={$data['sid']}" enctype="multipart/form-data" role="form" class="form-horizontal cked">
+    <div class="row">
+    	<div class="col-lg-12">
+			<dl class="dl-horizontal">
+				<dt>ID #:</dt>
+				<dd>{$data['sid']}</dd>
+
+				<dt>Название страницы:</dt>
+				<dd><a href="index.php/page-{$data['alias']}" target="_blank">{$data['title']}</a></dd>
+
+				<dt>Алиас страницы:</dt>
+				<dd>{$data['alias']}</dd>
+
+				<dt>Мета описание:</dt>
+				<dd>{$data['meta_description']}</dd>
+
+				<dt>Мета ключевые слова:</dt>
+				<dd>{$data['meta_keywords']}</dd>
+
+				<dt>Последнее обновление:</dt>
+				<dd>{$data['lm']}</dd>
+			</dl>
+    	</div>
+    </div>
+    <div class="row">
+    	<div class="col-lg-12 text-right">
+        	<a href="{$SCRIPT_NAME}?act=structure&part=edit&id={$data['sid']}" class="btn btn-link"><span class="icon-edit icon-fixed-width"></span> Редактировать теги</a>
+    	</div>
+    </div>
+	<div class="row">
+		<div class="col-lg-12">
+			<textarea id="content_field" class="form-control" name="content">{$data['content']}</textarea>
 		</div>
 	</div>
+	<div class="row">
+    	<div class="col-lg-12">
+        	{$attachedimages}
+    	</div>
+	</div>
+	<div class="row">
+    	<div class="col-lg-12">
+        	{$imagesupload}
+    	</div>
+	</div>
+	<div class="row">
+    	<div class="col-lg-12 text-right">
+        	<input type="submit" name="update_page" class="btn btn-success" value="Обновить страницу">
+    	</div>
+	</div>
 </form>
+
+{literal}
+<script>
+	CKEDITOR.replace( 'content_field' );
+</script>
+{/literal}

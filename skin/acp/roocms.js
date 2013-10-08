@@ -21,36 +21,49 @@
 */
 $(document).ready(function() {
 
-	$("#tabs").tabs({
-		collapsible: false/*,
-		cookie: {expires: 10}*/
-	});
-
 	$(".corner").corner("round 4px");
 
+    $("[rel='tooltip']").tooltip();
+    $("[rel='popover']").popover();
+    $(".alert").alert();
+    $(".affix").affix();
+
+    /* Select */
+    $('.selectpicker').selectpicker();
+
+    /* Logotype */
+    $("#logo").css({top:'-=62px'});
+	$('#logo').mouseover(function(){
+		$(this).stop().animate({top: '5px'}, 400);
+	}).mouseout(function(){
+		$(this).stop().animate({top: '-57px'}, 400);
+	});
+
+	/* Datepicker */
+	$('.datepicker').datepicker({
+	    format: 'dd.mm.yyyy',
+	    language: 'ru'
+	});
+
+	/* Colorpicker */
+	$('.colorpicker').colorpicker();
+
+	/* Colorbox */
+    //$("a[rel='img']").colorbox({maxWidth: "98%", maxHeight: "98%"});
+
+
+
+	/*
+	$(".color").colorpicker().on("mouseover.color", function(event, color){
+        $(this).attr("style", "background-color:" + color);
+    });
+    */
+
+	/*
 	$( ".date" ).datepicker({ dateFormat: "dd.mm.yy",
 							dayNamesMin: ["Пн", "Вт", "Ср", "Чт", "Пт", "Сб", "Вс"],
 							monthNamesShort: ["Янв","Фев","Мар","Апр","Май","Июн","Июл","Авг","Сен","Окт","Ноя","Дек"],
 							monthNames: ["Январь","Февраль","Март","Апрель","Май","Июнь","Июль","Август","Сентябрь","Октябрь","Ноябрь","Декабрь"]});
-
-	$(".color").colorpicker().on("mouseover.color", function(event, color){
-        $(this).attr("style", "background-color:" + color);
-    });
-
-
-
-	$("#tabs ul").css("display","block");
-	$("a.button").button({
-		icons: {primary: "ui-icon-arrowthick-1-w"}
-	});
-
-	$('.buttonset').buttonset();
-
-	$("input.button").button({icons: {primary: "ui-icon-check"}});
-	$("input.f_submit").button({icons: {primary: "ui-icon-check"}});
-	$("#addimg").button({icons: {primary: "ui-icon-plusthick"}});
-	$("#addfile").button({icons: {primary: "ui-icon-plusthick"}});
-	$("#addstep").button({icons: {primary: "ui-icon-plusthick"}});
 
 	var obg = $('.option').css('background-color');
 	$('.option').mouseover(function(){
@@ -58,6 +71,7 @@ $(document).ready(function() {
 	}).mouseout(function(){
 		$(this).stop().animate({backgroundColor: obg}, 400);
 	});
+	*/
 
 	/* Placeholder for IE */
 	if($.browser.msie) {

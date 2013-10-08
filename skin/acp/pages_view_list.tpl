@@ -1,54 +1,61 @@
-<div id="tabs">
-	<ul style="display: none;">
-		<li><a href="#pages">Страницы сайта</a></li>
-	</ul>
-	<div id="pages">
-		<noscript><h2>Страницы сайта</h2></noscript>
-		<table width="99%" border="0" cellpadding="4" cellspacing="0">
-			<tr>
-				<td width="3%" align="left" valign="middle">
-					<b>ID</b>
-				</td>
-				<td width="10%" align="left" valign="middle">
-					<b>Alias</b>
-				</td>
-				<td width="37%" align="left" valign="middle">
-					<b>Название</b>
-				</td>
-				<td width="10%" align="left" valign="middle">
-					<b>Тип</b>
-				</td>
-				<td width="10%" align="left" valign="middle">
-					<b>Дата посл. редактирования</b>
-				</td>
-				<td width="30%" align="left" valign="middle">
-					<b>Опции</b>
-				</td>
-			</tr>
-		{foreach from=$data item=page}
-			<tr class="option">
-				<td width="3%" align="left" valign="middle">
-					<font style="vertical-align: middle;">{$page['sid']}</font>
-				</td>
-				<td width="10%" align="left" valign="middle">
-					<font style="vertical-align: middle;">{$page['alias']}</font>
-				</td>
-				<td width="37%" align="left" valign="middle">
-					<a href="{$SCRIPT_NAME}?act=pages&part=edit&page={$page['sid']}" class="opt">{$page['title']}</a>
-                    {if $page['noindex'] == 1}<small class="grey vmiddle bold">noindex</small>{/if}
-				</td>
-				<td width="10%" align="left" valign="middle">
-					<nobr><font style="vertical-align: middle;">{$page['ptype']}</font></nobr>
-				</td>
-				<td width="10%" align="left" valign="middle">
-					<nobr><font style="vertical-align: middle;">{$page['lm']}</font></nobr>
-				</td>
-				<td width="30%" align="left" valign="middle">
-					<nobr><a href="{$SCRIPT_NAME}?act=pages&part=edit&page={$page['sid']}" class="opt"><img src="{$SKIN}/img/ico_page_edit.png" width="16" height="16" border="0" alt="" class="iconlink">Редактировать</a></nobr>
-					{if $page['sid'] != 1}<nobr><a href="{$SCRIPT_NAME}?act=structure&part=delete&id={$page['sid']}" class="optat"><img src="{$SKIN}/img/ico_page_delete.png" width="16" height="16" border="0" alt="" class="iconlink">Удалить</a></nobr>{/if}
-				</td>
-			</tr>
-		{/foreach}
+{* Шаблон отображения страниц сайта *}
+
+<h3>Страницы</h3>
+
+<div class="row hidden-xs">
+	<div class="col-md-12">
+		<table class="table table-hover table-condensed">
+			<thead>
+				<tr>
+					<th width="3%">ID</th>
+					<th width="10%">Alias</th>
+					<th width="37%">Название</th>
+					<th width="10%" class="text-center">Тип</th>
+					<th width="10%">Дата посл. редактирования</th>
+					<th width="30%">Опции</th>
+				</tr>
+			</thead>
+			<tbody>
+				{foreach from=$data item=page}
+    			<tr>
+        			<td>{$page['sid']}</td>
+        			<td>{$page['alias']}</td>
+        			<td>
+        				<a href="{$SCRIPT_NAME}?act=pages&part=edit&page={$page['sid']}">{$page['title']}</a>
+            			{if $page['noindex'] == 1}<span class="text-muted"><sup>noindex</sup></span>{/if}
+        			</td>
+        			<td class="text-center"><span class="label label-default">{$page['ptype']}</span></td>
+        			<td class="small">{$page['lm']}</td>
+        			<td>
+						<nobr><a href="{$SCRIPT_NAME}?act=pages&part=edit&page={$page['sid']}" class="btn btn-xs btn-default"><span class="icon-edit icon-fixed-width"></span>Редактировать</a></nobr>
+						{if $page['sid'] != 1}<nobr><a href="{$SCRIPT_NAME}?act=structure&part=delete&id={$page['sid']}" class="btn btn-xs btn-danger"><span class="icon-trash icon-fixed-width"></span>Удалить</a></nobr>{/if}
+        			</td>
+    			</tr>
+    			{/foreach}
+			</tbody>
 		</table>
 	</div>
 </div>
+
+{foreach from=$data item=page}
+<div class="panel panel-default visible-xs">
+    <div class="panel-heading">
+        <span class="label label-primary panel-title">{$page['sid']}</span>
+		{if $page['type'] == "html" or $page['type'] == "php"}
+			<a href="{$SCRIPT_NAME}?act=pages&part=edit&page={$page['sid']}" class="panel-title">{$page['title']}</a>
+		{else}
+			<a href="{$SCRIPT_NAME}?act=feeds&part=control&page={$page['sid']}" class="panel-title">{$page['title']}</a>
+		{/if}
+    </div>
+	<div class="panel-body">
+		{if $page['noindex'] == 1}<span class="text-warning">Неиндексируется в поиске</span>
+        {else}<span class="text-info">Индексируется в поиске</span>
+		{/if}
+        <span class="label label-default pull-right">{$page['ptype']}</span>
+	</div>
+	<div class="panel-footer text-right">
+		<nobr><a href="{$SCRIPT_NAME}?act=structure&part=edit&id={$page['sid']}" class="btn btn-xs btn-default"><span class="icon-edit icon-fixed-width"></span> Редактировать</a></nobr>
+		{if $page['sid'] != 1}<nobr><a href="{$SCRIPT_NAME}?act=structure&part=delete&id={$page['sid']}" class="btn btn-xs btn-danger"><span class="icon-trash icon-fixed-width"></span> Удалить</a></nobr>{/if}
+	</div>
+</div>
+{/foreach}

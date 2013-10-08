@@ -6,19 +6,44 @@
 * @author		alex Roosso
 * @copyright	2010-2014 (c) RooCMS
 * @link			http://www.roocms.com
-* @version		1.3.1
+* @version		1.4
 * @since		$date$
-* @license		http://www.gnu.org/licenses/gpl-2.0.html
+* @license		http://www.gnu.org/licenses/gpl-3.0.html
+*/
+
+/**
+*	RooCMS - Russian free content managment system
+*   Copyright (C) 2010-2014 alex Roosso aka alexandr Belov info@roocms.com
 *
-*   This program is free software; you can redistribute it and/or modify
+*   This program is free software: you can redistribute it and/or modify
 *   it under the terms of the GNU General Public License as published by
-*   the Free Software Foundation; either version 2 of the License, or
+*   the Free Software Foundation, either version 3 of the License, or
 *   (at your option) any later version.
 *
-*   Данное программное обеспечение является свободным и распространяется
-*   по лицензии Фонда Свободного ПО - GNU General Public License версия 2.
-*   При любом использовании данного ПО вы должны соблюдать все условия
-*   лицензии.
+*   This program is distributed in the hope that it will be useful,
+*   but WITHOUT ANY WARRANTY; without even the implied warranty of
+*   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+*   GNU General Public License for more details.
+*
+*   You should have received a copy of the GNU General Public License
+*   along with this program.  If not, see <http://www.gnu.org/licenses/
+*
+*
+*   RooCMS - Русская бесплатная система управления сайтом
+*   Copyright (C) 2010-2014 alex Roosso (александр Белов) info@roocms.com
+*
+*   Это программа является свободным программным обеспечением. Вы можете
+*   распространять и/или модифицировать её согласно условиям Стандартной
+*   Общественной Лицензии GNU, опубликованной Фондом Свободного Программного
+*   Обеспечения, версии 3 или, по Вашему желанию, любой более поздней версии.
+*
+*   Эта программа распространяется в надежде, что она будет полезной, но БЕЗ
+*   ВСЯКИХ ГАРАНТИЙ, в том числе подразумеваемых гарантий ТОВАРНОГО СОСТОЯНИЯ ПРИ
+*   ПРОДАЖЕ и ГОДНОСТИ ДЛЯ ОПРЕДЕЛЁННОГО ПРИМЕНЕНИЯ. Смотрите Стандартную
+*   Общественную Лицензию GNU для получения дополнительной информации.
+*
+*   Вы должны были получить копию Стандартной Общественной Лицензии GNU вместе
+*   с программой. В случае её отсутствия, посмотрите http://www.gnu.org/licenses/
 */
 
 //#########################################################
@@ -51,23 +76,24 @@ define('IMAGES_TABLE', 		DB_PREFIX.'images');
 /**
 * RooCMS $Path
 */
-define('_ROOT',				$_SERVER['DOCUMENT_ROOT']);
-define('_ROOCMS',			_ROOT.'/roocms');
+if(!defined('_SITEROOT'))
+define('_SITEROOT', 		str_ireplace(DIRECTORY_SEPARATOR."roocms".DIRECTORY_SEPARATOR."config", "", dirname(__FILE__)));		//define('_SITEROOT', 		dirname($_SERVER['SCRIPT_FILENAME']));
+define('_ROOCMS',			_SITEROOT.'/roocms');
 define('_CLASS', 			_ROOCMS.'/class');
 define('_LIB', 				_ROOCMS.'/lib');
 define('_SMARTY', 			_LIB.'/smarty');
-define('_SKIN',				_ROOT.'/skin');
+define('_SKIN',				_SITEROOT.'/skin');
 define('_ACPSKIN',			_SKIN.'/acp');
-define('_UPLOAD',			_ROOT.'/upload');
+define('_UPLOAD',			_SITEROOT.'/upload');
 define('_UPLOADIMAGES',		_UPLOAD.'/images');
 define('_UPLOADFILES',		_UPLOAD.'/files');
-define('_CACHE',			_ROOT.'/cache');
+define('_CACHE',			_SITEROOT.'/cache');
 define('_LOGS',				_CACHE.'/logs');
 define('_CACHESKIN',		_CACHE.'/skin');
 
 
 /**
-* Component
+* $Component
 */
 define('_ACP',				_ROOCMS.'/acp.php');
 define('_SITE',				_ROOCMS.'/site.php');
@@ -79,8 +105,10 @@ define('_SITE',				_ROOCMS.'/site.php');
 define('EMAIL_MESSAGE_PARAMETERS',	'content-Type: text/plain; charset="utf-8"');
 define('SCRIPT_NAME',				$_SERVER['SCRIPT_NAME']);
 define('CHARSET',					'text/html; charset=utf-8');
-define('ROOCMS_VERSION',			'1.0.10');
-define('VERSION',					'1.0 Nightly Build 10');
-define('BUILD',						'1010');
-
+define('ROOCMS_MAJOR',				'1');
+define('ROOCMS_MINOR',				'1');
+define('ROOCMS_RELEASE',			'0');
+define('ROOCMS_BUILD',				'-stable');
+define('ROOCMS_VERSION',			ROOCMS_MAJOR.".".ROOCMS_MINOR.".".ROOCMS_RELEASE);
+define('ROOCMS_FULL_TEXT_VERSION',	ROOCMS_MAJOR.".".ROOCMS_MINOR.".".ROOCMS_RELEASE.ROOCMS_BUILD);
 ?>

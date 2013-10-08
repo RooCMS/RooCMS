@@ -1,48 +1,50 @@
-<div id="tabs">
-	<ul style="display: none;">
-		<li><a href="#addnewitem">Редактировать HTML блок</a></li>
-	</ul>
-	<div id="addnewitem">
-		<noscript><h2>Редактировать HTML блок</h2></noscript>
-		<script type="text/javascript" src="plugin/ckeditor.php"></script>
-		<form method="post" action="{$SCRIPT_NAME}?act=blocks&part=update&block={$data['id']}" enctype="multipart/form-data">
-				<table width="99%" border="0" cellpadding="1" cellspacing="0">
-					<tr>
-						<td width="30%" align="left" valign="top">
-							<b>Alias</b>*
-							<br /><font class="rem">Должен быть обязательно уникальным.</font>
-						</td>
-						<td width="70%" align="right" valign="top">
-							<input type="text" name="alias" class="f_input" value="{$data['alias']}" required>
-						</td>
-					</tr>
-					<tr>
-						<td width="30%" align="left" valign="top">
-							<b>Заголовок</b>*
-							<br /><font class="rem">Название</font>
-						</td>
-						<td width="70%" align="right" valign="top">
-							<input type="text" name="title" class="f_input" value="{$data['title']}" required>
-						</td>
-					</tr>
-					<tr>
-						<td width="99%" colspan="2" align="left" valign="top">
-							<br /><b>Код блока</b>*
-							<br /><font class="rem">Исполнительный код блока на языке HTML</font>
-							<br /><textarea id="content" class="f_textarea" name="content">{$data['content']}</textarea>
-							<br />{$attachedimages}
-							<br />{$imagesupload}
-							<script>{literal}CKEDITOR.replace( 'content', {toolbar: 'RooCMS'});{/literal}</script>
-						</td>
-					</tr>
-					<tr>
-						<td width="99%" colspan="2" align="right" valign="top">
-							<input type="hidden" name="id" value="{$data['id']}">
-							<input type="hidden" name="oldalias" value="{$data['alias']}">
-							* - поля являтся обязательными для заполнения <input type="submit" class="f_submit" name="update_block" value="Обновить блок">
-						</td>
-					</tr>
-				</table>
-		</form>
+{* Шаблон редактирования HTML блока *}
+<script type="text/javascript" src="plugin/ckeditor.php"></script>
+
+<h3>Редактируем HTML блок "{$data['title']}"</h3>
+
+<form method="post" action="{$SCRIPT_NAME}?act=blocks&part=update&block={$data['id']}" enctype="multipart/form-data" role="form" class="form-horizontal">
+	<div class="form-group">
+	    <label for="inputAlias" class="col-lg-3 control-label">
+    		Alias: <small><span class="icon-info icon-fixed-width" rel="tooltip" title="Должен быть уникальным" data-placement="right"></span></small>
+	    </label>
+	    <div class="col-lg-9">
+			<input type="text" name="alias" id="inputAlias" class="form-control" value="{$data['alias']}" required>
+		</div>
 	</div>
-</div>
+	<div class="form-group">
+	    <label for="inputTitle" class="col-lg-3 control-label">
+    		Заголовок:
+	    </label>
+	    <div class="col-lg-9">
+			<input type="text" name="title" id="inputTitle" class="form-control" value="{$data['title']}" required>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-lg-12">
+		    <label for="content" class="control-label">
+    			Код блока: <small><span class="icon-info icon-fixed-width" rel="tooltip" title="Код блока на языке HTML" data-placement="right"></span></small>
+		    </label>
+			<textarea id="content" class="form-control" name="content" required>{$data['content']}</textarea>
+			{literal}<script>CKEDITOR.replace( 'content' );</script>{/literal}
+		</div>
+	</div>
+
+	<div class="row">
+    	<div class="col-lg-12">
+        	{$attachedimages}
+    	</div>
+	</div>
+	<div class="row images_attach">
+    	<div class="col-lg-12">
+        	{$imagesupload}
+    	</div>
+	</div>
+	<div class="row">
+    	<div class="col-lg-12 text-right">
+    		<input type="hidden" name="id" value="{$data['id']}" readonly>
+			<input type="hidden" name="oldalias" value="{$data['alias']}" readonly>
+        	<input type="submit" name="update_block" class="btn btn-success" value="Обновить блок">
+    	</div>
+	</div>
+</form>

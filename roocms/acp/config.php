@@ -6,21 +6,44 @@
 * @author       alex Roosso
 * @copyright    2010-2014 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.0.16
+* @version      1.0.18
 * @since        $date$
-* @license      http://www.gnu.org/licenses/gpl-2.0.html
+* @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
 
 /**
-*   This program is free software; you can redistribute it and/or modify
+*	RooCMS - Russian free content managment system
+*   Copyright (C) 2010-2014 alex Roosso aka alexandr Belov info@roocms.com
+*
+*   This program is free software: you can redistribute it and/or modify
 *   it under the terms of the GNU General Public License as published by
-*   the Free Software Foundation; either version 2 of the License, or
+*   the Free Software Foundation, either version 3 of the License, or
 *   (at your option) any later version.
 *
-*   Данное программное обеспечение является свободным и распространяется
-*   по лицензии Фонда Свободного ПО - GNU General Public License версия 2.
-*   При любом использовании данного ПО вы должны соблюдать все условия
-*   лицензии.
+*   This program is distributed in the hope that it will be useful,
+*   but WITHOUT ANY WARRANTY; without even the implied warranty of
+*   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+*   GNU General Public License for more details.
+*
+*   You should have received a copy of the GNU General Public License
+*   along with this program.  If not, see <http://www.gnu.org/licenses/
+*
+*
+*   RooCMS - Русская бесплатная система управления сайтом
+*   Copyright (C) 2010-2014 alex Roosso (александр Белов) info@roocms.com
+*
+*   Это программа является свободным программным обеспечением. Вы можете
+*   распространять и/или модифицировать её согласно условиям Стандартной
+*   Общественной Лицензии GNU, опубликованной Фондом Свободного Программного
+*   Обеспечения, версии 3 или, по Вашему желанию, любой более поздней версии.
+*
+*   Эта программа распространяется в надежде, что она будет полезной, но БЕЗ
+*   ВСЯКИХ ГАРАНТИЙ, в том числе подразумеваемых гарантий ТОВАРНОГО СОСТОЯНИЯ ПРИ
+*   ПРОДАЖЕ и ГОДНОСТИ ДЛЯ ОПРЕДЕЛЁННОГО ПРИМЕНЕНИЯ. Смотрите Стандартную
+*   Общественную Лицензию GNU для получения дополнительной информации.
+*
+*   Вы должны были получить копию Стандартной Общественной Лицензии GNU вместе
+*   с программой. В случае её отсутствия, посмотрите http://www.gnu.org/licenses/
 */
 
 //#########################################################
@@ -93,7 +116,7 @@ class ACP_CONFIG {
 				while($option = $db->fetch_assoc($q_2)) {
 
 					# parse
-					$option['description'] = $parse->text->br($option['description']);
+					//$option['description'] = $parse->text->br($option['description']);
 					$option['option'] = $this->init_field($option['option_name'], $option['option_type'], $option['value'], $option['variants']);
 
 
@@ -258,7 +281,7 @@ class ACP_CONFIG {
 		}
 
 
-		# notice
+		# уведомление
 		$parse->msg("Настройки обновлены");
 
 		# move
@@ -278,9 +301,9 @@ class ACP_CONFIG {
 	//	Изменяем имя cp скрипта
 	private function change_cp_script($newcp) {
 
-		global $parse, $debug;
+		global $parse;
 
-		$nowcp = file(ROOT."/".CP);
+		$nowcp = file(_SITEROOT."/".CP);
 
 		// Собираем лут из старого файла
 		$context = "";
@@ -289,7 +312,7 @@ class ACP_CONFIG {
 		}
 
 		// Создаем и записываем
-		if(!file_exists(ROOT."/".$newcp)) {
+		if(!file_exists(_SITEROOT."/".$newcp)) {
 			// крафтим новый файл
 			$cps = fopen($newcp, "w+");
 			if(is_writable($newcp)) {
@@ -297,8 +320,8 @@ class ACP_CONFIG {
 			}
 			fclose($cps);
 
-			if(file_exists(ROOT."/".$newcp)) {
-				if($debug->debug) $parse->msg("Новый файл для входа в панель управления успешно создан!");
+			if(file_exists(_SITEROOT."/".$newcp)) {
+				if(DEBUGMODE) $parse->msg("Новый файл для входа в панель управления успешно создан!");
 				return true;
 			}
 			else {

@@ -1,7 +1,7 @@
-<textarea name="{$field['name']}" id="{$field['name']}" class="f_textarea">{$field['value']}</textarea>
+<textarea name="{$field['name']}" id="input_{$field['name']}" class="form-control">{$field['value']}</textarea>
 <br />
-<font class="ta_resize" id="p{$field['name']}">+ увеличить</font> 
-<font class="ta_resize" id="m{$field['name']}">- уменьшить</font>
+<font id="p{$field['name']}" class="btn btn-xs">+ увеличить</font>
+<font id="m{$field['name']}" class="btn btn-xs">- уменьшить</font>
 {literal}
 <script>
 	$("#p{/literal}{$field['name']}{literal}").click(function(){

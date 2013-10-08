@@ -1,62 +1,60 @@
-<div id="tabs">
-	<ul style="display: none;">
-		<li><a href="#edititem">Редактировать элемент</a></li>
-	</ul>
-	<div id="edititem">
-		<noscript><h2>Редактировать элемент</h2></noscript>
-		<script type="text/javascript" src="plugin/ckeditor.php"></script>
-		<form method="post" action="{$SCRIPT_NAME}?act=feeds&part=update_item&item={$item['id']}&page={$item['sid']}" enctype="multipart/form-data">
-				<table width="99%" border="0" cellpadding="1" cellspacing="0">
-					<tr>
-						<td width="30%" align="left" valign="top">
-							<b>Заголовок</b>*
-							<br /><font class="rem">Название</font>
-						</td>
-						<td width="70%" align="right" valign="top">
-							<input type="text" name="title" class="f_input" value="{$item['title']}" required>
-						</td>
-					</tr>
-					<tr>
-						<td width="30%" align="left" valign="top">
-							<b>Дата публикации</b>*
-							<br /><font class="rem">Можно указать дату будущим числом. До наступления указанной даты, новость не будет опубликована.</font>
-						</td>
-						<td width="70%" align="right" valign="top">
-							<input type="text" name="date_publications" class="f_input date" value="{$item['date_publications']}" placeholder="дд.мм.гггг" required>
-						</td>
-					</tr>
-					<tr>
-						<td width="99%" colspan="2" align="left" valign="top">
-							<b>Аннотация</b>*
-							<br /><font class="rem">Краткое описание</font>
-							<br /><textarea id="brief_item" class="f_textarea" name="brief_item" required>{$item['brief_item']}</textarea>
-							<script>{literal}CKEDITOR.replace( 'brief_item', {toolbar: 'RooCMS'});{/literal}</script>
-						</td>
-					</tr>
-					<tr>
-						<td width="99%" colspan="2" align="left" valign="top">
-							<b>Текст</b>*
-							<br /><font class="rem">Полное содержимое</font>
-							<br /><textarea id="full_item" class="f_textarea" name="full_item" required>{$item['full_item']}</textarea>
-							<script>{literal}CKEDITOR.replace( 'full_item', {toolbar: 'RooCMS'});{/literal}</script>
-						</td>
-					</tr>
-					<tr>
-						<td width="99%" colspan="2" align="left" valign="top">
-							{$attachedimages}
-						</td>
-					</tr>
-					<tr>
-						<td width="99%" colspan="2" align="left" valign="top">
-							{$imagesupload}
-						</td>
-					</tr>
-					<tr>
-						<td width="99%" colspan="2" align="right" valign="top">
-							* - поля являтся обязательными для заполнения <input type="submit" class="f_submit" name="update_item" value="Сохранить элемент">
-						</td>
-					</tr>
-				</table>
-		</form>
+{* Шаблон редактирования элемента страницы *}
+<script type="text/javascript" src="plugin/ckeditor.php"></script>
+
+<h3>Редактируем "{$item['title']}"</h3>
+
+
+<form method="post" action="{$SCRIPT_NAME}?act=feeds&part=update_item&item={$item['id']}&page={$item['sid']}" enctype="multipart/form-data" role="form" class="form-horizontal">
+	<div class="form-group">
+	    <label for="inputTitle" class="col-lg-3 control-label">
+    		Заголовок:
+	    </label>
+	    <div class="col-lg-9">
+			<input type="text" name="title" id="inputTitle" class="form-control" value="{$item['title']}" required>
+		</div>
 	</div>
-</div>
+
+	<div class="form-group">
+	    <label for="inputDateP" class="col-lg-3 control-label">
+    		Дата публикации: <small><span class="icon-info icon-fixed-width" rel="tooltip" title="Разрешается указать дату будущим числом. Посетители увидять публикацию только с наступлением указанной даты." data-placement="right"></span></small>
+	    </label>
+	    <div class="col-lg-9">
+			<input type="text" name="date_publications" id="inputDateP" class="form-control datepicker" value="{$item['date_publications']}" placeholder="дд.мм.гггг" pattern="{literal}\d{1,2}\.\d{1,2}\.\d{4}{/literal}" required>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-lg-12">
+		    <label for="brief_item" class="control-label">
+    			Аннотация: <small><span class="icon-info icon-fixed-width text-danger" rel="tooltip" title="Обазательно заполнить это поле" data-placement="right"></span></small>
+		    </label>
+			<textarea id="brief_item" class="form-control" name="brief_item" required>{$item['brief_item']}</textarea>
+			{literal}<script>CKEDITOR.replace( 'brief_item' );</script>{/literal}
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-lg-12">
+		    <label for="brief_item" class="control-label">
+    			Полный текст:
+		    </label>
+			<textarea id="full_item" class="form-control" name="full_item" required>{$item['full_item']}</textarea>
+			{literal}<script>CKEDITOR.replace( 'full_item' );</script>{/literal}
+		</div>
+	</div>
+
+
+	<div class="row">
+    	<div class="col-lg-12">
+        	{$attachedimages}
+    	</div>
+	</div>
+	<div class="row">
+    	<div class="col-lg-12">
+        	{$imagesupload}
+    	</div>
+	</div>
+	<div class="row">
+    	<div class="col-lg-12 text-right">
+        	<input type="submit" name="update_item" class="btn btn-success" value="Сохранить элемент">
+    	</div>
+	</div>
+</form>

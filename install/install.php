@@ -5,21 +5,44 @@
 * @author       alex Roosso
 * @copyright    2010-2014 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.2.1
+* @version      1.2.3
 * @since        $date$
-* @license      http://www.gnu.org/licenses/gpl-2.0.html
+* @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
 
 /**
-*   This program is free software; you can redistribute it and/or modify
+*	RooCMS - Russian free content managment system
+*   Copyright (C) 2010-2014 alex Roosso aka alexandr Belov info@roocms.com
+*
+*   This program is free software: you can redistribute it and/or modify
 *   it under the terms of the GNU General Public License as published by
-*   the Free Software Foundation; either version 2 of the License, or
+*   the Free Software Foundation, either version 3 of the License, or
 *   (at your option) any later version.
 *
-*   Данное программное обеспечение является свободным и распространяется
-*   по лицензии Фонда Свободного ПО - GNU General Public License версия 2.
-*   При любом использовании данного ПО вы должны соблюдать все условия
-*   лицензии.
+*   This program is distributed in the hope that it will be useful,
+*   but WITHOUT ANY WARRANTY; without even the implied warranty of
+*   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+*   GNU General Public License for more details.
+*
+*   You should have received a copy of the GNU General Public License
+*   along with this program.  If not, see <http://www.gnu.org/licenses/
+*
+*
+*   RooCMS - Русская бесплатная система управления сайтом
+*   Copyright (C) 2010-2014 alex Roosso (александр Белов) info@roocms.com
+*
+*   Это программа является свободным программным обеспечением. Вы можете
+*   распространять и/или модифицировать её согласно условиям Стандартной
+*   Общественной Лицензии GNU, опубликованной Фондом Свободного Программного
+*   Обеспечения, версии 3 или, по Вашему желанию, любой более поздней версии.
+*
+*   Эта программа распространяется в надежде, что она будет полезной, но БЕЗ
+*   ВСЯКИХ ГАРАНТИЙ, в том числе подразумеваемых гарантий ТОВАРНОГО СОСТОЯНИЯ ПРИ
+*   ПРОДАЖЕ и ГОДНОСТИ ДЛЯ ОПРЕДЕЛЁННОГО ПРИМЕНЕНИЯ. Смотрите Стандартную
+*   Общественную Лицензию GNU для получения дополнительной информации.
+*
+*   Вы должны были получить копию Стандартной Общественной Лицензии GNU вместе
+*   с программой. В случае её отсутствия, посмотрите http://www.gnu.org/licenses/
 */
 
 //#########################################################
@@ -59,7 +82,7 @@ class Install extends Requirement{
 		# seo
 		$site['title'] = "Установка RooCMS";
 
-		# go
+		# переход
 		switch($this->step) {
 
 			case 1:
@@ -197,21 +220,21 @@ class Install extends Requirement{
 				}
 				fclose($ecf);
 
-				# notice
+				# уведомление
 				$parse->msg("Данные успешно записаны<br />Название сайта - ".$POST->site_title."<br />Адрес сайта - ".$POST->site_domain."<br />E-mail администратора - ".$POST->site_sysemail, true);
 
-				# go next step
+				# переход next step
 				go(SCRIPT_NAME."?step=5");
 			}
 			else goback();
 		}
 
-		$this->log[] = array('Название сайта', '<input type="text" class="f_input" name="site_title" required placeholder="RooCMS">', true, 'Укажите название сайта.');
-		$this->log[] = array('Адрес сайта', '<input type="text" class="f_input" name="site_domain" required value="http://'.$_SERVER['SERVER_NAME'].'">', true, 'Укажите интернет адрес вашего сайта');
-		$this->log[] = array('E-Mail Администратора', '<input type="text" class="f_input" name="site_sysemail" placeholder="Ваш@Почтовый.ящик" pattern="^\s*\w+\.*\w*@\w+\.\w+\s*" required>', true, 'Укажите адрес электронной почты администратора сайта.');
+		$this->log[] = array('Название сайта', '<input type="text" class="form-control" name="site_title" required placeholder="RooCMS">', true, 'Укажите название сайта.');
+		$this->log[] = array('Адрес сайта', '<input type="text" class="form-control" name="site_domain" required value="http://'.$_SERVER['SERVER_NAME'].'">', true, 'Укажите интернет адрес вашего сайта');
+		$this->log[] = array('E-Mail Администратора', '<input type="text" class="form-control" name="site_sysemail" placeholder="Ваш@Почтовый.ящик" pattern="^\s*\w+\.*\w*@\w+\.\w+\s*" required>', true, 'Укажите адрес электронной почты администратора сайта.');
 
 
-		# go next step
+		# переход next step
 		if(trim($site['title']) != "" && trim($site['domain']) != "" && trim($site['sysemail']) != "") go(SCRIPT_NAME."?step=5");
 	}
 
@@ -284,10 +307,10 @@ class Install extends Requirement{
 					}
 					fclose($ecf);
 
-					# notice
+					# уведомление
 					$parse->msg("Данные для соеденения с БД успешно записаны", true);
 
-					# go next step
+					# переход next step
 					go(SCRIPT_NAME."?step=6");
 				}
 				else {
@@ -298,11 +321,11 @@ class Install extends Requirement{
 		}
 
 		if(!$db->db_connect) {
-			$this->log[] = array('Адрес сервера БД', '<input type="text" class="f_input" name="db_info_host" required placeholder="localhost" value="localhost">', true, 'Укажите адрес сервера на котором расположена БД');
-			$this->log[] = array('Название БД', '<input type="text" class="f_input" name="db_info_base" required>', true, 'Укажите название БД.');
-			$this->log[] = array('Имя пользователя БД', '<input type="text" class="f_input" name="db_info_user" required>', true, 'Укажите имя пользователя с правами для подключения к БД.');
-			$this->log[] = array('Пароль пользователя БД', '<input type="text" class="f_input" name="db_info_pass" required>', true, 'Укажите пароль пользователя для соеденения с БД');
-			$this->log[] = array('Префикс таблиц БД', '<input type="text" class="f_input" name="db_info_prefix" required placeholder="roocms_" value="roocms_">', true, 'Укажите префикс для таблиц БД.');
+			$this->log[] = array('Адрес сервера БД', '<input type="text" class="form-control" name="db_info_host" required placeholder="localhost" value="localhost">', true, 'Укажите адрес сервера на котором расположена БД');
+			$this->log[] = array('Название БД', '<input type="text" class="form-control" name="db_info_base" required>', true, 'Укажите название БД.');
+			$this->log[] = array('Имя пользователя БД', '<input type="text" class="form-control" name="db_info_user" required>', true, 'Укажите имя пользователя с правами для подключения к БД.');
+			$this->log[] = array('Пароль пользователя БД', '<input type="text" class="form-control" name="db_info_pass" required>', true, 'Укажите пароль пользователя для соеденения с БД');
+			$this->log[] = array('Префикс таблиц БД', '<input type="text" class="form-control" name="db_info_prefix" required placeholder="roocms_" value="roocms_">', true, 'Укажите префикс для таблиц БД.');
 		}
 		else go(SCRIPT_NAME."?step=6");
 	}
@@ -342,10 +365,10 @@ class Install extends Requirement{
 			}
 			fclose($ecf);
 
-			# notice
+			# уведомление
 			$parse->msg("Данные занесены в БД успешно", true);
 
-			# go next step
+			# переход next step
 			go(SCRIPT_NAME."?step=7");
 		}
 
@@ -392,14 +415,14 @@ class Install extends Requirement{
 				$_SESSION['adm_login'] = $POST->adm_login;
 				$_SESSION['adm_passw'] = $POST->adm_passw;
 
-				# go
+				# переход
 				go(SCRIPT_NAME."?step=8");
 			}
 			else goback();
 		}
 
-		if(trim($adm['login']) == "") $this->log[] = array('Логин администратора', '<input type="text" class="f_input" name="adm_login" required>', true, 'Укажите логин администратора для доступа к Панели Управления сайтом.');
-		if(trim($adm['passw']) == "") $this->log[] = array('Пароль администратора', '<input type="text" class="f_input" name="adm_passw" required>', true, 'Введите пароль администратора для доступа к Панели Управления сайтом.');
+		if(trim($adm['login']) == "") $this->log[] = array('Логин администратора', '<input type="text" class="form-control" name="adm_login" required>', true, 'Укажите логин администратора для доступа к Панели Управления сайтом.');
+		if(trim($adm['passw']) == "") $this->log[] = array('Пароль администратора', '<input type="text" class="form-control" name="adm_passw" required>', true, 'Введите пароль администратора для доступа к Панели Управления сайтом.');
 	}
 
 
@@ -439,7 +462,7 @@ class Install extends Requirement{
 		}
 		fclose($ecf);
 
-		$this->log[] = array('', '<center>Поздравляем.<br />Вы успешно завершили установку RooCMS.<br />Текущая версия: '.VERSION.'</center>', true, '');
+		$this->log[] = array('', '<center>Поздравляем.<br />Вы успешно завершили установку RooCMS.<br />Текущая версия: '.ROOCMS_VERSION.'</center>', true, '');
 		$this->log[] = array('', '<center>Не забудьте удалить папку /install/ в целях безопастности вашего сайта.</center>', false, '');
 	}
 }

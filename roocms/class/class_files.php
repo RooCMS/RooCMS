@@ -6,21 +6,44 @@
 * @author       alex Roosso
 * @copyright    2010-2014 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.0.9
+* @version      1.1.1
 * @since        $date$
-* @license      http://www.gnu.org/licenses/gpl-2.0.html
+* @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
 
 /**
-*   This program is free software; you can redistribute it and/or modify
+*	RooCMS - Russian free content managment system
+*   Copyright (C) 2010-2014 alex Roosso aka alexandr Belov info@roocms.com
+*
+*   This program is free software: you can redistribute it and/or modify
 *   it under the terms of the GNU General Public License as published by
-*   the Free Software Foundation; either version 2 of the License, or
+*   the Free Software Foundation, either version 3 of the License, or
 *   (at your option) any later version.
 *
-*   Данное программное обеспечение является свободным и распространяется
-*   по лицензии Фонда Свободного ПО - GNU General Public License версия 2.
-*   При любом использовании данного ПО вы должны соблюдать все условия
-*   лицензии.
+*   This program is distributed in the hope that it will be useful,
+*   but WITHOUT ANY WARRANTY; without even the implied warranty of
+*   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+*   GNU General Public License for more details.
+*
+*   You should have received a copy of the GNU General Public License
+*   along with this program.  If not, see <http://www.gnu.org/licenses/
+*
+*
+*   RooCMS - Русская бесплатная система управления сайтом
+*   Copyright (C) 2010-2014 alex Roosso (александр Белов) info@roocms.com
+*
+*   Это программа является свободным программным обеспечением. Вы можете
+*   распространять и/или модифицировать её согласно условиям Стандартной
+*   Общественной Лицензии GNU, опубликованной Фондом Свободного Программного
+*   Обеспечения, версии 3 или, по Вашему желанию, любой более поздней версии.
+*
+*   Эта программа распространяется в надежде, что она будет полезной, но БЕЗ
+*   ВСЯКИХ ГАРАНТИЙ, в том числе подразумеваемых гарантий ТОВАРНОГО СОСТОЯНИЯ ПРИ
+*   ПРОДАЖЕ и ГОДНОСТИ ДЛЯ ОПРЕДЕЛЁННОГО ПРИМЕНЕНИЯ. Смотрите Стандартную
+*   Общественную Лицензию GNU для получения дополнительной информации.
+*
+*   Вы должны были получить копию Стандартной Общественной Лицензии GNU вместе
+*   с программой. В случае её отсутствия, посмотрите http://www.gnu.org/licenses/
 */
 
 //#########################################################
@@ -87,6 +110,8 @@ class Files {
 	*/
 	public function create_filename($ext, $prefix="") {
 
+    	# Переписать, добавив транслитерацию, а префиксы в конец имени переместить.
+
 		if(trim($prefix) != "") $prefix = $prefix."_";
 		$r = randcode(7, "RooCMSv1nb10");
 		$filename = $prefix.time()."_".$r.".".$ext;
@@ -102,6 +127,8 @@ class Files {
 	* @return string расширение файла без точки
 	*/
 	public function check_ext($filename) {
+
+    	# Переписать с pathinfo();
 
 		$files = explode(".",mb_strtolower($filename));
 		$c = count($files) - 1;
@@ -122,13 +149,33 @@ class Files {
 	}
 
 
-	//#####################################################
-	// Функция загрузки файлов
+	/**
+	* Функция загрузки файлов
+	*
+	* @param string $file - Параметр файла массива $_FILES
+	* @param string $prefix - Префикс имени файла
+	* @param array|string $types - Допустимые типы файлов (в будущем)
+	* @param string $path - путь для загрузки файлов
+	*/
 	public function upload($file, $prefix="", $types="all", $path=_UPLOADFILES) {
+
+    	# Переписать функцию!!!
+    	# *** Больше проверок от "умников"
 
 		global $config, $parse;
 
+
+		# check allow type
 		require_once _LIB."/mimetype.php";
+
+		static $allow_exts = array();
+
+		if(empty($allow_exts)) {
+	        foreach($filetype AS $itype) {
+        		$allow_exts[$itype['type']] = $itype['ext'];
+			}
+		}
+
 
 		$filename = false;
 
@@ -141,20 +188,17 @@ class Files {
 
 
 				# Грузим апельсины бочками
-				foreach($filetype AS $ftype) {
-					if($_FILES[$file]['type'] == $ftype['type'] && $fileext == $ftype['ext']) {
+				if(array_key_exists($_FILES[$file]['type'], $allow_exts)) {
+					# Создаем имя файлу.
+					$filename['name'] = $this->create_filename($fileext, $prefix);
+					$filename['ext'] = $fileext;
+					$filename['real_name'] = $parse->escape_string(str_ireplace(".".$fileext, "", $_FILES[$file]['name']));
 
-						# Создаем имя файлу.
-						$filename['name'] = $this->create_filename($fileext, $prefix);
-						$filename['ext'] = $fileext;
-						$filename['real_name'] = $parse->escape_string(str_ireplace(".".$fileext, "", $_FILES[$file]['name']));
+					# Копируем файл
+					copy($_FILES[$file]['tmp_name'], $path."/".$filename['name']);
 
-						# Копируем файл
-						copy($_FILES[$file]['tmp_name'], $path."/".$filename['name']);
-
-						# Если загрузка прошла и файл на месте
-						if(!file_exists($path."/".$filename['name'])) $filename = false;
-					}
+					# Если загрузка прошла и файл на месте
+					if(!file_exists($path."/".$filename['name'])) $filename = false;
 				}
 			}
 			else {
@@ -174,26 +218,21 @@ class Files {
 
 				if(isset($_FILES[$file]['tmp_name'][$key]) && $_FILES[$file]['error'][$key] == 0) {
 
-
 					# Смотрим оригинальное расширение файла
 					$fileext = $this->check_ext($_FILES[$file]['name'][$key]);
 
-
 					# Грузим апельсины бочками
-					foreach($filetype AS $ftype) {
-						if($_FILES[$file]['type'][$key] == $ftype['type'] && $fileext == $ftype['ext']) {
+					if(array_key_exists($_FILES[$file]['type'][$key], $allow_exts)) {
+						// Создаем имя файлу.
+						$filename['name'] = $this->create_filename($fileext, $prefix);
+						$filename['ext'] = $fileext;
+						$filename['real_name'] = $parse->escape_string(str_ireplace(".".$fileext, "", $_FILES[$file]['name'][$key]));
 
-							// Создаем имя файлу.
-							$filename['name'] = $this->create_filename($fileext, $prefix);
-							$filename['ext'] = $fileext;
-							$filename['real_name'] = $parse->escape_string(str_ireplace(".".$fileext, "", $_FILES[$file]['name'][$key]));
+						// Копируем файл
+						copy($_FILES[$file]['tmp_name'][$key], $path."/".$filename['name']);
 
-							// Копируем файл
-							copy($_FILES[$file]['tmp_name'][$key], $path."/".$filename['name']);
-
-							// Если загрузка прошла и файл на месте
-							if(!file_exists($path."/".$filename['name'])) $filename = false;
-						}
+						// Если загрузка прошла и файл на месте
+						if(!file_exists($path."/".$filename['name'])) $filename = false;
 					}
 				}
 				else {
@@ -207,7 +246,6 @@ class Files {
 
 			if(isset($names) && count($names) > 0) return $names;
 			else return false;
-
 		}
 	}
 }

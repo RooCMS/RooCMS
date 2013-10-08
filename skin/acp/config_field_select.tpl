@@ -1,4 +1,4 @@
-<select name="{$field['name']}" class="f_input">
+<select name="{$field['name']}"  id="input_{$field['name']}" class="selectpicker show-tick" data-size="auto" data-width="50%">
 	{foreach from=$field['variants'] item=option}
 		<option value="{$option['value']}" {$option['selected']}>{$option['title']}</option>
 	{/foreach}

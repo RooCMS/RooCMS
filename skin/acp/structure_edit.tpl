@@ -1,104 +1,109 @@
-<form method="post" action="{$SCRIPT_NAME}?act=structure&part=edit&id={$data['id']}">
-	<div id="tabs">
-		<ul style="display: none;">
-			<li><a href="#structure">Редактировать страницу</a></li>
-		</ul>
-		<div id="structure">
-			<noscript><h2>Редактировать страницу</h2></noscript>
-			<table width="99%" border="0" cellpadding="1" cellspacing="0">
-				<tr>
-					<td width="30%" align="left" valign="middle">
-						<b>Название страницы:</b>
-						<span class="rem"><br />Будет использовано в теге title</span>
-					</td>
-					<td width="70%" align="right" valign="top">
-						<input type="text" name="title" class="f_input" value="{$data['title']}" required>
-					</td>
-				</tr>
-				<tr>
-					<td width="30%" align="left" valign="middle">
-						<b>Alias страницы:</b>
-						<span class="rem"><br />{if $data['id'] == 1}<b style="color: red;">Нельзя изменять алиас главной страницы!</b>{else}Должен быть обязательно уникальным.{/if}</span>
-					</td>
-					<td width="70%" align="right" valign="top">
-						<input type="text" name="alias" class="f_input" value="{$data['alias']}" required{if $data['id'] == 1} readonly{/if}>
-						<input type="hidden" name="old_alias" value="{$data['alias']}">
-					</td>
-				</tr>
-				<tr>
-					<td width="30%" align="left" valign="middle">
-						<b>Мета описание страницы:</b>
-					</td>
-					<td width="70%" align="right" valign="top">
-						<input type="text" name="meta_description" class="f_input" value="{$data['meta_description']}">
-					</td>
-				</tr>
-				<tr>
-					<td width="30%" align="left" valign="middle">
-						<b>Ключевые слова страницы:</b>
-					</td>
-					<td width="70%" align="right" valign="top">
-						<input type="text" name="meta_keywords" class="f_input" value="{$data['meta_keywords']}">
-					</td>
-				</tr>
-                <tr>
-                    <td width="30%" align="left" valign="middle">
-                        <b>NOINDEX:</b>
-                        <span class="rem"><br />Запрет на индексацию страницы поисковыми роботами.</span>
-                    </td>
-                    <td width="70%" align="right" valign="top">
-                        <span  class="buttonset">
-                            <input type="radio" name="noindex" value="0" id="flag_noindex_false"{if $data['noindex'] == 0} checked{/if}><label for="flag_noindex_false" style="color: #330000;">Индексировать страницу</label>
-                            <input type="radio" name="noindex" value="1" id="flag_noindex_true"{if $data['noindex'] == 1} checked{/if}><label for="flag_noindex_true" style="color: #003300;">Неиндексировать страницу</label>
-                        </span>
-                    </td>
-                </tr>
-				<tr>
-					<td width="30%" align="left" valign="middle">
-						Порядок расположения страницы в структуре:
-					</td>
-					<td width="70%" align="right" valign="top">
-						<input type="text" name="sort" class="f_input" value="{$data['sort']}">
-					</td>
-				</tr>
-				<tr>
-					<td width="30%" align="left" valign="middle">
-						<b>Тип страницы:</b>
-						<span class="rem"><br />Невозможно изменить после создания.</span>
-					</td>
-					<td width="70%" align="right" valign="middle">
-						<div style="width: 99%;text-align: left;"><span style="padding-left: 7px;"><b>{$page_types[$data['type']]}</b></span></div>
-					</td>
-				</tr>
-				<tr>
-					<td width="30%" align="left" valign="middle">
-						<b>Расположение страницы в структуре:</b>
-						<span class="rem"><br />Если у данной страницы есть подчиненные элементы, они перенесуться вместе с ней.<br />Вы не сможете поместить страницу в её дочерние элементы.</span>
-					</td>
-					<td width="70%" align="right" valign="top">
-						{if $data['id'] != 1}
-							<select name="parent_id" class="f_input" required>
-								{foreach from=$tree item=p}
-									<option value="{$p['id']}" required {if $p['id'] == $data['parent_id']}selected{/if}>{section name=level loop=$p['level']}&middot; {/section} {$p['title']} ({$p['alias']}) </option>
-								{/foreach}
-							</select>
-						{else}
-						<div style="width: 99%;text-align: left;"><span style="padding-left: 7px;"><b>Корневая страница</b></span></div>
-						<input type="hidden" name="parent_id" value="{$data['parent_id']}">
-						{/if}
-						<input type="hidden" name="now_parent_id" value="{$data['parent_id']}">
-					</td>
-				</tr>
-				<tr>
-					<td width="30%" align="left" valign="top">
+{* Шаблон редактирования структуры страницы *}
 
-					</td>
-					<td width="70%" align="right" valign="top">
-						<input type="hidden" name="empty" value="1">
-						<input type="submit" name="update_unit" class="f_submit" value="Сохранить страницу">
-					</td>
-				</tr>
-			</table>
+<h3>Редактириуем параметры страницы</h3>
+
+<form method="post" action="{$SCRIPT_NAME}?act=structure&part=edit&id={$data['id']}" role="form" class="form-horizontal">
+
+<div class="form-group">
+    <label for="inputTitle" class="col-lg-3 control-label">
+    	Название страницы: <small><span class="icon-info icon-fixed-width" rel="tooltip" title="Будет использовано в мета теге title." data-placement="right"></span></small>
+    </label>
+    <div class="col-lg-9">
+		<input type="text" name="title" id="inputTitle" class="form-control" required value="{$data['title']}">
+	</div>
+</div>
+
+<div class="form-group">
+    <label for="inputAlias" class="col-lg-3 control-label">
+    	Alias страницы:  <small><span class="icon-info icon-fixed-width" rel="tooltip" title="Должен быть обязательно уникальным." data-placement="right"></span></small>
+    </label>
+    <div class="col-lg-9">
+        {if $data['id'] == 1}
+        	<p class="text-danger form-control-static">Нельзя изменять алиас главной страницы!</p>
+			<input type="hidden" name="alias" class="f_input" value="{$data['alias']}" required readonly>
+		{else}
+			<input type="text" name="alias" id="inputAlias" class="form-control" required value="{$data['alias']}">
+		{/if}
+		<input type="hidden" name="old_alias" value="{$data['alias']}" readonly>
+	</div>
+</div>
+
+<div class="form-group">
+    <label for="inputMetaDesc" class="col-lg-3 control-label">
+    	Мета описание страницы:
+    </label>
+    <div class="col-lg-9">
+		<input type="text" name="meta_description" id="inputMetaDesc" class="form-control" value="{$data['meta_description']}">
+	</div>
+</div>
+
+<div class="form-group">
+    <label for="inputMetaKeys" class="col-lg-3 control-label">
+    	Ключевые слова страницы:
+    </label>
+    <div class="col-lg-9">
+		<input type="text" name="meta_keywords" id="inputMetaKeys" class="form-control" value="{$data['meta_keywords']}">
+	</div>
+</div>
+
+<div class="form-group">
+    <label for="inputNoindex" class="col-lg-3 control-label">
+    	NOINDEX: <small><span class="icon-info icon-fixed-width" rel="tooltip" title="Запрещает индексировать страницу поисковыми роботами." data-placement="right"></span></small>
+    </label>
+    <div class="col-lg-9">
+		<div class="btn-group" data-toggle="buttons">
+		  <label class="btn btn-default{if $data['noindex'] == 0} active{/if}">
+		    <input type="radio" name="noindex" value="0" id="flag_noindex_false"{if $data['noindex'] == 0} checked{/if}> Разрешить индексацию
+		  </label>
+		  <label class="btn btn-default{if $data['noindex'] == 1} active{/if}">
+		    <input type="radio" name="noindex" value="1" id="flag_noindex_true"{if $data['noindex'] == 1} checked{/if}> Запретить индексацию
+		  </label>
 		</div>
 	</div>
+</div>
+
+<div class="form-group">
+    <label for="inputSort" class="col-lg-3 control-label">
+    	Порядок расположения страницы в структуре:
+    </label>
+    <div class="col-lg-9">
+		<input type="text" name="sort" id="inputSort" class="form-control" value="{$data['sort']}">
+	</div>
+</div>
+
+<div class="form-group">
+    <label for="inputType" class="col-lg-3 control-label">
+    	Тип страницы:
+    </label>
+    <div class="col-lg-9">
+		<p class="form-control-static text-muted"><span class="label label-default">{$page_types[$data['type']]}</span> Невозможно изменить после создания.</p>
+	</div>
+</div>
+
+<div class="form-group">
+    <label for="inputStructure" class="col-lg-3 control-label">
+    	Расположение страницы в структуре:
+    </label>
+    <div class="col-lg-9">
+    	{if $data['id'] != 1}
+		<select name="parent_id" id="inputStructure" class="selectpicker show-tick" required data-header="Структура сайта" data-size="auto" data-live-search="true" data-width="50%">
+			{foreach from=$tree item=p}
+				<option value="{$p['id']}" data-subtext="{$p['alias']}" {if $p['id'] == $data['parent_id']}selected{/if}>{section name=level loop=$p['level']}&middot; {/section} {$p['title']}</option>
+			{/foreach}
+		</select>
+		{else}
+			<p class="text-primary form-control-static">Это корневая страница!</p>
+        	<input type="hidden" name="parent_id" value="{$data['parent_id']}" readonly>
+		{/if}
+		<input type="hidden" name="now_parent_id" value="{$data['parent_id']}" readonly>
+	</div>
+</div>
+
+<div class="form-group">
+    <div class="col-lg-9 col-md-offset-3">
+    	<input type="hidden" name="empty" value="1" readonly>
+		<input type="submit" name="update_unit" class="btn btn-success" value="Сохранить страницу">
+	</div>
+</div>
+
 </form>

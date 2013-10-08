@@ -6,19 +6,44 @@
 * @author		alex Roosso
 * @copyright	2010-2014 (c) RooCMS
 * @link			http://www.roocms.com
-* @version		1.2.1
+* @version		1.3.1
 * @since		$date$
-* @license		http://www.gnu.org/licenses/gpl-2.0.html
+* @license		http://www.gnu.org/licenses/gpl-3.0.html
+*/
+
+/**
+*	RooCMS - Russian free content managment system
+*   Copyright (C) 2010-2014 alex Roosso aka alexandr Belov info@roocms.com
 *
-*   This program is free software; you can redistribute it and/or modify
+*   This program is free software: you can redistribute it and/or modify
 *   it under the terms of the GNU General Public License as published by
-*   the Free Software Foundation; either version 2 of the License, or
+*   the Free Software Foundation, either version 3 of the License, or
 *   (at your option) any later version.
 *
-*   Данное программное обеспечение является свободным и распространяется
-*   по лицензии Фонда Свободного ПО - GNU General Public License версия 2.
-*   При любом использовании данного ПО вы должны соблюдать все условия
-*   лицензии.
+*   This program is distributed in the hope that it will be useful,
+*   but WITHOUT ANY WARRANTY; without even the implied warranty of
+*   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+*   GNU General Public License for more details.
+*
+*   You should have received a copy of the GNU General Public License
+*   along with this program.  If not, see <http://www.gnu.org/licenses/
+*
+*
+*   RooCMS - Русская бесплатная система управления сайтом
+*   Copyright (C) 2010-2014 alex Roosso (александр Белов) info@roocms.com
+*
+*   Это программа является свободным программным обеспечением. Вы можете
+*   распространять и/или модифицировать её согласно условиям Стандартной
+*   Общественной Лицензии GNU, опубликованной Фондом Свободного Программного
+*   Обеспечения, версии 3 или, по Вашему желанию, любой более поздней версии.
+*
+*   Эта программа распространяется в надежде, что она будет полезной, но БЕЗ
+*   ВСЯКИХ ГАРАНТИЙ, в том числе подразумеваемых гарантий ТОВАРНОГО СОСТОЯНИЯ ПРИ
+*   ПРОДАЖЕ и ГОДНОСТИ ДЛЯ ОПРЕДЕЛЁННОГО ПРИМЕНЕНИЯ. Смотрите Стандартную
+*   Общественную Лицензию GNU для получения дополнительной информации.
+*
+*   Вы должны были получить копию Стандартной Общественной Лицензии GNU вместе
+*   с программой. В случае её отсутствия, посмотрите http://www.gnu.org/licenses/
 */
 
 //#########################################################
@@ -41,26 +66,31 @@ $debug = new Debug;
 class Debug {
 
 	# vars
-	public $debug			= false;		# [bool] 	on/off debug mode
-	public $show_debug 		= false;		# [bool] 	show full debug text
-	public $debug_info 		= "";			# [text] 	buffer for debug info text
-	public $dev_mode		= false;		# [bool]	developer mode on/off [пока что не реализовано]
-	public $phpextensions	= array();			# [array]	Список установленных PHP расширений
-	public $nophpextensions = array();			# [array]	Список отсуствующих PHP приложений, требуемых для RooCMS
+	public	$show_debug 			= false;			# [bool] 	show full debug text
+	public	$debug_info 			= "";				# [text] 	buffer for debug info text
+	public	$phpextensions			= array();			# [array]	Список установленных PHP расширений
+	public	$nophpextensions		= array();			# [array]	Список отсуствующих PHP приложений, требуемых для RooCMS
+
+	private	$starttime				= 0;
+	public	$productivity_time		= 0;
+
+	private	$memory_usage			= 0;
+	public	$productivity_memory	= 0;
+	public	$memory_peak_usage		= 0;
 
 	# requirement
-	private $reqphpext		= array("Core",		# [array]	Обязательные php расширения для работы RooCMS
-									"calendar",
-									"date",
-									"pcre",
-									"session",
-									"xml",
-									"gd",
-									"mbstring",
-									"standard",
-									"SimpleXML",
-									"apache2handler",
-									"mysql");
+	private $reqphpext				= array("Core",		# [array]	Обязательные php расширения для работы RooCMS
+											"calendar",
+											"date",
+											"pcre",
+											"session",
+											"xml",
+											"gd",
+											"mbstring",
+											"standard",
+											"SimpleXML",
+											"apache2handler",
+											"mysql");
 
 
 	/**
@@ -72,13 +102,15 @@ class Debug {
 		# устанавливаем перехватчик ошибок
 		@set_error_handler(array('Debug','debug_error'), E_ALL);
 
-		# Если включен режим разработчика, автоматически включаем режим отладки
-		if($this->dev_mode) $this->debug =& $this->dev_mode;
+
+        if(!defined('DEBUGMODE')) 	define('DEBUGMODE', true);
+        if(!defined('DEVMODE')) 	define('DEVMODE', true);
+
 
         # Для админа всегода показываем ошибки и замеряем время выполнения RooCMS
-		if($this->debug || defined('ACP') || defined('INSTALL')) {
+		if(DEBUGMODE || defined('ACP') || defined('INSTALL')) {
 			# start Debug timer
-			$this->startTimer();
+			$this->start_productivity();
 
 			# Проверяем наличие требуемых PHP расширений
 			$this->check_phpextensions();
@@ -94,14 +126,16 @@ class Debug {
 	* Запускаем таймер подсчета времени выполнения скрипта
 	*
 	*/
-    public function startTimer() {
+    private function start_productivity() {
 
-		global $starttime;
-
-        $mtime = microtime ();
-        $mtime = explode (' ', $mtime);
+    	# timer
+        $mtime = STARTTIME;
+        $mtime = explode(' ', $mtime);
         $mtime = $mtime[1] + $mtime[0];
-        $starttime = $mtime;
+        $this->starttime = $mtime;
+
+        # memory
+        $this->memory_usage = MEMORYUSAGE;
     }
 
 
@@ -109,17 +143,20 @@ class Debug {
 	* Останавливаем таймер подсчета времени выполнения скрипта
 	*
 	*/
-    public function endTimer() {
+    public function end_productivity() {
 
-		global $starttime;
-
-        $mtime = microtime ();
-        $mtime = explode (' ', $mtime);
+    	# timer
+        $mtime = microtime();
+        $mtime = explode(' ', $mtime);
         $mtime = $mtime[1] + $mtime[0];
         $endtime = $mtime;
-        $totaltime = round (($endtime - $starttime), 4);
+        $totaltime = round(($endtime - $this->starttime), 4);
 
-		return $totaltime;
+		$this->productivity_time = $totaltime;
+
+		# memory
+		$this->productivity_memory 	= memory_get_usage() - $this->memory_usage;
+		$this->memory_peak_usage 	= memory_get_peak_usage();
     }
 
 
@@ -132,7 +169,7 @@ class Debug {
 		$this->phpextensions = get_loaded_extensions();
 
 		foreach($this->reqphpext AS $k=>$v) {
-			if(!in_array($v,$this->phpextensions)) $this->nophpextensions[] = $v;
+			if(!in_array($v, $this->phpextensions)) $this->nophpextensions[] = $v;
 		}
 	}
 
@@ -174,17 +211,19 @@ class Debug {
 
 
         // Записываем ошибку в файл
+        $file_error = _LOGS."/errors.log";
 		$subj = "";
-        $f = file(_LOGS."/errors.log");
-        foreach($f AS $v) {
-        	$subj .= $v;
+        if(file_exists($file_error)) {
+			$f = file($file_error);
+	        foreach($f AS $v) {
+        		$subj .= $v;
+	        }
         }
 
 		$subj .= date("d.m.Y H:i:s")."\t|\tPHPError\t|\t(".$errno.") ".$msg." (Строка: ".$line." в файле ".$file.")\r\n";
-        $ferror = _LOGS."/errors.log";
 
-		$f = fopen($ferror, "w+");
-		if(is_writable($ferror)) {
+		$f = fopen($file_error, "w+");
+		if(is_writable($file_error)) {
 			fwrite($f, $subj);
 		}
 		fclose($f);

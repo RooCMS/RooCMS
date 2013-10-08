@@ -6,21 +6,44 @@
 * @author       alex Roosso
 * @copyright    2010-2014 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      2.0.2
+* @version      2.1.1
 * @since        $date$
-* @license      http://www.gnu.org/licenses/gpl-2.0.html
+* @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
 
 /**
-*   This program is free software; you can redistribute it and/or modify
+*	RooCMS - Russian free content managment system
+*   Copyright (C) 2010-2014 alex Roosso aka alexandr Belov info@roocms.com
+*
+*   This program is free software: you can redistribute it and/or modify
 *   it under the terms of the GNU General Public License as published by
-*   the Free Software Foundation; either version 2 of the License, or
+*   the Free Software Foundation, either version 3 of the License, or
 *   (at your option) any later version.
 *
-*   Данное программное обеспечение является свободным и распространяется
-*   по лицензии Фонда Свободного ПО - GNU General Public License версия 2.
-*   При любом использовании данного ПО вы должны соблюдать все условия
-*   лицензии.
+*   This program is distributed in the hope that it will be useful,
+*   but WITHOUT ANY WARRANTY; without even the implied warranty of
+*   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+*   GNU General Public License for more details.
+*
+*   You should have received a copy of the GNU General Public License
+*   along with this program.  If not, see <http://www.gnu.org/licenses/
+*
+*
+*   RooCMS - Русская бесплатная система управления сайтом
+*   Copyright (C) 2010-2014 alex Roosso (александр Белов) info@roocms.com
+*
+*   Это программа является свободным программным обеспечением. Вы можете
+*   распространять и/или модифицировать её согласно условиям Стандартной
+*   Общественной Лицензии GNU, опубликованной Фондом Свободного Программного
+*   Обеспечения, версии 3 или, по Вашему желанию, любой более поздней версии.
+*
+*   Эта программа распространяется в надежде, что она будет полезной, но БЕЗ
+*   ВСЯКИХ ГАРАНТИЙ, в том числе подразумеваемых гарантий ТОВАРНОГО СОСТОЯНИЯ ПРИ
+*   ПРОДАЖЕ и ГОДНОСТИ ДЛЯ ОПРЕДЕЛЁННОГО ПРИМЕНЕНИЯ. Смотрите Стандартную
+*   Общественную Лицензию GNU для получения дополнительной информации.
+*
+*   Вы должны были получить копию Стандартной Общественной Лицензии GNU вместе
+*   с программой. В случае её отсутствия, посмотрите http://www.gnu.org/licenses/
 */
 
 //#########################################################
@@ -80,10 +103,17 @@ class ACP_INDEX {
 		global $tpl, $smarty;
 
 		$warn = array();
-		if(file_exists(ROOT."/install/index.php")) $warn[] = "Инсталятор RooCMS находится в корне сайта. В целях безопастности следует удалить инсталятор!";
+		if(file_exists(_SITEROOT."/install/index.php")) $warn[] = "Инсталятор RooCMS находится в корне сайта. В целях безопастности следует удалить инсталятор!";
+
+        $f = @file("http://version.roocms.com/index.php");
+
+        if($f && version_compare(ROOCMS_VERSION, $f[0], "<")) $warn[] = "Внимание! Вышла новая версия <b>RooCMS {$f[0]}</b>. Рекомендуем обновить ваш сайт до последней версии.
+        																<br />Что бы скачать дистрибутив последней версии перейдите по <a href='http://www.roocms.com/download.php' target='_blank' class='text-info'>ссылке</a>";
 
 		$info = array();
 		$info['roocms'] = ROOCMS_VERSION;
+		if($f) $info['last_stable'] = $f[0];
+
 
 		# draw
 		$smarty->assign('part_title', 	'Сводка по сайту');
@@ -113,7 +143,8 @@ class ACP_INDEX {
 		$version['php'] 	= PHP_VERSION;						// Версия php
 		$version['zend']	= zend_version();					// Версия Zend
 		$version['apache'] 	= $_SERVER['SERVER_SOFTWARE'];		// Версия сервера
-		$version['os']		= PHP_OS; 							// ОС
+		$version['os']		= php_uname("s")." (".PHP_OS.")"; 	// ОС
+		$version['uname']	= php_uname(); 						// UNAME
 		$version['roocms']	= ROOCMS_VERSION;					// RooCMS
 
 		$version['pid']		= PEAR_INSTALL_DIR; 				// Директория установки PEAR расширений
@@ -125,7 +156,7 @@ class ACP_INDEX {
 		$version['sa']		= $_SERVER["SERVER_ADDR"]; 			// Адрес сервера
 		$version['sp']		= $_SERVER["SERVER_PROTOCOL"]; 		// Протокол сервера
 		$version['ra']		= $_SERVER["REMOTE_ADDR"]; 			// Адрес клиента
-		$version['docroot']	= $_SERVER["DOCUMENT_ROOT"]; 		// Путь к документам на сервере
+		$version['docroot']	= _SITEROOT; 						// Путь к документам на сервере
 
 		$version['ml']		= ini_get('memory_limit');			// Memory limit
 		$version['mfs']		= ini_get('upload_max_filesize');	// Maximum file size
