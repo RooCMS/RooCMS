@@ -3,8 +3,8 @@
 - Автор:	alex Roosso
 - Сайт:		http://www.roocms.com
 - Контакт:	info@roocms.com
-- Лицензия c версии 1.0.11:		GNU GPL v3 (текст лицензии в файле license_original)
-- Лицензия до версии 1.0.11:	GNU GPL v2
+- Лицензия c версии 1.1.0:		GNU GPL v3 (текст лицензии в файле license_original)
+- Лицензия до версии 1.1.0:	GNU GPL v2
 
 
 
