@@ -24,11 +24,6 @@
 <link href="favicon.ico" 	rel="icon" 			type="image/x-icon" />
 <link href="favicon.ico" 	rel="shortcut icon" type="image/x-icon" />
 
-<!-- seo -->
-<meta name="google-site-verification" 	content="4yncfVL_W31VKPYG3A45jt5tuDPHjrP-ytDtIdz-Yys" />
-<meta name='yandex-verification' 		content='60ea4e7aaa8b83ec' />
-<!-- /seo -->
-
 <base href="{if trim($site['domain']) != ""}{$site['domain']}{else}http://{$smarty.server.SERVER_NAME}{/if}" /><!--[if IE]></base><![endif]-->
 
 {if !empty($rsslink)}

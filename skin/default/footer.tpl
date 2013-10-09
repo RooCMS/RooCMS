@@ -7,7 +7,6 @@
 		<img src="{$SKIN}/img/ribbon/complite_firefox.png" width="88" height="15" alt="Сайт оптимизирован под Firefox" title="Сайт оптимизирован под Firefox">
 		<br />
 
-		<br />{include file='counters.tpl'}
 	</footer>
 </div>
 </body>
