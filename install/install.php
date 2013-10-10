@@ -221,7 +221,10 @@ class Install extends Requirement{
 				fclose($ecf);
 
 				# уведомление
-				$parse->msg("Данные успешно записаны<br />Название сайта - ".$POST->site_title."<br />Адрес сайта - ".$POST->site_domain."<br />E-mail администратора - ".$POST->site_sysemail, true);
+				$parse->msg("Данные успешно записаны:", true);
+				$parse->msg("Название сайта - ".$POST->site_title, true);
+				$parse->msg("Адрес сайта - ".$POST->site_domain, true);
+				$parse->msg("E-mail администратора - ".$POST->site_sysemail, true);
 
 				# переход next step
 				go(SCRIPT_NAME."?step=5");
