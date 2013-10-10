@@ -6,7 +6,7 @@
 * @author       alex Roosso
 * @copyright    2010-2014 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.0.8
+* @version      1.0.9
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -139,12 +139,12 @@ class RSS {
 
 	public function set_header_link($rsslink = SCRIPT_NAME) {
 
-		global $parse;
+		global $config, $parse;
 
 		if(trim($parse->uri) != "") $rsslink .= $parse->uri."&export=RSS";
 		else $rsslink .= "?export=RSS";
 
-		$this->rss_link = $parse->transform_uri($rsslink);
+		if($config->rss_power) $this->rss_link = $parse->transform_uri($rsslink);
 	}
 
 

@@ -6,7 +6,7 @@
 * @author       alex Roosso
 * @copyright    2010-2014 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.2.3
+* @version      1.2.4-b
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -101,11 +101,13 @@ class Structure {
 
 			# init page vars
 			if(isset($GET->_page)) {
-				$q = $db->query("SELECT id, page_id, parent_id, alias, title, meta_description, meta_keywords, noindex, type, rss, items_per_page, items FROM ".STRUCTURE_TABLE." WHERE id='".$GET->_page."' OR alias='".$GET->_page."'");
+				$where = (is_numeric($GET->_page)) ? "id='".$GET->_page."'" : "alias='".$GET->_page."'" ;
+
+				# запрос
+				$q = $db->query("SELECT id, page_id, parent_id, alias, title, meta_description, meta_keywords, noindex, type, rss, items_per_page, items FROM ".STRUCTURE_TABLE." WHERE ".$where);
 				$row = $db->fetch_assoc($q);
 				if(!empty($row)) $this->set_page_vars($row);
-				# load index page
-				else {
+				else {	# load index page
 					$q = $db->query("SELECT id, page_id, parent_id, alias, title, meta_description, meta_keywords, noindex, type, rss, items_per_page, items FROM ".STRUCTURE_TABLE." WHERE id='".PAGEID."'");
 					$row = $db->fetch_assoc($q);
 					$this->set_page_vars($row);
@@ -141,6 +143,7 @@ class Structure {
 		global $db;
 		static $use = false;
 
+		# Делаем единичный запрос в БД собирая данные по структуре сайта.
 		if(!$use) {
 			$q = $db->query("SELECT id, alias, parent_id, sort, title, noindex, type, childs, page_id, rss, items_per_page, items FROM ".STRUCTURE_TABLE." ORDER BY sort ASC");
 			while($row = $db->fetch_assoc($q)) {
@@ -164,7 +167,7 @@ class Structure {
 
 
 	/**
-	* Собираем дерево "помощи" (шаг 2)
+	* Собираем дерево "сайта" (шаг 2)
 	*
 	* @param array $unit - массив данных "дерева"
 	* @param int $parent - идентификатор родителя от которого расчитываем "дерево". Указываем его только если хотим не все дерево расчитать, а лишь его часть

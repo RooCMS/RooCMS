@@ -7,7 +7,7 @@
 * @author       alex Roosso
 * @copyright    2010-2014 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.3
+* @version      1.3.1
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -71,16 +71,21 @@ class ACP_FEEDS_FEED {
     }
 
 
-	/* ####################################################
-	 *		Edit Settings
-	 */
+	/**
+	* Действия для редактирования настроек ленты
+	*
+	* @param int $id - Идентификатор ленты
+	*/
 	function settings($id) {
 
-		global $db, $tpl, $smarty, $GET;
+		global $db, $config, $tpl, $smarty, $GET;
 
 		if($db->check_id($GET->_page, STRUCTURE_TABLE, "id", "type='feed'")) {
 			$q = $db->query("SELECT id, rss, items_per_page FROM ".STRUCTURE_TABLE." WHERE id='".$GET->_page."'");
 			$feed = $db->fetch_assoc($q);
+
+			# Уведомление о глобальном отключении RSS лент
+			$feed['rss_warn'] = (!$config->rss_power) ? true : false ;
 
 			$smarty->assign("feed",$feed);
 

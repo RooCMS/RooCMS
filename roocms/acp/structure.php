@@ -6,7 +6,7 @@
 * @author       alex Roosso
 * @copyright    2010-2014 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.3.1
+* @version      1.3.2
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -153,7 +153,7 @@ class ACP_STRUCTURE {
             $POST->alias = strtr($POST->alias, array('-'=>'_','='=>'_'));
 
             # а так же проверяем что бы алиас не оказался числом
-            if(is_numeric($POST->alias)) $POST->alias = randcode(3, "abcdefghijklmnopqrstuvwxyz").$POST->alias;
+            if(is_numeric($POST->alias)) $POST->alias .= randcode(3, "abcdefghijklmnopqrstuvwxyz");
         }
 
 		if(!isset($POST->title) || trim($POST->title) == "") 								$parse->msg("Не указано название страницы.", false);
@@ -229,7 +229,7 @@ class ACP_STRUCTURE {
             $POST->alias = strtr($POST->alias, array('-'=>'_','='=>'_'));
 
             # а так же проверяем что бы алиас не оказался числом
-            if(is_numeric($POST->alias)) $POST->alias = randcode(3, "abcdefghijklmnopqrstuvwxyz").$POST->alias;
+            if(is_numeric($POST->alias)) $POST->alias .= randcode(3, "abcdefghijklmnopqrstuvwxyz");
         }
 
 		# Проверяем на ошибки

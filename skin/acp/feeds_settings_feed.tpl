@@ -16,6 +16,7 @@
 			    <input type="radio" name="rss" value="0" id="flag_rss_off"{if $feed['rss'] == 0} checked{/if}> Выкл
 			  </label>
 			</div>
+			{if $feed['rss_warn']}<p class="text-warning">Внимание! RSS ленты не будут отображаться, потому что запрещены по всему сайту. Вы можете отменить запрет в <a href="{$SCRIPT_NAME}?act=config&part=rss">настройках сайта</a>.</p>{/if}
 		</div>
 	</div>
 	<div class="form-group">
