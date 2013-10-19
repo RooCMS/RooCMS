@@ -6,7 +6,7 @@
 * @author       alex Roosso
 * @copyright    2010-2014 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.2.4-b
+* @version      1.3
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -57,26 +57,26 @@ class Structure {
 
 	# vars
 	public $page_types	= array('html'	=> array('enable'	=> true, 'title'	=> 'HTML страница'),
-								'php'	=> array('enable'	=> true, 'title'	=> 'PHP страница'),
-								'feed'	=> array('enable'	=> true, 'title'	=> 'Лента'));
+					'php'	=> array('enable'	=> true, 'title'	=> 'PHP страница'),
+					'feed'	=> array('enable'	=> true, 'title'	=> 'Лента'));
 
 	public $mites		= array();
 
 	public $sitetree	= array();
 
 	# page vars
-	public $page_id				= 1;							# [int]		page id
-	public $page_pid			= 1;							# [int]		id content
-	public $page_parent			= 0;							# [int]		Parent id
-	public $page_alias			= "index";						# [string]	alias name
-	public $page_title			= "Добро пожловать [RooCMS]";	# [string]	title page
-	public $page_meta_desc		= "";							# [string]	Meta description
-	public $page_meta_keys		= "";							# [string]	Meta keywords
-	public $page_noindex		= 0;							# [bool?]	Meta noindex
-	public $page_type			= "html";						# [string]	page type
-	public $page_rss			= 0;							# [bool?]	on/off RSS feed
-	public $page_items_per_page	= 10;							# [int]		show items on per page
-	public $page_items			= 0;							# [int]		show amount items on feed
+	public $page_id			= 1;				# [int]		page id
+	public $page_pid		= 1;				# [int]		id content
+	public $page_parent		= 0;				# [int]		Parent id
+	public $page_alias		= "index";			# [string]	alias name
+	public $page_title		= "Добро пожловать [RooCMS]";	# [string]	title page
+	public $page_meta_desc		= "";				# [string]	Meta description
+	public $page_meta_keys		= "";				# [string]	Meta keywords
+	public $page_noindex		= 0;				# [bool?]	Meta noindex
+	public $page_type		= "html";			# [string]	page type
+	public $page_rss		= 0;				# [bool?]	on/off RSS feed
+	public $page_items_per_page	= 10;				# [int]		show items on per page
+	public $page_items		= 0;				# [int]		show amount items on feed
 
 
 
@@ -94,8 +94,8 @@ class Structure {
 		if($tree)
         	$this->sitetree = $this->load_tree();
 
-        # user interface loaded
-        if($ui) {
+        	# user interface loaded
+        	if($ui) {
 			# const for default structure id
 			if(!defined('PAGEID')) define('PAGEID', $this->page_id);
 
@@ -131,13 +131,13 @@ class Structure {
 	}
 
 
-	/**
-	* Собираем дерево "сайта" (шаг 1)
-	*
-	* @param int $parent - идентификатор родителя от которого расчитываем "дерево". Указываем его только если хотим не все дерево расчитать, а лишь его часть
-	* @param int $maxlevel - указываем уровень глубины построения дерева, только если не хотим выводить все дерево.
-	* @param boolean $child - укажите false если не хотите расчитывать подуровни.
-	*/
+        /**
+        * Собираем дерево "сайта" (шаг 1)
+        *
+        * @param int $parent - идентификатор родителя от которого расчитываем "дерево". Указываем его только если хотим не все дерево расчитать, а лишь его часть
+        * @param int $maxlevel - указываем уровень глубины построения дерева, только если не хотим выводить все дерево.
+        * @param boolean $child - укажите false если не хотите расчитывать подуровни.
+        */
 	public function load_tree($parent=0, $maxlevel=0, $child=true) {
 
 		global $db;
@@ -148,7 +148,7 @@ class Structure {
 			$q = $db->query("SELECT id, alias, parent_id, sort, title, noindex, type, childs, page_id, rss, items_per_page, items FROM ".STRUCTURE_TABLE." ORDER BY sort ASC");
 			while($row = $db->fetch_assoc($q)) {
 				$row['level']	= 0;
-				$tree[] 		= $row;
+				$tree[] 	= $row;
 			}
 
 			$use = true;
@@ -166,16 +166,16 @@ class Structure {
 	}
 
 
-	/**
-	* Собираем дерево "сайта" (шаг 2)
-	*
-	* @param array $unit - массив данных "дерева"
-	* @param int $parent - идентификатор родителя от которого расчитываем "дерево". Указываем его только если хотим не все дерево расчитать, а лишь его часть
-	* @param int $maxlevel - указываем уровень глубины построения дерева, только если не хотим выводить все дерево.
-	* @param boolean $child - укажите false если не хотите расчитывать подуровни.
-	* @param int $level - текущий обрабатываемый уровень (используется прирасчете дочерних страниц)
-	*/
-	private function construct_tree($unit, $parent=0, $maxlevel=0, $child=true, $level=0) {
+        /**
+        * Собираем дерево "сайта" (шаг 2)
+        *
+        * @param array $unit - массив данных "дерева"
+        * @param int $parent - идентификатор родителя от которого расчитываем "дерево". Указываем его только если хотим не все дерево расчитать, а лишь его часть
+        * @param int $maxlevel - указываем уровень глубины построения дерева, только если не хотим выводить все дерево.
+        * @param boolean $child - укажите false если не хотите расчитывать подуровни.
+        * @param int $level - текущий обрабатываемый уровень (используется прирасчете дочерних страниц)
+        */
+	private function construct_tree(array $unit, $parent=0, $maxlevel=0, $child=true, $level=0) {
 
 		# create array
 		if($level == 0) $tree = array();
@@ -202,39 +202,39 @@ class Structure {
 	}
 
 
-	/**
-	* Устанавливает основные переменные класса
-	* В так же передает в шаблоны глобальные перенменные:
-	*   Идентификатор структурной еденицы
-	*   Алиас структурной еденицы
-	*   Заголовок структурной еденицы
-	*
-	* @param array $data - параметры вызванной страницы
-	*/
+        /**
+        * Устанавливает основные переменные класса
+        * В так же передает в шаблоны глобальные перенменные:
+        *   Идентификатор структурной еденицы
+        *   Алиас структурной еденицы
+        *   Заголовок структурной еденицы
+        *
+        * @param array $data - параметры вызванной страницы
+        */
 	private function set_page_vars($data) {
 
 		global $config, $smarty;
 
-        # set vars
-		$this->page_id 				= $data['id'];
-		$this->page_pid 			= $data['page_id'];
-		$this->page_parent 			= $data['parent_id'];
-		$this->page_alias 			= $data['alias'];
-		$this->page_title 			= $data['title'];
+        	# set vars
+		$this->page_id 			= $data['id'];
+		$this->page_pid 		= $data['page_id'];
+		$this->page_parent 		= $data['parent_id'];
+		$this->page_alias 		= $data['alias'];
+		$this->page_title 		= $data['title'];
 		if(isset($config->meta_description))
 			$this->page_meta_desc 	= (trim($data['meta_description']) != "") ? $data['meta_description'] : $config->meta_description;
 		if(isset($config->meta_keywords))
 			$this->page_meta_keys 	= (trim($data['meta_keywords']) != "") ? $data['meta_keywords'] : $config->meta_keywords;
-        $this->page_noindex         = $data['noindex'];
-		$this->page_type 			= $data['type'];
-		$this->page_rss 			= $data['rss'];
+        	$this->page_noindex		= $data['noindex'];
+		$this->page_type 		= $data['type'];
+		$this->page_rss 		= $data['rss'];
 		$this->page_items_per_page 	= $data['items_per_page'];
-		$this->page_items 			= $data['items'];
+		$this->page_items 		= $data['items'];
 
-        # set smarty vars
-        $smarty->assign("page_id",      $data['id']);
-        $smarty->assign("page_alias",   $data['alias']);
-        $smarty->assign("page_title",   $data['title']);
+                # set smarty vars
+                $smarty->assign("page_id",      $data['id']);
+                $smarty->assign("page_alias",   $data['alias']);
+                $smarty->assign("page_title",   $data['title']);
 	}
 
 
@@ -247,42 +247,15 @@ class Structure {
 		if($id != 1) {
 			foreach($this->sitetree AS $k=>$v) {
 				if($v['id'] == $id) {
-					$this->mites[] = array('id'		=> $v['id'],
-										   'alias'	=> $v['alias'],
-										   'title'	=> $v['title']);
+					$this->mites[] = array('id'	=> $v['id'],
+							       'alias'	=> $v['alias'],
+							       'title'	=> $v['title']);
 
 					if($v['parent_id'] != 0) $this->construct_mites($v['parent_id']);
 				}
 			}
 		}
 	}
-
-
-	/**
-	* Загружаем присоедененные изображения
-	*
-	* @param string $where - параметр указывающий на элемент к которому прикреплены изображения
-	* @param int $from - стартовая позиция для загрузки изображений
-	* @param int $limit - лимит загружаемых изображений
-	*
-	* @return array $data - массив с данными об изображениях.
-	*/
-	public function load_images($where, $from = 0, $limit = 0) {
-
-		global $db;
-
-		$data = array();
-
-		$l = ($limit != 0) ? "LIMIT ".$from.",".$limit : "" ;
-
-		$q = $db->query("SELECT id, filename, sort, alt FROM ".IMAGES_TABLE." WHERE attachedto='".$where."' ORDER BY sort ASC ".$l);
-		while($img = $db->fetch_assoc($q)) {
-			$data[] = $img;
-		}
-
-		return $data;
-	}
-
 }
 
 ?>

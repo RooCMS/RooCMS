@@ -6,13 +6,13 @@
 * @author       alex Roosso
 * @copyright    2010-2014 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.0.33
+* @version      1.1.3
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
 
 /**
-*	RooCMS - Russian free content managment system
+*   RooCMS - Russian free content managment system
 *   Copyright (C) 2010-2014 alex Roosso aka alexandr Belov info@roocms.com
 *
 *   This program is free software: you can redistribute it and/or modify
@@ -53,7 +53,7 @@ if(!defined('RooCMS')) die('Access Denied');
 //#########################################################
 
 
-//	Parser data class :: $_POST / $_GET && other input data
+# Parser data class :: $_POST / $_GET && other input data
 
 $parse 	= new Parser;
 $GET	=& $parse->Get;
@@ -62,26 +62,26 @@ $POST	=& $parse->Post;
 class Parser {
 
 	# included classes
-	public 	$text;						# [obj]		for parsing texts
-	public 	$date;						# [obj]		for parsing date format
-	public	$xml;						# [obj]		for parsing xml data
+	public 	$text;				# [obj]		for parsing texts
+	public 	$date;				# [obj]		for parsing date format
+	public	$xml;				# [obj]		for parsing xml data
 
 	# objects
-	public 	$Post;						# [obj]		$_POST data
-	public 	$Get;						# [obj]		$_GET data
+	public 	$Post;				# [obj]		$_POST data
+	public 	$Get;				# [obj]		$_GET data
 
 	# params
-	public 	$uri			= "";		# [string]	URI
-	public	$uri_chpu		= false;	# [bool]	on/off flag for use (как ЧПУ по аглицки будет?)
+	public 	$uri		= "";		# [string]	URI
+	public	$uri_chpu	= false;	# [bool]	on/off flag for use (как ЧПУ по аглицки будет?)
 	public	$uri_separator	= "";		# [string]	URI seperator
 
 	# уведомление
-	public	$info			= "";		# [text]	information
-	public	$error			= "";		# [text]	error message
+	public	$info		= "";		# [text]	information
+	public	$error		= "";		# [text]	error message
 
 	# arrays
-	private $post 			= array();	# [array]
-	private $get 			= array();	# [array]
+	private $post 		= array();	# [array]
+	private $get 		= array();	# [array]
 
 
 
@@ -132,8 +132,8 @@ class Parser {
 	*/
 	function parse_global() {
 
-		if(!empty($_GET)) 		$this->parse_Get();
-		if(!empty($_POST)) 		$this->parse_Post();
+		if(!empty($_GET)) 	$this->parse_Get();
+		if(!empty($_POST)) 	$this->parse_Post();
 
 		# init session data
 		if(!empty($_SESSION))	$this->get_session();
@@ -202,7 +202,6 @@ class Parser {
 
 			eval($class_get);
 		}
-
 	}
 
 
@@ -300,8 +299,8 @@ class Parser {
 
 		if($this->uri_chpu) {
 			$url = strtr($url, array('?' => '/',
-									 '&' => '/',
-									 '=' => $this->uri_separator));
+						 '&' => '/',
+						 '=' => $this->uri_separator));
 		}
 
 		return $url;
@@ -316,7 +315,7 @@ class Parser {
 
 		global $db;
 
-		#	Страницы
+		# Страницы
 		if(isset($this->Get->_pg)) {
 			$db->page = floor($this->Get->_pg);
 		}
@@ -366,12 +365,12 @@ class Parser {
 	//#####################################################
 	// Escape special String
 	public function escape_string($string, $key=true) {
-		global $db, $debug;
+		global $db;
 
 		//$string = str_ireplace('"','',$string);
 		if(!is_array($string)) {
-			if($key) 	$string = str_replace('\\','',$string);
-			else 		$string = addslashes($string);
+			if($key)	$string = str_replace('\\','',$string);
+			else		$string = addslashes($string);
 			$string = $db->escape_string($string);
 			$string = trim($string);
 		}
@@ -396,6 +395,7 @@ class Parser {
 				# Чистим ключ
 				$key	= str_replace("'","",$key);
 				$key 	= $this->escape_string($key);
+
 				# Чистим значение
 				$value 	= $this->escape_string($value, false);
 
@@ -409,13 +409,38 @@ class Parser {
 
 
 	/**
-	* Check Valid Mail
+	* Проверка на email на валидность
 	*
 	* @param string $email - email
+	*
 	*/
 	function valid_email($email) {
-		if(preg_match('/^[\.\-_A-Za-z0-9]+?@[\.\-A-Za-z0-9]+?\.[A-Za-z0-9]{2,6}$/',$email)==1)
-			return true;
+
+		$pattern = '/^[\.\-_A-Za-z0-9]+?@[\.\-A-Za-z0-9]+?\.[A-Za-z0-9]{2,6}$/';
+
+		$email = trim($email);
+		if(preg_match($pattern, $email)) return true;
+		else return false;
+	}
+
+
+	/**
+	* Проверка телефонного номера на валидность
+	* Валидацию пройдут номера:
+	* 	Код страны с плюсом и без, без кода страны
+	* 	Код города от 3 до 5 символов в скобках и без скобок
+	* 	Номер телефона от 5 до 7 цифр
+	* 	Дефисы и пробелы учитываются, но не обязательны
+	*
+	* @param mixed $phone - номер введеного телефона
+	*
+	*/
+	function valid_phone($phone){
+
+		$pattern = "/^[\+]?[0-9]?(\s)?(\-)?(\s)?(\()?[0-9]{3,5}(\))?(\s)?(\-)?(\s)?[0-9]{1,3}(\s)?(\-)?(\s)?[0-9]{2}(\s)?(\-)?(\s)?[0-9]{2}\Z/";
+
+		$phone = trim($phone);
+		if(preg_match($pattern, $phone)) return true;
 		else return false;
 	}
 
@@ -457,30 +482,19 @@ class Parser {
 	}
 
 
-/* 	function txt2uri($txt,$sep='_') {
-		$rus = Array('А','Б','В','Г','Д','Е','Ё','Ж','З','И','Й','К',
-		'Л','М','Н','О','П','Р','С','Т','У','Ф','Х','Ц','Ч','Ш','Щ',
-		'Ь','Ы','Ъ','Э','Ю','Я','а','б','в','г','д','е','ё','ж','з',
-		'и','й','к','л','м','н','о','п','р','с','т','у','ф','х','ц',
-		'ч','ш','щ','ь','ы','ъ','э','ю','я',' ');
-		$eng = Array('a','b','v','g','d','e','yo','j','z','i','y','k',
-		'l','m','n','o','p','r','s','t','u','f','h','c','ch','sh','csh',
-		'','i','','e','yu','ya','a','b','v','g','d','e','yo','j','z',
-		'i','y','k','l','m','n','o','p','r','s','t','u','f','h','c',
-		'ch','sh','csh','','i','','e','yu','ya',$sep);
-		$txt = str_replace($rus,$eng,trim($txt));
-		$txt = mb_strtolower($txt);
-		$txt = preg_replace("/[^(a-z0-9\-_ )]+/","",$txt);
-		return $txt;
-	}
-
+	/**
+	* В разработке
+	*
+	* @param mixed $url
+	* @return mixed
+	*/
 	function prep_url($url) {
 		if($url=='' || $url=='http://' || $url=='https://')
 			return '';
 		if(mb_substr($url,0,7)!='http://' && mb_substr($url,0,8)!='https://')
 			$url = 'http://'.$url;
 		return $url;
-	} */
+	}
 
 
 	/**
@@ -488,6 +502,7 @@ class Parser {
 	*
 	* @param int $n     - %
 	* @param int $from  - Число из которого вычесляем %
+	*
 	*/
  	public function percent($n,$from) {
 
@@ -509,18 +524,26 @@ class Parser {
 		}
 
 		return array(	"r" => hexdec(mb_substr($hexcolor, 1, 2)),
-						"g" => hexdec(mb_substr($hexcolor, 3, 2)),
-						"b" => hexdec(mb_substr($hexcolor, 5, 2)));
+				"g" => hexdec(mb_substr($hexcolor, 3, 2)),
+				"b" => hexdec(mb_substr($hexcolor, 5, 2))
+			    );
 	}
 
 
-	//#########################################################
-	// one two one two check my microphone
+	/**
+	* Browser detect
+	*
+	* @param string $browser - [ie|opera|mozilla|firebird|firefox|konqueror|camino|safari|webtv|webkit|netscape|mac]
+	* @param int $version
+	*
+	* @return int $version OR bool false
+	*/
 	public function browser($browser, $version = 0) {
 		static $is;
 		if (!is_array($is))	{
 
 			$useragent = mb_strtolower($_SERVER['HTTP_USER_AGENT']);
+
 			$is = array(
 				'opera'     => 0,
 				'ie'        => 0,
@@ -533,13 +556,18 @@ class Parser {
 				'webkit'    => 0,
 				'webtv'     => 0,
 				'netscape'  => 0,
-				'mac'       => 0
+				'mac'       => 0,
+				'chrome'    => 0
 			);
 
 			# detect opera
 			if (mb_strpos($useragent, 'opera', 0, 'utf8') !== false) {
 				preg_match('#opera(/| )([0-9\.]+)#', $useragent, $regs);
-				$is['opera'] = $regs[2];
+				if($regs[2] == "9.80")	{
+                                	preg_match('#version/([0-9\.]+)#', $useragent, $regs);
+                                	$is['opera'] = $regs[1];
+				}
+				else $is['opera'] = $regs[2];
 			}
 
 			# detect internet explorer
@@ -553,8 +581,14 @@ class Parser {
 				$is['mac'] = 1;
 			}
 
+			# detect chrome
+			if (mb_strpos($useragent, 'chrome', 0, 'utf8') !== false) {
+				preg_match('#chrome/([0-9\.]+)#', $useragent, $regs);
+				$is['chrome'] = $regs[1];
+			}
+
 			# detect safari
-			if (mb_strpos($useragent, 'applewebkit', 0, 'utf8') !== false) {
+			if (mb_strpos($useragent, 'applewebkit', 0, 'utf8') !== false AND !$is['chrome']) {
 				preg_match('#applewebkit/([0-9\.]+)#', $useragent, $regs);
 				$is['webkit'] = $regs[1];
 
@@ -571,14 +605,14 @@ class Parser {
 			}
 
 			# detect mozilla
-			if (mb_strpos($useragent, 'gecko', 0, 'utf8') !== false AND !$is['safari'] AND !$is['konqueror']) {
-				// See bug #26926, this is for Gecko based products without a build
+			if (mb_strpos($useragent, 'gecko', 0, 'utf8') !== false AND !$is['safari'] AND !$is['konqueror'] AND !$is['chrome']) {
+				# detect mozilla
 				$is['mozilla'] = 20090105;
 				if (preg_match('#gecko/(\d+)#', $useragent, $regs)) {
 					$is['mozilla'] = $regs[1];
 				}
 
-				// detect firebird / firefox
+				# detect firebird / firefox
 				if (mb_strpos($useragent, 'firefox', 0, 'utf8') !== false OR mb_strpos($useragent, 'firebird', 0, 'utf8') !== false OR mb_strpos($useragent, 'phoenix', 0, 'utf8') !== false) {
 					preg_match('#(phoenix|firebird|firefox)( browser)?/([0-9\.]+)#', $useragent, $regs);
 					$is['firebird'] = $regs[3];
@@ -607,12 +641,6 @@ class Parser {
 			}
 		}
 
-		# sanitize the incoming browser name
-		$browser = mb_strtolower($browser);
-		if (mb_substr($browser, 0, 3) == 'is_') {
-			$browser = mb_substr($browser, 3);
-		}
-
 		# return the version number of the detected browser if it is the same as $browser
 		if ($is["{$browser}"]) {
 			# $version was specified - only return version number if detected version is >= to specified $version
@@ -627,7 +655,7 @@ class Parser {
 		}
 
 		# if we got this far, we are not the specified browser, or the version number is too low
-		return 0;
+		return false;
 	}
 }
 

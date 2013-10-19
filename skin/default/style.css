@@ -18,6 +18,9 @@ small, button, .btn, .label, .badge {font-family: 'PT Sans' !important;}
 
 p {text-align: justify;}
 
+*:hover, .table-hover>tbody>tr:hover>td, .table-hover>tbody>tr:hover>th {
+	transition: all 0.20s ease-in-out;-webkit-transition: all 0.20s ease-in-out;-moz-transition: all 0.20s ease-in-out;outline:none;
+}
 
 /* Fonts */
 @font-face { font-family: 'Ubuntu'; font-style: normal; font-weight: 400; src: local('Ubuntu'), url('Ubuntu.woff') format('woff'); }

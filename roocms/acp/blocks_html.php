@@ -7,13 +7,13 @@
 * @author       alex Roosso
 * @copyright    2010-2014 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.2.1
+* @version      1.3.1
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
 
 /**
-*	RooCMS - Russian free content managment system
+*   RooCMS - Russian free content managment system
 *   Copyright (C) 2010-2014 alex Roosso aka alexandr Belov info@roocms.com
 *
 *   This program is free software: you can redistribute it and/or modify
@@ -56,26 +56,11 @@ if(!defined('RooCMS') || !defined('ACP')) die('Access Denied');
 
 class ACP_BLOCKS_HTML {
 
-    # vars
-    private $structure;
-
-
-
-    /**
-    * Инициализируем класс
-    *
-    */
-    function __construct() {
-		require_once _CLASS."/class_structure.php";
-		$this->structure = new Structure(false, false);
-    }
-
-
 	//#####################################################
 	//	Create
 	function create() {
 
-		global $db, $tpl, $smarty, $parse, $POST, $gd;
+		global $db, $img, $tpl, $smarty, $parse, $POST;
 
 		if(@$_REQUEST['create_block']) {
 
@@ -85,16 +70,15 @@ class ACP_BLOCKS_HTML {
 
 			if(!isset($_SESSION['error'])) {
 				$db->query("INSERT INTO ".BLOCKS_TABLE."   (title, alias, content, date_create, date_modified, type)
-													VALUES ('".$POST->title."', '".$POST->alias."', '".$POST->content."', '".time()."', '".time()."', 'html')");
+								    VALUES ('".$POST->title."', '".$POST->alias."', '".$POST->content."', '".time()."', '".time()."', 'html')");
 
 				$id = $db->insert_id();
 
 				# attachment images
-				$images = $gd->upload_image("images");
+				$images = $img->upload_image("images");
 				if($images) {
 					foreach($images AS $image) {
-						$db->query("INSERT INTO ".IMAGES_TABLE." (attachedto, filename) VALUES ('blockid=".$id."', '".$image."')");
-						if(DEBUGMODE) $parse->msg("Изображение ".$image." успешно загружено на сервер");
+                                                $img->insert_images($image, "blockid=".$id);
 					}
 				}
 
@@ -120,7 +104,7 @@ class ACP_BLOCKS_HTML {
 	//	Edit
 	function edit($id) {
 
-		global $db, $tpl, $smarty;
+		global $db, $img, $tpl, $smarty;
 
 		$q = $db->query("SELECT id, title, alias, content FROM ".BLOCKS_TABLE." WHERE id='".$id."'");
 		$data = $db->fetch_assoc($q);
@@ -128,7 +112,7 @@ class ACP_BLOCKS_HTML {
 
 		# download attached images
 		$attachimg = array();
-		$attachimg = $this->structure->load_images("blockid=".$id);
+		$attachimg = $img->load_images("blockid=".$id);
 		$smarty->assign("attachimg", $attachimg);
 
 		# show attached images
@@ -152,7 +136,7 @@ class ACP_BLOCKS_HTML {
 	//	Update
 	function update($id) {
 
-		global $db, $POST, $GET, $parse, $gd;
+		global $db, $img, $POST, $GET, $parse;
 
 		if(@$_REQUEST['update_block']) {
 
@@ -164,18 +148,18 @@ class ACP_BLOCKS_HTML {
 			if(!isset($_SESSION['error'])) {
 
 				$db->query("UPDATE ".BLOCKS_TABLE."
-								SET
-									title='".$POST->title."',
-									alias='".$POST->alias."',
-									content='".$POST->content."',
-									date_modified='".time()."'
-								WHERE
-									id='".$id."'");
+					        SET
+						    title='".$POST->title."',
+						    alias='".$POST->alias."',
+						    content='".$POST->content."',
+						    date_modified='".time()."'
+					        WHERE
+						    id='".$id."'");
 
 				#sortable images
 				if(isset($POST->sort)) {
 
-					$sortimg = $this->structure->load_images("blockid=".$id);
+					$sortimg = $img->load_images("blockid=".$id);
 					foreach($sortimg AS $k=>$v) {
 						if(isset($POST->sort[$v['id']]) && $POST->sort[$v['id']] != $v['sort']) {
 							$db->query("UPDATE ".IMAGES_TABLE." SET sort='".$POST->sort[$v['id']]."' WHERE id='".$v['id']."'");
@@ -185,11 +169,10 @@ class ACP_BLOCKS_HTML {
 				}
 
 				# attachment images
-				$images = $gd->upload_image("images");
+				$images = $img->upload_image("images");
 				if($images) {
 					foreach($images AS $image) {
-						$db->query("INSERT INTO ".IMAGES_TABLE." (attachedto, filename) VALUES ('blockid=".$id."', '".$image."')");
-						if(DEBUGMODE) $parse->msg("Изображение ".$image." успешно загружено на сервер");
+						$img->insert_images($image, "blockid=".$id);
 					}
 				}
 
@@ -205,17 +188,12 @@ class ACP_BLOCKS_HTML {
 	//	Delete
 	function delete($id) {
 
-		global $db, $parse;
+		global $db, $img, $parse;
 
-		$q = $db->query("SELECT filename FROM ".IMAGES_TABLE." WHERE attachedto='blockid=".$id."'");
-		while($img = $db->fetch_assoc($q)) {
-			unlink(_UPLOADIMAGES."/original/".$img['filename']);
-			unlink(_UPLOADIMAGES."/resize/".$img['filename']);
-			unlink(_UPLOADIMAGES."/thumb/".$img['filename']);
-		}
-		$db->query("DELETE FROM ".IMAGES_TABLE." WHERE attachedto='blockid=".$id."'");
+                $img->delete_images("blockid=".$id);
 
 		$db->query("DELETE FROM ".BLOCKS_TABLE." WHERE id='".$id."'");
+
 		$parse->msg("Блок успешно удален!");
 		go(CP."?act=blocks");
 	}

@@ -45,33 +45,17 @@ $(document).ready(function() {
 	    language: 'ru'
 	});
 
+	$('.datepicker-0d').datepicker({
+	    format: 'dd.mm.yyyy',
+	    language: 'ru',
+	    startDate: '0'
+	});
+
 	/* Colorpicker */
 	$('.colorpicker').colorpicker();
 
 	/* Colorbox */
     //$("a[rel='img']").colorbox({maxWidth: "98%", maxHeight: "98%"});
-
-
-
-	/*
-	$(".color").colorpicker().on("mouseover.color", function(event, color){
-        $(this).attr("style", "background-color:" + color);
-    });
-    */
-
-	/*
-	$( ".date" ).datepicker({ dateFormat: "dd.mm.yy",
-							dayNamesMin: ["Пн", "Вт", "Ср", "Чт", "Пт", "Сб", "Вс"],
-							monthNamesShort: ["Янв","Фев","Мар","Апр","Май","Июн","Июл","Авг","Сен","Окт","Ноя","Дек"],
-							monthNames: ["Январь","Февраль","Март","Апрель","Май","Июнь","Июль","Август","Сентябрь","Октябрь","Ноябрь","Декабрь"]});
-
-	var obg = $('.option').css('background-color');
-	$('.option').mouseover(function(){
-		$(this).stop().animate({backgroundColor: '#F7F2E5'}, 400);
-	}).mouseout(function(){
-		$(this).stop().animate({backgroundColor: obg}, 400);
-	});
-	*/
 
 	/* Placeholder for IE */
 	if($.browser.msie) {

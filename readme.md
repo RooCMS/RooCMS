@@ -3,8 +3,7 @@
 - Автор:	alex Roosso
 - Сайт:		http://www.roocms.com
 - Контакт:	info@roocms.com
-- Лицензия c версии 1.1.0:		GNU GPL v3 (текст лицензии в файле license_original)
-- Лицензия до версии 1.1.0:	GNU GPL v2
+- Лицензия:	GNU GPL v3 (текст лицензии в файле license_original)
 
 
 
@@ -14,8 +13,8 @@
  - Сервер:	`*nix Apache`
  - PHP:	`5.2.*, 5.3.*`
  - MySQL	`5.*`
- - PHP Extension: 
-	`Core,	
+ - PHP Extension:
+	`Core,
 	calendar,
 	date,
 	pcre,

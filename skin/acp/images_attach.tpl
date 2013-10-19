@@ -5,7 +5,7 @@
 <p class="images_attach">
 {foreach from=$attachimg item=img}
     <span class="thumbnail visible-inline hover-without-underline text-right" width="100" id="a-{$img['id']}">
-		<a href="/upload/images/resize/{$img['filename']}" data-lightbox="attached" rel="lightbox"><img src="/upload/images/thumb/{$img['filename']}" border="0" width="100" id="aimage-{$img['id']}"></a>
+		<a href="/upload/images/{$img['resize']}" data-lightbox="attached" rel="lightbox"><img src="/upload/images/{$img['thumb']}" border="0" width="100" id="aimage-{$img['id']}"></a>
 		<br />
 			<span class="btn btn-link btn-xs hover-without-underline delete_image" id="move-{$img['id']}"><span class="icon-move icon-fixed-width"></span></span>
 			<span id="option-{$img['id']}"><span class="btn btn-link btn-xs hover-without-underline delete_image" id="del-{$img['id']}" rel="tooltip" title="Удалить" data-placement="left"><span class="icon-trash icon-fixed-width"></span></span></span>

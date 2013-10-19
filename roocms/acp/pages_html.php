@@ -7,13 +7,13 @@
 * @author       alex Roosso
 * @copyright    2010-2014 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.2
+* @version      1.3.1
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
 
 /**
-*	RooCMS - Russian free content managment system
+*   RooCMS - Russian free content managment system
 *   Copyright (C) 2010-2014 alex Roosso aka alexandr Belov info@roocms.com
 *
 *   This program is free software: you can redistribute it and/or modify
@@ -56,27 +56,11 @@ if(!defined('RooCMS') || !defined('ACP')) die('Access Denied');
 
 class ACP_PAGES_HTML {
 
-    # vars
-    private $structure;
-
-
-
-    /**
-    * Инициализируем класс
-    *
-    */
-    function __construct() {
-		require_once _CLASS."/class_structure.php";
-		$this->structure = new Structure(false, false);
-    }
-
-
-
 	//#####################################################
 	//	Edit
 	function edit($sid) {
 
-		global $db, $tpl, $smarty, $parse;
+		global $db, $img, $tpl, $smarty, $parse;
 
 		# download data
 		$q = $db->query("SELECT h.id, h.sid, h.content, p.title, p.alias, p.meta_description, p.meta_keywords, h.date_modified
@@ -90,7 +74,7 @@ class ACP_PAGES_HTML {
 
 		# download attached images
 		$attachimg = array();
-		$attachimg = $this->structure->load_images("pagesid=".$sid);
+		$attachimg = $img->load_images("pagesid=".$sid);
 		$smarty->assign("attachimg", $attachimg);
 
 		# show attached images
@@ -112,11 +96,11 @@ class ACP_PAGES_HTML {
 	//	Update
 	function update($sid) {
 
-		global $db, $parse, $POST, $files, $gd;
+		global $db, $parse, $img, $POST;
 
 		#sortable images
 		if(isset($POST->sort)) {
-			$sortimg = $this->structure->load_images("pagesid=".$sid);
+			$sortimg = $img->load_images("pagesid=".$sid);
 			foreach($sortimg AS $k=>$v) {
 				if(isset($POST->sort[$v['id']]) && $POST->sort[$v['id']] != $v['sort']) {
 					$db->query("UPDATE ".IMAGES_TABLE." SET sort='".$POST->sort[$v['id']]."' WHERE id='".$v['id']."'");
@@ -126,11 +110,10 @@ class ACP_PAGES_HTML {
 		}
 
 		# attachment images
-		$images = $gd->upload_image("images");
+		$images = $img->upload_image("images");
 		if($images) {
 			foreach($images AS $image) {
-				$db->query("INSERT INTO ".IMAGES_TABLE." (attachedto, filename) VALUES ('pagesid=".$sid."', '".$image."')");
-				if(DEBUGMODE) $parse->msg("Изображение ".$image." успешно загружено на сервер");
+				$img->insert_images($image, "pagesid=".$sid);
 			}
 		}
 
@@ -149,16 +132,10 @@ class ACP_PAGES_HTML {
 	//	Delete
 	function delete($sid) {
 
-		global $db;
+		global $db, $img;
 
 		# del attached images
-		$i = $db->query("SELECT filename FROM ".IMAGES_TABLE." WHERE attachedto='pagesid=".$sid."'");
-		while($img = $db->fetch_assoc($i)) {
-			unlink(_UPLOADIMAGES."/original/".$img['filename']);
-			unlink(_UPLOADIMAGES."/resize/".$img['filename']);
-			unlink(_UPLOADIMAGES."/thumb/".$img['filename']);
-		}
-		$db->query("DELETE FROM ".IMAGES_TABLE." WHERE attachedto='pagesid=".$sid."'");
+		$img->delete_images("pagesid=".$sid);
 
 		# del pageunit
 		$db->query("DELETE FROM ".PAGES_HTML_TABLE." WHERE sid='".$sid."'");

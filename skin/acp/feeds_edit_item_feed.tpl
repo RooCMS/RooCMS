@@ -15,11 +15,31 @@
 	</div>
 
 	<div class="form-group">
+	    <label for="inputMetaDescription" class="col-lg-3 control-label">
+    		Мета описание:
+	    </label>
+	    <div class="col-lg-9">
+			<input type="text" name="meta_description" id="inputMetaDescription" class="form-control" value="{$item['meta_description']}">
+		</div>
+	</div>
+	<div class="form-group">
+	    <label for="inputMetaKeywords" class="col-lg-3 control-label">
+    		Мета описание:
+	    </label>
+	    <div class="col-lg-9">
+			<input type="text" name="meta_keywords" id="inputMetaKeywords" class="form-control" value="{$item['meta_keywords']}">
+		</div>
+	</div>
+
+	<div class="form-group">
 	    <label for="inputDateP" class="col-lg-3 control-label">
     		Дата публикации: <small><span class="icon-info icon-fixed-width" rel="tooltip" title="Разрешается указать дату будущим числом. Посетители увидять публикацию только с наступлением указанной даты." data-placement="right"></span></small>
 	    </label>
 	    <div class="col-lg-9">
-			<input type="text" name="date_publications" id="inputDateP" class="form-control datepicker" value="{$item['date_publications']}" placeholder="дд.мм.гггг" pattern="{literal}\d{1,2}\.\d{1,2}\.\d{4}{/literal}" required>
+	    	<div class="input-group">
+				<input type="text" name="date_publications" id="inputDateP" class="form-control datepicker form-date" value="{$item['date_publications']}" placeholder="дд.мм.гггг" pattern="{literal}\d{1,2}\.\d{1,2}\.\d{4}{/literal}" required>
+				<input type="text" name="date_end_publications" id="inputDateEP" class="form-control datepicker form-date" value="{if $item['date_end_publications']}{$item['date_end_publications']}{/if}" placeholder="дд.мм.гггг" pattern="{literal}\d{1,2}\.\d{1,2}\.\d{4}{/literal}">
+			</div>
 		</div>
 	</div>
 	<div class="row">

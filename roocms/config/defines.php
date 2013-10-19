@@ -1,18 +1,18 @@
 <?php
 /**
-* @package		RooCMS
+* @package	RooCMS
 * @subpackage	Configuration
 * @subpackage	Defines
-* @author		alex Roosso
+* @author	alex Roosso
 * @copyright	2010-2014 (c) RooCMS
-* @link			http://www.roocms.com
-* @version		1.4
-* @since		$date$
-* @license		http://www.gnu.org/licenses/gpl-3.0.html
+* @link		http://www.roocms.com
+* @version	1.4.1
+* @since	$date$
+* @license	http://www.gnu.org/licenses/gpl-3.0.html
 */
 
 /**
-*	RooCMS - Russian free content managment system
+*   RooCMS - Russian free content managment system
 *   Copyright (C) 2010-2014 alex Roosso aka alexandr Belov info@roocms.com
 *
 *   This program is free software: you can redistribute it and/or modify
@@ -56,7 +56,7 @@ if(!defined('RooCMS')) die('Access Denied');
 /**
 * DataBase prefix
 */
-define('DB_PREFIX',			$db_info['prefix']);
+define('DB_PREFIX',		$db_info['prefix']);
 
 
 /**
@@ -77,38 +77,39 @@ define('IMAGES_TABLE', 		DB_PREFIX.'images');
 * RooCMS $Path
 */
 if(!defined('_SITEROOT'))
-define('_SITEROOT', 		str_ireplace(DIRECTORY_SEPARATOR."roocms".DIRECTORY_SEPARATOR."config", "", dirname(__FILE__)));		//define('_SITEROOT', 		dirname($_SERVER['SCRIPT_FILENAME']));
-define('_ROOCMS',			_SITEROOT.'/roocms');
-define('_CLASS', 			_ROOCMS.'/class');
-define('_LIB', 				_ROOCMS.'/lib');
-define('_SMARTY', 			_LIB.'/smarty');
-define('_SKIN',				_SITEROOT.'/skin');
-define('_ACPSKIN',			_SKIN.'/acp');
-define('_UPLOAD',			_SITEROOT.'/upload');
-define('_UPLOADIMAGES',		_UPLOAD.'/images');
-define('_UPLOADFILES',		_UPLOAD.'/files');
-define('_CACHE',			_SITEROOT.'/cache');
-define('_LOGS',				_CACHE.'/logs');
-define('_CACHESKIN',		_CACHE.'/skin');
+define('_SITEROOT', 	str_ireplace(DIRECTORY_SEPARATOR."roocms".DIRECTORY_SEPARATOR."config", "", dirname(__FILE__)));		//define('_SITEROOT', 		dirname($_SERVER['SCRIPT_FILENAME']));
+define('_ROOCMS',	_SITEROOT.'/roocms');
+define('_CLASS', 	_ROOCMS.'/class');
+define('_LIB', 		_ROOCMS.'/lib');
+define('_SMARTY', 	_LIB.'/smarty');
+define('_SKIN',		_SITEROOT.'/skin');
+define('_ACPSKIN',	_SKIN.'/acp');
+define('_UPLOAD',	_SITEROOT.'/upload');
+define('_UPLOADIMAGES',	_UPLOAD.'/images');
+define('_UPLOADFILES',	_UPLOAD.'/files');
+define('_CACHE',	_SITEROOT.'/cache');
+define('_LOGS',		_CACHE.'/logs');
+define('_CACHESKIN',	_CACHE.'/skin');
 
 
 /**
 * $Component
 */
-define('_ACP',				_ROOCMS.'/acp.php');
-define('_SITE',				_ROOCMS.'/site.php');
+define('_ACP',		_ROOCMS.'/acp.php');
+define('_SITE',		_ROOCMS.'/site.php');
 
 
 /**
 * $Param
 */
 define('EMAIL_MESSAGE_PARAMETERS',	'content-Type: text/plain; charset="utf-8"');
-define('SCRIPT_NAME',				$_SERVER['SCRIPT_NAME']);
-define('CHARSET',					'text/html; charset=utf-8');
-define('ROOCMS_MAJOR',				'1');
-define('ROOCMS_MINOR',				'1');
-define('ROOCMS_RELEASE',			'0');
-define('ROOCMS_BUILD',				'-stable');
-define('ROOCMS_VERSION',			ROOCMS_MAJOR.".".ROOCMS_MINOR.".".ROOCMS_RELEASE);
+define('SCRIPT_NAME',			$_SERVER['SCRIPT_NAME']);
+define('CHARSET',			'text/html; charset=utf-8');
+define('CRITICAL_STYLESHEETS', 		'<script type="text/javascript" src="/plugin/bootstrap.php?short"></script>');
+define('ROOCMS_MAJOR',			'1');
+define('ROOCMS_MINOR',			'1');
+define('ROOCMS_RELEASE',		'1');
+define('ROOCMS_BUILD',			'-beta');
+define('ROOCMS_VERSION',		ROOCMS_MAJOR.".".ROOCMS_MINOR.".".ROOCMS_RELEASE);
 define('ROOCMS_FULL_TEXT_VERSION',	ROOCMS_MAJOR.".".ROOCMS_MINOR.".".ROOCMS_RELEASE.ROOCMS_BUILD);
 ?>

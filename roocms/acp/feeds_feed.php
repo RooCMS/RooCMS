@@ -7,13 +7,13 @@
 * @author       alex Roosso
 * @copyright    2010-2014 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.3.1
+* @version      1.5
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
 
 /**
-*	RooCMS - Russian free content managment system
+*   RooCMS - Russian free content managment system
 *   Copyright (C) 2010-2014 alex Roosso aka alexandr Belov info@roocms.com
 *
 *   This program is free software: you can redistribute it and/or modify
@@ -56,26 +56,11 @@ if(!defined('RooCMS') || !defined('ACP')) die('Access Denied');
 
 class ACP_FEEDS_FEED {
 
-    # vars
-    private $structure;
-
-
-
-    /**
-    * Инициализируем класс
-    *
-    */
-    function __construct() {
-		require_once _CLASS."/class_structure.php";
-		$this->structure = new Structure(false, false);
-    }
-
-
-	/**
-	* Действия для редактирования настроек ленты
-	*
-	* @param int $id - Идентификатор ленты
-	*/
+        /**
+        * Действия для редактирования настроек ленты
+        *
+        * @param int $id - Идентификатор ленты
+        */
 	function settings($id) {
 
 		global $db, $config, $tpl, $smarty, $GET;
@@ -134,10 +119,15 @@ class ACP_FEEDS_FEED {
 		$smarty->assign("feed", $feed);
 
 		$feedlist = array();
-		$q = $db->query("SELECT id, title, brief_item, date_publications, date_update FROM ".PAGES_FEED_TABLE." WHERE sid='".$id."' ORDER BY date_publications DESC, date_create DESC, date_update DESC");
+		$q = $db->query("SELECT id, title, brief_item, date_publications, date_end_publications, date_update FROM ".PAGES_FEED_TABLE." WHERE sid='".$id."' ORDER BY date_publications DESC, date_create DESC, date_update DESC");
 		while($row = $db->fetch_assoc($q)) {
+        		$row['status'] = ($row['date_end_publications'] < time() && $row['date_end_publications'] != 0) ? "hide" : "show" ;
+
 			$row['date_publications'] 	= $parse->date->unix_to_rus($row['date_publications']);
+			if($row['date_end_publications'] != 0)
+			$row['date_end_publications'] 	= $parse->date->unix_to_rus($row['date_end_publications']);
 			$row['date_update'] 		= $parse->date->unix_to_rus($row['date_update'], false, true, true);
+
 			$feedlist[] = $row;
 		}
 
@@ -153,31 +143,46 @@ class ACP_FEEDS_FEED {
 	 */
 	function create_item() {
 
-		global $db, $parse, $gd, $debug, $POST, $GET, $tpl, $smarty;
+		global $db, $parse, $img, $POST, $GET, $tpl, $smarty;
 
 		if(@$_REQUEST['create_item']) {
-			if(!isset($POST->title)) 				$parse->msg("Не заполнен заголовок элемента",false);
-			if(!isset($POST->brief_item)) 			$parse->msg("Не заполнен аннотация элемента",false);
-			if(!isset($POST->full_item)) 			$parse->msg("Не заполнен подробный текст элемента",false);
-			if(!isset($POST->date_publications)) 	$parse->msg("Не указана дата публикации",false);
+			if(!isset($POST->title)) 	$parse->msg("Не заполнен заголовок элемента",false);
+			if(!isset($POST->brief_item)) 	$parse->msg("Не заполнен аннотация элемента",false);
+			if(!isset($POST->full_item)) 	$parse->msg("Не заполнен подробный текст элемента",false);
+
+			# дата публикации и продолжительности
+			if(!isset($POST->date_publications)) 		$POST->date_publications	= date("d.m.Y",time());
+			if(!isset($POST->date_end_publications))	$POST->date_end_publications	= 0;
+
+
 
 			if(!isset($_SESSION['error'])) {
 
 				$POST->date_publications = $parse->date->rusint_to_unix($POST->date_publications);
+				if($POST->date_end_publications != 0) $POST->date_end_publications = $parse->date->rusint_to_unix($POST->date_end_publications);
 
-				$db->query("INSERT INTO ".PAGES_FEED_TABLE." (title, brief_item, full_item, date_create, date_update, date_publications, sid)
-													  VALUES ('".$POST->title."', '".$POST->brief_item."', '".$POST->full_item."', '".time()."', '".time()."', '".$POST->date_publications."', '".$GET->_page."')");
+				if($POST->date_end_publications != 0 && $POST->date_end_publications <= $POST->date_publications) $POST->date_end_publications = 0;
 
+
+				# insert
+				$db->query("INSERT INTO ".PAGES_FEED_TABLE." (title, meta_description, meta_keywords,
+									      brief_item, full_item,
+									      date_create, date_update, date_publications, date_end_publications, sid)
+								      VALUES ('".$POST->title."', '".$POST->meta_description."', '".$POST->meta_keywords."',
+									      '".$POST->brief_item."', '".$POST->full_item."', '".time()."', '".time()."',
+									      '".$POST->date_publications."', '".$POST->date_end_publications."', '".$GET->_page."')");
+
+				#notice
 				$parse->msg("Элемент ".$POST->title." успешно создан.");
 
+				# get feed id
 				$fid = $db->insert_id();
 
 				# attachment images
-				$images = $gd->upload_image("images");
+				$images = $img->upload_image("images");
 				if($images) {
 					foreach($images AS $image) {
-						$db->query("INSERT INTO ".IMAGES_TABLE." (attachedto, filename) VALUES ('feedid=".$fid."', '".$image."')");
-						if(DEBUGMODE) $parse->msg("Изображение ".$image." успешно загружено на сервер");
+						$img->insert_images($image, "feedid=".$fid);
 					}
 				}
 
@@ -205,20 +210,22 @@ class ACP_FEEDS_FEED {
 	 */
 	function edit_item($id) {
 
-		global $db, $tpl, $smarty, $parse;
+		global $db, $img, $tpl, $smarty, $parse;
 
 
-		$q = $db->query("SELECT id, sid, title, brief_item, full_item, date_publications FROM ".PAGES_FEED_TABLE." WHERE id='".$id."'");
+		$q = $db->query("SELECT id, sid, title, meta_description, meta_keywords, brief_item, full_item, date_publications, date_end_publications FROM ".PAGES_FEED_TABLE." WHERE id='".$id."'");
 		$item = $db->fetch_assoc($q);
 
 		$item['date_publications'] = $parse->date->unix_to_rusint($item['date_publications']);
+       		if($item['date_end_publications'] != 0)
+		$item['date_end_publications'] = $parse->date->unix_to_rusint($item['date_end_publications']);
 
 		$smarty->assign("item",$item);
 
 
 		# download attached images
 		$attachimg = array();
-		$attachimg = $this->structure->load_images("feedid=".$id);
+		$attachimg = $img->load_images("feedid=".$id);
 		$smarty->assign("attachimg", $attachimg);
 
 
@@ -243,24 +250,42 @@ class ACP_FEEDS_FEED {
 	 */
 	function update_item($id) {
 
-		global $db, $parse, $gd, $POST, $GET;
+		global $db, $parse, $img, $POST, $GET;
 
-		if(!isset($POST->title)) 		$parse->msg("Не заполнен заголовок элемента",false);
+		if(!isset($POST->title)) 	$parse->msg("Не заполнен заголовок элемента",false);
 		if(!isset($POST->brief_item)) 	$parse->msg("Не заполнен аннотация элемента",false);
 		if(!isset($POST->full_item)) 	$parse->msg("Не заполнен подробный текст элемента",false);
-		if(!isset($POST->date_publications)) 	$parse->msg("Не указана дата публикации",false);
+
+		# дата публикации и продолжительности
+		if(!isset($POST->date_publications)) 		$POST->date_publications	= date("d.m.Y",time());
+		if(!isset($POST->date_end_publications))	$POST->date_end_publications	= 0;
+
+		#meta
+		if(!isset($POST->meta_description))	$POST->meta_description	= "";
+		if(!isset($POST->meta_keywords))	$POST->meta_keywords	= "";
 
 		if(!isset($_SESSION['error'])) {
 
-			$POST->date_publications = $parse->date->rusint_to_unix($POST->date_publications);
+                        $POST->date_publications = $parse->date->rusint_to_unix($POST->date_publications);
+                        if($POST->date_end_publications != 0) $POST->date_end_publications = $parse->date->rusint_to_unix($POST->date_end_publications);
 
-			$db->query("UPDATE ".PAGES_FEED_TABLE." SET title='".$POST->title."', brief_item='".$POST->brief_item."', full_item='".$POST->full_item."', date_publications='".$POST->date_publications."', date_update='".time()."' WHERE id='".$id."'");
+                        if($POST->date_end_publications != 0 && $POST->date_end_publications <= $POST->date_publications) $POST->date_end_publications = 0;
+
+		        $db->query("UPDATE ".PAGES_FEED_TABLE." SET title='".$POST->title."',
+							            meta_description='".$POST->meta_description."',
+							            meta_keywords='".$POST->meta_keywords."',
+							            brief_item='".$POST->brief_item."',
+							            full_item='".$POST->full_item."',
+							            date_publications='".$POST->date_publications."',
+							            date_end_publications='".$POST->date_end_publications."',
+							            date_update='".time()."'
+						              WHERE id='".$id."'");
 
 			$parse->msg("Элемент ".$POST->title." успешно отредактирован.");
 
 			#sortable images
 			if(isset($POST->sort)) {
-				$sortimg = $this->structure->load_images("feedid=".$id);
+				$sortimg = $img->load_images("feedid=".$id);
 				foreach($sortimg AS $k=>$v) {
 					if(isset($POST->sort[$v['id']]) && $POST->sort[$v['id']] != $v['sort']) {
 						$db->query("UPDATE ".IMAGES_TABLE." SET sort='".$POST->sort[$v['id']]."' WHERE id='".$v['id']."'");
@@ -270,11 +295,10 @@ class ACP_FEEDS_FEED {
 			}
 
 			# attachment images
-			$images = $gd->upload_image("images");
+			$images = $img->upload_image("images");
 			if($images) {
 				foreach($images AS $image) {
-					$db->query("INSERT INTO ".IMAGES_TABLE." (attachedto, filename) VALUES ('feedid=".$id."', '".$image."')");
-					if(DEBUGMODE) $parse->msg("Изображение ".$image." успешно загружено на сервер");
+					$img->insert_images($image, "feedid=".$id);
 				}
 			}
 
@@ -291,19 +315,13 @@ class ACP_FEEDS_FEED {
 	 */
 	function delete_item($id) {
 
-		global $db, $parse;
+		global $db, $parse, $img;
 
 		$q = $db->query("SELECT sid FROM ".PAGES_FEED_TABLE." WHERE id='".$id."'");
 		$row = $db->fetch_assoc($q);
 
 		# del attached images
-		$i = $db->query("SELECT filename FROM ".IMAGES_TABLE." WHERE attachedto='feedid=".$id."'");
-		while($img = $db->fetch_assoc($i)) {
-			unlink(_UPLOADIMAGES."/original/".$img['filename']);
-			unlink(_UPLOADIMAGES."/resize/".$img['filename']);
-			unlink(_UPLOADIMAGES."/thumb/".$img['filename']);
-		}
-		$db->query("DELETE FROM ".IMAGES_TABLE." WHERE attachedto='feedid=".$id."'");
+		$img->delete_images("feedid=".$id);
 
 		# delete item
 		$db->query("DELETE FROM ".PAGES_FEED_TABLE." WHERE id='".$id."'");
@@ -324,7 +342,7 @@ class ACP_FEEDS_FEED {
 	 */
 	function delete_feed($sid) {
 
-		global $db;
+		global $db, $img;
 
 		$where = "";
 		$f = $db->query("SELECT id FROM ".PAGES_FEED_TABLE." WHERE sid='".$sid."'");
@@ -334,13 +352,7 @@ class ACP_FEEDS_FEED {
 
 		# del attached images
 		if(trim($where) != "") {
-			$i = $db->query("SELECT filename FROM ".IMAGES_TABLE." WHERE ".$where);
-			while($img = $db->fetch_assoc($i)) {
-				unlink(_UPLOADIMAGES."/original/".$img['filename']);
-				unlink(_UPLOADIMAGES."/resize/".$img['filename']);
-				unlink(_UPLOADIMAGES."/thumb/".$img['filename']);
-			}
-			$db->query("DELETE FROM ".IMAGES_TABLE." WHERE ".$where);
+                	$img->delete_images($where, true);
 		}
 
 		$db->query("DELETE FROM ".PAGES_FEED_TABLE." WHERE sid='".$sid."'");

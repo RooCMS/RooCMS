@@ -6,7 +6,7 @@
 * @author       alex Roosso
 * @copyright    2010-2014 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.0
+* @version      1.1.1
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -71,7 +71,7 @@ class ACP_AJAX {
 
 		switch($roocms->part) {
 			case 'delete_attached_image':
-				$this->image_delete();
+				$this->delete_attached_image();
 				break;
 		}
 	}
@@ -81,25 +81,13 @@ class ACP_AJAX {
 	* Удаление картинок посредством AJAX
 	*
 	*/
-	private function image_delete() {
+	private function delete_attached_image() {
 
-		global $db, $GET;
+		global $db, $GET, $img;
 
 		if(isset($GET->_id) && $db->check_id($GET->_id, IMAGES_TABLE)) {
 
-			$q = $db->query("SELECT filename FROM ".IMAGES_TABLE." WHERE id='".$GET->_id."'");
-			$row = $db->fetch_assoc($q);
-
-			$q = $db->query("SELECT count(*) FROM ".IMAGES_TABLE." WHERE filename='".$row['filename']."'");
-			$c = $db->fetch_row($q);
-
-			if($c[0] == 1) {
-				unlink(_UPLOADIMAGES."/original/".$row['filename']);
-				unlink(_UPLOADIMAGES."/resize/".$row['filename']);
-				unlink(_UPLOADIMAGES."/thumb/".$row['filename']);
-			}
-
-			$db->query("DELETE FROM ".IMAGES_TABLE." WHERE id='".$GET->_id."'");
+			$img->delete_images($GET->_id);
 
 			echo "<small class=\"text-success btn btn-xs delete_image\"><span class=\"icon-trash\"></span> Удалено!</small>";
 		}

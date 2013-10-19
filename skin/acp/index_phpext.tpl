@@ -41,7 +41,7 @@
 				<tbody>
 					<tr>
 						{foreach from=$phpextfunc[$ext] item=extfunc name=func}
-						    <td>{if trim($extfunc) != ""}{$extfunc}(); <a href="http://www.php.net/manual/ru/function.{$extfunc|replace:'_':'-'}.php" target="_blank"><span class="icon-fixed-width icon-external-link small"></span></a>{/if}</td>
+						    <td>{if trim($extfunc) != ""}{$extfunc}(); {if $smarty.const.DEVMODE || $smarty.const.DEBUGMODE}<a href="http://www.php.net/manual/ru/function.{$extfunc|replace:'_':'-'}.php" target="_blank"><span class="icon-fixed-width icon-external-link small"></span></a>{/if}{/if}</td>
 							{if $smarty.foreach.func.index % 3 == 2}
                         		</tr>
                         		<tr>

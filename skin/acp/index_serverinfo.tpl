@@ -9,7 +9,7 @@
 		</tr>
 	</thead>
 	<tbody>
-		<tr> <td>Версия PHP:</td> <td>{$version['php']}</td> </tr>
+		<tr> <td class="col-sm-4">Версия PHP:</td> <td class="col-sm-8">{$version['php']}</td> </tr>
 		<tr> <td>Версия Zend:</td> <td>{$version['zend']}</td> </tr>
 		<tr> <td>Версия MySQL:</td> <td>{$version['mysql']}</td> </tr>
 		<tr> <td>Версия RooCMS:</td> <td>{$version['roocms']}</td> </tr>
@@ -24,5 +24,6 @@
 		<tr> <td>Максимальный размер постинга:</td> <td>{$version['mps']}</td> </tr>
 		<tr> <td>Максимально допустимое время исполнения скрипта:</td> <td>{$version['met']} секунд</td> </tr>
 		<tr> <td>Корневая директория сайта:</td> <td>{$version['docroot']}</td> </tr>
+		<tr> <td>Apache модули:</td> <td>{foreach from=$version['apache_mods'] item=mod}<span class="badge">{$mod}</span> {/foreach}</td> </tr>
 	</tbody>
 </table>

@@ -6,13 +6,13 @@
 * @author       alex Roosso
 * @copyright    2010-2014 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.1.1
+* @version      1.2
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
 
 /**
-*	RooCMS - Russian free content managment system
+*   RooCMS - Russian free content managment system
 *   Copyright (C) 2010-2014 alex Roosso aka alexandr Belov info@roocms.com
 *
 *   This program is free software: you can redistribute it and/or modify
@@ -53,7 +53,7 @@ if(!defined('RooCMS')) die('Access Denied');
 //#########################################################
 
 
-//	files class
+# files class
 
 $files = new Files;
 
@@ -104,17 +104,50 @@ class Files {
 	/**
 	* Создание имени файлов
 	*
-	* @param string $ext       - Расширение файла
-	* @param string $prefix    - Префикс имени файла
+	* @param string $filename	- Имя файла
+	* @param string $prefix    	- Префикс имени файла
+	* @param string $pofix    	- Пофикс имени файла
 	* @return Имя файла
 	*/
-	public function create_filename($ext, $prefix="") {
+	public function create_filename($filename, $prefix="", $pofix="") {
 
-    	# Переписать, добавив транслитерацию, а префиксы в конец имени переместить.
+		global $parse;
+		static $names = array();
 
-		if(trim($prefix) != "") $prefix = $prefix."_";
-		$r = randcode(7, "RooCMSv1nb10");
-		$filename = $prefix.time()."_".$r.".".$ext;
+		# убиваем прицепившиейся расширение к имени файла
+		$ex = explode(".",$filename);
+		$cntex = count($ex) - 1;
+		$filename = str_ireplace(".".$ex[$cntex], "", $filename);
+
+		# префикс
+		if(trim($prefix) != "")	$prefix .= "_";
+		if(trim($pofix)  != "")	$pofix = "_".$pofix;
+
+		# транслит
+		$filename = $parse->text->transliterate($filename, "lower");
+
+		# Чистим имя файла от "левых" символов.
+		$filename = preg_replace(array('(\s\s+)','(\-\-+)','(__+)','([^a-zA-Z0-9\-_])'), array(' ','-','_',''), $filename);
+
+		# Проверяем длину имения файла
+		$length = 5;
+		if($prefix != "") $length += mb_strlen($prefix) + 1;
+		if($pofix != "") $length += mb_strlen($pofix) + 1;
+		$length += mb_strlen(time());
+
+		$filelength = mb_strlen($filename);
+
+		# на всякий случай ограничимся длиной в 200 символов
+		if($length + $filelength > 200) {
+			$maxfilelength = 200 - $length;
+                        $filename = mb_substr($filename,0,$maxfilelength);
+		}
+
+		# suffix for unduplicated
+		$suffix = (in_array($filename,$names)) ? "_".randcode(3,"RooCMSbestChoiceForYourSite"): "" ;
+		$names[] = $filename;
+
+		$filename = $prefix.$filename.$suffix."_".time().$pofix;
 
 		return $filename;
 	}
@@ -126,9 +159,9 @@ class Files {
 	* @param string $filename - Полное имя файла, включая расширение
 	* @return string расширение файла без точки
 	*/
-	public function check_ext($filename) {
+	public function get_ext($filename) {
 
-    	# Переписать с pathinfo();
+    		# Переписать с pathinfo();
 
 		$files = explode(".",mb_strtolower($filename));
 		$c = count($files) - 1;
@@ -150,7 +183,7 @@ class Files {
 
 
 	/**
-	* Функция загрузки файлов
+	* Функция загрузки файлов //НАДО ПРАВИТЬ!
 	*
 	* @param string $file - Параметр файла массива $_FILES
 	* @param string $prefix - Префикс имени файла
@@ -159,8 +192,8 @@ class Files {
 	*/
 	public function upload($file, $prefix="", $types="all", $path=_UPLOADFILES) {
 
-    	# Переписать функцию!!!
-    	# *** Больше проверок от "умников"
+    	        # Переписать функцию!!!
+    	        # *** Больше проверок от "умников"
 
 		global $config, $parse;
 
@@ -171,8 +204,8 @@ class Files {
 		static $allow_exts = array();
 
 		if(empty($allow_exts)) {
-	        foreach($filetype AS $itype) {
-        		$allow_exts[$itype['type']] = $itype['ext'];
+	                foreach($filetype AS $itype) {
+        		        $allow_exts[$itype['type']] = $itype['ext'];
 			}
 		}
 
@@ -184,15 +217,14 @@ class Files {
 			if(isset($_FILES[$file]['tmp_name']) && $_FILES[$file]['error'] == 0) {
 
 				# Смотрим оригинальное расширение файла
-				$fileext = $this->check_ext($_FILES[$file]['name']);
-
+				$fileext = $this->get_ext($_FILES[$file]['name']);
 
 				# Грузим апельсины бочками
 				if(array_key_exists($_FILES[$file]['type'], $allow_exts)) {
 					# Создаем имя файлу.
-					$filename['name'] = $this->create_filename($fileext, $prefix);
-					$filename['ext'] = $fileext;
-					$filename['real_name'] = $parse->escape_string(str_ireplace(".".$fileext, "", $_FILES[$file]['name']));
+					$filename['name'] 	= $this->create_filename($fileext, $prefix);
+					$filename['ext'] 	= $fileext;
+					$filename['real_name']	= $parse->escape_string(str_ireplace(".".$fileext, "", $_FILES[$file]['name']));
 
 					# Копируем файл
 					copy($_FILES[$file]['tmp_name'], $path."/".$filename['name']);
@@ -219,14 +251,14 @@ class Files {
 				if(isset($_FILES[$file]['tmp_name'][$key]) && $_FILES[$file]['error'][$key] == 0) {
 
 					# Смотрим оригинальное расширение файла
-					$fileext = $this->check_ext($_FILES[$file]['name'][$key]);
+					$fileext = $this->get_ext($_FILES[$file]['name'][$key]);
 
 					# Грузим апельсины бочками
 					if(array_key_exists($_FILES[$file]['type'][$key], $allow_exts)) {
 						// Создаем имя файлу.
-						$filename['name'] = $this->create_filename($fileext, $prefix);
-						$filename['ext'] = $fileext;
-						$filename['real_name'] = $parse->escape_string(str_ireplace(".".$fileext, "", $_FILES[$file]['name'][$key]));
+						$filename['name'] 	= $this->create_filename($fileext, $prefix);
+						$filename['ext'] 	= $fileext;
+						$filename['real_name']	= $parse->escape_string(str_ireplace(".".$fileext, "", $_FILES[$file]['name'][$key]));
 
 						// Копируем файл
 						copy($_FILES[$file]['tmp_name'][$key], $path."/".$filename['name']);

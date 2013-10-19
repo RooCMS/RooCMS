@@ -25,7 +25,7 @@ index c1d9156..7764744 100644
      <script>
        var editor = CodeMirror.fromTextArea(document.getElementById("code"), {
          lineNumbers: true,
--        autoMatchBrackets: true
+-        autoMatchBrackets: true,
 +        autoMatchBrackets: true,
 +      onGutterClick: function(x){console.log(x);}
        });

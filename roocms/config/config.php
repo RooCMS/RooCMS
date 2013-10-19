@@ -1,18 +1,18 @@
 <?php
 /**
-* @package		RooCMS
+* @package	RooCMS
 * @subpackage	Configuration
 * @subpackage	Config RooCMS
-* @author		alex Roosso
+* @author	alex Roosso
 * @copyright	2010-2014 (c) RooCMS
-* @link			http://www.roocms.com
-* @version		1.1.1
-* @since		$date$
-* @license		http://www.gnu.org/licenses/gpl-3.0.html
+* @link		http://www.roocms.com
+* @version	1.1.1
+* @since	$date$
+* @license	http://www.gnu.org/licenses/gpl-3.0.html
 */
 
 /**
-*	RooCMS - Russian free content managment system
+*   RooCMS - Russian free content managment system
 *   Copyright (C) 2010-2014 alex Roosso aka alexandr Belov info@roocms.com
 *
 *   This program is free software: you can redistribute it and/or modify
@@ -58,11 +58,11 @@ if(!defined('RooCMS')) die('Access Denied');
 //---------------------------------------------------------
 $db_info = array();
 //---------------------------------------------------------
-$db_info['host'] = "";							#	Хост Базы Данных
-$db_info['user'] = "";							#	Имя пользователя Базы Данных
-$db_info['pass'] = "";							#	Пароль пользователя Базы Данных
-$db_info['base'] = "";							#	Название Базы с данными
-$db_info['prefix'] = "";						#	Префикс таблиц в Базе Данных
+$db_info['host'] = "";					#	Хост Базы Данных
+$db_info['user'] = "";					#	Имя пользователя Базы Данных
+$db_info['pass'] = "";					#	Пароль пользователя Базы Данных
+$db_info['base'] = "";					#	Название Базы с данными
+$db_info['prefix'] = "";				#	Префикс таблиц в Базе Данных
 //#########################################################
 
 
@@ -71,8 +71,8 @@ $db_info['prefix'] = "";						#	Префикс таблиц в Базе Данн
 //---------------------------------------------------------
 $adm = array();
 //---------------------------------------------------------
-$adm['login'] = "";								#	Логин Администратора
-$adm['passw'] = "";								#	Пароль Администратора
+$adm['login'] = "";					#	Логин Администратора
+$adm['passw'] = "";					#	Пароль Администратора
 //#########################################################
 
 
@@ -81,10 +81,10 @@ $adm['passw'] = "";								#	Пароль Администратора
 //---------------------------------------------------------
 $site = array();
 //---------------------------------------------------------
-$site['title'] = "";					#	Заголовок сайта (используется в случае сбоя БД)
-$site['domain'] = "";					#	Является значением по умолчаню и используется в случае сбоя БД
-$site['sysemail'] = "";					#	Системный почтовый адрес, для уведомления о сбоях в БД
-$site['skin'] = "default";								#	Шаблоны дизайна по умолчанию
+$site['title'] = "";				#	Заголовок сайта (используется в случае сбоя БД)
+$site['domain'] = "";				#	Является значением по умолчаню и используется в случае сбоя БД
+$site['sysemail'] = "";				#	Системный почтовый адрес, для уведомления о сбоях в БД
+$site['skin'] = "default";					#	Шаблоны дизайна по умолчанию
 //#########################################################
 
 ?>

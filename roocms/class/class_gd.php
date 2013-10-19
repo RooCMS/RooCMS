@@ -1,18 +1,18 @@
 <?php
 /**
-* @package		RooCMS
+* @package	RooCMS
 * @subpackage	Engine RooCMS classes
 * @subpackage	GD Class
-* @author		alex Roosso
+* @author	alex Roosso
 * @copyright	2010-2014 (c) RooCMS
-* @link			http://www.roocms.com
-* @version		1.2.5
-* @since		$date$
-* @license		http://www.gnu.org/licenses/gpl-3.0.html
+* @link		http://www.roocms.com
+* @version	1.8
+* @since	$date$
+* @license	http://www.gnu.org/licenses/gpl-3.0.html
 */
 
 /**
-*	RooCMS - Russian free content managment system
+*   RooCMS - Russian free content managment system
 *   Copyright (C) 2010-2014 alex Roosso aka alexandr Belov info@roocms.com
 *
 *   This program is free software: you can redistribute it and/or modify
@@ -53,21 +53,19 @@ if(!defined('RooCMS')) die('Access Denied');
 //#########################################################
 
 
-//	graphic class :: GD
-
-$gd = new GD;
+// graphic class :: GD
 
 class GD {
 
-    # vars
-	var $info		= array();								# Информация о GD расширении
-	var $copyright	= "";									# Текст копирайта ( По умолчанию: $site['title'] )
-	var $domain		= "";									# Адрес домена ( По умолчанию: $site['domain'] )
-	var $msize		= array('w' => 900,'h' => 900);			# Максимальные размеры сохраняемого изображения
-	var $tsize		= array('w' => 100,'h' => 100);			# Размеры миниатюры
-	var $rs_quality	= 90;									# Качество обработанных изображений
-	var $th_quality	= 90;									# Качество генерируемых миниматюр
-	var $thumbtg	= "fill";								# Тип генерируемой миниатюры ( Возможные значения: fill - заливка, size - по размеру изображения )
+	# vars
+	var $info	= array();				# Информация о GD расширении
+	var $copyright	= "";					# Текст копирайта ( По умолчанию: $site['title'] )
+	var $domain	= "";					# Адрес домена ( По умолчанию: $site['domain'] )
+	var $msize	= array('w' => 900,'h' => 900);		# Максимальные размеры сохраняемого изображения
+	var $tsize	= array('w' => 100,'h' => 100);		# Размеры миниатюры
+	var $rs_quality	= 90;					# Качество обработанных изображений
+	var $th_quality	= 90;					# Качество генерируемых миниматюр
+	var $thumbtg	= "fill";				# Тип генерируемой миниатюры ( Возможные значения: fill - заливка, size - по размеру изображения )
 	var $thumbbgcol	= array('r' => 0, 'g' => 0, 'b' => 0);	# Значение фонового цвета, если тип генерируемых миниатюр производится по размеру ( $thumbtg = size )
 
 
@@ -83,14 +81,13 @@ class GD {
 		# Получить GD info
 		$this->info = gd_info();
 
-
 		# Устанавливаем размеры миниатюр из конфигурации
 		if(isset($config->gd_thumb_image_width) && round($config->gd_thumb_image_width) >= 16)		$this->tsize['w'] = round($config->gd_thumb_image_width);
 		if(isset($config->gd_thumb_image_height) && round($config->gd_thumb_image_height) >= 16)	$this->tsize['h'] = round($config->gd_thumb_image_height);
 
 
 		# Устанавливаем максимальные размеры изображений
-		if(isset($config->gd_image_maxwidth) && round($config->gd_image_maxwidth) >= 32 && round($config->gd_image_maxwidth) > $this->tsize['w'])		$this->msize['w'] = round($config->gd_image_maxwidth);
+		if(isset($config->gd_image_maxwidth) && round($config->gd_image_maxwidth) >= 32 && round($config->gd_image_maxwidth) > $this->tsize['w'])	$this->msize['w'] = round($config->gd_image_maxwidth);
 		if(isset($config->gd_image_maxheight) && round($config->gd_image_maxheight) >= 32 && round($config->gd_image_maxheight) > $this->tsize['h'])	$this->msize['h'] = round($config->gd_image_maxheight);
 
 
@@ -131,166 +128,25 @@ class GD {
 
 
 	/**
-	* Загрузка картинок через $_POST
-	*
-	* @param string $file - имя в массиве $_FILES
-	* @param string $prefix - префикс для имения файла.
-	* @param array $thumbsize - array(width,height) - размеры миниатюры будут изменен согласно параметрам.
-	* @param boolean $watermark - флаг указывает наносить ли водяной знак на рисунок.
-	* @param string $path - путь к папке для загрузки изображений.
-	* @param boolean $no_empty - определяет пропускать ли пустые элементы в массиве FILES или обозначать их в выходном буфере.
-	* @return string or array - возвращает имя файла или массив с именами файлов.
-	*/
-	public function upload_image($file, $prefix="", $thumbsize=array(), $watermark=true, $path=_UPLOADIMAGES, $no_empty=true) {
-
-		global $config, $files;
-
-
-		# check allow type
-		require_once _LIB."/mimetype.php";
-
-		static $allow_exts = array();
-
-		if(empty($allow_exts)) {
-	        foreach($imagetype AS $itype) {
-        		$allow_exts[$itype['type']] = $itype['ext'];
-			}
-		}
-
-
-		# Resize ini vars
-		if(is_array($thumbsize) && count($thumbsize) == 2 && round($thumbsize[0]) > 0 && round($thumbsize[1]) > 0) {
-			$this->tsize['w'] = round($thumbsize[0]);
-			$this->tsize['h'] = round($thumbsize[1]);
-		}
-
-
-		# Если $_FILES не является массивом
-		if(!is_array($_FILES[$file]['tmp_name'])) {
-			if(isset($_FILES[$file]['tmp_name']) && $_FILES[$file]['error'] == 0) {
-
-				$upload = false;
-
-				# Грузим апельсины бочками
-				if(array_key_exists($_FILES[$file]['type'], $allow_exts)) {
-
-					# Создаем имя файлу.
-					$ext = $allow_exts[$_FILES[$file]['type']];
-					$filename = $files->create_filename($ext, $prefix);
-
-					# Сохраняем оригинал
-					copy($_FILES[$file]['tmp_name'], $path."/original/".$filename);
-
-					# Если загрузка прошла и файл на месте
-					$upload = true;
-					if(!file_exists($path."/original/".$filename)) $upload = false;
-				}
-
-				# Если загрузка удалась
-				if($upload) {
-
-            		# изменяем изображение если, оно превышает допустимые размеры
-                	$this->resize($filename, $ext, $path);
-
-					# Создаем миниатюру
-					$this->thumbnail($filename, $ext, $path);
-
-					if($config->gd_use_watermark && $watermark) {
-						# наносим ватермарк
-						$this->watermark($filename, $ext, $path);
-					}
-				}
-				else {
-					# Обработчик если загрузка не удалась =)
-					$filename = false;
-				}
-			}
-			else {
-				// вписать сообщение об ошибке.
-				// впрочем ещё надо и обработчик ошибок написать.
-				$filename = false;
-			}
-
-			return $filename;
-		}
-		# Если $_FILES является массивом
-		else {
-			foreach($_FILES[$file]['tmp_name'] AS $key=>$value) {
-				if(isset($_FILES[$file]['tmp_name'][$key]) && $_FILES[$file]['error'][$key] == 0) {
-
-					$upload = false;
-
-					# Грузим апельсины бочками
-					if(array_key_exists($_FILES[$file]['type'][$key], $allow_exts)) {
-
-						# Создаем имя файлу.
-						$ext = $allow_exts[$_FILES[$file]['type'][$key]];
-						$filename = $files->create_filename($ext, $prefix);
-
-						# Сохраняем оригинал
-						copy($_FILES[$file]['tmp_name'][$key], $path."/original/".$filename);
-
-						# Если загрузка прошла и файл на месте
-						$upload = true;
-						if(!file_exists($path."/original/".$filename)) $upload = false;
-					}
-
-					# Если загрузка удалась
-					if($upload) {
-
-                        # изменяем изображение если, оно превышает допустимые размеры
-                        $this->resize($filename, $ext, $path);
-
-						# Создаем миниатюру
-						$this->thumbnail($filename, $ext, $path);
-
-						if($config->gd_use_watermark && $watermark) {
-							# наносим ватермарк
-							$this->watermark($filename, $ext, $path);
-						}
-					}
-					else {
-						# Обработчик если загрузка не удалась =)
-						$filename = false;
-					}
-				}
-				else {
-					// вписать сообщение об ошибке.
-					// впрочем ещё надо и обработчик ошибок написать.
-					$filename = false;
-				}
-
-				if(!$no_empty) {
-					$names[$key] = $filename;
-				}
-				else {
-					if($filename) $names[] = $filename;
-				}
-			}
-
-			if(isset($names) && count($names) > 0) return $names;
-			else return false;
-
-		}
-	}
-
-
-	/**
 	* Изменяем размер изображения, если оно превышает допустимый администратором.
 	*
 	* @param string $filename	- Имя файла изображения
 	* @param string $ext		- Расширение файла без точки
 	* @param path|string $path	- Путь к папке с файлом. По умолчанию указан путь к папке с изображениями
 	*/
-	public function resize($filename, $ext, $path=_UPLOADIMAGES) {
+	protected function resize($filename, $ext, $path=_UPLOADIMAGES) {
+
+		# vars
+        	$fileoriginal 	= $filename."_original.".$ext;
+        	$fileresize 	= $filename."_resize.".$ext;
 
 		# определяем размер картинки
-		$size = getimagesize($path."/original/".$filename);
+		$size = getimagesize($path."/".$fileoriginal);
 		$w = $size[0];
 		$h = $size[1];
 
 		if($w <= $this->msize['w'] && $h <= $this->msize['h']) {
-			copy($path."/original/".$filename, $path."/resize/".$filename);
+			copy($path."/".$fileoriginal, $path."/".$fileresize);
 		}
 		else {
 			# Проводим расчеты по сжатию и уменьшению в размерах
@@ -298,9 +154,9 @@ class GD {
 
 			# вносим в память пустую превью и оригинальный файл, для дальнейшего издевательства над ними.
 			$resize 	= imagecreatetruecolor($ns['new_width'], $ns['new_height']);
-	        $bgcolor 	= imagecolorallocatealpha($resize, $this->thumbbgcol['r'], $this->thumbbgcol['g'], $this->thumbbgcol['b'], 0);    //127
+	        	$bgcolor 	= imagecolorallocatealpha($resize, $this->thumbbgcol['r'], $this->thumbbgcol['g'], $this->thumbbgcol['b'], 0);    //127
 
-	        # alpha
+	        	# alpha
 			if($ext == "gif" || $ext == "png") {
 				imagecolortransparent($resize, $bgcolor);
 			}
@@ -308,14 +164,14 @@ class GD {
 			imagefilledrectangle($resize, 0, 0, $ns['new_width']-1, $ns['new_height']-1, $bgcolor);
 
 			# вводим в память файл для издевательств
-			$src = $this->imgcreate($path."/original/".$filename, $ext);
+			$src = $this->imgcreate($path."/".$fileoriginal, $ext);
 
-            imagecopyresampled($resize, $src, 0, 0, 0, 0, $ns['new_width'], $ns['new_height'], $w, $h);
+            		imagecopyresampled($resize, $src, 0, 0, 0, 0, $ns['new_width'], $ns['new_height'], $w, $h);
 
 			# льем измененное изображение
-			if($ext == "jpg")		imagejpeg($resize,$path."/resize/".$filename, $this->rs_quality);
-			elseif($ext == "gif")	imagegif($resize,$path."/resize/".$filename);
-			elseif($ext == "png")	imagepng($resize,$path."/resize/".$filename);
+			if($ext == "jpg")	imagejpeg($resize,$path."/".$fileresize, $this->rs_quality);
+			elseif($ext == "gif")	imagegif($resize,$path."/".$fileresize);
+			elseif($ext == "png")	imagepng($resize,$path."/".$fileresize);
 			imagedestroy($resize);
 			imagedestroy($src);
 		}
@@ -329,18 +185,22 @@ class GD {
 	* @param string $ext		- Расширение файла без точки
 	* @param path|string $path	- Путь к папке с файлом. По умолчанию указан путь к папке с изображениями
 	*/
-	public function thumbnail($filename, $ext, $path=_UPLOADIMAGES) {
+	protected function thumbnail($filename, $ext, $path=_UPLOADIMAGES) {
+
+		# vars
+        	$fileresize 	= $filename."_resize.".$ext;
+        	$filethumb 	= $filename."_thumb.".$ext;
 
 		# определяем размер картинки
-		$size = getimagesize($path."/resize/".$filename);
+		$size = getimagesize($path."/".$fileresize);
 		$w = $size[0];
 		$h = $size[1];
 
 		# вносим в память пустую превью и оригинальный файл, для дальнейшего издевательства над ними.
-		$thumb 		= imagecreatetruecolor($this->tsize['w'], $this->tsize['h']);
-        $bgcolor 	= imagecolorallocatealpha($thumb, $this->thumbbgcol['r'], $this->thumbbgcol['g'], $this->thumbbgcol['b'], 0);
+		$thumb		= imagecreatetruecolor($this->tsize['w'], $this->tsize['h']);
+        	$bgcolor	= imagecolorallocatealpha($thumb, $this->thumbbgcol['r'], $this->thumbbgcol['g'], $this->thumbbgcol['b'], 0);
 
-        # alpha
+		# alpha
 		if($ext == "gif" || $ext == "png") {
 			imagecolortransparent($thumb, $bgcolor);
 		}
@@ -348,7 +208,7 @@ class GD {
 		imagefilledrectangle($thumb, 0, 0, $this->tsize['w']-1, $this->tsize['h']-1, $bgcolor);
 
 		# вводим в память файл для издевательств
-		$src = $this->imgcreate($path."/resize/".$filename, $ext);
+		$src = $this->imgcreate($path."/".$fileresize, $ext);
 
 		# Проводим расчеты по сжатию превью и уменьшению в размерах
 		$ns = $this->calc_resize($w, $h, $this->tsize['w'], $this->tsize['h']);
@@ -375,9 +235,9 @@ class GD {
 		imagecopyresampled($thumb, $src, $ns['new_left'], $ns['new_top'], 0, 0, $ns['new_width'], $ns['new_height'], $w, $h);
 
 		# льем превью
-		if($ext == "jpg")		imagejpeg($thumb,$path."/thumb/".$filename, $this->th_quality);
-		elseif($ext == "gif")	imagegif($thumb,$path."/thumb/".$filename);
-		elseif($ext == "png")	imagepng($thumb,$path."/thumb/".$filename);
+		if($ext == "jpg")	imagejpeg($thumb,$path."/".$filethumb, $this->th_quality);
+		elseif($ext == "gif")	imagegif($thumb,$path."/".$filethumb);
+		elseif($ext == "png")	imagepng($thumb,$path."/".$filethumb);
 		imagedestroy($thumb);
 		imagedestroy($src);
 	}
@@ -389,18 +249,21 @@ class GD {
 	 * 	$ext		-	[string]	Расширение файла без точки
 	 * 	$path		-	[string]	Путь к папке с файлом. По умолчанию указан путь к папке с изображениями
 	 */
-	private function watermark($filename, $ext, $path=_UPLOADIMAGES) {
+	protected function watermark($filename, $ext, $path=_UPLOADIMAGES) {
+
+		# vars
+        	$fileresize 	= $filename."_resize.".$ext;
 
 		# определяем размер картинки
-		$size = getimagesize($path."/resize/".$filename);
+		$size = getimagesize($path."/".$fileresize);
 		$w = $size[0];
 		$h = $size[1];
 
 		# вводим в память файл для издевательств
-		$src = $this->imgcreate($path."/resize/".$filename, $ext);
+		$src = $this->imgcreate($path."/".$fileresize, $ext);
 
 		# удаляем оригинал
-		unlink($path."/resize/".$filename);
+		unlink($path."/".$fileresize);
 
 
 		// Gaussian blur matrix:
@@ -418,7 +281,7 @@ class GD {
 		# Тень следом текст, далее цвет линии подложки
 		$shadow 	= imagecolorallocatealpha($src, 0, 0, 0, 20);
 		$color  	= imagecolorallocatealpha($src, 255, 255, 255, 20);
-		$colorline  = imagecolorallocatealpha($src, 220, 220, 225, 66);
+		$colorline	= imagecolorallocatealpha($src, 220, 220, 225, 66);
 
 		# размер шрифта
 		$size = 10;
@@ -451,29 +314,11 @@ class GD {
 
 
 		# вливаем с ватермарком
-		if($ext == "jpg")		imagejpeg($src,$path."/resize/".$filename, $this->rs_quality);
-		elseif($ext == "gif")	imagegif($src,$path."/resize/".$filename);
-		elseif($ext == "png")	imagepng($src,$path."/resize/".$filename);
+		if($ext == "jpg")	imagejpeg($src,$path."/".$fileresize, $this->rs_quality);
+		elseif($ext == "gif")	imagegif($src,$path."/".$fileresize);
+		elseif($ext == "png")	imagepng($src,$path."/".$fileresize);
 
-        imagedestroy($src);
-	}
-
-
-	/* ####################################################
-	 * Преобразовываем текст из ISO8859-5 в Unicode
-	 * Использовать перед запуском imagettftext
-	 * [Морально устаревшая функция после перехода на utf8]
-	 */
-	protected function tounicode($text, $from="w") {
-		$text = convert_cyr_string($text, $from, "i");
-		$uni  = "";
-		for($i = 0, $len = mb_strlen($text, 'utf8'); $i < $len; $i++) {
-			$char = $text{$i};
-			$code = ord($char);
-			$uni .= ($code > 175)? "&#" . (1040 + ($code - 176)) . ";" : $char;
-		}
-
-		return $uni;
+        	imagedestroy($src);
 	}
 
 
@@ -488,15 +333,15 @@ class GD {
 
 		switch($ext) {
 			case 'jpg':
-                $src = imagecreatefromjpeg($path);
-				break;
+                	        $src = imagecreatefromjpeg($path);
+			        break;
 
 			case 'gif':
-                $src = imagecreatefromgif($path);
+                		$src = imagecreatefromgif($path);
 				break;
 
 			case 'png':
-                $src = imagecreatefrompng($path);
+                		$src = imagecreatefrompng($path);
 				break;
 
 			/*default:
@@ -519,20 +364,20 @@ class GD {
 	*/
 	private function calc_resize($width, $height, $towidth, $toheight) {
 
-		$x_ratio 		= $towidth / $width;
-		$y_ratio 		= $toheight / $height;
-		$ratio 			= min($x_ratio, $y_ratio);
+		$x_ratio 	= $towidth / $width;
+		$y_ratio 	= $toheight / $height;
+		$ratio 		= min($x_ratio, $y_ratio);
 		$use_x_ratio 	= ($x_ratio == $ratio);
-		$new_width 		= $use_x_ratio 	? $towidth : floor($width * $ratio);
+		$new_width 	= $use_x_ratio 	? $towidth : floor($width * $ratio);
 		$new_height 	= !$use_x_ratio ? $toheight : floor($height * $ratio);
-		$new_left 		= $use_x_ratio 	? 0 : floor(($towidth - $new_width) / 2);
-		$new_top 		= !$use_x_ratio ? 0 : floor(($toheight - $new_height) / 2);
+		$new_left 	= $use_x_ratio 	? 0 : floor(($towidth - $new_width) / 2);
+		$new_top 	= !$use_x_ratio ? 0 : floor(($toheight - $new_height) / 2);
 
 		$return = array();
-		$return = array('new_width'		=> $new_width,
-						'new_height'	=> $new_height,
-						'new_left'		=> $new_left,
-						'new_top'		=> $new_top);
+		$return = array('new_width'	=> $new_width,
+				'new_height'	=> $new_height,
+				'new_left'	=> $new_left,
+				'new_top'	=> $new_top);
 
 		return $return;
 	}

@@ -6,7 +6,7 @@
 * @author       alex Roosso
 * @copyright    2010-2014 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.0.3
+* @version      1.1.0
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -57,10 +57,14 @@ $acp_help = new ACP_HELP;
 class ACP_HELP {
 
 	# vars
-	private $part		= "help";
-	private $part_id	= 1;
+	private $part			= "help";
+	private $part_id		= 1;
+	private $part_parent	= 0;
 
-	public $helptree 	= array();
+	private $part_data		= array(); # Информация по текущему разделу
+
+	private $helptree 		= array();
+	private $mites			= array();
 
 
 
@@ -78,19 +82,48 @@ class ACP_HELP {
 
     	# Запрашиваем техническую информацию о разделе по уникальному имени
     	if(isset($GET->_u) && $db->check_id($GET->_u, HELP_TABLE, "uname")) {
-			$q = $db->query("SELECT id, uname FROM ".HELP_TABLE." WHERE uname='".$GET->_u."'");
+			$q = $db->query("SELECT id, parent_id, uname, title, content, date_modified FROM ".HELP_TABLE." WHERE uname='".$GET->_u."'");
 			$row = $db->fetch_assoc($q);
+
 			$this->part = $row['uname'];
 			$this->part_id = $row['id'];
+			$this->part_parent = $row['parent_id'];
+
+			$this->part_data = $row;
     	}
 
     	# Запрашиваем техническую информацию о разделе по идентификатору
     	if(isset($GET->_id) && $db->check_id($GET->_id, HELP_TABLE)) {
-			$q = $db->query("SELECT id, uname FROM ".HELP_TABLE." WHERE id='".$GET->_id."'");
+			$q = $db->query("SELECT id, parent_id, uname, title, content, date_modified FROM ".HELP_TABLE." WHERE id='".$GET->_id."'");
 			$row = $db->fetch_assoc($q);
+
 			$this->part = $row['uname'];
 			$this->part_id = $row['id'];
+			$this->part_parent = $row['parent_id'];
+
+			$this->part_data = $row;
     	}
+
+    	# Запрашиваем техническую информацию о разделе по умолчанию, если не было верного запроса ни по идентификатору ни уникалному имени
+    	if($this->part_id == 1) {
+			$q = $db->query("SELECT id, parent_id, uname, title, content, date_modified FROM ".HELP_TABLE." WHERE id='1'");
+			$row = $db->fetch_assoc($q);
+
+			$this->part = $row['uname'];
+			$this->part_id = $row['id'];
+			$this->part_parent = $row['parent_id'];
+
+			$this->part_data = $row;
+    	}
+
+
+		# Варганим "хлебные хрошки"
+		if($this->part_parent != 0) {
+			$this->construct_mites($this->part_id);
+			krsort($this->mites);
+		}
+
+		$smarty->assign('helpmites', $this->mites);
 
     	# действия
     	if(DEVMODE) {
@@ -117,12 +150,11 @@ class ACP_HELP {
 					break;
 
 				default:
-					$content = $this->show_help($this->part_id);
+					$content = $this->show_help();
 					break;
     		}
     	}
-    	else $content = $this->show_help($this->part_id);
-
+    	else $content = $this->show_help();
 
     	# отрисовываем шаблон
     	$smarty->assign('content', $content);
@@ -134,12 +166,11 @@ class ACP_HELP {
 	* Отображаем помошь...
 	*
 	*/
-	function show_help($id) {
+	function show_help() {
 
-		global $db, $parse, $tpl, $smarty;
+		global $parse, $tpl, $smarty;
 
-		$q = $db->query("SELECT id, uname, title, content, date_modified FROM ".HELP_TABLE." WHERE uname='".$this->part."'");
-		$data = $db->fetch_assoc($q);
+        $data =& $this->part_data;
 
 		$data['date_modified'] = $parse->date->unix_to_rus($data['date_modified'], false, false, true);
 		$data['content'] = $parse->text->html($data['content']);
@@ -182,8 +213,8 @@ class ACP_HELP {
 		# если ошибок нет
 		if(!isset($_SESSION['error'])) {
 
-			$db->query("INSERT INTO ".HELP_TABLE."   (title, uname, content, parent_id, date_modified)
-												VALUES ('".$POST->title."', '".$POST->uname."', '".$POST->content."', '".$POST->parent_id."', '".time()."')");
+			$db->query("INSERT INTO ".HELP_TABLE."   (title, uname, sort, content, parent_id, date_modified)
+												VALUES ('".$POST->title."', '".$POST->uname."', '".$POST->sort."','".$POST->content."', '".$POST->parent_id."', '".time()."')");
 
 			# пересчитываем "детей"
 			$this->count_childs($POST->parent_id);
@@ -355,7 +386,7 @@ class ACP_HELP {
 	* @param boolean $child - укажите false если не хотите расчитывать подуровни.
 	* @param int $level - текущий обрабатываемый уровень (используется прирасчете подкатегорий)
 	*/
-	private function construct_tree($unit, $parent=0, $maxlevel=0, $child=true, $level=0) {
+	private function construct_tree(array $unit, $parent=0, $maxlevel=0, $child=true, $level=0) {
 
 		# create array
 		if($level == 0) $tree = array();
@@ -379,6 +410,26 @@ class ACP_HELP {
 
 		# be back
 		if(!empty($tree)) return $tree;
+	}
+
+
+	/**
+	* Собираем хлебные крошки по разделу
+	*
+	* @param int $id - идентификатор текущего раздела
+	*/
+	private function construct_mites($id = 1) {
+		if($id != 1) {
+			foreach($this->helptree AS $k=>$v) {
+				if($v['id'] == $id) {
+					$this->mites[] = array('id'		=> $v['id'],
+										   'uname'	=> $v['uname'],
+										   'title'	=> $v['title']);
+
+					if($v['parent_id'] != 0) $this->construct_mites($v['parent_id']);
+				}
+			}
+		}
 	}
 
 

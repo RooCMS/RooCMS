@@ -1,18 +1,18 @@
 <?php
 /**
-* @package		RooCMS
+* @package	RooCMS
 * @subpackage	Engine RooCMS classes
 * @subpackage	Debug Class
-* @author		alex Roosso
+* @author	alex Roosso
 * @copyright	2010-2014 (c) RooCMS
-* @link			http://www.roocms.com
-* @version		1.3.2
-* @since		$date$
-* @license		http://www.gnu.org/licenses/gpl-3.0.html
+* @link		http://www.roocms.com
+* @version	2.0.1
+* @since	$date$
+* @license	http://www.gnu.org/licenses/gpl-3.0.html
 */
 
 /**
-*	RooCMS - Russian free content managment system
+*   RooCMS - Russian free content managment system
 *   Copyright (C) 2010-2014 alex Roosso aka alexandr Belov info@roocms.com
 *
 *   This program is free software: you can redistribute it and/or modify
@@ -66,31 +66,32 @@ $debug = new Debug;
 class Debug {
 
 	# vars
-	public	$show_debug 			= false;			# [bool] 	show full debug text
-	public	$debug_info 			= "";				# [text] 	buffer for debug info text
-	public	$phpextensions			= array();			# [array]	Список установленных PHP расширений
-	public	$nophpextensions		= array();			# [array]	Список отсуствующих PHP приложений, требуемых для RooCMS
+	public	$show_debug 		= false;		# [bool] 	show full debug text
+	public	$debug_info 		= "";			# [text] 	buffer for debug info text
+	private	$debug_dump		= array();		# [array]	Дамп с данными отладки, для разработчика.
+	public	$phpextensions		= array();		# [array]	Список установленных PHP расширений
+	public	$nophpextensions	= array();		# [array]	Список отсуствующих PHP приложений, требуемых для RooCMS
 
-	private	$starttime				= 0;
-	public	$productivity_time		= 0;
+	private	$starttime		= 0;
+	public	$productivity_time	= 0;
 
-	private	$memory_usage			= 0;
+	private	$memory_usage		= 0;
 	public	$productivity_memory	= 0;
-	public	$memory_peak_usage		= 0;
+	public	$memory_peak_usage	= 0;
 
 	# requirement
-	private $reqphpext				= array("Core",		# [array]	Обязательные php расширения для работы RooCMS
-											"calendar",
-											"date",
-											"pcre",
-											"session",
-											"xml",
-											"gd",
-											"mbstring",
-											"standard",
-											"SimpleXML",
-											"apache2handler",
-											"mysql");
+	private $reqphpext		= array("Core",		# [array]	Обязательные php расширения для работы RooCMS
+						"calendar",
+						"date",
+						"pcre",
+						"session",
+						"xml",
+						"gd",
+						"mbstring",
+						"standard",
+						"SimpleXML",
+						"apache2handler",
+						"mysql");
 
 
 	/**
@@ -100,14 +101,14 @@ class Debug {
 	function __construct() {
 
 		# устанавливаем перехватчик ошибок
-		@set_error_handler(array('Debug','debug_error'), E_ALL);
+		@set_error_handler(array($this,'debug_critical_error'));
 
 
-        if(!defined('DEBUGMODE')) 	define('DEBUGMODE', true);
-        if(!defined('DEVMODE')) 	define('DEVMODE', true);
+                if(!defined('DEBUGMODE')) 	define('DEBUGMODE', true);
+                if(!defined('DEVMODE')) 	define('DEVMODE', true);
 
 
-        # Для админа всегода показываем ошибки и замеряем время выполнения RooCMS
+        	# Для админа всегда показываем ошибки и замеряем время выполнения RooCMS
 		if(DEBUGMODE || defined('ACP') || defined('INSTALL')) {
 			# start Debug timer
 			$this->start_productivity();
@@ -126,38 +127,38 @@ class Debug {
 	* Запускаем таймер подсчета времени выполнения скрипта
 	*
 	*/
-    private function start_productivity() {
+        private function start_productivity() {
 
-    	# timer
-        $mtime = STARTTIME;
-        $mtime = explode(' ', $mtime);
-        $mtime = $mtime[1] + $mtime[0];
-        $this->starttime = $mtime;
+    	        # timer
+                $mtime = STARTTIME;
+                $mtime = explode(' ', $mtime);
+                $mtime = $mtime[1] + $mtime[0];
+                $this->starttime = $mtime;
 
-        # memory
-        $this->memory_usage = MEMORYUSAGE;
-    }
+                # memory
+                $this->memory_usage = MEMORYUSAGE;
+        }
 
 
 	/**
 	* Останавливаем таймер подсчета времени выполнения скрипта
 	*
 	*/
-    public function end_productivity() {
+        public function end_productivity() {
 
-    	# timer
-        $mtime = microtime();
-        $mtime = explode(' ', $mtime);
-        $mtime = $mtime[1] + $mtime[0];
-        $endtime = $mtime;
-        $totaltime = round(($endtime - $this->starttime), 4);
+    	        # timer
+                $mtime = microtime();
+                $mtime = explode(' ', $mtime);
+                $mtime = $mtime[1] + $mtime[0];
+                $endtime = $mtime;
+                $totaltime = round(($endtime - $this->starttime), 4);
 
-		$this->productivity_time = $totaltime;
+	        $this->productivity_time = $totaltime;
 
-		# memory
-		$this->productivity_memory 	= memory_get_usage() - $this->memory_usage;
-		$this->memory_peak_usage 	= memory_get_peak_usage();
-    }
+	        # memory
+	        $this->productivity_memory 	= memory_get_usage() - $this->memory_usage;
+	        $this->memory_peak_usage 	= memory_get_peak_usage();
+        }
 
 
 	/**
@@ -174,53 +175,75 @@ class Debug {
 	}
 
 
-	/**
-	* Перехватчик системных ошибок
-	*
-	* @param mixed $errno - Номер ошибки
-	* @param mixed $msg   - Сообщение об ошибке
-	* @param mixed $file  - Имя файла с ошбкой
-	* @param mixed $line  - Номер строки с ошибкой
-	*/
-	public static function debug_error($errno, $msg, $file, $line) {
+        /**
+        * Перехватчик системных ошибок
+        *
+        * @param mixed $errno - Номер ошибки
+        * @param mixed $msg   - Сообщение об ошибке
+        * @param mixed $file  - Имя файла с ошбкой
+        * @param mixed $line  - Номер строки с ошибкой
+        */
+	public static function debug_critical_error($errno, $msg, $file, $line, $context) {
 
-        static $use = 0;
-
-		if(error_reporting() == 0) return;
-
-		if($use == 0) {
-			echo "
-			<style>
-			.system_error {
-				padding: 5px;
-				top: 0; left: 0; z-index: 100;
-				font-family: Tahoma; font-size: 10px; font-weight: bold; color: #dd0000; text-align: left;
-				width: 99%;
-				background-color: #ffeeee;
-				border: 1px dashed red;
-				position: static;
-			}
-			</style>";
-		}
-
-		echo "<div class=\"system_error\">
-		<font color=#990000>ВНИМАНИЕ ОШИБКА: </font> <b>{$errno}</b>
-		<br /><font color=#770000>Cтрока:</font> <b>{$line}</b> <font color=#770000>В файле:</font> <b>{$file}</b>
-		<br /><font color=#770000>Сообщение:</font> <b>{$msg}</b>
-		</div>\n";
-
-
-        // Записываем ошибку в файл
-        $file_error = _LOGS."/errors.log";
+                // Записываем ошибку в файл
+                $file_error = _LOGS."/errors.log";
 		$subj = "";
-        if(file_exists($file_error)) {
-			$f = file($file_error);
-	        foreach($f AS $v) {
-        		$subj .= $v;
-	        }
-        }
 
-		$subj .= date("d.m.Y H:i:s")."\t|\tPHPError\t|\t(".$errno.") ".$msg." (Строка: ".$line." в файле ".$file.")\r\n";
+                if(file_exists($file_error)) {
+			$f = file($file_error);
+	                foreach($f AS $v) {
+        		        $subj .= $v;
+	                }
+                }
+
+                switch($errno) {	// Для "умников" - E_CORE_ERROR не вписываем, потому что, до выполнения этого скрипта дело не дойдет. А дойдет, значит не E_CORE_ERROR
+        	        case E_ERROR:			# critical
+        		        $erlevel = 0; $ertitle = "Критическая ошибка";
+        		        break;
+
+        	        case E_USER_ERROR:		# critical
+        		        $erlevel = 0; $ertitle = "Критическая пользовательская ошибка";
+        		        break;
+
+        	        case E_RECOVERABLE_ERROR :	# warning(?)critical
+        		        $erlevel = 1; $ertitle = "Критическая ошибка в работе ПО";
+        		        break;
+
+        	        case E_WARNING:			# warning
+        		        $erlevel = 1; $ertitle = "Некритическая ошибка";
+        		        break;
+
+        	        case E_USER_WARNING:		# warning
+        		        $erlevel = 1; $ertitle = "Некритическая пользовательская ошибка";
+        		        break;
+
+        	        case E_CORE_WARNING:		# warning
+        		        $erlevel = 1; $ertitle = "Некритическая ошибка ядра";
+        		        break;
+
+        	        case E_COMPILE_WARNING:		# warning
+        		        $erlevel = 1; $ertitle = "Некритическая ошибка Zend";
+        		        break;
+
+        	        case E_NOTICE:			# notice
+        		        $erlevel = 2; $ertitle = "Ошибка";
+        		        break;
+
+        	        case E_USER_NOTICE:		# notice
+        		        $erlevel = 2; $ertitle = "Пользователская ошибка";
+        		        break;
+
+        	        default:			# unknown
+        		        $erlevel = 3; $ertitle = "Неизвестная ошибка";
+        		        break;
+                }
+
+                if($erlevel == 0) register_shutdown_function(array($this,'shotdown'), "debug");
+
+        	$time = date("d.m.Y H:i:s");
+
+		$subj .= $time."\t|\tPHPError\t|\t".$ertitle."\t|\t[ #".$errno." ] ".$msg." (Строка: ".$line." в файле ".$file.")\r\n";
+		#foreach($context AS $k=>$v)	$subj .= "\t\t".$k." - ".$v."\r\n";
 
 		$f = fopen($file_error, "w+");
 		if(is_writable($file_error)) {
@@ -228,78 +251,112 @@ class Debug {
 		}
 		fclose($f);
 
-		$use++;
+		# Не будем ничего выводить, если нам приказано скрыть ошибки.
+		if(error_reporting() == 0) {
+        	        if($erlevel == 0) die(CRITICAL_STYLESHEETS."<blockquote>Извините, что то пошло не так. Мы уже работаем над устранением причин.<small>".$time."</small></blockquote>");
+        	        else return;
+		}
+
+                echo CRITICAL_STYLESHEETS."
+                <div class='alert alert-danger t12 text-left in fade col-md-10 col-md-offset-1' role='alert'>
+                <button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button>
+	        ОШИБКА: <b>#{$errno} - {$ertitle}</b>
+	        <br />Строка: <b>{$line}</b> в файле <b>{$file}</b>
+	        <br /><b>{$msg}</b>
+		</div>\n";
+
+		# Убиваем стандартный обработчик, что бы он ничего не выдал шпиёну (:
+		return true;
 	}
 
 
-    /**
-    * Функция включения/отключения протоколирования ошибок
-    *
-    * @param boolean $show - флаг включает/выключает ошибки
-    */
+        /**
+        * Функция включения/отключения протоколирования ошибок
+        *
+        * @param boolean $show - флаг включает/выключает ошибки
+        */
 	private static function error_report($show = false) {
 		if($show) {
-			error_reporting(E_ALL);					#8191
+			error_reporting(E_ALL);				#8191
 			ini_set("display_startup_errors",	1);
-			ini_set("display_errors",			1);
-			ini_set("html_errors",				1);
-			ini_set("report_memleaks",			1);
-			ini_set("track_errors",				1);
-			ini_set("log_errors",				1);
+			ini_set("display_errors",		1);
+			ini_set("html_errors",			1);
+			ini_set("report_memleaks",		1);
+			ini_set("track_errors",			1);
+			ini_set("log_errors",			1);
 			ini_set("log_errors_max_len",		2048);
 			ini_set("ignore_repeated_errors",	1);
 			ini_set("ignore_repeated_source",	1);
-			ini_set("error_log",				_LOGS."/php_error.log");
+			ini_set("error_log",			_LOGS."/php_error.log");
 		}
 		else {
 			error_reporting(0);
 		}
 	}
 
-}
 
+        /**
+        * Функция отладки
+        *
+        * @param mixed $var     - Переменная для отладки
+        * @param mixed $expand  - Флаг развернутого вида
+        * @return mixed - Функция выводит на экран дамп переменной $var
+        */
+	public function debug($var, $expand=false) {
+                static $use = 1;
 
+                # регестрируем шотдаун
+    	        if($use == 1 && $expand) {
+        	        register_shutdown_function(array($this,'shotdown'), "debugexpand");
 
-/**
-* DEBUG
-*
-* @param mixed $var     - Переменная для отладки
-* @param mixed $expand  - Флаг развернутого вида
-* @return mixed - Функция выводит на экран дамп переменной $var
-*/
-function debug($var, $expand=false) {
+			ob_start();
+				debug_print_backtrace();
+				$backtrace = ob_get_contents();
+			ob_end_clean();
 
-	static $use = 0;
+			$this->debug_dump['backtrace'] = $backtrace;
+    	        }
+    	        elseif($use == 1 && !$expand) register_shutdown_function(array($this,'shotdown'), "debug");
+    	        	# print var
+		        ob_start();
+			        if($expand) var_dump($var);
+			        else		print_r($var);
+			        $output = ob_get_contents();
+		        ob_end_clean();
 
-	$b = $use*100;
-	echo <<<HTML
-			<style>
-				#debug{$use} {position: absolute;z-index: 100;bottom: {$use}px;left: 9%;padding: 6px;margin: 0px;background-color: #ffffee;border: 1px solid #ccc;overflow: auto;height: 100px;max-width: 90%;}
-				#debug{$use}:hover {z-index: 101;height: 99%;}
-			</style>
-			<div id="debug{$use}" class="shadow">
-			<legend style="font-weight: bold;">Debug #{$use}</legend>
-			<pre>\n
-HTML;
-	print_r($var);
-	echo "</pre></div>\n";
+		        $this->debug_dump[] = $output;
 
-	if($expand == true) {
-		echo "<fieldset><legend>Var Dump</legend><pre>\n";
-		var_dump($var);
-		echo "</pre></fieldset>\n";
-
-		echo "<fieldset><legend>Backtrace function</legend><pre>\n";
-		print_r(debug_backtrace());
-		echo "</pre></fieldset>\n";
-
-		echo "<fieldset><legend>Backtrace</legend><pre>\n";
-		debug_print_backtrace();
-		echo "</pre></fieldset>\n";
+    	        # шагаем
+    	        $use++;
 	}
 
-	$use++;
+
+        /**
+        * Шотдаун (выодвим отладку)
+        *
+        * @param mixed $type
+        */
+	public static function shotdown($type="debug") {
+    	        global $debug;
+
+                echo "<div class='container'><div class='row'><div class='col-xs-12'><h3>Отладка</h3>";
+
+                foreach($debug->debug_dump AS $k=>$v) {
+        	        echo "<code>debug <b>#".$k."</b></code><pre class='small' style='overflow: auto;max-height: 300px;'>".htmlspecialchars($v)."</pre>";
+                }
+
+                if($type == "debugexpand") {
+		        ob_start();
+			        print_r(debug_backtrace());
+			        $backtrace = ob_get_contents();
+		        ob_end_clean();
+
+        	        echo "<code>backtrace</code><pre class='small' style='overflow: auto;max-height: 300px;'>".$backtrace."</pre>";
+                }
+
+                echo "</div></div></div>";
+
+                exit;
+	}
 }
-
-
 ?>

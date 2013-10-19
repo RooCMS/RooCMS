@@ -6,13 +6,13 @@
 * @author       alex Roosso
 * @copyright    2010-2014 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      2.4.6
+* @version      2.5.1
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
 
 /**
-*	RooCMS - Russian free content managment system
+*   RooCMS - Russian free content managment system
 *   Copyright (C) 2010-2014 alex Roosso aka alexandr Belov info@roocms.com
 *
 *   This program is free software: you can redistribute it and/or modify
@@ -53,24 +53,13 @@ if(!defined('RooCMS')) die('Access Denied');
 //#########################################################
 
 
-//	database class :: MySQL
+# init database class :: MySQL
+$db = new MySQLDatabase;
 
-$db = new DataBase;
+class MySQLDatabase extends MySqlExtends {
 
-class DataBase {
-
-	public	$db_connect = false;	# [bool]	Флаг состояния подключения к БД
-	public  $cnt_querys = 0;		# [int] 	Счетчик запросов в БД
-
-
-	# pages param
-	public  $pages		= 0;		# [int]	Всего страниц
-	public  $page		= 1;		# [int] Текущая страница
-	public	$prev_page	= 0;		# [int] Предыдущая страница
-	public	$next_page	= 0;		# [int] Следующая страница
-	public 	$limit		= 15;		# [int] Число строк для запроса
-	public  $from		= 0;		# [int] Стартовая позиция для запроса
-
+	public	$db_connect 	= false;	# [bool]	Флаг состояния подключения к БД
+	public  $cnt_querys 	= 0;		# [int] 	Счетчик запросов в БД
 
 
 	/**
@@ -136,9 +125,9 @@ class DataBase {
 	* Поэтому если БД работает стабильно, лучше выключить данную функцию.
 	*/
 	private function charset() {
-        $this->query("set character_set_client = 'utf8'");
-        $this->query("set character_set_results = 'utf8'");
-        $this->query("set collation_connection = 'utf8_general_ci'");
+                $this->query("set character_set_client = 'utf8'");
+                $this->query("set character_set_results = 'utf8'");
+                $this->query("set collation_connection = 'utf8_general_ci'");
 		//mysql_query ("set names 'utf8'");
 	}
 
@@ -152,18 +141,16 @@ class DataBase {
 	*/
 	private function error($q = "") {
 
-		global $debug;
-
 		# режим отладки
 		if(DEBUGMODE) {
-			$query = "<div style=\"padding: 5px;text-align: left;\"><font style=\"font-family: Tahoma; font-size: 12px;text-align: left;\">
-			Ошибка БД / MySQL Error: <b>".mysql_errno()."</b>
-			<br /> -- ".mysql_error()."
+			$query = "<div style='padding: 5px;text-align: left;'><font style='font-family: Verdana, Tahoma; font-size: 12px;text-align: left;'>
+			Ошибка БД [MySQL Error]: <b>".mysql_errno()."</b>
+			<br /> &bull; ".mysql_error()."
 			<br />
-			<br /><table width=\"100%\" style=\"border: 1px solid #ffdd00; background-color: #ffffee;text-align: left;\">
+			<br /><table width='100%' style='border: 1px solid #ffdd00; background-color: #ffffee;text-align: left;'>
 			 <tr>
-			  <td align=\"left\" style=\"text-align: left;\"><font style=\"font-family: Tahoma; font-size: 10px;text-align: left;\">
-			  <font color=\"#990000\"><b>SQL Query:</b><pre> $q</pre></font>
+			  <td align='left' style='text-align: left;'><font style='font-family: Tahoma; font-size: 11px;text-align: left;'>
+			  <font color='#990000'><b>SQL Запрос:</b> <pre>{$q}</pre></font>
 			  </font>
 			 </tr>
 			</table>
@@ -171,11 +158,13 @@ class DataBase {
 			</font></div>";
 
 			return $query;
+			exit;
 		}
 		# рабочий режим
 		else {
 			$f = file(_SKIN."/db_error.tpl");
 			foreach($f AS $k=>$v) echo $v;
+			exit;
 		}
 	}
 
@@ -218,14 +207,16 @@ class DataBase {
 					'LIMIT' 	=> '<b>LIMIT</b>'
 				));
 
+                if($this->cnt_querys == 1)
+                $debug->debug_info .= "<h3>Запросы к БД</h3>";
+
 				# debug info querys
-				$debug->debug_info .= "<table width=\"100%\" style=\"border: 1px solid #ffdd00; background-color: #ffffee;text-align: left;\">
-				 <tr>
-				  <td align=\"left\" style=\"text-align: left;\"><font style=\"font-family: Tahoma; font-size: 10px;text-align: left;\">
-				  <font color=\"#990000\"><pre><i style=\"color: blue;\"><u>SQL Query ".$this->cnt_querys.":</u></i><br /> {$q}</pre></font>
-				  </font></td>
-				 </tr>
-				</table>";
+				$debug->debug_info .= "<hr>
+						       <blockquote class='col-xs-12'>
+							    <small>Запрос <b>#".$this->cnt_querys."</b></small>
+							    <span class='text-danger'>{$q}</span>
+						       </blockquote>";
+
 			}
 
 			return $query;
@@ -240,17 +231,17 @@ class DataBase {
 	* @param array $array  - Массива данных, где ключ это имя поля в таблице а значение данные этого поля.
 	* @param string $table - Название целевой таблицы.
 	*/
-	public function insert_array($array, $table) {
+	public function insert_array(array $array, $table) {
 
 		$fields	= "";
 		$values	= "";
 
 		foreach($array AS $key=>$value) {
 			if(trim($fields) == "") 	$fields .= $key;
-			else						$fields .= ", ".$key;
+			else				$fields .= ", ".$key;
 
 			if(trim($values) == "") 	$values .= "'".$value."'";
-			else						$values .= ", '".$value."'";
+			else				$values .= ", '".$value."'";
 		}
 
 		$q = "INSERT INTO ".$table." (".$fields.") VALUES (".$values.")";
@@ -259,20 +250,20 @@ class DataBase {
 	}
 
 
-	/**
-	* Функция обновляет данные из массива в указанную таблицу.
-	* Не рекомендуется использовать данную функцию в пользовательской части CMS
-	*
-	* @param array $array  - Массив данных, где ключ это имя поля в таблице а значение данные этого поля.
-	* @param string $table - Название целевой таблицы.
-	* @param string $where - Условие (фильтр) для отборо целевых строк таблицы
-	*/
-	public function update_array($array, $table, $where) {
+        /**
+        * Функция обновляет данные из массива в указанную таблицу.
+        * Не рекомендуется использовать данную функцию в пользовательской части CMS
+        *
+        * @param array $array  - Массив данных, где ключ это имя поля в таблице а значение данные этого поля.
+        * @param string $table - Название целевой таблицы.
+        * @param string $where - Условие (фильтр) для отборо целевых строк таблицы
+        */
+	public function update_array(array $array, $table, $where) {
 
 		$update = "";
 		foreach($array AS $key=>$value) {
 			if(trim($update) == "") 	$update .= $key."='".$value."'";
-			else						$update .= ", ".$key."='".$value."'";
+			else				$update .= ", ".$key."='".$value."'";
 		}
 
 		$q = "UPDATE ".$table." SET ".$update." WHERE ".$where;
@@ -281,12 +272,12 @@ class DataBase {
 	}
 
 
-	/**
-	* Преобразует результаты запроса в простой массив
-	*
-	* @param data $q - Результат произведенного в БД запроса.
-	* @return array  - Возвращает данные из БД в ввиде нумерованного массива
-	*/
+        /**
+        * Преобразует результаты запроса в простой массив
+        *
+        * @param data $q - Результат произведенного в БД запроса.
+        * @return array  - Возвращает данные из БД в ввиде нумерованного массива
+        */
 	public function fetch_row($q) {
 
 		if($this->db_connect || DEBUGMODE) {
@@ -355,8 +346,8 @@ class DataBase {
 		$q = $this->query("SELECT count(*) FROM ".$table." WHERE {$field}='".$id."' ".$where."");
 		$c = $this->fetch_row($q);
 
-        if($c[0] == 0) return false;
-        else return $c[0];
+                if($c[0] == 0) return false;
+                else return $c[0];
 	}
 
 
@@ -375,16 +366,15 @@ class DataBase {
 
 		$q = htmlspecialchars($q);
 		$q = strtr($q, array(
-			'{' 		=> '&#123;',
-			'}' 		=> '&#125;',
-			'$' 		=> '&#36;',
-			'&amp;gt;' 	=> '&gt;',
-			"'"			=> "&#39;"
+		        '{' 		=> '&#123;',
+		        '}' 		=> '&#125;',
+		        '$' 		=> '&#36;',
+		        '&amp;gt;' 	=> '&gt;',
+		        "'"		=> "&#39;"
 		));
 
 		if($this->db_connect) return mysql_real_escape_string($q);
 		else return $q;
-
 	}
 
 
@@ -394,84 +384,6 @@ class DataBase {
 	*/
 	public function close() {
 		@mysql_close();
-	}
-
-
-	//#####################################################
-	//	jaga jaga
-	public function pages_mysql($from, $where="id!=0", $query="") {
-
-		# Считаем
-		$count = array();
-		$c = $this->query("SELECT count(*) FROM ".$from." WHERE ".$where." ".$query);
-		$count = $this->fetch_row($c);
-
-		# Если товаров больше чем на одну страницу...
-		if($count[0] > $this->limit) {
-			# Получаем кол-во страниц
-			$this->pages = $count[0] / $this->limit;
-			# Проверяем полученное число на "целое" или "десятичное"
-			if(mb_strpos($this->pages,".", 0, "utf8") !== false OR mb_strpos($this->pages,",", 0,"utf8") !== false) $this->pages++;
-			# Округляем
-			$this->pages = floor($this->pages);
-		}
-
-		# Если у нас используется переменная страницы в строке запроса, неравная первой странице...
-		if($this->pages > "1" && $this->page != 0) {
-			# Округляем до целых, что бы не вызвать ошибки в скрипте.
-			$this->page = floor($this->page);
-
-			# Если запрос не к нулевой странице и такая страница имеет право быть...
-			if($this->page != "0" && $this->page <= $this->pages) {
-				# $this->page--;
-				$this->from = $this->limit * ($this->page - 1);
-			}
-		}
-
-		# Если у нас в строке запроса указана страница, больше максимальной...
-		if($this->page > $this->pages) $this->page = $this->pages;
-
-		# Предыдущая и следующая страница
-		if($this->page > 1) 			$this->prev_page = $this->page - 1;
-		if($this->page < $this->pages) 	$this->next_page = $this->page + 1;
-	}
-
-
-	/**
-	* Функция для расчета страниц, на случай когда не используется mySql
-	*
-	* @param int $items - общее число элементов
-	*/
-	public function pages_non_mysql($items) {
-
-		# Если товаров больше чем на одну страницу...
-		if($items > $this->limit) {
-			# Получаем кол-во страниц
-			$this->pages = $items / $this->limit;
-			# Проверяем полученное число на "целое" или "десятичное"
-			if(mb_strpos($this->pages,".", 0, "utf8") !== false OR mb_strpos($this->pages,",", 0, "utf8") !== false) $this->pages++;
-			# Округляем
-			$this->pages = floor($this->pages);
-		}
-
-		# Если у нас используется переменная страницы в строке запроса, неравная первой странице...
-		if($this->pages > "1" && $this->page != 0) {
-			# Округляем до целых, что бы не вызвать ошибки в скрипте.
-			$this->page = floor($this->page);
-
-			# Если запрос не к нулевой странице и такая страница имеет право быть...
-			if($this->page != "0" && $this->page <= $this->pages) {
-				# $this->page--;
-				$this->from = $this->limit * ($this->page - 1);
-			}
-		}
-
-		# Если у нас в строке запроса указана страница, больше максимальной...
-		if($this->page > $this->pages) $this->page = $this->pages;
-
-		# Предыдущая и следующая страница
-		if($this->page > 1) 			$this->prev_page = $this->page - 1;
-		if($this->page < $this->pages) 	$this->next_page = $this->page + 1;
 	}
 }
 

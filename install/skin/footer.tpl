@@ -37,7 +37,7 @@
 <div class="container visible-xs visible-sm">
 	<div class="row">
     	<div class="col-xs-12" style="padding-top: 20px;margin-bottom: -40px;">
-			<div class="progress" rel="tooltip" title="{$progress}% Завершено" data-placement="top">
+			<div class="progress pb0" rel="tooltip" title="{$progress}% Завершено" data-placement="top">
 			  <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="{$progress}" aria-valuemin="0" aria-valuemax="100" style="width: {$progress}%">
 			    <span class="sr-only">{$progress}% Завершено</span>
 			  </div>

@@ -5,13 +5,13 @@
 * @author       alex Roosso
 * @copyright    2010-2014 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.2.3
+* @version      1.2.4
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
 
 /**
-*	RooCMS - Russian free content managment system
+*   RooCMS - Russian free content managment system
 *   Copyright (C) 2010-2014 alex Roosso aka alexandr Belov info@roocms.com
 *
 *   This program is free software: you can redistribute it and/or modify
@@ -56,16 +56,16 @@ $install = new Install;
 class Install extends Requirement{
 
 	# vars
-	protected $allowed	= true;			# [bool]	flag for allowed to continue process
-	protected $log		= array();		# [array]	array log process actions
+	protected $allowed	= true;		# [bool]	flag for allowed to continue process
+	protected $log		= array();	# [array]	array log process actions
 
 	private $action		= "install";	# [string]	alias for identy process
-	private $step		= 1;			# [int]		now use step
-	private $nextstep	= 2;			# [int]		next use step
-	private $steps		= 8;			# [int]		all step in operations
+	private $step		= 1;		# [int]		now use step
+	private $nextstep	= 2;		# [int]		next use step
+	private $steps		= 8;		# [int]		all step in operations
 	private $page_title	= "";
 	private $status		= "";
-	private $noticetext	= "";			# [string]	attention text in head form
+	private $noticetext	= "";		# [string]	attention text in head form
 
 
 
@@ -210,7 +210,7 @@ class Install extends Requirement{
 					$context .= $f[$i];
 				}
 
-				$context = str_ireplace('$site[\'title\'] = "";','$site[\'title\'] = "'.$POST->site_title.'";',$context);
+				$context = str_ireplace('$site[\'title\'] = "";','$site[\'title\'] = "'.$parse->text->html($POST->site_title).'";',$context);
 				$context = str_ireplace('$site[\'domain\'] = "";','$site[\'domain\'] = "'.$POST->site_domain.'";',$context);
 				$context = str_ireplace('$site[\'sysemail\'] = "";','$site[\'sysemail\'] = "'.$POST->site_sysemail.'";',$context);
 
@@ -222,7 +222,7 @@ class Install extends Requirement{
 
 				# уведомление
 				$parse->msg("Данные успешно записаны:", true);
-				$parse->msg("Название сайта - ".$POST->site_title, true);
+				$parse->msg("Название сайта - ".$parse->text->html($POST->site_title), true);
 				$parse->msg("Адрес сайта - ".$POST->site_domain, true);
 				$parse->msg("E-mail администратора - ".$POST->site_sysemail, true);
 

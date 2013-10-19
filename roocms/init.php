@@ -5,13 +5,13 @@
 * @author       alex Roosso
 * @copyright    2010-2014 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.4.5
+* @version      1.5
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
 
 /**
-*	RooCMS - Russian free content managment system
+*   RooCMS - Russian free content managment system
 *   Copyright (C) 2010-2014 alex Roosso aka alexandr Belov info@roocms.com
 *
 *   This program is free software: you can redistribute it and/or modify
@@ -99,6 +99,13 @@ if(file_exists(_CLASS."/class_debug.php"))
 else die("Запуск RooCMS невозможен. Нарушена целостность системы.");
 
 /**
+* Запускаем расширение класса БД MySQL
+*/
+if(file_exists(_CLASS."/class_mysql_ext.php"))
+	require_once(_CLASS."/class_mysql_ext.php");
+else die("Запуск RooCMS невозможен. Нарушена целостность системы.");
+
+/**
 * Запускаем класс БД MySQL
 */
 if(file_exists(_CLASS."/class_mysql.php"))
@@ -127,17 +134,24 @@ if(file_exists(_CLASS."/class_parser.php"))
 else die("Запуск RooCMS невозможен. Нарушена целостность системы.");
 
 /**
-* Запускаем класс файлов
+* Запускаем класс работы с файлами
 */
 if(file_exists(_CLASS."/class_files.php"))
 	require_once(_CLASS."/class_files.php");
 else die("Запуск RooCMS невозможен. Нарушена целостность системы.");
 
 /**
-* Запускаем графический класс
+* Загружаем класс графической обработки
 */
 if(file_exists(_CLASS."/class_gd.php"))
 	require_once(_CLASS."/class_gd.php");
+else die("Запуск RooCMS невозможен. Нарушена целостность системы.");
+
+/**
+* Запускаем класс работы с изображениями
+*/
+if(file_exists(_CLASS."/class_images.php"))
+	require_once(_CLASS."/class_images.php");
 else die("Запуск RooCMS невозможен. Нарушена целостность системы.");
 
 /**
@@ -169,6 +183,8 @@ if(!defined('ACP') && file_exists(_CLASS."/class_structure.php")) {
 	require_once(_CLASS."/class_structure.php");
 	$structure = new Structure;
 }
+
+
 
 
 // $PEAR_PATH_LOCAL = _SITEROOT.'/pear';

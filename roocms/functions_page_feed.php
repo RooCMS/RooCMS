@@ -6,13 +6,13 @@
 * @author       alex Roosso
 * @copyright    2010-2014 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.0.7
+* @version      1.0.11
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
 
 /**
-*	RooCMS - Russian free content managment system
+*   RooCMS - Russian free content managment system
 *   Copyright (C) 2010-2014 alex Roosso aka alexandr Belov info@roocms.com
 *
 *   This program is free software: you can redistribute it and/or modify
@@ -75,7 +75,7 @@ class PageFeed {
 
 		$smarty->assign("feed", $feed);
 
-		if(isset($GET->_id) && $db->check_id($GET->_id, PAGES_FEED_TABLE)) {
+		if(isset($GET->_id) && $db->check_id($GET->_id, PAGES_FEED_TABLE, "id", "(date_end_publications = '0' || date_end_publications > '".time()."')")) {
 			$this->item_id = $GET->_id;
 			$this->load_item($this->item_id);
 		}
@@ -84,28 +84,31 @@ class PageFeed {
 	}
 
 
-	/**
-	* Load Feed Item
-	*
-	* @param int $id  - идентификатор новости
-	*/
+        /**
+        * Load Feed Item
+        *
+        * @param int $id  - идентификатор новости
+        */
 	private function load_item($id) {
 
-		global $db, $structure, $parse, $tpl, $smarty, $site;
+		global $db, $structure, $parse, $img, $tpl, $smarty, $site;
 
-		$q = $db->query("SELECT id, title, full_item, date_publications FROM ".PAGES_FEED_TABLE." WHERE id='".$id."'");
+		$q = $db->query("SELECT id, title, meta_description, meta_keywords, full_item, date_publications FROM ".PAGES_FEED_TABLE." WHERE id='".$id."'");
 		$item = $db->fetch_assoc($q);
 		$item['datep'] 		= $parse->date->unix_to_rus($item['date_publications'],true);
 		$item['full_item']	= $parse->text->html($item['full_item']);
 
 		# load attached images
 		$images = array();
-		$images = $structure->load_images("feedid=".$id);
+                $images 		= $img->load_images("feedid=".$id);
 		$smarty->assign("images", $images);
 
 		$smarty->assign("item", $item);
 
-		$site['title']	.= " - ".$item['title'];
+		# meta
+		$site['title'] .= " - ".$item['title'];
+		if(trim($item['meta_description']) != "")	$site['description']	= $item['meta_description'];
+		if(trim($item['meta_keywords']) != "")		$site['keywords']	= $item['meta_keywords'];
 
 		$tpl->load_template("feed_item");
 	}
@@ -117,14 +120,14 @@ class PageFeed {
 	*/
 	private function load_feed() {
 
-		global $db, $structure, $rss, $parse, $tpl, $smarty;
+		global $db, $structure, $rss, $parse, $img, $tpl, $smarty;
 
 		# set limit on per page
 		if($structure->page_items_per_page > 0) $this->items_per_page =& $structure->page_items_per_page;
 		$db->limit =& $this->items_per_page;
 
 		# calculate pages
-		$db->pages_mysql(PAGES_FEED_TABLE, "date_publications <= '".time()."' AND sid='".$structure->page_id."'");
+		$db->pages_mysql(PAGES_FEED_TABLE, "date_publications <= '".time()."' AND sid='".$structure->page_id."' AND (date_end_publications = '0' || date_end_publications > '".time()."')");
 
 		$pages = array();
 		# prev
@@ -146,12 +149,12 @@ class PageFeed {
 
 		# Feed list
 		$feeds = array();
-		$q = $db->query("SELECT id, title, brief_item, date_publications FROM ".PAGES_FEED_TABLE." WHERE date_publications <= '".time()."' AND sid='".$structure->page_id."' ORDER BY date_publications DESC, date_create DESC, date_update DESC LIMIT ".$db->from.",".$db->limit);
+		$q = $db->query("SELECT id, title, brief_item, date_publications FROM ".PAGES_FEED_TABLE." WHERE date_publications <= '".time()."' AND sid='".$structure->page_id."' AND (date_end_publications = '0' || date_end_publications > '".time()."') ORDER BY date_publications DESC, date_create DESC, date_update DESC LIMIT ".$db->from.",".$db->limit);
 		while($row = $db->fetch_assoc($q)) {
 			$row['datep'] 		= $parse->date->unix_to_rus($row['date_publications'],true);
 			$row['brief_item']	= $parse->text->html($row['brief_item']);
 
-			$row['image'] = $structure->load_images("feedid=".$row['id']."", 0, 1);
+			$row['image'] 		= $img->load_images("feedid=".$row['id']."", 0, 1);
 
 			$feeds[] = $row;
 		}

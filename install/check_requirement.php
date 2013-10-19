@@ -11,7 +11,7 @@
 */
 
 /**
-*	RooCMS - Russian free content managment system
+*   RooCMS - Russian free content managment system
 *   Copyright (C) 2010-2014 alex Roosso aka alexandr Belov info@roocms.com
 *
 *   This program is free software: you can redistribute it and/or modify
@@ -56,8 +56,8 @@ if(!defined('RooCMS') || !defined('INSTALL')) die('Access Denied');
 class Requirement {
 
 	# var
-	protected 	$allowed 	= true;		# [bool] 	flag for checked requirement for stable work RooCMS
-	protected	$log		= array();	# [array]
+	protected $allowed 	= true;		# [bool] 	flag for checked requirement for stable work RooCMS
+	protected $log		= array();	# [array]
 
 
 

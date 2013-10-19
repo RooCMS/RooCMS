@@ -15,10 +15,10 @@
 	<tbody>
 		{foreach from=$inivars item=inival key=ininame}
 		<tr{if $inival['local_value'] != $inival['global_value']} class="success"{/if}>
-    		<td>{$ininame}</td>
-    		<td{if $inival['local_value'] != $inival['global_value']} class="text-success bold"{/if}>{$inival['local_value']}{if $inival['local_value'] != $inival['global_value']}<small><br />{if trim($inival['global_value']) != ""}{$inival['global_value']}{else}пустое значение{/if}</small>{/if}</td>
-    		<td class="visible-lg">{$inival['global_value']}</td>
-    		<td class="hidden-xs">
+    		<td class="col-xs-2">{$ininame}</td>
+    		<td class="col-xs-4{if $inival['local_value'] != $inival['global_value']} text-success bold{/if}">{$inival['local_value']|htmlspecialchars}{if $inival['local_value'] != $inival['global_value']}<small><br />{if trim($inival['global_value']) != ""}{$inival['global_value']}{else}пустое значение{/if}</small>{/if}</td>
+    		<td class="col-xs-4 visible-lg">{$inival['global_value']|htmlspecialchars}</td>
+    		<td class="col-xs-2 hidden-xs">
 				{if $inival['access'] == 1}
 					Через пользовательские скрипты
 				{elseif $inival['access'] == 2 || $inival['access'] == 6}

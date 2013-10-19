@@ -6,13 +6,13 @@
 * @author       alex Roosso
 * @copyright    2010-2014 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.0.27
+* @version      1.1
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
 
 /**
-*	RooCMS - Russian free content managment system
+*   RooCMS - Russian free content managment system
 *   Copyright (C) 2010-2014 alex Roosso aka alexandr Belov info@roocms.com
 *
 *   This program is free software: you can redistribute it and/or modify
@@ -79,7 +79,6 @@ class ParserText {
 
 		#link
 
-
 		$text = $this->br($text);
 
 		return $text;
@@ -95,9 +94,9 @@ class ParserText {
 
 		$text = htmlspecialchars_decode($text);
  		$text = strtr($text, array(
-			'&#123;'	=> '{', 		//	{
-			'&#125;'	=> '}', 		//	}
-			'&#39;'		=> '\'', 		//	" [quot]
+			'&#123;'	=> '{', 	//	{
+			'&#125;'	=> '}', 	//	}
+			'&#39;'		=> '\'', 	//	" [quot]
 			'&#36;'		=> '$'
 		));
 
@@ -138,19 +137,49 @@ class ParserText {
 	}
 
 
-	//#####################################################
-	// parser anchor in text
+	/**
+	* Функция транслитерации русских символов в английские
+	*
+	* @param mixed $txt - строк для траслитирования (?) // не уверен я в этом слове...
+	* @param mixed $case - указываем регистр [default: false|lower|upper]
+	* @return вернет транслитированную (?) строку
+	*/
+	public function transliterate($txt, $case=false) {
+
+		$rus = Array('А','Б','В','Г','Д','Е','Ё','Ж','З','И','Й','К',
+		'Л','М','Н','О','П','Р','С','Т','У','Ф','Х','Ц','Ч','Ш','Щ',
+		'Ь','Ы','Ъ','Э','Ю','Я','а','б','в','г','д','е','ё','ж','з',
+		'и','й','к','л','м','н','о','п','р','с','т','у','ф','х','ц',
+		'ч','ш','щ','ь','ы','ъ','э','ю','я');
+
+		$eng = Array('A','B','V','G','D','E','Yo','J','Z','I','Y','K',
+		'L','M','N','O','P','R','S','T','U','F','H','C','Ch','Sh','Csh',
+		'','i','','E','Yu','Ya','a','b','v','g','d','e','yo','j','z',
+		'i','y','k','l','m','n','o','p','r','s','t','u','f','h','c',
+		'ch','sh','csh','','i','','e','yu','ya');
+
+		$txt = str_replace($rus,$eng,trim($txt));
+
+		# case
+		if($case && $case == "lower")		$txt = mb_strtolower($txt);
+		elseif($case && $case == "upper")	$txt = mb_strtoupper($txt);
+
+		return $txt;
+	}
+
+
+	/**
+	* Парсим текст на предмет ссылок и делаем их активными
+	* Временная функция из старой версии.
+	* Будет заменена.
+	*
+	* @param mixed $text
+	*/
 	public function anchors($text) {
-		// Извлекаем имя хоста из URL
-		// preg_match("/^(http:\/\/)?([^\/]+)/i",
-			// "http://www.php.net/index", $matches);
-		// $host = $matches[2];
 
-		// извлекаем две последние части имени хоста
-		// preg_match("/[^\.\/]+\.[^\.\/]+$/", $host, $matches);
-		// echo "domain name is: {$matches[0]}\n";
+        	$pattern = "#(^|\s|)((http(s?)://)|(www\.))(\w+[^\s\)\<]+)#i";
 
-		if (preg_match_all("#(^|\s|\()((http(s?)://)|(www\.))(\w+[^\s\)\<]+)#i", $text, $matches)) {
+		if (preg_match_all($pattern, $text, $matches)) {
 
 			for($i=0;$i<sizeof($matches['0']);$i++) {
 
@@ -163,14 +192,14 @@ class ParserText {
 				}
 
 				$text = str_ireplace($matches['0'][$i],
-									 $matches['1'][$i].'<a href="http'.
-									 $matches['4'][$i].'://'.
-									 $matches['5'][$i].
-									 $matches['6'][$i].'" target="_blank" rel="nofollow">http'.
-									 $matches['4'][$i].'://'.
-									 $matches['5'][$i].
-									 $matches['6'][$i].'</a>'.
-									 $period, $text);
+						     $matches['1'][$i].'<a href="http'.
+						     $matches['4'][$i].'://'.
+						     $matches['5'][$i].
+						     $matches['6'][$i].'" target="_blank" rel="nofollow">http'.
+						     $matches['4'][$i].'://'.
+						     $matches['5'][$i].
+						     $matches['6'][$i].'</a>'.
+						     $period, $text);
 			}
 		}
 
@@ -184,7 +213,25 @@ class ParserText {
 	 * 	$n	-	[string]	Текстовая строка, которую требуется отпарсить
 	 */
 	public function only_numbers($n) {
-		return preg_replace("/[^0-9\-()]+/","",$n);
+		return preg_replace("/[^0-9]+/","",$n);
+	}
+
+
+	/**
+	 * Преобразовываем текст из ISO8859-5 в Unicode
+	 * Использовать перед запуском imagettftext
+	 * [Морально устаревшая функция после перехода на utf8]
+	 */
+	protected function tounicode($text, $from="w") {
+		$text = convert_cyr_string($text, $from, "i");
+		$uni  = "";
+		for($i = 0, $len = mb_strlen($text, 'utf8'); $i < $len; $i++) {
+			$char = $text{$i};
+			$code = ord($char);
+			$uni .= ($code > 175)? "&#" . (1040 + ($code - 176)) . ";" : $char;
+		}
+
+		return $uni;
 	}
 }
 

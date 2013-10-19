@@ -17,7 +17,7 @@ body {overflow: hidden;background: transparent url('{/literal}{$SKIN}{literal}/i
 					</div>
 					<div class="modal-body text-center">
             			{if !empty($error_login)}
-		    				<div class="alert alert-error t12 text-left in fade">
+		    				<div class="alert alert-danger t12 text-left in fade">
 		    					<a href="#" class="close" data-dismiss="alert">&times;</a>
                     			<b>Внимание ошибка!</b>
                     			<br />{$error_login}

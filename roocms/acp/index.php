@@ -142,7 +142,7 @@ class ACP_INDEX {
 
 		$version['php'] 	= PHP_VERSION;						// Версия php
 		$version['zend']	= zend_version();					// Версия Zend
-		$version['apache'] 	= $_SERVER['SERVER_SOFTWARE'];		// Версия сервера
+		$version['apache'] 	= $_SERVER['SERVER_SOFTWARE'];		// Версия сервера  apache_get_version();
 		$version['os']		= php_uname("s")." (".PHP_OS.")"; 	// ОС
 		$version['uname']	= php_uname(); 						// UNAME
 		$version['roocms']	= ROOCMS_VERSION;					// RooCMS
@@ -162,6 +162,8 @@ class ACP_INDEX {
 		$version['mfs']		= ini_get('upload_max_filesize');	// Maximum file size
 		$version['mps']		= ini_get('post_max_size');			// Maximum post size
 		$version['met']		= ini_get('max_execution_time');	// Max execution time
+
+		$version['apache_mods']	= apache_get_modules();			// Расширения Apache
 
 
 		# draw
@@ -230,7 +232,7 @@ class ACP_INDEX {
 
 		$inivars = ini_get_all();
 
-		# draw
+        # draw
 		$smarty->assign('part_title', 	'Значение PHP переменных');
 		$smarty->assign('inivars',		$inivars);
 

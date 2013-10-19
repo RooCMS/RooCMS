@@ -60,26 +60,26 @@ $config =& $roocms->config;
 class Globals {
 
 	# clasess
-	var		$config;						# [obj]	object global configuration
+	var	$config;			# [obj]	object global configuration
 
 	# global vars
-	public	$act			= "";			# [string]	param $_GET['act'] for init actions
-	public	$part			= "";			# [string]	param $_GET['part'] for init partition
+	public	$act		= "";		# [string]	param $_GET['act'] for init actions
+	public	$part		= "";		# [string]	param $_GET['part'] for init partition
 
-	public 	$sess			= array();		# [array]	parsing $_SESSION
+	public 	$sess		= array();	# [array]	parsing $_SESSION
 
 	# options
-	public	$ajax			= false;		# [bool]	flag ajax output
-	public	$rss			= false;		# [bool]	flag rss output
-	public	$modifiedsince	= false;		# [bool]	flag for answer IF MODIFIED SINCE
-	// public	$noscript	= false;		# [bool]	flag noscript identification
+	public	$ajax		= false;	# [bool]	flag ajax output
+	public	$rss		= false;	# [bool]	flag rss output
+	public	$modifiedsince	= false;	# [bool]	flag for answer IF MODIFIED SINCE
+	//public	$noscript	= false;	# [bool]	flag noscript identification
 
 	# userdata
-	public  $referer		= "";			# [string]	user referer
-	public  $userip			= "";			# [string]	user ip address
-	public	$useragent		= "";			# [string]	user agent string
-	public	$browser		= "";			# [string]	user browser
-	public	$spiderbot		= false;		# [bool]	if this search spider bot
+	public  $referer	= "";		# [string]	user referer
+	public  $userip		= "";		# [string]	user ip address
+	public	$useragent	= "";		# [string]	user agent string
+	public	$browser	= "";		# [string]	user browser
+	public	$spiderbot	= false;	# [bool]	if this search spider bot
 
 
 
@@ -195,7 +195,7 @@ class Globals {
 
 			$ifmodsince = false;
 
-			if (isset($_ENV['HTTP_IF_MODIFIED_SINCE']))		$ifmodsince = strtotime(mb_substr($_ENV['HTTP_IF_MODIFIED_SINCE'], 5));
+			if (isset($_ENV['HTTP_IF_MODIFIED_SINCE']))	$ifmodsince = strtotime(mb_substr($_ENV['HTTP_IF_MODIFIED_SINCE'], 5));
 			if (isset($_SERVER['HTTP_IF_MODIFIED_SINCE']))	$ifmodsince = strtotime(mb_substr($_SERVER['HTTP_IF_MODIFIED_SINCE'], 5));
 			if ($ifmodsince && $ifmodsince >= $lastmodifed) {
 				header($_SERVER['SERVER_PROTOCOL']." 304 Not Modified");

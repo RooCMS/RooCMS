@@ -6,7 +6,7 @@
 * @author       alex Roosso
 * @copyright    2010-2014 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.0.18
+* @version      1.0.19
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -101,6 +101,7 @@ class ACP_CONFIG {
 
 
 		if(isset($GET->_part) && $db->check_id($GET->_part, CONFIG_PARTS, "name") == 1) $this->part = $GET->_part;
+		//elseif(isset($GET->_part) && $GET->_part == "all") $this->part = "all";
 
 
 		# запрос разделов конфигурации из БД
@@ -116,15 +117,12 @@ class ACP_CONFIG {
 				while($option = $db->fetch_assoc($q_2)) {
 
 					# parse
-					//$option['description'] = $parse->text->br($option['description']);
 					$option['option'] = $this->init_field($option['option_name'], $option['option_type'], $option['value'], $option['variants']);
 
 
 					# compile for output
 					$this_part['options'][] = $option;
 				}
-
-				$smarty->assign('this_part', 	$this_part);
 			}
 
 			if($part['type'] == "component")	$parts['component'][] 	= $part;
@@ -132,8 +130,9 @@ class ACP_CONFIG {
 			if($part['type'] == "widget")		$parts['widget'][] 		= $part;
 		}
 
-		$smarty->assign('parts',	$parts);
-		$smarty->assign('thispart',	$this->part);
+		$smarty->assign('this_part', 	$this_part);
+		$smarty->assign('parts',		$parts);
+		$smarty->assign('thispart',		$this->part);
 	}
 
 
@@ -289,7 +288,7 @@ class ACP_CONFIG {
 			$path = getenv("HTTP_REFERER");
 			$path = str_replace(CP, $gonewcp, $path);
 
-			unlink(ROOT."/".CP);
+			unlink(_SITEROOT."/".CP);
 
 			go($path);
 		}

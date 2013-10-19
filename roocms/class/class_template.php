@@ -1,18 +1,18 @@
 <?php
 /**
-* @package		RooCMS
+* @package	RooCMS
 * @subpackage	Engine RooCMS classes
 * @subpackage	Template Class
-* @author		alex Roosso
+* @author	alex Roosso
 * @copyright	2010-2014 (c) RooCMS
-* @link			http://www.roocms.com
-* @version		4.3.1
-* @since		$date$
-* @license		http://www.gnu.org/licenses/gpl-3.0.html
+* @link		http://www.roocms.com
+* @version	4.3.2
+* @since	$date$
+* @license	http://www.gnu.org/licenses/gpl-3.0.html
 */
 
 /**
-*	RooCMS - Russian free content managment system
+*   RooCMS - Russian free content managment system
 *   Copyright (C) 2010-2014 alex Roosso aka alexandr Belov info@roocms.com
 *
 *   This program is free software: you can redistribute it and/or modify
@@ -63,15 +63,15 @@ $tpl = new template;
 class template {
 
 	# vars
-	private $skinfolder = "default";	# [string]	skin templates folder
+	private $skinfolder	= "default";	# [string]	skin templates folder
 
 	# other buffer
-	private $css		= "";			# [text]	CSS buffer
-	private $js			= "";			# [text]	JavaScript buffer
-	private $skin		= "";			# [string]	skin
+	private $css		= "";		# [text]	CSS buffer
+	private $js		= "";		# [text]	JavaScript buffer
+	private $skin		= "";		# [string]	skin
 
 	# output buffer
-	private $out 		= "";			# [text]	output buffer
+	private $out 		= "";		# [text]	output buffer
 
 
 
@@ -105,14 +105,14 @@ class template {
 		global $config, $smarty;
 
 		# set tempplates options
-        $smarty->template_dir 	= _SKIN."/".$this->skinfolder."/";
-        $smarty->compile_id 	=& $this->skinfolder;
-        $smarty->compile_dir  	= _CACHESKIN;
-        $smarty->cache_dir    	= _CACHE;
+                $smarty->template_dir 	= _SKIN."/".$this->skinfolder."/";
+                $smarty->compile_id 	=& $this->skinfolder;
+                $smarty->compile_dir  	= _CACHESKIN;
+                $smarty->cache_dir    	= _CACHE;
 
 		# set other options
-        $smarty->caching = 0;
-        $smarty->cache_lifetime = 60;
+                $smarty->caching 	= 0;
+                $smarty->cache_lifetime = 60;
 		if(isset($config->tpl_recompile_force))	$smarty->force_compile = $config->tpl_recompile_force;
 		if(isset($config->if_modified_since)) 	$smarty->cache_modified_check = $config->if_modified_since;
 		//$smarty->config_fix_newlines = false;
@@ -123,7 +123,7 @@ class template {
 		$smarty->debugging = DEBUGMODE;
 
 		# set skin variable
-        $this->skin =  str_replace(_SITEROOT, "", _SKIN)."/".$this->skinfolder;
+        	$this->skin =  str_replace(_SITEROOT, "", _SKIN)."/".$this->skinfolder;
 
 		# assign skin folders templates
 		$smarty->assign("SKIN", $this->skin);
@@ -214,32 +214,36 @@ class template {
 		# header & footer
 		if(!$roocms->ajax && !$roocms->rss) {
 
-			# check notice
-			$this->info_popup();
+                        # check notice
+                        $this->info_popup();
 
-            # noindex for robots
-            $robots = (!defined('ACP')) ? "index, follow, all" : "no-index,no-follow,all" ;
-            if(!defined('ACP')) if($structure->page_noindex == 1) $robots = "no-index,no-follow,all";
+                        # noindex for robots
+                        $robots = (!defined('ACP')) ? "index, follow, all" : "no-index,no-follow,all" ;
+                        if(!defined('ACP')) if($structure->page_noindex == 1) $robots = "no-index,no-follow,all";
 
-            # global site title
-            if(!defined('INSTALL') && $config->global_site_title) $site['title'] .= " &bull; ".$config->site_title;
+                        # global site title
+                        if(!defined('INSTALL') && $config->global_site_title) $site['title'] .= " &bull; ".$config->site_title;
 
-            # no cache included js and styles (only Developer or Debug mode)
-            $build = (DEBUGMODE or DEVMODE) ? "?v=".str_ireplace(".","",ROOCMS_VERSION)."-".time() : "" ;
+                        # jquery-core
+                        $jquerycore = ($parse->browser("ie",8)) ? "jquery-coreie.min.js.php" : "jquery-core.min.js.php" ;
+
+                        # no cache included js and styles (only Developer or Debug mode)
+                        $build = (DEBUGMODE or DEVMODE) ? "?v=".str_ireplace(".","",ROOCMS_VERSION)."-".time() : "" ;
 
 
 			# assign tpl vars
-			$smarty->assign("site",			$site);
-			$smarty->assign("charset",		CHARSET);
-			$smarty->assign("build",		$build);
-			$smarty->assign("jscript",		$this->js);
-			$smarty->assign("robots",		$robots);
+			$smarty->assign("site",		$site);
+			$smarty->assign("charset",	CHARSET);
+			$smarty->assign("jquerycore",	$jquerycore);
+			$smarty->assign("build",	$build);
+			$smarty->assign("jscript",	$this->js);
+			$smarty->assign("robots",	$robots);
 
-			$smarty->assign("fuckie",		"");
-			$smarty->assign("error",		$parse->error);
-			$smarty->assign("info",			$parse->info);
+			$smarty->assign("fuckie",	"");
+			$smarty->assign("error",	$parse->error);
+			$smarty->assign("info",		$parse->info);
 
-			$smarty->assign("rsslink",		$rss->rss_link);
+			$smarty->assign("rsslink",	$rss->rss_link);
 
 
 			# copyright text
@@ -252,9 +256,9 @@ class template {
 			if(isset($roocms->sess['acp'])) {
 				$smarty->assign("debug", 		DEBUGMODE);
 				$smarty->assign("devmode", 		DEVMODE);
-				$smarty->assign("db_querys", 	$db->cnt_querys);
+				$smarty->assign("db_querys", 		$db->cnt_querys);
 
-				$smarty->assign("debug_info", 	$debug->debug_info);
+				$smarty->assign("debug_info", 		$debug->debug_info);
 
 				$debug->end_productivity();
 				$smarty->assign("debug_timer",		$debug->productivity_time);
@@ -273,6 +277,9 @@ class template {
 
 		# output
 		echo (!$roocms->rss) ? $this->out : $rss->out() ;
+
+		# secure
+		unset($_GET);
 
 
 		# Close connection to DB (recommended)

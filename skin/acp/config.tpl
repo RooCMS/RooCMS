@@ -8,13 +8,13 @@
 				<li{if $thispart == $part['name']} class="active"{/if}><a href="{$SCRIPT_NAME}?act=config&part={$part['name']}"><span class="icon-fixed-width icon-{$part['ico']}"></span> {$part['title']}</a></li>
 			{/foreach}
 			{/if}
-		<li class="nav-header">Модули</li>
+		{*<li class="nav-header">Модули</li>*}
 			{if !empty($parts['mod'])}
 			{foreach from=$parts['mod'] item=part}
 				<li{if $thispart == $part['name']} class="active"{/if}><a href="{$SCRIPT_NAME}?act=config&part={$part['name']}"><span class="icon-fixed-width icon-{$part['ico']}"></span> {$part['title']}</a></li>
 			{/foreach}
 			{/if}
-		<li class="nav-header">Виджеты</li>
+		{*<li class="nav-header">Виджеты</li>*}
 			{if !empty($parts['widget'])}
 			{foreach from=$parts['widget'] item=part}
 				<li{if $thispart == $part['name']} class="active"{/if}><a href="{$SCRIPT_NAME}act=config&part={$part['name']}"><span class="icon-fixed-width icon-{$part['ico']}"></span> {$part['title']}</a></li>

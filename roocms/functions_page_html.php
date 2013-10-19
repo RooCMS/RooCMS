@@ -6,13 +6,13 @@
 * @author       alex Roosso
 * @copyright    2010-2014 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.1.1
+* @version      1.1.3
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
 
 /**
-*	RooCMS - Russian free content managment system
+*   RooCMS - Russian free content managment system
 *   Copyright (C) 2010-2014 alex Roosso aka alexandr Belov info@roocms.com
 *
 *   This program is free software: you can redistribute it and/or modify
@@ -71,7 +71,7 @@ class PageHTML {
 	*/
 	function load_content() {
 
-		global $db, $structure, $parse, $tpl, $smarty;
+		global $db, $structure, $parse, $img, $tpl, $smarty;
 
 		$q = $db->query("SELECT content FROM ".PAGES_HTML_TABLE." WHERE sid='".$structure->page_id."'");
 		$data = $db->fetch_assoc($q);
@@ -80,7 +80,7 @@ class PageHTML {
 
 		# load attached images
 		$images = array();
-		$images = $structure->load_images("pagesid=".$structure->page_id);
+		$images = $img->load_images("pagesid=".$structure->page_id);
 		$smarty->assign("images", $images);
 
 		$smarty->assign("content", $data['content']);

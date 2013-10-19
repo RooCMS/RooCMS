@@ -5,13 +5,13 @@
 * @author       alex Roosso
 * @copyright    2010-2014 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.0.18
+* @version      1.0.20
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
 
 /**
-*	RooCMS - Russian free content managment system
+*   RooCMS - Russian free content managment system
 *   Copyright (C) 2010-2014 alex Roosso aka alexandr Belov info@roocms.com
 *
 *   This program is free software: you can redistribute it and/or modify
@@ -83,9 +83,9 @@ function sendmail($mail,$theme,$text, $from="robot") {
 
 	global $site;
 
-	$to			=	"".$mail."";
+	$to	 = "".$mail."";
 
-	$subject	=	"{$theme}";
+	$subject = "{$theme}";
 
 	$text = str_replace("\\r", "", $text);
 	$text = str_replace("\\n", "\n", $text);
@@ -94,12 +94,12 @@ function sendmail($mail,$theme,$text, $from="robot") {
 
 	if($from == "robot") $from = "robot@".$site['domain'];
 
-	$message 	=	"{$text}";
+	$message  = "{$text}";
 
-	$headers	=	"From: {$from}\n".EMAIL_MESSAGE_PARAMETERS."\n";
-	$headers	.=	"X-Sender: <no-reply@".$site['domain'].">\n";
-	$headers	.=	"X-Mailer: PHP ".$site['domain']."\n";
-	$headers	.=	"Return-Path: <no-replay@".$site['domain'].">";
+	$headers  = "From: {$from}\n".EMAIL_MESSAGE_PARAMETERS."\n";
+	$headers .= "X-Sender: <no-reply@".$site['domain'].">\n";
+	$headers .= "X-Mailer: PHP ".$site['domain']."\n";
+	$headers .= "Return-Path: <no-replay@".$site['domain'].">";
 
 	mb_send_mail($to,$subject,$message,$headers);
 }
@@ -112,7 +112,7 @@ function sendmail($mail,$theme,$text, $from="robot") {
 * @param boolean $subarray  - флаг проверки на вложенность массивов
 * @return text $buffer      - Возвращает массив в текстовом представлении.
 */
-function print_array($array,$subarray=false) {
+function print_array(array $array,$subarray=false) {
 
 	$c = count($array) - 1;
 	$t = 0;
@@ -148,13 +148,13 @@ function print_array($array,$subarray=false) {
 */
 function go($str, $code=301) {
 
-	if($code == 301)		header($_SERVER['SERVER_PROTOCOL'].' 301 Moved Permanently');	// перемещен навсегда
+	if($code == 301)	header($_SERVER['SERVER_PROTOCOL'].' 301 Moved Permanently');	// перемещен навсегда
 	elseif($code == 302)	header($_SERVER['SERVER_PROTOCOL'].' 302 Found');				// перемещен временно
 	elseif($code == 303)	header($_SERVER['SERVER_PROTOCOL'].' 303 See Other');			// GET на другой адрес
 	elseif($code == 307)	header($_SERVER['SERVER_PROTOCOL'].' 307 Temporary Redirect');	// перемещен временно
-	else 					header($_SERVER['SERVER_PROTOCOL'].' 301 Moved Permanently');
+	else			header($_SERVER['SERVER_PROTOCOL'].' 301 Moved Permanently');
 
-	header("Location: $str");
+	header("Location: ".$str);
 	exit;
 }
 
@@ -175,11 +175,7 @@ function goback() {
 */
 function nocache() {
 
-	$minute	= 60;
-	$hour	= $minute * 60;
-	$day	= $hour * 24;
-
-	$expires = time() + $minute;
+	$expires = time() + 60;
 
 	Header("Expires: ".gmdate("D, d M Y H:i:s", $expires)." GMT");
 	Header("Last-Modified: ".gmdate("D, d M Y H:i:s")." GMT");
@@ -190,5 +186,15 @@ function nocache() {
 }
 
 
-
+/**
+* Debug функция
+* Синоним $Debug->debug();
+*
+* @param mixed $obj
+* @param mixed $expand
+*/
+function debug($obj, $expand=false) {
+	global $debug;
+	$debug->debug($obj, $expand);
+}
 ?>

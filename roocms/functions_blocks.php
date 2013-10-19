@@ -1,18 +1,18 @@
 <?php
 /**
-* @package		RooCMS
+* @package	RooCMS
 * @subpackage	Frontend
 * @subpackage	Blocks
-* @author		alex Roosso
+* @author	alex Roosso
 * @copyright	2010-2014 (c) RooCMS
-* @link			http://www.roocms.com
-* @version		1.0.5
-* @since		$date$
-* @license		http://www.gnu.org/licenses/gpl-3.0.html
+* @link		http://www.roocms.com
+* @version	1.0.7
+* @since	$date$
+* @license	http://www.gnu.org/licenses/gpl-3.0.html
 */
 
 /**
-*	RooCMS - Russian free content managment system
+*   RooCMS - Russian free content managment system
 *   Copyright (C) 2010-2014 alex Roosso aka alexandr Belov info@roocms.com
 *
 *   This program is free software: you can redistribute it and/or modify
@@ -67,7 +67,7 @@ class Blocks {
 	*/
 	public function load($id) {
 
-		global $db, $parse, $structure, $smarty, $tpl;
+		global $db, $parse, $img, $smarty, $tpl;
 
 		$output = "";
 
@@ -75,10 +75,10 @@ class Blocks {
 								'"'			=> '',
 								'&quot;'	=> ''));
 
-		if($db->check_id($id, BLOCKS_TABLE) || $db->check_id($id, BLOCKS_TABLE, "alias") ) {
-			$q = $db->query("SELECT id, alias, content, type FROM ".BLOCKS_TABLE." WHERE id='".$id."' OR alias='".$id."'");
-			$data = $db->fetch_assoc($q);
+		$q = $db->query("SELECT id, alias, content, type FROM ".BLOCKS_TABLE." WHERE id='".$id."' OR alias='".$id."'");
+		$data = $db->fetch_assoc($q);
 
+		if(!empty($data)) {
 			if($data['type'] == "php") {
 				ob_start();
 					eval($parse->text->html($data['content']));
@@ -91,7 +91,7 @@ class Blocks {
 
 				# load attached images
 				$images = array();
-				$images = $structure->load_images("blockid=".$data['id']);
+				$images = $img->load_images("blockid=".$data['id']);
 
 				$smarty->assign("images", $images);
 				$smarty->assign("block_id", $data['id']);
