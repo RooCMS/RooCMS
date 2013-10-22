@@ -154,6 +154,9 @@ class ACP_FEEDS_FEED {
 			if(!isset($POST->date_publications)) 		$POST->date_publications	= date("d.m.Y",time());
 			if(!isset($POST->date_end_publications))	$POST->date_end_publications	= 0;
 
+			#meta
+			if(!isset($POST->meta_description))	$POST->meta_description	= "";
+			if(!isset($POST->meta_keywords))	$POST->meta_keywords	= "";
 
 
 			if(!isset($_SESSION['error'])) {
