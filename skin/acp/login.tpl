@@ -26,14 +26,14 @@ body {overflow: hidden;background: transparent url('{/literal}{$SKIN}{literal}/i
         				<div class="form-group">
         					<label class="col-lg-2 control-label" for="Login">Логин</label>
                             <div class="input-group col-lg-10">
-								<span class="input-group-addon"><span class="icon-fixed-width icon-user" rel="tooltip" title="Введите ваш логин в это поле" data-placement="right"></span></span>
+								<span class="input-group-addon"><span class="fa fa-fw fa-user" rel="tooltip" title="Введите ваш логин в это поле" data-placement="right"></span></span>
 								<input class="form-control" id="Login" type="text" name="login" placeholder="Логин" required autocomplete="off">
                             </div>
 						</div>
 						<div class="form-group">
 							<label class="col-lg-2 control-label" for="Password">Пароль</label>
 							<div class="input-group col-lg-10">
-								<span class="input-group-addon"><span class="icon-fixed-width icon-key" rel="tooltip" title="Введите ваш пароль в это поле" data-placement="right"></span></span>
+								<span class="input-group-addon"><span class="fa fa-fw fa-key" rel="tooltip" title="Введите ваш пароль в это поле" data-placement="right"></span></span>
 								<input class="form-control" id="Password" type="password" name="passw" placeholder="Пароль" required autocomplete="off">
 							</div>
 						</div>

@@ -6,7 +6,7 @@
 * @author	alex Roosso
 * @copyright	2010-2014 (c) RooCMS
 * @link		http://www.roocms.com
-* @version	4.3.2
+* @version	4.4.1
 * @since	$date$
 * @license	http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -53,13 +53,6 @@ if(!defined('RooCMS')) die('Access Denied');
 //#########################################################
 
 
-/**
-* Запускаем шаблонизатор
-*
-* @var template
-*/
-$tpl = new template;
-
 class template {
 
 	# vars
@@ -92,7 +85,7 @@ class template {
 		else $this->skinfolder = $skin;
 
 		# init settings smarty
-		$this->set_smarty();
+		$this->set_smarty_options();
 	}
 
 
@@ -100,7 +93,7 @@ class template {
 	* set Smarty settings
 	*
 	*/
-	private function set_smarty() {
+	private function set_smarty_options() {
 
 		global $config, $smarty;
 
@@ -130,13 +123,14 @@ class template {
 	}
 
 
-
-    /**
-    * Загружаем шаблон
-    *
-    * @param string $tpl - Имя шаблона.
-    * @param boolean $return - Включенный флаг возвращает загруженный через return
-    */
+	/**
+	 * Загружаем шаблон
+	 *
+	 * @param string  $tpl    - Имя шаблона.
+	 * @param boolean $return - Включенный флаг возвращает загруженный через return
+	 *
+	 * @return string
+	 */
 	public function load_template($tpl, $return=false) {
 
 		global $smarty, $debug;
@@ -191,7 +185,6 @@ class template {
 
 		global $blocks;
 
-		//preg_match_all('/(?:\{([\.\-_A-Za-z0-9]\S+?):([\.\-_A-Za-z0-9]\S+?)\})/', $this->out, $block);
 		preg_match_all('(\{\$blocks-\>load\(([a-zA-Z0-9_"\';&-]*?)\)\})', $this->out, $block);
 
 		$u = array_unique($block[1]);
@@ -209,7 +202,8 @@ class template {
 	*/
 	public function out() {
 
-		global $roocms, $config, $db, $rss, $site, $structure, $smarty, $parse, $debug;
+		global $roocms, $config, $db, $site, $smarty, $parse, $debug;
+		if(!defined('ACP')) global $rss, $structure;
 
 		# header & footer
 		if(!$roocms->ajax && !$roocms->rss) {
@@ -224,7 +218,7 @@ class template {
                         # global site title
                         if(!defined('INSTALL') && $config->global_site_title) $site['title'] .= " &bull; ".$config->site_title;
 
-                        # jquery-core
+                        # jquery-core (check brwoser version)
                         $jquerycore = ($parse->browser("ie",8)) ? "jquery-coreie.min.js.php" : "jquery-core.min.js.php" ;
 
                         # no cache included js and styles (only Developer or Debug mode)
@@ -243,13 +237,21 @@ class template {
 			$smarty->assign("error",	$parse->error);
 			$smarty->assign("info",		$parse->info);
 
-			$smarty->assign("rsslink",	$rss->rss_link);
+			if(!defined('ACP')) {
+				# rss link
+				$smarty->assign("rsslink",	$rss->rss_link);
 
+				# breadcumb
+				$smarty->assign("mites",	$structure->mites);
+				$breadcumb = $this->load_template("breadcumb", true);
+				$smarty->assign("breadcumb",	$breadcumb);
+			}
 
 			# copyright text
-			$smarty->assign("copyright",		"<a href=\"http://www.roocms.com/\">RooCMS</a> &copy; 2010-".date("Y"));
+			$smarty->assign("copyright",	"<a href=\"http://www.roocms.com/\">RooCMS</a> &copy; 2010-".date("Y"));
 
 
+			# head
 			$head = $this->load_template("header", true);
 
 			# debug_info in footer
@@ -258,16 +260,17 @@ class template {
 				$smarty->assign("devmode", 		DEVMODE);
 				$smarty->assign("db_querys", 		$db->cnt_querys);
 
-				$smarty->assign("debug_info", 		$debug->debug_info);
-
 				$debug->end_productivity();
 				$smarty->assign("debug_timer",		$debug->productivity_time);
 				$smarty->assign("debug_memory",		$debug->productivity_memory);
 				$smarty->assign("debug_memusage",	$debug->memory_peak_usage);
 			}
 
+			# foot
 			$foot = $this->load_template("footer", true);
 
+
+			# output buffer
 			$this->out = $head.$this->out.$foot;
 
 			# blocks

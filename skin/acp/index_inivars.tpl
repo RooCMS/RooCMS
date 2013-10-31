@@ -1,6 +1,6 @@
 {* Значение PHP переменных *}
 
-<h3>Значение PHP переменных</h3>
+<h3>{$part_title}</h3>
 
 <table class="table table-hover table-condensed">
 	{*<caption>Общая сводка</caption>*}

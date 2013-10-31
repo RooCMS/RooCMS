@@ -5,7 +5,7 @@
 * @author       alex Roosso
 * @copyright    2010-2014 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.5
+* @version      1.6
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -68,112 +68,158 @@ if($_SERVER['REQUEST_URI'] == "/index.php") {
 if(!defined('_SITEROOT')) {
 	define('_SITEROOT', str_ireplace(DIRECTORY_SEPARATOR."roocms", "", dirname(__FILE__)));
 }
-
+/**
+ * Текст сообщения о невозможности запуска RooCMS
+ */
+define('ROOCMS_NOT_RUNNING', 'Запуск RooCMS невозможен. Нарушена целостность системы.');
 
 /**
 * Настраиваем PHP и прочее
 */
 if(file_exists(_SITEROOT."/roocms/config/set.cfg.php"))
 	require_once(_SITEROOT."/roocms/config/set.cfg.php");
-else die("Запуск RooCMS невозможен. Нарушена целостность системы.");
+else die(ROOCMS_NOT_RUNNING);
 
 /**
 * Загружаем конфигурацию
 */
 if(file_exists(_SITEROOT."/roocms/config/config.php"))
 	require_once(_SITEROOT."/roocms/config/config.php");
-else die("Запуск RooCMS невозможен. Нарушена целостность системы.");
+else die(ROOCMS_NOT_RUNNING);
 
 /**
 * Заружаем основные константы
 */
 if(file_exists(_SITEROOT."/roocms/config/defines.php"))
 	require_once(_SITEROOT."/roocms/config/defines.php");
-else die("Запуск RooCMS невозможен. Нарушена целостность системы.");
+else die(ROOCMS_NOT_RUNNING);
 
 /**
 * Запускаем класс отладки
 */
-if(file_exists(_CLASS."/class_debug.php"))
+if(file_exists(_CLASS."/class_debug.php")) {
 	require_once(_CLASS."/class_debug.php");
-else die("Запуск RooCMS невозможен. Нарушена целостность системы.");
-
-/**
-* Запускаем расширение класса БД MySQL
-*/
-if(file_exists(_CLASS."/class_mysql_ext.php"))
-	require_once(_CLASS."/class_mysql_ext.php");
-else die("Запуск RooCMS невозможен. Нарушена целостность системы.");
-
-/**
-* Запускаем класс БД MySQL
-*/
-if(file_exists(_CLASS."/class_mysql.php"))
-	require_once(_CLASS."/class_mysql.php");
-else die("Запуск RooCMS невозможен. Нарушена целостность системы.");
+	/**
+	 * Инициализируем класс
+	 */
+	$debug = new Debug;
+}
+else die(ROOCMS_NOT_RUNNING);
 
 /**
 * Загружаем примитивные функции
 */
 if(file_exists(_ROOCMS."/functions.php"))
 	require_once(_ROOCMS."/functions.php");
-else die("Запуск RooCMS невозможен. Нарушена целостность системы.");
+else die(ROOCMS_NOT_RUNNING);
+
+/**
+* Запускаем расширение класса БД MySQL
+*/
+if(file_exists(_CLASS."/class_mysql_ext.php"))
+	require_once(_CLASS."/class_mysql_ext.php");
+else die(ROOCMS_NOT_RUNNING);
+
+/**
+* Запускаем класс БД MySQL
+*/
+if(file_exists(_CLASS."/class_mysql.php")) {
+	require_once(_CLASS."/class_mysql.php");
+	/**
+	 * Инициализируем класс
+	 */
+	$db = new MySQLDatabase;
+}
+else die(ROOCMS_NOT_RUNNING);
 
 /**
 * Запускаем глобальный класс
 */
-if(file_exists(_CLASS."/class_global.php"))
+if(file_exists(_CLASS."/class_global.php")) {
 	require_once(_CLASS."/class_global.php");
-else die("Запуск RooCMS невозможен. Нарушена целостность системы.");
+	/**
+	 * Инициализируем класс
+	 */
+	$roocms = new Globals;
+	$config =& $roocms->config;
+}
+else die(ROOCMS_NOT_RUNNING);
 
 /**
 * Запускаем класс парсинга
 */
-if(file_exists(_CLASS."/class_parser.php"))
+if(file_exists(_CLASS."/class_parser.php")) {
 	require_once(_CLASS."/class_parser.php");
-else die("Запуск RooCMS невозможен. Нарушена целостность системы.");
+	/**
+	 * Инициализируем класс
+	 */
+	$parse 	= new Parser;
+	$GET	=& $parse->Get;
+	$POST	=& $parse->Post;
+}
+else die(ROOCMS_NOT_RUNNING);
 
 /**
 * Запускаем класс работы с файлами
 */
-if(file_exists(_CLASS."/class_files.php"))
+if(file_exists(_CLASS."/class_files.php")) {
 	require_once(_CLASS."/class_files.php");
-else die("Запуск RooCMS невозможен. Нарушена целостность системы.");
+	/**
+	 * Инициализируем класс
+	 */
+	$files = new Files;
+}
+else die(ROOCMS_NOT_RUNNING);
 
 /**
 * Загружаем класс графической обработки
 */
 if(file_exists(_CLASS."/class_gd.php"))
 	require_once(_CLASS."/class_gd.php");
-else die("Запуск RooCMS невозможен. Нарушена целостность системы.");
+else die(ROOCMS_NOT_RUNNING);
 
 /**
 * Запускаем класс работы с изображениями
 */
-if(file_exists(_CLASS."/class_images.php"))
+if(file_exists(_CLASS."/class_images.php")) {
 	require_once(_CLASS."/class_images.php");
-else die("Запуск RooCMS невозможен. Нарушена целостность системы.");
+	/**
+	 * Инициализируем класс
+	 */
+	$img = new Images;
+}
+else die(ROOCMS_NOT_RUNNING);
 
 /**
 * Запускаем класс RSS
 */
-if(file_exists(_CLASS."/class_rss.php"))
+if(file_exists(_CLASS."/class_rss.php")) {
 	require_once(_CLASS."/class_rss.php");
-else die("Запуск RooCMS невозможен. Нарушена целостность системы.");
+	/**
+	 * Инициализируем класс
+	 */
+	$rss = new RSS;
+}
+else die(ROOCMS_NOT_RUNNING);
 
 /**
 * Запускаем библиотеку шаблонизации Smarty
 */
 if(file_exists(_LIB."/smarty.php"))
 	require_once(_LIB."/smarty.php");
-else die("Запуск RooCMS невозможен. Нарушена целостность системы.");
+else die(ROOCMS_NOT_RUNNING);
 
 /**
 * Запускаем класс шаблонизации RooCMS
 */
-if(file_exists(_CLASS."/class_template.php"))
+if(file_exists(_CLASS."/class_template.php")) {
 	require_once(_CLASS."/class_template.php");
-else die("Запуск RooCMS невозможен. Нарушена целостность системы.");
+	/**
+	 * Запускаем шаблонизатор
+	 */
+	$tpl = new template;
+}
+else die(ROOCMS_NOT_RUNNING);
 
 
 /**

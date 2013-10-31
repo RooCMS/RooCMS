@@ -51,7 +51,6 @@
 if(!defined('RooCMS') || !defined('INSTALL')) die('Access Denied');
 //#########################################################
 
-$install = new Install;
 
 class Install extends Requirement{
 
@@ -161,18 +160,18 @@ class Install extends Requirement{
 		if($this->allowed && $this->step != $this->steps) $this->nextstep = $this->step + 1;
 
 		# draw
-		$smarty->assign("allowed",		$this->allowed);
-		$smarty->assign("action",		$this->action);
+		$smarty->assign("allowed",	$this->allowed);
+		$smarty->assign("action",	$this->action);
 		$smarty->assign("page_title", 	$this->page_title);
-		$smarty->assign("status", 		$this->status);
-		$smarty->assign("step", 		$this->step);
+		$smarty->assign("status", 	$this->status);
+		$smarty->assign("step", 	$this->step);
 		$smarty->assign("nextstep", 	$this->nextstep);
-		$smarty->assign("steps",		$this->steps);
-		$smarty->assign("progress",		$parse->percent($this->step, $this->steps));
+		$smarty->assign("steps",	$this->steps);
+		$smarty->assign("progress",	$parse->percent($this->step, $this->steps));
 
 		$tpl->load_template("top");
 
-		$smarty->assign("log", 			$this->log);
+		$smarty->assign("log", 		$this->log);
 		$smarty->assign("noticetext", 	$this->noticetext);
 
 		$tpl->load_template("body");
@@ -354,13 +353,13 @@ class Install extends Requirement{
 			}
 
 			if(trim($db_info['host']) == "")	$context = str_ireplace('$db_info[\'host\'] = "";','$db_info[\'host\'] = "'.$roocms->sess['db_info_host'].'";',$context);
-			else								$context = str_ireplace('$db_info[\'host\'] = "'.$db_info['host'].'";','$db_info[\'host\'] = "'.$roocms->sess['db_info_host'].'";',$context);
+			else					$context = str_ireplace('$db_info[\'host\'] = "'.$db_info['host'].'";','$db_info[\'host\'] = "'.$roocms->sess['db_info_host'].'";',$context);
 			if(trim($db_info['base']) == "")	$context = str_ireplace('$db_info[\'base\'] = "";','$db_info[\'base\'] = "'.$roocms->sess['db_info_base'].'";',$context);
-			else								$context = str_ireplace('$db_info[\'base\'] = "'.$db_info['base'].'";','$db_info[\'base\'] = "'.$roocms->sess['db_info_base'].'";',$context);
+			else					$context = str_ireplace('$db_info[\'base\'] = "'.$db_info['base'].'";','$db_info[\'base\'] = "'.$roocms->sess['db_info_base'].'";',$context);
 			if(trim($db_info['user']) == "")	$context = str_ireplace('$db_info[\'user\'] = "";','$db_info[\'user\'] = "'.$roocms->sess['db_info_user'].'";',$context);
-			else								$context = str_ireplace('$db_info[\'user\'] = "'.$db_info['user'].'";','$db_info[\'user\'] = "'.$roocms->sess['db_info_user'].'";',$context);
+			else					$context = str_ireplace('$db_info[\'user\'] = "'.$db_info['user'].'";','$db_info[\'user\'] = "'.$roocms->sess['db_info_user'].'";',$context);
 			if(trim($db_info['pass']) == "")	$context = str_ireplace('$db_info[\'pass\'] = "";','$db_info[\'pass\'] = "'.$roocms->sess['db_info_pass'].'";',$context);
-			else								$context = str_ireplace('$db_info[\'pass\'] = "'.$db_info['pass'].'";','$db_info[\'pass\'] = "'.$roocms->sess['db_info_pass'].'";',$context);
+			else					$context = str_ireplace('$db_info[\'pass\'] = "'.$db_info['pass'].'";','$db_info[\'pass\'] = "'.$roocms->sess['db_info_pass'].'";',$context);
 
 			$ecf = fopen($cf, "w+");
 			if (is_writable($cf)) {
@@ -451,9 +450,9 @@ class Install extends Requirement{
 		}
 
 		if(trim($adm['login']) == "")	$context = str_ireplace('$adm[\'login\'] = "";','$adm[\'login\'] = "'.$roocms->sess['adm_login'].'";',$context);
-		else							$context = str_ireplace('$adm[\'login\'] = "'.$adm['login'].'";','$adm[\'login\'] = "'.$roocms->sess['adm_login'].'";',$context);
+		else				$context = str_ireplace('$adm[\'login\'] = "'.$adm['login'].'";','$adm[\'login\'] = "'.$roocms->sess['adm_login'].'";',$context);
 		if(trim($adm['passw']) == "")	$context = str_ireplace('$adm[\'passw\'] = "";','$adm[\'passw\'] = "'.$roocms->sess['adm_passw'].'";',$context);
-		else							$context = str_ireplace('$adm[\'passw\'] = "'.$adm['passw'].'";','$adm[\'passw\'] = "'.$roocms->sess['adm_passw'].'";',$context);
+		else				$context = str_ireplace('$adm[\'passw\'] = "'.$adm['passw'].'";','$adm[\'passw\'] = "'.$roocms->sess['adm_passw'].'";',$context);
 
 		$ecf = fopen($cf, "w+");
 		if (is_writable($cf)) {

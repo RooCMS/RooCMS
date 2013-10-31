@@ -23,7 +23,7 @@
 <!-- JS -->
 <!--[if lt IE 9]><script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
 <!--[if IE]><script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
-<script type="text/javascript" src="./plugin/iepngfix_tilebg.js"></script>
+<script type="text/javascript" src="./plugin/iepngfix_tilebg.min.js"></script>
 <script type="text/javascript" src="./plugin/jquery-core.min.js.php"></script>
 <script type="text/javascript" src="./plugin/jquery-migrate.min.js.php"></script>
 <script type="text/javascript" src="./plugin/bootstrap.php"></script>
@@ -47,7 +47,7 @@
 		</p>
 
 		<small>Администраторы сайта уже извещены о вашем желании получить доступ к данной странице и делают все возможное, что бы завершить обновление быстрей.
-		<br />С Уважением, Администрация сайта</small>
+		<br />С Уважением, Администрация сайта <q>{$site['title']}</q></small>
 
 		<div class="footer">
 			<p class="pull-right small text-muted">Сайт создан на <a href="http://www.roocms.com/" target="_blank">RooCMS</a></p>

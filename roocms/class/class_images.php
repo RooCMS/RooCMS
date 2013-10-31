@@ -6,7 +6,7 @@
 * @author       alex Roosso
 * @copyright    2010-2014 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.2
+* @version      1.2.2
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -52,8 +52,6 @@
 if(!defined('RooCMS')) die('Access Denied');
 //#########################################################
 
-$img = new Images;
-
 class Images extends GD {
 
 
@@ -79,15 +77,15 @@ class Images extends GD {
 
 		if(empty($allow_exts)) {
 	                foreach($imagetype AS $itype) {
-        		        $allow_exts[$itype['type']] = $itype['ext'];
+        		        $allow_exts[$itype['mime_type']] = $itype['ext'];
 			}
 		}
 
 
 		# Resize ini vars
-		if(is_array($thumbsize) && count($thumbsize) == 2 && round($thumbsize[0]) > 0 && round($thumbsize[1]) > 0) {
-			$this->tsize['w'] = round($thumbsize[0]);
-			$this->tsize['h'] = round($thumbsize[1]);
+		if(is_array($thumbsize) && count($thumbsize) == 2) {
+			if(round($thumbsize[0]) > 16)	$this->tsize['w'] = round($thumbsize[0]);
+			if(round($thumbsize[1]) > 16)	$this->tsize['h'] = round($thumbsize[1]);
 		}
 
 
@@ -263,6 +261,24 @@ class Images extends GD {
 
                 $db->query("DELETE FROM ".IMAGES_TABLE." WHERE ".$where);
         }
+
+
+	/**
+	 * Функция проверяет ввод параметров ширины и высоты для генерации уменьшинных изображений.
+	 */
+	public function check_post_thumb_parametrs() {
+
+		global $POST;
+
+		if(!isset($POST->thumb_img_width) || trim($POST->thumb_img_width) == "") $POST->thumb_img_width = 0;
+		if(!isset($POST->thumb_img_height) || trim($POST->thumb_img_height) == "") $POST->thumb_img_height = 0;
+
+		$POST->thumb_img_width = round($POST->thumb_img_width);
+		$POST->thumb_img_height = round($POST->thumb_img_height);
+
+		if($POST->thumb_img_width < 16) $POST->thumb_img_width = 0;
+		if($POST->thumb_img_height < 16) $POST->thumb_img_height = 0;
+	}
 }
 
 ?>

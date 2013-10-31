@@ -1,11 +1,11 @@
 {* Шаблон редактирования HTML страницы *}
-
 <script type="text/javascript" src="plugin/ckeditor.php"></script>
 
-<h3>Редактор HTML страницы</h3>
+<p class="pull-right"><a href="{$SCRIPT_NAME}?act=structure&part=edit&id={$data['sid']}" class="btn btn-link"><span class="fa fa-pencil-square-o fa-fw"></span> Редактировать теги</a></p>
+<h3><q>{$data['title']}</q></h3>
 <form method="post" action="{$SCRIPT_NAME}?act=pages&part=update&page={$data['sid']}" enctype="multipart/form-data" role="form" class="form-horizontal cked">
-    <div class="row">
-    	<div class="col-lg-12">
+	<div class="row">
+		<div class="col-lg-12">
 			<dl class="dl-horizontal">
 				<dt>ID #:</dt>
 				<dd>{$data['sid']}</dd>
@@ -25,16 +25,11 @@
 				<dt>Последнее обновление:</dt>
 				<dd>{$data['lm']}</dd>
 			</dl>
-    	</div>
-    </div>
-    <div class="row">
-    	<div class="col-lg-12 text-right">
-        	<a href="{$SCRIPT_NAME}?act=structure&part=edit&id={$data['sid']}" class="btn btn-link"><span class="icon-edit icon-fixed-width"></span> Редактировать теги</a>
-    	</div>
-    </div>
+		</div>
+	</div>
 	<div class="row">
 		<div class="col-lg-12">
-			<textarea id="content_field" class="form-control" name="content">{$data['content']}</textarea>
+			<textarea id="content_field" class="form-control ckeditor" name="content">{$data['content']}</textarea>
 		</div>
 	</div>
 	<div class="row">
@@ -53,9 +48,3 @@
     	</div>
 	</div>
 </form>
-
-{literal}
-<script>
-	CKEDITOR.replace( 'content_field' );
-</script>
-{/literal}

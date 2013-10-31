@@ -57,14 +57,14 @@ $acp_help = new ACP_HELP;
 class ACP_HELP {
 
 	# vars
-	private $part			= "help";
-	private $part_id		= 1;
+	private $part		= "help";
+	private $part_id	= 0;
 	private $part_parent	= 0;
 
-	private $part_data		= array(); # Информация по текущему разделу
+	private $part_data	= array(); # Информация по текущему разделу
 
-	private $helptree 		= array();
-	private $mites			= array();
+	private $helptree 	= array();
+	private $mites		= array();
 
 
 
@@ -74,47 +74,47 @@ class ACP_HELP {
 	*/
 	function __construct() {
 
-    	global $roocms, $db, $GET, $tpl, $smarty;
+    		global $roocms, $db, $GET, $tpl, $smarty;
 
 		# загружаем "дерево" помощи
-    	$this->helptree = $this->load_tree();
-    	$smarty->assign("tree", $this->helptree);
+    		$this->helptree = $this->load_tree();
+    		$smarty->assign("tree", $this->helptree);
 
-    	# Запрашиваем техническую информацию о разделе по уникальному имени
-    	if(isset($GET->_u) && $db->check_id($GET->_u, HELP_TABLE, "uname")) {
-			$q = $db->query("SELECT id, parent_id, uname, title, content, date_modified FROM ".HELP_TABLE." WHERE uname='".$GET->_u."'");
-			$row = $db->fetch_assoc($q);
+		# Запрашиваем техническую информацию о разделе по уникальному имени
+		if(isset($GET->_u) && $db->check_id($GET->_u, HELP_TABLE, "uname") && !isset($GET->_id)) {
+				$q = $db->query("SELECT id, parent_id, uname, title, content, date_modified FROM ".HELP_TABLE." WHERE uname='".$GET->_u."'");
+				$row = $db->fetch_assoc($q);
 
-			$this->part = $row['uname'];
-			$this->part_id = $row['id'];
-			$this->part_parent = $row['parent_id'];
+				$this->part = $row['uname'];
+				$this->part_id = $row['id'];
+				$this->part_parent = $row['parent_id'];
 
-			$this->part_data = $row;
-    	}
+				$this->part_data = $row;
+		}
 
-    	# Запрашиваем техническую информацию о разделе по идентификатору
-    	if(isset($GET->_id) && $db->check_id($GET->_id, HELP_TABLE)) {
-			$q = $db->query("SELECT id, parent_id, uname, title, content, date_modified FROM ".HELP_TABLE." WHERE id='".$GET->_id."'");
-			$row = $db->fetch_assoc($q);
+		# Запрашиваем техническую информацию о разделе по идентификатору
+		if(isset($GET->_id) && $db->check_id($GET->_id, HELP_TABLE)) {
+				$q = $db->query("SELECT id, parent_id, uname, title, content, date_modified FROM ".HELP_TABLE." WHERE id='".$GET->_id."'");
+				$row = $db->fetch_assoc($q);
 
-			$this->part = $row['uname'];
-			$this->part_id = $row['id'];
-			$this->part_parent = $row['parent_id'];
+				$this->part = $row['uname'];
+				$this->part_id = $row['id'];
+				$this->part_parent = $row['parent_id'];
 
-			$this->part_data = $row;
-    	}
+				$this->part_data = $row;
+		}
 
-    	# Запрашиваем техническую информацию о разделе по умолчанию, если не было верного запроса ни по идентификатору ни уникалному имени
-    	if($this->part_id == 1) {
-			$q = $db->query("SELECT id, parent_id, uname, title, content, date_modified FROM ".HELP_TABLE." WHERE id='1'");
-			$row = $db->fetch_assoc($q);
+		# Запрашиваем техническую информацию о разделе по умолчанию, если не было верного запроса ни по идентификатору ни уникалному имени
+		if((!isset($GET->_id) && !isset($GET->_u)) || $this->part_id == 0) {
+				$q = $db->query("SELECT id, parent_id, uname, title, content, date_modified FROM ".HELP_TABLE." WHERE id='1'");
+				$row = $db->fetch_assoc($q);
 
-			$this->part = $row['uname'];
-			$this->part_id = $row['id'];
-			$this->part_parent = $row['parent_id'];
+				$this->part = $row['uname'];
+				$this->part_id = $row['id'];
+				$this->part_parent = $row['parent_id'];
 
-			$this->part_data = $row;
-    	}
+				$this->part_data = $row;
+		}
 
 
 		# Варганим "хлебные хрошки"
@@ -125,9 +125,9 @@ class ACP_HELP {
 
 		$smarty->assign('helpmites', $this->mites);
 
-    	# действия
-    	if(DEVMODE) {
-    		switch($roocms->part) {
+		# действия
+		if(DEVMODE) {
+			switch($roocms->part) {
 
 				case 'create_part':
 					if(@$_REQUEST['create_part']) $this->create_part();
@@ -141,7 +141,7 @@ class ACP_HELP {
 						$data = $db->fetch_assoc($q);
 
 						$smarty->assign("data", $data);
-                    	$content = $tpl->load_template("help_edit_part", true);
+						$content = $tpl->load_template("help_edit_part", true);
 					}
 					break;
 
@@ -152,13 +152,13 @@ class ACP_HELP {
 				default:
 					$content = $this->show_help();
 					break;
-    		}
-    	}
-    	else $content = $this->show_help();
+			}
+		}
+		else $content = $this->show_help();
 
-    	# отрисовываем шаблон
-    	$smarty->assign('content', $content);
-    	$tpl->load_template("help");
+		# отрисовываем шаблон
+		$smarty->assign('content', $content);
+		$tpl->load_template("help");
 	}
 
 
@@ -170,7 +170,7 @@ class ACP_HELP {
 
 		global $parse, $tpl, $smarty;
 
-        $data =& $this->part_data;
+        	$data =& $this->part_data;
 
 		$data['date_modified'] = $parse->date->unix_to_rus($data['date_modified'], false, false, true);
 		$data['content'] = $parse->text->html($data['content']);
@@ -193,28 +193,27 @@ class ACP_HELP {
 
 		global $db, $parse, $POST;
 
-	    # предупреждаем возможные ошибки с уникальным именем структурной еденицы
-	    if(isset($POST->uname) && trim($POST->uname) != "") {
+		# предупреждаем возможные ошибки с уникальным именем структурной еденицы
+		if(isset($POST->uname) && trim($POST->uname) != "") {
+			# избавляем URI от возможных конвульсий
+			$POST->uname = strtr($POST->uname, array('-'=>'_','='=>'_'));
 
-	        # избавляем URI от возможных конвульсий
-	        $POST->uname = strtr($POST->uname, array('-'=>'_','='=>'_'));
+			# а так же проверяем что бы алиас не оказался числом
+			if(is_numeric($POST->uname)) $POST->uname = randcode(3, "abcdefghijklmnopqrstuvwxyz").$POST->uname;
+		}
 
-	        # а так же проверяем что бы алиас не оказался числом
-	        if(is_numeric($POST->uname)) $POST->uname = randcode(3, "abcdefghijklmnopqrstuvwxyz").$POST->uname;
-	    }
+		# проверяем введенный данные
 
-	    # проверяем введенный данные
-
-		if(!isset($POST->title) || trim($POST->title) == "") 								$parse->msg("Не указано название раздела.", false);
+		if(!isset($POST->title) || trim($POST->title) == "") 					$parse->msg("Не указано название раздела.", false);
 		if(!isset($POST->uname) || (trim($POST->uname) == "" && round($POST->uname) != 0)) 	$parse->msg("Не указан uname страницы.", false);
-		elseif(!$this->check_uname($POST->uname)) 											$parse->msg("uname раздела не уникален.", false);
-		if(!isset($POST->content) || trim($POST->content) == "")							$parse->msg("Отсуствует содержание раздела!", false);
+		elseif(!$this->check_uname($POST->uname)) 						$parse->msg("uname раздела не уникален.", false);
+		if(!isset($POST->content) || trim($POST->content) == "")				$parse->msg("Отсуствует содержание раздела!", false);
 
 		# если ошибок нет
 		if(!isset($_SESSION['error'])) {
 
-			$db->query("INSERT INTO ".HELP_TABLE."   (title, uname, sort, content, parent_id, date_modified)
-												VALUES ('".$POST->title."', '".$POST->uname."', '".$POST->sort."','".$POST->content."', '".$POST->parent_id."', '".time()."')");
+			$db->query("INSERT INTO ".HELP_TABLE." (title, uname, sort, content, parent_id, date_modified)
+							VALUES ('".$POST->title."', '".$POST->uname."', '".$POST->sort."','".$POST->content."', '".$POST->parent_id."', '".time()."')");
 
 			# пересчитываем "детей"
 			$this->count_childs($POST->parent_id);
@@ -240,21 +239,20 @@ class ACP_HELP {
 		# Если идентификатор не прошел проверку
 		if($id == 0) goback();
 
-	    # предупреждаем возможные ошибки с уникальным именем структурной еденицы
-	    if(isset($POST->uname) && trim($POST->uname) != "") {
+		# предупреждаем возможные ошибки с уникальным именем структурной еденицы
+		if(isset($POST->uname) && trim($POST->uname) != "") {
+			# избавляем URI от возможных конвульсий
+			$POST->uname = strtr($POST->uname, array('-'=>'_','='=>'_'));
 
-	        # избавляем URI от возможных конвульсий
-	        $POST->uname = strtr($POST->uname, array('-'=>'_','='=>'_'));
-
-	        # а так же проверяем что бы юнейм не оказался числом
-	        if(is_numeric($POST->uname)) $POST->uname = randcode(3, "abcdefghijklmnopqrstuvwxyz").$POST->uname;
-	    }
+			# а так же проверяем что бы юнейм не оказался числом
+			if(is_numeric($POST->uname)) $POST->uname = randcode(3, "abcdefghijklmnopqrstuvwxyz").$POST->uname;
+		}
 
 		# проверяем введенный данные
-		if(!isset($POST->title) || trim($POST->title) == "") 								$parse->msg("Не указано название раздела.", false);
+		if(!isset($POST->title) || trim($POST->title) == "") 					$parse->msg("Не указано название раздела.", false);
 		if(!isset($POST->uname) || (trim($POST->uname) == "" && round($POST->uname) != 0)) 	$parse->msg("Не указан uname раздела.", false);
-		elseif(!$this->check_uname($POST->uname, $POST->old_uname)) 						$parse->msg("uname раздела не уникален.", false);
-		if(!isset($POST->content) || trim($POST->content) == "")							$parse->msg("Отсуствует содержание раздела!", false);
+		elseif(!$this->check_uname($POST->uname, $POST->old_uname)) 				$parse->msg("uname раздела не уникален.", false);
+		if(!isset($POST->content) || trim($POST->content) == "")				$parse->msg("Отсуствует содержание раздела!", false);
 
 		# если ошибок нет
 		if(!isset($_SESSION['error'])) {
@@ -277,12 +275,12 @@ class ACP_HELP {
 					$childs = $this->load_tree($id);
 
 					if($childs) {
-	                    foreach($childs AS $k=>$v) {
+						foreach($childs AS $k=>$v) {
 							if($POST->parent_id == $v['id']) {
 								$POST->parent_id = $POST->now_parent_id;
 								$parse->msg("Не удалось изменить иерархию! Вы не можете изменить иерархию директории переместив её в свой дочерний элемент!", false);
 							}
-	                    }
+						}
 					}
 				}
 			}
@@ -329,7 +327,7 @@ class ACP_HELP {
 
 		if($row['childs'] == 0) {
 
-            $db->query("DELETE FROM ".HELP_TABLE." WHERE id='".$id."'");
+            		$db->query("DELETE FROM ".HELP_TABLE." WHERE id='".$id."'");
 
 			# уведомление
 			$parse->msg("Раздел удален");
@@ -422,9 +420,9 @@ class ACP_HELP {
 		if($id != 1) {
 			foreach($this->helptree AS $k=>$v) {
 				if($v['id'] == $id) {
-					$this->mites[] = array('id'		=> $v['id'],
-										   'uname'	=> $v['uname'],
-										   'title'	=> $v['title']);
+					$this->mites[] = array( 'id'	=> $v['id'],
+								'uname'	=> $v['uname'],
+								'title'	=> $v['title']);
 
 					if($v['parent_id'] != 0) $this->construct_mites($v['parent_id']);
 				}

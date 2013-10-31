@@ -25,9 +25,9 @@
         				</td>
         				<td class="text-center"><span class="label label-default">{$feed['ptype']}</span></td>
         				<td>
-        					<nobr><a href="{$SCRIPT_NAME}?act=feeds&part=control&page={$feed['id']}" class="btn btn-xs btn-default"><span class="icon-book icon-fixed-width"></span>Управление</a></nobr>
-							&nbsp;<nobr><a href="{$SCRIPT_NAME}?act=feeds&part=settings&page={$feed['id']}" class="btn btn-xs btn-default"><span class="icon-cog icon-fixed-width"></span>Настройки</a></nobr>
-							{if $feed['id'] != 1}&nbsp;<nobr><a href="{$SCRIPT_NAME}?act=structure&part=delete&id={$feed['id']}" class="btn btn-xs btn-danger"><span class="icon-trash icon-fixed-width"></span>Удалить</a></nobr>{/if}
+        					<nobr><a href="{$SCRIPT_NAME}?act=feeds&part=control&page={$feed['id']}" class="btn btn-xs btn-default"><span class="fa fa-book fa-fw"></span>Управление</a></nobr>
+							&nbsp;<nobr><a href="{$SCRIPT_NAME}?act=feeds&part=settings&page={$feed['id']}" class="btn btn-xs btn-default"><span class="fa fa-cog fa-fw"></span>Настройки</a></nobr>
+							{if $feed['id'] != 1}&nbsp;<nobr><a href="{$SCRIPT_NAME}?act=structure&part=delete&id={$feed['id']}" class="btn btn-xs btn-danger"><span class="fa fa-trash-o fa-fw"></span>Удалить</a></nobr>{/if}
         				</td>
 			        </tr>
     			{/foreach}
@@ -50,9 +50,9 @@
         <span class="label label-default pull-right">{$feed['ptype']}</span>
 	</div>
 	<div class="panel-footer text-right">
-		<nobr><a href="{$SCRIPT_NAME}?act=feeds&part=control&page={$feed['id']}" class="btn btn-xs btn-default"><span class="icon-book icon-fixed-width"></span>Управление</a></nobr>
-		<nobr><a href="{$SCRIPT_NAME}?act=feeds&part=settings&page={$feed['id']}" class="btn btn-xs btn-default"><span class="icon-cog icon-fixed-width"></span>Настройки</a></nobr>
-		{if $feed['id'] != 1}<nobr><a href="{$SCRIPT_NAME}?act=structure&part=delete&id={$feed['id']}" class="btn btn-xs btn-danger"><span class="icon-trash icon-fixed-width"></span>Удалить</a></nobr>{/if}
+		<nobr><a href="{$SCRIPT_NAME}?act=feeds&part=control&page={$feed['id']}" class="btn btn-xs btn-default"><span class="fa fa-book fa-fw"></span>Управление</a></nobr>
+		<nobr><a href="{$SCRIPT_NAME}?act=feeds&part=settings&page={$feed['id']}" class="btn btn-xs btn-default"><span class="fa fa-cog fa-fw"></span>Настройки</a></nobr>
+		{if $feed['id'] != 1}<nobr><a href="{$SCRIPT_NAME}?act=structure&part=delete&id={$feed['id']}" class="btn btn-xs btn-danger"><span class="fa fa-trash-o fa-fw"></span>Удалить</a></nobr>{/if}
 	</div>
 </div>
 {/foreach}

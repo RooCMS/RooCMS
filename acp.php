@@ -12,7 +12,7 @@
 */
 
 /**
-*	RooCMS - Russian free content managment system
+*   RooCMS - Russian free content managment system
 *   Copyright (C) 2010-2014 alex Roosso aka alexandr Belov info@roocms.com
 *
 *   This program is free software: you can redistribute it and/or modify
@@ -47,8 +47,6 @@
 */
 
 
-
-
 /**
 * Инициализируем админ панель
 */
@@ -57,7 +55,6 @@ define('_SITEROOT', dirname(__FILE__));
 require_once _SITEROOT."/roocms/init.php";
 require_once _ACP;
 
-
 /**
 * Генерим HTML
 *
@@ -65,6 +62,5 @@ require_once _ACP;
 * @return frontend html
 */
 $tpl->out();
-
 
 ?>

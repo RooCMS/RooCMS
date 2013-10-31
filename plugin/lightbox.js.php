@@ -6,7 +6,7 @@
 * @author       alex Roosso
 * @copyright    2010-2014 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.0
+* @version      1.0.1
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -55,5 +55,5 @@ ob_start("ob_gzhandler", 9);
 
 ?>
 
-document.write('<link href="/plugin/lightbox/css/lightbox.css" rel="stylesheet">');
+document.write('<link href="/plugin/lightbox/css/lightbox.min.css" rel="stylesheet">');
 document.write('<script src="/plugin/lightbox/js/lightbox-2.6.min.js"></script>');

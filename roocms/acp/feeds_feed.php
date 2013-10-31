@@ -7,7 +7,7 @@
 * @author       alex Roosso
 * @copyright    2010-2014 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.5
+* @version      1.5.4
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -65,14 +65,24 @@ class ACP_FEEDS_FEED {
 
 		global $db, $config, $tpl, $smarty, $GET;
 
-		if($db->check_id($GET->_page, STRUCTURE_TABLE, "id", "type='feed'")) {
-			$q = $db->query("SELECT id, rss, items_per_page FROM ".STRUCTURE_TABLE." WHERE id='".$GET->_page."'");
+		if($db->check_id($GET->_page, STRUCTURE_TABLE, "id", "page_type='feed'")) {
+			$q = $db->query("SELECT id, rss, items_per_page, thumb_img_width, thumb_img_height FROM ".STRUCTURE_TABLE." WHERE id='".$GET->_page."'");
 			$feed = $db->fetch_assoc($q);
 
 			# Уведомление о глобальном отключении RSS лент
 			$feed['rss_warn'] = (!$config->rss_power) ? true : false ;
 
+			# глобальное значение количества элементов на страницу
+			$feed['global_items_per_page'] =& $config->feed_items_per_page;
+
 			$smarty->assign("feed",$feed);
+
+
+			# default thumb size
+			$default_thumb_size = array('width'	=> $config->gd_thumb_image_width,
+						    'height'	=> $config->gd_thumb_image_height);
+			$smarty->assign("default_thumb_size", $default_thumb_size);
+
 
 			$content = $tpl->load_template("feeds_settings_feed", true);
 			$smarty->assign("content", $content);
@@ -81,22 +91,27 @@ class ACP_FEEDS_FEED {
 	}
 
 
-	/* ####################################################
-	 *		Update Settings
+	/**
+	 * Функция обновления настроек ленты
+	 * @param $id - идентификатор ленты
 	 */
 	function update_settings($id) {
 
-		global $db, $GET, $POST, $parse;
+		global $db, $img, $GET, $POST, $parse;
 
-		if(@$_REQUEST['update_settings'] && $db->check_id($GET->_page, STRUCTURE_TABLE, "id", "type='feed'")) {
+		if(@$_REQUEST['update_settings'] && $db->check_id($GET->_page, STRUCTURE_TABLE, "id", "page_type='feed'")) {
+			# update buffer
 			$update = "";
 
 			# RSS flag
 			$update .= (isset($POST->rss) && $POST->rss == "1") ? " rss='1', " : " rss='0', " ;
-			$update .= (isset($POST->items_per_page) && round($POST->items_per_page) > 0) ? " items_per_page='".round($POST->items_per_page)."', " : " items_per_page='10', " ;
+			$update .= (isset($POST->items_per_page) && round($POST->items_per_page) >= 0) ? " items_per_page='".round($POST->items_per_page)."', " : "" ;
+
+			# thumbnail check
+			$img->check_post_thumb_parametrs();
 
 			# up data to db
-			$db->query("UPDATE ".STRUCTURE_TABLE." SET ".$update." date_modified='".time()."' WHERE id='".$GET->_page."'");
+			$db->query("UPDATE ".STRUCTURE_TABLE." SET ".$update." thumb_img_width='".$POST->thumb_img_width."', thumb_img_height='".$POST->thumb_img_height."', date_modified='".time()."' WHERE id='".$GET->_page."'");
 
 			$parse->msg("Настройки успешно обновлены");
 		}
@@ -106,22 +121,23 @@ class ACP_FEEDS_FEED {
 	}
 
 
-	/* ####################################################
-	 *		Control
+	/**
+	 * Функция вызова настроек ленты для редактирования.
+	 * @param int $id - идентификатор ленты
 	 */
 	function control($id) {
 
 		global $db, $parse, $tpl, $smarty;
 
-		$q = $db->query("SELECT id, title FROM ".STRUCTURE_TABLE." WHERE id='".$id."'");
+		$q = $db->query("SELECT id, title, alias FROM ".STRUCTURE_TABLE." WHERE id='".$id."'");
 		$feed = $db->fetch_assoc($q);
 
 		$smarty->assign("feed", $feed);
 
 		$feedlist = array();
-		$q = $db->query("SELECT id, title, brief_item, date_publications, date_end_publications, date_update FROM ".PAGES_FEED_TABLE." WHERE sid='".$id."' ORDER BY date_publications DESC, date_create DESC, date_update DESC");
+		$q = $db->query("SELECT id, status, title, brief_item, date_publications, date_end_publications, date_update FROM ".PAGES_FEED_TABLE." WHERE sid='".$id."' ORDER BY date_publications DESC, date_create DESC, date_update DESC");
 		while($row = $db->fetch_assoc($q)) {
-        		$row['status'] = ($row['date_end_publications'] < time() && $row['date_end_publications'] != 0) ? "hide" : "show" ;
+        		$row['publication_status'] = ($row['date_end_publications'] < time() && $row['date_end_publications'] != 0) ? "hide" : "show" ;
 
 			$row['date_publications'] 	= $parse->date->unix_to_rus($row['date_publications']);
 			if($row['date_end_publications'] != 0)
@@ -138,8 +154,8 @@ class ACP_FEEDS_FEED {
 	}
 
 
-	/* ####################################################
-	 *		Create New Item
+	/**
+	 * Функция создает новые эелемент ленты, занося его параметры в БД
 	 */
 	function create_item() {
 
@@ -181,8 +197,12 @@ class ACP_FEEDS_FEED {
 				# get feed id
 				$fid = $db->insert_id();
 
+				# read thumbnail parametrs
+				$q = $db->query("SELECT thumb_img_width, thumb_img_height FROM ".STRUCTURE_TABLE." WHERE id='".$GET->_page."'");
+				$thumbsize = $db->fetch_assoc($q);
+
 				# attachment images
-				$images = $img->upload_image("images");
+				$images = $img->upload_image("images", "", array($thumbsize['thumb_img_width'], $thumbsize['thumb_img_height']));
 				if($images) {
 					foreach($images AS $image) {
 						$img->insert_images($image, "feedid=".$fid);
@@ -208,15 +228,16 @@ class ACP_FEEDS_FEED {
 	}
 
 
-	/* ####################################################
-	 *		Edit Item
+	/**
+	 * Функция вызова параметров элемента ленты для их редактирвоания
+	 * @param $id - идентификатор элемента ленты
 	 */
 	function edit_item($id) {
 
 		global $db, $img, $tpl, $smarty, $parse;
 
 
-		$q = $db->query("SELECT id, sid, title, meta_description, meta_keywords, brief_item, full_item, date_publications, date_end_publications FROM ".PAGES_FEED_TABLE." WHERE id='".$id."'");
+		$q = $db->query("SELECT id, sid, status, title, meta_description, meta_keywords, brief_item, full_item, date_publications, date_end_publications FROM ".PAGES_FEED_TABLE." WHERE id='".$id."'");
 		$item = $db->fetch_assoc($q);
 
 		$item['date_publications'] = $parse->date->unix_to_rusint($item['date_publications']);
@@ -248,8 +269,10 @@ class ACP_FEEDS_FEED {
 	}
 
 
-	/* ####################################################
-	 *		Update Item
+	/**
+	 * Обновляем данные элемента ленты
+	 *
+	 * @param int $id - item id
 	 */
 	function update_item($id) {
 
@@ -259,11 +282,14 @@ class ACP_FEEDS_FEED {
 		if(!isset($POST->brief_item)) 	$parse->msg("Не заполнен аннотация элемента",false);
 		if(!isset($POST->full_item)) 	$parse->msg("Не заполнен подробный текст элемента",false);
 
+		# status
+		if(!isset($POST->status) || $POST->status >= 2) $POST->status = 1;
+
 		# дата публикации и продолжительности
 		if(!isset($POST->date_publications)) 		$POST->date_publications	= date("d.m.Y",time());
 		if(!isset($POST->date_end_publications))	$POST->date_end_publications	= 0;
 
-		#meta
+		# meta
 		if(!isset($POST->meta_description))	$POST->meta_description	= "";
 		if(!isset($POST->meta_keywords))	$POST->meta_keywords	= "";
 
@@ -274,7 +300,8 @@ class ACP_FEEDS_FEED {
 
                         if($POST->date_end_publications != 0 && $POST->date_end_publications <= $POST->date_publications) $POST->date_end_publications = 0;
 
-		        $db->query("UPDATE ".PAGES_FEED_TABLE." SET title='".$POST->title."',
+		        $db->query("UPDATE ".PAGES_FEED_TABLE." SET status='".$POST->status."',
+		        					    title='".$POST->title."',
 							            meta_description='".$POST->meta_description."',
 							            meta_keywords='".$POST->meta_keywords."',
 							            brief_item='".$POST->brief_item."',
@@ -297,8 +324,13 @@ class ACP_FEEDS_FEED {
 				}
 			}
 
+
+			# read thumbnail parametrs
+			$q = $db->query("SELECT thumb_img_width, thumb_img_height FROM ".STRUCTURE_TABLE." WHERE id='".$GET->_page."'");
+			$thumbsize = $db->fetch_assoc($q);
+
 			# attachment images
-			$images = $img->upload_image("images");
+			$images = $img->upload_image("images", "", array($thumbsize['thumb_img_width'], $thumbsize['thumb_img_height']));
 			if($images) {
 				foreach($images AS $image) {
 					$img->insert_images($image, "feedid=".$id);
@@ -313,8 +345,9 @@ class ACP_FEEDS_FEED {
 	}
 
 
-	/* #####################################################
-	 *		Edit Item
+	/**
+	 * Функция удаления отдельног элемента ищ ленты
+	 * @param $id - идентификатор ленты
 	 */
 	function delete_item($id) {
 
@@ -340,8 +373,10 @@ class ACP_FEEDS_FEED {
 	}
 
 
-	/* ####################################################
-	 *	Delete
+	/**
+	 * Функция удаления ленты
+	 *
+	 * @param $sid - structure element id
 	 */
 	function delete_feed($sid) {
 
@@ -362,8 +397,10 @@ class ACP_FEEDS_FEED {
 	}
 
 
-	/* ####################################################
-	 *	Count items
+	/**
+	 * Функция пересчета элементов в фиде
+	 *
+	 * @param int $sid - структурный идентификатор ленты
 	 */
 	function count_items($sid) {
 

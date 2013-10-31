@@ -1,6 +1,6 @@
 {* Информация о сервере *}
 
-<h3>Информация о сервере</h3>
+<h3>{$part_title}</h3>
 <table class="table table-hover table-condensed">
 	<thead>
 		<tr>

@@ -58,15 +58,15 @@ $acp_pages = new ACP_PAGES;
 class ACP_PAGES {
 
 	# vars
-	private $engine;		# [object] global structure operations
-	private $unit;			# [object] for works content pages
+	private $engine;	# [object] global structure operations
+	private $unit;		# [object] for works content pages
 
 
 
-    /**
-    * Show must go on
-    *
-    */
+	/**
+	* Show must go on
+	*
+	*/
 	function __construct() {
 
 		global $roocms, $GET, $tpl;
@@ -111,31 +111,31 @@ class ACP_PAGES {
 	}
 
 
-    /**
-    * Функция просмотра списка страниц
-    *
-    */
+	/**
+	 * Функция просмотра списка страниц
+	 *
+	 */
 	private function view_all_pages() {
 
 		global $db, $tpl, $smarty, $parse;
 
-		$q = $db->query("SELECT h.id, h.sid, h.date_modified, p.title, p.alias, p.noindex, p.type
-							FROM ".PAGES_HTML_TABLE." AS h
-							LEFT JOIN ".STRUCTURE_TABLE." AS p ON (p.id = h.sid)
-							ORDER BY p.id ASC");
+		$q = $db->query("SELECT h.id, h.sid, h.date_modified, p.title, p.alias, p.noindex, p.page_type
+					FROM ".PAGES_HTML_TABLE." AS h
+					LEFT JOIN ".STRUCTURE_TABLE." AS p ON (p.id = h.sid)
+					ORDER BY p.id ASC");
 		while($row = $db->fetch_assoc($q)) {
 			$row['lm'] = $parse->date->unix_to_rus($row['date_modified'], false, true, true);
-			$row['ptype'] = $this->engine->page_types[$row['type']]['title'];
+			$row['ptype'] = $this->engine->page_types[$row['page_type']]['title'];
 			$data[] = $row;
 		}
 
-		$q = $db->query("SELECT h.id, h.sid, h.date_modified, p.title, p.alias, p.noindex, p.type
-							FROM ".PAGES_PHP_TABLE." AS h
-							LEFT JOIN ".STRUCTURE_TABLE." AS p ON (p.id = h.sid)
-							ORDER BY p.id ASC");
+		$q = $db->query("SELECT h.id, h.sid, h.date_modified, p.title, p.alias, p.noindex, p.page_type
+					FROM ".PAGES_PHP_TABLE." AS h
+					LEFT JOIN ".STRUCTURE_TABLE." AS p ON (p.id = h.sid)
+					ORDER BY p.id ASC");
 		while($row = $db->fetch_assoc($q)) {
 			$row['lm'] = $parse->date->unix_to_rus($row['date_modified'], false, true, true);
-			$row['ptype'] = $this->engine->page_types[$row['type']]['title'];
+			$row['ptype'] = $this->engine->page_types[$row['page_type']]['title'];
 			$data[] = $row;
 		}
 
@@ -147,12 +147,14 @@ class ACP_PAGES {
 	}
 
 
-    /**
-    * Callback func для сортировки $data по sid
-    *
-    * @param array $a
-    * @param array $b
-    */
+	/**
+	 * Callback func для сортировки $data по sid
+	 *
+	 * @param array $a
+	 * @param array $b
+	 *
+	 * @return int
+	 */
 	private function sort_data($a, $b) {
 		return strcmp($a["sid"], $b["sid"]);
 	}

@@ -33,7 +33,7 @@
 
 	<div class="form-group">
 	    <label for="inputDateP" class="col-lg-3 control-label">
-    		Дата публикации: <small><span class="icon-info icon-fixed-width" rel="tooltip" title="Разрешается указать дату будущим числом. Посетители увидять публикацию только с наступлением указанной даты." data-placement="right"></span></small>
+    		Дата публикации: <small><span class="fa fa-info fa-fw" rel="tooltip" title="Разрешается указать дату будущим числом. Посетители увидять публикацию только с наступлением указанной даты." data-placement="right"></span></small>
 	    </label>
 	    <div class="col-lg-9">
 	    	<div class="input-group">
@@ -46,10 +46,9 @@
 	<div class="row">
 		<div class="col-lg-12">
 		    <label for="brief_item" class="control-label">
-    			Аннотация: <small><span class="icon-info icon-fixed-width text-danger" rel="tooltip" title="Обазательно заполнить это поле" data-placement="right"></span></small>
+    			Аннотация: <small><span class="fa fa-info fa-fw text-danger" rel="tooltip" title="Обазательно заполнить это поле" data-placement="right"></span></small>
 		    </label>
-			<textarea id="brief_item" class="form-control" name="brief_item" required></textarea>
-			{literal}<script>CKEDITOR.replace( 'brief_item' );</script>{/literal}
+			<textarea id="brief_item" class="form-control ckeditor" name="brief_item" required></textarea>
 		</div>
 	</div>
 	<div class="row">
@@ -57,8 +56,7 @@
 		    <label for="brief_item" class="control-label">
     			Полный текст:
 		    </label>
-			<textarea id="full_item" class="form-control" name="full_item" required></textarea>
-			{literal}<script>CKEDITOR.replace( 'full_item' );</script>{/literal}
+			<textarea id="full_item" class="form-control ckeditor" name="full_item" required></textarea>
 		</div>
 	</div>
 

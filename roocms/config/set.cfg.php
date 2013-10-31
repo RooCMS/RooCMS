@@ -73,8 +73,8 @@ ob_start("ob_gzhandler", 9);
 /**
 * Initialisation session settings
 */
-ini_set("session.use_trand_sid",	true); 		# 	Активируем сессию
-ini_set("session.gc_maxlifetime",	1440); 		# 	Устанавливаем время жизни сессии
+ini_set("session.use_trand_sid",	true);		#	Активируем сессию
+ini_set("session.gc_maxlifetime",	1440);		#	Устанавливаем время жизни сессии
 ini_set("session.cache_limiter", 	"nocache");	#	нет кешу в сессии
 ini_set("session.cache_expire", 	180);		#	Установим срок годности для сессии
 ini_set("session.name", 		"PHPSESSID");	#	Имя параметра с сессией

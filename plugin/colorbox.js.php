@@ -6,13 +6,13 @@
 * @author       alex Roosso
 * @copyright    2010-2014 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.0
+* @version      1.1
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
 
 /**
-*	RooCMS - Russian free content managment system
+*   RooCMS - Russian free content managment system
 *   Copyright (C) 2010-2014 alex Roosso aka alexandr Belov info@roocms.com
 *
 *   This program is free software: you can redistribute it and/or modify
@@ -46,6 +46,9 @@
 *   с программой. В случае её отсутствия, посмотрите http://www.gnu.org/licenses/
 */
 
+$skin = 1;
+if(isset($_GET['s']) && $_GET['s'] >= 1 && $_GET['s'] <=5) $skin = $_GET['s'];
+
 # OUTPUT
 header('HTTP/1.1 200 OK');
 header('Content-type: application/x-javascript');
@@ -55,8 +58,8 @@ ob_start("ob_gzhandler", 9);
 
 ?>
 
-document.write('<link href="/plugin/colorbox/colorbox.css" rel="stylesheet">');
-document.write('<script src="/plugin/colorbox/colorbox.js"></script>');
+document.write('<link href="/plugin/colorbox/<?=$skin;?>/colorbox.min.css" rel="stylesheet">');
+document.write('<script src="/plugin/colorbox/jquery.colorbox.js"></script>');
 
 
 

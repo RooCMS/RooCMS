@@ -6,7 +6,7 @@
 * @author	alex Roosso
 * @copyright	2010-2014 (c) RooCMS
 * @link		http://www.roocms.com
-* @version	1.0.7
+* @version	1.1
 * @since	$date$
 * @license	http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -53,7 +53,6 @@ if(!defined('RooCMS')) die('Access Denied');
 //#########################################################
 
 $blocks = new Blocks;
-
 $smarty->assign("blocks", $blocks);
 
 
@@ -68,45 +67,53 @@ class Blocks {
 	public function load($id) {
 
 		global $db, $parse, $img, $smarty, $tpl;
+                static $use_blocks = array();
 
-		$output = "";
+                $output = "";
 
-		$id = strtr($id, array(	'\''		=> '',
-								'"'			=> '',
-								'&quot;'	=> ''));
+                $id = str_ireplace("'", "", $id);
+                if(!array_key_exists($id, $use_blocks)) {
 
-		$q = $db->query("SELECT id, alias, content, type FROM ".BLOCKS_TABLE." WHERE id='".$id."' OR alias='".$id."'");
-		$data = $db->fetch_assoc($q);
+			$id = strtr($id, array(	'\''		=> '',
+						'"'		=> '',
+						'&quot;'	=> ''));
 
-		if(!empty($data)) {
-			if($data['type'] == "php") {
-				ob_start();
-					eval($parse->text->html($data['content']));
+			$q = $db->query("SELECT id, alias, content, block_type FROM ".BLOCKS_TABLE." WHERE id='".$id."' OR alias='".$id."'");
+			$data = $db->fetch_assoc($q);
 
-					$output = ob_get_contents();
-				ob_end_clean();
+			if(!empty($data)) {
+				if($data['block_type'] == "php") {
+					ob_start();
+						eval($parse->text->html($data['content']));
+
+						$output = ob_get_contents();
+					ob_end_clean();
+				}
+				else {
+					$output = $parse->text->html($data['content']);
+
+					# load attached images
+					$images = array();
+					$images = $img->load_images("blockid=".$data['id']);
+
+					$smarty->assign("images", $images);
+					$smarty->assign("block_id", $data['id']);
+					$smarty->assign("block_alias", $data['alias']);
+
+					$imgs = $tpl->load_template("block_images", true);
+
+					$output .= $imgs;
+				}
+
+				$use_blocks[$id] = $output;
 			}
 			else {
-				$output = $parse->text->html($data['content']);
-
-				# load attached images
-				$images = array();
-				$images = $img->load_images("blockid=".$data['id']);
-
-				$smarty->assign("images", $images);
-				$smarty->assign("block_id", $data['id']);
-				$smarty->assign("block_alias", $data['alias']);
-
-				$imgs = $tpl->load_template("block_images", true);
-
-				$output .= $imgs;
+				if(DEBUGMODE) {
+					$output = "Блок с ID или ALIAS - \"".$id."\" не найден";
+				}
 			}
-		}
-		else {
-			if(DEBUGMODE) {
-				$output = "Блока с ID / ALIAS - \"".$id."\" не существует";
-			}
-		}
+                }
+                else $output = $use_blocks[$id];
 
 		return $output;
 	}

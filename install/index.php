@@ -71,10 +71,12 @@ if(trim($adm['login']) != "" && trim($adm['passw']) != "") {
 
 		if(!empty($db_info['user']) && !empty($db_info['pass']) && !empty($db_info['base'])) {
 			require_once "update.php";
+			$update = new Update;
 		}
 		else {
 			$site['title'] = "Установка RooCMS";
 			require_once "install.php";
+			$install = new Install;
 		}
 	}
 	else {

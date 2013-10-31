@@ -6,7 +6,7 @@
 <form method="post" action="{$SCRIPT_NAME}?act=blocks&part=create&type=html" enctype="multipart/form-data" role="form" class="form-horizontal">
 	<div class="form-group">
 	    <label for="inputAlias" class="col-lg-3 control-label">
-    		Alias: <small><span class="icon-info icon-fixed-width" rel="tooltip" title="Должен быть уникальным" data-placement="right"></span></small>
+    		Alias: <small><span class="fa fa-info fa-fw" rel="tooltip" title="Должен быть уникальным" data-placement="auto"></span></small>
 	    </label>
 	    <div class="col-lg-9">
 			<input type="text" name="alias" id="inputAlias" class="form-control" required>
@@ -23,10 +23,9 @@
 	<div class="row">
 		<div class="col-lg-12">
 		    <label for="content" class="control-label">
-    			Код блока: <small><span class="icon-info icon-fixed-width" rel="tooltip" title="Код блока на языке HTML" data-placement="right"></span></small>
+    			Код блока: <small><span class="fa fa-info fa-fw" rel="tooltip" title="Код блока на языке HTML" data-placement="auto"></span></small>
 		    </label>
-			<textarea id="content" class="form-control" name="content" required></textarea>
-			{literal}<script>CKEDITOR.replace( 'content' );</script>{/literal}
+			<textarea id="content" class="form-control ckeditor" name="content" required></textarea>
 		</div>
 	</div>
 

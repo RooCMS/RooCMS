@@ -59,9 +59,9 @@ nocache();
 * Meta SEO
 *
 */
-$site['title']			= $structure->page_title;
+$site['title']		= $structure->page_title;
 $site['description']	= $structure->page_meta_desc;
-$site['keywords']		= $structure->page_meta_keys;
+$site['keywords']	= $structure->page_meta_keys;
 
 
 /**

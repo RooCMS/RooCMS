@@ -77,9 +77,7 @@ if($security == true) {
 	if(trim($roocms->act) != "" && file_exists(_ROOCMS."/acp/".$roocms->act.".php")) {
 		require_once _ROOCMS."/acp/".$roocms->act.".php";
 	}
-	else {
-		require_once _ROOCMS."/acp/index.php";
-	}
+	else require_once _ROOCMS."/acp/index.php";
 }
 else {
 	$smarty->assign("no_footer", true);

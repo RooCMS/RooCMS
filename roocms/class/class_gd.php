@@ -6,7 +6,7 @@
 * @author	alex Roosso
 * @copyright	2010-2014 (c) RooCMS
 * @link		http://www.roocms.com
-* @version	1.8
+* @version	1.8.1
 * @since	$date$
 * @license	http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -62,7 +62,7 @@ class GD {
 	var $copyright	= "";					# Текст копирайта ( По умолчанию: $site['title'] )
 	var $domain	= "";					# Адрес домена ( По умолчанию: $site['domain'] )
 	var $msize	= array('w' => 900,'h' => 900);		# Максимальные размеры сохраняемого изображения
-	var $tsize	= array('w' => 100,'h' => 100);		# Размеры миниатюры
+	var $tsize	= array('w' => 267,'h' => 150);		# Размеры миниатюры
 	var $rs_quality	= 90;					# Качество обработанных изображений
 	var $th_quality	= 90;					# Качество генерируемых миниматюр
 	var $thumbtg	= "fill";				# Тип генерируемой миниатюры ( Возможные значения: fill - заливка, size - по размеру изображения )
@@ -153,8 +153,10 @@ class GD {
 			$ns = $this->calc_resize($w, $h, $this->msize['w'], $this->msize['h']);
 
 			# вносим в память пустую превью и оригинальный файл, для дальнейшего издевательства над ними.
-			$resize 	= imagecreatetruecolor($ns['new_width'], $ns['new_height']);
-	        	$bgcolor 	= imagecolorallocatealpha($resize, $this->thumbbgcol['r'], $this->thumbbgcol['g'], $this->thumbbgcol['b'], 0);    //127
+			$resize 	= $this->imgcreatetruecolor($ns['new_width'], $ns['new_height'], $ext);
+
+	        	$alpha 		= ($ext == "png" || $ext == "gif") ? 127 : 0 ;
+	        	$bgcolor 	= imagecolorallocatealpha($resize, $this->thumbbgcol['r'], $this->thumbbgcol['g'], $this->thumbbgcol['b'], $alpha);
 
 	        	# alpha
 			if($ext == "gif" || $ext == "png") {
@@ -197,8 +199,10 @@ class GD {
 		$h = $size[1];
 
 		# вносим в память пустую превью и оригинальный файл, для дальнейшего издевательства над ними.
-		$thumb		= imagecreatetruecolor($this->tsize['w'], $this->tsize['h']);
-        	$bgcolor	= imagecolorallocatealpha($thumb, $this->thumbbgcol['r'], $this->thumbbgcol['g'], $this->thumbbgcol['b'], 0);
+		$thumb		= $this->imgcreatetruecolor($this->tsize['w'], $this->tsize['h'], $ext);
+
+		$alpha 		= ($ext == "png" || $ext == "gif") ? 127 : 0 ;
+        	$bgcolor	= imagecolorallocatealpha($thumb, $this->thumbbgcol['r'], $this->thumbbgcol['g'], $this->thumbbgcol['b'], $alpha);
 
 		# alpha
 		if($ext == "gif" || $ext == "png") {
@@ -325,28 +329,47 @@ class GD {
 	/**
 	* put your comment there...
 	*
-	* @param string $path	- полный путь и имя файла из которого будем крафтить изображение
+	* @param string $from	- полный путь и имя файла из которого будем крафтить изображение
 	* @param string $ext	- расширение файла без точки
 	* @return data - функция вернет идентификатор (сырец) для работы (издевательств) с изображением.
 	*/
-	private function imgcreate($path, $ext) {
+	private function imgcreate($from, $ext) {
 
 		switch($ext) {
 			case 'jpg':
-                	        $src = imagecreatefromjpeg($path);
+                	        $src = imagecreatefromjpeg($from);
 			        break;
 
 			case 'gif':
-                		$src = imagecreatefromgif($path);
+                		$src = imagecreatefromgif($from);
 				break;
 
 			case 'png':
-                		$src = imagecreatefrompng($path);
+                		$src = imagecreatefrompng($from);
 				break;
 
-			/*default:
+			/* default:
 				$src = imagecreatefromjpeg($path);
-				break;*/
+				break; */
+		}
+
+		if($ext == "png" || $ext == "gif") {
+	                imagealphablending($src, false);
+			imagesavealpha($src,true);
+		}
+
+		return $src;
+	}
+
+
+
+	private function imgcreatetruecolor($width, $height, $ext) {
+
+                $src = imagecreatetruecolor($width, $height);
+
+		if($ext == "png" || $ext == "gif") {
+	                imagealphablending($src, false);
+			imagesavealpha($src,true);
 		}
 
 		return $src;

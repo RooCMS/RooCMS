@@ -6,7 +6,7 @@
 * @author       alex Roosso
 * @copyright    2010-2014 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.1.3
+* @version      1.1.5
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -54,10 +54,6 @@ if(!defined('RooCMS')) die('Access Denied');
 
 
 # Parser data class :: $_POST / $_GET && other input data
-
-$parse 	= new Parser;
-$GET	=& $parse->Get;
-$POST	=& $parse->Post;
 
 class Parser {
 
@@ -132,7 +128,12 @@ class Parser {
 	*/
 	function parse_global() {
 
+		# $_GET
+		settype($this->Get, 	"object");
 		if(!empty($_GET)) 	$this->parse_Get();
+
+		# $_POST
+		settype($this->Post, 	"object");
 		if(!empty($_POST)) 	$this->parse_Post();
 
 		# init session data
@@ -147,11 +148,10 @@ class Parser {
 	protected function parse_Post() {
 
 		$empty = false;
-		if(isset($_POST['empty']) && $_POST['empty'] == "1") $empty = true;
+		if(isset($_POST['empty']) && ($_POST['empty'] == "1" || $_POST['empty'] == "true")) $empty = true;
 		unset($_POST['empty']);
 
 		$this->post = $this->check_array($_POST, $empty);
-		settype($this->Post, "object");
 
 		foreach ($this->post as $key=>$value) {
 
@@ -181,8 +181,6 @@ class Parser {
 	protected function parse_Get() {
 
 		$this->get = $this->check_array($_GET);
-
-		settype($this->Get, "object");
 
 		foreach ($this->get as $key=>$value) {
 
@@ -267,8 +265,6 @@ class Parser {
 							eval($code);
 						}
 					}
-					// elseif($is > 1) {
-					// }
 					elseif($is == 0) {
 
 						# устанавливаем разделитель, если распознали
@@ -291,10 +287,12 @@ class Parser {
 
 
 	/**
-	* transform uri if CHPU
-	*
-	* @param string $url - URI строка
-	*/
+	 * transform uri if CHPU
+	 *
+	 * @param string $url - URI строка
+	 *
+	 * @return string $uri
+	 */
 	public function transform_uri($url) {
 
 		if($this->uri_chpu) {
@@ -323,10 +321,12 @@ class Parser {
 
 
 	/**
-	* функция чистит ключи глобальных переменных
-	*
-	* @param string $key - имя ключа
-	*/
+	 * функция чистит ключи глобальных переменных
+	 *
+	 * @param string $key - имя ключа
+	 *
+	 * @return string clear $key
+	 */
 	function clear_key($key) {
 
 		$key = strtr($key, array(
@@ -409,12 +409,13 @@ class Parser {
 
 
 	/**
-	* Проверка на email на валидность
-	*
-	* @param string $email - email
-	*
-	*/
-	function valid_email($email) {
+	 * Проверка на email на валидность
+	 *
+	 * @param string $email - email
+	 *
+	 * @return bool
+	 */
+	public function valid_email($email) {
 
 		$pattern = '/^[\.\-_A-Za-z0-9]+?@[\.\-A-Za-z0-9]+?\.[A-Za-z0-9]{2,6}$/';
 
@@ -425,17 +426,18 @@ class Parser {
 
 
 	/**
-	* Проверка телефонного номера на валидность
-	* Валидацию пройдут номера:
-	* 	Код страны с плюсом и без, без кода страны
-	* 	Код города от 3 до 5 символов в скобках и без скобок
-	* 	Номер телефона от 5 до 7 цифр
-	* 	Дефисы и пробелы учитываются, но не обязательны
-	*
-	* @param mixed $phone - номер введеного телефона
-	*
-	*/
-	function valid_phone($phone){
+	 * Проверка телефонного номера на валидность
+	 * Валидацию пройдут номера:
+	 *        Код страны с плюсом и без, без кода страны
+	 *        Код города от 3 до 5 символов в скобках и без скобок
+	 *        Номер телефона от 5 до 7 цифр
+	 *        Дефисы и пробелы учитываются, но не обязательны
+	 *
+	 * @param mixed $phone - номер введеного телефона
+	 *
+	 * @return bool
+	 */
+	public function valid_phone($phone){
 
 		$pattern = "/^[\+]?[0-9]?(\s)?(\-)?(\s)?(\()?[0-9]{3,5}(\))?(\s)?(\-)?(\s)?[0-9]{1,3}(\s)?(\-)?(\s)?[0-9]{2}(\s)?(\-)?(\s)?[0-9]{2}\Z/";
 
@@ -449,14 +451,14 @@ class Parser {
 	* Parse NOTICE Massages
 	*
 	*/
-	function parse_notice() {
+	public function parse_notice() {
 
 		global $roocms, $config, $debug;
 
 		# Уведомления
 		if(isset($roocms->sess['info'])) {
 			foreach($roocms->sess['info'] AS $value) {
-				$this->info .= "<span class='icon-info'></span> {$value}<br />";
+				$this->info .= "<span class='fa fa-info-circle fa-fw'></span> {$value}<br />";
 			}
 
 			# уничтожаем
@@ -466,7 +468,7 @@ class Parser {
 		# Ошибки
 		if(isset($roocms->sess['error'])) {
 			foreach($roocms->sess['error'] AS $value) {
-				$this->error .= "<span class='icon-exclamation-sign'></span> {$value}<br />";
+				$this->error .= "<span class='fa fa-exclamation-triangle fa-fw'></span> {$value}<br />";
 			}
 
 			# уничтожаем
@@ -476,7 +478,7 @@ class Parser {
 		# Критические ошибки в PHP
 		if(!empty($debug->nophpextensions)) {
 			foreach($debug->nophpextensions AS $value) {
-				$this->error .= "<b><span class='icon-exclamation-sign'></span> КРИТИЧЕСКАЯ ОШИБКА:</b> Отсутсвует PHP расширение - {$value}. Работа RooCMS нестабильна!";
+				$this->error .= "<b><span class='fa fa-exclamation-triangle fa-fw'></span> КРИТИЧЕСКАЯ ОШИБКА:</b> Отсутсвует PHP расширение - {$value}. Работа RooCMS нестабильна!";
 			}
 		}
 	}
@@ -488,7 +490,7 @@ class Parser {
 	* @param mixed $url
 	* @return mixed
 	*/
-	function prep_url($url) {
+	public function prep_url($url) {
 		if($url=='' || $url=='http://' || $url=='https://')
 			return '';
 		if(mb_substr($url,0,7)!='http://' && mb_substr($url,0,8)!='https://')
@@ -498,12 +500,13 @@ class Parser {
 
 
 	/**
-	* Вычисляем процент от числа
-	*
-	* @param int $n     - %
-	* @param int $from  - Число из которого вычесляем %
-	*
-	*/
+	 * Вычисляем процент от числа
+	 *
+	 * @param int $n    - %
+	 * @param int $from - Число из которого вычесляем %
+	 *
+	 * @return float
+	 */
  	public function percent($n,$from) {
 
 		$percent = ($n / $from) * 100;
@@ -520,7 +523,7 @@ class Parser {
 	public function cvrt_color_h2d($hexcolor) {
 		if(mb_strlen($hexcolor) != 7 || mb_strpos($hexcolor, "#") === false) {
 			return false;
-			break;
+			exit;
 		}
 
 		return array(	"r" => hexdec(mb_substr($hexcolor, 1, 2)),

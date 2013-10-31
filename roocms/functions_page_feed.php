@@ -6,7 +6,7 @@
 * @author       alex Roosso
 * @copyright    2010-2014 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.0.11
+* @version      1.0.13
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -60,11 +60,9 @@ class PageFeed {
 	var $items_per_page	= 10;
 
 
-
 	/**
-	* Lets begin
-	*
-	*/
+	 * Lets begin...
+	 */
 	function __construct() {
 
 		global $GET, $db, $structure, $smarty;
@@ -75,7 +73,7 @@ class PageFeed {
 
 		$smarty->assign("feed", $feed);
 
-		if(isset($GET->_id) && $db->check_id($GET->_id, PAGES_FEED_TABLE, "id", "(date_end_publications = '0' || date_end_publications > '".time()."')")) {
+		if(isset($GET->_id) && $db->check_id($GET->_id, PAGES_FEED_TABLE, "id", "(date_end_publications = '0' || date_end_publications > '".time()."') AND status='1'")) {
 			$this->item_id = $GET->_id;
 			$this->load_item($this->item_id);
 		}
@@ -93,6 +91,7 @@ class PageFeed {
 
 		global $db, $structure, $parse, $img, $tpl, $smarty, $site;
 
+		# query data
 		$q = $db->query("SELECT id, title, meta_description, meta_keywords, full_item, date_publications FROM ".PAGES_FEED_TABLE." WHERE id='".$id."'");
 		$item = $db->fetch_assoc($q);
 		$item['datep'] 		= $parse->date->unix_to_rus($item['date_publications'],true);
@@ -115,19 +114,19 @@ class PageFeed {
 
 
 	/**
-	* Load Feed
-	*
-	*/
+	 * Загружаем фид
+	 */
 	private function load_feed() {
 
-		global $db, $structure, $rss, $parse, $img, $tpl, $smarty;
+		global $db, $config, $structure, $rss, $parse, $img, $tpl, $smarty;
 
 		# set limit on per page
 		if($structure->page_items_per_page > 0) $this->items_per_page =& $structure->page_items_per_page;
+		else $this->items_per_page =& $config->feed_items_per_page;
 		$db->limit =& $this->items_per_page;
 
 		# calculate pages
-		$db->pages_mysql(PAGES_FEED_TABLE, "date_publications <= '".time()."' AND sid='".$structure->page_id."' AND (date_end_publications = '0' || date_end_publications > '".time()."')");
+		$db->pages_mysql(PAGES_FEED_TABLE, "date_publications <= '".time()."' AND sid='".$structure->page_id."' AND (date_end_publications = '0' || date_end_publications > '".time()."') AND status='1'");
 
 		$pages = array();
 		# prev
@@ -149,7 +148,7 @@ class PageFeed {
 
 		# Feed list
 		$feeds = array();
-		$q = $db->query("SELECT id, title, brief_item, date_publications FROM ".PAGES_FEED_TABLE." WHERE date_publications <= '".time()."' AND sid='".$structure->page_id."' AND (date_end_publications = '0' || date_end_publications > '".time()."') ORDER BY date_publications DESC, date_create DESC, date_update DESC LIMIT ".$db->from.",".$db->limit);
+		$q = $db->query("SELECT id, title, brief_item, date_publications FROM ".PAGES_FEED_TABLE." WHERE date_publications <= '".time()."' AND sid='".$structure->page_id."' AND (date_end_publications = '0' || date_end_publications > '".time()."') AND status='1' ORDER BY date_publications DESC, date_create DESC, date_update DESC LIMIT ".$db->from.",".$db->limit);
 		while($row = $db->fetch_assoc($q)) {
 			$row['datep'] 		= $parse->date->unix_to_rus($row['date_publications'],true);
 			$row['brief_item']	= $parse->text->html($row['brief_item']);
@@ -166,14 +165,13 @@ class PageFeed {
 
 
 	/**
-	* Load feed in RSS format
-	*
-	*/
+	 * загружаем RSS фид
+	 */
 	private function load_feed_rss() {
 
 		global $db, $rss, $structure;
 
-		$q = $db->query("SELECT id, title, brief_item, date_publications FROM ".PAGES_FEED_TABLE." WHERE date_publications <= '".time()."' AND sid='".$structure->page_id."' ORDER BY date_publications DESC, date_create DESC, date_update DESC LIMIT ".$db->from.",".$db->limit);
+		$q = $db->query("SELECT id, title, brief_item, date_publications FROM ".PAGES_FEED_TABLE." WHERE date_publications <= '".time()."' AND sid='".$structure->page_id."' AND status='1' ORDER BY date_publications DESC, date_create DESC, date_update DESC LIMIT ".$db->from.",".$db->limit);
 		while($row = $db->fetch_assoc($q)) {
 			# uri
 			$newslink = SCRIPT_NAME."?page=".$structure->page_alias."&id=".$row['id'];

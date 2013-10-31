@@ -52,11 +52,6 @@
 if(!defined('RooCMS')) die('Access Denied');
 //#########################################################
 
-
-
-$roocms = new Globals;
-$config =& $roocms->config;
-
 class Globals {
 
 	# clasess

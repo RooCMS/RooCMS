@@ -46,13 +46,13 @@
 *   с программой. В случае её отсутствия, посмотрите http://www.gnu.org/licenses/
 */
 
+
 /**
 * Инициализируем RooCMS
 */
 define('_SITEROOT', dirname(__FILE__));
 require_once _SITEROOT."/roocms/init.php";
 require_once _SITE;
-
 
 /**
 * Генерим HTML

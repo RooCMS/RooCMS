@@ -116,17 +116,17 @@ class Requirement {
 	*/
 	private function check_php_extensions() {
 		$rextensions	= array("Core",
-								"calendar",
-								"date",
-								"pcre",
-								"session",
-								"xml",
-								"gd",
-								"mbstring",
-								"standard",
-								"SimpleXML",
-								"apache2handler",
-								"mysql");
+					"calendar",
+					"date",
+					"pcre",
+					"session",
+					"xml",
+					"gd",
+					"mbstring",
+					"standard",
+					"SimpleXML",
+					"apache2handler",
+					"mysql");
 		$extensions = get_loaded_extensions();
 
 		foreach($rextensions AS $k=>$v) {

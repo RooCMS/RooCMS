@@ -6,7 +6,7 @@
 * @author       alex Roosso
 * @copyright    2010-2014 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.0
+* @version      2.0
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -46,28 +46,56 @@
 *   с программой. В случае её отсутствия, посмотрите http://www.gnu.org/licenses/
 */
 
+$mode = "";
+if(isset($_GET['mode']) && trim($_GET['mode']) != "") $mode = $_GET['mode'];
+
 # OUTPUT
 header('HTTP/1.1 200 OK');
 header("Content-type: application/x-javascript; charset=utf-8");
 header('Content-transfer-encoding: binary\n');
 header('Accept-Ranges: bytes');
 ob_start("ob_gzhandler", 9);
+
+/* Hint */ /* LINT */ /* HTML CSS TEXT XML */ /* Load mode */
+//document.write('<link rel="stylesheet" href="/plugin/codemirror/addon/fold/foldgutter.css">');	// HTML XML
+//document.write('<script src="/plugin/codemirror/addon/edit/matchtags.js"></script>');			// HTML XML
+//document.write('<script src="/plugin/codemirror/addon/edit/closetag.js"></script>');			// HTML XML
+//document.write('<script src="/plugin/codemirror/addon/fold/xml-fold.js"></script>');			// HTML XML
+//document.write('<script src="/plugin/codemirror/addon/edit/continuelist.js"></script>');		// TEXT
+//document.write('<script src="/plugin/codemirror/addon/edit/trailingspace.js"></script>'); 		// CSS
+//document.write('<script src="/plugin/codemirror/addon/fold/foldcode.js"></script>');                  // HTML XML
+//document.write('<script src="/plugin/codemirror/addon/fold/foldgutter.js"></script>');		// HTML XML
+
+//document.write('<script src="/plugin/codemirror/mode/smarty/smarty.min.js"></script>');
+//document.write('<script src="/plugin/codemirror/mode/smartymixed/smartymixed.js"></script>');
+//document.write('<script src="/plugin/codemirror/mode/sql/sql.js"></script>');
 ?>
 
-document.write('<link rel="stylesheet" href="/plugin/codemirror/lib/codemirror.css">');
-document.write('<link rel="stylesheet" href="/plugin/codemirror/lib/util/dialog.css">');
-document.write('<script src="/plugin/codemirror/lib/codemirror.js"></script>');
-document.write('<script src="/plugin/codemirror/lib/util/foldcode.js"></script>');
-document.write('<script src="/plugin/codemirror/lib/util/overlay.js"></script>');
-document.write('<script src="/plugin/codemirror/lib/util/search.js"></script>');
-document.write('<script src="/plugin/codemirror/lib/util/searchcursor.js"></script>');
-document.write('<script src="/plugin/codemirror/lib/util/dialog.js"></script>');
-document.write('<script src="/plugin/codemirror/lib/util/match-highlighter.js"></script>');
-document.write('<script src="/plugin/codemirror/mode/xml/xml.js"></script>');
-document.write('<script src="/plugin/codemirror/mode/javascript/javascript.js"></script>');
-document.write('<script src="/plugin/codemirror/mode/css/css.js"></script>');
-document.write('<script src="/plugin/codemirror/mode/clike/clike.js"></script>');
-document.write('<script src="/plugin/codemirror/mode/php/php.js"></script>');
+document.write('<link rel="stylesheet" href="/plugin/codemirror/lib/codemirror.min.css">');
+document.write('<link rel="stylesheet" href="/plugin/codemirror/addon/dialog/dialog.min.css">');
+document.write('<link rel="stylesheet" href="/plugin/codemirror/addon/display/fullscreen.min.css">');
+
+document.write('<script src="/plugin/codemirror/lib/codemirror.min.js"></script>');				// Engine
+document.write('<script src="/plugin/codemirror/addon/dialog/dialog.min.js"></script>');			// ALL
+document.write('<script src="/plugin/codemirror/addon/search/search.min.js"></script>');
+document.write('<script src="/plugin/codemirror/addon/search/searchcursor.min.js"></script>');
+document.write('<script src="/plugin/codemirror/addon/search/match-highlighter.min.js"></script>');
+document.write('<script src="/plugin/codemirror/addon/edit/matchbrackets.js"></script>');
+document.write('<script src="/plugin/codemirror/addon/edit/closebrackets.js"></script>');
+
+document.write('<script src="/plugin/codemirror/addon/mode/overlay.js"></script>');
+document.write('<script src="/plugin/codemirror/addon/mode/multiplex.js"></script>');
+document.write('<script src="/plugin/codemirror/addon/display/fullscreen.js"></script>');		// Util
+
+/* mode */
 document.write('<script src="/plugin/codemirror/mode/htmlmixed/htmlmixed.js"></script>');
-document.write('<script src="/plugin/codemirror/mode/smarty/smarty.js"></script>');
-document.write('<script src="/plugin/codemirror/mode/mysql/mysql.js"></script>');
+document.write('<script src="/plugin/codemirror/mode/xml/xml.min.js"></script>');
+document.write('<script src="/plugin/codemirror/mode/javascript/javascript.min.js"></script>');
+document.write('<script src="/plugin/codemirror/mode/css/css.min.js"></script>');
+document.write('<script src="/plugin/codemirror/mode/clike/clike.min.js"></script>');
+document.write('<script src="/plugin/codemirror/mode/php/php.min.js"></script>');
+document.write('<script src="/plugin/codemirror/mode/htmlembedded/htmlembedded.js"></script>');
+
+<?php if($mode == "php") { ?>
+
+<?php } ?>

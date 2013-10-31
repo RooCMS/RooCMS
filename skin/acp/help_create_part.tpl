@@ -46,9 +46,9 @@
 	<div class="row">
 		<div class="col-lg-12">
 		    <label for="content" class="control-label">
-    			Текст: <small><span class="icon-info icon-fixed-width" rel="tooltip" title="HTML разрешен" data-placement="right"></span></small>
+    			Текст: <small><span class="fa fa-info fa-fw" rel="tooltip" title="HTML разрешен" data-placement="right"></span></small>
 		    </label>
-			<textarea id="content" class="form-control" name="content"></textarea>
+			<textarea id="content" class="form-control ckeditor" name="content"></textarea>
 		</div>
 	</div>
 	<div class="form-group images_attach">
@@ -58,9 +58,3 @@
 		</div>
 	</div>
 </form>
-
-{literal}
-<script>
-	CKEDITOR.replace( 'content' );
-</script>
-{/literal}

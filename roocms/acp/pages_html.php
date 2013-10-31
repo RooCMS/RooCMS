@@ -7,7 +7,7 @@
 * @author       alex Roosso
 * @copyright    2010-2014 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.3.1
+* @version      1.3.2
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -63,9 +63,9 @@ class ACP_PAGES_HTML {
 		global $db, $img, $tpl, $smarty, $parse;
 
 		# download data
-		$q = $db->query("SELECT h.id, h.sid, h.content, p.title, p.alias, p.meta_description, p.meta_keywords, h.date_modified
+		$q = $db->query("SELECT h.id, h.sid, h.content, s.title, s.alias, s.meta_description, s.meta_keywords, h.date_modified
 							FROM ".PAGES_HTML_TABLE." AS h
-							LEFT JOIN ".STRUCTURE_TABLE." AS p ON (p.id = h.sid)
+							LEFT JOIN ".STRUCTURE_TABLE." AS s ON (s.id = h.sid)
 							WHERE h.sid='".$sid."'");
 		$data = $db->fetch_assoc($q);
 		$data['lm'] = $parse->date->unix_to_rus($data['date_modified'], true, true, true);
@@ -92,8 +92,11 @@ class ACP_PAGES_HTML {
 	}
 
 
-	//#####################################################
-	//	Update
+	/**
+	 * Обновляем контент страницы
+	 *
+	 * @param $sid - Structure element id
+	 */
 	function update($sid) {
 
 		global $db, $parse, $img, $POST;
@@ -109,8 +112,12 @@ class ACP_PAGES_HTML {
 			}
 		}
 
+		# read thumbnail parametrs
+		$q = $db->query("SELECT thumb_img_width, thumb_img_height FROM ".STRUCTURE_TABLE." WHERE id='".$sid."'");
+		$thumbsize = $db->fetch_assoc($q);
+
 		# attachment images
-		$images = $img->upload_image("images");
+		$images = $img->upload_image("images", "", array($thumbsize['thumb_img_width'], $thumbsize['thumb_img_height']));
 		if($images) {
 			foreach($images AS $image) {
 				$img->insert_images($image, "pagesid=".$sid);

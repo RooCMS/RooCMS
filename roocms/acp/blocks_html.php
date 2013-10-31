@@ -67,9 +67,10 @@ class ACP_BLOCKS_HTML {
 			if(!isset($POST->title)) $parse->msg("Не указано название блока!", false);
 			if(!isset($POST->alias) || $db->check_id($POST->alias, BLOCKS_TABLE, "alias"))	$parse->msg("Не указан алиас блока или он не уникален!", false);
 			# if(!isset($POST->content)) $parse->msg("Пустое тело блока!", false); //Упраздняем временно
+			if(!isset($POST->content)) $POST->content = "";
 
 			if(!isset($_SESSION['error'])) {
-				$db->query("INSERT INTO ".BLOCKS_TABLE."   (title, alias, content, date_create, date_modified, type)
+				$db->query("INSERT INTO ".BLOCKS_TABLE."   (title, alias, content, date_create, date_modified, block_type)
 								    VALUES ('".$POST->title."', '".$POST->alias."', '".$POST->content."', '".time()."', '".time()."', 'html')");
 
 				$id = $db->insert_id();
@@ -142,7 +143,8 @@ class ACP_BLOCKS_HTML {
 
 			if(!isset($POST->title)) $parse->msg("Не указано название блока!", false);
 			if(!isset($POST->alias) || $db->check_id($POST->alias, BLOCKS_TABLE, "alias", "alias!='".$POST->oldalias."'"))	$parse->msg("Не указан алиас блока или он не уникален!", false);
-			if(!isset($POST->content)) $parse->msg("Пустое тело блока!", false);
+			//if(!isset($POST->content)) $parse->msg("Пустое тело блока!", false);
+			if(!isset($POST->content)) $POST->content = "";
 			if(!isset($POST->id) || $POST->id != $GET->_block) $parse->msg("Системная ошибка...", false);
 
 			if(!isset($_SESSION['error'])) {
@@ -158,7 +160,6 @@ class ACP_BLOCKS_HTML {
 
 				#sortable images
 				if(isset($POST->sort)) {
-
 					$sortimg = $img->load_images("blockid=".$id);
 					foreach($sortimg AS $k=>$v) {
 						if(isset($POST->sort[$v['id']]) && $POST->sort[$v['id']] != $v['sort']) {
@@ -184,8 +185,11 @@ class ACP_BLOCKS_HTML {
 	}
 
 
-	//#####################################################
-	//	Delete
+	/**
+	 * Удаление блока
+	 *
+	 * @param $id - идентификатор блока
+	 */
 	function delete($id) {
 
 		global $db, $img, $parse;

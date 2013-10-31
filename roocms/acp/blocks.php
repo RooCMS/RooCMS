@@ -12,7 +12,7 @@
 */
 
 /**
-*	RooCMS - Russian free content managment system
+*   RooCMS - Russian free content managment system
 *   Copyright (C) 2010-2014 alex Roosso aka alexandr Belov info@roocms.com
 *
 *   This program is free software: you can redistribute it and/or modify
@@ -60,8 +60,8 @@ class ACP_BLOCKS {
 	private $unit;			# ... object for works content blocks
 
 	private $block = 0;		# ID block
-	private $types = array(	"html"	=>	true,
-							"php"	=>	true);
+	private $types = array(	"html"	=> true,
+				"php"	=> true);
 
 
 	/**
@@ -91,9 +91,9 @@ class ACP_BLOCKS {
 
 		if(isset($GET->_block) && $db->check_id($GET->_block, BLOCKS_TABLE)) {
 			$this->block = $GET->_block;
-			$q = $db->query("SELECT type FROM ".BLOCKS_TABLE." WHERE id='".$this->block."'");
+			$q = $db->query("SELECT block_type FROM ".BLOCKS_TABLE." WHERE id='".$this->block."'");
 			$t = $db->fetch_assoc($q);
-			$GET->_type = $t['type'];
+			$GET->_type = $t['block_type'];
 		}
 
 
@@ -123,30 +123,30 @@ class ACP_BLOCKS {
 
 		switch($roocms->part) {
 			case 'create':
-			$this->unit->create();
-			break;
+				$this->unit->create();
+				break;
 
 			case 'edit':
-			$this->unit->edit($this->block);
-			break;
+				$this->unit->edit($this->block);
+				break;
 
 			case 'update':
-			$this->unit->update($this->block);
-			break;
+				$this->unit->update($this->block);
+				break;
 
 			case 'delete':
-			$this->unit->delete($this->block);
-			break;
+				$this->unit->delete($this->block);
+				break;
 
 			default:
-			$this->view_all_blocks();
-			break;
+				$this->view_all_blocks();
+				break;
 		}
 	}
 
 
 	/**
-	* Видим все цели
+	* Видим все блоки
 	*
 	*/
 	private function view_all_blocks() {
@@ -154,7 +154,7 @@ class ACP_BLOCKS {
 		global $db, $tpl, $smarty;
 
 		$data = array();
-		$q = $db->query("SELECT id, alias, type, title FROM ".BLOCKS_TABLE." ORDER BY id ASC");
+		$q = $db->query("SELECT id, alias, block_type, title FROM ".BLOCKS_TABLE." ORDER BY id ASC");
 		while($row = $db->fetch_assoc($q)) {
 			$data[] = $row;
 		}

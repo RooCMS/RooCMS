@@ -1,6 +1,6 @@
 {* Файлы и форматы *}
 
-<h3>Файлы и форматы</h3>
+<h3>{$part_title}</h3>
 
 <table class="table table-hover table-condensed">
 	<thead>
@@ -23,7 +23,7 @@
     		<td>
     			<ul class="list-unstyled">
 				{foreach from=$filetypes['images'] item=type}
-					<li>{if file_exists("img/icon/16/{$type['ico']}")}<img src="img/icon/16/{$type['ico']}" border="0" width="16" height="16" alt="{$type['type']}" title="{$type['type']}" rel="tooltip" title="{$type['type']}" data-placement="top">{else}<span class="icon-file-alt icon-fixed-width" style="font-size: 16px;" rel="tooltip" title="{$type['type']}" data-placement="top"></span>{/if} {$type['ext']}</li>
+					<li>{if file_exists("img/icon/16/{$type['ico']}")}<img src="img/icon/16/{$type['ico']}" border="0" width="16" height="16" alt="{$type['mime_type']}" title="{$type['mime_type']}" rel="tooltip" title="{$type['mime_type']}" data-placement="top">{else}<span class="fa fa-file-o fa-fw" style="font-size: 16px;" rel="tooltip" title="{$type['mime_type']}" data-placement="top"></span>{/if} {$type['ext']}</li>
 				{/foreach}
 				</ul>
     		</td>
@@ -33,7 +33,7 @@
     		<td>
     			<ul class="list-unstyled">
 				{foreach from=$filetypes['files'] item=type}
-					<li>{if file_exists("img/icon/16/{$type['ico']}")}<img src="img/icon/16/{$type['ico']}" border="0" width="16" height="16" alt="{$type['type']}" title="{$type['type']}" rel="tooltip" title="{$type['type']}" data-placement="top">{else}<span class="icon-file-alt icon-fixed-width" style="font-size: 16px;" rel="tooltip" title="{$type['type']}" data-placement="top"></span>{/if} {$type['ext']}</li>
+					<li>{if file_exists("img/icon/16/{$type['ico']}")}<img src="img/icon/16/{$type['ico']}" border="0" width="16" height="16" alt="{$type['mime_type']}" title="{$type['mime_type']}" rel="tooltip" title="{$type['mime_type']}" data-placement="top">{else}<span class="fa fa-file-o fa-fw" style="font-size: 16px;" rel="tooltip" title="{$type['mime_type']}" data-placement="top"></span>{/if} {$type['ext']}</li>
 				{/foreach}
 				</ul>
     		</td>

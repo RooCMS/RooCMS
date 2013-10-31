@@ -6,7 +6,7 @@
 * @author       alex Roosso
 * @copyright    2010-2014 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.0.19
+* @version      1.1.1
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -83,7 +83,7 @@ class ACP_CONFIG {
 
 		# Если есть запрос на обновление тогда обновляем
 		if(@$_REQUEST['update_config'])	$this->update_config();
-		else							$this->view_config();
+		else				$this->view_config();
 
 
 		# Load Template
@@ -113,7 +113,7 @@ class ACP_CONFIG {
 
 				$this_part = array('name'=>$part['name'], 'title'=>$part['title']);
 
-				$q_2 = $db->query("SELECT id, title, description, option_name, option_type, variants, value FROM ".CONFIG_TABLE." WHERE part='".$part['name']."' ORDER BY sort ASC");
+				$q_2 = $db->query("SELECT id, title, description, option_name, option_type, variants, value, default_value FROM ".CONFIG_TABLE." WHERE part='".$part['name']."' ORDER BY sort ASC");
 				while($option = $db->fetch_assoc($q_2)) {
 
 					# parse
@@ -125,14 +125,13 @@ class ACP_CONFIG {
 				}
 			}
 
+			if($part['type'] == "global")		$parts['global'][] 	= $part;
 			if($part['type'] == "component")	$parts['component'][] 	= $part;
-			if($part['type'] == "mod")			$parts['mod'][] 		= $part;
-			if($part['type'] == "widget")		$parts['widget'][] 		= $part;
 		}
 
 		$smarty->assign('this_part', 	$this_part);
-		$smarty->assign('parts',		$parts);
-		$smarty->assign('thispart',		$this->part);
+		$smarty->assign('parts',	$parts);
+		$smarty->assign('thispart',	$this->part);
 	}
 
 
@@ -146,11 +145,11 @@ class ACP_CONFIG {
 		$smarty->assign('field', $field);
 
 		# integer OR string OR email
-		if($option_type == "int" 		OR	$option_type == "string"	OR	$option_type == "email"	OR	$option_type == "color") {
+		if($option_type == "int" OR $option_type == "integer" OR $option_type == "string" OR $option_type == "email" OR $option_type == "color") {
 			$out = $tpl->load_template("config_field_string",true);
 		}
 		# text OR textarea
-		elseif($option_type == "text"	OR 	$option_type == "textarea") {
+		elseif($option_type == "text" OR $option_type == "textarea") {
 			$out = $tpl->load_template("config_field_textarea",true);
 		}
 		# boolean
@@ -163,7 +162,7 @@ class ACP_CONFIG {
 			$out = $tpl->load_template("config_field_date",true);
 		}
 		# select
-		elseif($option_type == "select"	&& trim($variants) != "") {
+		elseif($option_type == "select" && trim($variants) != "") {
 			$options = "";
 			$vars = explode("\n",$variants);
 			foreach($vars AS $k=>$v) {
@@ -192,7 +191,7 @@ class ACP_CONFIG {
 
 		global $db, $parse, $POST;
 
-		// запрашиваем из БД типа опций
+		# запрашиваем из БД типа опций
 		$q = $db->query("SELECT option_name, option_type, variants FROM ".CONFIG_TABLE);
 		while($row = $db->fetch_assoc($q)) {
 
@@ -210,8 +209,8 @@ class ACP_CONFIG {
 		}
 
 
-		//	Если изменено имя скрипта Панели Администратора.
-		//	Пробуем создать новый файл.
+		# Если изменено имя скрипта Панели Администратора.
+		# Пробуем создать новый файл.
 		if(isset($POST->cp_script) && CP != $POST->cp_script) {
 			if($this->change_cp_script($POST->cp_script)) {
 				$gonewcp = $POST->cp_script;
@@ -286,7 +285,7 @@ class ACP_CONFIG {
 		# move
 		if(isset($gonewcp)) { // Если мы изменяли путь скрипта к панели управления.
 			$path = getenv("HTTP_REFERER");
-			$path = str_replace(CP, $gonewcp, $path);
+			$path = str_ireplace(CP, $gonewcp, $path);
 
 			unlink(_SITEROOT."/".CP);
 
@@ -304,15 +303,15 @@ class ACP_CONFIG {
 
 		$nowcp = file(_SITEROOT."/".CP);
 
-		// Собираем лут из старого файла
+		# Собираем лут из старого файла
 		$context = "";
 		for($i=0;$i<=count($nowcp)-1;$i++) {
 			$context .= $nowcp[$i];
 		}
 
-		// Создаем и записываем
+		# Создаем и записываем
 		if(!file_exists(_SITEROOT."/".$newcp)) {
-			// крафтим новый файл
+			# крафтим новый файл
 			$cps = fopen($newcp, "w+");
 			if(is_writable($newcp)) {
 				fwrite($cps, $context);

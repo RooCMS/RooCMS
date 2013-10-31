@@ -6,7 +6,7 @@
 * @author	alex Roosso
 * @copyright	2010-2014 (c) RooCMS
 * @link		http://www.roocms.com
-* @version	2.0.1
+* @version	2.2
 * @since	$date$
 * @license	http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -54,19 +54,12 @@ if(!defined('RooCMS')) die('Access Denied');
 
 
 /**
-* Инициализируем класс отладки
-*
-* @var Debug
-*/
-$debug = new Debug;
-
-/**
 * Класс отладки
 */
 class Debug {
 
 	# vars
-	public	$show_debug 		= false;		# [bool] 	show full debug text
+	public	$show_debug 		= false;		# [bool] 	hand flag show full debug text
 	public	$debug_info 		= "";			# [text] 	buffer for debug info text
 	private	$debug_dump		= array();		# [array]	Дамп с данными отладки, для разработчика.
 	public	$phpextensions		= array();		# [array]	Список установленных PHP расширений
@@ -96,7 +89,6 @@ class Debug {
 
 	/**
 	* Запускаем класс
-	*
 	*/
 	function __construct() {
 
@@ -104,8 +96,8 @@ class Debug {
 		@set_error_handler(array($this,'debug_critical_error'));
 
 
-                if(!defined('DEBUGMODE')) 	define('DEBUGMODE', true);
-                if(!defined('DEVMODE')) 	define('DEVMODE', true);
+                if(!defined('DEBUGMODE'))	define('DEBUGMODE', true);
+                if(!defined('DEVMODE'))		define('DEVMODE', true);
 
 
         	# Для админа всегда показываем ошибки и замеряем время выполнения RooCMS
@@ -120,12 +112,14 @@ class Debug {
 			$this->error_report(true);
 		}
 		else $this->error_report(false);
+
+		# show debug info
+		if($this->show_debug) register_shutdown_function(array($this,'shotdown'), "debug");
 	}
 
 
 	/**
 	* Запускаем таймер подсчета времени выполнения скрипта
-	*
 	*/
         private function start_productivity() {
 
@@ -142,7 +136,6 @@ class Debug {
 
 	/**
 	* Останавливаем таймер подсчета времени выполнения скрипта
-	*
 	*/
         public function end_productivity() {
 
@@ -175,14 +168,18 @@ class Debug {
 	}
 
 
-        /**
-        * Перехватчик системных ошибок
-        *
-        * @param mixed $errno - Номер ошибки
-        * @param mixed $msg   - Сообщение об ошибке
-        * @param mixed $file  - Имя файла с ошбкой
-        * @param mixed $line  - Номер строки с ошибкой
-        */
+	/**
+	 * Перехватчик системных ошибок
+	 *
+	 * @param mixed $errno - Номер ошибки
+	 * @param mixed $msg   - Сообщение об ошибке
+	 * @param mixed $file  - Имя файла с ошбкой
+	 * @param mixed $line  - Номер строки с ошибкой
+	 *
+	 * @param       $context
+	 *
+	 * @return bool
+	 */
 	public static function debug_critical_error($errno, $msg, $file, $line, $context) {
 
                 // Записываем ошибку в файл
@@ -238,12 +235,11 @@ class Debug {
         		        break;
                 }
 
-                if($erlevel == 0) register_shutdown_function(array($this,'shotdown'), "debug");
+                if($erlevel == 0) register_shutdown_function(array('debug','shotdown'), "debug");
 
         	$time = date("d.m.Y H:i:s");
 
 		$subj .= $time."\t|\tPHPError\t|\t".$ertitle."\t|\t[ #".$errno." ] ".$msg." (Строка: ".$line." в файле ".$file.")\r\n";
-		#foreach($context AS $k=>$v)	$subj .= "\t\t".$k." - ".$v."\r\n";
 
 		$f = fopen($file_error, "w+");
 		if(is_writable($file_error)) {
@@ -277,7 +273,7 @@ class Debug {
         */
 	private static function error_report($show = false) {
 		if($show) {
-			error_reporting(E_ALL);				#8191
+			error_reporting(E_ALL);			#8191
 			ini_set("display_startup_errors",	1);
 			ini_set("display_errors",		1);
 			ini_set("html_errors",			1);
@@ -319,7 +315,7 @@ class Debug {
     	        elseif($use == 1 && !$expand) register_shutdown_function(array($this,'shotdown'), "debug");
     	        	# print var
 		        ob_start();
-			        if($expand) var_dump($var);
+			        if($expand) 	var_dump($var);
 			        else		print_r($var);
 			        $output = ob_get_contents();
 		        ob_end_clean();
@@ -337,7 +333,7 @@ class Debug {
         * @param mixed $type
         */
 	public static function shotdown($type="debug") {
-    	        global $debug;
+    	        global $debug, $db;
 
                 echo "<div class='container'><div class='row'><div class='col-xs-12'><h3>Отладка</h3>";
 
@@ -355,6 +351,55 @@ class Debug {
                 }
 
                 echo "</div></div></div>";
+
+		echo "	<div class='container'><div class='row'><div class='col-xs-12'><div class='panel-group' id='debugaccordion'>";
+
+		if($debug->show_debug) {
+			echo "	<div class='panel panel-primary'>
+					<div class='panel-heading'><h4 class='panel-title'><a class='accordion-toggle' data-toggle='collapse' data-parent='#debugaccordion' href='#collapseQuerys'>Запросы к БД</a></h4></div>
+					<div id='collapseQuerys' class='panel-collapse collapse'>
+						<div class='panel-body'>";
+
+			echo "  <div class='alert alert-dismissable t12 text-left in fade' role='alert'>
+				<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button>
+					{$debug->debug_info}
+				</div>";
+
+			echo "</div></div></div>";
+		}
+
+		# Функции
+		echo "	<div class='panel panel-default'>
+			<div class='panel-heading'><h4 class='panel-title'><a class='accordion-toggle' data-toggle='collapse' data-parent='#debugaccordion' href='#collapseQuery'>---</a></h4></div>
+			<ul id='collapseQuery' class='list-group panel-collapse collapse'>";
+
+		$func_array = array();
+		$func_array = get_defined_functions();
+		foreach($func_array['user'] AS $v) {
+			echo "<li class='list-group-item'>{$v}();</li>";
+		}
+
+		$cl_array = array();
+		$cl_array = get_declared_classes();
+		foreach($cl_array AS $v) {
+			echo "<li class='list-group-item'><b>class</b> {$v}</li>";
+		}
+
+		$const_array = array();
+		$const_array = get_defined_constants(true);
+		foreach($const_array['user'] AS $k=>$v) {
+			echo "<li class='list-group-item'><b>{$k}</b> - {$v}</li>";
+		}
+
+		echo "	</ul></div>";
+
+		echo "</div></div></div></div>";
+
+                echo "  <div class='container'>
+				<nobr><span class='fa fa-bar-chart-o fa-fw'></span> Число обращений к БД: <b>{$db->cnt_querys}</b></nobr>
+				&nbsp;&nbsp; <nobr><span class='fa fa-tachometer fa-fw'></span> Использовано памяти : <span style='cursor: help;' title='".round($debug->memory_peak_usage/1024/1024, 2)." байт макс'><b>".round($debug->productivity_memory/1024/1024, 2)." Мб</b></span></nobr>
+				&nbsp;&nbsp; <nobr><span class='fa fa-clock-o fa-fw'></span> Время работы скрипта : <b>{$debug->productivity_time} мс</b></nobr>
+			</div>";
 
                 exit;
 	}

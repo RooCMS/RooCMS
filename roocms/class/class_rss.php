@@ -54,9 +54,6 @@ if(!defined('RooCMS')) die('Access Denied');
 
 
 //	feed/ex/im class :: RSS 2.0
-
-$rss 	= new RSS;
-
 class RSS {
 
 	# param

@@ -79,7 +79,7 @@ function randcode($ns, $symbols="ABCEFHKLMNPRSTVXYZ123456789") {
 * @param text $text     - Тело письма
 * @param string $from   - Обратный адрес
 */
-function sendmail($mail,$theme,$text, $from="robot") {
+function sendmail($mail, $theme, $text, $from="robot") {
 
 	global $site;
 
@@ -96,11 +96,13 @@ function sendmail($mail,$theme,$text, $from="robot") {
 
 	$message  = "{$text}";
 
+	# заголовки
 	$headers  = "From: {$from}\n".EMAIL_MESSAGE_PARAMETERS."\n";
 	$headers .= "X-Sender: <no-reply@".$site['domain'].">\n";
 	$headers .= "X-Mailer: PHP ".$site['domain']."\n";
 	$headers .= "Return-Path: <no-replay@".$site['domain'].">";
 
+	# отправляем письмо
 	mb_send_mail($to,$subject,$message,$headers);
 }
 
@@ -112,7 +114,7 @@ function sendmail($mail,$theme,$text, $from="robot") {
 * @param boolean $subarray  - флаг проверки на вложенность массивов
 * @return text $buffer      - Возвращает массив в текстовом представлении.
 */
-function print_array(array $array,$subarray=false) {
+function print_array(array $array, $subarray=false) {
 
 	$c = count($array) - 1;
 	$t = 0;
@@ -149,8 +151,8 @@ function print_array(array $array,$subarray=false) {
 function go($str, $code=301) {
 
 	if($code == 301)	header($_SERVER['SERVER_PROTOCOL'].' 301 Moved Permanently');	// перемещен навсегда
-	elseif($code == 302)	header($_SERVER['SERVER_PROTOCOL'].' 302 Found');				// перемещен временно
-	elseif($code == 303)	header($_SERVER['SERVER_PROTOCOL'].' 303 See Other');			// GET на другой адрес
+	elseif($code == 302)	header($_SERVER['SERVER_PROTOCOL'].' 302 Found');		// перемещен временно
+	elseif($code == 303)	header($_SERVER['SERVER_PROTOCOL'].' 303 See Other');		// GET на другой адрес
 	elseif($code == 307)	header($_SERVER['SERVER_PROTOCOL'].' 307 Temporary Redirect');	// перемещен временно
 	else			header($_SERVER['SERVER_PROTOCOL'].' 301 Moved Permanently');
 

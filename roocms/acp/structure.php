@@ -6,13 +6,13 @@
 * @author       alex Roosso
 * @copyright    2010-2014 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.3.2
+* @version      1.3.4
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
 
 /**
-*	RooCMS - Russian free content managment system
+*   RooCMS - Russian free content managment system
 *   Copyright (C) 2010-2014 alex Roosso aka alexandr Belov info@roocms.com
 *
 *   This program is free software: you can redistribute it and/or modify
@@ -65,9 +65,8 @@ class ACP_STRUCTURE {
 
 
 	/**
-    * Lets mortal kombat begin
-    *
-    */
+	* Lets mortal kombat begin
+	*/
 	function __construct() {
 
 		require_once _CLASS."/class_structure.php";
@@ -79,12 +78,11 @@ class ACP_STRUCTURE {
 
 
 	/**
-    * initialisation action
-    *
-    */
+	* initialisation action
+	*/
 	private function init() {
 
-		global $roocms, $db, $tpl, $smarty, $GET;
+		global $roocms, $config, $db, $tpl, $smarty, $GET;
 
 		# считываем "дерево"
 		$smarty->assign('tree', $this->engine->sitetree);
@@ -96,6 +94,10 @@ class ACP_STRUCTURE {
 		}
 		$smarty->assign('page_types', $page_types);
 
+		# default thumb size
+		$default_thumb_size = array('width'	=> $config->gd_thumb_image_width,
+					    'height'	=> $config->gd_thumb_image_height);
+		$smarty->assign("default_thumb_size", $default_thumb_size);
 
 		# Проверяем идентификатор
 		if(isset($GET->_id) && $db->check_id($GET->_id, STRUCTURE_TABLE)) $this->sid = $GET->_id;
@@ -113,7 +115,7 @@ class ACP_STRUCTURE {
 			case 'edit':
 				if(@$_REQUEST['update_unit']) $this->update_unit($this->sid);
 				elseif($this->sid != 0) {
-					$q = $db->query("SELECT id, parent_id, alias, title, meta_description, meta_keywords, noindex, sort, type FROM ".STRUCTURE_TABLE." WHERE id='".$this->sid."'");
+					$q = $db->query("SELECT id, parent_id, alias, title, meta_description, meta_keywords, noindex, sort, page_type, thumb_img_width, thumb_img_height FROM ".STRUCTURE_TABLE." WHERE id='".$this->sid."'");
 					$data = $db->fetch_assoc($q);
 
 					$smarty->assign("data", $data);
@@ -124,7 +126,7 @@ class ACP_STRUCTURE {
 
 			# delete
 			case 'delete':
-                $this->delete_unit($this->sid);
+                		$this->delete_unit($this->sid);
 				break;
 
 			default:
@@ -139,48 +141,54 @@ class ACP_STRUCTURE {
 
 
 	/**
-    * Создаем новый структурный элемент
-    *
-    */
+	* Создаем новый структурный элемент
+	*/
 	private function create_unit() {
 
-		global $db, $parse, $POST;
+		global $db, $img, $parse, $POST;
 
-        # предупреждаем возможные ошибки с алиасом структурной еденицы
-        if(isset($POST->alias) && trim($POST->alias) != "") {
+		# предупреждаем возможные ошибки с алиасом структурной еденицы
+		if(isset($POST->alias)) {
 
-            # избавляем URI от возможных конвульсий
-            $POST->alias = strtr($POST->alias, array('-'=>'_','='=>'_'));
+		    	# избавляем URI от возможных конвульсий
+		    	$POST->alias = strtr($POST->alias, array('-'=>'_','='=>'_'));
 
-            # а так же проверяем что бы алиас не оказался числом
-            if(is_numeric($POST->alias)) $POST->alias .= randcode(3, "abcdefghijklmnopqrstuvwxyz");
-        }
+		    	# а так же проверяем что бы алиас не оказался числом
+		    	if(is_numeric($POST->alias)) $POST->alias .= randcode(3, "abcdefghijklmnopqrstuvwxyz");
+		}
 
-		if(!isset($POST->title) || trim($POST->title) == "") 								$parse->msg("Не указано название страницы.", false);
-		if(!isset($POST->alias) || (trim($POST->alias) == "" && round($POST->alias) != 0)) 	$parse->msg("Не указан алиас страницы.", false);
-		elseif(!$this->check_alias($POST->alias)) 											$parse->msg("Алиас страницы не уникален.", false);
+		# title
+		if(!isset($POST->title) || trim($POST->title) == "") $parse->msg("Не указано название страницы.", false);
+		# alias
+		if(!isset($POST->alias) || trim($POST->alias) == "") {
+			$POST->alias = $parse->text->transliterate($POST->title,"lower");
+			$POST->alias = preg_replace(array('(\s\s+)','(\-\-+)','(__+)','([^a-zA-Z0-9\-_])'), array('','','',''), $POST->alias);
+		}
+		elseif(!$this->check_alias($POST->alias)) $parse->msg("Алиас страницы не уникален.", false);
+		# thumbnail check
+		$img->check_post_thumb_parametrs();
 
 
 		if(!isset($_SESSION['error'])) {
 			$POST->sort = round($POST->sort);
 
 			# проверяем тип родителя
-			$q = $db->query("SELECT type FROM ".STRUCTURE_TABLE." WHERE id='".$POST->parent_id."'");
+			$q = $db->query("SELECT page_type FROM ".STRUCTURE_TABLE." WHERE id='".$POST->parent_id."'");
 			$d = $db->fetch_assoc($q);
 
 			# Нельзя к лентам добавлять другие дочерние элементы, кроме таких же лент.
-			if($d['type'] == "feed" && $POST->type != "feed") {
+			if($d['page_type'] == "feed" && $POST->type != "feed") {
 				$parse->msg("Вы не можете установить для ленты в качестве дочерней страницы другой структурный элемент, кроме ленты.", false);
 				goback();
 			}
 
 			# добавляем структурную еденицу
-			$db->query("INSERT INTO ".STRUCTURE_TABLE." (alias, title, parent_id, type, meta_description, meta_keywords, noindex, sort, date_create, date_modified)
-											 VALUES ('".$POST->alias."', '".$POST->title."', '".$POST->parent_id."', '".$POST->type."', '".$POST->meta_description."', '".$POST->meta_keywords."', '".$POST->noindex."', '".$POST->sort."', '".time()."', '".time()."')");
+			$db->query("INSERT INTO ".STRUCTURE_TABLE."    (alias, title, parent_id, page_type, meta_description, meta_keywords, noindex, sort, date_create, date_modified, thumb_img_width, thumb_img_height)
+								VALUES ('".$POST->alias."', '".$POST->title."', '".$POST->parent_id."', '".$POST->page_type."', '".$POST->meta_description."', '".$POST->meta_keywords."', '".$POST->noindex."', '".$POST->sort."', '".time()."', '".time()."', '".$POST->thumb_img_width."', '".$POST->thumb_img_height."')");
 			$sid = $db->insert_id();
 
 			# create body unit for html & php pages
-			switch($POST->type) {
+			switch($POST->page_type) {
 				case 'html':
 					$db->query("INSERT INTO ".PAGES_HTML_TABLE." (sid, date_modified) VALUE ('".$sid."', '".time()."')");
 					# get body unit id
@@ -203,7 +211,7 @@ class ACP_STRUCTURE {
 			$parse->msg("Структурная еденица успешно добавлена.");
 
 			# переход
-			if($POST->type == "feed") go(CP."?act=feeds&page=".$sid);
+			if($POST->page_type == "feed") go(CP."?act=feeds&page=".$sid);
 			else go(CP."?act=pages&part=edit&page=".$sid);
 		}
 		else goback();
@@ -211,31 +219,40 @@ class ACP_STRUCTURE {
 
 
 	/**
-    * Обновляем элемент структуры
-    *
-    * @param int $id - Идентификатор структурной еденицы
-    */
+	 * Обновляем элемент структуры
+	 *
+	 * @param $sid
+	 *
+	 * @internal param int $id - Идентификатор структурной еденицы
+	 */
 	private function update_unit($sid) {
 
-		global $db, $parse, $POST;
+		global $db, $img, $parse, $POST;
 
 		# Если идентификатор не прошел проверку
 		if($sid == 0) go(CP."?act=structure");
 
-        # предупреждаем возможные ошибки с алиасом структурной еденицы
-        if(isset($POST->alias) && trim($POST->alias) != "") {
+		# предупреждаем возможные ошибки с алиасом структурной еденицы
+		if(isset($POST->alias) && trim($POST->alias) != "") {
 
-            # избавляем URI от возможных конвульсий
-            $POST->alias = strtr($POST->alias, array('-'=>'_','='=>'_'));
+			    # избавляем URI от возможных конвульсий
+			    $POST->alias = strtr($POST->alias, array('-'=>'_','='=>'_'));
 
-            # а так же проверяем что бы алиас не оказался числом
-            if(is_numeric($POST->alias)) $POST->alias .= randcode(3, "abcdefghijklmnopqrstuvwxyz");
-        }
+			    # а так же проверяем что бы алиас не оказался числом
+			    if(is_numeric($POST->alias)) $POST->alias .= randcode(3, "abcdefghijklmnopqrstuvwxyz");
+		}
 
 		# Проверяем на ошибки
-		if(!isset($POST->title) || trim($POST->title) == "") 								$parse->msg("Не указано название страницы.", false);
-		if(!isset($POST->alias) || (trim($POST->alias) == "" && round($POST->alias) != 0)) 	$parse->msg("Не указан алиас страницы.", false);
-		elseif(!$this->check_alias($POST->alias, $POST->old_alias)) 						$parse->msg("Алиас страницы не уникален.", false);
+		# title
+		if(!isset($POST->title) || trim($POST->title) == "") $parse->msg("Не указано название страницы.", false);
+		# alias
+		if(!isset($POST->alias) || trim($POST->alias) == "") {
+			$POST->alias = $parse->text->transliterate($POST->title,"lower");
+			$POST->alias = preg_replace(array('(\s\s+)','(\-\-+)','(__+)','([^a-zA-Z0-9\-_])'), array('','','',''), $POST->alias);
+		}
+		elseif(!$this->check_alias($POST->alias, $POST->old_alias)) $parse->msg("Алиас страницы не уникален.", false);
+		# thumbnail check
+		$img->check_post_thumb_parametrs();
 
 		if(!isset($_SESSION['error'])) {
 			$POST->sort = round($POST->sort);
@@ -256,26 +273,26 @@ class ACP_STRUCTURE {
 					$childs = $this->engine->load_tree($sid);
 
 					if($childs) {
-	                    foreach($childs AS $k=>$v) {
+						foreach($childs AS $k=>$v) {
 							if($POST->parent_id == $v['id']) {
 								$POST->parent_id = $POST->now_parent_id;
 								$parse->msg("Не удалось изменить иерархию! Вы не можете изменить иерархию директории переместив её в свой дочерний элемент!", false);
 							}
-	                    }
+						}
 					}
 				}
 			}
 
 			# проверяем тип родителя
-			$q = $db->query("SELECT type FROM ".STRUCTURE_TABLE." WHERE id='".$POST->parent_id."'");
+			$q = $db->query("SELECT page_type FROM ".STRUCTURE_TABLE." WHERE id='".$POST->parent_id."'");
 			$p = $db->fetch_assoc($q);
 
 			# проверяем тип текущей страницы
-			$q = $db->query("SELECT type FROM ".STRUCTURE_TABLE." WHERE id='".$sid."'");
+			$q = $db->query("SELECT page_type FROM ".STRUCTURE_TABLE." WHERE id='".$sid."'");
 			$n = $db->fetch_assoc($q);
 
 			# Нельзя к лентам добавлять другие дочерние элементы, кроме таких же лент.
-			if($p['type'] == "feed" && $n['type'] != "feed") {
+			if($p['page_type'] == "feed" && $n['page_type'] != "feed") {
 				$parse->msg("Вы не можете установить для ленты в качестве дочерней страницы другой структурный элемент, кроме ленты.", false);
 				$POST->parent_id = $POST->now_parent_id;
 			}
@@ -287,7 +304,19 @@ class ACP_STRUCTURE {
 			}
 
 			# DB
-			$db->query("UPDATE ".STRUCTURE_TABLE." SET alias='".$POST->alias."', title='".$POST->title."', parent_id='".$POST->parent_id."', meta_description='".$POST->meta_description."', meta_keywords='".$POST->meta_keywords."', noindex='".$POST->noindex."',sort='".$POST->sort."', date_modified='".time()."' WHERE id='".$sid."'");
+			$db->query("UPDATE ".STRUCTURE_TABLE." SET
+									alias='".$POST->alias."',
+									title='".$POST->title."',
+									parent_id='".$POST->parent_id."',
+									meta_description='".$POST->meta_description."',
+									meta_keywords='".$POST->meta_keywords."',
+									noindex='".$POST->noindex."',
+									sort='".$POST->sort."',
+									date_modified='".time()."',
+									thumb_img_width='".$POST->thumb_img_width."',
+									thumb_img_height='".$POST->thumb_img_height."'
+								WHERE
+									id='".$sid."'");
 
 			# Если мы назначаем нового родителя
 			if($POST->parent_id != $POST->now_parent_id) {
@@ -307,10 +336,12 @@ class ACP_STRUCTURE {
 
 
 	/**
-	* Delete structure unit
-	*
-	* @param int $id
-	*/
+	 * Удаляем структурный элемент
+	 *
+	 * @param $sid
+	 *
+	 * @internal param int $id
+	 */
 	private function delete_unit($sid) {
 
 		global $db, $parse;
@@ -318,26 +349,26 @@ class ACP_STRUCTURE {
 		# Если идентификатор не прошел проверку
 		if($sid == 0) go(CP."?act=structure");
 
-		$q = $db->query("SELECT childs, parent_id, page_id, type FROM ".STRUCTURE_TABLE." WHERE id='".$sid."'");
+		$q = $db->query("SELECT childs, parent_id, page_id, page_type FROM ".STRUCTURE_TABLE." WHERE id='".$sid."'");
 		$c = $db->fetch_assoc($q);
 
 		if($c['childs'] == 0) {
 			# del content html
-			if($c['type'] == "html") {
+			if($c['page_type'] == "html") {
 				require_once _ROOCMS."/acp/pages_html.php";
 				$this->unit = new ACP_PAGES_HTML;
 
 				$this->unit->delete($sid);
 			}
 			# del content php
-			elseif($c['type'] == "php")	{
+			elseif($c['page_type'] == "php") {
 				require_once _ROOCMS."/acp/pages_php.php";
 				$this->unit = new ACP_PAGES_PHP;
 
 				$this->unit->delete($sid);
 			}
 			# del content feed
-			elseif($c['type'] == "feed") {
+			elseif($c['page_type'] == "feed") {
 				require_once _ROOCMS."/acp/feeds_feed.php";
 				$this->unit = new ACP_FEEDS_FEED;
 
@@ -363,11 +394,13 @@ class ACP_STRUCTURE {
 
 
 	/**
-	* Проверяем "алиас" на уникальность
-	*
-	* @param string $name - алиас
-	* @param string $without - Выражение исключения для mysql запроса
-	*/
+	 * Проверяем "алиас" на уникальность
+	 *
+	 * @param string $name    - алиас
+	 * @param string $without - Выражение исключения для mysql запроса
+	 *
+	 * @return bool $res - true - если алиас не уникален, false - если алиас уникален
+	 */
 	private function check_alias($name, $without="") {
 
 		global $db;

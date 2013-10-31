@@ -1,6 +1,6 @@
 @charset "utf-8";
 body {
-	background: #fff; font-family: 'Open Sans','Trebuchet MS' !important;
+	background: #fffffb; font-family: 'Open Sans','Trebuchet MS' !important;
 	padding: 0px 0px 0px 0px;margin: 0px 0px 0px 0px;
 	behavior: url("../../csshover.htc") !important;}
 img {behavior: url("../../iepngfix.htc") !important;}
@@ -10,17 +10,18 @@ ul.nav {font-family: 'PT Sans', 'Open Sans' !important;}
 .pagination {font-family: 'Neucha' !important;}
 
 small, button, .btn, .label, .badge {font-family: 'PT Sans' !important;}
+.small, small {line-height: 12px;color: #999; font-size: 11px;}
 
-.left		{text-align:left; }
-.center	{text-align:center; }
-.right	{text-align:right; }
-.justify	{text-align:justify; }
+.left		{text-align:left;}
+.center		{text-align:center;}
+.right		{text-align:right;}
+.justify	{text-align:justify;}
 
 p {text-align: justify;}
 
 *:hover, .table-hover>tbody>tr:hover>td, .table-hover>tbody>tr:hover>th {
-	transition: all 0.20s ease-in-out;-webkit-transition: all 0.20s ease-in-out;-moz-transition: all 0.20s ease-in-out;outline:none;
-}
+	transition: all 0.20s ease-in-out;-webkit-transition: all 0.20s ease-in-out;-moz-transition: all 0.20s ease-in-out;outline:none;}
+#colorbox, #cboxOverlay, #cboxWrapper, #cboxContent, #cboxLoadedContent {transition: none !important;-webkit-transition: none !important;-moz-transition: none !important;outline:none;}
 
 /* Fonts */
 @font-face { font-family: 'Ubuntu'; font-style: normal; font-weight: 400; src: local('Ubuntu'), url('Ubuntu.woff') format('woff'); }
@@ -28,8 +29,6 @@ p {text-align: justify;}
 @font-face { font-family: 'PT Sans'; font-style: normal; font-weight: 700; src: local('PT Sans Bold'), local('PTSans-Bold'), url('PT_Sans_Bold.woff') format('woff');}
 @font-face { font-family: 'PT Sans'; font-style: italic; font-weight: 400; src: local('PT Sans Italic'), local('PTSans-Italic'), url('PT_Sans_Italic.woff') format('woff');}
 @font-face { font-family: 'PT Sans'; font-style: italic; font-weight: 700; src: local('PT Sans Bold Italic'), local('PTSans-BoldItalic'), url('PT_Sans_Bold_Italic.woff') format('woff');}
-@font-face { font-family: 'PT Sans Caption'; font-style: normal; font-weight: 400; src: local('PT Sans Caption'), local('PTSans-Caption'), url('PT_Sans_Caption.woff') format('woff'); }
-@font-face { font-family: 'PT Sans Narrow'; font-style: normal; font-weight: 400; src: local('PT Sans Narrow'), local('PTSans-Narrow'), url('PT_Sans_Narrow.woff') format('woff'); }
 @font-face { font-family: 'Neucha'; font-style: normal; font-weight: 400; src: local('Neucha'), url('Neucha.woff') format('woff'); }
 @font-face { font-family: 'Open Sans'; font-style: normal; font-weight: 700; src: local('Open Sans Bold'), local('OpenSans-Bold'), url('Open_Sans_Bold.woff') format('woff'); }
 @font-face { font-family: 'Open Sans'; font-style: normal; font-weight: 300; src: local('Open Sans Light'), local('OpenSans-Light'), url('Open_Sans_Light.woff') format('woff'); }

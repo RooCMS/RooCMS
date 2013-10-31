@@ -11,6 +11,6 @@
 			{/foreach}
 		</div>
 		<div class="text-right">
-			<a href="{$SCRIPT_NAME}?page={$feed['alias']}{if isset($smarty.get.pg)}&pg={$smarty.get.pg}{/if}" class="btn btn-xs btn-primary"><span class="icon-chevron-sign-left icon-fixed-width"></span> Вернуться</a>
+			<a href="{$SCRIPT_NAME}?page={$feed['alias']}{if isset($smarty.get.pg)}&pg={$smarty.get.pg}{/if}" class="btn btn-xs btn-primary"><span class="fa fa-chevron-circle-left fa-fw"></span> Вернуться</a>
 		</div>
 	</div>

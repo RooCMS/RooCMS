@@ -6,7 +6,7 @@
 * @author       alex Roosso
 * @copyright    2010-2014 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.2
+* @version      1.2.1
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -54,9 +54,6 @@ if(!defined('RooCMS')) die('Access Denied');
 
 
 # files class
-
-$files = new Files;
-
 class Files {
 
 	/**
@@ -102,13 +99,14 @@ class Files {
 
 
 	/**
-	* Создание имени файлов
-	*
-	* @param string $filename	- Имя файла
-	* @param string $prefix    	- Префикс имени файла
-	* @param string $pofix    	- Пофикс имени файла
-	* @return Имя файла
-	*/
+	 * Создание имени файлов
+	 *
+	 * @param string $filename - Имя файла
+	 * @param string $prefix   - Префикс имени файла
+	 * @param string $pofix    - Пофикс имени файла
+	 *
+	 * @return mixed|string Имя файла
+	 */
 	public function create_filename($filename, $prefix="", $pofix="") {
 
 		global $parse;
@@ -137,9 +135,10 @@ class Files {
 
 		$filelength = mb_strlen($filename);
 
-		# на всякий случай ограничимся длиной в 200 символов
-		if($length + $filelength > 200) {
-			$maxfilelength = 200 - $length;
+		# постараемся не выскочить за длину допустимого пути.
+		$maxlenght = PHP_MAXPATHLEN - __DIR__;
+		if($length + $filelength > $maxlenght) {
+			$maxfilelength = $maxlenght - $length;
                         $filename = mb_substr($filename,0,$maxfilelength);
 		}
 
@@ -205,7 +204,7 @@ class Files {
 
 		if(empty($allow_exts)) {
 	                foreach($filetype AS $itype) {
-        		        $allow_exts[$itype['type']] = $itype['ext'];
+        		        $allow_exts[$itype['mime_type']] = $itype['ext'];
 			}
 		}
 

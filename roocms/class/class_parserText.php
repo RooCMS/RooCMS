@@ -138,12 +138,13 @@ class ParserText {
 
 
 	/**
-	* Функция транслитерации русских символов в английские
-	*
-	* @param mixed $txt - строк для траслитирования (?) // не уверен я в этом слове...
-	* @param mixed $case - указываем регистр [default: false|lower|upper]
-	* @return вернет транслитированную (?) строку
-	*/
+	 * Функция транслитерации русских символов в английские
+	 *
+	 * @param mixed $txt  - строк для траслитирования (?) // не уверен я в этом слове...
+	 * @param mixed $case - указываем регистр [default: false|lower|upper|small|big|0|1]
+	 *
+	 * @return mixed|string вернет транслитированную (?) строку
+	 */
 	public function transliterate($txt, $case=false) {
 
 		$rus = Array('А','Б','В','Г','Д','Е','Ё','Ж','З','И','Й','К',
@@ -161,20 +162,22 @@ class ParserText {
 		$txt = str_replace($rus,$eng,trim($txt));
 
 		# case
-		if($case && $case == "lower")		$txt = mb_strtolower($txt);
-		elseif($case && $case == "upper")	$txt = mb_strtoupper($txt);
+		if($case && ($case == "lower" || $case == 0 || $case == "small"))	$txt = mb_strtolower($txt);
+		elseif($case && ($case == "upper" || $case == 1 || $case == "big"))	$txt = mb_strtoupper($txt);
 
 		return $txt;
 	}
 
 
 	/**
-	* Парсим текст на предмет ссылок и делаем их активными
-	* Временная функция из старой версии.
-	* Будет заменена.
-	*
-	* @param mixed $text
-	*/
+	 * Парсим текст на предмет ссылок и делаем их активными
+	 * Временная функция из старой версии.
+	 * Будет заменена.
+	 *
+	 * @param mixed $text
+	 *
+	 * @return string ссылка в виде nofollow
+	 */
 	public function anchors($text) {
 
         	$pattern = "#(^|\s|)((http(s?)://)|(www\.))(\w+[^\s\)\<]+)#i";

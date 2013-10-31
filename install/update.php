@@ -51,7 +51,6 @@
 if(!defined('RooCMS') || !defined('INSTALL')) die('Access Denied');
 //#########################################################
 
-$update = new Update;
 
 class Update extends Requirement{
 
@@ -131,18 +130,18 @@ class Update extends Requirement{
 		if($this->allowed && $this->step != $this->steps) $this->nextstep = $this->step + 1;
 
 		# draw
-		$smarty->assign("allowed",		$this->allowed);
-		$smarty->assign("action",		$this->action);
+		$smarty->assign("allowed",	$this->allowed);
+		$smarty->assign("action",	$this->action);
 		$smarty->assign("page_title", 	$this->page_title);
-		$smarty->assign("status", 		$this->status);
-		$smarty->assign("step", 		$this->step);
+		$smarty->assign("status", 	$this->status);
+		$smarty->assign("step", 	$this->step);
 		$smarty->assign("nextstep", 	$this->nextstep);
-		$smarty->assign("steps",		$this->steps);
-		$smarty->assign("progress",		$parse->percent($this->step, $this->steps));
+		$smarty->assign("steps",	$this->steps);
+		$smarty->assign("progress",	$parse->percent($this->step, $this->steps));
 
 		$tpl->load_template("top");
 
-		$smarty->assign("log", 			$this->log);
+		$smarty->assign("log", 		$this->log);
 		$smarty->assign("noticetext", 	$this->noticetext);
 
 		$tpl->load_template("body");

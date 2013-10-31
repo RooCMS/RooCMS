@@ -23,10 +23,10 @@
                     	<td>{$block['id']}</td>
                     	<td>{$block['alias']}</td>
                     	<td><a href="{$SCRIPT_NAME}?act=blocks&part=edit&block={$block['id']}">{$block['title']}</a></td>
-                    	<td><span class="label label-primary upper">{$block['type']}</span></td>
+                    	<td><span class="label label-primary upper">{$block['block_type']}</span></td>
                     	<td>
-							<nobr><a href="{$SCRIPT_NAME}?act=blocks&part=edit&block={$block['id']}" class="btn btn-xs btn-default"><span class="icon-edit icon-fixed-width"></span>Редактировать</a></nobr>
-							<nobr><a href="{$SCRIPT_NAME}?act=blocks&part=delete&block={$block['id']}" class="btn btn-xs btn-danger"><span class="icon-trash icon-fixed-width"></span>Удалить</a> </nobr>
+							<nobr><a href="{$SCRIPT_NAME}?act=blocks&part=edit&block={$block['id']}" class="btn btn-xs btn-default"><span class="fa fa-pencil-square-o fa-fw"></span>Редактировать</a></nobr>
+							<nobr><a href="{$SCRIPT_NAME}?act=blocks&part=delete&block={$block['id']}" class="btn btn-xs btn-danger"><span class="fa fa-trash-o fa-fw"></span>Удалить</a> </nobr>
                     	</td>
                 	</tr>
             	{/foreach}
@@ -38,13 +38,13 @@
 {foreach from=$data item=block}
 <div class="panel panel-default visible-xs">
 	<div class="panel-body">
-		<span class="label label-primary pull-right upper">{$block['type']}</span>
+		<span class="label label-primary pull-right upper">{$block['block_type']}</span>
 		<a href="{$SCRIPT_NAME}?act=blocks&part=edit&block={$block['id']}">{$block['title']}</a>
 		<br /><a href="{$SCRIPT_NAME}?act=blocks&part=edit&block={$block['id']}" class="small text-muted">{$block['alias']}</a>
 	</div>
 	<div class="panel-footer text-right">
-		<nobr><a href="{$SCRIPT_NAME}?act=blocks&part=edit&block={$block['id']}" class="btn btn-xs btn-default"><span class="icon-edit icon-fixed-width"></span>Редактировать</a></nobr>
-		<nobr><a href="{$SCRIPT_NAME}?act=blocks&part=delete&block={$block['id']}" class="btn btn-xs btn-danger"><span class="icon-trash icon-fixed-width"></span>Удалить</a> </nobr>
+		<nobr><a href="{$SCRIPT_NAME}?act=blocks&part=edit&block={$block['id']}" class="btn btn-xs btn-default"><span class="fa fa-pencil-square-o fa-fw"></span>Редактировать</a></nobr>
+		<nobr><a href="{$SCRIPT_NAME}?act=blocks&part=delete&block={$block['id']}" class="btn btn-xs btn-danger"><span class="fa fa-trash-o fa-fw"></span>Удалить</a> </nobr>
 	</div>
 </div>
 {/foreach}

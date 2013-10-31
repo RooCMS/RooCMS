@@ -57,8 +57,8 @@ $acp_index = new ACP_INDEX;
 class ACP_INDEX {
 
 
-	/* ####################################################
-	 *	Run, Lola, run
+	/**
+	 * Run, baby, run
 	 */
 	function __construct() {
 
@@ -75,6 +75,10 @@ class ACP_INDEX {
 
 			case 'phpext':
 				$this->phpext();
+				break;
+
+			case 'phpinfo':
+				$this->showphpinfo();
 				break;
 
 			case 'inivars':
@@ -95,8 +99,9 @@ class ACP_INDEX {
 	}
 
 
-	/* ####################################################
-	 *	Main Screen
+	/**
+	 * Главный экран
+	 * Показывается общая информация
 	 */
 	function main() {
 
@@ -105,10 +110,10 @@ class ACP_INDEX {
 		$warn = array();
 		if(file_exists(_SITEROOT."/install/index.php")) $warn[] = "Инсталятор RooCMS находится в корне сайта. В целях безопастности следует удалить инсталятор!";
 
-        $f = @file("http://version.roocms.com/index.php");
+        	$f = @file("http://version.roocms.com/index.php");
 
-        if($f && version_compare(ROOCMS_VERSION, $f[0], "<")) $warn[] = "Внимание! Вышла новая версия <b>RooCMS {$f[0]}</b>. Рекомендуем обновить ваш сайт до последней версии.
-        																<br />Что бы скачать дистрибутив последней версии перейдите по <a href='http://www.roocms.com/download.php' target='_blank' class='text-info'>ссылке</a>";
+        	if($f && version_compare(ROOCMS_VERSION, $f[0], "<")) $warn[] = "Внимание! Вышла новая версия <b>RooCMS {$f[0]}</b>. Рекомендуем обновить ваш сайт до последней версии.
+        			<br />Что бы скачать дистрибутив последней версии перейдите по <a href='http://www.roocms.com/index.php?page=download' target='_blank' class='text-info'>ссылке</a>";
 
 		$info = array();
 		$info['roocms'] = ROOCMS_VERSION;
@@ -117,17 +122,16 @@ class ACP_INDEX {
 
 		# draw
 		$smarty->assign('part_title', 	'Сводка по сайту');
-		$smarty->assign('warn',			$warn);
-		$smarty->assign('info',			$info);
+		$smarty->assign('warn',		$warn);
+		$smarty->assign('info',		$info);
 
 		$content = $tpl->load_template("index_main", true);
-
-		$smarty->assign('content',		$content);
+		$smarty->assign('content',	$content);
 	}
 
 
-	/* ####################################################
-	 *	Информация о сервере
+	/**
+	 * Информация о сервере
 	 */
 	private function serverinfo() {
 
@@ -140,27 +144,27 @@ class ACP_INDEX {
 		//=========================================================
 
 
-		$version['php'] 	= PHP_VERSION;						// Версия php
-		$version['zend']	= zend_version();					// Версия Zend
+		$version['php'] 	= PHP_VERSION;				// Версия php
+		$version['zend']	= zend_version();			// Версия Zend
 		$version['apache'] 	= $_SERVER['SERVER_SOFTWARE'];		// Версия сервера  apache_get_version();
 		$version['os']		= php_uname("s")." (".PHP_OS.")"; 	// ОС
-		$version['uname']	= php_uname(); 						// UNAME
-		$version['roocms']	= ROOCMS_VERSION;					// RooCMS
+		$version['uname']	= php_uname(); 				// UNAME
+		$version['roocms']	= ROOCMS_VERSION;			// RooCMS
 
-		$version['pid']		= PEAR_INSTALL_DIR; 				// Директория установки PEAR расширений
-		$version['dip']		= DEFAULT_INCLUDE_PATH;				//
-		$version['ped']		= PHP_EXTENSION_DIR;				// Директория php расширений
-		$version['pcp']		= PHP_CONFIG_FILE_PATH;				//
+		$version['pid']		= PEAR_INSTALL_DIR; 			// Директория установки PEAR расширений
+		$version['dip']		= DEFAULT_INCLUDE_PATH;			//
+		$version['ped']		= PHP_EXTENSION_DIR;			// Директория php расширений
+		$version['pcp']		= PHP_CONFIG_FILE_PATH;			//
 
-		$version['sn']		= $_SERVER["SERVER_NAME"]; 			// Имя сервера
-		$version['sa']		= $_SERVER["SERVER_ADDR"]; 			// Адрес сервера
+		$version['sn']		= $_SERVER["SERVER_NAME"]; 		// Имя сервера
+		$version['sa']		= $_SERVER["SERVER_ADDR"]; 		// Адрес сервера
 		$version['sp']		= $_SERVER["SERVER_PROTOCOL"]; 		// Протокол сервера
-		$version['ra']		= $_SERVER["REMOTE_ADDR"]; 			// Адрес клиента
-		$version['docroot']	= _SITEROOT; 						// Путь к документам на сервере
+		$version['ra']		= $_SERVER["REMOTE_ADDR"]; 		// Адрес клиента
+		$version['docroot']	= _SITEROOT; 				// Путь к документам на сервере
 
-		$version['ml']		= ini_get('memory_limit');			// Memory limit
+		$version['ml']		= ini_get('memory_limit');		// Memory limit
 		$version['mfs']		= ini_get('upload_max_filesize');	// Maximum file size
-		$version['mps']		= ini_get('post_max_size');			// Maximum post size
+		$version['mps']		= ini_get('post_max_size');		// Maximum post size
 		$version['met']		= ini_get('max_execution_time');	// Max execution time
 
 		$version['apache_mods']	= apache_get_modules();			// Расширения Apache
@@ -168,16 +172,15 @@ class ACP_INDEX {
 
 		# draw
 		$smarty->assign('part_title', 	'Информация о сервере');
-		$smarty->assign('version',		$version);
+		$smarty->assign('version',	$version);
 
 		$content = $tpl->load_template("index_serverinfo", true);
-
-		$smarty->assign('content',		$content);
+		$smarty->assign('content',	$content);
 	}
 
 
-	/* ####################################################
-	 *	Информация о файлах
+	/**
+	 * Информация о допустимых файлах и расширениях
 	 */
 	function fileinfo() {
 
@@ -186,22 +189,21 @@ class ACP_INDEX {
 		require_once _LIB."/mimetype.php";
 
 		$filetypes['mfs']		= ini_get('upload_max_filesize');	// Maximum file size
-		$filetypes['mps']		= ini_get('post_max_size');			// Maximum post size
-		$filetypes['images']	= $imagetype;						// Allow image types
-		$filetypes['files']		= $filetype;						// Allow file types
+		$filetypes['mps']		= ini_get('post_max_size');		// Maximum post size
+		$filetypes['images']		= $imagetype;				// Allow image types
+		$filetypes['files']		= $filetype;				// Allow file types
 
 		# draw
 		$smarty->assign('part_title', 	'Информация о файлах');
 		$smarty->assign('filetypes',	$filetypes);
 
 		$content = $tpl->load_template("index_fileinfo", true);
-
-		$smarty->assign('content',		$content);
+		$smarty->assign('content',	$content);
 	}
 
 
-	/* ####################################################
-	 *	Проверка и отображение установленных PHP расширений
+	/**
+	 * Проверка и отображение установленных PHP расширений
 	 */
 	private function phpext() {
 
@@ -218,13 +220,37 @@ class ACP_INDEX {
 		$smarty->assign('phpextfunc',		$phpextfunc);
 
 		$content = $tpl->load_template("index_phpext", true);
-
-		$smarty->assign('content',			$content);
+		$smarty->assign('content',		$content);
 	}
 
 
-	/* ####################################################
-	 *	Значение PHP переменных
+	/**
+	 * Показывает phpinfo
+	 */
+	private function showphpinfo() {
+
+		global $tpl, $smarty;
+
+		ob_start();
+			phpinfo();
+			$output = ob_get_contents();
+		ob_end_clean();
+
+		preg_match_all('#(\<body[^\>]*\>)(.+?)(\<\/body\>)#is', $output, $out);
+
+		$phpinfo = $out[2][0];
+
+		# draw
+		$smarty->assign('part_title', 	'PHP info');
+		$smarty->assign('phpinfo', 	$phpinfo);
+
+		$content = $tpl->load_template("index_phpinfo", true);
+		$smarty->assign('content',	$content);
+	}
+
+
+	/**
+	 * Значение PHP переменных
 	 */
 	private function inivars() {
 
@@ -232,18 +258,18 @@ class ACP_INDEX {
 
 		$inivars = ini_get_all();
 
-        # draw
+        	# draw
 		$smarty->assign('part_title', 	'Значение PHP переменных');
-		$smarty->assign('inivars',		$inivars);
+		$smarty->assign('inivars',	$inivars);
 
 		$content = $tpl->load_template("index_inivars", true);
 
-		$smarty->assign('content',		$content);
+		$smarty->assign('content',	$content);
 	}
 
 
-	/* ####################################################
-	 *	Лицензия
+	/**
+	 * Лицензия
 	 */
 	private function license() {
 
@@ -253,11 +279,11 @@ class ACP_INDEX {
 
 		# draw
 		$smarty->assign('part_title', 	'Лицензионное соглашение');
-		$smarty->assign('license',		$license['ru']);
+		$smarty->assign('license',	$license['ru']);
 
 		$content = $tpl->load_template("index_license", true);
 
-		$smarty->assign('content',		$content);
+		$smarty->assign('content',	$content);
 	}
 }
 ?>

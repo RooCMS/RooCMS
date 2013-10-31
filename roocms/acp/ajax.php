@@ -89,7 +89,7 @@ class ACP_AJAX {
 
 			$img->delete_images($GET->_id);
 
-			echo "<small class=\"text-success btn btn-xs delete_image\"><span class=\"icon-trash\"></span> Удалено!</small>";
+			echo "<small class=\"text-success btn btn-xs delete_image\"><span class=\"fa fa-trash-o\"></span> Удалено!</small>";
 		}
 	}
 }

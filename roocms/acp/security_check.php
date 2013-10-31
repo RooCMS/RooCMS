@@ -61,7 +61,7 @@ if(trim($adm['login']) != "" && trim($adm['passw']) != "") {
 	$session_check 	= md5(md5($adm['login']).md5($adm['passw']));
 
 	if(isset($roocms->sess['acp']) && $roocms->sess['acp'] == $session_check) {
-		$security 	= true;
+		$security = true;
 	}
 }
 

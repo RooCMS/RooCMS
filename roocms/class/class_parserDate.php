@@ -58,7 +58,7 @@ class ParserDate {
 	# date
 	public $minute	= 60;		# [int] sec in one minute
 	public $hour	= 3600;		# [int]	sec in one hour
-	public $day		= 86400;	# [int]	sec in one day
+	public $day	= 86400;	# [int]	sec in one day
 
 
 
@@ -85,12 +85,12 @@ class ParserDate {
 		$month[7] 	= 'июл';	$month[8] 	= 'август';	$month[9] 	= 'сентябр';
 		$month[10] 	= 'октябр';	$month[11] 	= 'ноябр';	$month[12] 	= 'декабр';
 
-		# full day					# short day
-		$day	= array();			$sday	 = array();
+		# full day			# short day
+		$day	= array();		$sday	 = array();
 		$day[0] = 'Воскресенье';	$sday[0] = 'Вс';
 		$day[1] = 'Понедельник';	$sday[1] = 'Пн';
 		$day[2] = 'Вторник';		$sday[2] = 'Вт';
-		$day[3] = 'Среда';			$sday[3] = 'Ср';
+		$day[3] = 'Среда';		$sday[3] = 'Ср';
 		$day[4] = 'Четверг';		$sday[4] = 'Чт';
 		$day[5] = 'Пятница';		$sday[5] = 'Пт';
 		$day[6] = 'Суббота';		$sday[6] = 'Сб';
@@ -119,7 +119,7 @@ class ParserDate {
 
 		if($full == true) {
 			if($short==true) 	$tday = $sday[$w_day].", ";
-			else				$tday = $day[$w_day].", ";
+			else			$tday = $day[$w_day].", ";
 		}
 
 
@@ -132,8 +132,22 @@ class ParserDate {
 		return $date;
 	}
 
-	//#####################################################
-	//# julian to russian
+	/**
+	 * Функция преобразования даты из Юлианского Календаря в русский формат
+	 *
+	 * @param      $jddate - дата в формате юлианского календаря
+	 * @param bool $full - флаг формата вывода даты
+	 * @param bool $short - флаг формата вывода даты
+	 *                    	if $full == true and $short=false
+	 *				date = Четверг, 22 апреля 2010г.
+	 *			else if $full == true and $short=true
+	 *				date = Чт, 22 апреля 2010г.
+	 *			else if $full == false
+	 *				date =  22 апреля 2010г.
+	 *			* if $full == false to parametr $short automatically ingnored
+	 *
+	 * @return string - вовзвращает дату в заданном формате.
+	 */
 	function jd_to_rus($jddate, $full=false, $short=true) {
 
 		$gregorian = JDToGregorian($jddate);
@@ -154,6 +168,7 @@ class ParserDate {
 		if($time) {
 			$hour 	= date("H", $udate);
 			$minute	= date("i", $udate);
+
 			$time = $hour.":".$minute;
 		}
 

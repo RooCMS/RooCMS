@@ -6,7 +6,7 @@
 * @author       alex Roosso
 * @copyright    2010-2014 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.0.2
+* @version      1.0.3
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -62,27 +62,27 @@ $mimetype = array();
 * @var array
 */
 $filetype	= array();
-$filetype[]	= array('ext'	=> 'm3u',	'type'	=> 'audio/mpegurl',			'ico'	=> 'mp3.png');
-$filetype[]	= array('ext'	=> 'ttf',	'type'	=> 'application/octet-stream',		'ico'	=> 'ttf.png');
-$filetype[]	= array('ext'	=> 'zip',	'type'	=> 'application/x-zip-compressed',	'ico'	=> 'zip.png');
-$filetype[]	= array('ext'	=> 'zip',	'type'	=> 'application/zip',			'ico'	=> 'zip.png');
-$filetype[]	= array('ext'	=> 'tar.gz',	'type'	=> 'application/octetstream',		'ico'	=> 'tgz.png');
-$filetype[]	= array('ext'	=> 'rar',	'type'	=> 'application/octet-stream',		'ico'	=> 'rar.png');
-$filetype[]	= array('ext'	=> 'js',	'type'	=> 'application/x-javascript',		'ico'	=> 'js.png');
-$filetype[]	= array('ext'	=> 'html',	'type'	=> 'text/html',				'ico'	=> 'html.png');
-$filetype[]	= array('ext'	=> 'htm',	'type'	=> 'text/html',				'ico'	=> 'htm.png');
-$filetype[]	= array('ext'	=> 'css',	'type'	=> 'text/css',				'ico'	=> 'css.png');
-$filetype[]	= array('ext'	=> 'xml',	'type'	=> 'text/xml',				'ico'	=> 'xml.png');
-$filetype[]	= array('ext'	=> 'ini',	'type'	=> 'application/octet-stream',		'ico'	=> 'ini.png');
-$filetype[]	= array('ext'	=> 'swf',	'type'	=> 'application/x-shockwave-flash',	'ico'	=> 'swf.png');
-$filetype[]	= array('ext'	=> 'fla',	'type'	=> 'application/octet-stream',		'ico'	=> 'fla.png');
-$filetype[]	= array('ext'	=> 'psd',	'type'	=> 'application/octet-stream',		'ico'	=> 'psd.png');
-$filetype[]	= array('ext'	=> 'cdr',	'type'	=> 'application/octet-stream',		'ico'	=> 'cdr.png');
-$filetype[]	= array('ext'	=> 'csv',	'type'	=> 'application/vnd.ms-excel',		'ico'	=> 'csv.png');
-$filetype[]	= array('ext'	=> 'doc',	'type'	=> 'application/msword',		'ico'	=> 'doc.png');
-$filetype[]	= array('ext'	=> 'xls',	'type'	=> 'application/vnd.ms-excel',		'ico'	=> 'xls.png');
-$filetype[]	= array('ext'	=> 'docx',	'type'	=> 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',	'ico'	=> 'docx.png');
-$filetype[]	= array('ext'	=> 'xlsx',	'type'	=> 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',		'ico'	=> 'xlsx.png');
+$filetype[]	= array('ext'	=> 'm3u',	'mime_type'	=> 'audio/mpegurl',			'ico'	=> 'mp3.png');
+$filetype[]	= array('ext'	=> 'ttf',	'mime_type'	=> 'application/octet-stream',		'ico'	=> 'ttf.png');
+$filetype[]	= array('ext'	=> 'zip',	'mime_type'	=> 'application/x-zip-compressed',	'ico'	=> 'zip.png');
+$filetype[]	= array('ext'	=> 'zip',	'mime_type'	=> 'application/zip',			'ico'	=> 'zip.png');
+$filetype[]	= array('ext'	=> 'tar.gz',	'mime_type'	=> 'application/octetstream',		'ico'	=> 'tgz.png');
+$filetype[]	= array('ext'	=> 'rar',	'mime_type'	=> 'application/octet-stream',		'ico'	=> 'rar.png');
+$filetype[]	= array('ext'	=> 'js',	'mime_type'	=> 'application/x-javascript',		'ico'	=> 'js.png');
+$filetype[]	= array('ext'	=> 'html',	'mime_type'	=> 'text/html',				'ico'	=> 'html.png');
+$filetype[]	= array('ext'	=> 'htm',	'mime_type'	=> 'text/html',				'ico'	=> 'htm.png');
+$filetype[]	= array('ext'	=> 'css',	'mime_type'	=> 'text/css',				'ico'	=> 'css.png');
+$filetype[]	= array('ext'	=> 'xml',	'mime_type'	=> 'text/xml',				'ico'	=> 'xml.png');
+$filetype[]	= array('ext'	=> 'ini',	'mime_type'	=> 'application/octet-stream',		'ico'	=> 'ini.png');
+$filetype[]	= array('ext'	=> 'swf',	'mime_type'	=> 'application/x-shockwave-flash',	'ico'	=> 'swf.png');
+$filetype[]	= array('ext'	=> 'fla',	'mime_type'	=> 'application/octet-stream',		'ico'	=> 'fla.png');
+$filetype[]	= array('ext'	=> 'psd',	'mime_type'	=> 'application/octet-stream',		'ico'	=> 'psd.png');
+$filetype[]	= array('ext'	=> 'cdr',	'mime_type'	=> 'application/octet-stream',		'ico'	=> 'cdr.png');
+$filetype[]	= array('ext'	=> 'csv',	'mime_type'	=> 'application/vnd.ms-excel',		'ico'	=> 'csv.png');
+$filetype[]	= array('ext'	=> 'doc',	'mime_type'	=> 'application/msword',		'ico'	=> 'doc.png');
+$filetype[]	= array('ext'	=> 'xls',	'mime_type'	=> 'application/vnd.ms-excel',		'ico'	=> 'xls.png');
+$filetype[]	= array('ext'	=> 'docx',	'mime_type'	=> 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',	'ico'	=> 'docx.png');
+$filetype[]	= array('ext'	=> 'xlsx',	'mime_type'	=> 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',		'ico'	=> 'xlsx.png');
 
 
 /**
@@ -91,13 +91,13 @@ $filetype[]	= array('ext'	=> 'xlsx',	'type'	=> 'application/vnd.openxmlformats-o
 * @var array
 */
 $imagetype	= array();
-$imagetype[]	= array('ext'	=> 'png',	'type'	=> 'image/png',		'ico'	=> 'png.png');
-$imagetype[]	= array('ext'	=> 'gif',	'type'	=> 'image/gif',		'ico'	=> 'gif.png');
-$imagetype[]	= array('ext'	=> 'jpg',	'type'	=> 'image/jpg',		'ico'	=> 'jpg.png');
-$imagetype[]	= array('ext'	=> 'jpg',	'type'	=> 'image/jpeg',	'ico'	=> 'jpeg.png');
-$imagetype[]	= array('ext'	=> 'jpg',	'type'	=> 'image/pjpeg',	'ico'	=> 'jpg.png');
-//$imagetype[]	= array('ext'	=> 'ico',	'type'	=> 'image/x-icon',	'ico'	=> 'ico.png');
-//$imagetype[]	= array('ext'	=> 'bmp',	'type'	=> 'image/bmp',		'ico'	=> 'bmp.png');
+$imagetype[]	= array('ext'	=> 'png',	'mime_type'	=> 'image/png',		'ico'	=> 'png.png');
+$imagetype[]	= array('ext'	=> 'gif',	'mime_type'	=> 'image/gif',		'ico'	=> 'gif.png');
+$imagetype[]	= array('ext'	=> 'jpg',	'mime_type'	=> 'image/jpg',		'ico'	=> 'jpg.png');
+$imagetype[]	= array('ext'	=> 'jpg',	'mime_type'	=> 'image/jpeg',	'ico'	=> 'jpeg.png');
+$imagetype[]	= array('ext'	=> 'jpg',	'mime_type'	=> 'image/pjpeg',	'ico'	=> 'jpg.png');
+//$imagetype[]	= array('ext'	=> 'ico',	'mime_type'	=> 'image/x-icon',	'ico'	=> 'ico.png');
+//$imagetype[]	= array('ext'	=> 'bmp',	'mime_type'	=> 'image/bmp',		'ico'	=> 'bmp.png');
 
 $mimetype = array_merge($filetype, $imagetype);
 

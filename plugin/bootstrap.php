@@ -57,7 +57,6 @@ if(!isset($_GET['short'])) {
 ?>
 
 document.write('<link href="/plugin/bootstrap/css/bootstrap.min.css" rel="stylesheet">');
-document.write('<link href="/plugin/bootstrap/css/bootstrap_moreclasses.min.css" rel="stylesheet">');
 document.write('<link href="/plugin/bootstrap/css/bootstrap-select.min.css" rel="stylesheet">');
 document.write('<link href="/plugin/bootstrap/css/datepicker.min.css" rel="stylesheet">');
 document.write('<link href="/plugin/bootstrap/css/colorpicker.min.css" rel="stylesheet">');
@@ -71,7 +70,6 @@ document.write('<script src="/plugin/bootstrap/js/locales/bootstrap-datepicker.r
 <? } else { ?>
 
 document.write('<link href="/plugin/bootstrap/css/bootstrap.min.css" rel="stylesheet">');
-document.write('<link href="/plugin/bootstrap/css/bootstrap_moreclasses.min.css" rel="stylesheet">');
 document.write('<link href="/plugin/bootstrap/css/font-awesome.min.css" rel="stylesheet">');
 document.write('<script src="/plugin/bootstrap/js/bootstrap.min.js"></script>');
 

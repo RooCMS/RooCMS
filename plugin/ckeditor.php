@@ -53,9 +53,12 @@ header('Content-transfer-encoding: binary\n');
 header('Accept-Ranges: bytes');
 ob_start("ob_gzhandler", 9);
 
-#document.write('<script type="text/javascript" src="plugin/ckeditor/adapters/jquery.js"></script>');
-#document.write('<script type="text/javascript" src="plugin/codemirror.php"></script>');
-
 ?>
 
 document.write('<script type="text/javascript" src="plugin/ckeditor/ckeditor.js"></script>');
+document.write('<script type="text/javascript" src="plugin/ckeditor/adapters/jquery.js"></script>');
+
+$(document).ready(function() {
+        /* CKEditor */
+        $(".ckeditor").ckeditor();
+});

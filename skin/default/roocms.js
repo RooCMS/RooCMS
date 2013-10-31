@@ -13,7 +13,7 @@ $(document).ready(function(){
 });
 
 /**
-*	Java Script
+* Java Script
 **/
 function open_window(link,w,h)
 {

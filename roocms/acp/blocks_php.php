@@ -13,7 +13,7 @@
 */
 
 /**
-*	RooCMS - Russian free content managment system
+*   RooCMS - Russian free content managment system
 *   Copyright (C) 2010-2014 alex Roosso aka alexandr Belov info@roocms.com
 *
 *   This program is free software: you can redistribute it and/or modify
@@ -69,7 +69,7 @@ class ACP_BLOCKS_PHP {
 			if(!isset($POST->content)) $parse->msg("Пустое тело блока!", false);
 
 			if(!isset($_SESSION['error'])) {
-				$db->query("INSERT INTO ".BLOCKS_TABLE."   (title, alias, content, date_create, date_modified, type)
+				$db->query("INSERT INTO ".BLOCKS_TABLE."   (title, alias, content, date_create, date_modified, block_type)
 				VALUES ('".$POST->title."', '".$POST->alias."', '".$POST->content."', '".time()."', '".time()."', 'php')");
 
 				$parse->msg("Блок успешно добавлен!");
@@ -115,13 +115,13 @@ class ACP_BLOCKS_PHP {
 			if(!isset($_SESSION['error'])) {
 
 				$db->query("UPDATE ".BLOCKS_TABLE."
-								SET
-									title='".$POST->title."',
-									alias='".$POST->alias."',
-									content='".$POST->content."',
-									date_modified='".time()."'
-								WHERE
-									id='".$id."'");
+							SET
+								title='".$POST->title."',
+								alias='".$POST->alias."',
+								content='".$POST->content."',
+								date_modified='".time()."'
+							WHERE
+								id='".$id."'");
 
 				$parse->msg("Блок успешно обновлен!");
 			}

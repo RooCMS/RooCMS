@@ -27,8 +27,8 @@
         			<td class="text-center"><span class="label label-default">{$page['ptype']}</span></td>
         			<td class="small">{$page['lm']}</td>
         			<td>
-						<nobr><a href="{$SCRIPT_NAME}?act=pages&part=edit&page={$page['sid']}" class="btn btn-xs btn-default"><span class="icon-edit icon-fixed-width"></span>Редактировать</a></nobr>
-						{if $page['sid'] != 1}<nobr><a href="{$SCRIPT_NAME}?act=structure&part=delete&id={$page['sid']}" class="btn btn-xs btn-danger"><span class="icon-trash icon-fixed-width"></span>Удалить</a></nobr>{/if}
+						<nobr><a href="{$SCRIPT_NAME}?act=pages&part=edit&page={$page['sid']}" class="btn btn-xs btn-default"><span class="fa fa-pencil-square-o fa-fw"></span>Редактировать</a></nobr>
+						{if $page['sid'] != 1}<nobr><a href="{$SCRIPT_NAME}?act=structure&part=delete&id={$page['sid']}" class="btn btn-xs btn-danger"><span class="fa fa-trash-o fa-fw"></span>Удалить</a></nobr>{/if}
         			</td>
     			</tr>
     			{/foreach}
@@ -41,7 +41,7 @@
 <div class="panel panel-default visible-xs">
     <div class="panel-heading">
         <span class="label label-primary panel-title">{$page['sid']}</span>
-		{if $page['type'] == "html" or $page['type'] == "php"}
+		{if $page['page_type'] == "html" or $page['page_type'] == "php"}
 			<a href="{$SCRIPT_NAME}?act=pages&part=edit&page={$page['sid']}" class="panel-title">{$page['title']}</a>
 		{else}
 			<a href="{$SCRIPT_NAME}?act=feeds&part=control&page={$page['sid']}" class="panel-title">{$page['title']}</a>
@@ -54,8 +54,8 @@
         <span class="label label-default pull-right">{$page['ptype']}</span>
 	</div>
 	<div class="panel-footer text-right">
-		<nobr><a href="{$SCRIPT_NAME}?act=structure&part=edit&id={$page['sid']}" class="btn btn-xs btn-default"><span class="icon-edit icon-fixed-width"></span> Редактировать</a></nobr>
-		{if $page['sid'] != 1}<nobr><a href="{$SCRIPT_NAME}?act=structure&part=delete&id={$page['sid']}" class="btn btn-xs btn-danger"><span class="icon-trash icon-fixed-width"></span> Удалить</a></nobr>{/if}
+		<nobr><a href="{$SCRIPT_NAME}?act=structure&part=edit&id={$page['sid']}" class="btn btn-xs btn-default"><span class="fa fa-pencil-square-o fa-fw"></span> Редактировать</a></nobr>
+		{if $page['sid'] != 1}<nobr><a href="{$SCRIPT_NAME}?act=structure&part=delete&id={$page['sid']}" class="btn btn-xs btn-danger"><span class="fa fa-trash-o fa-fw"></span> Удалить</a></nobr>{/if}
 	</div>
 </div>
 {/foreach}

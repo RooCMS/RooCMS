@@ -58,8 +58,8 @@ $acp_feeds = new ACP_FEEDS;
 class ACP_FEEDS {
 
 	# vars
-	private $engine;		# ... object global structure operations
-	private $unit;			# ... object for works content pages
+	private $engine;	# ... object global structure operations
+	private $unit;		# ... object for works content pages
 
 
 
@@ -155,9 +155,9 @@ class ACP_FEEDS {
 		global $db, $tpl, $smarty;
 
 		$data = array();
-		$q = $db->query("SELECT id, alias, title, noindex, type, items FROM ".STRUCTURE_TABLE." WHERE type='feed' ORDER BY id ASC");
+		$q = $db->query("SELECT id, alias, title, noindex, page_type, items FROM ".STRUCTURE_TABLE." WHERE page_type='feed' ORDER BY id ASC");
 		while($row = $db->fetch_assoc($q)) {
-			$row['ptype'] = $this->engine->page_types[$row['type']]['title'];
+			$row['ptype'] = $this->engine->page_types[$row['page_type']]['title'];
 			$data[] = $row;
 		}
 

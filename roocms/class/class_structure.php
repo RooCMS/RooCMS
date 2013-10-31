@@ -6,13 +6,13 @@
 * @author       alex Roosso
 * @copyright    2010-2014 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.3
+* @version      1.3.2
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
 
 /**
-*	RooCMS - Russian free content managment system
+*   RooCMS - Russian free content managment system
 *   Copyright (C) 2010-2014 alex Roosso aka alexandr Belov info@roocms.com
 *
 *   This program is free software: you can redistribute it and/or modify
@@ -65,18 +65,20 @@ class Structure {
 	public $sitetree	= array();
 
 	# page vars
-	public $page_id			= 1;				# [int]		page id
+	public $page_id			= 1;				# [int]		page sid
 	public $page_pid		= 1;				# [int]		id content
 	public $page_parent		= 0;				# [int]		Parent id
-	public $page_alias		= "index";			# [string]	alias name
-	public $page_title		= "Добро пожловать [RooCMS]";	# [string]	title page
+	public $page_alias		= "index";			# [string]	unique alias name
+	public $page_title		= "Добро пожаловать [RooCMS]";	# [string]	title page
 	public $page_meta_desc		= "";				# [string]	Meta description
 	public $page_meta_keys		= "";				# [string]	Meta keywords
-	public $page_noindex		= 0;				# [bool?]	Meta noindex
+	public $page_noindex		= 0;				# [bool]	Meta noindex
 	public $page_type		= "html";			# [string]	page type
-	public $page_rss		= 0;				# [bool?]	on/off RSS feed
+	public $page_rss		= 0;				# [bool]	on/off RSS feed
 	public $page_items_per_page	= 10;				# [int]		show items on per page
 	public $page_items		= 0;				# [int]		show amount items on feed
+	public $page_thumb_img_width	= 0;				# [int]		in pixels
+	public $page_thumb_img_height	= 0;				# [int]		in pixels
 
 
 
@@ -88,7 +90,7 @@ class Structure {
 	*/
 	function Structure($tree=true, $ui=true) {
 
-		global $db, $GET, $smarty;
+		global $db, $GET;
 
 		# load site tree
 		if($tree)
@@ -104,18 +106,18 @@ class Structure {
 				$where = (is_numeric($GET->_page)) ? "id='".$GET->_page."'" : "alias='".$GET->_page."'" ;
 
 				# запрос
-				$q = $db->query("SELECT id, page_id, parent_id, alias, title, meta_description, meta_keywords, noindex, type, rss, items_per_page, items FROM ".STRUCTURE_TABLE." WHERE ".$where);
+				$q = $db->query("SELECT id, page_id, parent_id, alias, title, meta_description, meta_keywords, noindex, page_type, rss, items_per_page, items, thumb_img_width, thumb_img_height FROM ".STRUCTURE_TABLE." WHERE ".$where);
 				$row = $db->fetch_assoc($q);
 				if(!empty($row)) $this->set_page_vars($row);
 				else {	# load index page
-					$q = $db->query("SELECT id, page_id, parent_id, alias, title, meta_description, meta_keywords, noindex, type, rss, items_per_page, items FROM ".STRUCTURE_TABLE." WHERE id='".PAGEID."'");
+					$q = $db->query("SELECT id, page_id, parent_id, alias, title, meta_description, meta_keywords, noindex, page_type, rss, items_per_page, items, thumb_img_width, thumb_img_height FROM ".STRUCTURE_TABLE." WHERE id='".PAGEID."'");
 					$row = $db->fetch_assoc($q);
 					$this->set_page_vars($row);
 				}
 			}
 			# deafult load index
 			else {
-				$q = $db->query("SELECT id, page_id, parent_id, alias, title, meta_description, meta_keywords, noindex, type, rss, items_per_page, items FROM ".STRUCTURE_TABLE." WHERE id='".PAGEID."'");
+				$q = $db->query("SELECT id, page_id, parent_id, alias, title, meta_description, meta_keywords, noindex, page_type, rss, items_per_page, items, thumb_img_width, thumb_img_height FROM ".STRUCTURE_TABLE." WHERE id='".PAGEID."'");
 				$row = $db->fetch_assoc($q);
 				$this->set_page_vars($row);
 			}
@@ -125,19 +127,19 @@ class Structure {
 				$this->construct_mites($this->page_id);
 				krsort($this->mites);
 			}
-
-			$smarty->assign('mites', $this->mites);
 		}
 	}
 
 
-        /**
-        * Собираем дерево "сайта" (шаг 1)
-        *
-        * @param int $parent - идентификатор родителя от которого расчитываем "дерево". Указываем его только если хотим не все дерево расчитать, а лишь его часть
-        * @param int $maxlevel - указываем уровень глубины построения дерева, только если не хотим выводить все дерево.
-        * @param boolean $child - укажите false если не хотите расчитывать подуровни.
-        */
+	/**
+	 * Собираем дерево "сайта" (шаг 1)
+	 *
+	 * @param int     $parent   - идентификатор родителя от которого расчитываем "дерево". Указываем его только если хотим не все дерево расчитать, а лишь его часть
+	 * @param int     $maxlevel - указываем уровень глубины построения дерева, только если не хотим выводить все дерево.
+	 * @param boolean $child    - укажите false если не хотите расчитывать подуровни.
+	 *
+	 * @return array|bool
+	 */
 	public function load_tree($parent=0, $maxlevel=0, $child=true) {
 
 		global $db;
@@ -145,7 +147,7 @@ class Structure {
 
 		# Делаем единичный запрос в БД собирая данные по структуре сайта.
 		if(!$use) {
-			$q = $db->query("SELECT id, alias, parent_id, sort, title, noindex, type, childs, page_id, rss, items_per_page, items FROM ".STRUCTURE_TABLE." ORDER BY sort ASC");
+			$q = $db->query("SELECT id, alias, parent_id, sort, title, noindex, page_type, childs, page_id, rss, items_per_page, items, thumb_img_width, thumb_img_height FROM ".STRUCTURE_TABLE." ORDER BY sort ASC");
 			while($row = $db->fetch_assoc($q)) {
 				$row['level']	= 0;
 				$tree[] 	= $row;
@@ -166,15 +168,17 @@ class Structure {
 	}
 
 
-        /**
-        * Собираем дерево "сайта" (шаг 2)
-        *
-        * @param array $unit - массив данных "дерева"
-        * @param int $parent - идентификатор родителя от которого расчитываем "дерево". Указываем его только если хотим не все дерево расчитать, а лишь его часть
-        * @param int $maxlevel - указываем уровень глубины построения дерева, только если не хотим выводить все дерево.
-        * @param boolean $child - укажите false если не хотите расчитывать подуровни.
-        * @param int $level - текущий обрабатываемый уровень (используется прирасчете дочерних страниц)
-        */
+	/**
+	 * Собираем дерево "сайта" (шаг 2)
+	 *
+	 * @param array   $unit     - массив данных "дерева"
+	 * @param int     $parent   - идентификатор родителя от которого расчитываем "дерево". Указываем его только если хотим не все дерево расчитать, а лишь его часть
+	 * @param int     $maxlevel - указываем уровень глубины построения дерева, только если не хотим выводить все дерево.
+	 * @param boolean $child    - укажите false если не хотите расчитывать подуровни.
+	 * @param int     $level    - текущий обрабатываемый уровень (используется прирасчете дочерних страниц)
+	 *
+	 * @return array
+	 */
 	private function construct_tree(array $unit, $parent=0, $maxlevel=0, $child=true, $level=0) {
 
 		# create array
@@ -226,10 +230,12 @@ class Structure {
 		if(isset($config->meta_keywords))
 			$this->page_meta_keys 	= (trim($data['meta_keywords']) != "") ? $data['meta_keywords'] : $config->meta_keywords;
         	$this->page_noindex		= $data['noindex'];
-		$this->page_type 		= $data['type'];
+		$this->page_type 		= $data['page_type'];
 		$this->page_rss 		= $data['rss'];
 		$this->page_items_per_page 	= $data['items_per_page'];
 		$this->page_items 		= $data['items'];
+		$this->page_thumb_img_width 	= $data['thumb_img_width'];
+		$this->page_thumb_img_height 	= $data['thumb_img_height'];
 
                 # set smarty vars
                 $smarty->assign("page_id",      $data['id']);

@@ -52,14 +52,10 @@
 if(!defined('RooCMS')) die('Access Denied');
 //#########################################################
 
-
-# init database class :: MySQL
-$db = new MySQLDatabase;
-
 class MySQLDatabase extends MySqlExtends {
 
 	public	$db_connect 	= false;	# [bool]	Флаг состояния подключения к БД
-	public  $cnt_querys 	= 0;		# [int] 	Счетчик запросов в БД
+	public	$cnt_querys 	= 0;		# [int] 	Счетчик запросов в БД
 
 
 	/**
@@ -207,16 +203,12 @@ class MySQLDatabase extends MySqlExtends {
 					'LIMIT' 	=> '<b>LIMIT</b>'
 				));
 
-                if($this->cnt_querys == 1)
-                $debug->debug_info .= "<h3>Запросы к БД</h3>";
-
 				# debug info querys
-				$debug->debug_info .= "<hr>
-						       <blockquote class='col-xs-12'>
+				if($this->cnt_querys != 1) $debug->debug_info .= "<hr>";
+				$debug->debug_info .= "<blockquote class='col-xs-12'>
 							    <small>Запрос <b>#".$this->cnt_querys."</b></small>
 							    <span class='text-danger'>{$q}</span>
 						       </blockquote>";
-
 			}
 
 			return $query;
@@ -331,14 +323,16 @@ class MySQLDatabase extends MySqlExtends {
 
 
 	/**
-	* Функция проверяет имеется ли запрашиваймый id.
-	*
-	* @param uniq int $id  - проверямый идентификатор
-	* @param string $table - таблица в которой проводится проверка
-	* @param string $field - название поля таблицы содержащий идентификатор
-	* @param string $where - Дополнительное условие (фильтр) для проверки
-	* @return int|boolean - Возвращает количество найденных строк, соответсвующих критериям или false в случае неудачи
-	*/
+	 * Функция проверяет имеется ли запрашиваймый id.
+	 *
+	 * @param        $id
+	 * @param string $table - таблица в которой проводится проверка
+	 * @param string $field - название поля таблицы содержащий идентификатор
+	 * @param string $where - Дополнительное условие (фильтр) для проверки
+	 *
+	 * @internal param int $uniq $id  - проверямый идентификатор
+	 * @return int|boolean - Возвращает количество найденных строк, соответсвующих критериям или false в случае неудачи
+	 */
 	public function check_id($id, $table, $field="id", $where="") {
 
 		if(trim($where) != "") $where = " AND ".$where;

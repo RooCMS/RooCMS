@@ -1,7 +1,6 @@
 {* Шаблон отображения счетчиков *}
 {literal}
 <!--Openstat-->
-
 <span id="openstat2206821"></span>
 <script type="text/javascript">
 var openstat = { counter: 2206821, image: 5081, color: "fffffb", next: openstat, track_links: "all" };
@@ -11,12 +10,10 @@ j.src = ("https:" == p ? "https:" : "http:") + "//openstat.net/cnt.js";
 var s = d.getElementsByTagName(t)[0]; s.parentNode.insertBefore(j, s);
 })(document, "script", document.location.protocol);
 </script>
-
 <!--/Openstat-->
 
 
 <!--LiveInternet counter-->
-
 <script type="text/javascript">
 document.write("<a href='http://www.liveinternet.ru/click' "+
 "target=_blank rel=nofollow><img src='//counter.yadro.ru/hit?t15.6;r"+
@@ -28,15 +25,12 @@ screen.colorDepth:screen.pixelDepth))+";u"+escape(document.URL)+
 " часа, посетителей за 24 часа и за сегодня' "+
 "border='0' width='88' height='31'><\/a>")
 </script>
-
 <!--/LiveInternet-->
-
-
 
 <!-- Yandex.Metrika informer -->
 <a href="http://metrika.yandex.ru/stat/?id=10076272&amp;from=informer"
 target="_blank" rel="nofollow"><img src="//bs.yandex.ru/informer/10076272/3_0_F7F2E5FF_F7F2E5FF_0_pageviews"
-style="width:88px; height:31px; border:0;" alt="Яндекс.Метрика" title="Яндекс.Метрика: данные за сегодня (просмотры, визиты и уникальные посетители)" onclick="try{Ya.Metrika.informer({i:this,id:10076272,type:0,lang:'ru'});return false}catch(e){}"/></a>
+style="width:88px; height:31px; border:0;" alt="Яндекс.Метрика" title="Яндекс.Метрика" onclick="try{Ya.Metrika.informer({i:this,id:10076272,type:0,lang:'ru'});return false}catch(e){}"/></a>
 <!-- /Yandex.Metrika informer -->
 
 <!-- Yandex.Metrika counter -->
