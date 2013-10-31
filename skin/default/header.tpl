@@ -83,7 +83,7 @@
 
 <div class="container">
 	<div class="header">
-    	<h1><a href="/"><img src="{$SKIN}/img/logo.png" border="0" style="vertical-align: top;"></a> RooCMS <small><sup>demo</sup>&beta;</small></h1>
+    	<h1><a href="/"><img src="{$SKIN}/img/logo.png" border="0" style="vertical-align: top;"></a> RooCMS</h1>
 		{$blocks->load("nav_pages")}
 	</div>
 	{$breadcumb}
