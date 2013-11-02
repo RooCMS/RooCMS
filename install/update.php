@@ -61,7 +61,7 @@ class Update extends Requirement{
 	private $action		= "update";		# [string]	alias for identy process
 	private $step		= 1;			# [int]		now use step
 	private $nextstep	= 2;			# [int]		next use step
-	private $steps		= 3;			# [int]		all step in operations
+	private $steps		= 4;			# [int]		all step in operations
 	private $page_title	= "";
 	private $status		= "";
 	private $noticetext	= "";			# [string]	attention text in head form
@@ -115,6 +115,12 @@ class Update extends Requirement{
 				}
 				break;
 
+			case 4:
+				$this->page_title = "Обновление RooCMS";
+				$this->status = "Обновление RooCMS<br />...";
+				$this->step_4();
+				break;
+
 			default:
 				$this->page_title = "Лицензионное соглашение";
 				$this->status = "Внимательно прочитайте лицензионное соглашение<br />Помните, что нарушение авторских прав влечет за собой уголовную ответсвенность.";
@@ -148,11 +154,15 @@ class Update extends Requirement{
 	}
 
 
-	/* ####################################################
-	 *
+	/**
+	 * Sorry
 	 */
-	private function step_1() {
+	private function step_4() {
+		$f = @file("http://version.roocms.com/index.php");
 
+		$this->log[] = array('', '<center>Извините.<br />Сегодня автоматические обновление невозможно.<br />В ближайшем будущем мы неприменно его реализуем, но сейчас, любое обновление придется делать вручную.</center>', false, '');
+		$this->log[] = array('', 'Ваша версия RooCMS: '.ROOCMS_VERSION.'', true, '');
+		if($f) $this->log[] = array('', 'Последняя версия: '.$f[0].'', true, '');
 	}
 }
 

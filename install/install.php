@@ -5,7 +5,7 @@
 * @author       alex Roosso
 * @copyright    2010-2014 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.2.4
+* @version      1.2.5
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -68,8 +68,8 @@ class Install extends Requirement{
 
 
 
-	/* ####################################################
-	 *	Let's begin
+	/**
+	 * Доктор, начнем операцию...
 	 */
 	function __construct() {
 
@@ -178,8 +178,8 @@ class Install extends Requirement{
 	}
 
 
-	/* ####################################################
-	 *	Простые настройки
+	/**
+	 * Простые настройки
 	 */
 	private function step_4() {
 
@@ -231,8 +231,11 @@ class Install extends Requirement{
 			else goback();
 		}
 
+		$servname = explode(".", $_SERVER['SERVER_NAME']);
+		$server_name = (count($servname) == 2) ? "www.".$_SERVER['SERVER_NAME']: $_SERVER['SERVER_NAME'] ;
+
 		$this->log[] = array('Название сайта', '<input type="text" class="form-control" name="site_title" required placeholder="RooCMS">', true, 'Укажите название сайта.');
-		$this->log[] = array('Адрес сайта', '<input type="text" class="form-control" name="site_domain" required value="http://'.$_SERVER['SERVER_NAME'].'">', true, 'Укажите интернет адрес вашего сайта');
+		$this->log[] = array('Адрес сайта', '<input type="text" class="form-control" name="site_domain" required value="http://'.$server_name.'">', true, 'Укажите интернет адрес вашего сайта');
 		$this->log[] = array('E-Mail Администратора', '<input type="text" class="form-control" name="site_sysemail" placeholder="Ваш@Почтовый.ящик" pattern="^\s*\w+\.*\w*@\w+\.\w+\s*" required>', true, 'Укажите адрес электронной почты администратора сайта.');
 
 
@@ -241,8 +244,8 @@ class Install extends Requirement{
 	}
 
 
-	/* ####################################################
-	 *	Настраиваем соеденение с БД
+	/**
+	 * Настраиваем соеденение с БД
 	 */
 	private function step_5() {
 
@@ -333,8 +336,8 @@ class Install extends Requirement{
 	}
 
 
-	/* ####################################################
-	 *	Импортируем данные в БД
+	/**
+	 * Импортируем данные в БД
 	 */
 	private function step_6() {
 
@@ -394,8 +397,8 @@ class Install extends Requirement{
 	}
 
 
-	/* ####################################################
-	 *	Установка логина и пароля администратора
+	/**
+	 * Установка логина и пароля администратора
 	 */
 	private function step_7() {
 
@@ -428,8 +431,8 @@ class Install extends Requirement{
 	}
 
 
-	/* ####################################################
-	 *	Завершение установки RooCMS
+	/**
+	 * Завершение установки RooCMS
 	 */
 	private function step_8() {
 
@@ -466,6 +469,27 @@ class Install extends Requirement{
 
 		$this->log[] = array('', '<center>Поздравляем.<br />Вы успешно завершили установку RooCMS.<br />Текущая версия: '.ROOCMS_VERSION.'</center>', true, '');
 		$this->log[] = array('', '<center>Не забудьте удалить папку /install/ в целях безопастности вашего сайта.</center>', false, '');
+
+		$servname = explode(".", $_SERVER['SERVER_NAME']); debug($servname);
+		$server_name = (count($servname) == 2) ? "www.".$_SERVER['SERVER_NAME']: $_SERVER['SERVER_NAME'] ;
+		$hostname = (count($servname) == 2) ? $servname[0] : $servname[1] ;
+
+
+		$this->log[] = array('', '<div class="alert alert-info"style="margin-top: 10px;"><b class="label label-primary">Внимание!</b>
+						<br />Отредактируйте файл <code>.htaccess</code> расположенный в корне сайта
+						<br />Для этого откройте его любым текстовым редактором
+						<br />Выделите стрки с 6 по 13 включительно (они закоментированны знаком <code>#</code>) и замените их на эти:
+						<br />
+						<pre>
+&lt;IfModule mod_rewrite.c&gt;
+	RewriteEngine on
+	RewriteBase /
+	RewriteCond %{HTTP_HOST} ^'.$hostname.'
+	RewriteRule (.*) http://'.$server_name.'/$1 [R=301,L]
+	RewriteCond %{THE_REQUEST} ^[A-Z]{3,9}\ /index\.php\ HTTP/
+	RewriteRule ^index\.php$ http://'.$server_name.'/ [R=301,L]
+&lt;/IfModule&gt;</pre>
+						Это важно для поисковой оптимизации, но вовсе не обязательно.</div>', false, '');
 	}
 }
 

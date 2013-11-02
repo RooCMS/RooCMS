@@ -3,26 +3,28 @@ Options All -ExecCGI -Indexes -Includes +FollowSymLinks
 
 
 # REWRITE ___________________
-<IfModule mod_rewrite.c>
-	RewriteEngine on
-	RewriteBase /
-	#RewriteCond %{HTTP_HOST} ^roocms
-	#RewriteRule (.*) http://dev.roocms.com/$1 [R=301,L]
-	#RewriteCond %{THE_REQUEST} ^[A-Z]{3,9}\ /index\.php\ HTTP/
-	#RewriteRule ^index\.php$ http://dev.roocms.com/ [R=301,L]
-	#RewriteRule ^basket(.*)$ ?page=demo$1 [QSA,NE,L]
-</IfModule>
+#<IfModule mod_rewrite.c>
+#	RewriteEngine on
+#	RewriteBase /
+#	RewriteCond %{HTTP_HOST} ^roocms
+#	RewriteRule (.*) http://www.roocms.com/$1 [R=301,L]
+#	RewriteCond %{THE_REQUEST} ^[A-Z]{3,9}\ /index\.php\ HTTP/
+#	RewriteRule ^index\.php$ http://www.roocms.com/ [R=301,L]
+#</IfModule>
 
 
 # REDIRICT __________________
-# Redirect 301 /index.html /index.php
 <IfModule mod_rewrite.c>
+	# RewriteRule ^basket(.*)$ ?page=demo$1 [QSA,NE,L]
 	# RewriteRule ^(([^/]+/)*[^.]+)/$ /index.php?page=$1 [L]
 	# RewriteRule ^(([^/]+/)*[^.]+)$ /index.php?page=$1 [L]
 	# RewriteRule ^news/([^/\.]+)/?$ news.php?news=$1 [L]
+	# RewriteRule ^(.*\.((js)|(css)))$ plugin/GzipFile.php?file=$1
+	# RewriteRule \.css$ plugin/GzipFile.php?file=$1
+	# RewriteRule \.js$ plugin/GzipFile.php?file=$1
 </IfModule>
 # RedirectMatch 301 /blog(.*) http://www.roocms.com/$1
-
+# Redirect 301 /index.html /index.php
 
 # SECURE ____________________
 <IfModule mod_ssl.c>
@@ -112,7 +114,7 @@ AddType application/x-web-app-manifest+json webapp
 AddType text/x-vcard vcf
 AddType application/x-shockwave-flash swf
 AddType text/vtt vtt
-# AddType application/octet-stream .doc .mov .avi .pdf .xls
+# AddType application/octet-stream .doc .mov .avi .pdf .xls .rar .zip .mp3 .wmv .ppt .tar .gz .docx .xlsx
 # ForceType application/x-httpd-php
 
 
@@ -143,8 +145,9 @@ php_value	default_charset utf-8
 php_flag	magic_quotes_gpc Off
 php_flag	register_globals Off
 php_flag	short_open_tag On
+# php_value 	sendmail_from root@roocms.ru
 # php_value	max_input_time 200
-# php_value session.name sid
+# php_value	session.name sid
 
 php_value	error_reporting 0
 php_flag	display_startup_errors off
@@ -159,8 +162,11 @@ php_flag	track_errors off
 php_value	docref_root 0
 php_value	docref_ext 0
 # php_value	error_log /tmp/php_error.log
-# php_value error_prepend_string " "
-# php_value error_append_string " "
+# php_value	error_prepend_string " "
+# php_value	error_append_string " "
+# php_value	auto_prepend_file prepend.php
+# php_value	auto_append_file append.php
+#php_value	user_agent “Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1)”
 
 <Files php_error.log>
 	Order allow,deny
@@ -213,7 +219,7 @@ AddCharset utf-8 .atom .css .js .json .rss .vtt .xml
 	<FilesMatch "\.(js|css|gif|png|jpe?g|pdf|xml|oga|ogg|m4a|ogv|mp4|m4v|webm|svg|svgz|eot|ttf|otf|woff|ico|webp|appcache|manifest|htc|crx|oex|xpi|safariextz|vcf)$" >
 		Header unset X-UA-Compatible
 	</FilesMatch>
-</IfModule>
+</ifModule>
 <ifModule mod_expires.c>
 	ExpiresActive On
 	ExpiresDefault "access plus 5 seconds"
