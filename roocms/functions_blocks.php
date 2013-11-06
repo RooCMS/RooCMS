@@ -2,7 +2,6 @@
 /**
 * @package	RooCMS
 * @subpackage	Frontend
-* @subpackage	Blocks
 * @author	alex Roosso
 * @copyright	2010-2014 (c) RooCMS
 * @link		http://www.roocms.com
@@ -52,10 +51,11 @@
 if(!defined('RooCMS')) die('Access Denied');
 //#########################################################
 
-$blocks = new Blocks;
-$smarty->assign("blocks", $blocks);
 
 
+/**
+ * Class Blocks
+ */
 class Blocks {
 
 	/**
@@ -118,5 +118,15 @@ class Blocks {
 		return $output;
 	}
 }
+
+
+/**
+ * Init Class
+ */
+$blocks = new Blocks;
+/**
+ * assign in templates
+ */
+$smarty->assign("blocks", $blocks);
 
 ?>

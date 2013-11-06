@@ -2,7 +2,6 @@
 /**
 * @package      RooCMS
 * @subpackage	Frontend
-* @subpackage	PHP Page
 * @author       alex Roosso
 * @copyright    2010-2014 (c) RooCMS
 * @link         http://www.roocms.com
@@ -52,8 +51,10 @@
 if(!defined('RooCMS')) die('Access Denied');
 //#########################################################
 
-$page_php = new PagePHP;
 
+/**
+ * Class PagePHP
+ */
 class PagePHP {
 
 	/**
@@ -86,5 +87,10 @@ class PagePHP {
 		$tpl->load_template("page_php");
 	}
 }
+
+/**
+ * Init Class
+ */
+$page_php = new PagePHP;
 
 ?>

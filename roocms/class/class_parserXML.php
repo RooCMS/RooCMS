@@ -2,7 +2,6 @@
 /**
 * @package      RooCMS
 * @subpackage	Engine RooCMS classes
-* @subpackage	Parser Class [extends: XML]
 * @author       alex Roosso
 * @copyright    2010-2014 (c) RooCMS
 * @link         http://www.roocms.com
@@ -12,7 +11,7 @@
 */
 
 /**
-*	RooCMS - Russian free content managment system
+*   RooCMS - Russian free content managment system
 *   Copyright (C) 2010-2014 alex Roosso aka alexandr Belov info@roocms.com
 *
 *   This program is free software: you can redistribute it and/or modify
@@ -53,6 +52,9 @@ if(!defined('RooCMS')) die('Access Denied');
 //#########################################################
 
 
+/**
+ * Class ParserXML
+ */
 class ParserXML {
 
 	# object output data

@@ -5,7 +5,7 @@
 * @author       alex Roosso
 * @copyright    2010-2014 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.2.5
+* @version      1.3
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -236,7 +236,7 @@ class Install extends Requirement{
 
 		$this->log[] = array('Название сайта', '<input type="text" class="form-control" name="site_title" required placeholder="RooCMS">', true, 'Укажите название сайта.');
 		$this->log[] = array('Адрес сайта', '<input type="text" class="form-control" name="site_domain" required value="http://'.$server_name.'">', true, 'Укажите интернет адрес вашего сайта');
-		$this->log[] = array('E-Mail Администратора', '<input type="text" class="form-control" name="site_sysemail" placeholder="Ваш@Почтовый.ящик" pattern="^\s*\w+\.*\w*@\w+\.\w+\s*" required>', true, 'Укажите адрес электронной почты администратора сайта.');
+		$this->log[] = array('E-Mail Администратора', '<input type="text" class="form-control" name="site_sysemail" placeholder="Ваш@Почтовый.ящик" pattern="^\s*\w+\-*\.*\w*@\w+\.\w+\s*" required>', true, 'Укажите адрес электронной почты администратора сайта.');
 
 
 		# переход next step
@@ -469,6 +469,11 @@ class Install extends Requirement{
 
 		$this->log[] = array('', '<center>Поздравляем.<br />Вы успешно завершили установку RooCMS.<br />Текущая версия: '.ROOCMS_VERSION.'</center>', true, '');
 		$this->log[] = array('', '<center>Не забудьте удалить папку /install/ в целях безопастности вашего сайта.</center>', false, '');
+
+		$confperms = array('path' => _ROOCMS.'/config/config.php', 'chmod' => '0644');
+
+		@chmod($v['path'], $v['chmod']);
+		if(!@chmod($confperms['path'], $confperms['chmod'])) $this->log[] = array("", "Не удалось изменить доступ к файлу ".$roocmspath." вам потребуется установить доступ вручную через FTP. Установить доступ <b>0644</b>", false, "");
 
 		$servname = explode(".", $_SERVER['SERVER_NAME']); debug($servname);
 		$server_name = (count($servname) == 2) ? "www.".$_SERVER['SERVER_NAME']: $_SERVER['SERVER_NAME'] ;

@@ -2,17 +2,16 @@
 /**
 * @package      RooCMS
 * @subpackage	Admin Control Panel
-* @subpackage	Help
 * @author       alex Roosso
 * @copyright    2010-2014 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.1.0
+* @version      1.1
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
 
 /**
-*	RooCMS - Russian free content managment system
+*   RooCMS - Russian free content managment system
 *   Copyright (C) 2010-2014 alex Roosso aka alexandr Belov info@roocms.com
 *
 *   This program is free software: you can redistribute it and/or modify
@@ -52,8 +51,10 @@
 if(!defined('RooCMS') || !defined('ACP')) die('Access Denied');
 //#########################################################
 
-$acp_help = new ACP_HELP;
 
+/**
+ * Class ACP_HELP
+ */
 class ACP_HELP {
 
 	# vars
@@ -203,7 +204,6 @@ class ACP_HELP {
 		}
 
 		# проверяем введенный данные
-
 		if(!isset($POST->title) || trim($POST->title) == "") 					$parse->msg("Не указано название раздела.", false);
 		if(!isset($POST->uname) || (trim($POST->uname) == "" && round($POST->uname) != 0)) 	$parse->msg("Не указан uname страницы.", false);
 		elseif(!$this->check_uname($POST->uname)) 						$parse->msg("uname раздела не уникален.", false);
@@ -342,12 +342,14 @@ class ACP_HELP {
 
 
 	/**
-	* Собираем дерево "помощи" (шаг 1)
-	*
-	* @param int $parent - идентификатор родителя от которого расчитываем "дерево". Указываем его только если хотим не все дерево расчитать, а лишь его часть
-	* @param int $maxlevel - указываем уровень глубины построения дерева, только если не хотим выводить все дерево.
-	* @param boolean $child - укажите false если не хотите расчитывать подуровни.
-	*/
+	 * Собираем дерево "помощи" (шаг 1)
+	 *
+	 * @param int     $parent   - идентификатор родителя от которого расчитываем "дерево". Указываем его только если хотим не все дерево расчитать, а лишь его часть
+	 * @param int     $maxlevel - указываем уровень глубины построения дерева, только если не хотим выводить все дерево.
+	 * @param boolean $child    - укажите false если не хотите расчитывать подуровни.
+	 *
+	 * @return array|bool - вернет флаг false если дерево не собрано, или вернет массив с деревом.
+	 */
 	public function load_tree($parent=0, $maxlevel=0, $child=true) {
 
 		global $db;
@@ -376,14 +378,16 @@ class ACP_HELP {
 
 
 	/**
-	* Собираем дерево "помощи" (шаг 2)
-	*
-	* @param array $unit - массив данных "дерева"
-	* @param int $parent - идентификатор родителя от которого расчитываем "дерево". Указываем его только если хотим не все дерево расчитать, а лишь его часть
-	* @param int $maxlevel - указываем уровень глубины построения дерева, только если не хотим выводить все дерево.
-	* @param boolean $child - укажите false если не хотите расчитывать подуровни.
-	* @param int $level - текущий обрабатываемый уровень (используется прирасчете подкатегорий)
-	*/
+	 * Собираем дерево "помощи" (шаг 2)
+	 *
+	 * @param array   $unit     - массив данных "дерева"
+	 * @param int     $parent   - идентификатор родителя от которого расчитываем "дерево". Указываем его только если хотим не все дерево расчитать, а лишь его часть
+	 * @param int     $maxlevel - указываем уровень глубины построения дерева, только если не хотим выводить все дерево.
+	 * @param boolean $child    - укажите false если не хотите расчитывать подуровни.
+	 * @param int     $level    - текущий обрабатываемый уровень (используется прирасчете подкатегорий)
+	 *
+	 * @return array
+	 */
 	private function construct_tree(array $unit, $parent=0, $maxlevel=0, $child=true, $level=0) {
 
 		# create array
@@ -432,11 +436,13 @@ class ACP_HELP {
 
 
 	/**
-	* Проверяем на уникальность
-	*
-	* @param string $name - Проверяемое имя
-	* @param string $without - Исключения для проверяемого уникального имени
-	*/
+	 * Проверяем на уникальность
+	 *
+	 * @param string $name    - Проверяемое имя
+	 * @param string $without - Исключения для проверяемого уникального имени
+	 *
+	 * @return bool
+	 */
 	private function check_uname($name, $without="") {
 
 		global $db;
@@ -473,5 +479,10 @@ class ACP_HELP {
 		if(DEBUGMODE) $parse->msg("Информация о подразделах для раздела {$id} обновлена.");
 	}
 }
+
+/**
+ * Init Class
+ */
+$acp_help = new ACP_HELP;
 
 ?>

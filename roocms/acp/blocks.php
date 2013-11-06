@@ -82,7 +82,6 @@ class ACP_BLOCKS {
 
 	/**
 	* Инициализация установки
-	*
 	*/
 	private function init() {
 
@@ -115,7 +114,6 @@ class ACP_BLOCKS {
 
 	/**
 	* Определяем задачи для каждой цели
-	*
 	*/
 	private function action() {
 
@@ -147,7 +145,6 @@ class ACP_BLOCKS {
 
 	/**
 	* Видим все блоки
-	*
 	*/
 	private function view_all_blocks() {
 

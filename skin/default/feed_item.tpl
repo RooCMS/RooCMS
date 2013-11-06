@@ -1,7 +1,7 @@
 {* Шаблон отображения элемента ленты *}
 	<div id="item_{$item['id']}">
 		<h2>{$item['title']}</h2>
-		<small>Опубликовано: {$item['datep']}</small>
+		<small>Опубликовано: {$item['datepub']}</small>
 		{$item['full_item']}
 
 		{* Шаблон отображения картинок в элементах ленты *}

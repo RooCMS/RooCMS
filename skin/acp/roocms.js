@@ -81,6 +81,21 @@ $(document).ready(function() {
 	/* Colorbox */
     	//$("a[rel='img']").colorbox({maxWidth: "98%", maxHeight: "98%"});
 
+
+	/* Leight */
+	/*$('[maxleight]').keyup(function(){
+		var ml = $(this).attr('maxleight');
+		var fl = $(this).val().length;
+		var c = (fl > ml) ? 'red t10' : 'grey t10';
+		if(fl > ml) {
+			$('#calcbd').text('Введено: ' + $(this).val().length + ' Лишний текст будет обрезан');
+		}
+		else {
+			$('#calcbd').text('Введено: ' + $(this).val().length);
+		}
+		$('#calcbd').attr('class', c);
+	});*/
+
 	/* Placeholder for IE */
 	if($.browser.msie) {
 		$("input[type='text']").each(function() {

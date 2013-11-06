@@ -57,7 +57,6 @@ require_once _SITE;
 /**
 * Генерим HTML
 *
-* @var template
 * @return frontend html
 */
 $tpl->out();

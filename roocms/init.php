@@ -1,7 +1,6 @@
 <?php
 /**
 * @package      RooCMS
-* @subpackage	RooCMS initialisation
 * @author       alex Roosso
 * @copyright    2010-2014 (c) RooCMS
 * @link         http://www.roocms.com

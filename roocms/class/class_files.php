@@ -2,7 +2,6 @@
 /**
 * @package      RooCMS
 * @subpackage	Engine RooCMS classes
-* @subpackage	File Class
 * @author       alex Roosso
 * @copyright    2010-2014 (c) RooCMS
 * @link         http://www.roocms.com
@@ -53,7 +52,9 @@ if(!defined('RooCMS')) die('Access Denied');
 //#########################################################
 
 
-# files class
+/**
+ * Class Files
+ */
 class Files {
 
 	/**
@@ -182,13 +183,15 @@ class Files {
 
 
 	/**
-	* Функция загрузки файлов //НАДО ПРАВИТЬ!
-	*
-	* @param string $file - Параметр файла массива $_FILES
-	* @param string $prefix - Префикс имени файла
-	* @param array|string $types - Допустимые типы файлов (в будущем)
-	* @param string $path - путь для загрузки файлов
-	*/
+	 * Функция загрузки файлов //НАДО ПРАВИТЬ!
+	 *
+	 * @param string       $file   - Параметр файла массива $_FILES
+	 * @param string       $prefix - Префикс имени файла
+	 * @param array|string $types  - Допустимые типы файлов (в будущем)
+	 * @param string       $path   - путь для загрузки файлов
+	 *
+	 * @return array|bool
+	 */
 	public function upload($file, $prefix="", $types="all", $path=_UPLOADFILES) {
 
     	        # Переписать функцию!!!

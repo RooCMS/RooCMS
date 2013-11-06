@@ -2,7 +2,6 @@
 /**
 * @package      RooCMS
 * @subpackage	Engine RooCMS classes
-* @subpackage	Parser Class [extends: Text]
 * @author       alex Roosso
 * @copyright    2010-2014 (c) RooCMS
 * @link         http://www.roocms.com
@@ -53,6 +52,9 @@ if(!defined('RooCMS')) die('Access Denied');
 //#########################################################
 
 
+/**
+ * Class ParserText
+ */
 class ParserText {
 
 	/* ####################################################

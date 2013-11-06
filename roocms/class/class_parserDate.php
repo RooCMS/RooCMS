@@ -2,11 +2,10 @@
 /**
 * @package      RooCMS
 * @subpackage	Engine RooCMS classes
-* @subpackage	Parser Class [extends: Date]
 * @author       alex Roosso
 * @copyright    2010-2014 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.0.5
+* @version      2.0
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -53,6 +52,9 @@ if(!defined('RooCMS')) die('Access Denied');
 //#########################################################
 
 
+/**
+ * Class ParserDate
+ */
 class ParserDate {
 
 	# date
@@ -62,8 +64,8 @@ class ParserDate {
 
 
 
-	/* ####################################################
-	 * Translate date from one format to rus standart
+	/**
+	 * Translate date from gregorian format to rus standart
 	 * 	$full 	= boolean;
 	 * 	$short	= boolean;
 	 * ----------------------------------------------------
@@ -74,27 +76,8 @@ class ParserDate {
 	 *	else if $full == false
 	 *		date =  22 апреля 2010г.
 	 *	* if $full == false to parametr $short automatically ingnored
-	*/
-	# gregorian to russian
-	function gregorian_to_rus($gdate, $full=false, $short=true, $time=false) {
-
-		# month
-		$month 		= array();
-		$month[1] 	= 'январ';	$month[2]	= 'феврал';	$month[3]	= 'март';
-		$month[4] 	= 'апрел';	$month[5] 	= 'ма';		$month[6]	= 'июн';
-		$month[7] 	= 'июл';	$month[8] 	= 'август';	$month[9] 	= 'сентябр';
-		$month[10] 	= 'октябр';	$month[11] 	= 'ноябр';	$month[12] 	= 'декабр';
-
-		# full day			# short day
-		$day	= array();		$sday	 = array();
-		$day[0] = 'Воскресенье';	$sday[0] = 'Вс';
-		$day[1] = 'Понедельник';	$sday[1] = 'Пн';
-		$day[2] = 'Вторник';		$sday[2] = 'Вт';
-		$day[3] = 'Среда';		$sday[3] = 'Ср';
-		$day[4] = 'Четверг';		$sday[4] = 'Чт';
-		$day[5] = 'Пятница';		$sday[5] = 'Пт';
-		$day[6] = 'Суббота';		$sday[6] = 'Сб';
-
+	 */
+	public function gregorian_to_rus($gdate, $full=false, $short=true, $time=false) {
 
 		$edate = explode("/", $gdate);
 
@@ -105,29 +88,19 @@ class ParserDate {
 		# year
 		$n_year	= round($edate[2]);
 
-/*
---------> */
 		// *checkdate
 
-		# day of week
-		$jd = GregorianToJD($n_mon, $n_day, $n_year); // convert for julian
-		$w_day	= JDDayOfWeek($jd);
+		# num day of week
+		$nw_day = $this->get_num_day_of_week($n_day, $n_mon, $n_year);
 
+		# title day
+		$tday = ($full) ? $this->get_title_day($nw_day, $short) : "" ;
 
-		$tday = "";
+		# title month
+		$tm = $this->get_title_month($n_mon);
 
-
-		if($full == true) {
-			if($short==true) 	$tday = $sday[$w_day].", ";
-			else			$tday = $day[$w_day].", ";
-		}
-
-
-		if($n_mon == 3 || $n_mon == 8) 	$f = "а";
-		else $f = "я";
-
-
-		$date = $tday.$n_day." ".$month[$n_mon].$f." ".$n_year."г. ".$time;
+		# форматируем дату
+		$date = $tday.", ".$n_day." ".$tm." ".$n_year."г. ".$time;
 
 		return $date;
 	}
@@ -148,7 +121,7 @@ class ParserDate {
 	 *
 	 * @return string - вовзвращает дату в заданном формате.
 	 */
-	function jd_to_rus($jddate, $full=false, $short=true) {
+	public function jd_to_rus($jddate, $full=false, $short=true) {
 
 		$gregorian = JDToGregorian($jddate);
 
@@ -159,12 +132,13 @@ class ParserDate {
 
 	//#####################################################
 	//# unix timestamp to russian
-	function unix_to_rus($udate, $full=false, $short=true, $time=false) {
+	public function unix_to_rus($udate, $full=false, $short=true, $time=false) {
 
 		$day 	= date("d", $udate);
 		$month 	= date("m", $udate);
 		$year 	= date("Y", $udate);
 
+		# time
 		if($time) {
 			$hour 	= date("H", $udate);
 			$minute	= date("i", $udate);
@@ -174,15 +148,51 @@ class ParserDate {
 
 		$gregorian = $month."/".$day."/".$year;
 
+
 		$rus = $this->gregorian_to_rus($gregorian, $full, $short, $time);
 
 		return $rus;
 	}
 
 
+	/**
+	 * Превращаем дату в формате unix timestamp в массив данных русскоязычной даты
+	 *
+	 * @param $udate
+	 *
+	 * @return array массив данных с ключами
+	 *               day - число месяца
+	 *               month - текущий месяц в числовом формате
+	 *               year - год
+	 *               hour - час
+	 *               minute - минута
+	 *               time - время в формате H:i
+	 *               wday - день недели в числовом выражении (0-Вс,...,6-Сб)
+	 *               stday - сокращенное названия дня недели
+	 *               ftday - полное название дня недели
+	 *               tmonth - название месяца
+	 */
+	public function unix_to_rus_array($udate) {
+
+		$ar = array();
+		$ar['day']	= date("d", $udate);
+		$ar['month']	= date("m", $udate);
+		$ar['year']	= date("Y", $udate);
+		$ar['hour']	= date("H", $udate);
+		$ar['minute']	= date("i", $udate);
+		$ar['time']	= $ar['hour'].":".$ar['minute'];
+		$ar['wday']	= $this->get_num_day_of_week($ar['day'], $ar['month'], $ar['year']);
+		$ar['stday']	= $this->get_title_day($ar['wday']);
+		$ar['ftday']	= $this->get_title_day($ar['wday'], false);
+		$ar['tmonth']	= $this->get_title_month($ar['month']);
+
+		return $ar;
+	}
+
+
 	//#####################################################
 	//# unix timestamp to russian integer format dd.mm.YYYY
-	function unix_to_rusint($udate) {
+	public function unix_to_rusint($udate) {
 
 		$date = date("d.m.Y", $udate);
 
@@ -192,7 +202,7 @@ class ParserDate {
 
 	//#####################################################
 	//# unix timestamp to gregorian
-	function unix_to_gregorian($udate) {
+	public function unix_to_gregorian($udate) {
 
 		$day 	= date("d", $udate);
 		$month 	= date("m", $udate);
@@ -203,9 +213,15 @@ class ParserDate {
 		return $gregorian;
 	}
 
-	//#####################################################
-	//# gregorian to unix timestamp
-	function gregorian_to_unix($gdate) {
+
+	/**
+	 * Convert gregorian to unix timestamp
+	 *
+	 * @param $gdate - date in gregorian format
+	 *
+	 * @return int - date formated in unix timestamp
+	 */
+	public function gregorian_to_unix($gdate) {
 
 		$time = explode("/", $gdate);
 
@@ -215,8 +231,6 @@ class ParserDate {
 
 		$unix 	= mktime(0,0,0,$month,$day,$year);
 
-/*
---------> */
 		// *checkdate
 
 		return $unix;
@@ -225,7 +239,7 @@ class ParserDate {
 
 	//#####################################################
 	//# Russian integer format to Unix timestamp format
-	function rusint_to_unix($date) {
+	public function rusint_to_unix($date) {
 
 		$time = explode(".", $date);
 
@@ -235,13 +249,84 @@ class ParserDate {
 
 		$unix 	= mktime(0,0,0,$month,$day,$year);
 
-/*
---------> */
 		// *checkdate
 
 		return $unix;
 	}
 
+
+	/**
+	 * Функция вернет номер дня недели.
+	 * 0 - Вс, 1 - Пн и т.д. и т.п.
+	 *
+	 * @param $day
+	 * @param $month
+	 * @param $year
+	 *
+	 * @return int
+	 */
+	function get_num_day_of_week($day, $month, $year) {
+
+		// *checkdate
+
+		$jd = GregorianToJD($month, $day, $year);
+
+		return JDDayOfWeek($jd);
+	}
+
+
+	/**
+	 * Функция получения русского названия дня недели
+	 *
+	 * @param int  $nw    номер дня недели [0-Пн,...,6-Вс]
+	 * @param bool $short флаг указывающий формат возврата названия
+	 *                    true вернет сокращенное название [пример: Сб]
+	 *                    false вернет полное название [пример: Суббота]
+	 *
+	 * @return string
+	 */
+	public function get_title_day($nw, $short=true) {
+
+		$nw = round($nw);
+
+		# full day			# short day
+		$day	= array();		$sday	 = array();
+		$day[0] = 'Воскресенье';	$sday[0] = 'Вс';
+		$day[1] = 'Понедельник';	$sday[1] = 'Пн';
+		$day[2] = 'Вторник';		$sday[2] = 'Вт';
+		$day[3] = 'Среда';		$sday[3] = 'Ср';
+		$day[4] = 'Четверг';		$sday[4] = 'Чт';
+		$day[5] = 'Пятница';		$sday[5] = 'Пт';
+		$day[6] = 'Суббота';		$sday[6] = 'Сб';
+
+		$day = ($short) ? $sday[$nw] : $day[$nw] ;
+
+		return $day;
+	}
+
+
+	/**
+	 * Функция получения русского названия месяца
+	 *
+	 * @param int $nm порядковый номер месяца [1-Янв,...,12-Дек]
+	 *
+	 * @return string
+	 */
+	public function get_title_month($nm) {
+
+		$nm = round($nm);
+
+		# month
+		$month = array();
+		$month[1]	= 'январ';	$month[2]	= 'феврал';	$month[3]	= 'март';
+		$month[4]	= 'апрел';	$month[5]	= 'ма';		$month[6]	= 'июн';
+		$month[7]	= 'июл';	$month[8]	= 'август';	$month[9]	= 'сентябр';
+		$month[10]	= 'октябр';	$month[11]	= 'ноябр';	$month[12]	= 'декабр';
+
+		$f = ($nm == 3 || $nm == 8) ? "а" : "я" ;
+
+		return $month[$nm].$f;
+	}
 }
 
 ?>

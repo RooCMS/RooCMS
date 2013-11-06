@@ -2,11 +2,10 @@
 /**
 * @package      RooCMS
 * @subpackage	Frontend
-* @subpackage	Feed Page
 * @author       alex Roosso
 * @copyright    2010-2014 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.0.13
+* @version      1.0.14
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -52,8 +51,10 @@
 if(!defined('RooCMS')) die('Access Denied');
 //#########################################################
 
-$page_feed = new PageFeed;
 
+/**
+ * Class PageFeed
+ */
 class PageFeed {
 
 	var $item_id 		= 0;
@@ -62,6 +63,7 @@ class PageFeed {
 
 	/**
 	 * Lets begin...
+	 * Why does the gull die?
 	 */
 	function __construct() {
 
@@ -94,12 +96,13 @@ class PageFeed {
 		# query data
 		$q = $db->query("SELECT id, title, meta_description, meta_keywords, full_item, date_publications FROM ".PAGES_FEED_TABLE." WHERE id='".$id."'");
 		$item = $db->fetch_assoc($q);
-		$item['datep'] 		= $parse->date->unix_to_rus($item['date_publications'],true);
+		$item['datepub'] 	= $parse->date->unix_to_rus($item['date_publications'],true);
+		$item['date']		= $parse->date->unix_to_rus_array($item['date_publications']);
 		$item['full_item']	= $parse->text->html($item['full_item']);
 
 		# load attached images
 		$images = array();
-                $images 		= $img->load_images("feedid=".$id);
+                $images = $img->load_images("feedid=".$id);
 		$smarty->assign("images", $images);
 
 		$smarty->assign("item", $item);
@@ -150,7 +153,8 @@ class PageFeed {
 		$feeds = array();
 		$q = $db->query("SELECT id, title, brief_item, date_publications FROM ".PAGES_FEED_TABLE." WHERE date_publications <= '".time()."' AND sid='".$structure->page_id."' AND (date_end_publications = '0' || date_end_publications > '".time()."') AND status='1' ORDER BY date_publications DESC, date_create DESC, date_update DESC LIMIT ".$db->from.",".$db->limit);
 		while($row = $db->fetch_assoc($q)) {
-			$row['datep'] 		= $parse->date->unix_to_rus($row['date_publications'],true);
+			$row['datepub']		= $parse->date->unix_to_rus($row['date_publications'],true);
+			$row['date'] 		= $parse->date->unix_to_rus_array($row['date_publications']);
 			$row['brief_item']	= $parse->text->html($row['brief_item']);
 
 			$row['image'] 		= $img->load_images("feedid=".$row['id']."", 0, 1);
@@ -182,5 +186,10 @@ class PageFeed {
 		}
 	}
 }
+
+/**
+ * init Class
+ */
+$page_feed = new PageFeed;
 
 ?>

@@ -2,7 +2,6 @@
 /**
 * @package      RooCMS
 * @subpackage	Engine RooCMS classes
-* @subpackage	MySQL Class
 * @author       alex Roosso
 * @copyright    2010-2014 (c) RooCMS
 * @link         http://www.roocms.com
@@ -52,6 +51,10 @@
 if(!defined('RooCMS')) die('Access Denied');
 //#########################################################
 
+
+/**
+ * Class MySQLDatabase
+ */
 class MySQLDatabase extends MySqlExtends {
 
 	public	$db_connect 	= false;	# [bool]	Флаг состояния подключения к БД

@@ -58,7 +58,6 @@ require_once _ACP;
 /**
 * Генерим HTML
 *
-* @var template
 * @return frontend html
 */
 $tpl->out();

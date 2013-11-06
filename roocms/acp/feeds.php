@@ -63,8 +63,9 @@ class ACP_FEEDS {
 
 
 
-	//#####################################################
-	// Show must go on
+	/**
+	 * Show must go on ...
+	 */
 	function __construct() {
 
 		global $tpl;
@@ -72,7 +73,7 @@ class ACP_FEEDS {
 		require_once _CLASS."/class_structure.php";
 		$this->engine = new Structure();
 
-		// initialise
+		# initialise
 		$this->init();
 
 		# output
@@ -80,8 +81,9 @@ class ACP_FEEDS {
 	}
 
 
-	//#####################################################
-	// Initialisation
+	/**
+	 * Инициализируем действие
+	 */
 	private function init() {
 
 		global $roocms, $GET, $db;
@@ -148,7 +150,6 @@ class ACP_FEEDS {
 
 	/**
 	* Функция просмотра списка лент
-	*
 	*/
 	private function view_all_feeds() {
 

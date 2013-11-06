@@ -2,7 +2,6 @@
 /**
 * @package	RooCMS
 * @subpackage	Engine RooCMS classes
-* @subpackage	Template Class
 * @author	alex Roosso
 * @copyright	2010-2014 (c) RooCMS
 * @link		http://www.roocms.com
@@ -53,6 +52,9 @@ if(!defined('RooCMS')) die('Access Denied');
 //#########################################################
 
 
+/**
+ * Class template
+ */
 class template {
 
 	# vars
@@ -111,6 +113,7 @@ class template {
 		//$smarty->config_fix_newlines = false;
 		//$smarty->compile_check = false;
 
+		//$smarty->clearAllCache();
 
 		# debug mode for smarty
 		$smarty->debugging = DEBUGMODE;
@@ -221,7 +224,7 @@ class template {
                         # jquery-core (check brwoser version)
                         $jquerycore = ($parse->browser("ie",8)) ? "jquery-coreie.min.js.php" : "jquery-core.min.js.php" ;
 
-                        # no cache included js and styles (only Developer or Debug mode)
+                        # get actual version included js and styles in templates (only Developer or Debug mode)
                         $build = (DEBUGMODE or DEVMODE) ? "?v=".str_ireplace(".","",ROOCMS_VERSION)."-".time() : "" ;
 
 

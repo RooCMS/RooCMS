@@ -2,7 +2,6 @@
 /**
 * @package	RooCMS
 * @subpackage	Engine RooCMS classes
-* @subpackage	GD Class
 * @author	alex Roosso
 * @copyright	2010-2014 (c) RooCMS
 * @link		http://www.roocms.com
@@ -53,8 +52,9 @@ if(!defined('RooCMS')) die('Access Denied');
 //#########################################################
 
 
-// graphic class :: GD
-
+/**
+ * Class GD
+ */
 class GD {
 
 	# vars
@@ -72,7 +72,6 @@ class GD {
 
 	/**
 	* Let's go
-	*
 	*/
 	function __construct() {
 

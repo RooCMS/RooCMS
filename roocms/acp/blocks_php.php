@@ -56,8 +56,9 @@ if(!defined('RooCMS') || !defined('ACP')) die('Access Denied');
 
 class ACP_BLOCKS_PHP {
 
-	//#####################################################
-	//	Create
+	/**
+	 * Создаем PHP блок
+	 */
 	function create() {
 
 		global $db, $tpl, $smarty, $POST, $parse;
@@ -84,8 +85,11 @@ class ACP_BLOCKS_PHP {
 	}
 
 
-	//#####################################################
-	//	Edit
+	/**
+	 * Редактируем PHP блок
+	 *
+	 * @param $id - идентификатор блока
+	 */
 	function edit($id) {
 
 		global $db, $tpl, $smarty;
@@ -99,8 +103,11 @@ class ACP_BLOCKS_PHP {
 	}
 
 
-	//#####################################################
-	//	Update
+	/**
+	 * Обновляем PHP блок
+	 *
+	 * @param $id - идентификатор блока
+	 */
 	function update($id) {
 
 		global $db, $POST, $GET, $parse;
@@ -131,8 +138,11 @@ class ACP_BLOCKS_PHP {
 	}
 
 
-	//#####################################################
-	//	Delete
+	/**
+	 * Удаляем PHP блок
+	 *
+	 * @param $id - идентификатор блока
+	 */
 	function delete($id) {
 
 		global $db, $parse;

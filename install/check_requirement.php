@@ -5,7 +5,7 @@
 * @author       alex Roosso
 * @copyright    2010-2014 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.1.2
+* @version      1.1.3
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -55,7 +55,7 @@ if(!defined('RooCMS') || !defined('INSTALL')) die('Access Denied');
 
 class Requirement {
 
-	# var
+	# vars
 	protected $allowed 	= true;		# [bool] 	flag for checked requirement for stable work RooCMS
 	protected $log		= array();	# [array]
 
@@ -63,7 +63,6 @@ class Requirement {
 
 	/**
 	* Проверяем настройки хостинга
-	*
 	*/
 	protected function check_requirement() {
 		$this->check_php_version();
@@ -76,7 +75,6 @@ class Requirement {
 
 	/**
 	* Проверяем версию PHP
-	*
 	*/
 	private function check_php_version() {
 		$php 	= PHP_VERSION;
@@ -96,7 +94,6 @@ class Requirement {
 
 	/**
 	* Проверяем что бы PHP не был установлен как CGI
-	*
 	*/
 	private function check_php_sapi() {
 
@@ -112,7 +109,6 @@ class Requirement {
 
 	/**
 	* Проверяем наличие расширений PHP
-	*
 	*/
 	private function check_php_extensions() {
 		$rextensions	= array("Core",
@@ -141,7 +137,6 @@ class Requirement {
 
 	/**
 	* Проверяем настройки PHP
-	*
 	*/
 	private function check_php_ini() {
 		if(@ini_get('register_globals') == '1' || mb_strtolower(@ini_get('register_globals')) == 'on') {
@@ -166,7 +161,6 @@ class Requirement {
 
 	/**
 	* Устанавливаем права на важные директории и файлы
-	*
 	*/
 	protected function check_chmod() {
 
@@ -179,7 +173,8 @@ class Requirement {
 
 			$roocmspath = str_replace(_SITEROOT, "", $v['path']);
 			if($perms != $v['chmod']) {
-				if(chmod($v['path'], $v['chmod'])) $this->log[] = array("Директория ".$roocmspath, $v['chmod'], true, "");
+				@chmod($v['path'], $v['chmod']);
+				if(@chmod($v['path'], $v['chmod'])) $this->log[] = array("Директория ".$roocmspath, $v['chmod'], true, "");
 				else $this->log[] = array("Директория ".$roocmspath, $perms, false, "Неверные права доступа к директории. Рекомендуемые права ".$v['chmod'].". Для повышения безопастности установите права вручную через ваш FTP доступ");
 			}
 			else $this->log[] = array("Директория ".$roocmspath, $perms, true, "");
@@ -190,7 +185,8 @@ class Requirement {
 
 			$roocmspath = str_replace(_SITEROOT, "", $v['path']);
 			if($perms != $v['chmod']) {
-				if(chmod($v['path'], $v['chmod'])) $this->log[] = array("Файл ".$roocmspath, $v['chmod'], true, "");
+				@chmod($v['path'], $v['chmod']);
+				if(@chmod($v['path'], $v['chmod'])) $this->log[] = array("Файл ".$roocmspath, $v['chmod'], true, "");
 				else $this->log[] = array("Файл ".$roocmspath, $perms, false, "Неверные права доступа к директории. Рекомендуемые права ".$v['chmod'].". Для повышения безопастности установите права вручную через ваш FTP доступ");
 			}
 			else $this->log[] = array("Файл ".$roocmspath, $perms, true, "");

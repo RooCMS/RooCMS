@@ -2,8 +2,6 @@
 /**
 * @package      RooCMS
 * @subpackage	Admin Control Panel
-* @subpackage	Pages settings
-* @subpackage	HTML Page
 * @author       alex Roosso
 * @copyright    2010-2014 (c) RooCMS
 * @link         http://www.roocms.com
@@ -54,6 +52,9 @@ if(!defined('RooCMS') || !defined('ACP')) die('Access Denied');
 //#########################################################
 
 
+/**
+ * Class ACP_PAGES_HTML
+ */
 class ACP_PAGES_HTML {
 
 	//#####################################################
@@ -64,9 +65,9 @@ class ACP_PAGES_HTML {
 
 		# download data
 		$q = $db->query("SELECT h.id, h.sid, h.content, s.title, s.alias, s.meta_description, s.meta_keywords, h.date_modified
-							FROM ".PAGES_HTML_TABLE." AS h
-							LEFT JOIN ".STRUCTURE_TABLE." AS s ON (s.id = h.sid)
-							WHERE h.sid='".$sid."'");
+					FROM ".PAGES_HTML_TABLE." AS h
+						LEFT JOIN ".STRUCTURE_TABLE." AS s ON (s.id = h.sid)
+					WHERE h.sid='".$sid."'");
 		$data = $db->fetch_assoc($q);
 		$data['lm'] = $parse->date->unix_to_rus($data['date_modified'], true, true, true);
 

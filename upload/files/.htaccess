@@ -1,1 +1,5 @@
-Allow from all
+Deny from all
+<Files ~ "\.(rar|zip|tar|gz|txt|doc|xls|ttf|psd|cdr|docx|xlsx)$">
+	Allow from all
+</Files>
+php_flag engine  off

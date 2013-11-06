@@ -1,4 +1,4 @@
 User-agent: *
 Allow: *
 Disallow: /admin #
-Host: http://dev.roocms.com
+Disallow: /cgi-bin

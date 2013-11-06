@@ -56,8 +56,9 @@ if(!defined('RooCMS') || !defined('ACP')) die('Access Denied');
 
 class ACP_BLOCKS_HTML {
 
-	//#####################################################
-	//	Create
+	/**
+	 * Создаем HTML блок
+	 */
 	function create() {
 
 		global $db, $img, $tpl, $smarty, $parse, $POST;
@@ -101,8 +102,11 @@ class ACP_BLOCKS_HTML {
 	}
 
 
-	//#####################################################
-	//	Edit
+	/**
+	 * Редактируем HTML блок
+	 *
+	 * @param $id - идентификатор блока
+	 */
 	function edit($id) {
 
 		global $db, $img, $tpl, $smarty;
@@ -133,8 +137,11 @@ class ACP_BLOCKS_HTML {
 	}
 
 
-	//#####################################################
-	//	Update
+	/**
+	 * Обновляем HTML блок
+	 *
+	 * @param $id - идентификатор
+	 */
 	function update($id) {
 
 		global $db, $img, $POST, $GET, $parse;

@@ -170,7 +170,7 @@ class ACP_FEEDS_FEED {
 			if(!isset($POST->date_publications)) 		$POST->date_publications	= date("d.m.Y",time());
 			if(!isset($POST->date_end_publications))	$POST->date_end_publications	= 0;
 
-			#meta
+			# meta
 			if(!isset($POST->meta_description))	$POST->meta_description	= "";
 			if(!isset($POST->meta_keywords))	$POST->meta_keywords	= "";
 
@@ -191,7 +191,7 @@ class ACP_FEEDS_FEED {
 									      '".$POST->brief_item."', '".$POST->full_item."', '".time()."', '".time()."',
 									      '".$POST->date_publications."', '".$POST->date_end_publications."', '".$GET->_page."')");
 
-				#notice
+				# notice
 				$parse->msg("Элемент ".$POST->title." успешно создан.");
 
 				# get feed id
@@ -313,7 +313,7 @@ class ACP_FEEDS_FEED {
 
 			$parse->msg("Элемент ".$POST->title." успешно отредактирован.");
 
-			#sortable images
+			# sortable images
 			if(isset($POST->sort)) {
 				$sortimg = $img->load_images("feedid=".$id);
 				foreach($sortimg AS $k=>$v) {
@@ -337,7 +337,7 @@ class ACP_FEEDS_FEED {
 				}
 			}
 
-			#go
+			# go
 			go(CP."?act=feeds&part=control&page=".$GET->_page);
 		}
 		# back

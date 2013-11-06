@@ -14,7 +14,7 @@
 
 	<div class="form-group">
 		<label for="inputAlias" class="col-lg-3 control-label">
-			Alias страницы:  <small><span class="fa fa-info fa-fw" rel="tooltip" title="Должен быть обязательно уникальным." data-placement="right"></span></small>
+			Alias страницы:  <small><span class="fa fa-info fa-fw" rel="tooltip" title="Значение должно быть уникальным" data-placement="right"></span></small>
 		</label>
 		<div class="col-lg-9">
 			<input type="text" name="alias" id="inputAlias" class="form-control">

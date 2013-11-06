@@ -6,7 +6,7 @@
 <form method="post" action="{$SCRIPT_NAME}?act=blocks&part=create&type=php" role="form" class="form-horizontal">
 	<div class="form-group">
 	    <label for="inputAlias" class="col-lg-3 control-label">
-    		Alias: <small><span class="fa fa-info fa-fw" rel="tooltip" title="Должен быть уникальным" data-placement="auto"></span></small>
+    		Alias: <small><span class="fa fa-info fa-fw" rel="tooltip" title="Значение должно быть уникальным" data-placement="auto"></span></small>
 	    </label>
 	    <div class="col-lg-9">
 			<input type="text" name="alias" id="inputAlias" class="form-control" required>

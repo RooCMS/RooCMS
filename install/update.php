@@ -68,8 +68,8 @@ class Update extends Requirement{
 
 
 
-	/* ####################################################
-	 *	Let's begin
+	/**
+	 * Вперед...
 	 */
 	function __construct() {
 

@@ -1,14 +1,13 @@
 <?php
 /**
-* @package		RooCMS
+* @package	RooCMS
 * @subpackage	Engine RooCMS classes
-* @subpackage	Global general class
-* @author		alex Roosso
+* @author	alex Roosso
 * @copyright	2010-2014 (c) RooCMS
-* @link			http://www.roocms.com
-* @version		1.1.6
-* @since		$date$
-* @license		http://www.gnu.org/licenses/gpl-3.0.html
+* @link		http://www.roocms.com
+* @version	1.1.6
+* @since	$date$
+* @license	http://www.gnu.org/licenses/gpl-3.0.html
 */
 
 /**
@@ -52,6 +51,10 @@
 if(!defined('RooCMS')) die('Access Denied');
 //#########################################################
 
+
+/**
+ * Class Globals
+ */
 class Globals {
 
 	# clasess

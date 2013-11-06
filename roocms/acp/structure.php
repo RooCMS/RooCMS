@@ -2,7 +2,6 @@
 /**
 * @package      RooCMS
 * @subpackage	Admin Control Panel
-* @subpackage	Structure site settings
 * @author       alex Roosso
 * @copyright    2010-2014 (c) RooCMS
 * @link         http://www.roocms.com
@@ -52,8 +51,10 @@
 if(!defined('RooCMS') || !defined('ACP')) die('Access Denied');
 //#########################################################
 
-$acp_structure = new ACP_STRUCTURE;
 
+/**
+ * Class ACP_STRUCTURE
+ */
 class ACP_STRUCTURE {
 
 	# vars
@@ -437,5 +438,10 @@ class ACP_STRUCTURE {
 		if(DEBUGMODE) $parse->msg("Информация о вложенных (подструктурных) страницах для страницы {$id} обновлена.");
 	}
 }
+
+/**
+ * Init Class
+ */
+$acp_structure = new ACP_STRUCTURE;
 
 ?>

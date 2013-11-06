@@ -2,7 +2,6 @@
 /**
 * @package      RooCMS
 * @subpackage	Admin Control Panel
-* @subpackage	Main Page
 * @author       alex Roosso
 * @copyright    2010-2014 (c) RooCMS
 * @link         http://www.roocms.com
@@ -12,7 +11,7 @@
 */
 
 /**
-*	RooCMS - Russian free content managment system
+*   RooCMS - Russian free content managment system
 *   Copyright (C) 2010-2014 alex Roosso aka alexandr Belov info@roocms.com
 *
 *   This program is free software: you can redistribute it and/or modify
@@ -137,37 +136,35 @@ class ACP_INDEX {
 
 		global $db, $tpl, $smarty;
 
-		// Версия mySql ===========================================
+		# Версия mySql
 		$q = $db->query("SHOW VARIABLES LIKE 'version'");
 		$mysql = $db->fetch_row($q);
 		$version['mysql']	= $mysql[1];
-		//=========================================================
 
+		$version['php'] 	= PHP_VERSION;				# Версия php
+		$version['zend']	= zend_version();			# Версия Zend
+		$version['apache'] 	= $_SERVER['SERVER_SOFTWARE'];		# Версия сервера  apache_get_version();
+		$version['os']		= php_uname("s")." (".PHP_OS.")"; 	# ОС
+		$version['uname']	= php_uname(); 				# UNAME
+		$version['roocms']	= ROOCMS_VERSION;			# RooCMS
 
-		$version['php'] 	= PHP_VERSION;				// Версия php
-		$version['zend']	= zend_version();			// Версия Zend
-		$version['apache'] 	= $_SERVER['SERVER_SOFTWARE'];		// Версия сервера  apache_get_version();
-		$version['os']		= php_uname("s")." (".PHP_OS.")"; 	// ОС
-		$version['uname']	= php_uname(); 				// UNAME
-		$version['roocms']	= ROOCMS_VERSION;			// RooCMS
+		$version['pid']		= PEAR_INSTALL_DIR; 			# Директория установки PEAR расширений
+		$version['dip']		= DEFAULT_INCLUDE_PATH;
+		$version['ped']		= PHP_EXTENSION_DIR;			# Директория php расширений
+		$version['pcp']		= PHP_CONFIG_FILE_PATH;
 
-		$version['pid']		= PEAR_INSTALL_DIR; 			// Директория установки PEAR расширений
-		$version['dip']		= DEFAULT_INCLUDE_PATH;			//
-		$version['ped']		= PHP_EXTENSION_DIR;			// Директория php расширений
-		$version['pcp']		= PHP_CONFIG_FILE_PATH;			//
+		$version['sn']		= $_SERVER["SERVER_NAME"]; 		# Имя сервера
+		$version['sa']		= $_SERVER["SERVER_ADDR"]; 		# Адрес сервера
+		$version['sp']		= $_SERVER["SERVER_PROTOCOL"]; 		# Протокол сервера
+		$version['ra']		= $_SERVER["REMOTE_ADDR"]; 		# Адрес клиента
+		$version['docroot']	= _SITEROOT; 				# Путь к документам на сервере
 
-		$version['sn']		= $_SERVER["SERVER_NAME"]; 		// Имя сервера
-		$version['sa']		= $_SERVER["SERVER_ADDR"]; 		// Адрес сервера
-		$version['sp']		= $_SERVER["SERVER_PROTOCOL"]; 		// Протокол сервера
-		$version['ra']		= $_SERVER["REMOTE_ADDR"]; 		// Адрес клиента
-		$version['docroot']	= _SITEROOT; 				// Путь к документам на сервере
+		$version['ml']		= ini_get('memory_limit');		# Memory limit
+		$version['mfs']		= ini_get('upload_max_filesize');	# Maximum file size
+		$version['mps']		= ini_get('post_max_size');		# Maximum post size
+		$version['met']		= ini_get('max_execution_time');	# Max execution time
 
-		$version['ml']		= ini_get('memory_limit');		// Memory limit
-		$version['mfs']		= ini_get('upload_max_filesize');	// Maximum file size
-		$version['mps']		= ini_get('post_max_size');		// Maximum post size
-		$version['met']		= ini_get('max_execution_time');	// Max execution time
-
-		$version['apache_mods']	= apache_get_modules();			// Расширения Apache
+		$version['apache_mods']	= apache_get_modules();			# Расширения Apache
 
 
 		# draw
@@ -188,10 +185,10 @@ class ACP_INDEX {
 
 		require_once _LIB."/mimetype.php";
 
-		$filetypes['mfs']		= ini_get('upload_max_filesize');	// Maximum file size
-		$filetypes['mps']		= ini_get('post_max_size');		// Maximum post size
-		$filetypes['images']		= $imagetype;				// Allow image types
-		$filetypes['files']		= $filetype;				// Allow file types
+		$filetypes['mfs']		= ini_get('upload_max_filesize');	# Maximum file size
+		$filetypes['mps']		= ini_get('post_max_size');		# Maximum post size
+		$filetypes['images']		= $imagetype;				# Allow image types
+		$filetypes['files']		= $filetype;				# Allow file types
 
 		# draw
 		$smarty->assign('part_title', 	'Информация о файлах');

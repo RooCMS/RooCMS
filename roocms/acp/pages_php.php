@@ -2,8 +2,6 @@
 /**
 * @package      RooCMS
 * @subpackage	Admin Control Panel
-* @subpackage	Pages settings
-* @subpackage	PHP Page
 * @author       alex Roosso
 * @copyright    2010-2014 (c) RooCMS
 * @link         http://www.roocms.com
@@ -54,8 +52,10 @@ if(!defined('RooCMS') || !defined('ACP')) die('Access Denied');
 //#########################################################
 
 
+/**
+ * Class ACP_PAGES_PHP
+ */
 class ACP_PAGES_PHP {
-
 
 	/**
 	* Редактирование PHP страницы

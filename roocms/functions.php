@@ -53,18 +53,19 @@ if(!defined('RooCMS')) die('Access Denied');
 
 
 /**
-* Generator Random Code
-*
-* @param int $ns        - количество символов в коде
-* @param mixed $symbols - Список символов для генерации кода
-* @return string $Code  - Возвращает сгенерированный код
-*/
+ * Generator Random Code
+ *
+ * @param int $ns        - количество символов в коде
+ * @param mixed $symbols - Список символов для генерации код
+ *
+ * @return string $Code  - Возвращает сгенерированный код
+ */
 function randcode($ns, $symbols="ABCEFHKLMNPRSTVXYZ123456789") {
 	$Code = "";
 	$i = 0;
-	mt_srand((double)microtime() * 1000000);
+	//mt_srand((double)microtime() * 1000000);
 	while ($i < $ns) {
-		$Code .= $symbols[mt_rand(0, mb_strlen($symbols, 'utf8') - 1)];
+		$Code .= $symbols[mt_rand(0, mb_strlen($symbols) - 1)];
 		$i++;
 	}
 	return $Code;

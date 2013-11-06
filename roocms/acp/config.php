@@ -6,13 +6,13 @@
 * @author       alex Roosso
 * @copyright    2010-2014 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.1.1
+* @version      1.1.2
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
 
 /**
-*	RooCMS - Russian free content managment system
+*   RooCMS - Russian free content managment system
 *   Copyright (C) 2010-2014 alex Roosso aka alexandr Belov info@roocms.com
 *
 *   This program is free software: you can redistribute it and/or modify
@@ -113,11 +113,11 @@ class ACP_CONFIG {
 
 				$this_part = array('name'=>$part['name'], 'title'=>$part['title']);
 
-				$q_2 = $db->query("SELECT id, title, description, option_name, option_type, variants, value, default_value FROM ".CONFIG_TABLE." WHERE part='".$part['name']."' ORDER BY sort ASC");
+				$q_2 = $db->query("SELECT id, title, description, option_name, option_type, variants, value, default_value, field_maxleight FROM ".CONFIG_TABLE." WHERE part='".$part['name']."' ORDER BY sort ASC");
 				while($option = $db->fetch_assoc($q_2)) {
 
 					# parse
-					$option['option'] = $this->init_field($option['option_name'], $option['option_type'], $option['value'], $option['variants']);
+					$option['option'] = $this->init_field($option['option_name'], $option['option_type'], $option['value'], $option['variants'], $option['field_maxleight']);
 
 
 					# compile for output
@@ -135,13 +135,23 @@ class ACP_CONFIG {
 	}
 
 
-	//#####################################################
-	// функция парсера опции для буфера
-	private function init_field($option_name, $option_type, $value, $variants) {
+	/**
+	 * функция парсера опции для буфера
+	 *
+	 * @param string $option_name - имя поля
+	 * @param string $option_type - тип поля
+	 * @param string $value       - значение
+	 * @param text   $variants    - варианты (для селектов)
+	 *
+	 * @param int    $maxlength   - максимально допустимое количество символов в поле.
+	 *
+	 * @return string - подстановка в шаблон конфигуратора
+	 */
+	private function init_field($option_name, $option_type, $value, $variants, $maxlength=0) {
 
 		global $tpl, $smarty, $parse;
 
-		$field = array('name'=>$option_name, 'value'=>$value, 'type'=>$option_type);
+		$field = array('name'=>$option_name, 'value'=>$value, 'type'=>$option_type, 'maxlength'=>$maxlength);
 		$smarty->assign('field', $field);
 
 		# integer OR string OR email
@@ -184,9 +194,8 @@ class ACP_CONFIG {
 
 
 	/**
-	* обновить настройки
-	*
-	*/
+	 * Функция обновления настроек
+	 */
 	private function update_config() {
 
 		global $db, $parse, $POST;
@@ -295,8 +304,13 @@ class ACP_CONFIG {
 	}
 
 
-	//#####################################################
-	//	Изменяем имя cp скрипта
+	/**
+	 * Функция изменения адреса входной страницы в Панель Администратора
+	 *
+	 * @param $newcp - новый путь скрипта панели администратора
+	 *
+	 * @return bool - флаг успеха/провала
+	 */
 	private function change_cp_script($newcp) {
 
 		global $parse;

@@ -2,7 +2,6 @@
 /**
 * @package      RooCMS
 * @subpackage	Admin Control Panel
-* @subpackage	Secuirity check
 * @author       alex Roosso
 * @copyright    2010-2014 (c) RooCMS
 * @link         http://www.roocms.com
@@ -12,7 +11,7 @@
 */
 
 /**
-*	RooCMS - Russian free content managment system
+*   RooCMS - Russian free content managment system
 *   Copyright (C) 2010-2014 alex Roosso aka alexandr Belov info@roocms.com
 *
 *   This program is free software: you can redistribute it and/or modify
@@ -54,7 +53,7 @@ if(!defined('RooCMS') || (!defined('ACP') && !defined('INSTALL'))) die('Access D
 
 
 // @param boolean
-$security		= false;
+$security = false;
 
 if(trim($adm['login']) != "" && trim($adm['passw']) != "") {
 	// @return md5 hash

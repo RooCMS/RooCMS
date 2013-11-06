@@ -2,7 +2,6 @@
 /**
 * @package	RooCMS
 * @subpackage	Configuration
-* @subpackage	Defines
 * @author	alex Roosso
 * @copyright	2010-2014 (c) RooCMS
 * @link		http://www.roocms.com
@@ -77,7 +76,7 @@ define('IMAGES_TABLE', 		DB_PREFIX.'images');
 * RooCMS $Path
 */
 if(!defined('_SITEROOT'))
-define('_SITEROOT', 	str_ireplace(DIRECTORY_SEPARATOR."roocms".DIRECTORY_SEPARATOR."config", "", dirname(__FILE__)));		//define('_SITEROOT', 		dirname($_SERVER['SCRIPT_FILENAME']));
+define('_SITEROOT', 	str_ireplace(DIRECTORY_SEPARATOR."roocms".DIRECTORY_SEPARATOR."config", "", dirname(__FILE__))); //define('_SITEROOT', dirname($_SERVER['SCRIPT_FILENAME']));
 define('_ROOCMS',	_SITEROOT.'/roocms');
 define('_CLASS', 	_ROOCMS.'/class');
 define('_LIB', 		_ROOCMS.'/lib');
@@ -109,7 +108,7 @@ define('CRITICAL_STYLESHEETS',		'<script type="text/javascript" src="/plugin/boo
 define('ROOCMS_MAJOR_VERSION',		'1');
 define('ROOCMS_MINOR_VERSION',		'1');
 define('ROOCMS_RELEASE_VERSION',	'1');
-define('ROOCMS_BUILD_VERSION',		'-beta3');
+define('ROOCMS_BUILD_VERSION',		'-beta4');
 define('ROOCMS_VERSION',		ROOCMS_MAJOR_VERSION.".".ROOCMS_MINOR_VERSION.".".ROOCMS_RELEASE_VERSION);
 define('ROOCMS_FULL_VERSION',		ROOCMS_MAJOR_VERSION.".".ROOCMS_MINOR_VERSION.".".ROOCMS_RELEASE_VERSION.ROOCMS_BUILD_VERSION);
 define('ROOCMS_VERSION_ID',		ROOCMS_MAJOR_VERSION.ROOCMS_MINOR_VERSION.ROOCMS_RELEASE_VERSION);
