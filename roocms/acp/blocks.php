@@ -26,7 +26,7 @@
 *   GNU General Public License for more details.
 *
 *   You should have received a copy of the GNU General Public License
-*   along with this program.  If not, see <http://www.gnu.org/licenses/
+*   along with this program.  If not, see http://www.gnu.org/licenses/
 *
 *
 *   RooCMS - Русская бесплатная система управления сайтом
@@ -52,8 +52,6 @@
 if(!defined('RooCMS') || !defined('ACP')) die('Access Denied');
 //#########################################################
 
-
-$acp_blocks = new ACP_BLOCKS;
 
 class ACP_BLOCKS {
 
@@ -86,7 +84,6 @@ class ACP_BLOCKS {
 	private function init() {
 
 		global $db, $GET;
-
 
 		if(isset($GET->_block) && $db->check_id($GET->_block, BLOCKS_TABLE)) {
 			$this->block = $GET->_block;
@@ -161,4 +158,9 @@ class ACP_BLOCKS {
 		$smarty->assign("content", $content);
 	}
 }
+
+/**
+ * Init Class
+ */
+$acp_blocks = new ACP_BLOCKS;
 ?>

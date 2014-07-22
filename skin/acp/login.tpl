@@ -16,27 +16,30 @@ body {overflow: hidden;background: transparent url('{/literal}{$SKIN}{literal}/i
 						<img src="{$SKIN}/img/acp_logo.png" border="0" alt="Добро пожаловать в Панель Администратора RooCMS" title="Добро пожаловать в Панель Администратора RooCMS">
 					</div>
 					<div class="modal-body text-center">
-            			{if !empty($error_login)}
+            				{if !empty($error_login)}
 		    				<div class="alert alert-danger t12 text-left in fade">
 		    					<a href="#" class="close" data-dismiss="alert">&times;</a>
-                    			<b>Внимание ошибка!</b>
-                    			<br />{$error_login}
+							<b>Внимание ошибка!</b>
+							<br />{$error_login}
 		    				</div>
 		    			{/if}
-        				<div class="form-group">
-        					<label class="col-lg-2 control-label" for="Login">Логин</label>
-                            <div class="input-group col-lg-10">
-								<span class="input-group-addon"><span class="fa fa-fw fa-user" rel="tooltip" title="Введите ваш логин в это поле" data-placement="right"></span></span>
-								<input class="form-control" id="Login" type="text" name="login" placeholder="Логин" required autocomplete="off">
-                            </div>
-						</div>
-						<div class="form-group">
-							<label class="col-lg-2 control-label" for="Password">Пароль</label>
-							<div class="input-group col-lg-10">
-								<span class="input-group-addon"><span class="fa fa-fw fa-key" rel="tooltip" title="Введите ваш пароль в это поле" data-placement="right"></span></span>
-								<input class="form-control" id="Password" type="password" name="passw" placeholder="Пароль" required autocomplete="off">
+						<div class="col-xs-12">
+							<div class="form-group">
+								<label class="col-lg-2 control-label" for="Login">Логин</label>
+								<div class="input-group col-lg-10">
+									<span class="input-group-addon"><span class="fa fa-fw fa-user" rel="tooltip" title="Введите ваш логин в это поле" data-placement="right"></span></span>
+									<input class="form-control" id="Login" type="text" name="login" placeholder="Логин" required autocomplete="off">
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-lg-2 control-label" for="Password">Пароль</label>
+								<div class="input-group col-lg-10">
+									<span class="input-group-addon"><span class="fa fa-fw fa-key" rel="tooltip" title="Введите ваш пароль в это поле" data-placement="right"></span></span>
+									<input class="form-control" id="Password" type="password" name="passw" placeholder="Пароль" required autocomplete="off">
+								</div>
 							</div>
 						</div>
+						<span class="clearfix"></span>
 					</div>
 					<div class="modal-footer">
     					<p class="text-left"><small>Панель управления сайтом <nobr><a href="/">{$site['title']}</a></nobr></small> <input type="submit" class="btn btn-success pull-right" name="go" value="Войти"></p>

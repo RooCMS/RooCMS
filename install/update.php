@@ -25,7 +25,7 @@
 *   GNU General Public License for more details.
 *
 *   You should have received a copy of the GNU General Public License
-*   along with this program.  If not, see <http://www.gnu.org/licenses/
+*   along with this program.  If not, see http://www.gnu.org/licenses/
 *
 *
 *   RooCMS - Русская бесплатная система управления сайтом
@@ -89,7 +89,7 @@ class Update extends Requirement{
 				$this->status = "Внимательно прочитайте лицензионное соглашение<br />Помните, что нарушение авторских прав влечет за собой уголовную ответсвенность.";
 				require_once _LIB."/license.php";
 				$this->noticetext = $license['ru'];
-				if($this->allowed && @$_REQUEST['submit']) {
+				if($this->allowed && isset($POST->submit)) {
 					if(isset($POST->step) && $POST->step == 1) go(SCRIPT_NAME."?step=2");
 					else goback();
 				}
@@ -99,7 +99,7 @@ class Update extends Requirement{
 				$this->page_title = "Проверка требований RooCMS к хостингу";
 				$this->status = "Проверяем версию PHP, MySQL, Apache<br />Проверяем наличие требуемых PHP и Apache расширений";
 				$this->check_requirement();
-				if($this->allowed && @$_REQUEST['submit']) {
+				if($this->allowed && isset($POST->submit)) {
 					if(isset($POST->step) && $POST->step == 2) go(SCRIPT_NAME."?step=3");
 					else goback();
 				}
@@ -109,7 +109,7 @@ class Update extends Requirement{
 				$this->page_title = "Проверка и установка доступов к файлам RooCMS";
 				$this->status = "Проверяем доступы и разрешения к важным файлам RooCMS<br />Установка доступов и разрешений для важных файлов RooCMS";
 				$this->check_chmod();
-				if($this->allowed && @$_REQUEST['submit']) {
+				if($this->allowed && isset($POST->submit)) {
 					if(isset($POST->step) && $POST->step == 3) go(SCRIPT_NAME."?step=4");
 					else goback();
 				}
@@ -126,7 +126,7 @@ class Update extends Requirement{
 				$this->status = "Внимательно прочитайте лицензионное соглашение<br />Помните, что нарушение авторских прав влечет за собой уголовную ответсвенность.";
 				require_once _LIB."/license.php";
 				$this->noticetext = $license['ru'];
-				if($this->allowed && @$_REQUEST['submit']) {
+				if($this->allowed && isset($POST->submit)) {
 					if(isset($POST->step) && $POST->step == 1) go(SCRIPT_NAME."?step=2");
 					else goback();
 				}

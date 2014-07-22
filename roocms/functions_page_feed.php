@@ -3,9 +3,9 @@
 * @package      RooCMS
 * @subpackage	Frontend
 * @author       alex Roosso
-* @copyright    2010-2014 (c) RooCMS
+* @copyright    2010-2015 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.0.14
+* @version      1.1
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -25,7 +25,7 @@
 *   GNU General Public License for more details.
 *
 *   You should have received a copy of the GNU General Public License
-*   along with this program.  If not, see <http://www.gnu.org/licenses/
+*   along with this program.  If not, see http://www.gnu.org/licenses/
 *
 *
 *   RooCMS - Русская бесплатная система управления сайтом
@@ -75,8 +75,8 @@ class PageFeed {
 
 		$smarty->assign("feed", $feed);
 
-		if(isset($GET->_id) && $db->check_id($GET->_id, PAGES_FEED_TABLE, "id", "(date_end_publications = '0' || date_end_publications > '".time()."') AND status='1'")) {
-			$this->item_id = $GET->_id;
+		if(isset($GET->_id) && $db->check_id(round($GET->_id), PAGES_FEED_TABLE, "id", "(date_end_publications = '0' || date_end_publications > '".time()."') AND status='1'")) {
+			$this->item_id = round($GET->_id);
 			$this->load_item($this->item_id);
 		}
 		elseif(isset($GET->_export) && $GET->_export == "RSS" && $structure->page_rss == 1) $this->load_feed_rss();
@@ -121,7 +121,7 @@ class PageFeed {
 	 */
 	private function load_feed() {
 
-		global $db, $config, $structure, $rss, $parse, $img, $tpl, $smarty;
+		global $db, $config, $structure, $rss, $parse, $img, $tpl, $smarty, $site;
 
 		# set limit on per page
 		if($structure->page_items_per_page > 0) $this->items_per_page =& $structure->page_items_per_page;
@@ -139,7 +139,9 @@ class PageFeed {
 			$pages[]['n'] = $p;
 		}
 		# next
-		if($db->next_page != 0) $pages[]['next'] =& $db->next_page;
+		if($db->page != 1 && $db->page != 0) $pages[]['next'] =& $db->next_page;
+
+		if($db->page != 1 && $db->page != 0) $site['title'] .= " (Страница: ".$db->page.")";
 
 		$smarty->assign("pages", $pages);
 
@@ -149,13 +151,41 @@ class PageFeed {
 		$smarty->assign("rsslink", $rss->rss_link);
 
 
+		# order
+		switch($structure->page_items_sorting) {
+			case 'datepublication':
+				$order = "date_publications DESC, date_create DESC, date_update DESC";
+				break;
+
+			case 'title_asc':
+				$order = "title ASC, date_publications DESC";
+				break;
+
+			case 'title_desc':
+				$order = "title DESC, date_publications DESC";
+				break;
+
+			case 'manual_sorting':
+				$order = "sort ASC, date_publications DESC, date_create DESC";
+				break;
+
+			default:
+				$order = "date_publications DESC, date_create DESC, date_update DESC";
+				break;
+		}
+
+
 		# Feed list
 		$feeds = array();
-		$q = $db->query("SELECT id, title, brief_item, date_publications FROM ".PAGES_FEED_TABLE." WHERE date_publications <= '".time()."' AND sid='".$structure->page_id."' AND (date_end_publications = '0' || date_end_publications > '".time()."') AND status='1' ORDER BY date_publications DESC, date_create DESC, date_update DESC LIMIT ".$db->from.",".$db->limit);
+		$q = $db->query("SELECT id, title, brief_item, full_item, date_publications FROM ".PAGES_FEED_TABLE." WHERE date_publications <= '".time()."' AND sid='".$structure->page_id."' AND (date_end_publications = '0' || date_end_publications > '".time()."') AND status='1' ORDER BY ".$order." LIMIT ".$db->from.",".$db->limit);
 		while($row = $db->fetch_assoc($q)) {
+
+			if(trim($row['brief_item']) == "")
+				$row['brief_item'] = $row['full_item'];
+
 			$row['datepub']		= $parse->date->unix_to_rus($row['date_publications'],true);
 			$row['date'] 		= $parse->date->unix_to_rus_array($row['date_publications']);
-			$row['brief_item']	= $parse->text->html($row['brief_item']);
+			$row['brief_item'] 	= $parse->text->html($row['brief_item']);
 
 			$row['image'] 		= $img->load_images("feedid=".$row['id']."", 0, 1);
 
@@ -186,10 +216,5 @@ class PageFeed {
 		}
 	}
 }
-
-/**
- * init Class
- */
-$page_feed = new PageFeed;
 
 ?>

@@ -5,7 +5,7 @@
 * @author	alex Roosso
 * @copyright	2010-2014 (c) RooCMS
 * @link		http://www.roocms.com
-* @version	2.2
+* @version	2.2.1
 * @since	$date$
 * @license	http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -25,7 +25,7 @@
 *   GNU General Public License for more details.
 *
 *   You should have received a copy of the GNU General Public License
-*   along with this program.  If not, see <http://www.gnu.org/licenses/
+*   along with this program.  If not, see http://www.gnu.org/licenses/
 *
 *
 *   RooCMS - Русская бесплатная система управления сайтом
@@ -271,6 +271,9 @@ class Debug {
         * @param boolean $show - флаг включает/выключает ошибки
         */
 	private static function error_report($show = false) {
+
+		ini_set("error_log", _LOGS."/php_error.log");
+
 		if($show) {
 			error_reporting(E_ALL);			#8191
 			ini_set("display_startup_errors",	1);
@@ -282,7 +285,6 @@ class Debug {
 			ini_set("log_errors_max_len",		2048);
 			ini_set("ignore_repeated_errors",	1);
 			ini_set("ignore_repeated_source",	1);
-			ini_set("error_log",			_LOGS."/php_error.log");
 		}
 		else {
 			error_reporting(0);
@@ -366,6 +368,8 @@ class Debug {
 
 			echo "</div></div></div>";
 		}
+
+		//echo "<code>debug <b>GLOBALS</b></code><pre class='small' style='overflow: auto;max-height: 300px;'>".htmlspecialchars(print_r($GLOBALS))."</pre>";
 
 		# Функции
 		echo "	<div class='panel panel-default'>

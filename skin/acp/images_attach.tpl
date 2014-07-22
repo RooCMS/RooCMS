@@ -22,13 +22,13 @@
 			var id = arrdata[1];
 
 			$("#aimage-"+id).animate({'opacity':'0'}, 300, function() {
-		        $("#option-"+id).load('/acp.php?act=ajax&part=delete_attached_image&id='+id, function() {
-            		$("#a-"+id).animate({'opacity':'0'}, 750, function() {
-            			$("#a-"+id).hide(600);
-            			$("#a-"+id).delay(900).remove();
+				$("#option-"+id).load('/acp.php?act=ajax&part=delete_attached_image&id='+id, function() {
+					$("#a-"+id).animate({'opacity':'0'}, 750, function() {
+						$("#a-"+id).hide(600);
+						$("#a-"+id).delay(900).remove();
 					});
 				});
-	        });
+			});
 		});
 
 		$('.images_attach').sortable({

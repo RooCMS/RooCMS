@@ -5,7 +5,7 @@
 * @author       alex Roosso
 * @copyright    2010-2014 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.3.4
+* @version      1.3.5
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -25,7 +25,7 @@
 *   GNU General Public License for more details.
 *
 *   You should have received a copy of the GNU General Public License
-*   along with this program.  If not, see <http://www.gnu.org/licenses/
+*   along with this program.  If not, see http://www.gnu.org/licenses/
 *
 *
 *   RooCMS - Русская бесплатная система управления сайтом
@@ -83,7 +83,7 @@ class ACP_STRUCTURE {
 	*/
 	private function init() {
 
-		global $roocms, $config, $db, $tpl, $smarty, $GET;
+		global $roocms, $config, $db, $tpl, $smarty, $GET, $POST;
 
 		# считываем "дерево"
 		$smarty->assign('tree', $this->engine->sitetree);
@@ -95,10 +95,12 @@ class ACP_STRUCTURE {
 		}
 		$smarty->assign('page_types', $page_types);
 
+
 		# default thumb size
 		$default_thumb_size = array('width'	=> $config->gd_thumb_image_width,
 					    'height'	=> $config->gd_thumb_image_height);
 		$smarty->assign("default_thumb_size", $default_thumb_size);
+
 
 		# Проверяем идентификатор
 		if(isset($GET->_id) && $db->check_id($GET->_id, STRUCTURE_TABLE)) $this->sid = $GET->_id;
@@ -108,13 +110,13 @@ class ACP_STRUCTURE {
 		switch($roocms->part) {
 			# create
 			case 'create':
-				if(@$_REQUEST['create_unit']) $this->create_unit();
+				if(isset($POST->create_unit) || isset($POST->create_unit_ae)) $this->create_unit();
 				else $content = $tpl->load_template("structure_create", true);
 				break;
 
 			# edit and update
 			case 'edit':
-				if(@$_REQUEST['update_unit']) $this->update_unit($this->sid);
+				if(isset($POST->update_unit) || isset($POST->update_unit_ae)) $this->update_unit($this->sid);
 				elseif($this->sid != 0) {
 					$q = $db->query("SELECT id, parent_id, alias, title, meta_description, meta_keywords, noindex, sort, page_type, thumb_img_width, thumb_img_height FROM ".STRUCTURE_TABLE." WHERE id='".$this->sid."'");
 					$data = $db->fetch_assoc($q);
@@ -165,7 +167,8 @@ class ACP_STRUCTURE {
 			$POST->alias = $parse->text->transliterate($POST->title,"lower");
 			$POST->alias = preg_replace(array('(\s\s+)','(\-\-+)','(__+)','([^a-zA-Z0-9\-_])'), array('','','',''), $POST->alias);
 		}
-		elseif(!$this->check_alias($POST->alias)) $parse->msg("Алиас страницы не уникален.", false);
+
+		if(!$this->check_alias($POST->alias)) $parse->msg("Алиас страницы не уникален.", false);
 		# thumbnail check
 		$img->check_post_thumb_parametrs();
 
@@ -173,12 +176,13 @@ class ACP_STRUCTURE {
 		if(!isset($_SESSION['error'])) {
 			$POST->sort = round($POST->sort);
 
+			// FIXME: replace this query
 			# проверяем тип родителя
 			$q = $db->query("SELECT page_type FROM ".STRUCTURE_TABLE." WHERE id='".$POST->parent_id."'");
 			$d = $db->fetch_assoc($q);
 
 			# Нельзя к лентам добавлять другие дочерние элементы, кроме таких же лент.
-			if($d['page_type'] == "feed" && $POST->type != "feed") {
+			if($d['page_type'] == "feed" && $POST->page_type != "feed") {
 				$parse->msg("Вы не можете установить для ленты в качестве дочерней страницы другой структурный элемент, кроме ленты.", false);
 				goback();
 			}
@@ -212,8 +216,11 @@ class ACP_STRUCTURE {
 			$parse->msg("Структурная еденица успешно добавлена.");
 
 			# переход
-			if($POST->page_type == "feed") go(CP."?act=feeds&page=".$sid);
-			else go(CP."?act=pages&part=edit&page=".$sid);
+			if(isset($POST->create_unit_ae)) go(CP."?act=structure");
+			else {
+				if($POST->page_type == "feed") go(CP."?act=feeds&page=".$sid);
+				else go(CP."?act=pages&part=edit&page=".$sid);
+			}
 		}
 		else goback();
 	}
@@ -305,19 +312,20 @@ class ACP_STRUCTURE {
 			}
 
 			# DB
-			$db->query("UPDATE ".STRUCTURE_TABLE." SET
-									alias='".$POST->alias."',
-									title='".$POST->title."',
-									parent_id='".$POST->parent_id."',
-									meta_description='".$POST->meta_description."',
-									meta_keywords='".$POST->meta_keywords."',
-									noindex='".$POST->noindex."',
-									sort='".$POST->sort."',
-									date_modified='".time()."',
-									thumb_img_width='".$POST->thumb_img_width."',
-									thumb_img_height='".$POST->thumb_img_height."'
-								WHERE
-									id='".$sid."'");
+			$db->query("UPDATE ".STRUCTURE_TABLE."
+					SET
+						alias='".$POST->alias."',
+						title='".$POST->title."',
+						parent_id='".$POST->parent_id."',
+						meta_description='".$POST->meta_description."',
+						meta_keywords='".$POST->meta_keywords."',
+						noindex='".$POST->noindex."',
+						sort='".$POST->sort."',
+						date_modified='".time()."',
+						thumb_img_width='".$POST->thumb_img_width."',
+						thumb_img_height='".$POST->thumb_img_height."'
+					WHERE
+						id='".$sid."'");
 
 			# Если мы назначаем нового родителя
 			if($POST->parent_id != $POST->now_parent_id) {
@@ -330,7 +338,8 @@ class ACP_STRUCTURE {
 			$parse->msg("Страница успешно обновлена.");
 
 
-			go(CP."?act=structure");
+			if(isset($POST->update_unit_ae)) go(CP."?act=structure");
+			else go(CP."?act=structure&part=edit&id=".$sid);
 		}
 		else goback();
 	}
@@ -370,8 +379,19 @@ class ACP_STRUCTURE {
 			}
 			# del content feed
 			elseif($c['page_type'] == "feed") {
+				$feeds_data = array(
+					'id'			=> $this->engine->page_id,
+					'alias'			=> $this->engine->page_alias,
+					'title'			=> $this->engine->page_title,
+					'rss'			=> $this->engine->page_rss,
+					'items_per_page'	=> $this->engine->page_items_per_page,
+					'items_sorting'		=> $this->engine->page_items_sorting,
+					'thumb_img_width'	=> $this->engine->page_thumb_img_width,
+					'thumb_img_height'	=> $this->engine->page_thumb_img_height
+				);
+
 				require_once _ROOCMS."/acp/feeds_feed.php";
-				$this->unit = new ACP_FEEDS_FEED;
+				$this->unit = new ACP_FEEDS_FEED($feeds_data);
 
 				$this->unit->delete_feed($sid);
 			}

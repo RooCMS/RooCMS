@@ -3,9 +3,9 @@
 * @package      RooCMS
 * @subpackage	Engine RooCMS classes
 * @author       alex Roosso
-* @copyright    2010-2014 (c) RooCMS
+* @copyright    2010-2015 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.3.2
+* @version      1.4
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -25,7 +25,7 @@
 *   GNU General Public License for more details.
 *
 *   You should have received a copy of the GNU General Public License
-*   along with this program.  If not, see <http://www.gnu.org/licenses/
+*   along with this program.  If not, see http://www.gnu.org/licenses/
 *
 *
 *   RooCMS - Русская бесплатная система управления сайтом
@@ -58,13 +58,13 @@ if(!defined('RooCMS')) die('Access Denied');
 class Structure {
 
 	# vars
-	public $page_types	= array('html'	=> array('enable'	=> true, 'title'	=> 'HTML страница'),
-					'php'	=> array('enable'	=> true, 'title'	=> 'PHP страница'),
-					'feed'	=> array('enable'	=> true, 'title'	=> 'Лента'));
+	public $page_types		= array('html'	=> array('enable'	=> true, 'title'	=> 'HTML страница'),
+						'php'	=> array('enable'	=> true, 'title'	=> 'PHP страница'),
+						'feed'	=> array('enable'	=> true, 'title'	=> 'Лента'));
 
-	public $mites		= array();
+	public $mites			= array();
 
-	public $sitetree	= array();
+	public $sitetree		= array();
 
 	# page vars
 	public $page_id			= 1;				# [int]		page sid
@@ -78,6 +78,7 @@ class Structure {
 	public $page_type		= "html";			# [string]	page type
 	public $page_rss		= 0;				# [bool]	on/off RSS feed
 	public $page_items_per_page	= 10;				# [int]		show items on per page
+	public $page_items_sorting	= "datepublication";		# [string]	type sorting for feed
 	public $page_items		= 0;				# [int]		show amount items on feed
 	public $page_thumb_img_width	= 0;				# [int]		in pixels
 	public $page_thumb_img_height	= 0;				# [int]		in pixels
@@ -95,8 +96,10 @@ class Structure {
 		global $db, $GET;
 
 		# load site tree
-		if($tree)
-        	$this->sitetree = $this->load_tree();
+		if($tree) {
+        		$this->sitetree = $this->load_tree();
+			$this->update_tree_parent();
+		}
 
         	# user interface loaded
         	if($ui) {
@@ -108,18 +111,18 @@ class Structure {
 				$where = (is_numeric($GET->_page)) ? "id='".$GET->_page."'" : "alias='".$GET->_page."'" ;
 
 				# запрос
-				$q = $db->query("SELECT id, page_id, parent_id, alias, title, meta_description, meta_keywords, noindex, page_type, rss, items_per_page, items, thumb_img_width, thumb_img_height FROM ".STRUCTURE_TABLE." WHERE ".$where);
+				$q = $db->query("SELECT id, page_id, parent_id, alias, title, meta_description, meta_keywords, noindex, page_type, rss, items_per_page, items_sorting, items, thumb_img_width, thumb_img_height FROM ".STRUCTURE_TABLE." WHERE ".$where);
 				$row = $db->fetch_assoc($q);
 				if(!empty($row)) $this->set_page_vars($row);
 				else {	# load index page
-					$q = $db->query("SELECT id, page_id, parent_id, alias, title, meta_description, meta_keywords, noindex, page_type, rss, items_per_page, items, thumb_img_width, thumb_img_height FROM ".STRUCTURE_TABLE." WHERE id='".PAGEID."'");
+					$q = $db->query("SELECT id, page_id, parent_id, alias, title, meta_description, meta_keywords, noindex, page_type, rss, items_per_page, items, items_sorting, thumb_img_width, thumb_img_height FROM ".STRUCTURE_TABLE." WHERE id='".PAGEID."'");
 					$row = $db->fetch_assoc($q);
 					$this->set_page_vars($row);
 				}
 			}
 			# deafult load index
 			else {
-				$q = $db->query("SELECT id, page_id, parent_id, alias, title, meta_description, meta_keywords, noindex, page_type, rss, items_per_page, items, thumb_img_width, thumb_img_height FROM ".STRUCTURE_TABLE." WHERE id='".PAGEID."'");
+				$q = $db->query("SELECT id, page_id, parent_id, alias, title, meta_description, meta_keywords, noindex, page_type, rss, items_per_page, items, items_sorting, thumb_img_width, thumb_img_height FROM ".STRUCTURE_TABLE." WHERE id='".PAGEID."'");
 				$row = $db->fetch_assoc($q);
 				$this->set_page_vars($row);
 			}
@@ -149,9 +152,10 @@ class Structure {
 
 		# Делаем единичный запрос в БД собирая данные по структуре сайта.
 		if(!$use) {
-			$q = $db->query("SELECT id, alias, parent_id, sort, title, noindex, page_type, childs, page_id, rss, items_per_page, items, thumb_img_width, thumb_img_height FROM ".STRUCTURE_TABLE." ORDER BY sort ASC");
+			$q = $db->query("SELECT id, alias, parent_id, sort, title, noindex, page_type, childs, page_id, rss, items_per_page, items, items_sorting, thumb_img_width, thumb_img_height FROM ".STRUCTURE_TABLE." ORDER BY sort ASC");
 			while($row = $db->fetch_assoc($q)) {
 				$row['level']	= 0;
+				$row['parent']	= 0;
 				$tree[] 	= $row;
 			}
 
@@ -189,19 +193,19 @@ class Structure {
 		foreach($unit AS $i=>$value) {
 			if($unit[$i]['parent_id'] == $parent) {
 				# update level
-				$unit[$i]['level'] = $level;
+				$value['level'] = $level;
 
 				# add branch(s)
-				$tree[] = $unit[$i];
+				$tree[$value['id']] = $value;
 
 				# check child
 				if($child && ($maxlevel == 0 || $level+1 <= $maxlevel)) {
 					$subtree = $this->construct_tree($unit, $unit[$i]['id'], $maxlevel, $child, $level + 1);
-					if(is_array($subtree)) $tree = array_merge($tree, $subtree);
+					//if(is_array($subtree)) $tree = array_merge($tree, $subtree);
+					if(is_array($subtree)) $tree = $tree + $subtree;
 				}
 			}
 		}
-
 
 		# be back
 		if(!empty($tree)) return $tree;
@@ -235,6 +239,7 @@ class Structure {
 		$this->page_type 		= $data['page_type'];
 		$this->page_rss 		= $data['rss'];
 		$this->page_items_per_page 	= $data['items_per_page'];
+		$this->page_items_sorting 	= $data['items_sorting'];
 		$this->page_items 		= $data['items'];
 		$this->page_thumb_img_width 	= $data['thumb_img_width'];
 		$this->page_thumb_img_height 	= $data['thumb_img_height'];
@@ -247,22 +252,54 @@ class Structure {
 
 
 	/**
-	* Собираем хлебные крошки
-	*
-	* @param int $id - идентификатор текущей страницы
-	*/
-	private function construct_mites($id = 1) {
-		if($id != 1) {
-			foreach($this->sitetree AS $k=>$v) {
-				if($v['id'] == $id) {
-					$this->mites[] = array('id'	=> $v['id'],
-							       'alias'	=> $v['alias'],
-							       'title'	=> $v['title']);
+	 * Собираем хлебные крошки
+	 *
+	 * @param int $sid - идентификатор текущей страницы от которой выстраиваются "крошки"
+	 */
+	private function construct_mites($sid = 1) {
+		if($sid != 1) {
+			$v = $this->get_structure_info($sid);
+			$this->mites[] = array('id'	=> $v['id'],
+					       'alias'	=> $v['alias'],
+					       'title'	=> $v['title'],
+					       'parent'	=> $v['parent']);
 
-					if($v['parent_id'] != 0) $this->construct_mites($v['parent_id']);
-				}
-			}
+			if($v['parent_id'] != 0) $this->construct_mites($v['parent_id']);
 		}
+
+	}
+
+
+	/**
+	 * Функция возвращает путь к структурному элементу.
+	 *
+	 * @param int $sid - идентификатор текущей страницы от которой выстраиваются "крошки"
+	 */
+	/*function get_mites($sid = 1) {
+
+	}*/
+
+
+	/**
+	 * Функция собирает информация о родителе структурного элемента.
+	 */
+	private function update_tree_parent() {
+		foreach($this->sitetree AS $k=>$v) {
+			if($v['parent_id'] != 0)
+				$this->sitetree[$k]['parent'] = $this->get_structure_info($v['parent_id']);
+		}
+	}
+
+
+	/**
+	 * Функция возвращает данные о структурной еденице ввиде массива.
+	 *
+	 * @param $sid - идентификатор структурной еденицы
+	 *
+	 * @return array - данные о структурной еденице
+	 */
+	public function get_structure_info($sid) {
+		return $this->sitetree[$sid];
 	}
 }
 

@@ -25,7 +25,7 @@
 *   GNU General Public License for more details.
 *
 *   You should have received a copy of the GNU General Public License
-*   along with this program.  If not, see <http://www.gnu.org/licenses/
+*   along with this program.  If not, see http://www.gnu.org/licenses/
 *
 *
 *   RooCMS - Русская бесплатная система управления сайтом
@@ -74,9 +74,9 @@ class Blocks {
                 $id = str_ireplace("'", "", $id);
                 if(!array_key_exists($id, $use_blocks)) {
 
-			$id = strtr($id, array(	'\''		=> '',
-						'"'		=> '',
-						'&quot;'	=> ''));
+			$id = strtr($id, array('\''		=> '',
+						  '"'		=> '',
+						  '&quot;'	=> ''));
 
 			$q = $db->query("SELECT id, alias, content, block_type FROM ".BLOCKS_TABLE." WHERE id='".$id."' OR alias='".$id."'");
 			$data = $db->fetch_assoc($q);

@@ -1,15 +1,15 @@
 <?php
 /**
-* @package      RooCMS
-* @subpackage	Plugin Utilites
-* @subpackage	GZip alternate
-* @author       alex Roosso
-* @copyright    2010-2014 (c) RooCMS
-* @link         http://www.roocms.com
-* @version      1.0
-* @since        $date$
-* @license      http://www.gnu.org/licenses/gpl-3.0.html
-*/
+ * @package      RooCMS
+ * @subpackage	 Plugin Utilites
+ * @subpackage	 GZip alternate
+ * @author       alex Roosso
+ * @copyright    2010-2015 (c) RooCMS
+ * @link         http://www.roocms.com
+ * @version      1.1
+ * @since        $date$
+ * @license      http://www.gnu.org/licenses/gpl-3.0.html
+ */
 
 /**
 *	RooCMS - Russian free content managment system
@@ -26,7 +26,7 @@
 *   GNU General Public License for more details.
 *
 *   You should have received a copy of the GNU General Public License
-*   along with this program.  If not, see <http://www.gnu.org/licenses/
+*   along with this program.  If not, see http://www.gnu.org/licenses/
 *
 *
 *   RooCMS - Русская бесплатная система управления сайтом
@@ -61,23 +61,26 @@ if(isset($_GET['file']) && !empty($_GET['file'])) {
 		$exp = explode(".",$_GET['file']);
 		$c = count($exp) - 1;
 
-		if($exp[$c] == "js")		$filetype = "application/x-javascript";
-		elseif($exp[$c] == "css")	$filetype = "text/css";
-		else						$filetype = "plain/text";
+		if(trim($exp[$c]) != "") {
 
-		header('HTTP/1.1 200 OK');
-		// header('Expires: ' . gmdate("D, d M Y H:i:s", date("U") + 31536000) . ' GMT');             	// Date in the past
-		// header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT'); 	// always modified
-		// header('Cache-control:  no-cache, private');           			// HTTP/1.1
-		// header('Pragma: no-cache');                                   	// HTTP/1.0
-		header('Content-type: '.$filetype);
-		header("Content-disposition: attachment; filename=\"".$_GET['file']."\"");
-		header('Content-transfer-encoding: binary\n');
-		//header("Content-Length: ".filesize("../".$_GET['file'])."");
-		header('Accept-Ranges: bytes');
+			if($exp[$c] == "js")		$filetype = "application/x-javascript";
+			elseif($exp[$c] == "css")	$filetype = "text/css";
+			else				$filetype = "plain/text";
 
-		// read
-		readfile("../".$_GET['file']);
+			header('HTTP/1.1 200 OK');
+			// header('Expires: ' . gmdate("D, d M Y H:i:s", date("U") + 31536000) . ' GMT');             	// Date in the past
+			// header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT'); 	// always modified
+			// header('Cache-control:  no-cache, private');           			// HTTP/1.1
+			// header('Pragma: no-cache');                                   	// HTTP/1.0
+			header('Content-type: '.$filetype);
+			header("Content-disposition: attachment; filename=\"".$_GET['file']."\"");
+			header('Content-transfer-encoding: binary\n');
+			//header("Content-Length: ".filesize("../".$_GET['file'])."");
+			header('Accept-Ranges: bytes');
+
+			// read
+			readfile("../".$_GET['file']);
+		}
 	}
 }
 

@@ -3,9 +3,9 @@
 * @package	RooCMS
 * @subpackage	Engine RooCMS classes
 * @author	alex Roosso
-* @copyright	2010-2014 (c) RooCMS
+* @copyright	2010-2015 (c) RooCMS
 * @link		http://www.roocms.com
-* @version	4.4.1
+* @version	4.4.2
 * @since	$date$
 * @license	http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -25,7 +25,7 @@
 *   GNU General Public License for more details.
 *
 *   You should have received a copy of the GNU General Public License
-*   along with this program.  If not, see <http://www.gnu.org/licenses/
+*   along with this program.  If not, see http://www.gnu.org/licenses/
 *
 *
 *   RooCMS - Русская бесплатная система управления сайтом
@@ -154,11 +154,37 @@ class template {
 			//$out .= $smarty->display($tpl.".html");
 
 
-			if(DEBUGMODE) $out .= "\r\n<!-- end template: {$tpl} -->\r\n";
+			if(DEBUGMODE && $tpl != "footer") $out .= "\r\n<!-- end template: {$tpl} -->\r\n";
 		}
 
 		if($return) return $out;
 		else $this->out .= $out;
+	}
+
+
+	/**
+	 * Функция подключения шаблона для загрузки картинок
+	 * Определяет какой из шаблонов требуется подключать и в квкую переменную
+	 *
+	 * @param        $smarty_variable - указываем переменную для смарти шаблонов.
+	 * @param string $tpl - На случай если вам потребуется использовать собственный шаблон
+	 * @param bool   $tplreturn - Возврат скомпилорованного шаблона в переменную. По-умолчанию включено.
+	 */
+	public function load_image_upload_tpl($smarty_variable, $tpl="images_upload", $tplreturn=true) {
+
+		global $config, $smarty;
+
+		if($config->gd_multiupload) {
+			$tpl = "images_multiupload";
+		}
+
+		require_once _LIB."/mimetype.php";
+		$smarty->assign("allow_images_type", $imagetype);
+
+		$code  = "\$$smarty_variable = \$this->load_template(\"$tpl\", $tplreturn);";
+		$code .= "\$smarty->assign(\"$smarty_variable\", \$$smarty_variable);";
+
+		eval ($code);
 	}
 
 
@@ -222,7 +248,7 @@ class template {
                         if(!defined('INSTALL') && $config->global_site_title) $site['title'] .= " &bull; ".$config->site_title;
 
                         # jquery-core (check brwoser version)
-                        $jquerycore = ($parse->browser("ie",8)) ? "jquery-coreie.min.js.php" : "jquery-core.min.js.php" ;
+                        $jquerycore = ($parse->browser("ie",8)) ? "jquery-coreie.min.js" : "jquery-core.min.js" ;
 
                         # get actual version included js and styles in templates (only Developer or Debug mode)
                         $build = (DEBUGMODE or DEVMODE) ? "?v=".str_ireplace(".","",ROOCMS_VERSION)."-".time() : "" ;

@@ -3,9 +3,9 @@
 * @package      RooCMS
 * @subpackage	Function
 * @author       alex Roosso
-* @copyright    2010-2014 (c) RooCMS
+* @copyright    2010-2015 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.0.20
+* @version      1.0.22
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -25,7 +25,7 @@
 *   GNU General Public License for more details.
 *
 *   You should have received a copy of the GNU General Public License
-*   along with this program.  If not, see <http://www.gnu.org/licenses/
+*   along with this program.  If not, see http://www.gnu.org/licenses/
 *
 *
 *   RooCMS - Русская бесплатная система управления сайтом
@@ -53,68 +53,77 @@ if(!defined('RooCMS')) die('Access Denied');
 
 
 /**
- * Generator Random Code
+ * Генератор псевдослучайного кода.
+ * Сколько не мучайся, это скотина все равно на случайность не смахивает.
  *
  * @param int $ns        - количество символов в коде
- * @param mixed $symbols - Список символов для генерации код
+ * @param mixed $symbols - Символы из которых будет сгенерирован код
  *
  * @return string $Code  - Возвращает сгенерированный код
  */
 function randcode($ns, $symbols="ABCEFHKLMNPRSTVXYZ123456789") {
-	$Code = "";
-	$i = 0;
-	//mt_srand((double)microtime() * 1000000);
+
+	settype($symbols, "string");
+
+	$Code = ""; $i = 0;
+
 	while ($i < $ns) {
-		$Code .= $symbols[mt_rand(0, mb_strlen($symbols) - 1)];
+		$a = rand(0,1);
+		mt_srand(); srand();
+		$Code .= ($a == 1)
+			? $symbols[mt_rand(0, mb_strlen($symbols) - 1)]
+			: $symbols[rand(0, mb_strlen($symbols) - 1)]	;
 		$i++;
 	}
+
 	return $Code;
 }
 
-
 /**
-* Send mail
-*
-* @param string $mail   - Адрес направления
-* @param string $theme  - Заголовок письма
-* @param text $text     - Тело письма
-* @param string $from   - Обратный адрес
-*/
-function sendmail($mail, $theme, $text, $from="robot") {
+ * Send mail
+ *
+ * @param string $mail		- Адрес направления
+ * @param string $theme		- Заголовок письма
+ * @param string $message	- Тело письма
+ * @param string $from		- Обратный адрес
+ */
+function sendmail($mail, $theme, $message, $from="robot") {
 
 	global $site;
 
-	$to	 = "".$mail."";
+	settype($mail,    "string");
+	settype($theme,   "string");
+	settype($message, "string");
 
-	$subject = "{$theme}";
+	$message = strtr($message, array('\\r'=>'', '\\n'=>'\n'));
 
-	$text = str_replace("\\r", "", $text);
-	$text = str_replace("\\n", "\n", $text);
+	$domain = strtr($site['domain'], array('http://'=>'', 'www.'=>''));
 
-	$site['domain'] = strtr($site['domain'], array('http://'=>'', 'www.'=>''));
 
-	if($from == "robot") $from = "robot@".$site['domain'];
+	$from = trim($from);
+	$pattern = '/^[\.\-_A-Za-z0-9]+?@[\.\-A-Za-z0-9]+?\.[A-Za-z0-9]{2,6}$/';
 
-	$message  = "{$text}";
+	if($from == "robot" || !preg_match($pattern, $from)) $from = "robot@".$domain;
 
 	# заголовки
-	$headers  = "From: {$from}\n".EMAIL_MESSAGE_PARAMETERS."\n";
-	$headers .= "X-Sender: <no-reply@".$site['domain'].">\n";
-	$headers .= "X-Mailer: PHP ".$site['domain']."\n";
-	$headers .= "Return-Path: <no-replay@".$site['domain'].">";
+	$headers  = "From: '{$from}'\n".EMAIL_MESSAGE_PARAMETERS."\n";
+	$headers .= "X-Sender: <no-reply@".$domain.">\n";
+	$headers .= "X-Mailer: PHP ".$domain."\n";
+	$headers .= "Return-Path: <no-replay@".$domain.">";
 
 	# отправляем письмо
-	mb_send_mail($to,$subject,$message,$headers);
+	mb_send_mail($mail,$theme,$message,$headers);
 }
 
 
 /**
-* Функция вывода массива для печати.
-*
-* @param array $array       - Массив для печати
-* @param boolean $subarray  - флаг проверки на вложенность массивов
-* @return text $buffer      - Возвращает массив в текстовом представлении.
-*/
+ * Функция вывода массива для печати.
+ *
+ * @param array $array       - Массив для печати
+ * @param boolean $subarray  - флаг проверки на вложенность массивов
+ *
+ * @return text $buffer      - Возвращает массив в текстовом представлении.
+ */
 function print_array(array $array, $subarray=false) {
 
 	$c = count($array) - 1;
@@ -142,30 +151,30 @@ function print_array(array $array, $subarray=false) {
 	return $buffer;
 }
 
-
 /**
-* Переадресация
-*
-* @param url $str   - URL назначения
-* @param int $code  - Код переадресации
-*/
-function go($str, $code=301) {
+ * Переадресация
+ *
+ * @param     $address - URL назначения
+ * @param int $code - Код переадресации
+ */
+function go($address, $code=301) {
 
-	if($code == 301)	header($_SERVER['SERVER_PROTOCOL'].' 301 Moved Permanently');	// перемещен навсегда
-	elseif($code == 302)	header($_SERVER['SERVER_PROTOCOL'].' 302 Found');		// перемещен временно
-	elseif($code == 303)	header($_SERVER['SERVER_PROTOCOL'].' 303 See Other');		// GET на другой адрес
-	elseif($code == 307)	header($_SERVER['SERVER_PROTOCOL'].' 307 Temporary Redirect');	// перемещен временно
+	if($code == 300)	header($_SERVER['SERVER_PROTOCOL'].' 300 Multiple Choices');	# множественный выбор
+	elseif($code == 301)	header($_SERVER['SERVER_PROTOCOL'].' 301 Moved Permanently');	# перемещен навсегда
+	elseif($code == 302)	header($_SERVER['SERVER_PROTOCOL'].' 302 Found');		# перемещен временно
+	elseif($code == 303)	header($_SERVER['SERVER_PROTOCOL'].' 303 See Other');		# GET на другой адрес
+	elseif($code == 304)	header($_SERVER['SERVER_PROTOCOL'].' 304 Not Modified');	# не изменялось
+	elseif($code == 307)	header($_SERVER['SERVER_PROTOCOL'].' 307 Temporary Redirect');	# перемещен временно
 	else			header($_SERVER['SERVER_PROTOCOL'].' 301 Moved Permanently');
 
-	header("Location: ".$str);
+	header("Location: ".$address);
 	exit;
 }
 
 
 /**
-* Вернуться назад
-*
-*/
+ * Вернуться назад
+ */
 function goback() {
 	go(getenv("HTTP_REFERER"));
 	exit;
@@ -173,9 +182,8 @@ function goback() {
 
 
 /**
-* Заголовки некеширования
-*
-*/
+ * Заголовки некеширования
+ */
 function nocache() {
 
 	$expires = time() + 60;
@@ -190,12 +198,14 @@ function nocache() {
 
 
 /**
-* Debug функция
-* Синоним $Debug->debug();
-*
-* @param mixed $obj
-* @param mixed $expand
-*/
+ * Debug функция
+ * Синоним $Debug->debug();
+ *
+ * @param mixed $obj
+ * @param mixed $expand
+ *
+ * @example debug($var);
+ */
 function debug($obj, $expand=false) {
 	global $debug;
 	$debug->debug($obj, $expand);

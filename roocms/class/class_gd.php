@@ -3,9 +3,9 @@
 * @package	RooCMS
 * @subpackage	Engine RooCMS classes
 * @author	alex Roosso
-* @copyright	2010-2014 (c) RooCMS
+* @copyright	2010-2015 (c) RooCMS
 * @link		http://www.roocms.com
-* @version	1.8.1
+* @version	1.8.3
 * @since	$date$
 * @license	http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -25,7 +25,7 @@
 *   GNU General Public License for more details.
 *
 *   You should have received a copy of the GNU General Public License
-*   along with this program.  If not, see <http://www.gnu.org/licenses/
+*   along with this program.  If not, see http://www.gnu.org/licenses/
 *
 *
 *   RooCMS - Русская бесплатная система управления сайтом
@@ -127,12 +127,38 @@ class GD {
 
 
 	/**
-	* Изменяем размер изображения, если оно превышает допустимый администратором.
-	*
-	* @param string $filename	- Имя файла изображения
-	* @param string $ext		- Расширение файла без точки
-	* @param path|string $path	- Путь к папке с файлом. По умолчанию указан путь к папке с изображениями
-	*/
+	 * Функция проводит стандартные операции над загруженным файлом.
+	 * Изменяет размеры, создает миниатюру, наносит водяной знак.
+	 *
+	 * @param      $filename - Имя файла (без расширения)
+	 * @param      $extension - расширение файла
+	 * @param      $path - путь к расположению файла.
+	 * @param bool $watermark - флаг указывает наносить ли водяной знак на рисунок.
+	 */
+	protected function modify_image($filename, $extension, $path, $watermark = true) {
+
+		global $config;
+
+		# изменяем изображение если, оно превышает допустимые размеры
+		$this->resize($filename, $extension, $path);
+
+		# Создаем миниатюру
+		$this->thumbnail($filename, $extension, $path);
+
+		if($config->gd_use_watermark && $watermark) {
+			# наносим ватермарк
+			$this->watermark($filename, $extension, $path);
+		}
+	}
+
+
+	/**
+	 * Изменяем размер изображения, если оно превышает допустимый администратором.
+	 *
+	 * @param string $filename	- Имя файла изображения
+	 * @param string $ext		- Расширение файла без точки
+	 * @param path|string $path	- Путь к папке с файлом. По умолчанию указан путь к папке с изображениями
+	 */
 	protected function resize($filename, $ext, $path=_UPLOADIMAGES) {
 
 		# vars
@@ -180,12 +206,12 @@ class GD {
 
 
 	/**
-	* Генерируем миниатюру изображения для предпросмотра.
-	*
-	* @param string $filename	- Имя файла изображения
-	* @param string $ext		- Расширение файла без точки
-	* @param path|string $path	- Путь к папке с файлом. По умолчанию указан путь к папке с изображениями
-	*/
+	 * Генерируем миниатюру изображения для предпросмотра.
+	 *
+	 * @param string $filename	- Имя файла изображения
+	 * @param string $ext		- Расширение файла без точки
+	 * @param path|string $path	- Путь к папке с файлом. По умолчанию указан путь к папке с изображениями
+	 */
 	protected function thumbnail($filename, $ext, $path=_UPLOADIMAGES) {
 
 		# vars
@@ -246,11 +272,12 @@ class GD {
 	}
 
 
-	/* ####################################################
+	/**
 	 * Функция генерация водяного знака на изображении
-	 * 	$filename	-	[string]	Имя файла
-	 * 	$ext		-	[string]	Расширение файла без точки
-	 * 	$path		-	[string]	Путь к папке с файлом. По умолчанию указан путь к папке с изображениями
+	 *
+	 * @param string $filename - Имя файла
+	 * @param string $ext - Расширение файла без точки
+	 * @param string $path - Путь к папке с файлом. По умолчанию указан путь к папке с изображениями
 	 */
 	protected function watermark($filename, $ext, $path=_UPLOADIMAGES) {
 
@@ -326,12 +353,13 @@ class GD {
 
 
 	/**
-	* put your comment there...
-	*
-	* @param string $from	- полный путь и имя файла из которого будем крафтить изображение
-	* @param string $ext	- расширение файла без точки
-	* @return data - функция вернет идентификатор (сырец) для работы (издевательств) с изображением.
-	*/
+	 * Функция создает исходник из готового изображения для дальнейшей с ним работы (обработки).
+	 *
+	 * @param string $from	- полный путь и имя файла из которого будем крафтить изображение
+	 * @param string $ext	- расширение файла без точки
+	 *
+	 * @return data - функция вернет идентификатор (сырец) для работы (издевательств) с изображением.
+	 */
 	private function imgcreate($from, $ext) {
 
 		switch($ext) {
@@ -361,7 +389,15 @@ class GD {
 	}
 
 
-
+	/**
+	 * Функция создает пустой исходник изображения.
+	 *
+	 * @param int $width	- Ширина создаеваемого изображения
+	 * @param int $height	- Высота создаеваемого изображения
+	 * @param str $ext	- Расширение создаеваемого изображения
+	 *
+	 * @return resource	-
+	 */
 	private function imgcreatetruecolor($width, $height, $ext) {
 
                 $src = imagecreatetruecolor($width, $height);
@@ -376,14 +412,15 @@ class GD {
 
 
 	/**
-	* Расчитываем новые размеры изображений
-	*
-	* @param int $width		- Текущая ширина
-	* @param int $height	- Текущая высота
-	* @param int $towidth	- Требуемая ширина
-	* @param int $toheight	- Требуемая высота
-	* @return array	- Функция возвращает массив с ключами ['new_width'] - новая ширина, ['new_height'] - новая высота, ['new_left'] - значение позиции слева, ['new_top'] - значение позиции сверху
-	*/
+	 * Расчитываем новые размеры изображений
+	 *
+	 * @param int $width	- Текущая ширина
+	 * @param int $height	- Текущая высота
+	 * @param int $towidth	- Требуемая ширина
+	 * @param int $toheight	- Требуемая высота
+	 *
+	 * @return array	- Функция возвращает массив с ключами ['new_width'] - новая ширина, ['new_height'] - новая высота, ['new_left'] - значение позиции слева, ['new_top'] - значение позиции сверху
+	 */
 	private function calc_resize($width, $height, $towidth, $toheight) {
 
 		$x_ratio 	= $towidth / $width;
@@ -402,6 +439,20 @@ class GD {
 				'new_top'	=> $new_top);
 
 		return $return;
+	}
+
+
+	/**
+	 * Функция устанавливает параметры размеров миниатюр для изображений
+	 *
+	 * @param array $thumbsize - array(width,height) - размеры миниатюры будут изменены согласно параметрам.
+	 */
+	protected function set_thumb_sizes(array $thumbsize) {
+
+		if(is_array($thumbsize) && count($thumbsize) == 2) {
+			if(round($thumbsize[0]) > 16)	$this->tsize['w'] = round($thumbsize[0]);
+			if(round($thumbsize[1]) > 16)	$this->tsize['h'] = round($thumbsize[1]);
+		}
 	}
 }
 

@@ -3,9 +3,9 @@
 * @package      RooCMS
 * @subpackage	Engine RooCMS classes
 * @author       alex Roosso
-* @copyright    2010-2014 (c) RooCMS
+* @copyright    2010-2015 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      2.5.1
+* @version      2.5.2
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -25,7 +25,7 @@
 *   GNU General Public License for more details.
 *
 *   You should have received a copy of the GNU General Public License
-*   along with this program.  If not, see <http://www.gnu.org/licenses/
+*   along with this program.  If not, see http://www.gnu.org/licenses/
 *
 *
 *   RooCMS - Русская бесплатная система управления сайтом
@@ -337,6 +337,8 @@ class MySQLDatabase extends MySqlExtends {
 	 * @return int|boolean - Возвращает количество найденных строк, соответсвующих критериям или false в случае неудачи
 	 */
 	public function check_id($id, $table, $field="id", $where="") {
+
+		if($field == "id") $id = round($id);
 
 		if(trim($where) != "") $where = " AND ".$where;
 

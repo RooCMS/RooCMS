@@ -3,9 +3,9 @@
 * @package	RooCMS
 * @subpackage	Configuration
 * @author	alex Roosso
-* @copyright	2010-2014 (c) RooCMS
+* @copyright	2010-2015 (c) RooCMS
 * @link		http://www.roocms.com
-* @version	1.4.1
+* @version	1.4.3
 * @since	$date$
 * @license	http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -25,7 +25,7 @@
 *   GNU General Public License for more details.
 *
 *   You should have received a copy of the GNU General Public License
-*   along with this program.  If not, see <http://www.gnu.org/licenses/
+*   along with this program.  If not, see http://www.gnu.org/licenses/
 *
 *
 *   RooCMS - Русская бесплатная система управления сайтом
@@ -89,6 +89,13 @@ define('_UPLOADFILES',	_UPLOAD.'/files');
 define('_CACHE',	_SITEROOT.'/cache');
 define('_LOGS',		_CACHE.'/logs');
 define('_CACHESKIN',	_CACHE.'/skin');
+define('_CACHEIMAGE',	_CACHE.'/images');
+
+
+/**
+ * Web $Path
+ */
+define('_DOMAIN',	strtr($_SERVER['HTTP_HOST'], array('http://'=>'', 'www.'=>'')));
 
 
 /**
@@ -108,7 +115,7 @@ define('CRITICAL_STYLESHEETS',		'<script type="text/javascript" src="/plugin/boo
 define('ROOCMS_MAJOR_VERSION',		'1');
 define('ROOCMS_MINOR_VERSION',		'1');
 define('ROOCMS_RELEASE_VERSION',	'1');
-define('ROOCMS_BUILD_VERSION',		'-beta4');
+define('ROOCMS_BUILD_VERSION',		'-beta5');
 define('ROOCMS_VERSION',		ROOCMS_MAJOR_VERSION.".".ROOCMS_MINOR_VERSION.".".ROOCMS_RELEASE_VERSION);
 define('ROOCMS_FULL_VERSION',		ROOCMS_MAJOR_VERSION.".".ROOCMS_MINOR_VERSION.".".ROOCMS_RELEASE_VERSION.ROOCMS_BUILD_VERSION);
 define('ROOCMS_VERSION_ID',		ROOCMS_MAJOR_VERSION.ROOCMS_MINOR_VERSION.ROOCMS_RELEASE_VERSION);

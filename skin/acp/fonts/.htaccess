@@ -1,0 +1,4 @@
+Deny from all
+<Files ~ "\.(css|woff)$">
+	Allow from all
+</Files>

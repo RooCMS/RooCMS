@@ -25,7 +25,7 @@
 *   GNU General Public License for more details.
 *
 *   You should have received a copy of the GNU General Public License
-*   along with this program.  If not, see <http://www.gnu.org/licenses/
+*   along with this program.  If not, see http://www.gnu.org/licenses/
 *
 *
 *   RooCMS - Русская бесплатная система управления сайтом
@@ -92,7 +92,7 @@ if(file_exists(_ROOCMS."/acp/config.php")) {
 * Help System
 */
 if(file_exists(_ROOCMS."/acp/help.php")) {
-	$menu_items_right[] = array('link'=>CP.'?act=help', 'act'=>'help', 'icon'=>'fa fa-medkit','text'=>'Помощь', 'window'=>'_self');
+	$menu_items_right[] = array('link'=>CP.'?act=help', 'act'=>'help', 'icon'=>'fa fa-support','text'=>'Помощь', 'window'=>'_self');
 }
 
 /**

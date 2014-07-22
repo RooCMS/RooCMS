@@ -5,7 +5,7 @@
 * @author       alex Roosso
 * @copyright    2010-2014 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.1.3
+* @version      1.1.5
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -25,7 +25,7 @@
 *   GNU General Public License for more details.
 *
 *   You should have received a copy of the GNU General Public License
-*   along with this program.  If not, see <http://www.gnu.org/licenses/
+*   along with this program.  If not, see http://www.gnu.org/licenses/
 *
 *
 *   RooCMS - Русская бесплатная система управления сайтом
@@ -57,20 +57,21 @@ if(!defined('RooCMS')) die('Access Denied');
 * @var array
 */
 $protectfolder = array();
-$protectfolder[]	= array('path'	=> _ROOCMS,		'chmod'	=> '0755');
-$protectfolder[]	= array('path'	=> _ROOCMS.'/config',	'chmod'	=> '0755');
-$protectfolder[]	= array('path'	=> _CLASS,		'chmod'	=> '0755');
-$protectfolder[]	= array('path'	=> _ROOCMS.'/acp',	'chmod'	=> '0755');
-$protectfolder[]	= array('path'	=> _LIB,		'chmod'	=> '0755');
-$protectfolder[]	= array('path'	=> _SKIN,		'chmod'	=> '0755');
-$protectfolder[]	= array('path'	=> _ACPSKIN,		'chmod'	=> '0755');
-$protectfolder[]	= array('path'	=> _UPLOAD,		'chmod'	=> '0755');
-$protectfolder[]	= array('path'	=> _UPLOADIMAGES,	'chmod'	=> '0755');
-$protectfolder[]	= array('path'	=> _UPLOADFILES,	'chmod'	=> '0755');
-$protectfolder[]	= array('path'	=> _CACHE,		'chmod'	=> '0755');
-$protectfolder[]	= array('path'	=> _CACHESKIN,		'chmod'	=> '0755');
-$protectfolder[]	= array('path'	=> _LOGS,		'chmod'	=> '0755');
-$protectfolder[]	= array('path'	=> _SITEROOT.'/plugin',	'chmod'	=> '0755');
+$protectfolder[] = array('path'	=> _ROOCMS,		'chmod'	=> '0755');
+$protectfolder[] = array('path'	=> _ROOCMS.'/config',	'chmod'	=> '0755');
+$protectfolder[] = array('path'	=> _CLASS,		'chmod'	=> '0755');
+$protectfolder[] = array('path'	=> _ROOCMS.'/acp',	'chmod'	=> '0755');
+$protectfolder[] = array('path'	=> _LIB,		'chmod'	=> '0755');
+$protectfolder[] = array('path'	=> _SKIN,		'chmod'	=> '0755');
+$protectfolder[] = array('path'	=> _ACPSKIN,		'chmod'	=> '0755');
+$protectfolder[] = array('path'	=> _UPLOAD,		'chmod'	=> '0755');
+$protectfolder[] = array('path'	=> _UPLOADIMAGES,	'chmod'	=> '0755');
+$protectfolder[] = array('path'	=> _UPLOADFILES,	'chmod'	=> '0755');
+$protectfolder[] = array('path'	=> _CACHE,		'chmod'	=> '0755');
+$protectfolder[] = array('path'	=> _CACHESKIN,		'chmod'	=> '0755');
+$protectfolder[] = array('path'	=> _CACHEIMAGE,		'chmod'	=> '0755');
+$protectfolder[] = array('path'	=> _LOGS,		'chmod'	=> '0755');
+$protectfolder[] = array('path'	=> _SITEROOT.'/plugin',	'chmod'	=> '0755');
 
 
 /**
@@ -79,7 +80,8 @@ $protectfolder[]	= array('path'	=> _SITEROOT.'/plugin',	'chmod'	=> '0755');
 * @var array
 */
 $protectfiles = array();
-$protectfiles[]	= array('path'	=> _ROOCMS.'/config/config.php',	'chmod'	=> '0777',	'hash'	=> '');
+if(defined('INSTALL')) 	$protectfiles[]	= array('path'	=> _ROOCMS.'/config/config.php',	'chmod'	=> '0777',	'hash'	=> '');
+else			$protectfiles[]	= array('path'	=> _ROOCMS.'/config/config.php',	'chmod'	=> '0644',	'hash'	=> '');
 $protectfiles[]	= array('path'	=> _ROOCMS.'/config/defines.php',	'chmod'	=> '0644',	'hash'	=> '');
 $protectfiles[]	= array('path'	=> _ROOCMS.'/config/set.cfg.php',	'chmod'	=> '0644',	'hash'	=> '');
 $protectfiles[]	= array('path'	=> _CLASS.'/class_debug.php',		'chmod'	=> '0644',	'hash'	=> '');
@@ -126,5 +128,7 @@ $protectfiles[]	= array('path'	=> _LIB.'/mimetype.php',		'chmod'	=> '0644',	'has
 $protectfiles[]	= array('path'	=> _LIB.'/mysql_schema.php',		'chmod'	=> '0644',	'hash'	=> '');
 $protectfiles[]	= array('path'	=> _LIB.'/smarty.php',			'chmod'	=> '0644',	'hash'	=> '');
 $protectfiles[]	= array('path'	=> _LIB.'/spiders.php',			'chmod'	=> '0644',	'hash'	=> '');
+if(file_exists(_LOGS.'/errors.log'))	$protectfiles[]	= array('path'	=> _LOGS.'/errors.log',		'chmod'	=> '0755',	'hash'	=> '');
+if(file_exists(_LOGS.'/php_error.log'))	$protectfiles[]	= array('path'	=> _LOGS.'/php_error.log',	'chmod'	=> '0755',	'hash'	=> '');
 
 ?>

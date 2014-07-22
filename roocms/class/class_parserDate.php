@@ -25,7 +25,7 @@
 *   GNU General Public License for more details.
 *
 *   You should have received a copy of the GNU General Public License
-*   along with this program.  If not, see <http://www.gnu.org/licenses/
+*   along with this program.  If not, see http://www.gnu.org/licenses/
 *
 *
 *   RooCMS - Русская бесплатная система управления сайтом
@@ -58,9 +58,9 @@ if(!defined('RooCMS')) die('Access Denied');
 class ParserDate {
 
 	# date
-	public $minute	= 60;		# [int] sec in one minute
-	public $hour	= 3600;		# [int]	sec in one hour
-	public $day	= 86400;	# [int]	sec in one day
+	private $minute	= 60;		# [int] sec in one minute
+	private $hour	= 3600;		# [int]	sec in one hour
+	private $day	= 86400;	# [int]	sec in one day
 
 
 
@@ -88,19 +88,19 @@ class ParserDate {
 		# year
 		$n_year	= round($edate[2]);
 
-		// *checkdate
+		// FIXME: *checkdate
 
 		# num day of week
 		$nw_day = $this->get_num_day_of_week($n_day, $n_mon, $n_year);
 
 		# title day
-		$tday = ($full) ? $this->get_title_day($nw_day, $short) : "" ;
+		$tday = ($full) ? $this->get_title_day($nw_day, $short).", " : "" ;
 
 		# title month
 		$tm = $this->get_title_month($n_mon);
 
 		# форматируем дату
-		$date = $tday.", ".$n_day." ".$tm." ".$n_year."г. ".$time;
+		$date = $tday.$n_day." ".$tm." ".$n_year."г. ".$time;
 
 		return $date;
 	}
@@ -175,6 +175,7 @@ class ParserDate {
 	public function unix_to_rus_array($udate) {
 
 		$ar = array();
+
 		$ar['day']	= date("d", $udate);
 		$ar['month']	= date("m", $udate);
 		$ar['year']	= date("Y", $udate);
@@ -231,7 +232,7 @@ class ParserDate {
 
 		$unix 	= mktime(0,0,0,$month,$day,$year);
 
-		// *checkdate
+		// FIXME: *checkdate
 
 		return $unix;
 	}
@@ -249,7 +250,7 @@ class ParserDate {
 
 		$unix 	= mktime(0,0,0,$month,$day,$year);
 
-		// *checkdate
+		// FIXME: *checkdate
 
 		return $unix;
 	}
@@ -267,7 +268,7 @@ class ParserDate {
 	 */
 	function get_num_day_of_week($day, $month, $year) {
 
-		// *checkdate
+		// FIXME: *checkdate
 
 		$jd = GregorianToJD($month, $day, $year);
 

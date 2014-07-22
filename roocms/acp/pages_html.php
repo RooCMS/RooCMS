@@ -3,9 +3,9 @@
 * @package      RooCMS
 * @subpackage	Admin Control Panel
 * @author       alex Roosso
-* @copyright    2010-2014 (c) RooCMS
+* @copyright    2010-2015 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.3.2
+* @version      1.3.3
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -25,7 +25,7 @@
 *   GNU General Public License for more details.
 *
 *   You should have received a copy of the GNU General Public License
-*   along with this program.  If not, see <http://www.gnu.org/licenses/
+*   along with this program.  If not, see http://www.gnu.org/licenses/
 *
 *
 *   RooCMS - Русская бесплатная система управления сайтом
@@ -83,10 +83,7 @@ class ACP_PAGES_HTML {
 		$smarty->assign("attachedimages", $attachedimages);
 
 		# show upload images form
-		require_once _LIB."/mimetype.php";
-		$smarty->assign("allow_images_type", $imagetype);
-		$imagesupload = $tpl->load_template("images_upload", true);
-		$smarty->assign("imagesupload", $imagesupload);
+		$tpl->load_image_upload_tpl("imagesupload");
 
 		$content = $tpl->load_template("pages_edit_html", true);
 		$smarty->assign("content", $content);

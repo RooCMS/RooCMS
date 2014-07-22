@@ -16,10 +16,14 @@ CKEDITOR.editorConfig = function( config )
 	config.autoParagraph = false;
 	config.ignoreEmptyParagraph = true;
 	config.tabSpaces = 8;
+
 	//config.startupMode = 'source';
 	//config.toolbarLocation = 'bottom';
 
-	//config.allowedContent = true;
+	config.allowedContent = true;
+	config.ProtectedTags = 'i' ;
+	config.protectedSource.push( /<i[\s\S]*?\>/g ); //allows beginning <i> tag
+	config.protectedSource.push( /<\/i[\s\S]*?\>/g ); //allows ending </i> tag
 	//config.fillEmptyBlocks = true
         //config.entities_processNumerical = true;
         //config.forceSimpleAmpersand = true;
@@ -95,7 +99,8 @@ CKEDITOR.editorConfig = function( config )
 		{ name: 'text info',		element: 'span', attributes: { class: 'text-info' } },
 		{ name: 'text warning',		element: 'span', attributes: { class: 'text-warning' } },
 		{ name: 'text danger',		element: 'span', attributes: { class: 'text-danger' } },
-		{ name: 'abbr Initialism',	element: 'abbr', attributes: { class: 'initialism', title: 'abbr' } }
+		{ name: 'abbr Initialism',	element: 'abbr', attributes: { class: 'initialism', title: 'abbr' } }//,
+		//{ name: 'PHP',			element: 'pre', attributes: { 'data-lang': 'text/x-php' } }
 	];
 
         //config.colorButton_colors = '00923E,F8C100,28166F';

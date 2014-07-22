@@ -4,9 +4,9 @@
 * @subpackage	Admin Comtrol Panel
 * @subpackage	Feeds
 * @author       alex Roosso
-* @copyright    2010-2014 (c) RooCMS
+* @copyright    2010-2015 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.0.6
+* @version      1.2.1
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -26,7 +26,7 @@
 *   GNU General Public License for more details.
 *
 *   You should have received a copy of the GNU General Public License
-*   along with this program.  If not, see <http://www.gnu.org/licenses/
+*   along with this program.  If not, see http://www.gnu.org/licenses/
 *
 *
 *   RooCMS - Русская бесплатная система управления сайтом
@@ -53,11 +53,9 @@ if(!defined('RooCMS') || !defined('ACP')) die('Access Denied');
 //#########################################################
 
 
-$acp_feeds = new ACP_FEEDS;
-
 class ACP_FEEDS {
 
-	# vars
+	# objects
 	private $engine;	# ... object global structure operations
 	private $unit;		# ... object for works content pages
 
@@ -86,16 +84,27 @@ class ACP_FEEDS {
 	 */
 	private function init() {
 
-		global $roocms, $GET, $db;
+		global $roocms, $GET, $POST, $db;
 
 		# set object for works content
-		if(isset($GET->_page)) {
+		if(isset($GET->_page) && array_key_exists($this->engine->page_type, $this->engine->page_types) && $this->engine->page_types[$this->engine->page_type]['enable'] == 1) {
+
+			$feeds_data = array(
+				'id'			=> $this->engine->page_id,
+				'alias'			=> $this->engine->page_alias,
+				'title'			=> $this->engine->page_title,
+				'rss'			=> $this->engine->page_rss,
+				'items_per_page'	=> $this->engine->page_items_per_page,
+				'items_sorting'		=> $this->engine->page_items_sorting,
+				'thumb_img_width'	=> $this->engine->page_thumb_img_width,
+				'thumb_img_height'	=> $this->engine->page_thumb_img_height
+			);
 
 			# init codeengine
 			switch($this->engine->page_type) {
 				case 'feed':
 					require_once _ROOCMS."/acp/feeds_feed.php";
-					$this->unit = new ACP_FEEDS_FEED;
+					$this->unit = new ACP_FEEDS_FEED($feeds_data);
 					break;
 			}
 
@@ -103,17 +112,17 @@ class ACP_FEEDS {
 			switch($roocms->part) {
 				# edit feed option
 				case 'settings':
-					$this->unit->settings($GET->_page);
+					$this->unit->settings();
 					break;
 
 				# update feed option
 				case 'update_settings':
-					$this->unit->update_settings($GET->_page);
+					$this->unit->update_settings();
 					break;
 
 				# cp feed items
 				case 'control':
-					$this->unit->control($GET->_page);
+					$this->unit->control();
 					break;
 
 				# create new item in feed
@@ -129,7 +138,25 @@ class ACP_FEEDS {
 
 				# update item in feed
 				case 'update_item':
-					if(@$_REQUEST['update_item'] && $db->check_id($GET->_item, PAGES_FEED_TABLE)) $this->unit->update_item($GET->_item);
+					if(isset($POST->update_item) && $db->check_id($GET->_item, PAGES_FEED_TABLE)) $this->unit->update_item($GET->_item);
+					else goback();
+					break;
+
+				# update item in feed
+				case 'migrate_item':
+					if($db->check_id($GET->_item, PAGES_FEED_TABLE)) $this->unit->migrate_item($GET->_item);
+					else goback();
+					break;
+
+				# update status item in feed to on
+				case 'status_on_item':
+					if($db->check_id($GET->_item, PAGES_FEED_TABLE)) $this->unit->change_item_status($GET->_item, 1);
+					else goback();
+					break;
+
+				# update status item in feed to off
+				case 'status_off_item':
+					if($db->check_id($GET->_item, PAGES_FEED_TABLE)) $this->unit->change_item_status($GET->_item, 0);
 					else goback();
 					break;
 
@@ -155,6 +182,7 @@ class ACP_FEEDS {
 
 		global $db, $tpl, $smarty;
 
+		// FIXME: replace this query
 		$data = array();
 		$q = $db->query("SELECT id, alias, title, noindex, page_type, items FROM ".STRUCTURE_TABLE." WHERE page_type='feed' ORDER BY id ASC");
 		while($row = $db->fetch_assoc($q)) {
@@ -167,4 +195,9 @@ class ACP_FEEDS {
 		$smarty->assign("content", $content);
 	}
 }
+
+/**
+ * Init Class
+ */
+$acp_feeds = new ACP_FEEDS;
 ?>

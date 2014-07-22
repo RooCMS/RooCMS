@@ -25,7 +25,7 @@
 *   GNU General Public License for more details.
 *
 *   You should have received a copy of the GNU General Public License
-*   along with this program.  If not, see <http://www.gnu.org/licenses/
+*   along with this program.  If not, see http://www.gnu.org/licenses/
 *
 *
 *   RooCMS - Русская бесплатная система управления сайтом
@@ -75,7 +75,7 @@ class ACP_HELP {
 	*/
 	function __construct() {
 
-    		global $roocms, $db, $GET, $tpl, $smarty;
+    		global $roocms, $db, $GET, $POST, $tpl, $smarty;
 
 		# загружаем "дерево" помощи
     		$this->helptree = $this->load_tree();
@@ -131,12 +131,12 @@ class ACP_HELP {
 			switch($roocms->part) {
 
 				case 'create_part':
-					if(@$_REQUEST['create_part']) $this->create_part();
+					if(isset($POST->create_part)) $this->create_part();
 					else $content = $tpl->load_template("help_create_part", true);
 					break;
 
 				case 'edit_part':
-					if(@$_REQUEST['update_part']) $this->update_part($this->part_id);
+					if(isset($POST->update_part)) $this->update_part($this->part_id);
 					elseif($this->part_id != 0) {
 						$q = $db->query("SELECT id, parent_id, uname, title, sort, content FROM ".HELP_TABLE." WHERE id='".$this->part_id."'");
 						$data = $db->fetch_assoc($q);
@@ -356,7 +356,7 @@ class ACP_HELP {
 		static $use = false;
 
 		if(!$use) {
-			$q = $db->query("SELECT id, uname, parent_id, sort, title, childs FROM ".HELP_TABLE." ORDER BY sort ASC");
+			$q = $db->query("SELECT id, uname, parent_id, sort, title, childs FROM ".HELP_TABLE." ORDER BY sort ASC, title ASC");
 			while($row = $db->fetch_assoc($q)) {
 				$row['level']	= 0;
 				$tree[] 		= $row;

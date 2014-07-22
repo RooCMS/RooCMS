@@ -35,7 +35,7 @@
 <link rel="alternate" type="application/rss+xml" title="{$site['title']}" href="{$rsslink}" />{/if}
 
 <!-- Style -->
-<link rel="stylesheet" type="text/css" href="{$SKIN}/bootstrap-theme.min.css{$build}" media="screen" />
+<link rel="stylesheet" type="text/css" href="{$SKIN}/theme.min.css{$build}" media="screen" />
 <link rel="stylesheet" type="text/css" href="{$SKIN}/style.min.css{$build}" media="screen" />
 
 <!-- JS -->
@@ -43,7 +43,7 @@
 <!--[if IE]><script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
 <script type="text/javascript" src="plugin/iepngfix_tilebg.min.js{$build}"></script>
 <script type="text/javascript" src="plugin/{$jquerycore}{$build}"></script>
-<script type="text/javascript" src="plugin/jquery-migrate.min.js.php{$build}"></script>
+<script type="text/javascript" src="plugin/jquery-migrate.min.js{$build}"></script>
 <script type="text/javascript" src="plugin/jquery.corner.js.php{$build}"></script>
 <script type="text/javascript" src="plugin/lightbox.js.php{$build}"></script>
 <script type="text/javascript" src="plugin/colorbox.js.php{$build}"></script>
@@ -83,7 +83,7 @@
 
 <div class="container">
 	<div class="header">
-    	<h1><a href="/"><img src="{$SKIN}/img/logo.png" border="0" style="vertical-align: top;"></a> RooCMS <small></h1>
+    	<h1><a href="/"><img src="{$SKIN}/img/logo.png" border="0" style="vertical-align: top;"></a> RooCMS <small><sup>demo</sup>&beta;</small></h1>
 		{$blocks->load("nav_pages")}
 	</div>
 	{$breadcumb}

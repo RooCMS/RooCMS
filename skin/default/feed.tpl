@@ -1,10 +1,10 @@
 {* Шаблон ленты *}
 <div class="row">
-	<div class="col-md-{if !empty($rsslink)}11{else}12{/if}">
-		<h2>{$page_title}</h2>
+	<div class="col-lg-{if !empty($rsslink)}11{else}12{/if} col-sm-{if !empty($rsslink)}10{else}12{/if}">
+		<h1 class="white">{$page_title}</h1>
 	</div>
 	{if !empty($rsslink)}
-		<div class="col-md-1 text-right">
+		<div class="col-lg-1 col-sm-2 text-right">
 			<a href="{$rsslink}" class="btn btn-warning btn-xs"><span class="fa fa-rss fa-fw"></span>RSS 2.0</a>
 		</div>
 	{/if}
@@ -28,12 +28,12 @@
 		<div class="row">
 			{if isset($item['image'][0])}
 				{foreach from=$item['image'] item=image}
-				<div class="col-sm-3 text-center">
+				<div class="col-lg-2 col-md-3 col-sm-4 text-left">
 					<a href="{$SCRIPT_NAME}?page={$feed['alias']}{if isset($smarty.get.pg)}&pg={$smarty.get.pg}{/if}&id={$item['id']}"><img src="upload/images/{$image['thumb']}" border="0" alt="{$image['alt']}" class="img-thumbnail"></a>
 				</div>
 				{/foreach}
 			{/if}
-			<div class="col-sm-{if isset($item['image'][0])}9{else}12{/if}">
+			<div class="col-lg-{if isset($item['image'][0])}10{else}12{/if} col-md-{if isset($item['image'][0])}9{else}12{/if} col-sm-{if isset($item['image'][0])}8{else}12{/if}">
 				{$item['brief_item']}
 			</div>
 		</div>

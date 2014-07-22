@@ -1,15 +1,15 @@
 <?php
 /**
-* @package      RooCMS
-* @subpackage	Plugin Utilites
-* @subpackage	CKEditor
-* @author       alex Roosso
-* @copyright    2010-2014 (c) RooCMS
-* @link         http://www.roocms.com
-* @version      1.1
-* @since        $date$
-* @license      http://www.gnu.org/licenses/gpl-3.0.html
-*/
+ * @package      RooCMS
+ * @subpackage	 Plugin Utilites
+ * @subpackage	 CKEditor
+ * @author       alex Roosso
+ * @copyright    2010-2014 (c) RooCMS
+ * @link         http://www.roocms.com
+ * @version      1.1
+ * @since        $date$
+ * @license      http://www.gnu.org/licenses/gpl-3.0.html
+ */
 
 /**
 *	RooCMS - Russian free content managment system
@@ -26,7 +26,7 @@
 *   GNU General Public License for more details.
 *
 *   You should have received a copy of the GNU General Public License
-*   along with this program.  If not, see <http://www.gnu.org/licenses/
+*   along with this program.  If not, see http://www.gnu.org/licenses/
 *
 *
 *   RooCMS - Русская бесплатная система управления сайтом

@@ -5,9 +5,9 @@
 * @subpackage	Blocks settings
 * @subpackage	HTML Blocks
 * @author       alex Roosso
-* @copyright    2010-2014 (c) RooCMS
+* @copyright    2010-2015 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.3.1
+* @version      1.3.2
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -27,7 +27,7 @@
 *   GNU General Public License for more details.
 *
 *   You should have received a copy of the GNU General Public License
-*   along with this program.  If not, see <http://www.gnu.org/licenses/
+*   along with this program.  If not, see http://www.gnu.org/licenses/
 *
 *
 *   RooCMS - Русская бесплатная система управления сайтом
@@ -63,11 +63,11 @@ class ACP_BLOCKS_HTML {
 
 		global $db, $img, $tpl, $smarty, $parse, $POST;
 
-		if(@$_REQUEST['create_block']) {
+		if(isset($POST->create_block)) {
 
 			if(!isset($POST->title)) $parse->msg("Не указано название блока!", false);
 			if(!isset($POST->alias) || $db->check_id($POST->alias, BLOCKS_TABLE, "alias"))	$parse->msg("Не указан алиас блока или он не уникален!", false);
-			# if(!isset($POST->content)) $parse->msg("Пустое тело блока!", false); //Упраздняем временно
+			# if(!isset($POST->content)) $parse->msg("Пустое тело блока!", false); //Упраздняем временно...
 			if(!isset($POST->content)) $POST->content = "";
 
 			if(!isset($_SESSION['error'])) {
@@ -92,10 +92,7 @@ class ACP_BLOCKS_HTML {
 		}
 
 		# show upload images form
-		require_once _LIB."/mimetype.php";
-		$smarty->assign("allow_images_type", $imagetype);
-		$imagesupload = $tpl->load_template("images_upload", true);
-		$smarty->assign("imagesupload", $imagesupload);
+		$tpl->load_image_upload_tpl("imagesupload");
 
 		$content = $tpl->load_template("blocks_create_html", true);
 		$smarty->assign("content", $content);
@@ -125,10 +122,7 @@ class ACP_BLOCKS_HTML {
 		$smarty->assign("attachedimages", $attachedimages);
 
 		# show upload images form
-		require_once _LIB."/mimetype.php";
-		$smarty->assign("allow_images_type", $imagetype);
-		$imagesupload = $tpl->load_template("images_upload", true);
-		$smarty->assign("imagesupload", $imagesupload);
+		$tpl->load_image_upload_tpl("imagesupload");
 
 
 		$smarty->assign("data",$data);
@@ -146,7 +140,7 @@ class ACP_BLOCKS_HTML {
 
 		global $db, $img, $POST, $GET, $parse;
 
-		if(@$_REQUEST['update_block']) {
+		if(isset($POST->update_block)) {
 
 			if(!isset($POST->title)) $parse->msg("Не указано название блока!", false);
 			if(!isset($POST->alias) || $db->check_id($POST->alias, BLOCKS_TABLE, "alias", "alias!='".$POST->oldalias."'"))	$parse->msg("Не указан алиас блока или он не уникален!", false);
@@ -176,6 +170,7 @@ class ACP_BLOCKS_HTML {
 					}
 				}
 
+
 				# attachment images
 				$images = $img->upload_image("images");
 				if($images) {
@@ -189,6 +184,7 @@ class ACP_BLOCKS_HTML {
 
 			go(CP."?act=blocks");
 		}
+		else goback();
 	}
 
 

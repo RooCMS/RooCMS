@@ -1,0 +1,5 @@
+Deny from all
+<Files ~ "\.(jpeg|jpg|gif|png|ico|bmp)$">
+	Allow from all
+</Files>
+php_flag engine  off

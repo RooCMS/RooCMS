@@ -26,7 +26,7 @@
 *   GNU General Public License for more details.
 *
 *   You should have received a copy of the GNU General Public License
-*   along with this program.  If not, see <http://www.gnu.org/licenses/
+*   along with this program.  If not, see http://www.gnu.org/licenses/
 *
 *
 *   RooCMS - Русская бесплатная система управления сайтом
@@ -53,8 +53,6 @@ if(!defined('RooCMS') || !defined('ACP')) die('Access Denied');
 //#########################################################
 
 
-$acp_config = new ACP_CONFIG;
-
 class ACP_CONFIG {
 
 	# classes
@@ -74,7 +72,7 @@ class ACP_CONFIG {
 	*/
 	function __construct() {
 
-		global $db, $config, $tpl;
+		global $db, $config, $tpl, $POST;
 
 
 		# include config class
@@ -82,7 +80,7 @@ class ACP_CONFIG {
 
 
 		# Если есть запрос на обновление тогда обновляем
-		if(@$_REQUEST['update_config'])	$this->update_config();
+		if(isset($POST->update_config))	$this->update_config();
 		else				$this->view_config();
 
 
@@ -111,7 +109,7 @@ class ACP_CONFIG {
 			# запрашиваем из БД опции
 			if($this->part == $part['name']) {
 
-				$this_part = array('name'=>$part['name'], 'title'=>$part['title']);
+				$this_part = $part;
 
 				$q_2 = $db->query("SELECT id, title, description, option_name, option_type, variants, value, default_value, field_maxleight FROM ".CONFIG_TABLE." WHERE part='".$part['name']."' ORDER BY sort ASC");
 				while($option = $db->fetch_assoc($q_2)) {
@@ -347,5 +345,10 @@ class ACP_CONFIG {
 		}
 	}
 }
+
+/**
+ * Init Class
+ */
+$acp_config = new ACP_CONFIG;
 
 ?>

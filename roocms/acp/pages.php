@@ -25,7 +25,7 @@
 *   GNU General Public License for more details.
 *
 *   You should have received a copy of the GNU General Public License
-*   along with this program.  If not, see <http://www.gnu.org/licenses/
+*   along with this program.  If not, see http://www.gnu.org/licenses/
 *
 *
 *   RooCMS - Русская бесплатная система управления сайтом
@@ -69,7 +69,7 @@ class ACP_PAGES {
 	*/
 	function __construct() {
 
-		global $roocms, $GET, $tpl;
+		global $roocms, $GET, $POST, $tpl;
 
 		require_once _CLASS."/class_structure.php";
 		$this->engine = new Structure();
@@ -97,7 +97,7 @@ class ACP_PAGES {
 				break;
 
 			case 'update':
-				if(@$_REQUEST['update_page']) $this->unit->update($this->engine->page_id);
+				if(isset($POST->update_page)) $this->unit->update($this->engine->page_id);
 				else goback();
 				break;
 

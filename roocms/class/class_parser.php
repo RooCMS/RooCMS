@@ -3,9 +3,9 @@
 * @package      RooCMS
 * @subpackage	Engine RooCMS classes
 * @author       alex Roosso
-* @copyright    2010-2014 (c) RooCMS
+* @copyright    2010-2015 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.1.5
+* @version      1.1.6a
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -25,7 +25,7 @@
 *   GNU General Public License for more details.
 *
 *   You should have received a copy of the GNU General Public License
-*   along with this program.  If not, see <http://www.gnu.org/licenses/
+*   along with this program.  If not, see http://www.gnu.org/licenses/
 *
 *
 *   RooCMS - Русская бесплатная система управления сайтом
@@ -56,7 +56,7 @@ if(!defined('RooCMS')) die('Access Denied');
  * Class Parser
  * $_POST / $_GET && other input data
  */
-class Parser {
+class Parsers {
 
 	# included classes
 	public 	$text;				# [obj]		for parsing texts
@@ -109,7 +109,6 @@ class Parser {
 
 		# обрабатываем уведомления
 		$this->parse_notice();
-
 
 		# расширяем класс
 		require_once "class_parserText.php";
@@ -223,10 +222,20 @@ class Parser {
 	function parse_uri() {
 
 		//parse_str($_SERVER['QUERY_STRING'], $gets);
+		//debug(parse_url());
 
 		# Получаем uri
 		$this->uri = str_replace($_SERVER['SCRIPT_NAME'], "", $_SERVER['REQUEST_URI']);
 		if(isset($_SERVER['REDIRECT_URL']) && trim($_SERVER['REDIRECT_URL']) != "") $this->uri = str_replace($_SERVER['REDIRECT_URL'], "", $_SERVER['REQUEST_URI']);
+
+		/**
+		 * Ex: ЧПУ fix
+		 */
+		if($this->uri == "" && isset($_SERVER['REDIRECT_QUERY_STRING']) && trim($_SERVER['REDIRECT_QUERY_STRING']) != "") {
+			$this->uri = "?".str_replace($_SERVER['SCRIPT_NAME'], "", $_SERVER['REDIRECT_QUERY_STRING']);
+		}
+
+		$this->uri = str_ireplace("\\","", $this->uri);
 
 		# разбиваем
 		$gets = explode("/",$this->uri);
@@ -544,7 +553,7 @@ class Parser {
 	*/
 	public function browser($browser, $version = 0) {
 		static $is;
-		if (!is_array($is))	{
+		if (!is_array($is)) {
 
 			$useragent = mb_strtolower($_SERVER['HTTP_USER_AGENT']);
 

@@ -5,7 +5,7 @@
 * @author       alex Roosso
 * @copyright    2010-2014 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.1
+* @version      1.1.1
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -25,7 +25,7 @@
 *   GNU General Public License for more details.
 *
 *   You should have received a copy of the GNU General Public License
-*   along with this program.  If not, see <http://www.gnu.org/licenses/
+*   along with this program.  If not, see http://www.gnu.org/licenses/
 *
 *
 *   RooCMS - Русская бесплатная система управления сайтом
@@ -96,10 +96,11 @@ class ParserText {
 
 		$text = htmlspecialchars_decode($text);
  		$text = strtr($text, array(
-			'&#123;'	=> '{', 	//	{
-			'&#125;'	=> '}', 	//	}
-			'&#39;'		=> '\'', 	//	" [quot]
-			'&#36;'		=> '$'
+			'&#123;'	=> '{', 	#	{
+			'&#125;'	=> '}', 	#	}
+			'&#39;'		=> '\'', 	#	" [quot]
+			'&#36;'		=> '$',
+			'...'		=> '&hellip;'
 		));
 
 		return $text;
@@ -113,14 +114,16 @@ class ParserText {
 	 */
 	public function clearhtml($text) {
 
+		$text = strip_tags($text);
+
  		$text = strtr($text, array(
-			'&lt;'		=> '', 		//	< [lt]
-			'&gt;'		=> '', 		//	> [rt]
-			'&#123;'	=> '', 		//	{
-			'&#125;'	=> '', 		//	}
-			'&#39;'		=> '', 		//	" [quot]
-			'&quot;'	=> '', 		//	" [quot]
-			'&amp;'		=> '',		//	& [amp]
+			'&lt;'		=> '', 		#	< [lt]
+			'&gt;'		=> '', 		#	> [rt]
+			'&#123;'	=> '', 		#	{
+			'&#125;'	=> '', 		#	}
+			'&#39;'		=> '', 		#	" [quot]
+			'&quot;'	=> '', 		#	" [quot]
+			'&amp;'		=> '',		#	& [amp]
 			'&#36;'		=> ''
 		));
 

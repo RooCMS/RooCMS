@@ -24,7 +24,7 @@
 *   GNU General Public License for more details.
 *
 *   You should have received a copy of the GNU General Public License
-*   along with this program.  If not, see <http://www.gnu.org/licenses/
+*   along with this program.  If not, see http://www.gnu.org/licenses/
 *
 *
 *   RooCMS - Русская бесплатная система управления сайтом
@@ -152,7 +152,7 @@ if(file_exists(_CLASS."/class_parser.php")) {
 	/**
 	 * Инициализируем класс
 	 */
-	$parse 	= new Parser;
+	$parse 	= new Parsers;
 	$GET	=& $parse->Get;
 	$POST	=& $parse->Post;
 }
@@ -228,8 +228,6 @@ if(!defined('ACP') && file_exists(_CLASS."/class_structure.php")) {
 	require_once(_CLASS."/class_structure.php");
 	$structure = new Structure;
 }
-
-
 
 
 // $PEAR_PATH_LOCAL = _SITEROOT.'/pear';

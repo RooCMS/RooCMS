@@ -5,9 +5,9 @@
 * @subpackage	Feeds
 * @subpackage	Feed
 * @author       alex Roosso
-* @copyright    2010-2014 (c) RooCMS
+* @copyright    2010-2015 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.5.4
+* @version      1.9
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -27,7 +27,7 @@
 *   GNU General Public License for more details.
 *
 *   You should have received a copy of the GNU General Public License
-*   along with this program.  If not, see <http://www.gnu.org/licenses/
+*   along with this program.  If not, see http://www.gnu.org/licenses/
 *
 *
 *   RooCMS - Русская бесплатная система управления сайтом
@@ -56,18 +56,31 @@ if(!defined('RooCMS') || !defined('ACP')) die('Access Denied');
 
 class ACP_FEEDS_FEED {
 
+	# vars
+	private $feed = array();	# structure parametrs
+
+
+
+	/**
+	 * "Ключ на старт"
+	 *
+	 * @param $structure_data
+	 */
+	function __construct($structure_data) {
+		$this->feed =& $structure_data;
+	}
+
+
         /**
         * Действия для редактирования настроек ленты
-        *
-        * @param int $id - Идентификатор ленты
         */
-	function settings($id) {
+	function settings() {
 
 		global $db, $config, $tpl, $smarty, $GET;
 
 		if($db->check_id($GET->_page, STRUCTURE_TABLE, "id", "page_type='feed'")) {
-			$q = $db->query("SELECT id, rss, items_per_page, thumb_img_width, thumb_img_height FROM ".STRUCTURE_TABLE." WHERE id='".$GET->_page."'");
-			$feed = $db->fetch_assoc($q);
+
+			$feed =& $this->feed;
 
 			# Уведомление о глобальном отключении RSS лент
 			$feed['rss_warn'] = (!$config->rss_power) ? true : false ;
@@ -93,13 +106,12 @@ class ACP_FEEDS_FEED {
 
 	/**
 	 * Функция обновления настроек ленты
-	 * @param $id - идентификатор ленты
 	 */
-	function update_settings($id) {
+	function update_settings() {
 
-		global $db, $img, $GET, $POST, $parse;
+		global $db, $img, $POST, $parse;
 
-		if(@$_REQUEST['update_settings'] && $db->check_id($GET->_page, STRUCTURE_TABLE, "id", "page_type='feed'")) {
+		if(isset($POST->update_settings)) {
 			# update buffer
 			$update = "";
 
@@ -110,8 +122,18 @@ class ACP_FEEDS_FEED {
 			# thumbnail check
 			$img->check_post_thumb_parametrs();
 
+			$update .= (isset($POST->items_sorting) && ($POST->items_sorting == "title_asc" || $POST->items_sorting == "title_desc" || $POST->items_sorting == "manual_sorting"))
+				? " items_sorting = '".$POST->items_sorting."', " : " items_sorting = 'datepublication', " ;
+
 			# up data to db
-			$db->query("UPDATE ".STRUCTURE_TABLE." SET ".$update." thumb_img_width='".$POST->thumb_img_width."', thumb_img_height='".$POST->thumb_img_height."', date_modified='".time()."' WHERE id='".$GET->_page."'");
+			$db->query("UPDATE ".STRUCTURE_TABLE."
+					SET
+						".$update."
+						thumb_img_width='".$POST->thumb_img_width."',
+						thumb_img_height='".$POST->thumb_img_height."',
+						date_modified='".time()."'
+					WHERE
+						id='".$this->feed['id']."'");
 
 			$parse->msg("Настройки успешно обновлены");
 		}
@@ -122,20 +144,38 @@ class ACP_FEEDS_FEED {
 
 
 	/**
-	 * Функция вызова настроек ленты для редактирования.
-	 * @param int $id - идентификатор ленты
+	 * Функция вызова ленты для редактирования.
 	 */
-	function control($id) {
+	function control() {
 
 		global $db, $parse, $tpl, $smarty;
 
-		$q = $db->query("SELECT id, title, alias FROM ".STRUCTURE_TABLE." WHERE id='".$id."'");
-		$feed = $db->fetch_assoc($q);
+		switch($this->feed['items_sorting']) {
+			case 'datepublication':
+				$order = "date_publications DESC, date_create DESC, date_update DESC";
+				break;
 
-		$smarty->assign("feed", $feed);
+			case 'title_asc':
+				$order = "title ASC, date_publications DESC";
+				break;
+
+			case 'title_desc':
+				$order = "title DESC, date_publications DESC";
+				break;
+
+			case 'manual_sorting':
+				$order = "sort ASC, date_publications DESC, date_create DESC";
+				break;
+
+			default:
+				$order = "date_publications DESC, date_create DESC, date_update DESC";
+				break;
+		}
+
+		$smarty->assign("feed", $this->feed);
 
 		$feedlist = array();
-		$q = $db->query("SELECT id, status, title, brief_item, date_publications, date_end_publications, date_update FROM ".PAGES_FEED_TABLE." WHERE sid='".$id."' ORDER BY date_publications DESC, date_create DESC, date_update DESC");
+		$q = $db->query("SELECT id, status, title, brief_item, date_publications, date_end_publications, date_update FROM ".PAGES_FEED_TABLE." WHERE sid='".$this->feed['id']."' ORDER BY ".$order);
 		while($row = $db->fetch_assoc($q)) {
         		$row['publication_status'] = ($row['date_end_publications'] < time() && $row['date_end_publications'] != 0) ? "hide" : "show" ;
 
@@ -159,11 +199,10 @@ class ACP_FEEDS_FEED {
 	 */
 	function create_item() {
 
-		global $db, $parse, $img, $POST, $GET, $tpl, $smarty;
+		global $db, $parse, $img, $POST, $tpl, $smarty;
 
-		if(@$_REQUEST['create_item']) {
+		if(isset($POST->create_item)) {
 			if(!isset($POST->title)) 	$parse->msg("Не заполнен заголовок элемента",false);
-			if(!isset($POST->brief_item)) 	$parse->msg("Не заполнен аннотация элемента",false);
 			if(!isset($POST->full_item)) 	$parse->msg("Не заполнен подробный текст элемента",false);
 
 			# дата публикации и продолжительности
@@ -173,6 +212,7 @@ class ACP_FEEDS_FEED {
 			# meta
 			if(!isset($POST->meta_description))	$POST->meta_description	= "";
 			if(!isset($POST->meta_keywords))	$POST->meta_keywords	= "";
+			if(!isset($POST->brief_item)) 		$POST->brief_item = "";
 
 
 			if(!isset($_SESSION['error'])) {
@@ -182,14 +222,19 @@ class ACP_FEEDS_FEED {
 
 				if($POST->date_end_publications != 0 && $POST->date_end_publications <= $POST->date_publications) $POST->date_end_publications = 0;
 
+				# sort
+				if(!isset($POST->itemsort) || $POST->itemsort < 0) $POST->itemsort = 0;
+				else $POST->itemsort = round($POST->itemsort);
 
 				# insert
 				$db->query("INSERT INTO ".PAGES_FEED_TABLE." (title, meta_description, meta_keywords,
 									      brief_item, full_item,
-									      date_create, date_update, date_publications, date_end_publications, sid)
+									      date_create, date_update, date_publications, date_end_publications,
+									      sort, sid)
 								      VALUES ('".$POST->title."', '".$POST->meta_description."', '".$POST->meta_keywords."',
 									      '".$POST->brief_item."', '".$POST->full_item."', '".time()."', '".time()."',
-									      '".$POST->date_publications."', '".$POST->date_end_publications."', '".$GET->_page."')");
+									      '".$POST->date_publications."', '".$POST->date_end_publications."',
+									      '".$POST->itemsort."', '".$this->feed['id']."')");
 
 				# notice
 				$parse->msg("Элемент ".$POST->title." успешно создан.");
@@ -197,12 +242,8 @@ class ACP_FEEDS_FEED {
 				# get feed id
 				$fid = $db->insert_id();
 
-				# read thumbnail parametrs
-				$q = $db->query("SELECT thumb_img_width, thumb_img_height FROM ".STRUCTURE_TABLE." WHERE id='".$GET->_page."'");
-				$thumbsize = $db->fetch_assoc($q);
-
 				# attachment images
-				$images = $img->upload_image("images", "", array($thumbsize['thumb_img_width'], $thumbsize['thumb_img_height']));
+				$images = $img->upload_image("images", "", array($this->feed['thumb_img_width'], $this->feed['thumb_img_height']));
 				if($images) {
 					foreach($images AS $image) {
 						$img->insert_images($image, "feedid=".$fid);
@@ -210,19 +251,22 @@ class ACP_FEEDS_FEED {
 				}
 
 				# recount items
-				$this->count_items($GET->_page);
+				$this->count_items($this->feed['id']);
 			}
 
 			# переход
-			go(CP."?act=feeds&part=control&page=".$GET->_page);
+			go(CP."?act=feeds&part=control&page=".$this->feed['id']);
 		}
 
-		# show upload images form
-		require_once _LIB."/mimetype.php";
-		$smarty->assign("allow_images_type", $imagetype);
-		$imagesupload = $tpl->load_template("images_upload", true);
-		$smarty->assign("imagesupload", $imagesupload);
 
+		# show upload images form
+		$tpl->load_image_upload_tpl("imagesupload");
+
+		# feed data
+		$smarty->assign("feed", $this->feed);
+
+
+		# tpl
 		$content = $tpl->load_template("feeds_create_item_feed", true);
 		$smarty->assign("content", $content);
 	}
@@ -230,6 +274,7 @@ class ACP_FEEDS_FEED {
 
 	/**
 	 * Функция вызова параметров элемента ленты для их редактирвоания
+	 *
 	 * @param $id - идентификатор элемента ленты
 	 */
 	function edit_item($id) {
@@ -237,7 +282,7 @@ class ACP_FEEDS_FEED {
 		global $db, $img, $tpl, $smarty, $parse;
 
 
-		$q = $db->query("SELECT id, sid, status, title, meta_description, meta_keywords, brief_item, full_item, date_publications, date_end_publications FROM ".PAGES_FEED_TABLE." WHERE id='".$id."'");
+		$q = $db->query("SELECT id, sid, status, sort, title, meta_description, meta_keywords, brief_item, full_item, date_publications, date_end_publications FROM ".PAGES_FEED_TABLE." WHERE id='".$id."'");
 		$item = $db->fetch_assoc($q);
 
 		$item['date_publications'] = $parse->date->unix_to_rusint($item['date_publications']);
@@ -258,12 +303,13 @@ class ACP_FEEDS_FEED {
 		$smarty->assign("attachedimages", $attachedimages);
 
 		# show upload images form
-		require_once _LIB."/mimetype.php";
-		$smarty->assign("allow_images_type", $imagetype);
-		$imagesupload = $tpl->load_template("images_upload", true);
-		$smarty->assign("imagesupload", $imagesupload);
+		$tpl->load_image_upload_tpl("imagesupload");
+
+		# feed data
+		$smarty->assign("feed", $this->feed);
 
 
+		# tpl
 		$content = $tpl->load_template("feeds_edit_item_feed", true);
 		$smarty->assign("content", $content);
 	}
@@ -279,7 +325,6 @@ class ACP_FEEDS_FEED {
 		global $db, $parse, $img, $POST, $GET;
 
 		if(!isset($POST->title)) 	$parse->msg("Не заполнен заголовок элемента",false);
-		if(!isset($POST->brief_item)) 	$parse->msg("Не заполнен аннотация элемента",false);
 		if(!isset($POST->full_item)) 	$parse->msg("Не заполнен подробный текст элемента",false);
 
 		# status
@@ -292,6 +337,7 @@ class ACP_FEEDS_FEED {
 		# meta
 		if(!isset($POST->meta_description))	$POST->meta_description	= "";
 		if(!isset($POST->meta_keywords))	$POST->meta_keywords	= "";
+		if(!isset($POST->brief_item)) 		$POST->brief_item = "";
 
 		if(!isset($_SESSION['error'])) {
 
@@ -300,16 +346,24 @@ class ACP_FEEDS_FEED {
 
                         if($POST->date_end_publications != 0 && $POST->date_end_publications <= $POST->date_publications) $POST->date_end_publications = 0;
 
-		        $db->query("UPDATE ".PAGES_FEED_TABLE." SET status='".$POST->status."',
-		        					    title='".$POST->title."',
-							            meta_description='".$POST->meta_description."',
-							            meta_keywords='".$POST->meta_keywords."',
-							            brief_item='".$POST->brief_item."',
-							            full_item='".$POST->full_item."',
-							            date_publications='".$POST->date_publications."',
-							            date_end_publications='".$POST->date_end_publications."',
-							            date_update='".time()."'
-						              WHERE id='".$id."'");
+			# sort
+			if(!isset($POST->itemsort) || $POST->itemsort < 0) $POST->itemsort = 0;
+			else $POST->itemsort = round($POST->itemsort);
+
+		        $db->query("UPDATE ".PAGES_FEED_TABLE."
+		        		SET
+		        			status = '".$POST->status."',
+		        			sort = '".$POST->itemsort."',
+						title = '".$POST->title."',
+						meta_description = '".$POST->meta_description."',
+						meta_keywords = '".$POST->meta_keywords."',
+						brief_item = '".$POST->brief_item."',
+						full_item = '".$POST->full_item."',
+						date_publications = '".$POST->date_publications."',
+						date_end_publications = '".$POST->date_end_publications."',
+						date_update = '".time()."'
+					WHERE
+						id = '".$id."'");
 
 			$parse->msg("Элемент ".$POST->title." успешно отредактирован.");
 
@@ -325,12 +379,8 @@ class ACP_FEEDS_FEED {
 			}
 
 
-			# read thumbnail parametrs
-			$q = $db->query("SELECT thumb_img_width, thumb_img_height FROM ".STRUCTURE_TABLE." WHERE id='".$GET->_page."'");
-			$thumbsize = $db->fetch_assoc($q);
-
 			# attachment images
-			$images = $img->upload_image("images", "", array($thumbsize['thumb_img_width'], $thumbsize['thumb_img_height']));
+			$images = $img->upload_image("images", "", array($this->feed['thumb_img_width'], $this->feed['thumb_img_height']));
 			if($images) {
 				foreach($images AS $image) {
 					$img->insert_images($image, "feedid=".$id);
@@ -346,8 +396,90 @@ class ACP_FEEDS_FEED {
 
 
 	/**
+	 * Функция переноса элемента из одной ленты в другую
+	 *
+	 * @param $id - идентификатор элемента ленты
+	 */
+	function migrate_item($id) {
+
+		global $db, $parse, $tpl, $smarty, $POST;
+
+
+		# Migrate
+		if(isset($POST->migrate_item) && isset($POST->from) && isset($POST->to) && $db->check_id($POST->from, STRUCTURE_TABLE, "id", "page_type='feed'") && $db->check_id($POST->to, STRUCTURE_TABLE, "id", "page_type='feed'")) {
+
+			$db->query("UPDATE ".PAGES_FEED_TABLE."
+		        		SET
+		        			sid = '".$POST->to."',
+						date_update = '".time()."'
+					WHERE
+						id = '".$id."'");
+
+			# recount items
+			$this->count_items($POST->from);
+			$this->count_items($POST->to);
+
+
+			# notice
+			$parse->msg("Элемент id : ".$id." успешно перемещен.");
+
+			#go
+			go(CP."?act=feeds&part=control&page=".$POST->to);
+		}
+
+
+		# get data item from db
+		$q = $db->query("SELECT id, sid, title FROM ".PAGES_FEED_TABLE." WHERE id='".$id."'");
+		$data = $db->fetch_assoc($q);
+
+		# smarty vars
+		$smarty->assign("item", $data);
+
+
+		# get data feeds from db
+		$feeds = array();
+		$q = $db->query("SELECT id, title, alias FROM ".STRUCTURE_TABLE." WHERE page_type='feed' ORDER BY id ASC");
+		while($row = $db->fetch_assoc($q)) {
+			$feeds[$row['id']] = $row;
+		}
+
+		# smarty vars
+		$smarty->assign("feeds", $feeds);
+
+
+		# tpl
+		$content = $tpl->load_template("feeds_migrate_item_feed", true);
+		$smarty->assign("content", $content);
+	}
+
+
+	/**
+	 * Функция изменяет статус элемента ленты
+	 *
+	 * @param     $id - идентификатор элемента ленты
+	 * @param int $status - 1= Видимый , 2=Скрытый
+	 */
+	function change_item_status($id, $status = 1) {
+		global $db, $parse;
+
+		$status = round($status);
+		if($status >= 2 || $status < 0) $status = 1;
+
+		#db
+		$db->query("UPDATE ".PAGES_FEED_TABLE." SET status='".$status."' WHERE id='".$id."'");
+
+		# notice
+		$mstatus = ($status == 1) ? "Видимый" : "Скрытый" ;
+		$parse->msg("Элемент #".$id." успешно изменил свой статус на <".$mstatus.">.");
+
+		goback();
+	}
+
+
+	/**
 	 * Функция удаления отдельног элемента ищ ленты
-	 * @param $id - идентификатор ленты
+	 *
+	 * @param $id - идентификатор элемента ленты
 	 */
 	function delete_item($id) {
 

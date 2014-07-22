@@ -1,5 +1,5 @@
 {* Шаблон управления помощью сайта *}
-<div class="col-md-2">
+<div class="col-sm-2">
 	<ul class="nav nav-pills nav-stacked">
 		<li class="nav-header">Разделы</li>
 	    {foreach from=$tree item=gpart key=k}
@@ -18,8 +18,8 @@
 		{/if}
 	</ul>
 </div>
-<div class="col-md-10 thumbnail">
-	<div class="caption">
-    	{$content}
+<div class="col-sm-10">
+	<div class=" panel panel-default">
+    		{$content}
 	</div>
 </div>

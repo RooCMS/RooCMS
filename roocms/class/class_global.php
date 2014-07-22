@@ -25,7 +25,7 @@
 *   GNU General Public License for more details.
 *
 *   You should have received a copy of the GNU General Public License
-*   along with this program.  If not, see <http://www.gnu.org/licenses/
+*   along with this program.  If not, see http://www.gnu.org/licenses/
 *
 *
 *   RooCMS - Русская бесплатная система управления сайтом
@@ -70,9 +70,10 @@ class Globals {
 	public	$ajax		= false;	# [bool]	flag ajax output
 	public	$rss		= false;	# [bool]	flag rss output
 	public	$modifiedsince	= false;	# [bool]	flag for answer IF MODIFIED SINCE
-	//public	$noscript	= false;	# [bool]	flag noscript identification
+	//public $noscript	= false;	# [bool]	flag noscript identification
 
 	# userdata
+	public	$usersession	= "";		# [string]	user ssession
 	public  $referer	= "";		# [string]	user referer
 	public  $userip		= "";		# [string]	user ip address
 	public	$useragent	= "";		# [string]	user agent string
@@ -92,10 +93,13 @@ class Globals {
 		# Инициируем конфигурацию
 		$this->init_configuration();
 
-		# 	init referer
+		# read session id
+		$this->usersession = session_id();
+
+		# init referer
 		$this->referer 	= mb_strtolower(getenv("HTTP_REFERER"));
 
-		#	init userip
+		# init userip
 		if(getenv('HTTP_X_FORWARDED_FOR'))
 			$this->userip = getenv('HTTP_X_FORWARDED_FOR');
 		else

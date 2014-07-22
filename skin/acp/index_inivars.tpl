@@ -1,11 +1,13 @@
 {* Значение PHP переменных *}
 
-<h3>{$part_title}</h3>
+<div class="panel-heading">
+	{$part_title}
+</div>
 
 <table class="table table-hover table-condensed">
 	{*<caption>Общая сводка</caption>*}
 	<thead>
-		<tr>
+		<tr class="active">
 			<th>Параметр</th>
 			<th>Локальное значение</th>
 			<th class="visible-lg">Значение на сервере</th>

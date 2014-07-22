@@ -1,9 +1,13 @@
 {* PHP Info *}
 
-<h3>{$part_title}</h3>
+<div class="panel-heading">
+	{$part_title}
+</div>
 
-<div id="phpinfo" class="text-center table-responsive">
-	{$phpinfo}
+<div class="panel-body">
+	<div id="phpinfo" class="text-center table-responsive">
+		{$phpinfo}
+	</div>
 </div>
 
 {literal}

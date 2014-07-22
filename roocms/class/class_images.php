@@ -3,9 +3,9 @@
 * @package      RooCMS
 * @subpackage	Engine RooCMS classes
 * @author       alex Roosso
-* @copyright    2010-2014 (c) RooCMS
+* @copyright    2010-2015 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.2.2
+* @version      1.3
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -25,7 +25,7 @@
 *   GNU General Public License for more details.
 *
 *   You should have received a copy of the GNU General Public License
-*   along with this program.  If not, see <http://www.gnu.org/licenses/
+*   along with this program.  If not, see http://www.gnu.org/licenses/
 *
 *
 *   RooCMS - Русская бесплатная система управления сайтом
@@ -59,37 +59,56 @@ class Images extends GD {
 
 
 	/**
-	* Загрузка картинок через $_POST
-	*
-	* @param string $file - имя в массиве $_FILES
-	* @param string $prefix - префикс для имения файла.
-	* @param array $thumbsize - array(width,height) - размеры миниатюры будут изменен согласно параметрам.
-	* @param boolean $watermark - флаг указывает наносить ли водяной знак на рисунок.
-	* @param string $path - путь к папке для загрузки изображений.
-	* @param boolean $no_empty - определяет пропускать ли пустые элементы в массиве FILES или обозначать их в выходном буфере.
-	* @return string or array - возвращает имя файла или массив с именами файлов.
-	*/
+	 * Раздатчик функции загрузки файлов на сервер и в БД
+	 *
+	 * @param string  $file - имя в массиве $_FILES
+	 * @param string  $prefix - префикс для имения файла.
+	 * @param array   $thumbsize - array(width,height) - размеры миниатюры будут изменены согласно параметрам.
+	 * @param boolean $watermark - флаг указывает наносить ли водяной знак на рисунок.
+	 * @param string  $path - путь к папке для загрузки изображений.
+	 * @param boolean $no_empty - определяет пропускать ли пустые элементы в массиве FILES или обозначать их в выходном буфере.
+	 *
+	 * @return array - возвращает массив с именами файлов.
+	 */
 	public function upload_image($file, $prefix="", array $thumbsize=array(), $watermark=true, $path=_UPLOADIMAGES, $no_empty=true) {
 
-		global $config, $files;
+		global $config, $POST;
 
-		# check allow type
-		require_once _LIB."/mimetype.php";
+		if($config->gd_multiupload) {
+			if(is_array($file))
+				return $this->reconstruct_image($file, $prefix, $thumbsize, $watermark, $path, $no_empty);
+			else
+				if(isset($POST->$file)) return $this->reconstruct_image($POST->$file, $prefix, $thumbsize, $watermark, $path, $no_empty);
+		}
+		else
+			return $this->upload_post_image($file, $prefix, $thumbsize, $watermark, $path, $no_empty);
+	}
 
+
+	/**
+	 * Загрузка картинок через $_POST
+	 *
+	 * @param string  $file - имя в массиве $_FILES
+	 * @param string  $prefix - префикс для имения файла.
+	 * @param array   $thumbsize - array(width,height) - размеры миниатюры будут изменены согласно параметрам.
+	 * @param boolean $watermark - флаг указывает наносить ли водяной знак на рисунок.
+	 * @param string  $path - путь к папке для загрузки изображений.
+	 * @param boolean $no_empty - определяет пропускать ли пустые элементы в массиве FILES или обозначать их в выходном буфере.
+	 *
+	 * @return array - возвращает массив с именами файлов.
+	 */
+	public function upload_post_image($file, $prefix="", array $thumbsize=array(), $watermark=true, $path=_UPLOADIMAGES, $no_empty=true) {
+
+		global $files;
+
+		# Составляем массив для проверки разрешенных типов файлов к загрузке
 		static $allow_exts = array();
-
-		if(empty($allow_exts)) {
-	                foreach($imagetype AS $itype) {
-        		        $allow_exts[$itype['mime_type']] = $itype['ext'];
-			}
-		}
+		if(empty($allow_exts))
+			$allow_exts = $this->get_allow_exts();
 
 
-		# Resize ini vars
-		if(is_array($thumbsize) && count($thumbsize) == 2) {
-			if(round($thumbsize[0]) > 16)	$this->tsize['w'] = round($thumbsize[0]);
-			if(round($thumbsize[1]) > 16)	$this->tsize['h'] = round($thumbsize[1]);
-		}
+		# Определяем настройки размеров для будущих миниатюр
+		$this->set_thumb_sizes($thumbsize);
 
 
 		# Если $_FILES не является массивом конвертнем в массив
@@ -100,6 +119,8 @@ class Images extends GD {
                 	}
 		}
 
+
+		# приступаем к обработке
 		foreach($_FILES[$file]['tmp_name'] AS $key=>$value) {
 			if(isset($_FILES[$file]['tmp_name'][$key]) && $_FILES[$file]['error'][$key] == 0) {
 
@@ -116,24 +137,12 @@ class Images extends GD {
 					copy($_FILES[$file]['tmp_name'][$key], $path."/".$filename."_original.".$ext);
 
 					# Если загрузка прошла и файл на месте
-					$upload = true;
-					if(!file_exists($path."/".$filename."_original.".$ext)) $upload = false;
+					$upload = (!file_exists($path."/".$filename."_original.".$ext)) ? false : true ;
 				}
 
 				# Если загрузка удалась
-				if($upload) {
-
-                                        # изменяем изображение если, оно превышает допустимые размеры
-                                        $this->resize($filename, $ext, $path);
-
-					# Создаем миниатюру
-					$this->thumbnail($filename, $ext, $path);
-
-					if($config->gd_use_watermark && $watermark) {
-						# наносим ватермарк
-						$this->watermark($filename, $ext, $path);
-					}
-				}
+				if($upload)
+					$this->modify_image($filename, $ext, $path, $watermark);
 				else {
 					# Обработчик если загрузка не удалась =)
 					$filename = false;
@@ -153,20 +162,103 @@ class Images extends GD {
 			}
 		}
 
-		if(isset($names) && count($names) > 0) return $names;
-		else return false;
+		# Возвращаем массив имен файлов для внесения в БД
+		return (isset($names) && count($names) > 0) ? $names : false ;
 	}
 
 
 	/**
-	* Выгружаем присоедененные изображения
-	*
-	* @param string $where - параметр указывающий на элемент к которому прикреплены изображения
-	* @param int $from - стартовая позиция для загрузки изображений
-	* @param int $limit - лимит загружаемых изображений
-	*
-	* @return array $data - массив с данными об изображениях.
-	*/
+	 * Обработка картинок согласно установленны в конфигураторе параметрам.
+	 * Используется в процедурах смены водянного знака, а так же при мультизагрузке изображений на сервер.
+	 *
+	 * @param        $source - полный путь к модифицироваемому файлу изображения
+	 * @param string $prefix - префикс для имения файла.
+	 * @param array  $thumbsize - array(width,height) - размеры миниатюры будут изменен согласно параметрам.
+	 * @param bool   $watermark - флаг указывает наносить ли водяной знак на рисунок.
+	 * @param string $path - путь к папке для загрузки изображений.
+	 * @param bool   $no_empty - определяет пропускать ли пустые элементы в массиве FILES или обозначать их в выходном буфере.
+	 *
+	 * @return array - возвращает массив с именами файлов.
+	 */
+	public function reconstruct_image($source, $prefix="", array $thumbsize=array(), $watermark=true, $path=_UPLOADIMAGES, $no_empty=true) {
+
+		global $files;
+
+		# Составляем массив для проверки разрешенных типов файлов к загрузке
+		static $allow_exts = array();
+		if(empty($allow_exts))
+			$allow_exts = $this->get_allow_exts();
+
+
+		# Определяем настройки размеров для будущих миниатюр
+		$this->set_thumb_sizes($thumbsize);
+
+
+		# Если в параметре для модификации файла мы получили строку, а не массив, преобразовываем в массив.
+		if(!is_array($source))
+			$sources[] = $source;
+		else
+			$sources = $source;
+
+		# Приступаем к обработке
+		foreach($sources AS $k=>$imagesource) {
+			if(file_exists($imagesource)) {
+
+				$upload = false;
+
+				# Грузим апельсины бочками
+				$source_info = pathinfo($imagesource);
+
+				if(isset($source_info['extension'])) {
+					if(in_array($source_info['extension'], $allow_exts)) {
+
+						# Создаем имя файлу.
+						$filename = $files->create_filename(substr($source_info['filename'], 0, -6).".".$source_info['extension'], $prefix);
+
+						# Сохраняем оригинал
+						copy($imagesource, $path."/".$filename."_original.".$source_info['extension']);
+
+						# Если загрузка прошла и файл на месте
+						$upload = (!file_exists($path."/".$filename."_original.".$source_info['extension'])) ? false : true ;
+					}
+
+					# Если загрузка удалась
+					if($upload) {
+						# modify
+						$this->modify_image($filename, $source_info['extension'], $path, $watermark);
+						# destroy source
+						unlink($imagesource);
+					}
+					else {
+						# Обработчик если загрузка не удалась =)
+						$filename = false;
+					}
+
+
+					if(!$no_empty) {
+						$names[$key] = $filename.".".$source_info['extension'];
+					}
+					else {
+						if($filename) $names[] = $filename.".".$source_info['extension'];
+					}
+				}
+			}
+		}
+
+		# Возвращаем массив имен файлов для внесения в БД
+		return (isset($names) && count($names) > 0) ? $names : false ;
+	}
+
+
+	/**
+	 * Выгружаем присоедененные изображения
+	 *
+	 * @param string $where - параметр указывающий на элемент к которому прикреплены изображения
+	 * @param int    $from - стартовая позиция для загрузки изображений
+	 * @param int    $limit - лимит загружаемых изображений
+	 *
+	 * @return array $data - массив с данными об изображениях.
+	 */
 	public function load_images($where, $from = 0, $limit = 0) {
 
                 global $db;
@@ -177,7 +269,7 @@ class Images extends GD {
 
 		$q = $db->query("SELECT id, filename, fileext, sort, alt FROM ".IMAGES_TABLE." WHERE attachedto='".$where."' ORDER BY sort ASC ".$l);
 		while($image = $db->fetch_assoc($q)) {
-			$image['origianl']	= $image['filename']."_originak.".$image['fileext'];
+			$image['original']	= $image['filename']."_original.".$image['fileext'];
 			$image['resize']	= $image['filename']."_resize.".$image['fileext'];
 			$image['thumb']		= $image['filename']."_thumb.".$image['fileext'];
 
@@ -189,38 +281,36 @@ class Images extends GD {
 
 
 	/**
-	* Загружаем информацию о изображениях
-	*
-	* @param string $filename - имя файла без $pofix
-	* @param mixed $attached - родитель файла
-	* @param string $alt - alt-text
-	*/
+	 * Загружаем информацию о изображениях
+	 *
+	 * @param string $filename - имя файла без $pofix
+	 * @param mixed  $attached - родитель файла
+	 * @param string $alt - alt-text
+	 */
 	public function insert_images($filename, $attached, $alt="") {
 
         	global $db, $parse;
 
         	//if(!is_array($filename)) $filename[] = $filename;
 
-        	$image 	= explode(".", $filename);
-        	$kext 	= count($image) - 1;
-
-        	$fext 	= $image[$kext];
-        	$fname 	= str_ireplace(".".$image[$kext], "", $filename);
+		$image = pathinfo($filename);
 
 		$db->query("INSERT INTO ".IMAGES_TABLE." (attachedto, filename, fileext, alt)
-						    VALUES ('".$attached."', '".$fname."', '".$fext."', '".$alt."')");
+						    VALUES ('".$attached."', '".$image['filename']."', '".$image['extension']."', '".$alt."')");
+
+		# msg
 		if(DEBUGMODE) $parse->msg("Изображение ".$filename." успешно загружено на сервер");
 	}
 
 
 	/**
-	* Функция удаления картинок
-	*
-	* @param int/string $image - указать числовой идентификатор или attachedto
-	* @param boolean $clwhere - флаг указывает как считывать параметр $image
-	* 				положение false указывает, что передается параметр id или attachedto
-	* 				положение true указывает, что передается полностью выраженное условие
-	*/
+	 * Функция удаления картинок
+	 *
+	 * @param int/string $image - указать числовой идентификатор или attachedto
+	 * @param boolean    $clwhere - флаг указывает как считывать параметр $image
+	 * 				положение false указывает, что передается параметр id или attachedto
+	 * 				положение true указывает, что передается полностью выраженное условие
+	 */
 	public function delete_images($image, $clwhere=false) {
 
                 global $db, $parse;
@@ -281,6 +371,22 @@ class Images extends GD {
 
 		if($POST->thumb_img_width < 16) $POST->thumb_img_width = 0;
 		if($POST->thumb_img_height < 16) $POST->thumb_img_height = 0;
+	}
+
+
+	/**
+	 * Функция составляет массив допустимых расширений изображений разрешенных для загрузки на сервер.
+	 *
+	 * @return mixed Возвращает массив с допустимыми расширениями изображения для загрузки на сервер
+	 */
+	public function get_allow_exts() {
+		require_once _LIB."/mimetype.php";
+
+		foreach($imagetype AS $itype) {
+			$allow_exts[$itype['mime_type']] = $itype['ext'];
+		}
+
+		return $allow_exts;
 	}
 }
 

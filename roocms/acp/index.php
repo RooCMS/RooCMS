@@ -25,7 +25,7 @@
 *   GNU General Public License for more details.
 *
 *   You should have received a copy of the GNU General Public License
-*   along with this program.  If not, see <http://www.gnu.org/licenses/
+*   along with this program.  If not, see http://www.gnu.org/licenses/
 *
 *
 *   RooCMS - Русская бесплатная система управления сайтом
@@ -51,7 +51,6 @@
 if(!defined('RooCMS') || !defined('ACP')) die('Access Denied');
 //#########################################################
 
-$acp_index = new ACP_INDEX;
 
 class ACP_INDEX {
 
@@ -283,4 +282,9 @@ class ACP_INDEX {
 		$smarty->assign('content',	$content);
 	}
 }
+
+/**
+ * Init Class
+ */
+$acp_index = new ACP_INDEX;
 ?>

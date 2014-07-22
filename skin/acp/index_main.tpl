@@ -1,12 +1,13 @@
 {* Разные предупреждения *}
 
-
-<h3>{$part_title}</h3>
+<div class="panel-heading">
+	{$part_title}
+</div>
 
 <table class="table table-hover table-condensed">
 	{*<caption>Общая сводка</caption>*}
 	<thead>
-		<tr>
+		<tr class="active">
 			<th>Параметр</th>
 			<th>Значение</th>
 		</tr>
@@ -20,8 +21,8 @@
 			{/foreach}
 		{/if}
 		<tr>
-    		<td>Ваша версия RooCMS:</td>
-    		<td>{$info['roocms']}</td>
+			<td>Ваша версия RooCMS:</td>
+			<td>{$info['roocms']}</td>
 		</tr>
 	</tbody>
 </table>

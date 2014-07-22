@@ -27,7 +27,7 @@
 *   GNU General Public License for more details.
 *
 *   You should have received a copy of the GNU General Public License
-*   along with this program.  If not, see <http://www.gnu.org/licenses/
+*   along with this program.  If not, see http://www.gnu.org/licenses/
 *
 *
 *   RooCMS - Русская бесплатная система управления сайтом
@@ -63,7 +63,7 @@ class ACP_BLOCKS_PHP {
 
 		global $db, $tpl, $smarty, $POST, $parse;
 
-		if(@$_REQUEST['create_block']) {
+		if(isset($POST->create_block)) {
 
 			if(!isset($POST->title)) $parse->msg("Не указано название блока!", false);
 			if(!isset($POST->alias) || $db->check_id($POST->alias, BLOCKS_TABLE, "alias"))	$parse->msg("Не указан алиас блока или он не уникален!", false);
@@ -112,7 +112,7 @@ class ACP_BLOCKS_PHP {
 
 		global $db, $POST, $GET, $parse;
 
-		if(@$_REQUEST['update_block']) {
+		if(isset($POST->update_block)) {
 
 			if(!isset($POST->title)) $parse->msg("Не указано название блока!", false);
 			if(!isset($POST->alias) || $db->check_id($POST->alias, BLOCKS_TABLE, "alias", "alias!='".$POST->oldalias."'"))	$parse->msg("Не указан алиас блока или он не уникален!", false);
@@ -135,6 +135,7 @@ class ACP_BLOCKS_PHP {
 
 			go(CP."?act=blocks");
 		}
+		else goback();
 	}
 
 

@@ -7,9 +7,9 @@
 
 <div class="container visible-xs" id="logo-xs">
 	<div class="row">
-    	<div class="col-md-12 text-center">
-        	<a href="{$SCRIPT_NAME}"><img src="{$SKIN}/img/acp_logo_full.png" border="0"></a>
-    	</div>
+    		<div class="col-md-12 text-center">
+        		<a href="{$SCRIPT_NAME}"><img src="{$SKIN}/img/acp_logo_full.png" border="0"></a>
+    		</div>
 	</div>
 </div>
 
@@ -17,40 +17,40 @@
 
 		<div class="navbar-header text-center">
 			<a class="navbar-brand hidden-xs" href="{$SCRIPT_NAME}"><img src="{$SKIN}/img/acp_logo_full.png" border="0" class="absolute" id="logo"></a>
-			<button type="button" class="navbar-btn btn btn-danger visible-xs btn-block" data-toggle="collapse" data-target=".navbar-ex-collapse">
+			<button type="button" class="navbar-btn btn btn-danger visible-xs btn-block" data-toggle="collapse" data-target=".navbar-collapse">
 				Навигация
 			</button>
 		</div>
 
-		<div class="collapse navbar-collapse navbar-ex-collapse">
+		<div class="collapse navbar-collapse">
 
-        	<ul class="nav navbar-nav tshadow">
-        		{foreach from=$menu_items_left item=menu_item}
-                	<li class="hidden-sm{if isset($smarty.get.act) && $smarty.get.act == $menu_item['act']} active{/if}">
-                		<a href="{$menu_item['link']}" target="{$menu_item['window']}">
-                			<span class="{$menu_item['icon']}"></span> {$menu_item['text']}
-                		</a>
-                	</li>
-                	<li class="visible-sm{if isset($smarty.get.act) && $smarty.get.act == $menu_item['act']} active{/if}" rel="tooltip" title="{$menu_item['text']}" data-placement="right">
-                		<a href="{$menu_item['link']}" target="{$menu_item['window']}">
-                			<span class="{$menu_item['icon']}"></span>
-                		</a>
-                	</li>
-        		{/foreach}
-        	</ul>
-        	<ul class="nav navbar-nav navbar-right">
-        		{foreach from=$menu_items_right item=menu_item}
-                	<li class="hidden-sm{if isset($smarty.get.act) && $smarty.get.act == $menu_item['act']} active{/if}">
-                		<a href="{$menu_item['link']}" target="{$menu_item['window']}">
-                			<span class="hidden-sm"><span class="{$menu_item['icon']}"></span> {$menu_item['text']}</span>
-                		</a>
-                	</li>
-                	<li class="visible-sm{if isset($smarty.get.act) && $smarty.get.act == $menu_item['act']} active{/if}" rel="tooltip" title="{$menu_item['text']}" data-placement="left">
-                		<a href="{$menu_item['link']}" target="{$menu_item['window']}">
-                			<span class="{$menu_item['icon']}"></span>
-                		</a>
-                	</li>
-        		{/foreach}
-        	</ul>
+			<ul class="nav navbar-nav tshadow">
+				{foreach from=$menu_items_left item=menu_item}
+				<li class="hidden-sm{if isset($smarty.get.act) && $smarty.get.act == $menu_item['act']} active{/if}">
+					<a href="{$menu_item['link']}" target="{$menu_item['window']}">
+						<span class="{$menu_item['icon']}"></span> {$menu_item['text']}
+					</a>
+				</li>
+				<li class="visible-sm{if isset($smarty.get.act) && $smarty.get.act == $menu_item['act']} active{/if}" rel="tooltip" title="{$menu_item['text']}" data-placement="right">
+					<a href="{$menu_item['link']}" target="{$menu_item['window']}">
+						<span class="{$menu_item['icon']}"></span>
+					</a>
+				</li>
+				{/foreach}
+			</ul>
+			<ul class="nav navbar-nav navbar-right" style="margin-right: 5px;">
+				{foreach from=$menu_items_right item=menu_item}
+				<li class="hidden-sm{if isset($smarty.get.act) && $smarty.get.act == $menu_item['act']} active{/if}">
+					<a href="{$menu_item['link']}" target="{$menu_item['window']}">
+						<span class="hidden-sm"><span class="{$menu_item['icon']}"></span> {$menu_item['text']}</span>
+					</a>
+				</li>
+				<li class="visible-sm{if isset($smarty.get.act) && $smarty.get.act == $menu_item['act']} active{/if}" rel="tooltip" title="{$menu_item['text']}" data-placement="left">
+					<a href="{$menu_item['link']}" target="{$menu_item['window']}">
+						<span class="{$menu_item['icon']}"></span>
+					</a>
+				</li>
+				{/foreach}
+			</ul>
 		</div>
 </div>

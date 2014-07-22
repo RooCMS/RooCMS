@@ -6,8 +6,8 @@
 		<li{if isset($smarty.get.part) && $smarty.get.part == "create"} class="active"{/if}><a href="{$SCRIPT_NAME}?act=structure&part=create"><span class="fa fa-fw fa-plus-circle"></span> Создать новую страницу</a></li>
 	</ul>
 </div>
-<div class="col-md-10 thumbnail">
-	<div class="caption">
-    	{$content}
+<div class="col-md-10">
+	<div class=" panel panel-default">
+		{$content}
 	</div>
 </div>

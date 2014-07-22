@@ -5,7 +5,7 @@
 * @author       alex Roosso
 * @copyright    2010-2014 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.0.4
+* @version      1.0.5
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -25,7 +25,7 @@
 *   GNU General Public License for more details.
 *
 *   You should have received a copy of the GNU General Public License
-*   along with this program.  If not, see <http://www.gnu.org/licenses/
+*   along with this program.  If not, see http://www.gnu.org/licenses/
 *
 *
 *   RooCMS - Русская бесплатная система управления сайтом
@@ -61,7 +61,9 @@ nocache();
 */
 $site['title']		= $structure->page_title;
 $site['description']	= $structure->page_meta_desc;
-$site['keywords']	= $structure->page_meta_keys;
+if(!empty($site)) {
+	$site['keywords']	= $structure->page_meta_keys;
+}
 
 
 /**
@@ -76,14 +78,26 @@ require_once "functions_blocks.php";
 switch($structure->page_type) {
 	case 'html':
 		require_once "functions_page_html.php";
+		/**
+		 * init Class
+		 */
+		$page_html = new PageHTML;
 		break;
 
 	case 'php':
 		require_once "functions_page_php.php";
+		/**
+		 * Init Class
+		 */
+		$page_php = new PagePHP;
 		break;
 
 	case 'feed':
 		require_once "functions_page_feed.php";
+		/**
+		 * init Class
+		 */
+		$page_feed = new PageFeed;
 		break;
 }
 
