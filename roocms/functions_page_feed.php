@@ -128,8 +128,24 @@ class PageFeed {
 		else $this->items_per_page =& $config->feed_items_per_page;
 		$db->limit =& $this->items_per_page;
 
+		# query id's feeds begin
+		$queryfeeds = " AND ( sid='".$structure->page_id."' ";
+
+		$showchilds =& $structure->page_show_child_feeds;
+
+		if($showchilds != "none") {
+			$qfeeds = $this->construct_child_feeds($structure->page_id, $showchilds);
+			foreach($qfeeds as $k=>$v) {
+				# query id's feeds collect
+				$queryfeeds .= " OR sid='".$v."' ";
+			}
+		}
+
+		# query id's feeds final
+		$queryfeeds .= " ) ";
+
 		# calculate pages
-		$db->pages_mysql(PAGES_FEED_TABLE, "date_publications <= '".time()."' AND sid='".$structure->page_id."' AND (date_end_publications = '0' || date_end_publications > '".time()."') AND status='1'");
+		$db->pages_mysql(PAGES_FEED_TABLE, "date_publications <= '".time()."' ".$queryfeeds." AND (date_end_publications = '0' || date_end_publications > '".time()."') AND status='1'");
 
 		$pages = array();
 		# prev
@@ -177,7 +193,7 @@ class PageFeed {
 
 		# Feed list
 		$feeds = array();
-		$q = $db->query("SELECT id, title, brief_item, full_item, date_publications FROM ".PAGES_FEED_TABLE." WHERE date_publications <= '".time()."' AND sid='".$structure->page_id."' AND (date_end_publications = '0' || date_end_publications > '".time()."') AND status='1' ORDER BY ".$order." LIMIT ".$db->from.",".$db->limit);
+		$q = $db->query("SELECT id, title, brief_item, full_item, date_publications FROM ".PAGES_FEED_TABLE." WHERE date_publications <= '".time()."' ".$queryfeeds." AND (date_end_publications = '0' || date_end_publications > '".time()."') AND status='1' ORDER BY ".$order." LIMIT ".$db->from.",".$db->limit);
 		while($row = $db->fetch_assoc($q)) {
 
 			if(trim($row['brief_item']) == "")
@@ -214,6 +230,46 @@ class PageFeed {
 			$rss->create_item($newslink, $row['title'], $row['brief_item'], $newslink, $row['date_publications'], false, $structure->page_title);
 			if($rss->lastbuilddate == 0) $rss->set_lastbuilddate($row['date_publications']);
 		}
+	}
+
+
+	/**
+	 * Функция возвращает массив идентификаторов лент, для условий запроса к БД, в случаях когда лента публикует элементы из дочерних лент.
+	 *
+	 * @param        $sid - structure id
+	 * @param string $type - rule
+	 *
+	 * @return array - id's
+	 */
+	private function construct_child_feeds($sid, $type="default") {
+
+		global $structure;
+
+		$feeds = array();
+
+		$tfeeds = $structure->load_tree($sid, 0, false);
+		if(!empty($tfeeds)) {
+			foreach($tfeeds AS $k=>$v) {
+				if($v['page_type'] == "feed") {
+
+					$feeds[$v['id']] = $v['id'];
+
+					# default rule
+					if($type == "default" && $v['show_child_feeds'] != "none") {
+						$addfeeds = $this->construct_child_feeds($v['id'],$v['show_child_feeds']);
+						$feeds = array_merge($feeds, $addfeeds);
+					}
+
+					# force rule
+					if($type == "forced") {
+						$addfeeds = $this->construct_child_feeds($v['id'],$type);
+						$feeds = array_merge($feeds, $addfeeds);
+					}
+				}
+			}
+		}
+
+		return $feeds;
 	}
 }
 

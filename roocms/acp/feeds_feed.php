@@ -125,10 +125,19 @@ class ACP_FEEDS_FEED {
 			$update .= (isset($POST->items_sorting) && ($POST->items_sorting == "title_asc" || $POST->items_sorting == "title_desc" || $POST->items_sorting == "manual_sorting"))
 				? " items_sorting = '".$POST->items_sorting."', " : " items_sorting = 'datepublication', " ;
 
+			# show_child_feeds
+			if(isset($POST->show_child_feeds) && $POST->show_child_feeds == "default")
+				$show_child_feeds = "default";
+			elseif(isset($POST->show_child_feeds) && $POST->show_child_feeds == "forced")
+				$show_child_feeds = "forced";
+			else
+				$show_child_feeds = "none";
+
 			# up data to db
 			$db->query("UPDATE ".STRUCTURE_TABLE."
 					SET
 						".$update."
+						show_child_feeds='".$show_child_feeds."',
 						thumb_img_width='".$POST->thumb_img_width."',
 						thumb_img_height='".$POST->thumb_img_height."',
 						date_modified='".time()."'
@@ -477,7 +486,7 @@ class ACP_FEEDS_FEED {
 
 
 	/**
-	 * Функция удаления отдельног элемента ищ ленты
+	 * Функция удаления отдельного элемента из ленты
 	 *
 	 * @param $id - идентификатор элемента ленты
 	 */

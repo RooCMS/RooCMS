@@ -21,6 +21,21 @@
 				{if $feed['rss_warn']}<p class="text-warning">Внимание! RSS ленты не будут отображаться, потому что запрещены по всему сайту. Вы можете отменить запрет в <a href="{$SCRIPT_NAME}?act=config&part=rss">настройках сайта</a>.</p>{/if}
 			</div>
 		</div>
+
+		<div class="form-group">
+			<label for="inputShowChildFeeds" class="col-lg-3 control-label">
+				Показ публикаций:
+				<small><span class="fa fa-info fa-fw" rel="tooltip" title="Использование этой опции добавит публикации из подчиненных лент в текущую ленту. Отобразится только в пользовательской части сайта." data-placement="left"></span></small>
+			</label>
+			<div class="col-lg-9">
+				<select name="show_child_feeds" id="inputShowChildFeeds" class="selectpicker show-tick" required data-size="auto" data-width="50%">
+					<option value="none" {if $feed['show_child_feeds'] == "none"}selected{/if}>Публикации только из текущей ленты</option>
+					<option value="default" {if $feed['show_child_feeds'] == "default"}selected{/if}>Публикации из подчиненных лент в пределах их разрешений.</option>
+					<option value="forced" {if $feed['show_child_feeds'] == "forced"}selected{/if}>Публикации из всех подчиненных лент, не взирая на разрешения.</option>
+				</select>
+			</div>
+		</div>
+
 		<div class="form-group">
 			<label for="inputItems" class="col-lg-3 control-label">
 				Кол-во новостей на страницу: <small><span class="fa fa-info fa-fw" rel="tooltip" title="Устанавливает кол-во новостей выводимых на странице. По-умолчанию:{$feed['global_items_per_page']}. При значении 0 используется значение по-умолчанию." data-placement="left"></span></small>
@@ -37,7 +52,7 @@
 				<small><span class="fa fa-info fa-fw" rel="tooltip" title="Задает порядок сортировки элементов в ленте. По-умолчанию элементы сортируются по Дате Публикации." data-placement="left"></span></small>
 			</label>
 			<div class="col-lg-9">
-				<select name="items_sorting" id="inputItemsSorting" class="selectpicker show-tick" required data-header="Сортировать ..." data-size="auto" data-live-search="true" data-width="50%">
+				<select name="items_sorting" id="inputItemsSorting" class="selectpicker show-tick" required data-header="Сортировать ..." data-size="auto" data-width="50%">
 					<option value="datepublication" {if $feed['items_sorting'] == "datepublication"}selected{/if}>по Дате Публикации</option>
 					<option value="title_asc" {if $feed['items_sorting'] == "title_asc"}selected{/if}>по Названию от А до Я</option>
 					<option value="title_desc" {if $feed['items_sorting'] == "title_desc"}selected{/if}>по Названию от Я до А</option>

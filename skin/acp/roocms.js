@@ -69,14 +69,15 @@ $(document).ready(function() {
 
 	/* Datepicker */
 	$('.datepicker').datepicker({
-	    format: 'dd.mm.yyyy',
-	    language: 'ru'
+		format: 'dd.mm.yyyy',
+		language: 'ru',
+		todayHighlight: true
 	});
 
 	$('.datepicker-0d').datepicker({
-	    format: 'dd.mm.yyyy',
-	    language: 'ru',
-	    startDate: '0'
+		format: 'dd.mm.yyyy',
+		language: 'ru',
+		startDate: '0'
 	});
 
 	/* Colorpicker */

@@ -6,7 +6,7 @@
 * @author       alex Roosso
 * @copyright    2010-2015 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.2.1
+* @version      1.2.2
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -94,6 +94,7 @@ class ACP_FEEDS {
 				'alias'			=> $this->engine->page_alias,
 				'title'			=> $this->engine->page_title,
 				'rss'			=> $this->engine->page_rss,
+				'show_child_feeds'	=> $this->engine->page_show_child_feeds,
 				'items_per_page'	=> $this->engine->page_items_per_page,
 				'items_sorting'		=> $this->engine->page_items_sorting,
 				'thumb_img_width'	=> $this->engine->page_thumb_img_width,

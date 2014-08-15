@@ -3,15 +3,15 @@
 * @package      RooCMS
 * @subpackage	Engine RooCMS classes
 * @author       alex Roosso
-* @copyright    2010-2014 (c) RooCMS
+* @copyright    2010-2015 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      2.0
+* @version      2.1
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
 
 /**
-*	RooCMS - Russian free content managment system
+*   RooCMS - Russian free content managment system
 *   Copyright (C) 2010-2014 alex Roosso aka alexandr Belov info@roocms.com
 *
 *   This program is free software: you can redistribute it and/or modify
@@ -65,10 +65,51 @@ class ParserDate {
 
 
 	/**
-	 * Translate date from gregorian format to rus standart
-	 * 	$full 	= boolean;
-	 * 	$short	= boolean;
-	 * ----------------------------------------------------
+	 * Функция генерирует выходной массив данных, для создания календаря на указанный месяц.
+	 *
+	 * @param int $year - год
+	 * @param int $month - месяц
+	 *
+	 * @return array
+	 */
+	function makeCal($year, $month) {
+
+		$wday = $this->get_num_day_of_week(1, $month, $year);
+		if($wday == 0) $wday = 7;
+
+		$n = - ($wday - 2);
+		$cal = array();
+
+		for($y=0;$y<=6;$y++) {
+			$row = array();
+			$notEmpty = false;
+
+			for($x=0;$x<7;$x++,$n++) {
+				if(checkdate($month, $n, $year)) {
+					$row[] = $n;
+					$notEmpty = true;
+				}
+				else {
+					$row[] = "";
+				}
+			}
+
+			if(!$notEmpty) break;
+			$cal[] = $row;
+		}
+
+		return $cal;
+	}
+
+
+	/**
+	 * Переводим дату иг Грегорианского формата в русское представление.
+	 *
+	 * @param      $gdate - дата в грегорианском формате
+	 * @param bool $full - флаг указывает на вывод даты в полном или сокращенном формате
+	 * @param bool $short - флаг указывает на использование сокращений в названии дней
+	 * @param bool $time -  флаг указывает на вывод даты со временем и без
+	 *
 	 *	if $full == true and $short=false
 	 *		date = Четверг, 22 апреля 2010г.
 	 *	else if $full == true and $short=true
@@ -76,6 +117,8 @@ class ParserDate {
 	 *	else if $full == false
 	 *		date =  22 апреля 2010г.
 	 *	* if $full == false to parametr $short automatically ingnored
+	 *
+	 * @return string
 	 */
 	public function gregorian_to_rus($gdate, $full=false, $short=true, $time=false) {
 
@@ -98,6 +141,7 @@ class ParserDate {
 
 		# title month
 		$tm = $this->get_title_month($n_mon);
+			// SEE---> $tm = $this->get_title_month($n_mon, true, $short);
 
 		# форматируем дату
 		$date = $tday.$n_day." ".$tm." ".$n_year."г. ".$time;
@@ -191,8 +235,13 @@ class ParserDate {
 	}
 
 
-	//#####################################################
-	//# unix timestamp to russian integer format dd.mm.YYYY
+	/**
+	 * Переводим unixtimestamp  в русское представление даты в формат dd.mm.YYYY
+	 *
+	 * @param $udate - дата в формате unixtimestamp
+	 *
+	 * @return string
+	 */
 	public function unix_to_rusint($udate) {
 
 		$date = date("d.m.Y", $udate);
@@ -309,22 +358,58 @@ class ParserDate {
 	/**
 	 * Функция получения русского названия месяца
 	 *
-	 * @param int $nm порядковый номер месяца [1-Янв,...,12-Дек]
+	 * @param int  $nm порядковый номер месяца [1-Янв,...,12-Дек]
+	 * @param bool $ft флаг вывода формата месяцоы. Истина - будет показывать Февраля, Ложь - будет показывать Февраль
+	 * @param bool $short флаг использования сокращений для названия месяцов.
 	 *
 	 * @return string
 	 */
-	public function get_title_month($nm) {
+	public function get_title_month($nm, $ft = true, $short = false) {
 
 		$nm = round($nm);
 
 		# month
-		$month = array();
-		$month[1]	= 'январ';	$month[2]	= 'феврал';	$month[3]	= 'март';
-		$month[4]	= 'апрел';	$month[5]	= 'ма';		$month[6]	= 'июн';
-		$month[7]	= 'июл';	$month[8]	= 'август';	$month[9]	= 'сентябр';
-		$month[10]	= 'октябр';	$month[11]	= 'ноябр';	$month[12]	= 'декабр';
+		if(!$short) {
+			$month = array();
+			$month[1]	= 'Январ';	$month[2]	= 'Феврал';	$month[3]	= 'Март';
+			$month[4]	= 'Апрел';	$month[5]	= 'Ма';		$month[6]	= 'Июн';
+			$month[7]	= 'Июл';	$month[8]	= 'Август';	$month[9]	= 'Сентябр';
+			$month[10]	= 'Октябр';	$month[11]	= 'Ноябр';	$month[12]	= 'Декабр';
+		}
+		else {
+			$month = array();
+			$month[1]	= 'Янв';	$month[2]	= 'Фев';	$month[3]	= 'Мар';
+			$month[4]	= 'Апр';	$month[5]	= 'Ма';		$month[6]	= 'Июн';
+			$month[7]	= 'Июл';	$month[8]	= 'Авг';	$month[9]	= 'Сен';
+			$month[10]	= 'Окт';	$month[11]	= 'Ноя';	$month[12]	= 'Дек';
+		}
 
-		$f = ($nm == 3 || $nm == 8) ? "а" : "я" ;
+		# format title month
+		$f = "";
+
+		if($ft) {
+			if(!$short) 	$f = ($nm == 3 || $nm == 8) ? "а" : "я" ;
+			else 		$f = ($nm == 3) ? "я" : "" ;
+		}
+		else {
+			switch($nm) {
+				case 3:
+					$f = "";
+					break;
+				case 5:
+					$f = "й";
+					break;
+				case 8:
+					$f = "";
+					break;
+
+				default:
+					$f = (!$short) ? "ь" : "";
+					break;
+			}
+		}
+
+
 
 		return $month[$nm].$f;
 	}
