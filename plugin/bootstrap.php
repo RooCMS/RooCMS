@@ -6,7 +6,7 @@
  * @author      alex Roosso
  * @copyright   2010-2014 (c) RooCMS
  * @link        http://www.roocms.com
- * @version     1.2
+ * @version     1.2.1
  * @since       $date$
  * @license     http://www.gnu.org/licenses/gpl-3.0.html
  */
@@ -71,6 +71,10 @@ document.write('<script src="/plugin/bootstrap/js/locales/bootstrap-datepicker.r
 
 document.write('<link href="/plugin/bootstrap/css/bootstrap.min.css" rel="stylesheet">');
 document.write('<link href="/plugin/bootstrap/css/font-awesome.min.css" rel="stylesheet">');
+document.write('<link href="/plugin/bootstrap/css/datepicker.min.css" rel="stylesheet">');
 document.write('<script src="/plugin/bootstrap/js/bootstrap.min.js"></script>');
+document.write('<script src="/plugin/bootstrap/js/bootstrap-select.min.js"></script>');
+document.write('<script src="/plugin/bootstrap/js/bootstrap-datepicker.min.js"></script>');
+document.write('<script src="/plugin/bootstrap/js/locales/bootstrap-datepicker.ru.js"></script>');
 
 <? } ?>

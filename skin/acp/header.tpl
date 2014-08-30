@@ -44,29 +44,29 @@
 
 {if trim($error) != ""}
 	<div class="alert alert-danger t12 text-left in fade" role="alert">
-        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-	    {$error}
+		<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+		{$error}
 	</div>
 {/if}
 {if trim($info) != ""}
 	<div class="alert alert-info t12 text-left in fade notification-info" role="alert">
 		<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-        {$info}
+		{$info}
 	</div>
-	{literal}
-    <script>
-    	$(document).ready(function() {
-		    /* Alert */
-		    setTimeout(function() {
-    			var ah = $(".alert-info").height();
-    			var mm = ah + 100;
-    			$(".alert-info").animate({'margin-top': '-='+mm+'px'}, 1200, function() {
-        			$(this).hide();
-    			});
-		    }, 3200);
-    	});
-    </script>
-	{/literal}
+{literal}
+	<script>
+		$(document).ready(function() {
+			/* Alert */
+			setTimeout(function() {
+				var ah = $(".alert-info").height();
+				var mm = ah + 100;
+				$(".alert-info").animate({'margin-top': '-='+mm+'px'}, 1200, function() {
+					$(this).hide();
+				});
+			}, 3200);
+		});
+	</script>
+{/literal}
 {/if}
 
 <div class="container">
