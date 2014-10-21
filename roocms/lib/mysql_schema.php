@@ -5,7 +5,7 @@
 * @author       alex Roosso
 * @copyright    2010-2014 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.1.10
+* @version      1.1.11
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -142,6 +142,7 @@ $sql['CREATE'.STRUCTURE_TABLE] = "CREATE TABLE IF NOT EXISTS `".STRUCTURE_TABLE.
 					  `date_create` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'format: unixtimestamp',
 					  `date_modified` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'format: unixtimestamp',
 					  `rss` enum('0','1') NOT NULL DEFAULT '1',
+					  `show_child_feeds` enum('none','default','forced') NOT NULL DEFAULT 'none',
 					  `items_per_page` int(10) unsigned NOT NULL DEFAULT '0',
 					  `items_sorting` enum('datepublication','title_asc','title_desc','manual_sorting') NOT NULL DEFAULT 'datepublication',
 					  `items` int(10) unsigned NOT NULL DEFAULT '0',
@@ -154,8 +155,8 @@ $sql['CREATE'.STRUCTURE_TABLE] = "CREATE TABLE IF NOT EXISTS `".STRUCTURE_TABLE.
 					) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1";
 
 $id = 1;
-$sql['INSERT '.STRUCTURE_TABLE." ID #".$id] = "INSERT INTO `".STRUCTURE_TABLE."` (`id`, `alias`, `parent_id`, `sort`, `title`, `meta_description`, `meta_keywords`, `noindex`, `page_type`, `childs`, `page_id`, `date_create`, `date_modified`, `rss`, `items_per_page`, `items`)
-									  VALUES (1, 'index', 0, 0, 'Главная страница', '', '', '0','html', 3, 1, ".time().", ".time().", '1', 10, 0)";
+$sql['INSERT '.STRUCTURE_TABLE." ID #".$id] = "INSERT INTO `".STRUCTURE_TABLE."` (`id`, `alias`, `parent_id`, `sort`, `title`, `meta_description`, `meta_keywords`, `noindex`, `page_type`, `childs`, `page_id`, `date_create`, `date_modified`, `rss`, `show_child_feeds`, `items_per_page`, `items_sorting`, `items`, `thumb_img_width`, `thumb_img_height`)
+									  VALUES (1, 'index', 0, 0, 'Главная страница', '', 'index', '0', 'html', 5, 1, ".time().", ".time().", '1', 'none', 0, 'datepublication', 0, 0, 0)";
 
 /**
 * HTML страницы

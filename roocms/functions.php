@@ -5,7 +5,7 @@
 * @author       alex Roosso
 * @copyright    2010-2015 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.0.22
+* @version      1.0.23
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -97,8 +97,7 @@ function sendmail($mail, $theme, $message, $from="robot") {
 
 	$message = strtr($message, array('\\r'=>'', '\\n'=>'\n'));
 
-	$domain = strtr($site['domain'], array('http://'=>'', 'www.'=>''));
-
+	$domain = strtr($site['domain'], array('http://'=>'', 'https://'=>'', 'www.'=>''));
 
 	$from = trim($from);
 	$pattern = '/^[\.\-_A-Za-z0-9]+?@[\.\-A-Za-z0-9]+?\.[A-Za-z0-9]{2,6}$/';
@@ -106,7 +105,8 @@ function sendmail($mail, $theme, $message, $from="robot") {
 	if($from == "robot" || !preg_match($pattern, $from)) $from = "robot@".$domain;
 
 	# заголовки
-	$headers  = "From: '{$from}'\n".EMAIL_MESSAGE_PARAMETERS."\n";
+	$headers  = "MIME-Version: 1.0\n";
+	$headers .= "From: '{$from}' <'Mail {$domain}'>\n".EMAIL_MESSAGE_PARAMETERS."\n";
 	$headers .= "X-Sender: <no-reply@".$domain.">\n";
 	$headers .= "X-Mailer: PHP ".$domain."\n";
 	$headers .= "Return-Path: <no-replay@".$domain.">";
