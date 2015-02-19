@@ -7,12 +7,12 @@ Plugins:	CKEditor		v4.2.1 (revision 5010dd4)
 		GzipFile		v1.0
 		Colorbox		v1.4.32
 		Lightbox		v2.6
-		Bootstrap		v3.2
+		Bootstrap		v3.3.2
 		Bootstrap Select	v1.3.4
 		Bootstrap Datepicker	v1.3
 		Bootstrap Colorpicker	v1
 		Font Awesome		v4.2.0
-		Smarty			v3.1.15
+		Smarty			v3.1.21
 		PHP QR Code		v1.1.4
 		jQuery			v2.1.0
 		jQuery-Migrate		v1.2.1
