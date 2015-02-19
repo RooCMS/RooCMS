@@ -2,4 +2,3 @@ User-agent: *
 Allow: *
 Disallow: /admin #
 Disallow: /cgi-bin
-Disallow: /roocms

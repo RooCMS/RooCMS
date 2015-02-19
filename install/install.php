@@ -467,8 +467,8 @@ class Install extends Requirement{
 		}
 		fclose($ecf);
 
-		$this->log[] = array('', '<center>Поздравляем.<br />Вы успешно завершили установку RooCMS.<br />Текущая версия: '.ROOCMS_VERSION.'</center>', true, '');
-		$this->log[] = array('', '<center>Не забудьте удалить папку /install/ в целях безопастности вашего сайта.</center>', false, '');
+		$this->log[] = array('', '<div class="text-center">Поздравляем.<br />Вы успешно завершили установку RooCMS.<br />Текущая версия: '.ROOCMS_VERSION.'</div>', true, '');
+		$this->log[] = array('', '<div class="text-center">Не забудьте удалить папку /install/ в целях безопастности вашего сайта.</div>', false, '');
 
 		$confperms = array('path' => _ROOCMS.'/config/config.php', 'chmod' => '0644');
 
