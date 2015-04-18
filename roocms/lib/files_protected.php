@@ -3,9 +3,9 @@
 * @package      RooCMS
 * @subpackage	Library
 * @author       alex Roosso
-* @copyright    2010-2014 (c) RooCMS
+* @copyright    2010-2015 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.1.5
+* @version      1.1.6
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -96,6 +96,7 @@ $protectfiles[]	= array('path'	=> _CLASS.'/class_parserDate.php',	'chmod'	=> '06
 $protectfiles[]	= array('path'	=> _CLASS.'/class_parserText.php',	'chmod'	=> '0644',	'hash'	=> '');
 $protectfiles[]	= array('path'	=> _CLASS.'/class_parserXML.php',	'chmod'	=> '0644',	'hash'	=> '');
 $protectfiles[]	= array('path'	=> _CLASS.'/class_rss.php',		'chmod'	=> '0644',	'hash'	=> '');
+$protectfiles[]	= array('path'	=> _CLASS.'/class_security.php',	'chmod'	=> '0644',	'hash'	=> '');
 $protectfiles[]	= array('path'	=> _CLASS.'/class_structure.php',	'chmod'	=> '0644',	'hash'	=> '');
 $protectfiles[]	= array('path'	=> _CLASS.'/class_template.php',	'chmod'	=> '0644',	'hash'	=> '');
 $protectfiles[]	= array('path'	=> _ROOCMS.'/acp/ajax.php',		'chmod'	=> '0644',	'hash'	=> '');

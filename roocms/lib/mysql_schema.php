@@ -99,7 +99,7 @@ $sql['CREATE'.CONFIG_TABLE] = "CREATE TABLE IF NOT EXISTS `".CONFIG_TABLE."` (
 				  KEY `part` (`part`)
 				) ENGINE=MyISAM  DEFAULT CHARSET=utf8 PACK_KEYS=1 AUTO_INCREMENT=1";
 $id = 1;
-$sql['INSERT '.CONFIG_TABLE." ID #".$id] = "INSERT INTO `".CONFIG_TABLE."` VALUES (".$id.", 'global', 1, 'Название сайта', 'Глобальный заголовок сайта', 'site_title', 'string', '', '', '', 0)"; $id++;
+$sql['INSERT '.CONFIG_TABLE." ID #".$id] = "INSERT INTO `".CONFIG_TABLE."` VALUES (".$id.", 'global', 1, 'Название сайта', 'Глобальный заголовок сайта', 'site_title', 'string', '', '".$site['title']."', '".$site['title']."', 0)"; $id++;
 $sql['INSERT '.CONFIG_TABLE." ID #".$id] = "INSERT INTO `".CONFIG_TABLE."` VALUES (".$id.", 'global', 1, 'Глобальный заголовок', 'Применять название сайта глобально ко всем заголовкам?', 'global_site_title', 'boolean', '', 'true', 'true', 0)"; $id++;
 $sql['INSERT '.CONFIG_TABLE." ID #".$id] = "INSERT INTO `".CONFIG_TABLE."` VALUES (".$id.", 'global', 3, 'Мета описание', 'Глобальное мета описание сайта', 'meta_description', 'string', '', '', '', 250)"; $id++;
 $sql['INSERT '.CONFIG_TABLE." ID #".$id] = "INSERT INTO `".CONFIG_TABLE."` VALUES (".$id.", 'global', 4, 'Мета ключевые слова', 'Глобальные ключевые слова для сайта', 'meta_keywords', 'string', '', '', '', 250)"; $id++;
@@ -236,7 +236,7 @@ $sql['INSERT '.BLOCKS_TABLE." ID #".$id] = "INSERT INTO `".BLOCKS_TABLE."` VALUE
 * Изображения
 */
 $sql['DROP '.IMAGES_TABLE] = "DROP TABLE IF EXISTS `".IMAGES_TABLE."`";
-$sql['CREATE'.IMAGES_TABLE] = "CREATE TABLE IF NOT EXISTS `".IMAGES_TABLE."` (
+$sql['CREATE '.IMAGES_TABLE] = "CREATE TABLE IF NOT EXISTS `".IMAGES_TABLE."` (
 				  `id` int(10) NOT NULL AUTO_INCREMENT,
 				  `attachedto` varchar(255) NOT NULL COMMENT 'site partition and identificator',
 				  `filename` varchar(255) NOT NULL,
@@ -253,7 +253,7 @@ $sql['CREATE'.IMAGES_TABLE] = "CREATE TABLE IF NOT EXISTS `".IMAGES_TABLE."` (
  * Таблица пользователей
  */
 $sql['DROP '.USERS_TABLE] = "DROP TABLE IF EXISTS `".USERS_TABLE."`";
-$sql['CREATE'.HELP_TABLE] = "CREATE TABLE IF NOT EXISTS `".USERS_TABLE."` (
+$sql['CREATE '.USERS_TABLE] = "CREATE TABLE IF NOT EXISTS `".USERS_TABLE."` (
 				  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
 				  `login` varchar(255) NOT NULL,
 				  `nickname` varchar(255) NOT NULL,
@@ -272,7 +272,7 @@ $sql['CREATE'.HELP_TABLE] = "CREATE TABLE IF NOT EXISTS `".USERS_TABLE."` (
  * Помощь администратора
  */
 $sql['DROP '.HELP_TABLE] = "DROP TABLE IF EXISTS `".HELP_TABLE."`";
-$sql['CREATE'.HELP_TABLE] = "CREATE TABLE IF NOT EXISTS `".HELP_TABLE."` (
+$sql['CREATE '.HELP_TABLE] = "CREATE TABLE IF NOT EXISTS `".HELP_TABLE."` (
 				  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
 				  `uname` varchar(255) NOT NULL,
 				  `parent_id` int(10) unsigned NOT NULL DEFAULT '0',

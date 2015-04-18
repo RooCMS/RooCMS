@@ -3,9 +3,9 @@
 * @package      RooCMS
 * @subpackage	Installer or Updater
 * @author       alex Roosso
-* @copyright    2010-2014 (c) RooCMS
+* @copyright    2010-2015 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.0.2
+* @version      1.1
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -59,11 +59,11 @@ if(!defined('RooCMS')) die('Access Denied');
 
 nocache();
 
-if(trim($adm['login']) != "" && trim($adm['passw']) != "") {
+if(trim($db_info['user']) != "" && trim($db_info['base']) != "" && $db->check_id(1,USERS_TABLE)) {
 
 	require_once _ROOCMS."/acp/security_check.php";
 
-	if($security == true) {
+	if($acpsecurity->access) {
 
 		require_once "check_requirement.php";
 
