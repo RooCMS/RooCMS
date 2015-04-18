@@ -284,7 +284,7 @@ class template {
 			$head = $this->load_template("header", true);
 
 			# debug_info in footer
-			if(isset($roocms->sess['acp'])) {
+			if(isset($roocms->sess['token'])) {
 				$smarty->assign("debug", 		DEBUGMODE);
 				$smarty->assign("devmode", 		DEVMODE);
 				$smarty->assign("db_querys", 		$db->cnt_querys);

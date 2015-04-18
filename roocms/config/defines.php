@@ -5,7 +5,7 @@
 * @author	alex Roosso
 * @copyright	2010-2015 (c) RooCMS
 * @link		http://www.roocms.com
-* @version	1.4.3
+* @version	1.4.4
 * @since	$date$
 * @license	http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -63,6 +63,7 @@ define('DB_PREFIX',		$db_info['prefix']);
 */
 define('CONFIG_PARTS', 		DB_PREFIX.'config__parts');
 define('CONFIG_TABLE', 		DB_PREFIX.'config__settings');
+define('USERS_TABLE', 		DB_PREFIX.'users');
 define('HELP_TABLE', 		DB_PREFIX.'help');
 define('STRUCTURE_TABLE', 	DB_PREFIX.'structure');
 define('PAGES_HTML_TABLE', 	DB_PREFIX.'pages__html');
@@ -115,7 +116,7 @@ define('CRITICAL_STYLESHEETS',		'<script type="text/javascript" src="/plugin/boo
 define('ROOCMS_MAJOR_VERSION',		'1');
 define('ROOCMS_MINOR_VERSION',		'1');
 define('ROOCMS_RELEASE_VERSION',	'1');
-define('ROOCMS_BUILD_VERSION',		'-beta5');
+define('ROOCMS_BUILD_VERSION',		'-beta6');
 define('ROOCMS_VERSION',		ROOCMS_MAJOR_VERSION.".".ROOCMS_MINOR_VERSION.".".ROOCMS_RELEASE_VERSION);
 define('ROOCMS_FULL_VERSION',		ROOCMS_MAJOR_VERSION.".".ROOCMS_MINOR_VERSION.".".ROOCMS_RELEASE_VERSION.ROOCMS_BUILD_VERSION);
 define('ROOCMS_VERSION_ID',		ROOCMS_MAJOR_VERSION.ROOCMS_MINOR_VERSION.ROOCMS_RELEASE_VERSION);

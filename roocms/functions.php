@@ -5,7 +5,7 @@
 * @author       alex Roosso
 * @copyright    2010-2015 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.0.23
+* @version      1.0.24
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -62,6 +62,9 @@ if(!defined('RooCMS')) die('Access Denied');
  * @return string $Code  - Возвращает сгенерированный код
  */
 function randcode($ns, $symbols="ABCEFHKLMNPRSTVXYZ123456789") {
+
+	if(trim($symbols) == "")
+		$symbols = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ01234567890";
 
 	settype($symbols, "string");
 

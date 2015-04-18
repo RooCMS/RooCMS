@@ -3,9 +3,9 @@
 * @package      RooCMS
 * @subpackage	Library
 * @author       alex Roosso
-* @copyright    2010-2014 (c) RooCMS
+* @copyright    2010-2015 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.1.11
+* @version      1.2
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -70,12 +70,12 @@ $sql['CREATE '.CONFIG_PARTS] = "CREATE TABLE IF NOT EXISTS `".CONFIG_PARTS."` (
 				) ENGINE=MyISAM  DEFAULT CHARSET=utf8 PACK_KEYS=1 AUTO_INCREMENT=1";
 
 $id = 1;
-$sql['INSERT '.CONFIG_PARTS." ID #".$id] = "INSERT INTO `".CONFIG_PARTS."` (`id`, `type`, `sort`, `name`, `title`, `ico`) VALUES (".$id.", 'global', 1, 'global', 'Общие настройки', 'cog')";		$id++;
-$sql['INSERT '.CONFIG_PARTS." ID #".$id] = "INSERT INTO `".CONFIG_PARTS."` (`id`, `type`, `sort`, `name`, `title`, `ico`) VALUES (".$id.", 'global', 2, 'gd', 'Обработка изображений', 'picture-o')";	$id++;
-$sql['INSERT '.CONFIG_PARTS." ID #".$id] = "INSERT INTO `".CONFIG_PARTS."` (`id`, `type`, `sort`, `name`, `title`, `ico`) VALUES (".$id.", 'global', 3, 'cp', 'Панель Администратора', 'shield')";	$id++;
-$sql['INSERT '.CONFIG_PARTS." ID #".$id] = "INSERT INTO `".CONFIG_PARTS."` (`id`, `type`, `sort`, `name`, `title`, `ico`) VALUES (".$id.", 'global', 4, 'tpl', 'Настройки шаблонизации', 'desktop')";	$id++;
-$sql['INSERT '.CONFIG_PARTS." ID #".$id] = "INSERT INTO `".CONFIG_PARTS."` (`id`, `type`, `sort`, `name`, `title`, `ico`) VALUES (".$id.", 'global', 5, 'rss', 'RSS', 'rss')";				$id++;
-$sql['INSERT '.CONFIG_PARTS." ID #".$id] = "INSERT INTO `".CONFIG_PARTS."` (`id`, `type`, `sort`, `name`, `title`, `ico`) VALUES (".$id.", 'component', 6, 'feed', 'Ленты', 'th-list')";		$id++;
+$sql['INSERT '.CONFIG_PARTS." ID #".$id] = "INSERT INTO `".CONFIG_PARTS."` VALUES (".$id.", 'global', 1, 'global', 'Общие настройки', 'cog')";		$id++;
+$sql['INSERT '.CONFIG_PARTS." ID #".$id] = "INSERT INTO `".CONFIG_PARTS."` VALUES (".$id.", 'global', 2, 'gd', 'Обработка изображений', 'picture-o')";	$id++;
+$sql['INSERT '.CONFIG_PARTS." ID #".$id] = "INSERT INTO `".CONFIG_PARTS."` VALUES (".$id.", 'global', 3, 'cp', 'Панель Администратора', 'shield')";	$id++;
+$sql['INSERT '.CONFIG_PARTS." ID #".$id] = "INSERT INTO `".CONFIG_PARTS."` VALUES (".$id.", 'global', 4, 'tpl', 'Настройки шаблонизации', 'desktop')";	$id++;
+$sql['INSERT '.CONFIG_PARTS." ID #".$id] = "INSERT INTO `".CONFIG_PARTS."` VALUES (".$id.", 'global', 5, 'rss', 'RSS', 'rss')";				$id++;
+$sql['INSERT '.CONFIG_PARTS." ID #".$id] = "INSERT INTO `".CONFIG_PARTS."` VALUES (".$id.", 'component', 6, 'feed', 'Ленты', 'th-list')";		$id++;
 
 
 /**
@@ -99,28 +99,28 @@ $sql['CREATE'.CONFIG_TABLE] = "CREATE TABLE IF NOT EXISTS `".CONFIG_TABLE."` (
 				  KEY `part` (`part`)
 				) ENGINE=MyISAM  DEFAULT CHARSET=utf8 PACK_KEYS=1 AUTO_INCREMENT=1";
 $id = 1;
-$sql['INSERT '.CONFIG_TABLE." ID #".$id] = "INSERT INTO `".CONFIG_TABLE."` (`id`, `part`, `sort`, `title`, `description`, `option_name`, `option_type`, `variants`, `value`, `default_value`, `field_maxleight`) VALUES (".$id.", 'global', 1, 'Название сайта', 'Глобальный заголовок сайта', 'site_title', 'string', '', '', '', 0)"; $id++;
-$sql['INSERT '.CONFIG_TABLE." ID #".$id] = "INSERT INTO `".CONFIG_TABLE."` (`id`, `part`, `sort`, `title`, `description`, `option_name`, `option_type`, `variants`, `value`, `default_value`, `field_maxleight`) VALUES (".$id.", 'global', 1, 'Глобальный заголовок', 'Применять название сайта глобально ко всем заголовкам?', 'global_site_title', 'boolean', '', 'true', 'true', 0)"; $id++;
-$sql['INSERT '.CONFIG_TABLE." ID #".$id] = "INSERT INTO `".CONFIG_TABLE."` (`id`, `part`, `sort`, `title`, `description`, `option_name`, `option_type`, `variants`, `value`, `default_value`, `field_maxleight`) VALUES (".$id.", 'global', 3, 'Мета описание', 'Глобальное мета описание сайта', 'meta_description', 'string', '', '', '', 250)"; $id++;
-$sql['INSERT '.CONFIG_TABLE." ID #".$id] = "INSERT INTO `".CONFIG_TABLE."` (`id`, `part`, `sort`, `title`, `description`, `option_name`, `option_type`, `variants`, `value`, `default_value`, `field_maxleight`) VALUES (".$id.", 'global', 4, 'Мета ключевые слова', 'Глобальные ключевые слова для сайта', 'meta_keywords', 'string', '', '', '', 250)"; $id++;
-$sql['INSERT '.CONFIG_TABLE." ID #".$id] = "INSERT INTO `".CONFIG_TABLE."` (`id`, `part`, `sort`, `title`, `description`, `option_name`, `option_type`, `variants`, `value`, `default_value`, `field_maxleight`) VALUES (".$id.", 'global', 5, 'Заголовок 304', 'Опция включает/выключает ответ заголовка с кодом 304 на запрос IF_MODIFED_SINCE от поисковых роботов там где это разрешено.\r\nВо включенном состоянии опция позволит поисковым роботам быстрее индексировать ваш сайт и ускоряет работу шаблонизатора.', 'if_modifed_since', 'boolean', '', 'false', 'false', 0)"; $id++;
-$sql['INSERT '.CONFIG_TABLE." ID #".$id] = "INSERT INTO `".CONFIG_TABLE."` (`id`, `part`, `sort`, `title`, `description`, `option_name`, `option_type`, `variants`, `value`, `default_value`, `field_maxleight`) VALUES (".$id.", 'gd', 1, 'Использовать мультизагрузку посредством Ajax', 'Если у вас возникли сложности с мультизагрузкой файлов, рекомендуем отключить эту опцию', 'gd_multiupload', 'boolean', '', 'false', 'false', 0)"; $id++;
-$sql['INSERT '.CONFIG_TABLE." ID #".$id] = "INSERT INTO `".CONFIG_TABLE."` (`id`, `part`, `sort`, `title`, `description`, `option_name`, `option_type`, `variants`, `value`, `default_value`, `field_maxleight`) VALUES (".$id.", 'gd', 2, 'Максимальная ширина изображений', 'Укажите максимальную ширину загружаемых изображений в пикселях. \r\nВ случае если изображение окажется больше указанной ширины, оно будет пропорционально уменьшено', 'gd_image_maxwidth', 'int', '', '1200', '1200', 0)"; $id++;
-$sql['INSERT '.CONFIG_TABLE." ID #".$id] = "INSERT INTO `".CONFIG_TABLE."` (`id`, `part`, `sort`, `title`, `description`, `option_name`, `option_type`, `variants`, `value`, `default_value`, `field_maxleight`) VALUES (".$id.", 'gd', 3, 'Максимальная высота изображений', 'Укажите максимальную ширину загружаемых изображений в пикселях. \r\nВ случае если изображение окажется больше указанной ширины, оно будет пропорционально уменьшено', 'gd_image_maxheight', 'int', '', '1200', '1200', 0)"; $id++;
-$sql['INSERT '.CONFIG_TABLE." ID #".$id] = "INSERT INTO `".CONFIG_TABLE."` (`id`, `part`, `sort`, `title`, `description`, `option_name`, `option_type`, `variants`, `value`, `default_value`, `field_maxleight`) VALUES (".$id.", 'gd', 4, 'Ширина миниатюры', 'Укажите размер миниатюры изображения по горизонтали (в пикселях)', 'gd_thumb_image_width', 'int', '', '267', '267', 0)"; $id++;
-$sql['INSERT '.CONFIG_TABLE." ID #".$id] = "INSERT INTO `".CONFIG_TABLE."` (`id`, `part`, `sort`, `title`, `description`, `option_name`, `option_type`, `variants`, `value`, `default_value`, `field_maxleight`) VALUES (".$id.", 'gd', 5, 'Высота миниатюры', 'Укажите размер миниатюры изображения по вертикали(в пикселях)', 'gd_thumb_image_height', 'int', '', '150', '150', 0)"; $id++;
-$sql['INSERT '.CONFIG_TABLE." ID #".$id] = "INSERT INTO `".CONFIG_TABLE."` (`id`, `part`, `sort`, `title`, `description`, `option_name`, `option_type`, `variants`, `value`, `default_value`, `field_maxleight`) VALUES (".$id.", 'gd', 6, 'Тип миниатюры', 'Выберите алгоритм генерации миниатюр. \r\nЗаполнение - полностью заполнит миниатюру.\r\nПо размеру - пропорции изображения будут вписаны в пропорции миниатюры.\r\n', 'gd_thumb_type_gen', 'select', 'Заполнение|fill\r\nПо размеру|size', 'fill', 'fill', 0)"; $id++;
-$sql['INSERT '.CONFIG_TABLE." ID #".$id] = "INSERT INTO `".CONFIG_TABLE."` (`id`, `part`, `sort`, `title`, `description`, `option_name`, `option_type`, `variants`, `value`, `default_value`, `field_maxleight`) VALUES (".$id.", 'gd', 7, 'Цвет фона миниатюры', 'Данный параметр устанавливает цвет фона для миниатюр, если вы выбрали тип генерации &quot;по размеру&quot;', 'gd_thumb_bgcolor', 'color', '', '#ffffff', '#ffffff', 0)"; $id++;
-$sql['INSERT '.CONFIG_TABLE." ID #".$id] = "INSERT INTO `".CONFIG_TABLE."` (`id`, `part`, `sort`, `title`, `description`, `option_name`, `option_type`, `variants`, `value`, `default_value`, `field_maxleight`) VALUES (".$id.", 'gd', 8, 'Качество миниатюр', 'Укажите качество создаваемых миниатюр от 1 до 100 \r\nОпция применима только для jpg миниатюр.', 'gd_thumb_jpg_quality', 'int', '', '90', '90', 0)"; $id++;
-$sql['INSERT '.CONFIG_TABLE." ID #".$id] = "INSERT INTO `".CONFIG_TABLE."` (`id`, `part`, `sort`, `title`, `description`, `option_name`, `option_type`, `variants`, `value`, `default_value`, `field_maxleight`) VALUES (".$id.", 'gd', 9, 'Вкл/выкл водяной знак', 'Использовать на загружаемых изображениях Watermark (полупрозрачный копирайт) для защиты изображений от копирования на сторонние ресурсы?', 'gd_use_watermark', 'boolean', '', 'true', 'true', 0)"; $id++;
-$sql['INSERT '.CONFIG_TABLE." ID #".$id] = "INSERT INTO `".CONFIG_TABLE."` (`id`, `part`, `sort`, `title`, `description`, `option_name`, `option_type`, `variants`, `value`, `default_value`, `field_maxleight`) VALUES (".$id.", 'gd', 10, 'Первая строка водяного знака', 'Первая строчка водяного знака накладываемого на изображение', 'gd_watermark_string_one', 'string', '', '', '', 0)"; $id++;
-$sql['INSERT '.CONFIG_TABLE." ID #".$id] = "INSERT INTO `".CONFIG_TABLE."` (`id`, `part`, `sort`, `title`, `description`, `option_name`, `option_type`, `variants`, `value`, `default_value`, `field_maxleight`) VALUES (".$id.", 'gd', 11, 'Вторая строка водяного знака', 'Вторая строчка водяного знака накладываемого на изображение', 'gd_watermark_string_two', 'string', '', 'http://".$_SERVER['SERVER_NAME']."', '', 0)"; $id++;
-$sql['INSERT '.CONFIG_TABLE." ID #".$id] = "INSERT INTO `".CONFIG_TABLE."` (`id`, `part`, `sort`, `title`, `description`, `option_name`, `option_type`, `variants`, `value`, `default_value`, `field_maxleight`) VALUES (".$id.", 'cp', 1, 'Вход в панель управления', 'Укажите название файла (скрипта) через который вы будете заходить в Панель Управления.\r\nВнимание! После изменения этой настройки, изменится URI панели управления. В случае если вы изменяли вручную шаблоны панели управления, проверьте, что вы везде указали переменную {&#36;SCRIPT_NAME}', 'cp_script', 'string', '', 'acp.php', 'acp.php', 0)"; $id++;
-$sql['INSERT '.CONFIG_TABLE." ID #".$id] = "INSERT INTO `".CONFIG_TABLE."` (`id`, `part`, `sort`, `title`, `description`, `option_name`, `option_type`, `variants`, `value`, `default_value`, `field_maxleight`) VALUES (".$id.", 'cp', 2, 'E-mail администратора', 'Укажите адрес электронной почты администратора Он будет использоваться для системных уведомлений.', 'cp_email', 'email', '', '".$site['sysemail']."', '".$site['sysemail']."', 0)"; $id++;
-$sql['INSERT '.CONFIG_TABLE." ID #".$id] = "INSERT INTO `".CONFIG_TABLE."` (`id`, `part`, `sort`, `title`, `description`, `option_name`, `option_type`, `variants`, `value`, `default_value`, `field_maxleight`) VALUES (".$id.", 'tpl', 1, 'Вкл/выкл режим отладки шаблонов', 'Опцпия активирует принудительную перекомпиляцию шаблонов при каждом вызове.\r\nНикогда не используйте это действие в условиях реальной эксплуатации', 'tpl_recompile_force', 'boolean', '', 'false', 'false', 0)"; $id++;
-$sql['INSERT '.CONFIG_TABLE." ID #".$id] = "INSERT INTO `".CONFIG_TABLE."` (`id`, `part`, `sort`, `title`, `description`, `option_name`, `option_type`, `variants`, `value`, `default_value`, `field_maxleight`) VALUES (".$id.", 'rss', 1, 'Вкл/Выкл RSS лент', 'Опция глобального включения или отключения RSS лент', 'rss_power', 'boolean', '', 'true', 'true', 0)"; $id++;
-$sql['INSERT '.CONFIG_TABLE." ID #".$id] = "INSERT INTO `".CONFIG_TABLE."` (`id`, `part`, `sort`, `title`, `description`, `option_name`, `option_type`, `variants`, `value`, `default_value`, `field_maxleight`) VALUES (".$id.", 'rss', 2, 'TTL', 'Время жизни фида в секундах', 'rss_ttl', 'int', '', '240', '240', 0)"; $id++;
-$sql['INSERT '.CONFIG_TABLE." ID #".$id] = "INSERT INTO `".CONFIG_TABLE."` (`id`, `part`, `sort`, `title`, `description`, `option_name`, `option_type`, `variants`, `value`, `default_value`, `field_maxleight`) VALUES (".$id.", 'feed', 1, 'Количество элементов ленты на страницу', 'Опция устанавливает количество элементов ленты выводимых на одной странице. \nОпция действует глобально, если иное не указано в настройках ленты.', 'feed_items_per_page', 'int', '', '10', '10', 0)"; $id++;
+$sql['INSERT '.CONFIG_TABLE." ID #".$id] = "INSERT INTO `".CONFIG_TABLE."` VALUES (".$id.", 'global', 1, 'Название сайта', 'Глобальный заголовок сайта', 'site_title', 'string', '', '', '', 0)"; $id++;
+$sql['INSERT '.CONFIG_TABLE." ID #".$id] = "INSERT INTO `".CONFIG_TABLE."` VALUES (".$id.", 'global', 1, 'Глобальный заголовок', 'Применять название сайта глобально ко всем заголовкам?', 'global_site_title', 'boolean', '', 'true', 'true', 0)"; $id++;
+$sql['INSERT '.CONFIG_TABLE." ID #".$id] = "INSERT INTO `".CONFIG_TABLE."` VALUES (".$id.", 'global', 3, 'Мета описание', 'Глобальное мета описание сайта', 'meta_description', 'string', '', '', '', 250)"; $id++;
+$sql['INSERT '.CONFIG_TABLE." ID #".$id] = "INSERT INTO `".CONFIG_TABLE."` VALUES (".$id.", 'global', 4, 'Мета ключевые слова', 'Глобальные ключевые слова для сайта', 'meta_keywords', 'string', '', '', '', 250)"; $id++;
+$sql['INSERT '.CONFIG_TABLE." ID #".$id] = "INSERT INTO `".CONFIG_TABLE."` VALUES (".$id.", 'global', 5, 'Заголовок 304', 'Опция включает/выключает ответ заголовка с кодом 304 на запрос IF_MODIFED_SINCE от поисковых роботов там где это разрешено.\r\nВо включенном состоянии опция позволит поисковым роботам быстрее индексировать ваш сайт и ускоряет работу шаблонизатора.', 'if_modifed_since', 'boolean', '', 'false', 'false', 0)"; $id++;
+$sql['INSERT '.CONFIG_TABLE." ID #".$id] = "INSERT INTO `".CONFIG_TABLE."` VALUES (".$id.", 'gd', 1, 'Использовать мультизагрузку посредством Ajax', 'Если у вас возникли сложности с мультизагрузкой файлов, рекомендуем отключить эту опцию', 'gd_multiupload', 'boolean', '', 'false', 'false', 0)"; $id++;
+$sql['INSERT '.CONFIG_TABLE." ID #".$id] = "INSERT INTO `".CONFIG_TABLE."` VALUES (".$id.", 'gd', 2, 'Максимальная ширина изображений', 'Укажите максимальную ширину загружаемых изображений в пикселях. \r\nВ случае если изображение окажется больше указанной ширины, оно будет пропорционально уменьшено', 'gd_image_maxwidth', 'int', '', '1200', '1200', 0)"; $id++;
+$sql['INSERT '.CONFIG_TABLE." ID #".$id] = "INSERT INTO `".CONFIG_TABLE."` VALUES (".$id.", 'gd', 3, 'Максимальная высота изображений', 'Укажите максимальную ширину загружаемых изображений в пикселях. \r\nВ случае если изображение окажется больше указанной ширины, оно будет пропорционально уменьшено', 'gd_image_maxheight', 'int', '', '1200', '1200', 0)"; $id++;
+$sql['INSERT '.CONFIG_TABLE." ID #".$id] = "INSERT INTO `".CONFIG_TABLE."` VALUES (".$id.", 'gd', 4, 'Ширина миниатюры', 'Укажите размер миниатюры изображения по горизонтали (в пикселях)', 'gd_thumb_image_width', 'int', '', '267', '267', 0)"; $id++;
+$sql['INSERT '.CONFIG_TABLE." ID #".$id] = "INSERT INTO `".CONFIG_TABLE."` VALUES (".$id.", 'gd', 5, 'Высота миниатюры', 'Укажите размер миниатюры изображения по вертикали(в пикселях)', 'gd_thumb_image_height', 'int', '', '150', '150', 0)"; $id++;
+$sql['INSERT '.CONFIG_TABLE." ID #".$id] = "INSERT INTO `".CONFIG_TABLE."` VALUES (".$id.", 'gd', 6, 'Тип миниатюры', 'Выберите алгоритм генерации миниатюр. \r\nЗаполнение - полностью заполнит миниатюру.\r\nПо размеру - пропорции изображения будут вписаны в пропорции миниатюры.\r\n', 'gd_thumb_type_gen', 'select', 'Заполнение|fill\r\nПо размеру|size', 'fill', 'fill', 0)"; $id++;
+$sql['INSERT '.CONFIG_TABLE." ID #".$id] = "INSERT INTO `".CONFIG_TABLE."` VALUES (".$id.", 'gd', 7, 'Цвет фона миниатюры', 'Данный параметр устанавливает цвет фона для миниатюр, если вы выбрали тип генерации &quot;по размеру&quot;', 'gd_thumb_bgcolor', 'color', '', '#ffffff', '#ffffff', 0)"; $id++;
+$sql['INSERT '.CONFIG_TABLE." ID #".$id] = "INSERT INTO `".CONFIG_TABLE."` VALUES (".$id.", 'gd', 8, 'Качество миниатюр', 'Укажите качество создаваемых миниатюр от 1 до 100 \r\nОпция применима только для jpg миниатюр.', 'gd_thumb_jpg_quality', 'int', '', '90', '90', 0)"; $id++;
+$sql['INSERT '.CONFIG_TABLE." ID #".$id] = "INSERT INTO `".CONFIG_TABLE."` VALUES (".$id.", 'gd', 9, 'Вкл/выкл водяной знак', 'Использовать на загружаемых изображениях Watermark (полупрозрачный копирайт) для защиты изображений от копирования на сторонние ресурсы?', 'gd_use_watermark', 'boolean', '', 'true', 'true', 0)"; $id++;
+$sql['INSERT '.CONFIG_TABLE." ID #".$id] = "INSERT INTO `".CONFIG_TABLE."` VALUES (".$id.", 'gd', 10, 'Первая строка водяного знака', 'Первая строчка водяного знака накладываемого на изображение', 'gd_watermark_string_one', 'string', '', '', '', 0)"; $id++;
+$sql['INSERT '.CONFIG_TABLE." ID #".$id] = "INSERT INTO `".CONFIG_TABLE."` VALUES (".$id.", 'gd', 11, 'Вторая строка водяного знака', 'Вторая строчка водяного знака накладываемого на изображение', 'gd_watermark_string_two', 'string', '', 'http://".$_SERVER['SERVER_NAME']."', '', 0)"; $id++;
+$sql['INSERT '.CONFIG_TABLE." ID #".$id] = "INSERT INTO `".CONFIG_TABLE."` VALUES (".$id.", 'cp', 1, 'Вход в панель управления', 'Укажите название файла (скрипта) через который вы будете заходить в Панель Управления.\r\nВнимание! После изменения этой настройки, изменится URI панели управления. В случае если вы изменяли вручную шаблоны панели управления, проверьте, что вы везде указали переменную {&#36;SCRIPT_NAME}', 'cp_script', 'string', '', 'acp.php', 'acp.php', 0)"; $id++;
+$sql['INSERT '.CONFIG_TABLE." ID #".$id] = "INSERT INTO `".CONFIG_TABLE."` VALUES (".$id.", 'cp', 2, 'E-mail администратора', 'Укажите адрес электронной почты администратора Он будет использоваться для системных уведомлений.', 'cp_email', 'email', '', '".$site['sysemail']."', '".$site['sysemail']."', 0)"; $id++;
+$sql['INSERT '.CONFIG_TABLE." ID #".$id] = "INSERT INTO `".CONFIG_TABLE."` VALUES (".$id.", 'tpl', 1, 'Вкл/выкл режим отладки шаблонов', 'Опцпия активирует принудительную перекомпиляцию шаблонов при каждом вызове.\r\nНикогда не используйте это действие в условиях реальной эксплуатации', 'tpl_recompile_force', 'boolean', '', 'false', 'false', 0)"; $id++;
+$sql['INSERT '.CONFIG_TABLE." ID #".$id] = "INSERT INTO `".CONFIG_TABLE."` VALUES (".$id.", 'rss', 1, 'Вкл/Выкл RSS лент', 'Опция глобального включения или отключения RSS лент', 'rss_power', 'boolean', '', 'true', 'true', 0)"; $id++;
+$sql['INSERT '.CONFIG_TABLE." ID #".$id] = "INSERT INTO `".CONFIG_TABLE."` VALUES (".$id.", 'rss', 2, 'TTL', 'Время жизни фида в секундах', 'rss_ttl', 'int', '', '240', '240', 0)"; $id++;
+$sql['INSERT '.CONFIG_TABLE." ID #".$id] = "INSERT INTO `".CONFIG_TABLE."` VALUES (".$id.", 'feed', 1, 'Количество элементов ленты на страницу', 'Опция устанавливает количество элементов ленты выводимых на одной странице. \nОпция действует глобально, если иное не указано в настройках ленты.', 'feed_items_per_page', 'int', '', '10', '10', 0)"; $id++;
 
 
 /**
@@ -139,8 +139,8 @@ $sql['CREATE'.STRUCTURE_TABLE] = "CREATE TABLE IF NOT EXISTS `".STRUCTURE_TABLE.
 					  `page_type` enum('html','php','feed') NOT NULL DEFAULT 'html',
 					  `childs` int(10) unsigned NOT NULL DEFAULT '0',
 					  `page_id` int(10) unsigned NOT NULL DEFAULT '0',
-					  `date_create` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'format: unixtimestamp',
-					  `date_modified` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'format: unixtimestamp',
+					  `date_create` int(20) unsigned NOT NULL DEFAULT '0' COMMENT 'format: unixtimestamp',
+					  `date_modified` int(20) unsigned NOT NULL DEFAULT '0' COMMENT 'format: unixtimestamp',
 					  `rss` enum('0','1') NOT NULL DEFAULT '1',
 					  `show_child_feeds` enum('none','default','forced') NOT NULL DEFAULT 'none',
 					  `items_per_page` int(10) unsigned NOT NULL DEFAULT '0',
@@ -163,13 +163,13 @@ $sql['INSERT '.STRUCTURE_TABLE." ID #".$id] = "INSERT INTO `".STRUCTURE_TABLE."`
 */
 $sql['DROP '.PAGES_HTML_TABLE] = "DROP TABLE IF EXISTS `".PAGES_HTML_TABLE."`";
 $sql['CREATE'.PAGES_HTML_TABLE] = "CREATE TABLE IF NOT EXISTS `".PAGES_HTML_TABLE."` (
-				      `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-				      `sid` int(10) unsigned NOT NULL,
-				      `content` longtext NOT NULL,
-				      `date_modified` int(10) unsigned NOT NULL,
-				      PRIMARY KEY (`id`),
-				      UNIQUE KEY `sid` (`sid`)
-				    ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 PACK_KEYS=1 AUTO_INCREMENT=1";
+					  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+					  `sid` int(10) unsigned NOT NULL,
+					  `content` longtext NOT NULL,
+					  `date_modified` int(20) unsigned NOT NULL DEFAULT '0',
+					  PRIMARY KEY (`id`),
+					  UNIQUE KEY `sid` (`sid`)
+					) ENGINE=MyISAM  DEFAULT CHARSET=utf8 PACK_KEYS=1 AUTO_INCREMENT=1";
 
 $sql['INSERT '.PAGES_HTML_TABLE." ID #".$id] = "INSERT INTO `".PAGES_HTML_TABLE."` (`id`, `sid`, `content`, `date_modified`)
 									    VALUES (1, 1, '&lt;h1&gt;\r\n	Добро пожаловать!&lt;/h1&gt;\r\nЭто новый сайт, который был создан с помощью системы управления контентом &lt;a href=&quot;http://www.roocms.com&quot;&gt;RooCMS&lt;/a&gt; версии 1.00&lt;br /&gt;\r\n&lt;br /&gt;\r\nRooCMS - это русская система управления сайтом (контентом). Простая и удобная в использовании как программисту или верстальщику, так и людям, которые совершенно незнакомы с производством сайтов.', ".time().")";
@@ -180,13 +180,13 @@ $sql['INSERT '.PAGES_HTML_TABLE." ID #".$id] = "INSERT INTO `".PAGES_HTML_TABLE.
 */
 $sql['DROP '.PAGES_PHP_TABLE] = "DROP TABLE IF EXISTS `".PAGES_PHP_TABLE."`";
 $sql['CREATE'.PAGES_PHP_TABLE] = "CREATE TABLE IF NOT EXISTS `".PAGES_PHP_TABLE."` (
-				      `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-				      `sid` int(10) unsigned NOT NULL,
-				      `content` longtext NOT NULL,
-				      `date_modified` int(10) unsigned NOT NULL,
-				      PRIMARY KEY (`id`),
-				      UNIQUE KEY `sid` (`sid`)
-				    ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 PACK_KEYS=1 AUTO_INCREMENT=1";
+					  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+					  `sid` int(10) unsigned NOT NULL,
+					  `content` longtext NOT NULL,
+					  `date_modified` int(20) unsigned NOT NULL DEFAULT '0',
+					  PRIMARY KEY (`id`),
+					  UNIQUE KEY `sid` (`sid`)
+					) ENGINE=MyISAM  DEFAULT CHARSET=utf8 PACK_KEYS=1 AUTO_INCREMENT=1";
 
 
 /**
@@ -198,18 +198,18 @@ $sql['CREATE'.PAGES_FEED_TABLE] = "CREATE TABLE IF NOT EXISTS `".PAGES_FEED_TABL
 					  `sid` int(10) unsigned NOT NULL,
 					  `status` enum('0','1') NOT NULL DEFAULT '1',
 					  `sort` int(10) unsigned NOT NULL DEFAULT '0',
-					  `date_create` int(10) unsigned NOT NULL DEFAULT '0',
-					  `date_update` int(10) unsigned NOT NULL DEFAULT '0',
-					  `date_publications` int(10) unsigned NOT NULL DEFAULT '0',
-					  `date_end_publications` int(10) unsigned NOT NULL DEFAULT '0',
+					  `date_create` int(20) unsigned NOT NULL DEFAULT '0',
+					  `date_update` int(20) unsigned NOT NULL DEFAULT '0',
+					  `date_publications` int(20) unsigned NOT NULL DEFAULT '0',
+					  `date_end_publications` int(20) unsigned NOT NULL DEFAULT '0',
 					  `title` varchar(255) NOT NULL,
 					  `meta_description` varchar(255) NOT NULL,
 					  `meta_keywords` varchar(255) NOT NULL,
 					  `brief_item` text NOT NULL,
 					  `full_item` longtext NOT NULL,
-					  PRIMARY KEY ( `id` ) ,
-					  KEY `sid` ( `sid` ) ,
-					  KEY `date_publications` ( `date_publications` )
+					  PRIMARY KEY (`id`),
+					  KEY `sid` (`sid`),
+					  KEY `date_publications` (`date_publications`)
 					) ENGINE=MyISAM  DEFAULT CHARSET=utf8 PACK_KEYS=1 AUTO_INCREMENT=1";
 
 
@@ -218,19 +218,18 @@ $sql['CREATE'.PAGES_FEED_TABLE] = "CREATE TABLE IF NOT EXISTS `".PAGES_FEED_TABL
 */
 $sql['DROP '.BLOCKS_TABLE] = "DROP TABLE IF EXISTS `".BLOCKS_TABLE."`";
 $sql['CREATE '.BLOCKS_TABLE] = "CREATE TABLE IF NOT EXISTS `".BLOCKS_TABLE."` (
-                                  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-                                  `alias` varchar(255) NOT NULL,
-                                  `block_type` enum('html','php') NOT NULL DEFAULT 'html',
-                                  `title` varchar(255) NOT NULL,
-                                  `content` longtext NOT NULL,
-                                  `date_create` int(10) unsigned NOT NULL DEFAULT '0',
-                                  `date_modified` int(10) unsigned NOT NULL DEFAULT '0',
-                                  PRIMARY KEY (`id`),
-                                  UNIQUE KEY `alias` (`alias`)
+				  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+				  `alias` varchar(255) NOT NULL COMMENT 'unique name for block',
+				  `block_type` enum('html','php') NOT NULL DEFAULT 'html',
+				  `title` varchar(255) NOT NULL,
+				  `content` longtext NOT NULL COMMENT 'html or php code',
+				  `date_create` int(20) unsigned NOT NULL DEFAULT '0' COMMENT 'format: unixtimestamp',
+				  `date_modified` int(20) unsigned NOT NULL DEFAULT '0' COMMENT 'last modified date',
+				  PRIMARY KEY (`id`),
+				  UNIQUE KEY `alias` (`alias`)
                                 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 PACK_KEYS=1 AUTO_INCREMENT=1";
 $id = 1;
-$sql['INSERT '.BLOCKS_TABLE." ID #".$id] = "INSERT INTO `".BLOCKS_TABLE."` (`id`, `alias`, `block_type`, `title`, `content`, `date_create`, `date_modified`)
-								     VALUES('".$id."', 'nav_pages', 'php', 'Меню', 'global &#36;structure;\r\n\r\necho &lt;&lt;&lt;HTML\r\n        &lt;div class=&quot;navbar navbar-default&quot;&gt;\r\n\r\n					  &lt;div class=&quot;navbar-header&quot;&gt;\r\n						&lt;button type=&quot;button&quot; class=&quot;navbar-toggle&quot; data-toggle=&quot;collapse&quot; data-target=&quot;.navbar-exmenu-collapse&quot;&gt;\r\n						  &lt;span class=&quot;sr-only&quot;&gt;Toggle navigation&lt;/span&gt;\r\n						  &lt;span class=&quot;icon-bar&quot;&gt;&lt;/span&gt;\r\n						  &lt;span class=&quot;icon-bar&quot;&gt;&lt;/span&gt;\r\n						  &lt;span class=&quot;icon-bar&quot;&gt;&lt;/span&gt;\r\n						&lt;/button&gt;\r\n					  &lt;/div&gt;\r\n\r\n					&lt;div class=&quot;collapse navbar-collapse navbar-exmenu-collapse&quot;&gt;\r\n						&lt;ul class=&quot;nav navbar-nav&quot;&gt;\r\nHTML;\r\n\r\n&#36;tree = &#36;structure-&gt;sitetree;\r\n\r\n&#36;submenu = false;\r\n\r\nforeach(&#36;tree as &#36;k=&gt;&#36;v) &#123;\r\n	if(&#36;v[&#39;level&#39;] == 0) &#123;\r\n		echo &quot;\r\n			&lt;li&gt;&lt;a href=\\&quot;/\\&quot;&gt;Главная&lt;/a&gt;&lt;/li&gt;\r\n			&lt;li class=\\&quot;divider-vertical\\&quot;&gt;&lt;/li&gt;\r\n		&quot;;\r\n	&#125;\r\n	\r\n	if(&#36;v[&#39;level&#39;] == 1) &#123;\r\n		if(&#36;submenu) &#123;\r\n			&#36;submenu = false;\r\n			echo &quot;&lt;/ul&gt;&lt;/li&gt;&quot;;\r\n		&#125;\r\n		\r\n		echo &quot;\\n&lt;li&gt;&lt;a href=\\&quot;/index.php?page=&#123;&#36;v[&#39;alias&#39;]&#125;\\&quot;&gt;&#123;&#36;v[&#39;title&#39;]&#125;&lt;/a&gt;&lt;/li&gt;&quot;;\r\n		\r\n		if(&#36;v[&#39;childs&#39;] &gt; 0) &#123;\r\n			&#36;submenu = true;\r\n			echo &quot;\r\n				&lt;li class=\\&quot;dropdown\\&quot;&gt;\r\n					&lt;a href=\\&quot;#\\&quot; class=\\&quot;dropdown-toggle\\&quot; data-toggle=\\&quot;dropdown\\&quot;&gt;\r\n						&lt;b class=\\&quot;caret\\&quot;&gt;&lt;/b&gt;\r\n					&lt;/a&gt;\r\n					&lt;ul class=\\&quot;dropdown-menu\\&quot;&gt;\r\n			&quot;;\r\n		&#125;\r\n		else echo &quot;&lt;li class=\\&quot;divider-vertical\\&quot;&gt;&lt;/li&gt;&quot;;\r\n	&#125;\r\n	\r\n	if(&#36;v[&#39;level&#39;] &gt; 1) &#123;\r\n		echo &quot;\\n&lt;li&gt;&lt;a href=\\&quot;/index.php?page=&#123;&#36;v[&#39;alias&#39;]&#125;\\&quot;&gt;&#123;&#36;v[&#39;title&#39;]&#125;&lt;/a&gt;&lt;/li&gt;&quot;;	\r\n	&#125;\r\n&#125;\r\n\r\nif(&#36;submenu) &#123;\r\n	&#36;submenu = false;\r\n	echo &quot;&lt;/ul&gt;&lt;/li&gt;&quot;;\r\n&#125;\r\n\r\necho &lt;&lt;&lt;HTML\r\n				&lt;/ul&gt;\r\n			&lt;/div&gt;\r\n        &lt;/div&gt;\r\nHTML;\r\n', ".time().", ".time().")";
+$sql['INSERT '.BLOCKS_TABLE." ID #".$id] = "INSERT INTO `".BLOCKS_TABLE."` VALUES('".$id."', 'nav_pages', 'php', 'Меню', 'global &#36;structure;\r\n\r\necho &lt;&lt;&lt;HTML\r\n        &lt;div class=&quot;navbar navbar-default&quot;&gt;\r\n\r\n					  &lt;div class=&quot;navbar-header&quot;&gt;\r\n						&lt;button type=&quot;button&quot; class=&quot;navbar-toggle&quot; data-toggle=&quot;collapse&quot; data-target=&quot;.navbar-exmenu-collapse&quot;&gt;\r\n						  &lt;span class=&quot;sr-only&quot;&gt;Toggle navigation&lt;/span&gt;\r\n						  &lt;span class=&quot;icon-bar&quot;&gt;&lt;/span&gt;\r\n						  &lt;span class=&quot;icon-bar&quot;&gt;&lt;/span&gt;\r\n						  &lt;span class=&quot;icon-bar&quot;&gt;&lt;/span&gt;\r\n						&lt;/button&gt;\r\n					  &lt;/div&gt;\r\n\r\n					&lt;div class=&quot;collapse navbar-collapse navbar-exmenu-collapse&quot;&gt;\r\n						&lt;ul class=&quot;nav navbar-nav&quot;&gt;\r\nHTML;\r\n\r\n&#36;tree = &#36;structure-&gt;sitetree;\r\n\r\n&#36;submenu = false;\r\n\r\nforeach(&#36;tree as &#36;k=&gt;&#36;v) &#123;\r\n	if(&#36;v[&#39;level&#39;] == 0) &#123;\r\n		echo &quot;\r\n			&lt;li&gt;&lt;a href=\\&quot;/\\&quot;&gt;Главная&lt;/a&gt;&lt;/li&gt;\r\n			&lt;li class=\\&quot;divider-vertical\\&quot;&gt;&lt;/li&gt;\r\n		&quot;;\r\n	&#125;\r\n	\r\n	if(&#36;v[&#39;level&#39;] == 1) &#123;\r\n		if(&#36;submenu) &#123;\r\n			&#36;submenu = false;\r\n			echo &quot;&lt;/ul&gt;&lt;/li&gt;&quot;;\r\n		&#125;\r\n		\r\n		echo &quot;\\n&lt;li&gt;&lt;a href=\\&quot;/index.php?page=&#123;&#36;v[&#39;alias&#39;]&#125;\\&quot;&gt;&#123;&#36;v[&#39;title&#39;]&#125;&lt;/a&gt;&lt;/li&gt;&quot;;\r\n		\r\n		if(&#36;v[&#39;childs&#39;] &gt; 0) &#123;\r\n			&#36;submenu = true;\r\n			echo &quot;\r\n				&lt;li class=\\&quot;dropdown\\&quot;&gt;\r\n					&lt;a href=\\&quot;#\\&quot; class=\\&quot;dropdown-toggle\\&quot; data-toggle=\\&quot;dropdown\\&quot;&gt;\r\n						&lt;b class=\\&quot;caret\\&quot;&gt;&lt;/b&gt;\r\n					&lt;/a&gt;\r\n					&lt;ul class=\\&quot;dropdown-menu\\&quot;&gt;\r\n			&quot;;\r\n		&#125;\r\n		else echo &quot;&lt;li class=\\&quot;divider-vertical\\&quot;&gt;&lt;/li&gt;&quot;;\r\n	&#125;\r\n	\r\n	if(&#36;v[&#39;level&#39;] &gt; 1) &#123;\r\n		echo &quot;\\n&lt;li&gt;&lt;a href=\\&quot;/index.php?page=&#123;&#36;v[&#39;alias&#39;]&#125;\\&quot;&gt;&#123;&#36;v[&#39;title&#39;]&#125;&lt;/a&gt;&lt;/li&gt;&quot;;	\r\n	&#125;\r\n&#125;\r\n\r\nif(&#36;submenu) &#123;\r\n	&#36;submenu = false;\r\n	echo &quot;&lt;/ul&gt;&lt;/li&gt;&quot;;\r\n&#125;\r\n\r\necho &lt;&lt;&lt;HTML\r\n				&lt;/ul&gt;\r\n			&lt;/div&gt;\r\n        &lt;/div&gt;\r\nHTML;\r\n', ".time().", ".time().")";
 
 
 /**
@@ -239,32 +238,52 @@ $sql['INSERT '.BLOCKS_TABLE." ID #".$id] = "INSERT INTO `".BLOCKS_TABLE."` (`id`
 $sql['DROP '.IMAGES_TABLE] = "DROP TABLE IF EXISTS `".IMAGES_TABLE."`";
 $sql['CREATE'.IMAGES_TABLE] = "CREATE TABLE IF NOT EXISTS `".IMAGES_TABLE."` (
 				  `id` int(10) NOT NULL AUTO_INCREMENT,
-				  `attachedto` varchar(255) NOT NULL,
+				  `attachedto` varchar(255) NOT NULL COMMENT 'site partition and identificator',
 				  `filename` varchar(255) NOT NULL,
-				  `fileext` varchar(10) NOT NULL,
+				  `fileext` varchar(10) NOT NULL COMMENT 'extension file',
 				  `sort` int(10) unsigned NOT NULL DEFAULT '0',
-				  `alt` varchar(255) NOT NULL,
+				  `alt` varchar(255) NOT NULL COMMENT 'alternative text for hover or unuse image',
 				  PRIMARY KEY (`id`),
 				  KEY `filename` (`filename`),
 				  KEY `attachedto` (`attachedto`)
 				) ENGINE=MyISAM  DEFAULT CHARSET=utf8 PACK_KEYS=1 AUTO_INCREMENT=1";
+
+
+/**
+ * Таблица пользователей
+ */
+$sql['DROP '.USERS_TABLE] = "DROP TABLE IF EXISTS `".USERS_TABLE."`";
+$sql['CREATE'.HELP_TABLE] = "CREATE TABLE IF NOT EXISTS `".USERS_TABLE."` (
+				  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+				  `login` varchar(255) NOT NULL,
+				  `nickname` varchar(255) NOT NULL,
+				  `email` varchar(255) NOT NULL,
+				  `password` varchar(32) NOT NULL,
+				  `salt` char(4) NOT NULL,
+				  `date_create` int(20) unsigned NOT NULL DEFAULT '0' COMMENT 'format: unixtimestamp',
+				  `date_update` int(20) unsigned NOT NULL DEFAULT '0' COMMENT 'format: unixtimestamp',
+				  `last_visit` int(20) unsigned NOT NULL DEFAULT '0' COMMENT 'format: unixtimestamp',
+				  PRIMARY KEY (`id`),
+				  UNIQUE KEY `id` (`id`,`login`)
+				) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1";
+
 
 /**
  * Помощь администратора
  */
 $sql['DROP '.HELP_TABLE] = "DROP TABLE IF EXISTS `".HELP_TABLE."`";
 $sql['CREATE'.HELP_TABLE] = "CREATE TABLE IF NOT EXISTS `".HELP_TABLE."` (
-			      `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-			      `uname` varchar(255) NOT NULL,
-			      `parent_id` int(10) unsigned NOT NULL DEFAULT '0',
-			      `sort` int(10) unsigned NOT NULL DEFAULT '0',
-			      `childs` int(10) unsigned NOT NULL DEFAULT '0',
-			      `title` varchar(255) NOT NULL,
-			      `content` longtext NOT NULL,
-			      `date_modified` int(10) unsigned NOT NULL DEFAULT '0',
-			      PRIMARY KEY (`id`),
-			      UNIQUE KEY `uname` (`uname`)
-			    ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 PACK_KEYS=1 AUTO_INCREMENT=1";
+				  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+				  `uname` varchar(255) NOT NULL,
+				  `parent_id` int(10) unsigned NOT NULL DEFAULT '0',
+				  `sort` int(10) unsigned NOT NULL DEFAULT '0',
+				  `childs` int(10) unsigned NOT NULL DEFAULT '0',
+				  `title` varchar(255) NOT NULL,
+				  `content` longtext NOT NULL,
+				  `date_modified` int(20) unsigned NOT NULL DEFAULT '0',
+				  PRIMARY KEY (`id`),
+				  UNIQUE KEY `uname` (`uname`)
+				) ENGINE=MyISAM  DEFAULT CHARSET=utf8 PACK_KEYS=1 AUTO_INCREMENT=26";
 
 $id = 1;
 $sql['INSERT '.HELP_TABLE." ID #01"] = "INSERT INTO `".HELP_TABLE."` VALUES(1, 'help', 0, 0, 4, 'Помощь', '&lt;p&gt;Вы находитесь в справочном разделе системы управления контентом - RooCMS.&lt;br /&gt;\r\n&lt;br /&gt;\r\nЧто бы получить информацию о функциях панели управления выберите один из нижеприведенных разделов.&lt;/p&gt;\r\n', 1381472467)";

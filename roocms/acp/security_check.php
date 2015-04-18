@@ -3,9 +3,9 @@
  * @package      RooCMS
  * @subpackage	 Admin Control Panel
  * @author       alex Roosso
- * @copyright    2010-2014 (c) RooCMS
+ * @copyright    2010-2015 (c) RooCMS
  * @link         http://www.roocms.com
- * @version      1.1.1
+ * @version      2.0
  * @since        $date$
  * @license      http://www.gnu.org/licenses/gpl-3.0.html
  */
@@ -51,21 +51,51 @@
 if(!defined('RooCMS') || (!defined('ACP') && !defined('INSTALL') && !defined('MULTIUPLOAD'))) die('Access Denied');
 //#########################################################
 
-/**
- * Не рассчитывайте на этот файл. Он тут ненадолго.
- * Не стоит опираться на функции и решения этого файла.
- */
 
-# @param boolean
-$security = false;
+class ACP_SECURITY {
 
-if(trim($adm['login']) != "" && trim($adm['passw']) != "") {
-	// @return md5 hash
-	$session_check 	= md5(md5($adm['login']).md5($adm['passw']));
+	/**
+	 * @var bool
+	 */
+	var $access = false;
 
-	if(isset($roocms->sess['acp']) && $roocms->sess['acp'] == $session_check) {
-		$security = true;
+
+	/**
+	 * Функция проверки текущего доступа пользователя.
+	 * В случае успешной проверки функция изменяет флаг $access на true
+	 */
+	function ACP_SECURITY() {
+
+		global $db, $roocms, $security;
+
+		if(isset($roocms->sess['login']) && trim($roocms->sess['login']) != "" && $db->check_id($roocms->sess['login'], USERS_TABLE, "login")
+		&& isset($roocms->sess['token']) && strlen($roocms->sess['token']) == 32) {
+			$q = $db->query("SELECT login, password, salt FROM ".USERS_TABLE." WHERE login='".$roocms->sess['login']."'");
+			$data = $db->fetch_assoc($q);
+
+			$token = $security->hashing_token($roocms->sess['login'], $data['password'], $data['salt']);
+
+			# check access
+			if($token == $roocms->sess['token']) {
+
+				# update time last visited
+				$db->query("UPDATE ".USERS_TABLE." SET last_visit='".time()."' WHERE login='".$roocms->sess['login']."'");
+
+				# access granted
+				$this->access = true;
+			}
+			else {
+				# access denied
+				$this->access = false;
+			}
+		}
+		else $this->access = false;
 	}
 }
+
+/**
+ * Init Class
+ */
+$acpsecurity = new ACP_SECURITY;
 
 ?>

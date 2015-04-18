@@ -3,9 +3,9 @@
  * @package      RooCMS
  * @subpackage	 Admin Control Panel
  * @author       alex Roosso
- * @copyright    2010-2014 (c) RooCMS
+ * @copyright    2010-2015 (c) RooCMS
  * @link         http://www.roocms.com
- * @version      1.0.14
+ * @version      1.0.15
  * @since        $date$
  * @license      http://www.gnu.org/licenses/gpl-3.0.html
  */
@@ -62,11 +62,10 @@ if(!defined('ACP')) define('ACP', true);
 nocache();
 
 # Security check
-$security = false;
 require_once _ROOCMS."/acp/security_check.php";
 
 
-if($security) {
+if($acpsecurity->access) {
 	# запускаем меню админа
 	require_once _ROOCMS."/acp/menu.php";
 

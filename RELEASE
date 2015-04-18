@@ -1,6 +1,6 @@
 =========================================================================
 Version: 1.1.1-beta6
-Release date:	11.03.2015
+Release date:	14.04.2015
 -------------------------------------------------------------------------
 Plugins:	CKEditor		v4.2.1 (revision 5010dd4)
 		Codemirror		v3.19
@@ -11,7 +11,7 @@ Plugins:	CKEditor		v4.2.1 (revision 5010dd4)
 		Bootstrap Select	v1.3.4
 		Bootstrap Datepicker	v1.3
 		Bootstrap Colorpicker	v1
-		Font Awesome		v4.2.0
+		Font Awesome		v4.3.0
 		Smarty			v3.1.21
 		Smarty plugins:		get_params
 		PHP QR Code		v1.1.4

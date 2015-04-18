@@ -1,11 +1,11 @@
 <?php
 /**
 * @package      RooCMS
-* @subpackage	Admin Control Panel
+* @subpackage	Engine RooCMS classes
 * @author       alex Roosso
 * @copyright    2010-2015 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      2.0
+* @version      1.0
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -48,79 +48,80 @@
 //#########################################################
 // Anti Hack
 //---------------------------------------------------------
-if(!defined('RooCMS') || (!defined('ACP') && !defined('INSTALL'))) die('Access Denied');
+if(!defined('RooCMS')) die('Access Denied');
 //#########################################################
 
 
-class ACP_LOGIN {
+/**
+ * Class Security
+ */
+class Security {
 
-	/**
-	 * Проверяем введенные данные
-	 */
-	function ACP_LOGIN() {
-
-		global $db, $POST, $security, $smarty, $tpl, $site;
+	var $token = "";
 
 
-		$smarty->assign("error_login", "");
-		$smarty->assign("site", $site);
+
+	function Security() {
 
 
-		/**
-		 * Проверяем запрос
-		 */
-		if(isset($POST->go)) {
-
-			if(isset($POST->login) && $db->check_id($POST->login, USERS_TABLE, "login") && isset($POST->password)) {
-
-				$q = $db->query("SELECT login, password, salt FROM ".USERS_TABLE." WHERE login='".$POST->login."'");
-				$data = $db->fetch_assoc($q);
-
-				$dbpass = $security->hashing_password($POST->password, $data['salt']);
-
-				if($dbpass == $data['password']) {
-
-					# @include session security_check hash
-
-					$_SESSION['login'] = $data['login'];
-					$_SESSION['token'] = $security->hashing_token($data['login'], $dbpass, $data['salt']);
-
-					goback();
-				}
-				else {
-					# неверный логин или пароль
-					$this->incorrect_entering("Неверный логин или пароль.");
-				}
-			}
-			else {
-				# логин или пароль введены некоректно
-				$this->incorrect_entering("Введены неверные данные.");
-			}
-		}
-
-		# load template
-		$tpl->load_template("login");
 	}
 
 
 	/**
-	 * @param $msg - сообщение об ошибке передаваемое в шаблон
+	 * Функция хешерования пароля пользователя
+	 *
+	 * @param $password	- нехешированный пароль пользователя
+	 * @param $salt		- сальт паользователя
+	 *
+	 * @return string	- хешированный пароль пользователя
 	 */
-	private function incorrect_entering($msg) {
+	public function hashing_password($password, $salt) {
+		$hash = md5(md5($password).md5($salt));
+		return $hash;
+	}
 
-		global $smarty;
 
-		unset($_SESSION['login']);
-		unset($_SESSION['token']);
+	/**
+	 * Функция генерирует хешобразный ключ для проверки текущего доступа
+	 * Временный ключ генерируется на основе текущей сессии пользователя.
+	 *
+	 * @param $login	- логин пользователя
+	 * @param $password	- хеш пароля пользователя
+	 * @param $salt		- сальт пользователя
+	 *
+	 * @return string - токен
+	 */
+	public function hashing_token($login, $password, $salt) {
 
-		sleep(3);
-		$smarty->assign("error_login", $msg);
+		global $roocms;
+
+		$token = md5(md5($roocms->usersession).md5($login).md5($password).md5($salt));
+		return $token;
+	}
+
+
+	/**
+	 * Функция генерирует новый пароль
+	 *
+	 * @return string - new password
+	 */
+	public function create_new_password() {
+		$password = randcode(7, "ABCDEFGHJKLMNPQRSTUVWXYZabcdefhjkmnprstvwxyz0123456789");
+		return $password;
+	}
+
+
+	/**
+	 * Функция генерирует новый сальт
+	 *
+	 * @return string
+	 */
+	public function create_new_salt() {
+		$salt = randcode(4, "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ01234567890!@#$%^&*(){}:?><,./[]");
+		return $salt;
 	}
 }
 
-/**
- * Init Class
- */
-$acplogin = new ACP_LOGIN;
+
 
 ?>
