@@ -3,9 +3,9 @@
 * @package      RooCMS
 * @subpackage	Admin Control Panel
 * @author       alex Roosso
-* @copyright    2010-2014 (c) RooCMS
+* @copyright    2010-2015 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.0.4
+* @version      1.0.5
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -53,7 +53,9 @@ if(!defined('RooCMS') || !defined('ACP')) die('Access Denied');
 
 
 # уничтожаем инициализацию
-unset($_SESSION['acp']);
+unset($_SESSION['token']);
+unset($_SESSION['uid']);
+unset($_SESSION['login']);
 
 
 # move
