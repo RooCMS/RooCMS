@@ -58,20 +58,28 @@ if(!defined('RooCMS') || !defined('ACP')) die('Access Denied');
  */
 class ACP_USERS {
 
+	# vars
+	private $id = 0;
+
+
 
 	/**
 	 * Вперед и только веперед
 	 */
 	function __construct() {
 
-		global $roocms, $security, $tpl;
+		global $roocms, $security, $tpl, $GET;
+
+
+		# Проверяем идентификатор юзера
+		if(isset($GET->_id) && $db->check_id($GET->_id, USERS_TABLE)) $this->id = $GET->_id;
 
 
 		# action
 		switch($roocms->part) {
 
 			case 'create':
-				$this->create_new_user;
+				$this->create_new_user();
 				break;
 
 			case 'edit':
@@ -125,7 +133,109 @@ class ACP_USERS {
 	 */
 	function create_new_user() {
 
-		global $db, $smarty, $tpl, $POST;
+		global $db, $smarty, $tpl, $POST, $parse, $security, $site;
+
+		if(isset($POST->create_user) || isset($POST->create_user_ae)) {
+
+			# login
+			if($db->check_id($POST->login, USERS_TABLE, "login")) $parse->msg("Пользователь с таким логином уже существует", false);
+
+			# nickname
+			if(!isset($POST->nickname) || trim($POST->nickname) == "") $POST->nickname = mb_ucfirst($POST->login);
+			$POST->nickname = $this->check_new_nickname($POST->nickname);
+
+			# email
+			if(!$parse->valid_email($POST->email)) $parse->msg("Некоректный адрес электронной почты", false);
+			if($db->check_id($POST->email, USERS_TABLE, "email")) $parse->msg("Пользователь с таким адресом почты уже существует", false);
+
+
+			if(!isset($_SESSION['error'])) {
+
+				#password
+				if(!isset($POST->password) || trim($POST->password) == "") $POST->password = $security->create_new_password();
+				$salt = $security->create_new_salt();
+				$password = $security->hashing_password($POST->password, $salt);
+
+				$db->query("INSERT INTO ".USERS_TABLE." (login, nickname, email, password, salt, date_create, date_update, last_visit)
+								 VALUES ('".$POST->login."', '".$POST->nickname."', '".$POST->email."', '".$password."', '".$salt."', '".time()."', '".time()."', '".time()."')");
+				$id = $db->insert_id();
+
+				# Уведомление пользователю на электропочту
+				$smarty->assign("login", $POST->login);
+				$smarty->assign("nickname", $POST->nickname);
+				$smarty->assign("password", $POST->password);
+				$smarty->assign("site", $site);
+				$message = $tpl->load_template("email_new_registration", true);
+
+				sendmail($POST->email, "Вас зарегестрировали на сайте ".$site['title'], $message);
+
+
+				# уведомление
+				$parse->msg("Пользователь был успешно добавлен. Уведомление об учетной записи отправлено на его электронную почту.");
+
+				# переход
+				if(isset($POST->create_user_ae)) go(CP."?act=users");
+				else go(CP."?act=users&part=edit&user=".$sid);
+			}
+			else goback();
+		}
+
+
+		# отрисовываем шаблон
+		$content = $tpl->load_template("users_create_new_user", true);
+		$smarty->assign("content", $content);
+	}
+
+
+	/**
+	 * Проверяем поля на уникальность
+	 *
+	 * ВНИМАНИЕ! Не расчитывайте на эту функцию, она временная.
+	 *
+	 * @param string $field   - поле
+	 * @param string $name    - значение поля
+	 * @param string $without - Выражение исключения для mysql запроса
+	 *
+	 * @return bool $res - true - если значение не уникально, false - если значение уникально
+	 */
+	private function check_field($field, $name, $without="") {
+
+		global $db;
+
+		$res = false;
+
+		if(trim($without) != trim($name)) {
+
+			$w = (trim($without) != "") ? $field."!='".$without."'" : "" ;
+
+			if(!$db->check_id($name, USERS_TABLE, $field, $w))
+				$res = true;
+		}
+		else $res = true;
+
+		return $res;
+	}
+
+
+	/**
+	 * Функция проверяет Никнейм на уникальность.
+	 * В случае повторения добавляет к никнейму несколько цифр.
+	 *
+	 * ВНИМАНИЕ! Не расчитывайте на эту функцию. Она временная.
+	 *
+	 * @param string $nickname - Никнейм
+	 *
+	 * @return string
+	 */
+	private function check_new_nickname($nickname) {
+
+		global $db;
+
+		if($db->check_id($nickname, USERS_TABLE, "nickname")) {
+			$nickname = $this->check_new_nickname($nickname.randcode(2,"0123456789"));
+		}
+
+		return $nickname;
 	}
 }
 
