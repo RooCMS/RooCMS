@@ -3,7 +3,7 @@
 * @package      RooCMS
 * @subpackage	Engine RooCMS classes
 * @author       alex Roosso
-* @copyright    2010-2014 (c) RooCMS
+* @copyright    2010-2015 (c) RooCMS
 * @link         http://www.roocms.com
 * @version      1.1.1
 * @since        $date$
@@ -57,10 +57,14 @@ if(!defined('RooCMS')) die('Access Denied');
  */
 class ParserText {
 
-	/* ####################################################
+	/**
 	 * Парсим ББКод (BBCode)
 	 * Функция в разработке
-	*/
+	 *
+	 * @param text $text
+	 *
+	 * @return mixed
+	 */
 	public function bbcode($text) {
 
 		# [blackquote]
@@ -87,10 +91,13 @@ class ParserText {
 	}
 
 
-	/* ####################################################
+	/**
 	 * Парсим хтмл (HTML)
 	 * Функция принимает данные обработанный функцией htmlspecialchars() и возвращает им обратное значение.
-	 * 	$text	-	[text]	Текстовый буфер, который надлежит отпарсить
+	 *
+	 * @param text $text - Текстовый буфер, который надлежит отпарсить
+	 *
+	 * @return text
 	 */
 	public function html($text) {
 
@@ -107,10 +114,13 @@ class ParserText {
 	}
 
 
-	/* ####################################################
+	/**
 	 * Парсим данные
 	 * Функция принимает данные обработанный функцией htmlspecialchars() и вычищает все специфические символы.
-	 * 	$text	-	[text]	Текстовый буфер, который надлежит отпарсить
+	 *
+	 * @param text $text - Текстовый буфер, который надлежит отпарсить
+	 *
+	 * @return text
 	 */
 	public function clearhtml($text) {
 
@@ -131,10 +141,12 @@ class ParserText {
 	}
 
 
-	/* ####################################################
-	 * Парсим данные
+	/**
 	 * Функция заменяет перевод каретки \n на хтмл тег <br />
-	 * 	$text	-	[text]	Текстовый буфер, который надлежит отпарсить
+	 *
+	 * @param text $text - Текстовый буфер, который надлежит отпарсить
+	 *
+	 * @return text
 	 */
 	public function br($text) {
 		$text = nl2br($text);
@@ -215,10 +227,12 @@ class ParserText {
 	}
 
 
-	/* ####################################################
-	 * Парсим данные
+	/**
 	 * Функция обрабатывает строку, оставляя в ней только цифры
-	 * 	$n	-	[string]	Текстовая строка, которую требуется отпарсить
+	 *
+	 * @param $n - [string]	Текстовая строка, которую требуется отпарсить
+	 *
+	 * @return mixed
 	 */
 	public function only_numbers($n) {
 		return preg_replace("/[^0-9]+/","",$n);

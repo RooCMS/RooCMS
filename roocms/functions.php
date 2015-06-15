@@ -5,7 +5,7 @@
 * @author       alex Roosso
 * @copyright    2010-2015 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.0.24
+* @version      1.1
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -109,6 +109,7 @@ function sendmail($mail, $theme, $message, $from="robot") {
 
 	# заголовки
 	$headers  = "MIME-Version: 1.0\n";
+	$headers .= "Content-type: text/html; charset=utf-8\n";
 	$headers .= "From: '{$from}' <'Mail {$domain}'>\n".EMAIL_MESSAGE_PARAMETERS."\n";
 	$headers .= "X-Sender: <no-reply@".$domain.">\n";
 	$headers .= "X-Mailer: PHP ".$domain."\n";
@@ -152,6 +153,13 @@ function print_array(array $array, $subarray=false) {
 	else $buffer .= ",\n";
 
 	return $buffer;
+}
+
+/**
+ * мультибайтовая функция преобразования первого символа строки
+ */
+function mb_ucfirst($string) {
+	return mb_strtoupper(mb_substr($string, 0, 1)).mb_strtolower(mb_substr($string, 1));
 }
 
 /**
