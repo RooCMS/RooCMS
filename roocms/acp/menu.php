@@ -3,7 +3,7 @@
 * @package      RooCMS
 * @subpackage	Admin Control Panel
 * @author       alex Roosso
-* @copyrightt    2010-2014 (c) RooCMS
+* @copyrightt   2010-2015 (c) RooCMS
 * @link         http://www.roocms.com
 * @version      1.1
 * @since        $date$
@@ -78,6 +78,13 @@ if(file_exists(_ROOCMS."/acp/feeds.php")) {
 */
 if(file_exists(_ROOCMS."/acp/blocks.php")) {
 	$menu_items_left[] = array('link'=>CP.'?act=blocks', 'act'=>'blocks', 'icon'=>'fa fa-th', 'text'=>'Блоки', 'window'=>'_self');
+}
+
+/**
+ * Users
+ */
+if(file_exists(_ROOCMS."/acp/users.php")) {
+	$menu_items_left[] = array('link'=>CP.'?act=users', 'act'=>'users', 'icon'=>'fa fa-users', 'text'=>'Пользователи', 'window'=>'_self');
 }
 
 /**

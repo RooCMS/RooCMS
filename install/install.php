@@ -3,9 +3,9 @@
 * @package      RooCMS
 * @subpackage	Installer
 * @author       alex Roosso
-* @copyright    2010-2014 (c) RooCMS
+* @copyright    2010-2015 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.3
+* @version      1.4
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -402,15 +402,17 @@ class Install extends Requirement{
 	 */
 	private function step_7() {
 
-		global $parse, $adm, $POST;
+		global $db, $security, $parse, $POST;
 
-		if(trim($adm['login']) != "" && trim($adm['passw']) != "") go(SCRIPT_NAME."?step=8");
+		if($db->check_id(1, USERS_TABLE)) go(SCRIPT_NAME."?step=8");
 
 		if($this->allowed && isset($POST->submit) && isset($POST->step) && $POST->step == 7) {
+
 			if(!isset($POST->adm_login) || trim($POST->adm_login) == "") {
 				$this->allowed = false;
 				$parse->msg("Неверно указан логин администратора", false);
 			}
+
 			if(!isset($POST->adm_passw) || trim($POST->adm_passw) == "") {
 				$this->allowed = false;
 				$parse->msg("Неверно указан пароль администратора", false);
@@ -426,8 +428,8 @@ class Install extends Requirement{
 			else goback();
 		}
 
-		if(trim($adm['login']) == "") $this->log[] = array('Логин администратора', '<input type="text" class="form-control" name="adm_login" required>', true, 'Укажите логин администратора для доступа к Панели Управления сайтом.');
-		if(trim($adm['passw']) == "") $this->log[] = array('Пароль администратора', '<input type="text" class="form-control" name="adm_passw" required>', true, 'Введите пароль администратора для доступа к Панели Управления сайтом.');
+		$this->log[] = array('Логин администратора', '<input type="text" class="form-control" name="adm_login" required>', true, 'Укажите логин администратора для доступа к Панели Управления сайтом.');
+		$this->log[] = array('Пароль администратора', '<input type="text" class="form-control" name="adm_passw" required>', true, 'Введите пароль администратора для доступа к Панели Управления сайтом.');
 	}
 
 
@@ -436,39 +438,29 @@ class Install extends Requirement{
 	 */
 	private function step_8() {
 
-		global $roocms, $adm, $parse;
+		global $db, $security, $roocms, $parse, $site;
 
 		if(!isset($roocms->sess['adm_login']) || trim($roocms->sess['adm_login']) == "" || !isset($roocms->sess['adm_passw']) || trim($roocms->sess['adm_passw']) == "") {
 			$parse->msg("Сбой при записи логина и пароля администратора сайта", false);
 			go(SCRIPT_NAME."?step=7");
 		}
 
-		$cf = _ROOCMS."/config/config.php";
 
-		$f = file($cf);
+		# write admin acc
+		$salt = $security->create_new_salt();
+		$dbpass = $security->hashing_password($roocms->sess['adm_passw'], $salt);
 
-		$context = "";
-		for($i=0;$i<=count($f)-1;$i++) {
-			$context .= $f[$i];
-		}
+		$db->query("INSERT INTO ".USERS_TABLE." (login, nickname, email, password, salt, date_create, date_update, last_visit)
+						 VALUES ('".$roocms->sess['adm_login']."', '".$roocms->sess['adm_login']."', '".$site['sysemail']."', '".$dbpass."', '".$salt."', '".time()."', '".time()."', '".time()."')");
 
-		if(trim($adm['login']) == "")	$context = str_ireplace('$adm[\'login\'] = "";','$adm[\'login\'] = "'.$roocms->sess['adm_login'].'";',$context);
-		else				$context = str_ireplace('$adm[\'login\'] = "'.$adm['login'].'";','$adm[\'login\'] = "'.$roocms->sess['adm_login'].'";',$context);
-		if(trim($adm['passw']) == "")	$context = str_ireplace('$adm[\'passw\'] = "";','$adm[\'passw\'] = "'.$roocms->sess['adm_passw'].'";',$context);
-		else				$context = str_ireplace('$adm[\'passw\'] = "'.$adm['passw'].'";','$adm[\'passw\'] = "'.$roocms->sess['adm_passw'].'";',$context);
+		# auto auth
+		$_SESSION['login'] = $roocms->sess['adm_login'];
+		$_SESSION['token'] = $security->hashing_token($roocms->sess['adm_login'], $dbpass, $salt);
 
-		$ecf = fopen($cf, "w+");
-		if (is_writable($cf)) {
-			fwrite($ecf, $context);
-		}
-		else {
-			$parse->msg("Сбой при записи логина и пароля администратора сайта", false);
-			go(SCRIPT_NAME."?step=7");
-		}
-		fclose($ecf);
 
+		# CONGRULATIONS
 		$this->log[] = array('', '<div class="text-center">Поздравляем.<br />Вы успешно завершили установку RooCMS.<br />Текущая версия: '.ROOCMS_VERSION.'</div>', true, '');
-		$this->log[] = array('', '<div class="text-center">Не забудьте удалить папку /install/ в целях безопастности вашего сайта.</div>', false, '');
+		$this->log[] = array('', '<div class="text-center">Не забудьте удалить папку /install/ в целях повышения безопастности вашего сайта.</div>', false, '');
 
 		$confperms = array('path' => _ROOCMS.'/config/config.php', 'chmod' => '0644');
 

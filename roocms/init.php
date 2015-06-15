@@ -2,9 +2,9 @@
 /**
 * @package      RooCMS
 * @author       alex Roosso
-* @copyright    2010-2014 (c) RooCMS
+* @copyright    2010-2015 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.6
+* @version      1.7
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -141,6 +141,18 @@ if(file_exists(_CLASS."/class_global.php")) {
 	 */
 	$roocms = new Globals;
 	$config =& $roocms->config;
+}
+else die(ROOCMS_NOT_RUNNING);
+
+/**
+ * Запускаем класс безопастности
+ */
+if(file_exists(_CLASS."/class_security.php")) {
+	require_once(_CLASS."/class_security.php");
+	/**
+	 * Инициализируем класс
+	 */
+	$security = new Security;
 }
 else die(ROOCMS_NOT_RUNNING);
 

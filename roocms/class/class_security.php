@@ -1,12 +1,11 @@
 <?php
 /**
 * @package      RooCMS
-* @subpackage	Admin Control Panel
-* @subpackage	Blocks settings
+* @subpackage	Engine RooCMS classes
 * @author       alex Roosso
 * @copyright    2010-2015 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.0.1
+* @version      1.0
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -49,118 +48,80 @@
 //#########################################################
 // Anti Hack
 //---------------------------------------------------------
-if(!defined('RooCMS') || !defined('ACP')) die('Access Denied');
+if(!defined('RooCMS')) die('Access Denied');
 //#########################################################
 
 
-class ACP_BLOCKS {
+/**
+ * Class Security
+ */
+class Security {
 
-	private $unit;			# ... object for works content blocks
-
-	private $block = 0;		# ID block
-	private $types = array(	"html"	=> true,
-				"php"	=> true);
+	var $token = "";
 
 
-	/**
-	* Поехали
-	*     (с) Гагарин
-	*/
-	function __construct() {
 
-		global $tpl;
+	function Security() {
 
-		$this->init();
-		$this->action();
 
-		# выводим
-		$tpl->load_template("blocks");
 	}
 
 
 	/**
-	* Инициализация установки
-	*/
-	private function init() {
-
-		global $db, $GET;
-
-		if(isset($GET->_block) && $db->check_id($GET->_block, BLOCKS_TABLE)) {
-			$this->block = $GET->_block;
-			$q = $db->query("SELECT block_type FROM ".BLOCKS_TABLE." WHERE id='".$this->block."'");
-			$t = $db->fetch_assoc($q);
-			$GET->_type = $t['block_type'];
-		}
-
-
-		if(isset($GET->_type) && array_key_exists($GET->_type, $this->types) && $this->types[$GET->_type]) {
-			switch($GET->_type) {
-				case 'html':
-					require_once _ROOCMS."/acp/blocks_html.php";
-					$this->unit = new ACP_BLOCKS_HTML;
-					break;
-
-				case 'php':
-					require_once _ROOCMS."/acp/blocks_php.php";
-					$this->unit = new ACP_BLOCKS_PHP;
-					break;
-			}
-		}
+	 * Функция хешерования пароля пользователя
+	 *
+	 * @param $password	- нехешированный пароль пользователя
+	 * @param $salt		- сальт паользователя
+	 *
+	 * @return string	- хешированный пароль пользователя
+	 */
+	public function hashing_password($password, $salt) {
+		$hash = md5(md5($password).md5($salt));
+		return $hash;
 	}
 
 
 	/**
-	* Определяем задачи для каждой цели
-	*/
-	private function action() {
+	 * Функция генерирует хешобразный ключ для проверки текущего доступа
+	 * Временный ключ генерируется на основе текущей сессии пользователя.
+	 *
+	 * @param $login	- логин пользователя
+	 * @param $password	- хеш пароля пользователя
+	 * @param $salt		- сальт пользователя
+	 *
+	 * @return string - токен
+	 */
+	public function hashing_token($login, $password, $salt) {
 
 		global $roocms;
 
-		switch($roocms->part) {
-			case 'create':
-				$this->unit->create();
-				break;
-
-			case 'edit':
-				$this->unit->edit($this->block);
-				break;
-
-			case 'update':
-				$this->unit->update($this->block);
-				break;
-
-			case 'delete':
-				$this->unit->delete($this->block);
-				break;
-
-			default:
-				$this->view_all_blocks();
-				break;
-		}
+		$token = md5(md5($roocms->usersession).md5($login).md5($password).md5($salt));
+		return $token;
 	}
 
 
 	/**
-	* Видим все блоки
-	*/
-	private function view_all_blocks() {
+	 * Функция генерирует новый пароль
+	 *
+	 * @return string - new password
+	 */
+	public function create_new_password() {
+		$password = randcode(7, "ABCDEFGHJKLMNPQRSTUVWXYZabcdefhjkmnprstvwxyz0123456789");
+		return $password;
+	}
 
-		global $db, $tpl, $smarty;
 
-		$data = array();
-		$q = $db->query("SELECT id, alias, block_type, title FROM ".BLOCKS_TABLE." ORDER BY id ASC");
-		while($row = $db->fetch_assoc($q)) {
-			$data[] = $row;
-		}
-
-		$smarty->assign("data", $data);
-		$content = $tpl->load_template("blocks_view_list", true);
-		$smarty->assign("content", $content);
+	/**
+	 * Функция генерирует новый сальт
+	 *
+	 * @return string
+	 */
+	public function create_new_salt() {
+		$salt = randcode(4, "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ01234567890!@#$%^&*(){}:?><,./[]");
+		return $salt;
 	}
 }
 
-/**
- * Init Class
- */
-$acp_blocks = new ACP_BLOCKS;
+
+
 ?>

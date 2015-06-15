@@ -3,9 +3,9 @@
 * @package      RooCMS
 * @subpackage	Admin Control Panel
 * @author       alex Roosso
-* @copyright    2010-2014 (c) RooCMS
+* @copyright    2010-2015 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.0.8
+* @version      2.0
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -52,30 +52,75 @@ if(!defined('RooCMS') || (!defined('ACP') && !defined('INSTALL'))) die('Access D
 //#########################################################
 
 
-$smarty->assign("error_login", "");
-$smarty->assign("site", $site);
+class ACP_LOGIN {
 
-/**
- * Проверяем запрос
- */
-if(isset($POST->go)) {
+	/**
+	 * Проверяем введенные данные
+	 */
+	function ACP_LOGIN() {
 
-	if(isset($POST->login) && $POST->login == $adm['login']
-	&& isset($POST->passw) && $POST->passw == $adm['passw']) {
-		# @include session security_check hash
-		$_SESSION['acp'] 	= md5(md5($POST->login).md5($POST->passw));
+		global $db, $POST, $security, $smarty, $tpl, $site;
 
-		goback();
+
+		$smarty->assign("error_login", "");
+		$smarty->assign("site", $site);
+
+
+		/**
+		 * Проверяем запрос
+		 */
+		if(isset($POST->go)) {
+
+			if(isset($POST->login) && $db->check_id($POST->login, USERS_TABLE, "login") && isset($POST->password)) {
+
+				$q = $db->query("SELECT login, password, salt FROM ".USERS_TABLE." WHERE login='".$POST->login."'");
+				$data = $db->fetch_assoc($q);
+
+				$dbpass = $security->hashing_password($POST->password, $data['salt']);
+
+				if($dbpass == $data['password']) {
+
+					# @include session security_check hash
+
+					$_SESSION['login'] = $data['login'];
+					$_SESSION['token'] = $security->hashing_token($data['login'], $dbpass, $data['salt']);
+
+					goback();
+				}
+				else {
+					# неверный логин или пароль
+					$this->incorrect_entering("Неверный логин или пароль.");
+				}
+			}
+			else {
+				# логин или пароль введены некоректно
+				$this->incorrect_entering("Введены неверные данные.");
+			}
+		}
+
+		# load template
+		$tpl->load_template("login");
 	}
-	else {
-		# неверный логин или пароль
+
+
+	/**
+	 * @param $msg - сообщение об ошибке передаваемое в шаблон
+	 */
+	private function incorrect_entering($msg) {
+
+		global $smarty;
+
+		unset($_SESSION['login']);
+		unset($_SESSION['token']);
+
 		sleep(3);
-		$smarty->assign("error_login", "Неверный логин или пароль");
+		$smarty->assign("error_login", $msg);
 	}
 }
 
-
-# load template
-$tpl->load_template("login");
+/**
+ * Init Class
+ */
+$acplogin = new ACP_LOGIN;
 
 ?>
