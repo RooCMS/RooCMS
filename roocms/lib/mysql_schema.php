@@ -254,7 +254,7 @@ $sql['CREATE '.IMAGES_TABLE] = "CREATE TABLE IF NOT EXISTS `".IMAGES_TABLE."` (
  */
 $sql['DROP '.USERS_TABLE] = "DROP TABLE IF EXISTS `".USERS_TABLE."`";
 $sql['CREATE '.USERS_TABLE] = "CREATE TABLE IF NOT EXISTS `".USERS_TABLE."` (
-				  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+				  `uid` int(10) unsigned NOT NULL AUTO_INCREMENT,
 				  `login` varchar(255) NOT NULL,
 				  `nickname` varchar(255) NOT NULL,
 				  `email` varchar(255) NOT NULL,
@@ -263,8 +263,8 @@ $sql['CREATE '.USERS_TABLE] = "CREATE TABLE IF NOT EXISTS `".USERS_TABLE."` (
 				  `date_create` int(20) unsigned NOT NULL DEFAULT '0' COMMENT 'format: unixtimestamp',
 				  `date_update` int(20) unsigned NOT NULL DEFAULT '0' COMMENT 'format: unixtimestamp',
 				  `last_visit` int(20) unsigned NOT NULL DEFAULT '0' COMMENT 'format: unixtimestamp',
-				  PRIMARY KEY (`id`),
-				  UNIQUE KEY `id` (`id`,`login`,`nickname`)
+				  PRIMARY KEY (`uid`),
+				  UNIQUE KEY `uid` (`uid`,`login`,`nickname`)
 				) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1";
 
 
