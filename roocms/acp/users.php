@@ -93,7 +93,8 @@ class ACP_USERS {
 				break;
 
 			case 'delete':
-
+				if($this->uid != 0) $this->delete_user($this->uid);
+				else go(CP."?act=users");
 				break;
 
 			default:
@@ -289,6 +290,30 @@ class ACP_USERS {
 		}
 		else goback();
 	}
+
+
+	/**
+	 * Функция удаляет выбранного пользователя из БД
+	 *
+	 * @param int $uid - уникальный идентификатор пользователя
+	 */
+	private function delete_user($uid) {
+
+		global $db, $parse;
+
+		# О Боже, только не это...
+		if($uid == 1) {
+			$parse->msg("Нельзя удалить учетную запись главного администратора!", false);
+		}
+		else {
+			$db->query("DELETE FROM ".USERS_TABLE." WHERE uid='".$uid."'");
+			$parse->msg("Пользователь #{$uid} был успешно удален из Базы Данных.");
+		}
+
+		# go
+		goback();
+	}
+
 
 	/**
 	 * Проверяем поля на уникальность
