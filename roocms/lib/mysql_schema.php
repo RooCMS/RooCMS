@@ -5,7 +5,7 @@
 * @author       alex Roosso
 * @copyright    2010-2015 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.2
+* @version      1.2.1
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -264,7 +264,7 @@ $sql['CREATE '.USERS_TABLE] = "CREATE TABLE IF NOT EXISTS `".USERS_TABLE."` (
 				  `date_update` int(20) unsigned NOT NULL DEFAULT '0' COMMENT 'format: unixtimestamp',
 				  `last_visit` int(20) unsigned NOT NULL DEFAULT '0' COMMENT 'format: unixtimestamp',
 				  PRIMARY KEY (`id`),
-				  UNIQUE KEY `id` (`id`,`login`)
+				  UNIQUE KEY `id` (`id`,`login`,`nickname`)
 				) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1";
 
 
