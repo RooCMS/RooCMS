@@ -5,7 +5,7 @@
 * @author       alex Roosso
 * @copyright    2010-2015 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.1
+* @version      1.1.1
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -59,7 +59,7 @@ if(!defined('RooCMS')) die('Access Denied');
 
 nocache();
 
-if(trim($db_info['user']) != "" && trim($db_info['base']) != "" && $db->check_id(1,USERS_TABLE)) {
+if(trim($db_info['user']) != "" && trim($db_info['base']) != "" && $db->check_id(1,USERS_TABLE,"uid")) {
 
 	require_once _ROOCMS."/acp/security_check.php";
 

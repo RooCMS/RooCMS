@@ -404,7 +404,7 @@ class Install extends Requirement{
 
 		global $db, $security, $parse, $POST;
 
-		if($db->check_id(1, USERS_TABLE)) go(SCRIPT_NAME."?step=8");
+		if($db->check_id(1, USERS_TABLE, "uid")) go(SCRIPT_NAME."?step=8");
 
 		if($this->allowed && isset($POST->submit) && isset($POST->step) && $POST->step == 7) {
 
