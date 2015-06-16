@@ -253,19 +253,20 @@ $sql['CREATE '.IMAGES_TABLE] = "CREATE TABLE IF NOT EXISTS `".IMAGES_TABLE."` (
  * Таблица пользователей
  */
 $sql['DROP '.USERS_TABLE] = "DROP TABLE IF EXISTS `".USERS_TABLE."`";
-$sql['CREATE '.USERS_TABLE] = "CREATE TABLE IF NOT EXISTS `".USERS_TABLE."` (
-				  `uid` int(10) unsigned NOT NULL AUTO_INCREMENT,
-				  `login` varchar(255) NOT NULL,
-				  `nickname` varchar(255) NOT NULL,
-				  `email` varchar(255) NOT NULL,
-				  `password` varchar(32) NOT NULL,
-				  `salt` char(4) NOT NULL,
-				  `date_create` int(20) unsigned NOT NULL DEFAULT '0' COMMENT 'format: unixtimestamp',
-				  `date_update` int(20) unsigned NOT NULL DEFAULT '0' COMMENT 'format: unixtimestamp',
-				  `last_visit` int(20) unsigned NOT NULL DEFAULT '0' COMMENT 'format: unixtimestamp',
-				  PRIMARY KEY (`uid`),
-				  UNIQUE KEY `uid` (`uid`,`login`,`nickname`)
-				) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1";
+$sql['CREATE '.USERS_TABLE] = "CREATE TABLE  `".USERS_TABLE."` (
+				 `uid` INT( 10 ) UNSIGNED NOT NULL AUTO_INCREMENT ,
+				 `login` VARCHAR( 255 ) NOT NULL ,
+				 `nickname` VARCHAR( 255 ) NOT NULL ,
+				 `email` VARCHAR( 255 ) NOT NULL ,
+				 `password` VARCHAR( 32 ) NOT NULL ,
+				 `salt` CHAR( 4 ) NOT NULL ,
+				 `date_create` INT( 20 ) UNSIGNED NOT NULL DEFAULT  '0' COMMENT  'format: unixtimestamp',
+				 `date_update` INT( 20 ) UNSIGNED NOT NULL DEFAULT  '0' COMMENT  'format: unixtimestamp',
+				 `last_visit` INT( 20 ) UNSIGNED NOT NULL DEFAULT  '0' COMMENT  'format: unixtimestamp',
+				PRIMARY KEY (  `uid` ) ,
+				UNIQUE KEY  `uid` (  `uid` ,  `login` ) ,
+				UNIQUE KEY  `nickname` (  `nickname` )
+				) ENGINE = MYISAM DEFAULT CHARSET = utf8;";
 
 
 /**

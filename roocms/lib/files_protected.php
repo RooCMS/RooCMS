@@ -5,7 +5,7 @@
 * @author       alex Roosso
 * @copyright    2010-2015 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.1.6
+* @version      1.1.7
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -80,7 +80,7 @@ $protectfolder[] = array('path'	=> _SITEROOT.'/plugin',	'chmod'	=> '0755');
 * @var array
 */
 $protectfiles = array();
-if(defined('INSTALL')) 	$protectfiles[]	= array('path'	=> _ROOCMS.'/config/config.php',	'chmod'	=> '0777',	'hash'	=> '');
+if(defined('INSTALL')) 	$protectfiles[]	= array('path'	=> _ROOCMS.'/config/config.php',	'chmod'	=> '0755',	'hash'	=> '');
 else			$protectfiles[]	= array('path'	=> _ROOCMS.'/config/config.php',	'chmod'	=> '0644',	'hash'	=> '');
 $protectfiles[]	= array('path'	=> _ROOCMS.'/config/defines.php',	'chmod'	=> '0644',	'hash'	=> '');
 $protectfiles[]	= array('path'	=> _ROOCMS.'/config/set.cfg.php',	'chmod'	=> '0644',	'hash'	=> '');
@@ -116,6 +116,7 @@ $protectfiles[]	= array('path'	=> _ROOCMS.'/acp/pages_html.php',	'chmod'	=> '064
 $protectfiles[]	= array('path'	=> _ROOCMS.'/acp/pages_php.php',	'chmod'	=> '0644',	'hash'	=> '');
 $protectfiles[]	= array('path'	=> _ROOCMS.'/acp/security_check.php',	'chmod'	=> '0644',	'hash'	=> '');
 $protectfiles[]	= array('path'	=> _ROOCMS.'/acp/structure.php',	'chmod'	=> '0644',	'hash'	=> '');
+$protectfiles[]	= array('path'	=> _ROOCMS.'/acp/users.php',		'chmod'	=> '0644',	'hash'	=> '');
 $protectfiles[]	= array('path'	=> _ROOCMS.'/acp.php',			'chmod'	=> '0644',	'hash'	=> '');
 $protectfiles[]	= array('path'	=> _ROOCMS.'/functions.php',		'chmod'	=> '0644',	'hash'	=> '');
 $protectfiles[]	= array('path'	=> _ROOCMS.'/functions_blocks.php',	'chmod'	=> '0644',	'hash'	=> '');
