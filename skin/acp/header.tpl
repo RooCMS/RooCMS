@@ -29,7 +29,7 @@
 <script type="text/javascript" src="plugin/iepngfix_tilebg.min.js{$build}"></script>
 <script type="text/javascript" src="plugin/{$jquerycore}{$build}"></script>
 <script type="text/javascript" src="plugin/jquery-migrate.min.js{$build}"></script>
-<script type="text/javascript" src="plugin/jquery.corner.js.php{$build}"></script>
+<script type="text/javascript" src="plugin/jquery.corner.min.js{$build}"></script>
 <script type="text/javascript" src="plugin/lightbox.js.php{$build}"></script>
 <script type="text/javascript" src="plugin/colorbox.js.php{$build}"></script>
 <script type="text/javascript" src="plugin/bootstrap.php{$build}"></script>
