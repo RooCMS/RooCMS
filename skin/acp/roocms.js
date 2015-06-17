@@ -54,9 +54,11 @@ $(document).ready(function() {
 	//$(".collapse").collapse({hide: true});
 
 	/* Select */
-	$('.selectpicker').selectpicker();
 	if( /Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent) ) {
 		$('.selectpicker').selectpicker('mobile');
+	}
+	else {
+		$('.selectpicker').selectpicker();
 	}
 
 	/* Logotype */
