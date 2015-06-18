@@ -6,7 +6,7 @@
  * @author       alex Roosso
  * @copyright    2010-2015 (c) RooCMS
  * @link         http://www.roocms.com
- * @version      1.1
+ * @version      1.1.1
  * @since        $date$
  * @license      http://www.gnu.org/licenses/gpl-3.0.html
  */
@@ -169,6 +169,7 @@ class ACP_USERS {
 				# Уведомление пользователю на электропочту
 				$smarty->assign("login", $POST->login);
 				$smarty->assign("nickname", $POST->nickname);
+				$smarty->assign("email", $POST->email);
 				$smarty->assign("password", $POST->password);
 				$smarty->assign("site", $site);
 				$message = $tpl->load_template("email_new_registration", true);
@@ -259,7 +260,7 @@ class ACP_USERS {
 				$parse->msg("E-mail должен быть указан обязательно для каждого пользователя.", false);
 
 			# status
-			$query .= (isset($POST->status) && $POST->status == 1) ? "status='1', " : "status='0', " ;
+			$query .= ((isset($POST->status) && $POST->status == 1) || $uid == 1) ? "status='1', " : "status='0', " ;
 
 
 			# update
