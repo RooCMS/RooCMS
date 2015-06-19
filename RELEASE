@@ -2,7 +2,7 @@
 Version: 1.1.1-beta6
 Release date:	17.06.2015
 -------------------------------------------------------------------------
-Plugins:	CKEditor		v4.2.1 (revision 5010dd4)
+Plugins:	CKEditor		v4.4.7 (revision 3a35b3d)
 		Codemirror		v3.19
 		GzipFile		v1.0
 		Colorbox		v1.4.32
