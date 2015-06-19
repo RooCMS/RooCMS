@@ -5,6 +5,17 @@
 <div class="panel-body">
 	<form method="post" action="{$SCRIPT_NAME}?act=users&part=update&uid={$user['uid']}" role="form" class="form-horizontal">
 
+		{if $user['uid'] != 1}
+		<div class="btn-group" data-toggle="buttons">
+			<label class="btn btn-default{if $user['status'] == 1} active{/if} btn-sm" for="flag_status_true" rel="tooltip" title="Учетная запись активна" data-placement="auto" data-container="body">
+				<input type="radio" name="status" value="1" id="flag_status_true"{if $user['status'] == 1} checked{/if}> <span class="text-success"><span class="fa fa-fw fa-eye"></span></span>
+			</label>
+			<label class="btn btn-default{if $user['status'] == 0} active{/if} btn-sm" for="flag_status_false" rel="tooltip" title="Учетная запись отключена" data-placement="auto" data-container="body">
+				<input type="radio" name="status" value="0" id="flag_status_false"{if $user['status'] == 0} checked{/if}> <span class="text-danger"><span class="fa fa-fw fa-eye-slash"></span></span>
+			</label>
+		</div>
+		{/if}
+
 		<div class="form-group">
 			<label for="inputLogin" class="col-lg-3 control-label">
 				Логин пользователя: <small><span class="fa fa-info fa-fw" rel="tooltip" title="Должен быть уникальным" data-placement="right"></span></small>

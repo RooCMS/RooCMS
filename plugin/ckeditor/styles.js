@@ -1,5 +1,5 @@
 ﻿/**
- * Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
+ * Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
@@ -27,12 +27,12 @@ CKEDITOR.stylesSet.add( 'default', [
 	{ name: 'Heading 4',		element: 'h4' },
 	{ name: 'Heading 5',		element: 'h5' },
 	{ name: 'Heading 6',		element: 'h6' },
-	{ name: 'Preformatted Text',	element: 'pre' },
-	{ name: 'Address',		element: 'address' },
+	{ name: 'Preformatted Text',element: 'pre' },
+	{ name: 'Address',			element: 'address' },
 	*/
 
 	{ name: 'Italic Title',		element: 'h2', styles: { 'font-style': 'italic' } },
-	{ name: 'Subtitle',		element: 'h3', styles: { 'color': '#aaa', 'font-style': 'italic' } },
+	{ name: 'Subtitle',			element: 'h3', styles: { 'color': '#aaa', 'font-style': 'italic' } },
 	{
 		name: 'Special Container',
 		element: 'div',
@@ -49,24 +49,24 @@ CKEDITOR.stylesSet.add( 'default', [
 	// some of them in the Styles combo, removing them from the toolbar.
 	// (This requires the "stylescombo" plugin)
 	/*
-	{ name: 'Strong',		element: 'strong', overrides: 'b' },
-	{ name: 'Emphasis',		element: 'em'	, overrides: 'i' },
+	{ name: 'Strong',			element: 'strong', overrides: 'b' },
+	{ name: 'Emphasis',			element: 'em'	, overrides: 'i' },
 	{ name: 'Underline',		element: 'u' },
 	{ name: 'Strikethrough',	element: 'strike' },
 	{ name: 'Subscript',		element: 'sub' },
 	{ name: 'Superscript',		element: 'sup' },
 	*/
 
-	{ name: 'Marker',		element: 'span', attributes: { 'class': 'marker' } },
+	{ name: 'Marker',			element: 'span', attributes: { 'class': 'marker' } },
 
-	{ name: 'Big',			element: 'big' },
-	{ name: 'Small',		element: 'small' },
+	{ name: 'Big',				element: 'big' },
+	{ name: 'Small',			element: 'small' },
 	{ name: 'Typewriter',		element: 'tt' },
 
 	{ name: 'Computer Code',	element: 'code' },
 	{ name: 'Keyboard Phrase',	element: 'kbd' },
 	{ name: 'Sample Text',		element: 'samp' },
-	{ name: 'Variable',		element: 'var' },
+	{ name: 'Variable',			element: 'var' },
 
 	{ name: 'Deleted Text',		element: 'del' },
 	{ name: 'Inserted Text',	element: 'ins' },
@@ -105,7 +105,7 @@ CKEDITOR.stylesSet.add( 'default', [
 		}
 	},
 
-	{ name: 'Borderless Table',	element: 'table',	styles: { 'border-style': 'hidden', 'background-color': '#E6E6FA' } },
+	{ name: 'Borderless Table',		element: 'table',	styles: { 'border-style': 'hidden', 'background-color': '#E6E6FA' } },
 	{ name: 'Square Bulleted List',	element: 'ul',		styles: { 'list-style-type': 'square' } }
-]);
+] );
 

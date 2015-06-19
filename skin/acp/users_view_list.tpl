@@ -16,13 +16,13 @@
 	</thead>
 	<tbody>
 	{foreach from=$data item=user}
-		<tr>
+		<tr{if $user['status'] == 0} class="danger"{/if}>
 			<td class="text-muted">{$user['uid']}</td>
 			<td>
 				<a href="{$SCRIPT_NAME}?act=users&part=edit&uid={$user['uid']}">{$user['nickname']}</a>
 				<br /><small>{$user['login']}</small>
 			</td>
-			<td class="text-left"><span class="label label-default">{$user['email']}</span></td>
+			<td class="text-left"><span class="label label-info">{$user['email']}</span></td>
 			<td class="small">{$user['last_visit']}</td>
 			<td>
 				<div class="btn-group">
@@ -39,7 +39,7 @@
 {foreach from=$data item=user}
 
 	<div class="panel-heading visible-xs">
-		<a href="{$SCRIPT_NAME}?act=users&part=edit&user={$user['uid']}">#{$user['uid']} {$user['nickname']}</a>
+		{if $user['status'] == 0}<span style="text-decoration: line-through;">{/if}<a href="{$SCRIPT_NAME}?act=users&part=edit&user={$user['uid']}">#{$user['uid']} {$user['nickname']}</a>{if $user['status'] == 0}</span>{/if}
 	</div>
 	<div class="panel-body visible-xs">
 		Логин: {$user['login']}
