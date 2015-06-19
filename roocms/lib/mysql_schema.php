@@ -5,7 +5,7 @@
 * @author       alex Roosso
 * @copyright    2010-2015 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.2.1
+* @version      1.2.2
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -255,6 +255,7 @@ $sql['CREATE '.IMAGES_TABLE] = "CREATE TABLE IF NOT EXISTS `".IMAGES_TABLE."` (
 $sql['DROP '.USERS_TABLE] = "DROP TABLE IF EXISTS `".USERS_TABLE."`";
 $sql['CREATE '.USERS_TABLE] = "CREATE TABLE  `".USERS_TABLE."` (
 				 `uid` INT( 10 ) UNSIGNED NOT NULL AUTO_INCREMENT ,
+				 `status` ENUM(  '0',  '1' ) NOT NULL DEFAULT  '1',
 				 `login` VARCHAR( 255 ) NOT NULL ,
 				 `nickname` VARCHAR( 255 ) NOT NULL ,
 				 `email` VARCHAR( 255 ) NOT NULL ,
