@@ -4,7 +4,7 @@
 * @author       alex Roosso
 * @copyright    2010-2015 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.7
+* @version      1.7.1
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -141,6 +141,18 @@ if(file_exists(_CLASS."/class_global.php")) {
 	 */
 	$roocms = new Globals;
 	$config =& $roocms->config;
+}
+else die(ROOCMS_NOT_RUNNING);
+
+/**
+ * Запускаем класс определения пользователей
+ */
+if(file_exists(_CLASS."/class_users.php")) {
+	require_once(_CLASS."/class_users.php");
+	/**
+	 * Инициализируем класс
+	 */
+	$users = new Users;
 }
 else die(ROOCMS_NOT_RUNNING);
 
