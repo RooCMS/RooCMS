@@ -5,7 +5,7 @@
 * @author       alex Roosso
 * @copyright    2010-2015 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.4
+* @version      1.4.1
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -450,8 +450,8 @@ class Install extends Requirement{
 		$salt = $security->create_new_salt();
 		$dbpass = $security->hashing_password($roocms->sess['adm_passw'], $salt);
 
-		$db->query("INSERT INTO ".USERS_TABLE." (login, nickname, email, password, salt, date_create, date_update, last_visit)
-						 VALUES ('".$roocms->sess['adm_login']."', '".$roocms->sess['adm_login']."', '".$site['sysemail']."', '".$dbpass."', '".$salt."', '".time()."', '".time()."', '".time()."')");
+		$db->query("INSERT INTO ".USERS_TABLE." (login, nickname, email, password, salt, date_create, date_update, last_visit. status)
+						 VALUES ('".$roocms->sess['adm_login']."', '".$roocms->sess['adm_login']."', '".$site['sysemail']."', '".$dbpass."', '".$salt."', '".time()."', '".time()."', '".time()."', '1')");
 
 		# auto auth
 		$_SESSION['login'] = $roocms->sess['adm_login'];
