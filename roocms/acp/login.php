@@ -5,7 +5,7 @@
 * @author       alex Roosso
 * @copyright    2010-2015 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      2.0.2
+* @version      2.0.3
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -62,7 +62,6 @@ class ACP_LOGIN {
 		global $db, $POST, $security, $smarty, $tpl, $site;
 
 
-		$smarty->assign("error_login", "");
 		$smarty->assign("site", $site);
 
 
@@ -73,7 +72,7 @@ class ACP_LOGIN {
 
 			if(isset($POST->login) && $db->check_id($POST->login, USERS_TABLE, "login", "status='1'") && isset($POST->password)) {
 
-				$q = $db->query("SELECT uid, login, nickname, password, salt FROM ".USERS_TABLE." WHERE login='".$POST->login."' AND status='1'");
+				$q = $db->query("SELECT uid, login, nickname, title, password, salt FROM ".USERS_TABLE." WHERE login='".$POST->login."' AND status='1' AND title='a'");
 				$data = $db->fetch_assoc($q);
 
 				$dbpass = $security->hashing_password($POST->password, $data['salt']);
@@ -84,8 +83,11 @@ class ACP_LOGIN {
 
 					$_SESSION['uid'] 	= $data['uid'];
 					$_SESSION['login'] 	= $data['login'];
+					$_SESSION['title'] 	= $data['title'];
 					$_SESSION['nickname'] 	= $data['nickname'];
 					$_SESSION['token'] 	= $security->hashing_token($data['login'], $dbpass, $data['salt']);
+
+					$smarty->assign("error_login", "");
 
 					goback();
 				}
@@ -112,8 +114,9 @@ class ACP_LOGIN {
 
 		global $smarty;
 
-		unset($_SESSION['login']);
-		unset($_SESSION['token']);
+		//unset($_SESSION['login']);
+		//unset($_SESSION['token']);
+		session_destroy();
 
 		sleep(3);
 		$smarty->assign("error_login", $msg);

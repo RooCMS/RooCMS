@@ -5,7 +5,7 @@
  * @author       alex Roosso
  * @copyright    2010-2015 (c) RooCMS
  * @link         http://www.roocms.com
- * @version      2.2
+ * @version      2.2.1
  * @since        $date$
  * @license      http://www.gnu.org/licenses/gpl-3.0.html
  */
@@ -68,7 +68,7 @@ class ACP_SECURITY {
 
 		global $db, $users;
 
-		if($users->uid != 0) {
+		if($users->uid != 0 && $users->title == "a") {
 			# check access
 			if($users->token != "") {
 				# access granted

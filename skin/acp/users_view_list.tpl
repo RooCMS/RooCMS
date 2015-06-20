@@ -8,8 +8,8 @@
 	<thead>
 		<tr class="active">
 			<th width="3%">ID</th>
-			<th width="46%">Имя пользователя <small>Логин</small></th>
-			<th width="11%">Эл.почта</th>
+			<th width="46%">Имя пользователя <small>Логин и E-mail</small></th>
+			<th width="11%">Титул</th>
 			<th width="10%">Последний визит</th>
 			<th width="30%">Опции</th>
 		</tr>
@@ -20,9 +20,17 @@
 			<td class="text-muted">{$user['uid']}</td>
 			<td>
 				<a href="{$SCRIPT_NAME}?act=users&part=edit&uid={$user['uid']}">{$user['nickname']}</a>
-				<br /><small>{$user['login']}</small>
+				<br /><small>{$user['login']} ({$user['email']})</small>
 			</td>
-			<td class="text-left"><span class="label label-info">{$user['email']}</span></td>
+			<td class="text-left">
+				{if $user['title'] == "a" && $user['uid'] == 1}
+					<span class="label label-primary">Супер Администратор</span>
+				{elseif $user['title'] == "a" && $user['uid'] != 1}
+					<span class="label label-info">Администратор</span>
+				{else}
+					<span class="label label-default">Пользователь</span>
+				{/if}
+			</td>
 			<td class="small">{$user['last_visit']}</td>
 			<td>
 				<div class="btn-group">
@@ -40,6 +48,13 @@
 
 	<div class="panel-heading visible-xs">
 		{if $user['status'] == 0}<span style="text-decoration: line-through;">{/if}<a href="{$SCRIPT_NAME}?act=users&part=edit&user={$user['uid']}">#{$user['uid']} {$user['nickname']}</a>{if $user['status'] == 0}</span>{/if}
+		{if $user['title'] == "a" && $user['uid'] == 1}
+			<span class="label label-primary">Супер Администратор</span>
+		{elseif $user['title'] == "a" && $user['uid'] != 1}
+			<span class="label label-info">Администратор</span>
+		{else}
+			<span class="label label-default">Пользователь</span>
+		{/if}
 	</div>
 	<div class="panel-body visible-xs">
 		Логин: {$user['login']}

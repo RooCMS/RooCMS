@@ -52,6 +52,20 @@
 			</div>
 		</div>
 
+		{if $user['uid'] != 1}
+		<div class="form-group">
+			<label for="inputTitle" class="col-lg-3 control-label">
+				Титул:  <small><span class="fa fa-info fa-fw" rel="tooltip" title="Администраторы могут получить доступ к Панели Управления" data-placement="right"></span></small>
+			</label>
+			<div class="col-lg-9">
+				<select name="title"  id="inputTitle" class="selectpicker show-tick" data-size="auto" data-width="50%">
+					<option value="a"{if $user['title'] == "a"}selected{/if}>Администратор</option>
+					<option value="u"{if $user['title'] == "u"}selected{/if}>Пользователь</option>
+				</select>
+			</div>
+		</div>
+		{/if}
+
 		<div class="form-group">
 			<label for="inputPassword" class="col-lg-3 control-label">
 				Пароль:  <small><span class="fa fa-info fa-fw" rel="tooltip" title="Оставьте поле пустым, что бы не менять пароль." data-placement="right"></span></small>

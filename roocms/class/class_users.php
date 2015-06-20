@@ -5,7 +5,7 @@
 * @author       alex Roosso
 * @copyright    2010-2015 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.0
+* @version      1.0.1
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -55,12 +55,13 @@ if(!defined('RooCMS')) die('Access Denied');
 /**
  * Class Users
  */
-class Users {
+class Users extends Security {
 
 	# user uniq data
 	public	$uid		= 0;		# [int]		user id
 	public	$login		= "";		# [string]	user login
 	public	$nickname	= "";		# [string]	user nickname
+	public	$title		= "u";		# [enum]	user title
 	public	$token		= "";		# [string]	user security token
 
 	# user global data
@@ -86,8 +87,8 @@ class Users {
 		$this->referer		&= $roocms->referer;
 
 
-		# check uniq user data
-		$this->get_private_userdata();
+		# init user
+		$this->init_user();
 
 
 		if($this->uid != 0) {
@@ -103,14 +104,14 @@ class Users {
 	/**
 	 * Получаем персональные данные пользователя
 	 */
-	private function get_private_userdata() {
+	private function init_user() {
 
-		global $db, $roocms, $security;
+		global $db, $roocms;
 
 		if(isset($roocms->sess['login']) && trim($roocms->sess['login']) != "" && $db->check_id($roocms->sess['login'], USERS_TABLE, "login", "status='1'") && isset($roocms->sess['token']) && strlen($roocms->sess['token']) == 32) {
 
 			# get data
-			$q    = $db->query("SELECT uid, login, nickname, password, salt FROM ".USERS_TABLE." WHERE login='".$roocms->sess['login']."' AND status='1'");
+			$q    = $db->query("SELECT uid, login, nickname, title, password, salt FROM ".USERS_TABLE." WHERE login='".$roocms->sess['login']."' AND status='1'");
 			$data = $db->fetch_assoc($q);
 
 			# uid
@@ -119,11 +120,14 @@ class Users {
 			# login
 			$this->login	= $data['login'];
 
+			# title
+			$this->title	= $data['title'];
+
 			# nickname
 			$this->nickname	= $data['nickname'];
 
 			# security token
-			$this->token	= $security->hashing_token($roocms->sess['login'], $data['password'], $data['salt']);
+			$this->token	= $this->hashing_token($roocms->sess['login'], $data['password'], $data['salt']);
 		}
 	}
 
@@ -140,38 +144,5 @@ class Users {
 		# update time last visited
 		$db->query("UPDATE ".USERS_TABLE." SET last_visit='".time()."' WHERE uid='".$uid."' AND status='1'");
 	}
-
-
-	/**
-	 * Паранои много не бывает.
-	 * Проверяем данные авторизации, не было ли попыток совершения подмены данных
-	 */
-	private function check_userdata() {
-
-		global $roocms;
-
-		$destroy = false;
-
-		# check uid
-		if($roocms->sess['uid'] != $this->uid) $destroy = true;
-
-		# check login
-		if($roocms->sess['login'] != $this->login) $destroy = true;
-
-		# check nickname
-		if($roocms->sess['nickname'] != $this->nickname) $destroy = true;
-
-		# check token
-		if($roocms->sess['token'] != $this->token) $destroy = true;
-
-		if($destroy) {
-			$roocms->sess = array();
-			session_destroy();
-
-			# notice
-			die("ВНИМАНИЕ! Зарегестрированна попытка подмены данных!");
-		}
-	}
-
 }
 ?>

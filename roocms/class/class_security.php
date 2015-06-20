@@ -5,7 +5,7 @@
 * @author       alex Roosso
 * @copyright    2010-2015 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.0.1
+* @version      1.1
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -56,13 +56,6 @@ if(!defined('RooCMS')) die('Access Denied');
  * Class Security
  */
 class Security {
-
-
-
-	function Security() {
-
-
-	}
 
 
 	/**
@@ -117,6 +110,42 @@ class Security {
 	public function create_new_salt() {
 		$salt = randcode(4, "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ01234567890!@#$%^&*(){}:?><,./[]");
 		return $salt;
+	}
+
+
+	/**
+	 * Паранои много не бывает.
+	 * Проверяем данные авторизации, не было ли попыток совершения подмены данных
+	 */
+	protected function check_userdata() {
+
+		global $roocms;
+
+		$destroy = false;
+
+		# check uid
+		if($roocms->sess['uid'] != $this->uid) $destroy = true;
+
+		# check login
+		if($roocms->sess['login'] != $this->login) $destroy = true;
+
+		# check title
+		if($roocms->sess['title'] != $this->title) $destroy = true;
+
+		# check nickname
+		if($roocms->sess['nickname'] != $this->nickname) $destroy = true;
+
+		# check token
+		if($roocms->sess['token'] != $this->token) $destroy = true;
+
+		if($destroy) {
+			# destroy data
+			$roocms->sess = array();
+			session_destroy();
+
+			# notice and stop
+			die("ВНИМАНИЕ! Зарегестрированна попытка подмены данных!");
+		}
 	}
 }
 
