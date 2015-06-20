@@ -5,7 +5,7 @@
 * @author       alex Roosso
 * @copyright    2010-2015 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.0
+* @version      1.0.1
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -55,26 +55,94 @@ if(!defined('RooCMS')) die('Access Denied');
 /**
  * Class Users
  */
-class Users {
+class Users extends Security {
 
-	# user data
+	# user uniq data
 	public	$uid		= 0;		# [int]		user id
 	public	$login		= "";		# [string]	user login
-	public	$nickanme	= "";		# [string]	user nickname
+	public	$nickname	= "";		# [string]	user nickname
+	public	$title		= "u";		# [enum]	user title
+	public	$token		= "";		# [string]	user security token
 
-	public	$usersession	= "";		# [string]	user ssession
-	public  $userip		= "";		# [string]	user ip address
-	public	$useragent	= "";		# [string]	user agent string
-	public  $referer	= "";		# [string]	user referer
+	# user global data
+	private	$usersession	= "";		# [string]	user ssession
+	private $userip		= "";		# [string]	user ip address
+	private	$useragent	= "";		# [string]	user agent string
+	private $referer	= "";		# [string]	user referer
 
 
 
+	/**
+	 * Work your magic
+	 */
 	function Users() {
 
 		global $roocms;
 
 
+		# get user data
+		$this->usersession	&= $roocms->usersession;
+		$this->userip		&= $roocms->userip;
+		$this->useragent 	&= $roocms->useragent;
+		$this->referer		&= $roocms->referer;
+
+
+		# init user
+		$this->init_user();
+
+
+		if($this->uid != 0) {
+			# check user data for security
+			$this->check_userdata();
+
+			# update users info
+			$this->update_info_user($this->uid);
+		}
 	}
 
+
+	/**
+	 * Получаем персональные данные пользователя
+	 */
+	private function init_user() {
+
+		global $db, $roocms;
+
+		if(isset($roocms->sess['login']) && trim($roocms->sess['login']) != "" && $db->check_id($roocms->sess['login'], USERS_TABLE, "login", "status='1'") && isset($roocms->sess['token']) && strlen($roocms->sess['token']) == 32) {
+
+			# get data
+			$q    = $db->query("SELECT uid, login, nickname, title, password, salt FROM ".USERS_TABLE." WHERE login='".$roocms->sess['login']."' AND status='1'");
+			$data = $db->fetch_assoc($q);
+
+			# uid
+			$this->uid	= $data['uid'];
+
+			# login
+			$this->login	= $data['login'];
+
+			# title
+			$this->title	= $data['title'];
+
+			# nickname
+			$this->nickname	= $data['nickname'];
+
+			# security token
+			$this->token	= $this->hashing_token($roocms->sess['login'], $data['password'], $data['salt']);
+		}
+	}
+
+
+	/**
+	 * Обновляем простую информацию пользователя, вроде времени последнего визита на сайт.
+	 *
+	 * @param int $uid - уникальные идентификатор пользователя
+	 */
+	private function update_info_user($uid) {
+
+		global $db;
+
+		# update time last visited
+		$db->query("UPDATE ".USERS_TABLE." SET last_visit='".time()."' WHERE uid='".$uid."' AND status='1'");
+	}
 }
 ?>

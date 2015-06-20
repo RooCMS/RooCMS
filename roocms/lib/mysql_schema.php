@@ -5,7 +5,7 @@
 * @author       alex Roosso
 * @copyright    2010-2015 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.2.2
+* @version      1.2.3
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -259,6 +259,7 @@ $sql['CREATE '.USERS_TABLE] = "CREATE TABLE  `".USERS_TABLE."` (
 				 `login` VARCHAR( 255 ) NOT NULL ,
 				 `nickname` VARCHAR( 255 ) NOT NULL ,
 				 `email` VARCHAR( 255 ) NOT NULL ,
+				 `title` ENUM(  'a',  'u' ) NOT NULL DEFAULT  'u',
 				 `password` VARCHAR( 32 ) NOT NULL ,
 				 `salt` CHAR( 4 ) NOT NULL ,
 				 `date_create` INT( 20 ) UNSIGNED NOT NULL DEFAULT  '0' COMMENT  'format: unixtimestamp',

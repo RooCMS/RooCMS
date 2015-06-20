@@ -6,7 +6,7 @@
  * @author       alex Roosso
  * @copyright    2010-2015 (c) RooCMS
  * @link         http://www.roocms.com
- * @version      1.1.1
+ * @version      1.1.2
  * @since        $date$
  * @license      http://www.gnu.org/licenses/gpl-3.0.html
  */
@@ -114,7 +114,7 @@ class ACP_USERS {
 
 		global $db, $smarty, $tpl, $parse;
 
-		$q = $db->query("SELECT uid, status, login, nickname, email, date_create, date_update, last_visit FROM ".USERS_TABLE." ORDER BY uid ASC");
+		$q = $db->query("SELECT uid, status, login, nickname, email, title, date_create, date_update, last_visit FROM ".USERS_TABLE." ORDER BY uid ASC");
 		while($row = $db->fetch_assoc($q)) {
 
 			$row['date_create'] = $parse->date->unix_to_rus($row['date_create'], false, true, false);
@@ -140,20 +140,22 @@ class ACP_USERS {
 
 		if(isset($POST->create_user) || isset($POST->create_user_ae)) {
 
+			# nickname
+			if(!isset($POST->nickname) || trim($POST->nickname) == "") $POST->nickname = mb_ucfirst($POST->login);
+			$POST->nickname = $this->check_new_nickname($POST->nickname);
+
 			# login
 			if(!isset($POST->login) || trim($POST->login) == "") $parse->msg("У пользователя должен быть логин!", false);
 			else $POST->login = $parse->text->transliterate($POST->login);
 			if(isset($POST->login) && trim($POST->login) != "" && $db->check_id($POST->login, USERS_TABLE, "login")) $parse->msg("Пользователь с таким логином уже существует", false);
-
-			# nickname
-			if(!isset($POST->nickname) || trim($POST->nickname) == "") $POST->nickname = mb_ucfirst($POST->login);
-			$POST->nickname = $this->check_new_nickname($POST->nickname);
 
 			# email
 			if(!isset($POST->email) || trim($POST->email) == "") $parse->msg("Обязательно указывать электронную почту для каждого пользователя", false);
 			if(isset($POST->email) && trim($POST->email) != "" && !$parse->valid_email($POST->email)) $parse->msg("Некоректный адрес электронной почты", false);
 			if(isset($POST->email) && trim($POST->email) != "" && $db->check_id($POST->email, USERS_TABLE, "email")) $parse->msg("Пользователь с таким адресом почты уже существует", false);
 
+			# title
+			$POST->title = (isset($POST->title) && $POST->title == "a") ? "a" : "u" ;
 
 			if(!isset($_SESSION['error'])) {
 
@@ -162,8 +164,8 @@ class ACP_USERS {
 				$salt = $security->create_new_salt();
 				$password = $security->hashing_password($POST->password, $salt);
 
-				$db->query("INSERT INTO ".USERS_TABLE." (login, nickname, email, password, salt, date_create, date_update, last_visit, status)
-								 VALUES ('".$POST->login."', '".$POST->nickname."', '".$POST->email."', '".$password."', '".$salt."', '".time()."', '".time()."', '".time()."', '1')");
+				$db->query("INSERT INTO ".USERS_TABLE." (login, nickname, email, title, password, salt, date_create, date_update, last_visit, status)
+								 VALUES ('".$POST->login."', '".$POST->nickname."', '".$POST->email."', '".$POST->title."', '".$password."', '".$salt."', '".time()."', '".time()."', '".time()."', '1')");
 				$uid = $db->insert_id();
 
 				# Уведомление пользователю на электропочту
@@ -201,15 +203,27 @@ class ACP_USERS {
 	 */
 	private function edit_user($uid) {
 
-		global $db, $smarty, $tpl;
+		global $db, $users, $parse, $smarty, $tpl;
 
-		$q = $db->query("SELECT uid, status, login, nickname, email, date_create, last_visit FROM ".USERS_TABLE." WHERE uid='".$uid."'");
-		$user = $db->fetch_assoc($q);
+		# security superamin
+		if($uid == 1 && $users->uid != 1) {
+			$parse->msg("Радктировать учетную запись суперадмина, может только суперадмин!", false);
+			goback();
+		}
+		else {
+			$q = $db->query("SELECT uid, status, login, nickname, email, title, date_create, last_visit FROM ".USERS_TABLE." WHERE uid='".$uid."'");
+			$user = $db->fetch_assoc($q);
 
-		# отрисовываем шаблон
-		$smarty->assign("user", $user);
-		$content = $tpl->load_template("users_edit_user", true);
-		$smarty->assign("content", $content);
+
+			$i_am_groot = false;
+			if($users->uid == $uid) $i_am_groot = true;
+
+			# отрисовываем шаблон
+			$smarty->assign("i_am_groot", $i_am_groot);
+			$smarty->assign("user", $user);
+			$content = $tpl->load_template("users_edit_user", true);
+			$smarty->assign("content", $content);
+		}
 	}
 
 
@@ -262,6 +276,9 @@ class ACP_USERS {
 			# status
 			$query .= ((isset($POST->status) && $POST->status == 1) || $uid == 1) ? "status='1', " : "status='0', " ;
 
+			# title
+			$query .= (isset($POST->title) && $POST->title == "a") ? "title='a', " : "title='u', " ;
+
 
 			# update
 			if(!isset($_SESSION['error'])) {
@@ -282,6 +299,7 @@ class ACP_USERS {
 				# Уведомление пользователю на электропочту
 				$smarty->assign("login", $POST->login);
 				$smarty->assign("nickname", $POST->nickname);
+				$smarty->assign("email", $POST->email);
 				$smarty->assign("password", $POST->password);
 				$smarty->assign("site", $site);
 				$message = $tpl->load_template("email_update_userdata", true);

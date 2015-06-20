@@ -33,6 +33,18 @@
 		</div>
 
 		<div class="form-group">
+			<label for="inputTitle" class="col-lg-3 control-label">
+				Титул:  <small><span class="fa fa-info fa-fw" rel="tooltip" title="Администраторы могут получить доступ к Панели Управления" data-placement="right"></span></small>
+			</label>
+			<div class="col-lg-9">
+				<select name="title"  id="inputTitle" class="selectpicker show-tick" data-size="auto" data-width="50%">
+					<option value="a">Администратор</option>
+					<option value="u" selected>Пользователь</option>
+				</select>
+			</div>
+		</div>
+
+		<div class="form-group">
 			<label for="inputPassword" class="col-lg-3 control-label">
 				Пароль:  <small><span class="fa fa-info fa-fw" rel="tooltip" title="Оставьте поле пустым, и RooCMS сама создаст пароль. Мин: 5 символов" data-placement="right"></span></small>
 			</label>

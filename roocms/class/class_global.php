@@ -3,9 +3,9 @@
 * @package	RooCMS
 * @subpackage	Engine RooCMS classes
 * @author	alex Roosso
-* @copyright	2010-2014 (c) RooCMS
+* @copyright	2010-2015 (c) RooCMS
 * @link		http://www.roocms.com
-* @version	1.1.6
+* @version	1.1.7
 * @since	$date$
 * @license	http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -74,10 +74,9 @@ class Globals {
 
 	# userdata
 	public	$usersession	= "";		# [string]	user ssession
-	public  $referer	= "";		# [string]	user referer
 	public  $userip		= "";		# [string]	user ip address
 	public	$useragent	= "";		# [string]	user agent string
-	public	$browser	= "";		# [string]	user browser
+	public  $referer	= "";		# [string]	user referer
 	public	$spiderbot	= false;	# [bool]	if this search spider bot
 
 
@@ -158,8 +157,8 @@ class Globals {
 			eval($conf);
 		}
 
-        # Устанавливаем title
-        if(isset($this->config->site_title) && trim($this->config->site_title) != "" && trim($site['title']) == "") $site['title'] =& $this->config->site_title;
+		# Устанавливаем title
+		if(isset($this->config->site_title) && trim($this->config->site_title) != "" && trim($site['title']) == "") $site['title'] =& $this->config->site_title;
 
 		# Устанавливаем заголовок ответа на запрос об изменении документа от поисковых машин.
 		$this->modifiedsince =& $this->config->if_modified_since;

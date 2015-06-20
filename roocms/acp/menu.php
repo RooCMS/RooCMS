@@ -105,7 +105,7 @@ if(file_exists(_ROOCMS."/acp/help.php")) {
 /**
 * On site
 */
-	$menu_items_right[] = array('link'=>'/', 'act'=>'88007002880', 'icon'=>'fa fa-home', 'text'=>'На сайт', 'window'=>'_blank');
+	$menu_items_right[] = array('link'=>'/', 'act'=>'RooCMS', 'icon'=>'fa fa-home', 'text'=>'На сайт', 'window'=>'_blank');
 
 /**
 * Logout
