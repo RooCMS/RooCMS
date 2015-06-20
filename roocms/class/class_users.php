@@ -57,15 +57,16 @@ if(!defined('RooCMS')) die('Access Denied');
  */
 class Users {
 
-	# user data
+	# user uniq data
 	public	$uid		= 0;		# [int]		user id
 	public	$login		= "";		# [string]	user login
 	public	$nickanme	= "";		# [string]	user nickname
 
-	public	$usersession	= "";		# [string]	user ssession
-	public  $userip		= "";		# [string]	user ip address
-	public	$useragent	= "";		# [string]	user agent string
-	public  $referer	= "";		# [string]	user referer
+	# user global data
+	private	$usersession	= "";		# [string]	user ssession
+	private $userip		= "";		# [string]	user ip address
+	private	$useragent	= "";		# [string]	user agent string
+	private $referer	= "";		# [string]	user referer
 
 
 
@@ -73,7 +74,11 @@ class Users {
 
 		global $roocms;
 
-
+		# get user data
+		$this->usersession	&= $roocms->usersession;
+		$this->userip		&= $roocms->userip;
+		$this->useragent 	&= $roocms->useragent;
+		$this->referer		&= $roocms->referer;
 	}
 
 }
