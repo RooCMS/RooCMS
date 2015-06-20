@@ -5,15 +5,12 @@
 	<div id="moreimages">
 		<input type="file" name="images[]" class="btn btn-default" multiple size="50" accept="{foreach from=$allow_images_type item=type name=itype}{$type['mime_type']}{if !$smarty.foreach.itype.last},{/if}{/foreach}">
 	</div>
-	<small>
-		Если вы не можете загрузить через поле больше одного файла, попробуйте включить мультизагрузку посредством Ajax в настройках RooCMS.
-	</small>
 </p>
 {literal}
 <script>
 	$(document).ready(function() {
 		$('#addimg').click(function() {
-			$('<input type="file" name="images[]" size="50" class="btn btn-default" accept="{/literal}{foreach from=$allow_images_type item=type name=itype}{$type['mime_type']}{if !$smarty.foreach.itype.last},{/if}{/foreach}{literal}">').appendTo('#moreimages');
+			$('<input type="file" name="images[]" multiple size="50" class="btn btn-default" accept="{/literal}{foreach from=$allow_images_type item=type name=itype}{$type['mime_type']}{if !$smarty.foreach.itype.last},{/if}{/foreach}{literal}">').appendTo('#moreimages');
 		});
 	});
 </script>
