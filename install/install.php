@@ -5,7 +5,7 @@
 * @author       alex Roosso
 * @copyright    2010-2015 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.4.1
+* @version      1.4.2
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -419,7 +419,7 @@ class Install extends Requirement{
 			}
 
 			if($this->allowed) {
-				$_SESSION['adm_login'] = $POST->adm_login;
+				$_SESSION['adm_login'] = $parse->text->transliterate($POST->adm_login);
 				$_SESSION['adm_passw'] = $POST->adm_passw;
 
 				# переход
@@ -448,14 +448,17 @@ class Install extends Requirement{
 
 		# write admin acc
 		$salt = $security->create_new_salt();
-		$dbpass = $security->hashing_password($roocms->sess['adm_passw'], $salt);
+		$upass = $security->hashing_password($roocms->sess['adm_passw'], $salt);
 
-		$db->query("INSERT INTO ".USERS_TABLE." (login, nickname, email, password, salt, date_create, date_update, last_visit. status)
-						 VALUES ('".$roocms->sess['adm_login']."', '".$roocms->sess['adm_login']."', '".$site['sysemail']."', '".$dbpass."', '".$salt."', '".time()."', '".time()."', '".time()."', '1')");
+		$db->query("INSERT INTO ".USERS_TABLE." (login, nickname, email, title password, salt, date_create, date_update, last_visit. status)
+						 VALUES ('".$roocms->sess['adm_login']."', '".$roocms->sess['adm_login']."', '".$site['sysemail']."', 'a', ''".$upass."', '".$salt."', '".time()."', '".time()."', '".time()."', '1')");
 
 		# auto auth
-		$_SESSION['login'] = $roocms->sess['adm_login'];
-		$_SESSION['token'] = $security->hashing_token($roocms->sess['adm_login'], $dbpass, $salt);
+		$_SESSION['uid'] 	= 1;
+		$_SESSION['login'] 	= $roocms->sess['adm_login'];
+		$_SESSION['title'] 	= "a";
+		$_SESSION['nickname'] 	= $roocms->sess['adm_login'];
+		$_SESSION['token'] 	= $security->hashing_token($roocms->sess['adm_login'], $upass, $salt);
 
 
 		# CONGRULATIONS
