@@ -282,6 +282,7 @@ class ACP_USERS {
 				# Уведомление пользователю на электропочту
 				$smarty->assign("login", $POST->login);
 				$smarty->assign("nickname", $POST->nickname);
+				$smarty->assign("email", $POST->email);
 				$smarty->assign("password", $POST->password);
 				$smarty->assign("site", $site);
 				$message = $tpl->load_template("email_update_userdata", true);
