@@ -4,7 +4,7 @@
 * @author       alex Roosso
 * @copyright    2010-2015 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.7.1
+* @version      1.7.2
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -145,6 +145,20 @@ if(file_exists(_CLASS."/class_global.php")) {
 else die(ROOCMS_NOT_RUNNING);
 
 /**
+* Запускаем класс парсинга
+*/
+if(file_exists(_CLASS."/class_parser.php")) {
+	require_once(_CLASS."/class_parser.php");
+	/**
+	 * Инициализируем класс
+	 */
+	$parse 	= new Parsers;
+	$GET	=& $parse->Get;
+	$POST	=& $parse->Post;
+}
+else die(ROOCMS_NOT_RUNNING);
+
+/**
  * Запускаем класс определения пользователей
  */
 if(file_exists(_CLASS."/class_users.php")) {
@@ -165,20 +179,6 @@ if(file_exists(_CLASS."/class_security.php")) {
 	 * Инициализируем класс
 	 */
 	$security = new Security;
-}
-else die(ROOCMS_NOT_RUNNING);
-
-/**
-* Запускаем класс парсинга
-*/
-if(file_exists(_CLASS."/class_parser.php")) {
-	require_once(_CLASS."/class_parser.php");
-	/**
-	 * Инициализируем класс
-	 */
-	$parse 	= new Parsers;
-	$GET	=& $parse->Get;
-	$POST	=& $parse->Post;
 }
 else die(ROOCMS_NOT_RUNNING);
 
