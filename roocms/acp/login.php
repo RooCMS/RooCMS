@@ -5,7 +5,7 @@
 * @author       alex Roosso
 * @copyright    2010-2015 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      2.0.1
+* @version      2.0.2
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -71,9 +71,9 @@ class ACP_LOGIN {
 		 */
 		if(isset($POST->go)) {
 
-			if(isset($POST->login) && $db->check_id($POST->login, USERS_TABLE, "login") && isset($POST->password)) {
+			if(isset($POST->login) && $db->check_id($POST->login, USERS_TABLE, "login", "status='1'") && isset($POST->password)) {
 
-				$q = $db->query("SELECT uid, login, password, salt FROM ".USERS_TABLE." WHERE login='".$POST->login."'");
+				$q = $db->query("SELECT uid, login, password, salt FROM ".USERS_TABLE." WHERE login='".$POST->login."' AND status='1'");
 				$data = $db->fetch_assoc($q);
 
 				$dbpass = $security->hashing_password($POST->password, $data['salt']);
