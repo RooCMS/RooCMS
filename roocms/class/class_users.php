@@ -5,7 +5,7 @@
 * @author       alex Roosso
 * @copyright    2010-2015 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.0.1
+* @version      1.0
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -53,73 +53,28 @@ if(!defined('RooCMS')) die('Access Denied');
 
 
 /**
- * Class Security
+ * Class Users
  */
-class Security {
+class Users {
+
+	# user data
+	public	$uid		= 0;		# [int]		user id
+	public	$login		= "";		# [string]	user login
+	public	$nickanme	= "";		# [string]	user nickname
+
+	public	$usersession	= "";		# [string]	user ssession
+	public  $userip		= "";		# [string]	user ip address
+	public	$useragent	= "";		# [string]	user agent string
+	public  $referer	= "";		# [string]	user referer
 
 
 
-	function Security() {
-
-
-	}
-
-
-	/**
-	 * Функция хешерования пароля пользователя
-	 *
-	 * @param $password	- нехешированный пароль пользователя
-	 * @param $salt		- сальт паользователя
-	 *
-	 * @return string	- хешированный пароль пользователя
-	 */
-	public function hashing_password($password, $salt) {
-		$hash = md5(md5($password).md5($salt));
-		return $hash;
-	}
-
-
-	/**
-	 * Функция генерирует хешобразный ключ для проверки текущего доступа
-	 * Временный ключ генерируется на основе текущей сессии пользователя.
-	 *
-	 * @param $login	- логин пользователя
-	 * @param $password	- хеш пароля пользователя
-	 * @param $salt		- сальт пользователя
-	 *
-	 * @return string - токен
-	 */
-	public function hashing_token($login, $password, $salt) {
+	function Users() {
 
 		global $roocms;
 
-		$token = md5(md5($roocms->usersession).md5($login).md5($password).md5($salt));
-		return $token;
+
 	}
 
-
-	/**
-	 * Функция генерирует новый пароль
-	 *
-	 * @return string - new password
-	 */
-	public function create_new_password() {
-		$password = randcode(7, "ABCDEFGHJKLMNPQRSTUVWXYZabcdefhjkmnprstvwxyz0123456789");
-		return $password;
-	}
-
-
-	/**
-	 * Функция генерирует новый сальт
-	 *
-	 * @return string
-	 */
-	public function create_new_salt() {
-		$salt = randcode(4, "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ01234567890!@#$%^&*(){}:?><,./[]");
-		return $salt;
-	}
 }
-
-
-
 ?>

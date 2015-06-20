@@ -5,7 +5,7 @@
 * @author       alex Roosso
 * @copyright    2010-2015 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.1.6a
+* @version      1.1.7
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -526,9 +526,12 @@ class Parsers {
 	}
 
 
-	/* ####################################################
-	 *	Конвертируем hex color в decimal color
-	 * 		$hexcolor	-	[string] Значение цвета в HEX. Example: #A9B7D3
+	/**
+	 * Конвертируем hex color в decimal color
+	 *
+	 * @param string $hexcolor - Значение цвета в HEX. Example: #A9B7D3
+	 *
+	 * @return array|bool
 	 */
 	public function cvrt_color_h2d($hexcolor) {
 		if(mb_strlen($hexcolor) != 7 || mb_strpos($hexcolor, "#") === false) {
@@ -552,10 +555,13 @@ class Parsers {
 	* @return int $version OR bool false
 	*/
 	public function browser($browser, $version = 0) {
+
+		global $roocms;
 		static $is;
+
 		if (!is_array($is)) {
 
-			$useragent = mb_strtolower($_SERVER['HTTP_USER_AGENT']);
+			$useragent = mb_strtolower($roocms->useragent);
 
 			$is = array(
 				'opera'     => 0,
