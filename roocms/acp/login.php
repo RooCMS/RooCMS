@@ -73,7 +73,7 @@ class ACP_LOGIN {
 
 			if(isset($POST->login) && $db->check_id($POST->login, USERS_TABLE, "login", "status='1'") && isset($POST->password)) {
 
-				$q = $db->query("SELECT uid, login, password, salt FROM ".USERS_TABLE." WHERE login='".$POST->login."' AND status='1'");
+				$q = $db->query("SELECT uid, login, nickname, password, salt FROM ".USERS_TABLE." WHERE login='".$POST->login."' AND status='1'");
 				$data = $db->fetch_assoc($q);
 
 				$dbpass = $security->hashing_password($POST->password, $data['salt']);
@@ -84,6 +84,7 @@ class ACP_LOGIN {
 
 					$_SESSION['uid'] 	= $data['uid'];
 					$_SESSION['login'] 	= $data['login'];
+					$_SESSION['nickname'] 	= $data['nickname'];
 					$_SESSION['token'] 	= $security->hashing_token($data['login'], $dbpass, $data['salt']);
 
 					goback();
