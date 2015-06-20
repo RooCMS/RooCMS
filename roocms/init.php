@@ -159,18 +159,6 @@ if(file_exists(_CLASS."/class_parser.php")) {
 else die(ROOCMS_NOT_RUNNING);
 
 /**
- * Запускаем класс определения пользователей
- */
-if(file_exists(_CLASS."/class_users.php")) {
-	require_once(_CLASS."/class_users.php");
-	/**
-	 * Инициализируем класс
-	 */
-	$users = new Users;
-}
-else die(ROOCMS_NOT_RUNNING);
-
-/**
  * Запускаем класс безопастности
  */
 if(file_exists(_CLASS."/class_security.php")) {
@@ -179,6 +167,18 @@ if(file_exists(_CLASS."/class_security.php")) {
 	 * Инициализируем класс
 	 */
 	$security = new Security;
+}
+else die(ROOCMS_NOT_RUNNING);
+
+/**
+ * Запускаем класс определения пользователей
+ */
+if(file_exists(_CLASS."/class_users.php")) {
+	require_once(_CLASS."/class_users.php");
+	/**
+	 * Инициализируем класс
+	 */
+	$users = new Users;
 }
 else die(ROOCMS_NOT_RUNNING);
 
