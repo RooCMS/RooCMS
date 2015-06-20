@@ -5,7 +5,7 @@
 * @author	alex Roosso
 * @copyright	2010-2015 (c) RooCMS
 * @link		http://www.roocms.com
-* @version	4.4.2
+* @version	4.4.3
 * @since	$date$
 * @license	http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -172,11 +172,7 @@ class template {
 	 */
 	public function load_image_upload_tpl($smarty_variable, $tpl="images_upload", $tplreturn=true) {
 
-		global $config, $smarty;
-
-		if($config->gd_multiupload) {
-			$tpl = "images_multiupload";
-		}
+		global $smarty;
 
 		require_once _LIB."/mimetype.php";
 		$smarty->assign("allow_images_type", $imagetype);

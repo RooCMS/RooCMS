@@ -5,7 +5,7 @@
 * @author       alex Roosso
 * @copyright    2010-2015 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.3
+* @version      1.3.1
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -72,16 +72,7 @@ class Images extends GD {
 	 */
 	public function upload_image($file, $prefix="", array $thumbsize=array(), $watermark=true, $path=_UPLOADIMAGES, $no_empty=true) {
 
-		global $config, $POST;
-
-		if($config->gd_multiupload) {
-			if(is_array($file))
-				return $this->reconstruct_image($file, $prefix, $thumbsize, $watermark, $path, $no_empty);
-			else
-				if(isset($POST->$file)) return $this->reconstruct_image($POST->$file, $prefix, $thumbsize, $watermark, $path, $no_empty);
-		}
-		else
-			return $this->upload_post_image($file, $prefix, $thumbsize, $watermark, $path, $no_empty);
+		return $this->upload_post_image($file, $prefix, $thumbsize, $watermark, $path, $no_empty);
 	}
 
 
