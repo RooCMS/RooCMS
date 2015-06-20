@@ -99,6 +99,7 @@ $protectfiles[]	= array('path'	=> _CLASS.'/class_rss.php',		'chmod'	=> '0644',	'
 $protectfiles[]	= array('path'	=> _CLASS.'/class_security.php',	'chmod'	=> '0644',	'hash'	=> '');
 $protectfiles[]	= array('path'	=> _CLASS.'/class_structure.php',	'chmod'	=> '0644',	'hash'	=> '');
 $protectfiles[]	= array('path'	=> _CLASS.'/class_template.php',	'chmod'	=> '0644',	'hash'	=> '');
+$protectfiles[]	= array('path'	=> _CLASS.'/class_users.php',		'chmod'	=> '0644',	'hash'	=> '');
 $protectfiles[]	= array('path'	=> _ROOCMS.'/acp/ajax.php',		'chmod'	=> '0644',	'hash'	=> '');
 $protectfiles[]	= array('path'	=> _ROOCMS.'/acp/blocks.php',		'chmod'	=> '0644',	'hash'	=> '');
 $protectfiles[]	= array('path'	=> _ROOCMS.'/acp/blocks_html.php',	'chmod'	=> '0644',	'hash'	=> '');
