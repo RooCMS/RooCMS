@@ -60,7 +60,10 @@ class Users {
 	# user uniq data
 	public	$uid		= 0;		# [int]		user id
 	public	$login		= "";		# [string]	user login
-	public	$nickanme	= "";		# [string]	user nickname
+	public	$nickname	= "";		# [string]	user nickname
+	public	$token		= "";		# [string]	user security token
+
+	public	$usercheck 	= false;
 
 	# user global data
 	private	$usersession	= "";		# [string]	user ssession
@@ -70,6 +73,9 @@ class Users {
 
 
 
+	/**
+	 * Work your magic
+	 */
 	function Users() {
 
 		global $roocms;
@@ -79,6 +85,71 @@ class Users {
 		$this->userip		&= $roocms->userip;
 		$this->useragent 	&= $roocms->useragent;
 		$this->referer		&= $roocms->referer;
+
+		# check uniq user data
+		$this->get_private_userdata();
+
+		# check user data
+		if($this->uid != 0) $this->check_userdata();
+	}
+
+
+	/**
+	 * Получаем персональные данные пользователя
+	 */
+	private function get_private_userdata() {
+
+		global $db, $roocms, $security;
+
+		if(isset($roocms->sess['login']) && trim($roocms->sess['login']) != "" && $db->check_id($roocms->sess['login'], USERS_TABLE, "login", "status='1'") && isset($roocms->sess['token']) && strlen($roocms->sess['token']) == 32) {
+
+			$q    = $db->query("SELECT uid, login, nickname, password, salt FROM ".USERS_TABLE." WHERE login='".$roocms->sess['login']."' AND status='1'");
+			$data = $db->fetch_assoc($q);
+
+
+			#uid
+			$this->uid	= $data['uid'];
+
+			#login
+			$this->login	= $data['login'];
+
+			#nickname
+			$this->nickname	= $data['nickname'];
+
+			# security token
+			$this->token	= $security->hashing_token($roocms->sess['login'], $data['password'], $data['salt']);
+		}
+	}
+
+
+	/**
+	 * Паранои много не бывает.
+	 */
+	private function check_userdata() {
+
+		global $roocms;
+
+		$destroy = false;
+
+		# check uid
+		if($roocms->sess['uid'] != $this->uid) $destroy = true;
+
+		# check login
+		if($roocms->sess['login'] != $this->login) $destroy = true;
+
+		# check nickname
+		if($roocms->sess['nickname'] != $this->nickname) $destroy = true;
+
+		# check token
+		if($roocms->sess['token'] != $this->token) $destroy = true;
+
+		if($destroy) {
+			$roocms->sess = array();
+			session_destroy();
+
+			# notice
+			die("ВНИМАНИЕ! Зарегестрированна попытка подмены данных!");
+		}
 	}
 
 }

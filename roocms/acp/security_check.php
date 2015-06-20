@@ -5,7 +5,7 @@
  * @author       alex Roosso
  * @copyright    2010-2015 (c) RooCMS
  * @link         http://www.roocms.com
- * @version      2.0.1
+ * @version      2.1
  * @since        $date$
  * @license      http://www.gnu.org/licenses/gpl-3.0.html
  */
@@ -66,11 +66,10 @@ class ACP_SECURITY {
 	 */
 	function ACP_SECURITY() {
 
-		global $db, $roocms, $security;
+		global $db, $roocms, $security, $users;
 
-		if(isset($roocms->sess['login']) && trim($roocms->sess['login']) != "" && $db->check_id($roocms->sess['login'], USERS_TABLE, "login", "status='1'")
-		&& isset($roocms->sess['token']) && strlen($roocms->sess['token']) == 32) {
-			$q = $db->query("SELECT login, password, salt FROM ".USERS_TABLE." WHERE login='".$roocms->sess['login']."' AND status='1'");
+		if($users->uid != 0) {
+			$q = $db->query("SELECT login, password, salt FROM ".USERS_TABLE." WHERE uid='".$users->uid."' AND status='1'");
 			$data = $db->fetch_assoc($q);
 
 			$token = $security->hashing_token($roocms->sess['login'], $data['password'], $data['salt']);
@@ -89,7 +88,10 @@ class ACP_SECURITY {
 				$this->access = false;
 			}
 		}
-		else $this->access = false;
+		else {
+			# access denied
+			$this->access = false;
+		}
 	}
 }
 
