@@ -201,20 +201,27 @@ class ACP_USERS {
 	 */
 	private function edit_user($uid) {
 
-		global $db, $users, $smarty, $tpl;
+		global $db, $users, $parse, $smarty, $tpl;
 
-		$q = $db->query("SELECT uid, status, login, nickname, email, date_create, last_visit FROM ".USERS_TABLE." WHERE uid='".$uid."'");
-		$user = $db->fetch_assoc($q);
+		# security superamin
+		if($uid == 1 && $users->uid != 1) {
+			$parse->msg("Радктировать учетную запись суперадмина, может только суперадмин!", false);
+			goback();
+		}
+		else {
+			$q = $db->query("SELECT uid, status, login, nickname, email, date_create, last_visit FROM ".USERS_TABLE." WHERE uid='".$uid."'");
+			$user = $db->fetch_assoc($q);
 
 
-		$i_am_groot = false;
-		if($users->uid == $uid) $i_am_groot = true;
+			$i_am_groot = false;
+			if($users->uid == $uid) $i_am_groot = true;
 
-		# отрисовываем шаблон
-		$smarty->assign("i_am_groot", $i_am_groot);
-		$smarty->assign("user", $user);
-		$content = $tpl->load_template("users_edit_user", true);
-		$smarty->assign("content", $content);
+			# отрисовываем шаблон
+			$smarty->assign("i_am_groot", $i_am_groot);
+			$smarty->assign("user", $user);
+			$content = $tpl->load_template("users_edit_user", true);
+			$smarty->assign("content", $content);
+		}
 	}
 
 
