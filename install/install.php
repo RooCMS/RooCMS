@@ -5,7 +5,7 @@
 * @author       alex Roosso
 * @copyright    2010-2015 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.4.2
+* @version      1.4.3
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -79,7 +79,7 @@ class Install extends Requirement{
 		if(isset($GET->_step) && round($GET->_step) > 0) $this->step =& $GET->_step;
 
 		# seo
-		$site['title'] = "Установка RooCMS";
+		if($site['title'] == "") $site['title'] = "Установка RooCMS";
 
 		# переход
 		switch($this->step) {
@@ -219,6 +219,9 @@ class Install extends Requirement{
 				}
 				fclose($ecf);
 
+				# запоминаем название сайта для БД
+				$_SESSION['site_title'] = $parse->text->html($POST->site_title);
+
 				# уведомление
 				$parse->msg("Данные успешно записаны:", true);
 				$parse->msg("Название сайта - ".$parse->text->html($POST->site_title), true);
@@ -295,14 +298,6 @@ class Install extends Requirement{
 						$context .= $f[$i];
 					}
 
-					/*if(trim($db_info['host']) == "")	$context = str_ireplace('$db_info[\'host\'] = "";','$db_info[\'host\'] = "'.$POST->db_info_host.'";',$context);
-					else					$context = str_ireplace('$db_info[\'host\'] = "'.$db_info['host'].'";','$db_info[\'host\'] = "'.$POST->db_info_host.'";',$context);
-					if(trim($db_info['base']) == "")	$context = str_ireplace('$db_info[\'base\'] = "";','$db_info[\'base\'] = "'.$POST->db_info_base.'";',$context);
-					else					$context = str_ireplace('$db_info[\'base\'] = "'.$db_info['base'].'";','$db_info[\'base\'] = "'.$POST->db_info_base.'";',$context);
-					if(trim($db_info['user']) == "")	$context = str_ireplace('$db_info[\'user\'] = "";','$db_info[\'user\'] = "'.$POST->db_info_user.'";',$context);
-					else					$context = str_ireplace('$db_info[\'user\'] = "'.$db_info['user'].'";','$db_info[\'user\'] = "'.$POST->db_info_user.'";',$context);
-					if(trim($db_info['pass']) == "")	$context = str_ireplace('$db_info[\'pass\'] = "";','$db_info[\'pass\'] = "'.$POST->db_info_pass.'";',$context);
-					else					$context = str_ireplace('$db_info[\'pass\'] = "'.$db_info['pass'].'";','$db_info[\'pass\'] = "'.$POST->db_info_pass.'";',$context);*/
 					if(trim($db_info['prefix']) == "")	$context = str_ireplace('$db_info[\'prefix\'] = "";','$db_info[\'prefix\'] = "'.$POST->db_info_prefix.'";',$context);
 					else					$context = str_ireplace('$db_info[\'prefix\'] = "'.$db_info['prefix'].'";','$db_info[\'prefix\'] = "'.$POST->db_info_prefix.'";',$context);
 
@@ -450,8 +445,8 @@ class Install extends Requirement{
 		$salt = $security->create_new_salt();
 		$upass = $security->hashing_password($roocms->sess['adm_passw'], $salt);
 
-		$db->query("INSERT INTO ".USERS_TABLE." (login, nickname, email, title password, salt, date_create, date_update, last_visit. status)
-						 VALUES ('".$roocms->sess['adm_login']."', '".$roocms->sess['adm_login']."', '".$site['sysemail']."', 'a', ''".$upass."', '".$salt."', '".time()."', '".time()."', '".time()."', '1')");
+		$db->query("INSERT INTO ".USERS_TABLE." (login, nickname, email, title, password, salt, date_create, date_update, last_visit, status)
+						 VALUES ('".$roocms->sess['adm_login']."', '".$roocms->sess['adm_login']."', '".$site['sysemail']."', 'a', '".$upass."', '".$salt."', '".time()."', '".time()."', '".time()."', '1')");
 
 		# auto auth
 		$_SESSION['uid'] 	= 1;
