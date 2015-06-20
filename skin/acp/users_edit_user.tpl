@@ -16,6 +16,15 @@
 		</div>
 		{/if}
 
+		{if $i_am_groot}
+		<br /><br />
+		<blockquote class="quote quote-warning">
+			Внимание! Вы редактируете собственные данные.
+			<br />По завершению редактирования RooCMS может попросить вас заново указать ваш логин и пароль для авторизации.
+			<br />В некоторых случаях, вы можете увидеть предупрждение системы безопастности RooCMS о попытке подмены данных. В этом случае вам не стоит волноваться, потому что это просто срабатывание защиты Панели Управления от несанкционированного доступа.
+		</blockquote>
+		{/if}
+
 		<div class="form-group">
 			<label for="inputLogin" class="col-lg-3 control-label">
 				Логин пользователя: <small><span class="fa fa-info fa-fw" rel="tooltip" title="Должен быть уникальным" data-placement="right"></span></small>
