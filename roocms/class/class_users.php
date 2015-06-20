@@ -63,8 +63,6 @@ class Users {
 	public	$nickname	= "";		# [string]	user nickname
 	public	$token		= "";		# [string]	user security token
 
-	public	$usercheck 	= false;
-
 	# user global data
 	private	$usersession	= "";		# [string]	user ssession
 	private $userip		= "";		# [string]	user ip address
@@ -80,17 +78,25 @@ class Users {
 
 		global $roocms;
 
+
 		# get user data
 		$this->usersession	&= $roocms->usersession;
 		$this->userip		&= $roocms->userip;
 		$this->useragent 	&= $roocms->useragent;
 		$this->referer		&= $roocms->referer;
 
+
 		# check uniq user data
 		$this->get_private_userdata();
 
-		# check user data
-		if($this->uid != 0) $this->check_userdata();
+
+		if($this->uid != 0) {
+			# check user data for security
+			$this->check_userdata();
+
+			# update users info
+			$this->update_info_user($this->uid);
+		}
 	}
 
 
@@ -103,17 +109,17 @@ class Users {
 
 		if(isset($roocms->sess['login']) && trim($roocms->sess['login']) != "" && $db->check_id($roocms->sess['login'], USERS_TABLE, "login", "status='1'") && isset($roocms->sess['token']) && strlen($roocms->sess['token']) == 32) {
 
+			# get data
 			$q    = $db->query("SELECT uid, login, nickname, password, salt FROM ".USERS_TABLE." WHERE login='".$roocms->sess['login']."' AND status='1'");
 			$data = $db->fetch_assoc($q);
 
-
-			#uid
+			# uid
 			$this->uid	= $data['uid'];
 
-			#login
+			# login
 			$this->login	= $data['login'];
 
-			#nickname
+			# nickname
 			$this->nickname	= $data['nickname'];
 
 			# security token
@@ -123,7 +129,22 @@ class Users {
 
 
 	/**
+	 * Обновляем простую информацию пользователя, вроде времени последнего визита на сайт.
+	 *
+	 * @param int $uid - уникальные идентификатор пользователя
+	 */
+	private function update_info_user($uid) {
+
+		global $db;
+
+		# update time last visited
+		$db->query("UPDATE ".USERS_TABLE." SET last_visit='".time()."' WHERE uid='".$uid."' AND status='1'");
+	}
+
+
+	/**
 	 * Паранои много не бывает.
+	 * Проверяем данные авторизации, не было ли попыток совершения подмены данных
 	 */
 	private function check_userdata() {
 
