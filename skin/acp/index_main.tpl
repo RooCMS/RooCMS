@@ -16,7 +16,7 @@
 		{if isset($warn) && !empty($warn)}
 			{foreach from=$warn item=text}
 				<tr class="danger">
-    				<td colspan="2" class="text-danger">{$text}</td>
+    					<td colspan="2" class="text-danger">{$text}</td>
 				</tr>
 			{/foreach}
 		{/if}

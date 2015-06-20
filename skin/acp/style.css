@@ -15,7 +15,7 @@
 @media (max-width: 767px) {}*/
 /* СТИЛЬ ПАНЕЛИ АДМИНИСТРАТОРА */
 body {
-  font-family: 'Calibri', 'Ubuntu', 'Trebuchet MS', 'Tahoma', 'Verdana' !important;
+  font-family: 'PT Sans', 'Ubuntu', 'Calibri', 'Trebuchet MS', 'Tahoma', 'Verdana' !important;
   color: #1b1e24;
   font-size: 12px;
   background: #ede1cb url('img/bgcp.jpg') repeat fixed top !important;
@@ -28,7 +28,7 @@ img {
 }
 /* LINK STYLE */
 a {
-  font-family: 'Ubuntu', 'Tahoma', 'Trebuchet MS' !important;
+  font-family: 'PT Sans', 'Ubuntu', 'Calibri', 'Tahoma', 'Trebuchet MS' !important;
 }
 /* Transition */
 *,
