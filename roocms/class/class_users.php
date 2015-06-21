@@ -144,5 +144,16 @@ class Users extends Security {
 		# update time last visited
 		$db->query("UPDATE ".USERS_TABLE." SET last_visit='".time()."' WHERE uid='".$uid."' AND status='1'");
 	}
+
+
+	/**
+	 * Функция получения данных о пользователе.
+	 *
+	 * @param int $uid идентификатор пользователя
+	 */
+	public function get_user_data($uid) {
+
+		global $db;
+	}
 }
 ?>

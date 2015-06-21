@@ -6,7 +6,7 @@
  * @author       alex Roosso
  * @copyright    2010-2015 (c) RooCMS
  * @link         http://www.roocms.com
- * @version      1.1.3
+ * @version      1.2
  * @since        $date$
  * @license      http://www.gnu.org/licenses/gpl-3.0.html
  */
@@ -60,6 +60,7 @@ class ACP_USERS {
 
 	# vars
 	private $uid = 0;
+	private $gid = 0;
 
 
 
@@ -73,6 +74,7 @@ class ACP_USERS {
 
 		# Проверяем идентификатор юзера
 		if(isset($GET->_uid) && $db->check_id($GET->_uid, USERS_TABLE, "uid")) $this->uid = $GET->_uid;
+		if(isset($GET->_gid) && $db->check_id($GET->_gid, USERS_GROUP_TABLE, "gid")) $this->gid = $GET->_gid;
 
 
 		# action
@@ -95,6 +97,10 @@ class ACP_USERS {
 			case 'delete_user':
 				if($this->uid != 0) $this->delete_user($this->uid);
 				else go(CP."?act=users");
+				break;
+
+			case 'create_group':
+				$this->create_new_group();
 				break;
 
 			default:
