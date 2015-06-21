@@ -19,7 +19,7 @@
 		<tr{if $user['status'] == 0} class="danger"{/if}>
 			<td class="text-muted">{$user['uid']}</td>
 			<td>
-				<a href="{$SCRIPT_NAME}?act=users&part=edit&uid={$user['uid']}">{$user['nickname']}</a>
+				<a href="{$SCRIPT_NAME}?act=users&part=edit_user&uid={$user['uid']}">{$user['nickname']}</a>
 				<br /><small>{$user['login']} ({$user['email']})</small>
 			</td>
 			<td class="text-left">
@@ -34,8 +34,8 @@
 			<td class="small">{$user['last_visit']}</td>
 			<td>
 				<div class="btn-group">
-					<a href="{$SCRIPT_NAME}?act=users&part=edit&uid={$user['uid']}" class="btn btn-xs btn-default"><span class="fa fa-pencil-square-o fa-fw"></span><span class="hidden-sm">Редактировать</span></a>
-					{if $user['uid'] != 1}<a href="{$SCRIPT_NAME}?act=users&part=delete&uid={$user['uid']}" class="btn btn-xs btn-danger"><span class="fa fa-user-times fa-fw"></span><span class="hidden-sm">Удалить</span></a>{/if}
+					<a href="{$SCRIPT_NAME}?act=users&part=edit_user&uid={$user['uid']}" class="btn btn-xs btn-default"><span class="fa fa-pencil-square-o fa-fw"></span><span class="hidden-sm">Редактировать</span></a>
+					{if $user['uid'] != 1}<a href="{$SCRIPT_NAME}?act=users&part=delete_user&uid={$user['uid']}" class="btn btn-xs btn-danger"><span class="fa fa-user-times fa-fw"></span><span class="hidden-sm">Удалить</span></a>{/if}
 				</div>
 			</td>
 		</tr>
@@ -47,7 +47,7 @@
 {foreach from=$data item=user}
 
 	<div class="panel-heading visible-xs">
-		{if $user['status'] == 0}<span style="text-decoration: line-through;">{/if}<a href="{$SCRIPT_NAME}?act=users&part=edit&user={$user['uid']}">#{$user['uid']} {$user['nickname']}</a>{if $user['status'] == 0}</span>{/if}
+		{if $user['status'] == 0}<span style="text-decoration: line-through;">{/if}<a href="{$SCRIPT_NAME}?act=users&part=edit_user&user={$user['uid']}">#{$user['uid']} {$user['nickname']}</a>{if $user['status'] == 0}</span>{/if}
 		{if $user['title'] == "a" && $user['uid'] == 1}
 			<span class="label label-primary">Супер Администратор</span>
 		{elseif $user['title'] == "a" && $user['uid'] != 1}
@@ -61,8 +61,8 @@
 		<br />Эл.почта: {$user['email']}
 	</div>
 	<div class="panel-body text-right visible-xs">
-		<a href="{$SCRIPT_NAME}?act=users&part=edit&uid={$user['uid']}" class="btn btn-xs btn-default"><span class="fa fa-pencil-square-o fa-fw"></span><span class="hidden-sm">Редактировать</span></a>
-		{if $user['uid'] != 1}<a href="{$SCRIPT_NAME}?act=users&part=delete&uid={$user['uid']}" class="btn btn-xs btn-danger"><span class="fa fa-user-times fa-fw"></span><span class="hidden-sm">Удалить</span></a>{/if}
+		<a href="{$SCRIPT_NAME}?act=users&part=edit_user&uid={$user['uid']}" class="btn btn-xs btn-default"><span class="fa fa-pencil-square-o fa-fw"></span><span class="hidden-sm">Редактировать</span></a>
+		{if $user['uid'] != 1}<a href="{$SCRIPT_NAME}?act=users&part=delete_user&uid={$user['uid']}" class="btn btn-xs btn-danger"><span class="fa fa-user-times fa-fw"></span><span class="hidden-sm">Удалить</span></a>{/if}
 	</div>
 
 {/foreach}

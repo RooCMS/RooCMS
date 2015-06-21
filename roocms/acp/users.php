@@ -6,7 +6,7 @@
  * @author       alex Roosso
  * @copyright    2010-2015 (c) RooCMS
  * @link         http://www.roocms.com
- * @version      1.1.2
+ * @version      1.1.3
  * @since        $date$
  * @license      http://www.gnu.org/licenses/gpl-3.0.html
  */
@@ -78,21 +78,21 @@ class ACP_USERS {
 		# action
 		switch($roocms->part) {
 
-			case 'create':
+			case 'create_user':
 				$this->create_new_user();
 				break;
 
-			case 'edit':
+			case 'edit_user':
 				if($this->uid != 0) $this->edit_user($this->uid);
 				else go(CP."?act=users");
 				break;
 
-			case 'update':
+			case 'update_user':
 				if($this->uid != 0) $this->update_user($this->uid);
 				else go(CP."?act=users");
 				break;
 
-			case 'delete':
+			case 'delete_user':
 				if($this->uid != 0) $this->delete_user($this->uid);
 				else go(CP."?act=users");
 				break;
@@ -184,7 +184,7 @@ class ACP_USERS {
 
 				# переход
 				if(isset($POST->create_user_ae)) go(CP."?act=users");
-				else go(CP."?act=users&part=edit&uid=".$uid);
+				else go(CP."?act=users&part=edit_user&uid=".$uid);
 			}
 			else goback();
 		}
@@ -309,7 +309,7 @@ class ACP_USERS {
 
 				# переход
 				if(isset($POST->update_user_ae)) go(CP."?act=users");
-				else go(CP."?act=users&part=edit&uid=".$uid);
+				else go(CP."?act=users&part=edit_user&uid=".$uid);
 			}
 			else goback();
 		}
