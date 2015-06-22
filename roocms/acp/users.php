@@ -104,6 +104,21 @@ class ACP_USERS {
 				$this->create_new_group();
 				break;
 
+			case 'edit_group':
+				if($this->gid != 0) $this->edit_group($this->gid);
+				else go(CP."?act=users&part=group_list");
+				break;
+
+			case 'update_group':
+				if($this->gid != 0) $this->update_group($this->gid);
+				else go(CP."?act=users&part=group_list");
+				break;
+
+			case 'delete_group':
+				if($this->gid != 0) $this->delete_group($this->gid);
+				else go(CP."?act=users&part=group_list");
+				break;
+
 			case 'group_list':
 				$this->view_all_groups();
 				break;
@@ -254,7 +269,7 @@ class ACP_USERS {
 				$parse->msg("Группа была успешно создана.");
 
 				# переход
-				if(isset($POST->create_user_ae)) go(CP."?act=users&part=group_list");
+				if(isset($POST->create_group_ae)) go(CP."?act=users&part=group_list");
 				else go(CP."?act=users&part=edit_group&gid=".$gid);
 			}
 			else goback();
@@ -295,6 +310,25 @@ class ACP_USERS {
 			$content = $tpl->load_template("users_edit_user", true);
 			$smarty->assign("content", $content);
 		}
+	}
+
+
+	/**
+	 * Функция редактирования группы.
+	 *
+	 * @param int $gid - уникальный ид группы.
+	 */
+	private function edit_group($gid) {
+
+		global $db, $users, $parse, $smarty, $tpl;
+
+		$q = $db->query("SELECT gid, title FROM ".USERS_GROUP_TABLE." WHERE gid='".$gid."'");
+		$group = $db->fetch_assoc($q);
+
+		# отрисовываем шаблон
+		$smarty->assign("group", $group);
+		$content = $tpl->load_template("users_edit_group", true);
+		$smarty->assign("content", $content);
 	}
 
 
@@ -389,6 +423,52 @@ class ACP_USERS {
 
 
 	/**
+	 * Функция обновляет данные группы пользователей БД
+	 *
+	 * @param int $gid - уникальный идентификатор группы
+	 */
+	private function update_group($gid) {
+
+		global $db, $POST, $parse, $smarty, $tpl;
+
+		if(isset($POST->update_group) || isset($POST->update_group_ae)) {
+
+			$q = $db->query("SELECT title FROM ".USERS_GROUP_TABLE." WHERE gid='".$gid."'");
+			$gdata = $db->fetch_assoc($q);
+
+			$query = "";
+
+			# login
+			if(isset($POST->title) && trim($POST->title) != "")
+				if(!$this->check_field("title", $POST->title, $gdata['title'], USERS_GROUP_TABLE))
+					$parse->msg("Название группы не может совпадать с названием другой группы!", false);
+				else
+					$query .= "title='".$POST->title."', ";
+
+			else
+				$parse->msg("У группы должно быть название.", false);
+
+			# update
+			if(!isset($_SESSION['error'])) {
+
+				# update
+				$db->query("UPDATE ".USERS_GROUP_TABLE." SET ".$query." date_update='".time()."' WHERE gid='".$gid."'");
+				$this->count_users($gid);
+
+				# notice
+				$parse->msg("Данные группы #{$gid} успешно обновлены.");
+
+				# переход
+				if(isset($POST->update_group_ae)) go(CP."?act=users&part=group_list");
+				else go(CP."?act=users&part=edit_group&gid=".$gid);
+			}
+			else goback();
+		}
+		else goback();
+	}
+
+
+	/**
 	 * Функция удаляет выбранного пользователя из БД
 	 *
 	 * @param int $uid - уникальный идентификатор пользователя
@@ -402,12 +482,57 @@ class ACP_USERS {
 			$parse->msg("Нельзя удалить учетную запись главного администратора!", false);
 		}
 		else {
+			$q = $db->query("SELECT gid FROM ".USERS_TABLE." WHERE uid='".$uid."'");
+			$data = $db->fetch_assoc($q);
+
+			$this->count_users($data['gid']);
+
 			$db->query("DELETE FROM ".USERS_TABLE." WHERE uid='".$uid."'");
 			$parse->msg("Пользователь #{$uid} был успешно удален из Базы Данных.");
 		}
 
 		# go
 		goback();
+	}
+
+
+	/**
+	 * Функция удаляет выбранную группу из БД
+	 *
+	 * @param int $gid - уникальный идентификатор группы
+	 */
+	private function delete_group($gid) {
+
+		global $db, $parse;
+
+		$db->query("UPDATE ".USERS_TABLE." SET gid='0' WHERE gid='".$gid."'");
+
+		$db->query("DELETE FROM ".USERS_GROUP_TABLE." WHERE gid='".$gid."'");
+		$parse->msg("Группа #{$gid} был успешна удалена из Базы Данных.");
+
+		# go
+		goback();
+	}
+
+
+	/**
+	 * Функция проверяет кол-во пользователей состоящих в группе.
+	 *
+	 * @param int $gid - уникальный идентификатор группы
+	 */
+	private function count_users($gid) {
+
+		global $db, $parse;
+
+		# count
+		$q = $db->query("SELECT count(*) FROM ".USERS_TABLE." WHERE gid='".$gid."'");
+		$c = $db->fetch_row($q);
+
+		# update
+		$db->query("UPDATE ".USERS_GROUP_TABLE." SET users='".$c[0]."' WHERE gid='".$gid."'");
+
+		# уведомление
+		if(DEBUGMODE) $parse->msg("Информация о кол-ве пользователей для группы {$gid} обновлена.");
 	}
 
 
@@ -419,10 +544,11 @@ class ACP_USERS {
 	 * @param string $field   - поле
 	 * @param string $name    - значение поля
 	 * @param string $without - Выражение исключения для mysql запроса
+	 * @param string $table	  - Таблица для проверки
 	 *
 	 * @return bool $res - true - если значение не уникально, false - если значение уникально
 	 */
-	private function check_field($field, $name, $without="") {
+	private function check_field($field, $name, $without="", $table=USERS_TABLE) {
 
 		global $db;
 
@@ -432,7 +558,7 @@ class ACP_USERS {
 
 			$w = (trim($without) != "") ? $field."!='".$without."'" : "" ;
 
-			if(!$db->check_id($name, USERS_TABLE, $field, $w))
+			if(!$db->check_id($name, $table, $field, $w))
 				$res = true;
 		}
 		else $res = true;
@@ -467,5 +593,5 @@ class ACP_USERS {
 /**
  * Init class
  */
-$acp_pages = new ACP_USERS;
+$acp_users = new ACP_USERS;
 ?>
