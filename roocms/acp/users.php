@@ -297,15 +297,22 @@ class ACP_USERS {
 			goback();
 		}
 		else {
-			$q = $db->query("SELECT uid, status, login, nickname, email, title, date_create, last_visit FROM ".USERS_TABLE." WHERE uid='".$uid."'");
+			$q = $db->query("SELECT uid, gid, status, login, nickname, email, title, date_create, last_visit FROM ".USERS_TABLE." WHERE uid='".$uid."'");
 			$user = $db->fetch_assoc($q);
-
 
 			$i_am_groot = false;
 			if($users->uid == $uid) $i_am_groot = true;
 
+			# groups
+			$groups = array();
+			$q = $db->query("SELECT gid, title, users FROM ".USERS_GROUP_TABLE." ORDER BY gid ASC");
+			while($row = $db->fetch_assoc($q)) {
+				$groups[] = $row;
+			}
+
 			# отрисовываем шаблон
 			$smarty->assign("i_am_groot", $i_am_groot);
+			$smarty->assign("groups", $groups);
 			$smarty->assign("user", $user);
 			$content = $tpl->load_template("users_edit_user", true);
 			$smarty->assign("content", $content);
@@ -384,6 +391,8 @@ class ACP_USERS {
 			# title
 			$query .= (isset($POST->title) && $POST->title == "a") ? "title='a', " : "title='u', " ;
 
+			# group
+			$query .= (isset($POST->gid) && $db->check_id($POST->gid, USERS_GROUP_TABLE, "gid")) ? "gid='".$POST->gid."', " : "gid='0', " ;
 
 			# update
 			if(!isset($_SESSION['error'])) {
@@ -397,6 +406,14 @@ class ACP_USERS {
 				}
 
 				$db->query("UPDATE ".USERS_TABLE." SET ".$query." date_update='".time()."' WHERE uid='".$uid."'");
+
+				# Если мы переназначаем группу пользователя
+				if($POST->gid != $POST->now_gid) {
+					# пересчитываем пользователей
+					if($POST->gid != 0)	$this->count_users($POST->gid);
+					if($POST->now_gid != 0)	$this->count_users($POST->now_gid);
+				}
+
 
 				# notice
 				$parse->msg("Данные пользователя #{$uid} успешно обновлены.");
