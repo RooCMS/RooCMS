@@ -21,12 +21,12 @@
 					<a href="{$SCRIPT_NAME}?act=users&part=edit_group&gid={$group['gid']}">{$group['title']}</a>
 				</td>
 				<td class="text-left">
-
+					{$group['users']}
 				</td>
 				<td>
 					<div class="btn-group">
-						<a href="{$SCRIPT_NAME}?act=users&part=edit_group&uid={$group['gid']}" class="btn btn-xs btn-default"><span class="fa fa-pencil-square-o fa-fw"></span><span class="hidden-sm">Редактировать</span></a>
-						<a href="{$SCRIPT_NAME}?act=users&part=delete_group&uid={$group['gid']}" class="btn btn-xs btn-danger"><span class="fa fa-trash fa-fw"></span><span class="hidden-sm">Удалить</span></a>
+						<a href="{$SCRIPT_NAME}?act=users&part=edit_group&gid={$group['gid']}" class="btn btn-xs btn-default"><span class="fa fa-pencil-square-o fa-fw"></span><span class="hidden-sm">Редактировать</span></a>
+						<a href="{$SCRIPT_NAME}?act=users&part=delete_group&gid={$group['gid']}" class="btn btn-xs btn-danger"><span class="fa fa-trash fa-fw"></span><span class="hidden-sm">Удалить</span></a>
 					</div>
 				</td>
 			</tr>
@@ -38,14 +38,14 @@
 	{foreach from=$data item=user}
 
 		<div class="panel-heading visible-xs">
-
+			<a href="{$SCRIPT_NAME}?act=users&part=edit_group&gid={$group['gid']}">{$group['title']}</a>
 		</div>
 		<div class="panel-body visible-xs">
-			Пользователей в группе:
+			Пользователей в группе: {$group['users']}
 		</div>
 		<div class="panel-body text-right visible-xs">
-			<a href="{$SCRIPT_NAME}?act=users&part=edit_user&uid={$user['uid']}" class="btn btn-xs btn-default"><span class="fa fa-pencil-square-o fa-fw"></span><span class="hidden-sm">Редактировать</span></a>
-			{if $user['uid'] != 1}<a href="{$SCRIPT_NAME}?act=users&part=delete_user&uid={$user['uid']}" class="btn btn-xs btn-danger"><span class="fa fa-user-times fa-fw"></span><span class="hidden-sm">Удалить</span></a>{/if}
+			<a href="{$SCRIPT_NAME}?act=users&part=edit_group&gid={$group['gid']}" class="btn btn-xs btn-default"><span class="fa fa-pencil-square-o fa-fw"></span><span class="hidden-sm">Редактировать</span></a>
+			<a href="{$SCRIPT_NAME}?act=users&part=delete_group&gid={$group['gid']}" class="btn btn-xs btn-danger"><span class="fa fa-trash fa-fw"></span><span class="hidden-sm">Удалить</span></a>
 		</div>
 
 	{/foreach}

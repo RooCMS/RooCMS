@@ -282,7 +282,8 @@ $sql['CREATE '.USERS_GROUP_TABLE] = "CREATE TABLE  `".USERS_GROUP_TABLE."` (
 					 `date_create` INT( 20 ) UNSIGNED NOT NULL DEFAULT  '0' COMMENT  'format: unixtimestamp',
 					 `date_update` INT( 20 ) UNSIGNED NOT NULL DEFAULT  '0' COMMENT  'format: unixtimestamp',
 					PRIMARY KEY (  `gid` ) ,
-					UNIQUE KEY  `gid` (  `gid` )
+					UNIQUE KEY  `gid` (  `gid` ) ,
+					UNIQUE KEY  `title` (  `title` )
 					) ENGINE = MYISAM DEFAULT CHARSET = utf8;";
 
 

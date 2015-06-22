@@ -74,6 +74,7 @@ class ACP_USERS {
 
 		# Проверяем идентификатор юзера
 		if(isset($GET->_uid) && $db->check_id($GET->_uid, USERS_TABLE, "uid")) $this->uid = $GET->_uid;
+		# Проверка идентификтора группы
 		if(isset($GET->_gid) && $db->check_id($GET->_gid, USERS_GROUP_TABLE, "gid")) $this->gid = $GET->_gid;
 
 
@@ -103,6 +104,10 @@ class ACP_USERS {
 				$this->create_new_group();
 				break;
 
+			case 'group_list':
+				$this->view_all_groups();
+				break;
+
 			default:
 				$this->view_all_users();
 				break;
@@ -120,6 +125,7 @@ class ACP_USERS {
 
 		global $db, $smarty, $tpl, $parse;
 
+		$data = array();
 		$q = $db->query("SELECT uid, status, login, nickname, email, title, date_create, date_update, last_visit FROM ".USERS_TABLE." ORDER BY uid ASC");
 		while($row = $db->fetch_assoc($q)) {
 
@@ -132,7 +138,30 @@ class ACP_USERS {
 		}
 
 		$smarty->assign("data", $data);
-		$content = $tpl->load_template("users_view_list", true);
+		$content = $tpl->load_template("users_view_users", true);
+		$smarty->assign("content", $content);
+	}
+
+
+	/**
+	 * Выводим список групп.
+	 */
+	private function view_all_groups() {
+
+		global $db, $smarty, $tpl, $parse;
+
+		$data = array();
+		$q = $db->query("SELECT gid, title, users, date_create, date_update FROM ".USERS_GROUP_TABLE." ORDER BY gid ASC");
+		while($row = $db->fetch_assoc($q)) {
+
+			$row['date_create'] = $parse->date->unix_to_rus($row['date_create'], false, true, false);
+			$row['date_update'] = $parse->date->unix_to_rus($row['date_update'], false, true, false);
+
+			$data[] = $row;
+		}
+
+		$smarty->assign("data", $data);
+		$content = $tpl->load_template("users_view_groups", true);
 		$smarty->assign("content", $content);
 	}
 
@@ -198,6 +227,42 @@ class ACP_USERS {
 
 		# отрисовываем шаблон
 		$content = $tpl->load_template("users_create_new_user", true);
+		$smarty->assign("content", $content);
+	}
+
+
+	/**
+	 * Функция для создания новой группы
+	 */
+	private function create_new_group() {
+
+		global $db, $smarty, $tpl, $POST, $parse;
+
+		if(isset($POST->create_group) || isset($POST->create_group_ae)) {
+
+			# title
+			if(!isset($POST->title) || trim($POST->title) == "") $parse->msg("У группы должно быть название!", false);
+			if(isset($POST->title) && trim($POST->title) != "" && $db->check_id($POST->title, USERS_GROUP_TABLE, "title")) $parse->msg("Группа с таким название уже существует", false);
+
+			if(!isset($_SESSION['error'])) {
+
+				$db->query("INSERT INTO ".USERS_GROUP_TABLE." (title, date_create, date_update)
+									VALUES ('".$POST->title."', '".time()."', '".time()."')");
+				$gid = $db->insert_id();
+
+				# уведомление
+				$parse->msg("Группа была успешно создана.");
+
+				# переход
+				if(isset($POST->create_user_ae)) go(CP."?act=users&part=group_list");
+				else go(CP."?act=users&part=edit_group&gid=".$gid);
+			}
+			else goback();
+		}
+
+
+		# отрисовываем шаблон
+		$content = $tpl->load_template("users_create_new_group", true);
 		$smarty->assign("content", $content);
 	}
 
