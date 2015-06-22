@@ -3,9 +3,9 @@
 * @package	RooCMS
 * @subpackage	Engine RooCMS classes
 * @author	alex Roosso
-* @copyright	2010-2014 (c) RooCMS
+* @copyright	2010-2015 (c) RooCMS
 * @link		http://www.roocms.com
-* @version	2.2.1
+* @version	2.2.2
 * @since	$date$
 * @license	http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -83,7 +83,8 @@ class Debug {
 						"standard",
 						"SimpleXML",
 						"apache2handler",
-						"mysql");
+						"mysql",
+						"mysqli");
 
 
 	/**

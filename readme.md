@@ -23,6 +23,7 @@
 	`SimpleXML`
 	`apache2handler`
 	`mysql`
+	`mysqli`
 
 Установка
 --------------
