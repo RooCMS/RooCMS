@@ -5,7 +5,7 @@
 * @author       alex Roosso
 * @copyright    2010-2015 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      3.0
+* @version      3.1
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -351,8 +351,27 @@ class MySQLDatabase extends MySqlExtends {
 	}
 
 
+	/**
+	 * Функция указывает какое кол-во строк вернул запрос
+	 * Работает только с Select и Show
+	 *
+	 * @param string $q - запрос
+	 *
+	 * @return int
+	 */
 	public function num_rows($q) {
 		return mysqli_num_rows($q);
+	}
+
+
+	/**
+	 * Функция указывает какое кол-во строк были затронуты последним запросом
+	 * Работает только с Insert и Update
+	 *
+	 * @return int
+	 */
+	public function affected_rows() {
+		return $this->sql->affected_rows;
 	}
 
 
@@ -383,7 +402,7 @@ class MySQLDatabase extends MySqlExtends {
 	*
 	*/
 	public function close() {
-		@mysqli_close();
+		$this->sql->close();
 	}
 }
 

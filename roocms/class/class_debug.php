@@ -83,7 +83,6 @@ class Debug {
 						"standard",
 						"SimpleXML",
 						"apache2handler",
-						"mysql",
 						"mysqli");
 
 
