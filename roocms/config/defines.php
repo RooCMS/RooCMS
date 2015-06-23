@@ -5,7 +5,7 @@
 * @author	alex Roosso
 * @copyright	2010-2015 (c) RooCMS
 * @link		http://www.roocms.com
-* @version	1.4.5
+* @version	1.4.6
 * @since	$date$
 * @license	http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -82,6 +82,7 @@ define('_SITEROOT', 	str_ireplace(DIRECTORY_SEPARATOR."roocms".DIRECTORY_SEPARAT
 define('_ROOCMS',	_SITEROOT.'/roocms');
 define('_CLASS', 	_ROOCMS.'/class');
 define('_LIB', 		_ROOCMS.'/lib');
+define('_MODULE', 	_ROOCMS.'/module');
 define('_SMARTY', 	_LIB.'/smarty');
 define('_SKIN',		_SITEROOT.'/skin');
 define('_ACPSKIN',	_SKIN.'/acp');

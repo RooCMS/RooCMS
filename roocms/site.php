@@ -5,7 +5,7 @@
 * @author       alex Roosso
 * @copyright    2010-2015 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.1
+* @version      1.1.1
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -76,9 +76,10 @@ else
 
 
 /**
- * Load Blocks
+ * Load Blocks & Modules
  */
 require_once "site_blocks.php";
+require_once "site_module.php";
 
 
 if($structure->access) {
