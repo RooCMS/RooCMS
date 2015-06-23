@@ -5,7 +5,7 @@
 * @author	alex Roosso
 * @copyright	2010-2015 (c) RooCMS
 * @link		http://www.roocms.com
-* @version	1.4.6
+* @version	1.4.7
 * @since	$date$
 * @license	http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -105,6 +105,7 @@ define('_DOMAIN',	strtr($_SERVER['HTTP_HOST'], array('http://'=>'', 'www.'=>''))
 * $Component
 */
 define('_ACP',		_ROOCMS.'/acp.php');
+define('_UCP',		_ROOCMS.'/ucp.php');
 define('_SITE',		_ROOCMS.'/site.php');
 
 

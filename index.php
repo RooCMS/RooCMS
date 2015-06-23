@@ -52,6 +52,7 @@
 */
 define('_SITEROOT', dirname(__FILE__));
 require_once _SITEROOT."/roocms/init.php";
+require_once _UCP;
 require_once _SITE;
 
 

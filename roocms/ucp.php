@@ -48,47 +48,28 @@
 //#########################################################
 // Anti Hack
 //---------------------------------------------------------
-if(!defined('RooCMS') || !defined('UCP')) die('Access Denied');
+if(!defined('RooCMS')) die('Access Denied');
 //#########################################################
 
 
-class UCP_SECURITY {
+//#########################################################
+// Initialisation Admin CP identification
+//---------------------------------------------------------
+if(!defined('UCP')) define('UCP', true);
+//#########################################################
 
-	/**
-	 * @var bool
-	 */
-	var $access = false;
+
+nocache();
+
+# Security check
+require_once _ROOCMS."/ucp/security_check.php";
 
 
-	/**
-	 * Функция проверки текущего доступа пользователя.
-	 * В случае успешной проверки функция изменяет флаг $access на true
-	 */
-	function UCP_SECURITY() {
-
-		global $db, $users;
-
-		if($users->uid != 0) {
-			# check access
-			if($users->token != "") {
-				# access granted
-				$this->access = true;
-			}
-			else {
-				# access denied
-				$this->access = false;
-			}
-		}
-		else {
-			# access denied
-			$this->access = false;
-		}
+if($ucpsecurity->access) {
+	if(trim($roocms->act) != "" && file_exists(_ROOCMS."/ucp/".$roocms->act.".php")) {
+		require_once _ROOCMS."/ucp/".$roocms->act.".php";
 	}
 }
-
-/**
- * Init Class
- */
-$ucpsecurity = new UCP_SECURITY;
+else require_once _ROOCMS."/ucp/login.php";
 
 ?>

@@ -77,7 +77,6 @@ class Module_Auth {
 
 		$this->get_userdata();
 
-
 		# draw
 		$smarty->assign("userdata", $this->userdata);
 		$this->out .= $tpl->load_template("module_auth", true);

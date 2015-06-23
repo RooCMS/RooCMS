@@ -48,31 +48,28 @@
 //#########################################################
 // Anti Hack
 //---------------------------------------------------------
-if(!defined('RooCMS')) die('Access Denied');
+if(!defined('RooCMS') || !defined('UCP')) die('Access Denied');
 //#########################################################
 
 
-class ACP_LOGIN {
+class UCP_LOGIN {
 
 	/**
 	 * Проверяем введенные данные
 	 */
-	function ACP_LOGIN() {
+	function UCP_LOGIN() {
 
-		global $db, $POST, $security, $smarty, $tpl, $site;
-
-
-		$smarty->assign("site", $site);
+		global $db, $POST, $security;
 
 
 		/**
 		 * Проверяем запрос
 		 */
-		if(isset($POST->go)) {
+		if(isset($POST->userlogin)) {
 
-			if(isset($POST->login) && $db->check_id($POST->login, USERS_TABLE, "login", "status='1'") && isset($POST->password)) {
+			if(isset($POST->login) && isset($POST->password) &&$db->check_id($POST->login, USERS_TABLE, "login", "status='1'") && isset($POST->password)) {
 
-				$q = $db->query("SELECT uid, login, nickname, title, password, salt FROM ".USERS_TABLE." WHERE login='".$POST->login."' AND status='1'");
+				$q = $db->query("SELECT uid, login, title, nickname, password, salt FROM ".USERS_TABLE." WHERE login='".$POST->login."' AND status='1'");
 				$data = $db->fetch_assoc($q);
 
 				$dbpass = $security->hashing_password($POST->password, $data['salt']);
@@ -83,13 +80,9 @@ class ACP_LOGIN {
 
 					$_SESSION['uid'] 	= $data['uid'];
 					$_SESSION['login'] 	= $data['login'];
-					$_SESSION['title'] 	= $data['title'];
 					$_SESSION['nickname'] 	= $data['nickname'];
+					$_SESSION['title'] 	= $data['title'];
 					$_SESSION['token'] 	= $security->hashing_token($data['login'], $dbpass, $data['salt']);
-
-					$smarty->assign("error_login", "");
-
-					goback();
 				}
 				else {
 					# неверный логин или пароль
@@ -100,10 +93,9 @@ class ACP_LOGIN {
 				# логин или пароль введены некоректно
 				$this->incorrect_entering("Введены неверные данные.");
 			}
-		}
 
-		# load template
-		$tpl->load_template("login");
+			goback();
+		}
 	}
 
 
@@ -112,12 +104,17 @@ class ACP_LOGIN {
 	 */
 	private function incorrect_entering($msg) {
 
-		global $smarty;
+		global $parse;
 
-		session_destroy();
+		unset($_SESSION['uid']);
+		unset($_SESSION['login']);
+		unset($_SESSION['title']);
+		unset($_SESSION['token']);
 
 		sleep(3);
-		$smarty->assign("error_login", $msg);
+
+		# notice
+		$parse->msg($msg, false);
 	}
 }
 
