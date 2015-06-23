@@ -6,14 +6,14 @@
  * @author       alex Roosso
  * @copyright    2010-2015 (c) RooCMS
  * @link         http://www.roocms.com
- * @version      1.2
+ * @version      1.3
  * @since        $date$
  * @license      http://www.gnu.org/licenses/gpl-3.0.html
  */
 
 /**
  *   RooCMS - Russian free content managment system
- *   Copyright (C) 2010-2014 alex Roosso aka alexandr Belov info@roocms.com
+ *   Copyright (C) 2010-2016 alex Roosso aka alexandr Belov info@roocms.com
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -30,7 +30,7 @@
  *
  *
  *   RooCMS - Русская бесплатная система управления сайтом
- *   Copyright (C) 2010-2014 alex Roosso (александр Белов) info@roocms.com
+ *   Copyright (C) 2010-2016 alex Roosso (александр Белов) info@roocms.com
  *
  *   Это программа является свободным программным обеспечением. Вы можете
  *   распространять и/или модифицировать её согласно условиям Стандартной
@@ -186,13 +186,13 @@ class ACP_USERS {
 	 */
 	private function create_new_user() {
 
-		global $db, $smarty, $tpl, $POST, $parse, $security, $site;
+		global $db, $smarty, $users, $tpl, $POST, $parse, $security, $site;
 
 		if(isset($POST->create_user) || isset($POST->create_user_ae)) {
 
 			# nickname
 			if(!isset($POST->nickname) || trim($POST->nickname) == "") $POST->nickname = mb_ucfirst($POST->login);
-			$POST->nickname = $this->check_new_nickname($POST->nickname);
+			$POST->nickname = $users->check_new_nickname($POST->nickname);
 
 			# login
 			if(!isset($POST->login) || trim($POST->login) == "") $parse->msg("У пользователя должен быть логин!", false);
@@ -362,7 +362,7 @@ class ACP_USERS {
 	 */
 	private function update_user($uid) {
 
-		global $db, $POST, $parse, $security, $smarty, $tpl, $site;
+		global $db, $POST, $parse, $users, $security, $smarty, $tpl, $site;
 
 		if(isset($POST->update_user) || isset($POST->update_user_ae)) {
 
@@ -373,7 +373,7 @@ class ACP_USERS {
 
 			# login
 			if(isset($POST->login) && trim($POST->login) != "")
-				if(!$this->check_field("login", $POST->login, $udata['login']))
+				if(!$users->check_field("login", $POST->login, $udata['login']))
 					$parse->msg("Логин не должен совпадать с логином другого пользователя!", false);
 				else
 					$query .= "login='".$POST->login."', ";
@@ -383,7 +383,7 @@ class ACP_USERS {
 
 			# nickname
 			if(isset($POST->nickname) && trim($POST->nickname) != "")
-				if(!$this->check_field("nickname", $POST->nickname, $udata['nickname']))
+				if(!$users->check_field("nickname", $POST->nickname, $udata['nickname']))
 					$parse->msg("Никнейм не должен совпадать с никнеймом другого пользователя!", false);
 				else
 					$query .= "nickname='".$POST->nickname."', ";
@@ -393,7 +393,7 @@ class ACP_USERS {
 
 			# email
 			if(isset($POST->email) && trim($POST->email) != "")
-				if(!$this->check_field("email", $POST->email, $udata['email']))
+				if(!$users->check_field("email", $POST->email, $udata['email']))
 					$parse->msg("Указанный email уже существует в Базе Данных!", false);
 				else
 					$query .= "email='".$POST->email."', ";
@@ -405,7 +405,7 @@ class ACP_USERS {
 			$query .= ((isset($POST->status) && $POST->status == 1) || $uid == 1) ? "status='1', " : "status='0', " ;
 
 			# title
-			$query .= (isset($POST->title) && $POST->title == "a") ? "title='a', " : "title='u', " ;
+			$query .= ((isset($POST->title) && $POST->title == "a") || $uid == 1) ? "title='a', " : "title='u', " ;
 
 			# group
 			$query .= (isset($POST->gid) && $db->check_id($POST->gid, USERS_GROUP_TABLE, "gid")) ? "gid='".$POST->gid."', " : "gid='0', " ;
@@ -462,7 +462,7 @@ class ACP_USERS {
 	 */
 	private function update_group($gid) {
 
-		global $db, $POST, $parse, $smarty, $tpl;
+		global $db, $POST, $users, $parse, $smarty, $tpl;
 
 		if(isset($POST->update_group) || isset($POST->update_group_ae)) {
 
@@ -473,7 +473,7 @@ class ACP_USERS {
 
 			# login
 			if(isset($POST->title) && trim($POST->title) != "")
-				if(!$this->check_field("title", $POST->title, $gdata['title'], USERS_GROUP_TABLE))
+				if(!$users->check_field("title", $POST->title, $gdata['title'], USERS_GROUP_TABLE))
 					$parse->msg("Название группы не может совпадать с названием другой группы!", false);
 				else
 					$query .= "title='".$POST->title."', ";
@@ -566,59 +566,6 @@ class ACP_USERS {
 
 		# уведомление
 		if(DEBUGMODE) $parse->msg("Информация о кол-ве пользователей для группы {$gid} обновлена.");
-	}
-
-
-	/**
-	 * Проверяем поля на уникальность
-	 *
-	 * ВНИМАНИЕ! Не расчитывайте на эту функцию, она временная.
-	 *
-	 * @param string $field   - поле
-	 * @param string $name    - значение поля
-	 * @param string $without - Выражение исключения для mysql запроса
-	 * @param string $table	  - Таблица для проверки
-	 *
-	 * @return bool $res - true - если значение не уникально, false - если значение уникально
-	 */
-	private function check_field($field, $name, $without="", $table=USERS_TABLE) {
-
-		global $db;
-
-		$res = false;
-
-		if(trim($without) != trim($name)) {
-
-			$w = (trim($without) != "") ? $field."!='".$without."'" : "" ;
-
-			if(!$db->check_id($name, $table, $field, $w))
-				$res = true;
-		}
-		else $res = true;
-
-		return $res;
-	}
-
-
-	/**
-	 * Функция проверяет Никнейм на уникальность.
-	 * В случае повторения добавляет к никнейму несколько цифр.
-	 *
-	 * ВНИМАНИЕ! Не расчитывайте на эту функцию. Она временная.
-	 *
-	 * @param string $nickname - Никнейм
-	 *
-	 * @return string
-	 */
-	private function check_new_nickname($nickname) {
-
-		global $db;
-
-		if($db->check_id($nickname, USERS_TABLE, "nickname")) {
-			$nickname = $this->check_new_nickname($nickname.randcode(2,"0123456789"));
-		}
-
-		return $nickname;
 	}
 }
 

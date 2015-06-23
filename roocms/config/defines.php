@@ -5,14 +5,14 @@
 * @author	alex Roosso
 * @copyright	2010-2015 (c) RooCMS
 * @link		http://www.roocms.com
-* @version	1.4.5
+* @version	1.4.7
 * @since	$date$
 * @license	http://www.gnu.org/licenses/gpl-3.0.html
 */
 
 /**
 *   RooCMS - Russian free content managment system
-*   Copyright (C) 2010-2014 alex Roosso aka alexandr Belov info@roocms.com
+*   Copyright (C) 2010-2016 alex Roosso aka alexandr Belov info@roocms.com
 *
 *   This program is free software: you can redistribute it and/or modify
 *   it under the terms of the GNU General Public License as published by
@@ -29,7 +29,7 @@
 *
 *
 *   RooCMS - Русская бесплатная система управления сайтом
-*   Copyright (C) 2010-2014 alex Roosso (александр Белов) info@roocms.com
+*   Copyright (C) 2010-2016 alex Roosso (александр Белов) info@roocms.com
 *
 *   Это программа является свободным программным обеспечением. Вы можете
 *   распространять и/или модифицировать её согласно условиям Стандартной
@@ -82,6 +82,7 @@ define('_SITEROOT', 	str_ireplace(DIRECTORY_SEPARATOR."roocms".DIRECTORY_SEPARAT
 define('_ROOCMS',	_SITEROOT.'/roocms');
 define('_CLASS', 	_ROOCMS.'/class');
 define('_LIB', 		_ROOCMS.'/lib');
+define('_MODULE', 	_ROOCMS.'/module');
 define('_SMARTY', 	_LIB.'/smarty');
 define('_SKIN',		_SITEROOT.'/skin');
 define('_ACPSKIN',	_SKIN.'/acp');
@@ -104,6 +105,7 @@ define('_DOMAIN',	strtr($_SERVER['HTTP_HOST'], array('http://'=>'', 'www.'=>''))
 * $Component
 */
 define('_ACP',		_ROOCMS.'/acp.php');
+define('_UCP',		_ROOCMS.'/ucp.php');
 define('_SITE',		_ROOCMS.'/site.php');
 
 

@@ -12,7 +12,7 @@
 
 /**
 *   RooCMS - Russian free content managment system
-*   Copyright (C) 2010-2014 alex Roosso aka alexandr Belov info@roocms.com
+*   Copyright (C) 2010-2016 alex Roosso aka alexandr Belov info@roocms.com
 *
 *   This program is free software: you can redistribute it and/or modify
 *   it under the terms of the GNU General Public License as published by
@@ -29,7 +29,7 @@
 *
 *
 *   RooCMS - Русская бесплатная система управления сайтом
-*   Copyright (C) 2010-2014 alex Roosso (александр Белов) info@roocms.com
+*   Copyright (C) 2010-2016 alex Roosso (александр Белов) info@roocms.com
 *
 *   Это программа является свободным программным обеспечением. Вы можете
 *   распространять и/или модифицировать её согласно условиям Стандартной
@@ -119,7 +119,7 @@ class Security {
 	 */
 	protected function check_userdata() {
 
-		global $roocms;
+		global $roocms, $parse;
 
 		$destroy = false;
 
@@ -144,7 +144,8 @@ class Security {
 			session_destroy();
 
 			# notice and stop
-			die("ВНИМАНИЕ! Зарегестрированна попытка подмены данных!");
+			$parse->msg("Ваши данные изменились! Требуется пройти тоавризацию.", false);
+			go("/");
 		}
 	}
 }

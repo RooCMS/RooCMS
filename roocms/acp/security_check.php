@@ -5,14 +5,14 @@
  * @author       alex Roosso
  * @copyright    2010-2015 (c) RooCMS
  * @link         http://www.roocms.com
- * @version      2.2.1
+ * @version      2.2.2
  * @since        $date$
  * @license      http://www.gnu.org/licenses/gpl-3.0.html
  */
 
 /**
  *   RooCMS - Russian free content managment system
- *   Copyright (C) 2010-2014 alex Roosso aka alexandr Belov info@roocms.com
+ *   Copyright (C) 2010-2016 alex Roosso aka alexandr Belov info@roocms.com
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -29,7 +29,7 @@
  *
  *
  *   RooCMS - Русская бесплатная система управления сайтом
- *   Copyright (C) 2010-2014 alex Roosso (александр Белов) info@roocms.com
+ *   Copyright (C) 2010-2016 alex Roosso (александр Белов) info@roocms.com
  *
  *   Это программа является свободным программным обеспечением. Вы можете
  *   распространять и/или модифицировать её согласно условиям Стандартной
@@ -48,7 +48,7 @@
 //#########################################################
 // Anti Hack
 //---------------------------------------------------------
-if(!defined('RooCMS') || (!defined('ACP') && !defined('INSTALL') && !defined('MULTIUPLOAD'))) die('Access Denied');
+if(!defined('RooCMS') || (!defined('ACP') && !defined('INSTALL'))) die('Access Denied');
 //#########################################################
 
 

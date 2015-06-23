@@ -5,14 +5,14 @@
 * @author       alex Roosso
 * @copyright    2010-2015 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.0.1
+* @version      1.1
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
 
 /**
 *   RooCMS - Russian free content managment system
-*   Copyright (C) 2010-2014 alex Roosso aka alexandr Belov info@roocms.com
+*   Copyright (C) 2010-2016 alex Roosso aka alexandr Belov info@roocms.com
 *
 *   This program is free software: you can redistribute it and/or modify
 *   it under the terms of the GNU General Public License as published by
@@ -29,7 +29,7 @@
 *
 *
 *   RooCMS - Русская бесплатная система управления сайтом
-*   Copyright (C) 2010-2014 alex Roosso (александр Белов) info@roocms.com
+*   Copyright (C) 2010-2016 alex Roosso (александр Белов) info@roocms.com
 *
 *   Это программа является свободным программным обеспечением. Вы можете
 *   распространять и/или модифицировать её согласно условиям Стандартной
@@ -61,8 +61,12 @@ class Users extends Security {
 	public	$uid		= 0;		# [int]		user id
 	public	$login		= "";		# [string]	user login
 	public	$nickname	= "";		# [string]	user nickname
+	public	$email		= "";		# [string]	user nickname
 	public	$title		= "u";		# [enum]	user title
+	public	$gid		= 0;		# [int]		user group id
 	public	$token		= "";		# [string]	user security token
+
+	public	$userdata	= array('uid'=>0);
 
 	# user global data
 	private	$usersession	= "";		# [string]	user ssession
@@ -111,11 +115,14 @@ class Users extends Security {
 		if(isset($roocms->sess['login']) && trim($roocms->sess['login']) != "" && $db->check_id($roocms->sess['login'], USERS_TABLE, "login", "status='1'") && isset($roocms->sess['token']) && strlen($roocms->sess['token']) == 32) {
 
 			# get data
-			$q    = $db->query("SELECT uid, login, nickname, title, password, salt FROM ".USERS_TABLE." WHERE login='".$roocms->sess['login']."' AND status='1'");
+			$q    = $db->query("SELECT uid, gid, login, nickname, email, title, password, salt FROM ".USERS_TABLE." WHERE login='".$roocms->sess['login']."' AND status='1'");
 			$data = $db->fetch_assoc($q);
 
 			# uid
 			$this->uid	= $data['uid'];
+
+			# gid
+			$this->gid	= $data['gid'];
 
 			# login
 			$this->login	= $data['login'];
@@ -125,6 +132,21 @@ class Users extends Security {
 
 			# nickname
 			$this->nickname	= $data['nickname'];
+
+			# email
+			$this->email	= $data['email'];
+
+
+			# array userdata
+			$this->userdata = array(
+				'uid'		=> $data['uid'],
+				'gid'		=> $data['gid'],
+				'login'		=> $data['login'],
+				'nickname'	=> $data['nickname'],
+				'email'		=> $data['email'],
+				'title'		=> $data['title']
+			);
+
 
 			# security token
 			$this->token	= $this->hashing_token($roocms->sess['login'], $data['password'], $data['salt']);
@@ -154,6 +176,59 @@ class Users extends Security {
 	public function get_user_data($uid) {
 
 		global $db;
+	}
+
+
+	/**
+	 * Проверяем поля на уникальность
+	 *
+	 * ВНИМАНИЕ! Не расчитывайте на эту функцию, она временная.
+	 *
+	 * @param string $field   - поле
+	 * @param string $name    - значение поля
+	 * @param string $without - Выражение исключения для mysql запроса
+	 * @param string $table	  - Таблица для проверки
+	 *
+	 * @return bool $res - true - если значение не уникально, false - если значение уникально
+	 */
+	public function check_field($field, $name, $without="", $table=USERS_TABLE) {
+
+		global $db;
+
+		$res = false;
+
+		if(trim($without) != trim($name)) {
+
+			$w = (trim($without) != "") ? $field."!='".$without."'" : "" ;
+
+			if(!$db->check_id($name, $table, $field, $w))
+				$res = true;
+		}
+		else $res = true;
+
+		return $res;
+	}
+
+
+	/**
+	 * Функция проверяет Никнейм на уникальность.
+	 * В случае повторения добавляет к никнейму несколько цифр.
+	 *
+	 * ВНИМАНИЕ! Не расчитывайте на эту функцию. Она временная.
+	 *
+	 * @param string $nickname - Никнейм
+	 *
+	 * @return string
+	 */
+	public function check_new_nickname($nickname) {
+
+		global $db;
+
+		if($db->check_id($nickname, USERS_TABLE, "nickname")) {
+			$nickname = $this->check_new_nickname($nickname.randcode(2,"0123456789"));
+		}
+
+		return $nickname;
 	}
 }
 ?>

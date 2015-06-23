@@ -5,14 +5,14 @@
 * @author       alex Roosso
 * @copyright    2010-2015 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.4.1
+* @version      1.4.3
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
 
 /**
 *   RooCMS - Russian free content managment system
-*   Copyright (C) 2010-2014 alex Roosso aka alexandr Belov info@roocms.com
+*   Copyright (C) 2010-2016 alex Roosso aka alexandr Belov info@roocms.com
 *
 *   This program is free software: you can redistribute it and/or modify
 *   it under the terms of the GNU General Public License as published by
@@ -29,7 +29,7 @@
 *
 *
 *   RooCMS - Русская бесплатная система управления сайтом
-*   Copyright (C) 2010-2014 alex Roosso (александр Белов) info@roocms.com
+*   Copyright (C) 2010-2016 alex Roosso (александр Белов) info@roocms.com
 *
 *   Это программа является свободным программным обеспечением. Вы можете
 *   распространять и/или модифицировать её согласно условиям Стандартной
@@ -66,6 +66,8 @@ class Structure {
 
 	public $sitetree		= array();
 
+	public $access			= true;
+
 	# page vars
 	public $page_id			= 1;				# [int]		page sid
 	public $page_pid		= 1;				# [int]		id content
@@ -76,6 +78,7 @@ class Structure {
 	public $page_meta_keys		= "";				# [string]	Meta keywords
 	public $page_noindex		= 0;				# [bool]	Meta noindex
 	public $page_type		= "html";			# [string]	page type
+	public $page_group_access	= array(0);			# [array]	allowed acces to user group (sep. comma)
 	public $page_rss		= 0;				# [bool]	on/off RSS feed
 	public $page_show_child_feeds	= 'none';			# [string]	feed option for show childs feed
 	public $page_items_per_page	= 10;				# [int]		show items on per page
@@ -115,18 +118,18 @@ class Structure {
 				$where = (is_numeric($GET->_page)) ? "id='".$GET->_page."'" : "alias='".$GET->_page."'" ;
 
 				# запрос
-				$q = $db->query("SELECT id, page_id, parent_id, alias, title, meta_description, meta_keywords, noindex, page_type, rss, show_child_feeds, items_per_page, items_sorting, items, thumb_img_width, thumb_img_height FROM ".STRUCTURE_TABLE." WHERE ".$where);
+				$q = $db->query("SELECT id, page_id, parent_id, group_access, alias, title, meta_description, meta_keywords, noindex, page_type, rss, show_child_feeds, items_per_page, items_sorting, items, thumb_img_width, thumb_img_height FROM ".STRUCTURE_TABLE." WHERE ".$where);
 				$row = $db->fetch_assoc($q);
 				if(!empty($row)) $this->set_page_vars($row);
 				else {	# load index page
-					$q = $db->query("SELECT id, page_id, parent_id, alias, title, meta_description, meta_keywords, noindex, page_type, rss, show_child_feeds, items_per_page, items, items_sorting, thumb_img_width, thumb_img_height FROM ".STRUCTURE_TABLE." WHERE id='".PAGEID."'");
+					$q = $db->query("SELECT id, page_id, parent_id, group_access, alias, title, meta_description, meta_keywords, noindex, page_type, rss, show_child_feeds, items_per_page, items, items_sorting, thumb_img_width, thumb_img_height FROM ".STRUCTURE_TABLE." WHERE id='".PAGEID."'");
 					$row = $db->fetch_assoc($q);
 					$this->set_page_vars($row);
 				}
 			}
 			# deafult load index
 			else {
-				$q = $db->query("SELECT id, page_id, parent_id, alias, title, meta_description, meta_keywords, noindex, page_type, rss, show_child_feeds, items_per_page, items, items_sorting, thumb_img_width, thumb_img_height FROM ".STRUCTURE_TABLE." WHERE id='".PAGEID."'");
+				$q = $db->query("SELECT id, page_id, parent_id, group_access, alias, title, meta_description, meta_keywords, noindex, page_type, rss, show_child_feeds, items_per_page, items, items_sorting, thumb_img_width, thumb_img_height FROM ".STRUCTURE_TABLE." WHERE id='".PAGEID."'");
 				$row = $db->fetch_assoc($q);
 				$this->set_page_vars($row);
 			}
@@ -156,7 +159,7 @@ class Structure {
 
 		# Делаем единичный запрос в БД собирая данные по структуре сайта.
 		if(!$use) {
-			$q = $db->query("SELECT id, alias, parent_id, sort, title, noindex, page_type, childs, page_id, rss, show_child_feeds, items_per_page, items, items_sorting, thumb_img_width, thumb_img_height FROM ".STRUCTURE_TABLE." ORDER BY sort ASC");
+			$q = $db->query("SELECT id, alias, parent_id, sort, group_access, title, noindex, page_type, childs, page_id, rss, show_child_feeds, items_per_page, items, items_sorting, thumb_img_width, thumb_img_height FROM ".STRUCTURE_TABLE." ORDER BY sort ASC");
 			while($row = $db->fetch_assoc($q)) {
 				$row['level']	= 0;
 				$row['parent']	= 0;
@@ -241,6 +244,7 @@ class Structure {
 			$this->page_meta_keys 	= (trim($data['meta_keywords']) != "") ? $data['meta_keywords'] : $config->meta_keywords;
         	$this->page_noindex		= $data['noindex'];
 		$this->page_type 		= $data['page_type'];
+		$this->page_group_access 	= array_flip(explode(",", $data['group_access']));
 		$this->page_rss 		= $data['rss'];
 		$this->page_show_child_feeds  	= $data['show_child_feeds'];
 		$this->page_items_per_page 	= $data['items_per_page'];

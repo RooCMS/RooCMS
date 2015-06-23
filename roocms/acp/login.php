@@ -12,7 +12,7 @@
 
 /**
 *   RooCMS - Russian free content managment system
-*   Copyright (C) 2010-2014 alex Roosso aka alexandr Belov info@roocms.com
+*   Copyright (C) 2010-2016 alex Roosso aka alexandr Belov info@roocms.com
 *
 *   This program is free software: you can redistribute it and/or modify
 *   it under the terms of the GNU General Public License as published by
@@ -29,7 +29,7 @@
 *
 *
 *   RooCMS - Русская бесплатная система управления сайтом
-*   Copyright (C) 2010-2014 alex Roosso (александр Белов) info@roocms.com
+*   Copyright (C) 2010-2016 alex Roosso (александр Белов) info@roocms.com
 *
 *   Это программа является свободным программным обеспечением. Вы можете
 *   распространять и/или модифицировать её согласно условиям Стандартной
@@ -70,7 +70,7 @@ class ACP_LOGIN {
 		 */
 		if(isset($POST->go)) {
 
-			if(isset($POST->login) && $db->check_id($POST->login, USERS_TABLE, "login", "status='1'") && isset($POST->password)) {
+			if(isset($POST->login) && $db->check_id($POST->login, USERS_TABLE, "login", "status='1' AND title='a'") && isset($POST->password)) {
 
 				$q = $db->query("SELECT uid, login, nickname, title, password, salt FROM ".USERS_TABLE." WHERE login='".$POST->login."' AND status='1' AND title='a'");
 				$data = $db->fetch_assoc($q);
