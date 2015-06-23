@@ -5,7 +5,7 @@
  * @author       alex Roosso
  * @copyright    2010-2015 (c) RooCMS
  * @link         http://www.roocms.com
- * @version      2.2.1
+ * @version      2.2.2
  * @since        $date$
  * @license      http://www.gnu.org/licenses/gpl-3.0.html
  */
@@ -48,7 +48,7 @@
 //#########################################################
 // Anti Hack
 //---------------------------------------------------------
-if(!defined('RooCMS') || (!defined('ACP') && !defined('INSTALL') && !defined('MULTIUPLOAD'))) die('Access Denied');
+if(!defined('RooCMS') || (!defined('ACP') && !defined('INSTALL'))) die('Access Denied');
 //#########################################################
 
 
