@@ -70,7 +70,7 @@ class ACP_LOGIN {
 		 */
 		if(isset($POST->go)) {
 
-			if(isset($POST->login) && $db->check_id($POST->login, USERS_TABLE, "login", "status='1'") && isset($POST->password)) {
+			if(isset($POST->login) && $db->check_id($POST->login, USERS_TABLE, "login", "status='1' AND title='a'") && isset($POST->password)) {
 
 				$q = $db->query("SELECT uid, login, nickname, title, password, salt FROM ".USERS_TABLE." WHERE login='".$POST->login."' AND status='1' AND title='a'");
 				$data = $db->fetch_assoc($q);
