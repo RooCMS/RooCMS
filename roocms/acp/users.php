@@ -207,6 +207,9 @@ class ACP_USERS {
 			# title
 			$POST->title = (isset($POST->title) && $POST->title == "a") ? "a" : "u" ;
 
+			# group
+			$POST->gid = (isset($POST->gid) && $db->check_id($POST->gid, USERS_GROUP_TABLE, "gid")) ? $POST->gid : 0 ;
+
 			if(!isset($_SESSION['error'])) {
 
 				#password
@@ -214,9 +217,15 @@ class ACP_USERS {
 				$salt = $security->create_new_salt();
 				$password = $security->hashing_password($POST->password, $salt);
 
-				$db->query("INSERT INTO ".USERS_TABLE." (login, nickname, email, title, password, salt, date_create, date_update, last_visit, status)
-								 VALUES ('".$POST->login."', '".$POST->nickname."', '".$POST->email."', '".$POST->title."', '".$password."', '".$salt."', '".time()."', '".time()."', '".time()."', '1')");
+				$db->query("INSERT INTO ".USERS_TABLE." (login, nickname, email, title, password, salt, date_create, date_update, last_visit, status, gid)
+								 VALUES ('".$POST->login."', '".$POST->nickname."', '".$POST->email."', '".$POST->title."', '".$password."', '".$salt."', '".time()."', '".time()."', '".time()."', '1', '".$POST->gid."')");
 				$uid = $db->insert_id();
+
+				# Если мы переназначаем группу пользователя
+				if(isset($POST->gid) && $POST->gid != 0) {
+					# пересчитываем пользователей
+					$this->count_users($POST->gid);
+				}
 
 				# Уведомление пользователю на электропочту
 				$smarty->assign("login", $POST->login);
@@ -239,8 +248,15 @@ class ACP_USERS {
 			else goback();
 		}
 
+		# groups
+		$groups = array();
+		$q = $db->query("SELECT gid, title, users FROM ".USERS_GROUP_TABLE." ORDER BY gid ASC");
+		while($row = $db->fetch_assoc($q)) {
+			$groups[] = $row;
+		}
 
 		# отрисовываем шаблон
+		$smarty->assign("groups", $groups);
 		$content = $tpl->load_template("users_create_new_user", true);
 		$smarty->assign("content", $content);
 	}
@@ -408,7 +424,7 @@ class ACP_USERS {
 				$db->query("UPDATE ".USERS_TABLE." SET ".$query." date_update='".time()."' WHERE uid='".$uid."'");
 
 				# Если мы переназначаем группу пользователя
-				if($POST->gid != $POST->now_gid) {
+				if(isset($POST->gid) && $POST->gid != $POST->now_gid) {
 					# пересчитываем пользователей
 					if($POST->gid != 0)	$this->count_users($POST->gid);
 					if($POST->now_gid != 0)	$this->count_users($POST->now_gid);
