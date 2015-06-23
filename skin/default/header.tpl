@@ -83,7 +83,22 @@
 
 <div class="container">
 	<div class="header">
-    	<h1><a href="/"><img src="{$SKIN}/img/logo.png" border="0" style="vertical-align: top;"></a> RooCMS <small><sup>demo</sup>&beta;</small></h1>
-		{$blocks->load("nav_pages")}
+		<div class="row">
+			<div class="col-sm-6">
+				<h1><a href="/"><img src="{$SKIN}/img/logo.png" border="0" style="vertical-align: top;"></a> RooCMS <small><sup>demo</sup>&beta;</small></h1>
+			</div>
+			<div class="col-sm-6">
+				{$module->load("auth")}
+			</div>
+		</div>
+    		<div class="row">
+			<div class="col-sm-12">
+				{$blocks->load("nav_pages")}
+			</div>
+		</div>
 	</div>
-	{$breadcumb}
+	<div class="row">
+		<div class="col-sm-12">
+			{$breadcumb}
+		</div>
+	</div>

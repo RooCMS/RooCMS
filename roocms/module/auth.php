@@ -1,7 +1,8 @@
 <?php
+
 /**
 * @package	RooCMS
-* @subpackage	Frontend
+* @subpackage	Module
 * @author	alex Roosso
 * @copyright	2010-2015 (c) RooCMS
 * @link		http://www.roocms.com
@@ -52,55 +53,66 @@ if(!defined('RooCMS')) die('Access Denied');
 //#########################################################
 
 
-
 /**
- * Class Modules
+ * Class Module_Auth
  */
-class Modules {
+class Module_Auth {
+
+	public $title = "Авторизация пользователя";
+
+	# vars
+	private $userdata = array();
+
+
+	# buffer out
+	private $out = "";
+
 
 	/**
-	 * Загружаем модуль
-	 *
-	 * @param string $modulename	- идентификатор модуля
-	 *
-	 * @return text $output		- возвращает код модуля
+	 * Start
 	 */
-	public function load($modulename) {
+	function Module_Auth() {
 
-		global $parse, $smarty, $tpl;
+		global $tpl, $smarty;
 
-                $output = "";
-
-		$modulename = preg_replace(array('(\s\s+)','(\-\-+)','(__+)','([^a-zA-Z0-9\-_])'), array('','','',''), $modulename);
-
-		if(file_exists(_MODULE."/".$modulename.".php")) {
-
-			ob_start();
-				require_once _MODULE."/".$modulename.".php";
-				$output = ob_get_contents();
-			ob_end_clean();
-
-		}
-		else {
-			if(DEBUGMODE) {
-				$output = "Модуль с названием - \"".$modulename."\" не найден";
-			}
-		}
+		$this->get_userdata();
 
 
-		return $output;
+		# draw
+		$smarty->assign("userdata", $this->userdata);
+		$this->out .= $tpl->load_template("module_auth", true);
+	}
+
+
+	/**
+	 * Функция получает данные о текущем пользователе и передает их в модуль
+	 */
+	private function get_userdata() {
+
+		global $users;
+
+		$this->userdata = array(
+			'uid'		=> $users->uid,
+			'gid'		=> $users->gid,
+			'login'		=> $users->login,
+			'nickname'	=> $users->nickname,
+			'title'		=> $users->title
+		);
+	}
+
+
+	/**
+	 * Finish
+	 */
+	function __destruct() {
+		echo $this->out;
 	}
 }
 
 
 /**
- * Init Class
+ * Init class
  */
-$module = new Modules;
-
-/**
- * assign in templates
- */
-$smarty->assign("module", $module);
+$module_auth = new Module_Auth;
 
 ?>

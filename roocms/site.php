@@ -76,7 +76,7 @@ else
 
 
 /**
- * Load Blocks & Modules
+ * Init Blocks & Modules
  */
 require_once "site_blocks.php";
 require_once "site_module.php";

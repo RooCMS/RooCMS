@@ -130,6 +130,7 @@ class Users extends Security {
 			# nickname
 			$this->nickname	= $data['nickname'];
 
+
 			# security token
 			$this->token	= $this->hashing_token($roocms->sess['login'], $data['password'], $data['salt']);
 		}

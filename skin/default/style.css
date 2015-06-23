@@ -28,6 +28,14 @@ p {text-align: justify;}
 	transition: all 0.20s ease-in-out;-webkit-transition: all 0.20s ease-in-out;-moz-transition: all 0.20s ease-in-out;outline:none;-ms-transition:  all 0.20s ease-in-out;-o-transition:  all 0.20s ease-in-out;}
 #colorbox, #cboxOverlay, #cboxWrapper, #cboxContent, #cboxLoadedContent {transition: none !important;-webkit-transition: none !important;-moz-transition: none !important;outline:none;}
 
+input:focus:invalid {
+	/* transition: all 0.15s ease-in-out;-webkit-transition: all 0.15s ease-in-out;-moz-transition: all 0.15s ease-in-out;outline:none; */
+	-moz-box-shadow: 0px 0px 6px #fe402b;
+	-webkit-box-shadow: 0px 0px 6px #fe402b;
+	box-shadow: 0px 0px 6px #fe402b;
+	border: 1px solid #fe402b;
+}
+
 /* Fonts */
 @font-face { font-family: 'Ubuntu'; font-style: normal; font-weight: 400; src: local('Ubuntu'), url('Ubuntu.woff') format('woff'); }
 @font-face { font-family: 'PT Sans'; font-style: normal; font-weight: 400; src: local('PT Sans'), local('PTSans-Regular'), url('PT_Sans.woff') format('woff'); }

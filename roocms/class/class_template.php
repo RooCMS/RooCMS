@@ -5,7 +5,7 @@
 * @author	alex Roosso
 * @copyright	2010-2015 (c) RooCMS
 * @link		http://www.roocms.com
-* @version	4.4.3
+* @version	4.5
 * @since	$date$
 * @license	http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -206,17 +206,36 @@ class template {
 	* Parse OUTPUT for eval blocks
 	*
 	*/
-	function init_blocks() {
+	private function init_blocks() {
 
 		global $blocks;
 
 		preg_match_all('(\{\$blocks-\>load\(([a-zA-Z0-9_"\';&-]*?)\)\})', $this->out, $block);
 
-		$u = array_unique($block[1]);
-		foreach($u as $k=>$v) {
+		$b = array_unique($block[1]);
+		foreach($b as $k=>$v) {
 			$v = str_ireplace('"', '', $v);
 			$buf = $blocks->load($v);
 			$this->out = str_ireplace("{\$blocks->load({$v})}", $buf, $this->out);
+		}
+	}
+
+
+	/**
+	 * Parse OUTPUT for eval module
+	 *
+	 */
+	private function init_modules() {
+
+		global $module;
+
+		preg_match_all('(\{\$module-\>load\(([a-zA-Z0-9_"\';&-]*?)\)\})', $this->out, $mod);
+
+		$m = array_unique($mod[1]);
+		foreach($m as $k=>$v) {
+			$v = str_ireplace('"', '', $v);
+			$buf = $module->load($v);
+			$this->out = str_ireplace("{\$module->load({$v})}", $buf, $this->out);
 		}
 	}
 
@@ -298,8 +317,9 @@ class template {
 			# output buffer
 			$this->out = $head.$this->out.$foot;
 
-			# blocks
+			# blocks & module
 			if(!defined('ACP')) $this->init_blocks();
+			if(!defined('ACP')) $this->init_modules();
 		}
 
 

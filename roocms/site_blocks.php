@@ -75,8 +75,8 @@ class Blocks {
                 if(!array_key_exists($id, $use_blocks)) {
 
 			$id = strtr($id, array('\''		=> '',
-						  '"'		=> '',
-						  '&quot;'	=> ''));
+					       '"'		=> '',
+					       '&quot;'		=> ''));
 
 			$q = $db->query("SELECT id, alias, content, block_type FROM ".BLOCKS_TABLE." WHERE id='".$id."' OR alias='".$id."'");
 			$data = $db->fetch_assoc($q);
