@@ -78,7 +78,7 @@ else
 /**
  * Load Blocks
  */
-require_once "functions_blocks.php";
+require_once "site_blocks.php";
 
 
 if($structure->access) {
@@ -88,7 +88,7 @@ if($structure->access) {
 	*/
 	switch($structure->page_type) {
 		case 'html':
-			require_once "functions_page_html.php";
+			require_once "site_page_html.php";
 			/**
 			 * init Class
 			 */
@@ -96,7 +96,7 @@ if($structure->access) {
 			break;
 
 		case 'php':
-			require_once "functions_page_php.php";
+			require_once "site_page_php.php";
 			/**
 			 * Init Class
 			 */
@@ -104,7 +104,7 @@ if($structure->access) {
 			break;
 
 		case 'feed':
-			require_once "functions_page_feed.php";
+			require_once "site_page_feed.php";
 			/**
 			 * init Class
 			 */
