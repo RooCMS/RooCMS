@@ -76,7 +76,7 @@ class Structure {
 	public $page_meta_keys		= "";				# [string]	Meta keywords
 	public $page_noindex		= 0;				# [bool]	Meta noindex
 	public $page_type		= "html";			# [string]	page type
-	public $page_group_access	= 0;				# [string]	allowed acces to user group (sep. comma)
+	public $page_group_access	= array(0);			# [array]	allowed acces to user group (sep. comma)
 	public $page_rss		= 0;				# [bool]	on/off RSS feed
 	public $page_show_child_feeds	= 'none';			# [string]	feed option for show childs feed
 	public $page_items_per_page	= 10;				# [int]		show items on per page
@@ -242,7 +242,7 @@ class Structure {
 			$this->page_meta_keys 	= (trim($data['meta_keywords']) != "") ? $data['meta_keywords'] : $config->meta_keywords;
         	$this->page_noindex		= $data['noindex'];
 		$this->page_type 		= $data['page_type'];
-		$this->page_group_access 	= $data['group_access'];
+		$this->page_group_access 	= explode(",", $data['group_access']);
 		$this->page_rss 		= $data['rss'];
 		$this->page_show_child_feeds  	= $data['show_child_feeds'];
 		$this->page_items_per_page 	= $data['items_per_page'];

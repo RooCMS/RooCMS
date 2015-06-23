@@ -5,7 +5,7 @@
 * @author       alex Roosso
 * @copyright    2010-2014 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.3.5
+* @version      1.3.6
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -111,19 +111,24 @@ class ACP_STRUCTURE {
 			# create
 			case 'create':
 				if(isset($POST->create_unit) || isset($POST->create_unit_ae)) $this->create_unit();
-				else $content = $tpl->load_template("structure_create", true);
+				else {
+					# groups
+					$groups = array();
+					$q = $db->query("SELECT gid, title, users FROM ".USERS_GROUP_TABLE." ORDER BY gid ASC");
+					while($row = $db->fetch_assoc($q)) {
+						$groups[] = $row;
+					}
+
+					# шаблонизируем... (слово то какое...)
+					$smarty->assign("groups", $groups);
+					$content = $tpl->load_template("structure_create", true);
+				}
 				break;
 
 			# edit and update
 			case 'edit':
 				if(isset($POST->update_unit) || isset($POST->update_unit_ae)) $this->update_unit($this->sid);
-				elseif($this->sid != 0) {
-					$q = $db->query("SELECT id, parent_id, alias, title, meta_description, meta_keywords, noindex, sort, page_type, thumb_img_width, thumb_img_height FROM ".STRUCTURE_TABLE." WHERE id='".$this->sid."'");
-					$data = $db->fetch_assoc($q);
-
-					$smarty->assign("data", $data);
-					$content = $tpl->load_template("structure_edit", true);
-				}
+				elseif($this->sid != 0) $content = $this->edit_unit($this->sid);
 				else go(CP);
 				break;
 
@@ -169,6 +174,11 @@ class ACP_STRUCTURE {
 		}
 
 		if(!$this->check_alias($POST->alias)) $parse->msg("Алиас страницы не уникален.", false);
+
+		# group access
+		if(isset($POST->gids) && is_array($POST->gids)) $POST->gids = implode(",", $POST->gids);
+		else $POST->gids = 0;
+
 		# thumbnail check
 		$img->check_post_thumb_parametrs();
 
@@ -188,8 +198,8 @@ class ACP_STRUCTURE {
 			}
 
 			# добавляем структурную еденицу
-			$db->query("INSERT INTO ".STRUCTURE_TABLE."    (alias, title, parent_id, page_type, meta_description, meta_keywords, noindex, sort, date_create, date_modified, thumb_img_width, thumb_img_height)
-								VALUES ('".$POST->alias."', '".$POST->title."', '".$POST->parent_id."', '".$POST->page_type."', '".$POST->meta_description."', '".$POST->meta_keywords."', '".$POST->noindex."', '".$POST->sort."', '".time()."', '".time()."', '".$POST->thumb_img_width."', '".$POST->thumb_img_height."')");
+			$db->query("INSERT INTO ".STRUCTURE_TABLE."    (alias, title, parent_id, group_access, page_type, meta_description, meta_keywords, noindex, sort, date_create, date_modified, thumb_img_width, thumb_img_height)
+								VALUES ('".$POST->alias."', '".$POST->title."', '".$POST->parent_id."', '".$POST->gids."', ''".$POST->page_type."', '".$POST->meta_description."', '".$POST->meta_keywords."', '".$POST->noindex."', '".$POST->sort."', '".time()."', '".time()."', '".$POST->thumb_img_width."', '".$POST->thumb_img_height."')");
 			$sid = $db->insert_id();
 
 			# create body unit for html & php pages
@@ -227,6 +237,43 @@ class ACP_STRUCTURE {
 
 
 	/**
+	 * Функция редактирования элемента структуры
+	 *
+	 * @param int $sid - уникальный идентификатор структурной едеицы
+	 *
+	 * @return data
+	 */
+	private function edit_unit($sid) {
+
+		global $db, $smarty, $tpl;
+
+		$q = $db->query("SELECT id, parent_id, group_access, alias, title, meta_description, meta_keywords, noindex, sort, page_type, thumb_img_width, thumb_img_height FROM ".STRUCTURE_TABLE." WHERE id='".$this->sid."'");
+		$data = $db->fetch_assoc($q);
+
+		# check group access
+		if(trim($data['group_access']) != "0") {
+			$gids = explode(",", $data['group_access']);
+			$gids = array_flip($gids);
+		}
+		else $gids[0] = 0;
+
+		# list groups
+		$groups = array();
+		$q = $db->query("SELECT gid, title, users FROM ".USERS_GROUP_TABLE." ORDER BY gid ASC");
+		while($row = $db->fetch_assoc($q)) {
+			$groups[] = $row;
+		}
+
+		# шаблонизируем... (слово то какое...)
+		$smarty->assign("gids", $gids);
+		$smarty->assign("groups", $groups);
+		$smarty->assign("data", $data);
+
+		return $tpl->load_template("structure_edit", true);
+	}
+
+
+	/**
 	 * Обновляем элемент структуры
 	 *
 	 * @param $sid
@@ -259,6 +306,11 @@ class ACP_STRUCTURE {
 			$POST->alias = preg_replace(array('(\s\s+)','(\-\-+)','(__+)','([^a-zA-Z0-9\-_])'), array('','','',''), $POST->alias);
 		}
 		elseif(!$this->check_alias($POST->alias, $POST->old_alias)) $parse->msg("Алиас страницы не уникален.", false);
+
+		# group access
+		if(isset($POST->gids) && is_array($POST->gids)) $POST->gids = implode(",", $POST->gids);
+		else $POST->gids = 0;
+
 		# thumbnail check
 		$img->check_post_thumb_parametrs();
 
@@ -317,6 +369,7 @@ class ACP_STRUCTURE {
 						alias='".$POST->alias."',
 						title='".$POST->title."',
 						parent_id='".$POST->parent_id."',
+						group_access='".$POST->gids."',
 						meta_description='".$POST->meta_description."',
 						meta_keywords='".$POST->meta_keywords."',
 						noindex='".$POST->noindex."',

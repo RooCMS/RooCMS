@@ -96,14 +96,14 @@
 			</div>
 		</div>
 
-		<div class="form-group">
+		{*<div class="form-group">
 			<label for="inputType" class="col-lg-3 control-label">
 				Тип страницы:
 			</label>
 			<div class="col-lg-9">
 				<p class="form-control-static text-muted"><span class="label label-default">{$page_types[$data['page_type']]}</span> Невозможно изменить после создания.</p>
 			</div>
-		</div>
+		</div>*}
 
 		<div class="form-group">
 			<label for="inputStructure" class="col-lg-3 control-label">
@@ -123,6 +123,27 @@
 				<input type="hidden" name="now_parent_id" value="{$data['parent_id']}" readonly>
 			</div>
 		</div>
+
+		{if !empty($groups)}
+		<div class="form-group">
+			<label for="inputGroupAccess" class="col-lg-3 control-label">
+				Доступ для групп:
+				<small><span class="fa fa-info fa-fw" rel="tooltip" title="Укажите какие группы пользователей смогут просматривать эту страницу" data-placement="left"></span></small>
+			</label>
+			<div class="col-lg-9">
+				<div class="btn-group" data-toggle="buttons" id="inputGroupAccess">
+					{*<label class="btn btn-default {if isset($gids[0])}active{/if}">
+						<input type="checkbox" name="gids[]" value="0" autocomplete="off"{if isset($gids[0])} checked{/if}><i class="fa fa-fw fa-users"></i> Все группы
+					</label>*}
+					{foreach from=$groups item=group}
+						<label class="btn btn-default {if isset($gids[$group['gid']])}active{/if}">
+							<input type="checkbox" name="gids[]" value="{$group['gid']}" autocomplete="off"{if isset($gids[$group['gid']])} checked{/if}><i class="fa fa-fw fa-user"></i> {$group['title']}
+						</label>
+					{/foreach}
+				</div>
+			</div>
+		</div>
+		{/if}
 
 		<div class="row">
 			<div class="col-lg-9 col-md-offset-3">
