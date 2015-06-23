@@ -69,7 +69,7 @@ if(!empty($site)) {
 /**
  * Проверяем имеется ли у пользователя доступ к странице.
  */
-if($users->title = "a"|| array_key_exists(0, $structure->page_group_access) || array_key_exists($users->gid, $structure->page_group_access))
+if($users->title = "a" || array_key_exists(0, $structure->page_group_access) || array_key_exists($users->gid, $structure->page_group_access))
 	$structure->access = true;
 else
 	$structure->access = false;

@@ -405,7 +405,7 @@ class ACP_USERS {
 			$query .= ((isset($POST->status) && $POST->status == 1) || $uid == 1) ? "status='1', " : "status='0', " ;
 
 			# title
-			$query .= (isset($POST->title) && $POST->title == "a") ? "title='a', " : "title='u', " ;
+			$query .= ((isset($POST->title) && $POST->title == "a") || $uid == 1) ? "title='a', " : "title='u', " ;
 
 			# group
 			$query .= (isset($POST->gid) && $db->check_id($POST->gid, USERS_GROUP_TABLE, "gid")) ? "gid='".$POST->gid."', " : "gid='0', " ;
