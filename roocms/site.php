@@ -3,9 +3,9 @@
 * @package      RooCMS
 * @subpackage	Frontend
 * @author       alex Roosso
-* @copyright    2010-2014 (c) RooCMS
+* @copyright    2010-2015 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.0.5
+* @version      1.1
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -67,38 +67,53 @@ if(!empty($site)) {
 
 
 /**
-* Load Blocks
-*/
-require_once "functions_blocks.php";
+ * Проверяем имеется ли у пользователя доступ к странице.
+ */
+if($users->title = "a"|| array_key_exists(0, $structure->page_group_access) || array_key_exists($users->gid, $structure->page_group_access))
+	$structure->access = true;
+else
+	$structure->access = false;
 
 
 /**
-* Load structure unit
-*/
-switch($structure->page_type) {
-	case 'html':
-		require_once "functions_page_html.php";
-		/**
-		 * init Class
-		 */
-		$page_html = new PageHTML;
-		break;
+ * Load Blocks
+ */
+require_once "functions_blocks.php";
 
-	case 'php':
-		require_once "functions_page_php.php";
-		/**
-		 * Init Class
-		 */
-		$page_php = new PagePHP;
-		break;
 
-	case 'feed':
-		require_once "functions_page_feed.php";
-		/**
-		 * init Class
-		 */
-		$page_feed = new PageFeed;
-		break;
+if($structure->access) {
+
+	/**
+	* Load structure unit
+	*/
+	switch($structure->page_type) {
+		case 'html':
+			require_once "functions_page_html.php";
+			/**
+			 * init Class
+			 */
+			$page_html = new PageHTML;
+			break;
+
+		case 'php':
+			require_once "functions_page_php.php";
+			/**
+			 * Init Class
+			 */
+			$page_php = new PagePHP;
+			break;
+
+		case 'feed':
+			require_once "functions_page_feed.php";
+			/**
+			 * init Class
+			 */
+			$page_feed = new PageFeed;
+			break;
+	}
+}
+else {
+	$tpl->load_template("access_denied");
 }
 
 ?>

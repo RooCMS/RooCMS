@@ -5,7 +5,7 @@
 * @author       alex Roosso
 * @copyright    2010-2015 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.4.2
+* @version      1.4.3
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -65,6 +65,8 @@ class Structure {
 	public $mites			= array();
 
 	public $sitetree		= array();
+
+	public $access			= true;
 
 	# page vars
 	public $page_id			= 1;				# [int]		page sid
@@ -242,7 +244,7 @@ class Structure {
 			$this->page_meta_keys 	= (trim($data['meta_keywords']) != "") ? $data['meta_keywords'] : $config->meta_keywords;
         	$this->page_noindex		= $data['noindex'];
 		$this->page_type 		= $data['page_type'];
-		$this->page_group_access 	= explode(",", $data['group_access']);
+		$this->page_group_access 	= array_flip(explode(",", $data['group_access']));
 		$this->page_rss 		= $data['rss'];
 		$this->page_show_child_feeds  	= $data['show_child_feeds'];
 		$this->page_items_per_page 	= $data['items_per_page'];

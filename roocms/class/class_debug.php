@@ -313,7 +313,9 @@ class Debug {
 
 			$this->debug_dump['backtrace'] = $backtrace;
     	        }
-    	        elseif($use == 1 && !$expand) register_shutdown_function(array($this,'shotdown'), "debug");
+    	        elseif($use == 1 && !$expand)
+			register_shutdown_function(array($this,'shotdown'), "debug");
+
     	        	# print var
 		        ob_start();
 			        if($expand) 	var_dump($var);
