@@ -16,6 +16,7 @@ small, button, .btn, .label, .badge {font-family: 'PT Sans' !important;}
 .ubuntu {font-family: 'Ubuntu';}
 
 p {text-align: justify;}
+p.lead {font-family: "PT Sans" !important;}
 
 
 /* WebKit Scrollbar */

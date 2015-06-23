@@ -60,10 +60,6 @@ class Module_Auth {
 
 	public $title = "Авторизация пользователя";
 
-	# vars
-	private $userdata = array();
-
-
 	# buffer out
 	private $out = "";
 
@@ -73,30 +69,11 @@ class Module_Auth {
 	 */
 	function Module_Auth() {
 
-		global $tpl, $smarty;
-
-		$this->get_userdata();
+		global $users, $tpl, $smarty;
 
 		# draw
-		$smarty->assign("userdata", $this->userdata);
+		$smarty->assign("userdata", $users->userdata);
 		$this->out .= $tpl->load_template("module_auth", true);
-	}
-
-
-	/**
-	 * Функция получает данные о текущем пользователе и передает их в модуль
-	 */
-	private function get_userdata() {
-
-		global $users;
-
-		$this->userdata = array(
-			'uid'		=> $users->uid,
-			'gid'		=> $users->gid,
-			'login'		=> $users->login,
-			'nickname'	=> $users->nickname,
-			'title'		=> $users->title
-		);
 	}
 
 

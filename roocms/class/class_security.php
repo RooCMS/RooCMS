@@ -119,7 +119,7 @@ class Security {
 	 */
 	protected function check_userdata() {
 
-		global $roocms;
+		global $roocms, $parse;
 
 		$destroy = false;
 
@@ -144,7 +144,8 @@ class Security {
 			session_destroy();
 
 			# notice and stop
-			die("ВНИМАНИЕ! Зарегестрированна попытка подмены данных!");
+			$parse->msg("Ваши данные изменились! Требуется пройти тоавризацию.", false);
+			go("/");
 		}
 	}
 }

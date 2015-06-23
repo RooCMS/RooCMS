@@ -28,8 +28,8 @@
 	<div class="row">
 		<div class="col-sm-12 text-right">
 			<h4>Здравствуйте, <a href="/?act=ucp"><i class="fa fa-fw fa-male"></i>{$userdata['nickname']}</a></h4>
-			<a href="/?act=pm" class="btn btn-default btn-xs"><i class="fa fa-fw fa-envelope"></i>У вас нет новых сообщений</a>
-			<a href="/?act=logout" class="btn btn-default btn-xs">Выйти<i class="fa fa-fw fa-sign-out"></i></a>
+			<a href="/?act=pm" class="btn btn-default btn-xs"><i class="fa fa-fw fa-envelope"></i> У вас нет новых сообщений</a>
+			<a href="/?act=logout" class="btn btn-default btn-xs">Выйти <i class="fa fa-fw fa-sign-out"></i></a>
 		</div>
 	</div>
 {/if}

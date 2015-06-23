@@ -84,33 +84,35 @@ require_once "site_module.php";
 
 if($structure->access) {
 
-	/**
-	* Load structure unit
-	*/
-	switch($structure->page_type) {
-		case 'html':
-			require_once "site_page_html.php";
-			/**
-			 * init Class
-			 */
-			$page_html = new PageHTML;
-			break;
+	if(trim($roocms->act) == "") {
+		/**
+		* Load structure unit
+		*/
+		switch($structure->page_type) {
+			case 'html':
+				require_once "site_page_html.php";
+				/**
+				 * init Class
+				 */
+				$page_html = new PageHTML;
+				break;
 
-		case 'php':
-			require_once "site_page_php.php";
-			/**
-			 * Init Class
-			 */
-			$page_php = new PagePHP;
-			break;
+			case 'php':
+				require_once "site_page_php.php";
+				/**
+				 * Init Class
+				 */
+				$page_php = new PagePHP;
+				break;
 
-		case 'feed':
-			require_once "site_page_feed.php";
-			/**
-			 * init Class
-			 */
-			$page_feed = new PageFeed;
-			break;
+			case 'feed':
+				require_once "site_page_feed.php";
+				/**
+				 * init Class
+				 */
+				$page_feed = new PageFeed;
+				break;
+		}
 	}
 }
 else {
