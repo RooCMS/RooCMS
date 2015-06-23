@@ -6,7 +6,7 @@
  * @author       alex Roosso
  * @copyright    2010-2015 (c) RooCMS
  * @link         http://www.roocms.com
- * @version      1.1.2
+ * @version      1.2
  * @since        $date$
  * @license      http://www.gnu.org/licenses/gpl-3.0.html
  */
@@ -60,6 +60,7 @@ class ACP_USERS {
 
 	# vars
 	private $uid = 0;
+	private $gid = 0;
 
 
 
@@ -73,28 +74,53 @@ class ACP_USERS {
 
 		# Проверяем идентификатор юзера
 		if(isset($GET->_uid) && $db->check_id($GET->_uid, USERS_TABLE, "uid")) $this->uid = $GET->_uid;
+		# Проверка идентификтора группы
+		if(isset($GET->_gid) && $db->check_id($GET->_gid, USERS_GROUP_TABLE, "gid")) $this->gid = $GET->_gid;
 
 
 		# action
 		switch($roocms->part) {
 
-			case 'create':
+			case 'create_user':
 				$this->create_new_user();
 				break;
 
-			case 'edit':
+			case 'edit_user':
 				if($this->uid != 0) $this->edit_user($this->uid);
 				else go(CP."?act=users");
 				break;
 
-			case 'update':
+			case 'update_user':
 				if($this->uid != 0) $this->update_user($this->uid);
 				else go(CP."?act=users");
 				break;
 
-			case 'delete':
+			case 'delete_user':
 				if($this->uid != 0) $this->delete_user($this->uid);
 				else go(CP."?act=users");
+				break;
+
+			case 'create_group':
+				$this->create_new_group();
+				break;
+
+			case 'edit_group':
+				if($this->gid != 0) $this->edit_group($this->gid);
+				else go(CP."?act=users&part=group_list");
+				break;
+
+			case 'update_group':
+				if($this->gid != 0) $this->update_group($this->gid);
+				else go(CP."?act=users&part=group_list");
+				break;
+
+			case 'delete_group':
+				if($this->gid != 0) $this->delete_group($this->gid);
+				else go(CP."?act=users&part=group_list");
+				break;
+
+			case 'group_list':
+				$this->view_all_groups();
 				break;
 
 			default:
@@ -114,6 +140,7 @@ class ACP_USERS {
 
 		global $db, $smarty, $tpl, $parse;
 
+		$data = array();
 		$q = $db->query("SELECT uid, status, login, nickname, email, title, date_create, date_update, last_visit FROM ".USERS_TABLE." ORDER BY uid ASC");
 		while($row = $db->fetch_assoc($q)) {
 
@@ -126,7 +153,30 @@ class ACP_USERS {
 		}
 
 		$smarty->assign("data", $data);
-		$content = $tpl->load_template("users_view_list", true);
+		$content = $tpl->load_template("users_view_users", true);
+		$smarty->assign("content", $content);
+	}
+
+
+	/**
+	 * Выводим список групп.
+	 */
+	private function view_all_groups() {
+
+		global $db, $smarty, $tpl, $parse;
+
+		$data = array();
+		$q = $db->query("SELECT gid, title, users, date_create, date_update FROM ".USERS_GROUP_TABLE." ORDER BY gid ASC");
+		while($row = $db->fetch_assoc($q)) {
+
+			$row['date_create'] = $parse->date->unix_to_rus($row['date_create'], false, true, false);
+			$row['date_update'] = $parse->date->unix_to_rus($row['date_update'], false, true, false);
+
+			$data[] = $row;
+		}
+
+		$smarty->assign("data", $data);
+		$content = $tpl->load_template("users_view_groups", true);
 		$smarty->assign("content", $content);
 	}
 
@@ -157,6 +207,9 @@ class ACP_USERS {
 			# title
 			$POST->title = (isset($POST->title) && $POST->title == "a") ? "a" : "u" ;
 
+			# group
+			$POST->gid = (isset($POST->gid) && $db->check_id($POST->gid, USERS_GROUP_TABLE, "gid")) ? $POST->gid : 0 ;
+
 			if(!isset($_SESSION['error'])) {
 
 				#password
@@ -164,9 +217,15 @@ class ACP_USERS {
 				$salt = $security->create_new_salt();
 				$password = $security->hashing_password($POST->password, $salt);
 
-				$db->query("INSERT INTO ".USERS_TABLE." (login, nickname, email, title, password, salt, date_create, date_update, last_visit, status)
-								 VALUES ('".$POST->login."', '".$POST->nickname."', '".$POST->email."', '".$POST->title."', '".$password."', '".$salt."', '".time()."', '".time()."', '".time()."', '1')");
+				$db->query("INSERT INTO ".USERS_TABLE." (login, nickname, email, title, password, salt, date_create, date_update, last_visit, status, gid)
+								 VALUES ('".$POST->login."', '".$POST->nickname."', '".$POST->email."', '".$POST->title."', '".$password."', '".$salt."', '".time()."', '".time()."', '".time()."', '1', '".$POST->gid."')");
 				$uid = $db->insert_id();
+
+				# Если мы переназначаем группу пользователя
+				if(isset($POST->gid) && $POST->gid != 0) {
+					# пересчитываем пользователей
+					$this->count_users($POST->gid);
+				}
 
 				# Уведомление пользователю на электропочту
 				$smarty->assign("login", $POST->login);
@@ -184,14 +243,57 @@ class ACP_USERS {
 
 				# переход
 				if(isset($POST->create_user_ae)) go(CP."?act=users");
-				else go(CP."?act=users&part=edit&uid=".$uid);
+				else go(CP."?act=users&part=edit_user&uid=".$uid);
+			}
+			else goback();
+		}
+
+		# groups
+		$groups = array();
+		$q = $db->query("SELECT gid, title, users FROM ".USERS_GROUP_TABLE." ORDER BY gid ASC");
+		while($row = $db->fetch_assoc($q)) {
+			$groups[] = $row;
+		}
+
+		# отрисовываем шаблон
+		$smarty->assign("groups", $groups);
+		$content = $tpl->load_template("users_create_new_user", true);
+		$smarty->assign("content", $content);
+	}
+
+
+	/**
+	 * Функция для создания новой группы
+	 */
+	private function create_new_group() {
+
+		global $db, $smarty, $tpl, $POST, $parse;
+
+		if(isset($POST->create_group) || isset($POST->create_group_ae)) {
+
+			# title
+			if(!isset($POST->title) || trim($POST->title) == "") $parse->msg("У группы должно быть название!", false);
+			if(isset($POST->title) && trim($POST->title) != "" && $db->check_id($POST->title, USERS_GROUP_TABLE, "title")) $parse->msg("Группа с таким название уже существует", false);
+
+			if(!isset($_SESSION['error'])) {
+
+				$db->query("INSERT INTO ".USERS_GROUP_TABLE." (title, date_create, date_update)
+									VALUES ('".$POST->title."', '".time()."', '".time()."')");
+				$gid = $db->insert_id();
+
+				# уведомление
+				$parse->msg("Группа была успешно создана.");
+
+				# переход
+				if(isset($POST->create_group_ae)) go(CP."?act=users&part=group_list");
+				else go(CP."?act=users&part=edit_group&gid=".$gid);
 			}
 			else goback();
 		}
 
 
 		# отрисовываем шаблон
-		$content = $tpl->load_template("users_create_new_user", true);
+		$content = $tpl->load_template("users_create_new_group", true);
 		$smarty->assign("content", $content);
 	}
 
@@ -211,19 +313,45 @@ class ACP_USERS {
 			goback();
 		}
 		else {
-			$q = $db->query("SELECT uid, status, login, nickname, email, title, date_create, last_visit FROM ".USERS_TABLE." WHERE uid='".$uid."'");
+			$q = $db->query("SELECT uid, gid, status, login, nickname, email, title, date_create, last_visit FROM ".USERS_TABLE." WHERE uid='".$uid."'");
 			$user = $db->fetch_assoc($q);
-
 
 			$i_am_groot = false;
 			if($users->uid == $uid) $i_am_groot = true;
 
+			# groups
+			$groups = array();
+			$q = $db->query("SELECT gid, title, users FROM ".USERS_GROUP_TABLE." ORDER BY gid ASC");
+			while($row = $db->fetch_assoc($q)) {
+				$groups[] = $row;
+			}
+
 			# отрисовываем шаблон
 			$smarty->assign("i_am_groot", $i_am_groot);
+			$smarty->assign("groups", $groups);
 			$smarty->assign("user", $user);
 			$content = $tpl->load_template("users_edit_user", true);
 			$smarty->assign("content", $content);
 		}
+	}
+
+
+	/**
+	 * Функция редактирования группы.
+	 *
+	 * @param int $gid - уникальный ид группы.
+	 */
+	private function edit_group($gid) {
+
+		global $db, $users, $parse, $smarty, $tpl;
+
+		$q = $db->query("SELECT gid, title FROM ".USERS_GROUP_TABLE." WHERE gid='".$gid."'");
+		$group = $db->fetch_assoc($q);
+
+		# отрисовываем шаблон
+		$smarty->assign("group", $group);
+		$content = $tpl->load_template("users_edit_group", true);
+		$smarty->assign("content", $content);
 	}
 
 
@@ -279,6 +407,8 @@ class ACP_USERS {
 			# title
 			$query .= (isset($POST->title) && $POST->title == "a") ? "title='a', " : "title='u', " ;
 
+			# group
+			$query .= (isset($POST->gid) && $db->check_id($POST->gid, USERS_GROUP_TABLE, "gid")) ? "gid='".$POST->gid."', " : "gid='0', " ;
 
 			# update
 			if(!isset($_SESSION['error'])) {
@@ -292,6 +422,14 @@ class ACP_USERS {
 				}
 
 				$db->query("UPDATE ".USERS_TABLE." SET ".$query." date_update='".time()."' WHERE uid='".$uid."'");
+
+				# Если мы переназначаем группу пользователя
+				if(isset($POST->gid) && $POST->gid != $POST->now_gid) {
+					# пересчитываем пользователей
+					if($POST->gid != 0)	$this->count_users($POST->gid);
+					if($POST->now_gid != 0)	$this->count_users($POST->now_gid);
+				}
+
 
 				# notice
 				$parse->msg("Данные пользователя #{$uid} успешно обновлены.");
@@ -309,7 +447,53 @@ class ACP_USERS {
 
 				# переход
 				if(isset($POST->update_user_ae)) go(CP."?act=users");
-				else go(CP."?act=users&part=edit&uid=".$uid);
+				else go(CP."?act=users&part=edit_user&uid=".$uid);
+			}
+			else goback();
+		}
+		else goback();
+	}
+
+
+	/**
+	 * Функция обновляет данные группы пользователей БД
+	 *
+	 * @param int $gid - уникальный идентификатор группы
+	 */
+	private function update_group($gid) {
+
+		global $db, $POST, $parse, $smarty, $tpl;
+
+		if(isset($POST->update_group) || isset($POST->update_group_ae)) {
+
+			$q = $db->query("SELECT title FROM ".USERS_GROUP_TABLE." WHERE gid='".$gid."'");
+			$gdata = $db->fetch_assoc($q);
+
+			$query = "";
+
+			# login
+			if(isset($POST->title) && trim($POST->title) != "")
+				if(!$this->check_field("title", $POST->title, $gdata['title'], USERS_GROUP_TABLE))
+					$parse->msg("Название группы не может совпадать с названием другой группы!", false);
+				else
+					$query .= "title='".$POST->title."', ";
+
+			else
+				$parse->msg("У группы должно быть название.", false);
+
+			# update
+			if(!isset($_SESSION['error'])) {
+
+				# update
+				$db->query("UPDATE ".USERS_GROUP_TABLE." SET ".$query." date_update='".time()."' WHERE gid='".$gid."'");
+				$this->count_users($gid);
+
+				# notice
+				$parse->msg("Данные группы #{$gid} успешно обновлены.");
+
+				# переход
+				if(isset($POST->update_group_ae)) go(CP."?act=users&part=group_list");
+				else go(CP."?act=users&part=edit_group&gid=".$gid);
 			}
 			else goback();
 		}
@@ -331,12 +515,57 @@ class ACP_USERS {
 			$parse->msg("Нельзя удалить учетную запись главного администратора!", false);
 		}
 		else {
+			$q = $db->query("SELECT gid FROM ".USERS_TABLE." WHERE uid='".$uid."'");
+			$data = $db->fetch_assoc($q);
+
+			$this->count_users($data['gid']);
+
 			$db->query("DELETE FROM ".USERS_TABLE." WHERE uid='".$uid."'");
 			$parse->msg("Пользователь #{$uid} был успешно удален из Базы Данных.");
 		}
 
 		# go
 		goback();
+	}
+
+
+	/**
+	 * Функция удаляет выбранную группу из БД
+	 *
+	 * @param int $gid - уникальный идентификатор группы
+	 */
+	private function delete_group($gid) {
+
+		global $db, $parse;
+
+		$db->query("UPDATE ".USERS_TABLE." SET gid='0' WHERE gid='".$gid."'");
+
+		$db->query("DELETE FROM ".USERS_GROUP_TABLE." WHERE gid='".$gid."'");
+		$parse->msg("Группа #{$gid} был успешна удалена из Базы Данных.");
+
+		# go
+		goback();
+	}
+
+
+	/**
+	 * Функция проверяет кол-во пользователей состоящих в группе.
+	 *
+	 * @param int $gid - уникальный идентификатор группы
+	 */
+	private function count_users($gid) {
+
+		global $db, $parse;
+
+		# count
+		$q = $db->query("SELECT count(*) FROM ".USERS_TABLE." WHERE gid='".$gid."'");
+		$c = $db->fetch_row($q);
+
+		# update
+		$db->query("UPDATE ".USERS_GROUP_TABLE." SET users='".$c[0]."' WHERE gid='".$gid."'");
+
+		# уведомление
+		if(DEBUGMODE) $parse->msg("Информация о кол-ве пользователей для группы {$gid} обновлена.");
 	}
 
 
@@ -348,10 +577,11 @@ class ACP_USERS {
 	 * @param string $field   - поле
 	 * @param string $name    - значение поля
 	 * @param string $without - Выражение исключения для mysql запроса
+	 * @param string $table	  - Таблица для проверки
 	 *
 	 * @return bool $res - true - если значение не уникально, false - если значение уникально
 	 */
-	private function check_field($field, $name, $without="") {
+	private function check_field($field, $name, $without="", $table=USERS_TABLE) {
 
 		global $db;
 
@@ -361,7 +591,7 @@ class ACP_USERS {
 
 			$w = (trim($without) != "") ? $field."!='".$without."'" : "" ;
 
-			if(!$db->check_id($name, USERS_TABLE, $field, $w))
+			if(!$db->check_id($name, $table, $field, $w))
 				$res = true;
 		}
 		else $res = true;
@@ -396,5 +626,5 @@ class ACP_USERS {
 /**
  * Init class
  */
-$acp_pages = new ACP_USERS;
+$acp_users = new ACP_USERS;
 ?>

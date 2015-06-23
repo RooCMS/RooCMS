@@ -122,7 +122,7 @@ class Requirement {
 					"standard",
 					"SimpleXML",
 					"apache2handler",
-					"mysql");
+					"mysqli");
 		$extensions = get_loaded_extensions();
 
 		foreach($rextensions AS $k=>$v) {

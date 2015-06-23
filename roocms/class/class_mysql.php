@@ -5,7 +5,7 @@
 * @author       alex Roosso
 * @copyright    2010-2015 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      2.5.2
+* @version      3.1
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -57,6 +57,8 @@ if(!defined('RooCMS')) die('Access Denied');
  */
 class MySQLDatabase extends MySqlExtends {
 
+	private $sql;
+
 	public	$db_connect 	= false;	# [bool]	Флаг состояния подключения к БД
 	public	$cnt_querys 	= 0;		# [int] 	Счетчик запросов в БД
 
@@ -87,10 +89,9 @@ class MySQLDatabase extends MySqlExtends {
 	*/
 	private function connect($host, $user, $pass, $base) {
 
-		mysql_connect($host,$user,$pass) or die ($this->error());
-		mysql_select_db($base) or die ($this->error());
+		$this->sql = new mysqli($host,$user,$pass, $base) or die ($this->error());
 
-		if(mysql_errno() == 0) $this->db_connect = true;
+		if($this->sql->connect_errno == 0) $this->db_connect = true;
 	}
 
 
@@ -107,11 +108,10 @@ class MySQLDatabase extends MySqlExtends {
 	public function check_connect($host, $user, $pass, $base) {
 
 		error_reporting(0);
-		mysql_connect($host, $user, $pass);
-		mysql_select_db($base);
+		$this->sql = new mysqli($host,$user,$pass, $base);
 		error_reporting(E_ALL);
 
-		if(mysql_errno() != 0) return false;
+		if($this->sql->connect_errno != 0) return false;
 		else return true;
 	}
 
@@ -124,9 +124,10 @@ class MySQLDatabase extends MySqlExtends {
 	* Поэтому если БД работает стабильно, лучше выключить данную функцию.
 	*/
 	private function charset() {
-                $this->query("set character_set_client = 'utf8'");
-                $this->query("set character_set_results = 'utf8'");
-                $this->query("set collation_connection = 'utf8_general_ci'");
+		$this->sql->set_charset("utf8");
+                //$this->query("set character_set_client = 'utf8'");
+                //$this->query("set character_set_results = 'utf8'");
+                //$this->query("set collation_connection = 'utf8_general_ci'");
 		//mysql_query ("set names 'utf8'");
 	}
 
@@ -143,8 +144,8 @@ class MySQLDatabase extends MySqlExtends {
 		# режим отладки
 		if(DEBUGMODE) {
 			$query = "<div style='padding: 5px;text-align: left;'><font style='font-family: Verdana, Tahoma; font-size: 12px;text-align: left;'>
-			Ошибка БД [MySQL Error]: <b>".mysql_errno()."</b>
-			<br /> &bull; ".mysql_error()."
+			Ошибка БД [MySQL Error]: <b>".$this->sql->errno."</b>
+			<br /> &bull; ".$this->sql->error."
 			<br />
 			<br /><table width='100%' style='border: 1px solid #ffdd00; background-color: #ffffee;text-align: left;'>
 			 <tr>
@@ -180,7 +181,7 @@ class MySQLDatabase extends MySqlExtends {
 
 		if($this->db_connect || DEBUGMODE) {
 			# Выполняем запрос
-			$query = mysql_query($q) or die ($this->error($q));
+			$query = $this->sql->query($q) or die ($this->error($q));
 
 			# Считаем запросы
 			if(DEBUGMODE || defined('ACP')) $this->cnt_querys++;
@@ -276,7 +277,7 @@ class MySQLDatabase extends MySqlExtends {
 	public function fetch_row($q) {
 
 		if($this->db_connect || DEBUGMODE) {
-			$result = mysql_fetch_row($q);
+			$result = mysqli_fetch_row($q);
 			return $result;
 		}
 	}
@@ -291,7 +292,7 @@ class MySQLDatabase extends MySqlExtends {
 	public function fetch_assoc($q) {
 
 		if($this->db_connect || DEBUGMODE) {
-			$result = mysql_fetch_assoc($q);
+			$result = mysqli_fetch_assoc($q);
 			return $result;
 		}
 	}
@@ -306,7 +307,7 @@ class MySQLDatabase extends MySqlExtends {
 	public function fetch_object($q) {
 
 		if($this->db_connect || DEBUGMODE) {
-			$obj = mysql_fetch_object($q);
+			$obj = mysqli_fetch_object($q);
 			return $obj;
 		}
 	}
@@ -319,7 +320,7 @@ class MySQLDatabase extends MySqlExtends {
 	public function insert_id() {
 
 		if($this->db_connect || DEBUGMODE) {
-			$id = mysql_insert_id();
+			$id = $this->sql->insert_id;
 			return $id;
 		}
 	}
@@ -350,8 +351,27 @@ class MySQLDatabase extends MySqlExtends {
 	}
 
 
+	/**
+	 * Функция указывает какое кол-во строк вернул запрос
+	 * Работает только с Select и Show
+	 *
+	 * @param string $q - запрос
+	 *
+	 * @return int
+	 */
 	public function num_rows($q) {
-		return mysql_num_rows($q);
+		return mysqli_num_rows($q);
+	}
+
+
+	/**
+	 * Функция указывает какое кол-во строк были затронуты последним запросом
+	 * Работает только с Insert и Update
+	 *
+	 * @return int
+	 */
+	public function affected_rows() {
+		return $this->sql->affected_rows;
 	}
 
 
@@ -372,7 +392,7 @@ class MySQLDatabase extends MySqlExtends {
 		        "'"		=> "&#39;"
 		));
 
-		if($this->db_connect) return mysql_real_escape_string($q);
+		if($this->db_connect) return $this->sql->real_escape_string($q);
 		else return $q;
 	}
 
@@ -382,7 +402,7 @@ class MySQLDatabase extends MySqlExtends {
 	*
 	*/
 	public function close() {
-		@mysql_close();
+		$this->sql->close();
 	}
 }
 

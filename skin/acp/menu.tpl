@@ -15,42 +15,67 @@
 
 <div class="navbar navbar-fixed-top navbar-inverse" role="navigation">
 
-		<div class="navbar-header text-center">
-			<a class="navbar-brand hidden-xs" href="{$SCRIPT_NAME}"><img src="{$SKIN}/img/acp_logo_full.png" border="0" class="absolute" id="logo"></a>
-			<button type="button" class="navbar-btn btn btn-danger visible-xs btn-block" data-toggle="collapse" data-target=".navbar-collapse">
-				Навигация
-			</button>
-		</div>
+	<div class="navbar-header text-center">
+		<a class="navbar-brand hidden-xs" href="{$SCRIPT_NAME}"><img src="{$SKIN}/img/acp_logo_full.png" border="0" class="absolute" id="logo"></a>
+		<button type="button" class="navbar-btn btn btn-danger visible-xs btn-block" data-toggle="collapse" data-target=".navbar-collapse">
+			Навигация
+		</button>
+	</div>
 
-		<div class="collapse navbar-collapse">
+	<div class="collapse navbar-collapse">
 
-			<ul class="nav navbar-nav tshadow">
-				{foreach from=$menu_items_left item=menu_item}
-				<li class="visible-lg visible-xs{if isset($smarty.get.act) && $smarty.get.act == $menu_item['act']} active{/if}">
-					<a href="{$menu_item['link']}" target="{$menu_item['window']}">
-						<span class="{$menu_item['icon']}"></span> {$menu_item['text']}
-					</a>
-				</li>
-				<li class="hidden-lg hidden-xs{if isset($smarty.get.act) && $smarty.get.act == $menu_item['act']} active{/if}" rel="tooltip" title="{$menu_item['text']}" data-placement="right">
-					<a href="{$menu_item['link']}" target="{$menu_item['window']}">
-						<span class="{$menu_item['icon']}"></span>
-					</a>
-				</li>
-				{/foreach}
-			</ul>
-			<ul class="nav navbar-nav navbar-right" style="margin-right: 5px;">
-				{foreach from=$menu_items_right item=menu_item}
-				<li class="visible-lg visible-xs{if isset($smarty.get.act) && $smarty.get.act == $menu_item['act']} active{/if}">
-					<a href="{$menu_item['link']}" target="{$menu_item['window']}">
-						<span class="hidden-sm"><span class="{$menu_item['icon']}"></span> {$menu_item['text']}</span>
-					</a>
-				</li>
-				<li class="hidden-lg hidden-xs{if isset($smarty.get.act) && $smarty.get.act == $menu_item['act']} active{/if}" rel="tooltip" title="{$menu_item['text']}" data-placement="left">
-					<a href="{$menu_item['link']}" target="{$menu_item['window']}">
-						<span class="{$menu_item['icon']}"></span>
-					</a>
-				</li>
-				{/foreach}
-			</ul>
-		</div>
+		<ul class="nav navbar-nav tshadow">
+			{foreach from=$menu_items_left item=menu_item}
+			<li class="visible-lg visible-xs{if isset($smarty.get.act) && $smarty.get.act == $menu_item['act']} active{/if}">
+				<a href="{$menu_item['link']}" target="{$menu_item['window']}">
+					<span class="{$menu_item['icon']}"></span> {$menu_item['text']}
+				</a>
+			</li>
+			<li class="hidden-lg hidden-xs{if isset($smarty.get.act) && $smarty.get.act == $menu_item['act']} active{/if}" rel="tooltip" title="{$menu_item['text']}" data-placement="right">
+				<a href="{$menu_item['link']}" target="{$menu_item['window']}">
+					<span class="{$menu_item['icon']}"></span>
+				</a>
+			</li>
+			{/foreach}
+		</ul>
+		<ul class="nav navbar-nav navbar-right" style="margin-right: 2px;">
+
+			{foreach from=$menu_items_right item=menu_item}
+				{if $menu_item['role'] == "navlink"}
+					<li class="visible-lg visible-xs{if isset($smarty.get.act) && $smarty.get.act == $menu_item['act']} active{/if}">
+						<a href="{$menu_item['link']}" target="{$menu_item['window']}">
+							<span class="hidden-sm"><span class="{$menu_item['icon']}"></span> {$menu_item['text']}</span>
+						</a>
+					</li>
+					<li class="hidden-lg hidden-xs{if isset($smarty.get.act) && $smarty.get.act == $menu_item['act']} active{/if}" rel="tooltip" title="{$menu_item['text']}" data-placement="left">
+						<a href="{$menu_item['link']}" target="{$menu_item['window']}">
+							<span class="{$menu_item['icon']}"></span>
+						</a>
+					</li>
+				{elseif  $menu_item['role'] == "dropdown"}
+					<li class="dropdown">
+						<a href="#" class="dropdown-toggle visible-lg visible-xs" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="{$menu_item['icon']}"></span> {$menu_item['text']} <span class="caret"></span></a>
+						<a href="#" class="dropdown-toggle hidden-lg hidden-xs" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"  rel="tooltip" title="{$menu_item['text']}" data-placement="left" data-container="body"><span class="{$menu_item['icon']}"></span><span class="caret"></span></a>
+						<ul class="dropdown-menu">
+							{foreach from=$menu_item item=item}
+								{if is_array($item)}
+									{if $item['role'] == "davider"}
+										<li role="separator" class="divider"></li>
+									{elseif $item['role'] == "header"}
+										<li class="dropdown-header">{$item['text']}</li>
+									{elseif $item['role'] == "navlink"}
+										<li {if isset($smarty.get.act) && $smarty.get.act == $item['act']}class="active"{/if}>
+											<a href="{$item['link']}" target="{$item['window']}">
+												<span class="{$item['icon']}"></span> {$item['text']}
+											</a>
+										</li>
+									{/if}
+								{/if}
+							{/foreach}
+						</ul>
+					</li>
+				{/if}
+			{/foreach}
+		</ul>
+	</div>
 </div>

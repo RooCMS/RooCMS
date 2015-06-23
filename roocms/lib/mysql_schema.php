@@ -5,7 +5,7 @@
 * @author       alex Roosso
 * @copyright    2010-2015 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.2.4
+* @version      1.2.5
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -249,11 +249,12 @@ $sql['CREATE '.IMAGES_TABLE] = "CREATE TABLE IF NOT EXISTS `".IMAGES_TABLE."` (
 
 
 /**
- * Таблица пользователей
+ * Пользователи
  */
 $sql['DROP '.USERS_TABLE] = "DROP TABLE IF EXISTS `".USERS_TABLE."`";
 $sql['CREATE '.USERS_TABLE] = "CREATE TABLE  `".USERS_TABLE."` (
 				 `uid` INT( 10 ) UNSIGNED NOT NULL AUTO_INCREMENT ,
+				 `gid` INT( 10 ) UNSIGNED NOT NULL DEFAULT  '0',
 				 `status` ENUM(  '0',  '1' ) NOT NULL DEFAULT  '1',
 				 `login` VARCHAR( 255 ) NOT NULL ,
 				 `nickname` VARCHAR( 255 ) NOT NULL ,
@@ -268,6 +269,22 @@ $sql['CREATE '.USERS_TABLE] = "CREATE TABLE  `".USERS_TABLE."` (
 				UNIQUE KEY  `uid` (  `uid` ,  `login` ) ,
 				UNIQUE KEY  `nickname` (  `nickname` )
 				) ENGINE = MYISAM DEFAULT CHARSET = utf8;";
+
+
+/**
+ * Группы пользователей
+ */
+$sql['DROP '.USERS_GROUP_TABLE] = "DROP TABLE IF EXISTS `".USERS_GROUP_TABLE."`";
+$sql['CREATE '.USERS_GROUP_TABLE] = "CREATE TABLE  `".USERS_GROUP_TABLE."` (
+					 `gid` INT( 10 ) UNSIGNED NOT NULL AUTO_INCREMENT ,
+					 `title` VARCHAR( 255 ) NOT NULL ,
+					 `users` INT( 10 ) UNSIGNED NOT NULL DEFAULT  '0',
+					 `date_create` INT( 20 ) UNSIGNED NOT NULL DEFAULT  '0' COMMENT  'format: unixtimestamp',
+					 `date_update` INT( 20 ) UNSIGNED NOT NULL DEFAULT  '0' COMMENT  'format: unixtimestamp',
+					PRIMARY KEY (  `gid` ) ,
+					UNIQUE KEY  `gid` (  `gid` ) ,
+					UNIQUE KEY  `title` (  `title` )
+					) ENGINE = MYISAM DEFAULT CHARSET = utf8;";
 
 
 /**

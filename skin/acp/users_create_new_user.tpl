@@ -3,7 +3,7 @@
 	Новый пользователь
 </div>
 <div class="panel-body">
-	<form method="post" action="{$SCRIPT_NAME}?act=users&part=create" role="form" class="form-horizontal">
+	<form method="post" action="{$SCRIPT_NAME}?act=users&part=create_user" role="form" class="form-horizontal">
 
 		<div class="form-group">
 			<label for="inputLogin" class="col-lg-3 control-label">
@@ -43,6 +43,22 @@
 				</select>
 			</div>
 		</div>
+
+		{if !empty($groups)}
+			<div class="form-group">
+				<label for="inputGroups" class="col-lg-3 control-label">
+					Группа пользователя:
+				</label>
+				<div class="col-lg-9">
+					<select name="gid" id="inputGroups" class="selectpicker show-tick" required data-header="Группы пользователей" data-size="auto" data-live-search="true" data-width="50%">
+						<option value="0" selected>Не состоит в группе</option>
+						{foreach from=$groups item=group}
+							<option value="{$group['gid']}" data-subtext="В группе {$group['users']} пользователей">{$group['title']}</option>
+						{/foreach}
+					</select>
+				</div>
+			</div>
+		{/if}
 
 		<div class="form-group">
 			<label for="inputPassword" class="col-lg-3 control-label">

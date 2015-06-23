@@ -5,7 +5,7 @@
 * @author       alex Roosso
 * @copyrightt   2010-2015 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.1
+* @version      1.2
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -56,63 +56,68 @@ if(!defined('RooCMS') || !defined('ACP')) die('Access Denied');
 * Structure
 */
 if(file_exists(_ROOCMS."/acp/structure.php")) {
-	$menu_items_left[] = array('link'=>CP.'?act=structure', 'act'=>'structure', 'icon'=>'fa fa-sitemap', 'text'=>'Структура', 'window'=>'_self');
+	$menu_items_left[] = array('role'=>'navlink', 'link'=>CP.'?act=structure', 'act'=>'structure', 'icon'=>'fa fa-sitemap', 'text'=>'Структура', 'window'=>'_self');
 }
 
 /**
 * Pages
 */
 if(file_exists(_ROOCMS."/acp/pages.php")) {
-	$menu_items_left[] = array('link'=>CP.'?act=pages', 'act'=>'pages', 'icon'=>'fa fa-th-large', 'text'=>'Страницы', 'window'=>'_self');
+	$menu_items_left[] = array('role'=>'navlink', 'link'=>CP.'?act=pages', 'act'=>'pages', 'icon'=>'fa fa-th-large', 'text'=>'Страницы', 'window'=>'_self');
 }
 
 /**
 * Feeds
 */
 if(file_exists(_ROOCMS."/acp/feeds.php")) {
-	$menu_items_left[] = array('link'=>CP.'?act=feeds', 'act'=>'feeds', 'icon'=>'fa fa-th-list', 'text'=>'Ленты', 'window'=>'_self');
+	$menu_items_left[] = array('role'=>'navlink', 'link'=>CP.'?act=feeds', 'act'=>'feeds', 'icon'=>'fa fa-th-list', 'text'=>'Ленты', 'window'=>'_self');
 }
 
 /**
 * Blocks
 */
 if(file_exists(_ROOCMS."/acp/blocks.php")) {
-	$menu_items_left[] = array('link'=>CP.'?act=blocks', 'act'=>'blocks', 'icon'=>'fa fa-th', 'text'=>'Блоки', 'window'=>'_self');
+	$menu_items_left[] = array('role'=>'navlink', 'link'=>CP.'?act=blocks', 'act'=>'blocks', 'icon'=>'fa fa-th', 'text'=>'Блоки', 'window'=>'_self');
 }
 
 /**
  * Users
  */
 if(file_exists(_ROOCMS."/acp/users.php")) {
-	$menu_items_left[] = array('link'=>CP.'?act=users', 'act'=>'users', 'icon'=>'fa fa-users', 'text'=>'Пользователи', 'window'=>'_self');
+	$menu_items_left[] = array('role'=>'navlink', 'link'=>CP.'?act=users', 'act'=>'users', 'icon'=>'fa fa-users', 'text'=>'Пользователи', 'window'=>'_self');
 }
 
 /**
 * Configuration
 */
 if(file_exists(_ROOCMS."/acp/config.php")) {
-	$menu_items_left[] = array('link'=>CP.'?act=config', 'act'=>'config', 'icon'=>'fa fa-cogs', 'text'=>'Настройки', 'window'=>'_self');
+	$menu_items_left[] = array('role'=>'navlink', 'link'=>CP.'?act=config', 'act'=>'config', 'icon'=>'fa fa-cogs', 'text'=>'Настройки', 'window'=>'_self');
 }
+
+
 
 
 /**
 * Help System
 */
-if(file_exists(_ROOCMS."/acp/help.php")) {
-	$menu_items_right[] = array('link'=>CP.'?act=help', 'act'=>'help', 'icon'=>'fa fa-support','text'=>'Помощь', 'window'=>'_self');
-}
+//if(file_exists(_ROOCMS."/acp/help.php")) {
+//	$menu_items_right[] = array('role'=>'navlink', 'link'=>CP.'?act=help', 'act'=>'help', 'icon'=>'fa fa-support','text'=>'Помощь', 'window'=>'_self');
+//}
 
 /**
 * On site
 */
-	$menu_items_right[] = array('link'=>'/', 'act'=>'RooCMS', 'icon'=>'fa fa-home', 'text'=>'На сайт', 'window'=>'_blank');
+	$menu_items_right[] = array('role'=>'navlink', 'link'=>'/', 'act'=>'RooCMS', 'icon'=>'fa fa-home', 'text'=>'На сайт', 'window'=>'_blank');
 
 /**
-* Logout
-*/
-if(file_exists(_ROOCMS."/acp/logout.php")) {
-	$menu_items_right[] = array('link'=>CP.'?act=logout', 'act'=>'logout', 'icon'=>'fa fa-sign-out', 'text'=>'Выход', 'window'=>'_self');
-}
+ * Admin menu
+ */
+	$menu_items_right[] = array('role'=>'dropdown', 'icon'=>'fa fa-user', 'text'=>$users->nickname,
+		array('role'=>'header', 'text'=>'Ваше личное меню'),												# header
+		array('role'=>'navlink', 'link'=>CP.'?act=help', 'act'=>'help', 'icon'=>'fa fa-support','text'=>'Помощь', 'window'=>'_self'),
+		array('role'=>'davider'), 															# davider
+		array('role'=>'navlink', 'link'=>CP.'?act=logout', 'act'=>'logout', 'icon'=>'fa fa-sign-out', 'text'=>'Выход', 'window'=>'_self')		# logout
+	);
 
 
 $date = date("d.m.Y",time());
