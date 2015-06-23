@@ -5,7 +5,7 @@
 * @author       alex Roosso
 * @copyright    2010-2015 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.0.1
+* @version      1.0.2
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -62,6 +62,7 @@ class Users extends Security {
 	public	$login		= "";		# [string]	user login
 	public	$nickname	= "";		# [string]	user nickname
 	public	$title		= "u";		# [enum]	user title
+	public	$gid		= 0;		# [int]		user group id
 	public	$token		= "";		# [string]	user security token
 
 	# user global data
@@ -111,11 +112,14 @@ class Users extends Security {
 		if(isset($roocms->sess['login']) && trim($roocms->sess['login']) != "" && $db->check_id($roocms->sess['login'], USERS_TABLE, "login", "status='1'") && isset($roocms->sess['token']) && strlen($roocms->sess['token']) == 32) {
 
 			# get data
-			$q    = $db->query("SELECT uid, login, nickname, title, password, salt FROM ".USERS_TABLE." WHERE login='".$roocms->sess['login']."' AND status='1'");
+			$q    = $db->query("SELECT uid, gid, login, nickname, title, password, salt FROM ".USERS_TABLE." WHERE login='".$roocms->sess['login']."' AND status='1'");
 			$data = $db->fetch_assoc($q);
 
 			# uid
 			$this->uid	= $data['uid'];
+
+			# gid
+			$this->gid	= $data['gid'];
 
 			# login
 			$this->login	= $data['login'];
