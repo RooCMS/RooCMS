@@ -5,7 +5,7 @@
 * @author       alex Roosso
 * @copyright    2010-2014 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.1
+* @version      1.1.1
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -65,7 +65,7 @@ class ACP_HELP {
 	private $part_data	= array(); # Информация по текущему разделу
 
 	private $helptree 	= array();
-	private $mites		= array();
+	private $breadcumb	= array();
 
 
 
@@ -120,11 +120,11 @@ class ACP_HELP {
 
 		# Варганим "хлебные хрошки"
 		if($this->part_parent != 0) {
-			$this->construct_mites($this->part_id);
-			krsort($this->mites);
+			$this->construct_breadcumb($this->part_id);
+			krsort($this->breadcumb);
 		}
 
-		$smarty->assign('helpmites', $this->mites);
+		$smarty->assign('helpmites', $this->breadcumb);
 
 		# действия
 		if(DEVMODE) {
@@ -420,15 +420,15 @@ class ACP_HELP {
 	*
 	* @param int $id - идентификатор текущего раздела
 	*/
-	private function construct_mites($id = 1) {
+	private function construct_breadcumb($id = 1) {
 		if($id != 1) {
 			foreach($this->helptree AS $k=>$v) {
 				if($v['id'] == $id) {
-					$this->mites[] = array( 'id'	=> $v['id'],
-								'uname'	=> $v['uname'],
-								'title'	=> $v['title']);
+					$this->breadcumb[] = array( 'id'	=> $v['id'],
+								    'uname'	=> $v['uname'],
+								    'title'	=> $v['title']);
 
-					if($v['parent_id'] != 0) $this->construct_mites($v['parent_id']);
+					if($v['parent_id'] != 0) $this->construct_breadcumb($v['parent_id']);
 				}
 			}
 		}

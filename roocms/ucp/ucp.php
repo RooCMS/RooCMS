@@ -63,7 +63,7 @@ class UCP_CP {
 		global $structure, $roocms;
 
 		# mites
-		$structure->mites[] = array('act' => 'ucp', 'title'=>'Личный кабинет');
+		$structure->breadcumb[] = array('act' => 'ucp', 'title'=>'Личный кабинет');
 
 		switch($roocms->part) {
 			case 'edit_info':
@@ -102,7 +102,7 @@ class UCP_CP {
 		global $structure, $users, $tpl, $smarty;
 
 		# mites
-		$structure->mites[] = array('act' => 'ucp', 'part'=>'edit_info', 'title'=>'Изменяем личные данные');
+		$structure->breadcumb[] = array('act' => 'ucp', 'part'=>'edit_info', 'title'=>'Изменяем личные данные');
 
 		# tpl
 		$smarty->assign("userdata", $users->userdata);

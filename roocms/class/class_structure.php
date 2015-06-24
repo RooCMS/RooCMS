@@ -5,7 +5,7 @@
 * @author       alex Roosso
 * @copyright    2010-2015 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.4.4
+* @version      1.4.5
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -62,7 +62,7 @@ class Structure {
 						'php'	=> array('enable'	=> true, 'title'	=> 'PHP страница'),
 						'feed'	=> array('enable'	=> true, 'title'	=> 'Лента'));
 
-	public $mites			= array();
+	public $breadcumb		= array();
 
 	public $sitetree		= array();
 
@@ -136,8 +136,8 @@ class Structure {
 
 			# mites
 			if($this->page_parent != 0) {
-				$this->construct_mites($this->page_id);
-				krsort($this->mites);
+				$this->construct_breadcumb($this->page_id);
+				krsort($this->breadcumb);
 			}
 		}
 	}
@@ -265,17 +265,17 @@ class Structure {
 	 *
 	 * @param int $sid - идентификатор текущей страницы от которой выстраиваются "крошки"
 	 */
-	private function construct_mites($sid = 1) {
+	private function construct_breadcumb($sid = 1) {
 		if($sid != 1) {
 			$v = $this->get_structure_info($sid);
-			$this->mites[] = array('id'	=> $v['id'],
-					       'alias'	=> $v['alias'],
-					       'act'	=> "",
-					       'part'	=> "",
-					       'title'	=> $v['title'],
-					       'parent'	=> $v['parent']);
+			$this->breadcumb[] = array('id'		=> $v['id'],
+						   'alias'	=> $v['alias'],
+						   'act'	=> "",
+						   'part'	=> "",
+						   'title'	=> $v['title'],
+						   'parent'	=> $v['parent']);
 
-			if($v['parent_id'] != 0) $this->construct_mites($v['parent_id']);
+			if($v['parent_id'] != 0) $this->construct_breadcumb($v['parent_id']);
 		}
 
 	}

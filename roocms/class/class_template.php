@@ -5,7 +5,7 @@
 * @author	alex Roosso
 * @copyright	2010-2015 (c) RooCMS
 * @link		http://www.roocms.com
-* @version	4.5
+* @version	4.5.1
 * @since	$date$
 * @license	http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -286,7 +286,7 @@ class template {
 				$smarty->assign("rsslink",	$rss->rss_link);
 
 				# breadcumb
-				$smarty->assign("mites",	$structure->mites);
+				$smarty->assign("breadcumb",	$structure->breadcumb);
 				$breadcumb = $this->load_template("breadcumb", true);
 				$smarty->assign("breadcumb",	$breadcumb);
 			}
