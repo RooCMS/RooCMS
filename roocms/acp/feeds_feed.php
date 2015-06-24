@@ -7,7 +7,7 @@
 * @author       alex Roosso
 * @copyright    2010-2015 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.9
+* @version      1.9.1
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -251,6 +251,7 @@ class ACP_FEEDS_FEED {
 				# get feed id
 				$fid = $db->insert_id();
 
+
 				# attachment images
 				$images = $img->upload_image("images", "", array($this->feed['thumb_img_width'], $this->feed['thumb_img_height']));
 				if($images) {
@@ -258,6 +259,16 @@ class ACP_FEEDS_FEED {
 						$img->insert_images($image, "feedid=".$fid);
 					}
 				}
+
+
+				# attachment files
+				$attachs = $files->upload("files");
+				if($attachs) {
+					foreach($attachs AS $attach) {
+						$files->insert_file($attach, "feedid=".$fid);
+					}
+				}
+
 
 				# recount items
 				$this->count_items($this->feed['id']);
@@ -268,8 +279,9 @@ class ACP_FEEDS_FEED {
 		}
 
 
-		# show upload images form
+		# show upload files & images form
 		$tpl->load_image_upload_tpl("imagesupload");
+		$tpl->load_files_upload_tpl("filesupload");
 
 		# feed data
 		$smarty->assign("feed", $this->feed);
@@ -288,7 +300,7 @@ class ACP_FEEDS_FEED {
 	 */
 	function edit_item($id) {
 
-		global $db, $img, $tpl, $smarty, $parse;
+		global $db, $files, $img, $tpl, $smarty, $parse;
 
 
 		$q = $db->query("SELECT id, sid, status, sort, title, meta_description, meta_keywords, brief_item, full_item, date_publications, date_end_publications FROM ".PAGES_FEED_TABLE." WHERE id='".$id."'");
@@ -306,13 +318,25 @@ class ACP_FEEDS_FEED {
 		$attachimg = $img->load_images("feedid=".$id);
 		$smarty->assign("attachimg", $attachimg);
 
-
 		# show attached images
 		$attachedimages = $tpl->load_template("images_attach", true);
 		$smarty->assign("attachedimages", $attachedimages);
 
-		# show upload images form
+
+		# download attached files
+		$attachfile = array();
+		$attachfile = $files->load_files("feedid=".$id);
+		$smarty->assign("attachfile", $attachfile);
+
+		# show attached files
+		$attachedfiles = $tpl->load_template("files_attach", true);
+		$smarty->assign("attachedfiles", $attachedfiles);
+
+
+		# show upload files & images form
 		$tpl->load_image_upload_tpl("imagesupload");
+		$tpl->load_files_upload_tpl("filesupload");
+
 
 		# feed data
 		$smarty->assign("feed", $this->feed);
@@ -331,7 +355,7 @@ class ACP_FEEDS_FEED {
 	 */
 	function update_item($id) {
 
-		global $db, $parse, $img, $POST, $GET;
+		global $db, $parse, $files, $img, $POST, $GET;
 
 		if(!isset($POST->title)) 	$parse->msg("Не заполнен заголовок элемента",false);
 		if(!isset($POST->full_item)) 	$parse->msg("Не заполнен подробный текст элемента",false);
@@ -348,6 +372,8 @@ class ACP_FEEDS_FEED {
 		if(!isset($POST->meta_keywords))	$POST->meta_keywords	= "";
 		if(!isset($POST->brief_item)) 		$POST->brief_item = "";
 
+
+		# update
 		if(!isset($_SESSION['error'])) {
 
                         $POST->date_publications = $parse->date->rusint_to_unix($POST->date_publications);
@@ -395,6 +421,16 @@ class ACP_FEEDS_FEED {
 					$img->insert_images($image, "feedid=".$id);
 				}
 			}
+
+
+			# attachment files
+			$attachs = $files->upload("files");
+			if($attachs) {
+				foreach($attachs AS $attach) {
+					$files->insert_file($attach, "feedid=".$id);
+				}
+			}
+
 
 			# go
 			go(CP."?act=feeds&part=control&page=".$GET->_page);

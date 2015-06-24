@@ -5,7 +5,7 @@
 * @author       alex Roosso
 * @copyright    2010-2015 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.2.6
+* @version      1.2.7
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -244,8 +244,26 @@ $sql['CREATE '.IMAGES_TABLE] = "CREATE TABLE IF NOT EXISTS `".IMAGES_TABLE."` (
 				  `sort` int(10) unsigned NOT NULL DEFAULT '0',
 				  `alt` varchar(255) NOT NULL COMMENT 'alternative text for hover or unuse image',
 				  PRIMARY KEY (`id`),
+				  UNIQUE KEY  `id` (  `id` ) ,
 				  KEY `filename` (`filename`),
 				  KEY `attachedto` (`attachedto`)
+				) ENGINE=MyISAM  DEFAULT CHARSET=utf8 PACK_KEYS=1 AUTO_INCREMENT=1";
+
+
+/**
+ * Файлы
+ */
+$sql['DROP '.FILES_TABLE] = "DROP TABLE IF EXISTS `".FILES_TABLE."`";
+$sql['CREATE '.FILES_TABLE] = "CREATE TABLE IF NOT EXISTS `".FILES_TABLE."` (
+				  `id` int(10) NOT NULL AUTO_INCREMENT,
+				  `attachedto` varchar(255) NOT NULL COMMENT 'site partition and identificator',
+				  `filename` varchar(255) NOT NULL,
+				  `fileext` varchar(10) NOT NULL COMMENT 'extension file',
+				  `sort` int(10) unsigned NOT NULL DEFAULT '0',
+				  PRIMARY KEY (  `id` ) ,
+				  UNIQUE KEY  `id` (  `id` ) ,
+				  KEY  `attachedto` (  `attachedto` ) ,
+				  KEY  `filename` (  `filename` )
 				) ENGINE=MyISAM  DEFAULT CHARSET=utf8 PACK_KEYS=1 AUTO_INCREMENT=1";
 
 

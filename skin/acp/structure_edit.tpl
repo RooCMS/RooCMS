@@ -49,15 +49,15 @@
 
 		<div class="form-group">
 			<label for="inputNoindex" class="col-lg-3 control-label">
-				NOINDEX: <small><span class="fa fa-info fa-fw" rel="tooltip" title="Запрещает индексировать страницу поисковыми роботами." data-placement="right"></span></small>
+				SEO NOINDEX: <small><span class="fa fa-info fa-fw" rel="tooltip" title="Запрещает индексировать страницу поисковыми роботами." data-placement="right"></span></small>
 			</label>
 			<div class="col-lg-9">
 				<div class="btn-group" data-toggle="buttons">
 					<label class="btn btn-default{if $data['noindex'] == 0} active{/if}">
-						<input type="radio" name="noindex" value="0" id="flag_noindex_false"{if $data['noindex'] == 0} checked{/if}> Разрешить индексацию
+						<input type="radio" name="noindex" value="0" id="flag_noindex_false"{if $data['noindex'] == 0} checked{/if}><i class="fa fa-fw fa-eye"></i>Разрешить индексацию
 					</label>
 					<label class="btn btn-default{if $data['noindex'] == 1} active{/if}">
-						<input type="radio" name="noindex" value="1" id="flag_noindex_true"{if $data['noindex'] == 1} checked{/if}> Запретить индексацию
+						<input type="radio" name="noindex" value="1" id="flag_noindex_true"{if $data['noindex'] == 1} checked{/if}><i class="fa fa-fw fa-eye-slash"></i>Запретить индексацию
 					</label>
 				</div>
 			</div>

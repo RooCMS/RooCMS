@@ -5,7 +5,7 @@
 * @author	alex Roosso
 * @copyright	2010-2015 (c) RooCMS
 * @link		http://www.roocms.com
-* @version	4.5.1
+* @version	4.5.2
 * @since	$date$
 * @license	http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -164,7 +164,7 @@ class template {
 
 	/**
 	 * Функция подключения шаблона для загрузки картинок
-	 * Определяет какой из шаблонов требуется подключать и в квкую переменную
+	 * Определяет какой из шаблонов требуется подключать и в какую переменную
 	 *
 	 * @param        $smarty_variable - указываем переменную для смарти шаблонов.
 	 * @param string $tpl - На случай если вам потребуется использовать собственный шаблон
@@ -174,8 +174,30 @@ class template {
 
 		global $smarty;
 
-		require_once _LIB."/mimetype.php";
+		require _LIB."/mimetype.php";
 		$smarty->assign("allow_images_type", $imagetype);
+
+		$code  = "\$$smarty_variable = \$this->load_template(\"$tpl\", $tplreturn);";
+		$code .= "\$smarty->assign(\"$smarty_variable\", \$$smarty_variable);";
+
+		eval ($code);
+	}
+
+
+	/**
+	 * Функция подключения шаблона для загрузки файлов
+	 * Определяет какой из шаблонов требуется подключать и в какую переменную
+	 *
+	 * @param        $smarty_variable - указываем переменную для смарти шаблонов.
+	 * @param string $tpl - На случай если вам потребуется использовать собственный шаблон
+	 * @param bool   $tplreturn - Возврат скомпилорованного шаблона в переменную. По-умолчанию включено.
+	 */
+	public function load_files_upload_tpl($smarty_variable, $tpl="files_upload", $tplreturn=true) {
+
+		global $smarty;
+
+		require _LIB."/mimetype.php";
+		$smarty->assign("allow_files_type", $filetype);
 
 		$code  = "\$$smarty_variable = \$this->load_template(\"$tpl\", $tplreturn);";
 		$code .= "\$smarty->assign(\"$smarty_variable\", \$$smarty_variable);";

@@ -20,10 +20,23 @@
 					<br />
 					<button type="submit" name="userlogin" id="inputAuth" class="btn btn-default btn-sm"  rel="tooltip" title="Войти на сайт" data-placement="top" data-container="body" value="user"><i class="text-primary fa fa-fw fa-sign-in"></i></button>
 				</div>
-
 			</form>
 		</div>
 	</div>
+
+	{*
+	<div class="row">
+		<form method="post" action="?act=login" class="form-inline">
+			<div class="col-md-8 input-group input-group-sm text-left" style="margin-top: 10px;">
+				<input type="text" name="login" class="form-control mod_auth_form" id="inputLogin" aria-describedby="inputLoginStatus" required="">
+				<input type="password" name="password" class="form-control mod_auth_form" id="inputPassword" aria-describedby="inputPasswordStatus" required="">
+			</div>
+			<div class="col-md-4">
+				<button type="submit" name="userlogin" id="inputAuth" class="btn btn-default btn-sm"  rel="tooltip" title="Войти на сайт" data-placement="top" data-container="body" value="user"><i class="text-primary fa fa-fw fa-sign-in"></i></button>
+			</div>
+		</form>
+	</div>
+	*}
 {else}
 	<div class="row">
 		<div class="col-sm-12 text-right">

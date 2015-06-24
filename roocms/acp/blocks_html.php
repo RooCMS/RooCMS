@@ -61,7 +61,7 @@ class ACP_BLOCKS_HTML {
 	 */
 	function create() {
 
-		global $db, $img, $tpl, $smarty, $parse, $POST;
+		global $db, $files, $img, $tpl, $smarty, $parse, $POST;
 
 		if(isset($POST->create_block)) {
 
@@ -76,6 +76,7 @@ class ACP_BLOCKS_HTML {
 
 				$id = $db->insert_id();
 
+
 				# attachment images
 				$images = $img->upload_image("images");
 				if($images) {
@@ -84,6 +85,15 @@ class ACP_BLOCKS_HTML {
 					}
 				}
 
+				# attachment files
+				$attachs = $files->upload("files");
+				if($attachs) {
+					foreach($attachs AS $attach) {
+						$files->insert_file($attach, "blockid=".$id);
+					}
+				}
+
+
 				$parse->msg("Блок успешно добавлен!");
 
 				go(CP."?act=blocks");
@@ -91,8 +101,9 @@ class ACP_BLOCKS_HTML {
 			else go(CP."?act=blocks&part=create&type=html");
 		}
 
-		# show upload images form
+		# show upload files & images form
 		$tpl->load_image_upload_tpl("imagesupload");
+		$tpl->load_files_upload_tpl("filesupload");
 
 		$content = $tpl->load_template("blocks_create_html", true);
 		$smarty->assign("content", $content);
@@ -106,7 +117,7 @@ class ACP_BLOCKS_HTML {
 	 */
 	function edit($id) {
 
-		global $db, $img, $tpl, $smarty;
+		global $db, $files, $img, $tpl, $smarty;
 
 		$q = $db->query("SELECT id, title, alias, content FROM ".BLOCKS_TABLE." WHERE id='".$id."'");
 		$data = $db->fetch_assoc($q);
@@ -121,8 +132,20 @@ class ACP_BLOCKS_HTML {
 		$attachedimages = $tpl->load_template("images_attach", true);
 		$smarty->assign("attachedimages", $attachedimages);
 
-		# show upload images form
+
+		# download attached files
+		$attachfile = array();
+		$attachfile = $files->load_files("blockid=".$id);
+		$smarty->assign("attachfile", $attachfile);
+
+		# show attached files
+		$attachedfiles = $tpl->load_template("files_attach", true);
+		$smarty->assign("attachedfiles", $attachedfiles);
+
+
+		# show upload files & images form
 		$tpl->load_image_upload_tpl("imagesupload");
+		$tpl->load_files_upload_tpl("filesupload");
 
 
 		$smarty->assign("data",$data);
@@ -138,7 +161,7 @@ class ACP_BLOCKS_HTML {
 	 */
 	function update($id) {
 
-		global $db, $img, $POST, $GET, $parse;
+		global $db, $files, $img, $POST, $GET, $parse;
 
 		if(isset($POST->update_block)) {
 
@@ -178,6 +201,16 @@ class ACP_BLOCKS_HTML {
 						$img->insert_images($image, "blockid=".$id);
 					}
 				}
+
+
+				# attachment files
+				$attachs = $files->upload("files");
+				if($attachs) {
+					foreach($attachs AS $attach) {
+						$files->insert_file($attach, "blockid=".$id);
+					}
+				}
+
 
 				$parse->msg("Блок успешно обновлен!");
 			}

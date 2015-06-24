@@ -31,16 +31,23 @@
 			</div>
 		</div>
 
-		<div class="row images_attach">
-			<div class="col-lg-12">
+		<div class="row">
+			<div class="col-md-6">
 				{$attachedimages}
+			</div>
+			<div class="col-md-6">
+				{$attachedfiles}
 			</div>
 		</div>
 		<div class="row">
-			<div class="col-lg-12">
+			<div class="col-md-6">
 				{$imagesupload}
 			</div>
+			<div class="col-md-6">
+				{$filesupload}
+			</div>
 		</div>
+
 		<div class="row">
 			<div class="col-lg-12 text-right">
 				<input type="hidden" name="id" value="{$data['id']}" readonly>
