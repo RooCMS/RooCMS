@@ -1,5 +1,5 @@
 {* Хлебные крошки *}
-{if !empty($mites)}
+{if !empty($breadcumb)}
 	<ul class="breadcrumb small">
 		<li>
 			<a href="/index.php"><span class="fa fa-fw fa-folder-o fa-lg"></span>Главная</a>
