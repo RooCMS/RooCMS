@@ -5,7 +5,7 @@
 * @author       alex Roosso
 * @copyright    2010-2015 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.4.3
+* @version      1.4.4
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -270,6 +270,8 @@ class Structure {
 			$v = $this->get_structure_info($sid);
 			$this->mites[] = array('id'	=> $v['id'],
 					       'alias'	=> $v['alias'],
+					       'act'	=> "",
+					       'part'	=> "",
 					       'title'	=> $v['title'],
 					       'parent'	=> $v['parent']);
 

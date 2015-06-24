@@ -25,7 +25,7 @@
 
 			<dt></dt>
 			<dd>
-				<br /><a href="?act=ucp&part=edit_info" class="btn btn-default btn-sm"><i class="fa fa-fw fa-pencil"></i>Редактировать</a>
+				<br /><a href="{$SCRIPT_NAME}?act=ucp&part=edit_info" class="btn btn-default btn-sm"><i class="fa fa-fw fa-pencil"></i>Редактировать</a>
 			</dd>
 		</dl>
 	</div>
