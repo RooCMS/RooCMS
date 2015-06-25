@@ -41,8 +41,12 @@
 	<div class="row">
 		<div class="col-sm-12 text-right">
 			<h4>Здравствуйте, <a href="/?act=ucp"><i class="fa fa-fw fa-male"></i>{$userdata['nickname']}</a></h4>
-			<a href="/?act=pm" class="btn btn-default btn-xs"><i class="fa fa-fw fa-envelope"></i> У вас нет новых сообщений</a>
-			<a href="/?act=logout" class="btn btn-default btn-xs">Выйти <i class="fa fa-fw fa-sign-out"></i></a>
+			{if $pm == 0}
+				<a href="/index.php?act=pm" class="btn btn-default btn-xs"><i class="fa fa-fw fa-envelope-o"></i> У вас нет новых сообщений</a>
+			{else}
+				<a href="/index.php?act=pm" class="btn btn-success btn-xs"><i class="fa fa-fw fa-envelope-o"></i> У вас {$pm} новых сообщений</a>
+			{/if}
+			<a href="/index.php?act=logout" class="btn btn-default btn-xs">Выйти <i class="fa fa-fw fa-sign-out"></i></a>
 		</div>
 	</div>
 {/if}

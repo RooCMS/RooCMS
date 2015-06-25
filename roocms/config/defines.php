@@ -72,6 +72,7 @@ define('IMAGES_TABLE', 		DB_PREFIX.'images');
 define('FILES_TABLE', 		DB_PREFIX.'files');
 define('USERS_TABLE', 		DB_PREFIX.'users');
 define('USERS_GROUP_TABLE', 	DB_PREFIX.'users_group');
+define('USERS_PM_TABLE', 	DB_PREFIX.'users_pm');
 define('HELP_TABLE', 		DB_PREFIX.'help');
 
 
