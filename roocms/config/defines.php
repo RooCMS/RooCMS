@@ -114,7 +114,7 @@ define('_SITE',		_ROOCMS.'/site.php');
 /**
 * $Param
 */
-define('EMAIL_MESSAGE_PARAMETERS',	'content-Type: text/plain; charset="utf-8"');
+define('EMAIL_MESSAGE_PARAMETERS',	'content-Type: text/html; charset="utf-8"');
 define('SCRIPT_NAME',			$_SERVER['SCRIPT_NAME']);
 define('CHARSET',			'text/html; charset=utf-8');
 define('CRITICAL_STYLESHEETS',		'<script type="text/javascript" src="/plugin/bootstrap.php?short"></script>');
