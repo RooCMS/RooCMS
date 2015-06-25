@@ -5,7 +5,7 @@
 * @author       alex Roosso
 * @copyright    2010-2015 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      3.1
+* @version      3.2
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -112,7 +112,10 @@ class MySQLDatabase extends MySqlExtends {
 		error_reporting(E_ALL);
 
 		if($this->sql->connect_errno != 0) return false;
-		else return true;
+		else {
+			if(defined('INSTALL')) $this->db_connect = true;
+			return true;
+		}
 	}
 
 
@@ -398,11 +401,27 @@ class MySQLDatabase extends MySqlExtends {
 
 
 	/**
+	 * ERRNO
+	 *
+	 * @param bool $error
+	 *
+	 * @return mixed
+	 */
+	public function errno($error=false) {
+		if(defined('INSTALL') || defined('UPDATE')) {
+			if($error) return $this->sql->error;
+			else return $this->sql->errno;
+		}
+
+	}
+
+
+	/**
 	* Закрываем подключение к БД сайта
 	*
 	*/
 	public function close() {
-		$this->sql->close();
+		@$this->sql->close();
 	}
 }
 

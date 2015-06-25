@@ -366,7 +366,7 @@ class Install extends Requirement{
 			fclose($ecf);
 
 			# уведомление
-			$parse->msg("Данные занесены в БД успешно", true);
+			$parse->msg("Данные занесены в БД успешно!", true);
 
 			# переход next step
 			go(SCRIPT_NAME."?step=7");
@@ -380,11 +380,11 @@ class Install extends Requirement{
 			require_once _LIB."/mysql_schema.php";
 
 			foreach($sql AS $k=>$v) {
-				mysql_query($v);
+				$db->query($v);
 
-				if(mysql_errno() == 0) $this->log[] = array('Операция', $k, true, '');
+				if($db->errno() == 0) $this->log[] = array('Операция', $k, true, '');
 				else {
-					$this->log[] = array('Операция', $k, false, '# '.mysql_errno().'<br />- '.mysql_error());
+					$this->log[] = array('Операция', $k, false, '# '.$db->errno().'<br />- '.$db->errno(true));
 					$this->allowed = false;
 				}
 			}
