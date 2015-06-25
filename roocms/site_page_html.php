@@ -3,9 +3,9 @@
 * @package      RooCMS
 * @subpackage	Frontend
 * @author       alex Roosso
-* @copyright    2010-2014 (c) RooCMS
+* @copyright    2010-2015 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.1.3
+* @version      1.2
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -72,7 +72,7 @@ class PageHTML {
 	*/
 	function load_content() {
 
-		global $db, $structure, $parse, $img, $tpl, $smarty;
+		global $db, $structure, $parse, $files, $img, $tpl, $smarty;
 
 		$q = $db->query("SELECT content FROM ".PAGES_HTML_TABLE." WHERE sid='".$structure->page_id."'");
 		$data = $db->fetch_assoc($q);
@@ -83,6 +83,11 @@ class PageHTML {
 		$images = array();
 		$images = $img->load_images("pagesid=".$structure->page_id);
 		$smarty->assign("images", $images);
+
+		# load attached files
+		$attachfile = array();
+		$attachfile = $files->load_files("pagesid=".$structure->page_id);
+		$smarty->assign("attachfile", $attachfile);
 
 		$smarty->assign("content", $data['content']);
 

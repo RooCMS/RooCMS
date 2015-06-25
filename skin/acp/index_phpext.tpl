@@ -22,7 +22,7 @@
 						 || $ext == "mbstring"
 						 || $ext == "SimpleXML"
 						 || $ext == "apache2handler"
-						 || $ext == "mysql"}
+						 || $ext == "mysqli"}
 							class="text-success"
 						{elseif $ext == "xdebug"}
 							class="text-warning"

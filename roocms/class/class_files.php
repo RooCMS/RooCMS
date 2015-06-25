@@ -250,11 +250,18 @@ class Files {
 
 				$upload = false;
 
+				# ext
+				$ffn = explode(".", $_FILES[$file]['name'][$key]);
+				$_FILES[$file]['ext'][$key] = array_pop($ffn);
+
+				# исключение для tar.gz (в будущем оформим нормальным образом)
+				if($_FILES[$file]['ext'][$key] == "gz") $_FILES[$file]['ext'][$key] = "tar.gz";
+
 				# Грузим апельсины бочками
-				if(array_key_exists($_FILES[$file]['type'][$key], $allow_exts)) {
+				if(array_key_exists($_FILES[$file]['ext'][$key], $allow_exts)) {
 
 					# Создаем имя файлу.
-					$ext = $allow_exts[$_FILES[$file]['type'][$key]];
+					$ext = $allow_exts[$_FILES[$file]['ext'][$key]];
 					$filename = $this->create_filename($_FILES[$file]['name'][$key], $prefix);
 
 					# Сохраняем оригинал
@@ -298,7 +305,7 @@ class Files {
 		require _LIB."/mimetype.php";
 
 		foreach($filetype AS $itype) {
-			$allow_exts[$itype['mime_type']] = $itype['ext'];
+			$allow_exts[$itype['ext']] = $itype['ext'];
 		}
 
 		return $allow_exts;

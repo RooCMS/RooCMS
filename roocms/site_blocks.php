@@ -3,9 +3,9 @@
 * @package	RooCMS
 * @subpackage	Frontend
 * @author	alex Roosso
-* @copyright	2010-2014 (c) RooCMS
+* @copyright	2010-2015 (c) RooCMS
 * @link		http://www.roocms.com
-* @version	1.1
+* @version	1.2
 * @since	$date$
 * @license	http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -66,7 +66,7 @@ class Blocks {
 	*/
 	public function load($id) {
 
-		global $db, $parse, $img, $smarty, $tpl;
+		global $db, $parse, $files, $img, $smarty, $tpl;
                 static $use_blocks = array();
 
                 $output = "";
@@ -96,11 +96,17 @@ class Blocks {
 					$images = array();
 					$images = $img->load_images("blockid=".$data['id']);
 
+					# load attached files
+					$attachfile = array();
+					$attachfile = $files->load_files("blockid=".$data['id']);
+
+
+					$smarty->assign("attachfile", $attachfile);
 					$smarty->assign("images", $images);
 					$smarty->assign("block_id", $data['id']);
 					$smarty->assign("block_alias", $data['alias']);
 
-					$imgs = $tpl->load_template("block_images", true);
+					$imgs = $tpl->load_template("block_attached", true);
 
 					$output .= $imgs;
 				}
