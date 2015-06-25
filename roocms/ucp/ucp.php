@@ -60,8 +60,10 @@ class UCP_CP {
 	 */
 	function UCP_CP() {
 
-		global $roocms;
+		global $structure, $roocms;
 
+		# mites
+		$structure->breadcumb[] = array('act' => 'ucp', 'title'=>'Личный кабинет');
 
 		switch($roocms->part) {
 			case 'edit_info':
@@ -97,7 +99,10 @@ class UCP_CP {
 	 */
 	private function edit_info() {
 
-		global $users, $tpl, $smarty;
+		global $structure, $users, $tpl, $smarty;
+
+		# mites
+		$structure->breadcumb[] = array('act' => 'ucp', 'part'=>'edit_info', 'title'=>'Изменяем личные данные');
 
 		# tpl
 		$smarty->assign("userdata", $users->userdata);
@@ -166,7 +171,7 @@ class UCP_CP {
 
 			sendmail($POST->email, "Ваши данные на \"".$site['title']."\" были обновлены", $message);
 
-			go("?act=ucp");
+			go("index.php?act=ucp");
 		}
 	}
 }

@@ -5,7 +5,7 @@
 * @author       alex Roosso
 * @copyright    2010-2015 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.3.3
+* @version      1.3.4
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -61,7 +61,7 @@ class ACP_PAGES_HTML {
 	//	Edit
 	function edit($sid) {
 
-		global $db, $img, $tpl, $smarty, $parse;
+		global $db, $files, $img, $tpl, $smarty, $parse;
 
 		# download data
 		$q = $db->query("SELECT h.id, h.sid, h.content, s.title, s.alias, s.meta_description, s.meta_keywords, h.date_modified
@@ -73,6 +73,7 @@ class ACP_PAGES_HTML {
 
 		$smarty->assign("data", $data);
 
+
 		# download attached images
 		$attachimg = array();
 		$attachimg = $img->load_images("pagesid=".$sid);
@@ -82,8 +83,20 @@ class ACP_PAGES_HTML {
 		$attachedimages = $tpl->load_template("images_attach", true);
 		$smarty->assign("attachedimages", $attachedimages);
 
-		# show upload images form
+
+		# download attached files
+		$attachfile = array();
+		$attachfile = $files->load_files("pagesid=".$sid);
+		$smarty->assign("attachfile", $attachfile);
+
+		# show attached files
+		$attachedfiles = $tpl->load_template("files_attach", true);
+		$smarty->assign("attachedfiles", $attachedfiles);
+
+
+		# show upload files & images form
 		$tpl->load_image_upload_tpl("imagesupload");
+		$tpl->load_files_upload_tpl("filesupload");
 
 		$content = $tpl->load_template("pages_edit_html", true);
 		$smarty->assign("content", $content);
@@ -97,7 +110,7 @@ class ACP_PAGES_HTML {
 	 */
 	function update($sid) {
 
-		global $db, $parse, $img, $POST;
+		global $db, $parse, $files, $img, $POST;
 
 		#sortable images
 		if(isset($POST->sort)) {
@@ -119,6 +132,15 @@ class ACP_PAGES_HTML {
 		if($images) {
 			foreach($images AS $image) {
 				$img->insert_images($image, "pagesid=".$sid);
+			}
+		}
+
+
+		# attachment files
+		$attachs = $files->upload("files");
+		if($attachs) {
+			foreach($attachs AS $attach) {
+				$files->insert_file($attach, "pagesid=".$sid);
 			}
 		}
 

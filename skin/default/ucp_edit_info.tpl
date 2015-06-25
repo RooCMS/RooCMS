@@ -5,7 +5,7 @@
 
 <div class="row">
 	<div class="col-sm-8">
-		<form method="post" action="?act=ucp&part=update_info" role="form" class="form-horizontal">
+		<form method="post" action="{$SCRIPT_NAME}?act=ucp&part=update_info" role="form" class="form-horizontal">
 			<div class="form-group">
 				<label for="inputLogin" class="col-lg-4 control-label">
 					Ваш логин: <small><span class="fa fa-info fa-fw" rel="tooltip" title="Не должен совпадать с логином другого пользователя" data-placement="right"></span></small>
@@ -57,7 +57,7 @@
 <div class="row">
 	<div class="col-sm-8">
 		<div class="alert alert-warning" role="alert">
-			После смены данных, система попросит перезайти вас на сайт, что бы удостоверится в вашей безопастноти.
+			После смены данных, система попросит перезайти вас на сайт, что бы удостоверится в вашей безопастности.
 		</div>
 	</div>
 </div>

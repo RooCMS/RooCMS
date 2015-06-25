@@ -31,11 +31,17 @@
 			</div>
 		</div>
 
-		<div class="row images_attach">
-			<div class="col-md-12">
-				{$imagesupload}
+		<div class="row field_attach">
+			<div class="row">
+				<div class="col-md-6">
+					{$imagesupload}
+				</div>
+				<div class="col-md-6">
+					{$filesupload}
+				</div>
 			</div>
 		</div>
+
 		<div class="row">
 			<div class="col-md-12 text-right">
 				<input type="submit" name="create_block" class="btn btn-success" value="Создать блок">

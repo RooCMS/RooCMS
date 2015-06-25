@@ -1,5 +1,7 @@
 Deny from all
-<Files ~ "\.(rar|zip|tar|gz|txt|doc|xls|ttf|psd|cdr|docx|xlsx)$">
+<Files ~ "\.(7z|m3u|rar|zip|tar|gz|txt|doc|xls|ttf|psd|cdr|docx|xlsx|htm|html|swf|fla|psd|pdf|csv|torrent|xml)$">
+	ForceType application/octet-stream
+	Header set Content-Disposition "attachment"
 	Allow from all
 </Files>
 php_flag engine  off

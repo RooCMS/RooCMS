@@ -8,3 +8,12 @@
 	{/foreach}
 </div>
 {/if}
+
+{if !empty($attachfile)}
+	<div class="well well-sm">
+		<strong>Файлы:</strong>
+		{foreach from=$attachfile item=file}
+			<br /><a href="/upload/files/{$file['file']}" class="btn btn-xs btn-default"><i class="fa fa-fw fa-download"></i> {$file['file']}</a>
+		{/foreach}
+	</div>
+{/if}

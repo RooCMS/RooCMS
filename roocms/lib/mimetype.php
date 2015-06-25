@@ -61,11 +61,14 @@ $mimetype = array();
 * @var array
 */
 $filetype	= array();
+$filetype[]	= array('ext'	=> '7z',	'mime_type'	=> 'application/octet-stream',		'ico'	=> '7z.png');
 $filetype[]	= array('ext'	=> 'm3u',	'mime_type'	=> 'audio/mpegurl',			'ico'	=> 'mp3.png');
 $filetype[]	= array('ext'	=> 'ttf',	'mime_type'	=> 'application/octet-stream',		'ico'	=> 'ttf.png');
-$filetype[]	= array('ext'	=> 'zip',	'mime_type'	=> 'application/x-zip-compressed',	'ico'	=> 'zip.png');
-$filetype[]	= array('ext'	=> 'zip',	'mime_type'	=> 'application/zip',			'ico'	=> 'zip.png');
-$filetype[]	= array('ext'	=> 'tar.gz',	'mime_type'	=> 'application/octetstream',		'ico'	=> 'tgz.png');
+//$filetype[]	= array('ext'	=> 'zip',	'mime_type'	=> 'application/x-zip-compressed',	'ico'	=> 'zip.png');
+//$filetype[]	= array('ext'	=> 'zip',	'mime_type'	=> 'application/zip',			'ico'	=> 'zip.png');
+$filetype[]	= array('ext'	=> 'zip',	'mime_type'	=> 'application/octet-stream',		'ico'	=> 'zip.png');
+//$filetype[]	= array('ext'	=> 'tar.gz',	'mime_type'	=> 'application/octetstream',		'ico'	=> 'tgz.png');
+$filetype[]	= array('ext'	=> 'tar.gz',	'mime_type'	=> 'application/gzip',			'ico'	=> 'tgz.png');
 $filetype[]	= array('ext'	=> 'rar',	'mime_type'	=> 'application/octet-stream',		'ico'	=> 'rar.png');
 $filetype[]	= array('ext'	=> 'js',	'mime_type'	=> 'application/x-javascript',		'ico'	=> 'js.png');
 $filetype[]	= array('ext'	=> 'html',	'mime_type'	=> 'text/html',				'ico'	=> 'html.png');
@@ -76,12 +79,14 @@ $filetype[]	= array('ext'	=> 'ini',	'mime_type'	=> 'application/octet-stream',		
 $filetype[]	= array('ext'	=> 'swf',	'mime_type'	=> 'application/x-shockwave-flash',	'ico'	=> 'swf.png');
 $filetype[]	= array('ext'	=> 'fla',	'mime_type'	=> 'application/octet-stream',		'ico'	=> 'fla.png');
 $filetype[]	= array('ext'	=> 'psd',	'mime_type'	=> 'application/octet-stream',		'ico'	=> 'psd.png');
+$filetype[]	= array('ext'	=> 'pdf',	'mime_type'	=> 'application/pdf',			'ico'	=> 'pdf.png');
 $filetype[]	= array('ext'	=> 'cdr',	'mime_type'	=> 'application/octet-stream',		'ico'	=> 'cdr.png');
 $filetype[]	= array('ext'	=> 'csv',	'mime_type'	=> 'application/vnd.ms-excel',		'ico'	=> 'csv.png');
 $filetype[]	= array('ext'	=> 'doc',	'mime_type'	=> 'application/msword',		'ico'	=> 'doc.png');
 $filetype[]	= array('ext'	=> 'xls',	'mime_type'	=> 'application/vnd.ms-excel',		'ico'	=> 'xls.png');
 $filetype[]	= array('ext'	=> 'docx',	'mime_type'	=> 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',	'ico'	=> 'docx.png');
 $filetype[]	= array('ext'	=> 'xlsx',	'mime_type'	=> 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',		'ico'	=> 'xlsx.png');
+$filetype[]	= array('ext'	=> 'torrent',	'mime_type'	=> 'application/x-bittorrent',		'ico'	=> 'torrent.png');
 
 
 /**

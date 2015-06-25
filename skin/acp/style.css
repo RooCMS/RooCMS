@@ -102,9 +102,8 @@ a:hover [class^="fa-"] {
 .hover-without-underline:hover {
   text-decoration: none !important;
 }
-.delete_image {
-  margin-right: -3px;
-  margin-top: 5px;
+.hover_cursor {
+  cursor: pointer;
 }
 .progress.pb0 {
   margin-bottom: 0px !important;
@@ -112,8 +111,15 @@ a:hover [class^="fa-"] {
 .cked {
   overflow-x: hidden;
 }
-.images_attach {
+.field_attach {
   padding: 10px 0px;
+}
+.delete_image {
+  margin-right: -3px;
+  margin-top: 5px;
+}
+p.attach_files {
+  padding: 8px 8px;
 }
 .form-date {
   width: 50% !important;

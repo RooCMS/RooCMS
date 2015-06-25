@@ -4,9 +4,9 @@
 * @subpackage	Admin Control Panel
 * @subpackage	Ajax Functions
 * @author       alex Roosso
-* @copyright    2010-2014 (c) RooCMS
+* @copyright    2010-2015 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.1.1
+* @version      1.2
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -71,6 +71,10 @@ class ACP_AJAX {
 			case 'delete_attached_image':
 				$this->delete_attached_image();
 				break;
+
+			case 'delete_attached_file':
+				$this->delete_attached_file();
+				break;
 		}
 	}
 
@@ -86,6 +90,23 @@ class ACP_AJAX {
 		if(isset($GET->_id) && $db->check_id($GET->_id, IMAGES_TABLE)) {
 
 			$img->delete_images($GET->_id);
+
+			echo "<small class=\"text-success btn btn-xs delete_image\"><span class=\"fa fa-trash-o\"></span> Удалено!</small>";
+		}
+	}
+
+
+	/**
+	 * Удаление файлов посредством AJAX
+	 *
+	 */
+	private function delete_attached_file() {
+
+		global $db, $GET, $files;
+
+		if(isset($GET->_id) && $db->check_id($GET->_id, FILES_TABLE)) {
+
+			$files->delete_files($GET->_id);
 
 			echo "<small class=\"text-success btn btn-xs delete_image\"><span class=\"fa fa-trash-o\"></span> Удалено!</small>";
 		}

@@ -5,7 +5,7 @@
 * @author       alex Roosso
 * @copyright    2010-2015 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.2
+* @version      1.3
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -91,7 +91,7 @@ class PageFeed {
         */
 	private function load_item($id) {
 
-		global $db, $structure, $parse, $img, $tpl, $smarty, $site;
+		global $db, $structure, $parse, $files, $img, $tpl, $smarty, $site;
 
 		# query data
 		$q = $db->query("SELECT id, title, meta_description, meta_keywords, full_item, date_publications FROM ".PAGES_FEED_TABLE." WHERE id='".$id."'");
@@ -100,10 +100,17 @@ class PageFeed {
 		$item['date']		= $parse->date->unix_to_rus_array($item['date_publications']);
 		$item['full_item']	= $parse->text->html($item['full_item']);
 
+
 		# load attached images
 		$images = array();
                 $images = $img->load_images("feedid=".$id);
 		$smarty->assign("images", $images);
+
+		# load attached files
+		$attachfile = array();
+		$attachfile = $files->load_files("feedid=".$id);
+		$smarty->assign("attachfile", $attachfile);
+
 
 		$smarty->assign("item", $item);
 

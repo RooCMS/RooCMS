@@ -5,7 +5,7 @@
  * @author       alex Roosso
  * @copyright    2010-2014 (c) RooCMS
  * @link         http://www.roocms.com
- * @version      1.2.2
+ * @version      1.3
  * @since        $date$
  * @license      http://www.gnu.org/licenses/gpl-3.0.html
  */
@@ -171,6 +171,35 @@ class Files {
 
 
 	/**
+	 * Выгружаем присоедененные файлы
+	 *
+	 * @param string $where - параметр указывающий на элемент к которому прикреплены изображения
+	 * @param int    $from - стартовая позиция для загрузки файлов
+	 * @param int    $limit - лимит загружаемых файлов
+	 *
+	 * @return array $data - массив с данными о файлах.
+	 */
+	public function load_files($where, $from = 0, $limit = 0) {
+
+		global $db;
+
+		$data = array();
+
+		$l = ($limit != 0) ? "LIMIT ".$from.",".$limit : "" ;
+
+		$q = $db->query("SELECT id, filename, fileext, sort FROM ".FILES_TABLE." WHERE attachedto='".$where."' ORDER BY sort ASC ".$l);
+		while($file = $db->fetch_assoc($q)) {
+
+			$file['file']	= $file['filename'].".".$file['fileext'];
+
+			$data[] = $file;
+		}
+
+		return $data;
+	}
+
+
+	/**
     * Отображение прав доступа в виде восьмеричного числа
     *
     * @param string $file  - название файла с указанием полного пути до него
@@ -182,16 +211,17 @@ class Files {
 
 
 	/**
-	 * Функция загрузки файлов //НАДО ПРАВИТЬ!
+	 * Функция загрузки файлов
 	 *
-	 * @param string       $file   - Параметр файла массива $_FILES
-	 * @param string       $prefix - Префикс имени файла
-	 * @param array|string $types  - Допустимые типы файлов (в будущем)
-	 * @param string       $path   - путь для загрузки файлов
+	 * @param string	$file   - Параметр файла массива $_FILES
+	 * @param string	$prefix - Префикс имени файла
+	 * @param array|string	$types  - Допустимые типы файлов (в будущем)
+	 * @param string	$path	- путь для загрузки файлов
+	 * @param boolean	$no_empty - определяет пропускать ли пустые элементы в массиве FILES или обозначать их в выходном буфере.
 	 *
 	 * @return array|bool
 	 */
-	public function upload($file, $prefix="", $types="all", $path=_UPLOADFILES) {
+	public function upload($file, $prefix="", $types="all", $path=_UPLOADFILES, $no_empty=true) {
 
     	        # Переписать функцию!!!
     	        # *** Больше проверок от "умников"
@@ -199,39 +229,52 @@ class Files {
 		global $config, $parse;
 
 
-		# check allow type
-		require_once _LIB."/mimetype.php";
-
+		# Составляем массив для проверки разрешенных типов файлов к загрузке
 		static $allow_exts = array();
+		if(empty($allow_exts))
+			$allow_exts = $this->get_allow_exts();
 
-		if(empty($allow_exts)) {
-	                foreach($filetype AS $itype) {
-        		        $allow_exts[$itype['mime_type']] = $itype['ext'];
+
+		# Если $_FILES не является массивом конвертнем в массив
+		# Я кстати в курсе, что сам по себе $_FILES уже массив. Тут в другом смысл.
+		if(!is_array($_FILES[$file]['tmp_name'])) {
+			foreach($_FILES[$file] AS $k=>$v) {
+				$_FILES[$file][$k][$file] = $v;
 			}
 		}
 
 
-		$filename = false;
+		# приступаем к обработке
+		foreach($_FILES[$file]['tmp_name'] AS $key=>$value) {
+			if(isset($_FILES[$file]['tmp_name'][$key]) && $_FILES[$file]['error'][$key] == 0) {
 
-		# Если $_FILES не является массивом
-		if(!is_array($_FILES[$file]['tmp_name'])) {
-			if(isset($_FILES[$file]['tmp_name']) && $_FILES[$file]['error'] == 0) {
+				$upload = false;
 
-				# Смотрим оригинальное расширение файла
-				$fileext = $this->get_ext($_FILES[$file]['name']);
+				# ext
+				$ffn = explode(".", $_FILES[$file]['name'][$key]);
+				$_FILES[$file]['ext'][$key] = array_pop($ffn);
+
+				# исключение для tar.gz (в будущем оформим нормальным образом)
+				if($_FILES[$file]['ext'][$key] == "gz") $_FILES[$file]['ext'][$key] = "tar.gz";
 
 				# Грузим апельсины бочками
-				if(array_key_exists($_FILES[$file]['type'], $allow_exts)) {
-					# Создаем имя файлу.
-					$filename['name'] 	= $this->create_filename($fileext, $prefix);
-					$filename['ext'] 	= $fileext;
-					$filename['real_name']	= $parse->escape_string(str_ireplace(".".$fileext, "", $_FILES[$file]['name']));
+				if(array_key_exists($_FILES[$file]['ext'][$key], $allow_exts)) {
 
-					# Копируем файл
-					copy($_FILES[$file]['tmp_name'], $path."/".$filename['name']);
+					# Создаем имя файлу.
+					$ext = $allow_exts[$_FILES[$file]['ext'][$key]];
+					$filename = $this->create_filename($_FILES[$file]['name'][$key], $prefix);
+
+					# Сохраняем оригинал
+					copy($_FILES[$file]['tmp_name'][$key], $path."/".$filename.".".$ext);
 
 					# Если загрузка прошла и файл на месте
-					if(!file_exists($path."/".$filename['name'])) $filename = false;
+					$upload = (!file_exists($path."/".$filename.".".$ext)) ? false : true ;
+				}
+
+				# Если не загрузка удалась
+				if(!$upload) {
+					# Обработчик если загрузка не удалась =)
+					$filename = false;
 				}
 			}
 			else {
@@ -240,46 +283,89 @@ class Files {
 				$filename = false;
 			}
 
-			return $filename;
-		}
-		# Если $_FILES является массивом
-		else {
-			foreach($_FILES[$file]['tmp_name'] AS $key=>$value) {
-
-				# Сброс на случай отказа по разрешениям типа, только одного из элементов массива.
-				$filename = false;
-
-				if(isset($_FILES[$file]['tmp_name'][$key]) && $_FILES[$file]['error'][$key] == 0) {
-
-					# Смотрим оригинальное расширение файла
-					$fileext = $this->get_ext($_FILES[$file]['name'][$key]);
-
-					# Грузим апельсины бочками
-					if(array_key_exists($_FILES[$file]['type'][$key], $allow_exts)) {
-						// Создаем имя файлу.
-						$filename['name'] 	= $this->create_filename($fileext, $prefix);
-						$filename['ext'] 	= $fileext;
-						$filename['real_name']	= $parse->escape_string(str_ireplace(".".$fileext, "", $_FILES[$file]['name'][$key]));
-
-						// Копируем файл
-						copy($_FILES[$file]['tmp_name'][$key], $path."/".$filename['name']);
-
-						// Если загрузка прошла и файл на месте
-						if(!file_exists($path."/".$filename['name'])) $filename = false;
-					}
-				}
-				else {
-					# вписать сообщение об ошибке.
-					# впрочем ещё надо и обработчик ошибок написать.
-					$filename = false;
-				}
-
-				$names[] = $filename;
+			if(!$no_empty) {
+				$names[$key] = $filename.".".$ext;
 			}
-
-			if(isset($names) && count($names) > 0) return $names;
-			else return false;
+			else {
+				if($filename) $names[] = $filename.".".$ext;
+			}
 		}
+
+		# Возвращаем массив имен файлов для внесения в БД
+		return (isset($names) && count($names) > 0) ? $names : false ;
+	}
+
+
+	/**
+	 * Функция составляет массив допустимых расширений файлов разрешенных для загрузки на сервер.
+	 *
+	 * @return mixed Возвращает массив с допустимыми расширениями изображения для загрузки на сервер
+	 */
+	public function get_allow_exts() {
+		require _LIB."/mimetype.php";
+
+		foreach($filetype AS $itype) {
+			$allow_exts[$itype['ext']] = $itype['ext'];
+		}
+
+		return $allow_exts;
+	}
+
+
+	/**
+	 * Загружаем информацию о файлах в БД
+	 *
+	 * @param string $filename - имя файла без $pofix
+	 * @param mixed  $attached - родитель файла
+	 */
+	public function insert_file($filename, $attached) {
+
+		global $db, $parse;
+
+		$fileinfo = pathinfo($filename);
+
+		$db->query("INSERT INTO ".FILES_TABLE." (attachedto, filename, fileext)
+						    VALUES ('".$attached."', '".$fileinfo['filename']."', '".$fileinfo['extension']."')");
+
+		# msg
+		if(DEBUGMODE) $parse->msg("Изображение ".$filename." успешно загружено на сервер");
+	}
+
+
+	/**
+	 * Функция удаления файлов
+	 *
+	 * @param int/string $file - указать числовой идентификатор или attachedto
+	 * @param boolean    $clwhere - флаг указывает как считывать параметр $file
+	 * 				положение false указывает, что передается параметр id или attachedto
+	 * 				положение true указывает, что передается полностью выраженное условие
+	 */
+	public function delete_files($file, $clwhere=false) {
+
+		global $db, $parse;
+
+		if(is_numeric($file) || is_integer($file))
+			$where = " id='".$file."' ";
+		else
+			$where = " attachedto='".$file."' ";
+
+		if($clwhere) $where = $file;
+
+		$q = $db->query("SELECT id, filename, fileext FROM ".FILES_TABLE." WHERE ".$where);
+		while($row = $db->fetch_assoc($q)) {
+			if(!empty($row)) {
+				$filename = $row['filename'].".".$row['fileext'];
+
+				# delete
+				if(file_exists(_UPLOADFILES."/".$filename)) {
+					unlink(_UPLOADFILES."/".$filename);
+					if(DEBUGMODE) $parse->msg("Файл ".$filename." удален");
+				}
+				elseif(!file_exists(_UPLOADFILES."/".$filename) && DEBUGMODE) $parse->msg("Не удалось найти файл ".$filename, false);
+			}
+		}
+
+		$db->query("DELETE FROM ".FILES_TABLE." WHERE ".$where);
 	}
 }
 

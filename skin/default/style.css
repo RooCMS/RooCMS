@@ -18,6 +18,8 @@ small, button, .btn, .label, .badge {font-family: 'PT Sans' !important;}
 p {text-align: justify;}
 p.lead {font-family: "PT Sans" !important;}
 
+.mod_auth_form {width: 50% !important;}
+
 
 /* WebKit Scrollbar */
 .scroll::-webkit-scrollbar { width: 12px; }
