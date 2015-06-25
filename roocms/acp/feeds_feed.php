@@ -208,7 +208,7 @@ class ACP_FEEDS_FEED {
 	 */
 	function create_item() {
 
-		global $db, $parse, $img, $POST, $tpl, $smarty;
+		global $db, $parse, $files, $img, $POST, $tpl, $smarty;
 
 		if(isset($POST->create_item)) {
 			if(!isset($POST->title)) 	$parse->msg("Не заполнен заголовок элемента",false);
