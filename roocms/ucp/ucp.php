@@ -62,7 +62,7 @@ class UCP_CP {
 
 		global $structure, $roocms;
 
-		# mites
+		# breadcumb
 		$structure->breadcumb[] = array('act' => 'ucp', 'title'=>'Личный кабинет');
 
 		switch($roocms->part) {
@@ -101,7 +101,7 @@ class UCP_CP {
 
 		global $structure, $users, $tpl, $smarty;
 
-		# mites
+		# breadcumb
 		$structure->breadcumb[] = array('act' => 'ucp', 'part'=>'edit_info', 'title'=>'Изменяем личные данные');
 
 		# tpl

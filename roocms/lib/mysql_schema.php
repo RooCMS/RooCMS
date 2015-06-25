@@ -5,7 +5,7 @@
 * @author       alex Roosso
 * @copyright    2010-2015 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.2.7
+* @version      1.2.8
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -303,6 +303,25 @@ $sql['CREATE '.USERS_GROUP_TABLE] = "CREATE TABLE  `".USERS_GROUP_TABLE."` (
 					PRIMARY KEY (  `gid` ) ,
 					UNIQUE KEY  `gid` (  `gid` ) ,
 					UNIQUE KEY  `title` (  `title` )
+					) ENGINE = MYISAM DEFAULT CHARSET = utf8;";
+
+
+/**
+ * Личные сообщения
+ */
+$sql['DROP '.USERS_PM_TABLE] = "DROP TABLE IF EXISTS `".USERS_PM_TABLE."`";
+$sql['CREATE '.USERS_PM_TABLE] = "CREATE TABLE  `".USERS_PM_TABLE."` (
+						`id` INT( 10 ) UNSIGNED NOT NULL AUTO_INCREMENT ,
+						`from_uid` INT( 10 ) UNSIGNED NOT NULL DEFAULT  '0',
+						`to_uid` INT( 10 ) UNSIGNED NOT NULL DEFAULT  '0',
+						`title` VARCHAR( 255 ) NOT NULL ,
+						`message` TEXT NOT NULL ,
+						`see` ENUM(  '0',  '1' ) NOT NULL DEFAULT  '0',
+						`date_create` INT( 20 ) UNSIGNED NOT NULL DEFAULT  '0',
+						`date_read` INT( 20 ) UNSIGNED NOT NULL DEFAULT  '0',
+					PRIMARY KEY (  `id` ) ,
+					UNIQUE KEY  `id` (  `id` ) ,
+					KEY  `from_uid` (  `from_uid` ,  `to_uid` )
 					) ENGINE = MYISAM DEFAULT CHARSET = utf8;";
 
 

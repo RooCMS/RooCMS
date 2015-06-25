@@ -199,7 +199,7 @@ class ACP_STRUCTURE {
 
 			# добавляем структурную еденицу
 			$db->query("INSERT INTO ".STRUCTURE_TABLE."    (alias, title, parent_id, group_access, page_type, meta_description, meta_keywords, noindex, sort, date_create, date_modified, thumb_img_width, thumb_img_height)
-								VALUES ('".$POST->alias."', '".$POST->title."', '".$POST->parent_id."', '".$POST->gids."', ''".$POST->page_type."', '".$POST->meta_description."', '".$POST->meta_keywords."', '".$POST->noindex."', '".$POST->sort."', '".time()."', '".time()."', '".$POST->thumb_img_width."', '".$POST->thumb_img_height."')");
+								VALUES ('".$POST->alias."', '".$POST->title."', '".$POST->parent_id."', '".$POST->gids."', '".$POST->page_type."', '".$POST->meta_description."', '".$POST->meta_keywords."', '".$POST->noindex."', '".$POST->sort."', '".time()."', '".time()."', '".$POST->thumb_img_width."', '".$POST->thumb_img_height."')");
 			$sid = $db->insert_id();
 
 			# create body unit for html & php pages

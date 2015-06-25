@@ -5,7 +5,7 @@
 * @author       alex Roosso
 * @copyright    2010-2015 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.1.7
+* @version      1.1.8
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -119,11 +119,18 @@ $protectfiles[]	= array('path'	=> _ROOCMS.'/acp/security_check.php',	'chmod'	=> 
 $protectfiles[]	= array('path'	=> _ROOCMS.'/acp/structure.php',	'chmod'	=> '0644',	'hash'	=> '');
 $protectfiles[]	= array('path'	=> _ROOCMS.'/acp/users.php',		'chmod'	=> '0644',	'hash'	=> '');
 $protectfiles[]	= array('path'	=> _ROOCMS.'/acp.php',			'chmod'	=> '0644',	'hash'	=> '');
+$protectfiles[]	= array('path'	=> _ROOCMS.'/ucp.php',			'chmod'	=> '0644',	'hash'	=> '');
+$protectfiles[]	= array('path'	=> _ROOCMS.'/ucp/login.php',		'chmod'	=> '0644',	'hash'	=> '');
+$protectfiles[]	= array('path'	=> _ROOCMS.'/ucp/logout.php',		'chmod'	=> '0644',	'hash'	=> '');
+$protectfiles[]	= array('path'	=> _ROOCMS.'/ucp/pm.php',		'chmod'	=> '0644',	'hash'	=> '');
+$protectfiles[]	= array('path'	=> _ROOCMS.'/ucp/security_check.php',	'chmod'	=> '0644',	'hash'	=> '');
+$protectfiles[]	= array('path'	=> _ROOCMS.'/ucp/ucp.php',		'chmod'	=> '0644',	'hash'	=> '');
+$protectfiles[]	= array('path'	=> _ROOCMS.'/module/auth.php',		'chmod'	=> '0644',	'hash'	=> '');
 $protectfiles[]	= array('path'	=> _ROOCMS.'/functions.php',		'chmod'	=> '0644',	'hash'	=> '');
-$protectfiles[]	= array('path'	=> _ROOCMS.'/functions_blocks.php',	'chmod'	=> '0644',	'hash'	=> '');
-$protectfiles[]	= array('path'	=> _ROOCMS.'/functions_page_feed.php',	'chmod'	=> '0644',	'hash'	=> '');
-$protectfiles[]	= array('path'	=> _ROOCMS.'/functions_page_html.php',	'chmod'	=> '0644',	'hash'	=> '');
-$protectfiles[]	= array('path'	=> _ROOCMS.'/functions_page_php.php',	'chmod'	=> '0644',	'hash'	=> '');
+$protectfiles[]	= array('path'	=> _ROOCMS.'/site_blocks.php',		'chmod'	=> '0644',	'hash'	=> '');
+$protectfiles[]	= array('path'	=> _ROOCMS.'/site_page_feed.php',	'chmod'	=> '0644',	'hash'	=> '');
+$protectfiles[]	= array('path'	=> _ROOCMS.'/site_page_html.php',	'chmod'	=> '0644',	'hash'	=> '');
+$protectfiles[]	= array('path'	=> _ROOCMS.'/site_page_php.php',	'chmod'	=> '0644',	'hash'	=> '');
 $protectfiles[]	= array('path'	=> _ROOCMS.'/init.php',			'chmod'	=> '0644',	'hash'	=> '');
 $protectfiles[]	= array('path'	=> _ROOCMS.'/site.php',			'chmod'	=> '0644',	'hash'	=> '');
 $protectfiles[]	= array('path'	=> _LIB.'/files_protected.php',		'chmod'	=> '0644',	'hash'	=> '');

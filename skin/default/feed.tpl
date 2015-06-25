@@ -1,15 +1,10 @@
 {* Шаблон ленты *}
-<div class="row">
-	<div class="col-lg-{if !empty($rsslink)}11{else}12{/if} col-sm-{if !empty($rsslink)}10{else}12{/if}">
-		<h1 class="white">{$page_title}</h1>
-	</div>
-	{if !empty($rsslink)}
-		<div class="col-lg-1 col-sm-2 text-right">
-			<a href="{$rsslink}" class="btn btn-warning btn-xs"><span class="fa fa-rss fa-fw"></span>RSS 2.0</a>
-		</div>
-	{/if}
-</div>
 
+{if !empty($rsslink)}
+	<a href="{$rsslink}" class="btn btn-warning btn-xs pull-right"><span class="fa fa-rss fa-fw"></span>RSS 2.0</a>
+{/if}
+<h1>{$page_title}</h1>
+<hr>
 
 {foreach from=$feeds item=item}
 	<div id="item-id-{$item['id']}">

@@ -72,6 +72,7 @@ define('IMAGES_TABLE', 		DB_PREFIX.'images');
 define('FILES_TABLE', 		DB_PREFIX.'files');
 define('USERS_TABLE', 		DB_PREFIX.'users');
 define('USERS_GROUP_TABLE', 	DB_PREFIX.'users_group');
+define('USERS_PM_TABLE', 	DB_PREFIX.'users_pm');
 define('HELP_TABLE', 		DB_PREFIX.'help');
 
 
@@ -113,7 +114,7 @@ define('_SITE',		_ROOCMS.'/site.php');
 /**
 * $Param
 */
-define('EMAIL_MESSAGE_PARAMETERS',	'content-Type: text/plain; charset="utf-8"');
+define('EMAIL_MESSAGE_PARAMETERS',	'content-Type: text/html; charset="utf-8"');
 define('SCRIPT_NAME',			$_SERVER['SCRIPT_NAME']);
 define('CHARSET',			'text/html; charset=utf-8');
 define('CRITICAL_STYLESHEETS',		'<script type="text/javascript" src="/plugin/bootstrap.php?short"></script>');

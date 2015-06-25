@@ -6,7 +6,7 @@
 * @author	alex Roosso
 * @copyright	2010-2015 (c) RooCMS
 * @link		http://www.roocms.com
-* @version	1.0
+* @version	1.0.1
 * @since	$date$
 * @license	http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -69,9 +69,13 @@ class Module_Auth {
 	 */
 	function Module_Auth() {
 
-		global $users, $tpl, $smarty;
+		global $db, $users, $tpl, $smarty;
+
+		$q = $db->query("SELECT id FROM ".USERS_PM_TABLE." WHERE to_uid='".$users->uid."' AND see='0'");
+		$pm = $db->num_rows($q);
 
 		# draw
+		$smarty->assign("pm", $pm);
 		$smarty->assign("userdata", $users->userdata);
 		$this->out .= $tpl->load_template("module_auth", true);
 	}
