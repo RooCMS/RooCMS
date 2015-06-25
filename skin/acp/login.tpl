@@ -13,7 +13,7 @@ body {overflow: hidden;background: transparent url('{/literal}{$SKIN}{literal}/i
         		<div class="modal-content" id="LoginForm">
 					<div class="modal-header text-center ">
 						<a href="/" class="close" data-dismiss="modal" aria-hidden="true">×</a>
-						<img src="{$SKIN}/img/acp_logo.png" border="0" alt="Добро пожаловать в Панель Администратора RooCMS" title="Добро пожаловать в Панель Администратора RooCMS">
+						<img src="{$SKIN}/img/logo_login.png" border="0" alt="Добро пожаловать в Панель Администратора RooCMS" title="Добро пожаловать в Панель Администратора RooCMS">
 					</div>
 					<div class="modal-body text-center">
             				{if !empty($error_login)}
