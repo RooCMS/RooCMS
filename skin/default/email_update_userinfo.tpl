@@ -10,22 +10,22 @@
 
 <h2> Здравствуйте, {$nickname} </h2>
 
-Ваши данные на сайте <a href="{$site['domain']}" target="_blank">{$site['title']}</a> были обновлены.
-
+<br />Ваши данные на сайте <a href="{$site['domain']}" target="_blank">{$site['title']}</a> были обновлены.
+<br />
 <h4>Вот ваши новые данные:</h4>
 Логин: {$login}
-Никнейм: {$nickname}
-E-Mail: {$email}
+<br />Никнейм: {$nickname}
+<br />E-Mail: {$email}
 {if isset($password) && trim($password) != ""}
-Пароль: {$password}
-
-<strong>*</strong> Пароль был создан автоматически и известен только вам, никому его не сообщайте.
-Администрация сайта <a href="{$site['domain']}" target="_blank">{$site['title']}</a> никогда не попросит у вас предоставить пароль.
+	<br />Пароль: {$password}
+	<br />
+	<br /><strong>*</strong> Пароль был создан автоматически и известен только вам, никому его не сообщайте.
+	<br /><br />Администрация сайта <a href="{$site['domain']}" target="_blank">{$site['title']}</a> никогда не попросит у вас предоставить пароль.
 {else}
-Пароль: <em>не изменялся</em>
+	<br />Пароль: <em>не изменялся</em>
 {/if}
-
-<em>С наилучшими пожеланиями, Администрация сайта <a href="{$site['domain']}" target="_blank">{$site['title']}</a></em>
+<br />
+<br /><em>С наилучшими пожеланиями, Администрация сайта <a href="{$site['domain']}" target="_blank">{$site['title']}</a></em>
 
 </body>
 </html>
