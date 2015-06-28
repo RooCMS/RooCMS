@@ -5,7 +5,7 @@
 * @author       alex Roosso
 * @copyright    2010-2015 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      2.0.3
+* @version      2.0.4
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -65,42 +65,38 @@ class ACP_LOGIN {
 		$smarty->assign("site", $site);
 
 
-		/**
-		 * Проверяем запрос
-		 */
-		if(isset($POST->go)) {
+		# check
+		if(isset($POST->login) && $db->check_id($POST->login, USERS_TABLE, "login", "status='1' AND title='a'") && isset($POST->password)) {
 
-			if(isset($POST->login) && $db->check_id($POST->login, USERS_TABLE, "login", "status='1' AND title='a'") && isset($POST->password)) {
+			$q = $db->query("SELECT uid, login, nickname, title, password, salt FROM ".USERS_TABLE." WHERE login='".$POST->login."' AND status='1' AND title='a'");
+			$data = $db->fetch_assoc($q);
 
-				$q = $db->query("SELECT uid, login, nickname, title, password, salt FROM ".USERS_TABLE." WHERE login='".$POST->login."' AND status='1' AND title='a'");
-				$data = $db->fetch_assoc($q);
+			$dbpass = $security->hashing_password($POST->password, $data['salt']);
 
-				$dbpass = $security->hashing_password($POST->password, $data['salt']);
+			if($dbpass == $data['password']) {
 
-				if($dbpass == $data['password']) {
+				# @include session security_check hash
 
-					# @include session security_check hash
+				$_SESSION['uid'] 	= $data['uid'];
+				$_SESSION['login'] 	= $data['login'];
+				$_SESSION['title'] 	= $data['title'];
+				$_SESSION['nickname'] 	= $data['nickname'];
+				$_SESSION['token'] 	= $security->hashing_token($data['login'], $dbpass, $data['salt']);
 
-					$_SESSION['uid'] 	= $data['uid'];
-					$_SESSION['login'] 	= $data['login'];
-					$_SESSION['title'] 	= $data['title'];
-					$_SESSION['nickname'] 	= $data['nickname'];
-					$_SESSION['token'] 	= $security->hashing_token($data['login'], $dbpass, $data['salt']);
+				$smarty->assign("error_login", "");
 
-					$smarty->assign("error_login", "");
-
-					goback();
-				}
-				else {
-					# неверный логин или пароль
-					$this->incorrect_entering("Неверный логин или пароль.");
-				}
+				goback();
 			}
 			else {
-				# логин или пароль введены некоректно
-				$this->incorrect_entering("Введены неверные данные.");
+				# неверный логин или пароль
+				$this->incorrect_entering("Неверный логин или пароль.");
 			}
 		}
+		else {
+			# логин или пароль введены некоректно
+			$this->incorrect_entering("Введены неверные данные.");
+		}
+
 
 		# load template
 		$tpl->load_template("login");
