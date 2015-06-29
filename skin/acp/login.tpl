@@ -42,7 +42,10 @@ body {overflow: hidden;background: transparent url('{/literal}{$SKIN}{literal}/i
 						<span class="clearfix"></span>
 					</div>
 					<div class="modal-footer">
-    					<p class="text-left"><small>Панель управления сайтом <nobr><a href="/">{$site['title']}</a></nobr></small> <input type="submit" class="btn btn-success pull-right" name="go" value="Войти"></p>
+    					<p class="text-left">
+						<small>Панель управления сайтом <nobr><a href="/">{$site['title']}</a></nobr></small>
+						<button type="submit" class="btn btn-success pull-right" name="go" value="go">Войти <i class="fa fa-fw fa-sign-in"></i></button>
+					</p>
 					</div>
 				</div>
 			</div>

@@ -84,10 +84,11 @@
 <div class="container">
 	<div class="header">
 		<div class="row">
-			<div class="col-sm-6">
-				<h1><a href="/"><img src="{$SKIN}/img/logo.png" border="0" style="vertical-align: top;"></a> RooCMS <small><sup>demo</sup>&beta;</small></h1>
+			<div class="col-md-6">
+				<h1><a href="/"><img src="{$SKIN}/img/logo.png" border="0" style="vertical-align: top;"></a></h1>
+
 			</div>
-			<div class="col-sm-6">
+			<div class="col-md-6">
 				{$module->load("auth")}
 			</div>
 		</div>
