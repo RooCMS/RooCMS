@@ -72,11 +72,12 @@ class UCP_LOGIN {
 				$q = $db->query("SELECT uid, login, title, nickname, password, salt FROM ".USERS_TABLE." WHERE login='".$POST->login."' AND status='1'");
 				$data = $db->fetch_assoc($q);
 
+				# hash
 				$dbpass = $security->hashing_password($POST->password, $data['salt']);
 
 				if($dbpass == $data['password']) {
 
-					# @include session security_check hash
+					# include session security_check hash
 
 					$_SESSION['uid'] 	= $data['uid'];
 					$_SESSION['login'] 	= $data['login'];
