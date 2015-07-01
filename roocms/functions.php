@@ -5,7 +5,7 @@
 * @author       alex Roosso
 * @copyright    2010-2015 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.1
+* @version      1.1.1
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -196,7 +196,7 @@ function goback() {
  */
 function nocache() {
 
-	$expires = time() + 60;
+	$expires = time() + (60*60*24);
 
 	Header("Expires: ".gmdate("D, d M Y H:i:s", $expires)." GMT");
 	Header("Last-Modified: ".gmdate("D, d M Y H:i:s")." GMT");

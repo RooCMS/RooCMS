@@ -37,25 +37,22 @@
 </table>
 
 
-{foreach from=$data item=page}
+<ul class="list-group visible-xs">
+	{foreach from=$data item=page}
+		<li class="list-group-item">
 
-	<div class="panel-heading visible-xs">
+			{if $page['page_type'] == "html" or $page['page_type'] == "php"}
+				<a href="{$SCRIPT_NAME}?act=pages&part=edit&page={$page['sid']}">{$page['title']}</a>
+			{else}
+				<a href="{$SCRIPT_NAME}?act=feeds&part=control&page={$page['sid']}">{$page['title']}</a>
+			{/if}
 
-		{if $page['page_type'] == "html" or $page['page_type'] == "php"}
-			<a href="{$SCRIPT_NAME}?act=pages&part=edit&page={$page['sid']}" class="panel-title">{$page['title']}</a>
-		{else}
-			<a href="{$SCRIPT_NAME}?act=feeds&part=control&page={$page['sid']}" class="panel-title">{$page['title']}</a>
-		{/if}
-	</div>
-	<div class="panel-body visible-xs">
-		{if $page['noindex'] == 1}<span class="text-warning mark">Неиндексируется в поиске</span>
-		{else}<span class="text-info">Индексируется в поиске</span>
-		{/if}
-		<span class="label label-default pull-right">{$page['ptype']}</span>
-	</div>
-	<div class="panel-body text-right visible-xs">
-		<nobr><a href="{$SCRIPT_NAME}?act=structure&part=edit&id={$page['sid']}" class="btn btn-xs btn-default"><span class="fa fa-pencil-square-o fa-fw"></span> Редактировать</a></nobr>
-		{if $page['sid'] != 1}<nobr><a href="{$SCRIPT_NAME}?act=structure&part=delete&id={$page['sid']}" class="btn btn-xs btn-danger"><span class="fa fa-trash-o fa-fw"></span> Удалить</a></nobr>{/if}
-	</div>
-
-{/foreach}
+			<div class="pull-right">
+				<div class="btn-group">
+					<a href="{$SCRIPT_NAME}?act=pages&part=edit&page={$page['sid']}" class="btn btn-xs btn-default"><span class="fa fa-pencil-square-o fa-fw"></span></a>
+					{if $page['sid'] != 1}<nobr><a href="{$SCRIPT_NAME}?act=structure&part=delete&id={$page['sid']}" class="btn btn-xs btn-danger"><span class="fa fa-trash-o fa-fw"></span></a></nobr>{/if}
+				</div>
+			</div>
+		</li>
+	{/foreach}
+</ul>

@@ -18,9 +18,7 @@
 			<td class="text-muted">{$page['id']}</td>
 			<td>
 				<nobr>
-					{section name=foo start=1 loop=$page['level'] step=1}
-						<span class="text-muted">&bull;</span>
-					{/section}
+					{section name=foo start=1 loop=$page['level'] step=1}<span class="text-muted">&bull;</span>&emsp;{/section}
 
 					{if $page['page_type'] == "html" or $page['page_type'] == "php"}
 						<a href="{$SCRIPT_NAME}?act=pages&part=edit&page={$page['id']}">{$page['title']}</a>
@@ -53,10 +51,10 @@
 		<li class="list-group-item">
 
 			{section name=foo start=1 loop=$page['level'] step=1}
-				<span class="text-muted">&bull;</span>
+				<span class="text-muted">&emsp;</span>
 			{/section}
 
-			<span class="text-muted">{$page['id']}</span>
+			{*<span class="text-muted">{$page['id']}</span>*}
 
 			{if $page['page_type'] == "html" or $page['page_type'] == "php"}
 				<a href="{$SCRIPT_NAME}?act=pages&part=edit&page={$page['id']}">{$page['title']}</a>
@@ -64,7 +62,7 @@
 				<a href="{$SCRIPT_NAME}?act=feeds&part=control&page={$page['id']}">{$page['title']}</a>
 			{/if}
 
-			<div class="text-right">
+			<div class="pull-right">
 				<div class="btn-group">
 					<a href="{$SCRIPT_NAME}?act=structure&part=edit&id={$page['id']}" class="btn btn-xs btn-default"><span class="fa fa-pencil-square-o fa-fw"></span></a>
 					{if $page['id'] != 1}<a href="{$SCRIPT_NAME}?act=structure&part=delete&id={$page['id']}" class="btn btn-xs btn-danger"><span class="fa fa-trash-o fa-fw"></span></a>{/if}
