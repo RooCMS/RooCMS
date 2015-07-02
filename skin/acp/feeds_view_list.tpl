@@ -47,25 +47,23 @@
 	</tbody>
 </table>
 
-
 {if !empty($data)}
+<ul class="list-group visible-xs">
 	{foreach from=$data item=feed}
-		<div class="panel-heading visible-xs">
-			<a href="{$SCRIPT_NAME}?act=feeds&part=control&page={$feed['id']}" class="panel-title">{$feed['title']}</a>
-		</div>
-		<div class="panel-body visible-xs">
-			{if $feed['noindex'] == 1}<span class="text-warning">Неиндексируется в поиске</span>
-			{else}<span class="text-info">Индексируется в поиске</span>
-			{/if}
-			<span class="text-muted"><br />в ленте {$feed['items']} элементов</span>
-		<span class="label label-default pull-right">{$feed['ptype']}</span>
-		</div>
-		<div class="panel-body text-right visible-xs">
-			<nobr><a href="{$SCRIPT_NAME}?act=feeds&part=control&page={$feed['id']}" class="btn btn-xs btn-default"><span class="fa fa-book fa-fw"></span>Управление</a></nobr>
-			<nobr><a href="{$SCRIPT_NAME}?act=feeds&part=settings&page={$feed['id']}" class="btn btn-xs btn-default"><span class="fa fa-cog fa-fw"></span>Настройки</a></nobr>
-			{if $feed['id'] != 1}<nobr><a href="{$SCRIPT_NAME}?act=structure&part=delete&id={$feed['id']}" class="btn btn-xs btn-danger"><span class="fa fa-trash-o fa-fw"></span>Удалить</a></nobr>{/if}
-		</div>
+		<li class="list-group-item">
+
+			<a href="{$SCRIPT_NAME}?act=feeds&part=control&page={$feed['id']}">{$feed['title']}</a>
+
+			<div class="pull-right">
+				<div class="btn-group">
+					<a href="{$SCRIPT_NAME}?act=feeds&part=control&page={$feed['id']}" class="btn btn-xs btn-default"><span class="fa fa-book fa-fw"></span></a>
+					<a href="{$SCRIPT_NAME}?act=feeds&part=settings&page={$feed['id']}" class="btn btn-xs btn-default"><span class="fa fa-cog fa-fw"></span></a>
+					{if $feed['id'] != 1}<a href="{$SCRIPT_NAME}?act=structure&part=delete&id={$feed['id']}" class="btn btn-xs btn-danger"><span class="fa fa-trash-o fa-fw"></span></a>{/if}
+				</div>
+			</div>
+		</li>
 	{/foreach}
+</ul>
 {else}
 	<div class="panel-body alert alert-warning visible-xs">
 		Вы не создали ни одной ленты. Воспользуйтесь опцией "<a href="{$SCRIPT_NAME}?act=structure&part=create&type=feed">Создать новую ленту</a>".
