@@ -3,7 +3,7 @@
 * @package      RooCMS
 * @subpackage	Admin Control Panel
 * @author       alex Roosso
-* @copyright    2010-2014 (c) RooCMS
+* @copyright    2010-2015 (c) RooCMS
 * @link         http://www.roocms.com
 * @version      1.1
 * @since        $date$
@@ -74,6 +74,7 @@ class ACP_PAGES {
 		require_once _CLASS."/class_structure.php";
 		$this->engine = new Structure();
 
+
 		# set object for works content
 		if(isset($GET->_page)) {
 			switch($this->engine->page_type) {
@@ -105,6 +106,7 @@ class ACP_PAGES {
 				$this->view_all_pages();
 				break;
 		}
+
 
 		# output
 		$tpl->load_template("pages");

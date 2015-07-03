@@ -403,7 +403,9 @@ body,
 .cke,
 .lightbox,
 *[class^="lb-"],
-*[class^="lb-"] > * {
+*[class^="lb-"] > *,
+.collapse,
+.collapse > * {
   transition: none !important;
   -webkit-transition: none !important;
   -moz-transition: none !important;

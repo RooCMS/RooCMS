@@ -5,7 +5,7 @@
 * @author       alex Roosso
 * @copyright    2010-2015 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.4.5
+* @version      1.4.6
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -111,7 +111,7 @@ class Structure {
         	# user interface loaded
         	if($ui) {
 			# const for default structure id
-			if(!defined('PAGEID')) define('PAGEID', $this->page_id);
+			if(!defined('PAGEID')) define('PAGEID', 1);
 
 			# init page vars
 			if(isset($GET->_page)) {
