@@ -73,14 +73,12 @@
 			</div>
 		</div>
 
-		<div class="row field_attach">
-			<div class="row">
-				<div class="col-md-6">
-					{$imagesupload}
-				</div>
-				<div class="col-md-6">
-					{$filesupload}
-				</div>
+		<div class="row">
+			<div class="col-md-6">
+				{$imagesupload}
+			</div>
+			<div class="col-md-6">
+				{$filesupload}
 			</div>
 		</div>
 
