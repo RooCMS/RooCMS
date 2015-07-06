@@ -67,7 +67,7 @@
 			<div class="row">
 				<div class="col-lg-8 col-lg-offset-4">
 					<input type="hidden" name="empty" value="1">
-					<button type="submit" name="send" class="btn btn-success" value="send"><i class="fa fa-fw fa-envelope"></i> Отправить сообщение</button>
+					<button type="submit" name="send" class="btn btn-success pull-right" value="send"><i class="fa fa-fw fa-envelope"></i> Отправить сообщение</button>
 				</div>
 			</div>
 
