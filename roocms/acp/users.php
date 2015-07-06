@@ -195,7 +195,10 @@ class ACP_USERS {
 			$POST->nickname = $users->check_new_nickname($POST->nickname);
 
 			# login
-			if(!isset($POST->login) || trim($POST->login) == "") $parse->msg("У пользователя должен быть логин!", false);
+			if(!isset($POST->login) || trim($POST->login) == "") {
+				if(isset($POST->nickname) && trim($POST->nickname) != "") $POST->login = mb_strtolower($parse->text->transliterate($POST->nickname));
+				else $parse->msg("У пользователя должен быть логин!", false);
+			}
 			else $POST->login = $parse->text->transliterate($POST->login);
 			if(isset($POST->login) && trim($POST->login) != "" && $db->check_id($POST->login, USERS_TABLE, "login")) $parse->msg("Пользователь с таким логином уже существует", false);
 
@@ -390,6 +393,7 @@ class ACP_USERS {
 
 			else
 				$parse->msg("У пользователя должен быть Никнейм.", false);
+
 
 			# email
 			if(isset($POST->email) && trim($POST->email) != "")

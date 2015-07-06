@@ -6,20 +6,29 @@
 	<form method="post" action="{$SCRIPT_NAME}?act=users&part=create_user" role="form" class="form-horizontal">
 
 		<div class="form-group">
-			<label for="inputLogin" class="col-lg-3 control-label">
-				Логин пользователя: <small><span class="fa fa-info fa-fw" rel="tooltip" title="Должен быть уникальным" data-placement="right"></span></small>
-			</label>
-			<div class="col-lg-9">
-				<input type="text" name="login" id="inputLogin" class="form-control" required>
-			</div>
-		</div>
-
-		<div class="form-group">
 			<label for="inputNickname" class="col-lg-3 control-label">
 				Имя пользователя:  <small><span class="fa fa-info fa-fw" rel="tooltip" title="Должно быть уникальным" data-placement="right"></span></small>
 			</label>
 			<div class="col-lg-9">
-				<input type="text" name="nickname" id="inputNickname" class="form-control">
+				<input type="text" name="nickname" id="inputNickname" class="form-control" required>
+			</div>
+		</div>
+
+		<div class="form-group">
+			<label for="inputLogin" class="col-lg-3 control-label">
+				Логин пользователя: <small><span class="fa fa-info fa-fw" rel="tooltip" title="Должен быть уникальным" data-placement="right"></span></small>
+			</label>
+			<div class="col-lg-9">
+				<input type="text" name="login" id="inputLogin" class="form-control">
+			</div>
+		</div>
+
+		<div class="form-group">
+			<label for="inputPassword" class="col-lg-3 control-label">
+				Пароль:  <small><span class="fa fa-info fa-fw" rel="tooltip" title="Оставьте поле пустым, и RooCMS сама создаст пароль. Мин: 5 символов" data-placement="right"></span></small>
+			</label>
+			<div class="col-lg-9">
+				<input type="text" name="password" id="inputPassword" class="form-control" pattern="^[\d\D]{literal}{5,}{/literal}">
 			</div>
 		</div>
 
@@ -59,16 +68,6 @@
 				</div>
 			</div>
 		{/if}
-
-		<div class="form-group">
-			<label for="inputPassword" class="col-lg-3 control-label">
-				Пароль:  <small><span class="fa fa-info fa-fw" rel="tooltip" title="Оставьте поле пустым, и RooCMS сама создаст пароль. Мин: 5 символов" data-placement="right"></span></small>
-			</label>
-			<div class="col-lg-9">
-				<input type="text" name="password" id="inputPassword" class="form-control" pattern="^[\d\D]{literal}{5,}{/literal}">
-			</div>
-		</div>
-
 
 		<div class="row">
 			<div class="col-lg-9 col-md-offset-3">

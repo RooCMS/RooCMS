@@ -26,6 +26,15 @@
 		{/if}
 
 		<div class="form-group">
+			<label for="inputNickname" class="col-lg-3 control-label">
+				Имя пользователя:  <small><span class="fa fa-info fa-fw" rel="tooltip" title="Должно быть уникальным" data-placement="right"></span></small>
+			</label>
+			<div class="col-lg-9">
+				<input type="text" name="nickname" id="inputNickname" class="form-control" value="{$user['nickname']}" required>
+			</div>
+		</div>
+
+		<div class="form-group">
 			<label for="inputLogin" class="col-lg-3 control-label">
 				Логин пользователя: <small><span class="fa fa-info fa-fw" rel="tooltip" title="Должен быть уникальным" data-placement="right"></span></small>
 			</label>
@@ -35,11 +44,11 @@
 		</div>
 
 		<div class="form-group">
-			<label for="inputNickname" class="col-lg-3 control-label">
-				Имя пользователя:  <small><span class="fa fa-info fa-fw" rel="tooltip" title="Должно быть уникальным" data-placement="right"></span></small>
+			<label for="inputPassword" class="col-lg-3 control-label">
+				Пароль:  <small><span class="fa fa-info fa-fw" rel="tooltip" title="Оставьте поле пустым, что бы не менять пароль." data-placement="right"></span></small>
 			</label>
 			<div class="col-lg-9">
-				<input type="text" name="nickname" id="inputNickname" class="form-control" value="{$user['nickname']}">
+				<input type="text" name="password" id="inputPassword" class="form-control"  pattern="^[\d\D]{literal}{5,}{/literal}">
 			</div>
 		</div>
 
@@ -82,16 +91,6 @@
 			</div>
 		</div>
 		{/if}
-
-		<div class="form-group">
-			<label for="inputPassword" class="col-lg-3 control-label">
-				Пароль:  <small><span class="fa fa-info fa-fw" rel="tooltip" title="Оставьте поле пустым, что бы не менять пароль." data-placement="right"></span></small>
-			</label>
-			<div class="col-lg-9">
-				<input type="text" name="password" id="inputPassword" class="form-control"  pattern="^[\d\D]{literal}{5,}{/literal}">
-			</div>
-		</div>
-
 
 		<div class="row">
 			<div class="col-lg-9 col-md-offset-3">
