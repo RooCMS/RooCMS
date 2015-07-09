@@ -54,8 +54,8 @@ if(!defined('RooCMS')) die('Access Denied');
 /**
 * Системные настройки отладки
 */
-define('DEBUGMODE',	false);				# Режим отладки
-define('DEVMODE',	false);				# Режим разработчики. Если используете этот режим, рекомендуется так же включить режим отладки.
+define('DEBUGMODE',	true);				# Режим отладки
+define('DEVMODE',	true);				# Режим разработчики. Если используете этот режим, рекомендуется так же включить режим отладки.
 
 define('STARTTIME',	microtime());
 define('MEMORYUSAGE', 	memory_get_usage());
@@ -103,7 +103,7 @@ setcookie("", "", time()+3600);
 * Настройки PHP
 */
 @set_magic_quotes_runtime(0);
-//setlocale(LC_ALL, 'ru_RU');
+//setlocale(LC_ALL, 'ru_RU.UTF8', 'ru.UTF8', 'ru_RU.UTF-8', 'ru.UTF-8', 'ru_RU', 'ru');
 ini_set("max_execution_time",		30);
 ini_set("memory_limit", 		"96M");
 #ini_set("upload_tmp_dir", 		"/tmp");	# временная директория для загружаемых файлов. (разкоментируйте, если испытываете трудности с настройками PHP по-умолчанию)
