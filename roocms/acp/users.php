@@ -6,7 +6,7 @@
  * @author       alex Roosso
  * @copyright    2010-2015 (c) RooCMS
  * @link         http://www.roocms.com
- * @version      1.3
+ * @version      1.3.1
  * @since        $date$
  * @license      http://www.gnu.org/licenses/gpl-3.0.html
  */
@@ -195,7 +195,10 @@ class ACP_USERS {
 			$POST->nickname = $users->check_new_nickname($POST->nickname);
 
 			# login
-			if(!isset($POST->login) || trim($POST->login) == "") $parse->msg("У пользователя должен быть логин!", false);
+			if(!isset($POST->login) || trim($POST->login) == "") {
+				if(isset($POST->nickname) && trim($POST->nickname) != "") $POST->login = mb_strtolower($parse->text->transliterate($POST->nickname));
+				else $parse->msg("У пользователя должен быть логин!", false);
+			}
 			else $POST->login = $parse->text->transliterate($POST->login);
 			if(isset($POST->login) && trim($POST->login) != "" && $db->check_id($POST->login, USERS_TABLE, "login")) $parse->msg("Пользователь с таким логином уже существует", false);
 
@@ -391,6 +394,7 @@ class ACP_USERS {
 			else
 				$parse->msg("У пользователя должен быть Никнейм.", false);
 
+
 			# email
 			if(isset($POST->email) && trim($POST->email) != "")
 				if(!$users->check_field("email", $POST->email, $udata['email']))
@@ -520,8 +524,12 @@ class ACP_USERS {
 
 			$this->count_users($data['gid']);
 
+			# удаляем юзера
 			$db->query("DELETE FROM ".USERS_TABLE." WHERE uid='".$uid."'");
 			$parse->msg("Пользователь #{$uid} был успешно удален из Базы Данных.");
+
+			# удаляем его почту
+			$db->query("DELETE FROM ".USERS_PM_TABLE." WHERE to_uid='".$uid."'");
 		}
 
 		# go

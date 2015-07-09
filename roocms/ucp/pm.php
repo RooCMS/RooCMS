@@ -5,7 +5,7 @@
 * @author       alex Roosso
 * @copyright    2010-2015 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.0
+* @version      1.0.1
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -201,7 +201,11 @@ class UCP_PM {
 			go("index.php?act=pm");
 		}
 		else {
-			$parse->msg("Во время отправки сообщения произошла ошибка", true);
+			if(trim($POST->message) == "")	$parse->msg("Вы попытались отправить пустое сообщение. К сожалению это невозможно.", true);
+			if($POST->to_uid == $users->uid) $parse->msg("Переписываетесь сами с собой? Попробуйте с кем нибудь ещё.", true);
+			if(!$db->check_id($POST->to_uid, USERS_TABLE, "uid", "status='1'"))
+				$parse->msg("К сожалению пользователь, которому вы пытаетесь отправить сообщение больше не принимает корреспонденцию.", true);
+			//$parse->msg("Во время отправки сообщения произошла ошибка", true);
 			goback();
 		}
 	}

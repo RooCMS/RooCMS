@@ -5,7 +5,7 @@
 * @author       alex Roosso
 * @copyright    2010-2015 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.1.7
+* @version      1.1.8
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -382,6 +382,7 @@ class Parsers {
 			if($key)	$string = str_replace('\\','',$string);
 			else		$string = addslashes($string);
 			$string = $db->escape_string($string);
+			$string = str_ireplace('\&','&',$string);
 			$string = trim($string);
 		}
 
