@@ -347,12 +347,6 @@ h6 {
 .vmiddle {
   vertical-align: middle;
 }
-.float-left {
-  float: left;
-}
-.float-right {
-  float: right;
-}
 .overflowh,
 .no-overflow {
   overflow: hidden;

@@ -5,7 +5,7 @@
 * @author       alex Roosso
 * @copyright    2010-2015 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.4.3
+* @version      1.4.4
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -209,7 +209,7 @@ class Install extends Requirement{
 					$context .= $f[$i];
 				}
 
-				$context = str_ireplace('$site[\'title\'] = "";','$site[\'title\'] = "'.$parse->text->html($POST->site_title).'";',$context);
+				$context = str_ireplace('$site[\'title\'] = "";','$site[\'title\'] = "'.$POST->site_title.'";',$context);
 				$context = str_ireplace('$site[\'domain\'] = "";','$site[\'domain\'] = "'.$POST->site_domain.'";',$context);
 				$context = str_ireplace('$site[\'sysemail\'] = "";','$site[\'sysemail\'] = "'.$POST->site_sysemail.'";',$context);
 
@@ -239,7 +239,7 @@ class Install extends Requirement{
 
 		$this->log[] = array('Название сайта', '<input type="text" class="form-control" name="site_title" required placeholder="RooCMS">', true, 'Укажите название сайта.');
 		$this->log[] = array('Адрес сайта', '<input type="text" class="form-control" name="site_domain" required value="http://'.$server_name.'">', true, 'Укажите интернет адрес вашего сайта');
-		$this->log[] = array('E-Mail Администратора', '<input type="text" class="form-control" name="site_sysemail" placeholder="Ваш@Почтовый.ящик" pattern="^\s*\w+\-*\.*\w*@\w+\.\w+\s*" required>', true, 'Укажите адрес электронной почты администратора сайта.');
+		$this->log[] = array('E-Mail Администратора', '<input type="text" class="form-control" name="site_sysemail" placeholder="Ваш@Почтовый.ящик" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,6}$" required>', true, 'Укажите адрес электронной почты администратора сайта.');
 
 
 		# переход next step
