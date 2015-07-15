@@ -14,6 +14,7 @@
 				<input type="text" name="alias" id="inputAlias" class="form-control" required>
 			</div>
 		</div>
+
 		<div class="form-group">
 			<label for="inputTitle" class="col-md-3 control-label">
 				Заголовок:
@@ -22,6 +23,31 @@
 				<input type="text" name="title" id="inputTitle" class="form-control" required>
 			</div>
 		</div>
+
+		<hr>
+
+		{* Миниаютры *}
+		<div class="form-group">
+			<label for="inputThumbWidth" class="col-lg-3 control-label">
+				Ширина миниатюр картинок у этой страницы:
+				<small><span class="fa fa-info fa-fw" rel="tooltip" title="Значение в пикселях. Оставьте поле пустым или укажите 0 что бы применить глобальные настройки." data-placement="left"></span></small>
+			</label>
+			<div class="col-lg-9">
+				<input type="text" name="thumb_img_width" id="inputThumbWidth" class="form-control" pattern="^[ 0-9]+$">
+				<small>По умолчанию: {$default_thumb_size['width']}px</small>
+			</div>
+		</div>
+		<div class="form-group">
+			<label for="inputThumbHeight" class="col-lg-3 control-label">
+				Высота миниатюр картинок у этой страницы:
+				<small><span class="fa fa-info fa-fw" rel="tooltip" title="Значение в пикселях. Оставьте поле пустым или укажите 0 что бы применить глобальные настройки." data-placement="left"></span></small>
+			</label>
+			<div class="col-lg-9">
+				<input type="text" name="thumb_img_height" id="inputThumbHeight" class="form-control" pattern="^[ 0-9]+$">
+				<small>По умолчанию: {$default_thumb_size['height']}px</small>
+			</div>
+		</div>
+
 		<div class="row">
 			<div class="col-md-12">
 			    <label for="content" class="control-label">

@@ -5,7 +5,7 @@
 * @author       alex Roosso
 * @copyright    2010-2015 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.2.8
+* @version      1.2.9
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -223,6 +223,8 @@ $sql['CREATE '.BLOCKS_TABLE] = "CREATE TABLE IF NOT EXISTS `".BLOCKS_TABLE."` (
 				  `block_type` enum('html','php') NOT NULL DEFAULT 'html',
 				  `title` varchar(255) NOT NULL,
 				  `content` longtext NOT NULL COMMENT 'html or php code',
+				  `thumb_img_width` INT( 10 ) UNSIGNED NOT NULL DEFAULT  '0',
+				  `thumb_img_height` INT( 10 ) UNSIGNED NOT NULL DEFAULT  '0',
 				  `date_create` int(20) unsigned NOT NULL DEFAULT '0' COMMENT 'format: unixtimestamp',
 				  `date_modified` int(20) unsigned NOT NULL DEFAULT '0' COMMENT 'last modified date',
 				  PRIMARY KEY (`id`),
