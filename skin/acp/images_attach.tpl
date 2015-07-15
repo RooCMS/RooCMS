@@ -23,7 +23,7 @@
 
 			$("#aimage-"+id).animate({'opacity':'0'}, 300, function() {
 				$("#imgoption-"+id).load('/acp.php?act=ajax&part=delete_attached_image&id='+id, function() {
-					$("#a-"+id).animate({'opacity':'0'}, 750, function() {
+					$("#imga-"+id).animate({'opacity':'0'}, 750, function() {
 						$("#imga-"+id).hide(600).delay(900).remove();
 						//$("#imga-"+id).delay(900).remove();
 					});
