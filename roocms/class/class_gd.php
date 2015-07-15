@@ -115,7 +115,7 @@ class GD {
 			if(trim($config->gd_watermark_string_one) != "") {
 				$this->copyright = $parse->text->html($config->gd_watermark_string_one);
 			}
-			else $this->copyright =& $site['title'];
+			else $this->copyright = $parse->text->html($site['title']);
 
 			# watermark string two
 			if(trim($config->gd_watermark_string_two) != "") {

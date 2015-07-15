@@ -20,9 +20,9 @@
 
 			$("#afile-"+id).animate({'opacity':'0'}, 300, function() {
 				$("#fileoption-"+id).load('/acp.php?act=ajax&part=delete_attached_file&id='+id, function() {
-					$("#afile-"+id).animate({'opacity':'0'}, 750, function() {
-						$("#filea-"+id).hide(600);
-						$("#filea-"+id).delay(900).remove();
+					$("#filea-"+id).animate({'opacity':'0'}, 750, function() {
+						$("#filea-"+id).hide(600).delay(900).remove();
+						//$("#filea-"+id).delay(900).remove();
 					});
 				});
 			});

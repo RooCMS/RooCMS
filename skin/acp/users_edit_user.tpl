@@ -57,7 +57,7 @@
 				Электронная почта:  <small><span class="fa fa-info fa-fw" rel="tooltip" title="Должна быть уникальной. Нельзя заводить несколько аккаунтов на один почтовый ящик" data-placement="right"></span></small>
 			</label>
 			<div class="col-lg-9">
-				<input type="text" name="email" id="inputEmail" class="form-control"  value="{$user['email']}" pattern="^\s*\w+\-*\.*\w*@\w+\.[\w+\s*]{literal}{2,}{/literal}" required>
+				<input type="text" name="email" id="inputEmail" class="form-control"  value="{$user['email']}" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{literal}{2,6}{/literal}$" required>
 			</div>
 		</div>
 
