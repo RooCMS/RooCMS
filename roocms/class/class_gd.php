@@ -5,7 +5,7 @@
 * @author	alex Roosso
 * @copyright	2010-2015 (c) RooCMS
 * @link		http://www.roocms.com
-* @version	1.8.4
+* @version	1.8.3
 * @since	$date$
 * @license	http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -115,7 +115,7 @@ class GD {
 			if(trim($config->gd_watermark_string_one) != "") {
 				$this->copyright = $parse->text->html($config->gd_watermark_string_one);
 			}
-			else $this->copyright =& $parse->text->html($site['title']);
+			else $this->copyright = $parse->text->html($site['title']);
 
 			# watermark string two
 			if(trim($config->gd_watermark_string_two) != "") {
