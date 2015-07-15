@@ -75,7 +75,11 @@ class ACP_BLOCKS_HTML {
 			if(!isset($POST->title)) $parse->msg("Не указано название блока!", false);
 
 			if(!isset($POST->alias) || $db->check_id($parse->text->transliterate($POST->alias), BLOCKS_TABLE, "alias")) $parse->msg("Не указан алиас блока или он не уникален!", false);
-			else $POST->alias = $parse->text->transliterate($POST->alias);
+			else {
+				$POST->alias = $parse->text->transliterate($POST->alias);
+				$POST->alias = preg_replace(array('(\s\s+)','(\-\-+)','(__+)','([^a-zA-Z0-9\-_])'), array('','','',''), $POST->alias);
+				if(is_numeric($POST->alias)) $POST->alias .= randcode(3, "abcdefghijklmnopqrstuvwxyz");
+			}
 
 			# if(!isset($POST->content)) $parse->msg("Пустое тело блока!", false); //Упраздняем временно...
 			if(!isset($POST->content)) $POST->content = "";
@@ -190,7 +194,11 @@ class ACP_BLOCKS_HTML {
 			if(!isset($POST->title)) $parse->msg("Не указано название блока!", false);
 
 			if(!isset($POST->alias) || $db->check_id($parse->text->transliterate($POST->alias), BLOCKS_TABLE, "alias", "alias!='".$POST->oldalias."'")) $parse->msg("Не указан алиас блока или он не уникален!", false);
-			else $POST->alias = $parse->text->transliterate($POST->alias);
+			else {
+				$POST->alias = $parse->text->transliterate($POST->alias);
+				$POST->alias = preg_replace(array('(\s\s+)','(\-\-+)','(__+)','([^a-zA-Z0-9\-_])'), array('','','',''), $POST->alias);
+				if(is_numeric($POST->alias)) $POST->alias .= randcode(3, "abcdefghijklmnopqrstuvwxyz");
+			}
 
 			//if(!isset($POST->content)) $parse->msg("Пустое тело блока!", false);
 			if(!isset($POST->content)) $POST->content = "";
