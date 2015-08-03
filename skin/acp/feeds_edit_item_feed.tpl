@@ -34,7 +34,7 @@
 		</div>
 		<div class="form-group">
 			<label for="inputMetaKeywords" class="col-lg-3 control-label">
-				Мета описание:
+				Мета ключевые слова:
 			</label>
 			<div class="col-lg-9">
 				<input type="text" name="meta_keywords" id="inputMetaKeywords" class="form-control" value="{$item['meta_keywords']}">

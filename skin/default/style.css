@@ -37,7 +37,7 @@ p.lead {font-family: "PT Sans" !important;}
 /* Transition */
 *:hover, .table-hover>tbody>tr:hover>td, .table-hover>tbody>tr:hover>th {
 	transition: all 0.20s ease-in-out;-webkit-transition: all 0.20s ease-in-out;-moz-transition: all 0.20s ease-in-out;outline:none;-ms-transition:  all 0.20s ease-in-out;-o-transition:  all 0.20s ease-in-out;}
-#colorbox, #cboxOverlay, #cboxWrapper, #cboxContent, #cboxLoadedContent {transition: none !important;-webkit-transition: none !important;-moz-transition: none !important;outline:none;}
+#colorbox, #cboxOverlay, #cboxWrapper, #cboxContent, #cboxLoadedContent, #cboxNext, #cboxPrevious, #cboxClose {transition: none !important;-webkit-transition: none !important;-moz-transition: none !important;outline:none;}
 
 input:focus:invalid {
 	/* transition: all 0.15s ease-in-out;-webkit-transition: all 0.15s ease-in-out;-moz-transition: all 0.15s ease-in-out;outline:none; */

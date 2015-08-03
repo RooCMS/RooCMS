@@ -6,11 +6,13 @@
 	{$item['full_item']}
 
 	{* Шаблон отображения картинок в элементах ленты *}
+	{if !empty($images)}
 	<div class="text-center">
 		{foreach from=$images item=img}
 			<a href="/upload/images/{$img['resize']}" rel="img" title="{$item['title']}"><img src="/upload/images/{$img['thumb']}" class="img-thumbnail" style="margin: 3px 0px;" alt="{$item['title']}"></a>
 		{/foreach}
 	</div>
+	{/if}
 	{if !empty($attachfile)}
 		<div class="text-left">
 			<strong>Файлы:</strong>
