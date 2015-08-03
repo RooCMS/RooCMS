@@ -62,11 +62,10 @@ $(document).ready(function() {
 	}
 
 	/* Logotype */
-	$("#logo").css({top:'-=62px'});
-	$('#logo').mouseover(function(){
-		$(this).stop().animate({top: '5px'}, 400);
+	$('#logo').css({top:'-=62px'}).mouseover(function(){
+		$(this).stop().animate({top: '5px'}, 200);
 	}).mouseout(function(){
-		$(this).stop().animate({top: '-57px'}, 400);
+		$(this).stop().animate({top: '-57px'}, 200);
 	});
 
 	/* Datepicker */
