@@ -141,7 +141,7 @@ class ACP_USERS {
 		global $db, $smarty, $tpl, $parse;
 
 		$data = array();
-		$q = $db->query("SELECT uid, status, login, nickname, email, title, date_create, date_update, last_visit FROM ".USERS_TABLE." ORDER BY uid ASC");
+		$q = $db->query("SELECT uid, status, login, nickname, avatar, email, title, date_create, date_update, last_visit FROM ".USERS_TABLE." ORDER BY uid ASC");
 		while($row = $db->fetch_assoc($q)) {
 
 			$row['date_create'] = $parse->date->unix_to_rus($row['date_create'], false, true, false);
@@ -186,7 +186,7 @@ class ACP_USERS {
 	 */
 	private function create_new_user() {
 
-		global $db, $smarty, $users, $tpl, $POST, $parse, $security, $site;
+		global $db, $config, $img, $smarty, $users, $tpl, $POST, $parse, $security, $site;
 
 		if(isset($POST->create_user) || isset($POST->create_user_ae)) {
 
@@ -223,6 +223,10 @@ class ACP_USERS {
 				$db->query("INSERT INTO ".USERS_TABLE." (login, nickname, email, title, password, salt, date_create, date_update, last_visit, status, gid)
 								 VALUES ('".$POST->login."', '".$POST->nickname."', '".$POST->email."', '".$POST->title."', '".$password."', '".$salt."', '".time()."', '".time()."', '".time()."', '1', '".$POST->gid."')");
 				$uid = $db->insert_id();
+
+				# avatar
+				$av = $img->upload_image("avatar", "", array($config->users_avatar_width, $config->users_avatar_height), array("filename"=>"av_".$uid, "watermark"=>false, "modify"=>false));
+				if(isset($av[0])) $db->query("UPDATE ".USERS_TABLE." SET avatar='".$av[0]."' WHERE uid='".$uid."'");
 
 				# Если мы переназначаем группу пользователя
 				if(isset($POST->gid) && $POST->gid != 0) {
@@ -281,7 +285,7 @@ class ACP_USERS {
 			if(!isset($_SESSION['error'])) {
 
 				$db->query("INSERT INTO ".USERS_GROUP_TABLE." (title, date_create, date_update)
-									VALUES ('".$POST->title."', '".time()."', '".time()."')");
+								       VALUES ('".$POST->title."', '".time()."', '".time()."')");
 				$gid = $db->insert_id();
 
 				# уведомление
@@ -316,7 +320,7 @@ class ACP_USERS {
 			goback();
 		}
 		else {
-			$q = $db->query("SELECT uid, gid, status, login, nickname, email, title, date_create, last_visit FROM ".USERS_TABLE." WHERE uid='".$uid."'");
+			$q = $db->query("SELECT uid, gid, status, avatar, login, nickname, email, title, date_create, last_visit FROM ".USERS_TABLE." WHERE uid='".$uid."'");
 			$user = $db->fetch_assoc($q);
 
 			$i_am_groot = false;
@@ -519,8 +523,11 @@ class ACP_USERS {
 			$parse->msg("Нельзя удалить учетную запись главного администратора!", false);
 		}
 		else {
-			$q = $db->query("SELECT gid FROM ".USERS_TABLE." WHERE uid='".$uid."'");
+			$q = $db->query("SELECT gid, avatar FROM ".USERS_TABLE." WHERE uid='".$uid."'");
 			$data = $db->fetch_assoc($q);
+
+			# удаляем аватарку.
+			if($data['avatar'] != "" && file_exists(_UPLOADIMAGES."/".$data['avatar'])) unlink(_UPLOADIMAGES."/".$data['avatar']);
 
 			$this->count_users($data['gid']);
 

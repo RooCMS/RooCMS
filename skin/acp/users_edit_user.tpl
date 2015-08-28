@@ -3,7 +3,7 @@
 	Редактируем пользователя #{$user['uid']} {$user['nickname']}
 </div>
 <div class="panel-body">
-	<form method="post" action="{$SCRIPT_NAME}?act=users&part=update_user&uid={$user['uid']}" role="form" class="form-horizontal">
+	<form method="post" action="{$SCRIPT_NAME}?act=users&part=update_user&uid={$user['uid']}" enctype="multipart/form-data" role="form" class="form-horizontal">
 
 		{if $user['uid'] != 1}
 		<div class="btn-group" data-toggle="buttons">
@@ -58,6 +58,15 @@
 			</label>
 			<div class="col-lg-9">
 				<input type="text" name="email" id="inputEmail" class="form-control"  value="{$user['email']}" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{literal}{2,6}{/literal}$" required>
+			</div>
+		</div>
+
+		<div class="form-group">
+			<label for="inputAvatar" class="col-lg-3 control-label">
+				Аватар:  <small><span class="fa fa-info fa-fw" rel="tooltip" title="{$config->users_avatar_width}x{$config->users_avatar_height} пикселей" data-placement="right"></span></small>
+			</label>
+			<div class="col-lg-9">
+				{if $user['avatar'] != ""}<img src="/upload/images/{$user['avatar']}" height="40" class="pull-right img-rounded">{/if} <input type="file" name="avatar" id="inputAvatar" class="btn btn-default">
 			</div>
 		</div>
 
