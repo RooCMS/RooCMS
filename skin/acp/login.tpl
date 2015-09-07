@@ -2,7 +2,7 @@
 <style>
 body {overflow: hidden;background: transparent url('{/literal}{$SKIN}{literal}/img/bgcp_loginlow.jpg') !important;}
 #bglogin {position: absolute;z-index: 1;top: 0px;left: 0px;right: 0px;bottom: 0px;background: transparent url('{/literal}{$SKIN}{literal}/img/bgcp_loginhigh.jpg') no-repeat 50% 50%;background-size: cover;}
-#LoginForm {border: 5px solid rgba(220,220,220,0.5);}
+#LoginForm {border: 10px solid rgba(220,220,220,0.5);}
 </style>
 {/literal}
 
@@ -25,15 +25,15 @@ body {overflow: hidden;background: transparent url('{/literal}{$SKIN}{literal}/i
 		    			{/if}
 						<div class="col-xs-12">
 							<div class="form-group">
-								<label class="col-lg-2 control-label" for="Login">Логин</label>
-								<div class="input-group col-lg-10">
+								{*<label class="col-lg-2 control-label" for="Login">Логин</label>*}
+								<div class="input-group col-lg-12">
 									<span class="input-group-addon"><span class="fa fa-fw fa-user" rel="tooltip" title="Введите ваш логин в это поле" data-placement="right"></span></span>
 									<input class="form-control" id="Login" type="text" name="login" placeholder="Логин" required autocomplete="off">
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="col-lg-2 control-label" for="Password">Пароль</label>
-								<div class="input-group col-lg-10">
+								{*<label class="col-lg-2 control-label" for="Password">Пароль</label>*}
+								<div class="input-group col-lg-12">
 									<span class="input-group-addon"><span class="fa fa-fw fa-key" rel="tooltip" title="Введите ваш пароль в это поле" data-placement="right"></span></span>
 									<input class="form-control" id="Password" type="password" name="password" placeholder="Пароль" required autocomplete="off">
 								</div>

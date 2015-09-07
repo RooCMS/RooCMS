@@ -24,17 +24,12 @@
 		</div>
 
 		<div class="row">
-			<div class="col-lg-12">
-				<label for="content" class="control-label">
-					Код блока: <small><span class="fa fa-info fa-fw" rel="tooltip" title="Код блока на языке PHP" data-placement="auto"></span></small>
-				</label>
-				<span class="label label-info">Ctrl+F - поиск</span>
-				<span class="label label-info">Ctrl+G - след.результат</span>
-				<span class="label label-info">Shift+Ctrl+G - пред.результат</span>
-				<span class="label label-info">Shift+Ctrl+F - заменить</span>
-				<span class="label label-info">Shift+Ctrl+R - заменить все</span>
-				<span class="label label-info">F11 - во весь экран</span>
-			</div>
+			<div class="col-sm-6 col-md-4 col-lg-2"><span class="btn btn-default btn-xs">Ctrl</span> + <span class="btn btn-default btn-xs">F</span> - поиск</div>
+			<div class="col-sm-6 col-md-4 col-lg-2"><span class="btn btn-default btn-xs">Ctrl</span> + <span class="btn btn-default btn-xs">G</span> - след.результат</div>
+			<div class="col-sm-6 col-md-4 col-lg-2"><span class="btn btn-default btn-xs">Ctrl</span> + <span class="btn btn-default btn-xs">Shift</span> + <span class="btn btn-default btn-xs">G</span> - пред.результат</div>
+			<div class="col-sm-6 col-md-4 col-lg-2"><span class="btn btn-default btn-xs">Ctrl</span> + <span class="btn btn-default btn-xs">Shift</span> + <span class="btn btn-default btn-xs">F</span> - заменить</div>
+			<div class="col-sm-6 col-md-4 col-lg-2"><span class="btn btn-default btn-xs">Ctrl</span> + <span class="btn btn-default btn-xs">Shift</span> + <span class="btn btn-default btn-xs">R</span> - заменить все</div>
+			<div class="col-sm-6 col-md-4 col-lg-2"><span class="btn btn-default btn-xs">F11</span> - во весь экран</div>
 		</div>
 		<div class="row">
 			<div class="col-lg-12">
