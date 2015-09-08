@@ -4,6 +4,24 @@
 <hr>
 
 <div class="row">
+
+	{if $userdata['avatar'] != ""}
+	<div class="col-xs-3 col-sm-2 col-md-2"><img src="/upload/images/{$userdata['avatar']}"  class="img-thumbnail"></div>
+	<div class="col-xs-9 col-sm-10 col-md-10">
+		{else}
+		<div class="col-xs-12">
+			{/if}
+			<h1>
+				{$userdata['nickname']}
+			</h1>
+			<small class="label label-primary">{$userdata['gtitle']}</small>
+		</div>
+
+
+</div>
+<hr>
+
+<div class="row">
 	<div class="col-sm-8">
 		<form method="post" action="{$SCRIPT_NAME}?act=ucp&part=update_info" role="form" class="form-horizontal">
 			<div class="form-group">
@@ -42,6 +60,15 @@
 				</div>
 			</div>
 
+			<div class="form-group">
+				<label for="inputAvatar" class="col-lg-4 control-label">
+					Аватар:  <small><span class="fa fa-info fa-fw" rel="tooltip" title="Изображение вашего профиля" data-placement="right"></span></small>
+				</label>
+				<div class="col-lg-8">
+					{if $userdata['avatar'] != ""}<div class="btn-group pull-right" data-toggle="buttons"><label class="btn btn-default btn-xs bda"><input type="checkbox" name="delete_avatar" autocomplete="off"><i class="iconda fa fa-fw fa-trash"></i> Удалить аватар?</label></div>{/if} <input type="file" name="avatar" id="inputAvatar" class="btn btn-default">
+				</div>
+			</div>
+
 			<div class="row">
 				<div class="col-lg-8 col-md-offset-4">
 					<input type="hidden" name="empty" value="1">
@@ -57,7 +84,21 @@
 <div class="row">
 	<div class="col-sm-8">
 		<div class="alert alert-warning" role="alert">
-			После смены данных, система попросит перезайти вас на сайт, что бы удостоверится в вашей безопастности.
+			<i class="fa fa-fw fa-info"></i> После смены данных, система попросит перезайти вас на сайт, что бы удостоверится в вашей безопастности.
 		</div>
 	</div>
 </div>
+
+{literal}
+	<script>
+		$(document).ready(function(){
+			$('.bda').toggle(function() {
+				$(this).removeClass('btn-default').addClass('btn-danger');
+				$('.iconda').removeClass('fa-trash').addClass('fa-check');
+			}, function() {
+				$(this).removeClass('btn-danger').addClass('btn-default');
+				$('.iconda').removeClass('fa-check').addClass('fa-trash');
+			});
+		});
+	</script>
+{/literal}
