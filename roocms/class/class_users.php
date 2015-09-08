@@ -5,7 +5,7 @@
 * @author       alex Roosso
 * @copyright    2010-2015 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.2
+* @version      1.2.1
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -101,7 +101,7 @@ class Users extends Security {
 			$this->check_userdata();
 
 			# update users info
-			$this->update_info_user($this->uid);
+			$this->update_user_time_last_visit($this->uid);
 		}
 	}
 
@@ -164,7 +164,7 @@ class Users extends Security {
 	 *
 	 * @param int $uid - уникальные идентификатор пользователя
 	 */
-	private function update_info_user($uid) {
+	private function update_user_time_last_visit($uid) {
 
 		global $db;
 
