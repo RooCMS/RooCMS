@@ -5,7 +5,7 @@
 * @author       alex Roosso
 * @copyright    2010-2015 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.0
+* @version      1.0.1
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -115,7 +115,7 @@ class UCP_CP {
 	 */
 	private function update_info() {
 
-		global $db, $POST, $parse, $users, $site, $tpl, $smarty;
+		global $db, $config, $POST, $img, $parse, $users, $site, $tpl, $smarty;
 
 		$query = "";
 
@@ -145,6 +145,18 @@ class UCP_CP {
 				$parse->msg("Указанный email уже существует в Базе Данных!", false);
 			else
 				$query .= "email='".$POST->email."', ";
+
+		# avatar
+		if(isset($POST->delete_avatar)) {
+			$users->delete_avatar($users->uid);
+			$query .= "avatar='', ";
+		}
+
+		$av = $img->upload_image("avatar", "", array($config->users_avatar_width, $config->users_avatar_height), array("filename"=>"av_".$users->uid, "watermark"=>false, "modify"=>false));
+		if(isset($av[0])) {
+			if($users->avatar != "" && $users->avatar != $av[0]) unlink(_UPLOADIMAGES."/".$users->avatar);
+			$query .= "avatar='".$av[0]."', ";
+		}
 
 		# update
 		if(!isset($_SESSION['error'])) {

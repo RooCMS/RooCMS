@@ -5,7 +5,7 @@
 * @author       alex Roosso
 * @copyright    2010-2015 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.2.1
+* @version      1.2.2
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -65,6 +65,7 @@ class Users extends Security {
 	public	$email		= "";		# [string]	user nickname
 	public	$title		= "u";		# [enum]	user title
 	public	$gid		= 0;		# [int]		user group id
+	public	$gtitle		= "";		# [string]	user group title
 	public	$token		= "";		# [string]	user security token
 
 	public	$userdata	= array('uid'=>0);
@@ -116,7 +117,10 @@ class Users extends Security {
 		if(isset($roocms->sess['login']) && trim($roocms->sess['login']) != "" && $db->check_id($roocms->sess['login'], USERS_TABLE, "login", "status='1'") && isset($roocms->sess['token']) && strlen($roocms->sess['token']) == 32) {
 
 			# get data
-			$q    = $db->query("SELECT uid, gid, login, nickname, avatar, email, title, password, salt FROM ".USERS_TABLE." WHERE login='".$roocms->sess['login']."' AND status='1'");
+			$q    = $db->query("SELECT u.uid, u.gid, u.login, u.nickname, u.avatar, u.email, u.title, u.password, u.salt, g.title as gtitle
+						FROM ".USERS_TABLE." AS u
+						LEFT JOIN ".USERS_GROUP_TABLE." AS g ON (g.gid = u.gid)
+						WHERE u.login='".$roocms->sess['login']."' AND u.status='1'");
 			$data = $db->fetch_assoc($q);
 
 			# uid
@@ -124,6 +128,9 @@ class Users extends Security {
 
 			# gid
 			$this->gid	= $data['gid'];
+
+			# gtitle
+			$this->gtitle	= $data['gtitle'];
 
 			# login
 			$this->login	= $data['login'];
@@ -145,6 +152,7 @@ class Users extends Security {
 			$this->userdata = array(
 				'uid'		=> $data['uid'],
 				'gid'		=> $data['gid'],
+				'gtitle'	=> $data['gtitle'],
 				'login'		=> $data['login'],
 				'nickname'	=> $data['nickname'],
 				'avatar'	=> $data['avatar'],
