@@ -5,7 +5,7 @@
 * @author       alex Roosso
 * @copyright    2010-2015 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.2.9
+* @version      1.2.10
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -72,9 +72,10 @@ $sql['CREATE '.CONFIG_PARTS] = "CREATE TABLE IF NOT EXISTS `".CONFIG_PARTS."` (
 $id = 1;
 $sql['INSERT '.CONFIG_PARTS." ID #".$id] = "INSERT INTO `".CONFIG_PARTS."` VALUES (".$id.", 'global', 1, 'global', 'Общие настройки', 'cog')";		$id++;
 $sql['INSERT '.CONFIG_PARTS." ID #".$id] = "INSERT INTO `".CONFIG_PARTS."` VALUES (".$id.", 'global', 2, 'gd', 'Обработка изображений', 'picture-o')";	$id++;
-$sql['INSERT '.CONFIG_PARTS." ID #".$id] = "INSERT INTO `".CONFIG_PARTS."` VALUES (".$id.", 'global', 3, 'cp', 'Панель Администратора', 'shield')";	$id++;
-$sql['INSERT '.CONFIG_PARTS." ID #".$id] = "INSERT INTO `".CONFIG_PARTS."` VALUES (".$id.", 'global', 4, 'tpl', 'Настройки шаблонизации', 'desktop')";	$id++;
-$sql['INSERT '.CONFIG_PARTS." ID #".$id] = "INSERT INTO `".CONFIG_PARTS."` VALUES (".$id.", 'global', 5, 'rss', 'RSS', 'rss')";				$id++;
+$sql['INSERT '.CONFIG_PARTS." ID #".$id] = "INSERT INTO `".CONFIG_PARTS."` VALUES (".$id.", 'global', 3, 'cp', 'Настройка пользователей', 'users')";	$id++;
+$sql['INSERT '.CONFIG_PARTS." ID #".$id] = "INSERT INTO `".CONFIG_PARTS."` VALUES (".$id.", 'global', 4, 'cp', 'Панель Администратора', 'shield')";	$id++;
+$sql['INSERT '.CONFIG_PARTS." ID #".$id] = "INSERT INTO `".CONFIG_PARTS."` VALUES (".$id.", 'global', 5, 'tpl', 'Настройки шаблонизации', 'desktop')";	$id++;
+$sql['INSERT '.CONFIG_PARTS." ID #".$id] = "INSERT INTO `".CONFIG_PARTS."` VALUES (".$id.", 'global', 6, 'rss', 'RSS', 'rss')";				$id++;
 $sql['INSERT '.CONFIG_PARTS." ID #".$id] = "INSERT INTO `".CONFIG_PARTS."` VALUES (".$id.", 'component', 6, 'feed', 'Ленты', 'th-list')";		$id++;
 
 
@@ -114,6 +115,8 @@ $sql['INSERT '.CONFIG_TABLE." ID #".$id] = "INSERT INTO `".CONFIG_TABLE."` VALUE
 $sql['INSERT '.CONFIG_TABLE." ID #".$id] = "INSERT INTO `".CONFIG_TABLE."` VALUES (".$id.", 'gd', 8, 'Вкл/выкл водяной знак', 'Использовать на загружаемых изображениях Watermark (полупрозрачный копирайт) для защиты изображений от копирования на сторонние ресурсы?', 'gd_use_watermark', 'boolean', '', 'true', 'true', 0)"; $id++;
 $sql['INSERT '.CONFIG_TABLE." ID #".$id] = "INSERT INTO `".CONFIG_TABLE."` VALUES (".$id.", 'gd', 9, 'Первая строка водяного знака', 'Первая строчка водяного знака накладываемого на изображение', 'gd_watermark_string_one', 'string', '', '', '', 0)"; $id++;
 $sql['INSERT '.CONFIG_TABLE." ID #".$id] = "INSERT INTO `".CONFIG_TABLE."` VALUES (".$id.", 'gd', 10, 'Вторая строка водяного знака', 'Вторая строчка водяного знака накладываемого на изображение', 'gd_watermark_string_two', 'string', '', 'http://".$_SERVER['SERVER_NAME']."', '', 0)"; $id++;
+$sql['INSERT '.CONFIG_TABLE." ID #".$id] = "INSERT INTO `".CONFIG_TABLE."` VALUES (".$id.", 'users', 1, 'Ширина аватара', 'Укажите размер пользовательского аватара по горизонтали (в пикселях)', 'users_avatar_width', 'int', '', '100', '100', 0)";
+$sql['INSERT '.CONFIG_TABLE." ID #".$id] = "INSERT INTO `".CONFIG_TABLE."` VALUES (".$id.", 'users', 2, 'Высота аватара', 'Укажите размер пользовательского аватара по горизонтали (в пикселях)', 'users_avatar_height', 'int', '', '100', '100', 0)";
 $sql['INSERT '.CONFIG_TABLE." ID #".$id] = "INSERT INTO `".CONFIG_TABLE."` VALUES (".$id.", 'cp', 1, 'Вход в панель управления', 'Укажите название файла (скрипта) через который вы будете заходить в Панель Управления.\r\nВнимание! После изменения этой настройки, изменится URI панели управления. В случае если вы изменяли вручную шаблоны панели управления, проверьте, что вы везде указали переменную {&#36;SCRIPT_NAME}', 'cp_script', 'string', '', 'acp.php', 'acp.php', 0)"; $id++;
 $sql['INSERT '.CONFIG_TABLE." ID #".$id] = "INSERT INTO `".CONFIG_TABLE."` VALUES (".$id.", 'cp', 2, 'E-mail администратора', 'Укажите адрес электронной почты администратора Он будет использоваться для системных уведомлений.', 'cp_email', 'email', '', '".$site['sysemail']."', '".$site['sysemail']."', 0)"; $id++;
 $sql['INSERT '.CONFIG_TABLE." ID #".$id] = "INSERT INTO `".CONFIG_TABLE."` VALUES (".$id.", 'tpl', 1, 'Вкл/выкл режим отладки шаблонов', 'Опцпия активирует принудительную перекомпиляцию шаблонов при каждом вызове.\r\nНикогда не используйте это действие в условиях реальной эксплуатации', 'tpl_recompile_force', 'boolean', '', 'false', 'false', 0)"; $id++;
@@ -280,6 +283,7 @@ $sql['CREATE '.USERS_TABLE] = "CREATE TABLE  `".USERS_TABLE."` (
 				 `login` VARCHAR( 255 ) NOT NULL ,
 				 `nickname` VARCHAR( 255 ) NOT NULL ,
 				 `email` VARCHAR( 255 ) NOT NULL ,
+				 `avatar` VARCHAR( 255 ) NOT NULL ,
 				 `title` ENUM(  'a',  'u' ) NOT NULL DEFAULT  'u',
 				 `password` VARCHAR( 32 ) NOT NULL ,
 				 `salt` CHAR( 4 ) NOT NULL ,

@@ -108,9 +108,11 @@ a:hover [class^="fa-"] {
 .progress.pb0 {
   margin-bottom: 0px !important;
 }
+/* ckeditor styles */
 .cked {
   overflow-x: hidden;
 }
+/* style for attached files */
 .field_attach {
   padding: 10px 0px;
 }
@@ -121,9 +123,19 @@ a:hover [class^="fa-"] {
 p.attach_files {
   padding: 8px 8px;
 }
+/* style fro delete user avatar */
+.delete_useravatar:hover {
+  background-color: #fe402b;
+  border-radius: 5px;
+}
+.delete_useravatar:hover > img {
+  opacity: 0.5;
+}
+/* style for datepicker*/
 .form-date {
   width: 50% !important;
 }
+/* alias visual style */
 tr .alias-vis {
   display: none;
   float: right;
@@ -133,7 +145,7 @@ tr:hover .alias-vis {
 }
 /* Add BS */
 blockquote.quote-info {
-  border-left-color: #62aeef;
+  border-left-color: #409eef;
   background-color: #fbfbfb;
 }
 blockquote.quote-success {
@@ -141,7 +153,7 @@ blockquote.quote-success {
   background-color: #fbfbfb;
 }
 blockquote.quote-warning {
-  border-left-color: #f88c00;
+  border-left-color: #fb8c00;
   background-color: #fbfbfb;
 }
 blockquote.quote-danger {
@@ -166,7 +178,7 @@ blockquote.quote-info > h3,
 blockquote.quote-info > h4,
 blockquote.quote-info > h5,
 blockquote.quote-info > h6 {
-  color: #62aeef;
+  color: #409eef;
 }
 blockquote.quote-success > h1,
 blockquote.quote-success > h2,
@@ -182,7 +194,7 @@ blockquote.quote-warning > h3,
 blockquote.quote-warning > h4,
 blockquote.quote-warning > h5,
 blockquote.quote-warning > h6 {
-  color: #f88c00;
+  color: #fb8c00;
 }
 blockquote.quote-danger > h1,
 blockquote.quote-danger > h2,
@@ -281,7 +293,7 @@ h6 {
 }
 /* Color */
 .blue {
-  color: #4488bb;
+  color: #4499ee;
 }
 .black {
   color: #1b1e24;

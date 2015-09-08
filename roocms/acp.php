@@ -5,7 +5,7 @@
  * @author       alex Roosso
  * @copyright    2010-2015 (c) RooCMS
  * @link         http://www.roocms.com
- * @version      1.0.15
+ * @version      1.1
  * @since        $date$
  * @license      http://www.gnu.org/licenses/gpl-3.0.html
  */
@@ -69,6 +69,8 @@ if($acpsecurity->access) {
 	# запускаем меню админа
 	require_once _ROOCMS."/acp/menu.php";
 
+	// $config vars in tpl
+	$smarty->assign("config", $config);
 
 	if(trim($roocms->act) != "" && file_exists(_ROOCMS."/acp/".$roocms->act.".php")) {
 		require_once _ROOCMS."/acp/".$roocms->act.".php";

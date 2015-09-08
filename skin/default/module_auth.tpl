@@ -40,7 +40,7 @@
 {else}
 	<div class="row">
 		<div class="col-sm-12 text-right">
-			<h4>Здравствуйте, <a href="/?act=ucp"><i class="fa fa-fw fa-male"></i>{$userdata['nickname']}</a></h4>
+			<h4>Здравствуйте, {if $userdata['avatar'] != ""}<a href="/?act=ucp"><img src="/upload/images/{$userdata['avatar']}" height="20" style="margin-top: -4px;" class="img-rounded"></a> <a href="/?act=ucp">{$userdata['nickname']}</a>{else}<a href="/?act=ucp"><i class="fa fa-fw fa-male"></i>{$userdata['nickname']}</a>{/if}</h4>
 			{if $pm == 0}
 				<a href="/index.php?act=pm" class="btn btn-default btn-xs"><i class="fa fa-fw fa-envelope-o"></i> У вас нет новых сообщений</a>
 			{else}

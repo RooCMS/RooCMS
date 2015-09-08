@@ -5,7 +5,7 @@
 * @author       alex Roosso
 * @copyright    2010-2015 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      2.0.4
+* @version      2.0.5
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -92,10 +92,10 @@ class ACP_LOGIN {
 				$this->incorrect_entering("Неверный логин или пароль.");
 			}
 		}
-		else {
+		/*elseif((isset($POST->login) && !$db->check_id($POST->login, USERS_TABLE, "login", "status='1' AND title='a'")))  {
 			# логин или пароль введены некоректно
 			$this->incorrect_entering("Введены неверные данные.");
-		}
+		}*/
 
 
 		# load template

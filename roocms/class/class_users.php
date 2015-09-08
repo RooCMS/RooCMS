@@ -5,7 +5,7 @@
 * @author       alex Roosso
 * @copyright    2010-2015 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.1
+* @version      1.2.1
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -61,6 +61,7 @@ class Users extends Security {
 	public	$uid		= 0;		# [int]		user id
 	public	$login		= "";		# [string]	user login
 	public	$nickname	= "";		# [string]	user nickname
+	public	$avatar		= "";		# [string]	user avatar
 	public	$email		= "";		# [string]	user nickname
 	public	$title		= "u";		# [enum]	user title
 	public	$gid		= 0;		# [int]		user group id
@@ -100,7 +101,7 @@ class Users extends Security {
 			$this->check_userdata();
 
 			# update users info
-			$this->update_info_user($this->uid);
+			$this->update_user_time_last_visit($this->uid);
 		}
 	}
 
@@ -115,7 +116,7 @@ class Users extends Security {
 		if(isset($roocms->sess['login']) && trim($roocms->sess['login']) != "" && $db->check_id($roocms->sess['login'], USERS_TABLE, "login", "status='1'") && isset($roocms->sess['token']) && strlen($roocms->sess['token']) == 32) {
 
 			# get data
-			$q    = $db->query("SELECT uid, gid, login, nickname, email, title, password, salt FROM ".USERS_TABLE." WHERE login='".$roocms->sess['login']."' AND status='1'");
+			$q    = $db->query("SELECT uid, gid, login, nickname, avatar, email, title, password, salt FROM ".USERS_TABLE." WHERE login='".$roocms->sess['login']."' AND status='1'");
 			$data = $db->fetch_assoc($q);
 
 			# uid
@@ -133,6 +134,9 @@ class Users extends Security {
 			# nickname
 			$this->nickname	= $data['nickname'];
 
+			# avatar
+			$this->avatar	= $data['avatar'];
+
 			# email
 			$this->email	= $data['email'];
 
@@ -143,6 +147,7 @@ class Users extends Security {
 				'gid'		=> $data['gid'],
 				'login'		=> $data['login'],
 				'nickname'	=> $data['nickname'],
+				'avatar'	=> $data['avatar'],
 				'email'		=> $data['email'],
 				'title'		=> $data['title']
 			);
@@ -159,7 +164,7 @@ class Users extends Security {
 	 *
 	 * @param int $uid - уникальные идентификатор пользователя
 	 */
-	private function update_info_user($uid) {
+	private function update_user_time_last_visit($uid) {
 
 		global $db;
 
@@ -229,6 +234,28 @@ class Users extends Security {
 		}
 
 		return $nickname;
+	}
+
+
+	/**
+	 * Функция удаляет пользовательский аватар.
+	 *
+	 * @param $uid - Уникальный идентификатор пользователя
+	 */
+	public function delete_avatar($uid) {
+
+		global $db;
+
+		if($db->check_id($uid, USERS_TABLE, "uid", "avatar!=''") && ($this->uid == $uid || $this->title == "a")) {
+
+			$q = $db->query("SELECT avatar FROM ".USERS_TABLE." WHERE uid='".$uid."'");
+			$data = $db->fetch_assoc($q);
+
+			if(file_exists(_UPLOADIMAGES."/".$data['avatar'])) {
+				unlink(_UPLOADIMAGES."/".$data['avatar']);
+				$db->query("UPDATE ".USERS_TABLE." SET avatar='' WHERE uid='".$uid."'");
+			}
+		}
 	}
 }
 ?>

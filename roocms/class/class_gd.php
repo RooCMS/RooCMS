@@ -5,7 +5,7 @@
 * @author	alex Roosso
 * @copyright	2010-2015 (c) RooCMS
 * @link		http://www.roocms.com
-* @version	1.8.3
+* @version	1.9
 * @since	$date$
 * @license	http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -130,23 +130,31 @@ class GD {
 	 * Функция проводит стандартные операции над загруженным файлом.
 	 * Изменяет размеры, создает миниатюру, наносит водяной знак.
 	 *
-	 * @param      $filename - Имя файла (без расширения)
-	 * @param      $extension - расширение файла
-	 * @param      $path - путь к расположению файла.
-	 * @param bool $watermark - флаг указывает наносить ли водяной знак на рисунок.
+	 * @param       $filename  - Имя файла (без расширения)
+	 * @param       $extension - расширение файла
+	 * @param       $path      - путь к расположению файла.
+	 * @param array $options
+	 * @internal param bool $watermark 	- флаг указывает наносить ли водяной знак на рисунок.
+	 * @internal param bool $modify 	- флаг указывает подвергать ли изображение полной модификации с сохранением оригинального изображения и созданием превью.
 	 */
-	protected function modify_image($filename, $extension, $path, $watermark = true) {
+	protected function modify_image($filename, $extension, $path, array $options=array('watermark'=>true, 'modify'=>true)) {
 
 		global $config;
 
-		# изменяем изображение если, оно превышает допустимые размеры
-		$this->resize($filename, $extension, $path);
 
-		# Создаем миниатюру
-		$this->thumbnail($filename, $extension, $path);
+		# Модифицируем?
+		if(isset($options['modify']) && $options['modify']) {
+			# изменяем изображение если, оно превышает допустимые размеры
+			$this->resize($filename, $extension, $path);
 
-		if($config->gd_use_watermark && $watermark) {
-			# наносим ватермарк
+			# Создаем миниатюру
+			$this->thumbnail($filename, $extension, $path);
+		}
+		else $this->resized($filename, $extension, $path);
+
+
+		# Наносим ватермарк
+		if($config->gd_use_watermark && (isset($options['watermark'])&& $options['watermark'])) {
 			$this->watermark($filename, $extension, $path);
 		}
 	}
@@ -155,15 +163,16 @@ class GD {
 	/**
 	 * Изменяем размер изображения, если оно превышает допустимый администратором.
 	 *
-	 * @param string $filename	- Имя файла изображения
-	 * @param string $ext		- Расширение файла без точки
-	 * @param path|string $path	- Путь к папке с файлом. По умолчанию указан путь к папке с изображениями
+	 * @param string      $filename - Имя файла изображения
+	 * @param string      $ext      - Расширение файла без точки
+	 * @param path|string $path     - Путь к папке с файлом. По умолчанию указан путь к папке с изображениями
 	 */
 	protected function resize($filename, $ext, $path=_UPLOADIMAGES) {
 
 		# vars
-        	$fileoriginal 	= $filename."_original.".$ext;
-        	$fileresize 	= $filename."_resize.".$ext;
+		$fileoriginal 	= $filename."_original.".$ext;
+		$fileresize 	= $filename."_resize.".$ext;
+
 
 		# определяем размер картинки
 		$size = getimagesize($path."/".$fileoriginal);
@@ -202,6 +211,77 @@ class GD {
 			imagedestroy($resize);
 			imagedestroy($src);
 		}
+	}
+
+
+	/**
+	 * Изменяем размер изображения.
+	 *
+	 * @param string      $filename - Имя файла изображения
+	 * @param string      $ext      - Расширение файла без точки
+	 * @param path|string $path     - Путь к папке с файлом. По умолчанию указан путь к папке с изображениями
+	 */
+	protected function resized($filename, $ext, $path=_UPLOADIMAGES) {
+
+		# vars
+		$file 	= $filename.".".$ext;
+
+
+		# определяем размер картинки
+		$size = getimagesize($path."/".$file);
+		$w = $size[0];
+		$h = $size[1];
+
+
+		# вносим в память пустую превью и оригинальный файл, для дальнейшего издевательства над ними.
+		$thumb		= $this->imgcreatetruecolor($this->tsize['w'], $this->tsize['h'], $ext);
+
+		$alpha 		= ($ext == "png" || $ext == "gif") ? 127 : 0 ;
+		$bgcolor	= imagecolorallocatealpha($thumb, $this->thumbbgcol['r'], $this->thumbbgcol['g'], $this->thumbbgcol['b'], $alpha);
+
+		# alpha
+		if($ext == "gif" || $ext == "png") {
+			imagecolortransparent($thumb, $bgcolor);
+		}
+
+		imagefilledrectangle($thumb, 0, 0, $this->tsize['w']-1, $this->tsize['h']-1, $bgcolor);
+
+		# вводим в память файл для издевательств
+		$src = $this->imgcreate($path."/".$file, $ext);
+		# ... и удаляем
+		unlink($path."/".$file);
+
+		# Проводим расчеты по сжатию превью и уменьшению в размерах
+		$ns = $this->calc_resize($w, $h, $this->tsize['w'], $this->tsize['h']);
+
+		# Перерасчет для заливки превью
+		if($this->thumbtg == "fill") {
+			if($ns['new_left'] > 0) {
+				$ns['new_top'] = $ns['new_top'] - $ns['new_left'];
+				$proc = (($ns['new_left'] * 2) / $ns['new_width']);
+				$ns['new_width']	= ($ns['new_width'] + ($ns['new_width'] * $proc)) + 2;
+				$ns['new_height']	= ($ns['new_height'] + ($ns['new_height'] * $proc)) + 2;
+				$ns['new_left'] = 0;
+			}
+
+			if($ns['new_top'] > 0) {
+				$ns['new_left'] = $ns['new_left'] - $ns['new_top'];
+				$proc = (($ns['new_top'] * 2) / $ns['new_height']);
+				$ns['new_width']	= ($ns['new_width'] + ($ns['new_width'] * $proc)) + 2;
+				$ns['new_height']	= ($ns['new_height'] + ($ns['new_height'] * $proc)) + 2;
+				$ns['new_top'] = 0;
+			}
+		}
+
+		imagecopyresampled($thumb, $src, $ns['new_left'], $ns['new_top'], 0, 0, $ns['new_width'], $ns['new_height'], $w, $h);
+
+		# льем превью
+		if($ext == "jpg")	imagejpeg($thumb,$path."/".$file, $this->th_quality);
+		elseif($ext == "gif")	imagegif($thumb,$path."/".$file);
+		elseif($ext == "png")	imagepng($thumb,$path."/".$file);
+		imagedestroy($thumb);
+		imagedestroy($src);
+
 	}
 
 

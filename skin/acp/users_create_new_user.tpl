@@ -3,7 +3,7 @@
 	Новый пользователь
 </div>
 <div class="panel-body">
-	<form method="post" action="{$SCRIPT_NAME}?act=users&part=create_user" role="form" class="form-horizontal">
+	<form method="post" action="{$SCRIPT_NAME}?act=users&part=create_user" enctype="multipart/form-data" role="form" class="form-horizontal">
 
 		<div class="form-group">
 			<label for="inputNickname" class="col-lg-3 control-label">
@@ -38,6 +38,15 @@
 			</label>
 			<div class="col-lg-9">
 				<input type="text" name="email" id="inputEmail" class="form-control" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{literal}{2,6}{/literal}$" required>
+			</div>
+		</div>
+
+		<div class="form-group">
+			<label for="inputAvatar" class="col-lg-3 control-label">
+				Аватар:  <small><span class="fa fa-info fa-fw" rel="tooltip" title="{$config->users_avatar_width}x{$config->users_avatar_height} пикселей" data-placement="right"></span></small>
+			</label>
+			<div class="col-lg-9">
+				<input type="file" name="avatar" id="inputAvatar" class="btn btn-default">
 			</div>
 		</div>
 

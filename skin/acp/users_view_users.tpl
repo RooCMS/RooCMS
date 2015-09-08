@@ -8,7 +8,8 @@
 	<thead>
 	<tr class="active">
 		<th width="3%">ID</th>
-		<th width="46%">Имя пользователя <small>Логин и E-mail</small></th>
+		<th width="3%">Аватар</th>
+		<th width="43%">Имя пользователя <small>Логин и E-mail</small></th>
 		<th width="11%">Титул</th>
 		<th width="10%">Последний визит</th>
 		<th width="30%">Опции</th>
@@ -18,6 +19,9 @@
 	{foreach from=$data item=user}
 		<tr{if $user['status'] == 0} class="danger"{/if}>
 			<td class="text-muted">{$user['uid']}</td>
+			<td>
+				{if $user['avatar'] != ""}<a href="{$SCRIPT_NAME}?act=users&part=edit_user&uid={$user['uid']}"><img src="/upload/images/{$user['avatar']}" height="40" class="img-rounded"></a>{/if}
+			</td>
 			<td>
 				<a href="{$SCRIPT_NAME}?act=users&part=edit_user&uid={$user['uid']}">{$user['nickname']}</a>
 				<br /><small>{$user['login']} ({$user['email']})</small>

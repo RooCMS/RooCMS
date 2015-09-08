@@ -5,7 +5,7 @@
 * @author       alex Roosso
 * @copyright    2010-2015 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.3.1
+* @version      1.4
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -61,34 +61,41 @@ class Images extends GD {
 	/**
 	 * Раздатчик функции загрузки файлов на сервер и в БД
 	 *
-	 * @param string  $file - имя в массиве $_FILES
-	 * @param string  $prefix - префикс для имения файла.
+	 * @param string  $file      - имя в массиве $_FILES
+	 * @param string  $prefix    - префикс для имения файла.
 	 * @param array   $thumbsize - array(width,height) - размеры миниатюры будут изменены согласно параметрам.
-	 * @param boolean $watermark - флаг указывает наносить ли водяной знак на рисунок.
-	 * @param string  $path - путь к папке для загрузки изображений.
-	 * @param boolean $no_empty - определяет пропускать ли пустые элементы в массиве FILES или обозначать их в выходном буфере.
+	 * @param array   $options   - array(internal param)
+	 * @internal param bool   $watermark - флаг указывает наносить ли водяной знак на рисунок.
+	 * @internal param string $filename  - устанавливаем имя для файла принудительно
+	 * @internal param bool   $modify    - флаг указывает подвергать ли изображение полной модификации с сохранением оригинального изображения и созданием превью.
+	 * @param string  $path      - путь к папке для загрузки изображений.
+	 * @param boolean $no_empty  - определяет пропускать ли пустые элементы в массиве FILES или обозначать их в выходном буфере.
 	 *
 	 * @return array - возвращает массив с именами файлов.
 	 */
-	public function upload_image($file, $prefix="", array $thumbsize=array(), $watermark=true, $path=_UPLOADIMAGES, $no_empty=true) {
+	public function upload_image($file, $prefix="", array $thumbsize=array(), array $options=array(), $path=_UPLOADIMAGES, $no_empty=true) {
 
-		return $this->upload_post_image($file, $prefix, $thumbsize, $watermark, $path, $no_empty);
+		return $this->upload_post_image($file, $prefix, $thumbsize, $options, $path, $no_empty);
 	}
 
 
 	/**
 	 * Загрузка картинок через $_POST
 	 *
-	 * @param string  $file - имя в массиве $_FILES
-	 * @param string  $prefix - префикс для имения файла.
+	 * @param string  $file      - имя в массиве $_FILES
+	 * @param string  $prefix    - префикс для имения файла.
 	 * @param array   $thumbsize - array(width,height) - размеры миниатюры будут изменены согласно параметрам.
-	 * @param boolean $watermark - флаг указывает наносить ли водяной знак на рисунок.
-	 * @param string  $path - путь к папке для загрузки изображений.
-	 * @param boolean $no_empty - определяет пропускать ли пустые элементы в массиве FILES или обозначать их в выходном буфере.
+	 * @param array   $options   - array(internal param)
+	 * @internal param bool   $watermark - флаг указывает наносить ли водяной знак на рисунок.
+	 * @internal param string $filename  - устанавливаем имя для файла принудительно
+	 * @internal param bool   $modify    - флаг указывает подвергать ли изображение полной модификации с сохранением оригинального изображения и созданием превью.
+	 * @param string  $path      - путь к папке для загрузки изображений.
+	 * @param boolean $no_empty  - определяет пропускать ли пустые элементы в массиве FILES или обозначать их в выходном буфере.
 	 *
 	 * @return array - возвращает массив с именами файлов.
+
 	 */
-	public function upload_post_image($file, $prefix="", array $thumbsize=array(), $watermark=true, $path=_UPLOADIMAGES, $no_empty=true) {
+	public function upload_post_image($file, $prefix="", array $thumbsize=array(), array $options=array(), $path=_UPLOADIMAGES, $no_empty=true) {
 
 		global $files;
 
@@ -106,8 +113,9 @@ class Images extends GD {
 		# Я кстати в курсе, что сам по себе $_FILES уже массив. Тут в другом смысл.
 		if(!is_array($_FILES[$file]['tmp_name'])) {
                 	foreach($_FILES[$file] AS $k=>$v) {
-                        	$_FILES[$file][$k][$file] = $v;
+                        	$FILES[$file][$k][$file] = $v;
                 	}
+			$_FILES = $FILES;
 		}
 
 
@@ -120,20 +128,35 @@ class Images extends GD {
 				# Грузим апельсины бочками
 				if(array_key_exists($_FILES[$file]['type'][$key], $allow_exts)) {
 
-					# Создаем имя файлу.
+					# расширение файла
 					$ext = $allow_exts[$_FILES[$file]['type'][$key]];
-					$filename = $files->create_filename($_FILES[$file]['name'][$key], $prefix);
 
-					# Сохраняем оригинал
-					copy($_FILES[$file]['tmp_name'][$key], $path."/".$filename."_original.".$ext);
+					# Создаем имя файлу.
+					if(isset($options['filename']) && $options['filename'] != "") {
+						$filename = $options['filename'];
+					}
+					else $filename = $files->create_filename($_FILES[$file]['name'][$key], $prefix);
 
-					# Если загрузка прошла и файл на месте
-					$upload = (!file_exists($path."/".$filename."_original.".$ext)) ? false : true ;
+					# если разрешено сохранять оригинальное изображение
+					if(isset($options['modify']) && $options['modify']) {
+						# Сохраняем оригинал
+						copy($_FILES[$file]['tmp_name'][$key], $path."/".$filename."_original.".$ext);
+
+						# Если загрузка прошла и файл на месте
+						$upload = (!file_exists($path."/".$filename."_original.".$ext)) ? false : true ;
+					}
+					else {
+						# Сохраняем оригинал
+						copy($_FILES[$file]['tmp_name'][$key], $path."/".$filename.".".$ext);
+
+						# Если загрузка прошла и файл на месте
+						$upload = (!file_exists($path."/".$filename.".".$ext)) ? false : true ;
+					}
 				}
 
 				# Если загрузка удалась
 				if($upload)
-					$this->modify_image($filename, $ext, $path, $watermark);
+					$this->modify_image($filename, $ext, $path, $options);
 				else {
 					# Обработчик если загрузка не удалась =)
 					$filename = false;
