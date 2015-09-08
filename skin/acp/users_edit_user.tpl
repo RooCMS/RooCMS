@@ -66,7 +66,7 @@
 				Аватар:  <small><span class="fa fa-info fa-fw" rel="tooltip" title="{$config->users_avatar_width}x{$config->users_avatar_height} пикселей" data-placement="right"></span></small>
 			</label>
 			<div class="col-lg-9">
-				{if $user['avatar'] != ""}<img src="/upload/images/{$user['avatar']}" height="40" class="pull-right img-rounded">{/if} <input type="file" name="avatar" id="inputAvatar" class="btn btn-default">
+				{if $user['avatar'] != ""}<span id="dua-{$user['uid']}" class="hover_cursor delete_useravatar pull-right"  rel="tooltip" title="Удалить аватар пользователя" data-placement="left"><img src="/upload/images/{$user['avatar']}" height="40" class="img-rounded"></span>{/if} <input type="file" name="avatar" id="inputAvatar" class="btn btn-default">
 			</div>
 		</div>
 
@@ -77,8 +77,8 @@
 			</label>
 			<div class="col-lg-9">
 				<select name="title"  id="inputTitle" class="selectpicker show-tick" data-size="auto" data-width="50%">
-					<option value="a"{if $user['title'] == "a"}selected{/if}>Администратор</option>
-					<option value="u"{if $user['title'] == "u"}selected{/if}>Пользователь</option>
+					<option value="a" {if $user['title'] == "a"}selected{/if}>Администратор</option>
+					<option value="u" {if $user['title'] == "u"}selected{/if}>Пользователь</option>
 				</select>
 			</div>
 		</div>
@@ -111,3 +111,22 @@
 
 	</form>
 </div>
+
+{literal}
+	<script>
+		$(document).ready(function(){
+			$('span[id^=dua]').click(function() {
+				var attrdata = $(this).attr('id');
+				var arrdata = attrdata.split('-');
+				var uid = arrdata[1];
+
+				$("#dua-"+uid).load('/acp.php?act=ajax&part=delete_user_avatar&uid='+uid, function() {
+					$("#dua-"+uid).animate({'opacity':'0.2'}, 750, function() {
+						$("#dua-"+uid).hide(600).delay(900).remove();
+					});
+				});
+
+			});
+	});
+	</script>
+{/literal}

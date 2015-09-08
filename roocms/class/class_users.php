@@ -5,7 +5,7 @@
 * @author       alex Roosso
 * @copyright    2010-2015 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.1.2
+* @version      1.2
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -234,6 +234,28 @@ class Users extends Security {
 		}
 
 		return $nickname;
+	}
+
+
+	/**
+	 * Функция удаляет пользовательский аватар.
+	 *
+	 * @param $uid - Уникальный идентификатор пользователя
+	 */
+	public function delete_avatar($uid) {
+
+		global $db;
+
+		if($db->check_id($uid, USERS_TABLE, "uid", "avatar!=''") && ($this->uid == $uid || $this->title == "a")) {
+
+			$q = $db->query("SELECT avatar FROM ".USERS_TABLE." WHERE uid='".$uid."'");
+			$data = $db->fetch_assoc($q);
+
+			if(file_exists(_UPLOADIMAGES."/".$data['avatar'])) {
+				unlink(_UPLOADIMAGES."/".$data['avatar']);
+				$db->query("UPDATE ".USERS_TABLE." SET avatar='' WHERE uid='".$uid."'");
+			}
+		}
 	}
 }
 ?>

@@ -6,7 +6,7 @@
 * @author       alex Roosso
 * @copyright    2010-2015 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.2
+* @version      1.3
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -75,6 +75,10 @@ class ACP_AJAX {
 			case 'delete_attached_file':
 				$this->delete_attached_file();
 				break;
+
+			case 'delete_user_avatar':
+				$this->delete_user_avatar();
+				break;
 		}
 	}
 
@@ -109,6 +113,23 @@ class ACP_AJAX {
 			$files->delete_files($GET->_id);
 
 			echo "<small class=\"text-success btn btn-xs delete_image\"><span class=\"fa fa-trash-o\"></span> Удалено!</small>";
+		}
+	}
+
+
+	/**
+	 * Удаление пользовательского аватара посредством AJAX
+	 *
+	 */
+	private function delete_user_avatar() {
+
+		global $db, $GET, $users;
+
+		if(isset($GET->_uid) && $db->check_id($GET->_uid, USERS_TABLE, "uid", "avatar!=''")) {
+
+			$users->delete_avatar($GET->_uid);
+
+			echo "<small class=\"text-success btn btn-xs\"><span class=\"fa fa-trash-o\"></span> Удалено!</small>";
 		}
 	}
 }

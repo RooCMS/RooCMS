@@ -56,22 +56,32 @@ a:hover [class^="fa-"] {text-decoration: none !important;}
 .display-block	{display: block !important;}
 .display-none	{display: none !important;}
 
+
 .notification-info {position:fixed; z-index:100; right:0px; left: 0px;}
+
 
 .hover-without-underline:hover {text-decoration: none !important;}
 .hover_cursor	{cursor: pointer;}
 
+
 .progress.pb0 {margin-bottom: 0px !important;}
 
+/* ckeditor styles */
 .cked {overflow-x: hidden;}
 
+/* style for attached files */
 .field_attach {padding: 10px 0px;}
 .delete_image {margin-right: -3px;margin-top: 5px;}
 p.attach_files {padding: 8px 8px;}
 
+/* style fro delete user avatar */
+.delete_useravatar:hover {background-color: @brand-danger;border-radius: 5px;}
+.delete_useravatar:hover > img {opacity: 0.5;}
 
+/* style for datepicker*/
 .form-date {width: 50% !important;}
 
+/* alias visual style */
 tr .alias-vis {display: none;float: right;}
 tr:hover .alias-vis {display: block;}
 
@@ -163,13 +173,13 @@ h6 {.t12}
 @shadowcolor: 	#B8AD9A;
 @middle-grey:	#999;
 @grey:		#ccc;
-@blue:		#48b;
+@blue:		#49E;
 
-@brand-primary:	#6F7A8A; // #428bca
-@brand-success:	#72B110; // #5cb85c
-@brand-info:	#62AEEF; // #5bc0de
-@brand-warning:	#F88C00; // #f0ad4e
-@brand-danger:	#FE402B; // #d9534f
+@brand-primary:          #6F7A9A; // #428bca
+@brand-success:          #72B110; // #5cb85c
+@brand-info:             #409EEF; // #5bc0de
+@brand-warning:          #FB8C00; // #f0ad4e
+@brand-danger:           #FE402B; // #d9534f
 
 .blue 		{color: @blue;}
 .black		{color: @black;}
