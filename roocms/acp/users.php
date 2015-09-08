@@ -369,11 +369,11 @@ class ACP_USERS {
 	 */
 	private function update_user($uid) {
 
-		global $db, $POST, $parse, $users, $security, $smarty, $tpl, $site;
+		global $db, $POST, $config, $site, $users, $img, $security, $parse, $smarty, $tpl;
 
 		if(isset($POST->update_user) || isset($POST->update_user_ae)) {
 
-			$q = $db->query("SELECT login, nickname, email FROM ".USERS_TABLE." WHERE uid='".$uid."'");
+			$q = $db->query("SELECT login, nickname, email, avatar FROM ".USERS_TABLE." WHERE uid='".$uid."'");
 			$udata = $db->fetch_assoc($q);
 
 			$query = "";
@@ -417,6 +417,15 @@ class ACP_USERS {
 
 			# group
 			$query .= (isset($POST->gid) && $db->check_id($POST->gid, USERS_GROUP_TABLE, "gid")) ? "gid='".$POST->gid."', " : "gid='0', " ;
+
+			# avatar
+
+			$av = $img->upload_image("avatar", "", array($config->users_avatar_width, $config->users_avatar_height), array("filename"=>"av_".$uid, "watermark"=>false, "modify"=>false));
+			if(isset($av[0])) {
+				if($udata['avatar'] != "" && $udata['avatar'] != $av[0]) unlink(_UPLOADIMAGES."/".$udata['avatar']);
+				$query .= "avatar='".$av[0]."', ";
+			}
+
 
 			# update
 			if(!isset($_SESSION['error'])) {
