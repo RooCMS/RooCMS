@@ -23,7 +23,7 @@
 
 <div class="row">
 	<div class="col-sm-8">
-		<form method="post" action="{$SCRIPT_NAME}?act=ucp&part=update_info" role="form" class="form-horizontal">
+		<form method="post" action="{$SCRIPT_NAME}?act=ucp&part=update_info" role="form" class="form-horizontal" enctype="multipart/form-data">
 			<div class="form-group">
 				<label for="inputLogin" class="col-lg-4 control-label">
 					Ваш логин: <small><span class="fa fa-info fa-fw" rel="tooltip" title="Не должен совпадать с логином другого пользователя" data-placement="right"></span></small>
@@ -65,7 +65,7 @@
 					Аватар:  <small><span class="fa fa-info fa-fw" rel="tooltip" title="Изображение вашего профиля" data-placement="right"></span></small>
 				</label>
 				<div class="col-lg-8">
-					{if $userdata['avatar'] != ""}<div class="btn-group pull-right" data-toggle="buttons"><label class="btn btn-default btn-xs bda"><input type="checkbox" name="delete_avatar" autocomplete="off"><i class="iconda fa fa-fw fa-trash"></i> Удалить аватар?</label></div>{/if} <input type="file" name="avatar" id="inputAvatar" class="btn btn-default">
+					{if $userdata['avatar'] != ""}<div class="btn-group pull-right" data-toggle="buttons"><label class="btn btn-default btn-xs bda"><input type="checkbox" name="delete_avatar" class="ida" value="1" autocomplete="on"><i class="iconda fa fa-fw fa-trash"></i> Удалить аватар?</label></div>{/if} <input type="file" name="avatar" id="inputAvatar" class="btn btn-default">
 				</div>
 			</div>
 
@@ -95,9 +95,11 @@
 			$('.bda').toggle(function() {
 				$(this).removeClass('btn-default').addClass('btn-danger');
 				$('.iconda').removeClass('fa-trash').addClass('fa-check');
+				$('.ida').attr('checked','true');
 			}, function() {
 				$(this).removeClass('btn-danger').addClass('btn-default');
 				$('.iconda').removeClass('fa-check').addClass('fa-trash');
+				$('.ida').removeAttr('checked');
 			});
 		});
 	</script>
