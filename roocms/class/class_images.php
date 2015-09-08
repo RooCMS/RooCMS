@@ -73,7 +73,7 @@ class Images extends GD {
 	 *
 	 * @return array - возвращает массив с именами файлов.
 	 */
-	public function upload_image($file, $prefix="", array $thumbsize=array(), array $options=array(), $path=_UPLOADIMAGES, $no_empty=true) {
+	public function upload_image($file, $prefix="", array $thumbsize=array(), array $options=array("watermark"=>true, "modify"=>true), $path=_UPLOADIMAGES, $no_empty=true) {
 
 		return $this->upload_post_image($file, $prefix, $thumbsize, $options, $path, $no_empty);
 	}
