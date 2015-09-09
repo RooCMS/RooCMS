@@ -5,7 +5,7 @@
  * @author       alex Roosso
  * @copyright    2010-2015 (c) RooCMS
  * @link         http://www.roocms.com
- * @version      1.0
+ * @version      1.0.1
  * @since        $date$
  * @license      http://www.gnu.org/licenses/gpl-3.0.html
  */
@@ -64,6 +64,11 @@ nocache();
 # Security check
 require_once _ROOCMS."/ucp/security_check.php";
 
+/**
+ * Init Blocks & Modules
+ */
+require_once "site_blocks.php";
+require_once "site_module.php";
 
 if($ucpsecurity->access) {
 	if(trim($roocms->act) != "" && file_exists(_ROOCMS."/ucp/".$roocms->act.".php")) {
