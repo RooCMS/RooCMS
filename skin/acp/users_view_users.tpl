@@ -23,7 +23,7 @@
 				{if $user['avatar'] != ""}<a href="{$SCRIPT_NAME}?act=users&part=edit_user&uid={$user['uid']}"><img src="/upload/images/{$user['avatar']}" height="40" class="img-rounded"></a>{/if}
 			</td>
 			<td>
-				<a href="{$SCRIPT_NAME}?act=users&part=edit_user&uid={$user['uid']}">{$user['nickname']}</a>
+				<a href="{$SCRIPT_NAME}?act=users&part=edit_user&uid={$user['uid']}">{$user['nickname']}</a> <span class="label label-info pull-right">{$user['gtitle']}</span>
 				<br /><small>{$user['login']} ({$user['email']})</small>
 			</td>
 			<td class="text-left">
