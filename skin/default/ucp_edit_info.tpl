@@ -6,19 +6,19 @@
 <div class="row">
 
 	{if $userdata['avatar'] != ""}
-	<div class="col-xs-3 col-sm-2 col-md-2"><img src="/upload/images/{$userdata['avatar']}"  class="img-thumbnail"></div>
+	<div class="col-xs-3 col-sm-2 col-md-2 text-center"><img src="/upload/images/{$userdata['avatar']}"  class="img-thumbnail"></div>
 	<div class="col-xs-9 col-sm-10 col-md-10">
 		{else}
 		<div class="col-xs-12">
 			{/if}
-			<h1>
+			<h2>
 				{$userdata['nickname']}
-			</h1>
+			</h2>
 			<small class="label label-primary">{$userdata['gtitle']}</small>
 		</div>
 
 
-</div>
+	</div>
 <hr>
 
 <div class="row">
