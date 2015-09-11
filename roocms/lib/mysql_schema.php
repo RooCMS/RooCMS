@@ -5,7 +5,7 @@
 * @author       alex Roosso
 * @copyright    2010-2015 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.2.10
+* @version      1.2.11
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -276,24 +276,29 @@ $sql['CREATE '.FILES_TABLE] = "CREATE TABLE IF NOT EXISTS `".FILES_TABLE."` (
  * Пользователи
  */
 $sql['DROP '.USERS_TABLE] = "DROP TABLE IF EXISTS `".USERS_TABLE."`";
-$sql['CREATE '.USERS_TABLE] = "CREATE TABLE  `".USERS_TABLE."` (
-				 `uid` INT( 10 ) UNSIGNED NOT NULL AUTO_INCREMENT ,
-				 `gid` INT( 10 ) UNSIGNED NOT NULL DEFAULT  '0',
-				 `status` ENUM(  '0',  '1' ) NOT NULL DEFAULT  '1',
-				 `login` VARCHAR( 255 ) NOT NULL ,
-				 `nickname` VARCHAR( 255 ) NOT NULL ,
-				 `email` VARCHAR( 255 ) NOT NULL ,
-				 `avatar` VARCHAR( 255 ) NOT NULL ,
-				 `title` ENUM(  'a',  'u' ) NOT NULL DEFAULT  'u',
-				 `password` VARCHAR( 32 ) NOT NULL ,
-				 `salt` CHAR( 4 ) NOT NULL ,
-				 `date_create` INT( 20 ) UNSIGNED NOT NULL DEFAULT  '0' COMMENT  'format: unixtimestamp',
-				 `date_update` INT( 20 ) UNSIGNED NOT NULL DEFAULT  '0' COMMENT  'format: unixtimestamp',
-				 `last_visit` INT( 20 ) UNSIGNED NOT NULL DEFAULT  '0' COMMENT  'format: unixtimestamp',
-				PRIMARY KEY (  `uid` ) ,
-				UNIQUE KEY  `uid` (  `uid` ,  `login` ) ,
-				UNIQUE KEY  `nickname` (  `nickname` )
-				) ENGINE = MYISAM DEFAULT CHARSET = utf8;";
+$sql['CREATE '.USERS_TABLE] = "CREATE TABLE `".USERS_TABLE."` (
+				  `uid` int(10) unsigned NOT NULL AUTO_INCREMENT,
+				  `gid` int(10) unsigned NOT NULL DEFAULT '0',
+				  `status` enum('0','1') NOT NULL DEFAULT '0',
+				  `login` varchar(255) NOT NULL,
+				  `nickname` varchar(255) NOT NULL,
+				  `email` varchar(255) NOT NULL,
+				  `avatar` varchar(255) NOT NULL,
+				  `user_name` varchar(255) NOT NULL,
+				  `user_middle_name` varchar(255) NOT NULL,
+				  `user_last_name` varchar(255) NOT NULL,
+				  `user_bithdate` int(20) unsigned NOT NULL DEFAULT '0',
+				  `user_sex` enum('n','m','f') NOT NULL DEFAULT 'n',
+				  `title` enum('a','u') NOT NULL DEFAULT 'u',
+				  `password` varchar(32) NOT NULL,
+				  `salt` char(4) NOT NULL,
+				  `date_create` int(20) unsigned NOT NULL DEFAULT '0' COMMENT 'format: unixtimestamp',
+				  `date_update` int(20) unsigned NOT NULL DEFAULT '0' COMMENT 'format: unixtimestamp',
+				  `last_visit` int(20) unsigned NOT NULL DEFAULT '0' COMMENT 'format: unixtimestamp',
+				  PRIMARY KEY (`uid`),
+				  UNIQUE KEY `id` (`uid`,`login`),
+				  UNIQUE KEY `nickname` (`nickname`)
+				) ENGINE=MyISAM  DEFAULT CHARSET=utf8;";
 
 
 /**
