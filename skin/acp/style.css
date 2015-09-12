@@ -18,7 +18,7 @@ body {
   font-family: 'PT Sans', 'Ubuntu', 'Calibri', 'Trebuchet MS', 'Tahoma', 'Verdana' !important;
   color: #1b1e24;
   font-size: 12px;
-  background: #ede1cb url('img/bgcp.jpg') repeat fixed top !important;
+  background: #ede1cb url('img/bgcp.png') repeat fixed top !important;
   padding: 0px;
   margin: 60px 0px !important;
   behavior: url("../../csshover.htc") !important;
