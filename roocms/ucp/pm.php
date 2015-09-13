@@ -61,7 +61,7 @@ class UCP_PM {
 	/**
 	 * Init
 	 */
-	function UCP_PM() {
+	public function UCP_PM() {
 
 		global $structure, $roocms;
 

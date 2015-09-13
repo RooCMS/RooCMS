@@ -64,7 +64,7 @@ class UCP_SECURITY {
 	 * Функция проверки текущего доступа пользователя.
 	 * В случае успешной проверки функция изменяет флаг $access на true
 	 */
-	function UCP_SECURITY() {
+	public function UCP_SECURITY() {
 
 		global $db, $users;
 

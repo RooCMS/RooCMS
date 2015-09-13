@@ -60,7 +60,7 @@ class ACP_AJAX {
 	* Start
 	*
 	*/
-	function __construct() {
+	public function __construct() {
 
 		global $roocms;
 

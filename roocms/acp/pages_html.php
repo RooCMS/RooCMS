@@ -59,7 +59,7 @@ class ACP_PAGES_HTML {
 
 	//#####################################################
 	//	Edit
-	function edit($sid) {
+	public function edit($sid) {
 
 		global $db, $files, $img, $tpl, $smarty, $parse;
 
@@ -106,7 +106,7 @@ class ACP_PAGES_HTML {
 	 *
 	 * @param $sid - Structure element id
 	 */
-	function update($sid) {
+	public function update($sid) {
 
 		global $db, $parse, $files, $img, $POST;
 
@@ -155,7 +155,7 @@ class ACP_PAGES_HTML {
 
 	//#####################################################
 	//	Delete
-	function delete($sid) {
+	public function delete($sid) {
 
 		global $db, $img;
 

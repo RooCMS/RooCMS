@@ -65,7 +65,7 @@ class PageFeed {
 	 * Lets begin...
 	 * Why does the gull die?
 	 */
-	function __construct() {
+	public function __construct() {
 
 		global $GET, $db, $structure, $smarty;
 

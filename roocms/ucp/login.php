@@ -57,7 +57,7 @@ class UCP_LOGIN {
 	/**
 	 * Проверяем введенные данные
 	 */
-	function UCP_LOGIN() {
+	public function UCP_LOGIN() {
 
 		global $db, $POST, $security;
 

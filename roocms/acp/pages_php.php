@@ -62,7 +62,7 @@ class ACP_PAGES_PHP {
 	*
 	* @param boolean $sid - Структурный идентификатор
 	*/
-	function edit($sid) {
+	public function edit($sid) {
 
 		global $db, $tpl, $smarty, $parse;
 
@@ -86,7 +86,7 @@ class ACP_PAGES_PHP {
 	*
 	* @param boolean $sid - структурный идентификатор
 	*/
-	function update($sid) {
+	public function update($sid) {
 
 		global $db, $parse, $POST;
 
@@ -103,7 +103,7 @@ class ACP_PAGES_PHP {
 	*
 	* @param boolean $sid - структурная еденица
 	*/
-	function delete($sid) {
+	public function delete($sid) {
 
 		global $db;
 

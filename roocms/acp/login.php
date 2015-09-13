@@ -57,7 +57,7 @@ class ACP_LOGIN {
 	/**
 	 * Проверяем введенные данные
 	 */
-	function ACP_LOGIN() {
+	public function ACP_LOGIN() {
 
 		global $db, $POST, $security, $smarty, $tpl, $site;
 

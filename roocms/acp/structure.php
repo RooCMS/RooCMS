@@ -68,7 +68,7 @@ class ACP_STRUCTURE {
 	/**
 	* Lets mortal kombat begin
 	*/
-	function __construct() {
+	public function __construct() {
 
 		require_once _CLASS."/class_structure.php";
 		$this->engine = new Structure(true, false);
