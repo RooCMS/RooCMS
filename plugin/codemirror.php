@@ -55,20 +55,6 @@ header("Content-type: application/x-javascript; charset=utf-8");
 header('Content-transfer-encoding: binary\n');
 header('Accept-Ranges: bytes');
 ob_start("ob_gzhandler", 9);
-
-/* Hint */ /* LINT */ /* HTML CSS TEXT XML */ /* Load mode */
-//document.write('<link rel="stylesheet" href="/plugin/codemirror/addon/fold/foldgutter.css">');	// HTML XML
-//document.write('<script src="/plugin/codemirror/addon/edit/matchtags.js"></script>');			// HTML XML
-//document.write('<script src="/plugin/codemirror/addon/edit/closetag.js"></script>');			// HTML XML
-//document.write('<script src="/plugin/codemirror/addon/fold/xml-fold.js"></script>');			// HTML XML
-//document.write('<script src="/plugin/codemirror/addon/edit/continuelist.js"></script>');		// TEXT
-//document.write('<script src="/plugin/codemirror/addon/edit/trailingspace.js"></script>'); 		// CSS
-//document.write('<script src="/plugin/codemirror/addon/fold/foldcode.js"></script>');                  // HTML XML
-//document.write('<script src="/plugin/codemirror/addon/fold/foldgutter.js"></script>');		// HTML XML
-
-//document.write('<script src="/plugin/codemirror/mode/smarty/smarty.min.js"></script>');
-//document.write('<script src="/plugin/codemirror/mode/smartymixed/smartymixed.js"></script>');
-//document.write('<script src="/plugin/codemirror/mode/sql/sql.js"></script>');
 ?>
 
 document.write('<link rel="stylesheet" href="/plugin/codemirror/lib/codemirror.min.css">');

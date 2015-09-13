@@ -71,7 +71,7 @@ class Update extends Requirement{
 	/**
 	 * Вперед...
 	 */
-	function __construct() {
+	public function __construct() {
 
 		global $GET, $POST, $site, $parse, $tpl, $smarty;
 
