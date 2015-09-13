@@ -149,8 +149,10 @@ class ACP_CONFIG {
 
 		global $tpl, $smarty, $parse;
 
+
 		$field = array('name'=>$option_name, 'value'=>$value, 'type'=>$option_type, 'maxlength'=>$maxlength);
 		$smarty->assign('field', $field);
+
 
 		# integer OR string OR email
 		if($option_type == "int" OR $option_type == "integer" OR $option_type == "string" OR $option_type == "email" OR $option_type == "color") {
@@ -186,6 +188,7 @@ class ACP_CONFIG {
 
 			$out = $tpl->load_template("config_field_select",true);
 		}
+
 
 		return $out;
 	}
