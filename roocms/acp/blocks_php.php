@@ -59,7 +59,7 @@ class ACP_BLOCKS_PHP {
 	/**
 	 * Создаем PHP блок
 	 */
-	function create() {
+	public function create() {
 
 		global $db, $tpl, $smarty, $POST, $parse;
 
@@ -90,7 +90,7 @@ class ACP_BLOCKS_PHP {
 	 *
 	 * @param $id - идентификатор блока
 	 */
-	function edit($id) {
+	public function edit($id) {
 
 		global $db, $tpl, $smarty;
 
@@ -108,7 +108,7 @@ class ACP_BLOCKS_PHP {
 	 *
 	 * @param $id - идентификатор блока
 	 */
-	function update($id) {
+	public function update($id) {
 
 		global $db, $POST, $GET, $parse;
 
@@ -144,7 +144,7 @@ class ACP_BLOCKS_PHP {
 	 *
 	 * @param $id - идентификатор блока
 	 */
-	function delete($id) {
+	public function delete($id) {
 
 		global $db, $parse;
 

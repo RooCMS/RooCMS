@@ -61,7 +61,7 @@ class PageHTML {
 	* Initialisation
 	*
 	*/
-	function __construct() {
+	public function __construct() {
 		$this->load_content();
 	}
 
@@ -70,7 +70,7 @@ class PageHTML {
 	* Load Content
 	*
 	*/
-	function load_content() {
+	public function load_content() {
 
 		global $db, $structure, $parse, $files, $img, $tpl, $smarty;
 

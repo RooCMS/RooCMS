@@ -59,7 +59,7 @@ class ACP_BLOCKS_HTML {
 	/**
 	 * Создаем HTML блок
 	 */
-	function create() {
+	public function create() {
 
 		global $config, $db, $files, $img, $tpl, $smarty, $parse, $POST;
 
@@ -137,7 +137,7 @@ class ACP_BLOCKS_HTML {
 	 *
 	 * @param $id - идентификатор блока
 	 */
-	function edit($id) {
+	public function edit($id) {
 
 		global $config, $db, $files, $img, $tpl, $smarty;
 
@@ -185,7 +185,7 @@ class ACP_BLOCKS_HTML {
 	 *
 	 * @param $id - идентификатор
 	 */
-	function update($id) {
+	public function update($id) {
 
 		global $config, $db, $files, $img, $POST, $GET, $parse;
 
@@ -268,7 +268,7 @@ class ACP_BLOCKS_HTML {
 	 *
 	 * @param $id - идентификатор блока
 	 */
-	function delete($id) {
+	public function delete($id) {
 
 		global $db, $img, $parse;
 

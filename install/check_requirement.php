@@ -147,7 +147,6 @@ class Requirement {
 
 		if(@ini_get('magic_quotes_gpc') == '1' || mb_strtolower(@ini_get('magic_quotes_gpc')) == 'on') {
 			$this->log[] = array("Режим MAGIC_QUOTES_GPC", "Вкл", false, "У вас включен режим экранирования спецсимволов. Данный режим вызывает конфликты при работе с RooCMS.");
-			//$this->requirement = false;
 		}
 		else $this->log[] = array("Режим MAGIC_QUOTES_GPC", "Выкл", true, "");
 
