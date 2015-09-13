@@ -5,7 +5,7 @@
 * @author	alex Roosso
 * @copyright	2010-2015 (c) RooCMS
 * @link		http://www.roocms.com
-* @version	2.2.2
+* @version	2.2.3
 * @since	$date$
 * @license	http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -65,7 +65,7 @@ class Debug {
 	public	$nophpextensions	= array();		# [array]	Список отсуствующих PHP приложений, требуемых для RooCMS
 
 	private	$starttime		= 0;
-	public	$productivity_time	= 0;
+	public	$productivity_time	= 0.0;
 
 	private	$memory_usage		= 0;
 	public	$productivity_memory	= 0;
@@ -89,7 +89,7 @@ class Debug {
 	/**
 	* Запускаем класс
 	*/
-	function __construct() {
+	public function __construct() {
 
 		# устанавливаем перехватчик ошибок
 		@set_error_handler(array($this,'debug_critical_error'));
@@ -378,19 +378,19 @@ class Debug {
 			<div class='panel-heading'><h4 class='panel-title'><a class='accordion-toggle' data-toggle='collapse' data-parent='#debugaccordion' href='#collapseQuery'>---</a></h4></div>
 			<ul id='collapseQuery' class='list-group panel-collapse collapse'>";
 
-		$func_array = array();
+
 		$func_array = get_defined_functions();
 		foreach($func_array['user'] AS $v) {
 			echo "<li class='list-group-item'>{$v}();</li>";
 		}
 
-		$cl_array = array();
+
 		$cl_array = get_declared_classes();
 		foreach($cl_array AS $v) {
 			echo "<li class='list-group-item'><b>class</b> {$v}</li>";
 		}
 
-		$const_array = array();
+
 		$const_array = get_defined_constants(true);
 		foreach($const_array['user'] AS $k=>$v) {
 			echo "<li class='list-group-item'><b>{$k}</b> - {$v}</li>";
