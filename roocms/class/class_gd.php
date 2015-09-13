@@ -73,7 +73,7 @@ class GD {
 	/**
 	* Let's go
 	*/
-	function __construct() {
+	public function __construct() {
 
 		global $config, $site, $parse;
 

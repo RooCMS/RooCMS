@@ -85,7 +85,7 @@ class Globals {
 	* Lets begin
 	*
 	*/
-	function __construct() {
+	public function __construct() {
 
 		global $GET;
 

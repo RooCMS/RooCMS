@@ -72,7 +72,7 @@ class ParserDate {
 	 *
 	 * @return array
 	 */
-	function makeCal($year, $month) {
+	public function makeCal($year, $month) {
 
 		$wday = $this->get_num_day_of_week(1, $month, $year);
 		if($wday == 0) $wday = 7;

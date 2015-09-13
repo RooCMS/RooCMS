@@ -371,7 +371,6 @@ class Debug {
 			echo "</div></div></div>";
 		}
 
-		//echo "<code>debug <b>GLOBALS</b></code><pre class='small' style='overflow: auto;max-height: 300px;'>".htmlspecialchars(print_r($GLOBALS))."</pre>";
 
 		# Функции
 		echo "	<div class='panel panel-default'>
