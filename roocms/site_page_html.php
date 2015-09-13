@@ -80,12 +80,10 @@ class PageHTML {
 		$data['content'] = $parse->text->html($data['content']);
 
 		# load attached images
-		$images = array();
 		$images = $img->load_images("pagesid=".$structure->page_id);
 		$smarty->assign("images", $images);
 
 		# load attached files
-		$attachfile = array();
 		$attachfile = $files->load_files("pagesid=".$structure->page_id);
 		$smarty->assign("attachfile", $attachfile);
 

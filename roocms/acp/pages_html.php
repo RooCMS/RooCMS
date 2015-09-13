@@ -75,7 +75,6 @@ class ACP_PAGES_HTML {
 
 
 		# download attached images
-		$attachimg = array();
 		$attachimg = $img->load_images("pagesid=".$sid);
 		$smarty->assign("attachimg", $attachimg);
 
@@ -85,7 +84,6 @@ class ACP_PAGES_HTML {
 
 
 		# download attached files
-		$attachfile = array();
 		$attachfile = $files->load_files("pagesid=".$sid);
 		$smarty->assign("attachfile", $attachfile);
 

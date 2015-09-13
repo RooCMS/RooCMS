@@ -314,7 +314,6 @@ class ACP_FEEDS_FEED {
 
 
 		# download attached images
-		$attachimg = array();
 		$attachimg = $img->load_images("feedid=".$id);
 		$smarty->assign("attachimg", $attachimg);
 
@@ -324,7 +323,6 @@ class ACP_FEEDS_FEED {
 
 
 		# download attached files
-		$attachfile = array();
 		$attachfile = $files->load_files("feedid=".$id);
 		$smarty->assign("attachfile", $attachfile);
 

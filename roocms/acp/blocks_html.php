@@ -150,7 +150,6 @@ class ACP_BLOCKS_HTML {
 		$smarty->assign("default_thumb_size", $default_thumb_size);
 
 		# download attached images
-		$attachimg = array();
 		$attachimg = $img->load_images("blockid=".$id);
 		$smarty->assign("attachimg", $attachimg);
 
@@ -160,7 +159,6 @@ class ACP_BLOCKS_HTML {
 
 
 		# download attached files
-		$attachfile = array();
 		$attachfile = $files->load_files("blockid=".$id);
 		$smarty->assign("attachfile", $attachfile);
 
