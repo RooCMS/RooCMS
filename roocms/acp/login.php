@@ -92,10 +92,6 @@ class ACP_LOGIN {
 				$this->incorrect_entering("Неверный логин или пароль.");
 			}
 		}
-		/*elseif((isset($POST->login) && !$db->check_id($POST->login, USERS_TABLE, "login", "status='1' AND title='a'")))  {
-			# логин или пароль введены некоректно
-			$this->incorrect_entering("Введены неверные данные.");
-		}*/
 
 
 		# load template
@@ -110,8 +106,6 @@ class ACP_LOGIN {
 
 		global $smarty;
 
-		//unset($_SESSION['login']);
-		//unset($_SESSION['token']);
 		session_destroy();
 
 		sleep(3);
