@@ -126,7 +126,7 @@ class Parsers {
 	* Parse global array
 	*
 	*/
-	function parse_global() {
+	private function parse_global() {
 
 		# $_GET
 		settype($this->Get, 	"object");
@@ -219,7 +219,7 @@ class Parsers {
 	* Parser URI
 	*
 	*/
-	function parse_uri() {
+	private function parse_uri() {
 
 		//parse_str($_SERVER['QUERY_STRING'], $gets);
 		//debug(parse_url());
@@ -337,7 +337,7 @@ class Parsers {
 	 *
 	 * @return string clear $key
 	 */
-	function clear_key($key) {
+	public function clear_key($key) {
 
 		$key = strtr($key, array(
 			'?' => '', 	'!' => '',
