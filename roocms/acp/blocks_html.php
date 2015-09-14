@@ -81,7 +81,8 @@ class ACP_BLOCKS_HTML {
 				if(is_numeric($POST->alias)) $POST->alias .= randcode(3, "abcdefghijklmnopqrstuvwxyz");
 			}
 
-			# if(!isset($POST->content)) $parse->msg("Пустое тело блока!", false); //Упраздняем временно...
+			// Упраздняем временно...
+			// if(!isset($POST->content)) $parse->msg("Пустое тело блока!", false);
 			if(!isset($POST->content)) $POST->content = "";
 
 			# check thumb size
