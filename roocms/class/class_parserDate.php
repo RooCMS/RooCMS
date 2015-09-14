@@ -311,7 +311,7 @@ class ParserDate {
 	 *
 	 * @return int
 	 */
-	function get_num_day_of_week($day, $month, $year) {
+	public function get_num_day_of_week($day, $month, $year) {
 
 		// FIXME: *checkdate
 

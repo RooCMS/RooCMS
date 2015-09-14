@@ -67,7 +67,7 @@ class Module_Auth {
 	/**
 	 * Start
 	 */
-	function Module_Auth() {
+	public function Module_Auth() {
 
 		global $db, $users, $tpl, $smarty;
 
@@ -84,7 +84,7 @@ class Module_Auth {
 	/**
 	 * Finish
 	 */
-	function __destruct() {
+	public function __destruct() {
 		echo $this->out;
 	}
 }
