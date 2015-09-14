@@ -59,7 +59,7 @@ class ACP_PAGES_HTML {
 
 	//#####################################################
 	//	Edit
-	function edit($sid) {
+	public function edit($sid) {
 
 		global $db, $files, $img, $tpl, $smarty, $parse;
 
@@ -75,7 +75,6 @@ class ACP_PAGES_HTML {
 
 
 		# download attached images
-		$attachimg = array();
 		$attachimg = $img->load_images("pagesid=".$sid);
 		$smarty->assign("attachimg", $attachimg);
 
@@ -85,7 +84,6 @@ class ACP_PAGES_HTML {
 
 
 		# download attached files
-		$attachfile = array();
 		$attachfile = $files->load_files("pagesid=".$sid);
 		$smarty->assign("attachfile", $attachfile);
 
@@ -108,7 +106,7 @@ class ACP_PAGES_HTML {
 	 *
 	 * @param $sid - Structure element id
 	 */
-	function update($sid) {
+	public function update($sid) {
 
 		global $db, $parse, $files, $img, $POST;
 
@@ -157,7 +155,7 @@ class ACP_PAGES_HTML {
 
 	//#####################################################
 	//	Delete
-	function delete($sid) {
+	public function delete($sid) {
 
 		global $db, $img;
 

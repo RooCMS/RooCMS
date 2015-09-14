@@ -72,16 +72,14 @@ class ParserDate {
 	 *
 	 * @return array
 	 */
-	function makeCal($year, $month) {
+	public function makeCal($year, $month) {
 
 		$wday = $this->get_num_day_of_week(1, $month, $year);
 		if($wday == 0) $wday = 7;
 
 		$n = - ($wday - 2);
-		$cal = array();
 
 		for($y=0;$y<=6;$y++) {
-			$row = array();
 			$notEmpty = false;
 
 			for($x=0;$x<7;$x++,$n++) {
@@ -218,8 +216,6 @@ class ParserDate {
 	 */
 	public function unix_to_rus_array($udate) {
 
-		$ar = array();
-
 		$ar['day']	= date("d", $udate);
 		$ar['month']	= date("m", $udate);
 		$ar['year']	= date("Y", $udate);
@@ -340,7 +336,6 @@ class ParserDate {
 		$nw = round($nw);
 
 		# full day			# short day
-		$day	= array();		$sday	 = array();
 		$day[0] = 'Воскресенье';	$sday[0] = 'Вс';
 		$day[1] = 'Понедельник';	$sday[1] = 'Пн';
 		$day[2] = 'Вторник';		$sday[2] = 'Вт';
@@ -370,14 +365,12 @@ class ParserDate {
 
 		# month
 		if(!$short) {
-			$month = array();
 			$month[1]	= 'Январ';	$month[2]	= 'Феврал';	$month[3]	= 'Март';
 			$month[4]	= 'Апрел';	$month[5]	= 'Ма';		$month[6]	= 'Июн';
 			$month[7]	= 'Июл';	$month[8]	= 'Август';	$month[9]	= 'Сентябр';
 			$month[10]	= 'Октябр';	$month[11]	= 'Ноябр';	$month[12]	= 'Декабр';
 		}
 		else {
-			$month = array();
 			$month[1]	= 'Янв';	$month[2]	= 'Фев';	$month[3]	= 'Мар';
 			$month[4]	= 'Апр';	$month[5]	= 'Ма';		$month[6]	= 'Июн';
 			$month[7]	= 'Июл';	$month[8]	= 'Авг';	$month[9]	= 'Сен';

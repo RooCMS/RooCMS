@@ -70,7 +70,7 @@ class ACP_CONFIG {
 	* Start
 	*
 	*/
-	function __construct() {
+	public function __construct() {
 
 		global $db, $config, $tpl, $POST;
 
@@ -173,7 +173,6 @@ class ACP_CONFIG {
 		}
 		# select
 		elseif($option_type == "select" && trim($variants) != "") {
-			$options = "";
 			$vars = explode("\n",$variants);
 			foreach($vars AS $k=>$v) {
 				$vars = explode("|",trim($v));

@@ -58,7 +58,7 @@ class ACP_INDEX {
 	/**
 	 * Run, baby, run
 	 */
-	function __construct() {
+	public function __construct() {
 
 		global $roocms, $tpl;
 
@@ -101,7 +101,7 @@ class ACP_INDEX {
 	 * Главный экран
 	 * Показывается общая информация
 	 */
-	function main() {
+	private function main() {
 
 		global $tpl, $smarty;
 
@@ -178,7 +178,7 @@ class ACP_INDEX {
 	/**
 	 * Информация о допустимых файлах и расширениях
 	 */
-	function fileinfo() {
+	private function fileinfo() {
 
 		global $tpl, $smarty;
 

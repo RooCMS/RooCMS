@@ -66,7 +66,7 @@ class ACP_FEEDS_FEED {
 	 *
 	 * @param $structure_data
 	 */
-	function __construct($structure_data) {
+	public function __construct($structure_data) {
 		$this->feed =& $structure_data;
 	}
 
@@ -74,7 +74,7 @@ class ACP_FEEDS_FEED {
         /**
         * Действия для редактирования настроек ленты
         */
-	function settings() {
+	public function settings() {
 
 		global $db, $config, $tpl, $smarty, $GET;
 
@@ -107,7 +107,7 @@ class ACP_FEEDS_FEED {
 	/**
 	 * Функция обновления настроек ленты
 	 */
-	function update_settings() {
+	public function update_settings() {
 
 		global $db, $img, $POST, $parse;
 
@@ -155,7 +155,7 @@ class ACP_FEEDS_FEED {
 	/**
 	 * Функция вызова ленты для редактирования.
 	 */
-	function control() {
+	public function control() {
 
 		global $db, $parse, $tpl, $smarty;
 
@@ -206,7 +206,7 @@ class ACP_FEEDS_FEED {
 	/**
 	 * Функция создает новые эелемент ленты, занося его параметры в БД
 	 */
-	function create_item() {
+	public function create_item() {
 
 		global $db, $parse, $files, $img, $POST, $tpl, $smarty;
 
@@ -298,7 +298,7 @@ class ACP_FEEDS_FEED {
 	 *
 	 * @param $id - идентификатор элемента ленты
 	 */
-	function edit_item($id) {
+	public function edit_item($id) {
 
 		global $db, $files, $img, $tpl, $smarty, $parse;
 
@@ -314,7 +314,6 @@ class ACP_FEEDS_FEED {
 
 
 		# download attached images
-		$attachimg = array();
 		$attachimg = $img->load_images("feedid=".$id);
 		$smarty->assign("attachimg", $attachimg);
 
@@ -324,7 +323,6 @@ class ACP_FEEDS_FEED {
 
 
 		# download attached files
-		$attachfile = array();
 		$attachfile = $files->load_files("feedid=".$id);
 		$smarty->assign("attachfile", $attachfile);
 
@@ -353,7 +351,7 @@ class ACP_FEEDS_FEED {
 	 *
 	 * @param int $id - item id
 	 */
-	function update_item($id) {
+	public function update_item($id) {
 
 		global $db, $parse, $files, $img, $POST, $GET;
 
@@ -445,7 +443,7 @@ class ACP_FEEDS_FEED {
 	 *
 	 * @param $id - идентификатор элемента ленты
 	 */
-	function migrate_item($id) {
+	public function migrate_item($id) {
 
 		global $db, $parse, $tpl, $smarty, $POST;
 
@@ -504,7 +502,7 @@ class ACP_FEEDS_FEED {
 	 * @param     $id - идентификатор элемента ленты
 	 * @param int $status - 1= Видимый , 2=Скрытый
 	 */
-	function change_item_status($id, $status = 1) {
+	public function change_item_status($id, $status = 1) {
 		global $db, $parse;
 
 		$status = round($status);
@@ -526,7 +524,7 @@ class ACP_FEEDS_FEED {
 	 *
 	 * @param $id - идентификатор элемента ленты
 	 */
-	function delete_item($id) {
+	public function delete_item($id) {
 
 		global $db, $parse, $img;
 
@@ -555,7 +553,7 @@ class ACP_FEEDS_FEED {
 	 *
 	 * @param $sid - structure element id
 	 */
-	function delete_feed($sid) {
+	public function delete_feed($sid) {
 
 		global $db, $img;
 
@@ -579,7 +577,7 @@ class ACP_FEEDS_FEED {
 	 *
 	 * @param int $sid - структурный идентификатор ленты
 	 */
-	function count_items($sid) {
+	public function count_items($sid) {
 
 		global $db;
 

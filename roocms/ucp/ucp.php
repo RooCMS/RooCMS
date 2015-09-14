@@ -58,7 +58,7 @@ class UCP_CP {
 	/**
 	 * Init
 	 */
-	function UCP_CP() {
+	public function UCP_CP() {
 
 		global $structure, $roocms;
 

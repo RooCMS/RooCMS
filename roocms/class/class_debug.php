@@ -316,14 +316,16 @@ class Debug {
     	        elseif($use == 1 && !$expand)
 			register_shutdown_function(array($this,'shotdown'), "debug");
 
-    	        	# print var
-		        ob_start();
-			        if($expand) 	var_dump($var);
-			        else		print_r($var);
-			        $output = ob_get_contents();
-		        ob_end_clean();
+		# print var
+		ob_start();
 
-		        $this->debug_dump[] = $output;
+			if($expand) 	var_dump($var);
+			else		print_r($var);
+
+			$output = ob_get_contents();
+		ob_end_clean();
+
+		$this->debug_dump[] = $output;
 
     	        # шагаем
     	        $use++;
@@ -371,7 +373,6 @@ class Debug {
 			echo "</div></div></div>";
 		}
 
-		//echo "<code>debug <b>GLOBALS</b></code><pre class='small' style='overflow: auto;max-height: 300px;'>".htmlspecialchars(print_r($GLOBALS))."</pre>";
 
 		# Функции
 		echo "	<div class='panel panel-default'>

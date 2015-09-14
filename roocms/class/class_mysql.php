@@ -67,7 +67,7 @@ class MySQLDatabase extends MySqlExtends {
 	* Let's begin
 	*
 	*/
-	function __construct() {
+	public function __construct() {
 
 		global $db_info;
 

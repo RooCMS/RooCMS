@@ -65,7 +65,7 @@ class PageFeed {
 	 * Lets begin...
 	 * Why does the gull die?
 	 */
-	function __construct() {
+	public function __construct() {
 
 		global $GET, $db, $structure, $smarty;
 
@@ -102,12 +102,10 @@ class PageFeed {
 
 
 		# load attached images
-		$images = array();
                 $images = $img->load_images("feedid=".$id);
 		$smarty->assign("images", $images);
 
 		# load attached files
-		$attachfile = array();
 		$attachfile = $files->load_files("feedid=".$id);
 		$smarty->assign("attachfile", $attachfile);
 

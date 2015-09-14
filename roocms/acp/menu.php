@@ -98,13 +98,6 @@ if(file_exists(_ROOCMS."/acp/config.php")) {
 
 
 /**
-* Help System
-*/
-//if(file_exists(_ROOCMS."/acp/help.php")) {
-//	$menu_items_right[] = array('role'=>'navlink', 'link'=>CP.'?act=help', 'act'=>'help', 'icon'=>'fa fa-support','text'=>'Помощь', 'window'=>'_self');
-//}
-
-/**
 * On site
 */
 	$menu_items_right[] = array('role'=>'navlink', 'link'=>'/', 'act'=>'RooCMS', 'icon'=>'fa fa-home', 'text'=>'На сайт', 'window'=>'_blank');

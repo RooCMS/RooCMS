@@ -93,11 +93,9 @@ class Blocks {
 					$output = $parse->text->html($data['content']);
 
 					# load attached images
-					$images = array();
 					$images = $img->load_images("blockid=".$data['id']);
 
 					# load attached files
-					$attachfile = array();
 					$attachfile = $files->load_files("blockid=".$data['id']);
 
 

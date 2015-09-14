@@ -73,7 +73,7 @@ class GD {
 	/**
 	* Let's go
 	*/
-	function __construct() {
+	public function __construct() {
 
 		global $config, $site, $parse;
 
@@ -376,13 +376,15 @@ class GD {
 		unlink($path."/".$fileresize);
 
 
-		// Gaussian blur matrix:
-		// $matrix = array(
-			// array( 1, 2, 2 ),
-			// array( 2, 4, 2 ),
-			// array( 1, 2, 1 )
-		// );
-		// imageconvolution($src, $matrix, 16, 0);
+		# Gaussian blur matrix:
+		/*
+		$matrix = array(
+			array( 1, 2, 2 ),
+			array( 2, 4, 2 ),
+			array( 1, 2, 1 )
+		);
+		imageconvolution($src, $matrix, 16, 0);
+		*/
 
 
 		# наклон
@@ -398,12 +400,11 @@ class GD {
 
 		# выбираем шрифт
 		$fontfile = ""._ROOCMS."/fonts/trebuc.ttf";
-		//$fontfile = ""._ROOCMS."/fonts/verdana.ttf";
 
 		//imagefilledrectangle($src, 0, $h-33, $w, $h-5, $colorline);
 		//imagettfbbox($size, $angle, $fontfile, $this->domain);
 
-		//$this->copyright = $this->tounicode($this->copyright);
+		# $this->copyright = $this->tounicode($this->copyright);
 		if(trim($this->copyright) != "") {
 			imagettftext($src, $size, $angle, 7+1, $h-18+1, $shadow, $fontfile, $this->copyright);
 			imagettftext($src, $size, $angle, 7-1, $h-18-1, $shadow, $fontfile, $this->copyright);
@@ -412,7 +413,7 @@ class GD {
 			imagettftext($src, $size, $angle, 7, $h-18, $color, $fontfile, $this->copyright);
 		}
 
-		//$this->domain = $this->tounicode($this->domain);
+		# $this->domain = $this->tounicode($this->domain);
 		if(trim($this->domain) != "") {
 			imagettftext($src, $size, $angle, 7+1, $h-5+1, $shadow, $fontfile, $this->domain);
 			imagettftext($src, $size, $angle, 7-1, $h-5-1, $shadow, $fontfile, $this->domain);
@@ -512,7 +513,6 @@ class GD {
 		$new_left 	= $use_x_ratio 	? 0 : floor(($towidth - $new_width) / 2);
 		$new_top 	= !$use_x_ratio ? 0 : floor(($toheight - $new_height) / 2);
 
-		$return = array();
 		$return = array('new_width'	=> $new_width,
 				'new_height'	=> $new_height,
 				'new_left'	=> $new_left,

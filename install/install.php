@@ -5,7 +5,7 @@
 * @author       alex Roosso
 * @copyright    2010-2015 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.4.4
+* @version      1.4.5
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -71,7 +71,7 @@ class Install extends Requirement{
 	/**
 	 * Доктор, начнем операцию...
 	 */
-	function __construct() {
+	public function __construct() {
 
 		global $GET, $POST, $site, $parse, $tpl, $smarty;
 
@@ -462,7 +462,7 @@ class Install extends Requirement{
 
 		$confperms = array('path' => _ROOCMS.'/config/config.php', 'chmod' => '0644');
 
-		@chmod($v['path'], $v['chmod']);
+		@chmod($confperms['path'], $confperms['chmod']);
 		if(!@chmod($confperms['path'], $confperms['chmod'])) $this->log[] = array("", "Не удалось изменить доступ к файлу ".$confperms." вам потребуется установить доступ вручную через FTP. Установить доступ <b>0644</b>", false, "");
 
 		$servname = explode(".", $_SERVER['SERVER_NAME']);
@@ -470,7 +470,7 @@ class Install extends Requirement{
 		$hostname = (count($servname) == 2) ? $servname[0] : $servname[1] ;
 
 
-		$this->log[] = array('', '<div class="alert alert-info"style="margin-top: 10px;"><b class="label label-primary">Внимание!</b>
+		$this->log[] = array('', '<div class="alert alert-info" style="margin-top: 10px;"><b class="label label-primary">Внимание!</b>
 						<br />Отредактируйте файл <code>.htaccess</code> расположенный в корне сайта
 						<br />Для этого откройте его любым текстовым редактором
 						<br />Выделите стрки с 6 по 13 включительно (они закоментированны знаком <code>#</code>) и замените их на эти:

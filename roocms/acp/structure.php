@@ -5,7 +5,7 @@
 * @author       alex Roosso
 * @copyright    2010-2015 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.3.6
+* @version      1.3.7
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -68,7 +68,7 @@ class ACP_STRUCTURE {
 	/**
 	* Lets mortal kombat begin
 	*/
-	function __construct() {
+	public function __construct() {
 
 		require_once _CLASS."/class_structure.php";
 		$this->engine = new Structure(true, false);
@@ -247,7 +247,7 @@ class ACP_STRUCTURE {
 
 		global $db, $smarty, $tpl;
 
-		$q = $db->query("SELECT id, parent_id, group_access, alias, title, meta_description, meta_keywords, noindex, sort, page_type, thumb_img_width, thumb_img_height FROM ".STRUCTURE_TABLE." WHERE id='".$this->sid."'");
+		$q = $db->query("SELECT id, parent_id, group_access, alias, title, meta_description, meta_keywords, noindex, sort, page_type, thumb_img_width, thumb_img_height FROM ".STRUCTURE_TABLE." WHERE id='".$sid."'");
 		$data = $db->fetch_assoc($q);
 
 		# check group access

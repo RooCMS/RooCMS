@@ -305,8 +305,6 @@ class Images extends GD {
 
         	global $db, $parse;
 
-        	//if(!is_array($filename)) $filename[] = $filename;
-
 		$image = pathinfo($filename);
 
 		$db->query("INSERT INTO ".IMAGES_TABLE." (attachedto, filename, fileext, alt)

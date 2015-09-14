@@ -81,7 +81,8 @@ class ACP_BLOCKS_HTML {
 				if(is_numeric($POST->alias)) $POST->alias .= randcode(3, "abcdefghijklmnopqrstuvwxyz");
 			}
 
-			# if(!isset($POST->content)) $parse->msg("Пустое тело блока!", false); //Упраздняем временно...
+			// Упраздняем временно...
+			// if(!isset($POST->content)) $parse->msg("Пустое тело блока!", false);
 			if(!isset($POST->content)) $POST->content = "";
 
 			# check thumb size
@@ -150,7 +151,6 @@ class ACP_BLOCKS_HTML {
 		$smarty->assign("default_thumb_size", $default_thumb_size);
 
 		# download attached images
-		$attachimg = array();
 		$attachimg = $img->load_images("blockid=".$id);
 		$smarty->assign("attachimg", $attachimg);
 
@@ -160,7 +160,6 @@ class ACP_BLOCKS_HTML {
 
 
 		# download attached files
-		$attachfile = array();
 		$attachfile = $files->load_files("blockid=".$id);
 		$smarty->assign("attachfile", $attachfile);
 

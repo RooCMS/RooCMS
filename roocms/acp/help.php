@@ -73,7 +73,7 @@ class ACP_HELP {
 	* Инициализация раздела помощи
 	*
 	*/
-	function __construct() {
+	public function __construct() {
 
     		global $roocms, $db, $GET, $POST, $tpl, $smarty;
 
@@ -167,7 +167,7 @@ class ACP_HELP {
 	* Отображаем помошь...
 	*
 	*/
-	function show_help() {
+	private function show_help() {
 
 		global $parse, $tpl, $smarty;
 

@@ -87,7 +87,7 @@ class RSS {
 
 	//#####################################################
 	// initialisation parametrs
-	function init_params() {
+	public function init_params() {
 
 		global $config, $site, $structure;
 
