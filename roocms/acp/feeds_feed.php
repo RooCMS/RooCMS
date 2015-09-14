@@ -306,9 +306,12 @@ class ACP_FEEDS_FEED {
 		$q = $db->query("SELECT id, sid, status, sort, title, meta_description, meta_keywords, brief_item, full_item, date_publications, date_end_publications FROM ".PAGES_FEED_TABLE." WHERE id='".$id."'");
 		$item = $db->fetch_assoc($q);
 
+
 		$item['date_publications'] = $parse->date->unix_to_rusint($item['date_publications']);
-       		if($item['date_end_publications'] != 0)
-		$item['date_end_publications'] = $parse->date->unix_to_rusint($item['date_end_publications']);
+
+		if($item['date_end_publications'] != 0)
+			$item['date_end_publications'] = $parse->date->unix_to_rusint($item['date_end_publications']);
+
 
 		$smarty->assign("item",$item);
 

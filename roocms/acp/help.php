@@ -356,6 +356,7 @@ class ACP_HELP {
 		static $use = false;
 
 		if(!$use) {
+			$tree = array();
 			$q = $db->query("SELECT id, uname, parent_id, sort, title, childs FROM ".HELP_TABLE." ORDER BY sort ASC, title ASC");
 			while($row = $db->fetch_assoc($q)) {
 				$row['level']	= 0;
