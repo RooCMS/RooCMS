@@ -110,13 +110,14 @@ class template {
                 $smarty->cache_lifetime = 60;
 		if(isset($config->tpl_recompile_force))	$smarty->force_compile = $config->tpl_recompile_force;
 		if(isset($config->if_modified_since)) 	$smarty->cache_modified_check = $config->if_modified_since;
+
 		//$smarty->config_fix_newlines = false;
 		//$smarty->compile_check = false;
 
 		//$smarty->clearAllCache();
 
 		# debug mode for smarty
-		$smarty->debugging = DEBUGMODE;
+		//$smarty->debugging = DEBUGMODE;
 
 		# set skin variable
         	$this->skin =  str_replace(_SITEROOT, "", _SKIN)."/".$this->skinfolder;
