@@ -25,9 +25,11 @@
 		</blockquote>
 		{/if}
 
+		<h5 class="text-info">Персональные данные:</h5>
+
 		<div class="form-group">
 			<label for="inputNickname" class="col-lg-3 control-label">
-				Имя пользователя:  <small><span class="fa fa-info fa-fw" rel="tooltip" title="Должно быть уникальным" data-placement="right"></span></small>
+				Псевдоним пользователя:  <small><span class="fa fa-info fa-fw" rel="tooltip" title="Должен быть уникальным" data-placement="right"></span></small>
 			</label>
 			<div class="col-lg-9">
 				<input type="text" name="nickname" id="inputNickname" class="form-control" value="{$user['nickname']}" required>
@@ -61,6 +63,45 @@
 			</div>
 		</div>
 
+		<hr />
+		<h5 class="text-info">Анкетные данные:</h5>
+
+		<div class="form-group">
+			<label for="inputUserName" class="col-lg-3 control-label">
+				Имя:
+			</label>
+			<div class="col-lg-9">
+				<input type="text" name="user_name" id="inputUserName" class="form-control"  value="{$user['user_name']}">
+			</div>
+		</div>
+
+		<div class="form-group">
+			<label for="inputUserMiddleName" class="col-lg-3 control-label">
+				Фамилия:
+			</label>
+			<div class="col-lg-9">
+				<input type="text" name="user_middle_name" id="inputUserMiddleName" class="form-control"  value="{$user['user_middle_name']}">
+			</div>
+		</div>
+
+		<div class="form-group">
+			<label for="inputUserLastName" class="col-lg-3 control-label">
+				Отчество:
+			</label>
+			<div class="col-lg-9">
+				<input type="text" name="user_last_name" id="inputUserLastName" class="form-control"  value="{$user['user_last_name']}">
+			</div>
+		</div>
+
+		<div class="form-group">
+			<label for="inputUserBirthdate" class="col-lg-3 control-label">
+				Дата рождения:
+			</label>
+			<div class="col-lg-9">
+				<input type="text" name="user_birthdate" id="inputUserBirthdate" value="{$user['user_birthdate']}" class="form-control datepicker form-date">
+			</div>
+		</div>
+
 		<div class="form-group">
 			<label for="inputAvatar" class="col-lg-3 control-label">
 				Аватар:  <small><span class="fa fa-info fa-fw" rel="tooltip" title="{$config->users_avatar_width}x{$config->users_avatar_height} пикселей" data-placement="right"></span></small>
@@ -69,6 +110,9 @@
 				{if $user['avatar'] != ""}<span id="dua-{$user['uid']}" class="hover_cursor delete_useravatar pull-right"  rel="tooltip" title="Удалить аватар пользователя" data-placement="left"><img src="/upload/images/{$user['avatar']}" height="40" class="img-rounded"></span>{/if} <input type="file" name="avatar" id="inputAvatar" class="btn btn-default">
 			</div>
 		</div>
+
+		<hr />
+		<h5 class="text-info">Права и группа пользователя:</h5>
 
 		{if $user['uid'] != 1}
 		<div class="form-group">
