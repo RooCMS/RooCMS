@@ -5,9 +5,11 @@
 <div class="panel-body">
 	<form method="post" action="{$SCRIPT_NAME}?act=users&part=create_user" enctype="multipart/form-data" role="form" class="form-horizontal">
 
+		<h5 class="text-info">Персональные данные:</h5>
+
 		<div class="form-group">
 			<label for="inputNickname" class="col-lg-3 control-label">
-				Имя пользователя:  <small><span class="fa fa-info fa-fw" rel="tooltip" title="Должно быть уникальным" data-placement="right"></span></small>
+				Псевдоним пользователя:  <small><span class="fa fa-info fa-fw" rel="tooltip" title="Должен быть уникальным" data-placement="right"></span></small>
 			</label>
 			<div class="col-lg-9">
 				<input type="text" name="nickname" id="inputNickname" class="form-control" required>
@@ -25,7 +27,7 @@
 
 		<div class="form-group">
 			<label for="inputPassword" class="col-lg-3 control-label">
-				Пароль:  <small><span class="fa fa-info fa-fw" rel="tooltip" title="Оставьте поле пустым, и RooCMS сама создаст пароль. Мин: 5 символов" data-placement="right"></span></small>
+				Пароль:  <small><span class="fa fa-info fa-fw" rel="tooltip" title="Минимум: 5 символов" data-placement="right"></span></small>
 			</label>
 			<div class="col-lg-9">
 				<input type="text" name="password" id="inputPassword" class="form-control" pattern="^[\d\D]{literal}{5,}{/literal}">
@@ -41,6 +43,64 @@
 			</div>
 		</div>
 
+		<hr />
+		<h5 class="text-info">Анкетные данные:</h5>
+
+		<div class="form-group">
+			<label for="inputUserName" class="col-lg-3 control-label">
+				Имя:
+			</label>
+			<div class="col-lg-9">
+				<input type="text" name="user_name" id="inputUserName" class="form-control">
+			</div>
+		</div>
+
+		<div class="form-group">
+			<label for="inputUserMiddleName" class="col-lg-3 control-label">
+				Фамилия:
+			</label>
+			<div class="col-lg-9">
+				<input type="text" name="user_middle_name" id="inputUserMiddleName" class="form-control">
+			</div>
+		</div>
+
+		<div class="form-group">
+			<label for="inputUserLastName" class="col-lg-3 control-label">
+				Отчество:
+			</label>
+			<div class="col-lg-9">
+				<input type="text" name="user_last_name" id="inputUserLastName" class="form-control">
+			</div>
+		</div>
+
+		<div class="form-group">
+			<label for="inputUserBirthdate" class="col-lg-3 control-label">
+				Дата рождения:
+			</label>
+			<div class="col-lg-9">
+				<input type="text" name="user_birthdate" id="inputUserBirthdate" class="form-control datepicker form-date">
+			</div>
+		</div>
+
+		<div class="form-group">
+			<label for="inputUserSex" class="col-lg-3 control-label">
+				Пол:
+			</label>
+			<div class="col-lg-9">
+				<div class="btn-group" data-toggle="buttons">
+					<label class="btn btn-default active">
+						<input type="radio" name="user_sex" id="inputUserSex" autocomplete="off" value="n" checked><i class="fa fa-fw fa-user"></i> Не указан
+					</label>
+					<label class="btn btn-default">
+						<input type="radio" name="user_sex" id="inputUserSexM" autocomplete="off" value="m"><i class="fa fa-fw fa-male"></i> Мужской
+					</label>
+					<label class="btn btn-default">
+						<input type="radio" name="user_sex" id="inputUserSexF" autocomplete="off" value="f"><i class="fa fa-fw fa-female"></i> Женский
+					</label>
+				</div>
+			</div>
+		</div>
+
 		<div class="form-group">
 			<label for="inputAvatar" class="col-lg-3 control-label">
 				Аватар:  <small><span class="fa fa-info fa-fw" rel="tooltip" title="{$config->users_avatar_width}x{$config->users_avatar_height} пикселей" data-placement="right"></span></small>
@@ -49,6 +109,9 @@
 				<input type="file" name="avatar" id="inputAvatar" class="btn btn-default">
 			</div>
 		</div>
+
+		<hr />
+		<h5 class="text-info">Права и группа пользователя:</h5>
 
 		<div class="form-group">
 			<label for="inputTitle" class="col-lg-3 control-label">

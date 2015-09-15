@@ -174,8 +174,26 @@ class ParserDate {
 		return $rus;
 	}
 
-	//#####################################################
-	//# unix timestamp to russian
+	/**
+	 * Преобразование даты из unix формата в русский формат
+	 *
+	 * @param            $udate - дата в формате unixtimestamp
+	 * @param bool|false $full - флаг указывает на вывод даты в полном или сокращенном формате
+	 * @param bool|true  $short - флаг указывает на использование сокращений в названии дней
+	 * @param bool|false $time -  флаг указывает на вывод даты со временем и без
+	 *
+	 *	if $full == true and $short=false
+	 *		date = Четверг, 22 апреля 2010г.
+	 *	else if $full == true and $short=true
+	 *		date = Чт, 22 апреля 2010г.
+	 *	else if $full == false
+	 *		date =  22 апреля 2010г.
+	 *	if $full == false to parametr $short automatically ingnored
+	 * 	if $time == true
+	 * 		date 22 апреля 2010г 22:30
+	 *
+	 * @return string
+	 */
 	public function unix_to_rus($udate, $full=false, $short=true, $time=false) {
 
 		$day 	= date("d", $udate);
