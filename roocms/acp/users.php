@@ -141,7 +141,7 @@ class ACP_USERS {
 		global $db, $smarty, $tpl, $parse;
 
 		$data = array();
-		$q = $db->query("SELECT u.uid, u.gid, u.status, u.login, u.nickname, u.avatar, u.email, u.title, u.date_create, u.date_update, u.last_visit, g.title AS gtitle
+		$q = $db->query("SELECT u.uid, u.gid, u.status, u.login, u.nickname, u.avatar, u.email, u.title, u.date_create, u.date_update, u.last_visit, u.user_sex, g.title AS gtitle
 					FROM ".USERS_TABLE." AS u
 					LEFT JOIN ".USERS_GROUP_TABLE." AS g ON (g.gid = u.gid)
 					ORDER BY u.uid ASC");
@@ -224,17 +224,22 @@ class ACP_USERS {
 				$password = $security->hashing_password($POST->password, $salt);
 
 				# personal data
-				if(!isset($POST->user_name)) 		$POST->user_name = "";
-				if(!isset($POST->user_middle_name)) 	$POST->user_middle_name = "";
-				if(!isset($POST->user_last_name)) 	$POST->user_last_name = "";
-				if(!isset($POST->user_birthdate)) 	$POST->user_birthdate = 0;
-				else $POST->user_birthdate = $parse->date->rusint_to_unix($POST->user_birthdate);
+				if(!isset($POST->user_name)) 					$POST->user_name = "";
+				if(!isset($POST->user_middle_name)) 				$POST->user_middle_name = "";
+				if(!isset($POST->user_last_name)) 				$POST->user_last_name = "";
+				if(isset($POST->user_birthdate) && $POST->user_birthdate != "") $POST->user_birthdate = $parse->date->rusint_to_unix($POST->user_birthdate);
+				else 								$POST->user_birthdate = 0;
+				if(!isset($POST->user_sex))					$POST->user_sex = "n";
+				elseif($POST->user_sex == "m")					$POST->user_sex = "m";
+				elseif($POST->user_sex == "f")					$POST->user_sex = "f";
+				else								$POST->user_sex = "n";
+
 
 
 				$db->query("INSERT INTO ".USERS_TABLE." (login, nickname, email, title, password, salt, date_create, date_update, last_visit, status, gid,
-									 user_name, user_middle_name, user_last_name, user_birthdate)
+									 user_name, user_middle_name, user_last_name, user_birthdate, user_sex)
 								 VALUES ('".$POST->login."', '".$POST->nickname."', '".$POST->email."', '".$POST->title."', '".$password."', '".$salt."', '".time()."', '".time()."', '".time()."', '1', '".$POST->gid."',
-								 	 '".$POST->user_name."', '".$POST->user_middle_name."', '".$POST->user_last_name."', '".$POST->user_birthdate."')");
+								 	 '".$POST->user_name."', '".$POST->user_middle_name."', '".$POST->user_last_name."', '".$POST->user_birthdate."', '".$POST->user_sex."')");
 				$uid = $db->insert_id();
 
 
@@ -334,7 +339,7 @@ class ACP_USERS {
 			goback();
 		}
 		else {
-			$q = $db->query("SELECT uid, gid, status, avatar, login, nickname, email, title, date_create, last_visit, user_name, user_middle_name, user_last_name, user_birthdate FROM ".USERS_TABLE." WHERE uid='".$uid."'");
+			$q = $db->query("SELECT uid, gid, status, avatar, login, nickname, email, title, date_create, last_visit, user_name, user_middle_name, user_last_name, user_birthdate, user_sex FROM ".USERS_TABLE." WHERE uid='".$uid."'");
 			$user = $db->fetch_assoc($q);
 
 			# user personal data birth date
@@ -438,14 +443,18 @@ class ACP_USERS {
 			$query .= (isset($POST->gid) && $db->check_id($POST->gid, USERS_GROUP_TABLE, "gid")) ? "gid='".$POST->gid."', " : "gid='0', " ;
 
 			# personal data
-			if(isset($POST->user_name)) 		$query .= " user_name='".$POST->user_name."',";
-			else					$query .= " user_name='',";
-			if(isset($POST->user_middle_name)) 	$query .= " user_middle_name='".$POST->user_middle_name."',";
-			else					$query .= " user_middle_name='',";
-			if(isset($POST->user_last_name)) 	$query .= " user_last_name='".$POST->user_last_name."',";
-			else					$query .= " user_last_name='',";
-			if(isset($POST->user_birthdate)) 	$query .= " user_birthdate='".$parse->date->rusint_to_unix($POST->user_birthdate)."',";
-			else 					$query .= " user_birthdate='0',";
+			if(isset($POST->user_name)) 						$query .= " user_name='".$POST->user_name."',";
+			else									$query .= " user_name='',";
+			if(isset($POST->user_middle_name)) 					$query .= " user_middle_name='".$POST->user_middle_name."',";
+			else									$query .= " user_middle_name='',";
+			if(isset($POST->user_last_name)) 					$query .= " user_last_name='".$POST->user_last_name."',";
+			else									$query .= " user_last_name='',";
+			if(isset($POST->user_birthdate) && $POST->user_birthdate != "") 	$query .= " user_birthdate='".$parse->date->rusint_to_unix($POST->user_birthdate)."',";
+			else 									$query .= " user_birthdate='0',";
+			if(!isset($POST->user_sex))						$query .= " user_sex='n',";
+			elseif($POST->user_sex == "m")						$query .= " user_sex='m',";
+			elseif($POST->user_sex == "f")						$query .= " user_sex='f',";
+			else									$query .= " user_sex='n',";
 
 			# avatar
 			$av = $img->upload_image("avatar", "", array($config->users_avatar_width, $config->users_avatar_height), array("filename"=>"av_".$uid, "watermark"=>false, "modify"=>false));

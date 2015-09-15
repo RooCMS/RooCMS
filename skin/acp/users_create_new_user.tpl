@@ -83,6 +83,25 @@
 		</div>
 
 		<div class="form-group">
+			<label for="inputUserSex" class="col-lg-3 control-label">
+				Пол:
+			</label>
+			<div class="col-lg-9">
+				<div class="btn-group" data-toggle="buttons">
+					<label class="btn btn-default active">
+						<input type="radio" name="user_sex" id="inputUserSex" autocomplete="off" value="n" checked><i class="fa fa-fw fa-user"></i> Не указан
+					</label>
+					<label class="btn btn-default">
+						<input type="radio" name="user_sex" id="inputUserSexM" autocomplete="off" value="m"><i class="fa fa-fw fa-male"></i> Мужской
+					</label>
+					<label class="btn btn-default">
+						<input type="radio" name="user_sex" id="inputUserSexF" autocomplete="off" value="f"><i class="fa fa-fw fa-female"></i> Женский
+					</label>
+				</div>
+			</div>
+		</div>
+
+		<div class="form-group">
 			<label for="inputAvatar" class="col-lg-3 control-label">
 				Аватар:  <small><span class="fa fa-info fa-fw" rel="tooltip" title="{$config->users_avatar_width}x{$config->users_avatar_height} пикселей" data-placement="right"></span></small>
 			</label>
