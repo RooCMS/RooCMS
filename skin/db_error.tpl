@@ -2,17 +2,17 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en" id="roocms">
 <head>
 <title>RooCMS - Нет доступа к БД. Идет обновление БД.</title>
-<meta name="ROBOTS" 				content="NOINDEX,NOFOLLOW,NOARCHIVE" />
-<meta name="revisit-after"			content="1 days" />
+<meta name="ROBOTS" 			content="NOINDEX,NOFOLLOW,NOARCHIVE" />
+<meta name="revisit-after"		content="1 days" />
 <meta name="Document-state" 		content="dynamic" />
-<meta name="Resource-type" 			content="document" />
-<meta name="Author" 				content="alex Roosso @ http://www.RooCMS.com" lang="ru" />
-<meta name="Copyright" 				content="RooCMS @ http://www.RooCMS.com" lang="ru" />
-<meta name="generator" 				content="Notead++" />
+<meta name="Resource-type" 		content="document" />
+<meta name="Author" 			content="alex Roosso @ http://www.RooCMS.com" lang="ru" />
+<meta name="Copyright" 			content="RooCMS @ http://www.RooCMS.com" lang="ru" />
+<meta name="generator" 			content="Notead++" />
 <meta http-equiv="Content-Type" 	content="text/php; charset=utf-8" />
-<meta http-equiv="Content-language" content="ru" />
-<meta http-equiv="Pragma" 			content="no-cache" />
-<meta http-equiv="Expires" 			content="-1" />
+<meta http-equiv="Content-language"	content="ru" />
+<meta http-equiv="Pragma" 		content="no-cache" />
+<meta http-equiv="Expires" 		content="-1" />
 <meta http-equiv="Cache-Control" 	content="max-age=3600, must-revalidate" />
 
 <link href="favicon.ico" 	rel="icon" 			type="image/x-icon" />
@@ -32,7 +32,7 @@
 <body>
 	<div class="container">
 		<div class="header text-center">
-			<h1><a href="/index.php"><img src="/skin/default/img/logo.png" border="0" style="vertical-align: top;"></a> RooCMS</h1>
+			<h1><a href="/index.php"><img src="/skin/default/img/logo.png" border="0" style="vertical-align: top;"></a></h1>
 		</div>
 		<div class="jumbotron">
 			<h3>Приносим свои извинения. Сайт на обновлении.</h3>
