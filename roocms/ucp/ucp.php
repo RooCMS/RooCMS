@@ -197,8 +197,10 @@ class UCP_CP {
 
 			sendmail($POST->email, "Ваши данные на \"".$site['title']."\" были обновлены", $message);
 
+			# go out
 			go("index.php?act=ucp");
 		}
+		else goback();
 	}
 }
 
