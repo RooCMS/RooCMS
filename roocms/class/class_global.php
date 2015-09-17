@@ -5,7 +5,7 @@
 * @author	alex Roosso
 * @copyright	2010-2015 (c) RooCMS
 * @link		http://www.roocms.com
-* @version	1.1.7
+* @version	1.1.8
 * @since	$date$
 * @license	http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -135,17 +135,17 @@ class Globals {
 			switch($row['option_type']) {
 				case 'boolean':
 				case 'bool':
-					$conf = "\$this->config->{$row['option_name']} = ".$row['value'].";";
+					$conf = "\$this->config->{$row['option_name']} = (bool) ".$row['value'].";";
 					break;
 
 				case 'int':
 				case 'integer':
 					settype($row['value'], "integer");
-					$conf = "\$this->config->{$row['option_name']} = ".$row['value'].";";
+					$conf = "\$this->config->{$row['option_name']} = (int) ".$row['value'].";";
 					break;
 
 				case 'string':
-					$conf = "\$this->config->{$row['option_name']} = \"{$row['value']}\";";
+					$conf = "\$this->config->{$row['option_name']} = (string) \"{$row['value']}\";";
 					break;
 
 				default:
