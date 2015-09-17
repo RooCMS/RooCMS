@@ -72,7 +72,7 @@ $sql['CREATE '.CONFIG_PARTS] = "CREATE TABLE IF NOT EXISTS `".CONFIG_PARTS."` (
 $id = 1;
 $sql['INSERT '.CONFIG_PARTS." ID #".$id] = "INSERT INTO `".CONFIG_PARTS."` VALUES (".$id.", 'global', 1, 'global', 'Общие настройки', 'cog')";		$id++;
 $sql['INSERT '.CONFIG_PARTS." ID #".$id] = "INSERT INTO `".CONFIG_PARTS."` VALUES (".$id.", 'global', 2, 'gd', 'Обработка изображений', 'picture-o')";	$id++;
-$sql['INSERT '.CONFIG_PARTS." ID #".$id] = "INSERT INTO `".CONFIG_PARTS."` VALUES (".$id.", 'global', 3, 'cp', 'Настройка пользователей', 'users')";	$id++;
+$sql['INSERT '.CONFIG_PARTS." ID #".$id] = "INSERT INTO `".CONFIG_PARTS."` VALUES (".$id.", 'global', 3, 'users', 'Настройка пользователей', 'users')";	$id++;
 $sql['INSERT '.CONFIG_PARTS." ID #".$id] = "INSERT INTO `".CONFIG_PARTS."` VALUES (".$id.", 'global', 4, 'cp', 'Панель Администратора', 'shield')";	$id++;
 $sql['INSERT '.CONFIG_PARTS." ID #".$id] = "INSERT INTO `".CONFIG_PARTS."` VALUES (".$id.", 'global', 5, 'tpl', 'Настройки шаблонизации', 'desktop')";	$id++;
 $sql['INSERT '.CONFIG_PARTS." ID #".$id] = "INSERT INTO `".CONFIG_PARTS."` VALUES (".$id.", 'global', 6, 'rss', 'RSS', 'rss')";				$id++;
@@ -287,7 +287,7 @@ $sql['CREATE '.USERS_TABLE] = "CREATE TABLE `".USERS_TABLE."` (
 				  `user_name` varchar(255) NOT NULL,
 				  `user_middle_name` varchar(255) NOT NULL,
 				  `user_last_name` varchar(255) NOT NULL,
-				  `user_bithdate` int(20) unsigned NOT NULL DEFAULT '0',
+				  `user_birthdate` int(20) unsigned NOT NULL DEFAULT '0',
 				  `user_sex` enum('n','m','f') NOT NULL DEFAULT 'n',
 				  `title` enum('a','u') NOT NULL DEFAULT 'u',
 				  `password` varchar(32) NOT NULL,

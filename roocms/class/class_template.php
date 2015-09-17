@@ -5,7 +5,7 @@
 * @author	alex Roosso
 * @copyright	2010-2015 (c) RooCMS
 * @link		http://www.roocms.com
-* @version	4.5.2
+* @version	4.5.3
 * @since	$date$
 * @license	http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -283,7 +283,7 @@ class template {
                         if(!defined('ACP')) if($structure->page_noindex == 1) $robots = "no-index,no-follow,all";
 
                         # global site title
-                        if(!defined('INSTALL') && $config->global_site_title) $site['title'] .= " &bull; ".$config->site_title;
+                        if(!defined('INSTALL') && isset($config->global_site_title)) $site['title'] .= " &bull; ".$config->site_title;
 
                         # jquery-core (check brwoser version)
                         $jquerycore = ($parse->browser("ie",8)) ? "jquery-coreie.min.js" : "jquery-core.min.js" ;

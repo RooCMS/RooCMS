@@ -5,7 +5,7 @@
 * @author       alex Roosso
 * @copyright    2010-2015 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.1.1
+* @version      1.1.2
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -70,7 +70,7 @@ if(!empty($site)) {
  * Проверяем имеется ли у пользователя доступ к странице.
  */
 if($users->title == "a" || array_key_exists(0, $structure->page_group_access) || array_key_exists($users->gid, $structure->page_group_access))
-{$structure->access = true;}
+	$structure->access = true;
 else
 	$structure->access = false;
 
