@@ -45,7 +45,7 @@
 						<br /><small>на этот адрес вы получаете уведомления с сайта</small>
 					</dd>
 				</dl>
-				<div class="alert alert-warning small" role="alert" style="margin-bottom: 0px;">
+				<div class="alert alert-warning small mb0" role="alert">
 					<i class="fa fa-fw fa-warning"></i> Не передавайте свои персональные данные третьим лицам!
 					<br /><i class="fa fa-fw fa-warning"></i> Администрация сайта никогда не будет просить ваш пароль.
 				</div>
@@ -56,7 +56,7 @@
 				<h3 class="panel-title">Анкетные данные</h3>
 			</div>
 			<div class="panel-body">
-				<dl class="dl-horizontal">
+				<dl class="dl-horizontal mb0">
 					<dt class="text-info">Имя</dt>
 					<dd>{$userdata['user_name']}</dd>
 
