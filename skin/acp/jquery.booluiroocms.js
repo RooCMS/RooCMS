@@ -67,6 +67,14 @@
 						fa.removeClass(settings.off).addClass(settings.on);
 					else
 						fa.removeClass(settings.on).addClass(settings.off);
+				}).click(function(){
+					$(this).parent().each(function() {
+						var fa = $(this).find(".fa");
+						fa.removeClass(settings.on).addClass(settings.off);
+					});
+
+					var fa = $(this).find(".fa");
+					fa.removeClass(settings.off).addClass(settings.on);
 				});
 			});
 		}
