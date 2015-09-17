@@ -298,6 +298,17 @@ class Install extends Requirement{
 						$context .= $f[$i];
 					}
 
+					/*if($db->check_connect($POST->db_info_host, $POST->db_info_user, $POST->db_info_pass, $POST->db_info_base)) {
+						if(trim($db_info['host']) == "")	$context = str_ireplace('$db_info[\'host\'] = "";','$db_info[\'host\'] = "'.$POST->db_info_host.'";',$context);
+						else					$context = str_ireplace('$db_info[\'host\'] = "'.$db_info['host'].'";','$db_info[\'host\'] = "'.$POST->db_info_host.'";',$context);
+						if(trim($db_info['base']) == "")	$context = str_ireplace('$db_info[\'base\'] = "";','$db_info[\'base\'] = "'.$POST->db_info_base.'";',$context);
+						else					$context = str_ireplace('$db_info[\'base\'] = "'.$db_info['base'].'";','$db_info[\'base\'] = "'.$POST->db_info_base.'";',$context);
+						if(trim($db_info['user']) == "")	$context = str_ireplace('$db_info[\'user\'] = "";','$db_info[\'user\'] = "'.$POST->db_info_user.'";',$context);
+						else					$context = str_ireplace('$db_info[\'user\'] = "'.$db_info['user'].'";','$db_info[\'user\'] = "'.$POST->db_info_user.'";',$context);
+						if(trim($db_info['pass']) == "")	$context = str_ireplace('$db_info[\'pass\'] = "";','$db_info[\'pass\'] = "'.$POST->db_info_pass.'";',$context);
+						else					$context = str_ireplace('$db_info[\'pass\'] = "'.$db_info['pass'].'";','$db_info[\'pass\'] = "'.$POST->db_info_pass.'";',$context);
+					}*/
+
 					if(trim($db_info['prefix']) == "")	$context = str_ireplace('$db_info[\'prefix\'] = "";','$db_info[\'prefix\'] = "'.$POST->db_info_prefix.'";',$context);
 					else					$context = str_ireplace('$db_info[\'prefix\'] = "'.$db_info['prefix'].'";','$db_info[\'prefix\'] = "'.$POST->db_info_prefix.'";',$context);
 
@@ -379,12 +390,14 @@ class Install extends Requirement{
 		if($this->allowed) {
 			require_once _LIB."/mysql_schema.php";
 
-			foreach($sql AS $k=>$v) {
-				$db->query($v);
+			$mysqli = new mysqli($roocms->sess['db_info_host'], $roocms->sess['db_info_user'], $roocms->sess['db_info_pass'], $roocms->sess['db_info_base']);
 
-				if($db->errno() == 0) $this->log[] = array('Операция', $k, true, '');
+			foreach($sql AS $k=>$v) {
+				$mysqli->query($v);
+
+				if($mysqli->errno == 0) $this->log[] = array('Операция', $k, true, '');
 				else {
-					$this->log[] = array('Операция', $k, false, '# '.$db->errno().'<br />- '.$db->errno(true));
+					$this->log[] = array('Операция', $k, false, '# '.$mysqli->errno.'<br />- '.$mysqli->error);
 					$this->allowed = false;
 				}
 			}
