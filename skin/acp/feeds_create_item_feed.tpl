@@ -46,7 +46,7 @@
 
 		<div class="form-group">
 			<label for="inputDateP" class="col-lg-3 control-label">
-				Дата публикации: <small><span class="fa fa-info fa-fw" rel="tooltip" title="Разрешается указать дату будущим числом. Посетители увидять публикацию только с наступлением указанной даты." data-placement="right"></span></small>
+				Дата публикации: <small><span class="fa fa-question-circle fa-fw" rel="tooltip" title="Разрешается указать дату будущим числом. Посетители увидять публикацию только с наступлением указанной даты." data-placement="right"></span></small>
 			</label>
 			<div class="col-lg-9">
 				<div class="input-group">
@@ -67,7 +67,7 @@
 		<div class="row">
 			<div class="col-lg-12">
 				<label for="brief_item" class="control-label">
-					Полный текст: <small><span class="fa fa-info fa-fw text-danger" rel="tooltip" title="Обазательно заполнить это поле" data-placement="right"></span></small>
+					Полный текст: <small><span class="fa fa-warning fa-fw text-danger" rel="tooltip" title="Обазательно заполнить это поле" data-placement="right"></span></small>
 				</label>
 				<textarea id="full_item" class="form-control ckeditor" name="full_item" required></textarea>
 			</div>

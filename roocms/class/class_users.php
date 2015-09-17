@@ -5,7 +5,7 @@
  * @author       alex Roosso
  * @copyright    2010-2015 (c) RooCMS
  * @link         http://www.roocms.com
- * @version      1.2.3
+ * @version      1.2.4
  * @since        $date$
  * @license      http://www.gnu.org/licenses/gpl-3.0.html
  */
@@ -112,13 +112,13 @@ class Users extends Security {
 	 */
 	private function init_user() {
 
-		global $db, $roocms;
+		global $db, $roocms, $parse;
 
 		if(isset($roocms->sess['login']) && trim($roocms->sess['login']) != "" && $db->check_id($roocms->sess['login'], USERS_TABLE, "login", "status='1'") && isset($roocms->sess['token']) && strlen($roocms->sess['token']) == 32) {
 
 			# get data
 			$q    = $db->query("SELECT u.uid, u.gid, u.login, u.nickname, u.avatar, u.email,
- 							u.user_name, u.user_middle_name, u.user_last_name, u.user_birthdate, u.user_sex,
+ 							u.user_name, u.user_surname, u.user_last_name, u.user_birthdate, u.user_sex,
 							u.title, u.password, u.salt,
 							g.title as gtitle
 						FROM ".USERS_TABLE." AS u
@@ -162,9 +162,10 @@ class Users extends Security {
 				'email'			=> $data['email'],
 				'title'			=> $data['title'],
 				'user_name'		=> $data['user_name'],
-				'user_middle_name'	=> $data['user_middle_name'],
+				'user_surname'		=> $data['user_surname'],
 				'user_last_name'	=> $data['user_last_name'],
-				'user_birthdate'	=> $data['user_birthdate'],
+				'user_birthdate'	=> $parse->date->unix_to_rus($data['user_birthdate']),
+				'user_birthdaten'	=> date("d.m.Y", $data['user_birthdate']),
 				'user_sex'		=> $data['user_sex']
 			);
 

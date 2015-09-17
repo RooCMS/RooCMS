@@ -28,7 +28,7 @@
 				{foreach from=$this_part['options'] item=option}
 					<div class="form-group" title="$config->{$option['option_name']}">
 						<label for="input_{$option['option_name']}" class="col-lg-3 control-label{if $option['value'] != $option['default_value']} text-primary{/if}">
-							{$option['title']}: {if $option['description'] != ""}<small><span class="fa fa-info fa-fw" rel="tooltip" title="{$option['description']}" data-placement="left"></span></small>{/if}
+							{$option['title']}: {if $option['description'] != ""}<small><span class="fa fa-question-circle fa-fw" rel="tooltip" title="{$option['description']}" data-placement="left"></span></small>{/if}
 						</label>
 						<div class="col-lg-9">
 							{$option['option']}

@@ -225,7 +225,7 @@ class ACP_USERS {
 
 				# personal data
 				if(!isset($POST->user_name)) 					$POST->user_name = "";
-				if(!isset($POST->user_middle_name)) 				$POST->user_middle_name = "";
+				if(!isset($POST->user_surname)) 				$POST->user_surname = "";
 				if(!isset($POST->user_last_name)) 				$POST->user_last_name = "";
 				if(isset($POST->user_birthdate) && $POST->user_birthdate != "") $POST->user_birthdate = $parse->date->rusint_to_unix($POST->user_birthdate);
 				else 								$POST->user_birthdate = 0;
@@ -237,9 +237,9 @@ class ACP_USERS {
 
 
 				$db->query("INSERT INTO ".USERS_TABLE." (login, nickname, email, title, password, salt, date_create, date_update, last_visit, status, gid,
-									 user_name, user_middle_name, user_last_name, user_birthdate, user_sex)
+									 user_name, user_surname, user_last_name, user_birthdate, user_sex)
 								 VALUES ('".$POST->login."', '".$POST->nickname."', '".$POST->email."', '".$POST->title."', '".$password."', '".$salt."', '".time()."', '".time()."', '".time()."', '1', '".$POST->gid."',
-								 	 '".$POST->user_name."', '".$POST->user_middle_name."', '".$POST->user_last_name."', '".$POST->user_birthdate."', '".$POST->user_sex."')");
+								 	 '".$POST->user_name."', '".$POST->user_surname."', '".$POST->user_last_name."', '".$POST->user_birthdate."', '".$POST->user_sex."')");
 				$uid = $db->insert_id();
 
 
@@ -339,7 +339,7 @@ class ACP_USERS {
 			goback();
 		}
 		else {
-			$q = $db->query("SELECT uid, gid, status, avatar, login, nickname, email, title, date_create, last_visit, user_name, user_middle_name, user_last_name, user_birthdate, user_sex FROM ".USERS_TABLE." WHERE uid='".$uid."'");
+			$q = $db->query("SELECT uid, gid, status, avatar, login, nickname, email, title, date_create, last_visit, user_name, user_surname, user_last_name, user_birthdate, user_sex FROM ".USERS_TABLE." WHERE uid='".$uid."'");
 			$user = $db->fetch_assoc($q);
 
 			# user personal data birth date
@@ -445,8 +445,8 @@ class ACP_USERS {
 			# personal data
 			if(isset($POST->user_name)) 						$query .= " user_name='".$POST->user_name."',";
 			else									$query .= " user_name='',";
-			if(isset($POST->user_middle_name)) 					$query .= " user_middle_name='".$POST->user_middle_name."',";
-			else									$query .= " user_middle_name='',";
+			if(isset($POST->user_surname)) 						$query .= " user_surname='".$POST->user_surname."',";
+			else									$query .= " user_surname='',";
 			if(isset($POST->user_last_name)) 					$query .= " user_last_name='".$POST->user_last_name."',";
 			else									$query .= " user_last_name='',";
 			if(isset($POST->user_birthdate) && $POST->user_birthdate != "") 	$query .= " user_birthdate='".$parse->date->rusint_to_unix($POST->user_birthdate)."',";

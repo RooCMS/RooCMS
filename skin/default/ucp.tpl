@@ -11,7 +11,7 @@
 		<div class="col-xs-12">
 			{/if}
 			<h2>
-				{$userdata['nickname']}
+				{$userdata['nickname']} {if $userdata['user_sex'] == "m"}<i class="fa fa-fw fa-mars text-info"></i>{elseif $userdata['user_sex'] == "f"}<i class="fa fa-fw fa-venus text-danger"></i>{/if}
 			</h2>
 			<small class="label label-primary">{$userdata['gtitle']}</small>
 		</div>
@@ -21,38 +21,76 @@
 <hr>
 <div class="row">
 	<div class="col-sm-8">
-		<dl class="dl-horizontal">
-			<dt class="text-info">Ваш логин</dt>
-			<dd>
-				{$userdata['login']}
-				<br /><small>используется для входа на сайт</small>
-			</dd>
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h3 class="panel-title">Персональные данные</h3>
+			</div>
+			<div class="panel-body">
+				<dl class="dl-horizontal">
+					<dt class="text-info">Ваш логин</dt>
+					<dd>
+						{$userdata['login']}
+						<br /><small>используется для входа на сайт</small>
+					</dd>
 
-			<dt class="text-info">Ваш псевдоним</dt>
-			<dd>
-				{$userdata['nickname']}
-				<br /><small>под этим именем вас знают на сайте</small>
-			</dd>
+					<dt class="text-info">Ваш псевдоним</dt>
+					<dd>
+						{$userdata['nickname']}
+						<br /><small>под этим именем вас знают на сайте</small>
+					</dd>
 
-			<dt class="text-info">Электронная почта</dt>
-			<dd>
-				{$userdata['email']}
-				<br /><small>на этот адрес вы получаете уведомления с сайта</small>
-			</dd>
+					<dt class="text-info">Электронная почта</dt>
+					<dd>
+						{$userdata['email']}
+						<br /><small>на этот адрес вы получаете уведомления с сайта</small>
+					</dd>
+				</dl>
+				<div class="alert alert-warning small" role="alert" style="margin-bottom: 0px;">
+					<i class="fa fa-fw fa-warning"></i> Не передавайте свои персональные данные третьим лицам!
+					<br /><i class="fa fa-fw fa-warning"></i> Администрация сайта никогда не будет просить ваш пароль.
+				</div>
+			</div>
+		</div>
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h3 class="panel-title">Анкетные данные</h3>
+			</div>
+			<div class="panel-body">
+				<dl class="dl-horizontal">
+					<dt class="text-info">Имя</dt>
+					<dd>{$userdata['user_name']}</dd>
 
-			<dt></dt>
-			<dd>
-				<br /><a href="{$SCRIPT_NAME}?act=ucp&part=edit_info" class="btn btn-default btn-sm"><i class="fa fa-fw fa-pencil"></i> Редактировать</a>
-			</dd>
-		</dl>
+					<dt class="text-info">Фамилия</dt>
+					<dd>{$userdata['user_surname']}</dd>
+
+					<dt class="text-info">Отчество</dt>
+					<dd>{$userdata['user_last_name']}</dd>
+
+					<dt class="text-info">Дата Рождения</dt>
+					<dd>{$userdata['user_birthdate']}</dd>
+
+					<dt class="text-info">Пол</dt>
+					<dd>
+						{if $userdata['user_sex'] == "m"}
+							<i class="fa fa-fw fa-mars text-info"></i> Мужчина
+						{elseif $userdata['user_sex'] == "f"}
+							<i class="fa fa-fw fa-venus text-danger"></i> Женщина
+						{elseif $userdata['user_sex'] == "n"}
+							<i class="fa fa-fw fa-genderless"></i> Не указан
+						{/if}
+					</dd>
+				</dl>
+			</div>
+		</div>
+		<div class="panel panel-default">
+			<div class="panel-footer text-center">
+				<a href="{$SCRIPT_NAME}?act=ucp&part=edit_info" class="btn btn-default"><i class="fa fa-fw fa-pencil"></i> Редактировать</a>
+			</div>
+		</div>
+
 
 	</div>
 </div>
 <div class="row">
-	<div class="col-sm-8">
-		<div class="alert alert-warning" role="alert">
-			<i class="fa fa-fw fa-info"></i> Не передавайте свои персональные данные третьим лицам!
-			<br /><i class="fa fa-fw fa-info"></i> Администрация сайта никогда не будет просить ваш пароль.
-		</div>
-	</div>
+
 </div>

@@ -7,7 +7,7 @@
 
 		<div class="form-group">
 			<label for="inputTitle" class="col-lg-3 control-label">
-				Название страницы: <small><span class="fa fa-info fa-fw" rel="tooltip" title="Будет использовано в мета теге title." data-placement="right"></span></small>
+				Название страницы: <small><span class="fa fa-question-circle fa-fw" rel="tooltip" title="Будет использовано в мета теге title." data-placement="right"></span></small>
 			</label>
 			<div class="col-lg-9">
 				<input type="text" name="title" id="inputTitle" class="form-control" required>
@@ -16,7 +16,7 @@
 
 		<div class="form-group">
 			<label for="inputAlias" class="col-lg-3 control-label">
-				Alias страницы:  <small><span class="fa fa-info fa-fw" rel="tooltip" title="Значение должно быть уникальным" data-placement="right"></span></small>
+				Alias страницы:  <small><span class="fa fa-question-circle fa-fw" rel="tooltip" title="Значение должно быть уникальным" data-placement="right"></span></small>
 			</label>
 			<div class="col-lg-9">
 				<input type="text" name="alias" id="inputAlias" class="form-control">
@@ -43,7 +43,7 @@
 
 		<div class="form-group">
 			<label for="inputNoindex" class="col-lg-3 control-label">
-				SEO NOINDEX: <small><span class="fa fa-info fa-fw" rel="tooltip" title="Запрещает индексировать страницу поисковыми роботами." data-placement="right"></span></small>
+				SEO NOINDEX: <small><span class="fa fa-question-circle fa-fw" rel="tooltip" title="Запрещает индексировать страницу поисковыми роботами." data-placement="right"></span></small>
 			</label>
 			<div class="col-lg-9">
 				<div class="btn-group" data-toggle="buttons">
@@ -61,7 +61,7 @@
 		<div class="form-group">
 			<label for="inputThumbWidth" class="col-lg-3 control-label">
 				Ширина миниатюр картинок у этой страницы:
-				<small><span class="fa fa-info fa-fw" rel="tooltip" title="Значение в пикселях. Оставьте поле пустым или укажите 0 что бы применить глобальные настройки." data-placement="left"></span></small>
+				<small><span class="fa fa-question-circle fa-fw" rel="tooltip" title="Значение в пикселях. Оставьте поле пустым или укажите 0 что бы применить глобальные настройки." data-placement="left"></span></small>
 			</label>
 			<div class="col-lg-9">
 				<input type="text" name="thumb_img_width" id="inputThumbWidth" class="form-control" pattern="^[ 0-9]+$">
@@ -71,7 +71,7 @@
 		<div class="form-group">
 			<label for="inputThumbHeight" class="col-lg-3 control-label">
 				Высота миниатюр картинок у этой страницы:
-				<small><span class="fa fa-info fa-fw" rel="tooltip" title="Значение в пикселях. Оставьте поле пустым или укажите 0 что бы применить глобальные настройки." data-placement="left"></span></small>
+				<small><span class="fa fa-question-circle fa-fw" rel="tooltip" title="Значение в пикселях. Оставьте поле пустым или укажите 0 что бы применить глобальные настройки." data-placement="left"></span></small>
 			</label>
 			<div class="col-lg-9">
 				<input type="text" name="thumb_img_height" id="inputThumbHeight" class="form-control" pattern="^[ 0-9]+$">
@@ -90,7 +90,7 @@
 
 		<div class="form-group">
 			<label for="inputType" class="col-lg-3 control-label">
-				Тип страницы: <small><span class="fa fa-info fa-fw" rel="tooltip" title="Вы не сможете в последствии изменить тип страницы." data-placement="right"></span></small>
+				Тип страницы: <small><span class="fa fa-question-circle fa-fw" rel="tooltip" title="Вы не сможете в последствии изменить тип страницы." data-placement="right"></span></small>
 			</label>
 			<div class="col-lg-9">
 				<select name="page_type" id="inputType" class="selectpicker show-tick" required>
@@ -118,7 +118,7 @@
 			<div class="form-group">
 				<label for="inputGroupAccess" class="col-lg-3 control-label">
 					Доступ для групп:
-					<small><span class="fa fa-info fa-fw" rel="tooltip" title="Укажите какие группы пользователей смогут просматривать эту страницу" data-placement="left"></span></small>
+					<small><span class="fa fa-question-circle fa-fw" rel="tooltip" title="Укажите какие группы пользователей смогут просматривать эту страницу" data-placement="left"></span></small>
 				</label>
 				<div class="col-lg-9">
 					<div class="btn-group" data-toggle="buttons" id="inputGroupAccess">

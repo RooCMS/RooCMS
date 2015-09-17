@@ -9,7 +9,7 @@
 
 		<div class="form-group">
 			<label for="inputNickname" class="col-lg-3 control-label">
-				Псевдоним пользователя:  <small><span class="fa fa-info fa-fw" rel="tooltip" title="Должен быть уникальным" data-placement="right"></span></small>
+				Псевдоним пользователя:  <small><span class="fa fa-question-circle fa-fw" rel="tooltip" title="Должен быть уникальным" data-placement="right"></span></small>
 			</label>
 			<div class="col-lg-9">
 				<input type="text" name="nickname" id="inputNickname" class="form-control" required>
@@ -18,7 +18,7 @@
 
 		<div class="form-group">
 			<label for="inputLogin" class="col-lg-3 control-label">
-				Логин пользователя: <small><span class="fa fa-info fa-fw" rel="tooltip" title="Должен быть уникальным" data-placement="right"></span></small>
+				Логин пользователя: <small><span class="fa fa-question-circle fa-fw" rel="tooltip" title="Должен быть уникальным" data-placement="right"></span></small>
 			</label>
 			<div class="col-lg-9">
 				<input type="text" name="login" id="inputLogin" class="form-control">
@@ -27,7 +27,7 @@
 
 		<div class="form-group">
 			<label for="inputPassword" class="col-lg-3 control-label">
-				Пароль:  <small><span class="fa fa-info fa-fw" rel="tooltip" title="Минимум: 5 символов" data-placement="right"></span></small>
+				Пароль:  <small><span class="fa fa-question-circle fa-fw" rel="tooltip" title="Минимум: 5 символов" data-placement="right"></span></small>
 			</label>
 			<div class="col-lg-9">
 				<input type="text" name="password" id="inputPassword" class="form-control" pattern="^[\d\D]{literal}{5,}{/literal}">
@@ -36,7 +36,7 @@
 
 		<div class="form-group">
 			<label for="inputEmail" class="col-lg-3 control-label">
-				Электронная почта:  <small><span class="fa fa-info fa-fw" rel="tooltip" title="Должна быть уникальной. Нельзя заводить несколько аккаунтов на один почтовый ящик" data-placement="right"></span></small>
+				Электронная почта:  <small><span class="fa fa-question-circle fa-fw" rel="tooltip" title="Должна быть уникальной. Нельзя заводить несколько аккаунтов на один почтовый ящик" data-placement="right"></span></small>
 			</label>
 			<div class="col-lg-9">
 				<input type="text" name="email" id="inputEmail" class="form-control" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{literal}{2,6}{/literal}$" required>
@@ -56,11 +56,11 @@
 		</div>
 
 		<div class="form-group">
-			<label for="inputUserMiddleName" class="col-lg-3 control-label">
+			<label for="inputUserSurName" class="col-lg-3 control-label">
 				Фамилия:
 			</label>
 			<div class="col-lg-9">
-				<input type="text" name="user_middle_name" id="inputUserMiddleName" class="form-control">
+				<input type="text" name="user_surname" id="inputUserSurName" class="form-control">
 			</div>
 		</div>
 
@@ -103,7 +103,7 @@
 
 		<div class="form-group">
 			<label for="inputAvatar" class="col-lg-3 control-label">
-				Аватар:  <small><span class="fa fa-info fa-fw" rel="tooltip" title="{$config->users_avatar_width}x{$config->users_avatar_height} пикселей" data-placement="right"></span></small>
+				Аватар:  <small><span class="fa fa-question-circle fa-fw" rel="tooltip" title="{$config->users_avatar_width}x{$config->users_avatar_height} пикселей" data-placement="right"></span></small>
 			</label>
 			<div class="col-lg-9">
 				<input type="file" name="avatar" id="inputAvatar" class="btn btn-default">
@@ -115,7 +115,7 @@
 
 		<div class="form-group">
 			<label for="inputTitle" class="col-lg-3 control-label">
-				Титул:  <small><span class="fa fa-info fa-fw" rel="tooltip" title="Администраторы могут получить доступ к Панели Управления" data-placement="right"></span></small>
+				Титул:  <small><span class="fa fa-question-circle fa-fw" rel="tooltip" title="Администраторы могут получить доступ к Панели Управления" data-placement="right"></span></small>
 			</label>
 			<div class="col-lg-9">
 				<select name="title"  id="inputTitle" class="selectpicker show-tick" data-size="auto" data-width="50%">

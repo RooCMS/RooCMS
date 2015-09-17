@@ -7,7 +7,7 @@
 	<form method="post" action="{$SCRIPT_NAME}?act=feeds&part=update_settings&page={$feed['id']}" role="form" class="form-horizontal">
 		<div class="form-group">
 			<label for="inputRss" class="col-lg-3 control-label">
-				RSS вывод: <small><span class="fa fa-info fa-fw" rel="tooltip" title="Включить/Выключить RSS ленту" data-placement="right"></span></small>
+				RSS вывод: <small><span class="fa fa-question-circle fa-fw" rel="tooltip" title="Включить/Выключить RSS ленту" data-placement="right"></span></small>
 			</label>
 			<div class="col-lg-9">
 				<div class="btn-group" data-toggle="buttons">
@@ -25,7 +25,7 @@
 		<div class="form-group">
 			<label for="inputShowChildFeeds" class="col-lg-3 control-label">
 				Показ публикаций:
-				<small><span class="fa fa-info fa-fw" rel="tooltip" title="Использование этой опции добавит публикации из подчиненных лент в текущую ленту. Отобразится только в пользовательской части сайта." data-placement="left"></span></small>
+				<small><span class="fa fa-question-circle fa-fw" rel="tooltip" title="Использование этой опции добавит публикации из подчиненных лент в текущую ленту. Отобразится только в пользовательской части сайта." data-placement="left"></span></small>
 			</label>
 			<div class="col-lg-9">
 				<select name="show_child_feeds" id="inputShowChildFeeds" class="selectpicker show-tick" required data-size="auto" data-width="50%">
@@ -38,7 +38,7 @@
 
 		<div class="form-group">
 			<label for="inputItems" class="col-lg-3 control-label">
-				Кол-во новостей на страницу: <small><span class="fa fa-info fa-fw" rel="tooltip" title="Устанавливает кол-во новостей выводимых на странице. По-умолчанию:{$feed['global_items_per_page']}. При значении 0 используется значение по-умолчанию." data-placement="left"></span></small>
+				Кол-во новостей на страницу: <small><span class="fa fa-question-circle fa-fw" rel="tooltip" title="Устанавливает кол-во новостей выводимых на странице. По-умолчанию:{$feed['global_items_per_page']}. При значении 0 используется значение по-умолчанию." data-placement="left"></span></small>
 			</label>
 			<div class="col-lg-9">
 				<input type="text" name="items_per_page" id="inputItems" class="form-control" value="{$feed['items_per_page']}">
@@ -49,7 +49,7 @@
 		<div class="form-group">
 			<label for="inputItemsSorting" class="col-lg-3 control-label">
 				Порядок сортировки элементов:
-				<small><span class="fa fa-info fa-fw" rel="tooltip" title="Задает порядок сортировки элементов в ленте. По-умолчанию элементы сортируются по Дате Публикации." data-placement="left"></span></small>
+				<small><span class="fa fa-question-circle fa-fw" rel="tooltip" title="Задает порядок сортировки элементов в ленте. По-умолчанию элементы сортируются по Дате Публикации." data-placement="left"></span></small>
 			</label>
 			<div class="col-lg-9">
 				<select name="items_sorting" id="inputItemsSorting" class="selectpicker show-tick" required data-header="Сортировать ..." data-size="auto" data-width="50%">
@@ -65,7 +65,7 @@
 		<div class="form-group">
 			<label for="inputThumbWidth" class="col-lg-3 control-label">
 				Ширина миниатюр картинок у ленты:
-				<small><span class="fa fa-info fa-fw" rel="tooltip" title="Значение в пикселях. Оставьте поле пустым или укажите 0 что бы применить глобальные настройки." data-placement="left"></span></small>
+				<small><span class="fa fa-question-circle fa-fw" rel="tooltip" title="Значение в пикселях. Оставьте поле пустым или укажите 0 что бы применить глобальные настройки." data-placement="left"></span></small>
 			</label>
 			<div class="col-lg-9">
 				<input type="text" name="thumb_img_width" id="inputThumbWidth" class="form-control" pattern="^[ 0-9]+$" value="{$feed['thumb_img_width']}">
@@ -75,7 +75,7 @@
 		<div class="form-group">
 			<label for="inputThumbHeight" class="col-lg-3 control-label">
 				Высота миниатюр картинок у ленты:
-				<small><span class="fa fa-info fa-fw" rel="tooltip" title="Значение в пикселях. Оставьте поле пустым или укажите 0 что бы применить глобальные настройки." data-placement="left"></span></small>
+				<small><span class="fa fa-question-circle fa-fw" rel="tooltip" title="Значение в пикселях. Оставьте поле пустым или укажите 0 что бы применить глобальные настройки." data-placement="left"></span></small>
 			</label>
 			<div class="col-lg-9">
 				<input type="text" name="thumb_img_height" id="inputThumbHeight" class="form-control" pattern="^[ 0-9]+$" value="{$feed['thumb_img_height']}">
