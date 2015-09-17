@@ -320,15 +320,14 @@ class Debug {
 		ob_start();
 
 			if(is_object($var) || is_array($var)) {
-				if($expand) 	var_dump((array) $var);
-				else		print_r((array) $var);
-			}
-			else {
-				if($expand) 	var_dump($var);
-				else		print_r($var);
+				$var = (array) $var;
 			}
 
+			if($expand) 	var_dump($var);
+			else		print_r($var);
+
 			$output = ob_get_contents();
+
 		ob_end_clean();
 
 		$this->debug_dump[] = $output;
