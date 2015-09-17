@@ -48,7 +48,7 @@
 		<div class="row images_attach">
 			<div class="col-md-12">
 				<label for="content" class="control-label">
-					Текст: <small><span class="fa fa-info fa-fw" rel="tooltip" title="HTML разрешен" data-placement="right"></span></small>
+					Текст: <small><span class="fa fa-question-circle fa-fw" rel="tooltip" title="HTML разрешен" data-placement="right"></span></small>
 				</label>
 				<textarea id="content" class="form-control ckeditor" name="content"></textarea>
 			</div>

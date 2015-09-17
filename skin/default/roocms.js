@@ -19,6 +19,13 @@ $(document).ready(function(){
 		$('.selectpicker').selectpicker();
 	}
 
+	/* Datepicker */
+	$('.datepicker').datepicker({
+		format: 'dd.mm.yyyy',
+		language: 'ru',
+		todayHighlight: true
+	});
+
 	/* Placeholder for IE */
 	if($.browser.msie) {
 		$("input[type='text']").each(function() {

@@ -5,7 +5,7 @@
 * @author       alex Roosso
 * @copyright    2010-2015 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.0.1
+* @version      1.0.2
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -145,6 +145,20 @@ class UCP_CP {
 				$parse->msg("Указанный email уже существует в Базе Данных!", false);
 			else
 				$query .= "email='".$POST->email."', ";
+
+		# personal data
+		if(isset($POST->user_name)) 						$query .= " user_name='".$POST->user_name."',";
+		else									$query .= " user_name='',";
+		if(isset($POST->user_surname)) 						$query .= " user_surname='".$POST->user_surname."',";
+		else									$query .= " user_surname='',";
+		if(isset($POST->user_last_name)) 					$query .= " user_last_name='".$POST->user_last_name."',";
+		else									$query .= " user_last_name='',";
+		if(isset($POST->user_birthdate) && $POST->user_birthdate != "") 	$query .= " user_birthdate='".$parse->date->rusint_to_unix($POST->user_birthdate)."',";
+		else 									$query .= " user_birthdate='0',";
+		if(!isset($POST->user_sex))						$query .= " user_sex='n',";
+		elseif($POST->user_sex == "m")						$query .= " user_sex='m',";
+		elseif($POST->user_sex == "f")						$query .= " user_sex='f',";
+		else									$query .= " user_sex='n',";
 
 		# avatar
 		if(isset($POST->delete_avatar)) {
