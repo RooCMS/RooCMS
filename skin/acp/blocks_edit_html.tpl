@@ -8,7 +8,7 @@
 	<form method="post" action="{$SCRIPT_NAME}?act=blocks&part=update&block={$data['id']}" enctype="multipart/form-data" role="form" class="form-horizontal">
 		<div class="form-group">
 			<label for="inputAlias" class="col-lg-3 control-label">
-				Alias: <small><span class="fa fa-question-circle fa-fw" rel="tooltip" title="Значение должно быть уникальным" data-placement="auto"></span></small>
+				Alias: <small><span class="fa fa-question-circle fa-fw" rel="tooltip" title="Значение должно быть уникальным" data-placement="left"></span></small>
 			</label>
 			<div class="col-lg-9">
 				<input type="text" name="alias" id="inputAlias" class="form-control" value="{$data['alias']}" required>
