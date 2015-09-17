@@ -5,7 +5,7 @@
 * @author       alex Roosso
 * @copyright    2010-2014 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.1
+* @version      1.1.1
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -86,18 +86,18 @@ class MySqlExtends {
 			# Проверяем полученное число на "целое" или "десятичное"
 			if(mb_strpos($this->pages,".", 0, "utf8") !== false OR mb_strpos($this->pages,",", 0,"utf8") !== false) $this->pages++;
 			# Округляем
-			$this->pages = floor($this->pages);
+			$this->pages = (int) floor($this->pages);
 		}
 
 		# Если у нас используется переменная страницы в строке запроса, неравная первой странице...
 		if($this->pages > "1" && $this->page != 0) {
 			# Округляем до целых, что бы не вызвать ошибки в скрипте.
-			$this->page = floor($this->page);
+			$this->page = (int) floor($this->page);
 
 			# Если запрос не к нулевой странице и такая страница имеет право быть...
 			if($this->page != "0" && $this->page <= $this->pages) {
 				# $this->page--;
-				$this->from = $this->limit * ($this->page - 1);
+				$this->from = (int) $this->limit * ($this->page - 1);
 			}
 		}
 
@@ -124,18 +124,18 @@ class MySqlExtends {
 			# Проверяем полученное число на "целое" или "десятичное"
 			if(mb_strpos($this->pages,".", 0, "utf8") !== false OR mb_strpos($this->pages,",", 0, "utf8") !== false) $this->pages++;
 			# Округляем
-			$this->pages = floor($this->pages);
+			$this->pages = (int) floor($this->pages);
 		}
 
 		# Если у нас используется переменная страницы в строке запроса, неравная первой странице...
 		if($this->pages > "1" && $this->page != 0) {
 			# Округляем до целых, что бы не вызвать ошибки в скрипте.
-			$this->page = floor($this->page);
+			$this->page = (int) floor($this->page);
 
 			# Если запрос не к нулевой странице и такая страница имеет право быть...
 			if($this->page != "0" && $this->page <= $this->pages) {
 				# $this->page--;
-				$this->from = $this->limit * ($this->page - 1);
+				$this->from = (int) $this->limit * ($this->page - 1);
 			}
 		}
 

@@ -318,7 +318,7 @@ class Images extends GD {
 	/**
 	 * Функция удаления картинок
 	 *
-	 * @param int/string $image - указать числовой идентификатор или attachedto
+	 * @param int|string $image - указать числовой идентификатор или attachedto
 	 * @param boolean    $clwhere - флаг указывает как считывать параметр $image
 	 * 				положение false указывает, что передается параметр id или attachedto
 	 * 				положение true указывает, что передается полностью выраженное условие
