@@ -287,7 +287,7 @@ $sql['CREATE '.USERS_TABLE] = "CREATE TABLE `".USERS_TABLE."` (
 				  `user_name` varchar(255) NOT NULL,
 				  `user_middle_name` varchar(255) NOT NULL,
 				  `user_last_name` varchar(255) NOT NULL,
-				  `user_bithdate` int(20) unsigned NOT NULL DEFAULT '0',
+				  `user_birthdate` int(20) unsigned NOT NULL DEFAULT '0',
 				  `user_sex` enum('n','m','f') NOT NULL DEFAULT 'n',
 				  `title` enum('a','u') NOT NULL DEFAULT 'u',
 				  `password` varchar(32) NOT NULL,
