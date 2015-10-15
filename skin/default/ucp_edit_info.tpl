@@ -27,7 +27,7 @@
 			<h3>Персональные данные</h3>
 			<div class="form-group">
 				<label for="inputLogin" class="col-lg-4 control-label">
-					Ваш логин: <small><span class="fa fa-question-circle fa-fw" rel="tooltip" title="Не должен совпадать с логином другого пользователя" data-placement="right"></span></small>
+					Ваш логин: <small><span class="fa fa-question-circle fa-fw" rel="tooltip" title="Не должен совпадать с логином другого пользователя" data-placement="left"></span></small>
 				</label>
 				<div class="col-lg-8">
 					<input type="text" name="login" id="inputLogin" class="form-control" value="{$userdata['login']}" required>
@@ -36,7 +36,7 @@
 
 			<div class="form-group">
 				<label for="inputNickname" class="col-lg-4 control-label">
-					Ваш псевдоним:  <small><span class="fa fa-question-circle fa-fw" rel="tooltip" title="Не должен совпадать с псевдонимом другого пользователя" data-placement="right"></span></small>
+					Ваш псевдоним:  <small><span class="fa fa-question-circle fa-fw" rel="tooltip" title="Не должен совпадать с псевдонимом другого пользователя" data-placement="left"></span></small>
 				</label>
 				<div class="col-lg-8">
 					<input type="text" name="nickname" id="inputNickname" class="form-control" value="{$userdata['nickname']}">
@@ -45,7 +45,7 @@
 
 			<div class="form-group">
 				<label for="inputEmail" class="col-lg-4 control-label">
-					Электронная почта:  <small><span class="fa fa-question-circle fa-fw" rel="tooltip" title="Должна быть уникальной. Нельзя заводить несколько аккаунтов на один почтовый ящик" data-placement="right"></span></small>
+					Электронная почта:  <small><span class="fa fa-question-circle fa-fw" rel="tooltip" title="Должна быть уникальной. Нельзя заводить несколько аккаунтов на один почтовый ящик" data-placement="left"></span></small>
 				</label>
 				<div class="col-lg-8">
 					<input type="text" name="email" id="inputEmail" class="form-control"  value="{$userdata['email']}" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{literal}{2,6}{/literal}$" required>
@@ -54,7 +54,7 @@
 
 			<div class="form-group">
 				<label for="inputPassword" class="col-lg-4 control-label">
-					Пароль:  <small><span class="fa fa-question-circle fa-fw" rel="tooltip" title="Оставьте поле пустым, если не хотите менять пароль." data-placement="right"></span></small>
+					Пароль:  <small><span class="fa fa-question-circle fa-fw" rel="tooltip" title="Оставьте поле пустым, если не хотите менять пароль." data-placement="left"></span></small>
 				</label>
 				<div class="col-lg-8">
 					<input type="text" name="password" id="inputPassword" class="form-control"  pattern="^[\d\D]{literal}{5,}{/literal}">
@@ -121,7 +121,7 @@
 
 			<div class="form-group">
 				<label for="inputAvatar" class="col-lg-4 control-label">
-					Аватар:  <small><span class="fa fa-question-circle fa-fw" rel="tooltip" title="Изображение вашего профиля" data-placement="right"></span></small>
+					Аватар:  <small><span class="fa fa-question-circle fa-fw" rel="tooltip" title="Изображение вашего профиля" data-placement="left"></span></small>
 				</label>
 				<div class="col-lg-8">
 					{if $userdata['avatar'] != ""}<div class="btn-group pull-right" data-toggle="buttons"><label class="btn btn-default btn-xs bda"><input type="checkbox" name="delete_avatar" class="ida" value="1" autocomplete="on"><i class="iconda fa fa-fw fa-trash"></i> Удалить аватар?</label></div>{/if} <input type="file" name="avatar" id="inputAvatar" class="btn btn-default">

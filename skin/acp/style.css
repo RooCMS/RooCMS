@@ -232,6 +232,9 @@ blockquote.quote-danger > h6 {
 .opensans {
   font-family: 'Open Sans';
 }
+.bloggersans {
+  font-family: 'Blogger Sans';
+}
 .kelsonsans {
   font-family: 'Kelson Sans';
 }
@@ -567,6 +570,54 @@ body,
   font-style: italic;
   font-weight: 800;
   src: local('Open Sans Extrabold Italic'), local('OpenSans-ExtraboldItalic'), url('fonts/OpenSans-ExtraboldItalic.woff') format('woff');
+}
+@font-face {
+  font-family: 'Blogger Sans';
+  font-style: normal;
+  font-weight: 300;
+  src: local('Blogger Sans Light'), local('BloggerSans-Light'), url('fonts/Blogger-Sans-Light.woff') format('woff');
+}
+@font-face {
+  font-family: 'Blogger Sans';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Blogger Sans'), local('BloggerSans'), url('fonts/Blogger-Sans.woff') format('woff');
+}
+@font-face {
+  font-family: 'Blogger Sans';
+  font-style: normal;
+  font-weight: 700;
+  src: local('Blogger Sans Bold'), local('BloggerSans-Bold'), url('fonts/Blogger-Sans-Bold.woff') format('woff');
+}
+@font-face {
+  font-family: 'Blogger Sans';
+  font-style: normal;
+  font-weight: 500;
+  src: local('Blogger Sans Medium'), local('BloggerSans-Medium'), url('fonts/Blogger-Sans-Medium.woff') format('woff');
+}
+@font-face {
+  font-family: 'Blogger Sans';
+  font-style: italic;
+  font-weight: 300;
+  src: local('Blogger Sans Light Italic'), local('BloggerSans-LightItalic'), url('fonts/Blogger-Sans-LightItalic.woff') format('woff');
+}
+@font-face {
+  font-family: 'Blogger Sans';
+  font-style: italic;
+  font-weight: 400;
+  src: local('Blogger Sans Italic'), local('BloggerSans-Italic'), url('fonts/Blogger-Sans-Italic.woff') format('woff');
+}
+@font-face {
+  font-family: 'Blogger Sans';
+  font-style: italic;
+  font-weight: 700;
+  src: local('Blogger Sans Bold Italic'), local('BloggerSans-BoldItalic'), url('fonts/Blogger-Sans-BoldItalic.woff') format('woff');
+}
+@font-face {
+  font-family: 'Blogger Sans';
+  font-style: italic;
+  font-weight: 500;
+  src: local('Blogger Sans Medium Italic'), local('BloggerSans-MediumItalic'), url('fonts/Blogger-Sans-MediumItalic.woff') format('woff');
 }
 @font-face {
   font-family: 'Kelson Sans';

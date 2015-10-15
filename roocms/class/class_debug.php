@@ -5,7 +5,7 @@
 * @author	alex Roosso
 * @copyright	2010-2015 (c) RooCMS
 * @link		http://www.roocms.com
-* @version	2.2.3
+* @version	2.2.4
 * @since	$date$
 * @license	http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -319,10 +319,15 @@ class Debug {
 		# print var
 		ob_start();
 
+			if(is_object($var) || is_array($var)) {
+				$var = (array) $var;
+			}
+
 			if($expand) 	var_dump($var);
 			else		print_r($var);
 
 			$output = ob_get_contents();
+
 		ob_end_clean();
 
 		$this->debug_dump[] = $output;

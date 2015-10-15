@@ -5,7 +5,7 @@
 * @author       alex Roosso
 * @copyright    2010-2015 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.0.2
+* @version      1.0.3
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -120,31 +120,31 @@ class UCP_CP {
 		$query = "";
 
 		# login
-		if(isset($POST->login) && trim($POST->login) != "")
+		if(isset($POST->login) && trim($POST->login) != "") {
 			if(!$users->check_field("login", $POST->login, $users->userdata['login']))
 				$parse->msg("Ваш логин не был изменен. Возможно использование такого логина невозможно, попробуйте выбрать другой логин", false);
 			else
 				$query .= "login='".$POST->login."', ";
-
-		else
-			$parse->msg("Вы не указали логин.", false);
+		}
+		else $parse->msg("Вы не указали логин.", false);
 
 		# nickname
-		if(isset($POST->nickname) && trim($POST->nickname) != "")
+		if(isset($POST->nickname) && trim($POST->nickname) != "") {
 			if(!$users->check_field("nickname", $POST->nickname, $users->userdata['nickname']))
 				$parse->msg("Такой псевдоним уже имеется у одного из пользователей. Пожалуйста, выберите другой псевдоним.", false);
 			else
 				$query .= "nickname='".$POST->nickname."', ";
-
-		else
-			$parse->msg("Вы не указали псевдоним.", false);
+		}
+		else $parse->msg("Вы не указали псевдоним.", false);
 
 		# email
-		if(isset($POST->email) && trim($POST->email) != "")
+		if(isset($POST->email) && trim($POST->email) != "") {
 			if(!$users->check_field("email", $POST->email, $users->userdata['email']))
 				$parse->msg("Указанный email уже существует в Базе Данных!", false);
 			else
 				$query .= "email='".$POST->email."', ";
+		}
+		else $parse->msg("Вы не указали электронную почту, поэтому мы сохранили ту, что была указана ранее.<br />На эту почту вам будут приходить уведомления с сайта. В случае если вы забудете свой пароль, восстановить его можно будет с помошью указанной почты.");
 
 		# personal data
 		if(isset($POST->user_name)) 						$query .= " user_name='".$POST->user_name."',";
@@ -197,8 +197,10 @@ class UCP_CP {
 
 			sendmail($POST->email, "Ваши данные на \"".$site['title']."\" были обновлены", $message);
 
+			# go out
 			go("index.php?act=ucp");
 		}
+		else goback();
 	}
 }
 
