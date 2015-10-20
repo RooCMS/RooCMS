@@ -66,18 +66,18 @@ class RSS {
 	public		$rss_link		= "";						# [string]
 
 	protected	$title			= "";						# [string]
-	protected	$description	= "";						# [string]
+	protected	$description		= "";						# [string]
 	protected	$link			= "";						# [string]
 	protected 	$language		= "ru";						# [string]
 	protected 	$copyright		= "";						# [string]
-	protected 	$managingeditor = "";						# [string]
+	protected 	$managingeditor 	= "";						# [string]
 	protected 	$webmaster		= "";						# [string]
 	private 	$generator		= "RooCMS";					# [string]
 	protected 	$ttl			= 240;						# [int]
-	public		$lastbuilddate	= 0;						# [int]
+	public		$lastbuilddate		= 0;						# [int]
 	protected	$image			= array("url"	=>	"",
-										"title"	=>	"",
-										"link"	=>	"");
+						        "title"	=>	"",
+							"link"	=>	"");
 
 	# output buffer
 	protected	$items			= array();					# [array]
@@ -120,7 +120,7 @@ class RSS {
 		$uri = str_replace("&export=RSS", "", $uri);
 
 		if(trim($url) == "") 	$this->link = $site['domain'] . SCRIPT_NAME . htmlspecialchars($uri);
-		else					$this->link	= htmlspecialchars($url);
+		else			$this->link	= htmlspecialchars($url);
 	}
 
 

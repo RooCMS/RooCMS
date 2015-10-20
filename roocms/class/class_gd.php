@@ -5,7 +5,7 @@
 * @author	alex Roosso
 * @copyright	2010-2015 (c) RooCMS
 * @link		http://www.roocms.com
-* @version	1.9
+* @version	1.10
 * @since	$date$
 * @license	http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -506,7 +506,7 @@ class GD {
 
 		$x_ratio 	= $towidth / $width;
 		$y_ratio 	= $toheight / $height;
-		$ratio 		= min($x_ratio, $y_ratio);
+		$ratio 		= max($x_ratio, $y_ratio);
 		$use_x_ratio 	= ($x_ratio == $ratio);
 		$new_width 	= $use_x_ratio 	? $towidth : floor($width * $ratio);
 		$new_height 	= !$use_x_ratio ? $toheight : floor($height * $ratio);
