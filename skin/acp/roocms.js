@@ -87,6 +87,21 @@ $(document).ready(function() {
 	/* Colorbox */
     	//$("a[rel='img']").colorbox({maxWidth: "98%", maxHeight: "98%"});
 
+	$(".show-feed-element").hover(function() {
+		var l = $(this).find(".fa");
+		l.removeClass("text-muted fa-eye-slash").addClass("text-info fa-eye");
+	}, function() {
+		var l = $(this).find(".fa");
+		l.removeClass("text-info fa-eye").addClass("text-muted fa-eye-slash");
+	});
+
+	$(".hide-feed-element").hover(function() {
+		var l = $(this).find(".fa");
+		l.removeClass("text-default fa-eye").addClass("text-danger fa-eye-slash");
+	}, function() {
+		var l = $(this).find(".fa");
+		l.removeClass("text-danger fa-eye-slash").addClass("text-default fa-eye");
+	});
 
 	/* Leight */
 	/*$('[maxleight]').keyup(function(){

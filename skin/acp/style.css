@@ -136,11 +136,11 @@ p.attach_files {
   width: 50% !important;
 }
 /* alias visual style */
-tr .alias-vis {
+tr .trinfo {
   display: none;
   float: right;
 }
-tr:hover .alias-vis {
+tr:hover .trinfo {
   display: block;
 }
 /* Add BS */

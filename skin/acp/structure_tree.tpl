@@ -27,7 +27,7 @@
 					{/if}
 				</nobr>
 				{if $page['noindex'] == 1}<sup><i class="fa fa-fw fa-info mark" rel="tooltip" data-toggle="tooltip" data-placement="top" title="Неиндексируется поисковыми системами"></i></sup>{/if}
-				<small class="alias-vis">{$page['alias']}</small>
+				<small class="trinfo">{$page['alias']}</small>
 			</td>
 			<td class="text-left">
 				<span class="label label-default">{$page_types[$page['page_type']]}</span>
