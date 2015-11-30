@@ -12,7 +12,7 @@ Plugins
 - Bootstrap Select	`v1.3.4`
 - Bootstrap Datepicker	`v1.3`
 - Bootstrap Colorpicker	`v1`
-- Font Awesome		`v4.4.0`
+- Font Awesome		`v4.5.0`
 - Smarty		`v3.1.27`
 - Smarty plugins:	`get_params`
 - PHP QR Code		`v1.1.4`
