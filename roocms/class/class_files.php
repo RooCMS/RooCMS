@@ -84,8 +84,7 @@ class Files {
 		if(file_exists($file)) {
 			$t = "Kb";
 
-			$f = filesize($file);
-			$f = $f / 1024;
+			$f = filesize($file) / 1024;
 			if($f > 1024) {
 				$t = "Mb";
 				$f = $f / 1024;

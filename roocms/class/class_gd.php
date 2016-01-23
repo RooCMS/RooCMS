@@ -3,9 +3,9 @@
 * @package	RooCMS
 * @subpackage	Engine RooCMS classes
 * @author	alex Roosso
-* @copyright	2010-2015 (c) RooCMS
+* @copyright	2010-2016 (c) RooCMS
 * @link		http://www.roocms.com
-* @version	1.9
+* @version	1.11a
 * @since	$date$
 * @license	http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -109,15 +109,15 @@ class GD {
 
 
 		# Если используем watermark
-		if(isset($config->gd_use_watermark) && $config->gd_use_watermark) {
+		if(isset($config->gd_use_watermark) && $config->gd_use_watermark != "no") {
 
-			# watermark string one
+			# watermark text string one
 			if(trim($config->gd_watermark_string_one) != "") {
 				$this->copyright = $parse->text->html($config->gd_watermark_string_one);
 			}
 			else $this->copyright = $parse->text->html($site['title']);
 
-			# watermark string two
+			# watermark text string two
 			if(trim($config->gd_watermark_string_two) != "") {
 				$this->domain = $parse->text->html($config->gd_watermark_string_two);
 			}
@@ -154,8 +154,12 @@ class GD {
 
 
 		# Наносим ватермарк
-		if($config->gd_use_watermark && (isset($options['watermark'])&& $options['watermark'])) {
-			$this->watermark($filename, $extension, $path);
+		if($config->gd_use_watermark != "no" && (isset($options['watermark']) && $options['watermark'])) {
+
+			# Текстовый watermark
+			if($config->gd_use_watermark == "text" ) {
+				$this->watermark_text($filename, $extension, $path);
+			}
 		}
 	}
 
@@ -252,26 +256,25 @@ class GD {
 		unlink($path."/".$file);
 
 		# Проводим расчеты по сжатию превью и уменьшению в размерах
-		$ns = $this->calc_resize($w, $h, $this->tsize['w'], $this->tsize['h']);
+		$ns = $this->calc_resize($w, $h, $this->tsize['w'], $this->tsize['h'], false);
 
-		# Перерасчет для заливки превью
-		if($this->thumbtg == "fill") {
-			if($ns['new_left'] > 0) {
-				$ns['new_top'] = $ns['new_top'] - $ns['new_left'];
-				$proc = (($ns['new_left'] * 2) / $ns['new_width']);
-				$ns['new_width']	= ($ns['new_width'] + ($ns['new_width'] * $proc)) + 2;
-				$ns['new_height']	= ($ns['new_height'] + ($ns['new_height'] * $proc)) + 2;
-				$ns['new_left'] = 0;
-			}
 
-			if($ns['new_top'] > 0) {
-				$ns['new_left'] = $ns['new_left'] - $ns['new_top'];
-				$proc = (($ns['new_top'] * 2) / $ns['new_height']);
-				$ns['new_width']	= ($ns['new_width'] + ($ns['new_width'] * $proc)) + 2;
-				$ns['new_height']	= ($ns['new_height'] + ($ns['new_height'] * $proc)) + 2;
-				$ns['new_top'] = 0;
-			}
+		if($ns['new_left'] > 0) {
+			$ns['new_top'] = $ns['new_top'] - $ns['new_left'];
+			$proc = (($ns['new_left'] * 2) / $ns['new_width']);
+			$ns['new_width']	= ($ns['new_width'] + ($ns['new_width'] * $proc)) + 2;
+			$ns['new_height']	= ($ns['new_height'] + ($ns['new_height'] * $proc)) + 2;
+			$ns['new_left'] = 0;
 		}
+
+		if($ns['new_top'] > 0) {
+			$ns['new_left'] = $ns['new_left'] - $ns['new_top'];
+			$proc = (($ns['new_top'] * 2) / $ns['new_height']);
+			$ns['new_width']	= ($ns['new_width'] + ($ns['new_width'] * $proc)) + 2;
+			$ns['new_height']	= ($ns['new_height'] + ($ns['new_height'] * $proc)) + 2;
+			$ns['new_top'] = 0;
+		}
+
 
 		imagecopyresampled($thumb, $src, $ns['new_left'], $ns['new_top'], 0, 0, $ns['new_width'], $ns['new_height'], $w, $h);
 
@@ -320,7 +323,8 @@ class GD {
 		$src = $this->imgcreate($path."/".$fileresize, $ext);
 
 		# Проводим расчеты по сжатию превью и уменьшению в размерах
-		$ns = $this->calc_resize($w, $h, $this->tsize['w'], $this->tsize['h']);
+		$resize = ($this->thumbtg != "fill") ? true : false ;
+		$ns = $this->calc_resize($w, $h, $this->tsize['w'], $this->tsize['h'], $resize);
 
 		# Перерасчет для заливки превью
 		if($this->thumbtg == "fill") {
@@ -359,7 +363,7 @@ class GD {
 	 * @param string $ext - Расширение файла без точки
 	 * @param string $path - Путь к папке с файлом. По умолчанию указан путь к папке с изображениями
 	 */
-	protected function watermark($filename, $ext, $path=_UPLOADIMAGES) {
+	protected function watermark_text($filename, $ext, $path=_UPLOADIMAGES) {
 
 		# vars
         	$fileresize 	= $filename."_resize.".$ext;
@@ -495,18 +499,19 @@ class GD {
 	/**
 	 * Расчитываем новые размеры изображений
 	 *
-	 * @param int $width	- Текущая ширина
-	 * @param int $height	- Текущая высота
-	 * @param int $towidth	- Требуемая ширина
-	 * @param int $toheight	- Требуемая высота
+	 * @param int  $width    - Текущая ширина
+	 * @param int  $height   - Текущая высота
+	 * @param int  $towidth  - Требуемая ширина
+	 * @param int  $toheight - Требуемая высота
+	 * @param bool $resize   - Флаг указывающий производим мы пропорциональное изменение или образание. True - производим расчеты для пропорционального изменения. False - производим обрезание (crop)
 	 *
-	 * @return array	- Функция возвращает массив с ключами ['new_width'] - новая ширина, ['new_height'] - новая высота, ['new_left'] - значение позиции слева, ['new_top'] - значение позиции сверху
+	 * @return array - Функция возвращает массив с ключами ['new_width'] - новая ширина, ['new_height'] - новая высота, ['new_left'] - значение позиции слева, ['new_top'] - значение позиции сверху
 	 */
-	private function calc_resize($width, $height, $towidth, $toheight) {
+	private function calc_resize($width, $height, $towidth, $toheight, $resize = true) {
 
 		$x_ratio 	= $towidth / $width;
 		$y_ratio 	= $toheight / $height;
-		$ratio 		= min($x_ratio, $y_ratio);
+		$ratio 		= ($resize) ? min($x_ratio, $y_ratio) : max($x_ratio, $y_ratio);
 		$use_x_ratio 	= ($x_ratio == $ratio);
 		$new_width 	= $use_x_ratio 	? $towidth : floor($width * $ratio);
 		$new_height 	= !$use_x_ratio ? $toheight : floor($height * $ratio);

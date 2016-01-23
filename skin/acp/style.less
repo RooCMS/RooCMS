@@ -82,15 +82,15 @@ p.attach_files {padding: 8px 8px;}
 .form-date {width: 50% !important;}
 
 /* alias visual style */
-tr .alias-vis {display: none;float: right;}
-tr:hover .alias-vis {display: block;}
-
+tr .trinfo {display: none;float: right;}
+tr:hover .trinfo {display: block;}
 
 /* Add BS */
-blockquote.quote-info		{border-left-color: @brand-info;background-color: #fbfbfb;}
-blockquote.quote-success	{border-left-color: @brand-success;background-color: #fbfbfb;}
-blockquote.quote-warning	{border-left-color: @brand-warning;background-color: #fbfbfb;}
-blockquote.quote-danger		{border-left-color: @brand-danger;background-color: #fbfbfb;}
+blockquote.quote-primary	{border-left-color: @brand-primary;background-color: @bq-background;}
+blockquote.quote-info		{border-left-color: @brand-info;background-color: @bq-background;}
+blockquote.quote-success	{border-left-color: @brand-success;background-color: @bq-background;}
+blockquote.quote-warning	{border-left-color: @brand-warning;background-color: @bq-background;}
+blockquote.quote-danger		{border-left-color: @brand-danger;background-color: @bq-background;}
 
 blockquote.quote h1,
 blockquote.quote h2,
@@ -100,6 +100,10 @@ blockquote.quote h5,
 blockquote.quote h6	{margin: 0px 0px 10px 0px;padding: 0px;}
 
 blockquote.quote small	{color: #888;}
+
+blockquote.quote-primary > h1, blockquote.quote-primary > h2,
+blockquote.quote-primary > h3, blockquote.quote-primary > h4,
+blockquote.quote-primary > h5, blockquote.quote-primary > h6	 {color: @brand-primary;}
 
 blockquote.quote-info > h1, blockquote.quote-info > h2,
 blockquote.quote-info > h3, blockquote.quote-info > h4,
@@ -177,11 +181,13 @@ h6 {.t12}
 @grey:		#ccc;
 @blue:		#49E;
 
-@brand-primary:          #6F7A9A; // #428bca
-@brand-success:          #72B110; // #5cb85c
-@brand-info:             #409EEF; // #5bc0de
-@brand-warning:          #FB8C00; // #f0ad4e
-@brand-danger:           #FE402B; // #d9534f
+@brand-primary:		#6F7A9A; // #428bca
+@brand-success:		#72B110; // #5cb85c
+@brand-info:		#409EEF; // #5bc0de
+@brand-warning:		#FB8C00; // #f0ad4e
+@brand-danger:		#FE402B; // #d9534f
+
+@bq-background:		#fbfbfb;
 
 .blue 		{color: @blue;}
 .black		{color: @black;}

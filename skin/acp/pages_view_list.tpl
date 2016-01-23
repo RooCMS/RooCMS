@@ -21,7 +21,7 @@
 			<td>
 				<a href="{$SCRIPT_NAME}?act=pages&part=edit&page={$page['sid']}">{$page['title']}</a>
 				{if $page['noindex'] == 1}<sup><i class="fa fa-fw fa-info mark" rel="tooltip" data-toggle="tooltip" data-placement="top" title="Неиндексируется поисковыми системами"></i></sup>{/if}
-				<small class="alias-vis">{$page['alias']}</small>
+				<small class="trinfo">{$page['alias']}</small>
 			</td>
 			<td class="text-left"><span class="label label-default">{$page['ptype']}</span></td>
 			<td class="small">{$page['lm']}</td>

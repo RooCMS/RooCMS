@@ -6,5 +6,7 @@
 		{include file='counters.tpl'}
 	</footer>
 </div>
+</div>
+</div>
 </body>
 </html>

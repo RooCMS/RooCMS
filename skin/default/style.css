@@ -28,6 +28,12 @@ p.lead {font-family: "PT Sans" !important;}
 .form-control.datepicker {padding:6px 12px !important;}
 
 /* Other Skin style */
+.tmenu {box-shadow: 0px 0px 4px #bbb  !important;padding: 5px !important;border-radius: 5px !important;background-color: #fff !important;}
+.topmenu {background-color: transparent !important;text-shadow: none !important;box-shadow: none !important;border: 0px !important;}
+.topmenu:hover{background-color: #62aeef !important;background-image: none !important;}
+.topsubmenu:hover {background-color: #545c68 !important;background-image: none !important;color: #fff !important;}
+.topsubmenu:hover > .small {color: #545c68 !important;}
+
 .mod_auth_form {width: 50% !important;}
 .mb0 {margin-bottom: 0px !important;}
 

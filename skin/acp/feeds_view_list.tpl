@@ -22,7 +22,7 @@
 				<td>
 					<a href="{$SCRIPT_NAME}?act=feeds&part=control&page={$feed['id']}">{$feed['title']}</a>
 					{if $feed['noindex'] == 1}<sup><i class="fa fa-fw fa-info mark" rel="tooltip" data-toggle="tooltip" data-placement="top" title="Неиндексируется поисковыми системами"></i></sup>{/if}
-					<small class="alias-vis">{$feed['alias']}</small>
+					<small class="trinfo">{$feed['alias']}</small>
 				</td>
 				<td class="text-right">
 					<small>{$feed['items']} элемент{if $feed['items']!=1 && $feed['items'] > 4}ов{/if}{if $feed['items'] >= 2 && $feed['items'] <= 4}а{/if}</small>
