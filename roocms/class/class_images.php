@@ -3,9 +3,9 @@
 * @package      RooCMS
 * @subpackage	Engine RooCMS classes
 * @author       alex Roosso
-* @copyright    2010-2015 (c) RooCMS
+* @copyright    2010-2016 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.4
+* @version      1.4.1
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -188,13 +188,13 @@ class Images extends GD {
 	 * @param        $source - полный путь к модифицироваемому файлу изображения
 	 * @param string $prefix - префикс для имения файла.
 	 * @param array  $thumbsize - array(width,height) - размеры миниатюры будут изменен согласно параметрам.
-	 * @param bool   $watermark - флаг указывает наносить ли водяной знак на рисунок.
+	 * @param array  $watermark - флаг указывает наносить ли водяной знак на рисунок.
 	 * @param string $path - путь к папке для загрузки изображений.
 	 * @param bool   $no_empty - определяет пропускать ли пустые элементы в массиве FILES или обозначать их в выходном буфере.
 	 *
 	 * @return array - возвращает массив с именами файлов.
 	 */
-	public function reconstruct_image($source, $prefix="", array $thumbsize=array(), $watermark=true, $path=_UPLOADIMAGES, $no_empty=true) {
+	public function reconstruct_image($source, $prefix="", array $thumbsize=array(), array $watermark=array("watermark"=>true, "modify"=>true), $path=_UPLOADIMAGES, $no_empty=true) {
 
 		global $files;
 

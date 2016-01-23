@@ -3,9 +3,9 @@
 * @package	RooCMS
 * @subpackage	Engine RooCMS classes
 * @author	alex Roosso
-* @copyright	2010-2015 (c) RooCMS
+* @copyright	2010-2016 (c) RooCMS
 * @link		http://www.roocms.com
-* @version	1.10
+* @version	1.11a
 * @since	$date$
 * @license	http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -109,15 +109,15 @@ class GD {
 
 
 		# Если используем watermark
-		if(isset($config->gd_use_watermark) && $config->gd_use_watermark) {
+		if(isset($config->gd_use_watermark) && $config->gd_use_watermark != "no") {
 
-			# watermark string one
+			# watermark text string one
 			if(trim($config->gd_watermark_string_one) != "") {
 				$this->copyright = $parse->text->html($config->gd_watermark_string_one);
 			}
 			else $this->copyright = $parse->text->html($site['title']);
 
-			# watermark string two
+			# watermark text string two
 			if(trim($config->gd_watermark_string_two) != "") {
 				$this->domain = $parse->text->html($config->gd_watermark_string_two);
 			}
@@ -154,8 +154,12 @@ class GD {
 
 
 		# Наносим ватермарк
-		if($config->gd_use_watermark && (isset($options['watermark'])&& $options['watermark'])) {
-			$this->watermark($filename, $extension, $path);
+		if($config->gd_use_watermark != "no" && (isset($options['watermark']) && $options['watermark'])) {
+
+			# Текстовый watermark
+			if($config->gd_use_watermark == "text" ) {
+				$this->watermark_text($filename, $extension, $path);
+			}
 		}
 	}
 
@@ -359,7 +363,7 @@ class GD {
 	 * @param string $ext - Расширение файла без точки
 	 * @param string $path - Путь к папке с файлом. По умолчанию указан путь к папке с изображениями
 	 */
-	protected function watermark($filename, $ext, $path=_UPLOADIMAGES) {
+	protected function watermark_text($filename, $ext, $path=_UPLOADIMAGES) {
 
 		# vars
         	$fileresize 	= $filename."_resize.".$ext;
