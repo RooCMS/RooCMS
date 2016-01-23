@@ -2,7 +2,7 @@
 /**
 * @package      RooCMS
 * @author       alex Roosso
-* @copyright    2010-2015 (c) RooCMS
+* @copyright    2010-2016 (c) RooCMS
 * @link         http://www.roocms.com
 * @version      1.7.2
 * @since        $date$
