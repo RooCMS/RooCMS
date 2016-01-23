@@ -144,6 +144,10 @@ tr:hover .trinfo {
   display: block;
 }
 /* Add BS */
+blockquote.quote-primary {
+  border-left-color: #6f7a9a;
+  background-color: #fbfbfb;
+}
 blockquote.quote-info {
   border-left-color: #409eef;
   background-color: #fbfbfb;
@@ -171,6 +175,14 @@ blockquote.quote h6 {
 }
 blockquote.quote small {
   color: #888;
+}
+blockquote.quote-primary > h1,
+blockquote.quote-primary > h2,
+blockquote.quote-primary > h3,
+blockquote.quote-primary > h4,
+blockquote.quote-primary > h5,
+blockquote.quote-primary > h6 {
+  color: #6f7a9a;
 }
 blockquote.quote-info > h1,
 blockquote.quote-info > h2,
