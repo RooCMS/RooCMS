@@ -479,10 +479,10 @@ class GD {
 
 
 		# Расчитываем не будет ли выглядеть большим ватермарк на изображении.
-		$maxwmw = floor($w*0.2); $wp = 0;
+		$maxwmw = floor($w*0.33); $wp = 0;
 		if($ww >= $maxwmw) $wp = $parse->percent($maxwmw, $ww);
 
-		$maxwmh = floor($h*0.2); $hp = 0;
+		$maxwmh = floor($h*0.33); $hp = 0;
 		if($wh >= $maxwmh) $hp = $parse->percent($maxwmh, $wh);
 
 		if($wp != 0 || $hp != 0) $pr = max($wp, $hp)/100;
