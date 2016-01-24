@@ -163,6 +163,11 @@ class GD {
 			if($config->gd_use_watermark == "text" ) {
 				$this->watermark_text($filename, $extension, $path);
 			}
+
+			# Графический watermark
+			if($config->gd_use_watermark == "image" ) {
+				$this->watermark_image($filename, $extension, $path);
+			}
 		}
 	}
 
@@ -437,6 +442,71 @@ class GD {
 		elseif($ext == "png")	imagepng($src,$path."/".$fileresize);
 
         	imagedestroy($src);
+	}
+
+
+	/**
+	 * Функция генерация водяного знака на изображении
+	 *
+	 * @param string $filename - Имя файла
+	 * @param string $ext - Расширение файла без точки
+	 * @param string $path - Путь к папке с файлом. По умолчанию указан путь к папке с изображениями
+	 */
+	protected function watermark_image($filename, $ext, $path=_UPLOADIMAGES) {
+
+		global $config, $parse;
+
+		# vars
+		$fileresize 	= $filename."_resize.".$ext;
+
+		# определяем размер картинки
+		$size = getimagesize($path."/".$fileresize);
+		$w = $size[0];
+		$h = $size[1];
+
+		# вводим в память файл для издевательств
+		$src = $this->imgcreate($path."/".$fileresize, $ext);
+
+		# удаляем оригинал
+		unlink($path."/".$fileresize);
+
+		# watermark
+		$wminfo = pathinfo($path."/".$config->gd_watermark_image);
+		$wmsize = getimagesize($path."/".$config->gd_watermark_image);
+		$ww = $wmsize[0];
+		$wh = $wmsize[1];
+		$watermark = $this->imgcreate($path."/".$config->gd_watermark_image, $wminfo['extension']);
+
+
+		# Расчитываем не будет ли выглядеть большим ватермарк на изображении.
+		$maxwmw = floor($w*0.2); $wp = 0;
+		if($ww >= $maxwmw) $wp = $parse->percent($maxwmw, $ww);
+
+		$maxwmh = floor($h*0.2); $hp = 0;
+		if($wh >= $maxwmh) $hp = $parse->percent($maxwmh, $wh);
+
+		if($wp != 0 || $hp != 0) $pr = max($wp, $hp)/100;
+		else $pr = 1;
+
+
+		$wms = $this->calc_resize($ww, $wh, $ww*$pr, $wh*$pr, false);
+
+
+		$x = $w - ($wms['new_width'] + 10);
+		$y = $h - ($wms['new_height'] + 10);
+
+
+		//imagecopyresampled($src, $watermark, $x, $y, 0, 0, $wms['new_width'], $wms['new_height'], $ww, $wh);
+		imagecopyresized($src, $watermark, $x, $y, 0, 0, $wms['new_width'], $wms['new_height'], $ww, $wh);
+
+
+		# вливаем с ватермарком
+		if($ext == "jpg")	imagejpeg($src,$path."/".$fileresize, $this->rs_quality);
+		elseif($ext == "gif")	imagegif($src,$path."/".$fileresize);
+		elseif($ext == "png")	imagepng($src,$path."/".$fileresize);
+
+		imagedestroy($src);
+		imagedestroy($watermark);
 	}
 
 
