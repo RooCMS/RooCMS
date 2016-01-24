@@ -124,11 +124,13 @@ p.attach_files {
   padding: 8px 8px;
 }
 /* style fro delete user avatar */
-.delete_useravatar:hover {
+.delete_useravatar:hover,
+.delete_config_image:hover {
   background-color: #fe402b;
   border-radius: 5px;
 }
-.delete_useravatar:hover > img {
+.delete_useravatar:hover > img,
+.delete_config_image:hover > img {
   opacity: 0.5;
 }
 /* style for datepicker*/

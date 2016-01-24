@@ -5,7 +5,7 @@
 * @author	alex Roosso
 * @copyright	2010-2016 (c) RooCMS
 * @link		http://www.roocms.com
-* @version	1.11a
+* @version	1.11
 * @since	$date$
 * @license	http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -136,8 +136,9 @@ class GD {
 	 * @param array $options
 	 * @internal param bool $watermark 	- флаг указывает наносить ли водяной знак на рисунок.
 	 * @internal param bool $modify 	- флаг указывает подвергать ли изображение полной модификации с сохранением оригинального изображения и созданием превью.
+	 * @internal param bool $noresize 	- флаг указывает подвергать ли изображение изменению размера. Иcпользуется в том случае когда мы не хотим изменять оригинальное изображение.
 	 */
-	protected function modify_image($filename, $extension, $path, array $options=array('watermark'=>true, 'modify'=>true)) {
+	protected function modify_image($filename, $extension, $path, array $options=array("watermark"=>true, "modify"=>true, "noresize"=>false)) {
 
 		global $config;
 
@@ -150,7 +151,9 @@ class GD {
 			# Создаем миниатюру
 			$this->thumbnail($filename, $extension, $path);
 		}
-		else $this->resized($filename, $extension, $path);
+		else {
+			if(!isset($options['noresize']) || !$options['noresize']) $this->resized($filename, $extension, $path);
+		}
 
 
 		# Наносим ватермарк

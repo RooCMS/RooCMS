@@ -5,7 +5,7 @@
 * @author       alex Roosso
 * @copyright    2010-2016 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.4.1
+* @version      1.5
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -65,15 +65,16 @@ class Images extends GD {
 	 * @param string  $prefix    - префикс для имения файла.
 	 * @param array   $thumbsize - array(width,height) - размеры миниатюры будут изменены согласно параметрам.
 	 * @param array   $options   - array(internal param)
-	 * @internal param bool   $watermark - флаг указывает наносить ли водяной знак на рисунок.
-	 * @internal param string $filename  - устанавливаем имя для файла принудительно
-	 * @internal param bool   $modify    - флаг указывает подвергать ли изображение полной модификации с сохранением оригинального изображения и созданием превью.
+	 * @internal param bool		$watermark	- флаг указывает наносить ли водяной знак на рисунок.
+	 * @internal param string	$filename	- устанавливаем имя для файла принудительно
+	 * @internal param bool		$modify		- флаг указывает подвергать ли изображение полной модификации с сохранением оригинального изображения и созданием превью.
+	 * @internal param bool		$noresize	- флаг указывает подвергать ли изображение изменению размера. Иcпользуется в том случае когда мы не хотим изменять оригинальное изображение.
 	 * @param string  $path      - путь к папке для загрузки изображений.
 	 * @param boolean $no_empty  - определяет пропускать ли пустые элементы в массиве FILES или обозначать их в выходном буфере.
 	 *
 	 * @return array - возвращает массив с именами файлов.
 	 */
-	public function upload_image($file, $prefix="", array $thumbsize=array(), array $options=array("watermark"=>true, "modify"=>true), $path=_UPLOADIMAGES, $no_empty=true) {
+	public function upload_image($file, $prefix="", array $thumbsize=array(), array $options=array("watermark"=>true, "modify"=>true, "noresize"=>false), $path=_UPLOADIMAGES, $no_empty=true) {
 
 		return $this->upload_post_image($file, $prefix, $thumbsize, $options, $path, $no_empty);
 	}
@@ -86,9 +87,10 @@ class Images extends GD {
 	 * @param string  $prefix    - префикс для имения файла.
 	 * @param array   $thumbsize - array(width,height) - размеры миниатюры будут изменены согласно параметрам.
 	 * @param array   $options   - array(internal param)
-	 * @internal param bool   $watermark - флаг указывает наносить ли водяной знак на рисунок.
-	 * @internal param string $filename  - устанавливаем имя для файла принудительно
-	 * @internal param bool   $modify    - флаг указывает подвергать ли изображение полной модификации с сохранением оригинального изображения и созданием превью.
+	 * @internal param bool		$watermark	- флаг указывает наносить ли водяной знак на рисунок.
+	 * @internal param string	$filename	- устанавливаем имя для файла принудительно
+	 * @internal param bool		$modify		- флаг указывает подвергать ли изображение полной модификации с сохранением оригинального изображения и созданием превью.
+	 * @internal param bool		$noresize	- флаг указывает подвергать ли изображение изменению размера. Иcпользуется в том случае когда мы не хотим изменять оригинальное изображение.
 	 * @param string  $path      - путь к папке для загрузки изображений.
 	 * @param boolean $no_empty  - определяет пропускать ли пустые элементы в массиве FILES или обозначать их в выходном буфере.
 	 *
@@ -106,7 +108,7 @@ class Images extends GD {
 
 
 		# Определяем настройки размеров для будущих миниатюр
-		$this->set_thumb_sizes($thumbsize);
+		if(!empty($thumbsize)) $this->set_thumb_sizes($thumbsize);
 
 
 		# Если $_FILES не является массивом конвертнем в массив
@@ -173,89 +175,6 @@ class Images extends GD {
 			}
 			else {
 				if($filename) $names[] = $filename.".".$ext;
-			}
-		}
-
-		# Возвращаем массив имен файлов для внесения в БД
-		return (isset($names) && count($names) > 0) ? $names : false ;
-	}
-
-
-	/**
-	 * Обработка картинок согласно установленны в конфигураторе параметрам.
-	 * Используется в процедурах смены водянного знака, а так же при мультизагрузке изображений на сервер.
-	 *
-	 * @param        $source - полный путь к модифицироваемому файлу изображения
-	 * @param string $prefix - префикс для имения файла.
-	 * @param array  $thumbsize - array(width,height) - размеры миниатюры будут изменен согласно параметрам.
-	 * @param array  $watermark - флаг указывает наносить ли водяной знак на рисунок.
-	 * @param string $path - путь к папке для загрузки изображений.
-	 * @param bool   $no_empty - определяет пропускать ли пустые элементы в массиве FILES или обозначать их в выходном буфере.
-	 *
-	 * @return array - возвращает массив с именами файлов.
-	 */
-	public function reconstruct_image($source, $prefix="", array $thumbsize=array(), array $watermark=array("watermark"=>true, "modify"=>true), $path=_UPLOADIMAGES, $no_empty=true) {
-
-		global $files;
-
-		# Составляем массив для проверки разрешенных типов файлов к загрузке
-		static $allow_exts = array();
-		if(empty($allow_exts))
-			$allow_exts = $this->get_allow_exts();
-
-
-		# Определяем настройки размеров для будущих миниатюр
-		$this->set_thumb_sizes($thumbsize);
-
-
-		# Если в параметре для модификации файла мы получили строку, а не массив, преобразовываем в массив.
-		if(!is_array($source))
-			$sources[] = $source;
-		else
-			$sources = $source;
-
-		# Приступаем к обработке
-		foreach($sources AS $k=>$imagesource) {
-			if(file_exists($imagesource)) {
-
-				$upload = false;
-
-				# Грузим апельсины бочками
-				$source_info = pathinfo($imagesource);
-
-				if(isset($source_info['extension'])) {
-					if(in_array($source_info['extension'], $allow_exts)) {
-
-						# Создаем имя файлу.
-						$filename = $files->create_filename(substr($source_info['filename'], 0, -6).".".$source_info['extension'], $prefix);
-
-						# Сохраняем оригинал
-						copy($imagesource, $path."/".$filename."_original.".$source_info['extension']);
-
-						# Если загрузка прошла и файл на месте
-						$upload = (!file_exists($path."/".$filename."_original.".$source_info['extension'])) ? false : true ;
-					}
-
-					# Если загрузка удалась
-					if($upload) {
-						# modify
-						$this->modify_image($filename, $source_info['extension'], $path, $watermark);
-						# destroy source
-						unlink($imagesource);
-					}
-					else {
-						# Обработчик если загрузка не удалась =)
-						$filename = false;
-					}
-
-
-					if(!$no_empty) {
-						$names[$key] = $filename.".".$source_info['extension'];
-					}
-					else {
-						if($filename) $names[] = $filename.".".$source_info['extension'];
-					}
-				}
 			}
 		}
 

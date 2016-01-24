@@ -4,9 +4,9 @@
 * @subpackage	Admin Control Panel
 * @subpackage	Configuration settings
 * @author       alex Roosso
-* @copyright    2010-2014 (c) RooCMS
+* @copyright    2010-2016 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.1.2
+* @version      1.2
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -187,6 +187,24 @@ class ACP_CONFIG {
 
 			$out = $tpl->load_template("config_field_select",true);
 		}
+		# image
+		elseif($option_type == "image" OR $option_type == "img") {
+
+			$image = array();
+
+			if(trim($field['value']) != "" && file_exists(_UPLOADIMAGES."/".$field['value'])) {
+
+				$image['src'] = $field['value'];
+
+				$size = getimagesize(_UPLOADIMAGES."/".$image['src']);
+				$image['width'] = $size[0];
+				$image['height'] = $size[1];
+			}
+
+			$smarty->assign("image", $image);
+
+			$out = $tpl->load_template("config_field_image", true);
+		}
 
 
 		return $out;
@@ -198,7 +216,7 @@ class ACP_CONFIG {
 	 */
 	private function update_config() {
 
-		global $db, $parse, $POST;
+		global $db, $parse, $POST, $img;
 
 		# запрашиваем из БД типа опций
 		$q = $db->query("SELECT option_name, option_type, variants FROM ".CONFIG_TABLE);
@@ -250,7 +268,7 @@ class ACP_CONFIG {
 				}
 				# email
 				elseif($this->types[$key] == "email") {
-					if($parse->valid_email($POST->$key))
+					if($parse->valid_email($value))
 						$check = true;
 					else
 						$check = false;
@@ -280,6 +298,20 @@ class ACP_CONFIG {
 				elseif($this->types[$key] == "select") {
 					if(isset($this->t_vars[$key][$value])) $check = true;
 				}
+				# image
+				elseif($this->types[$key] == "image" OR $this->types[$key] == "img") {
+
+					$image = $img->upload_image("image_".$key, "", array(), array("filename"=>$key, "watermark"=>false, "modify"=>false, "noresize"=>true));
+
+					if(isset($image[0])) {
+						if($value != "" && $value != $image[0]) unlink(_UPLOADIMAGES."/".$value);
+
+						$value = $image[0];
+
+						$check = true;
+					}
+				}
+
 
 				if($check) {
 					$db->query("UPDATE ".CONFIG_TABLE." SET value='".$value."' WHERE option_name='".$key."'");

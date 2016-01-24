@@ -90,7 +90,7 @@ $sql['CREATE'.CONFIG_TABLE] = "CREATE TABLE IF NOT EXISTS `".CONFIG_TABLE."` (
 				  `title` varchar(255) NOT NULL,
 				  `description` text NOT NULL,
 				  `option_name` varchar(255) NOT NULL,
-				  `option_type` enum('boolean','bool','integer','int','string','color','text','textarea','date','email','select') NOT NULL DEFAULT 'boolean',
+				  `option_type` enum('boolean','bool','integer','int','string','color','text','textarea','date','email','select','image', 'img') NOT NULL DEFAULT 'boolean',
 				  `variants` text NOT NULL,
 				  `value` longtext NOT NULL,
 				  `default_value` text NOT NULL,
@@ -115,6 +115,7 @@ $sql['INSERT '.CONFIG_TABLE." ID #".$id] = "INSERT INTO `".CONFIG_TABLE."` VALUE
 $sql['INSERT '.CONFIG_TABLE." ID #".$id] = "INSERT INTO `".CONFIG_TABLE."` VALUES (".$id.", 'gd', 8, 'Вкл/выкл водяной знак', 'Использовать на загружаемых изображениях Watermark (полупрозрачный копирайт) для защиты изображений от копирования на сторонние ресурсы?', 'gd_use_watermark', 'select', 'Нет|no\r\nТекст (2 строки)|text\r\nИзображение|image', 'text', 'no', 0)"; $id++;
 $sql['INSERT '.CONFIG_TABLE." ID #".$id] = "INSERT INTO `".CONFIG_TABLE."` VALUES (".$id.", 'gd', 9, 'Первая строка водяного знака', 'Первая строчка водяного знака накладываемого на изображение', 'gd_watermark_string_one', 'string', '', '', '', 0)"; $id++;
 $sql['INSERT '.CONFIG_TABLE." ID #".$id] = "INSERT INTO `".CONFIG_TABLE."` VALUES (".$id.", 'gd', 10, 'Вторая строка водяного знака', 'Вторая строчка водяного знака накладываемого на изображение', 'gd_watermark_string_two', 'string', '', 'http://".$_SERVER['SERVER_NAME']."', '', 0)"; $id++;
+$sql['INSERT '.CONFIG_TABLE." ID #".$id] = "INSERT INTO `".CONFIG_TABLE."` VALUES (".$id.", 'gd', 11, 'Водяной знак (изображение)', 'Изображение накладываемое на загружаемые изображения в качестве водяного знака.', 'gd_watermark_image', 'image', '', '', '', 0)"; $id++;
 $sql['INSERT '.CONFIG_TABLE." ID #".$id] = "INSERT INTO `".CONFIG_TABLE."` VALUES (".$id.", 'users', 1, 'Ширина аватара', 'Укажите размер пользовательского аватара по горизонтали (в пикселях)', 'users_avatar_width', 'int', '', '100', '100', 0)"; $id++;
 $sql['INSERT '.CONFIG_TABLE." ID #".$id] = "INSERT INTO `".CONFIG_TABLE."` VALUES (".$id.", 'users', 2, 'Высота аватара', 'Укажите размер пользовательского аватара по горизонтали (в пикселях)', 'users_avatar_height', 'int', '', '100', '100', 0)"; $id++;
 $sql['INSERT '.CONFIG_TABLE." ID #".$id] = "INSERT INTO `".CONFIG_TABLE."` VALUES (".$id.", 'cp', 1, 'Вход в панель управления', 'Укажите название файла (скрипта) через который вы будете заходить в Панель Управления.\r\nВнимание! После изменения этой настройки, изменится URI панели управления. В случае если вы изменяли вручную шаблоны панели управления, проверьте, что вы везде указали переменную {&#36;SCRIPT_NAME}', 'cp_script', 'string', '', 'acp.php', 'acp.php', 0)"; $id++;
