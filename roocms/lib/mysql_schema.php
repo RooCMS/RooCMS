@@ -57,8 +57,8 @@ $sql = array();
 /**
 * Разделы конфигурации
 */
-$sql['DROP '.CONFIG_PARTS] = "DROP TABLE IF EXISTS `".CONFIG_PARTS."`";
-$sql['CREATE '.CONFIG_PARTS] = "CREATE TABLE IF NOT EXISTS `".CONFIG_PARTS."` (
+$sql['DROP '.CONFIG_PARTS_TABLE] = "DROP TABLE IF EXISTS `".CONFIG_PARTS_TABLE."`";
+$sql['CREATE '.CONFIG_PARTS_TABLE] = "CREATE TABLE IF NOT EXISTS `".CONFIG_PARTS_TABLE."` (
 				  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
 				  `type` enum('global', 'component') NOT NULL DEFAULT 'component',
 				  `sort` int(10) unsigned NOT NULL DEFAULT '1',
@@ -70,13 +70,13 @@ $sql['CREATE '.CONFIG_PARTS] = "CREATE TABLE IF NOT EXISTS `".CONFIG_PARTS."` (
 				) ENGINE=MyISAM  DEFAULT CHARSET=utf8 PACK_KEYS=1 AUTO_INCREMENT=1";
 
 $id = 1;
-$sql['INSERT '.CONFIG_PARTS." ID #".$id] = "INSERT INTO `".CONFIG_PARTS."` VALUES (".$id.", 'global', 1, 'global', 'Общие настройки', 'cog')";		$id++;
-$sql['INSERT '.CONFIG_PARTS." ID #".$id] = "INSERT INTO `".CONFIG_PARTS."` VALUES (".$id.", 'global', 2, 'gd', 'Обработка изображений', 'picture-o')";	$id++;
-$sql['INSERT '.CONFIG_PARTS." ID #".$id] = "INSERT INTO `".CONFIG_PARTS."` VALUES (".$id.", 'global', 3, 'users', 'Настройка пользователей', 'users')";	$id++;
-$sql['INSERT '.CONFIG_PARTS." ID #".$id] = "INSERT INTO `".CONFIG_PARTS."` VALUES (".$id.", 'global', 4, 'cp', 'Панель Администратора', 'shield')";	$id++;
-$sql['INSERT '.CONFIG_PARTS." ID #".$id] = "INSERT INTO `".CONFIG_PARTS."` VALUES (".$id.", 'global', 5, 'tpl', 'Настройки шаблонизации', 'desktop')";	$id++;
-$sql['INSERT '.CONFIG_PARTS." ID #".$id] = "INSERT INTO `".CONFIG_PARTS."` VALUES (".$id.", 'global', 6, 'rss', 'RSS', 'rss')";				$id++;
-$sql['INSERT '.CONFIG_PARTS." ID #".$id] = "INSERT INTO `".CONFIG_PARTS."` VALUES (".$id.", 'component', 6, 'feed', 'Ленты', 'th-list')";		$id++;
+$sql['INSERT '.CONFIG_PARTS_TABLE." ID #".$id] = "INSERT INTO `".CONFIG_PARTS_TABLE."` VALUES (".$id.", 'global', 1, 'global', 'Общие настройки', 'cog')";		$id++;
+$sql['INSERT '.CONFIG_PARTS_TABLE." ID #".$id] = "INSERT INTO `".CONFIG_PARTS_TABLE."` VALUES (".$id.", 'global', 2, 'gd', 'Обработка изображений', 'picture-o')";	$id++;
+$sql['INSERT '.CONFIG_PARTS_TABLE." ID #".$id] = "INSERT INTO `".CONFIG_PARTS_TABLE."` VALUES (".$id.", 'global', 3, 'users', 'Настройка пользователей', 'users')";	$id++;
+$sql['INSERT '.CONFIG_PARTS_TABLE." ID #".$id] = "INSERT INTO `".CONFIG_PARTS_TABLE."` VALUES (".$id.", 'global', 4, 'cp', 'Панель Администратора', 'shield')";	$id++;
+$sql['INSERT '.CONFIG_PARTS_TABLE." ID #".$id] = "INSERT INTO `".CONFIG_PARTS_TABLE."` VALUES (".$id.", 'global', 5, 'tpl', 'Настройки шаблонизации', 'desktop')";	$id++;
+$sql['INSERT '.CONFIG_PARTS_TABLE." ID #".$id] = "INSERT INTO `".CONFIG_PARTS_TABLE."` VALUES (".$id.", 'global', 6, 'rss', 'RSS', 'rss')";				$id++;
+$sql['INSERT '.CONFIG_PARTS_TABLE." ID #".$id] = "INSERT INTO `".CONFIG_PARTS_TABLE."` VALUES (".$id.", 'component', 6, 'feed', 'Ленты', 'th-list')";			$id++;
 
 
 /**

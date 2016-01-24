@@ -98,12 +98,12 @@ class ACP_CONFIG {
 		global $db, $tpl, $smarty, $html, $parse, $GET;
 
 
-		if(isset($GET->_part) && $db->check_id($GET->_part, CONFIG_PARTS, "name") == 1) $this->part = $GET->_part;
+		if(isset($GET->_part) && $db->check_id($GET->_part, CONFIG_PARTS_TABLE, "name") == 1) $this->part = $GET->_part;
 		//elseif(isset($GET->_part) && $GET->_part == "all") $this->part = "all";
 
 
 		# запрос разделов конфигурации из БД
-		$q_1 = $db->query("SELECT name, title, type, ico FROM ".CONFIG_PARTS." ORDER BY type ASC, sort ASC");
+		$q_1 = $db->query("SELECT name, title, type, ico FROM ".CONFIG_PARTS_TABLE." ORDER BY type ASC, sort ASC");
 		while($part = $db->fetch_assoc($q_1)) {
 
 			# запрашиваем из БД опции

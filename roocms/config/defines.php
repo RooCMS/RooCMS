@@ -3,9 +3,9 @@
 * @package	RooCMS
 * @subpackage	Configuration
 * @author	alex Roosso
-* @copyright	2010-2015 (c) RooCMS
+* @copyright	2010-2016 (c) RooCMS
 * @link		http://www.roocms.com
-* @version	1.4.8
+* @version	1.4.9
 * @since	$date$
 * @license	http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -61,7 +61,7 @@ define('DB_PREFIX',		$db_info['prefix']);
 /**
 * Config $DB Table
 */
-define('CONFIG_PARTS', 		DB_PREFIX.'config__parts');
+define('CONFIG_PARTS_TABLE', 	DB_PREFIX.'config__parts');
 define('CONFIG_TABLE', 		DB_PREFIX.'config__settings');
 define('STRUCTURE_TABLE', 	DB_PREFIX.'structure');
 define('PAGES_HTML_TABLE', 	DB_PREFIX.'pages__html');

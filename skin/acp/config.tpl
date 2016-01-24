@@ -54,7 +54,7 @@
 				var arrdata = attrdata.split('-');
 				var option = arrdata[1];
 
-				$("#dci-"+uid).load('/acp.php?act=ajax&part=delete_config_image&option='+option, function() {
+				$("#dci-"+option).load('/acp.php?act=ajax&part=delete_config_image&option='+option, function() {
 					$("#dci-"+option).animate({'opacity':'0.2'}, 750, function() {
 						$("#dci-"+option).hide(600).delay(900).remove();
 					});
