@@ -3,9 +3,9 @@
 * @package	RooCMS
 * @subpackage	Engine RooCMS classes
 * @author	alex Roosso
-* @copyright	2010-2015 (c) RooCMS
+* @copyright	2010-2016 (c) RooCMS
 * @link		http://www.roocms.com
-* @version	1.1.8
+* @version	1.2
 * @since	$date$
 * @license	http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -135,26 +135,23 @@ class Globals {
 			switch($row['option_type']) {
 				case 'boolean':
 				case 'bool':
-					$conf = "\$this->config->{$row['option_name']} = (bool) ".$row['value'].";";
+					$this->config->{$row['option_name']} = (bool) $row['value'];
 					break;
 
 				case 'int':
 				case 'integer':
 					settype($row['value'], "integer");
-					$conf = "\$this->config->{$row['option_name']} = (int) ".$row['value'].";";
+					$this->config->{$row['option_name']} = (int) $row['value'];
 					break;
 
 				case 'string':
-					$conf = "\$this->config->{$row['option_name']} = (string) \"{$row['value']}\";";
+					$this->config->{$row['option_name']} = (string) $row['value'];
 					break;
 
 				default:
-					$conf = "\$this->config->{$row['option_name']} = \"{$row['value']}\";";
+					$this->config->{$row['option_name']} = $row['value'];
 					break;
 			}
-
-			# init classd
-			eval($conf);
 		}
 
 		# Устанавливаем title
