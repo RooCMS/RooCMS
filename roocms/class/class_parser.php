@@ -580,7 +580,7 @@ class Parsers {
 			}
 
 			# detect internet explorer
-			if (mb_strpos($useragent, 'msie ', 0, 'utf8') !== false AND !$is['opera']) {
+			if (mb_strpos($useragent, 'msie ', 0, 'utf8') !== false && !$is['opera']) {
 				preg_match('#msie ([0-9\.]+)#', $useragent, $regs);
 				$is['ie'] = $regs[1];
 			}
@@ -597,7 +597,7 @@ class Parsers {
 			}
 
 			# detect safari
-			if (mb_strpos($useragent, 'applewebkit', 0, 'utf8') !== false AND !$is['chrome']) {
+			if (mb_strpos($useragent, 'applewebkit', 0, 'utf8') !== false && !$is['chrome']) {
 				preg_match('#applewebkit/([0-9\.]+)#', $useragent, $regs);
 				$is['webkit'] = $regs[1];
 
@@ -614,7 +614,7 @@ class Parsers {
 			}
 
 			# detect mozilla
-			if (mb_strpos($useragent, 'gecko', 0, 'utf8') !== false AND !$is['safari'] AND !$is['konqueror'] AND !$is['chrome']) {
+			if (mb_strpos($useragent, 'gecko', 0, 'utf8') !== false && !$is['safari'] && !$is['konqueror'] && !$is['chrome']) {
 				# detect mozilla
 				$is['mozilla'] = 20090105;
 				if (preg_match('#gecko/(\d+)#', $useragent, $regs)) {
@@ -622,7 +622,7 @@ class Parsers {
 				}
 
 				# detect firebird / firefox
-				if (mb_strpos($useragent, 'firefox', 0, 'utf8') !== false OR mb_strpos($useragent, 'firebird', 0, 'utf8') !== false OR mb_strpos($useragent, 'phoenix', 0, 'utf8') !== false) {
+				if (mb_strpos($useragent, 'firefox', 0, 'utf8') !== false || mb_strpos($useragent, 'firebird', 0, 'utf8') !== false || mb_strpos($useragent, 'phoenix', 0, 'utf8') !== false) {
 					preg_match('#(phoenix|firebird|firefox)( browser)?/([0-9\.]+)#', $useragent, $regs);
 					$is['firebird'] = $regs[3];
 
@@ -632,7 +632,7 @@ class Parsers {
 				}
 
 				# detect camino
-				if (mb_strpos($useragent, 'chimera', 0, 'utf8') !== false OR mb_strpos($useragent, 'camino', 0, 'utf8') !== false) {
+				if (mb_strpos($useragent, 'chimera', 0, 'utf8') !== false || mb_strpos($useragent, 'camino', 0, 'utf8') !== false) {
 					preg_match('#(chimera|camino)/([0-9\.]+)#', $useragent, $regs);
 					$is['camino'] = $regs[2];
 				}

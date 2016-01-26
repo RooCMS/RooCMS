@@ -188,7 +188,7 @@ class ACP_CONFIG {
 			$out = $tpl->load_template("config_field_select",true);
 		}
 		# image
-		elseif($option_type == "image" OR $option_type == "img") {
+		elseif($option_type == "image" || $option_type == "img") {
 
 			$image = array();
 
@@ -299,7 +299,7 @@ class ACP_CONFIG {
 					if(isset($this->t_vars[$key][$value])) $check = true;
 				}
 				# image
-				elseif($this->types[$key] == "image" OR $this->types[$key] == "img") {
+				elseif($this->types[$key] == "image" || $this->types[$key] == "img") {
 
 					$image = $img->upload_image("image_".$key, "", array(), array("filename"=>$key, "watermark"=>false, "modify"=>false, "noresize"=>true));
 
