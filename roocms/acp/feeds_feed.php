@@ -66,7 +66,7 @@ class ACP_FEEDS_FEED {
 	 *
 	 * @param $structure_data
 	 */
-	public function __construct($structure_data) {
+	public function ACP_FEEDS_FEED($structure_data) {
 		$this->feed =& $structure_data;
 	}
 

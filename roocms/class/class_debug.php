@@ -89,7 +89,7 @@ class Debug {
 	/**
 	* Запускаем класс
 	*/
-	public function __construct() {
+	public function Debug() {
 
 		# устанавливаем перехватчик ошибок
 		@set_error_handler(array($this,'debug_critical_error'));
@@ -299,7 +299,7 @@ class Debug {
         * @param mixed $expand  - Флаг развернутого вида
         * @return mixed - Функция выводит на экран дамп переменной $var
         */
-	public function debug($var, $expand=false) {
+	public function godebug($var, $expand=false) {
                 static $use = 1;
 
                 # регестрируем шотдаун

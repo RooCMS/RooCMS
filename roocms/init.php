@@ -115,19 +115,19 @@ else die(ROOCMS_NOT_RUNNING);
 /**
 * Запускаем расширение класса БД MySQL
 */
-if(file_exists(_CLASS."/class_mysql_ext.php"))
-	require_once(_CLASS."/class_mysql_ext.php");
+if(file_exists(_CLASS."/class_mysqli_ext.php"))
+	require_once(_CLASS."/class_mysqli_ext.php");
 else die(ROOCMS_NOT_RUNNING);
 
 /**
 * Запускаем класс БД MySQL
 */
-if(file_exists(_CLASS."/class_mysql.php")) {
-	require_once(_CLASS."/class_mysql.php");
+if(file_exists(_CLASS."/class_mysqli.php")) {
+	require_once(_CLASS."/class_mysqli.php");
 	/**
 	 * Инициализируем класс
 	 */
-	$db = new MySQLDatabase;
+	$db = new MySQLiDatabase;
 }
 else die(ROOCMS_NOT_RUNNING);
 

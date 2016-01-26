@@ -218,6 +218,6 @@ function nocache() {
  */
 function debug($obj, $expand=false) {
 	global $debug;
-	$debug->debug($obj, $expand);
+	$debug->godebug($obj, $expand);
 }
 ?>

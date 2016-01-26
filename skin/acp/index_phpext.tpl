@@ -13,7 +13,6 @@
 						{if $ext == "Core"
 						 || $ext == "calendar"
 						 || $ext == "date"
-						 || $ext == "ereg"
 						 || $ext == "pcre"
 						 || $ext == "session"
 						 || $ext == "standard"

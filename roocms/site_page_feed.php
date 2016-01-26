@@ -5,7 +5,7 @@
 * @author       alex Roosso
 * @copyright    2010-2016 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.3
+* @version      1.3.1
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -65,7 +65,7 @@ class PageFeed {
 	 * Lets begin...
 	 * Why does the gull die?
 	 */
-	public function __construct() {
+	public function PageFeed() {
 
 		global $GET, $db, $structure, $smarty;
 

@@ -5,7 +5,7 @@
 * @author       alex Roosso
 * @copyright    2010-2016 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      2.1.1
+* @version      2.1.2
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -58,7 +58,7 @@ class ACP_INDEX {
 	/**
 	 * Run, baby, run
 	 */
-	public function __construct() {
+	public function ACP_INDEX() {
 
 		global $roocms, $tpl;
 

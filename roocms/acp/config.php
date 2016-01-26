@@ -6,7 +6,7 @@
 * @author       alex Roosso
 * @copyright    2010-2016 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.2
+* @version      1.2.1
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -70,7 +70,7 @@ class ACP_CONFIG {
 	* Start
 	*
 	*/
-	public function __construct() {
+	public function ACP_CONFIG() {
 
 		global $config, $tpl;
 

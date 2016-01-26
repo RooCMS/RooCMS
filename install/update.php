@@ -5,7 +5,7 @@
 * @author       alex Roosso
 * @copyright    2010-2016 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.2.1
+* @version      1.2.2
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -71,7 +71,7 @@ class Update extends Requirement{
 	/**
 	 * Вперед...
 	 */
-	public function __construct() {
+	public function Update() {
 
 		global $GET, $POST, $site, $parse, $tpl, $smarty;
 

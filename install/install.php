@@ -5,7 +5,7 @@
 * @author       alex Roosso
 * @copyright    2010-2016 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.4.5
+* @version      1.4.6
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -71,7 +71,7 @@ class Install extends Requirement{
 	/**
 	 * Доктор, начнем операцию...
 	 */
-	public function __construct() {
+	public function Install() {
 
 		global $GET, $POST, $site, $parse, $tpl, $smarty;
 
