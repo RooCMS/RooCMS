@@ -5,7 +5,7 @@
 * @author       alex Roosso
 * @copyright    2010-2016 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.1.8
+* @version      1.2
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -157,17 +157,16 @@ class Parsers {
 
 
 			if(is_string($value)) {
-				$class_post = " \$this->Post->{$key} = \"{$value}\";\n";
+				$this->Post->{$key} = (string) $value;
 			}
 			else if(is_array($value)) {
-				$class_post  = "\$this->Post->{$key} = ";
-				$class_post .= print_array($value);
+				$this->Post->{$key} = (array) $value;
 			}
 			else {
-				$class_post = "\$this->Post->{$key} = \"{$value}\";\n";
+				$this->Post->{$key} = $value;
 			}
 
-			eval($class_post);
+			//eval($class_post);
 		}
 
 		unset($_POST);
@@ -188,17 +187,14 @@ class Parsers {
 			$key = "_".$key;
 
 			if(is_string($value)) {
-				$class_get = " \$this->Get->{$key} = \"{$value}\";\n";
+				$this->Get->{$key} = (string) $value;
 			}
 			else if(is_array($value)) {
-				$class_get  = "\$this->Get->{$key} = ";
-				$class_get .= print_array($value);
+				$this->Get->{$key} = (array) $value;
 			}
 			else {
-				$class_get = "\$this->Get->{$key} = \"{$value}\";\n";
+				$this->Get->{$key} = $value;
 			}
-
-			eval($class_get);
 		}
 	}
 
@@ -270,9 +266,9 @@ class Parsers {
 						# Определяем элементы URI ключ и значение
 						$str = explode("=",$gets[$el]);
 						if(trim($str[0]) != "" && trim($str[1]) != "") {
-							$str[0] = $this->clear_key($str[0]);
-							$code = "\$this->Get->_".$str[0]." = \"{$str[1]}\";";
-							eval($code);
+							$str[0] = "_".$this->clear_key($str[0]);
+							$this->Get->{$str[0]} = $str[1];
+
 						}
 					}
 					elseif($is == 0) {
@@ -284,9 +280,8 @@ class Parsers {
 						$elp = $el + 1;
 
 						if(trim($gets[$el]) != "" && isset($gets[$elp]) && trim($gets[$elp]) != "") {
-							$gets[$el] = $this->clear_key($gets[$el]);
-							$code = "\$this->Get->_".$gets[$el]." = \"{$gets[$elp]}\";";
-							eval($code);
+							$gets[$el] = "_".$this->clear_key($gets[$el]);
+							$this->Get->{$gets[$el]} = $gets[$elp];
 							$el++;
 						}
 					}

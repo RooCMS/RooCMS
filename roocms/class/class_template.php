@@ -5,7 +5,7 @@
 * @author	alex Roosso
 * @copyright	2010-2015 (c) RooCMS
 * @link		http://www.roocms.com
-* @version	4.5.3
+* @version	4.5.4
 * @since	$date$
 * @license	http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -178,10 +178,8 @@ class template {
 		require _LIB."/mimetype.php";
 		$smarty->assign("allow_images_type", $imagetype);
 
-		$code  = "\$$smarty_variable = \$this->load_template(\"$tpl\", $tplreturn);";
-		$code .= "\$smarty->assign(\"$smarty_variable\", \$$smarty_variable);";
-
-		eval ($code);
+		$smarty_tpl = $this->load_template("{$tpl}", $tplreturn);
+		$smarty->assign("{$smarty_variable}", $smarty_tpl);
 	}
 
 
@@ -200,10 +198,8 @@ class template {
 		require _LIB."/mimetype.php";
 		$smarty->assign("allow_files_type", $filetype);
 
-		$code  = "\$$smarty_variable = \$this->load_template(\"$tpl\", $tplreturn);";
-		$code .= "\$smarty->assign(\"$smarty_variable\", \$$smarty_variable);";
-
-		eval ($code);
+		$smarty_tpl = $this->load_template("{$tpl}", $tplreturn);
+		$smarty->assign("{$smarty_variable}", $smarty_tpl);
 	}
 
 
