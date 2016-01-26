@@ -4,7 +4,7 @@
  * @subpackage	 Plugin Utilites
  * @subpackage	 Codemirror Library
  * @author       alex Roosso
- * @copyright    2010-2014 (c) RooCMS
+ * @copyright    2010-2016 (c) RooCMS
  * @link         http://www.roocms.com
  * @version      2.0
  * @since        $date$
