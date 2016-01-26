@@ -4,7 +4,7 @@ Version: 1.2 RC 1 beta 2
 
 Plugins
 -------
-- CKEditor		`v4.4.7 (revision 3a35b3d)`
+- CKEditor		`v4.5.6`
 - Codemirror		`v3.19`
 - Colorbox		`v1.4.32`
 - Lightbox		`v2.6`
