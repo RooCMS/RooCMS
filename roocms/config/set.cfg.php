@@ -3,9 +3,9 @@
 * @package	RooCMS
 * @subpackage	Configuration
 * @author	alex Roosso
-* @copyright	2010-2015 (c) RooCMS
+* @copyright	2010-2016 (c) RooCMS
 * @link		http://www.roocms.com
-* @version	1.5.1
+* @version	1.6
 * @since	$date$
 * @license	http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -102,7 +102,6 @@ setcookie("", "", time()+3600);
 /**
 * Настройки PHP
 */
-@set_magic_quotes_runtime(0);
 //setlocale(LC_ALL, 'ru_RU.UTF8', 'ru.UTF8', 'ru_RU.UTF-8', 'ru.UTF-8', 'ru_RU', 'ru');
 ini_set("max_execution_time",		30);
 ini_set("memory_limit", 		"96M");
@@ -119,12 +118,12 @@ ini_set("error_append_string",		"</div>");
 
 
 /**
-* Настройки Multibyte
+* Настройки Multibyte String
 */
-@ini_set("mbstring.internal_encoding",		"UTF-8");
-@ini_set("mbstring.http_input",			"auto");
-@ini_set("mbstring.http_output",		"UTF-8");
-@ini_set("mbstring.substitute_character",	"none");
+ini_set("mbstring.internal_encoding",		"UTF-8");
+ini_set("mbstring.http_input",			"auto");
+ini_set("mbstring.http_output",		"UTF-8");
+ini_set("mbstring.substitute_character",	"none");
 
 
 /**
