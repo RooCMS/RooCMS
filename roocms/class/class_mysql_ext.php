@@ -84,7 +84,7 @@ class MySqlExtends {
 			# Получаем кол-во страниц
 			$this->pages = $count[0] / $this->limit;
 			# Проверяем полученное число на "целое" или "десятичное"
-			if(mb_strpos($this->pages,".", 0, "utf8") !== false OR mb_strpos($this->pages,",", 0,"utf8") !== false) $this->pages++;
+			if(mb_strpos($this->pages,".", 0, "utf8") !== false || mb_strpos($this->pages,",", 0,"utf8") !== false) $this->pages++;
 			# Округляем
 			$this->pages = (int) floor($this->pages);
 		}
@@ -96,7 +96,6 @@ class MySqlExtends {
 
 			# Если запрос не к нулевой странице и такая страница имеет право быть...
 			if($this->page != "0" && $this->page <= $this->pages) {
-				# $this->page--;
 				$this->from = (int) $this->limit * ($this->page - 1);
 			}
 		}
@@ -122,7 +121,7 @@ class MySqlExtends {
 			# Получаем кол-во страниц
 			$this->pages = $items / $this->limit;
 			# Проверяем полученное число на "целое" или "десятичное"
-			if(mb_strpos($this->pages,".", 0, "utf8") !== false OR mb_strpos($this->pages,",", 0, "utf8") !== false) $this->pages++;
+			if(mb_strpos($this->pages,".", 0, "utf8") !== false || mb_strpos($this->pages,",", 0, "utf8") !== false) $this->pages++;
 			# Округляем
 			$this->pages = (int) floor($this->pages);
 		}
@@ -134,7 +133,6 @@ class MySqlExtends {
 
 			# Если запрос не к нулевой странице и такая страница имеет право быть...
 			if($this->page != "0" && $this->page <= $this->pages) {
-				# $this->page--;
 				$this->from = (int) $this->limit * ($this->page - 1);
 			}
 		}

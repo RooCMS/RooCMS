@@ -3,7 +3,7 @@
 
 <div class="col-md-2">
 	<ul class="nav nav-pills nav-stacked">
-	{*<ul class="nav nav-list">*}
+		{*<ul class="nav nav-list">*}
 		<li class="nav-header">Сайт</li>
 		{if !empty($parts['global'])}
 			{foreach from=$parts['global'] item=part}
@@ -24,7 +24,7 @@
 			<i class="fa fa-fw fa-{$this_part['ico']}"></i> {$this_part['title']}
 		</div>
 		<div class="panel-body">
-			<form method="post" action="{$SCRIPT_NAME}?act=config" role="form" class="form-horizontal">
+			<form method="post" action="{$SCRIPT_NAME}?act=config" enctype="multipart/form-data" role="form" class="form-horizontal">
 				{foreach from=$this_part['options'] item=option}
 					<div class="form-group" title="$config->{$option['option_name']}">
 						<label for="input_{$option['option_name']}" class="col-lg-3 control-label{if $option['value'] != $option['default_value']} text-primary{/if}">
@@ -43,4 +43,24 @@
 				</div>
 			</form>
 		</div>
+	</div>
 </div>
+
+{literal}
+	<script>
+		$(document).ready(function(){
+			$('span[id^=dci]').click(function() {
+				var attrdata = $(this).attr('id');
+				var arrdata = attrdata.split('-');
+				var option = arrdata[1];
+
+				$("#dci-"+option).load('/acp.php?act=ajax&part=delete_config_image&option='+option, function() {
+					$("#dci-"+option).animate({'opacity':'0.2'}, 750, function() {
+						$("#dci-"+option).hide(600).delay(900).remove();
+					});
+				});
+
+			});
+		});
+	</script>
+{/literal}

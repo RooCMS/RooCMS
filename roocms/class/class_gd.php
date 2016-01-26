@@ -5,7 +5,7 @@
 * @author	alex Roosso
 * @copyright	2010-2016 (c) RooCMS
 * @link		http://www.roocms.com
-* @version	1.11a
+* @version	1.11
 * @since	$date$
 * @license	http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -136,8 +136,9 @@ class GD {
 	 * @param array $options
 	 * @internal param bool $watermark 	- флаг указывает наносить ли водяной знак на рисунок.
 	 * @internal param bool $modify 	- флаг указывает подвергать ли изображение полной модификации с сохранением оригинального изображения и созданием превью.
+	 * @internal param bool $noresize 	- флаг указывает подвергать ли изображение изменению размера. Иcпользуется в том случае когда мы не хотим изменять оригинальное изображение.
 	 */
-	protected function modify_image($filename, $extension, $path, array $options=array('watermark'=>true, 'modify'=>true)) {
+	protected function modify_image($filename, $extension, $path, array $options=array("watermark"=>true, "modify"=>true, "noresize"=>false)) {
 
 		global $config;
 
@@ -150,7 +151,9 @@ class GD {
 			# Создаем миниатюру
 			$this->thumbnail($filename, $extension, $path);
 		}
-		else $this->resized($filename, $extension, $path);
+		else {
+			if(!isset($options['noresize']) || !$options['noresize']) $this->resized($filename, $extension, $path);
+		}
 
 
 		# Наносим ватермарк
@@ -159,6 +162,11 @@ class GD {
 			# Текстовый watermark
 			if($config->gd_use_watermark == "text" ) {
 				$this->watermark_text($filename, $extension, $path);
+			}
+
+			# Графический watermark
+			if($config->gd_use_watermark == "image" ) {
+				$this->watermark_image($filename, $extension, $path);
 			}
 		}
 	}
@@ -397,7 +405,6 @@ class GD {
 		# Тень следом текст, далее цвет линии подложки
 		$shadow 	= imagecolorallocatealpha($src, 0, 0, 0, 20);
 		$color  	= imagecolorallocatealpha($src, 255, 255, 255, 20);
-		$colorline	= imagecolorallocatealpha($src, 220, 220, 225, 66);
 
 		# размер шрифта
 		$size = 10;
@@ -408,7 +415,6 @@ class GD {
 		//imagefilledrectangle($src, 0, $h-33, $w, $h-5, $colorline);
 		//imagettfbbox($size, $angle, $fontfile, $this->domain);
 
-		# $this->copyright = $this->tounicode($this->copyright);
 		if(trim($this->copyright) != "") {
 			imagettftext($src, $size, $angle, 7+1, $h-18+1, $shadow, $fontfile, $this->copyright);
 			imagettftext($src, $size, $angle, 7-1, $h-18-1, $shadow, $fontfile, $this->copyright);
@@ -417,7 +423,6 @@ class GD {
 			imagettftext($src, $size, $angle, 7, $h-18, $color, $fontfile, $this->copyright);
 		}
 
-		# $this->domain = $this->tounicode($this->domain);
 		if(trim($this->domain) != "") {
 			imagettftext($src, $size, $angle, 7+1, $h-5+1, $shadow, $fontfile, $this->domain);
 			imagettftext($src, $size, $angle, 7-1, $h-5-1, $shadow, $fontfile, $this->domain);
@@ -426,6 +431,68 @@ class GD {
 			imagettftext($src, $size, $angle, 7, $h-5, $color, $fontfile, $this->domain);
 		}
 
+		# вливаем с ватермарком
+		if($ext == "jpg")	imagejpeg($src,$path."/".$fileresize, $this->rs_quality);
+		elseif($ext == "gif")	imagegif($src,$path."/".$fileresize);
+		elseif($ext == "png")	imagepng($src,$path."/".$fileresize);
+
+        	imagedestroy($src);
+	}
+
+
+	/**
+	 * Функция генерация водяного знака на изображении
+	 *
+	 * @param string $filename - Имя файла
+	 * @param string $ext - Расширение файла без точки
+	 * @param string $path - Путь к папке с файлом. По умолчанию указан путь к папке с изображениями
+	 */
+	protected function watermark_image($filename, $ext, $path=_UPLOADIMAGES) {
+
+		global $config, $parse;
+
+		# vars
+		$fileresize 	= $filename."_resize.".$ext;
+
+		# определяем размер картинки
+		$size = getimagesize($path."/".$fileresize);
+		$w = $size[0];
+		$h = $size[1];
+
+		# вводим в память файл для издевательств
+		$src = $this->imgcreate($path."/".$fileresize, $ext);
+
+		# удаляем оригинал
+		unlink($path."/".$fileresize);
+
+		# watermark
+		$wminfo = pathinfo($path."/".$config->gd_watermark_image);
+		$wmsize = getimagesize($path."/".$config->gd_watermark_image);
+		$ww = $wmsize[0];
+		$wh = $wmsize[1];
+		$watermark = $this->imgcreate($path."/".$config->gd_watermark_image, $wminfo['extension']);
+
+
+		# Расчитываем не будет ли выглядеть большим ватермарк на изображении.
+		$maxwmw = floor($w*0.33); $wp = 0;
+		if($ww >= $maxwmw) $wp = $parse->percent($maxwmw, $ww);
+
+		$maxwmh = floor($h*0.33); $hp = 0;
+		if($wh >= $maxwmh) $hp = $parse->percent($maxwmh, $wh);
+
+		if($wp != 0 || $hp != 0) $pr = max($wp, $hp)/100;
+		else $pr = 1;
+
+
+		$wms = $this->calc_resize($ww, $wh, $ww*$pr, $wh*$pr, false);
+
+
+		$x = $w - ($wms['new_width'] + 10);
+		$y = $h - ($wms['new_height'] + 10);
+
+
+		//imagecopyresampled($src, $watermark, $x, $y, 0, 0, $wms['new_width'], $wms['new_height'], $ww, $wh);
+		imagecopyresized($src, $watermark, $x, $y, 0, 0, $wms['new_width'], $wms['new_height'], $ww, $wh);
 
 
 		# вливаем с ватермарком
@@ -433,7 +500,8 @@ class GD {
 		elseif($ext == "gif")	imagegif($src,$path."/".$fileresize);
 		elseif($ext == "png")	imagepng($src,$path."/".$fileresize);
 
-        	imagedestroy($src);
+		imagedestroy($src);
+		imagedestroy($watermark);
 	}
 
 

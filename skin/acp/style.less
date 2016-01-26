@@ -75,8 +75,10 @@ a:hover [class^="fa-"] {text-decoration: none !important;}
 p.attach_files {padding: 8px 8px;}
 
 /* style fro delete user avatar */
-.delete_useravatar:hover {background-color: @brand-danger;border-radius: 5px;}
-.delete_useravatar:hover > img {opacity: 0.5;}
+.delete_useravatar:hover,
+.delete_config_image:hover {background-color: @brand-danger;border-radius: 5px;}
+.delete_useravatar:hover > img,
+.delete_config_image:hover > img {opacity: 0.5;}
 
 /* style for datepicker*/
 .form-date {width: 50% !important;}

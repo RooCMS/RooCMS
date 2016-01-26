@@ -57,8 +57,8 @@ $sql = array();
 /**
 * Разделы конфигурации
 */
-$sql['DROP '.CONFIG_PARTS] = "DROP TABLE IF EXISTS `".CONFIG_PARTS."`";
-$sql['CREATE '.CONFIG_PARTS] = "CREATE TABLE IF NOT EXISTS `".CONFIG_PARTS."` (
+$sql['DROP '.CONFIG_PARTS_TABLE] = "DROP TABLE IF EXISTS `".CONFIG_PARTS_TABLE."`";
+$sql['CREATE '.CONFIG_PARTS_TABLE] = "CREATE TABLE IF NOT EXISTS `".CONFIG_PARTS_TABLE."` (
 				  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
 				  `type` enum('global', 'component') NOT NULL DEFAULT 'component',
 				  `sort` int(10) unsigned NOT NULL DEFAULT '1',
@@ -70,13 +70,13 @@ $sql['CREATE '.CONFIG_PARTS] = "CREATE TABLE IF NOT EXISTS `".CONFIG_PARTS."` (
 				) ENGINE=MyISAM  DEFAULT CHARSET=utf8 PACK_KEYS=1 AUTO_INCREMENT=1";
 
 $id = 1;
-$sql['INSERT '.CONFIG_PARTS." ID #".$id] = "INSERT INTO `".CONFIG_PARTS."` VALUES (".$id.", 'global', 1, 'global', 'Общие настройки', 'cog')";		$id++;
-$sql['INSERT '.CONFIG_PARTS." ID #".$id] = "INSERT INTO `".CONFIG_PARTS."` VALUES (".$id.", 'global', 2, 'gd', 'Обработка изображений', 'picture-o')";	$id++;
-$sql['INSERT '.CONFIG_PARTS." ID #".$id] = "INSERT INTO `".CONFIG_PARTS."` VALUES (".$id.", 'global', 3, 'users', 'Настройка пользователей', 'users')";	$id++;
-$sql['INSERT '.CONFIG_PARTS." ID #".$id] = "INSERT INTO `".CONFIG_PARTS."` VALUES (".$id.", 'global', 4, 'cp', 'Панель Администратора', 'shield')";	$id++;
-$sql['INSERT '.CONFIG_PARTS." ID #".$id] = "INSERT INTO `".CONFIG_PARTS."` VALUES (".$id.", 'global', 5, 'tpl', 'Настройки шаблонизации', 'desktop')";	$id++;
-$sql['INSERT '.CONFIG_PARTS." ID #".$id] = "INSERT INTO `".CONFIG_PARTS."` VALUES (".$id.", 'global', 6, 'rss', 'RSS', 'rss')";				$id++;
-$sql['INSERT '.CONFIG_PARTS." ID #".$id] = "INSERT INTO `".CONFIG_PARTS."` VALUES (".$id.", 'component', 6, 'feed', 'Ленты', 'th-list')";		$id++;
+$sql['INSERT '.CONFIG_PARTS_TABLE." ID #".$id] = "INSERT INTO `".CONFIG_PARTS_TABLE."` VALUES (".$id.", 'global', 1, 'global', 'Общие настройки', 'cog')";		$id++;
+$sql['INSERT '.CONFIG_PARTS_TABLE." ID #".$id] = "INSERT INTO `".CONFIG_PARTS_TABLE."` VALUES (".$id.", 'global', 2, 'gd', 'Обработка изображений', 'picture-o')";	$id++;
+$sql['INSERT '.CONFIG_PARTS_TABLE." ID #".$id] = "INSERT INTO `".CONFIG_PARTS_TABLE."` VALUES (".$id.", 'global', 3, 'users', 'Настройка пользователей', 'users')";	$id++;
+$sql['INSERT '.CONFIG_PARTS_TABLE." ID #".$id] = "INSERT INTO `".CONFIG_PARTS_TABLE."` VALUES (".$id.", 'global', 4, 'cp', 'Панель Администратора', 'shield')";	$id++;
+$sql['INSERT '.CONFIG_PARTS_TABLE." ID #".$id] = "INSERT INTO `".CONFIG_PARTS_TABLE."` VALUES (".$id.", 'global', 5, 'tpl', 'Настройки шаблонизации', 'desktop')";	$id++;
+$sql['INSERT '.CONFIG_PARTS_TABLE." ID #".$id] = "INSERT INTO `".CONFIG_PARTS_TABLE."` VALUES (".$id.", 'global', 6, 'rss', 'RSS', 'rss')";				$id++;
+$sql['INSERT '.CONFIG_PARTS_TABLE." ID #".$id] = "INSERT INTO `".CONFIG_PARTS_TABLE."` VALUES (".$id.", 'component', 6, 'feed', 'Ленты', 'th-list')";			$id++;
 
 
 /**
@@ -90,7 +90,7 @@ $sql['CREATE'.CONFIG_TABLE] = "CREATE TABLE IF NOT EXISTS `".CONFIG_TABLE."` (
 				  `title` varchar(255) NOT NULL,
 				  `description` text NOT NULL,
 				  `option_name` varchar(255) NOT NULL,
-				  `option_type` enum('boolean','bool','integer','int','string','color','text','textarea','date','email','select') NOT NULL DEFAULT 'boolean',
+				  `option_type` enum('boolean','bool','integer','int','string','color','text','textarea','date','email','select','image', 'img') NOT NULL DEFAULT 'boolean',
 				  `variants` text NOT NULL,
 				  `value` longtext NOT NULL,
 				  `default_value` text NOT NULL,
@@ -115,6 +115,7 @@ $sql['INSERT '.CONFIG_TABLE." ID #".$id] = "INSERT INTO `".CONFIG_TABLE."` VALUE
 $sql['INSERT '.CONFIG_TABLE." ID #".$id] = "INSERT INTO `".CONFIG_TABLE."` VALUES (".$id.", 'gd', 8, 'Вкл/выкл водяной знак', 'Использовать на загружаемых изображениях Watermark (полупрозрачный копирайт) для защиты изображений от копирования на сторонние ресурсы?', 'gd_use_watermark', 'select', 'Нет|no\r\nТекст (2 строки)|text\r\nИзображение|image', 'text', 'no', 0)"; $id++;
 $sql['INSERT '.CONFIG_TABLE." ID #".$id] = "INSERT INTO `".CONFIG_TABLE."` VALUES (".$id.", 'gd', 9, 'Первая строка водяного знака', 'Первая строчка водяного знака накладываемого на изображение', 'gd_watermark_string_one', 'string', '', '', '', 0)"; $id++;
 $sql['INSERT '.CONFIG_TABLE." ID #".$id] = "INSERT INTO `".CONFIG_TABLE."` VALUES (".$id.", 'gd', 10, 'Вторая строка водяного знака', 'Вторая строчка водяного знака накладываемого на изображение', 'gd_watermark_string_two', 'string', '', 'http://".$_SERVER['SERVER_NAME']."', '', 0)"; $id++;
+$sql['INSERT '.CONFIG_TABLE." ID #".$id] = "INSERT INTO `".CONFIG_TABLE."` VALUES (".$id.", 'gd', 11, 'Водяной знак (изображение)', 'Изображение накладываемое на загружаемые изображения в качестве водяного знака.', 'gd_watermark_image', 'image', '', '', '', 0)"; $id++;
 $sql['INSERT '.CONFIG_TABLE." ID #".$id] = "INSERT INTO `".CONFIG_TABLE."` VALUES (".$id.", 'users', 1, 'Ширина аватара', 'Укажите размер пользовательского аватара по горизонтали (в пикселях)', 'users_avatar_width', 'int', '', '100', '100', 0)"; $id++;
 $sql['INSERT '.CONFIG_TABLE." ID #".$id] = "INSERT INTO `".CONFIG_TABLE."` VALUES (".$id.", 'users', 2, 'Высота аватара', 'Укажите размер пользовательского аватара по горизонтали (в пикселях)', 'users_avatar_height', 'int', '', '100', '100', 0)"; $id++;
 $sql['INSERT '.CONFIG_TABLE." ID #".$id] = "INSERT INTO `".CONFIG_TABLE."` VALUES (".$id.", 'cp', 1, 'Вход в панель управления', 'Укажите название файла (скрипта) через который вы будете заходить в Панель Управления.\r\nВнимание! После изменения этой настройки, изменится URI панели управления. В случае если вы изменяли вручную шаблоны панели управления, проверьте, что вы везде указали переменную {&#36;SCRIPT_NAME}', 'cp_script', 'string', '', 'acp.php', 'acp.php', 0)"; $id++;

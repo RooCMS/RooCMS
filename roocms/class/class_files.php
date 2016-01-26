@@ -3,7 +3,7 @@
  * @package      RooCMS
  * @subpackage	 Engine RooCMS classes
  * @author       alex Roosso
- * @copyright    2010-2014 (c) RooCMS
+ * @copyright    2010-2016 (c) RooCMS
  * @link         http://www.roocms.com
  * @version      1.3
  * @since        $date$
@@ -143,7 +143,6 @@ class Files {
 
 		# suffix for unduplicated
 		$suffix = (in_array($filename,$names)) ? "_".randcode(3,"RooCMSbestChoiceForYourSite"): "" ;
-		//$suffix = (in_array($filename,$names)) ? "_".uniqid(randcode(3,"RooCMS")): "" ;
 		$names[] = $filename;
 
 		$filename = $prefix.$filename.$suffix."_".time().$pofix;
@@ -224,9 +223,6 @@ class Files {
 
     	        # Переписать функцию!!!
     	        # *** Больше проверок от "умников"
-
-		global $config, $parse;
-
 
 		# Составляем массив для проверки разрешенных типов файлов к загрузке
 		static $allow_exts = array();

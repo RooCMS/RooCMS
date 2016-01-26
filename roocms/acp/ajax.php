@@ -79,6 +79,10 @@ class ACP_AJAX {
 			case 'delete_user_avatar':
 				$this->delete_user_avatar();
 				break;
+
+			case 'delete_config_image':
+				$this->delete_config_image();
+				break;
 		}
 	}
 
@@ -128,6 +132,25 @@ class ACP_AJAX {
 		if(isset($GET->_uid) && $db->check_id($GET->_uid, USERS_TABLE, "uid", "avatar!=''")) {
 
 			$users->delete_avatar($GET->_uid);
+
+			echo "<small class=\"text-success btn btn-xs\"><span class=\"fa fa-trash-o\"></span> Удалено!</small>";
+		}
+	}
+
+	/**
+	 * Удаление изображения из настроек сайта посредством AJAX
+	 *
+	 */
+	private function delete_config_image() {
+
+		global $db, $GET;
+
+		if(isset($GET->_option) && $db->check_id($GET->_option, CONFIG_TABLE, "option_name", "value!=''")) {
+
+			$q = $db->query("SELECT value FROM ".CONFIG_TABLE." WHERE option_name='".$GET->_option."'");
+			$data = $db->fetch_assoc($q);
+			unlink(_UPLOADIMAGES."/".$data['value']);
+			$db->query("UPDATE ".CONFIG_TABLE." SET value='' WHERE option_name='".$GET->_option."'");
 
 			echo "<small class=\"text-success btn btn-xs\"><span class=\"fa fa-trash-o\"></span> Удалено!</small>";
 		}

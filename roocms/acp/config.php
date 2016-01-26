@@ -4,9 +4,9 @@
 * @subpackage	Admin Control Panel
 * @subpackage	Configuration settings
 * @author       alex Roosso
-* @copyright    2010-2014 (c) RooCMS
+* @copyright    2010-2016 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.1.2
+* @version      1.2
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -72,7 +72,7 @@ class ACP_CONFIG {
 	*/
 	public function __construct() {
 
-		global $db, $config, $tpl, $POST;
+		global $config, $tpl;
 
 
 		# include config class
@@ -95,15 +95,15 @@ class ACP_CONFIG {
 	*/
 	private function view_config() {
 
-		global $db, $tpl, $smarty, $html, $parse, $GET;
+		global $db, $smarty, $GET;
 
 
-		if(isset($GET->_part) && $db->check_id($GET->_part, CONFIG_PARTS, "name") == 1) $this->part = $GET->_part;
+		if(isset($GET->_part) && $db->check_id($GET->_part, CONFIG_PARTS_TABLE, "name") == 1) $this->part = $GET->_part;
 		//elseif(isset($GET->_part) && $GET->_part == "all") $this->part = "all";
 
 
 		# запрос разделов конфигурации из БД
-		$q_1 = $db->query("SELECT name, title, type, ico FROM ".CONFIG_PARTS." ORDER BY type ASC, sort ASC");
+		$q_1 = $db->query("SELECT name, title, type, ico FROM ".CONFIG_PARTS_TABLE." ORDER BY type ASC, sort ASC");
 		while($part = $db->fetch_assoc($q_1)) {
 
 			# запрашиваем из БД опции
@@ -155,15 +155,15 @@ class ACP_CONFIG {
 
 
 		# integer OR string OR email
-		if($option_type == "int" OR $option_type == "integer" OR $option_type == "string" OR $option_type == "email" OR $option_type == "color") {
+		if($option_type == "int" || $option_type == "integer" || $option_type == "string" || $option_type == "email" || $option_type == "color") {
 			$out = $tpl->load_template("config_field_string",true);
 		}
 		# text OR textarea
-		elseif($option_type == "text" OR $option_type == "textarea") {
+		elseif($option_type == "text" || $option_type == "textarea") {
 			$out = $tpl->load_template("config_field_textarea",true);
 		}
 		# boolean
-		elseif($option_type == "boolean" OR $option_type == "bool") {
+		elseif($option_type == "boolean" || $option_type == "bool") {
 			$out = $tpl->load_template("config_field_boolean",true);
 		}
 		# date
@@ -187,6 +187,24 @@ class ACP_CONFIG {
 
 			$out = $tpl->load_template("config_field_select",true);
 		}
+		# image
+		elseif($option_type == "image" || $option_type == "img") {
+
+			$image = array();
+
+			if(trim($field['value']) != "" && file_exists(_UPLOADIMAGES."/".$field['value'])) {
+
+				$image['src'] = $field['value'];
+
+				$size = getimagesize(_UPLOADIMAGES."/".$image['src']);
+				$image['width'] = $size[0];
+				$image['height'] = $size[1];
+			}
+
+			$smarty->assign("image", $image);
+
+			$out = $tpl->load_template("config_field_image", true);
+		}
 
 
 		return $out;
@@ -198,7 +216,7 @@ class ACP_CONFIG {
 	 */
 	private function update_config() {
 
-		global $db, $parse, $POST;
+		global $db, $parse, $POST, $img;
 
 		# запрашиваем из БД типа опций
 		$q = $db->query("SELECT option_name, option_type, variants FROM ".CONFIG_TABLE);
@@ -234,7 +252,7 @@ class ACP_CONFIG {
 				$check = false;
 
 				# int OR integer
-				if($this->types[$key] == "int" OR $this->types[$key] == "integer") {
+				if($this->types[$key] == "int" || $this->types[$key] == "integer") {
 					if(is_numeric($value)) {
 						settype($value, "integer");
 						$check = true;
@@ -242,15 +260,15 @@ class ACP_CONFIG {
 					else $check = false;
 				}
 				# boolean OR bool
-				elseif($this->types[$key] == "boolean" OR $this->types[$key] == "bool") {
-					if($value == "true" OR $value == "false") {
+				elseif($this->types[$key] == "boolean" || $this->types[$key] == "bool") {
+					if($value == "true" || $value == "false") {
 						$check = true;
 					}
 					else $check = false;
 				}
 				# email
 				elseif($this->types[$key] == "email") {
-					if($parse->valid_email($POST->$key))
+					if($parse->valid_email($value))
 						$check = true;
 					else
 						$check = false;
@@ -273,13 +291,27 @@ class ACP_CONFIG {
 					else $check = false;
 				}
 				# string OR text
-				elseif($this->types[$key] == "string" OR $this->types[$key] == "text" OR $this->types[$key] == "textarea" OR $this->types[$key] == "color") {
+				elseif($this->types[$key] == "string" || $this->types[$key] == "text" || $this->types[$key] == "textarea" || $this->types[$key] == "color") {
 					$check = true;
 				}
 				# select
 				elseif($this->types[$key] == "select") {
 					if(isset($this->t_vars[$key][$value])) $check = true;
 				}
+				# image
+				elseif($this->types[$key] == "image" || $this->types[$key] == "img") {
+
+					$image = $img->upload_image("image_".$key, "", array(), array("filename"=>$key, "watermark"=>false, "modify"=>false, "noresize"=>true));
+
+					if(isset($image[0])) {
+						if($value != "" || $value != $image[0]) unlink(_UPLOADIMAGES."/".$value);
+
+						$value = $image[0];
+
+						$check = true;
+					}
+				}
+
 
 				if($check) {
 					$db->query("UPDATE ".CONFIG_TABLE." SET value='".$value."' WHERE option_name='".$key."'");

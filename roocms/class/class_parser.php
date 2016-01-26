@@ -5,7 +5,7 @@
 * @author       alex Roosso
 * @copyright    2010-2016 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.1.8
+* @version      1.2
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -157,17 +157,14 @@ class Parsers {
 
 
 			if(is_string($value)) {
-				$class_post = " \$this->Post->{$key} = \"{$value}\";\n";
+				$this->Post->{$key} = (string) $value;
 			}
 			else if(is_array($value)) {
-				$class_post  = "\$this->Post->{$key} = ";
-				$class_post .= print_array($value);
+				$this->Post->{$key} = (array) $value;
 			}
 			else {
-				$class_post = "\$this->Post->{$key} = \"{$value}\";\n";
+				$this->Post->{$key} = $value;
 			}
-
-			eval($class_post);
 		}
 
 		unset($_POST);
@@ -188,17 +185,14 @@ class Parsers {
 			$key = "_".$key;
 
 			if(is_string($value)) {
-				$class_get = " \$this->Get->{$key} = \"{$value}\";\n";
+				$this->Get->{$key} = (string) $value;
 			}
 			else if(is_array($value)) {
-				$class_get  = "\$this->Get->{$key} = ";
-				$class_get .= print_array($value);
+				$this->Get->{$key} = (array) $value;
 			}
 			else {
-				$class_get = "\$this->Get->{$key} = \"{$value}\";\n";
+				$this->Get->{$key} = $value;
 			}
-
-			eval($class_get);
 		}
 	}
 
@@ -220,9 +214,6 @@ class Parsers {
 	*
 	*/
 	private function parse_uri() {
-
-		//parse_str($_SERVER['QUERY_STRING'], $gets);
-		//debug(parse_url());
 
 		# Получаем uri
 		$this->uri = str_replace($_SERVER['SCRIPT_NAME'], "", $_SERVER['REQUEST_URI']);
@@ -270,9 +261,9 @@ class Parsers {
 						# Определяем элементы URI ключ и значение
 						$str = explode("=",$gets[$el]);
 						if(trim($str[0]) != "" && trim($str[1]) != "") {
-							$str[0] = $this->clear_key($str[0]);
-							$code = "\$this->Get->_".$str[0]." = \"{$str[1]}\";";
-							eval($code);
+							$str[0] = "_".$this->clear_key($str[0]);
+							$this->Get->{$str[0]} = $str[1];
+
 						}
 					}
 					elseif($is == 0) {
@@ -284,9 +275,8 @@ class Parsers {
 						$elp = $el + 1;
 
 						if(trim($gets[$el]) != "" && isset($gets[$elp]) && trim($gets[$elp]) != "") {
-							$gets[$el] = $this->clear_key($gets[$el]);
-							$code = "\$this->Get->_".$gets[$el]." = \"{$gets[$elp]}\";";
-							eval($code);
+							$gets[$el] = "_".$this->clear_key($gets[$el]);
+							$this->Get->{$gets[$el]} = $gets[$elp];
 							$el++;
 						}
 					}
@@ -377,7 +367,6 @@ class Parsers {
 	public function escape_string($string, $key=true) {
 		global $db;
 
-		//$string = str_ireplace('"','',$string);
 		if(!is_array($string)) {
 			if($key)	$string = str_replace('\\','',$string);
 			else		$string = addslashes($string);
@@ -464,7 +453,7 @@ class Parsers {
 	*/
 	public function parse_notice() {
 
-		global $roocms, $config, $debug;
+		global $roocms, $debug;
 
 		# Уведомления
 		if(isset($roocms->sess['info'])) {
@@ -591,7 +580,7 @@ class Parsers {
 			}
 
 			# detect internet explorer
-			if (mb_strpos($useragent, 'msie ', 0, 'utf8') !== false AND !$is['opera']) {
+			if (mb_strpos($useragent, 'msie ', 0, 'utf8') !== false && !$is['opera']) {
 				preg_match('#msie ([0-9\.]+)#', $useragent, $regs);
 				$is['ie'] = $regs[1];
 			}
@@ -608,7 +597,7 @@ class Parsers {
 			}
 
 			# detect safari
-			if (mb_strpos($useragent, 'applewebkit', 0, 'utf8') !== false AND !$is['chrome']) {
+			if (mb_strpos($useragent, 'applewebkit', 0, 'utf8') !== false && !$is['chrome']) {
 				preg_match('#applewebkit/([0-9\.]+)#', $useragent, $regs);
 				$is['webkit'] = $regs[1];
 
@@ -625,7 +614,7 @@ class Parsers {
 			}
 
 			# detect mozilla
-			if (mb_strpos($useragent, 'gecko', 0, 'utf8') !== false AND !$is['safari'] AND !$is['konqueror'] AND !$is['chrome']) {
+			if (mb_strpos($useragent, 'gecko', 0, 'utf8') !== false && !$is['safari'] && !$is['konqueror'] && !$is['chrome']) {
 				# detect mozilla
 				$is['mozilla'] = 20090105;
 				if (preg_match('#gecko/(\d+)#', $useragent, $regs)) {
@@ -633,7 +622,7 @@ class Parsers {
 				}
 
 				# detect firebird / firefox
-				if (mb_strpos($useragent, 'firefox', 0, 'utf8') !== false OR mb_strpos($useragent, 'firebird', 0, 'utf8') !== false OR mb_strpos($useragent, 'phoenix', 0, 'utf8') !== false) {
+				if (mb_strpos($useragent, 'firefox', 0, 'utf8') !== false || mb_strpos($useragent, 'firebird', 0, 'utf8') !== false || mb_strpos($useragent, 'phoenix', 0, 'utf8') !== false) {
 					preg_match('#(phoenix|firebird|firefox)( browser)?/([0-9\.]+)#', $useragent, $regs);
 					$is['firebird'] = $regs[3];
 
@@ -643,7 +632,7 @@ class Parsers {
 				}
 
 				# detect camino
-				if (mb_strpos($useragent, 'chimera', 0, 'utf8') !== false OR mb_strpos($useragent, 'camino', 0, 'utf8') !== false) {
+				if (mb_strpos($useragent, 'chimera', 0, 'utf8') !== false || mb_strpos($useragent, 'camino', 0, 'utf8') !== false) {
 					preg_match('#(chimera|camino)/([0-9\.]+)#', $useragent, $regs);
 					$is['camino'] = $regs[2];
 				}

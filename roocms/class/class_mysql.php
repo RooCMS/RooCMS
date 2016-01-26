@@ -128,10 +128,6 @@ class MySQLDatabase extends MySqlExtends {
 	*/
 	private function charset() {
 		$this->sql->set_charset("utf8");
-                //$this->query("set character_set_client = 'utf8'");
-                //$this->query("set character_set_results = 'utf8'");
-                //$this->query("set collation_connection = 'utf8_general_ci'");
-		//mysql_query ("set names 'utf8'");
 	}
 
 
