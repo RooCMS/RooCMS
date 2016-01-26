@@ -155,15 +155,15 @@ class ACP_CONFIG {
 
 
 		# integer OR string OR email
-		if($option_type == "int" OR $option_type == "integer" OR $option_type == "string" OR $option_type == "email" OR $option_type == "color") {
+		if($option_type == "int" || $option_type == "integer" || $option_type == "string" || $option_type == "email" || $option_type == "color") {
 			$out = $tpl->load_template("config_field_string",true);
 		}
 		# text OR textarea
-		elseif($option_type == "text" OR $option_type == "textarea") {
+		elseif($option_type == "text" || $option_type == "textarea") {
 			$out = $tpl->load_template("config_field_textarea",true);
 		}
 		# boolean
-		elseif($option_type == "boolean" OR $option_type == "bool") {
+		elseif($option_type == "boolean" || $option_type == "bool") {
 			$out = $tpl->load_template("config_field_boolean",true);
 		}
 		# date
@@ -252,7 +252,7 @@ class ACP_CONFIG {
 				$check = false;
 
 				# int OR integer
-				if($this->types[$key] == "int" OR $this->types[$key] == "integer") {
+				if($this->types[$key] == "int" || $this->types[$key] == "integer") {
 					if(is_numeric($value)) {
 						settype($value, "integer");
 						$check = true;
@@ -260,8 +260,8 @@ class ACP_CONFIG {
 					else $check = false;
 				}
 				# boolean OR bool
-				elseif($this->types[$key] == "boolean" OR $this->types[$key] == "bool") {
-					if($value == "true" OR $value == "false") {
+				elseif($this->types[$key] == "boolean" || $this->types[$key] == "bool") {
+					if($value == "true" || $value == "false") {
 						$check = true;
 					}
 					else $check = false;
@@ -291,7 +291,7 @@ class ACP_CONFIG {
 					else $check = false;
 				}
 				# string OR text
-				elseif($this->types[$key] == "string" OR $this->types[$key] == "text" OR $this->types[$key] == "textarea" OR $this->types[$key] == "color") {
+				elseif($this->types[$key] == "string" || $this->types[$key] == "text" || $this->types[$key] == "textarea" || $this->types[$key] == "color") {
 					$check = true;
 				}
 				# select
@@ -304,7 +304,7 @@ class ACP_CONFIG {
 					$image = $img->upload_image("image_".$key, "", array(), array("filename"=>$key, "watermark"=>false, "modify"=>false, "noresize"=>true));
 
 					if(isset($image[0])) {
-						if($value != "" && $value != $image[0]) unlink(_UPLOADIMAGES."/".$value);
+						if($value != "" || $value != $image[0]) unlink(_UPLOADIMAGES."/".$value);
 
 						$value = $image[0];
 
