@@ -165,8 +165,6 @@ class Parsers {
 			else {
 				$this->Post->{$key} = $value;
 			}
-
-			//eval($class_post);
 		}
 
 		unset($_POST);
@@ -216,9 +214,6 @@ class Parsers {
 	*
 	*/
 	private function parse_uri() {
-
-		//parse_str($_SERVER['QUERY_STRING'], $gets);
-		//debug(parse_url());
 
 		# Получаем uri
 		$this->uri = str_replace($_SERVER['SCRIPT_NAME'], "", $_SERVER['REQUEST_URI']);
@@ -372,7 +367,6 @@ class Parsers {
 	public function escape_string($string, $key=true) {
 		global $db;
 
-		//$string = str_ireplace('"','',$string);
 		if(!is_array($string)) {
 			if($key)	$string = str_replace('\\','',$string);
 			else		$string = addslashes($string);
@@ -459,7 +453,7 @@ class Parsers {
 	*/
 	public function parse_notice() {
 
-		global $roocms, $config, $debug;
+		global $roocms, $debug;
 
 		# Уведомления
 		if(isset($roocms->sess['info'])) {

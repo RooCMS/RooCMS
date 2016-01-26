@@ -72,7 +72,7 @@ class ACP_CONFIG {
 	*/
 	public function __construct() {
 
-		global $db, $config, $tpl, $POST;
+		global $config, $tpl;
 
 
 		# include config class
@@ -95,7 +95,7 @@ class ACP_CONFIG {
 	*/
 	private function view_config() {
 
-		global $db, $tpl, $smarty, $html, $parse, $GET;
+		global $db, $smarty, $GET;
 
 
 		if(isset($GET->_part) && $db->check_id($GET->_part, CONFIG_PARTS_TABLE, "name") == 1) $this->part = $GET->_part;

@@ -183,7 +183,7 @@ class Install extends Requirement{
 	 */
 	private function step_4() {
 
-		global $site, $POST, $parse;
+		global $POST, $parse;
 
 		if($this->allowed && isset($POST->submit) && isset($POST->step) && $POST->step == 4) {
 			if(!isset($POST->site_title) || trim($POST->site_title) == "") {
@@ -298,17 +298,6 @@ class Install extends Requirement{
 						$context .= $f[$i];
 					}
 
-					/*if($db->check_connect($POST->db_info_host, $POST->db_info_user, $POST->db_info_pass, $POST->db_info_base)) {
-						if(trim($db_info['host']) == "")	$context = str_ireplace('$db_info[\'host\'] = "";','$db_info[\'host\'] = "'.$POST->db_info_host.'";',$context);
-						else					$context = str_ireplace('$db_info[\'host\'] = "'.$db_info['host'].'";','$db_info[\'host\'] = "'.$POST->db_info_host.'";',$context);
-						if(trim($db_info['base']) == "")	$context = str_ireplace('$db_info[\'base\'] = "";','$db_info[\'base\'] = "'.$POST->db_info_base.'";',$context);
-						else					$context = str_ireplace('$db_info[\'base\'] = "'.$db_info['base'].'";','$db_info[\'base\'] = "'.$POST->db_info_base.'";',$context);
-						if(trim($db_info['user']) == "")	$context = str_ireplace('$db_info[\'user\'] = "";','$db_info[\'user\'] = "'.$POST->db_info_user.'";',$context);
-						else					$context = str_ireplace('$db_info[\'user\'] = "'.$db_info['user'].'";','$db_info[\'user\'] = "'.$POST->db_info_user.'";',$context);
-						if(trim($db_info['pass']) == "")	$context = str_ireplace('$db_info[\'pass\'] = "";','$db_info[\'pass\'] = "'.$POST->db_info_pass.'";',$context);
-						else					$context = str_ireplace('$db_info[\'pass\'] = "'.$db_info['pass'].'";','$db_info[\'pass\'] = "'.$POST->db_info_pass.'";',$context);
-					}*/
-
 					if(trim($db_info['prefix']) == "")	$context = str_ireplace('$db_info[\'prefix\'] = "";','$db_info[\'prefix\'] = "'.$POST->db_info_prefix.'";',$context);
 					else					$context = str_ireplace('$db_info[\'prefix\'] = "'.$db_info['prefix'].'";','$db_info[\'prefix\'] = "'.$POST->db_info_prefix.'";',$context);
 
@@ -410,7 +399,7 @@ class Install extends Requirement{
 	 */
 	private function step_7() {
 
-		global $db, $security, $parse, $POST;
+		global $db, $parse, $POST;
 
 		if($db->check_id(1, USERS_TABLE, "uid")) go(SCRIPT_NAME."?step=8");
 

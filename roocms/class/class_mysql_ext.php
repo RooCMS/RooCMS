@@ -96,7 +96,6 @@ class MySqlExtends {
 
 			# Если запрос не к нулевой странице и такая страница имеет право быть...
 			if($this->page != "0" && $this->page <= $this->pages) {
-				# $this->page--;
 				$this->from = (int) $this->limit * ($this->page - 1);
 			}
 		}
@@ -134,7 +133,6 @@ class MySqlExtends {
 
 			# Если запрос не к нулевой странице и такая страница имеет право быть...
 			if($this->page != "0" && $this->page <= $this->pages) {
-				# $this->page--;
 				$this->from = (int) $this->limit * ($this->page - 1);
 			}
 		}

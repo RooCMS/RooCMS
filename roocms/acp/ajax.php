@@ -143,7 +143,7 @@ class ACP_AJAX {
 	 */
 	private function delete_config_image() {
 
-		global $db, $GET, $config;
+		global $db, $GET;
 
 		if(isset($GET->_option) && $db->check_id($GET->_option, CONFIG_TABLE, "option_name", "value!=''")) {
 

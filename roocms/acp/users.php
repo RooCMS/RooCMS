@@ -69,7 +69,7 @@ class ACP_USERS {
 	 */
 	public function __construct() {
 
-		global $db, $roocms, $security, $tpl, $GET;
+		global $db, $roocms, $tpl, $GET;
 
 
 		# Проверяем идентификатор юзера
@@ -374,7 +374,7 @@ class ACP_USERS {
 	 */
 	private function edit_group($gid) {
 
-		global $db, $users, $parse, $smarty, $tpl;
+		global $db, $smarty, $tpl;
 
 		$q = $db->query("SELECT gid, title FROM ".USERS_GROUP_TABLE." WHERE gid='".$gid."'");
 		$group = $db->fetch_assoc($q);
@@ -516,7 +516,7 @@ class ACP_USERS {
 	 */
 	private function update_group($gid) {
 
-		global $db, $POST, $users, $parse, $smarty, $tpl;
+		global $db, $POST, $users, $parse;
 
 		if(isset($POST->update_group) || isset($POST->update_group_ae)) {
 

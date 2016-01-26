@@ -3,9 +3,9 @@
 * @package      RooCMS
 * @subpackage	Engine RooCMS classes
 * @author       alex Roosso
-* @copyright    2010-2014 (c) RooCMS
+* @copyright    2010-2016 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.0.7
+* @version      1.0.8
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -63,13 +63,19 @@ class ParserXML {
 
 	# params
 	protected $file 	= "";		# target xml file
-	private $xml_parser = false;	# xml parser
+	private $xml_parser	= false;	# xml parser
 	private $xml_string	= "";		# xml data buffer for parsing
 
 
 
-	//#####################################################
-	//	Parse XML data file
+	/**
+	 * Parse XML data file
+	 *
+	 * @param bool $file
+	 * @param bool $callback
+	 *
+	 * @return SimpleXMLElement
+	 */
 	public function parse($file = false, $callback = false) {
 
 		if(!$file) $file = $this->file;
@@ -88,7 +94,7 @@ class ParserXML {
 
 		xml_set_default_handler($this->xml_parser, array('ParserXML','data_el'));
 
-		//xml_set_processing_instruction_handler($this->xml_parser, array('ParserXML','pi'));
+		//xml_set_processing_instruction_handler($this->xml_parser, array('ParserXML','xmlpi'));
 		//xml_set_external_entity_ref_handler($this->xml_parser, array('ParserXML','eer'));
 
 		# read
@@ -106,8 +112,13 @@ class ParserXML {
 	}
 
 
-	//#####################################################
-	//	Function start element
+	/**
+	 * Function start element
+	 *
+	 * @param $parser
+	 * @param $name
+	 * @param $attr
+	 */
 	protected function start_el($parser, $name, $attr) {
 
 		$this->xml_string .= "<".mb_strtolower($name);
@@ -118,23 +129,38 @@ class ParserXML {
 	}
 
 
-	//#####################################################
-	//	Function data element
+	/**
+	 * Function data element
+	 *
+	 * @param $parser
+	 * @param $data
+	 */
 	protected function data_el($parser, $data) {
 		$this->xml_string .= "".htmlspecialchars($data)."";
 	}
 
 
-	//#####################################################
-	//	Function end element
+	/**
+	 * Function end element
+	 *
+	 * @param $parser
+	 * @param $name
+	 */
 	protected function end_el($parser, $name) {
 		$this->xml_string .= "</".mb_strtolower($name).">";
 	}
 
 
-	//#####################################################
-	//	Function entity element
-	protected function pi($parser, $enname, $base, $sid, $pid) {
+	/**
+	 * Function entity element
+	 *
+	 * @param $parser
+	 * @param $enname
+	 * @param $base
+	 * @param $sid
+	 * @param $pid
+	 */
+	protected function xmlpi($parser, $enname, $base, $sid, $pid) {
 		$this->xml_string .= "enname:".$enname."";
 		$this->xml_string .= "base:".$base."";
 		$this->xml_string .= "sid:".$sid."";
@@ -142,9 +168,14 @@ class ParserXML {
 	}
 
 
-	//#####################################################
-	//	Function end element
-	protected function php($parser, $target, $data) {
+	/**
+	 * Function end element
+	 *
+	 * @param $parser
+	 * @param $target
+	 * @param $data
+	 */
+	protected function xmlphp($parser, $target, $data) {
 		$this->xml_string .= "<!".$target."!>";
 		$this->xml_string .= "<!".$data."!>";
 	}

@@ -234,7 +234,7 @@ class ACP_HELP {
 	*/
 	private function update_part($id) {
 
-		global $db, $tpl, $smarty, $parse, $POST;
+		global $db, $parse, $POST;
 
 		# Если идентификатор не прошел проверку
 		if($id == 0) goback();

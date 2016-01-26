@@ -3,7 +3,7 @@
 * @package      RooCMS
 * @subpackage	Engine RooCMS classes
 * @author       alex Roosso
-* @copyright    2010-2014 (c) RooCMS
+* @copyright    2010-2016 (c) RooCMS
 * @link         http://www.roocms.com
 * @version      1.0.9
 * @since        $date$
@@ -177,7 +177,7 @@ class RSS {
 	// draw header doc
 	protected function header() {
 
-		global $config, $parse, $site;
+		global $config, $site;
 
 
 		$this->out .= '<?xml version="1.0" encoding="'.$this->encoding.'"?>';

@@ -405,7 +405,6 @@ class GD {
 		# Тень следом текст, далее цвет линии подложки
 		$shadow 	= imagecolorallocatealpha($src, 0, 0, 0, 20);
 		$color  	= imagecolorallocatealpha($src, 255, 255, 255, 20);
-		$colorline	= imagecolorallocatealpha($src, 220, 220, 225, 66);
 
 		# размер шрифта
 		$size = 10;
@@ -416,7 +415,6 @@ class GD {
 		//imagefilledrectangle($src, 0, $h-33, $w, $h-5, $colorline);
 		//imagettfbbox($size, $angle, $fontfile, $this->domain);
 
-		# $this->copyright = $this->tounicode($this->copyright);
 		if(trim($this->copyright) != "") {
 			imagettftext($src, $size, $angle, 7+1, $h-18+1, $shadow, $fontfile, $this->copyright);
 			imagettftext($src, $size, $angle, 7-1, $h-18-1, $shadow, $fontfile, $this->copyright);
@@ -425,7 +423,6 @@ class GD {
 			imagettftext($src, $size, $angle, 7, $h-18, $color, $fontfile, $this->copyright);
 		}
 
-		# $this->domain = $this->tounicode($this->domain);
 		if(trim($this->domain) != "") {
 			imagettftext($src, $size, $angle, 7+1, $h-5+1, $shadow, $fontfile, $this->domain);
 			imagettftext($src, $size, $angle, 7-1, $h-5-1, $shadow, $fontfile, $this->domain);
@@ -433,8 +430,6 @@ class GD {
 			imagettftext($src, $size, $angle, 7-1, $h-5+1, $shadow, $fontfile, $this->domain);
 			imagettftext($src, $size, $angle, 7, $h-5, $color, $fontfile, $this->domain);
 		}
-
-
 
 		# вливаем с ватермарком
 		if($ext == "jpg")	imagejpeg($src,$path."/".$fileresize, $this->rs_quality);

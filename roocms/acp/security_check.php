@@ -66,7 +66,7 @@ class ACP_SECURITY {
 	 */
 	public function ACP_SECURITY() {
 
-		global $db, $users;
+		global $users;
 
 		if($users->uid != 0 && $users->title == "a") {
 			# check access

@@ -101,12 +101,6 @@ class ParserText {
 	 */
 	public function html($text) {
 
-		/*if(is_array($text)) {
-			foreach($text AS $k=>$v) {
-				$text[$k] = $this->html($v);
-			}
-		}*/
-
 		$text = htmlspecialchars_decode($text);
  		$text = strtr($text, array(
 			'&#123;'	=> '{', 	#	{
