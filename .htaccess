@@ -174,11 +174,39 @@ php_value	docref_ext 0
 # php_value	auto_append_file append.php
 #php_value	user_agent “Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1)”
 
-<Files php_error.log>
-	Order allow,deny
-	Deny from all
-	Satisfy All
-</Files>
+
+# With Apache 2.4 the "Order, Deny" syntax has been deprecated and moved from
+# module mod_authz_host to a new module called mod_access_compat (which may be
+# disabled) and a new "Require" syntax has been introduced to mod_authz_host.
+<IfModule mod_version.c>
+	<IfVersion < 2.4>
+		<Files "php_error.log">
+			Order Allow,Deny
+			Deny from All
+			Satisfy All
+		</Files>
+	</IfVersion>
+	<IfVersion >= 2.4>
+		<Files "php_error.log">
+			Require all denied
+		</Files>
+	</IfVersion>
+</IfModule>
+<IfModule !mod_version.c>
+	<IfModule !mod_authz_core.c>
+		<Files "php_error.log">
+			Order Allow,Deny
+			Deny from All
+			Satisfy All
+		</Files>
+	</IfModule>
+	<IfModule mod_authz_core.c>
+		<Files "php_error.log">
+			Require all denied
+		</Files>
+	</IfModule>
+</IfModule>
+
 
 <IfModule php5_module>
 	# php_value session.cookie_httponly true
