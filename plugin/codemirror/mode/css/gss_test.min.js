@@ -1,0 +1,1 @@
+(function(){var b=CodeMirror.getMode({indentUnit:2},"text/x-gss");function a(c){test.mode(c,b,Array.prototype.slice.call(arguments,1),"gss")}a("atComponent","[def @component] {","[tag foo] {","  [property color]: [keyword black];","}","}")})();
