@@ -5,7 +5,7 @@
  * @author       alex Roosso
  * @copyright    2010-2016 (c) RooCMS
  * @link         http://www.roocms.com
- * @version      3.2.1
+ * @version      3.2.2
  * @since        $date$
  * @license      http://www.gnu.org/licenses/gpl-3.0.html
  */
@@ -157,13 +157,13 @@ class MySQLiDatabase extends MySQLiExtends {
 			</font></div>";
 
 			return $query;
-			exit;
 		}
 		# рабочий режим
 		else {
 			$f = file(_SKIN."/db_error.tpl");
-			foreach($f AS $k=>$v) echo $v;
-			exit;
+			foreach($f AS $k=>$v) {
+				echo $v;
+			}
 		}
 	}
 
@@ -417,7 +417,7 @@ class MySQLiDatabase extends MySQLiExtends {
 	*
 	*/
 	public function close() {
-		@$this->sql->close();
+		$this->sql->close();
 	}
 }
 
