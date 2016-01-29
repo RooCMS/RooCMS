@@ -91,36 +91,31 @@ class GD {
 
 
 		# Тип генерации фона из конфигурации
-		if(isset($config->gd_thumb_type_gen) && $config->gd_thumb_type_gen == "size") {
+		if(isset($config->gd_thumb_type_gen) && $config->gd_thumb_type_gen == "size")
 			$this->thumbtg = "size";
-		}
 
 
 		# Фоновый цвет  из конфигурации
-		if(isset($config->gd_thumb_bgcolor) && mb_strlen($config->gd_thumb_bgcolor) == 7) {
+		if(isset($config->gd_thumb_bgcolor) && mb_strlen($config->gd_thumb_bgcolor) == 7)
 			$this->thumbbgcol = $parse->cvrt_color_h2d($config->gd_thumb_bgcolor);
-		}
 
 
 		# Качество миниатюр  из конфигурации
-		if(isset($config->gd_thumb_jpg_quality) && round($config->gd_thumb_jpg_quality) >= 10 && round($config->gd_thumb_jpg_quality) <= 100) {
+		if(isset($config->gd_thumb_jpg_quality) && round($config->gd_thumb_jpg_quality) >= 10 && round($config->gd_thumb_jpg_quality) <= 100)
 			$this->th_quality = round($config->gd_thumb_jpg_quality);
-		}
 
 
 		# Если используем watermark
 		if(isset($config->gd_use_watermark) && $config->gd_use_watermark != "no") {
 
 			# watermark text string one
-			if(trim($config->gd_watermark_string_one) != "") {
+			if(trim($config->gd_watermark_string_one) != "")
 				$this->copyright = $parse->text->html($config->gd_watermark_string_one);
-			}
 			else $this->copyright = $parse->text->html($site['title']);
 
 			# watermark text string two
-			if(trim($config->gd_watermark_string_two) != "") {
+			if(trim($config->gd_watermark_string_two) != "")
 				$this->domain = $parse->text->html($config->gd_watermark_string_two);
-			}
 			else $this->domain = $_SERVER['SERVER_NAME'];
 		}
 	}
@@ -160,14 +155,12 @@ class GD {
 		if($config->gd_use_watermark != "no" && (isset($options['watermark']) && $options['watermark'])) {
 
 			# Текстовый watermark
-			if($config->gd_use_watermark == "text" ) {
+			if($config->gd_use_watermark == "text" )
 				$this->watermark_text($filename, $extension, $path);
-			}
 
 			# Графический watermark
-			if($config->gd_use_watermark == "image" ) {
+			if($config->gd_use_watermark == "image" )
 				$this->watermark_image($filename, $extension, $path);
-			}
 		}
 	}
 
@@ -252,9 +245,8 @@ class GD {
 		$bgcolor	= imagecolorallocatealpha($thumb, $this->thumbbgcol['r'], $this->thumbbgcol['g'], $this->thumbbgcol['b'], $alpha);
 
 		# alpha
-		if($ext == "gif" || $ext == "png") {
+		if($ext == "gif" || $ext == "png")
 			imagecolortransparent($thumb, $bgcolor);
-		}
 
 		imagefilledrectangle($thumb, 0, 0, $this->tsize['w']-1, $this->tsize['h']-1, $bgcolor);
 
@@ -321,9 +313,8 @@ class GD {
         	$bgcolor	= imagecolorallocatealpha($thumb, $this->thumbbgcol['r'], $this->thumbbgcol['g'], $this->thumbbgcol['b'], $alpha);
 
 		# alpha
-		if($ext == "gif" || $ext == "png") {
+		if($ext == "gif" || $ext == "png")
 			imagecolortransparent($thumb, $bgcolor);
-		}
 
 		imagefilledrectangle($thumb, 0, 0, $this->tsize['w']-1, $this->tsize['h']-1, $bgcolor);
 
@@ -395,8 +386,7 @@ class GD {
 			array( 2, 4, 2 ),
 			array( 1, 2, 1 )
 		);
-		imageconvolution($src, $matrix, 16, 0);
-		*/
+		imageconvolution($src, $matrix, 16, 0);	*/
 
 
 		# наклон
@@ -411,9 +401,6 @@ class GD {
 
 		# выбираем шрифт
 		$fontfile = ""._ROOCMS."/fonts/trebuc.ttf";
-
-		//imagefilledrectangle($src, 0, $h-33, $w, $h-5, $colorline);
-		//imagettfbbox($size, $angle, $fontfile, $this->domain);
 
 		if(trim($this->copyright) != "") {
 			imagettftext($src, $size, $angle, 7+1, $h-18+1, $shadow, $fontfile, $this->copyright);
