@@ -5,7 +5,7 @@
  * @author       alex Roosso
  * @copyright    2010-2016 (c) RooCMS
  * @link         http://www.roocms.com
- * @version      3.2.2
+ * @version      3.2.3
  * @since        $date$
  * @license      http://www.gnu.org/licenses/gpl-3.0.html
  */
@@ -89,9 +89,10 @@ class MySQLiDatabase extends MySQLiExtends {
 	*/
 	private function connect($host, $user, $pass, $base) {
 
-		$this->sql = new mysqli($host,$user,$pass, $base) or die ($this->error());
+		$this->sql = new mysqli($host,$user,$pass, $base);
 
 		if($this->sql->connect_errno == 0) $this->db_connect = true;
+		else exit($this->error());
 	}
 
 
@@ -141,7 +142,7 @@ class MySQLiDatabase extends MySQLiExtends {
 	private function error($q = "") {
 
 		# режим отладки
-		if(DEBUGMODE) {
+		if(DEBUGMODE && $q!="") {
 			$query = "<div style='padding: 5px;text-align: left;'><font style='font-family: Verdana, Tahoma; font-size: 12px;text-align: left;'>
 			Ошибка БД [MySQL Error]: <b>".$this->sql->errno."</b>
 			<br /> &bull; ".$this->sql->error."
