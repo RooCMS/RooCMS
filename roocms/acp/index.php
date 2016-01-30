@@ -105,22 +105,26 @@ class ACP_INDEX {
 
 		global $tpl, $smarty;
 
-		$warn = array();
-		if(file_exists(_SITEROOT."/install/index.php")) $warn[] = "Инсталятор RooCMS находится в корне сайта. В целях безопастности следует удалить инсталятор!";
-
-        	$f = @file("http://version.roocms.com/index.php");
-
-        	if($f && version_compare(ROOCMS_VERSION, $f[0], "<")) $warn[] = "Внимание! Вышла новая версия <b>RooCMS {$f[0]}</b>. Рекомендуем обновить ваш сайт до последней версии.
-        			<br />Что бы скачать дистрибутив последней версии перейдите по <a href='http://www.roocms.com/index.php?page=download' target='_blank'>ссылке</a>";
+		$warning_subj = array();
+		if(file_exists(_SITEROOT."/install/index.php")) $warning_subj[] = "Инсталятор RooCMS находится в корне сайта. В целях безопастности следует удалить инсталятор!";
 
 		$info = array();
 		$info['roocms'] = ROOCMS_VERSION;
-		if($f) $info['last_stable'] = $f[0];
 
+		if(get_http_response_code("http://version.roocms.com/index.php") == "200") {
+			$f = file("http://version.roocms.com/index.php");
+
+			if(!empty($f) && version_compare(ROOCMS_VERSION, $f[0], "<")) {
+				$warning_subj[] = "Внимание! Вышла новая версия <b>RooCMS {$f[0]}</b>. Рекомендуем обновить ваш сайт до последней версии.
+				<br />Что бы скачать дистрибутив последней версии перейдите по <a href='http://www.roocms.com/index.php?page=download' target='_blank'>ссылке</a>";
+
+				$info['last_stable'] = $f[0];
+			}
+		}
 
 		# draw
 		$smarty->assign('part_title', 	'Сводка по сайту');
-		$smarty->assign('warn',		$warn);
+		$smarty->assign('warning_subj',	$warning_subj);
 		$smarty->assign('info',		$info);
 
 		$content = $tpl->load_template("index_main", true);

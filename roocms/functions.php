@@ -5,7 +5,7 @@
 * @author       alex Roosso
 * @copyright    2010-2016 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.1.1
+* @version      1.2
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -136,9 +136,8 @@ function print_array(array $array, $subarray=false) {
 
 	foreach($array as $key=>$value) {
 
-		if(is_array($value)) {
+		if(is_array($value))
 			$buffer .= "'".$key."' => ".print_array($value,true);
-		}
 		else {
 			$buffer .= "'".$key."' => '".$value."'";
 			if($t < $c) $buffer .= ",\n";
@@ -204,6 +203,18 @@ function nocache() {
 	Header("Cache-Control: post-check=0,pre-check=0");
 	Header("Cache-Control: max-age=0");
 	Header("Pragma: no-cache");
+}
+
+/**
+ * Функция получает код ответа от удаленного адреса
+ *
+ * @param $url -  удаленный адрес
+ *
+ * @return string - код ответа
+ */
+function get_http_response_code($url) {
+	$headers = get_headers($url);
+	return substr($headers[0], 9, 3);
 }
 
 

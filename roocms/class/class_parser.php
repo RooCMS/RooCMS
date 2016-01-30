@@ -508,10 +508,7 @@ class Parsers {
 	 * @return array|bool
 	 */
 	public function cvrt_color_h2d($hexcolor) {
-		if(mb_strlen($hexcolor) != 7 || mb_strpos($hexcolor, "#") === false) {
-			return false;
-			exit;
-		}
+		if(mb_strlen($hexcolor) != 7 || mb_strpos($hexcolor, "#") === false) return false;
 
 		return array(	"r" => hexdec(mb_substr($hexcolor, 1, 2)),
 				"g" => hexdec(mb_substr($hexcolor, 3, 2)),

@@ -85,7 +85,7 @@ class Requirement {
 		}
 		else $this->log[] = array("Версия PHP", $php, true, "");
 
-		if(@ini_get('safe_mode') == '1' || mb_strtolower(@ini_get('safe_mode')) == 'on') {
+		if(ini_get('safe_mode') == '1' || mb_strtolower(ini_get('safe_mode')) == 'on') {
 			$this->log[] = array("Безопасный режим PHP", "Вкл", false, "Ваш PHP включен в безопасном режиме. Это может повлечь за собой некоректную работу некоторых алгоритмов.");
 		}
 		else $this->log[] = array("Безопасный режим PHP", "Выкл", true, "");
@@ -139,18 +139,18 @@ class Requirement {
 	* Проверяем настройки PHP
 	*/
 	private function check_php_ini() {
-		if(@ini_get('register_globals') == '1' || mb_strtolower(@ini_get('register_globals')) == 'on') {
+		if(ini_get('register_globals') == '1' || mb_strtolower(ini_get('register_globals')) == 'on') {
 			$this->log[] = array("Режим REGISTR_GLOBALS", "Вкл", false, "У вас включен режим REGISTR_GLOBALS. Это может угрожать безопастности RooCMS.");
 			$this->allowed = false;
 		}
 		else $this->log[] = array("Режим REGISTR_GLOBALS", "Выкл", true, "");
 
-		if(@ini_get('magic_quotes_gpc') == '1' || mb_strtolower(@ini_get('magic_quotes_gpc')) == 'on') {
+		if(ini_get('magic_quotes_gpc') == '1' || mb_strtolower(ini_get('magic_quotes_gpc')) == 'on') {
 			$this->log[] = array("Режим MAGIC_QUOTES_GPC", "Вкл", false, "У вас включен режим экранирования спецсимволов. Данный режим вызывает конфликты при работе с RooCMS.");
 		}
 		else $this->log[] = array("Режим MAGIC_QUOTES_GPC", "Выкл", true, "");
 
-		if(@!preg_match('//u', '')) {
+		if(!preg_match('//u', '')) {
 			$this->log[] = array("Поддержка PCRE UTF-8", "Выкл", false, "Регулярные выражения не поддерживают UTF-8");
 			$this->allowed = false;
 		}

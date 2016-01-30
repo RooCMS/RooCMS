@@ -5,7 +5,7 @@
  * @author       alex Roosso
  * @copyright    2010-2016 (c) RooCMS
  * @link         http://www.roocms.com
- * @version      2.1
+ * @version      2.2
  * @since        $date$
  * @license      http://www.gnu.org/licenses/gpl-3.0.html
  */
@@ -124,27 +124,25 @@ class ParserDate {
 
 		$edate = explode("/", $gdate);
 
-		# day
-		$n_day	= round($edate[1]);
-		# month
-		$n_mon	= round($edate[0]);
-		# year
-		$n_year	= round($edate[2]);
+		$day	= round($edate[1]);	# day
+		$mon	= round($edate[0]);	# month
+		$year	= round($edate[2]);	# year
 
-		// FIXME: *checkdate
+		if(checkdate($month, $day, $year)) {
+			# num day of week
+			$nw_day = $this->get_num_day_of_week($day, $mon, $year);
 
-		# num day of week
-		$nw_day = $this->get_num_day_of_week($n_day, $n_mon, $n_year);
+			# title day
+			$tday = ($full) ? $this->get_title_day($nw_day, $short).", " : "" ;
 
-		# title day
-		$tday = ($full) ? $this->get_title_day($nw_day, $short).", " : "" ;
+			# title month
+			$tm = $this->get_title_month($mon);
+			// SEE---> $tm = $this->get_title_month($n_mon, true, $short);
 
-		# title month
-		$tm = $this->get_title_month($n_mon);
-		// SEE---> $tm = $this->get_title_month($n_mon, true, $short);
-
-		# форматируем дату
-		$date = $tday.$n_day." ".$tm." ".$n_year."г. ".$time;
+			# форматируем дату
+			$date = $tday.$day." ".$tm." ".$year."г. ".$time;
+		}
+		else $date = "Некоректная дата";
 
 		return $date;
 	}
@@ -268,8 +266,13 @@ class ParserDate {
 	}
 
 
-	//#####################################################
-	//# unix timestamp to gregorian
+	/**
+	 * unix timestamp преобразовываем в грегорианскую дату
+	 *
+	 * @param $udate - unixtimestamp
+	 *
+	 * @return string - дата в грегорианском представлении
+	 */
 	public function unix_to_gregorian($udate) {
 
 		$day 	= date("d", $udate);
@@ -297,16 +300,21 @@ class ParserDate {
 		$month 	= round($time[0]);
 		$year 	= round($time[2]);
 
-		$unix 	= mktime(0,0,0,$month,$day,$year);
-
-		// FIXME: *checkdate
+		if(checkdate($month, $day, $year))
+			$unix 	= mktime(0,0,0,$month,$day,$year);
+		else	$unix	= 1;
 
 		return $unix;
 	}
 
 
-	//#####################################################
-	//# Russian integer format to Unix timestamp format
+	/**
+	 * Преобразовываем представление даты из цифрового российского в unixtimestamp
+	 *
+	 * @param $date - Дата в форме дд.мм.гггг
+	 *
+	 * @return int - unixtimestamp
+	 */
 	public function rusint_to_unix($date) {
 
 		$time = explode(".", $date);
@@ -315,9 +323,9 @@ class ParserDate {
 		$month 	= round($time[1]);
 		$year 	= round($time[2]);
 
-		$unix 	= mktime(0,0,0,$month,$day,$year);
-
-		// FIXME: *checkdate
+		if(checkdate($month, $day, $year))
+			$unix 	= mktime(0,0,0,$month,$day,$year);
+		else	$unix	= 1;
 
 		return $unix;
 	}
@@ -334,8 +342,6 @@ class ParserDate {
 	 * @return int
 	 */
 	public function get_num_day_of_week($day, $month, $year) {
-
-		// FIXME: *checkdate
 
 		$jd = GregorianToJD($month, $day, $year);
 
@@ -387,15 +393,14 @@ class ParserDate {
 		$nm = round($nm);
 
 		# month
+		$month = array();
 		if(!$short) {
-			$month = array();
 			$month[1]	= 'Январ';	$month[2]	= 'Феврал';	$month[3]	= 'Март';
 			$month[4]	= 'Апрел';	$month[5]	= 'Ма';		$month[6]	= 'Июн';
 			$month[7]	= 'Июл';	$month[8]	= 'Август';	$month[9]	= 'Сентябр';
 			$month[10]	= 'Октябр';	$month[11]	= 'Ноябр';	$month[12]	= 'Декабр';
 		}
 		else {
-			$month = array();
 			$month[1]	= 'Янв';	$month[2]	= 'Фев';	$month[3]	= 'Мар';
 			$month[4]	= 'Апр';	$month[5]	= 'Ма';		$month[6]	= 'Июн';
 			$month[7]	= 'Июл';	$month[8]	= 'Авг';	$month[9]	= 'Сен';
@@ -426,8 +431,6 @@ class ParserDate {
 					break;
 			}
 		}
-
-
 
 		return $month[$nm].$f;
 	}

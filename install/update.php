@@ -5,7 +5,7 @@
 * @author       alex Roosso
 * @copyright    2010-2016 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.2.2
+* @version      1.2.3
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -158,11 +158,13 @@ class Update extends Requirement{
 	 * Sorry
 	 */
 	private function step_4() {
-		$f = @file("http://version.roocms.com/index.php");
-
-		$this->log[] = array('', '<center>Извините.<br />Сегодня автоматические обновление невозможно.<br />В ближайшем будущем мы неприменно его реализуем, но сейчас, любое обновление придется делать вручную.</center>', false, '');
+		$this->log[] = array('', 'Извините.<br />Сегодня автоматические обновление невозможно.<br />В ближайшем будущем мы неприменно его реализуем, но сейчас, любое обновление придется делать вручную.', false, '');
 		$this->log[] = array('', 'Ваша версия RooCMS: '.ROOCMS_VERSION.'', true, '');
-		if($f) $this->log[] = array('', 'Последняя версия: '.$f[0].'', true, '');
+
+		if(get_http_response_code("http://version.roocms.com/index.php") == "200") {
+			$f = file("http://version.roocms.com/index.php");
+			if(!empty($f)) $this->log[] = array('', 'Последняя версия: '.$f[0].'', true, '');
+		}
 	}
 }
 

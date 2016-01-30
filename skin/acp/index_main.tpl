@@ -13,8 +13,8 @@
 		</tr>
 	</thead>
 	<tbody>
-		{if isset($warn) && !empty($warn)}
-			{foreach from=$warn item=text}
+		{if isset($warning_subj) && !empty($warning_subj)}
+			{foreach from=$warning_subj item=text}
 				<tr class="danger">
     					<td colspan="2" class="text-danger">{$text}</td>
 				</tr>
