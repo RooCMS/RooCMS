@@ -151,9 +151,10 @@ class Parsers {
 		if(isset($_POST['empty']) && ($_POST['empty'] == "1" || $_POST['empty'] == "true")) $empty = true;
 		unset($_POST['empty']);
 
-		$this->post = $this->check_array($_POST, $empty);
+		$post = $this->check_array($_POST, $empty);
 
-		foreach ($this->post as $key=>$value) {
+
+		foreach ($post as $key=>$value) {
 
 			if(is_string($value))		$this->Post->{$key} = (string) $value;
 			else if(is_array($value))	$this->Post->{$key} = (array) $value;

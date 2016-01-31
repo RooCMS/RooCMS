@@ -72,17 +72,15 @@ class ACP_CONFIG {
 	*/
 	public function ACP_CONFIG() {
 
-		global $config, $tpl;
+		global $config, $tpl, $POST;
 
 
 		# include config class
 		$this->config = $config;
 
-
 		# Если есть запрос на обновление тогда обновляем
 		if(isset($POST->update_config))	$this->update_config();
 		else				$this->view_config();
-
 
 		# Load Template
 		$tpl->load_template("config");
@@ -217,6 +215,7 @@ class ACP_CONFIG {
 	private function update_config() {
 
 		global $db, $parse, $POST, $img;
+
 
 		# запрашиваем из БД типа опций
 		$q = $db->query("SELECT option_name, option_type, variants FROM ".CONFIG_TABLE);

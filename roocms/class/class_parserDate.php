@@ -128,7 +128,7 @@ class ParserDate {
 		$mon	= round($edate[0]);	# month
 		$year	= round($edate[2]);	# year
 
-		if(checkdate($month, $day, $year)) {
+		if(checkdate($mon, $day, $year)) {
 			# num day of week
 			$nw_day = $this->get_num_day_of_week($day, $mon, $year);
 

@@ -418,7 +418,7 @@ class MySQLiDatabase extends MySQLiExtends {
 	 *
 	 */
 	public function close() {
-		$this->sql->close();
+		if(is_object($this->sql) && $this->sql->connect_errno == 0) $this->sql->close();
 	}
 }
 

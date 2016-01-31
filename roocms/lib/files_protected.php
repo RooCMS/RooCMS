@@ -89,8 +89,8 @@ $protectfiles[]	= array('path'	=> _CLASS.'/class_files.php',		'chmod'	=> '0644',
 $protectfiles[]	= array('path'	=> _CLASS.'/class_images.php',		'chmod'	=> '0644',	'hash'	=> '');
 $protectfiles[]	= array('path'	=> _CLASS.'/class_gd.php',		'chmod'	=> '0644',	'hash'	=> '');
 $protectfiles[]	= array('path'	=> _CLASS.'/class_global.php',		'chmod'	=> '0644',	'hash'	=> '');
-$protectfiles[]	= array('path'	=> _CLASS.'/class_mysql_ext.php',	'chmod'	=> '0644',	'hash'	=> '');
-$protectfiles[]	= array('path'	=> _CLASS.'/class_mysql.php',		'chmod'	=> '0644',	'hash'	=> '');
+$protectfiles[]	= array('path'	=> _CLASS.'/class_mysqli_ext.php',	'chmod'	=> '0644',	'hash'	=> '');
+$protectfiles[]	= array('path'	=> _CLASS.'/class_mysqli.php',		'chmod'	=> '0644',	'hash'	=> '');
 $protectfiles[]	= array('path'	=> _CLASS.'/class_parser.php',		'chmod'	=> '0644',	'hash'	=> '');
 $protectfiles[]	= array('path'	=> _CLASS.'/class_parserDate.php',	'chmod'	=> '0644',	'hash'	=> '');
 $protectfiles[]	= array('path'	=> _CLASS.'/class_parserText.php',	'chmod'	=> '0644',	'hash'	=> '');

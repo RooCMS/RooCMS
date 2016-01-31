@@ -183,7 +183,7 @@ class Install extends Requirement{
 	 */
 	private function step_4() {
 
-		global $POST, $parse;
+		global $POST, $parse, $site;
 
 		if($this->allowed && isset($POST->submit) && isset($POST->step) && $POST->step == 4) {
 			if(!isset($POST->site_title) || trim($POST->site_title) == "") {
@@ -243,7 +243,7 @@ class Install extends Requirement{
 
 
 		# переход next step
-		if(trim($site['title']) != "" && trim($site['domain']) != "" && trim($site['sysemail']) != "") go(SCRIPT_NAME."?step=5");
+		if(isset($site) && trim($site['title']) != "" && trim($site['domain']) != "" && trim($site['sysemail']) != "") go(SCRIPT_NAME."?step=5");
 	}
 
 
