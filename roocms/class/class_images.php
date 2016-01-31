@@ -198,9 +198,9 @@ class Images extends GD {
 
 		$data = array();
 
-		$l = ($limit != 0) ? "LIMIT ".$from.",".$limit : "" ;
+		$l = ($limit != 0) ? "LIMIT {$from},{$limit}" : "" ;
 
-		$q = $db->query("SELECT id, filename, fileext, sort, alt FROM ".IMAGES_TABLE." WHERE attachedto='".$where."' ORDER BY sort ASC ".$l);
+		$q = $db->query("SELECT id, filename, fileext, sort, alt FROM ".IMAGES_TABLE." WHERE attachedto='{$where}' ORDER BY sort ASC ".$l);
 		while($image = $db->fetch_assoc($q)) {
 			$image['original']	= $image['filename']."_original.".$image['fileext'];
 			$image['resize']	= $image['filename']."_resize.".$image['fileext'];

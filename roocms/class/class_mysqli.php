@@ -240,20 +240,20 @@ class MySQLiDatabase extends MySQLiExtends {
 			else				$values .= ", '".$value."'";
 		}
 
-		$q = "INSERT INTO ".$table." (".$fields.") VALUES (".$values.")";
+		$q = "INSERT INTO {$table} ({$fields}) VALUES ({$values})";
 
 		$this->query($q);
 	}
 
 
-        /**
-        * Функция обновляет данные из массива в указанную таблицу.
-        * Не рекомендуется использовать данную функцию в пользовательской части CMS
-        *
-        * @param array $array  - Массив данных, где ключ это имя поля в таблице а значение данные этого поля.
-        * @param string $table - Название целевой таблицы.
-        * @param string $where - Условие (фильтр) для отборо целевых строк таблицы
-        */
+	/**
+	 * Функция обновляет данные из массива в указанную таблицу.
+	 * Не рекомендуется использовать данную функцию в пользовательской части CMS
+	 *
+	 * @param array $array  - Массив данных, где ключ это имя поля в таблице а значение данные этого поля.
+	 * @param string $table - Название целевой таблицы.
+	 * @param string $where - Условие (фильтр) для отборо целевых строк таблицы
+	 */
 	public function update_array(array $array, $table, $where) {
 
 		$update = "";
@@ -262,18 +262,18 @@ class MySQLiDatabase extends MySQLiExtends {
 			else				$update .= ", ".$key."='".$value."'";
 		}
 
-		$q = "UPDATE ".$table." SET ".$update." WHERE ".$where;
+		$q = "UPDATE {$table} SET {$update} WHERE {$where}";
 
 		$this->query($q);
 	}
 
 
-        /**
-        * Преобразует результаты запроса в простой массив
-        *
-        * @param data $q - Результат произведенного в БД запроса.
-        * @return array  - Возвращает данные из БД в ввиде нумерованного массива
-        */
+	/**
+	 * Преобразует результаты запроса в простой массив
+	 *
+	 * @param data $q - Результат произведенного в БД запроса.
+	 * @return array  - Возвращает данные из БД в ввиде нумерованного массива
+	 */
 	public function fetch_row($q) {
 
 		if($this->db_connect || DEBUGMODE) {
@@ -284,11 +284,11 @@ class MySQLiDatabase extends MySQLiExtends {
 
 
 	/**
-	* Преобразует результаты запроса в ассоциативный массив
-	*
-	* @param data $q - Результат произведенного в БД запроса.
-	* @return array  - Возвращает данные из БД в ввиде ассоциативного массива
-	*/
+	 * Преобразует результаты запроса в ассоциативный массив
+	 *
+	 * @param data $q - Результат произведенного в БД запроса.
+	 * @return array  - Возвращает данные из БД в ввиде ассоциативного массива
+	 */
 	public function fetch_assoc($q) {
 
 		if($this->db_connect || DEBUGMODE) {
@@ -299,11 +299,11 @@ class MySQLiDatabase extends MySQLiExtends {
 
 
 	/**
-	* Преобразует результаты запроса в объект
-	*
-	* @param data $q - Результат произведенного в БД запроса.
-	* @return object - Возвращает данные из БД в ввиде объекта
-	*/
+	 * Преобразует результаты запроса в объект
+	 *
+	 * @param data $q - Результат произведенного в БД запроса.
+	 * @return object - Возвращает данные из БД в ввиде объекта
+	 */
 	public function fetch_object($q) {
 
 		if($this->db_connect || DEBUGMODE) {
@@ -314,9 +314,9 @@ class MySQLiDatabase extends MySQLiExtends {
 
 
 	/**
-	* Have a index query
-	* @return int Возвращает идентификатор
-	*/
+	 * Have a index query
+	 * @return int Возвращает идентификатор
+	 */
 	public function insert_id() {
 
 		if($this->db_connect || DEBUGMODE) {
@@ -343,7 +343,7 @@ class MySQLiDatabase extends MySQLiExtends {
 
 		if(trim($where) != "") $where = " AND ".$where;
 
-		$q = $this->query("SELECT count(*) FROM ".$table." WHERE {$field}='".$id."' ".$where."");
+		$q = $this->query("SELECT count(*) FROM {$table} WHERE {$field}='{$id}' {$where}");
 		$c = $this->fetch_row($q);
 
                 if($c[0] == 0) return false;
@@ -376,11 +376,11 @@ class MySQLiDatabase extends MySQLiExtends {
 
 
 	/**
-	* Clear system symbols for query
-	*
-	* @param string $q - запрос
-	* @return string - возвращает строку запроса в бд вычещенной
-	*/
+	 * Clear system symbols for query
+	 *
+	 * @param string $q - запрос
+	 * @return string - возвращает строку запроса в бд вычещенной
+	 */
 	public function escape_string($q) {
 
 		$q = htmlspecialchars($q);
@@ -414,9 +414,9 @@ class MySQLiDatabase extends MySQLiExtends {
 
 
 	/**
-	* Закрываем подключение к БД сайта
-	*
-	*/
+	 * Закрываем подключение к БД сайта
+	 *
+	 */
 	public function close() {
 		$this->sql->close();
 	}

@@ -76,7 +76,7 @@ class MySQLiExtends {
 	public function pages_mysql($from, $where="id!=0", $query="") {
 
 		# Считаем
-		$c = $this->query("SELECT count(*) FROM ".$from." WHERE ".$where." ".$query);
+		$c = $this->query("SELECT count(*) FROM {$from} WHERE {$where} {$query}");
 		$count = $this->fetch_row($c);
 
 		# Если товаров больше чем на одну страницу...
