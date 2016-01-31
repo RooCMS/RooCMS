@@ -183,13 +183,11 @@ class Files {
 
 		$data = array();
 
-		$l = ($limit != 0) ? "LIMIT ".$from.",".$limit : "" ;
+		$l = ($limit != 0) ? "LIMIT {$from},{$limit}" : "" ;
 
-		$q = $db->query("SELECT id, filename, fileext, sort FROM ".FILES_TABLE." WHERE attachedto='".$where."' ORDER BY sort ASC ".$l);
+		$q = $db->query("SELECT id, filename, fileext, sort FROM ".FILES_TABLE." WHERE attachedto='{$where}' ORDER BY sort ASC ".$l);
 		while($file = $db->fetch_assoc($q)) {
-
 			$file['file']	= $file['filename'].".".$file['fileext'];
-
 			$data[] = $file;
 		}
 
@@ -198,11 +196,11 @@ class Files {
 
 
 	/**
-    * Отображение прав доступа в виде восьмеричного числа
-    *
-    * @param string $file  - название файла с указанием полного пути до него
-    * @return int
-    */
+	 * Отображение прав доступа в виде восьмеричного числа
+	 *
+	 * @param string $file  - название файла с указанием полного пути до него
+	 * @return int
+	 */
 	public function show_fileperms($file) {
 		return mb_substr(sprintf('%o', fileperms($file)), -4);
 	}
