@@ -208,7 +208,6 @@ class Structure {
 				# check child
 				if($child && ($maxlevel == 0 || $level+1 <= $maxlevel)) {
 					$subtree = $this->construct_tree($unit, $unit[$i]['id'], $maxlevel, $child, $level + 1);
-					//if(is_array($subtree)) $tree = array_merge($tree, $subtree);
 					if(is_array($subtree)) $tree = $tree + $subtree;
 				}
 			}

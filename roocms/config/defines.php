@@ -80,7 +80,7 @@ define('HELP_TABLE', 		DB_PREFIX.'help');
 * RooCMS $Path
 */
 if(!defined('_SITEROOT'))
-define('_SITEROOT', 	str_ireplace(DIRECTORY_SEPARATOR."roocms".DIRECTORY_SEPARATOR."config", "", dirname(__FILE__))); //define('_SITEROOT', dirname($_SERVER['SCRIPT_FILENAME']));
+define('_SITEROOT', 	str_ireplace(DIRECTORY_SEPARATOR."roocms".DIRECTORY_SEPARATOR."config", "", dirname(__FILE__)));
 define('_ROOCMS',	_SITEROOT.'/roocms');
 define('_CLASS', 	_ROOCMS.'/class');
 define('_LIB', 		_ROOCMS.'/lib');

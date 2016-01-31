@@ -92,7 +92,7 @@ class Debug {
 	public function Debug() {
 
 		# устанавливаем перехватчик ошибок
-		@set_error_handler(array($this,'debug_critical_error'));
+		set_error_handler(array($this,'debug_critical_error'));
 
 
                 if(!defined('DEBUGMODE'))	define('DEBUGMODE', true);

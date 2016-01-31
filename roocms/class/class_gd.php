@@ -5,7 +5,7 @@
 * @author	alex Roosso
 * @copyright	2010-2016 (c) RooCMS
 * @link		http://www.roocms.com
-* @version	1.11.1
+* @version	1.11.2
 * @since	$date$
 * @license	http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -231,12 +231,8 @@ class GD {
 		# vars
 		$file 	= $filename.".".$ext;
 
-
 		# определяем размер картинки
 		$size = getimagesize($path."/".$file);
-		$w = $size[0];
-		$h = $size[1];
-
 
 		# вносим в память пустую превью и оригинальный файл, для дальнейшего издевательства над ними.
 		$thumb		= $this->imgcreatetruecolor($this->tsize['w'], $this->tsize['h'], $ext);
@@ -256,7 +252,7 @@ class GD {
 		unlink($path."/".$file);
 
 		# Проводим расчеты по сжатию превью и уменьшению в размерах
-		$ns = $this->calc_resize($w, $h, $this->tsize['w'], $this->tsize['h'], false);
+		$ns = $this->calc_resize($size[0], $size[1], $this->tsize['w'], $this->tsize['h'], false);
 
 
 		if($ns['new_left'] > 0) {
@@ -276,7 +272,7 @@ class GD {
 		}
 
 
-		imagecopyresampled($thumb, $src, $ns['new_left'], $ns['new_top'], 0, 0, $ns['new_width'], $ns['new_height'], $w, $h);
+		imagecopyresampled($thumb, $src, $ns['new_left'], $ns['new_top'], 0, 0, $ns['new_width'], $ns['new_height'], $size[0], $size[1]);
 
 		# льем превью
 		if($ext == "jpg")	imagejpeg($thumb,$path."/".$file, $this->th_quality);
@@ -303,8 +299,6 @@ class GD {
 
 		# определяем размер картинки
 		$size = getimagesize($path."/".$fileresize);
-		$w = $size[0];
-		$h = $size[1];
 
 		# вносим в память пустую превью и оригинальный файл, для дальнейшего издевательства над ними.
 		$thumb		= $this->imgcreatetruecolor($this->tsize['w'], $this->tsize['h'], $ext);
@@ -323,7 +317,7 @@ class GD {
 
 		# Проводим расчеты по сжатию превью и уменьшению в размерах
 		$resize = ($this->thumbtg != "fill") ? true : false ;
-		$ns = $this->calc_resize($w, $h, $this->tsize['w'], $this->tsize['h'], $resize);
+		$ns = $this->calc_resize($size[0], $size[1], $this->tsize['w'], $this->tsize['h'], $resize);
 
 		# Перерасчет для заливки превью
 		if($this->thumbtg == "fill") {
@@ -344,7 +338,7 @@ class GD {
 			}
 		}
 
-		imagecopyresampled($thumb, $src, $ns['new_left'], $ns['new_top'], 0, 0, $ns['new_width'], $ns['new_height'], $w, $h);
+		imagecopyresampled($thumb, $src, $ns['new_left'], $ns['new_top'], 0, 0, $ns['new_width'], $ns['new_height'], $size[0], $size[1]);
 
 		# льем превью
 		if($ext == "jpg")	imagejpeg($thumb,$path."/".$filethumb, $this->th_quality);
