@@ -115,7 +115,6 @@ class ACP_CONFIG {
 					# parse
 					$option['option'] = $this->init_field($option['option_name'], $option['option_type'], $option['value'], $option['variants'], $option['field_maxleight']);
 
-
 					# compile for output
 					$this_part['options'][] = $option;
 				}
@@ -180,7 +179,6 @@ class ACP_CONFIG {
 				$field['variants'][] = array('value'=>$vars[1], 'title'=>$vars[0], 'selected'=>$s);
 			}
 
-			// reup
 			$smarty->assign('field', $field);
 
 			$out = $tpl->load_template("config_field_select",true);
@@ -203,7 +201,6 @@ class ACP_CONFIG {
 
 			$out = $tpl->load_template("config_field_image", true);
 		}
-
 
 		return $out;
 	}
@@ -238,9 +235,7 @@ class ACP_CONFIG {
 		# Если изменено имя скрипта Панели Администратора.
 		# Пробуем создать новый файл.
 		if(isset($POST->cp_script) && CP != $POST->cp_script) {
-			if($this->change_cp_script($POST->cp_script)) {
-				$gonewcp = $POST->cp_script;
-			}
+			if($this->change_cp_script($POST->cp_script)) $gonewcp = $POST->cp_script;
 			else $POST->cp_script = CP;
 		}
 
@@ -260,17 +255,15 @@ class ACP_CONFIG {
 				}
 				# boolean OR bool
 				elseif($this->types[$key] == "boolean" || $this->types[$key] == "bool") {
-					if($value == "true" || $value == "false") {
+					if($value == "true" || $value == "false")
 						$check = true;
-					}
-					else $check = false;
+					else 	$check = false;
 				}
 				# email
 				elseif($this->types[$key] == "email") {
 					if($parse->valid_email($value))
 						$check = true;
-					else
-						$check = false;
+					else	$check = false;
 				}
 				# date
 				# EDIT THIS CODE!!!!!!!!!!!!!!!!!!!!!
@@ -312,9 +305,7 @@ class ACP_CONFIG {
 				}
 
 
-				if($check) {
-					$db->query("UPDATE ".CONFIG_TABLE." SET value='".$value."' WHERE option_name='".$key."'");
-				}
+				if($check) $db->query("UPDATE ".CONFIG_TABLE." SET value='".$value."' WHERE option_name='".$key."'");
 			}
 		}
 
@@ -358,9 +349,7 @@ class ACP_CONFIG {
 		if(!file_exists(_SITEROOT."/".$newcp)) {
 			# крафтим новый файл
 			$cps = fopen($newcp, "w+");
-			if(is_writable($newcp)) {
-				fwrite($cps, $context);
-			}
+			if(is_writable($newcp)) fwrite($cps, $context);
 			fclose($cps);
 
 			if(file_exists(_SITEROOT."/".$newcp)) {
