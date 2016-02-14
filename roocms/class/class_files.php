@@ -159,8 +159,6 @@ class Files {
 	*/
 	public function get_ext($filename) {
 
-    		# Переписать с pathinfo();
-
 		$pi = pathinfo($filename);
 		$ext = $pi['extension'];
 
@@ -265,10 +263,7 @@ class Files {
 				}
 
 				# Если не загрузка удалась
-				if(!$upload) {
-					# Обработчик если загрузка не удалась =)
-					$filename = false;
-				}
+				if(!$upload) $filename = false;
 			}
 			else {
 				# вписать сообщение об ошибке.

@@ -5,7 +5,7 @@
 * @author	alex Roosso
 * @copyright	2010-2016 (c) RooCMS
 * @link		http://www.roocms.com
-* @version	1.11.2
+* @version	1.11.3
 * @since	$date$
 * @license	http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -81,13 +81,13 @@ class GD {
 		$this->info = gd_info();
 
 		# Устанавливаем размеры миниатюр из конфигурации
-		if(isset($config->gd_thumb_image_width) && round($config->gd_thumb_image_width) >= 16)		$this->tsize['w'] = round($config->gd_thumb_image_width);
-		if(isset($config->gd_thumb_image_height) && round($config->gd_thumb_image_height) >= 16)	$this->tsize['h'] = round($config->gd_thumb_image_height);
+		if(isset($config->gd_thumb_image_width) && $config->gd_thumb_image_width >= 16)		$this->tsize['w'] = $config->gd_thumb_image_width;
+		if(isset($config->gd_thumb_image_height) && $config->gd_thumb_image_height >= 16)	$this->tsize['h'] = $config->gd_thumb_image_height;
 
 
 		# Устанавливаем максимальные размеры изображений
-		if(isset($config->gd_image_maxwidth) && round($config->gd_image_maxwidth) >= 32 && round($config->gd_image_maxwidth) > $this->tsize['w'])	$this->msize['w'] = round($config->gd_image_maxwidth);
-		if(isset($config->gd_image_maxheight) && round($config->gd_image_maxheight) >= 32 && round($config->gd_image_maxheight) > $this->tsize['h'])	$this->msize['h'] = round($config->gd_image_maxheight);
+		if(isset($config->gd_image_maxwidth) && $config->gd_image_maxwidth >= 32 && $config->gd_image_maxwidth > $this->tsize['w'])	$this->msize['w'] = $config->gd_image_maxwidth;
+		if(isset($config->gd_image_maxheight) && $config->gd_image_maxheight >= 32 && $config->gd_image_maxheight > $this->tsize['h'])	$this->msize['h'] = $config->gd_image_maxheight;
 
 
 		# Тип генерации фона из конфигурации
@@ -101,12 +101,12 @@ class GD {
 
 
 		# Качество миниатюр  из конфигурации
-		if(isset($config->gd_thumb_jpg_quality) && round($config->gd_thumb_jpg_quality) >= 10 && round($config->gd_thumb_jpg_quality) <= 100)
-			$this->th_quality = round($config->gd_thumb_jpg_quality);
+		if(isset($config->gd_thumb_jpg_quality) && $config->gd_thumb_jpg_quality >= 10 && $config->gd_thumb_jpg_quality <= 100)
+			$this->th_quality = $config->gd_thumb_jpg_quality;
 
 
 		# Если используем watermark
-		if(isset($config->gd_use_watermark) && $config->gd_use_watermark != "no") {
+		if(isset($config->gd_use_watermark) && $config->gd_use_watermark == "text") {
 
 			# watermark text string one
 			if(trim($config->gd_watermark_string_one) != "")

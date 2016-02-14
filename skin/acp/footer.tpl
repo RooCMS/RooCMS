@@ -13,7 +13,7 @@
     </div>
     <div class="col-md-2 text-left footer">
         <small>
-			<br /><nobr><span class="fa fa-tachometer"></span> Использовано памяти : <span style="cursor: help;" title="{$debug_memory} байт факт. ({round($debug_memusage/1024/1024, 2)} Мб макс)"><b>{round($debug_memory/1024/1024, 2)} Мб</b></span></nobr>
+			<br /><nobr><span class="fa fa-tachometer"></span> Использовано памяти : <span style="cursor: help;" title="{round($debug_memusage/1024/1024, 2)} Мб макс"><b>{round($debug_memory/1024/1024, 2)} Мб</b></span></nobr>
         </small>
     </div>
     <div class="col-md-2 text-left footer">
@@ -38,7 +38,7 @@
 
 			<br />
 			<br /><nobr><span class="fa fa-bar-chart-o fa-fw"></span> Число обращений к БД: <b>{$db_querys}</b></nobr>
-			<br /><nobr><span class="fa fa-tachometer fa-fw"></span> Использовано памяти : <span style="cursor: help;" title="{$debug_memory} байт факт. ({round($debug_memusage/1024/1024, 2)} Мб макс)"><b>{round($debug_memory/1024/1024, 2)} Мб</b></span></nobr>
+			<br /><nobr><span class="fa fa-tachometer fa-fw"></span> Использовано памяти : <b>{round($debug_memory/1024/1024, 2)} Мб ({round($debug_memusage/1024/1024, 2)} Мб макс)</b></nobr>
 			<br /><nobr><span class="fa fa-clock-o fa-fw"></span> Время работы скрипта : <b>{$debug_timer} мс</b></nobr>
 
             <br />

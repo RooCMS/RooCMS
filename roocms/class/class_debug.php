@@ -5,7 +5,7 @@
 * @author	alex Roosso
 * @copyright	2010-2015 (c) RooCMS
 * @link		http://www.roocms.com
-* @version	2.2.4
+* @version	2.2.5
 * @since	$date$
 * @license	http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -124,9 +124,7 @@ class Debug {
 
     	        # timer
                 $mtime = STARTTIME;
-                $mtime = explode(' ', $mtime);
-                $mtime = $mtime[1] + $mtime[0];
-                $this->starttime = $mtime;
+                $this->starttime = STARTTIME;
 
                 # memory
                 $this->memory_usage = MEMORYUSAGE;
@@ -139,10 +137,7 @@ class Debug {
         public function end_productivity() {
 
     	        # timer
-                $mtime = microtime();
-                $mtime = explode(' ', $mtime);
-                $mtime = $mtime[1] + $mtime[0];
-                $endtime = $mtime;
+                $endtime = microtime(true);
                 $totaltime = round(($endtime - $this->starttime), 4);
 
 	        $this->productivity_time = $totaltime;
@@ -286,9 +281,7 @@ class Debug {
 			ini_set("ignore_repeated_errors",	1);
 			ini_set("ignore_repeated_source",	1);
 		}
-		else {
-			error_reporting(0);
-		}
+		else error_reporting(0);
 	}
 
 
@@ -363,7 +356,7 @@ class Debug {
 
                 echo "</div></div></div>";
 
-		echo "	<div class='container'><div class='row'><div class='col-xs-12'><div class='panel-group' id='debugaccordion'>";
+		echo "<div class='container'><div class='row'><div class='col-xs-12'><div class='panel-group' id='debugaccordion'>";
 
 		if($debug->show_debug) {
 			echo "	<div class='panel panel-primary'>
