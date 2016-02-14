@@ -5,7 +5,7 @@
  * @author       alex Roosso
  * @copyright    2010-2016 (c) RooCMS
  * @link         http://www.roocms.com
- * @version      3.2.3
+ * @version      3.2.4
  * @since        $date$
  * @license      http://www.gnu.org/licenses/gpl-3.0.html
  */
@@ -143,19 +143,19 @@ class MySQLiDatabase extends MySQLiExtends {
 
 		# режим отладки
 		if(DEBUGMODE && $q!="") {
-			$query = "<div style='padding: 5px;text-align: left;'><font style='font-family: Verdana, Tahoma; font-size: 12px;text-align: left;'>
+			$query = "<div style='padding: 5px;text-align: left;'><span style='font-family: Verdana, Tahoma; font-size: 12px;text-align: left;'>
 			Ошибка БД [MySQL Error]: <b>".$this->sql->errno."</b>
 			<br /> &bull; ".$this->sql->error."
 			<br />
-			<br /><table width='100%' style='border: 1px solid #ffdd00; background-color: #ffffee;text-align: left;'>
-			 <tr>
-			  <td align='left' style='text-align: left;'><font style='font-family: Tahoma; font-size: 11px;text-align: left;'>
-			  <font color='#990000'><b>SQL Запрос:</b> <pre>{$q}</pre></font>
-			  </font>
-			 </tr>
+			<br />
+			<table width='100%' style='border: 1px solid #ffdd00; background-color: #ffffee;text-align: left;'>
+				<tr>
+					<td align='left' style='text-align: left;font-family: Tahoma; font-size: 11px;color: #990000;'>
+						<b>SQL Запрос:</b> <pre>{$q}</pre>
+					</td>
+				</tr>
 			</table>
-			</td>
-			</font></div>";
+			</span></div>";
 
 			return $query;
 		}
@@ -233,11 +233,11 @@ class MySQLiDatabase extends MySQLiExtends {
 		$values	= "";
 
 		foreach($array AS $key=>$value) {
-			if(trim($fields) == "") 	$fields .= $key;
-			else				$fields .= ", ".$key;
+			if(trim($fields) != "")		$fields .= ", ";
+			$fields .= $key;
 
-			if(trim($values) == "") 	$values .= "'".$value."'";
-			else				$values .= ", '".$value."'";
+			if(trim($values) != "") 	$values .= ", ";
+			$values .= "'".$value."'";
 		}
 
 		$q = "INSERT INTO {$table} ({$fields}) VALUES ({$values})";
@@ -258,8 +258,8 @@ class MySQLiDatabase extends MySQLiExtends {
 
 		$update = "";
 		foreach($array AS $key=>$value) {
-			if(trim($update) == "") 	$update .= $key."='".$value."'";
-			else				$update .= ", ".$key."='".$value."'";
+			if(trim($update) != "") 	$update .= ", ";
+			$update .= $key."='".$value."'";
 		}
 
 		$q = "UPDATE {$table} SET {$update} WHERE {$where}";
