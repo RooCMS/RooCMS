@@ -3,7 +3,7 @@
 
 ![RooCMS](http://version.roocms.com/logo.png)
 
-
+|:--------:|:------------------------------------------------|
 | Автор    | alex Roosso                                     |
 | Web      | http://www.roocms.com                           |
 | Contact  | info@roocms.com                                 |
