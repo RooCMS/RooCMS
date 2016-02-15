@@ -1,4 +1,4 @@
-[RooCMS](http://www.roocms.com) ![RooCMS](http://version.roocms.com/logo.png)(http://www.roocms.com)
+![RooCMS](http://version.roocms.com/logo.png)
 ===============================
 
 
