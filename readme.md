@@ -3,15 +3,14 @@
 
 ![RooCMS](http://version.roocms.com/logo.png)
 
-|          |                                                 |
-|:--------:|:------------------------------------------------|
+
 | Автор    | alex Roosso                                     |
 | Web      | http://www.roocms.com                           |
 | Contact  | info@roocms.com                                 |
 | Download | http://www.roocms.com/index.php?page=download   |
 | Source   | https://github.com/RooCMS/RooCMS                |
 | License  | GNU GPL v3                                      |
-|          |                                                 |
+
 
 
 Cистемные требования
