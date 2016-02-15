@@ -1,8 +1,8 @@
-[RooCMS](http://www.roocms.com)
+[RooCMS](http://www.roocms.com) ![RooCMS](http://version.roocms.com/logo.png)(http://www.roocms.com)
 ===============================
 
-![RooCMS](http://version.roocms.com/logo.png)
 
+|          |                                                 |
 |:--------:|:------------------------------------------------|
 | Автор    | alex Roosso                                     |
 | Web      | http://www.roocms.com                           |
