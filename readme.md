@@ -1,9 +1,18 @@
 [RooCMS](http://www.roocms.com)
 ===============================
-- Автор:	alex Roosso
-- Сайт:		<http://www.roocms.com>
-- Контакт:	info@roocms.com
-- Лицензия:	GNU GPL v3 (текст лицензии в файле license_original)
+
+![RooCMS](http://version.roocms.com/logo.png)
+
+|          |                                                 |
+|:--------:|:------------------------------------------------|
+| Автор    | alex Roosso                                     |
+| Web      | http://www.roocms.com                           |
+| Contact  | info@roocms.com                                 |
+| Download | http://www.roocms.com/index.php?page=download   |
+| Source   | https://github.com/RooCMS/RooCMS                |
+| License  | GNU GPL v3                                      |
+|          |                                                 |
+
 
 Cистемные требования
 --------------------
