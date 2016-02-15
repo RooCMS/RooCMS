@@ -1,4 +1,4 @@
-![RooCMS](http://version.roocms.com/logo.png)
+[![RooCMS](http://version.roocms.com/logo.png)](http://www.roocms.com)
 ===============================
 
 | RooCMS   | Open Source Free CMS                            |
