@@ -5,7 +5,7 @@
 * @author       alex Roosso
 * @copyright    2010-2016 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.2
+* @version      1.2.1
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -118,40 +118,6 @@ function sendmail($mail, $theme, $message, $from="robot") {
 	mb_send_mail($mail,$theme,$message,$headers);
 }
 
-
-/**
- * Функция вывода массива для печати.
- *
- * @param array $array       - Массив для печати
- * @param boolean $subarray  - флаг проверки на вложенность массивов
- *
- * @return text $buffer      - Возвращает массив в текстовом представлении.
- */
-function print_array(array $array, $subarray=false) {
-
-	$c = count($array) - 1;
-	$t = 0;
-
-	$buffer = "array(";
-
-	foreach($array as $key=>$value) {
-
-		if(is_array($value))
-			$buffer .= "'".$key."' => ".print_array($value,true);
-		else {
-			$buffer .= "'".$key."' => '".$value."'";
-			if($t < $c) $buffer .= ",\n";
-		}
-
-		$t++;
-	}
-
-	$buffer .= ")";
-	if(!$subarray) $buffer .= ";\n";
-	else $buffer .= ",\n";
-
-	return $buffer;
-}
 
 /**
  * мультибайтовая функция преобразования первого символа строки

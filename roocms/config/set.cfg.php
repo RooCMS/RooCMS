@@ -57,7 +57,7 @@ if(!defined('RooCMS')) die('Access Denied');
 define('DEBUGMODE',	false);				# Режим отладки
 define('DEVMODE',	false);				# Режим разработчики. Если используете этот режим, рекомендуется так же включить режим отладки.
 
-define('STARTTIME',	microtime());
+define('STARTTIME',	microtime(true));
 define('MEMORYUSAGE', 	memory_get_usage());
 
 
