@@ -5,7 +5,7 @@
 * @author       alex Roosso
 * @copyright    2010-2016 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.1.1
+* @version      1.1.2
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -107,6 +107,9 @@ class ParserText {
 			'&#125;'	=> '}', 	#	}
 			'&#39;'		=> '\'', 	#	" [quot]
 			'&#36;'		=> '$',
+			'&#036;'	=> '$',
+			'&#33;'		=> '!',
+			'&#124;'	=> '|',
 			'...'		=> '&hellip;'
 		));
 
@@ -243,6 +246,11 @@ class ParserText {
 	 * Преобразовываем текст из ISO8859-5 в Unicode
 	 * Использовать перед запуском imagettftext
 	 * [Морально устаревшая функция после перехода на utf8]
+	 *
+	 * @param        $text
+	 * @param string $from
+	 *
+	 * @return string
 	 */
 	protected function tounicode($text, $from="w") {
 		$text = convert_cyr_string($text, $from, "i");

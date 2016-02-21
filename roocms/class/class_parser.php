@@ -153,7 +153,6 @@ class Parsers {
 
 		$post = $this->check_array($_POST, $empty);
 
-
 		foreach ($post as $key=>$value) {
 
 			if(is_string($value))		$this->Post->{$key} = (string) $value;
