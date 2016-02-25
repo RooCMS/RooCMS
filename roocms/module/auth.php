@@ -67,7 +67,7 @@ class Module_Auth {
 	/**
 	 * Start
 	 */
-	public function Module_Auth() {
+	public function __construct() {
 
 		global $db, $users, $tpl, $smarty;
 

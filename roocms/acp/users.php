@@ -67,7 +67,7 @@ class ACP_USERS {
 	/**
 	 * Вперед и только веперед
 	 */
-	public function ACP_USERS() {
+	public function __construct() {
 
 		global $db, $roocms, $tpl, $GET;
 

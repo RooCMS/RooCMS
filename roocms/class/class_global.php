@@ -85,7 +85,7 @@ class Globals {
 	* Lets begin
 	*
 	*/
-	public function Globals() {
+	public function __construct() {
 
 		# Инициируем конфигурацию
 		$this->init_configuration();

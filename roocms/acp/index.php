@@ -58,7 +58,7 @@ class ACP_INDEX {
 	/**
 	 * Run, baby, run
 	 */
-	public function ACP_INDEX() {
+	public function __construct() {
 
 		global $roocms, $tpl;
 

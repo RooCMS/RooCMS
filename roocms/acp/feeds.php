@@ -64,7 +64,7 @@ class ACP_FEEDS {
 	/**
 	 * Show must go on ...
 	 */
-	public function ACP_FEEDS() {
+	public function __construct() {
 
 		global $tpl;
 

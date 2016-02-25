@@ -95,7 +95,7 @@ class Structure {
 	* @param boolean $tree - true для инициализации структуры сайта
 	* @param boolean $ui - использовать true только в пользовательском интерфейсе.
 	*/
-	public function Structure($tree=true, $ui=true) {
+	public function __construct($tree=true, $ui=true) {
 
 		global $db, $GET;
 

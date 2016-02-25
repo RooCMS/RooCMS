@@ -55,7 +55,7 @@ if(!defined('RooCMS')) die('Access Denied');
 /**
  * Class template
  */
-class template {
+class Template {
 
 	# vars
 	private $skinfolder	= "default";	# [string]	skin templates folder
@@ -75,7 +75,7 @@ class template {
 	*
 	* @param mixed $skin - указываем относительный путь к папке с "шкуркой" от папки _SKIN
 	*/
-	public function template($skin=false) {
+	public function __construct($skin=false) {
 
 		global $site;
 

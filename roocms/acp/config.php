@@ -70,7 +70,7 @@ class ACP_CONFIG {
 	* Start
 	*
 	*/
-	public function ACP_CONFIG() {
+	public function __construct() {
 
 		global $config, $tpl, $POST;
 

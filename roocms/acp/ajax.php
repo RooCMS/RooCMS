@@ -60,7 +60,7 @@ class ACP_AJAX {
 	* Start
 	*
 	*/
-	public function ACP_AJAX() {
+	public function __construct() {
 
 		global $roocms;
 
@@ -149,6 +149,7 @@ class ACP_AJAX {
 
 			$q = $db->query("SELECT value FROM ".CONFIG_TABLE." WHERE option_name='".$GET->_option."'");
 			$data = $db->fetch_assoc($q);
+
 			unlink(_UPLOADIMAGES."/".$data['value']);
 			$db->query("UPDATE ".CONFIG_TABLE." SET value='' WHERE option_name='".$GET->_option."'");
 

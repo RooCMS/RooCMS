@@ -86,7 +86,7 @@ class Parsers {
 	* Lets begin
 	*
 	*/
-	public function Parsers() {
+	public function __construct() {
 
 		global $roocms;
 

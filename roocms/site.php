@@ -61,9 +61,7 @@ nocache();
 */
 $site['title']		= $structure->page_title;
 $site['description']	= $structure->page_meta_desc;
-if(!empty($site)) {
-	$site['keywords']	= $structure->page_meta_keys;
-}
+if(!empty($site)) 	$site['keywords']	= $structure->page_meta_keys;
 
 
 /**
@@ -115,8 +113,6 @@ if($structure->access) {
 		}
 	}
 }
-else {
-	$tpl->load_template("access_denied");
-}
+else $tpl->load_template("access_denied");
 
 ?>

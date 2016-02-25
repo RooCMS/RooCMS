@@ -66,7 +66,7 @@ class ACP_BLOCKS {
 	* Поехали
 	*     (с) Гагарин
 	*/
-	public function ACP_BLOCKS() {
+	public function __construct() {
 
 		global $tpl;
 

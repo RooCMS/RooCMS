@@ -240,7 +240,7 @@ if(file_exists(_CLASS."/class_template.php")) {
 	/**
 	 * Запускаем шаблонизатор
 	 */
-	$tpl = new template;
+	$tpl = new Template;
 }
 else die(ROOCMS_NOT_RUNNING);
 

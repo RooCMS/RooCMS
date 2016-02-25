@@ -67,7 +67,7 @@ class ACP_PAGES {
 	* Show must go on
 	*
 	*/
-	public function ACP_PAGES() {
+	public function __construct() {
 
 		global $roocms, $GET, $POST, $tpl;
 

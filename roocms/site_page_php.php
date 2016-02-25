@@ -61,7 +61,7 @@ class PagePHP {
 	* Initialisation
 	*
 	*/
-	public function PagePHP() {
+	public function __construct() {
 		$this->load_content();
 	}
 

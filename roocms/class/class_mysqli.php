@@ -67,7 +67,7 @@ class MySQLiDatabase extends MySQLiExtends {
 	* Let's begin
 	*
 	*/
-	public function MySQLiDatabase() {
+	public function __construct() {
 
 		global $db_info;
 

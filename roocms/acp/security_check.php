@@ -64,7 +64,7 @@ class ACP_SECURITY {
 	 * Функция проверки текущего доступа пользователя.
 	 * В случае успешной проверки функция изменяет флаг $access на true
 	 */
-	public function ACP_SECURITY() {
+	public function __construct() {
 
 		global $users;
 

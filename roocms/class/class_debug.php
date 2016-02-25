@@ -89,7 +89,7 @@ class Debug {
 	/**
 	* Запускаем класс
 	*/
-	public function Debug() {
+	public function __construct() {
 
 		# устанавливаем перехватчик ошибок
 		set_error_handler(array($this,'debug_critical_error'));
