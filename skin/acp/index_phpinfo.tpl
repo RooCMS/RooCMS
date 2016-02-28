@@ -1,7 +1,7 @@
 {* PHP Info *}
 
 <div class="panel-heading">
-	{$part_title}
+	PHP Info
 </div>
 
 <div class="panel-body">

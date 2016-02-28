@@ -1,7 +1,7 @@
 {* Установленные PHP расширения *}
 
 <div class="panel-heading">
-	{$part_title}
+	Установленные PHP расширения
 </div>
 
 <div class="panel-body">

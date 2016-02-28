@@ -3,9 +3,9 @@
 * @package      RooCMS
 * @subpackage	Admin Control Panel
 * @author       alex Roosso
-* @copyright    2010-2016 (c) RooCMS
+* @copyright    2010-2017 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      2.1.2
+* @version      2.2
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -123,7 +123,6 @@ class ACP_INDEX {
 		}
 
 		# draw
-		$smarty->assign('part_title', 	'Сводка по сайту');
 		$smarty->assign('warning_subj',	$warning_subj);
 		$smarty->assign('info',		$info);
 
@@ -139,40 +138,90 @@ class ACP_INDEX {
 
 		global $db, $tpl, $smarty;
 
-		# Версия mySql
+		# Версия MYSQL
 		$q = $db->query("SHOW VARIABLES LIKE 'version'");
 		$mysql = $db->fetch_row($q);
-		$version['mysql']	= $mysql[1];
+		$data1['mysql']		= $mysql[1];
 
-		$version['php'] 	= PHP_VERSION;				# Версия php
-		$version['zend']	= zend_version();			# Версия Zend
-		$version['apache'] 	= $_SERVER['SERVER_SOFTWARE'];		# Версия сервера  apache_get_version();
-		$version['os']		= php_uname("s")." (".PHP_OS.")"; 	# ОС
-		$version['uname']	= php_uname(); 				# UNAME
-		$version['roocms']	= ROOCMS_VERSION;			# RooCMS
+		$data1['php'] 		= PHP_VERSION;				# Версия php
+		$data1['zend']		= zend_version();			# Версия Zend
+		$data1['apache'] 	= $_SERVER['SERVER_SOFTWARE'];		# Версия сервера  apache_get_version();
+		$data1['os']		= php_uname("s")." (".PHP_OS.")"; 	# ОС
+		$data1['uname']		= php_uname(); 				# UNAME
+		$data1['roocms']	= ROOCMS_VERSION;			# RooCMS
 
-		$version['pid']		= PEAR_INSTALL_DIR; 			# Директория установки PEAR расширений
-		$version['dip']		= DEFAULT_INCLUDE_PATH;
-		$version['ped']		= PHP_EXTENSION_DIR;			# Директория php расширений
-		$version['pcp']		= PHP_CONFIG_FILE_PATH;
+		$data1['pid']		= PEAR_INSTALL_DIR; 			# Директория установки PEAR расширений
+		$data1['dip']		= DEFAULT_INCLUDE_PATH;
+		$data1['ped']		= PHP_EXTENSION_DIR;			# Директория php расширений
+		$data1['pcp']		= PHP_CONFIG_FILE_PATH;
 
-		$version['sn']		= $_SERVER["SERVER_NAME"]; 		# Имя сервера
-		$version['sa']		= $_SERVER["SERVER_ADDR"]; 		# Адрес сервера
-		$version['sp']		= $_SERVER["SERVER_PROTOCOL"]; 		# Протокол сервера
-		$version['ra']		= $_SERVER["REMOTE_ADDR"]; 		# Адрес клиента
-		$version['docroot']	= _SITEROOT; 				# Путь к документам на сервере
+		$data1['sn']		= $_SERVER["SERVER_NAME"]; 		# Имя сервера
+		$data1['sa']		= $_SERVER["SERVER_ADDR"]; 		# Адрес сервера
+		$data1['sp']		= $_SERVER["SERVER_PROTOCOL"]; 		# Протокол сервера
+		$data1['ra']		= $_SERVER["REMOTE_ADDR"]; 		# Адрес клиента
+		$data1['docroot']	= _SITEROOT; 				# Путь к документам на сервере
 
-		$version['ml']		= ini_get('memory_limit');		# Memory limit
-		$version['mfs']		= ini_get('upload_max_filesize');	# Maximum file size
-		$version['mps']		= ini_get('post_max_size');		# Maximum post size
-		$version['met']		= ini_get('max_execution_time');	# Max execution time
+		$data1['ml']		= ini_get('memory_limit');		# Memory limit
+		$data1['mfs']		= ini_get('upload_max_filesize');	# Maximum file size
+		$data1['mps']		= ini_get('post_max_size');		# Maximum post size
+		$data1['met']		= ini_get('max_execution_time');	# Max execution time
 
-		$version['apache_mods']	= apache_get_modules();			# Расширения Apache
+		$data1['apache_mods']	= apache_get_modules();			# Расширения Apache
 
+
+		$server_vars = array(
+			'PHP_SELF',
+			'argv',
+			'argc',
+			'GATEWAY_INTERFACE',
+			'SERVER_ADDR',
+			'SERVER_NAME',
+			'SERVER_SOFTWARE',
+			'SERVER_PROTOCOL',
+			'REQUEST_METHOD',
+			'REQUEST_TIME',
+			'REQUEST_TIME_FLOAT',
+			'QUERY_STRING',
+			'DOCUMENT_ROOT',
+			'HTTP_ACCEPT',
+			'HTTP_ACCEPT_CHARSET',
+			'HTTP_ACCEPT_ENCODING',
+			'HTTP_ACCEPT_LANGUAGE',
+			'HTTP_CONNECTION',
+			'HTTP_HOST',
+			'HTTP_REFERER',
+			'HTTP_USER_AGENT',
+			'HTTPS',
+			'REMOTE_ADDR',
+			'REMOTE_HOST',
+			'REMOTE_PORT',
+			'REMOTE_USER',
+			'REDIRECT_REMOTE_USER',
+			'SCRIPT_FILENAME',
+			'SERVER_ADMIN',
+			'SERVER_PORT',
+			'SERVER_SIGNATURE',
+			'PATH_TRANSLATED',
+			'SCRIPT_NAME',
+			'REQUEST_URI',
+			'PHP_AUTH_DIGEST',
+			'PHP_AUTH_USER',
+			'PHP_AUTH_PW',
+			'AUTH_TYPE',
+			'PATH_INFO',
+			'ORIG_PATH_INFO'
+		) ;
+
+
+		foreach ($server_vars as $arg) {
+			if (isset($_SERVER[$arg]))
+				$data2[] = array("var"=>$arg, "value"=>$_SERVER[$arg]);
+			else 	$data2[] = array("var"=>$arg, "value"=>"not found");
+		}
 
 		# draw
-		$smarty->assign('part_title', 	'Информация о сервере');
-		$smarty->assign('version',	$version);
+		$smarty->assign('data1',	$data1);
+		$smarty->assign('data2',	$data2);
 
 		$content = $tpl->load_template("index_serverinfo", true);
 		$smarty->assign('content',	$content);
@@ -194,7 +243,6 @@ class ACP_INDEX {
 		$filetypes['files']		= $filetype;				# Allow file types
 
 		# draw
-		$smarty->assign('part_title', 	'Информация о файлах');
 		$smarty->assign('filetypes',	$filetypes);
 
 		$content = $tpl->load_template("index_fileinfo", true);
@@ -215,7 +263,6 @@ class ACP_INDEX {
 		}
 
 		# draw
-		$smarty->assign('part_title', 		'Установленные PHP расширения');
 		$smarty->assign('phpextensions',	$config->phpextensions);
 		$smarty->assign('phpextfunc',		$phpextfunc);
 
@@ -241,7 +288,6 @@ class ACP_INDEX {
 		$phpinfo = $out[2][0];
 
 		# draw
-		$smarty->assign('part_title', 	'PHP info');
 		$smarty->assign('phpinfo', 	$phpinfo);
 
 		$content = $tpl->load_template("index_phpinfo", true);
@@ -259,7 +305,6 @@ class ACP_INDEX {
 		$inivars = ini_get_all();
 
         	# draw
-		$smarty->assign('part_title', 	'Значение PHP переменных');
 		$smarty->assign('inivars',	$inivars);
 
 		$content = $tpl->load_template("index_inivars", true);
@@ -278,7 +323,6 @@ class ACP_INDEX {
 		require_once _LIB."/license.php";
 
 		# draw
-		$smarty->assign('part_title', 	'Лицензионное соглашение');
 		$smarty->assign('license',	$license['ru']);
 
 		$content = $tpl->load_template("index_license", true);

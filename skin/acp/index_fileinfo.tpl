@@ -1,7 +1,7 @@
 {* Файлы и форматы *}
 
 <div class="panel-heading">
-	{$part_title}
+	Информация о файлах
 </div>
 
 <table class="table table-hover table-condensed">

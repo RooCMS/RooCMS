@@ -1,7 +1,7 @@
 {* Значение PHP переменных *}
 
 <div class="panel-heading">
-	{$part_title}
+	Значение PHP переменных
 </div>
 
 <table class="table table-hover table-condensed">

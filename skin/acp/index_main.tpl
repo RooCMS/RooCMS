@@ -1,7 +1,7 @@
 {* Разные предупреждения *}
 
 <div class="panel-heading">
-	{$part_title}
+	Сводка по сайту
 </div>
 
 <table class="table table-hover table-condensed">
