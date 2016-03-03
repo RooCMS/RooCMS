@@ -40,13 +40,13 @@
 {else}
 	<div class="row">
 		<div class="col-sm-12 text-right">
-			<h4>Здравствуйте, {if $userdata['avatar'] != ""}<a href="/?act=ucp"><img src="/upload/images/{$userdata['avatar']}" height="20" style="margin-top: -4px;" class="img-rounded"></a> <a href="/?act=ucp">{$userdata['nickname']}</a>{else}<a href="/?act=ucp"><i class="fa fa-fw fa-male"></i>{$userdata['nickname']}</a>{/if}</h4>
-			{if $pm == 0}
-				<a href="/index.php?act=pm" class="btn btn-default btn-xs"><i class="fa fa-fw fa-envelope-o"></i> У вас нет новых сообщений</a>
-			{else}
-				<a href="/index.php?act=pm" class="btn btn-success btn-xs"><i class="fa fa-fw fa-envelope-o"></i> У вас {$pm} новых сообщений</a>
-			{/if}
-			<a href="/index.php?act=logout" class="btn btn-default btn-xs">Выйти <i class="fa fa-fw fa-sign-out"></i></a>
+			{if $userdata['avatar'] != ""}<a href="/?act=ucp"><img src="/upload/images/{$userdata['avatar']}" height="70" class="img-circle mauth-avatar"></a>{/if}
+			<div class="pull-right">
+				<h4>Здравствуйте, <a href="/?act=ucp"><i class="fa fa-fw fa-{if $userdata['user_sex'] != "m"}fe{/if}male"></i>{$userdata['nickname']}</a></h4>
+
+				<a href="/index.php?act=pm" class="btn btn-{if $pm == 0}default{else}success{/if} btn-xs"><i class="fa fa-fw fa-envelope-o"></i> У вас {if $pm == 0}нет{else}{$pm}{/if} новых сообщений</a>
+				<a href="/index.php?act=logout" class="btn btn-default btn-xs">Выйти <i class="fa fa-fw fa-sign-out"></i></a>
+			</div>
 		</div>
 	</div>
 {/if}
