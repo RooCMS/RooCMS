@@ -19,8 +19,8 @@ body {
   color: #1b1e24;
   font-size: 12px;
   background: #ede1cb url('img/bgcp.png') repeat fixed top !important;
-  padding: 0px;
-  margin: 60px 0px !important;
+  padding: 0;
+  margin: 60px 0 !important;
   behavior: url("../../csshover.htc") !important;
 }
 img {
@@ -43,14 +43,20 @@ a {
 /* OTHER STYLE */
 input:focus:invalid {
   /* transition: all 0.15s ease-in-out;-webkit-transition: all 0.15s ease-in-out;-moz-transition: all 0.15s ease-in-out;outline:none; */
-  -moz-box-shadow: 0px 0px 6px #fe402b;
-  -webkit-box-shadow: 0px 0px 6px #fe402b;
-  box-shadow: 0px 0px 6px #fe402b;
+  -moz-box-shadow: 0 0 6px #fe402b;
+  -webkit-box-shadow: 0 0 6px #fe402b;
+  box-shadow: 0 0 6px #fe402b;
   border: 1px solid #fe402b;
+}
+#logo {
+  margin-top: -8px;
+}
+.logo-xs {
+  width: 140px;
 }
 .footer {
   line-height: 13px !important;
-  padding: 10px 0px;
+  padding: 10px 0;
 }
 .alert {
   margin-top: -10px;
@@ -96,8 +102,8 @@ a:hover [class^="fa-"] {
 .notification-info {
   position: fixed;
   z-index: 100;
-  right: 0px;
-  left: 0px;
+  right: 0;
+  left: 0;
 }
 .hover-without-underline:hover {
   text-decoration: none !important;
@@ -106,7 +112,7 @@ a:hover [class^="fa-"] {
   cursor: pointer;
 }
 .progress.pb0 {
-  margin-bottom: 0px !important;
+  margin-bottom: 0 !important;
 }
 /* ckeditor styles */
 .cked {
@@ -114,7 +120,7 @@ a:hover [class^="fa-"] {
 }
 /* style for attached files */
 .field_attach {
-  padding: 10px 0px;
+  padding: 10px 0;
 }
 .delete_image {
   margin-right: -3px;
@@ -172,8 +178,8 @@ blockquote.quote h3,
 blockquote.quote h4,
 blockquote.quote h5,
 blockquote.quote h6 {
-  margin: 0px 0px 10px 0px;
-  padding: 0px;
+  margin: 0 0 10px 0;
+  padding: 0;
 }
 blockquote.quote small {
   color: #888;
@@ -263,8 +269,8 @@ h3,
 h4,
 h5,
 h6 {
-  padding: 0px;
-  margin: 0px;
+  padding: 0;
+  margin: 0;
   font-weight: normal !important;
   font-family: 'Ubuntu', 'PT Sans' !important;
 }
@@ -329,14 +335,14 @@ h6 {
   text-shadow: 1px 1px 1px #1b1e24;
 }
 .shadow {
-  -moz-box-shadow: 0px 0px 6px #b8ad9a;
-  -webkit-box-shadow: 0px 0px 6px #b8ad9a;
-  box-shadow: 0px 0px 6px #b8ad9a;
+  -moz-box-shadow: 0 0 6px #b8ad9a;
+  -webkit-box-shadow: 0 0 6px #b8ad9a;
+  box-shadow: 0 0 6px #b8ad9a;
 }
 .inshadow {
-  -moz-box-shadow: 0px 0px 2px #b8ad9a inset;
-  -webkit-box-shadow: 0px 0px 2px #b8ad9a inset;
-  box-shadow: 0px 0px 2px #b8ad9a inset;
+  -moz-box-shadow: 0 0 2px #b8ad9a inset;
+  -webkit-box-shadow: 0 0 2px #b8ad9a inset;
+  box-shadow: 0 0 2px #b8ad9a inset;
 }
 /* SPECIFICATION */
 .clear,
@@ -401,11 +407,11 @@ h6 {
   font-family: 'Consolas';
   font-size: 14px;
   height: auto;
-  margin: 5px 0px;
+  margin: 5px 0;
   border: 1px solid #cccccc;
-  -moz-box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.075) inset;
-  -webkit-box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.075) inset;
-  box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.075) inset;
+  -moz-box-shadow: 0 0 2px rgba(0, 0, 0, 0.075) inset;
+  -webkit-box-shadow: 0 0 2px rgba(0, 0, 0, 0.075) inset;
+  box-shadow: 0 0 2px rgba(0, 0, 0, 0.075) inset;
   border-radius: 4px;
 }
 span.CodeMirror-matchhighlight {

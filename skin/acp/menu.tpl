@@ -1,14 +1,14 @@
 {literal}
 <style>
-	#logo {top: 5px; left: 0px;}
-	.navbar-brand {width: 110px;}
+	/*#logo {top: 5px; left: 0px;}
+	.navbar-brand {width: 110px;}*/
 </style>
 {/literal}
 
 <div class="container visible-xs" id="logo-xs">
 	<div class="row">
     		<div class="col-md-12 text-center">
-        		<a href="{$SCRIPT_NAME}"><img src="{$SKIN}/img/acp_logo_full.png" border="0"></a>
+        		<a href="{$SCRIPT_NAME}"><img src="{$SKIN}/img/logo.png" border="0" class="logo-xs"></a>
     		</div>
 	</div>
 </div>
@@ -16,7 +16,7 @@
 <div class="navbar navbar-fixed-top navbar-inverse" role="navigation">
 
 	<div class="navbar-header text-center">
-		<a class="navbar-brand hidden-xs" href="{$SCRIPT_NAME}"><img src="{$SKIN}/img/acp_logo_full.png" border="0" class="absolute" id="logo"></a>
+		<a class="navbar-brand hidden-xs" href="{$SCRIPT_NAME}"><img src="{$SKIN}/img/logo_lg.png" border="0" id="logo"></a>
 		<button type="button" class="navbar-btn btn btn-danger visible-xs btn-block" data-toggle="collapse" data-target=".navbar-collapse">
 			Навигация
 		</button>
