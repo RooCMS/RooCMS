@@ -5,7 +5,7 @@
 * @author       alex Roosso
 * @copyright    2010-2016 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.1
+* @version      1.2
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -55,7 +55,11 @@ if(!defined('RooCMS')) die('Access Denied');
 /**
  * Class Security
  */
-class Security {
+class Security extends Shteirlitz {
+
+	private $pass_leight = 7;
+	private $salt_leight = 5;
+
 
 
 	/**
@@ -97,7 +101,7 @@ class Security {
 	 * @return string - new password
 	 */
 	public function create_new_password() {
-		$password = randcode(7, "ABCDEFGHJKLMNPQRSTUVWXYZabcdefhjkmnprstvwxyz0123456789");
+		$password = randcode($this->pass_leight, "ABCDEFGHJKLMNPQRSTUVWXYZabcdefhjkmnprstvwxyz123456789");
 		return $password;
 	}
 
@@ -108,7 +112,7 @@ class Security {
 	 * @return string
 	 */
 	public function create_new_salt() {
-		$salt = randcode(4, "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ01234567890!@#$%^&*(){}:?><,./[]");
+		$salt = randcode($this->salt_leight, "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!@#$%^&*(-)+{=}:?>~<,./[|]");
 		return $salt;
 	}
 

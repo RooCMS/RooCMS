@@ -4,7 +4,7 @@
 * @author       alex Roosso
 * @copyright    2010-2016 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.7.2
+* @version      1.7.3
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -156,6 +156,13 @@ if(file_exists(_CLASS."/class_parser.php")) {
 	$GET	=& $parse->Get;
 	$POST	=& $parse->Post;
 }
+else die(ROOCMS_NOT_RUNNING);
+
+/**
+ * Запускаем расширение класса Security
+ */
+if(file_exists(_CLASS."/class_shteirlitz.php"))
+	require_once(_CLASS."/class_shteirlitz.php");
 else die(ROOCMS_NOT_RUNNING);
 
 /**

@@ -64,7 +64,7 @@ if(!defined('RooCMS')) die('Access Denied');
 function randcode($ns, $symbols="ABCEFHKLMNPRSTVXYZ123456789") {
 
 	if(trim($symbols) == "")
-		$symbols = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ01234567890";
+		$symbols = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 
 	settype($symbols, "string");
 
