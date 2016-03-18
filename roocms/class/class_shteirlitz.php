@@ -3,7 +3,7 @@
  * @package	RooCMS
  * @subpackage	Engine RooCMS classes
  * @author	alex Roosso
- * @copyright	2010-2016 (c) RooCMS
+ * @copyright	2010-2017 (c) RooCMS
  * @link	http://www.roocms.com
  * @version	1.0
  * @license	http://www.gnu.org/licenses/gpl-3.0.html
@@ -61,8 +61,8 @@ class Shteirlitz {
 	 *
 	 * @return string
 	 */
-	protected function encode($str, $passw="", $salt="") {
-		return base64_encode($this->code($str, $salt, $passw));
+	public function encode($str, $passw="", $salt="") {
+		return base64_encode($this->code($str, $passw, $salt));
 	}
 
 
@@ -75,8 +75,8 @@ class Shteirlitz {
 	 *
 	 * @return data
 	 */
-	protected function decode($str, $passw="", $salt="") {
-		return $this->code(base64_decode($str), $salt, $passw);
+	public function decode($str, $passw="", $salt="") {
+		return $this->code(base64_decode($str), $passw, $salt);
 	}
 
 
