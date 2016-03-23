@@ -6,7 +6,7 @@
 		<a href="/upload/files/{$file['file']}" id="afile-{$file['id']}" target="_blank">
 			{if file_exists("skin/acp/img/icon/32/{$file['fileext']}.png")}<img src="skin/acp/img/icon/32/{$file['fileext']}.png" border="0" width="32" height="32">{else}<span class="fa fa-file-code-o fa-fw fa-2x"></span>{/if}{$file['file']}
 		</a>
-		<span id="fileoption-{$file['id']}" class="pull-right"><span class="hover_cursor" id="delfile-{$file['id']}" rel="tooltip" title="Удалить" data-placement="left"><span class="fa fa-trash-o fa-fw"></span></span></span>
+		<span id="fileoption-{$file['id']}" class="pull-right"><span class="hover-cursor" id="delfile-{$file['id']}" rel="tooltip" title="Удалить" data-placement="left"><span class="fa fa-trash-o fa-fw"></span></span></span>
 	</p>
 {/foreach}
 

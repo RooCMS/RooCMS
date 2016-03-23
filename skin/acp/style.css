@@ -43,27 +43,29 @@ a {
 /* OTHER STYLE */
 input:focus:invalid {
   /* transition: all 0.15s ease-in-out;-webkit-transition: all 0.15s ease-in-out;-moz-transition: all 0.15s ease-in-out;outline:none; */
-  -moz-box-shadow: 0 0 6px #fe402b;
-  -webkit-box-shadow: 0 0 6px #fe402b;
-  box-shadow: 0 0 6px #fe402b;
-  border: 1px solid #fe402b;
+  -moz-box-shadow: 0 0 6px #c60d14;
+  -webkit-box-shadow: 0 0 6px #c60d14;
+  box-shadow: 0 0 6px #c60d14;
+  border: 1px solid #c60d14;
 }
+/* All */
 #logo {
   margin-top: -8px;
 }
 .logo-xs {
   width: 140px;
 }
-.footer {
-  line-height: 13px !important;
-  padding: 10px 0;
+.navbar-collapse {
+  max-height: none !important;
 }
 .alert {
   margin-top: -10px;
 }
-.paragraph {
-  margin-left: 20px;
+.footer {
+  line-height: 13px !important;
+  padding: 10px 0;
 }
+/* sup styles / restyle */
 .small,
 small {
   line-height: 12px;
@@ -81,23 +83,8 @@ blockquote {
 code {
   font-family: 'Ubuntu' !important;
 }
-.form-control.datepicker {
-  padding: 6px 12px !important;
-}
-.visible-inline {
-  display: inline-block !important;
-}
-.navbar-collapse {
-  max-height: none !important;
-}
-a:hover [class^="fa-"] {
-  text-decoration: none !important;
-}
-.display-block {
-  display: block !important;
-}
-.display-none {
-  display: none !important;
+.paragraph {
+  margin-left: 20px;
 }
 .notification-info {
   position: fixed;
@@ -108,11 +95,25 @@ a:hover [class^="fa-"] {
 .hover-without-underline:hover {
   text-decoration: none !important;
 }
-.hover_cursor {
+.hover-cursor {
   cursor: pointer;
 }
 .progress.pb0 {
   margin-bottom: 0 !important;
+}
+/* fix font-awesome underline */
+a:hover [class^="fa-"] {
+  text-decoration: none !important;
+}
+/* visible style */
+.visible-inline {
+  display: inline-block !important;
+}
+.display-block {
+  display: block !important;
+}
+.display-none {
+  display: none !important;
 }
 /* ckeditor styles */
 .cked {
@@ -132,7 +133,7 @@ p.attach_files {
 /* style fro delete user avatar */
 .delete_useravatar:hover,
 .delete_config_image:hover {
-  background-color: #fe402b;
+  background-color: #c60d14;
   border-radius: 5px;
 }
 .delete_useravatar:hover > img,
@@ -143,7 +144,10 @@ p.attach_files {
 .form-date {
   width: 50% !important;
 }
-/* alias visual style */
+.form-control.datepicker {
+  padding: 6px 12px !important;
+}
+/* Structure style */
 tr .trinfo {
   display: none;
   float: right;
@@ -151,13 +155,16 @@ tr .trinfo {
 tr:hover .trinfo {
   display: block;
 }
+.table-hover > tbody > tr:hover .structure-highlight {
+  color: #3d4f61;
+}
 /* Add BS */
 blockquote.quote-primary {
-  border-left-color: #6f7a9a;
+  border-left-color: #3d4f61;
   background-color: #fbfbfb;
 }
 blockquote.quote-info {
-  border-left-color: #409eef;
+  border-left-color: #3581d5;
   background-color: #fbfbfb;
 }
 blockquote.quote-success {
@@ -169,7 +176,7 @@ blockquote.quote-warning {
   background-color: #fbfbfb;
 }
 blockquote.quote-danger {
-  border-left-color: #fe402b;
+  border-left-color: #c60d14;
   background-color: #fbfbfb;
 }
 blockquote.quote h1,
@@ -190,7 +197,7 @@ blockquote.quote-primary > h3,
 blockquote.quote-primary > h4,
 blockquote.quote-primary > h5,
 blockquote.quote-primary > h6 {
-  color: #6f7a9a;
+  color: #3d4f61;
 }
 blockquote.quote-info > h1,
 blockquote.quote-info > h2,
@@ -198,7 +205,7 @@ blockquote.quote-info > h3,
 blockquote.quote-info > h4,
 blockquote.quote-info > h5,
 blockquote.quote-info > h6 {
-  color: #409eef;
+  color: #3581d5;
 }
 blockquote.quote-success > h1,
 blockquote.quote-success > h2,
@@ -222,7 +229,7 @@ blockquote.quote-danger > h3,
 blockquote.quote-danger > h4,
 blockquote.quote-danger > h5,
 blockquote.quote-danger > h6 {
-  color: #fe402b;
+  color: #c60d14;
 }
 /* Fonts */
 .arial {

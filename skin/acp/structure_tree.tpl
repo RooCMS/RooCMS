@@ -15,10 +15,10 @@
 	<tbody>
 	{foreach from=$tree item=page}
 		<tr>
-			<td class="text-muted">{$page['id']}</td>
+			<td class="text-muted structure-highlight">{$page['id']}</td>
 			<td>
 				<nobr>
-					{section name=foo start=1 loop=$page['level'] step=1}<span class="text-muted">&bull;</span>&emsp;{/section}
+					{section name=foo start=1 loop=$page['level'] step=1}<span class="text-muted structure-highlight">&bull;</span>&emsp;{/section}
 
 					{if $page['page_type'] == "html" or $page['page_type'] == "php"}
 						<a href="{$SCRIPT_NAME}?act=pages&part=edit&page={$page['id']}">{$page['title']}</a>
