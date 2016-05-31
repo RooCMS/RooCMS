@@ -3,9 +3,9 @@
 * @package      RooCMS
 * @subpackage	Frontend
 * @author       alex Roosso
-* @copyright    2010-2016 (c) RooCMS
+* @copyright    2010-2017 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.1.2
+* @version      1.1.3
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -52,9 +52,6 @@ if(!defined('RooCMS')) die('Access Denied');
 //#########################################################
 
 
-nocache();
-
-
 /**
 * Meta SEO
 *
@@ -81,8 +78,8 @@ if(!class_exists("Modules")) require_once "site_module.php";
 
 
 if($structure->access) {
-	
-	if(trim($roocms->act) == "") {
+
+	if(trim($roocms->part) == "") {
 		/**
 		* Load structure unit
 		*/

@@ -1,12 +1,11 @@
 <?php
-
 /**
 * @package	RooCMS
 * @subpackage	Module
 * @author	alex Roosso
-* @copyright	2010-2015 (c) RooCMS
+* @copyright	2010-2017 (c) RooCMS
 * @link		http://www.roocms.com
-* @version	1.0.1
+* @version	1.1
 * @since	$date$
 * @license	http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -71,11 +70,14 @@ class Module_Auth {
 
 		global $db, $users, $tpl, $smarty;
 
-		$q = $db->query("SELECT id FROM ".USERS_PM_TABLE." WHERE to_uid='".$users->uid."' AND see='0'");
-		$pm = $db->num_rows($q);
+		if($users->uid != 0) {
+			$q = $db->query("SELECT id FROM ".USERS_PM_TABLE." WHERE to_uid='".$users->uid."' AND see='0'");
+			$pm = $db->num_rows($q);
+		}
 
 		# draw
-		$smarty->assign("pm", $pm);
+		if(isset($pm))
+			$smarty->assign("pm", $pm);
 		$smarty->assign("userdata", $users->userdata);
 		$this->out .= $tpl->load_template("module_auth", true);
 	}

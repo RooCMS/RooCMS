@@ -3,9 +3,9 @@
 * @package      RooCMS
 * @subpackage	Engine RooCMS classes
 * @author       alex Roosso
-* @copyright    2010-2016 (c) RooCMS
+* @copyright    2010-2017 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.2.2
+* @version      1.2.3
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -96,9 +96,10 @@ class Parsers {
 		# обрабатываем URI
 		$this->parse_uri();
 
-		# act & part
+		# act(ion) & part(ition) & move
 		if(isset($this->Get->_act)) 	$roocms->act 	=& $this->Get->_act;
 		if(isset($this->Get->_part)) 	$roocms->part 	=& $this->Get->_part;
+		if(isset($this->Get->_move)) 	$roocms->move 	=& $this->Get->_move;
 		# check query RSS Export
 		if(isset($this->Get->_export)) 	$roocms->rss 	= true;
 		# check ajax flag

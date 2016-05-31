@@ -3,9 +3,9 @@
 * @package	RooCMS
 * @subpackage	Configuration
 * @author	alex Roosso
-* @copyright	2010-2016 (c) RooCMS
+* @copyright	2010-2017 (c) RooCMS
 * @link		http://www.roocms.com
-* @version	1.4.9
+* @version	1.5
 * @since	$date$
 * @license	http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -61,40 +61,41 @@ define('DB_PREFIX',		$db_info['prefix']);
 /**
 * Config $DB Table
 */
-define('CONFIG_PARTS_TABLE', 	DB_PREFIX.'config__parts');
-define('CONFIG_TABLE', 		DB_PREFIX.'config__settings');
-define('STRUCTURE_TABLE', 	DB_PREFIX.'structure');
-define('PAGES_HTML_TABLE', 	DB_PREFIX.'pages__html');
-define('PAGES_PHP_TABLE', 	DB_PREFIX.'pages__php');
-define('PAGES_FEED_TABLE', 	DB_PREFIX.'pages__feed');
-define('BLOCKS_TABLE', 		DB_PREFIX.'blocks');
-define('IMAGES_TABLE', 		DB_PREFIX.'images');
-define('FILES_TABLE', 		DB_PREFIX.'files');
-define('USERS_TABLE', 		DB_PREFIX.'users');
-define('USERS_GROUP_TABLE', 	DB_PREFIX.'users_group');
-define('USERS_PM_TABLE', 	DB_PREFIX.'users_pm');
-define('HELP_TABLE', 		DB_PREFIX.'help');
+define('CONFIG_PARTS_TABLE',    DB_PREFIX.'config__parts');
+define('CONFIG_TABLE',          DB_PREFIX.'config__settings');
+define('STRUCTURE_TABLE',       DB_PREFIX.'structure');
+define('PAGES_HTML_TABLE',      DB_PREFIX.'pages__html');
+define('PAGES_PHP_TABLE',       DB_PREFIX.'pages__php');
+define('PAGES_FEED_TABLE',      DB_PREFIX.'pages__feed');
+define('BLOCKS_TABLE',          DB_PREFIX.'blocks');
+define('IMAGES_TABLE',          DB_PREFIX.'images');
+define('FILES_TABLE',           DB_PREFIX.'files');
+define('USERS_TABLE',           DB_PREFIX.'users');
+define('USERS_GROUP_TABLE',     DB_PREFIX.'users_group');
+define('USERS_PM_TABLE',        DB_PREFIX.'users_pm');
+define('HELP_TABLE',            DB_PREFIX.'help');
 
 
 /**
 * RooCMS $Path
 */
 if(!defined('_SITEROOT'))
-define('_SITEROOT', 	str_ireplace(DIRECTORY_SEPARATOR."roocms".DIRECTORY_SEPARATOR."config", "", dirname(__FILE__)));
-define('_ROOCMS',	_SITEROOT.'/roocms');
-define('_CLASS', 	_ROOCMS.'/class');
-define('_LIB', 		_ROOCMS.'/lib');
-define('_MODULE', 	_ROOCMS.'/module');
-define('_SMARTY', 	_LIB.'/smarty');
-define('_SKIN',		_SITEROOT.'/skin');
-define('_ACPSKIN',	_SKIN.'/acp');
-define('_UPLOAD',	_SITEROOT.'/upload');
-define('_UPLOADIMAGES',	_UPLOAD.'/images');
-define('_UPLOADFILES',	_UPLOAD.'/files');
-define('_CACHE',	_SITEROOT.'/cache');
-define('_LOGS',		_CACHE.'/logs');
-define('_CACHESKIN',	_CACHE.'/skin');
-define('_CACHEIMAGE',	_CACHE.'/images');
+define('_SITEROOT',     str_ireplace(DIRECTORY_SEPARATOR."roocms".DIRECTORY_SEPARATOR."config", "", dirname(__FILE__)));
+define('_ROOCMS',       _SITEROOT.'/roocms');
+define('_CLASS',        _ROOCMS.'/class');
+define('_LIB',          _ROOCMS.'/lib');
+define('_MODULE',       _ROOCMS.'/module');
+define('_UI',           _ROOCMS.'/ui');
+define('_SMARTY',       _LIB.'/smarty');
+define('_SKIN',         _SITEROOT.'/skin');
+define('_ACPSKIN',      _SKIN.'/acp');
+define('_UPLOAD',       _SITEROOT.'/upload');
+define('_UPLOADIMAGES', _UPLOAD.'/images');
+define('_UPLOADFILES',  _UPLOAD.'/files');
+define('_CACHE',        _SITEROOT.'/cache');
+define('_LOGS',         _CACHE.'/logs');
+define('_CACHESKIN',    _CACHE.'/skin');
+define('_CACHEIMAGE',   _CACHE.'/images');
 
 
 /**
@@ -106,9 +107,10 @@ define('_DOMAIN',	strtr($_SERVER['HTTP_HOST'], array('http://'=>'', 'www.'=>''))
 /**
 * $Component
 */
-define('_ACP',		_ROOCMS.'/acp.php');
-define('_UCP',		_ROOCMS.'/ucp.php');
-define('_SITE',		_ROOCMS.'/site.php');
+define('INIT_ACP',     _ROOCMS.'/acp.php');
+define('INIT_UI',      _ROOCMS.'/ui.php');
+define('INIT_UCP',     _UI.'/ucp.php');
+define('INIT_SITE',    _ROOCMS.'/site.php');
 
 
 /**

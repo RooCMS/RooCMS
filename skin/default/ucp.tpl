@@ -84,7 +84,7 @@
 		</div>
 		<div class="panel panel-default">
 			<div class="panel-footer text-center">
-				<a href="{$SCRIPT_NAME}?act=ucp&part=edit_info" class="btn btn-default"><i class="fa fa-fw fa-pencil"></i> Редактировать</a>
+				<a href="{$SCRIPT_NAME}?part=ucp&act=ucp&move=edit_info" class="btn btn-default"><i class="fa fa-fw fa-pencil"></i> Редактировать</a>
 			</div>
 		</div>
 

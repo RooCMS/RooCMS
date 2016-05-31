@@ -3,9 +3,9 @@
 * @package      RooCMS
 * @subpackage	User Control Panel
 * @author       alex Roosso
-* @copyright    2010-2016 (c) RooCMS
+* @copyright    2010-2017 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.0.1
+* @version      1.0.2
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -61,18 +61,18 @@ class UCP_PM {
 	/**
 	 * Init
 	 */
-	public function UCP_PM() {
+	public function __construct() {
 
 		global $structure, $roocms;
 
 		# breadcumb
-		$structure->breadcumb[] = array('act' => 'pm', 'title'=>'Личные сообщения');
+		$structure->breadcumb[] = array('part'=>'ucp', 'act'=>'pm', 'title'=>'Личные сообщения');
 
 		# get userlist
 		$this->get_userlist();
 
 
-		switch($roocms->part) {
+		switch($roocms->move) {
 			case 'write':
 				$this->write();
 				break;

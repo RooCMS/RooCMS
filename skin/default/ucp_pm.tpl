@@ -18,7 +18,7 @@
 	<div class="col-md-12">
 		<div class="list-group">
 			{foreach from=$pm item=m}
-			<a href="index.php?act=pm&part=read&id={$m['id']}" class="list-group-item{if $m['see'] == 0} list-group-item-info{/if}">
+			<a href="index.php?part=ucp&act=pm&move=read&id={$m['id']}" class="list-group-item{if $m['see'] == 0} list-group-item-info{/if}">
 				<i class="fa fa-envelope{if $m['see'] != 0}-o{/if} fa-2x pull-left"></i><h4 class="list-group-item-heading">{$m['title']}</h4>
 				<span class="small list-group-item-text">Отправлено: {$m['date_send']}</span>
 				<span class="pull-right list-group-item-text">От: {$m['from_name']}</span>
@@ -34,7 +34,7 @@
 
 <div class="row">
 	<div class="col-sm-12">
-		<form method="post" action="index.php?act=pm&part=send" class="form-horizontal">
+		<form method="post" action="index.php?part=ucp&act=pm&move=send" class="form-horizontal">
 
 			<div class="form-group">
 				<label for="inputTo" class="col-lg-4 control-label">Получатель:</label>

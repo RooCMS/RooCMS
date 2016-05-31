@@ -3,9 +3,9 @@
 * @package      RooCMS
 * @subpackage	User Control Panel
 * @author       alex Roosso
-* @copyright    2010-2016 (c) RooCMS
+* @copyright    2010-2017 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.0.3
+* @version      1.0.4
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -58,14 +58,14 @@ class UCP_CP {
 	/**
 	 * Init
 	 */
-	public function UCP_CP() {
+	public function __construct() {
 
 		global $structure, $roocms;
 
 		# breadcumb
-		$structure->breadcumb[] = array('act' => 'ucp', 'title'=>'Личный кабинет');
+		$structure->breadcumb[] = array('part'=>'ucp', 'act'=>'ucp', 'title'=>'Личный кабинет');
 
-		switch($roocms->part) {
+		switch($roocms->move) {
 			case 'edit_info':
 				$this->edit_info();
 				break;
@@ -198,7 +198,7 @@ class UCP_CP {
 			sendmail($POST->email, "Ваши данные на \"".$site['title']."\" были обновлены", $message);
 
 			# go out
-			go("index.php?act=ucp");
+			go("index.php?part=ucp&act=ucp");
 		}
 		else goback();
 	}

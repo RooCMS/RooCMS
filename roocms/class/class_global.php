@@ -3,9 +3,9 @@
 * @package	RooCMS
 * @subpackage	Engine RooCMS classes
 * @author	alex Roosso
-* @copyright	2010-2016 (c) RooCMS
+* @copyright	2010-2017 (c) RooCMS
 * @link		http://www.roocms.com
-* @version	1.2.2
+* @version	1.2.3
 * @since	$date$
 * @license	http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -61,8 +61,9 @@ class Globals {
 	var	$config;			# [obj]	object global configuration
 
 	# global vars
-	public	$act		= "";		# [string]	param $_GET['act'] for init actions
 	public	$part		= "";		# [string]	param $_GET['part'] for init partition
+	public	$act		= "";		# [string]	param $_GET['act'] for init actions
+	public	$move		= "";		# [string]	param $_GET['move'] for init move
 
 	public 	$sess		= array();	# [array]	parsing $_SESSION
 

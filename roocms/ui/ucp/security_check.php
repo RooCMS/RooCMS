@@ -3,7 +3,7 @@
  * @package      RooCMS
  * @subpackage	 User Control Panel
  * @author       alex Roosso
- * @copyright    2010-2016 (c) RooCMS
+ * @copyright    2010-2017 (c) RooCMS
  * @link         http://www.roocms.com
  * @version      1.0.1
  * @since        $date$
@@ -48,33 +48,40 @@
 //#########################################################
 // Anti Hack
 //---------------------------------------------------------
-if(!defined('RooCMS')) die('Access Denied');
+if(!defined('RooCMS') || !defined('UCP')) die('Access Denied');
 //#########################################################
 
 
-//#########################################################
-// Initialisation Admin CP identification
-//---------------------------------------------------------
-if(!defined('UCP')) define('UCP', true);
-//#########################################################
+class UCP_SECURITY {
+
+	/**
+	 * @var bool
+	 */
+	var $access = false;
 
 
-nocache();
+	/**
+	 * Функция проверки текущего доступа пользователя.
+	 * В случае успешной проверки функция изменяет флаг $access на true
+	 */
+	public function __construct() {
 
-# Security check
-require_once _ROOCMS."/ucp/security_check.php";
+		global $db, $users;
 
-/**
- * Init Blocks & Modules
- */
-if(!class_exists("Blocks"))  require_once "site_blocks.php";
-if(!class_exists("Modules")) require_once "site_module.php";
-
-if($ucpsecurity->access) {
-	if(trim($roocms->act) != "" && file_exists(_ROOCMS."/ucp/".$roocms->act.".php")) {
-		require_once _ROOCMS."/ucp/".$roocms->act.".php";
+		if($users->uid != 0) {
+			# check access
+			if($users->token != "")
+				$this->access = true;  # access granted
+			else
+				$this->access = false; # access denied
+		}
+		else $this->access = false; # access denied
 	}
 }
-else require_once _ROOCMS."/ucp/login.php";
+
+/**
+ * Init Class
+ */
+$ucpsecurity = new UCP_SECURITY;
 
 ?>
