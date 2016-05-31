@@ -76,12 +76,12 @@ else
 /**
  * Init Blocks & Modules
  */
-require_once "site_blocks.php";
-require_once "site_module.php";
+if(!class_exists("Blocks"))  require_once "site_blocks.php";
+if(!class_exists("Modules")) require_once "site_module.php";
 
 
 if($structure->access) {
-
+	
 	if(trim($roocms->act) == "") {
 		/**
 		* Load structure unit

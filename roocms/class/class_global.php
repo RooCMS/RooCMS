@@ -185,7 +185,7 @@ class Globals {
 	*/
 	protected function ifmodifedsince($lastmodifed) {
 
-		Header("Last-Modified: ".gmdate("D, d M Y H:i:s", $lastmodifed)." GMT");
+		header("Last-Modified: ".gmdate("D, d M Y H:i:s", $lastmodifed)." GMT");
 
 		if($this->modifiedsince) {
 
