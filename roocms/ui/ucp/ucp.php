@@ -48,7 +48,7 @@
 //#########################################################
 // Anti Hack
 //---------------------------------------------------------
-if(!defined('RooCMS') || !defined('UCP')) die('Access Denied');
+if(!defined('RooCMS') || !defined('UI') || !defined('UCP')) die('Access Denied');
 //#########################################################
 
 
@@ -102,7 +102,7 @@ class UCP_CP {
 		global $structure, $users, $tpl, $smarty;
 
 		# breadcumb
-		$structure->breadcumb[] = array('act' => 'ucp', 'part'=>'edit_info', 'title'=>'Изменяем личные данные');
+		$structure->breadcumb[] = array('part'=>'edit_info', 'act' => 'ucp', 'title'=>'Изменяем личные данные');
 
 		# tpl
 		$smarty->assign("userdata", $users->userdata);

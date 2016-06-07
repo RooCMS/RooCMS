@@ -48,7 +48,7 @@
 //#########################################################
 // Anti Hack
 //---------------------------------------------------------
-if(!defined('RooCMS') || !defined('UCP')) die('Access Denied');
+if(!defined('RooCMS') || !defined('UI') || !defined('UCP')) die('Access Denied');
 //#########################################################
 
 
@@ -145,7 +145,7 @@ class UCP_PM {
 			$smarty->assign("userdata", $users->userdata);
 			$tpl->load_template("ucp_pm_read");
 		}
-		else go("index.php?act=pm");
+		else go("index.php?part=ucp&act=pm");
 	}
 
 
@@ -157,7 +157,7 @@ class UCP_PM {
 		global $structure, $db, $users, $tpl, $smarty;
 
 		# breadcumb
-		$structure->breadcumb[] = array('act' => 'pm', 'part'=>'write', 'title'=>'Новое сообщение');
+		$structure->breadcumb[] = array('part'=>'write', 'act' => 'pm', 'title'=>'Новое сообщение');
 
 		# tpl
 		$smarty->assign("userlist", $this->userlist);
@@ -198,7 +198,7 @@ class UCP_PM {
 			$parse->msg("Ваше сообщение отправлено");
 
 			# go
-			go("index.php?act=pm");
+			go("index.php?part=ucp&act=pm");
 		}
 		else {
 			if(trim($POST->message) == "")	$parse->msg("Вы попытались отправить пустое сообщение. К сожалению это невозможно.", true);
@@ -212,6 +212,9 @@ class UCP_PM {
 
 	/**
 	 * Получаем список пользователей
+	 *
+	 * Данная функция будет в дальнейшем изменена!
+	 * В целях снижения запросов к БД. Будет использоваться Кеш
 	 */
 	private function get_userlist() {
 

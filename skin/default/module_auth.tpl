@@ -40,7 +40,7 @@
 {else}
 	<div class="row">
 		<div class="col-sm-12 text-right">
-			{if $userdata['avatar'] != ""}<a href="/?paprt=ucp&act=ucp"><img src="/upload/images/{$userdata['avatar']}" height="70" class="img-circle mauth-avatar"></a>{/if}
+			{if $userdata['avatar'] != ""}<a href="/?part=ucp&act=ucp"><img src="/upload/images/{$userdata['avatar']}" height="70" class="img-circle mauth-avatar"></a>{/if}
 			<div class="pull-right">
 				<h4>Здравствуйте, <a href="/?part=ucp&act=ucp"><i class="fa fa-fw fa-{if $userdata['user_sex'] != "m"}fe{/if}male"></i>{$userdata['nickname']}</a></h4>
 

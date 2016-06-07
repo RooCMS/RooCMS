@@ -5,7 +5,7 @@
  * @author       alex Roosso
  * @copyright    2010-2017 (c) RooCMS
  * @link         http://www.roocms.com
- * @version      1.0.1
+ * @version      1.1
  * @since        $date$
  * @license      http://www.gnu.org/licenses/gpl-3.0.html
  */
@@ -48,12 +48,12 @@
 //#########################################################
 // Anti Hack
 //---------------------------------------------------------
-if(!defined('RooCMS')) die('Access Denied');
+if(!defined('RooCMS') || !defined('UI')) die('Access Denied');
 //#########################################################
 
 
 //#########################################################
-// Initialisation Admin CP identification
+// Initialisation User CP identification
 //---------------------------------------------------------
 if(!defined('UCP')) define('UCP', true);
 //#########################################################
@@ -65,8 +65,11 @@ nocache();
 require_once _UI."/ucp/security_check.php";
 
 if($ucpsecurity->access) {
-	if(trim($roocms->act) != "" && file_exists(_UI."/ucp/".$roocms->act.".php")) {
-		require_once _UI."/ucp/".$roocms->act.".php";
+	if(trim($roocms->act) != "") {
+		if(file_exists(_UI."/ucp/".$roocms->act.".php")) {
+			require_once _UI."/ucp/".$roocms->act.".php";
+		}
+		else require_once _UI."/ucp/ucp.php";
 	}
 }
 else require_once _UI."/ucp/login.php";

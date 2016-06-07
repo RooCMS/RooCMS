@@ -1,14 +1,14 @@
 <?php
 /**
-* @package      RooCMS
-* @subpackage	User Control Panel
-* @author       alex Roosso
-* @copyright    2010-2016 (c) RooCMS
-* @link         http://www.roocms.com
-* @version      1.0
-* @since        $date$
-* @license      http://www.gnu.org/licenses/gpl-3.0.html
-*/
+ * @package      RooCMS
+ * @subpackage	User Control Panel
+ * @author       alex Roosso
+ * @copyright    2010-2017 (c) RooCMS
+ * @link         http://www.roocms.com
+ * @version      1.1
+ * @since        $date$
+ * @license      http://www.gnu.org/licenses/gpl-3.0.html
+ */
 
 /**
 *   RooCMS - Russian free content managment system
@@ -48,7 +48,7 @@
 //#########################################################
 // Anti Hack
 //---------------------------------------------------------
-if(!defined('RooCMS') || !defined('UCP')) die('Access Denied');
+if(!defined('RooCMS') || !defined('UI') || !defined('UCP')) die('Access Denied');
 //#########################################################
 
 
@@ -59,44 +59,53 @@ class UCP_LOGIN {
 	 */
 	public function __construct() {
 
-		global $db, $POST, $security;
+		global $POST;
 
 
 		/**
 		 * Проверяем запрос
 		 */
 		if(isset($POST->userlogin)) {
+			$this->entering();
+		}
+	}
 
-			if(isset($POST->login) && isset($POST->password) &&$db->check_id($POST->login, USERS_TABLE, "login", "status='1'") && isset($POST->password)) {
 
-				$q = $db->query("SELECT uid, login, title, nickname, password, salt FROM ".USERS_TABLE." WHERE login='".$POST->login."' AND status='1'");
-				$data = $db->fetch_assoc($q);
+	/**
+	 * Функция авторизации на сайте в пользовательской части.
+	 */
+	private function entering() {
 
-				# hash
-				$dbpass = $security->hashing_password($POST->password, $data['salt']);
+		global $db, $POST, $security;
 
-				if($dbpass == $data['password']) {
+		if(isset($POST->login) && isset($POST->password) &&$db->check_id($POST->login, USERS_TABLE, "login", "status='1'") && isset($POST->password)) {
 
-					# include session security_check hash
+			$q = $db->query("SELECT uid, login, title, nickname, password, salt FROM ".USERS_TABLE." WHERE login='".$POST->login."' AND status='1'");
+			$data = $db->fetch_assoc($q);
 
-					$_SESSION['uid'] 	= $data['uid'];
-					$_SESSION['login'] 	= $data['login'];
-					$_SESSION['nickname'] 	= $data['nickname'];
-					$_SESSION['title'] 	= $data['title'];
-					$_SESSION['token'] 	= $security->hashing_token($data['login'], $dbpass, $data['salt']);
-				}
-				else {
-					# неверный логин или пароль
-					$this->incorrect_entering("Неверный логин или пароль.");
-				}
+			# hash
+			$dbpass = $security->hashing_password($POST->password, $data['salt']);
+
+			if($dbpass == $data['password']) {
+
+				# include session security_check hash
+				$_SESSION['uid'] 	= $data['uid'];
+				$_SESSION['login'] 	= $data['login'];
+				$_SESSION['nickname'] 	= $data['nickname'];
+				$_SESSION['title'] 	= $data['title'];
+				$_SESSION['token'] 	= $security->hashing_token($data['login'], $dbpass, $data['salt']);
 			}
 			else {
-				# логин или пароль введены некоректно
-				$this->incorrect_entering("Введены неверные данные.");
+				# неверный логин или пароль
+				$this->incorrect_entering("Неверный логин или пароль.");
 			}
-
-			goback();
 		}
+		else {
+			# логин или пароль введены некоректно
+			$this->incorrect_entering("Введены неверные данные.");
+		}
+
+		goback();
 	}
 
 

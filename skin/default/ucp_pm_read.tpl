@@ -1,7 +1,6 @@
 {* Шаблон личного сообщения пользователя *}
 
 <h1>{$message['title']}</h1>
-<hr>
 
 {*<div class="row">
 	<div class="col-sm-12">
@@ -11,15 +10,16 @@
 
 <div class="row">
 	<div class="col-md-12">
-		<small class="pull-right">
-			От: {$message['from_name']}
-			<br />Отправлено: {$message['date_send']}
-		</small>
-		{$message['showmessage']}
+		<div class="airmail">
+			<small class="pull-right">
+				От: {$message['from_name']}
+				<br />Отправлено: {$message['date_send']}
+			</small>
+			{$message['showmessage']}
+		</div>
 	</div>
 </div>
 
-<hr />
 <h2>Ответить</h2>
 
 <div class="row">

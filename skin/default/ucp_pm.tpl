@@ -1,7 +1,7 @@
 {* Шаблон личных сообщений пользователя *}
 
 <h1>Личные cообщения</h1>
-<hr>
+{if empty($pm)}<hr />{/if}
 
 {*<div class="row">
 	<div class="col-sm-12">
@@ -29,7 +29,7 @@
 {/if}
 </div>
 
-<hr />
+{if empty($pm)}<hr />{/if}
 <h2>Новое сообщение</h2>
 
 <div class="row">

@@ -261,7 +261,7 @@ class ACP_USERS {
 				$smarty->assign("site", $site);
 				$message = $tpl->load_template("email_new_registration", true);
 
-				sendmail($POST->email, "Вас зарегестрировали на сайте ".$site['title'], $message);
+				sendmail($POST->email, "Вас зарегистрировали на сайте ".$site['title'], $message);
 
 
 				# уведомление

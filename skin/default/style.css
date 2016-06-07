@@ -39,6 +39,25 @@ p.lead {font-family: "PT Sans" !important;}
 .mauth-avatar:hover {border: 2px solid #545c68;}
 .mb0 {margin-bottom: 0 !important;}
 
+.airmail {
+	/*background-image: repeating-linear-gradient(135deg, #F29B91 0px, #F09290 30px, transparent 30px, transparent 50px, #83B3DB 50px, #84ADCB 80px, transparent 80px, transparent 100px);*/
+	font-family: 'PT Sans';
+	background-color: #fff;
+	margin: 10px;
+	padding: 5px;
+	min-height: 200px;
+
+}
+.airmail:after {
+	position: absolute;
+	z-index: -999;
+	content: '';
+	top: 0;
+	right: 15px;
+	bottom: 0;
+	left: 15px;
+	background-image: repeating-linear-gradient(135deg, #F29B91 0px, #F09290 30px, transparent 30px, transparent 50px, #83B3DB 50px, #84ADCB 80px, transparent 80px, transparent 100px);
+}
 
 /* WebKit Scrollbar */
 .scroll::-webkit-scrollbar { width: 12px; }
@@ -70,18 +89,12 @@ input:focus:invalid {
 @font-face { font-family: 'Open Sans'; font-style: normal; font-weight: 600; src: local('Open Sans Semibold'), local('OpenSans-Semibold'), url('Open_Sans_Semibold.woff') format('woff'); }
 @font-face { font-family: 'Open Sans'; font-style: normal; font-weight: 400; src: local('Open Sans'), local('OpenSans'), url('Open_Sans_Normal.woff') format('woff'); }
 
-/**
- * Correct `block` display not defined in IE 8/9.
- */
+/* Correct `block` display not defined in IE 8/9. */
 article, aside, details, figcaption, figure, footer, header, hgroup, main, mark, menu, nav, time, section, summary {display: block;}
 
-/**
- * Correct `inline-block` display not defined in IE 8/9.
- */
+/* Correct `inline-block` display not defined in IE 8/9. */
 audio, canvas, video {display: inline-block;}
 
-/**
- * Correct hidden elements
- */
+/* Correct hidden elements */
 [hidden] {display: none;}
 

@@ -1,6 +1,6 @@
 Version: 1.2 RC 1 beta 2
 ========================
-**release date:	23.03.2016**
+**release date:	07.06.2016**
 
 Plugins
 -------
@@ -12,7 +12,7 @@ Plugins
 - Bootstrap Select	`v1.3.4`
 - Bootstrap Datepicker	`v1.3`
 - Bootstrap Colorpicker	`v1`
-- Font Awesome		`v4.5.0`
+- Font Awesome		`v4.6.3`
 - Smarty		`v3.1.29`
 - Smarty plugins:	`get_params`
 - PHP QR Code		`v1.1.4`

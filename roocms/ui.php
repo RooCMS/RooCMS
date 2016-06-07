@@ -53,7 +53,7 @@ if(!defined('RooCMS')) die('Access Denied');
 
 
 //#########################################################
-// Initialisation Admin CP identification
+// Initialisation User CP identification
 //---------------------------------------------------------
 if(!defined('UI')) define('UI', true);
 //#########################################################
@@ -68,8 +68,11 @@ if(!class_exists("Blocks"))  require_once "site_blocks.php";
 if(!class_exists("Modules")) require_once "site_module.php";
 
 # init partition
-if(trim($roocms->part) != "" && file_exists(_UI."/".$roocms->part.".php")) {
-	require_once _UI."/".$roocms->part.".php";
+if(trim($roocms->part) != "") {
+	if(file_exists(_UI."/".$roocms->part.".php")) {
+		require_once _UI."/".$roocms->part.".php";
+	}
+	else go("/");
 }
 
 

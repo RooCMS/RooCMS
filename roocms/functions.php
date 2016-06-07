@@ -118,9 +118,12 @@ function sendmail($mail, $theme, $message, $from="robot") {
 	mb_send_mail($mail,$theme,$message,$headers);
 }
 
-
 /**
  * мультибайтовая функция преобразования первого символа строки
+ *
+ * @param $string
+ *
+ * @return string
  */
 function mb_ucfirst($string) {
 	return mb_strtoupper(mb_substr($string, 0, 1)).mb_strtolower(mb_substr($string, 1));
@@ -163,12 +166,12 @@ function nocache() {
 
 	$expires = time() + (60*60*24);
 
-	Header("Expires: ".gmdate("D, d M Y H:i:s", $expires)." GMT");
-	Header("Last-Modified: ".gmdate("D, d M Y H:i:s")." GMT");
-	Header("Cache-Control: no-cache, must-revalidate");
-	Header("Cache-Control: post-check=0,pre-check=0");
-	Header("Cache-Control: max-age=0");
-	Header("Pragma: no-cache");
+	header("Expires: ".gmdate("D, d M Y H:i:s", $expires)." GMT");
+	header("Last-Modified: ".gmdate("D, d M Y H:i:s")." GMT");
+	header("Cache-Control: no-cache, must-revalidate");
+	header("Cache-Control: post-check=0,pre-check=0");
+	header("Cache-Control: max-age=0");
+	header("Pragma: no-cache");
 }
 
 /**
