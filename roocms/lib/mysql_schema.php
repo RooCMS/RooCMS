@@ -3,9 +3,9 @@
 * @package      RooCMS
 * @subpackage	Library
 * @author       alex Roosso
-* @copyright    2010-2016 (c) RooCMS
+* @copyright    2010-2017 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.2.12
+* @version      1.2.13
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -293,13 +293,16 @@ $sql['CREATE '.USERS_TABLE] = "CREATE TABLE `".USERS_TABLE."` (
 				  `title` enum('a','u') NOT NULL DEFAULT 'u',
 				  `password` varchar(32) NOT NULL,
 				  `salt` char(5) NOT NULL,
+				  `status_expiried` int(20) unsigned NOT NULL DEFAULT '0',
 				  `date_create` int(20) unsigned NOT NULL DEFAULT '0' COMMENT 'format: unixtimestamp',
 				  `date_update` int(20) unsigned NOT NULL DEFAULT '0' COMMENT 'format: unixtimestamp',
 				  `last_visit` int(20) unsigned NOT NULL DEFAULT '0' COMMENT 'format: unixtimestamp',
+				  `activation_code` varchar(10) NOT NULL,
 				  PRIMARY KEY (`uid`),
 				  UNIQUE KEY `id` (`uid`,`login`),
 				  UNIQUE KEY `nickname` (`nickname`)
 				) ENGINE=MyISAM  DEFAULT CHARSET=utf8;";
+
 
 
 /**

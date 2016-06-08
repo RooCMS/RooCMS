@@ -142,9 +142,9 @@ class REG {
 				$activation['code'] = randcode(7);
 
 
-				$db->query("INSERT INTO ".USERS_TABLE." (login, nickname, email, password, salt, date_create, date_update, last_visit, status, 
+				$db->query("INSERT INTO ".USERS_TABLE." (login, nickname, email, password, salt, date_create, date_update, last_visit, activation_code,
 									 user_name, user_surname, user_last_name, user_birthdate, user_sex)
-								 VALUES ('".$POST->login."', '".$POST->nickname."', '".$POST->email."', '".$password."', '".$salt."', '".time()."', '".time()."', '".time()."', '1',
+								 VALUES ('".$POST->login."', '".$POST->nickname."', '".$POST->email."', '".$password."', '".$salt."', '".time()."', '".time()."', '".time()."', '".$activation['code']."'
 								 	 '".$POST->user_name."', '".$POST->user_surname."', '".$POST->user_last_name."', '".$POST->user_birthdate."', '".$POST->user_sex."')");
 				$uid = $db->insert_id();
 
