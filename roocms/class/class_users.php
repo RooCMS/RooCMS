@@ -3,9 +3,9 @@
  * @package      RooCMS
  * @subpackage   Engine RooCMS classes
  * @author       alex Roosso
- * @copyright    2010-2016 (c) RooCMS
+ * @copyright    2010-2017 (c) RooCMS
  * @link         http://www.roocms.com
- * @version      1.2.4
+ * @version      1.3
  * @since        $date$
  * @license      http://www.gnu.org/licenses/gpl-3.0.html
  */
@@ -68,10 +68,16 @@ class Users extends Security {
 	public	$gtitle		= "";		# [string]	user group title
 	public	$token		= "";		# [string]	user security token
 
+	# user ban status
+	public  $ban		= 0;		# [enum]	ban status
+	public  $ban_reason	= "";		# [string]	ban reason
+	public  $ban_expiried	= 0;		# [int]		ban date expiried (unixtimestamp)
+
+
 	public	$userdata	= array('uid'=>0);
 
 	# user global data
-	private	$usersession	= "";		# [string]	user ssession
+	private	$usersession	= "";		# [string]	user session
 	private $userip		= "";		# [string]	user ip address
 	private	$useragent	= "";		# [string]	user agent string
 	private $referer	= "";		# [string]	user referer
@@ -119,7 +125,7 @@ class Users extends Security {
 			# get data
 			$q    = $db->query("SELECT u.uid, u.gid, u.login, u.nickname, u.avatar, u.email,
  							u.user_name, u.user_surname, u.user_last_name, u.user_birthdate, u.user_sex,
-							u.title, u.password, u.salt,
+							u.title, u.password, u.salt, u.ban, u.ban_reason, u.ban_expiried,
 							g.title as gtitle
 						FROM ".USERS_TABLE." AS u
 						LEFT JOIN ".USERS_GROUP_TABLE." AS g ON (g.gid = u.gid)
@@ -150,6 +156,10 @@ class Users extends Security {
 			# email
 			$this->email	= $data['email'];
 
+			# ban
+			$this->ban		= $data['ban'];
+			$this->ban_reason	= $data['ban_reason'];
+			$this->ban_expiried	= $data['ban_expiried'];
 
 			# array userdata
 			$this->userdata = array(
@@ -166,7 +176,10 @@ class Users extends Security {
 				'user_last_name'	=> $data['user_last_name'],
 				'user_birthdate'	=> $parse->date->unix_to_rus($data['user_birthdate']),
 				'user_birthdaten'	=> date("d.m.Y", $data['user_birthdate']),
-				'user_sex'		=> $data['user_sex']
+				'user_sex'		=> $data['user_sex'],
+				'ban'			=> $data['ban'],
+				'ban_reason'		=> $data['ban_reason'],
+				'ban_expiried'		=> $parse->date->unix_to_rus($data['ban_expiried'])
 			);
 
 

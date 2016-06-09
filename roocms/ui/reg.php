@@ -71,6 +71,14 @@ class REG {
 			case 'join':
 				$this->join();
 				break;
+
+			case 'activation':
+				$this->activation();
+				break;
+
+			case 'verification':
+				$this->verification();
+				break;
 			
 			default:
 				$this->profile();
@@ -88,6 +96,18 @@ class REG {
 
 
 		$tpl->load_template("reg_profile");
+	}
+
+
+	/**
+	 * Функция активации аккаунта и проверки электронной почты
+	 */
+	private function activation() {
+
+		global $smarty, $tpl;
+
+
+		$tpl->load_template("reg_activation");
 	}
 
 
@@ -144,7 +164,7 @@ class REG {
 
 				$db->query("INSERT INTO ".USERS_TABLE." (login, nickname, email, password, salt, date_create, date_update, last_visit, activation_code,
 									 user_name, user_surname, user_last_name, user_birthdate, user_sex)
-								 VALUES ('".$POST->login."', '".$POST->nickname."', '".$POST->email."', '".$password."', '".$salt."', '".time()."', '".time()."', '".time()."', '".$activation['code']."'
+								 VALUES ('".$POST->login."', '".$POST->nickname."', '".$POST->email."', '".$password."', '".$salt."', '".time()."', '".time()."', '".time()."', '".$activation['code']."',
 								 	 '".$POST->user_name."', '".$POST->user_surname."', '".$POST->user_last_name."', '".$POST->user_birthdate."', '".$POST->user_sex."')");
 				$uid = $db->insert_id();
 

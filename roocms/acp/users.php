@@ -141,7 +141,9 @@ class ACP_USERS {
 		global $db, $smarty, $tpl, $parse;
 
 		$data = array();
-		$q = $db->query("SELECT u.uid, u.gid, u.status, u.login, u.nickname, u.avatar, u.email, u.title, u.date_create, u.date_update, u.last_visit, u.user_sex, g.title AS gtitle
+		$q = $db->query("SELECT u.uid, u.gid, u.status, u.login, u.nickname, u.avatar, u.email, u.title, u.user_sex,
+					u.date_create, u.date_update, u.last_visit, u.activation_code, u.ban, u.ban_reason, u.ban_expiried,
+					g.title AS gtitle
 					FROM ".USERS_TABLE." AS u
 					LEFT JOIN ".USERS_GROUP_TABLE." AS g ON (g.gid = u.gid)
 					ORDER BY u.uid ASC");
@@ -339,7 +341,7 @@ class ACP_USERS {
 			goback();
 		}
 		else {
-			$q = $db->query("SELECT uid, gid, status, avatar, login, nickname, email, title, date_create, last_visit, user_name, user_surname, user_last_name, user_birthdate, user_sex FROM ".USERS_TABLE." WHERE uid='".$uid."'");
+			$q = $db->query("SELECT uid, gid, status, avatar, login, nickname, email, title, date_create, last_visit, user_name, user_surname, user_last_name, user_birthdate, user_sex, activation_code FROM ".USERS_TABLE." WHERE uid='".$uid."'");
 			$user = $db->fetch_assoc($q);
 
 			# user personal data birth date

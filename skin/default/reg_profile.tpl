@@ -8,26 +8,26 @@
 			<hr />
 			<h3>Персональные данные</h3>
 			<div class="form-group">
-				<label for="inputLogin" class="col-lg-4 control-label">
-					Ваш логин: <small><span class="fa fa-question-circle fa-fw" rel="tooltip" title="Не должен совпадать с логином другого пользователя" data-placement="left"></span></small>
-				</label>
-				<div class="col-lg-8">
-					<input type="text" name="login" id="inputLogin" class="form-control" required>
-				</div>
-			</div>
-
-			<div class="form-group">
 				<label for="inputNickname" class="col-lg-4 control-label">
 					Ваш псевдоним:  <small><span class="fa fa-question-circle fa-fw" rel="tooltip" title="Не должен совпадать с псевдонимом другого пользователя" data-placement="left"></span></small>
 				</label>
 				<div class="col-lg-8">
-					<input type="text" name="nickname" id="inputNickname" class="form-control">
+					<input type="text" name="nickname" id="inputNickname" class="form-control" required>
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label for="inputLogin" class="col-lg-4 control-label">
+					Ваш логин: <small><span class="fa fa-question-circle fa-fw" rel="tooltip" title="Не должен совпадать с логином другого пользователя" data-placement="left"></span></small>
+				</label>
+				<div class="col-lg-8">
+					<input type="text" name="login" id="inputLogin" class="form-control">
 				</div>
 			</div>
 
 			<div class="form-group">
 				<label for="inputEmail" class="col-lg-4 control-label">
-					Электронная почта:  <small><span class="fa fa-question-circle fa-fw" rel="tooltip" title="Должна быть уникальной. Нельзя заводить несколько аккаунтов на один почтовый ящик" data-placement="left"></span></small>
+					Электронная почта:  <small><span class="fa fa-question-circle fa-fw" rel="tooltip" title="Нельзя заводить несколько аккаунтов на один почтовый ящик. После регистрации на почту будет отправлен код подтверждения." data-placement="left"></span></small>
 				</label>
 				<div class="col-lg-8">
 					<input type="text" name="email" id="inputEmail" class="form-control" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{literal}{2,6}{/literal}$" required>
@@ -39,7 +39,7 @@
 					Пароль:  <small><span class="fa fa-question-circle fa-fw" rel="tooltip" title="Оставьте поле пустым, если не хотите менять пароль." data-placement="left"></span></small>
 				</label>
 				<div class="col-lg-8">
-					<input type="text" name="password" id="inputPassword" class="form-control"  pattern="^[\d\D]{literal}{5,}{/literal}">
+					<input type="text" name="password" id="inputPassword" class="form-control"  pattern="^[\d\D]{literal}{5,}{/literal}" required>
 				</div>
 			</div>
 
