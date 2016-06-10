@@ -104,9 +104,14 @@ class REG {
 	 */
 	private function activation() {
 
-		global $smarty, $tpl;
+		global $GET, $parse, $smarty, $tpl;
 
+		$email = (isset($GET->_email) && $parse->valid_email($GET->_email)) ? $GET->_email : "" ;
+		$code  = (isset($GET->_code)) ? $GET->_code : "" ;
 
+		# tpl
+		$smarty->assign("email", $email);
+		$smarty->assign("code",  $code);
 		$tpl->load_template("reg_activation");
 	}
 
@@ -133,7 +138,7 @@ class REG {
 			if(isset($POST->login) && trim($POST->login) != "" && $db->check_id($POST->login, USERS_TABLE, "login")) $parse->msg("Пользователь с таким логином уже существует", false);
 
 			# email
-			if(!isset($POST->email) || trim($POST->email) == "") $parse->msg("Обязательно указывать электронную почту для каждого пользователя", false);
+			if(!isset($POST->email) || trim($POST->email) == "") $parse->msg("Электронная почта обязательная для каждого пользователя", false);
 			if(isset($POST->email) && trim($POST->email) != "" && !$parse->valid_email($POST->email)) $parse->msg("Некоректный адрес электронной почты", false);
 			if(isset($POST->email) && trim($POST->email) != "" && $db->check_id($POST->email, USERS_TABLE, "email")) $parse->msg("Пользователь с таким адресом почты уже существует", false);
 
@@ -141,6 +146,7 @@ class REG {
 
 				#password
 				if(!isset($POST->password) || trim($POST->password) == "") $POST->password = $security->create_new_password();
+
 				$salt = $security->create_new_salt();
 				$password = $security->hashing_password($POST->password, $salt);
 
@@ -151,10 +157,9 @@ class REG {
 
 				if(isset($POST->user_birthdate) && $POST->user_birthdate != "") $POST->user_birthdate = $parse->date->rusint_to_unix($POST->user_birthdate);
 				else 								$POST->user_birthdate = 0;
-
-				if(!isset($POST->user_sex))					$POST->user_sex = "n";
-				elseif($POST->user_sex == "m")					$POST->user_sex = "m";
-				elseif($POST->user_sex == "f")					$POST->user_sex = "f";
+				
+				if(isset($POST->user_sex) && $POST->user_sex == "m")		$POST->user_sex = "m";
+				elseif(isset($POST->user_sex) && $POST->user_sex == "f")	$POST->user_sex = "f";
 				else								$POST->user_sex = "n";
 
 
@@ -199,6 +204,15 @@ class REG {
 			}
 			else goback();
 		}
+	}
+
+
+	/**
+	 * Функция проверки подтверждения регистрации пользователя.
+	 */
+	private function verification() {
+
+		global $db, $POST;
 	}
 }
 

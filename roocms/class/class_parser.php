@@ -299,6 +299,8 @@ class Parsers {
 	*/
 	protected function parse_url() {
 
+		global $db;
+
 		# Страницы
 		if(isset($this->Get->_pg))
 			$db->page = floor($this->Get->_pg);

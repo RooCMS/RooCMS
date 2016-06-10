@@ -229,11 +229,12 @@ class ACP_USERS {
 				if(!isset($POST->user_name)) 					$POST->user_name = "";
 				if(!isset($POST->user_surname)) 				$POST->user_surname = "";
 				if(!isset($POST->user_last_name)) 				$POST->user_last_name = "";
+
 				if(isset($POST->user_birthdate) && $POST->user_birthdate != "") $POST->user_birthdate = $parse->date->rusint_to_unix($POST->user_birthdate);
 				else 								$POST->user_birthdate = 0;
-				if(!isset($POST->user_sex))					$POST->user_sex = "n";
-				elseif($POST->user_sex == "m")					$POST->user_sex = "m";
-				elseif($POST->user_sex == "f")					$POST->user_sex = "f";
+
+				if(isset($POST->user_sex) && $POST->user_sex == "m")		$POST->user_sex = "m";
+				elseif(isset($POST->user_sex) && $POST->user_sex == "f")	$POST->user_sex = "f";
 				else								$POST->user_sex = "n";
 
 
@@ -453,9 +454,8 @@ class ACP_USERS {
 			else									$query .= " user_last_name='',";
 			if(isset($POST->user_birthdate) && $POST->user_birthdate != "") 	$query .= " user_birthdate='".$parse->date->rusint_to_unix($POST->user_birthdate)."',";
 			else 									$query .= " user_birthdate='0',";
-			if(!isset($POST->user_sex))						$query .= " user_sex='n',";
-			elseif($POST->user_sex == "m")						$query .= " user_sex='m',";
-			elseif($POST->user_sex == "f")						$query .= " user_sex='f',";
+			if(isset($POST->user_sex) && $POST->user_sex == "m")			$query .= " user_sex='m',";
+			elseif(isset($POST->user_sex) && $POST->user_sex == "f")		$query .= " user_sex='f',";
 			else									$query .= " user_sex='n',";
 
 			# avatar

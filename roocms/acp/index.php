@@ -5,7 +5,7 @@
 * @author       alex Roosso
 * @copyright    2010-2017 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      2.2
+* @version      2.2.1
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -139,6 +139,7 @@ class ACP_INDEX {
 		global $db, $tpl, $smarty;
 
 		# Версия MYSQL
+		$data1 = array();
 		$q = $db->query("SHOW VARIABLES LIKE 'version'");
 		$mysql = $db->fetch_row($q);
 		$data1['mysql']		= $mysql[1];
@@ -213,6 +214,7 @@ class ACP_INDEX {
 		) ;
 
 
+		$data2 = array();
 		foreach ($server_vars as $arg) {
 			if (isset($_SERVER[$arg]))
 				$data2[] = array("var"=>$arg, "value"=>$_SERVER[$arg]);

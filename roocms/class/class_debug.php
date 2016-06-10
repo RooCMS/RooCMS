@@ -123,7 +123,6 @@ class Debug {
         private function start_productivity() {
 
     	        # timer
-                $mtime = STARTTIME;
                 $this->starttime = STARTTIME;
 
                 # memory

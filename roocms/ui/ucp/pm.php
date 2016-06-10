@@ -145,7 +145,7 @@ class UCP_PM {
 			$smarty->assign("userdata", $users->userdata);
 			$tpl->load_template("ucp_pm_read");
 		}
-		else go("index.php?part=ucp&act=pm");
+		else go(SCRIPT_NAME."?part=ucp&act=pm");
 	}
 
 
@@ -198,7 +198,7 @@ class UCP_PM {
 			$parse->msg("Ваше сообщение отправлено");
 
 			# go
-			go("index.php?part=ucp&act=pm");
+			go(SCRIPT_NAME."?part=ucp&act=pm");
 		}
 		else {
 			if(trim($POST->message) == "")	$parse->msg("Вы попытались отправить пустое сообщение. К сожалению это невозможно.", true);

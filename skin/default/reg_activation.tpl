@@ -11,7 +11,7 @@
 					Электронная почта:  <small><span class="fa fa-question-circle fa-fw" rel="tooltip" title="Нельзя заводить несколько аккаунтов на один почтовый ящик. После регистрации на почту будет отправлен код подтверждения." data-placement="left"></span></small>
 				</label>
 				<div class="col-lg-8">
-					<input type="text" name="email" id="inputEmail" class="form-control" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{literal}{2,6}{/literal}$" required{if isset($smarty.get.email)} value="{$smarty.get.email}"{/if}>
+					<input type="text" name="email" id="inputEmail" class="form-control" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{literal}{2,6}{/literal}$" required value="{$email}">
 				</div>
 			</div>
 
@@ -20,7 +20,7 @@
 					Пароль:  <small><span class="fa fa-question-circle fa-fw" rel="tooltip" title="Код активации аккаунта" data-placement="left"></span></small>
 				</label>
 				<div class="col-lg-8">
-					<input type="text" name="code" id="inputActivationCode" class="form-control"  pattern="^[\d\D]{literal}{5,}{/literal}" required {if isset($smarty.get.code)} value="{$smarty.get.code}"{/if}>
+					<input type="text" name="code" id="inputActivationCode" class="form-control"  pattern="^[\d\D]{literal}{5,}{/literal}" required value="{$code}">
 				</div>
 			</div>
 

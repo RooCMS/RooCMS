@@ -120,7 +120,7 @@ class ParserDate {
 	 *
 	 * @return string
 	 */
-	public function gregorian_to_rus($gdate, $full=false, $short=true, $time=false) {
+	public function gregorian_to_rus($gdate, $full=false, $short=true, $time="") {
 
 		$edate = explode("/", $gdate);
 
