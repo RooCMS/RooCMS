@@ -58,7 +58,7 @@ if(!defined('RooCMS')) die('Access Denied');
 class Globals {
 
 	# clasess
-	var	$config;			# [obj]	object global configuration
+	public	$config;			# [obj]	object global configuration
 
 	# global vars
 	public	$part		= "";		# [string]	param $_GET['part'] for init partition

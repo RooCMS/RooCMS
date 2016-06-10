@@ -212,7 +212,18 @@ class REG {
 	 */
 	private function verification() {
 
-		global $db, $POST;
+		global $db, $parse, $POST;
+		
+		if(isset($POST->email) && isset($POST->code) && $parse->valid_email($POST->email) && $db->check_id($POST->email, USERS_TABLE, "email", "activation_code='".$POST->code."'")) {
+			$db->query("UPDATE ".USERS_TABLE." SET status='1', activation_code='', last_visit='".time()."' WHERE email='".$POST->email."'");
+			$parse->msg("Спасибо. Ваша учетная запись активирована. Добро пожжаловать.");
+			go("/");
+		}
+		else {
+			$parse->msg("Активация не удалась. Мы не нашли подходящих сведений в базе данных.", false);
+			goback();
+		}
+
 	}
 }
 
