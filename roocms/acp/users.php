@@ -4,7 +4,7 @@
  * @subpackage   Admin Control Panel
  * @subpackage   Users settings
  * @author       alex Roosso
- * @copyright    2010-2016 (c) RooCMS
+ * @copyright    2010-2017 (c) RooCMS
  * @link         http://www.roocms.com
  * @version      1.3.4
  * @since        $date$
@@ -13,7 +13,7 @@
 
 /**
  *   RooCMS - Russian free content managment system
- *   Copyright (C) 2010-2016 alex Roosso aka alexandr Belov info@roocms.com
+ *   Copyright (C) 2010-2017 alex Roosso aka alexandr Belov info@roocms.com
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -30,7 +30,7 @@
  *
  *
  *   RooCMS - Русская бесплатная система управления сайтом
- *   Copyright (C) 2010-2016 alex Roosso (александр Белов) info@roocms.com
+ *   Copyright (C) 2010-2017 alex Roosso (александр Белов) info@roocms.com
  *
  *   Это программа является свободным программным обеспечением. Вы можете
  *   распространять и/или модифицировать её согласно условиям Стандартной
