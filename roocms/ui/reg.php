@@ -64,7 +64,7 @@ class REG {
 		$structure->breadcumb[] = array('part'=>'reg', 'title'=>'Регистрация');
 
 		# if users registred
-		if($users->uid != 0) go("/index.php?part=ucp&act=ucp");
+		if($users->uid != 0) go(SCRIPT_NAME."?part=ucp&act=ucp");
 		
 		# action
 		switch($roocms->act) {
@@ -159,6 +159,7 @@ class REG {
 
 
 				# activation code
+				$activation = array();
 				$activation['code'] = randcode(7);
 
 
@@ -175,7 +176,7 @@ class REG {
 
 
 				# activation link
-				$activation['link'] = $site['domain']."/index.php?part=reg&act=activation&email=".$POST->email."&code=".$activation['code'];
+				$activation['link'] = $site['domain'].SCRIPT_NAME."?part=reg&act=activation&email=".$POST->email."&code=".$activation['code'];
 
 
 				# Уведомление пользователю на электропочту
@@ -194,7 +195,7 @@ class REG {
 				$parse->msg("Поздравляем с успешной регистрацией. Вам осталось подтвердить адрес электронной почты и вы сможете пользоваться приемуществамми зарегистрированных пользователей.");
 
 				# переход
-				go("index.php?part=reg&act=activation&email=".$POST->email);
+				go(SCRIPT_NAME."?part=reg&act=activation&email=".$POST->email);
 			}
 			else goback();
 		}
