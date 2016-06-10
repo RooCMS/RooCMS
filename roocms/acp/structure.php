@@ -3,9 +3,9 @@
 * @package      RooCMS
 * @subpackage	Admin Control Panel
 * @author       alex Roosso
-* @copyright    2010-2016 (c) RooCMS
+* @copyright    2010-2017 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.3.8
+* @version      1.4
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -155,24 +155,11 @@ class ACP_STRUCTURE {
 
 		global $db, $img, $parse, $POST;
 
-		# предупреждаем возможные ошибки с алиасом структурной еденицы
-		if(isset($POST->alias)) {
-
-		    	# избавляем URI от возможных конвульсий
-		    	$POST->alias = strtr($POST->alias, array('-'=>'_','='=>'_'));
-
-		    	# а так же проверяем что бы алиас не оказался числом
-		    	if(is_numeric($POST->alias)) $POST->alias .= randcode(3, "abcdefghijklmnopqrstuvwxyz");
-		}
-
 		# title
 		if(!isset($POST->title) || trim($POST->title) == "") $parse->msg("Не указано название страницы.", false);
-		# alias
-		if(!isset($POST->alias) || trim($POST->alias) == "") {
-			$POST->alias = $parse->text->transliterate($POST->title,"lower");
-			$POST->alias = preg_replace(array('(\s\s+)','(\-\-+)','(__+)','([^a-zA-Z0-9\-_])'), array('','','',''), $POST->alias);
-		}
 
+		# alias
+		$this->processing_alias();
 		if(!$this->check_alias($POST->alias)) $parse->msg("Алиас страницы не уникален.", false);
 
 		# group access
@@ -287,25 +274,12 @@ class ACP_STRUCTURE {
 		# Если идентификатор не прошел проверку
 		if($sid == 0) go(CP."?act=structure");
 
-		# предупреждаем возможные ошибки с алиасом структурной еденицы
-		if(isset($POST->alias) && trim($POST->alias) != "") {
-
-			    # избавляем URI от возможных конвульсий
-			    $POST->alias = strtr($POST->alias, array('-'=>'_','='=>'_'));
-
-			    # а так же проверяем что бы алиас не оказался числом
-			    if(is_numeric($POST->alias)) $POST->alias .= randcode(3, "abcdefghijklmnopqrstuvwxyz");
-		}
-
-		# Проверяем на ошибки
 		# title
 		if(!isset($POST->title) || trim($POST->title) == "") $parse->msg("Не указано название страницы.", false);
+
 		# alias
-		if(!isset($POST->alias) || trim($POST->alias) == "") {
-			$POST->alias = $parse->text->transliterate($POST->title,"lower");
-			$POST->alias = preg_replace(array('(\s\s+)','(\-\-+)','(__+)','([^a-zA-Z0-9\-_])'), array('','','',''), $POST->alias);
-		}
-		elseif(!$this->check_alias($POST->alias, $POST->old_alias)) $parse->msg("Алиас страницы не уникален.", false);
+		$this->processing_alias();
+		if(!$this->check_alias($POST->alias, $POST->old_alias)) $parse->msg("Алиас страницы не уникален.", false);
 
 		# group access
 		if(isset($POST->gids) && is_array($POST->gids)) $POST->gids = implode(",", $POST->gids);
@@ -511,6 +485,36 @@ class ACP_STRUCTURE {
 
 		# уведомление
 		if(DEBUGMODE) $parse->msg("Информация о вложенных (подструктурных) страницах для страницы {$id} обновлена.");
+	}
+
+
+	/**
+	 * Функция проверяет алиас структурной еденицы и при необходимости корректирует его.
+	 */
+	private function processing_alias() {
+
+		global $parse, $POST;
+
+
+		if(!isset($POST->alias) || trim($POST->alias) == "") {
+			if(isset($POST->title)) $POST->alias = $POST->title;
+			else $parse->msg("Не указан alias для структурной еденицы.", false);
+		}
+
+		# предупреждаем возможные ошибки с алиасом структурной единицы
+		if(isset($POST->alias) && trim($POST->alias) != "") {
+
+			$POST->alias = $parse->text->transliterate($POST->alias,"lower");
+
+			# избавляем URI от возможных конвульсий
+			$POST->alias = strtr($POST->alias, array(' '=>'_', '-'=>'_', '='=>'_'));
+
+			# Чистим alias
+			$POST->alias = preg_replace(array('(\s\s+)','(\-\-+)','(__+)','([^a-zA-Z0-9\-_])'), array('_','_','_',''), $POST->alias);
+
+			# а так же проверяем что бы алиас не оказался числом
+			if(is_numeric($POST->alias)) $POST->alias .= randcode(3, "abcdefghijklmnopqrstuvwxyz");
+		}
 	}
 }
 
