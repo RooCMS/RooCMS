@@ -3,9 +3,9 @@
 * @package      RooCMS
 * @subpackage	Admin Control Panel
 * @author       alex Roosso
-* @copyright    2010-2016 (c) RooCMS
+* @copyright    2010-2017 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.1.2
+* @version      1.1.3
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -207,7 +207,9 @@ class ACP_HELP {
 		if(!isset($POST->title) || trim($POST->title) == "") 					$parse->msg("Не указано название раздела.", false);
 		if(!isset($POST->uname) || (trim($POST->uname) == "" && round($POST->uname) != 0)) 	$parse->msg("Не указан uname страницы.", false);
 		elseif(!$this->check_uname($POST->uname)) 						$parse->msg("uname раздела не уникален.", false);
-		if(!isset($POST->content) || trim($POST->content) == "")				$parse->msg("Отсуствует содержание раздела!", false);
+
+		if(!isset($POST->content))
+			$POST->content = "";
 
 		# если ошибок нет
 		if(!isset($_SESSION['error'])) {
@@ -252,7 +254,9 @@ class ACP_HELP {
 		if(!isset($POST->title) || trim($POST->title) == "") 					$parse->msg("Не указано название раздела.", false);
 		if(!isset($POST->uname) || (trim($POST->uname) == "" && round($POST->uname) != 0)) 	$parse->msg("Не указан uname раздела.", false);
 		elseif(!$this->check_uname($POST->uname, $POST->old_uname)) 				$parse->msg("uname раздела не уникален.", false);
-		if(!isset($POST->content) || trim($POST->content) == "")				$parse->msg("Отсуствует содержание раздела!", false);
+
+		if(!isset($POST->content))
+			$POST->content = "";
 
 		# если ошибок нет
 		if(!isset($_SESSION['error'])) {

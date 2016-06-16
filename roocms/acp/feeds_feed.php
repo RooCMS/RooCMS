@@ -7,7 +7,7 @@
 * @author       alex Roosso
 * @copyright    2010-2017 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.9.2
+* @version      1.10
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -222,18 +222,9 @@ class ACP_FEEDS_FEED {
 		global $db, $parse, $files, $img, $POST, $tpl, $smarty;
 
 		if(isset($POST->create_item)) {
-			if(!isset($POST->title)) 	$parse->msg("Не заполнен заголовок элемента",false);
-			if(!isset($POST->full_item)) 	$parse->msg("Не заполнен подробный текст элемента",false);
 
-			# дата публикации и продолжительности
-			if(!isset($POST->date_publications)) 		$POST->date_publications	= date("d.m.Y",time());
-			if(!isset($POST->date_end_publications))	$POST->date_end_publications	= 0;
-
-			# meta
-			if(!isset($POST->meta_description))	$POST->meta_description	= "";
-			if(!isset($POST->meta_keywords))	$POST->meta_keywords	= "";
-			if(!isset($POST->brief_item)) 		$POST->brief_item = "";
-
+			# Проверяем вводимые поля на ошибки
+			$this->check_item_fields();
 
 			if(!isset($_SESSION['error'])) {
 
@@ -369,21 +360,8 @@ class ACP_FEEDS_FEED {
 
 		global $db, $parse, $files, $img, $POST, $GET;
 
-		if(!isset($POST->title)) 	$parse->msg("Не заполнен заголовок элемента",false);
-		if(!isset($POST->full_item)) 	$parse->msg("Не заполнен подробный текст элемента",false);
-
-		# status
-		if(!isset($POST->status) || $POST->status >= 2) $POST->status = 1;
-
-		# дата публикации и продолжительности
-		if(!isset($POST->date_publications)) 		$POST->date_publications	= date("d.m.Y",time());
-		if(!isset($POST->date_end_publications))	$POST->date_end_publications	= 0;
-
-		# meta
-		if(!isset($POST->meta_description))	$POST->meta_description	= "";
-		if(!isset($POST->meta_keywords))	$POST->meta_keywords	= "";
-		if(!isset($POST->brief_item)) 		$POST->brief_item = "";
-
+		# Проверяем вводимые поля на ошибки
+		$this->check_item_fields();
 
 		# update
 		if(!isset($_SESSION['error'])) {
@@ -601,6 +579,27 @@ class ACP_FEEDS_FEED {
 
 		# save
 		$db->query("UPDATE ".STRUCTURE_TABLE." SET items='".$row['items']."' WHERE id='".$sid."'");
+	}
+
+
+	private function check_item_fields() {
+
+		global $POST, $parse;
+
+		if(!isset($POST->title)) 	$parse->msg("Не заполнен заголовок элемента",false);
+		if(!isset($POST->full_item)) 	$parse->msg("Не заполнен подробный текст элемента",false);
+
+		# status
+		if(!isset($POST->status) || $POST->status >= 2) $POST->status = 1;
+
+		# дата публикации и продолжительности
+		if(!isset($POST->date_publications)) 		$POST->date_publications	= date("d.m.Y",time());
+		if(!isset($POST->date_end_publications))	$POST->date_end_publications	= 0;
+
+		# meta
+		if(!isset($POST->meta_description))	$POST->meta_description	= "";
+		if(!isset($POST->meta_keywords))	$POST->meta_keywords	= "";
+		if(!isset($POST->brief_item)) 		$POST->brief_item = "";
 	}
 }
 ?>

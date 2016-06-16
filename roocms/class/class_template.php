@@ -3,9 +3,9 @@
 * @package	RooCMS
 * @subpackage	Engine RooCMS classes
 * @author	alex Roosso
-* @copyright	2010-2015 (c) RooCMS
+* @copyright	2010-2017 (c) RooCMS
 * @link		http://www.roocms.com
-* @version	4.5.4
+* @version	4.5.5
 * @since	$date$
 * @license	http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -275,8 +275,7 @@ class Template {
                         $this->info_popup();
 
                         # noindex for robots
-                        $robots = (!defined('ACP')) ? "index, follow, all" : "no-index,no-follow,all" ;
-                        if(!defined('ACP')) if($structure->page_noindex == 1) $robots = "no-index,no-follow,all";
+                        $robots = (!defined('ACP') && $structure->page_noindex == 0) ? "index, follow, all" : "no-index,no-follow,all" ;
 
                         # global site title
                         if(!defined('INSTALL') && isset($config->global_site_title)) $site['title'] .= " &bull; ".$config->site_title;
@@ -337,8 +336,10 @@ class Template {
 			$this->out = $head.$this->out.$foot;
 
 			# blocks & module
-			if(!defined('ACP')) $this->init_blocks();
-			if(!defined('ACP')) $this->init_modules();
+			if(!defined('ACP')) {
+				$this->init_blocks();
+				$this->init_modules();
+			}
 		}
 
 
