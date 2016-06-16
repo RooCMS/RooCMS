@@ -3,9 +3,9 @@
 * @package	RooCMS
 * @subpackage	Engine RooCMS classes
 * @author	alex Roosso
-* @copyright	2010-2015 (c) RooCMS
+* @copyright	2010-2017 (c) RooCMS
 * @link		http://www.roocms.com
-* @version	2.2.5
+* @version	2.3
 * @since	$date$
 * @license	http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -177,14 +177,8 @@ class Debug {
 
                 // Записываем ошибку в файл
                 $file_error = _LOGS."/errors.log";
-		$subj = "";
-
-                if(file_exists($file_error)) {
-			$f = file($file_error);
-	                foreach($f AS $v) {
-        		        $subj .= $v;
-	                }
-                }
+		$subj = file_read($file_error);
+		
 
                 switch($errno) {	// Для "умников" - E_CORE_ERROR не вписываем, потому что, до выполнения этого скрипта дело не дойдет. А дойдет, значит не E_CORE_ERROR
         	        case E_ERROR:			# critical
@@ -408,4 +402,19 @@ class Debug {
                 exit;
 	}
 }
+
+/**
+ * Debug функция
+ * Синоним $Debug->debug();
+ *
+ * @param mixed $obj
+ * @param mixed $expand
+ *
+ * @example debug($var);
+ */
+function debug($obj, $expand=false) {
+	global $debug;
+	$debug->godebug($obj, $expand);
+}
+
 ?>

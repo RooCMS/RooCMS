@@ -2,9 +2,9 @@
 /**
 * @package      RooCMS
 * @author       alex Roosso
-* @copyright    2010-2016 (c) RooCMS
+* @copyright    2010-2017 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.7.3
+* @version      1.7.4
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -94,6 +94,13 @@ if(file_exists(_SITEROOT."/roocms/config/defines.php"))
 else die(ROOCMS_NOT_RUNNING);
 
 /**
+ * Загружаем примитивные функции
+ */
+if(file_exists(_ROOCMS."/functions.php"))
+	require_once(_ROOCMS."/functions.php");
+else die(ROOCMS_NOT_RUNNING);
+
+/**
 * Запускаем класс отладки
 */
 if(file_exists(_CLASS."/class_debug.php")) {
@@ -103,13 +110,6 @@ if(file_exists(_CLASS."/class_debug.php")) {
 	 */
 	$debug = new Debug;
 }
-else die(ROOCMS_NOT_RUNNING);
-
-/**
-* Загружаем примитивные функции
-*/
-if(file_exists(_ROOCMS."/functions.php"))
-	require_once(_ROOCMS."/functions.php");
 else die(ROOCMS_NOT_RUNNING);
 
 /**

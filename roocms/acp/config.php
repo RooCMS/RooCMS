@@ -4,9 +4,9 @@
 * @subpackage	Admin Control Panel
 * @subpackage	Configuration settings
 * @author       alex Roosso
-* @copyright    2010-2016 (c) RooCMS
+* @copyright    2010-2017 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.2.2
+* @version      1.2.3
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -338,13 +338,8 @@ class ACP_CONFIG {
 
 		global $parse;
 
-		$nowcp = file(_SITEROOT."/".CP);
-
 		# Собираем лут из старого файла
-		$context = "";
-		for($i=0;$i<=count($nowcp)-1;$i++) {
-			$context .= $nowcp[$i];
-		}
+		$context = file_read(_SITEROOT."/".CP);
 
 		# Создаем и записываем
 		if(!file_exists(_SITEROOT."/".$newcp)) {

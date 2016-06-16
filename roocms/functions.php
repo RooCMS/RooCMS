@@ -3,9 +3,9 @@
 * @package      RooCMS
 * @subpackage	Function
 * @author       alex Roosso
-* @copyright    2010-2016 (c) RooCMS
+* @copyright    2010-2017 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.2.1
+* @version      1.3
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -186,18 +186,20 @@ function get_http_response_code($url) {
 	return substr($headers[0], 9, 3);
 }
 
-
 /**
- * Debug функция
- * Синоним $Debug->debug();
+ * Считываем файл
  *
- * @param mixed $obj
- * @param mixed $expand
+ * @param $file - полный пукть к файлу
  *
- * @example debug($var);
+ * @return string - данные файла
  */
-function debug($obj, $expand=false) {
-	global $debug;
-	$debug->godebug($obj, $expand);
+function file_read($file) {
+	$buffer = "";
+
+	if(file_exists($file))
+		$buffer .= file_get_contents($file);
+
+	return $buffer;
 }
+
 ?>
