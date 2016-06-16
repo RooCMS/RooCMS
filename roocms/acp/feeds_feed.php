@@ -5,9 +5,9 @@
 * @subpackage	Feeds
 * @subpackage	Feed
 * @author       alex Roosso
-* @copyright    2010-2016 (c) RooCMS
+* @copyright    2010-2017 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.9.1
+* @version      1.9.2
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -126,12 +126,23 @@ class ACP_FEEDS_FEED {
 				? " items_sorting = '".$POST->items_sorting."', " : " items_sorting = 'datepublication', " ;
 
 			# show_child_feeds
-			if(isset($POST->show_child_feeds) && $POST->show_child_feeds == "default")
-				$show_child_feeds = "default";
-			elseif(isset($POST->show_child_feeds) && $POST->show_child_feeds == "forced")
-				$show_child_feeds = "forced";
-			else
-				$show_child_feeds = "none";
+			$show_child_feeds = "none";
+			if(isset($POST->show_child_feeds)) {
+				switch($POST->show_child_feeds) {
+					case 'default':
+						$show_child_feeds = "default";
+						break;
+
+					case 'forced':
+						$show_child_feeds = "forced";
+						break;
+
+					default:
+						$show_child_feeds = "none";
+						break;
+				}
+			}
+
 
 			# up data to db
 			$db->query("UPDATE ".STRUCTURE_TABLE."
