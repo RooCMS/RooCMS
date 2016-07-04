@@ -101,6 +101,10 @@ code {
 .progress.pb0 {
   margin-bottom: 0 !important;
 }
+.shy,
+.wbr {
+  word-break: break-all;
+}
 /* fix font-awesome underline */
 a:hover [class^="fa-"] {
   text-decoration: none !important;

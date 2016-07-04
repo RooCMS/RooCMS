@@ -87,7 +87,7 @@ class Users extends Security {
 	/**
 	 * Work your magic
 	 */
-	public function Users() {
+	public function __construct() {
 
 		global $roocms;
 

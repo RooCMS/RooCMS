@@ -59,6 +59,13 @@ p.lead {font-family: "PT Sans" !important;}
 	background-image: repeating-linear-gradient(135deg, #F29B91 0px, #F09290 30px, transparent 30px, transparent 50px, #83B3DB 50px, #84ADCB 80px, transparent 80px, transparent 100px);
 }
 
+.blur {
+	-webkit-filter: blur(25px);
+	-moz-filter: blur(25px);
+	-o-filter: blur(25px);
+	-ms-filter: blur(25px);
+}
+
 /* WebKit Scrollbar */
 .scroll::-webkit-scrollbar { width: 12px; }
 .scroll::-webkit-scrollbar-thumb { border-radius: 8px; -webkit-box-shadow: inset 0 0 3px rgba(0,0,0,0.5); background: #F88C00; }

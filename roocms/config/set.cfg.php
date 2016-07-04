@@ -104,7 +104,7 @@ setcookie("", "", time()+3600);
 */
 //setlocale(LC_ALL, 'ru_RU.UTF8', 'ru.UTF8', 'ru_RU.UTF-8', 'ru.UTF-8', 'ru_RU', 'ru');
 ini_set("max_execution_time",		30);
-ini_set("memory_limit", 		"96M");
+ini_set("memory_limit", 		"512M");
 #ini_set("upload_tmp_dir", 		"/tmp");	# временная директория для загружаемых файлов. (разкоментируйте, если испытываете трудности с настройками PHP по-умолчанию)
 
 ini_set("date.timezone",		"Europe/Moscow");
@@ -122,7 +122,7 @@ ini_set("error_append_string",		"</div>");
 */
 ini_set("mbstring.internal_encoding",		"UTF-8");
 ini_set("mbstring.http_input",			"auto");
-ini_set("mbstring.http_output",		"UTF-8");
+ini_set("mbstring.http_output",			"UTF-8");
 ini_set("mbstring.substitute_character",	"none");
 
 

@@ -145,8 +145,8 @@ DirectoryIndex index.php
 
 
 # PHP _______________________
-php_value	upload_max_filesize	32M
-php_value	post_max_size		32M
+php_value	upload_max_filesize	64M
+php_value	post_max_size		64M
 php_value	default_charset utf-8
 php_flag	magic_quotes_gpc Off
 php_flag	register_globals Off

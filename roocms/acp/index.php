@@ -216,8 +216,10 @@ class ACP_INDEX {
 
 		$data2 = array();
 		foreach ($server_vars as $arg) {
-			if (isset($_SERVER[$arg]))
+			if (isset($_SERVER[$arg])) {
+				if(is_array($_SERVER[$arg])) $_SERVER[$arg] = json_encode($_SERVER[$arg]);
 				$data2[] = array("var"=>$arg, "value"=>$_SERVER[$arg]);
+			}
 			else 	$data2[] = array("var"=>$arg, "value"=>"not found");
 		}
 

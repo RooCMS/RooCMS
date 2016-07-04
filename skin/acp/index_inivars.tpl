@@ -18,8 +18,11 @@
 		{foreach from=$inivars item=inival key=ininame}
 		<tr{if $inival['local_value'] != $inival['global_value']} class="success"{/if}>
     		<td class="col-xs-2">{$ininame}</td>
-    		<td class="col-xs-4{if $inival['local_value'] != $inival['global_value']} text-success bold{/if}">{$inival['local_value']|htmlspecialchars}{if $inival['local_value'] != $inival['global_value']}<small><br />{if trim($inival['global_value']) != ""}{$inival['global_value']}{else}пустое значение{/if}</small>{/if}</td>
-    		<td class="col-xs-4 visible-lg">{$inival['global_value']|htmlspecialchars}</td>
+    		<td class="col-xs-4{if $inival['local_value'] != $inival['global_value']} text-success bold{/if} wbr">
+			{$inival['local_value']|htmlspecialchars}{if $inival['local_value'] != $inival['global_value']}
+				<small><br />{if trim($inival['global_value']) != ""}{$inival['global_value']}{else}пустое значение{/if}</small>{/if}
+		</td>
+    		<td class="col-xs-4 visible-lg wbr">{$inival['global_value']|htmlspecialchars}</td>
     		<td class="col-xs-2 hidden-xs">
 				{if $inival['access'] == 1}
 					Через пользовательские скрипты
