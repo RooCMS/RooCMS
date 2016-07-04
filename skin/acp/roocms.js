@@ -49,8 +49,13 @@ $(document).ready(function() {
 	$("[rel='tooltip']").tooltip();
 	$("[rel='popover']").popover();
 	$(".alert").alert();
-	$(".affix").affix();
-	$(".affix-top").affix();
+
+	$('#LeftMenu').affix({
+		offset: {
+			top: 60,
+			bottom: 60
+		}
+	});
 	//$(".collapse").collapse({hide: true});
 
 	/* Select */

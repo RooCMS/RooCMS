@@ -6,7 +6,7 @@
 * @author       alex Roosso
 * @copyright    2010-2017 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.2.4
+* @version      1.2.5
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -253,64 +253,77 @@ class ACP_CONFIG {
 			if($key != "update_config") {
 				$check = false;
 
-				# int OR integer
-				if($this->types[$key] == "int" || $this->types[$key] == "integer") {
-					if(is_numeric($value)) {
-						$value = round($value);
-						settype($value, "integer");
-						$check = true;
-					}
-					else $check = false;
-				}
-				# boolean OR bool
-				elseif($this->types[$key] == "boolean" || $this->types[$key] == "bool") {
-					if($value == "true" || $value == "false")
-						$check = true;
-					else 	$check = false;
-				}
-				# email
-				elseif($this->types[$key] == "email") {
-					if($parse->valid_email($value))
-						$check = true;
-					else	$check = false;
-				}
-				# date
-				# EDIT THIS CODE!!!!!!!!!!!!!!!!!!!!!
-				elseif($this->types[$key] == "date") {
-					$date = explode(".",$POST->$key);
-					$d = settype($date[0], "integer");
-					$m = settype($date[1], "integer");
-					$y = settype($date[2], "integer");
 
-					if(count($date) == 3) {
-						if(mb_strlen($date[0], 'utf8') <= 2 && mb_strlen($date[1], 'utf8') <= 2 && mb_strlen($date[2], 'utf8') == 4 && checkdate($m, $d, $y)) {
+				switch($this->types[$key]) {
+					# integer
+					case 'int':
+					case 'integer':
+						if(is_numeric($value)) {
+							$value = round($value);
+							settype($value, "integer");
 							$check = true;
-							$value = $parse->date->gregorian_to_unix($m."/".$d."/".$y);
 						}
 						else $check = false;
-					}
-					else $check = false;
-				}
-				# string OR text
-				elseif($this->types[$key] == "string" || $this->types[$key] == "text" || $this->types[$key] == "textarea" || $this->types[$key] == "color") {
-					$check = true;
-				}
-				# select
-				elseif($this->types[$key] == "select") {
-					if(isset($this->t_vars[$key][$value])) $check = true;
-				}
-				# image
-				elseif($this->types[$key] == "image" || $this->types[$key] == "img") {
+						break;
 
-					$image = $img->upload_image("image_".$key, "", array(), array("filename"=>$key, "watermark"=>false, "modify"=>false, "noresize"=>true));
+					# email
+					case 'email':
+						if($parse->valid_email($value))
+							$check = true;
+						else	$check = false;
+						break;
 
-					if(isset($image[0])) {
-						if($value != "" || $value != $image[0]) unlink(_UPLOADIMAGES."/".$value);
-
-						$value = $image[0];
-
+					# text OR textarea
+					case 'string':
+					case 'color':
+					case 'text':
+					case 'textarea':
 						$check = true;
-					}
+						break;
+
+					# boolean
+					case 'boolean':
+					case 'bool':
+						if($value == "true" || $value == "false")
+							$check = true;
+						else 	$check = false;
+						break;
+
+					# date
+					case 'date':  // EDIT THIS CODE !!!
+						$date = explode(".",$POST->$key);
+						$d = settype($date[0], "integer");
+						$m = settype($date[1], "integer");
+						$y = settype($date[2], "integer");
+
+						if(count($date) == 3) {
+							if(mb_strlen($date[0], 'utf8') <= 2 && mb_strlen($date[1], 'utf8') <= 2 && mb_strlen($date[2], 'utf8') == 4 && checkdate($m, $d, $y)) {
+								$check = true;
+								$value = $parse->date->gregorian_to_unix($m."/".$d."/".$y);
+							}
+							else $check = false;
+						}
+						else $check = false;
+						break;
+
+					case 'select':
+						if(isset($this->t_vars[$key][$value])) $check = true;
+						break;
+
+					case 'image':
+					case 'img':
+						$image = $img->upload_image("image_".$key, "", array(), array("filename"=>$key, "watermark"=>false, "modify"=>false, "noresize"=>true));
+
+						if(isset($image[0])) {
+							if($value != "" || $value != $image[0]) unlink(_UPLOADIMAGES."/".$value);
+							$value = $image[0];
+							$check = true;
+						}
+						break;
+
+					default:
+						$check = false;
+						break;
 				}
 
 
