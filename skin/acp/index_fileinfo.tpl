@@ -1,17 +1,17 @@
 {* Файлы и форматы *}
+<div class=" panel panel-default">
+	<div class="panel-heading">
+		Информация о файлах
+	</div>
 
-<div class="panel-heading">
-	Информация о файлах
-</div>
-
-<table class="table table-hover table-condensed">
-	<thead>
+	<table class="table table-hover table-condensed">
+		<thead>
 		<tr class="active">
 			<th width="40%">Параметр</th>
 			<th width="60%">Значение</th>
 		</tr>
-	</thead>
-	<tbody>
+		</thead>
+		<tbody>
 		<tr>
 			<td>Максимально допустимый размер файлов для загрузки:</td>
 			<td>{$filetypes['mfs']}</td>
@@ -36,5 +36,6 @@
 				{/foreach}
 			</td>
 		</tr>
-	</tbody>
-</table>
+		</tbody>
+	</table>
+</div>

@@ -15,7 +15,7 @@
 	<tbody>
 	{foreach from=$tree item=page}
 		<tr>
-			<td class="text-muted structure-highlight">{$page['id']}</td>
+			<td class="text-muted structure-highlight text-right">{$page['id']}<i class="fa fa-fw fa-caret-right"></i></td>
 			<td>
 				<nobr>
 					{section name=foo start=1 loop=$page['level'] step=1}<span class="text-muted structure-highlight">&bull;</span>&emsp;{/section}

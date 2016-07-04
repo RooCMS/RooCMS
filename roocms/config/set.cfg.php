@@ -96,7 +96,7 @@ ini_set("session.cookie_domain",	"");	#	Устанавливаем домен д
 ini_set("session.cookie_path",		"/");	#	Устанавливаем путь к "печенькам"
 ini_set("session.cookie_secure",	"");	#	Секрет хороших "печенек"
 ini_set("session.cookie_httponly",	true);	#	Секрет хороших "печенек"
-setcookie("", "", time()+3600);
+//setcookie("", "", time()+3600);
 
 
 /**

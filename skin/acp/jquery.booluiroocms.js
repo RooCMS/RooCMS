@@ -4,7 +4,7 @@
  * @subpackage	UI
  * @subpackage	jQuery plugin
  * @author      alex Roosso
- * @copyright   2010-2016 (c) RooCMS
+ * @copyright   2010-2017 (c) RooCMS
  * @link        http://www.roocms.com
  * @license     http://www.gnu.org/licenses/gpl-3.0.html
  */
@@ -81,7 +81,6 @@
 	};
 
 	$.fn.booluiroocms = function(method) {
-
 		// логика вызова метода
 		if (methods[method]) {
 			return methods[method].apply( this, Array.prototype.slice.call(arguments, 1));

@@ -13,7 +13,5 @@
 	</ul>
 </div>
 <div class="col-md-10">
-	<div class=" panel panel-default">
-    		{$content}
-	</div>
+	{$content}
 </div>

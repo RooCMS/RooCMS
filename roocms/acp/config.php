@@ -6,7 +6,7 @@
 * @author       alex Roosso
 * @copyright    2010-2017 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.2.3
+* @version      1.2.4
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -146,60 +146,68 @@ class ACP_CONFIG {
 
 		global $tpl, $smarty, $parse;
 
-
 		$field = array('name'=>$option_name, 'value'=>$value, 'type'=>$option_type, 'maxlength'=>$maxlength);
 		$smarty->assign('field', $field);
 
+		switch($option_type) {
+			# integer OR string OR email
+			case 'int':
+			case 'integer':
+			case 'string':
+			case 'email':
+			case 'color':
+				$out = $tpl->load_template("config_field_string",true);
+				break;
 
-		# integer OR string OR email
-		if($option_type == "int" || $option_type == "integer" || $option_type == "string" || $option_type == "email" || $option_type == "color") {
-			$out = $tpl->load_template("config_field_string",true);
-		}
-		# text OR textarea
-		elseif($option_type == "text" || $option_type == "textarea") {
-			$out = $tpl->load_template("config_field_textarea",true);
-		}
-		# boolean
-		elseif($option_type == "boolean" || $option_type == "bool") {
-			$out = $tpl->load_template("config_field_boolean",true);
-		}
-		# date
-		elseif($option_type == "date") {
-			$field['value'] = $parse->date->unix_to_rusint($field['value']);
-			$out = $tpl->load_template("config_field_date",true);
-		}
-		# select
-		elseif($option_type == "select" && trim($variants) != "") {
-			$vars = explode("\n",$variants);
-			foreach($vars AS $k=>$v) {
-				$vars = explode("|",trim($v));
+			# text OR textarea
+			case 'text':
+			case 'textarea':
+				$out = $tpl->load_template("config_field_textarea",true);
+				break;
 
-				($vars[1] == $value) ? $s = "selected" : $s = "" ;
+			# boolean
+			case 'boolean':
+			case 'bool':
+				$out = $tpl->load_template("config_field_boolean",true);
+				break;
 
-				$field['variants'][] = array('value'=>$vars[1], 'title'=>$vars[0], 'selected'=>$s);
-			}
+			# date
+			case 'date':
+				$field['value'] = $parse->date->unix_to_rusint($field['value']);
+				$out = $tpl->load_template("config_field_date",true);
+				break;
 
-			$smarty->assign('field', $field);
+			case 'select':
+				$vars = explode("\n",$variants);
+				foreach($vars AS $k=>$v) {
+					$vars = explode("|",trim($v));
 
-			$out = $tpl->load_template("config_field_select",true);
-		}
-		# image
-		elseif($option_type == "image" || $option_type == "img") {
+					($vars[1] == $value) ? $s = "selected" : $s = "" ;
 
-			$image = array();
+					$field['variants'][] = array('value'=>$vars[1], 'title'=>$vars[0], 'selected'=>$s);
+				}
 
-			if(trim($field['value']) != "" && file_exists(_UPLOADIMAGES."/".$field['value'])) {
+				$smarty->assign('field', $field);
+				$out = $tpl->load_template("config_field_select",true);
+				break;
 
-				$image['src'] = $field['value'];
+			case 'image':
+			case 'img':
+				$image = array();
+				if(trim($field['value']) != "" && file_exists(_UPLOADIMAGES."/".$field['value'])) {
+					$image['src'] = $field['value'];
+					$size = getimagesize(_UPLOADIMAGES."/".$image['src']);
+					$image['width'] = $size[0];
+					$image['height'] = $size[1];
+				}
 
-				$size = getimagesize(_UPLOADIMAGES."/".$image['src']);
-				$image['width'] = $size[0];
-				$image['height'] = $size[1];
-			}
+				$smarty->assign("image", $image);
+				$out = $tpl->load_template("config_field_image", true);
+				break;
 
-			$smarty->assign("image", $image);
-
-			$out = $tpl->load_template("config_field_image", true);
+			default:
+				$out = "Нераспознанный параметр";
+				break;
 		}
 
 		return $out;

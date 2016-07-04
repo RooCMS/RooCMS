@@ -1,17 +1,17 @@
 {* Информация о сервере *}
+<div class="panel panel-default">
+	<div class="panel-heading">
+		Информация о сервере
+	</div>
 
-<div class="panel-heading">
-	Информация о сервере
-</div>
-
-<table class="table table-hover table-condensed">
-	<thead>
+	<table class="table table-hover table-condensed">
+		<thead>
 		<tr class="active">
 			<th>Параметр</th>
 			<th>Значение</th>
 		</tr>
-	</thead>
-	<tbody>
+		</thead>
+		<tbody>
 		<tr> <td class="col-sm-4">Версия PHP:</td> <td class="col-sm-8">{$data1['php']}</td> </tr>
 		<tr> <td>Версия Zend:</td> <td>{$data1['zend']}</td> </tr>
 		<tr> <td>Версия MySQL:</td> <td>{$data1['mysql']}</td> </tr>
@@ -30,24 +30,25 @@
 		{if !empty($data1['apache_mods'])}
 			<tr> <td>Apache модули:</td> <td>{foreach from=$data1['apache_mods'] item=mods}<span class="badge">{$mods}</span> {/foreach}</td> </tr>
 		{/if}
-	</tbody>
-</table>
-<div class="panel-footer">Предопределённые переменные сервера</div>
-
-
-<table class="table table-hover table-condensed">
-	<thead>
+		</tbody>
+	</table>
+</div>
+<div class="panel panel-default">
+	<div class="panel-heading">Предопределённые переменные сервера</div>
+	<table class="table table-hover table-condensed">
+		<thead>
 		<tr class="active">
 			<th>Параметр</th>
 			<th>Значение</th>
 		</tr>
-	</thead>
-	<tbody>
+		</thead>
+		<tbody>
 		{foreach from=$data2 item=svar}
 			<tr>
 				<td class="col-sm-4">$_SERVER['{$svar['var']}']</td>
 				<td class="col-sm-8 {if $svar['value'] == "not found"}text-muted{/if}">{$svar['value']}</td>
 			</tr>
 		{/foreach}
-	</tbody>
-</table>
+		</tbody>
+	</table>
+</div>
