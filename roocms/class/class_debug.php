@@ -5,7 +5,7 @@
 * @author	alex Roosso
 * @copyright	2010-2017 (c) RooCMS
 * @link		http://www.roocms.com
-* @version	2.3
+* @version	2.3.1
 * @since	$date$
 * @license	http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -82,7 +82,7 @@ class Debug {
 						"mbstring",
 						"standard",
 						"SimpleXML",
-						"apache2handler",
+						//"apache2handler",
 						"mysqli");
 
 

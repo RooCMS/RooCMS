@@ -16,7 +16,7 @@
 		<tr> <td>Версия Zend:</td> <td>{$data1['zend']}</td> </tr>
 		<tr> <td>Версия MySQL:</td> <td>{$data1['mysql']}</td> </tr>
 		<tr> <td>Версия RooCMS:</td> <td>{$data1['roocms']}</td> </tr>
-		<tr> <td>Apache:</td> <td>{$data1['apache']}</td> </tr>
+		<tr> <td>WebServer:</td> <td>{$data1['ws']}</td> </tr>
 		<tr> <td>Имя сервера:</td> <td>{$data1['sn']}</td> </tr>
 		<tr> <td>Адрес сервера:</td> <td>{$data1['sa']}</td> </tr>
 		<tr> <td>Протокол сервера:</td> <td>{$data1['sp']}</td> </tr>
@@ -27,7 +27,9 @@
 		<tr> <td>Максимальный размер постинга:</td> <td>{$data1['mps']}</td> </tr>
 		<tr> <td>Максимально допустимое время исполнения скрипта:</td> <td>{$data1['met']} секунд</td> </tr>
 		<tr> <td>Корневая директория сайта:</td> <td>{$data1['docroot']}</td> </tr>
-		<tr> <td>Apache модули:</td> <td>{foreach from=$data1['apache_mods'] item=mods}<span class="badge">{$mods}</span> {/foreach}</td> </tr>
+		{if !empty($data1['apache_mods'])}
+			<tr> <td>Apache модули:</td> <td>{foreach from=$data1['apache_mods'] item=mods}<span class="badge">{$mods}</span> {/foreach}</td> </tr>
+		{/if}
 	</tbody>
 </table>
 <div class="panel-footer">Предопределённые переменные сервера</div>

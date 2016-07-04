@@ -20,10 +20,10 @@
 						 || $ext == "gd"
 						 || $ext == "mbstring"
 						 || $ext == "SimpleXML"
-						 || $ext == "apache2handler"
 						 || $ext == "mysqli"}
 							class="text-success"
-						{elseif $ext == "xdebug"}
+						{elseif $ext == "xdebug"
+						     || $ext == "apache2handler"}
 							class="text-warning"
 						{/if}>
 					{$ext}</a>

@@ -27,7 +27,6 @@ Cистемные требования
 	`mbstring`
 	`standard`
 	`SimpleXML`
-	`apache2handler`
 	`mysqli`
 
 Установка

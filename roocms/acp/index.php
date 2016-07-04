@@ -5,7 +5,7 @@
 * @author       alex Roosso
 * @copyright    2010-2017 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      2.2.1
+* @version      2.2.2
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -136,7 +136,7 @@ class ACP_INDEX {
 	 */
 	private function serverinfo() {
 
-		global $db, $tpl, $smarty;
+		global $db, $debug, $tpl, $smarty;
 
 		# Версия MYSQL
 		$data1 = array();
@@ -146,7 +146,7 @@ class ACP_INDEX {
 
 		$data1['php'] 		= PHP_VERSION;				# Версия php
 		$data1['zend']		= zend_version();			# Версия Zend
-		$data1['apache'] 	= $_SERVER['SERVER_SOFTWARE'];		# Версия сервера  apache_get_version();
+		$data1['ws'] 		= $_SERVER['SERVER_SOFTWARE'];		# Версия сервера  apache_get_version();
 		$data1['os']		= php_uname("s")." (".PHP_OS.")"; 	# ОС
 		$data1['uname']		= php_uname(); 				# UNAME
 		$data1['roocms']	= ROOCMS_VERSION;			# RooCMS
@@ -167,7 +167,8 @@ class ACP_INDEX {
 		$data1['mps']		= ini_get('post_max_size');		# Maximum post size
 		$data1['met']		= ini_get('max_execution_time');	# Max execution time
 
-		$data1['apache_mods']	= apache_get_modules();			# Расширения Apache
+		if(array_search("apache2handler", $debug->nophpextensions))
+			$data1['apache_mods']	= apache_get_modules();		# Расширения Apache
 
 
 		$server_vars = array(
