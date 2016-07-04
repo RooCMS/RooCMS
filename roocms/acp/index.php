@@ -167,7 +167,7 @@ class ACP_INDEX {
 		$data1['mps']		= ini_get('post_max_size');		# Maximum post size
 		$data1['met']		= ini_get('max_execution_time');	# Max execution time
 
-		if(array_search("apache2handler", $debug->nophpextensions))
+		if(array_search("apache2handler", $debug->phpextensions))
 			$data1['apache_mods']	= apache_get_modules();		# Расширения Apache
 
 
