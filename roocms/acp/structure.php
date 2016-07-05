@@ -5,7 +5,7 @@
 * @author       alex Roosso
 * @copyright    2010-2017 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.4
+* @version      1.5
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -155,19 +155,8 @@ class ACP_STRUCTURE {
 
 		global $db, $img, $parse, $POST;
 
-		# title
-		if(!isset($POST->title) || trim($POST->title) == "") $parse->msg("Не указано название страницы.", false);
-
-		# alias
-		$this->processing_alias();
-		if(!$this->check_alias($POST->alias)) $parse->msg("Алиас страницы не уникален.", false);
-
-		# group access
-		if(isset($POST->gids) && is_array($POST->gids)) $POST->gids = implode(",", $POST->gids);
-		else $POST->gids = 0;
-
-		# thumbnail check
-		$img->check_post_thumb_parametrs();
+		# check unit parametrs
+		$this->check_unit_parametrs();
 
 
 		if(!isset($_SESSION['error'])) {
@@ -271,22 +260,9 @@ class ACP_STRUCTURE {
 
 		global $db, $img, $parse, $POST;
 
-		# Если идентификатор не прошел проверку
-		if($sid == 0) go(CP."?act=structure");
+		# check unit parametrs
+		$this->check_unit_parametrs();
 
-		# title
-		if(!isset($POST->title) || trim($POST->title) == "") $parse->msg("Не указано название страницы.", false);
-
-		# alias
-		$this->processing_alias();
-		if(!$this->check_alias($POST->alias, $POST->old_alias)) $parse->msg("Алиас страницы не уникален.", false);
-
-		# group access
-		if(isset($POST->gids) && is_array($POST->gids)) $POST->gids = implode(",", $POST->gids);
-		else $POST->gids = 0;
-
-		# thumbnail check
-		$img->check_post_thumb_parametrs();
 
 		if(!isset($_SESSION['error'])) {
 			$POST->sort = round($POST->sort);
@@ -383,44 +359,41 @@ class ACP_STRUCTURE {
 
 		global $db, $parse;
 
-		# Если идентификатор не прошел проверку
-		if($sid == 0) go(CP."?act=structure");
-
 		$q = $db->query("SELECT childs, parent_id, page_id, page_type FROM ".STRUCTURE_TABLE." WHERE id='".$sid."'");
 		$c = $db->fetch_assoc($q);
 
 		if($c['childs'] == 0) {
-			# del content html
-			if($c['page_type'] == "html") {
-				require_once _ROOCMS."/acp/pages_html.php";
-				$this->unit = new ACP_PAGES_HTML;
 
-				$this->unit->delete($sid);
-			}
-			# del content php
-			elseif($c['page_type'] == "php") {
-				require_once _ROOCMS."/acp/pages_php.php";
-				$this->unit = new ACP_PAGES_PHP;
+			switch($c['page_type']) {
 
-				$this->unit->delete($sid);
-			}
-			# del content feed
-			elseif($c['page_type'] == "feed") {
-				$feeds_data = array(
-					'id'			=> $this->engine->page_id,
-					'alias'			=> $this->engine->page_alias,
-					'title'			=> $this->engine->page_title,
-					'rss'			=> $this->engine->page_rss,
-					'items_per_page'	=> $this->engine->page_items_per_page,
-					'items_sorting'		=> $this->engine->page_items_sorting,
-					'thumb_img_width'	=> $this->engine->page_thumb_img_width,
-					'thumb_img_height'	=> $this->engine->page_thumb_img_height
-				);
+				case 'html': # del content html
+					require_once _ROOCMS."/acp/pages_html.php";
+					$this->unit = new ACP_PAGES_HTML;
+					$this->unit->delete($sid);
+					break;
 
-				require_once _ROOCMS."/acp/feeds_feed.php";
-				$this->unit = new ACP_FEEDS_FEED($feeds_data);
+				case 'php': # del content php
+					require_once _ROOCMS."/acp/pages_php.php";
+					$this->unit = new ACP_PAGES_PHP;
+					$this->unit->delete($sid);
+					break;
 
-				$this->unit->delete_feed($sid);
+				case 'feed': # del content feed
+					$feeds_data = array(
+						'id'			=> $this->engine->page_id,
+						'alias'			=> $this->engine->page_alias,
+						'title'			=> $this->engine->page_title,
+						'rss'			=> $this->engine->page_rss,
+						'items_per_page'	=> $this->engine->page_items_per_page,
+						'items_sorting'		=> $this->engine->page_items_sorting,
+						'thumb_img_width'	=> $this->engine->page_thumb_img_width,
+						'thumb_img_height'	=> $this->engine->page_thumb_img_height
+					);
+
+					require_once _ROOCMS."/acp/feeds_feed.php";
+					$this->unit = new ACP_FEEDS_FEED($feeds_data);
+					$this->unit->delete_feed($sid);
+					break;
 			}
 
 
@@ -515,6 +488,31 @@ class ACP_STRUCTURE {
 			# а так же проверяем что бы алиас не оказался числом
 			if(is_numeric($POST->alias)) $POST->alias .= randcode(3, "abcdefghijklmnopqrstuvwxyz");
 		}
+	}
+
+
+	/**
+	 * Функция проверяет заголовок, алиас, разрешения и иные параметры
+	 * перед размещением или обновлением структурной еденицы.
+	 */
+	private function check_unit_parametrs() {
+
+		global $parse, $POST, $img;
+
+		# title
+		if(!isset($POST->title) || trim($POST->title) == "") $parse->msg("Не указано название страницы.", false);
+
+		# alias
+		$this->processing_alias();
+		if(!isset($POST->old_alias)) $POST->old_alias = "";
+		if(!$this->check_alias($POST->alias, $POST->old_alias)) $parse->msg("Алиас страницы не уникален.", false);
+
+		# group access
+		if(isset($POST->gids) && is_array($POST->gids)) $POST->gids = implode(",", $POST->gids);
+		else $POST->gids = 0;
+
+		# thumbnail check
+		$img->check_post_thumb_parametrs();
 	}
 }
 

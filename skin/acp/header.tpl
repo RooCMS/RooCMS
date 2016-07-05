@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en" id="RooCMS">
 <head>
 <title>{$site['title']}</title>
-<meta name="robots"			content="{$robots}" />
+<meta name="robots"			content="no-index,no-follow,all" />
 <meta name="revisit-after"		content="365 days" />
 <meta name="Document-state" 		content="dynamic" />
 <meta name="Resource-type" 		content="document" />

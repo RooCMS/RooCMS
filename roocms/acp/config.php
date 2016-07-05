@@ -6,7 +6,7 @@
 * @author       alex Roosso
 * @copyright    2010-2017 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.2.5
+* @version      1.2.6
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -263,14 +263,11 @@ class ACP_CONFIG {
 							settype($value, "integer");
 							$check = true;
 						}
-						else $check = false;
 						break;
 
 					# email
 					case 'email':
-						if($parse->valid_email($value))
-							$check = true;
-						else	$check = false;
+						if($parse->valid_email($value))	$check = true;
 						break;
 
 					# text OR textarea
@@ -284,9 +281,7 @@ class ACP_CONFIG {
 					# boolean
 					case 'boolean':
 					case 'bool':
-						if($value == "true" || $value == "false")
-							$check = true;
-						else 	$check = false;
+						if($value == "true" || $value == "false") $check = true;
 						break;
 
 					# date
@@ -301,9 +296,7 @@ class ACP_CONFIG {
 								$check = true;
 								$value = $parse->date->gregorian_to_unix($m."/".$d."/".$y);
 							}
-							else $check = false;
 						}
-						else $check = false;
 						break;
 
 					case 'select':

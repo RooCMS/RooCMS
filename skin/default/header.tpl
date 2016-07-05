@@ -5,7 +5,7 @@
 <title>{$site['title']}</title>
 <meta name="description" 		content="{$site['description']}" />
 <meta name="keywords" 			content="{$site['keywords']}" />
-<meta name="robots"			content="{$robots}" />
+<meta name="robots"			content="{if $noindex == 1}no-index,no-follow,all{else}index, follow, all{/if}" />
 <meta name="revisit-after"		content="5 days" />
 <meta name="revisit"			content="5" />
 <meta name="Document-state" 		content="dynamic" />
@@ -65,8 +65,6 @@
 {/literal}
 </head>
 <body>
-
-{$fuckie}
 
 {if trim($error) != ""}
 	<div class="alert alert-danger t12 text-left in fade" role="alert">

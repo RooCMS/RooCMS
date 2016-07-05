@@ -3,9 +3,9 @@
 * @package      RooCMS
 * @subpackage	Frontend
 * @author       alex Roosso
-* @copyright    2010-2016 (c) RooCMS
+* @copyright    2010-2017 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.3.2
+* @version      1.3.3
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -160,9 +160,9 @@ class PageFeed {
 			$pages[]['n'] = $p;
 		}
 		# next
-		if($db->next_page != 1 && $db->next_page != 0) $pages[]['next'] =& $db->next_page;
+		if($db->next_page > 1) $pages[]['next'] =& $db->next_page;
 
-		if($db->page != 1 && $db->page != 0) $site['title'] .= " (Страница: ".$db->page.")";
+		if($db->page > 1) $site['title'] .= " (Страница: ".$db->page.")";
 
 		$smarty->assign("pages", $pages);
 

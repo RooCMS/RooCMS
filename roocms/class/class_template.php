@@ -5,7 +5,7 @@
 * @author	alex Roosso
 * @copyright	2010-2017 (c) RooCMS
 * @link		http://www.roocms.com
-* @version	4.5.5
+* @version	4.6
 * @since	$date$
 * @license	http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -77,7 +77,7 @@ class Template {
 	*/
 	public function __construct($skin=false) {
 
-		global $site;
+		global $site, $smarty;
 
 		if(!$skin) {
 			if(defined('ACP')) $this->skinfolder = "acp";
@@ -88,6 +88,9 @@ class Template {
 
 		# init settings smarty
 		$this->set_smarty_options();
+
+		# copyright text
+		$smarty->assign("copyright",	"<a href=\"http://www.roocms.com/\">RooCMS</a> &copy; 2010-".date("Y"));
 	}
 
 
@@ -108,8 +111,8 @@ class Template {
 		# set other options
                 $smarty->caching 	= 0;
                 $smarty->cache_lifetime = 60;
-		if(isset($config->tpl_recompile_force))	$smarty->force_compile = $config->tpl_recompile_force;
-		if(isset($config->if_modified_since)) 	$smarty->cache_modified_check = $config->if_modified_since;
+		if(isset($config->tpl_recompile_force))	$smarty->force_compile 		= $config->tpl_recompile_force;
+		if(isset($config->if_modified_since)) 	$smarty->cache_modified_check 	= $config->if_modified_since;
 
 		//$smarty->config_fix_newlines = false;
 		//$smarty->compile_check = false;
@@ -143,9 +146,8 @@ class Template {
 		$out 	= "";
 
 		# Если нет шаблона
-		if(!file_exists($path."/".$tpl.".tpl") && DEBUGMODE) {
+		if(!file_exists($path."/".$tpl.".tpl") && DEBUGMODE)
 			$debug->debug_info .= "Не удалось найти шаблон: <br /><b>".$path."/".$tpl.".tpl</b><br />";
-		}
 
 		if(file_exists($path."/".$tpl.".tpl")) {
 			# load html
@@ -273,9 +275,6 @@ class Template {
                         # check notice
                         $this->info_popup();
 
-                        # noindex for robots
-                        $robots = (!defined('ACP') && $structure->page_noindex == 0) ? "index, follow, all" : "no-index,no-follow,all" ;
-
                         # global site title
                         if(!defined('INSTALL') && isset($config->global_site_title)) $site['title'] .= " &bull; ".$config->site_title;
 
@@ -292,9 +291,9 @@ class Template {
 			$smarty->assign("jquerycore",	$jquerycore);
 			$smarty->assign("build",	$build);
 			$smarty->assign("jscript",	$this->js);
-			$smarty->assign("robots",	$robots);
 
-			$smarty->assign("fuckie",	"");
+			$smarty->assign("noindex",	$structure->page_noindex); # noindex for robots
+
 			$smarty->assign("error",	$parse->error);
 			$smarty->assign("info",		$parse->info);
 
@@ -308,24 +307,19 @@ class Template {
 				$smarty->assign("breadcumb",	$breadcumb);
 			}
 
-			# copyright text
-			$smarty->assign("copyright",	"<a href=\"http://www.roocms.com/\">RooCMS</a> &copy; 2010-".date("Y"));
-
 
 			# head
 			$head = $this->load_template("header", true);
 
-			# debug_info in footer
-			if(isset($roocms->sess['token'])) {
-				$smarty->assign("debug", 		DEBUGMODE);
-				$smarty->assign("devmode", 		DEVMODE);
-				$smarty->assign("db_querys", 		$db->cnt_querys);
 
-				$debug->end_productivity();
-				$smarty->assign("debug_timer",		$debug->productivity_time);
-				$smarty->assign("debug_memory",		$debug->productivity_memory);
-				$smarty->assign("debug_memusage",	$debug->memory_peak_usage);
-			}
+			# debug_info in footer
+			$smarty->assign("db_querys", 		$db->cnt_querys);
+
+			$debug->end_productivity();
+			$smarty->assign("debug_timer",		$debug->productivity_time);
+			$smarty->assign("debug_memory",		$debug->productivity_memory);
+			$smarty->assign("debug_memusage",	$debug->memory_peak_usage);
+
 
 			# foot
 			$foot = $this->load_template("footer", true);
@@ -347,7 +341,6 @@ class Template {
 
 		# secure
 		unset($_GET);
-
 
 		# Close connection to DB (recommended)
 		$db->close();
