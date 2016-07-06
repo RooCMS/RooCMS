@@ -296,7 +296,7 @@ class ACP_USERS {
 	 */
 	private function create_new_group() {
 
-		global $db, $smarty, $tpl, $POST, $loger;
+		global $db, $smarty, $tpl, $POST, $logger;
 
 		if(isset($POST->create_group) || isset($POST->create_group_ae)) {
 
