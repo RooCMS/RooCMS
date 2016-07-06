@@ -311,7 +311,7 @@ class ACP_USERS {
 				$gid = $db->insert_id();
 
 				# уведомление
-				$loger->info("Группа #".$gid." была успешно создана.");
+				$logger->info("Группа #".$gid." была успешно создана.");
 
 				# переход
 				if(isset($POST->create_group_ae)) go(CP."?act=users&part=group_list");
