@@ -72,27 +72,12 @@ class ACP_BLOCKS_HTML {
 
 		if(isset($POST->create_block)) {
 
-			if(!isset($POST->title)) $logger->error("Не указано название блока!");
-
-			if(!isset($POST->alias) || $db->check_id($parse->text->transliterate($POST->alias), BLOCKS_TABLE, "alias")) $logger->error("Не указан алиас блока или он не уникален!");
-			else {
-				$POST->alias = $parse->text->transliterate($POST->alias);
-				$POST->alias = preg_replace(array('(\s\s+)','(\-\-+)','(__+)','([^a-zA-Z0-9\-_])'), array('','','',''), $POST->alias);
-				if(is_numeric($POST->alias)) $POST->alias .= randcode(3, "abcdefghijklmnopqrstuvwxyz");
-			}
-
-			// Упраздняем временно...
-			// if(!isset($POST->content)) $parse->msg("Пустое тело блока!", false);
-			if(!isset($POST->content)) $POST->content = "";
-
-			# check thumb size
-			if(!isset($POST->thumb_img_width)) $POST->thumb_img_width = 0;
-			if(!isset($POST->thumb_img_height)) $POST->thumb_img_height = 0;
+			# check parametrs
+			$this->check_block_parametrs();
 
 			if(!isset($_SESSION['error'])) {
 				$db->query("INSERT INTO ".BLOCKS_TABLE."   (title, alias, content, thumb_img_width, thumb_img_height, date_create, date_modified, block_type)
 								    VALUES ('".$POST->title."', '".$POST->alias."', '".$POST->content."', '".$POST->thumb_img_width."', '".$POST->thumb_img_height."', '".time()."', '".time()."', 'html')");
-
 				$id = $db->insert_id();
 
 
@@ -117,7 +102,7 @@ class ACP_BLOCKS_HTML {
 				}
 
 
-				$logger->info("Блок успешно добавлен!");
+				$logger->info("Блок #".$id." успешно добавлен!");
 
 				go(CP."?act=blocks");
 			}
@@ -190,22 +175,10 @@ class ACP_BLOCKS_HTML {
 
 		if(isset($POST->update_block)) {
 
-			if(!isset($POST->title)) $logger->error("Не указано название блока!");
+			# check parametrs
+			$this->check_block_parametrs();
 
-			if(!isset($POST->alias) || $db->check_id($parse->text->transliterate($POST->alias), BLOCKS_TABLE, "alias", "alias!='".$POST->oldalias."'")) $logger->error("Не указан алиас блока или он не уникален!");
-			else {
-				$POST->alias = $parse->text->transliterate($POST->alias);
-				$POST->alias = preg_replace(array('(\s\s+)','(\-\-+)','(__+)','([^a-zA-Z0-9\-_])'), array('','','',''), $POST->alias);
-				if(is_numeric($POST->alias)) $POST->alias .= randcode(3, "abcdefghijklmnopqrstuvwxyz");
-			}
-
-			//if(!isset($POST->content)) $parse->msg("Пустое тело блока!", false);
-			if(!isset($POST->content)) $POST->content = "";
 			if(!isset($POST->id) || $POST->id != $GET->_block) $logger->error("Системная ошибка...");
-
-			# check thumb size
-			if(!isset($POST->thumb_img_width)) $POST->thumb_img_width = 0;
-			if(!isset($POST->thumb_img_height)) $POST->thumb_img_height = 0;
 
 			if(!isset($_SESSION['error'])) {
 
@@ -277,6 +250,35 @@ class ACP_BLOCKS_HTML {
 
 		$logger->info("Блок #".$id." успешно удален!");
 		go(CP."?act=blocks");
+	}
+
+
+	/**
+	 * Check Block Parametrs
+	 */
+	private function check_block_parametrs() {
+
+		global $db, $parse, $POST, $logger;
+
+
+		if(!isset($POST->title)) $logger->error("Не указано название блока!");
+
+		$check_alias = (isset($POST->oldalias)) ? "alias!='".$POST->oldalias."'" : "" ;
+
+		if(!isset($POST->alias) || $db->check_id($parse->text->transliterate($POST->alias), BLOCKS_TABLE, "alias", $check_alias)) $logger->error("Не указан алиас блока или он не уникален!");
+		else {
+			$POST->alias = $parse->text->transliterate($POST->alias);
+			$POST->alias = preg_replace(array('(\s\s+)','(\-\-+)','(__+)','([^a-zA-Z0-9\-_])'), array('','','',''), $POST->alias);
+			if(is_numeric($POST->alias)) $POST->alias .= randcode(3, "abcdefghijklmnopqrstuvwxyz");
+		}
+
+		// Упраздняем временно...
+		// if(!isset($POST->content)) $parse->msg("Пустое тело блока!", false);
+		if(!isset($POST->content)) $POST->content = "";
+
+		# check thumb size
+		if(!isset($POST->thumb_img_width)) $POST->thumb_img_width = 0;
+		if(!isset($POST->thumb_img_height)) $POST->thumb_img_height = 0;
 	}
 }
 

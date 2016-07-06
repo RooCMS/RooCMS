@@ -287,5 +287,28 @@ class Users extends Security {
 			}
 		}
 	}
+
+
+	/**
+	 * Проверяем персональные данные пользователя при попытки их создания и обновления
+	 */
+	public function check_personal_data() {
+
+		global $db, $POST, $parse;
+
+		# user name/surname/last_name
+		if(!isset($POST->user_name)) 					$POST->user_name = "";
+		if(!isset($POST->user_surname)) 				$POST->user_surname = "";
+		if(!isset($POST->user_last_name)) 				$POST->user_last_name = "";
+
+		# user birthdate
+		if(isset($POST->user_birthdate) && $POST->user_birthdate != "") $POST->user_birthdate = $parse->date->rusint_to_unix($POST->user_birthdate);
+		else 								$POST->user_birthdate = 0;
+
+		#check user sex
+		if(isset($POST->user_sex) && $POST->user_sex == "m")		$POST->user_sex = "m";
+		elseif(isset($POST->user_sex) && $POST->user_sex == "f")	$POST->user_sex = "f";
+		else								$POST->user_sex = "n";
+	}
 }
 ?>

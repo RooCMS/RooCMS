@@ -6,7 +6,7 @@
  * @author       alex Roosso
  * @copyright    2010-2017 (c) RooCMS
  * @link         http://www.roocms.com
- * @version      1.3.4
+ * @version      1.4
  * @since        $date$
  * @license      http://www.gnu.org/licenses/gpl-3.0.html
  */
@@ -212,11 +212,6 @@ class ACP_USERS {
 			if(isset($POST->email) && trim($POST->email) != "" && !$parse->valid_email($POST->email)) $logger->error("Некоректный адрес электронной почты");
 			if(isset($POST->email) && trim($POST->email) != "" && $db->check_id($POST->email, USERS_TABLE, "email")) $logger->error("Пользователь с таким адресом почты уже существует");
 
-			# title
-			$POST->title = (isset($POST->title) && $POST->title == "a") ? "a" : "u" ;
-
-			# group
-			$POST->gid = (isset($POST->gid) && $db->check_id($POST->gid, USERS_GROUP_TABLE, "gid")) ? $POST->gid : 0 ;
 
 			if(!isset($_SESSION['error'])) {
 
@@ -225,19 +220,8 @@ class ACP_USERS {
 				$salt = $security->create_new_salt();
 				$password = $security->hashing_password($POST->password, $salt);
 
-				# personal data
-				if(!isset($POST->user_name)) 					$POST->user_name = "";
-				if(!isset($POST->user_surname)) 				$POST->user_surname = "";
-				if(!isset($POST->user_last_name)) 				$POST->user_last_name = "";
-
-				if(isset($POST->user_birthdate) && $POST->user_birthdate != "") $POST->user_birthdate = $parse->date->rusint_to_unix($POST->user_birthdate);
-				else 								$POST->user_birthdate = 0;
-
-				if(isset($POST->user_sex) && $POST->user_sex == "m")		$POST->user_sex = "m";
-				elseif(isset($POST->user_sex) && $POST->user_sex == "f")	$POST->user_sex = "f";
-				else								$POST->user_sex = "n";
-
-
+				# check_user data
+				$this->check_users_data();
 
 				$db->query("INSERT INTO ".USERS_TABLE." (login, nickname, email, title, password, salt, date_create, date_update, last_visit, status, gid,
 									 user_name, user_surname, user_last_name, user_birthdate, user_sex)
@@ -409,54 +393,29 @@ class ACP_USERS {
 			if(isset($POST->login) && trim($POST->login) != "")
 				if(!$users->check_field("login", $POST->login, $udata['login']))
 					$logger->error("Логин не должен совпадать с логином другого пользователя!");
-				else
-					$query .= "login='".$POST->login."', ";
-
-			else
-				$logger->error("У пользователя должен быть логин.");
+				else	$query .= "login='".$POST->login."', ";
+			else $logger->error("У пользователя должен быть логин.");
 
 			# nickname
 			if(isset($POST->nickname) && trim($POST->nickname) != "")
 				if(!$users->check_field("nickname", $POST->nickname, $udata['nickname']))
 					$logger->error("Никнейм не должен совпадать с никнеймом другого пользователя!");
-				else
-					$query .= "nickname='".$POST->nickname."', ";
-
-			else
-				$logger->error("У пользователя должен быть Никнейм.");
+				else	$query .= "nickname='".$POST->nickname."', ";
+			else $logger->error("У пользователя должен быть Никнейм.");
 
 
 			# email
 			if(isset($POST->email) && trim($POST->email) != "")
 				if(!$users->check_field("email", $POST->email, $udata['email']))
 					$logger->error("Указанный email уже существует в Базе Данных!");
-				else
-					$query .= "email='".$POST->email."', ";
-
-			else
-				$logger->error("E-mail должен быть указан обязательно для каждого пользователя.");
+				else	$query .= "email='".$POST->email."', ";
+			else $logger->error("E-mail должен быть указан обязательно для каждого пользователя.");
 
 			# status
 			$query .= ((isset($POST->status) && $POST->status == 1) || $uid == 1) ? "status='1', " : "status='0', " ;
 
 			# title
 			$query .= ((isset($POST->title) && $POST->title == "a") || $uid == 1) ? "title='a', " : "title='u', " ;
-
-			# group
-			$query .= (isset($POST->gid) && $db->check_id($POST->gid, USERS_GROUP_TABLE, "gid")) ? "gid='".$POST->gid."', " : "gid='0', " ;
-
-			# personal data
-			if(isset($POST->user_name)) 						$query .= " user_name='".$POST->user_name."',";
-			else									$query .= " user_name='',";
-			if(isset($POST->user_surname)) 						$query .= " user_surname='".$POST->user_surname."',";
-			else									$query .= " user_surname='',";
-			if(isset($POST->user_last_name)) 					$query .= " user_last_name='".$POST->user_last_name."',";
-			else									$query .= " user_last_name='',";
-			if(isset($POST->user_birthdate) && $POST->user_birthdate != "") 	$query .= " user_birthdate='".$parse->date->rusint_to_unix($POST->user_birthdate)."',";
-			else 									$query .= " user_birthdate='0',";
-			if(isset($POST->user_sex) && $POST->user_sex == "m")			$query .= " user_sex='m',";
-			elseif(isset($POST->user_sex) && $POST->user_sex == "f")		$query .= " user_sex='f',";
-			else									$query .= " user_sex='n',";
 
 			# avatar
 			$av = $img->upload_image("avatar", "", array($config->users_avatar_width, $config->users_avatar_height), array("filename"=>"av_".$uid, "watermark"=>false, "modify"=>false));
@@ -469,6 +428,9 @@ class ACP_USERS {
 			# update
 			if(!isset($_SESSION['error'])) {
 
+				# check_user data
+				$this->check_users_data();
+
 				# password
 				if(isset($POST->password) && trim($POST->password) != "") {
 					$salt = $security->create_new_salt();
@@ -477,7 +439,16 @@ class ACP_USERS {
 					$query .= "password='".$password."', salt='".$salt."', ";
 				}
 
-				$db->query("UPDATE ".USERS_TABLE." SET ".$query." date_update='".time()."' WHERE uid='".$uid."'");
+				$db->query("UPDATE ".USERS_TABLE." SET 
+									".$query."
+									gid = '".$POST->gid."',
+									user_name = '".$POST->user_name."',
+									user_surname = '".$POST->user_surname."',
+									user_last_name = '".$POST->user_last_name."',
+									user_birthdate = '".$POST->user_birthdate."',
+									user_sex='".$POST->user_sex."',
+									date_update='".time()."' 
+								WHERE uid='".$uid."'");
 
 				# Если мы переназначаем группу пользователя
 				if(isset($POST->gid) && $POST->gid != $POST->now_gid) {
@@ -629,6 +600,22 @@ class ACP_USERS {
 
 		# уведомление
 		if(DEBUGMODE) $logger->info("Информация о кол-ве пользователей для группы {$gid} обновлена.");
+	}
+
+
+	/**
+	 * Check user data for insert/update
+	 */
+	private function check_users_data() {
+
+		global $db, $POST, $users;
+
+
+		# group
+		$POST->gid = (isset($POST->gid) && $db->check_id($POST->gid, USERS_GROUP_TABLE, "gid")) ? $POST->gid : 0 ;
+
+		# check personal data
+		$users->check_personal_data();
 	}
 }
 

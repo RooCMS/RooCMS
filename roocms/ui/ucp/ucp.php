@@ -123,8 +123,7 @@ class UCP_CP {
 		if(isset($POST->login) && trim($POST->login) != "") {
 			if(!$users->check_field("login", $POST->login, $users->userdata['login']))
 				$logger->error("Ваш логин не был изменен. Возможно использование такого логина невозможно, попробуйте выбрать другой логин");
-			else
-				$query .= "login='".$POST->login."', ";
+			else	$query .= "login='".$POST->login."', ";
 		}
 		else $logger->error("Вы не указали логин.");
 
@@ -132,8 +131,7 @@ class UCP_CP {
 		if(isset($POST->nickname) && trim($POST->nickname) != "") {
 			if(!$users->check_field("nickname", $POST->nickname, $users->userdata['nickname']))
 				$logger->error("Такой псевдоним уже имеется у одного из пользователей. Пожалуйста, выберите другой псевдоним.");
-			else
-				$query .= "nickname='".$POST->nickname."', ";
+			else	$query .= "nickname='".$POST->nickname."', ";
 		}
 		else $logger->error("Вы не указали псевдоним.");
 
@@ -141,27 +139,12 @@ class UCP_CP {
 		if(isset($POST->email) && trim($POST->email) != "") {
 			if(!$users->check_field("email", $POST->email, $users->userdata['email']))
 				$logger->error("Указанный email уже существует в Базе Данных!");
-			else
-				$query .= "email='".$POST->email."', ";
+			else	$query .= "email='".$POST->email."', ";
 		}
 		else $logger->info("Вы не указали электронную почту, поэтому мы сохранили ту, что была указана ранее.<br />На эту почту вам будут приходить уведомления с сайта. В случае если вы забудете свой пароль, восстановить его можно будет с помошью указанной почты.");
 
 		# personal data
-		if(isset($POST->user_name)) 						$query .= " user_name='".$POST->user_name."',";
-		else									$query .= " user_name='',";
-
-		if(isset($POST->user_surname)) 						$query .= " user_surname='".$POST->user_surname."',";
-		else									$query .= " user_surname='',";
-
-		if(isset($POST->user_last_name)) 					$query .= " user_last_name='".$POST->user_last_name."',";
-		else									$query .= " user_last_name='',";
-
-		if(isset($POST->user_birthdate) && $POST->user_birthdate != "") 	$query .= " user_birthdate='".$parse->date->rusint_to_unix($POST->user_birthdate)."',";
-		else 									$query .= " user_birthdate='0',";
-
-		if(isset($POST->user_sex) && $POST->user_sex == "m")			$query .= " user_sex='m',";
-		elseif(isset($POST->user_sex) && $POST->user_sex == "f")		$query .= " user_sex='f',";
-		else									$query .= " user_sex='n',";
+		$users->check_personal_data();
 
 		# avatar
 		if(isset($POST->delete_avatar)) {
@@ -185,7 +168,15 @@ class UCP_CP {
 				$query .= "password='".$password."', salt='".$salt."', ";
 			}
 
-			$db->query("UPDATE ".USERS_TABLE." SET ".$query." date_update='".time()."' WHERE uid='".$users->userdata['uid']."'");
+			$db->query("UPDATE ".USERS_TABLE." SET 
+								".$query." 
+								user_name = '".$POST->user_name."',
+								user_surname = '".$POST->user_surname."',
+								user_last_name = '".$POST->user_last_name."',
+								user_birthdate = '".$POST->user_birthdate."',
+								user_sex='".$POST->user_sex."',
+								date_update='".time()."' 
+							WHERE uid='".$users->userdata['uid']."'");
 
 			# notice
 			$logger->info("Ваши данные успешно обновлены.");
