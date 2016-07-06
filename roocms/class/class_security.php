@@ -123,7 +123,7 @@ class Security extends Shteirlitz {
 	 */
 	protected function check_userdata() {
 
-		global $roocms, $parse;
+		global $roocms, $logger;
 
 		$destroy = false;
 
@@ -148,7 +148,7 @@ class Security extends Shteirlitz {
 			session_destroy();
 
 			# notice and stop
-			$parse->msg("Ваши данные изменились! Требуется пройти тоавризацию.", false);
+			$logger->error("Ваши данные изменились! Требуется пройти тоавризацию.");
 			go("/");
 		}
 	}

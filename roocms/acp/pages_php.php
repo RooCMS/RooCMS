@@ -3,9 +3,9 @@
 * @package      RooCMS
 * @subpackage	Admin Control Panel
 * @author       alex Roosso
-* @copyright    2010-2016 (c) RooCMS
+* @copyright    2010-2017 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.0.3
+* @version      1.0.4
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -88,11 +88,11 @@ class ACP_PAGES_PHP {
 	*/
 	public function update($sid) {
 
-		global $db, $parse, $POST;
+		global $db, $logger, $POST;
 
 		$db->query("UPDATE ".PAGES_PHP_TABLE." SET content='".$POST->content."', date_modified='".time()."' WHERE sid='".$sid."'");
 
-		$parse->msg("Страница #".$sid." успешно обновлена.");
+		$logger->info("Страница #".$sid." успешно обновлена.");
 
 		goback();
 	}
@@ -105,10 +105,13 @@ class ACP_PAGES_PHP {
 	*/
 	public function delete($sid) {
 
-		global $db;
+		global $db, $logger;
 
 		# del pageunit
 		$db->query("DELETE FROM ".PAGES_PHP_TABLE." WHERE sid='".$sid."'");
+
+		# notice
+		$logger->info("Страница #".$sid." успешно удалена");
 	}
 }
 ?>

@@ -4,7 +4,7 @@
 * @author       alex Roosso
 * @copyright    2010-2017 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.7.4
+* @version      1.7.5
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -141,6 +141,18 @@ if(file_exists(_CLASS."/class_global.php")) {
 	 */
 	$roocms = new Globals;
 	$config =& $roocms->config;
+}
+else die(ROOCMS_NOT_RUNNING);
+
+/**
+ * Запускаем класс логгера
+ */
+if(file_exists(_CLASS."/class_logger.php")) {
+	require_once(_CLASS."/class_logger.php");
+	/**
+	 * Инициализируем класс
+	 */
+	$logger	= new Logger;
 }
 else die(ROOCMS_NOT_RUNNING);
 

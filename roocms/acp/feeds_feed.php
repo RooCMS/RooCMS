@@ -7,7 +7,7 @@
 * @author       alex Roosso
 * @copyright    2010-2017 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.10
+* @version      1.10.1
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -109,7 +109,7 @@ class ACP_FEEDS_FEED {
 	 */
 	public function update_settings() {
 
-		global $db, $img, $POST, $parse;
+		global $db, $img, $POST, $logger;
 
 		if(isset($POST->update_settings)) {
 			# update buffer
@@ -155,7 +155,7 @@ class ACP_FEEDS_FEED {
 					WHERE
 						id='".$this->feed['id']."'");
 
-			$parse->msg("Настройки успешно обновлены");
+			$logger->info("Настройки успешно обновлены");
 		}
 
 		# переход
@@ -219,7 +219,7 @@ class ACP_FEEDS_FEED {
 	 */
 	public function create_item() {
 
-		global $db, $parse, $files, $img, $POST, $tpl, $smarty;
+		global $db, $parse, $logger, $files, $img, $POST, $tpl, $smarty;
 
 		if(isset($POST->create_item)) {
 
@@ -248,7 +248,7 @@ class ACP_FEEDS_FEED {
 									      '".$POST->itemsort."', '".$this->feed['id']."')");
 
 				# notice
-				$parse->msg("Элемент ".$POST->title." успешно создан.");
+				$logger->info("Элемент ".$POST->title." успешно создан.");
 
 				# get feed id
 				$fid = $db->insert_id();
@@ -358,7 +358,7 @@ class ACP_FEEDS_FEED {
 	 */
 	public function update_item($id) {
 
-		global $db, $parse, $files, $img, $POST, $GET;
+		global $db, $parse, $logger, $files, $img, $POST, $GET;
 
 		# Проверяем вводимые поля на ошибки
 		$this->check_item_fields();
@@ -390,7 +390,7 @@ class ACP_FEEDS_FEED {
 					WHERE
 						id = '".$id."'");
 
-			$parse->msg("Элемент ".$POST->title." успешно отредактирован.");
+			$logger->info("Элемент ".$POST->title." успешно отредактирован.");
 
 			# sortable images
 			if(isset($POST->sort)) {
@@ -398,7 +398,7 @@ class ACP_FEEDS_FEED {
 				foreach($sortimg AS $k=>$v) {
 					if(isset($POST->sort[$v['id']]) && $POST->sort[$v['id']] != $v['sort']) {
 						$db->query("UPDATE ".IMAGES_TABLE." SET sort='".$POST->sort[$v['id']]."' WHERE id='".$v['id']."'");
-						if(DEBUGMODE) $parse->msg("Изображению ".$v['id']." успешно присвоен порядок ".$POST->sort[$v['id']]);
+						$logger->info("Изображению ".$v['id']." успешно присвоен порядок ".$POST->sort[$v['id']]);
 					}
 				}
 			}
@@ -437,7 +437,7 @@ class ACP_FEEDS_FEED {
 	 */
 	public function migrate_item($id) {
 
-		global $db, $parse, $tpl, $smarty, $POST;
+		global $db, $logger, $tpl, $smarty, $POST;
 
 
 		# Migrate
@@ -456,7 +456,7 @@ class ACP_FEEDS_FEED {
 
 
 			# notice
-			$parse->msg("Элемент id : ".$id." успешно перемещен.");
+			$logger->info("Элемент id : ".$id." успешно перемещен.");
 
 			#go
 			go(CP."?act=feeds&part=control&page=".$POST->to);
@@ -495,7 +495,7 @@ class ACP_FEEDS_FEED {
 	 * @param int $status - 1= Видимый , 2=Скрытый
 	 */
 	public function change_item_status($id, $status = 1) {
-		global $db, $parse;
+		global $db, $logger;
 
 		$status = round($status);
 		if($status >= 2 || $status < 0) $status = 1;
@@ -505,7 +505,7 @@ class ACP_FEEDS_FEED {
 
 		# notice
 		$mstatus = ($status == 1) ? "Видимый" : "Скрытый" ;
-		$parse->msg("Элемент #".$id." успешно изменил свой статус на <".$mstatus.">.");
+		$logger->info("Элемент #".$id." успешно изменил свой статус на <".$mstatus.">.");
 
 		goback();
 	}
@@ -518,7 +518,7 @@ class ACP_FEEDS_FEED {
 	 */
 	public function delete_item($id) {
 
-		global $db, $parse, $img;
+		global $db, $logger, $img;
 
 		$q = $db->query("SELECT sid FROM ".PAGES_FEED_TABLE." WHERE id='".$id."'");
 		$row = $db->fetch_assoc($q);
@@ -533,7 +533,7 @@ class ACP_FEEDS_FEED {
 		$this->count_items($row['sid']);
 
 		# уведомление
-		$parse->msg("Элемент id-".$id." успешно удален.");
+		$logger->info("Элемент id-".$id." успешно удален.");
 
 		# переход
 		goback();
@@ -584,10 +584,10 @@ class ACP_FEEDS_FEED {
 
 	private function check_item_fields() {
 
-		global $POST, $parse;
+		global $POST, $logger;
 
-		if(!isset($POST->title)) 	$parse->msg("Не заполнен заголовок элемента",false);
-		if(!isset($POST->full_item)) 	$parse->msg("Не заполнен подробный текст элемента",false);
+		if(!isset($POST->title)) 	$logger->error("Не заполнен заголовок элемента");
+		if(!isset($POST->full_item)) 	$logger->error("Не заполнен подробный текст элемента");
 
 		# status
 		if(!isset($POST->status) || $POST->status >= 2) $POST->status = 1;

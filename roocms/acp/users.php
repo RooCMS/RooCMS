@@ -191,7 +191,7 @@ class ACP_USERS {
 	 */
 	private function create_new_user() {
 
-		global $db, $config, $img, $smarty, $users, $tpl, $POST, $parse, $security, $site;
+		global $db, $config, $img, $smarty, $users, $tpl, $POST, $parse, $logger, $security, $site;
 
 		if(isset($POST->create_user) || isset($POST->create_user_ae)) {
 
@@ -202,15 +202,15 @@ class ACP_USERS {
 			# login
 			if(!isset($POST->login) || trim($POST->login) == "") {
 				if(isset($POST->nickname) && trim($POST->nickname) != "") $POST->login = mb_strtolower($parse->text->transliterate($POST->nickname));
-				else $parse->msg("У пользователя должен быть логин!", false);
+				else $logger->error("У пользователя должен быть логин!");
 			}
 			else $POST->login = $parse->text->transliterate($POST->login);
-			if(isset($POST->login) && trim($POST->login) != "" && $db->check_id($POST->login, USERS_TABLE, "login")) $parse->msg("Пользователь с таким логином уже существует", false);
+			if(isset($POST->login) && trim($POST->login) != "" && $db->check_id($POST->login, USERS_TABLE, "login")) $logger->error("Пользователь с таким логином уже существует");
 
 			# email
-			if(!isset($POST->email) || trim($POST->email) == "") $parse->msg("Обязательно указывать электронную почту для каждого пользователя", false);
-			if(isset($POST->email) && trim($POST->email) != "" && !$parse->valid_email($POST->email)) $parse->msg("Некоректный адрес электронной почты", false);
-			if(isset($POST->email) && trim($POST->email) != "" && $db->check_id($POST->email, USERS_TABLE, "email")) $parse->msg("Пользователь с таким адресом почты уже существует", false);
+			if(!isset($POST->email) || trim($POST->email) == "") $logger->error("Обязательно указывать электронную почту для каждого пользователя");
+			if(isset($POST->email) && trim($POST->email) != "" && !$parse->valid_email($POST->email)) $logger->error("Некоректный адрес электронной почты");
+			if(isset($POST->email) && trim($POST->email) != "" && $db->check_id($POST->email, USERS_TABLE, "email")) $logger->error("Пользователь с таким адресом почты уже существует");
 
 			# title
 			$POST->title = (isset($POST->title) && $POST->title == "a") ? "a" : "u" ;
@@ -268,7 +268,7 @@ class ACP_USERS {
 
 
 				# уведомление
-				$parse->msg("Пользователь был успешно добавлен. Уведомление об учетной записи отправлено на его электронную почту.");
+				$logger->info("Пользователь был успешно добавлен. Уведомление об учетной записи отправлено на его электронную почту.");
 
 				# переход
 				if(isset($POST->create_user_ae)) go(CP."?act=users");
@@ -296,13 +296,13 @@ class ACP_USERS {
 	 */
 	private function create_new_group() {
 
-		global $db, $smarty, $tpl, $POST, $parse;
+		global $db, $smarty, $tpl, $POST, $loger;
 
 		if(isset($POST->create_group) || isset($POST->create_group_ae)) {
 
 			# title
-			if(!isset($POST->title) || trim($POST->title) == "") $parse->msg("У группы должно быть название!", false);
-			if(isset($POST->title) && trim($POST->title) != "" && $db->check_id($POST->title, USERS_GROUP_TABLE, "title")) $parse->msg("Группа с таким название уже существует", false);
+			if(!isset($POST->title) || trim($POST->title) == "") $logger->error("У группы должно быть название!");
+			if(isset($POST->title) && trim($POST->title) != "" && $db->check_id($POST->title, USERS_GROUP_TABLE, "title")) $logger->error("Группа с таким название уже существует");
 
 			if(!isset($_SESSION['error'])) {
 
@@ -311,7 +311,7 @@ class ACP_USERS {
 				$gid = $db->insert_id();
 
 				# уведомление
-				$parse->msg("Группа была успешно создана.");
+				$loger->info("Группа #".$gid." была успешно создана.");
 
 				# переход
 				if(isset($POST->create_group_ae)) go(CP."?act=users&part=group_list");
@@ -334,11 +334,11 @@ class ACP_USERS {
 	 */
 	private function edit_user($uid) {
 
-		global $db, $users, $parse, $smarty, $tpl;
+		global $db, $users, $logger, $smarty, $tpl;
 
 		# security superamin
 		if($uid == 1 && $users->uid != 1) {
-			$parse->msg("Радктировать учетную запись суперадмина, может только суперадмин!", false);
+			$logger->error("Радктировать учетную запись суперадмина, может только суперадмин!");
 			goback();
 		}
 		else {
@@ -396,7 +396,7 @@ class ACP_USERS {
 	 */
 	private function update_user($uid) {
 
-		global $db, $POST, $config, $site, $users, $img, $security, $parse, $smarty, $tpl;
+		global $db, $POST, $config, $site, $users, $img, $security, $parse, $logger, $smarty, $tpl;
 
 		if(isset($POST->update_user) || isset($POST->update_user_ae)) {
 
@@ -408,33 +408,33 @@ class ACP_USERS {
 			# login
 			if(isset($POST->login) && trim($POST->login) != "")
 				if(!$users->check_field("login", $POST->login, $udata['login']))
-					$parse->msg("Логин не должен совпадать с логином другого пользователя!", false);
+					$logger->error("Логин не должен совпадать с логином другого пользователя!");
 				else
 					$query .= "login='".$POST->login."', ";
 
 			else
-				$parse->msg("У пользователя должен быть логин.", false);
+				$logger->error("У пользователя должен быть логин.");
 
 			# nickname
 			if(isset($POST->nickname) && trim($POST->nickname) != "")
 				if(!$users->check_field("nickname", $POST->nickname, $udata['nickname']))
-					$parse->msg("Никнейм не должен совпадать с никнеймом другого пользователя!", false);
+					$logger->error("Никнейм не должен совпадать с никнеймом другого пользователя!");
 				else
 					$query .= "nickname='".$POST->nickname."', ";
 
 			else
-				$parse->msg("У пользователя должен быть Никнейм.", false);
+				$logger->error("У пользователя должен быть Никнейм.");
 
 
 			# email
 			if(isset($POST->email) && trim($POST->email) != "")
 				if(!$users->check_field("email", $POST->email, $udata['email']))
-					$parse->msg("Указанный email уже существует в Базе Данных!", false);
+					$logger->error("Указанный email уже существует в Базе Данных!");
 				else
 					$query .= "email='".$POST->email."', ";
 
 			else
-				$parse->msg("E-mail должен быть указан обязательно для каждого пользователя.", false);
+				$logger->error("E-mail должен быть указан обязательно для каждого пользователя.");
 
 			# status
 			$query .= ((isset($POST->status) && $POST->status == 1) || $uid == 1) ? "status='1', " : "status='0', " ;
@@ -488,7 +488,7 @@ class ACP_USERS {
 
 
 				# notice
-				$parse->msg("Данные пользователя #{$uid} успешно обновлены.");
+				$logger->info("Данные пользователя #{$uid} успешно обновлены.");
 
 				# Уведомление пользователю на электропочту
 				$smarty->assign("login", $POST->login);
@@ -518,7 +518,7 @@ class ACP_USERS {
 	 */
 	private function update_group($gid) {
 
-		global $db, $POST, $users, $parse;
+		global $db, $POST, $users, $logger;
 
 		if(isset($POST->update_group) || isset($POST->update_group_ae)) {
 
@@ -530,12 +530,12 @@ class ACP_USERS {
 			# login
 			if(isset($POST->title) && trim($POST->title) != "")
 				if(!$users->check_field("title", $POST->title, $gdata['title'], USERS_GROUP_TABLE))
-					$parse->msg("Название группы не может совпадать с названием другой группы!", false);
+					$logger->error("Название группы не может совпадать с названием другой группы!");
 				else
 					$query .= "title='".$POST->title."', ";
 
 			else
-				$parse->msg("У группы должно быть название.", false);
+				$logger->error("У группы должно быть название.");
 
 			# update
 			if(!isset($_SESSION['error'])) {
@@ -545,7 +545,7 @@ class ACP_USERS {
 				$this->count_users($gid);
 
 				# notice
-				$parse->msg("Данные группы #{$gid} успешно обновлены.");
+				$logger->info("Данные группы #{$gid} успешно обновлены.");
 
 				# переход
 				if(isset($POST->update_group_ae)) go(CP."?act=users&part=group_list");
@@ -564,11 +564,11 @@ class ACP_USERS {
 	 */
 	private function delete_user($uid) {
 
-		global $db, $parse;
+		global $db, $logger;
 
 		# О Боже, только не это...
 		if($uid == 1) {
-			$parse->msg("Нельзя удалить учетную запись главного администратора!", false);
+			$logger->msg("Нельзя удалить учетную запись главного администратора!");
 		}
 		else {
 			$q = $db->query("SELECT gid, avatar FROM ".USERS_TABLE." WHERE uid='".$uid."'");
@@ -581,7 +581,7 @@ class ACP_USERS {
 
 			# удаляем юзера
 			$db->query("DELETE FROM ".USERS_TABLE." WHERE uid='".$uid."'");
-			$parse->msg("Пользователь #{$uid} был успешно удален из Базы Данных.");
+			$logger->info("Пользователь #{$uid} был успешно удален из Базы Данных.");
 
 			# удаляем его почту
 			$db->query("DELETE FROM ".USERS_PM_TABLE." WHERE to_uid='".$uid."'");
@@ -599,12 +599,12 @@ class ACP_USERS {
 	 */
 	private function delete_group($gid) {
 
-		global $db, $parse;
+		global $db, $logger;
 
 		$db->query("UPDATE ".USERS_TABLE." SET gid='0' WHERE gid='".$gid."'");
 
 		$db->query("DELETE FROM ".USERS_GROUP_TABLE." WHERE gid='".$gid."'");
-		$parse->msg("Группа #{$gid} был успешна удалена из Базы Данных.");
+		$logger->info("Группа #{$gid} был успешна удалена из Базы Данных.");
 
 		# go
 		goback();
@@ -618,7 +618,7 @@ class ACP_USERS {
 	 */
 	private function count_users($gid) {
 
-		global $db, $parse;
+		global $db, $logger;
 
 		# count
 		$q = $db->query("SELECT count(*) FROM ".USERS_TABLE." WHERE gid='".$gid."'");
@@ -628,7 +628,7 @@ class ACP_USERS {
 		$db->query("UPDATE ".USERS_GROUP_TABLE." SET users='".$c[0]."' WHERE gid='".$gid."'");
 
 		# уведомление
-		if(DEBUGMODE) $parse->msg("Информация о кол-ве пользователей для группы {$gid} обновлена.");
+		if(DEBUGMODE) $logger->info("Информация о кол-ве пользователей для группы {$gid} обновлена.");
 	}
 }
 

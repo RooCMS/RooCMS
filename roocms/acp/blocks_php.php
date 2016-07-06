@@ -5,9 +5,9 @@
 * @subpackage	Blocks settings
 * @subpackage	PHP Blocks
 * @author       alex Roosso
-* @copyright    2010-2016 (c) RooCMS
+* @copyright    2010-2017 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.0.1
+* @version      1.1
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -61,19 +61,21 @@ class ACP_BLOCKS_PHP {
 	 */
 	public function create() {
 
-		global $db, $tpl, $smarty, $POST, $parse;
+		global $db, $tpl, $smarty, $POST, $logger;
 
 		if(isset($POST->create_block)) {
 
-			if(!isset($POST->title)) $parse->msg("Не указано название блока!", false);
-			if(!isset($POST->alias) || $db->check_id($POST->alias, BLOCKS_TABLE, "alias"))	$parse->msg("Не указан алиас блока или он не уникален!", false);
-			if(!isset($POST->content)) $parse->msg("Пустое тело блока!", false);
+			if(!isset($POST->title)) $logger->error("Не указано название блока!");
+			if(!isset($POST->alias) || $db->check_id($POST->alias, BLOCKS_TABLE, "alias"))	$logger->error("Не указан алиас блока или он не уникален!");
+			if(!isset($POST->content)) $logger->error("Пустое тело блока!");
 
 			if(!isset($_SESSION['error'])) {
 				$db->query("INSERT INTO ".BLOCKS_TABLE."   (title, alias, content, date_create, date_modified, block_type)
 				VALUES ('".$POST->title."', '".$POST->alias."', '".$POST->content."', '".time()."', '".time()."', 'php')");
 
-				$parse->msg("Блок успешно добавлен!");
+				$bid = $db->insert_id();
+
+				$logger->info("Блок #".$bid." успешно добавлен!");
 
 				go(CP."?act=blocks");
 			}
@@ -110,14 +112,14 @@ class ACP_BLOCKS_PHP {
 	 */
 	public function update($id) {
 
-		global $db, $POST, $GET, $parse;
+		global $db, $POST, $GET, $logger;
 
 		if(isset($POST->update_block)) {
 
-			if(!isset($POST->title)) $parse->msg("Не указано название блока!", false);
-			if(!isset($POST->alias) || $db->check_id($POST->alias, BLOCKS_TABLE, "alias", "alias!='".$POST->oldalias."'"))	$parse->msg("Не указан алиас блока или он не уникален!", false);
-			if(!isset($POST->content)) $parse->msg("Пустое тело блока!", false);
-			if(!isset($POST->id) || $POST->id != $GET->_block) $parse->msg("Системная ошибка...", false);
+			if(!isset($POST->title)) $logger->error("Не указано название блока!");
+			if(!isset($POST->alias) || $db->check_id($POST->alias, BLOCKS_TABLE, "alias", "alias!='".$POST->oldalias."'"))	$logger->error("Не указан алиас блока или он не уникален!");
+			if(!isset($POST->content)) $logger->error("Пустое тело блока!");
+			if(!isset($POST->id) || $POST->id != $GET->_block) $logger->error("Системная ошибка...");
 
 			if(!isset($_SESSION['error'])) {
 
@@ -130,7 +132,7 @@ class ACP_BLOCKS_PHP {
 							WHERE
 								id='".$id."'");
 
-				$parse->msg("Блок успешно обновлен!");
+				$logger->info("Блок #".$id." успешно обновлен!");
 			}
 
 			go(CP."?act=blocks");
@@ -146,10 +148,10 @@ class ACP_BLOCKS_PHP {
 	 */
 	public function delete($id) {
 
-		global $db, $parse;
+		global $db, $logger;
 
 		$db->query("DELETE FROM ".BLOCKS_TABLE." WHERE id='".$id."'");
-		$parse->msg("Блок успешно удален!");
+		$logger->info("Блок #".$id." успешно удален!");
 		go(CP."?act=blocks");
 	}
 }

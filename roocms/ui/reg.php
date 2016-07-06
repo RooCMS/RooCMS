@@ -5,7 +5,7 @@
  * @author       alex Roosso
  * @copyright    2010-2017 (c) RooCMS
  * @link         http://www.roocms.com
- * @version      1.0
+ * @version      1.0.1
  * @since        $date$
  * @license      http://www.gnu.org/licenses/gpl-3.0.html
  */
@@ -56,9 +56,9 @@ class REG {
 
 
 
-	public function __construct() {
+	function __construct() {
 
-		global $structure, $roocms, $users;
+		global $structure, $roocms, $users, $POST;
 
 		# breadcumb
 		$structure->breadcumb[] = array('part'=>'reg', 'title'=>'Регистрация');
@@ -69,7 +69,7 @@ class REG {
 		# action
 		switch($roocms->act) {
 			case 'join':
-				$this->join();
+				if(isset($POST->join)) $this->join();
 				break;
 
 			case 'activation':
@@ -121,89 +121,87 @@ class REG {
 	 */
 	private function join() {
 
-		global $db, $config, $img, $smarty, $users, $tpl, $POST, $parse, $security, $site;
-
-		if(isset($POST->join)) {
-
-			# nickname
-			if(!isset($POST->nickname) || trim($POST->nickname) == "") $POST->nickname = mb_ucfirst($POST->login);
-			$POST->nickname = $users->check_new_nickname($POST->nickname);
-
-			# login
-			if(!isset($POST->login) || trim($POST->login) == "") {
-				if(isset($POST->nickname) && trim($POST->nickname) != "") $POST->login = mb_strtolower($parse->text->transliterate($POST->nickname));
-				else $parse->msg("У пользователя должен быть логин!", false);
-			}
-			else $POST->login = $parse->text->transliterate($POST->login);
-			if(isset($POST->login) && trim($POST->login) != "" && $db->check_id($POST->login, USERS_TABLE, "login")) $parse->msg("Пользователь с таким логином уже существует", false);
-
-			# email
-			if(!isset($POST->email) || trim($POST->email) == "") $parse->msg("Электронная почта обязательная для каждого пользователя", false);
-			if(isset($POST->email) && trim($POST->email) != "" && !$parse->valid_email($POST->email)) $parse->msg("Некоректный адрес электронной почты", false);
-			if(isset($POST->email) && trim($POST->email) != "" && $db->check_id($POST->email, USERS_TABLE, "email")) $parse->msg("Пользователь с таким адресом почты уже существует", false);
-
-			if(!isset($_SESSION['error'])) {
-
-				#password
-				if(!isset($POST->password) || trim($POST->password) == "") $POST->password = $security->create_new_password();
-
-				$salt = $security->create_new_salt();
-				$password = $security->hashing_password($POST->password, $salt);
-
-				# personal data
-				if(!isset($POST->user_name)) 					$POST->user_name = "";
-				if(!isset($POST->user_surname)) 				$POST->user_surname = "";
-				if(!isset($POST->user_last_name)) 				$POST->user_last_name = "";
-
-				if(isset($POST->user_birthdate) && $POST->user_birthdate != "") $POST->user_birthdate = $parse->date->rusint_to_unix($POST->user_birthdate);
-				else 								$POST->user_birthdate = 0;
-				
-				if(isset($POST->user_sex) && $POST->user_sex == "m")		$POST->user_sex = "m";
-				elseif(isset($POST->user_sex) && $POST->user_sex == "f")	$POST->user_sex = "f";
-				else								$POST->user_sex = "n";
+		global $db, $config, $img, $smarty, $users, $tpl, $POST, $parse, $logger, $security, $site;
 
 
-				# activation code
-				$activation = array();
-				$activation['code'] = randcode(7);
+		# nickname
+		if(!isset($POST->nickname) || trim($POST->nickname) == "") $POST->nickname = mb_ucfirst($POST->login);
+		$POST->nickname = $users->check_new_nickname($POST->nickname);
 
-
-				$db->query("INSERT INTO ".USERS_TABLE." (login, nickname, email, password, salt, date_create, date_update, last_visit, activation_code,
-									 user_name, user_surname, user_last_name, user_birthdate, user_sex)
-								 VALUES ('".$POST->login."', '".$POST->nickname."', '".$POST->email."', '".$password."', '".$salt."', '".time()."', '".time()."', '".time()."', '".$activation['code']."',
-								 	 '".$POST->user_name."', '".$POST->user_surname."', '".$POST->user_last_name."', '".$POST->user_birthdate."', '".$POST->user_sex."')");
-				$uid = $db->insert_id();
-
-
-				# avatar
-				$av = $img->upload_image("avatar", "", array($config->users_avatar_width, $config->users_avatar_height), array("filename"=>"av_".$uid, "watermark"=>false, "modify"=>false));
-				if(isset($av[0])) $db->query("UPDATE ".USERS_TABLE." SET avatar='".$av[0]."' WHERE uid='".$uid."'");
-
-
-				# activation link
-				$activation['link'] = $site['domain'].SCRIPT_NAME."?part=reg&act=activation&email=".$POST->email."&code=".$activation['code'];
-
-
-				# Уведомление пользователю на электропочту
-				$smarty->assign("login", $POST->login);
-				$smarty->assign("nickname", $POST->nickname);
-				$smarty->assign("email", $POST->email);
-				$smarty->assign("password", $POST->password);
-				$smarty->assign("activation", $activation);
-				$smarty->assign("site", $site);
-				$message = $tpl->load_template("email_new_registration", true);
-
-				sendmail($POST->email, "Вы зарегистрировались на сайте ".$site['title'], $message);
-
-
-				# уведомление
-				$parse->msg("Поздравляем с успешной регистрацией. Вам осталось подтвердить адрес электронной почты и вы сможете пользоваться приемуществамми зарегистрированных пользователей.");
-
-				# переход
-				go(SCRIPT_NAME."?part=reg&act=activation&email=".$POST->email);
-			}
-			else goback();
+		# login
+		if(!isset($POST->login) || trim($POST->login) == "") {
+			if(isset($POST->nickname) && trim($POST->nickname) != "") $POST->login = mb_strtolower($parse->text->transliterate($POST->nickname));
+			else $logger->error("У пользователя должен быть логин!");
 		}
+		else $POST->login = $parse->text->transliterate($POST->login);
+		if(isset($POST->login) && trim($POST->login) != "" && $db->check_id($POST->login, USERS_TABLE, "login")) $logger->error("Пользователь с таким логином уже существует");
+
+		# email
+		if(!isset($POST->email) || trim($POST->email) == "") $logger->error("Электронная почта обязательная для каждого пользователя");
+		if(isset($POST->email) && trim($POST->email) != "" && !$parse->valid_email($POST->email)) $logger->error("Некоректный адрес электронной почты");
+		if(isset($POST->email) && trim($POST->email) != "" && $db->check_id($POST->email, USERS_TABLE, "email")) $logger->error("Пользователь с таким адресом почты уже существует");
+
+		if(!isset($_SESSION['error'])) {
+
+			#password
+			if(!isset($POST->password) || trim($POST->password) == "") $POST->password = $security->create_new_password();
+
+			$salt = $security->create_new_salt();
+			$password = $security->hashing_password($POST->password, $salt);
+
+			# personal data
+			if(!isset($POST->user_name)) 					$POST->user_name = "";
+			if(!isset($POST->user_surname)) 				$POST->user_surname = "";
+			if(!isset($POST->user_last_name)) 				$POST->user_last_name = "";
+
+			if(isset($POST->user_birthdate) && $POST->user_birthdate != "") $POST->user_birthdate = $parse->date->rusint_to_unix($POST->user_birthdate);
+			else 								$POST->user_birthdate = 0;
+
+			if(isset($POST->user_sex) && $POST->user_sex == "m")		$POST->user_sex = "m";
+			elseif(isset($POST->user_sex) && $POST->user_sex == "f")	$POST->user_sex = "f";
+			else								$POST->user_sex = "n";
+
+
+			# activation code
+			$activation = array();
+			$activation['code'] = randcode(7);
+
+
+			$db->query("INSERT INTO ".USERS_TABLE." (login, nickname, email, password, salt, date_create, date_update, last_visit, activation_code,
+								 user_name, user_surname, user_last_name, user_birthdate, user_sex)
+							 VALUES ('".$POST->login."', '".$POST->nickname."', '".$POST->email."', '".$password."', '".$salt."', '".time()."', '".time()."', '".time()."', '".$activation['code']."',
+								 '".$POST->user_name."', '".$POST->user_surname."', '".$POST->user_last_name."', '".$POST->user_birthdate."', '".$POST->user_sex."')");
+			$uid = $db->insert_id();
+
+
+			# avatar
+			$av = $img->upload_image("avatar", "", array($config->users_avatar_width, $config->users_avatar_height), array("filename"=>"av_".$uid, "watermark"=>false, "modify"=>false));
+			if(isset($av[0])) $db->query("UPDATE ".USERS_TABLE." SET avatar='".$av[0]."' WHERE uid='".$uid."'");
+
+
+			# activation link
+			$activation['link'] = $site['domain'].SCRIPT_NAME."?part=reg&act=activation&email=".$POST->email."&code=".$activation['code'];
+
+
+			# Уведомление пользователю на электропочту
+			$smarty->assign("login", $POST->login);
+			$smarty->assign("nickname", $POST->nickname);
+			$smarty->assign("email", $POST->email);
+			$smarty->assign("password", $POST->password);
+			$smarty->assign("activation", $activation);
+			$smarty->assign("site", $site);
+			$message = $tpl->load_template("email_new_registration", true);
+
+			sendmail($POST->email, "Вы зарегистрировались на сайте ".$site['title'], $message);
+
+
+			# уведомление
+			$logger->info("Поздравляем с успешной регистрацией. Вам осталось подтвердить адрес электронной почты и вы сможете пользоваться приемуществамми зарегистрированных пользователей.");
+
+			# переход
+			go(SCRIPT_NAME."?part=reg&act=activation&email=".$POST->email);
+		}
+		else goback();
 	}
 
 
@@ -212,15 +210,15 @@ class REG {
 	 */
 	private function verification() {
 
-		global $db, $parse, $POST;
+		global $db, $parse, $logger, $POST;
 		
 		if(isset($POST->email) && isset($POST->code) && $parse->valid_email($POST->email) && $db->check_id($POST->email, USERS_TABLE, "email", "activation_code='".$POST->code."'")) {
 			$db->query("UPDATE ".USERS_TABLE." SET status='1', activation_code='', last_visit='".time()."' WHERE email='".$POST->email."'");
-			$parse->msg("Спасибо. Ваша учетная запись активирована. Добро пожжаловать.");
+			$logger->info("Спасибо. Ваша учетная запись активирована. Добро пожжаловать.");
 			go("/");
 		}
 		else {
-			$parse->msg("Активация не удалась. Мы не нашли подходящих сведений в базе данных.", false);
+			$logger->error("Активация не удалась. Мы не нашли подходящих сведений в базе данных.");
 			goback();
 		}
 

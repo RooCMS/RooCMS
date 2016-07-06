@@ -114,7 +114,7 @@ class UCP_LOGIN {
 	 */
 	private function incorrect_entering($msg) {
 
-		global $parse;
+		global $logger;
 
 		unset($_SESSION['uid']);
 		unset($_SESSION['login']);
@@ -124,7 +124,7 @@ class UCP_LOGIN {
 		sleep(3);
 
 		# notice
-		$parse->msg($msg, false);
+		$logger->error($msg);
 	}
 }
 

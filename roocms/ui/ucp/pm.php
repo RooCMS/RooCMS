@@ -171,7 +171,7 @@ class UCP_PM {
 	 */
 	private function send() {
 
-		global $db, $users, $POST, $parse, $site, $smarty, $tpl;
+		global $db, $users, $POST, $logger, $site, $smarty, $tpl;
 
 		if(isset($POST->send) && $POST->to_uid != 0 && $db->check_id($POST->to_uid, USERS_TABLE, "uid", "status='1'") && $POST->to_uid != $users->uid && trim($POST->message) != "") {
 
@@ -195,16 +195,16 @@ class UCP_PM {
 
 
 			# notice
-			$parse->msg("Ваше сообщение отправлено");
+			$logger->info("Ваше сообщение отправлено");
 
 			# go
 			go(SCRIPT_NAME."?part=ucp&act=pm");
 		}
 		else {
-			if(trim($POST->message) == "")	$parse->msg("Вы попытались отправить пустое сообщение. К сожалению это невозможно.", true);
-			if($POST->to_uid == $users->uid) $parse->msg("Переписываетесь сами с собой? Попробуйте с кем нибудь ещё.", true);
+			if(trim($POST->message) == "")	$logger->error("Вы попытались отправить пустое сообщение. К сожалению это невозможно.");
+			if($POST->to_uid == $users->uid) $logger->error("Переписываетесь сами с собой? Попробуйте с кем нибудь ещё.");
 			if(!$db->check_id($POST->to_uid, USERS_TABLE, "uid", "status='1'"))
-				$parse->msg("К сожалению пользователь, которому вы пытаетесь отправить сообщение больше не принимает корреспонденцию.", true);
+				$logger->error("К сожалению пользователь, которому вы пытаетесь отправить сообщение больше не принимает корреспонденцию.");
 			goback();
 		}
 	}

@@ -5,7 +5,7 @@
 * @author	alex Roosso
 * @copyright	2010-2017 (c) RooCMS
 * @link		http://www.roocms.com
-* @version	1.5
+* @version	1.5.1
 * @since	$date$
 * @license	http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -74,6 +74,7 @@ define('USERS_TABLE',           DB_PREFIX.'users');
 define('USERS_GROUP_TABLE',     DB_PREFIX.'users_group');
 define('USERS_PM_TABLE',        DB_PREFIX.'users_pm');
 define('HELP_TABLE',            DB_PREFIX.'help');
+define('LOG_TABLE',             DB_PREFIX.'log');
 
 
 /**

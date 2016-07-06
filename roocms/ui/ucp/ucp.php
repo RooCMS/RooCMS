@@ -115,36 +115,36 @@ class UCP_CP {
 	 */
 	private function update_info() {
 
-		global $db, $config, $POST, $img, $parse, $users, $site, $tpl, $smarty;
+		global $db, $config, $POST, $img, $parse, $logger, $users, $site, $tpl, $smarty;
 
 		$query = "";
 
 		# login
 		if(isset($POST->login) && trim($POST->login) != "") {
 			if(!$users->check_field("login", $POST->login, $users->userdata['login']))
-				$parse->msg("Ваш логин не был изменен. Возможно использование такого логина невозможно, попробуйте выбрать другой логин", false);
+				$logger->error("Ваш логин не был изменен. Возможно использование такого логина невозможно, попробуйте выбрать другой логин");
 			else
 				$query .= "login='".$POST->login."', ";
 		}
-		else $parse->msg("Вы не указали логин.", false);
+		else $logger->error("Вы не указали логин.");
 
 		# nickname
 		if(isset($POST->nickname) && trim($POST->nickname) != "") {
 			if(!$users->check_field("nickname", $POST->nickname, $users->userdata['nickname']))
-				$parse->msg("Такой псевдоним уже имеется у одного из пользователей. Пожалуйста, выберите другой псевдоним.", false);
+				$logger->error("Такой псевдоним уже имеется у одного из пользователей. Пожалуйста, выберите другой псевдоним.");
 			else
 				$query .= "nickname='".$POST->nickname."', ";
 		}
-		else $parse->msg("Вы не указали псевдоним.", false);
+		else $logger->error("Вы не указали псевдоним.");
 
 		# email
 		if(isset($POST->email) && trim($POST->email) != "") {
 			if(!$users->check_field("email", $POST->email, $users->userdata['email']))
-				$parse->msg("Указанный email уже существует в Базе Данных!", false);
+				$logger->error("Указанный email уже существует в Базе Данных!");
 			else
 				$query .= "email='".$POST->email."', ";
 		}
-		else $parse->msg("Вы не указали электронную почту, поэтому мы сохранили ту, что была указана ранее.<br />На эту почту вам будут приходить уведомления с сайта. В случае если вы забудете свой пароль, восстановить его можно будет с помошью указанной почты.");
+		else $logger->info("Вы не указали электронную почту, поэтому мы сохранили ту, что была указана ранее.<br />На эту почту вам будут приходить уведомления с сайта. В случае если вы забудете свой пароль, восстановить его можно будет с помошью указанной почты.");
 
 		# personal data
 		if(isset($POST->user_name)) 						$query .= " user_name='".$POST->user_name."',";
@@ -188,7 +188,7 @@ class UCP_CP {
 			$db->query("UPDATE ".USERS_TABLE." SET ".$query." date_update='".time()."' WHERE uid='".$users->userdata['uid']."'");
 
 			# notice
-			$parse->msg("Ваши данные успешно обновлены.");
+			$logger->info("Ваши данные успешно обновлены.");
 
 			# Уведомление пользователю на электропочту
 			$smarty->assign("login", $POST->login);

@@ -3,9 +3,9 @@
 * @package      RooCMS
 * @subpackage	Admin Control Panel
 * @author       alex Roosso
-* @copyright    2010-2016 (c) RooCMS
+* @copyright    2010-2017 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.3.4
+* @version      1.3.5
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -108,7 +108,7 @@ class ACP_PAGES_HTML {
 	 */
 	public function update($sid) {
 
-		global $db, $parse, $files, $img, $POST;
+		global $db, $logger, $files, $img, $POST;
 
 		#sortable images
 		if(isset($POST->sort)) {
@@ -116,7 +116,7 @@ class ACP_PAGES_HTML {
 			foreach($sortimg AS $k=>$v) {
 				if(isset($POST->sort[$v['id']]) && $POST->sort[$v['id']] != $v['sort']) {
 					$db->query("UPDATE ".IMAGES_TABLE." SET sort='".$POST->sort[$v['id']]."' WHERE id='".$v['id']."'");
-					if(DEBUGMODE) $parse->msg("Изображению ".$v['id']." успешно присвоен порядок ".$POST->sort[$v['id']]);
+					$logger->info("Изображению ".$v['id']." успешно присвоен порядок ".$POST->sort[$v['id']]);
 				}
 			}
 		}
@@ -147,7 +147,7 @@ class ACP_PAGES_HTML {
 
 		$db->query("UPDATE ".PAGES_HTML_TABLE." SET content='".$POST->content."', date_modified='".time()."' WHERE sid='".$sid."'");
 
-		$parse->msg("Страница #".$sid." успешно обновлена.");
+		$logger->info("Страница #".$sid." успешно обновлена.");
 
 		goback();
 	}
@@ -157,13 +157,16 @@ class ACP_PAGES_HTML {
 	//	Delete
 	public function delete($sid) {
 
-		global $db, $img;
+		global $db, $img, $logger;
 
 		# del attached images
 		$img->delete_images("pagesid=".$sid);
 
 		# del pageunit
 		$db->query("DELETE FROM ".PAGES_HTML_TABLE." WHERE sid='".$sid."'");
+
+		# notice
+		$logger->info("Страница #".$sid." успешно удалена");
 	}
 }
 ?>

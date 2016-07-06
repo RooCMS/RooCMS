@@ -310,7 +310,7 @@ class Files {
 	 */
 	public function insert_file($filename, $attached) {
 
-		global $db, $parse;
+		global $db, $logger;
 
 		$fileinfo = pathinfo($filename);
 
@@ -318,7 +318,7 @@ class Files {
 						    VALUES ('".$attached."', '".$fileinfo['filename']."', '".$fileinfo['extension']."')");
 
 		# msg
-		if(DEBUGMODE) $parse->msg("Изображение ".$filename." успешно загружено на сервер");
+		$logger->log("Изображение ".$filename." успешно загружено на сервер");
 	}
 
 
@@ -332,7 +332,7 @@ class Files {
 	 */
 	public function delete_files($file, $clwhere=false) {
 
-		global $db, $parse;
+		global $db, $logger;
 
 		if(is_numeric($file) || is_integer($file))
 			$where = " id='".$file."' ";
@@ -349,9 +349,9 @@ class Files {
 				# delete
 				if(file_exists(_UPLOADFILES."/".$filename)) {
 					unlink(_UPLOADFILES."/".$filename);
-					if(DEBUGMODE) $parse->msg("Файл ".$filename." удален");
+					$logger->log("Файл ".$filename." удален");
 				}
-				elseif(!file_exists(_UPLOADFILES."/".$filename) && DEBUGMODE) $parse->msg("Не удалось найти файл ".$filename, false);
+				elseif(!file_exists(_UPLOADFILES."/".$filename)) $logger->error("Не удалось найти файл ".$filename, "error");
 			}
 		}
 

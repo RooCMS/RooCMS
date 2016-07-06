@@ -153,7 +153,7 @@ class ACP_STRUCTURE {
 	*/
 	private function create_unit() {
 
-		global $db, $img, $parse, $POST;
+		global $db, $img, $logger, $POST;
 
 		# check unit parametrs
 		$this->check_unit_parametrs();
@@ -169,7 +169,7 @@ class ACP_STRUCTURE {
 
 			# Нельзя к лентам добавлять другие дочерние элементы, кроме таких же лент.
 			if($d['page_type'] == "feed" && $POST->page_type != "feed") {
-				$parse->msg("Вы не можете установить для ленты в качестве дочерней страницы другой структурный элемент, кроме ленты.", false);
+				$logger->error("Вы не можете установить для ленты в качестве дочерней страницы другой структурный элемент, кроме ленты.");
 				goback();
 			}
 
@@ -199,7 +199,7 @@ class ACP_STRUCTURE {
 			$this->count_childs($POST->parent_id);
 
 			# уведомление
-			$parse->msg("Структурная еденица успешно добавлена.");
+			$logger->info("Структурная еденица успешно добавлена.");
 
 			# переход
 			if(isset($POST->create_unit_ae)) go(CP."?act=structure");
@@ -258,7 +258,7 @@ class ACP_STRUCTURE {
 	 */
 	private function update_unit($sid) {
 
-		global $db, $img, $parse, $POST;
+		global $db, $img, $logger, $POST;
 
 		# check unit parametrs
 		$this->check_unit_parametrs();
@@ -276,7 +276,7 @@ class ACP_STRUCTURE {
 				# Проверим, что не пытаемся быть родителем самим себе
 				if($POST->parent_id == $sid) {
 					$POST->parent_id = $POST->now_parent_id;
-					$parse->msg("Не удалось изменить иерархию! Вы не можете изменить иерархию директории назначив её родителем самой себе!", false);
+					$logger->error("Не удалось изменить иерархию! Вы не можете изменить иерархию директории назначив её родителем самой себе!");
 				}
 				# ... и что новый родитель это не наш ребенок
 				else {
@@ -286,7 +286,7 @@ class ACP_STRUCTURE {
 						foreach($childs AS $k=>$v) {
 							if($POST->parent_id == $v['id']) {
 								$POST->parent_id = $POST->now_parent_id;
-								$parse->msg("Не удалось изменить иерархию! Вы не можете изменить иерархию директории переместив её в свой дочерний элемент!", false);
+								$logger->error("Не удалось изменить иерархию! Вы не можете изменить иерархию директории переместив её в свой дочерний элемент!");
 							}
 						}
 					}
@@ -303,14 +303,14 @@ class ACP_STRUCTURE {
 
 			# Нельзя к лентам добавлять другие дочерние элементы, кроме таких же лент.
 			if($p['page_type'] == "feed" && $n['page_type'] != "feed") {
-				$parse->msg("Вы не можете установить для ленты в качестве дочерней страницы другой структурный элемент, кроме ленты.", false);
+				$logger->error("Вы не можете установить для ленты в качестве дочерней страницы другой структурный элемент, кроме ленты.");
 				$POST->parent_id = $POST->now_parent_id;
 			}
 
 			# Нельзя изменять алиас главной страницы
 			if($sid == 1 && $POST->alias != "index") {
 				$POST->alias = "index";
-				$parse->msg("Нельзя изменять алиас главной страницы!", false);
+				$logger->error("Нельзя изменять алиас главной страницы!");
 			}
 
 			# DB
@@ -338,7 +338,7 @@ class ACP_STRUCTURE {
 			}
 
 			# уведомление
-			$parse->msg("Страница успешно обновлена.");
+			$logger->info("Страница успешно обновлена.");
 
 
 			if(isset($POST->update_unit_ae)) go(CP."?act=structure");
@@ -357,7 +357,7 @@ class ACP_STRUCTURE {
 	 */
 	private function delete_unit($sid) {
 
-		global $db, $parse;
+		global $db, $logger;
 
 		$q = $db->query("SELECT childs, parent_id, page_id, page_type FROM ".STRUCTURE_TABLE." WHERE id='".$sid."'");
 		$c = $db->fetch_assoc($q);
@@ -402,12 +402,12 @@ class ACP_STRUCTURE {
 
 
 			# уведомление
-			$parse->msg("Страница успешно удалена");
+			$logger->info("Страница #".$sid." успешно удалена");
 
 			# recount parent childs
 			$this->count_childs($c['parent_id']);
 		}
-		else $parse->msg("Невозможно удалить страницу, по причине имеющихся у страницы дочерних связей. Сначала перенесите или удалите дочерние страницы.", false);
+		else $logger->error("Невозможно удалить страницу, по причине имеющихся у страницы дочерних связей. Сначала перенесите или удалите дочерние страницы.");
 
 		# переход
 		goback();
@@ -449,7 +449,7 @@ class ACP_STRUCTURE {
 	*/
 	private function count_childs($id) {
 
-		global $db, $parse;
+		global $db, $logger;
 
 		$q = $db->query("SELECT count(*) FROM ".STRUCTURE_TABLE." WHERE parent_id='".$id."'");
 		$c = $db->fetch_row($q);
@@ -457,7 +457,7 @@ class ACP_STRUCTURE {
 		$db->query("UPDATE ".STRUCTURE_TABLE." SET childs='".$c[0]."' WHERE id='".$id."'");
 
 		# уведомление
-		if(DEBUGMODE) $parse->msg("Информация о вложенных (подструктурных) страницах для страницы {$id} обновлена.");
+		$logger->info("Информация о вложенных (подструктурных) страницах для страницы {$id} обновлена.");
 	}
 
 
@@ -466,12 +466,12 @@ class ACP_STRUCTURE {
 	 */
 	private function processing_alias() {
 
-		global $parse, $POST;
+		global $parse, $logger, $POST;
 
 
 		if(!isset($POST->alias) || trim($POST->alias) == "") {
 			if(isset($POST->title)) $POST->alias = $POST->title;
-			else $parse->msg("Не указан alias для структурной еденицы.", false);
+			else $logger->error("Не указан alias для структурной еденицы.");
 		}
 
 		# предупреждаем возможные ошибки с алиасом структурной единицы
@@ -497,15 +497,15 @@ class ACP_STRUCTURE {
 	 */
 	private function check_unit_parametrs() {
 
-		global $parse, $POST, $img;
+		global $logger, $POST, $img;
 
 		# title
-		if(!isset($POST->title) || trim($POST->title) == "") $parse->msg("Не указано название страницы.", false);
+		if(!isset($POST->title) || trim($POST->title) == "") $logger->error("Не указано название страницы.");
 
 		# alias
 		$this->processing_alias();
 		if(!isset($POST->old_alias)) $POST->old_alias = "";
-		if(!$this->check_alias($POST->alias, $POST->old_alias)) $parse->msg("Алиас страницы не уникален.", false);
+		if(!$this->check_alias($POST->alias, $POST->old_alias)) $logger->error("Алиас страницы не уникален.");
 
 		# group access
 		if(isset($POST->gids) && is_array($POST->gids)) $POST->gids = implode(",", $POST->gids);

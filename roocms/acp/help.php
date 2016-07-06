@@ -192,7 +192,7 @@ class ACP_HELP {
 	*/
 	private function create_part() {
 
-		global $db, $parse, $POST;
+		global $db, $logger, $POST;
 
 		# предупреждаем возможные ошибки с уникальным именем структурной еденицы
 		if(isset($POST->uname) && trim($POST->uname) != "") {
@@ -204,9 +204,9 @@ class ACP_HELP {
 		}
 
 		# проверяем введенный данные
-		if(!isset($POST->title) || trim($POST->title) == "") 					$parse->msg("Не указано название раздела.", false);
-		if(!isset($POST->uname) || (trim($POST->uname) == "" && round($POST->uname) != 0)) 	$parse->msg("Не указан uname страницы.", false);
-		elseif(!$this->check_uname($POST->uname)) 						$parse->msg("uname раздела не уникален.", false);
+		if(!isset($POST->title) || trim($POST->title) == "") 					$logger->error("Не указано название раздела.");
+		if(!isset($POST->uname) || (trim($POST->uname) == "" && round($POST->uname) != 0)) 	$logger->error("Не указан uname страницы.");
+		elseif(!$this->check_uname($POST->uname)) 						$logger->error("uname раздела не уникален.");
 
 		if(!isset($POST->content))
 			$POST->content = "";
@@ -216,12 +216,13 @@ class ACP_HELP {
 
 			$db->query("INSERT INTO ".HELP_TABLE." (title, uname, sort, content, parent_id, date_modified)
 							VALUES ('".$POST->title."', '".$POST->uname."', '".$POST->sort."','".$POST->content."', '".$POST->parent_id."', '".time()."')");
+			$id = $db->insert_id();
 
 			# пересчитываем "детей"
 			$this->count_childs($POST->parent_id);
 
 			# уведомление
-			$parse->msg("Раздел успешно добавлен!");
+			$logger->info("Раздел #".$id." успешно добавлен!");
 
 			go(CP."?act=help");
 		}
@@ -236,7 +237,7 @@ class ACP_HELP {
 	*/
 	private function update_part($id) {
 
-		global $db, $parse, $POST;
+		global $db, $logger, $POST;
 
 		# Если идентификатор не прошел проверку
 		if($id == 0) goback();
@@ -251,9 +252,9 @@ class ACP_HELP {
 		}
 
 		# проверяем введенный данные
-		if(!isset($POST->title) || trim($POST->title) == "") 					$parse->msg("Не указано название раздела.", false);
-		if(!isset($POST->uname) || (trim($POST->uname) == "" && round($POST->uname) != 0)) 	$parse->msg("Не указан uname раздела.", false);
-		elseif(!$this->check_uname($POST->uname, $POST->old_uname)) 				$parse->msg("uname раздела не уникален.", false);
+		if(!isset($POST->title) || trim($POST->title) == "") 					$logger->error("Не указано название раздела.");
+		if(!isset($POST->uname) || (trim($POST->uname) == "" && round($POST->uname) != 0)) 	$logger->error("Не указан uname раздела.");
+		elseif(!$this->check_uname($POST->uname, $POST->old_uname)) 				$logger->error("uname раздела не уникален.");
 
 		if(!isset($POST->content))
 			$POST->content = "";
@@ -272,7 +273,7 @@ class ACP_HELP {
 				# Проверим, что не пытаемся быть родителем самим себе
 				if($POST->parent_id == $id) {
 					$POST->parent_id = $POST->now_parent_id;
-					$parse->msg("Не удалось изменить иерархию! Вы не можете изменить иерархию директории назначив её родителем самой себе!", false);
+					$logger->error("Не удалось изменить иерархию! Вы не можете изменить иерархию директории назначив её родителем самой себе!");
 				}
 				# ... и что новый родитель это не наш ребенок
 				else {
@@ -282,7 +283,7 @@ class ACP_HELP {
 						foreach($childs AS $k=>$v) {
 							if($POST->parent_id == $v['id']) {
 								$POST->parent_id = $POST->now_parent_id;
-								$parse->msg("Не удалось изменить иерархию! Вы не можете изменить иерархию директории переместив её в свой дочерний элемент!", false);
+								$logger->error("Не удалось изменить иерархию! Вы не можете изменить иерархию директории переместив её в свой дочерний элемент!");
 							}
 						}
 					}
@@ -292,7 +293,7 @@ class ACP_HELP {
 			# Нельзя изменять алиас главной страницы
 			if($id == 1 && $POST->uname != "help") {
 				$POST->alias = "help";
-				$parse->msg("Нельзя изменять uname главной страницы!", false);
+				$logger->error("Нельзя изменять uname главной страницы!");
 			}
 
 
@@ -307,7 +308,7 @@ class ACP_HELP {
 			}
 
 			# уведомление
-			$parse->msg("Раздел успешно обновлен!");
+			$logger->info("Раздел #".$id." успешно обновлен!");
 
 			go(CP."?act=help&u=".$POST->uname);
 		}
@@ -322,7 +323,7 @@ class ACP_HELP {
 	*/
 	private function delete_part($id) {
 
-		global $db, $parse;
+		global $db, $logger;
 
 		if($id == 0) goback();
 
@@ -334,12 +335,12 @@ class ACP_HELP {
             		$db->query("DELETE FROM ".HELP_TABLE." WHERE id='".$id."'");
 
 			# уведомление
-			$parse->msg("Раздел удален");
+			$logger->info("Раздел #".$id." удален");
 
 			# пересчитываем детишек
 			$this->count_childs($row['parent_id']);
 		}
-		else $parse->msg("Невозможно удалить раздел с имеющимися в подчинении подразделами. Сначала перенесите или удалите подразделы.", false);
+		else $logger->error("Невозможно удалить раздел с имеющимися в подчинении подразделами. Сначала перенесите или удалите подразделы.");
 
 		goback();
 	}
@@ -473,7 +474,7 @@ class ACP_HELP {
 	*/
 	private function count_childs($id) {
 
-		global $db, $parse;
+		global $db, $logger;
 
 		$q = $db->query("SELECT count(*) FROM ".HELP_TABLE." WHERE parent_id='".$id."'");
 		$c = $db->fetch_row($q);
@@ -481,7 +482,7 @@ class ACP_HELP {
 		$db->query("UPDATE ".HELP_TABLE." SET childs='".$c[0]."' WHERE id='".$id."'");
 
 		# уведомление
-		if(DEBUGMODE) $parse->msg("Информация о подразделах для раздела {$id} обновлена.");
+		$logger->info("Информация о подразделах для раздела {$id} обновлена.");
 	}
 }
 

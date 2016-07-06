@@ -3,9 +3,9 @@
 * @package      RooCMS
 * @subpackage	Installer
 * @author       alex Roosso
-* @copyright    2010-2016 (c) RooCMS
+* @copyright    2010-2017 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.4.6
+* @version      1.4.7
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -183,20 +183,20 @@ class Install extends Requirement{
 	 */
 	private function step_4() {
 
-		global $POST, $parse, $site;
+		global $POST, $parse, $logger, $site;
 
 		if($this->allowed && isset($POST->submit) && isset($POST->step) && $POST->step == 4) {
 			if(!isset($POST->site_title) || trim($POST->site_title) == "") {
 				$this->allowed = false;
-				$parse->msg("Неверно указано название сайта", false);
+				$logger->error("Неверно указано название сайта");
 			}
 			if(!isset($POST->site_domain) || trim($POST->site_domain) == "") {
 				$this->allowed = false;
-				$parse->msg("Неверно указан адрес сайта", false);
+				$logger->error("Неверно указан адрес сайта");
 			}
 			if(!isset($POST->site_sysemail) || !$parse->valid_email($POST->site_sysemail)) {
 				$this->allowed = false;
-				$parse->msg("Неверно указан адрес электронной почты администратора", false);
+				$logger->error("Неверно указан адрес электронной почты администратора");
 			}
 
 			if($this->allowed) {
@@ -223,10 +223,10 @@ class Install extends Requirement{
 				$_SESSION['site_title'] = $parse->text->html($POST->site_title);
 
 				# уведомление
-				$parse->msg("Данные успешно записаны:", true);
-				$parse->msg("Название сайта - ".$parse->text->html($POST->site_title), true);
-				$parse->msg("Адрес сайта - ".$POST->site_domain, true);
-				$parse->msg("E-mail администратора - ".$POST->site_sysemail, true);
+				$logger->info("Данные успешно записаны:");
+				$logger->info("Название сайта - ".$parse->text->html($POST->site_title));
+				$logger->info("Адрес сайта - ".$POST->site_domain);
+				$logger->info("E-mail администратора - ".$POST->site_sysemail);
 
 				# переход next step
 				go(SCRIPT_NAME."?step=5");
@@ -252,28 +252,28 @@ class Install extends Requirement{
 	 */
 	private function step_5() {
 
-		global $db, $db_info, $POST, $parse;
+		global $db, $db_info, $POST, $parse, $logger;
 
 		if($this->allowed && isset($POST->submit) && isset($POST->step) && $POST->step == 5) {
 			if(!isset($POST->db_info_host) || trim($POST->db_info_host) == "") {
 				$this->allowed = false;
-				$parse->msg("Не указано соеденение с сервером БД", false);
+				$logger->error("Не указано соеденение с сервером БД");
 			}
 			if(!isset($POST->db_info_base) || trim($POST->db_info_base) == "") {
 				$this->allowed = false;
-				$parse->msg("Не указано название БД", false);
+				$logger->error("Не указано название БД");
 			}
 			if(!isset($POST->db_info_user) || trim($POST->db_info_user) == "") {
 				$this->allowed = false;
-				$parse->msg("Не указан пользователь БД", false);
+				$logger->error("Не указан пользователь БД");
 			}
 			if(!isset($POST->db_info_pass) || trim($POST->db_info_pass) == "") {
 				$this->allowed = false;
-				$parse->msg("Не указан пароль пользователя БД", false);
+				$logger->error("Не указан пароль пользователя БД");
 			}
 			if(!isset($POST->db_info_prefix) || trim($POST->db_info_prefix) == "") {
 				$this->allowed = false;
-				$parse->msg("Не указан префикс БД", false);
+				$logger->error("Не указан префикс БД");
 			}
 
 			if($this->allowed) {
@@ -308,13 +308,13 @@ class Install extends Requirement{
 					fclose($ecf);
 
 					# уведомление
-					$parse->msg("Данные для соеденения с БД успешно записаны", true);
+					$logger->info("Данные для соеденения с БД успешно записаны");
 
 					# переход next step
 					go(SCRIPT_NAME."?step=6");
 				}
 				else {
-					$parse->msg("Указаны неверные параметры для соеденения с БД", false);
+					$logger->error("Указаны неверные параметры для соеденения с БД");
 					goback();
 				}
 			}
@@ -336,7 +336,7 @@ class Install extends Requirement{
 	 */
 	private function step_6() {
 
-		global $db, $db_info, $roocms, $POST, $parse, $site;
+		global $db, $db_info, $roocms, $POST, $parse, $logger, $site;
 
 		$roocms->sess['db_info_pass'] = $parse->text->html($roocms->sess['db_info_pass']);
 
@@ -366,7 +366,7 @@ class Install extends Requirement{
 			fclose($ecf);
 
 			# уведомление
-			$parse->msg("Данные занесены в БД успешно!", true);
+			$logger->info("Данные занесены в БД успешно!");
 
 			# переход next step
 			go(SCRIPT_NAME."?step=7");
@@ -399,7 +399,7 @@ class Install extends Requirement{
 	 */
 	private function step_7() {
 
-		global $db, $parse, $POST;
+		global $db, $parse, $logger, $POST;
 
 		if($db->check_id(1, USERS_TABLE, "uid")) go(SCRIPT_NAME."?step=8");
 
@@ -407,12 +407,12 @@ class Install extends Requirement{
 
 			if(!isset($POST->adm_login) || trim($POST->adm_login) == "") {
 				$this->allowed = false;
-				$parse->msg("Неверно указан логин администратора", false);
+				$logger->error("Неверно указан логин администратора");
 			}
 
 			if(!isset($POST->adm_passw) || trim($POST->adm_passw) == "") {
 				$this->allowed = false;
-				$parse->msg("Неверно указан пароль администратора", false);
+				$logger->error("Неверно указан пароль администратора");
 			}
 
 			if($this->allowed) {
@@ -435,10 +435,10 @@ class Install extends Requirement{
 	 */
 	private function step_8() {
 
-		global $db, $security, $roocms, $parse, $site;
+		global $db, $security, $roocms, $logger, $site;
 
 		if(!isset($roocms->sess['adm_login']) || trim($roocms->sess['adm_login']) == "" || !isset($roocms->sess['adm_passw']) || trim($roocms->sess['adm_passw']) == "") {
-			$parse->msg("Сбой при записи логина и пароля администратора сайта", false);
+			$logger->error("Сбой при записи логина и пароля администратора сайта");
 			go(SCRIPT_NAME."?step=7");
 		}
 

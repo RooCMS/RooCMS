@@ -5,9 +5,9 @@
 * @subpackage	Blocks settings
 * @subpackage	HTML Blocks
 * @author       alex Roosso
-* @copyright    2010-2016 (c) RooCMS
+* @copyright    2010-2017 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.4
+* @version      1.4.1
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -61,7 +61,7 @@ class ACP_BLOCKS_HTML {
 	 */
 	public function create() {
 
-		global $config, $db, $files, $img, $tpl, $smarty, $parse, $POST;
+		global $config, $db, $files, $img, $tpl, $smarty, $parse, $logger, $POST;
 
 
 		# default thumb size
@@ -72,9 +72,9 @@ class ACP_BLOCKS_HTML {
 
 		if(isset($POST->create_block)) {
 
-			if(!isset($POST->title)) $parse->msg("Не указано название блока!", false);
+			if(!isset($POST->title)) $logger->error("Не указано название блока!");
 
-			if(!isset($POST->alias) || $db->check_id($parse->text->transliterate($POST->alias), BLOCKS_TABLE, "alias")) $parse->msg("Не указан алиас блока или он не уникален!", false);
+			if(!isset($POST->alias) || $db->check_id($parse->text->transliterate($POST->alias), BLOCKS_TABLE, "alias")) $logger->error("Не указан алиас блока или он не уникален!");
 			else {
 				$POST->alias = $parse->text->transliterate($POST->alias);
 				$POST->alias = preg_replace(array('(\s\s+)','(\-\-+)','(__+)','([^a-zA-Z0-9\-_])'), array('','','',''), $POST->alias);
@@ -117,7 +117,7 @@ class ACP_BLOCKS_HTML {
 				}
 
 
-				$parse->msg("Блок успешно добавлен!");
+				$logger->info("Блок успешно добавлен!");
 
 				go(CP."?act=blocks");
 			}
@@ -186,13 +186,13 @@ class ACP_BLOCKS_HTML {
 	 */
 	public function update($id) {
 
-		global $config, $db, $files, $img, $POST, $GET, $parse;
+		global $config, $db, $files, $img, $POST, $GET, $parse, $logger;
 
 		if(isset($POST->update_block)) {
 
-			if(!isset($POST->title)) $parse->msg("Не указано название блока!", false);
+			if(!isset($POST->title)) $logger->error("Не указано название блока!");
 
-			if(!isset($POST->alias) || $db->check_id($parse->text->transliterate($POST->alias), BLOCKS_TABLE, "alias", "alias!='".$POST->oldalias."'")) $parse->msg("Не указан алиас блока или он не уникален!", false);
+			if(!isset($POST->alias) || $db->check_id($parse->text->transliterate($POST->alias), BLOCKS_TABLE, "alias", "alias!='".$POST->oldalias."'")) $logger->error("Не указан алиас блока или он не уникален!");
 			else {
 				$POST->alias = $parse->text->transliterate($POST->alias);
 				$POST->alias = preg_replace(array('(\s\s+)','(\-\-+)','(__+)','([^a-zA-Z0-9\-_])'), array('','','',''), $POST->alias);
@@ -201,7 +201,7 @@ class ACP_BLOCKS_HTML {
 
 			//if(!isset($POST->content)) $parse->msg("Пустое тело блока!", false);
 			if(!isset($POST->content)) $POST->content = "";
-			if(!isset($POST->id) || $POST->id != $GET->_block) $parse->msg("Системная ошибка...", false);
+			if(!isset($POST->id) || $POST->id != $GET->_block) $logger->error("Системная ошибка...");
 
 			# check thumb size
 			if(!isset($POST->thumb_img_width)) $POST->thumb_img_width = 0;
@@ -226,7 +226,7 @@ class ACP_BLOCKS_HTML {
 					foreach($sortimg AS $k=>$v) {
 						if(isset($POST->sort[$v['id']]) && $POST->sort[$v['id']] != $v['sort']) {
 							$db->query("UPDATE ".IMAGES_TABLE." SET sort='".$POST->sort[$v['id']]."' WHERE id='".$v['id']."'");
-							if(DEBUGMODE) $parse->msg("Изображению ".$v['id']." успешно присвоен порядок ".$POST->sort[$v['id']]);
+							$logger->info("Изображению ".$v['id']." успешно присвоен порядок ".$POST->sort[$v['id']]);
 						}
 					}
 				}
@@ -253,7 +253,7 @@ class ACP_BLOCKS_HTML {
 				}
 
 
-				$parse->msg("Блок успешно обновлен!");
+				$logger->info("Блок успешно обновлен!");
 			}
 
 			go(CP."?act=blocks");
@@ -269,13 +269,13 @@ class ACP_BLOCKS_HTML {
 	 */
 	public function delete($id) {
 
-		global $db, $img, $parse;
+		global $db, $img, $logger;
 
                 $img->delete_images("blockid=".$id);
 
 		$db->query("DELETE FROM ".BLOCKS_TABLE." WHERE id='".$id."'");
 
-		$parse->msg("Блок успешно удален!");
+		$logger->info("Блок #".$id." успешно удален!");
 		go(CP."?act=blocks");
 	}
 }

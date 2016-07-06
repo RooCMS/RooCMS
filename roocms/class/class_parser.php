@@ -5,7 +5,7 @@
 * @author       alex Roosso
 * @copyright    2010-2017 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.2.3
+* @version      1.2.4
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -108,7 +108,7 @@ class Parsers {
 		# обрабатываем URL
 		$this->parse_url();
 
-		# обрабатываем уведомления
+		# обрабатываем уведомления для вывода пользователю
 		$this->parse_notice();
 
 		# расширяем класс
@@ -284,8 +284,8 @@ class Parsers {
 	public function transform_uri($url) {
 
 		if($this->uri_chpu) {
-			$url = strtr($url, array('?' => '/',
-						 '&' => '/',
+			$url = strtr($url, array('?' => $this->uri_separator,
+						 '&' => $this->uri_separator,
 						 '=' => $this->uri_separator));
 		}
 
@@ -332,20 +332,6 @@ class Parsers {
 		));
 
 		return $key;
-	}
-
-
-	/**
-	* add notice msg
-	*
-	* @param string $txt - Текст сообщения
-	* @param boolean $info - flag true = info, false = error [default: true]
-	*/
-	public function msg($txt, $info=true) {
-
-		($info) ? $type = "info" : $type="error" ;
-
-		$_SESSION[$type][] = $txt;
 	}
 
 
@@ -396,6 +382,43 @@ class Parsers {
 
 
 	/**
+	 * Parse NOTICE Massages
+	 *
+	 */
+	public function parse_notice() {
+
+		global $roocms, $debug;
+
+		# Уведомления
+		if(isset($roocms->sess['info'])) {
+			foreach($roocms->sess['info'] AS $value) {
+				$this->info .= "<span class='fa fa-info-circle fa-fw'></span> {$value}<br />";
+			}
+
+			# уничтожаем
+			unset($_SESSION['info']);
+		}
+
+		# Ошибки
+		if(isset($roocms->sess['error'])) {
+			foreach($roocms->sess['error'] AS $value) {
+				$this->error .= "<span class='fa fa-exclamation-triangle fa-fw'></span> {$value}<br />";
+			}
+
+			# уничтожаем
+			unset($_SESSION['error']);
+		}
+
+		# Критические ошибки в PHP
+		if(!empty($debug->nophpextensions)) {
+			foreach($debug->nophpextensions AS $value) {
+				$this->error .= "<b><span class='fa fa-exclamation-triangle fa-fw'></span> КРИТИЧЕСКАЯ ОШИБКА:</b> Отсутсвует PHP расширение - {$value}. Работа RooCMS нестабильна!";
+			}
+		}
+	}
+
+
+	/**
 	 * Проверка на email на валидность
 	 *
 	 * @param string $email - email
@@ -429,43 +452,6 @@ class Parsers {
 
 		if(preg_match($pattern, trim($phone))) return true;
 		else return false;
-	}
-
-
-	/**
-	* Parse NOTICE Massages
-	*
-	*/
-	public function parse_notice() {
-
-		global $roocms, $debug;
-
-		# Уведомления
-		if(isset($roocms->sess['info'])) {
-			foreach($roocms->sess['info'] AS $value) {
-				$this->info .= "<span class='fa fa-info-circle fa-fw'></span> {$value}<br />";
-			}
-
-			# уничтожаем
-			unset($_SESSION['info']);
-		}
-
-		# Ошибки
-		if(isset($roocms->sess['error'])) {
-			foreach($roocms->sess['error'] AS $value) {
-				$this->error .= "<span class='fa fa-exclamation-triangle fa-fw'></span> {$value}<br />";
-			}
-
-			# уничтожаем
-			unset($_SESSION['error']);
-		}
-
-		# Критические ошибки в PHP
-		if(!empty($debug->nophpextensions)) {
-			foreach($debug->nophpextensions AS $value) {
-				$this->error .= "<b><span class='fa fa-exclamation-triangle fa-fw'></span> КРИТИЧЕСКАЯ ОШИБКА:</b> Отсутсвует PHP расширение - {$value}. Работа RooCMS нестабильна!";
-			}
-		}
 	}
 
 

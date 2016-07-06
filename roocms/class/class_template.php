@@ -5,7 +5,7 @@
 * @author	alex Roosso
 * @copyright	2010-2017 (c) RooCMS
 * @link		http://www.roocms.com
-* @version	4.6
+* @version	4.6.2
 * @since	$date$
 * @license	http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -267,7 +267,7 @@ class Template {
 	*/
 	public function out() {
 
-		global $roocms, $config, $db, $structure, $site, $smarty, $parse, $rss, $debug;
+		global $roocms, $config, $db, $structure, $site, $smarty, $parse, $rss, $debug, $logger;
 
 		# header & footer
 		if(!$roocms->ajax && !$roocms->rss) {
@@ -292,7 +292,9 @@ class Template {
 			$smarty->assign("build",	$build);
 			$smarty->assign("jscript",	$this->js);
 
-			$smarty->assign("noindex",	$structure->page_noindex); # noindex for robots
+			# noindex for robots
+			if(isset($structure->page_noindex))
+				$smarty->assign("noindex",	$structure->page_noindex);
 
 			$smarty->assign("error",	$parse->error);
 			$smarty->assign("info",		$parse->info);
@@ -334,7 +336,6 @@ class Template {
 				$this->init_modules();
 			}
 		}
-
 
 		# output
 		echo (!$roocms->rss) ? $this->out : $rss->out() ;

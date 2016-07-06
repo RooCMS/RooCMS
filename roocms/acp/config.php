@@ -219,7 +219,7 @@ class ACP_CONFIG {
 	 */
 	private function update_config() {
 
-		global $db, $parse, $POST, $img;
+		global $db, $parse, $logger, $POST, $img;
 
 
 		# запрашиваем из БД типа опций
@@ -326,7 +326,7 @@ class ACP_CONFIG {
 
 
 		# уведомление
-		$parse->msg("Настройки обновлены");
+		$logger->info("Настройки обновлены");
 
 		# move
 		if(isset($gonewcp)) { // Если мы изменяли путь скрипта к панели управления.
@@ -350,7 +350,7 @@ class ACP_CONFIG {
 	 */
 	private function change_cp_script($newcp) {
 
-		global $parse;
+		global $logger;
 
 		# Собираем лут из старого файла
 		$context = file_read(_SITEROOT."/".CP);
@@ -363,16 +363,16 @@ class ACP_CONFIG {
 			fclose($cps);
 
 			if(file_exists(_SITEROOT."/".$newcp)) {
-				if(DEBUGMODE) $parse->msg("Новый файл для входа в панель управления успешно создан!");
+				$logger->info("Новый файл для входа в панель управления успешно создан!");
 				return true;
 			}
 			else {
-				$parse->msg("Не удалось создать новый файл для входа в панель управления! Проверьте chmod настройки на сервере для работы с файлами.", false);
+				$logger->error("Не удалось создать новый файл для входа в панель управления! Проверьте chmod настройки на сервере для работы с файлами.");
 				return false;
 			}
 
 		} else {
-			$parse->msg("У вас уже есть такой файл. Новое имя скрипта панели управление не должно совпадать с уже имеющимся файлом. Укажите другое имя для создаваемого файла.", false);
+			$logger->error("У вас уже есть такой файл. Новое имя скрипта панели управление не должно совпадать с уже имеющимся файлом. Укажите другое имя для создаваемого файла.");
 			return false;
 		}
 	}

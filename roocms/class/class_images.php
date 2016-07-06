@@ -222,7 +222,7 @@ class Images extends GD {
 	 */
 	public function insert_images($filename, $attached, $alt="") {
 
-        	global $db, $parse;
+        	global $db, $logger;
 
 		$image = pathinfo($filename);
 
@@ -230,7 +230,7 @@ class Images extends GD {
 						    VALUES ('".$attached."', '".$image['filename']."', '".$image['extension']."', '".$alt."')");
 
 		# msg
-		if(DEBUGMODE) $parse->msg("Изображение ".$filename." успешно загружено на сервер");
+		$logger->log("Изображение ".$filename." успешно загружено на сервер");
 	}
 
 
@@ -244,7 +244,7 @@ class Images extends GD {
 	 */
 	public function delete_images($image, $clwhere=false) {
 
-                global $db, $parse;
+                global $db, $logger;
 
 		if(is_numeric($image) || is_integer($image))
 		        $where = " id='".$image."' ";
@@ -263,23 +263,23 @@ class Images extends GD {
                 		# delete original
 				if(file_exists(_UPLOADIMAGES."/".$original)) {
                                 	unlink(_UPLOADIMAGES."/".$original);
-                                	if(DEBUGMODE) $parse->msg("Изображение ".$original." удалено");
+					$logger->log("Изображение ".$original." удалено");
 				}
-				elseif(!file_exists(_UPLOADIMAGES."/".$original) && DEBUGMODE) $parse->msg("Не удалось найти изображение ".$original, false);
+				elseif(!file_exists(_UPLOADIMAGES."/".$original)) $logger->log("Не удалось найти изображение ".$original, "error");
 
 				# delete resize
 				if(file_exists(_UPLOADIMAGES."/".$resize)) {
                                 	unlink(_UPLOADIMAGES."/".$resize);
-                                	if(DEBUGMODE) $parse->msg("Изображение ".$resize." удалено");
+					$logger->log("Изображение ".$resize." удалено");
 				}
-				elseif(!file_exists(_UPLOADIMAGES."/".$resize) && DEBUGMODE) $parse->msg("Не удалось найти изображение ".$resize, false);
+				elseif(!file_exists(_UPLOADIMAGES."/".$resize)) $logger->log("Не удалось найти изображение ".$resize, "error");
 
 				# delete thumb
 				if(file_exists(_UPLOADIMAGES."/".$thumb)) {
                                 	unlink(_UPLOADIMAGES."/".$thumb);
-                                	if(DEBUGMODE) $parse->msg("Изображение ".$thumb." удалено");
+					$logger->log("Изображение ".$thumb." удалено");
 				}
-				elseif(!file_exists(_UPLOADIMAGES."/".$thumb) && DEBUGMODE) $parse->msg("Не удалось найти изображение ".$thumb, false);
+				elseif(!file_exists(_UPLOADIMAGES."/".$thumb)) $logger->log("Не удалось найти изображение ".$thumb, "error");
                 	}
                 }
 
