@@ -4,23 +4,30 @@
 	<div class="row">
 		<div class="col-sm-12 text-right">
 			<form method="post" action="?part=ucp&act=login" class="form-inline">
-				<div class="form-group form-group-sm text-left" style="margin-top: 10px;">
-					<label class="control-label text-primary" for="inputLogin" rel="tooltip" title="Логин" data-placement="right" data-container="body"><i class="fa fa-fw fa-user-secret"></i></label>
-					<br />
-					<input type="text" name="login" class="form-control" id="inputLogin" aria-describedby="inputLoginStatus" required="">
 
+
+				<div class="form-group form-group-sm text-left" style="margin-top: 10px;">
+					<div class="inner-addon left-addon">
+						<i class="fa fa-fw fa-user-secret"></i>
+						<input type="text" name="login" class="form-control" id="inputLogin" aria-describedby="inputLoginStatus" required="">
+					</div>
 				</div>
 				<div class="form-group form-group-sm text-left" style="margin-top: 10px;">
-					<label class="control-label text-primary" for="inputPassword"  rel="tooltip" title="Пароль" data-placement="right" data-container="body"><i class="fa fa-fw fa-lock"></i></label>
-					<br />
-					<input type="password" name="password" class="form-control" id="inputPassword" aria-describedby="inputPasswordStatus" required="">
+					<div class="inner-addon left-addon">
+						<i class="fa fa-fw fa-lock"></i>
+						<input type="password" name="password" class="form-control" id="inputPassword" aria-describedby="inputPasswordStatus" required="">
+					</div>
 				</div>
 				<div class="form-group form-group-sm text-left" style="margin-top: 10px;">
-					<label class="control-label text-primary" for="inputAuth">&nbsp;</label>
-					<br />
-					<button type="submit" name="userlogin" id="inputAuth" class="btn btn-default btn-sm"  rel="tooltip" title="Войти на сайт" data-placement="top" data-container="body" value="user"><i class="text-primary fa fa-fw fa-sign-in"></i></button>
+					<button type="submit" name="userlogin" id="inputAuth" class="btn btn-default btn-sm"  rel="tooltip" title="Войти на сайт" data-placement="auto" data-container="body" value="user"><i class="text-primary fa fa-fw fa-sign-in"></i></button>
 				</div>
 			</form>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-sm-12 text-right">
+			<a href="/index.php?part=reg" class="btn btn-xs btn-link" style="margin-right: 59px;"><i class="fa fa-fw fa-key"></i>Регистрация</a>
+			<a href="/index.php?#" class="btn btn-xs btn-link" style="margin-right: 35px;"><i class="fa fa-fw fa-question-circle-o"></i>Забыли пароль</a>
 		</div>
 	</div>
 

@@ -59,6 +59,25 @@ p.lead {font-family: "PT Sans" !important;}
 	background-image: repeating-linear-gradient(135deg, #F29B91 0px, #F09290 30px, transparent 30px, transparent 50px, #83B3DB 50px, #84ADCB 80px, transparent 80px, transparent 100px);
 }
 
+/*  Input icon */
+.inner-addon {
+	position: relative;
+}
+
+.inner-addon .glyphicon, .inner-addon .fa {
+	position: absolute;
+	padding: 8px;
+	pointer-events: none;
+}
+
+.left-addon .glyphicon, .left-addon .fa  { left:  0px;}
+.right-addon .glyphicon, .right-addon .fa { right: 0px;}
+
+.left-addon input  { padding-left:  25px !important; }
+.right-addon input { padding-right: 25px !important; }
+
+/* Blur */
+
 .blur {
 	-webkit-filter: blur(25px);
 	-moz-filter: blur(25px);
