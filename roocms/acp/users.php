@@ -6,7 +6,7 @@
  * @author       alex Roosso
  * @copyright    2010-2017 (c) RooCMS
  * @link         http://www.roocms.com
- * @version      1.4
+ * @version      1.4.1
  * @since        $date$
  * @license      http://www.gnu.org/licenses/gpl-3.0.html
  */
@@ -235,7 +235,7 @@ class ACP_USERS {
 				if(isset($av[0])) $db->query("UPDATE ".USERS_TABLE." SET avatar='".$av[0]."' WHERE uid='".$uid."'");
 
 				# Если мы переназначаем группу пользователя
-				if(isset($POST->gid) && $POST->gid != 0) {
+				if(isset($POST->gid)) {
 					# пересчитываем пользователей
 					$this->count_users($POST->gid);
 				}
@@ -252,13 +252,14 @@ class ACP_USERS {
 
 
 				# уведомление
-				$logger->info("Пользователь был успешно добавлен. Уведомление об учетной записи отправлено на его электронную почту.");
+				$logger->info("Пользователь #".$uid." был успешно добавлен. Уведомление об учетной записи отправлено на его электронную почту.");
 
 				# переход
 				if(isset($POST->create_user_ae)) go(CP."?act=users");
 				else go(CP."?act=users&part=edit_user&uid=".$uid);
 			}
-			else goback();
+
+			goback();
 		}
 
 		# groups
@@ -411,12 +412,6 @@ class ACP_USERS {
 				else	$query .= "email='".$POST->email."', ";
 			else $logger->error("E-mail должен быть указан обязательно для каждого пользователя.");
 
-			# status
-			$query .= ((isset($POST->status) && $POST->status == 1) || $uid == 1) ? "status='1', " : "status='0', " ;
-
-			# title
-			$query .= ((isset($POST->title) && $POST->title == "a") || $uid == 1) ? "title='a', " : "title='u', " ;
-
 			# avatar
 			$av = $img->upload_image("avatar", "", array($config->users_avatar_width, $config->users_avatar_height), array("filename"=>"av_".$uid, "watermark"=>false, "modify"=>false));
 			if(isset($av[0])) {
@@ -430,6 +425,11 @@ class ACP_USERS {
 
 				# check_user data
 				$this->check_users_data();
+
+				if($uid == 1) {
+					$POST->status = 1;
+					$POST->title = "a";
+				}
 
 				# password
 				if(isset($POST->password) && trim($POST->password) != "") {
@@ -447,14 +447,16 @@ class ACP_USERS {
 									user_last_name = '".$POST->user_last_name."',
 									user_birthdate = '".$POST->user_birthdate."',
 									user_sex='".$POST->user_sex."',
+									title='".$POST->title."',
+									status='".$POST->status."',
 									date_update='".time()."' 
 								WHERE uid='".$uid."'");
 
 				# Если мы переназначаем группу пользователя
 				if(isset($POST->gid) && $POST->gid != $POST->now_gid) {
 					# пересчитываем пользователей
-					if($POST->gid != 0)	$this->count_users($POST->gid);
-					if($POST->now_gid != 0)	$this->count_users($POST->now_gid);
+					$this->count_users($POST->gid);
+					$this->count_users($POST->now_gid);
 				}
 
 
@@ -476,9 +478,9 @@ class ACP_USERS {
 				if(isset($POST->update_user_ae)) go(CP."?act=users");
 				else go(CP."?act=users&part=edit_user&uid=".$uid);
 			}
-			else goback();
 		}
-		else goback();
+
+		goback();
 	}
 
 
@@ -591,15 +593,17 @@ class ACP_USERS {
 
 		global $db, $logger;
 
-		# count
-		$q = $db->query("SELECT count(*) FROM ".USERS_TABLE." WHERE gid='".$gid."'");
-		$c = $db->fetch_row($q);
+		if($gid != 0 && $db->check_id($gid, USERS_GROUP_TABLE, "gid")) {
+			# count
+			$q = $db->query("SELECT count(*) FROM ".USERS_TABLE." WHERE gid='".$gid."'");
+			$c = $db->fetch_row($q);
 
-		# update
-		$db->query("UPDATE ".USERS_GROUP_TABLE." SET users='".$c[0]."' WHERE gid='".$gid."'");
+			# update
+			$db->query("UPDATE ".USERS_GROUP_TABLE." SET users='".$c[0]."' WHERE gid='".$gid."'");
 
-		# уведомление
-		if(DEBUGMODE) $logger->info("Информация о кол-ве пользователей для группы {$gid} обновлена.");
+			# уведомление
+			$logger->info("Информация о кол-ве пользователей для группы {$gid} обновлена.");
+		}
 	}
 
 
@@ -613,6 +617,12 @@ class ACP_USERS {
 
 		# group
 		$POST->gid = (isset($POST->gid) && $db->check_id($POST->gid, USERS_GROUP_TABLE, "gid")) ? $POST->gid : 0 ;
+
+		# status
+		$POST->status = ((isset($POST->status) && $POST->status == 1)) ? 1 : 0 ;
+
+		# title
+		$POST->title = ((isset($POST->title) && $POST->title == "a")) ? "a" : "u" ;
 
 		# check personal data
 		$users->check_personal_data();

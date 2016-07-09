@@ -5,7 +5,7 @@
  * @author       alex Roosso
  * @copyright    2010-2017 (c) RooCMS
  * @link         http://www.roocms.com
- * @version      3.2.5
+ * @version      3.3
  * @since        $date$
  * @license      http://www.gnu.org/licenses/gpl-3.0.html
  */
@@ -334,12 +334,24 @@ class MySQLiDatabase extends MySQLiExtends {
 	 */
 	public function check_id($id, $table, $field="id", $where="") {
 
+		static $results = array();
+
 		if($field == "id") $id = round($id);
 
 		if(trim($where) != "") $where = " AND ".$where;
 
-		$q = $this->query("SELECT count(*) FROM {$table} WHERE {$field}='{$id}' {$where}");
-		$c = $this->fetch_row($q);
+		# query
+		$query = "SELECT count(*) FROM {$table} WHERE {$field}='{$id}' {$where}";
+		$qhash = md5($query);
+
+		if(!array_key_exists($qhash, $results)) {
+			# check in DB
+			$q = $this->query($query);
+
+			$c = $this->fetch_row($q);
+			$results[$qhash] = $c[0];
+		}
+		else $c[0] = $results[$qhash];
 
                 if($c[0] == 0) return false;
                 else return $c[0];
