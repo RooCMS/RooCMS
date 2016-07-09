@@ -359,6 +359,10 @@ class GD {
 		# vars
         	$fileresize 	= $filename."_resize.".$ext;
 
+		# определяем размер картинки
+		$size = getimagesize($path."/".$fileoriginal);
+		$w = $size[0];
+		$h = $size[1];
 
 		# вводим в память файл для издевательств
 		$src = $this->imgcreate($path."/".$fileresize, $ext);
