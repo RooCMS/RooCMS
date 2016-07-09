@@ -61,7 +61,7 @@ class ACP_BLOCKS_HTML {
 	 */
 	public function create() {
 
-		global $config, $db, $files, $img, $tpl, $smarty, $parse, $logger, $POST;
+		global $config, $db, $files, $img, $tpl, $smarty, $logger, $POST;
 
 
 		# default thumb size
@@ -171,7 +171,7 @@ class ACP_BLOCKS_HTML {
 	 */
 	public function update($id) {
 
-		global $config, $db, $files, $img, $POST, $GET, $parse, $logger;
+		global $config, $db, $files, $img, $POST, $GET, $logger;
 
 		if(isset($POST->update_block)) {
 

@@ -153,7 +153,7 @@ class ACP_STRUCTURE {
 	*/
 	private function create_unit() {
 
-		global $db, $img, $logger, $POST;
+		global $db, $logger, $POST;
 
 		# check unit parametrs
 		$this->check_unit_parametrs();
@@ -258,7 +258,7 @@ class ACP_STRUCTURE {
 	 */
 	private function update_unit($sid) {
 
-		global $db, $img, $logger, $POST;
+		global $db, $logger, $POST;
 
 		# check unit parametrs
 		$this->check_unit_parametrs();

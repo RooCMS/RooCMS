@@ -91,7 +91,7 @@ class PageFeed {
         */
 	private function load_item($id) {
 
-		global $db, $structure, $parse, $files, $img, $tpl, $smarty, $site;
+		global $db, $parse, $files, $img, $tpl, $smarty, $site;
 
 		# query data
 		$q = $db->query("SELECT id, title, meta_description, meta_keywords, full_item, date_publications FROM ".PAGES_FEED_TABLE." WHERE id='".$id."'");

@@ -267,7 +267,7 @@ class Template {
 	*/
 	public function out() {
 
-		global $roocms, $config, $db, $structure, $site, $smarty, $parse, $rss, $debug, $logger;
+		global $roocms, $config, $db, $structure, $site, $smarty, $parse, $rss, $debug;
 
 		# header & footer
 		if(!$roocms->ajax && !$roocms->rss) {

@@ -5,7 +5,7 @@
  * @author       alex Roosso
  * @copyright    2010-2017 (c) RooCMS
  * @link         http://www.roocms.com
- * @version      1.0.1
+ * @version      1.1
  * @since        $date$
  * @license      http://www.gnu.org/licenses/gpl-3.0.html
  */
@@ -92,7 +92,7 @@ class REG {
 	 */
 	private function profile() {
 
-		global $smarty, $tpl;
+		global $tpl;
 
 
 		$tpl->load_template("reg_profile");
@@ -149,18 +149,8 @@ class REG {
 			$salt = $security->create_new_salt();
 			$password = $security->hashing_password($POST->password, $salt);
 
-			# personal data
-			if(!isset($POST->user_name)) 					$POST->user_name = "";
-			if(!isset($POST->user_surname)) 				$POST->user_surname = "";
-			if(!isset($POST->user_last_name)) 				$POST->user_last_name = "";
-
-			if(isset($POST->user_birthdate) && $POST->user_birthdate != "") $POST->user_birthdate = $parse->date->rusint_to_unix($POST->user_birthdate);
-			else 								$POST->user_birthdate = 0;
-
-			if(isset($POST->user_sex) && $POST->user_sex == "m")		$POST->user_sex = "m";
-			elseif(isset($POST->user_sex) && $POST->user_sex == "f")	$POST->user_sex = "f";
-			else								$POST->user_sex = "n";
-
+			# check personal data
+			$users->check_personal_data();
 
 			# activation code
 			$activation = array();

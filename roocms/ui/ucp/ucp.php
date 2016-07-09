@@ -5,7 +5,7 @@
 * @author       alex Roosso
 * @copyright    2010-2017 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.0.4
+* @version      1.0.5
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -136,12 +136,12 @@ class UCP_CP {
 		else $logger->error("Вы не указали псевдоним.");
 
 		# email
-		if(isset($POST->email) && trim($POST->email) != "") {
+		if(isset($POST->email) && trim($POST->email) != "" && $parse->valid_email($POST->email)) {
 			if(!$users->check_field("email", $POST->email, $users->userdata['email']))
 				$logger->error("Указанный email уже существует в Базе Данных!");
 			else	$query .= "email='".$POST->email."', ";
 		}
-		else $logger->info("Вы не указали электронную почту, поэтому мы сохранили ту, что была указана ранее.<br />На эту почту вам будут приходить уведомления с сайта. В случае если вы забудете свой пароль, восстановить его можно будет с помошью указанной почты.");
+		else $logger->info("Вы не указали электронную почту (или указали в некоректном формате), поэтому мы сохранили ту, что была указана ранее.<br />На эту почту вам будут приходить уведомления с сайта. В случае если вы забудете свой пароль, восстановить его можно будет с помошью указанной почты.");
 
 		# personal data
 		$users->check_personal_data();

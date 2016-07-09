@@ -66,7 +66,7 @@ class UCP_SECURITY {
 	 */
 	public function __construct() {
 
-		global $db, $users;
+		global $users;
 
 		if($users->uid != 0) {
 			# check access

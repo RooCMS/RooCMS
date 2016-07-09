@@ -294,7 +294,7 @@ class Users extends Security {
 	 */
 	public function check_personal_data() {
 
-		global $db, $POST, $parse;
+		global $POST, $parse;
 
 		# user name/surname/last_name
 		if(!isset($POST->user_name)) 					$POST->user_name = "";

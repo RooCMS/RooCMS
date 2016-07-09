@@ -5,7 +5,7 @@
 * @author	alex Roosso
 * @copyright	2010-2017 (c) RooCMS
 * @link		http://www.roocms.com
-* @version	1.12
+* @version	1.12.1
 * @since	$date$
 * @license	http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -359,10 +359,6 @@ class GD {
 		# vars
         	$fileresize 	= $filename."_resize.".$ext;
 
-		# определяем размер картинки
-		$size = getimagesize($path."/".$fileresize);
-		$w = $size[0];
-		$h = $size[1];
 
 		# вводим в память файл для издевательств
 		$src = $this->imgcreate($path."/".$fileresize, $ext);

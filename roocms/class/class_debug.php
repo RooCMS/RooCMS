@@ -309,8 +309,6 @@ class Debug {
 				$var = (array) $var;
 			}
 
-			//if($expand) 	var_dump($var);
-			//else
 			print_r($var);
 
 			$output = ob_get_contents();

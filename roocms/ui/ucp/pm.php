@@ -121,7 +121,7 @@ class UCP_PM {
 	 */
 	private function read() {
 
-		global $structure, $db, $GET, $users, $parse, $tpl, $smarty;
+		global $db, $GET, $users, $parse, $tpl, $smarty;
 
 		if(isset($GET->_id) && $db->check_id($GET->_id, USERS_PM_TABLE, "id", "to_uid='".$users->uid."'")) {
 
@@ -154,7 +154,7 @@ class UCP_PM {
 	 */
 	private function write() {
 
-		global $structure, $db, $users, $tpl, $smarty;
+		global $structure, $users, $tpl, $smarty;
 
 		# breadcumb
 		$structure->breadcumb[] = array('part'=>'write', 'act' => 'pm', 'title'=>'Новое сообщение');
