@@ -360,7 +360,7 @@ class GD {
         	$fileresize 	= $filename."_resize.".$ext;
 
 		# определяем размер картинки
-		$size = getimagesize($path."/".$fileoriginal);
+		$size = getimagesize($path."/".$fileresize);
 		$w = $size[0];
 		$h = $size[1];
 
