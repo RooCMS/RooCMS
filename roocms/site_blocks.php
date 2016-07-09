@@ -112,10 +112,10 @@ class Blocks {
 				$use_blocks[$id] = $output;
 			}
 			else {
-				if(DEBUGMODE) {
+				if(DEBUGMODE)
 					$output = "Блок с ID или ALIAS - \"".$id."\" не найден";
-				}
 			}
+
                 }
                 else $output = $use_blocks[$id];
 

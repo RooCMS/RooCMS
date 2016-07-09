@@ -57,6 +57,7 @@ if(!defined('RooCMS')) die('Access Denied');
  */
 class MySQLiDatabase extends MySQLiExtends {
 
+	# obj
 	private $sql;
 
 	public	$db_connect 	= false;	# [bool]	Флаг состояния подключения к БД
@@ -179,7 +180,7 @@ class MySQLiDatabase extends MySQLiExtends {
 			$query = $this->sql->query($q) or die ($this->error($q));
 
 			# Считаем запросы
-			if(DEBUGMODE || defined('ACP')) $this->cnt_querys++;
+			$this->cnt_querys++;
 
 			# Выводим информацию по всем запросам
 			if($debug->show_debug) {
@@ -344,6 +345,7 @@ class MySQLiDatabase extends MySQLiExtends {
 		$query = "SELECT count(*) FROM {$table} WHERE {$field}='{$id}' {$where}";
 		$qhash = md5($query);
 
+		$c = array();
 		if(!array_key_exists($qhash, $results)) {
 			# check in DB
 			$q = $this->query($query);

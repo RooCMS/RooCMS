@@ -82,9 +82,8 @@ class Modules {
 
 		}
 		else {
-			if(DEBUGMODE) {
+			if(DEBUGMODE) 
 				$output = "Модуль с названием - \"".$modulename."\" не найден";
-			}
 		}
 
 
