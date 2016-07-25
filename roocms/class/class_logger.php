@@ -62,7 +62,7 @@ class Logger {
 	/**
 	 * Logger constructor.
 	 */
-	function __construct() {
+	public function __construct() {
 		# регистрируем обработчик записи логов
 		register_shutdown_function(array($this,'save'));
 	}

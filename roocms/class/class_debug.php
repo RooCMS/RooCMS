@@ -406,7 +406,6 @@ class Debug {
  * Синоним $Debug->debug();
  *
  * @param mixed $obj
- * @param mixed $expand
  *
  * @example debug($var);
  */
