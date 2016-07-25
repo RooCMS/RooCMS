@@ -5,7 +5,7 @@
 * @author	alex Roosso
 * @copyright	2010-2017 (c) RooCMS
 * @link		http://www.roocms.com
-* @version	4.6.2
+* @version	4.6.3
 * @since	$date$
 * @license	http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -342,9 +342,6 @@ class Template {
 
 		# secure
 		unset($_GET);
-
-		# Close connection to DB (recommended)
-		$db->close();
 	}
 }
 

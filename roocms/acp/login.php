@@ -59,7 +59,7 @@ class ACP_LOGIN {
 	 */
 	public function __construct() {
 
-		global $db, $POST, $security, $smarty, $tpl, $site;
+		global $db, $POST, $security, $smarty, $tpl, $site, $logger;
 
 
 		$smarty->assign("site", $site);
@@ -75,21 +75,24 @@ class ACP_LOGIN {
 
 			if($dbpass == $data['password']) {
 
-				# @include session security_check hash
-
 				$_SESSION['uid'] 	= $data['uid'];
 				$_SESSION['login'] 	= $data['login'];
 				$_SESSION['title'] 	= $data['title'];
 				$_SESSION['nickname'] 	= $data['nickname'];
 				$_SESSION['token'] 	= $security->hashing_token($data['login'], $dbpass, $data['salt']);
 
-				$smarty->assign("error_login", "");
+				# log
+				$logger->log("Успешная авторизация под логином: ".$POST->login);
 
+				# go
 				goback();
 			}
 			else {
 				# неверный логин или пароль
 				$this->incorrect_entering("Неверный логин или пароль.");
+
+				# log
+				$logger->log("Попытка авторизации - логин: ".$POST->login." пароль: *".mb_strlen($POST->password)." символов*");
 			}
 		}
 

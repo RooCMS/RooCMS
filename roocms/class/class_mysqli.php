@@ -5,7 +5,7 @@
  * @author       alex Roosso
  * @copyright    2010-2017 (c) RooCMS
  * @link         http://www.roocms.com
- * @version      3.3
+ * @version      3.3.1
  * @since        $date$
  * @license      http://www.gnu.org/licenses/gpl-3.0.html
  */
@@ -59,6 +59,8 @@ class MySQLiDatabase extends MySQLiExtends {
 
 	# obj
 	private $sql;
+
+	private	$querys = array();
 
 	public	$db_connect 	= false;	# [bool]	Флаг состояния подключения к БД
 	public	$cnt_querys 	= 0;		# [int] 	Счетчик запросов в БД
@@ -181,6 +183,9 @@ class MySQLiDatabase extends MySQLiExtends {
 
 			# Считаем запросы
 			$this->cnt_querys++;
+
+			# сохраняем информацию о запросах
+			$this->querys[] = $q;
 
 			# Выводим информацию по всем запросам
 			if($debug->show_debug) {

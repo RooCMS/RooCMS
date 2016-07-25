@@ -5,7 +5,7 @@
 * @author	alex Roosso
 * @copyright	2010-2017 (c) RooCMS
 * @link		http://www.roocms.com
-* @version	2.3.1
+* @version	2.3.2
 * @since	$date$
 * @license	http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -237,7 +237,7 @@ class Debug {
 		# Не будем ничего выводить, если нам приказано скрыть ошибки.
 		if(error_reporting() == 0) {
         	        if($erlevel == 0) die(CRITICAL_STYLESHEETS."<blockquote>Извините, что то пошло не так. Мы уже работаем над устранением причин.<small>".$time."</small></blockquote>");
-        	        else return;
+        	        //else return;
 		}
 
                 echo CRITICAL_STYLESHEETS."
@@ -410,9 +410,9 @@ class Debug {
  *
  * @example debug($var);
  */
-function debug($obj, $expand=false) {
+function debug($obj) {
 	global $debug;
-	$debug->godebug($obj, $expand);
+	$debug->godebug($obj);
 }
 
 ?>

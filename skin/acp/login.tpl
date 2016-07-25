@@ -17,7 +17,7 @@ body {overflow: hidden;background: transparent url('{/literal}{$SKIN}{literal}/i
 						<img src="{$SKIN}/img/logo_login.png" border="0" alt="Добро пожаловать в Панель Администратора RooCMS" title="Добро пожаловать в Панель Администратора RooCMS">
 					</div>
 					<div class="modal-body text-center bg_login">
-            				{if !empty($error_login)}
+            				{if isset($error_login)}
 		    				<div class="alert alert-danger t12 text-left in fade">
 		    					<a href="#" class="close" data-dismiss="alert">&times;</a>
 							<b>Внимание ошибка!</b>

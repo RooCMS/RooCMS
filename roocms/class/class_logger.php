@@ -5,7 +5,7 @@
  * @author       alex Roosso
  * @copyright    2010-2017 (c) RooCMS
  * @link         http://www.roocms.com
- * @version      1.0
+ * @version      1.0.1
  * @since        $date$
  * @license      http://www.gnu.org/licenses/gpl-3.0.html
  */
@@ -123,6 +123,9 @@ class Logger {
 
 			$db->query("INSERT INTO ".LOG_TABLE." (uid, message, type_log, date_log) VALUES ".$dump);
 		}
+
+		# Close connection to DB (recommended)
+		$db->close();
 	}
 }
 

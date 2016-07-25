@@ -318,7 +318,7 @@ class Files {
 						    VALUES ('".$attached."', '".$fileinfo['filename']."', '".$fileinfo['extension']."')");
 
 		# msg
-		$logger->log("Изображение ".$filename." успешно загружено на сервер");
+		$logger->log("Файл ".$filename." успешно загружен на сервер");
 	}
 
 
