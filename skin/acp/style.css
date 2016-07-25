@@ -58,7 +58,7 @@ input:focus:invalid {
 .navbar-collapse {
   max-height: none !important;
 }
-.alert {
+.notice {
   margin-top: -10px;
 }
 .footer {

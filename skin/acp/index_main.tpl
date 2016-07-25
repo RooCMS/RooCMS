@@ -1,5 +1,19 @@
 {* Разные предупреждения *}
+<div class="row">
+	<div class="col-sm-12">
+		{if isset($warning_subj) && !empty($warning_subj)}
+			{foreach from=$warning_subj item=text}
+				<div class="alert alert-danger">
+					<i class="fa fa-fw fa-exclamation-circle"></i> {$text}
+				</div>
+			{/foreach}
+		{/if}
+	</div>
+</div>
+
+
 <div class="panel panel-default">
+
 	<div class="panel-heading">
 		Сводка по сайту
 	</div>
@@ -13,13 +27,6 @@
 		</tr>
 		</thead>
 		<tbody>
-		{if isset($warning_subj) && !empty($warning_subj)}
-			{foreach from=$warning_subj item=text}
-				<tr class="danger">
-					<td colspan="2" class="text-danger">{$text}</td>
-				</tr>
-			{/foreach}
-		{/if}
 		<tr>
 			<td>Ваша версия RooCMS:</td>
 			<td>{$info['roocms']}</td>

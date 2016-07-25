@@ -43,13 +43,13 @@
 {if isset($cpmenu)}{$cpmenu}{/if}
 
 {if trim($error) != ""}
-	<div class="alert alert-danger t12 text-left in fade" role="alert">
+	<div class="alert alert-danger t12 text-left in fade notice" role="alert">
 		<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
 		{$error}
 	</div>
 {/if}
 {if trim($info) != ""}
-	<div class="alert alert-info t12 text-left in fade notification-info" role="alert">
+	<div class="alert alert-info t12 text-left in fade notification-info notice" role="alert">
 		<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
 		{$info}
 	</div>
