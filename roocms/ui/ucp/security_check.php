@@ -1,18 +1,8 @@
 <?php
 /**
- * @package      RooCMS
- * @subpackage	 User Control Panel
- * @author       alex Roosso
- * @copyright    2010-2017 (c) RooCMS
- * @link         http://www.roocms.com
- * @version      1.0.1
- * @since        $date$
- * @license      http://www.gnu.org/licenses/gpl-3.0.html
- */
-
-/**
  *   RooCMS - Russian free content managment system
- *   Copyright (C) 2010-2017 alex Roosso aka alexandr Belov info@roocms.com
+ *   Copyright © 2010-2017 alexandr Belov aka alex Roosso. All rights reserved.
+ *   Contacts: <info@roocms.com>
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -28,8 +18,9 @@
  *   along with this program.  If not, see http://www.gnu.org/licenses/
  *
  *
- *   RooCMS - Русская бесплатная система управления сайтом
- *   Copyright (C) 2010-2017 alex Roosso (александр Белов) info@roocms.com
+ *   RooCMS - Русская бесплатная система управления контентом
+ *   Copyright © 2010-2017 александр Белов (alex Roosso). Все права защищены.
+ *   Для связи: <info@roocms.com>
  *
  *   Это программа является свободным программным обеспечением. Вы можете
  *   распространять и/или модифицировать её согласно условиям Стандартной
@@ -44,6 +35,18 @@
  *   Вы должны были получить копию Стандартной Общественной Лицензии GNU вместе
  *   с программой. В случае её отсутствия, посмотрите http://www.gnu.org/licenses/
  */
+
+/**
+ * @package      RooCMS
+ * @subpackage	 User Control Panel
+ * @author       alex Roosso
+ * @copyright    2010-2017 (c) RooCMS
+ * @link         http://www.roocms.com
+ * @version      1.0.1
+ * @since        $date$
+ * @license      http://www.gnu.org/licenses/gpl-3.0.html
+ */
+
 
 //#########################################################
 // Anti Hack
