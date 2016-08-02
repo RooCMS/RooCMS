@@ -11,7 +11,7 @@
 			<th width="46%">Название <small>alias</small></th>
 			<th width="11%"></th>
 			<th width="10%" class="text-center">Тип</th>
-			<th width="30%">Опции</th>
+			<th width="30%" class="text-right">Опции</th>
 		</tr>
 	</thead>
 	<tbody>
@@ -28,7 +28,7 @@
 					<small>{$feed['items']} элемент{if $feed['items']!=1 && $feed['items'] > 4}ов{/if}{if $feed['items'] >= 2 && $feed['items'] <= 4}а{/if}</small>
 				</td>
 				<td class="text-center"><span class="label label-default">{$feed['ptype']}</span></td>
-				<td>
+				<td class="text-right">
 					<div class="btn-group">
 					<a href="{$SCRIPT_NAME}?act=feeds&part=control&page={$feed['id']}" class="btn btn-xs btn-default"><span class="fa fa-book fa-fw"></span><span class="hidden-sm hidden-md">Управление</span></a>
 					<a href="{$SCRIPT_NAME}?act=feeds&part=settings&page={$feed['id']}" class="btn btn-xs btn-default"><span class="fa fa-cog fa-fw"></span><span class="hidden-sm hidden-md">Настройки</span></a>

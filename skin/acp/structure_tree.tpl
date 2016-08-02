@@ -9,7 +9,7 @@
 			<th width="3%">ID</th>
 			<th width="56%">Название <small>alias</small></th>
 			<th width="11%" class="text-center">Тип</th>
-			<th width="30%">Опции</th>
+			<th width="30%" class="text-right">Опции</th>
 		</tr>
 	</thead>
 	<tbody>
@@ -35,7 +35,7 @@
 				<span class="label label-info">{$page['items']} эл.</span>
 				{/if}
 			</td>
-			<td>
+			<td class="text-right">
 				<div class="btn-group">
 					<a href="{$SCRIPT_NAME}?act=structure&part=edit&id={$page['id']}" class="btn btn-xs btn-default"><span class="fa fa-pencil-square-o fa-fw"></span><span class="hidden-sm">Редактировать</span></a>
 					{if $page['id'] != 1}<a href="{$SCRIPT_NAME}?act=structure&part=delete&id={$page['id']}" class="btn btn-xs btn-danger"><span class="fa fa-trash-o fa-fw"></span><span class="hidden-sm">Удалить</span></a>{/if}

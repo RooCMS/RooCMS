@@ -11,7 +11,7 @@
 			<th width="46%">Название <small>alias</small></th>
 			<th width="11%">Тип</th>
 			<th width="10%">Дата редактирования</th>
-			<th width="30%">Опции</th>
+			<th width="30%" class="text-right">Опции</th>
 		</tr>
 	</thead>
 	<tbody>
@@ -25,7 +25,7 @@
 			</td>
 			<td class="text-left"><span class="label label-default">{$page['ptype']}</span></td>
 			<td class="small">{$page['lm']}</td>
-			<td>
+			<td class="text-right">
 				<div class="btn-group">
 					<a href="{$SCRIPT_NAME}?act=pages&part=edit&page={$page['sid']}" class="btn btn-xs btn-default"><span class="fa fa-pencil-square-o fa-fw"></span><span class="hidden-sm">Редактировать</span></a>
 					{if $page['sid'] != 1}<a href="{$SCRIPT_NAME}?act=structure&part=delete&id={$page['sid']}" class="btn btn-xs btn-danger"><span class="fa fa-trash-o fa-fw"></span><span class="hidden-sm">Удалить</span></a>{/if}

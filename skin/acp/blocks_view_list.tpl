@@ -15,7 +15,7 @@
 			<th width="10%">Alias</th>
 			<th width="47%">Название</th>
 			<th width="10%">Тип</th>
-			<th width="30%">Опции</th>
+			<th width="30%" class="text-right">Опции</th>
 		</tr>
 		</thead>
 		<tbody>
@@ -25,7 +25,7 @@
 				<td>{$block['alias']}</td>
 				<td><a href="{$SCRIPT_NAME}?act=blocks&part=edit&block={$block['id']}">{$block['title']}</a></td>
 				<td><span class="label label-primary upper">{$block['block_type']}</span></td>
-				<td>
+				<td class="text-right">
 					<div class="btn-group">
 						<a href="{$SCRIPT_NAME}?act=blocks&part=edit&block={$block['id']}" class="btn btn-xs btn-default"><span class="fa fa-pencil-square-o fa-fw"></span><span class="hidden-sm">Редактировать</span></a>
 						<a href="{$SCRIPT_NAME}?act=blocks&part=delete&block={$block['id']}" class="btn btn-xs btn-danger"><span class="fa fa-trash-o fa-fw"></span><span class="hidden-sm">Удалить</span></a>

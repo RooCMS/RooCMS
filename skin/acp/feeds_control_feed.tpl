@@ -18,7 +18,7 @@
 			<th width="55%" style="padding-left: 30px;">Заголовок</th>
 			<th width="10%">Дата публикации</th>
 			<th width="10%">Дата посл.изменений</th>
-			<th width="25%">Опции</th>
+			<th width="25%" class="text-right">Опции</th>
 		</tr>
 		</thead>
 		<tbody>
@@ -32,7 +32,7 @@
 				</td>
 				<td class="small">c {$item['date_publications']}{if $item['date_end_publications'] != 0}<br />по {$item['date_end_publications']}{/if}</td>
 				<td class="small">{$item['date_update']}</td>
-				<td>
+				<td class="text-right">
 					<div class="btn-group">
 						<a href="{$SCRIPT_NAME}?act=feeds&part=edit_item&page={$feed['id']}&item={$item['id']}" class="btn btn-xs btn-default"><span class="fa fa-pencil-square-o fa-fw"></span>Редактировать</a>
 						<a href="{$SCRIPT_NAME}?act=feeds&part=migrate_item&page={$feed['id']}&item={$item['id']}" class="btn btn-xs btn-default"><span class="fa fa-random fa-fw" rel="tooltip" data-toggle="tooltip" data-placement="top" title="Переместить публикацию"></span></a>
