@@ -28,8 +28,13 @@ Options All -ExecCGI -Indexes -Includes +FollowSymLinks
 	# RewriteRule \.css$ plugin/GzipFile.php?file=$1
 	# RewriteRule \.js$ plugin/GzipFile.php?file=$1
 </IfModule>
+# Маска
 # RedirectMatch 301 /blog(.*) http://www.roocms.com/$1
+# Без маски
 # Redirect 301 /index.html /index.php
+
+# Если страница удалена, сообщим поисковику.
+# Redirect 410 /index.html
 
 # SECURE ____________________
 <IfModule mod_ssl.c>
@@ -60,7 +65,7 @@ Options All -ExecCGI -Indexes -Includes +FollowSymLinks
 	# Блокировать любой запрос, пытающийся изменить _REQUEST переменную через URL
 	RewriteCond %{QUERY_STRING} _REQUEST(=|\[|\%[0-9A-Z]{0,2})
 	# Перенаправлять заблокированные запросы
-	RewriteRule .* index.php [F]
+	# RewriteRule .* index.php [F]
 
 	# и запрошенный путь не соответствует пути к физическому файлу
 	RewriteCond %{REQUEST_FILENAME} !-f
@@ -305,12 +310,12 @@ ErrorDocument 409 /index.php?page=e409
 # Request URI Too Long
 ErrorDocument 414 /index.php?page=e414
 # Internal Server Erro
-ErrorDocument 500 /e/e500.html
+ErrorDocument 500 /e/500.html
 # Not Implemented
-ErrorDocument 501 /e/e501.html
+ErrorDocument 501 /e/501.html
 # Bad Gateway
-ErrorDocument 502 /e/e502.html
+ErrorDocument 502 /e/502.html
 # Service Unavailable
-ErrorDocument 503 /e/e503.html
+ErrorDocument 503 /e/503.html
 # Gateway Timeout
-ErrorDocument 504 /e/e504.html
+ErrorDocument 504 /e/504.html
