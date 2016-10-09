@@ -158,7 +158,7 @@ class ACP_FEEDS_FEED {
 					WHERE
 						id='".$this->feed['id']."'");
 
-			$logger->info("Настройки успешно обновлены");
+			$logger->info("Настройки успешно обновлены.");
 		}
 
 		# переход
