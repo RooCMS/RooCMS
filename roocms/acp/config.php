@@ -43,7 +43,7 @@
 * @author       alex Roosso
 * @copyright    2010-2017 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.2.6
+* @version      1.2.7
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -311,7 +311,7 @@ class ACP_CONFIG {
 						$image = $img->upload_image("image_".$key, "", array(), array("filename"=>$key, "watermark"=>false, "modify"=>false, "noresize"=>true));
 
 						if(isset($image[0])) {
-							if($value != "" || $value != $image[0]) unlink(_UPLOADIMAGES."/".$value);
+							if($value != "" && $value != $image[0]) unlink(_UPLOADIMAGES."/".$value);
 							$value = $image[0];
 							$check = true;
 						}
