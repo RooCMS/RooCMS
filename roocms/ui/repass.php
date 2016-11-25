@@ -188,7 +188,7 @@ class REPASS {
 			$userdata = $db->fetch_assoc($q);
 
 			# update
-			$db->query("UPDATE ".USERS_TABLE." SET salt='".$salt."', password='".$pass."', secret_key='', last_visit='".time()."' WHERE email='".$POST->email."'");
+			$db->query("UPDATE ".USERS_TABLE." SET salt='".$salt."', password='".$password."', secret_key='', last_visit='".time()."' WHERE email='".$POST->email."'");
 
 
 			# Уведомление пользователю на электропочту
