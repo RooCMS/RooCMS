@@ -27,7 +27,7 @@
 	<div class="row">
 		<div class="col-sm-12 text-right">
 			<a href="/index.php?part=reg" class="btn btn-xs btn-link" style="margin-right: 59px;"><i class="fa fa-fw fa-key"></i>Регистрация</a>
-			<a href="/index.php?#" class="btn btn-xs btn-link" style="margin-right: 35px;"><i class="fa fa-fw fa-question-circle-o"></i>Забыли пароль</a>
+			<a href="/index.php?part=repass" class="btn btn-xs btn-link" style="margin-right: 35px;"><i class="fa fa-fw fa-question-circle-o"></i>Забыли пароль</a>
 		</div>
 	</div>
 

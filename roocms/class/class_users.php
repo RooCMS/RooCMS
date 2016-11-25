@@ -42,7 +42,7 @@
  * @author       alex Roosso
  * @copyright    2010-2017 (c) RooCMS
  * @link         http://www.roocms.com
- * @version      1.3
+ * @version      1.3.1
  * @since        $date$
  * @license      http://www.gnu.org/licenses/gpl-3.0.html
  */
@@ -199,10 +199,10 @@ class Users extends Security {
 	 */
 	private function update_user_time_last_visit($uid) {
 
-		global $db;
+		global $db, $roocms;
 
 		# update time last visited
-		$db->query("UPDATE ".USERS_TABLE." SET last_visit='".time()."' WHERE uid='".$uid."' AND status='1'");
+		$db->query("UPDATE ".USERS_TABLE." SET last_visit='".time()."', user_ip='".$roocms->userip."' WHERE uid='".$uid."' AND status='1'");
 	}
 
 

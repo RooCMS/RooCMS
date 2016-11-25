@@ -17,7 +17,7 @@
 
 			<div class="form-group">
 				<label for="inputActivationCode" class="col-lg-4 control-label">
-					Пароль:  <small><span class="fa fa-question-circle fa-fw" rel="tooltip" title="Код активации аккаунта" data-placement="left"></span></small>
+					Код активации:  <small><span class="fa fa-question-circle fa-fw" rel="tooltip" title="Код активации аккаунта" data-placement="left"></span></small>
 				</label>
 				<div class="col-lg-8">
 					<input type="text" name="code" id="inputActivationCode" class="form-control"  pattern="^[\d\D]{literal}{5,}{/literal}" required value="{$code}">
