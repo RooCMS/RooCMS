@@ -42,7 +42,7 @@
  * @author       alex Roosso
  * @copyright    2010-2016 (c) RooCMS
  * @link         http://www.roocms.com
- * @version      1.1.9
+ * @version      1.1.10
  * @since        $date$
  * @license      http://www.gnu.org/licenses/gpl-3.0.html
  */
@@ -55,16 +55,18 @@ if(!defined('RooCMS')) die('Access Denied');
 //#########################################################
 
 /**
-* Folders
-*
-* @var array
-*/
+ * Folders
+ *
+ * @var array
+ */
 $protectfolder = array();
 $protectfolder[] = array('path'	=> _ROOCMS,		'chmod'	=> '0755');
 $protectfolder[] = array('path'	=> _ROOCMS.'/config',	'chmod'	=> '0755');
 $protectfolder[] = array('path'	=> _CLASS,		'chmod'	=> '0755');
 $protectfolder[] = array('path'	=> _ROOCMS.'/acp',	'chmod'	=> '0755');
 $protectfolder[] = array('path'	=> _LIB,		'chmod'	=> '0755');
+$protectfolder[] = array('path'	=> _MODULE,		'chmod'	=> '0755');
+$protectfolder[] = array('path'	=> _UI,			'chmod'	=> '0755');
 $protectfolder[] = array('path'	=> _SKIN,		'chmod'	=> '0755');
 $protectfolder[] = array('path'	=> _ACPSKIN,		'chmod'	=> '0755');
 $protectfolder[] = array('path'	=> _UPLOAD,		'chmod'	=> '0755');
@@ -78,10 +80,10 @@ $protectfolder[] = array('path'	=> _SITEROOT.'/plugin',	'chmod'	=> '0755');
 
 
 /**
-* Files
-*
-* @var array
-*/
+ * Files
+ *
+ * @var array
+ */
 $protectfiles = array();
 if(defined('INSTALL')) 	$protectfiles[]	= array('path'	=> _ROOCMS.'/config/config.php',	'chmod'	=> '0755',	'hash'	=> '');
 else			$protectfiles[]	= array('path'	=> _ROOCMS.'/config/config.php',	'chmod'	=> '0644',	'hash'	=> '');
@@ -89,9 +91,10 @@ $protectfiles[]	= array('path'	=> _ROOCMS.'/config/defines.php',	'chmod'	=> '064
 $protectfiles[]	= array('path'	=> _ROOCMS.'/config/set.cfg.php',	'chmod'	=> '0644',	'hash'	=> '');
 $protectfiles[]	= array('path'	=> _CLASS.'/class_debug.php',		'chmod'	=> '0644',	'hash'	=> '');
 $protectfiles[]	= array('path'	=> _CLASS.'/class_files.php',		'chmod'	=> '0644',	'hash'	=> '');
-$protectfiles[]	= array('path'	=> _CLASS.'/class_images.php',		'chmod'	=> '0644',	'hash'	=> '');
 $protectfiles[]	= array('path'	=> _CLASS.'/class_gd.php',		'chmod'	=> '0644',	'hash'	=> '');
 $protectfiles[]	= array('path'	=> _CLASS.'/class_global.php',		'chmod'	=> '0644',	'hash'	=> '');
+$protectfiles[]	= array('path'	=> _CLASS.'/class_images.php',		'chmod'	=> '0644',	'hash'	=> '');
+$protectfiles[]	= array('path'	=> _CLASS.'/class_logger.php',		'chmod'	=> '0644',	'hash'	=> '');
 $protectfiles[]	= array('path'	=> _CLASS.'/class_mysqli_ext.php',	'chmod'	=> '0644',	'hash'	=> '');
 $protectfiles[]	= array('path'	=> _CLASS.'/class_mysqli.php',		'chmod'	=> '0644',	'hash'	=> '');
 $protectfiles[]	= array('path'	=> _CLASS.'/class_parser.php',		'chmod'	=> '0644',	'hash'	=> '');
@@ -121,22 +124,24 @@ $protectfiles[]	= array('path'	=> _ROOCMS.'/acp/pages_php.php',	'chmod'	=> '0644
 $protectfiles[]	= array('path'	=> _ROOCMS.'/acp/security_check.php',	'chmod'	=> '0644',	'hash'	=> '');
 $protectfiles[]	= array('path'	=> _ROOCMS.'/acp/structure.php',	'chmod'	=> '0644',	'hash'	=> '');
 $protectfiles[]	= array('path'	=> _ROOCMS.'/acp/users.php',		'chmod'	=> '0644',	'hash'	=> '');
-$protectfiles[]	= array('path'	=> _ROOCMS.'/ucp/login.php',		'chmod'	=> '0644',	'hash'	=> '');
-$protectfiles[]	= array('path'	=> _ROOCMS.'/ucp/logout.php',		'chmod'	=> '0644',	'hash'	=> '');
-$protectfiles[]	= array('path'	=> _ROOCMS.'/ucp/pm.php',		'chmod'	=> '0644',	'hash'	=> '');
-$protectfiles[]	= array('path'	=> _ROOCMS.'/ucp/security_check.php',	'chmod'	=> '0644',	'hash'	=> '');
-$protectfiles[]	= array('path'	=> _ROOCMS.'/ucp/ucp.php',		'chmod'	=> '0644',	'hash'	=> '');
-$protectfiles[]	= array('path'	=> _ROOCMS.'/module/auth.php',		'chmod'	=> '0644',	'hash'	=> '');
+$protectfiles[]	= array('path'	=> _UI.'/ucp/login.php',		'chmod'	=> '0644',	'hash'	=> '');
+$protectfiles[]	= array('path'	=> _UI.'/ucp/logout.php',		'chmod'	=> '0644',	'hash'	=> '');
+$protectfiles[]	= array('path'	=> _UI.'/ucp/pm.php',			'chmod'	=> '0644',	'hash'	=> '');
+$protectfiles[]	= array('path'	=> _UI.'/ucp/security_check.php',	'chmod'	=> '0644',	'hash'	=> '');
+$protectfiles[]	= array('path'	=> _UI.'/ucp/ucp.php',			'chmod'	=> '0644',	'hash'	=> '');
+$protectfiles[]	= array('path'	=> _UI.'/reg.php',			'chmod'	=> '0644',	'hash'	=> '');
+$protectfiles[]	= array('path'	=> _UI.'/ucp.php',			'chmod'	=> '0644',	'hash'	=> '');
+$protectfiles[]	= array('path'	=> _MODULE.'/auth.php',			'chmod'	=> '0644',	'hash'	=> '');
 $protectfiles[]	= array('path'	=> _ROOCMS.'/acp.php',			'chmod'	=> '0644',	'hash'	=> '');
-$protectfiles[]	= array('path'	=> _ROOCMS.'/ucp.php',			'chmod'	=> '0644',	'hash'	=> '');
 $protectfiles[]	= array('path'	=> _ROOCMS.'/functions.php',		'chmod'	=> '0644',	'hash'	=> '');
+$protectfiles[]	= array('path'	=> _ROOCMS.'/init.php',			'chmod'	=> '0644',	'hash'	=> '');
+$protectfiles[]	= array('path'	=> _ROOCMS.'/site.php',			'chmod'	=> '0644',	'hash'	=> '');
 $protectfiles[]	= array('path'	=> _ROOCMS.'/site_blocks.php',		'chmod'	=> '0644',	'hash'	=> '');
 $protectfiles[]	= array('path'	=> _ROOCMS.'/site_module.php',		'chmod'	=> '0644',	'hash'	=> '');
 $protectfiles[]	= array('path'	=> _ROOCMS.'/site_page_feed.php',	'chmod'	=> '0644',	'hash'	=> '');
 $protectfiles[]	= array('path'	=> _ROOCMS.'/site_page_html.php',	'chmod'	=> '0644',	'hash'	=> '');
 $protectfiles[]	= array('path'	=> _ROOCMS.'/site_page_php.php',	'chmod'	=> '0644',	'hash'	=> '');
-$protectfiles[]	= array('path'	=> _ROOCMS.'/init.php',			'chmod'	=> '0644',	'hash'	=> '');
-$protectfiles[]	= array('path'	=> _ROOCMS.'/site.php',			'chmod'	=> '0644',	'hash'	=> '');
+$protectfiles[]	= array('path'	=> _ROOCMS.'/ui.php',			'chmod'	=> '0644',	'hash'	=> '');
 $protectfiles[]	= array('path'	=> _LIB.'/files_protected.php',		'chmod'	=> '0644',	'hash'	=> '');
 $protectfiles[]	= array('path'	=> _LIB.'/mimetype.php',		'chmod'	=> '0644',	'hash'	=> '');
 $protectfiles[]	= array('path'	=> _LIB.'/mysql_schema.php',		'chmod'	=> '0644',	'hash'	=> '');

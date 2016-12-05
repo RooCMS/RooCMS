@@ -296,9 +296,11 @@ class Template {
 			$smarty->assign("jscript",	$this->js);
 
 			# noindex for robots
+			$noindex = 0;
 			if(isset($structure->page_noindex))
-				$smarty->assign("noindex",	$structure->page_noindex);
+				$noindex = $structure->page_noindex;
 
+			$smarty->assign("noindex",	$noindex);
 			$smarty->assign("error",	$parse->error);
 			$smarty->assign("info",		$parse->info);
 
