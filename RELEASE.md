@@ -1,4 +1,4 @@
-Version: 1.2 RC 2
+Version: 1.2 RC 2 alpha
 ========================
 **release date:	14.10.2016**
 
