@@ -43,7 +43,7 @@
  * @author       alex Roosso
  * @copyright    2010-2017 (c) RooCMS
  * @link         http://www.roocms.com
- * @version      1.4.1
+ * @version      1.4.2
  * @since        $date$
  * @license      http://www.gnu.org/licenses/gpl-3.0.html
  */
@@ -456,7 +456,7 @@ class ACP_USERS {
 								WHERE uid='".$uid."'");
 
 				# Если мы переназначаем группу пользователя
-				if(isset($POST->gid) && $POST->gid != $POST->now_gid) {
+				if(isset($POST->gid) && isset($POST->now_gid)  && $POST->gid != $POST->now_gid) {
 					# пересчитываем пользователей
 					$this->count_users($POST->gid);
 					$this->count_users($POST->now_gid);
