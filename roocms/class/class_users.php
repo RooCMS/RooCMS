@@ -137,28 +137,20 @@ class Users extends Security {
 
 			# uid
 			$this->uid	= $data['uid'];
-
 			# gid
 			$this->gid	= $data['gid'];
-
 			# gtitle
 			$this->gtitle	= $data['gtitle'];
-
 			# login
 			$this->login	= $data['login'];
-
 			# title
 			$this->title	= $data['title'];
-
 			# nickname
 			$this->nickname	= $data['nickname'];
-
 			# avatar
 			$this->avatar	= $data['avatar'];
-
 			# email
 			$this->email	= $data['email'];
-
 			# ban
 			$this->ban		= $data['ban'];
 			$this->ban_reason	= $data['ban_reason'];

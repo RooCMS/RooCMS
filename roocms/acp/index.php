@@ -42,7 +42,7 @@
 * @author       alex Roosso
 * @copyright    2010-2017 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      2.2.2
+* @version      2.3
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -63,7 +63,7 @@ class ACP_INDEX {
 	 */
 	public function __construct() {
 
-		global $roocms, $tpl;
+		global $roocms, $smarty, $tpl;
 
 		switch($roocms->part) {
 			case 'serverinfo':
@@ -95,6 +95,12 @@ class ACP_INDEX {
 				break;
 		}
 
+		$warning_subj = array();
+		if(file_exists(_SITEROOT."/install/index.php")) $warning_subj[] = "Инсталятор RooCMS находится в корне сайта. В целях безопастности следует удалить инсталятор!";
+
+
+		$smarty->assign('warning_subj',	$warning_subj);
+
 		# load template
 		$tpl->load_template("index");
 	}
@@ -106,13 +112,15 @@ class ACP_INDEX {
 	 */
 	private function main() {
 
-		global $tpl, $smarty;
-
-		$warning_subj = array();
-		if(file_exists(_SITEROOT."/install/index.php")) $warning_subj[] = "Инсталятор RooCMS находится в корне сайта. В целях безопастности следует удалить инсталятор!";
+		global $site, $config, $tpl, $smarty;
 
 		$info = array();
-		$info['roocms'] = ROOCMS_VERSION;
+		$info['sitetitle']	= $config->site_title;
+		$info['sitedomain']	= $site['domain'];
+		$info['email']		= $config->cp_email;
+		$info['sysemail']	= $site['sysemail'];
+		$info['roocms']		= ROOCMS_VERSION;
+
 
 		if(get_http_response_code("http://version.roocms.com/index.php") == "200") {
 			$f = file("http://version.roocms.com/index.php");
@@ -126,7 +134,6 @@ class ACP_INDEX {
 		}
 
 		# draw
-		$smarty->assign('warning_subj',	$warning_subj);
 		$smarty->assign('info',		$info);
 
 		$content = $tpl->load_template("index_main", true);

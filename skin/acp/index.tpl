@@ -13,5 +13,17 @@
 	</ul>
 </div>
 <div class="col-md-10">
+	{if isset($warning_subj) && !empty($warning_subj)}
+		<div class="row">
+			<div class="col-sm-12">
+				{foreach from=$warning_subj item=text}
+					<div class="alert alert-danger">
+						<i class="fa fa-fw fa-exclamation-circle"></i> {$text}
+					</div>
+				{/foreach}
+			</div>
+		</div>
+	{/if}
+
 	{$content}
 </div>
