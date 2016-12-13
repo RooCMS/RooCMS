@@ -1,7 +1,7 @@
 {* Шаблон отображения элемента ленты *}
 <div id="item_{$item['id']}">
 	<h1>{$item['title']}</h1>
-	<small>Опубликовано: {$item['datepub']}</small>
+	<small><i class="fa fa-fw fa-calendar"></i> {$item['datepub']}</small>
 	<hr>
 	{$item['full_item']}
 

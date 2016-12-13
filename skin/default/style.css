@@ -40,22 +40,16 @@ p.lead {font-family: "PT Sans" !important;}
 .mb0 {margin-bottom: 0 !important;}
 
 .airmail {
-	/*background-image: repeating-linear-gradient(135deg, #F29B91 0px, #F09290 30px, transparent 30px, transparent 50px, #83B3DB 50px, #84ADCB 80px, transparent 80px, transparent 100px);*/
 	font-family: 'PT Sans';
 	background-color: #fff;
-	margin: 10px;
-	padding: 5px;
+	margin: 10px; padding: 5px;
 	min-height: 200px;
-
 }
 .airmail:after {
 	position: absolute;
 	z-index: -999;
 	content: '';
-	top: 0;
-	right: 15px;
-	bottom: 0;
-	left: 15px;
+	top: 0;	right: 15px; bottom: 0;	left: 15px;
 	background-image: repeating-linear-gradient(135deg, #F29B91 0px, #F09290 30px, transparent 30px, transparent 50px, #83B3DB 50px, #84ADCB 80px, transparent 80px, transparent 100px);
 }
 
