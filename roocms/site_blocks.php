@@ -42,7 +42,7 @@
 * @author	alex Roosso
 * @copyright	2010-2015 (c) RooCMS
 * @link		http://www.roocms.com
-* @version	1.2
+* @version	1.2.1
 * @since	$date$
 * @license	http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -64,24 +64,24 @@ class Blocks {
 	/**
 	* Загружаем блок
 	*
-	* @param int|string $id - Алиас или идентификатор блока
+	* @param int|string $buid - Алиас или идентификатор блока
 	* @return text $output  - возвращает код блока
 	*/
-	public function load($id) {
+	public function load($buid) {
 
 		global $db, $parse, $files, $img, $smarty, $tpl;
                 static $use_blocks = array();
 
                 $output = "";
 
-                $id = str_ireplace("'", "", $id);
-                if(!array_key_exists($id, $use_blocks)) {
+		$buid = str_ireplace("'", "", $buid);
+                if(!array_key_exists($buid, $use_blocks)) {
 
-			$id = strtr($id, array('\''		=> '',
-					       '"'		=> '',
-					       '&quot;'		=> ''));
+			$buid = strtr($buid, array('\''		=> '',
+						   '"'		=> '',
+						   '&quot;'	=> ''));
 
-			$q = $db->query("SELECT id, alias, content, block_type FROM ".BLOCKS_TABLE." WHERE id='".$id."' OR alias='".$id."'");
+			$q = $db->query("SELECT id, alias, content, block_type FROM ".BLOCKS_TABLE." WHERE id='".$buid."' OR alias='".$buid."'");
 			$data = $db->fetch_assoc($q);
 
 			if(!empty($data)) {
@@ -112,15 +112,15 @@ class Blocks {
 					$output .= $imgs;
 				}
 
-				$use_blocks[$id] = $output;
+				$use_blocks[$buid] = $output;
 			}
 			else {
 				if(DEBUGMODE)
-					$output = "Блок с ID или ALIAS - \"".$id."\" не найден";
+					$output = "Блок с ID или ALIAS - \"".$buid."\" не найден";
 			}
 
                 }
-                else $output = $use_blocks[$id];
+                else $output = $use_blocks[$buid];
 
 		return $output;
 	}
