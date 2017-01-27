@@ -19,7 +19,7 @@
 		<div class="list-group">
 			{foreach from=$pm item=m}
 			<a href="index.php?part=ucp&act=pm&move=read&id={$m['id']}" class="list-group-item{if $m['see'] == 0} list-group-item-info{/if}">
-				<i class="fa fa-envelope{if $m['see'] != 0}-o{/if} fa-2x pull-left"></i><h4 class="list-group-item-heading">{$m['title']}</h4>
+				<i class="fa fa-envelope{if $m['see'] != 0}-open-o{/if} fa-2x pull-left"></i><h4 class="list-group-item-heading">{$m['title']}</h4>
 				<span class="small list-group-item-text">Отправлено: {$m['date_send']}</span>
 				<span class="pull-right list-group-item-text">От: {$m['from_name']}</span>
 			</a>

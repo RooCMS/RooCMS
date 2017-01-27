@@ -106,11 +106,15 @@ if(file_exists(_ROOCMS."/acp/config.php")) {
 	$menu_items_right[] = array('role'=>'navlink', 'link'=>'/', 'act'=>'RooCMS', 'icon'=>'fa fa-home', 'text'=>'На сайт', 'window'=>'_blank');
 
 /**
+ * Help
+ */
+	$menu_items_right[] = array('role'=>'navlink', 'link'=>'?act=help', 'act'=>'help', 'icon'=>'fa fa-support', 'text'=>'Помощь', 'window'=>'_self');
+
+/**
  * Admin menu
  */
-	$menu_items_right[] = array('role'=>'dropdown', 'icon'=>'fa fa-user', 'text'=>$users->nickname,
+	$menu_items_right[] = array('role'=>'dropdown', 'icon'=>'fa fa-id-badge', 'text'=>$users->nickname,
 		array('role'=>'header', 'text'=>'Ваше личное меню'),												# header
-		array('role'=>'navlink', 'link'=>CP.'?act=help', 'act'=>'help', 'icon'=>'fa fa-support','text'=>'Помощь', 'window'=>'_self'),
 		array('role'=>'davider'), 															# davider
 		array('role'=>'navlink', 'link'=>CP.'?act=logout', 'act'=>'logout', 'icon'=>'fa fa-sign-out', 'text'=>'Выход', 'window'=>'_self')		# logout
 	);
