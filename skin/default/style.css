@@ -1,8 +1,10 @@
 @charset "utf-8";
-body {
-	background: #fefeff; font-family: 'Open Sans','Ubuntu','Trebuchet MS','Tahoma' !important;
+html, body {
+	background: #fefeff;
+	font-family: 'Open Sans','Ubuntu','Trebuchet MS','Tahoma' !important;
 	padding: 0px;margin: 0px;
-	behavior: url("../../csshover.htc") !important;}
+	behavior: url("../../csshover.htc") !important;
+	text-rendering: optimizeLegibility;}
 img {behavior: url("../../iepngfix.htc") !important;}
 
 /* Style fonts */
