@@ -41,9 +41,9 @@
 * @subpackage	Admin Comtrol Panel
 * @subpackage	Feeds
 * @author       alex Roosso
-* @copyright    2010-2016 (c) RooCMS
+* @copyright    2010-2017 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.2.3
+* @version      1.3
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -171,31 +171,11 @@ class ACP_FEEDS {
 					break;
 
 				default:
-					$this->view_all_feeds();
+					go(CP."?act=structure");
 					break;
 			}
 		}
 		else $this->view_all_feeds();
-	}
-
-
-	/**
-	* Функция просмотра списка лент
-	*/
-	private function view_all_feeds() {
-
-		global $db, $tpl, $smarty;
-
-		$data = array();
-		$q = $db->query("SELECT id, alias, title, noindex, page_type, items FROM ".STRUCTURE_TABLE." WHERE page_type='feed' ORDER BY id ASC");
-		while($row = $db->fetch_assoc($q)) {
-			$row['ptype'] = $this->engine->page_types[$row['page_type']]['title'];
-			$data[] = $row;
-		}
-
-		$smarty->assign("data", $data);
-		$content = $tpl->load_template("feeds_view_list", true);
-		$smarty->assign("content", $content);
 	}
 }
 

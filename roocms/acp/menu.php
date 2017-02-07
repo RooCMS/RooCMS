@@ -42,7 +42,7 @@
 * @author       alex Roosso
 * @copyrightt   2010-2015 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.2
+* @version      1.3
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -60,20 +60,6 @@ if(!defined('RooCMS') || !defined('ACP')) die('Access Denied');
 */
 if(file_exists(_ROOCMS."/acp/structure.php")) {
 	$menu_items_left[] = array('role'=>'navlink', 'link'=>CP.'?act=structure', 'act'=>'structure', 'icon'=>'fa fa-sitemap', 'text'=>'Структура', 'window'=>'_self');
-}
-
-/**
-* Pages
-*/
-if(file_exists(_ROOCMS."/acp/pages.php")) {
-	$menu_items_left[] = array('role'=>'navlink', 'link'=>CP.'?act=pages', 'act'=>'pages', 'icon'=>'fa fa-th-large', 'text'=>'Страницы', 'window'=>'_self');
-}
-
-/**
-* Feeds
-*/
-if(file_exists(_ROOCMS."/acp/feeds.php")) {
-	$menu_items_left[] = array('role'=>'navlink', 'link'=>CP.'?act=feeds', 'act'=>'feeds', 'icon'=>'fa fa-th-list', 'text'=>'Ленты', 'window'=>'_self');
 }
 
 /**

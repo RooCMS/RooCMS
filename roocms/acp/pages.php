@@ -40,9 +40,9 @@
 * @package      RooCMS
 * @subpackage	Admin Control Panel
 * @author       alex Roosso
-* @copyright    2010-2016 (c) RooCMS
+* @copyright    2010-2017 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.1.1
+* @version      1.2
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -105,62 +105,13 @@ class ACP_PAGES {
 				break;
 
 			default:
-				$this->view_all_pages();
+				go(CP."?act=structure");
 				break;
 		}
 
 
 		# output
 		$tpl->load_template("pages");
-	}
-
-
-	/**
-	 * Функция просмотра списка страниц
-	 *
-	 */
-	private function view_all_pages() {
-
-		global $db, $tpl, $smarty, $parse;
-
-		$q = $db->query("SELECT h.id, h.sid, h.date_modified, p.title, p.alias, p.noindex, p.page_type
-					FROM ".PAGES_HTML_TABLE." AS h
-					LEFT JOIN ".STRUCTURE_TABLE." AS p ON (p.id = h.sid)
-					ORDER BY p.id ASC");
-		while($row = $db->fetch_assoc($q)) {
-			$row['lm'] = $parse->date->unix_to_rus($row['date_modified'], false, true, true);
-			$row['ptype'] = $this->engine->page_types[$row['page_type']]['title'];
-			$data[] = $row;
-		}
-
-		$q = $db->query("SELECT h.id, h.sid, h.date_modified, p.title, p.alias, p.noindex, p.page_type
-					FROM ".PAGES_PHP_TABLE." AS h
-					LEFT JOIN ".STRUCTURE_TABLE." AS p ON (p.id = h.sid)
-					ORDER BY p.id ASC");
-		while($row = $db->fetch_assoc($q)) {
-			$row['lm'] = $parse->date->unix_to_rus($row['date_modified'], false, true, true);
-			$row['ptype'] = $this->engine->page_types[$row['page_type']]['title'];
-			$data[] = $row;
-		}
-
-		uasort($data, array('ACP_PAGES', 'sort_data'));
-
-		$smarty->assign("data", $data);
-		$content = $tpl->load_template("pages_view_list", true);
-		$smarty->assign("content", $content);
-	}
-
-
-	/**
-	 * Callback func для сортировки $data по sid
-	 *
-	 * @param array $a
-	 * @param array $b
-	 *
-	 * @return int
-	 */
-	private function sort_data($a, $b) {
-		return strcmp($a["sid"], $b["sid"]);
 	}
 }
 
