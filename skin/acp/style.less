@@ -34,10 +34,17 @@ a {font-family: @ptsans, @ubuntu, @calibri, @tahoma, @trebuchet !important;}
 	transition: all 0.20s ease-in-out;-webkit-transition: all 0.20s ease-in-out;-moz-transition: all 0.20s ease-in-out;outline:none;}
 
 /* OTHER STYLE */
-input:focus:invalid {
-	/* transition: all 0.15s ease-in-out;-webkit-transition: all 0.15s ease-in-out;-moz-transition: all 0.15s ease-in-out;outline:none; */
+input:focus:invalid {	/* transition: all 0.15s ease-in-out;-webkit-transition: all 0.15s ease-in-out;-moz-transition: all 0.15s ease-in-out;outline:none; */
 	-moz-box-shadow: 0 0 6px @brand-danger; -webkit-box-shadow: 0 0 6px @brand-danger;box-shadow: 0 0 6px @brand-danger;
-	border: 1px solid @brand-danger;}
+	border: 1px solid @brand-danger;
+	background: #fff url(./img/required.png) no-repeat right top !important;}
+
+input:required:empty {
+	background: #fff url(./img/required.png) no-repeat right top !important;
+}
+input:required:valid {
+	background-image: none !important;
+}
 
 /* All */
 #logo {margin-top: -8px;}
@@ -56,7 +63,7 @@ input:focus:invalid {
 blockquote 	{.t14 !important; .ptsans !important;}
 code		{.ubuntu !important;}
 
-.paragraph {margin-left: 20px;}
+.paragraph 	{margin-left: 20px;}
 
 .notification-info	{position:fixed; z-index:100; right:0; left: 0;}
 
@@ -76,9 +83,6 @@ a:hover [class^="fa-"] {text-decoration: none !important;}
 .visible-inline {display: inline-block !important;}
 .display-block	{display: block !important;}
 .display-none	{display: none !important;}
-
-/* ckeditor styles */
-.cked {overflow-x: hidden;}
 
 /* style for attached files */
 .field_attach {padding: 10px 0;}
@@ -100,6 +104,9 @@ tr .trinfo {display: none;float: right;}
 tr:hover .trinfo {display: block;}
 
 .table-hover>tbody>tr:hover .structure-highlight {color: @brand-primary}
+
+/* ckeditor styles */
+.cked {overflow-x: hidden;}
 
 /* Add BS */
 blockquote.quote-primary	{border-left-color: @brand-primary;background-color: @bq-background;}

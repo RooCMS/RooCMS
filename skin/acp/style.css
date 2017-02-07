@@ -52,6 +52,13 @@ input:focus:invalid {
   -webkit-box-shadow: 0 0 6px #c60d14;
   box-shadow: 0 0 6px #c60d14;
   border: 1px solid #c60d14;
+  background: #ffffff url(img/required.png) no-repeat right top !important;
+}
+input:required:empty {
+  background: #ffffff url(img/required.png) no-repeat right top !important;
+}
+input:required:valid {
+  background-image: none !important;
 }
 /* All */
 #logo {
@@ -124,10 +131,6 @@ a:hover [class^="fa-"] {
 .display-none {
   display: none !important;
 }
-/* ckeditor styles */
-.cked {
-  overflow-x: hidden;
-}
 /* style for attached files */
 .field_attach {
   padding: 10px 0;
@@ -166,6 +169,10 @@ tr:hover .trinfo {
 }
 .table-hover > tbody > tr:hover .structure-highlight {
   color: #3d4f61;
+}
+/* ckeditor styles */
+.cked {
+  overflow-x: hidden;
 }
 /* Add BS */
 blockquote.quote-primary {
