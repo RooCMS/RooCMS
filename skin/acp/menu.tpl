@@ -42,14 +42,14 @@
 
 			{foreach from=$menu_items_right item=menu_item}
 				{if $menu_item['role'] == "navlink"}
-					{*<li class="visible-lg visible-xs{if isset($smarty.get.act) && $smarty.get.act == $menu_item['act']} active{/if}">
-						<a href="{$menu_item['link']}" target="{$menu_item['window']}">
-							<span class="hidden-sm"><span class="{$menu_item['icon']}"></span> {$menu_item['text']}</span>
-						</a>
-					</li>*}
-					<li class="{if isset($smarty.get.act) && $smarty.get.act == $menu_item['act']} active{/if}" rel="tooltip" title="{$menu_item['text']}" data-placement="left">
+					<li class="hidden-xs {if isset($smarty.get.act) && $smarty.get.act == $menu_item['act']} active{/if}" rel="tooltip" title="{$menu_item['text']}" data-placement="left">
 						<a href="{$menu_item['link']}" target="{$menu_item['window']}">
 							<span class="{$menu_item['icon']}"></span>
+						</a>
+					</li>
+					<li class="visible-xs {if isset($smarty.get.act) && $smarty.get.act == $menu_item['act']} active{/if}" rel="tooltip" title="{$menu_item['text']}" data-placement="left">
+						<a href="{$menu_item['link']}" target="{$menu_item['window']}">
+							<span class="{$menu_item['icon']}"></span> {$menu_item['text']}
 						</a>
 					</li>
 				{elseif  $menu_item['role'] == "dropdown"}

@@ -46,7 +46,7 @@
 	</div>
 {/if}
 {if trim($info) != ""}
-	<div class="alert alert-info t12 text-left in fade notification-info" role="alert">
+	<div class="alert alert-info t12 text-left in fade" role="alert">
 		<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
 		{$info}
 	</div>

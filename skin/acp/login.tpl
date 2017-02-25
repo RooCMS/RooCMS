@@ -10,7 +10,7 @@ body {overflow: hidden;background: transparent url('{/literal}{$SKIN}{literal}/i
 <div id="bglogin">
 	<form method="post" class="form-horizontal" role="form">
 		<div class="modal show" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-			<div class="modal-dialog">
+			<div class="modal-dialog modal-login">
         		<div class="modal-content" id="LoginForm">
 					<div class="modal-header text-center bg_login">
 						<a href="/" class="close" data-dismiss="modal" aria-hidden="true">×</a>
@@ -26,15 +26,15 @@ body {overflow: hidden;background: transparent url('{/literal}{$SKIN}{literal}/i
 		    			{/if}
 						<div class="col-xs-12">
 							<div class="form-group">
-								<label class="col-lg-2 control-label" for="Login">Логин</label>
-								<div class="input-group col-lg-10">
+								<label class="col-md-2 control-label hidden-xs hidden-sm" for="Login">Логин</label>
+								<div class="input-group col-md-10">
 									<span class="input-group-addon"><span class="fa fa-fw fa-user" rel="tooltip" title="Введите ваш логин в это поле" data-placement="right"></span></span>
 									<input class="form-control non-bgreq" id="Login" type="text" name="login" placeholder="Логин" required autocomplete="off">
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="col-lg-2 control-label" for="Password">Пароль</label>
-								<div class="input-group col-lg-10">
+								<label class="col-md-2 control-label hidden-xs hidden-sm" for="Password">Пароль</label>
+								<div class="input-group col-md-10">
 									<span class="input-group-addon"><span class="fa fa-fw fa-key" rel="tooltip" title="Введите ваш пароль в это поле" data-placement="right"></span></span>
 									<input class="form-control non-bgreq" id="Password" type="password" name="password" placeholder="Пароль" required autocomplete="off">
 								</div>

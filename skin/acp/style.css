@@ -3,6 +3,9 @@
   .container {
     min-width: 1575px;
   }
+  .modal-login {
+    margin-top: 15% !important;
+  }
 }
 @media (min-width: 1895px) {
   .container {
@@ -75,6 +78,9 @@ input:required:valid {
 }
 .notice {
   margin-top: -10px;
+  position: fixed;
+  z-index: 100;
+  right: 0;
 }
 .footer {
   line-height: 13px !important;
@@ -100,12 +106,6 @@ code {
 }
 .paragraph {
   margin-left: 20px;
-}
-.notification-info {
-  position: fixed;
-  z-index: 100;
-  right: 0;
-  left: 0;
 }
 .hover-without-underline:hover {
   text-decoration: none !important;
@@ -145,7 +145,7 @@ a:hover [class^="fa-"] {
 p.attach_files {
   padding: 8px 8px;
 }
-/* style fro delete user avatar */
+/* style for delete user avatar */
 .delete_useravatar:hover,
 .delete_config_image:hover {
   background-color: #c60d14;

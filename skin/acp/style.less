@@ -1,6 +1,7 @@
 @charset "utf-8";
 @media (min-width: 1575px) {
 	.container {min-width: 1575px;}
+	.modal-login {margin-top: 15% !important;}
 }
 
 @media (min-width: 1895px) {
@@ -48,7 +49,7 @@ input:required:valid {background-image: none !important;}
 
 .navbar-collapse {max-height: none !important;}
 
-.notice {margin-top: -10px;}
+.notice {margin-top: -10px;position: fixed; z-index: 100;right: 0;}
 
 .footer {line-height: 13px !important;padding: 10px 0;}
 
@@ -61,16 +62,12 @@ code		{.ubuntu !important;}
 
 .paragraph 	{margin-left: 20px;}
 
-.notification-info	{position:fixed; z-index:100; right:0; left: 0;}
-
 .hover-without-underline:hover	{text-decoration: none !important;}
 .hover-cursor			{cursor: pointer;}
 
 .progress.pb0 {margin-bottom: 0 !important;}
 
-.shy, .wbr {
-	word-break: break-all;
-}
+.shy, .wbr {word-break: break-all;}
 
 /* fix font-awesome underline */
 a:hover [class^="fa-"] {text-decoration: none !important;}
@@ -85,7 +82,7 @@ a:hover [class^="fa-"] {text-decoration: none !important;}
 .delete_image {margin-right: -3px;margin-top: 5px;}
 p.attach_files {padding: 8px 8px;}
 
-/* style fro delete user avatar */
+/* style for delete user avatar */
 .delete_useravatar:hover,
 .delete_config_image:hover {background-color: @brand-danger;border-radius: 5px;}
 .delete_useravatar:hover > img,

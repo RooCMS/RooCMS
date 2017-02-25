@@ -26,7 +26,7 @@
 						<a href="{$SCRIPT_NAME}?act=feeds&part=control&page={$page['id']}">{$page['title']}</a>
 					{/if}
 				</nobr>
-				{if $page['noindex'] == 1}<sup><i class="fa fa-fw fa-info mark" rel="tooltip" data-toggle="tooltip" data-placement="top" title="Неиндексируется поисковыми системами"></i></sup>{/if}
+				{if $page['noindex'] == 1}<sup><i class="fa fa-fw fa-eye-slash" rel="tooltip" data-toggle="tooltip" data-placement="top" title="Неиндексируется поисковыми системами"></i></sup>{/if}
 				<small class="trinfo">{$page['alias']}</small>
 			</td>
 			<td class="text-left">
