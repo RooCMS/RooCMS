@@ -9,13 +9,13 @@
 				<div class="form-group form-group-sm text-left" style="margin-top: 10px;">
 					<div class="inner-addon left-addon">
 						<i class="fa fa-fw fa-user-secret"></i>
-						<input type="text" name="login" class="form-control" id="inputLogin" aria-describedby="inputLoginStatus" required="">
+						<input type="text" name="login" class="form-control non-bgreq" id="inputLogin" aria-describedby="inputLoginStatus" required="">
 					</div>
 				</div>
 				<div class="form-group form-group-sm text-left" style="margin-top: 10px;">
 					<div class="inner-addon left-addon">
 						<i class="fa fa-fw fa-lock"></i>
-						<input type="password" name="password" class="form-control" id="inputPassword" aria-describedby="inputPasswordStatus" required="">
+						<input type="password" name="password" class="form-control non-bgreq" id="inputPassword" aria-describedby="inputPasswordStatus" required="">
 					</div>
 				</div>
 				<div class="form-group form-group-sm text-left" style="margin-top: 10px;">

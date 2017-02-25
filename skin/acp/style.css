@@ -57,6 +57,9 @@ input:focus:invalid {
 input:required:empty {
   background: #ffffff url(img/required.png) no-repeat right top !important;
 }
+input.non-bgreq:required:empty {
+  background-image: none !important;
+}
 input:required:valid {
   background-image: none !important;
 }

@@ -99,6 +99,7 @@ input:focus:invalid {
 	background: #fff url(./img/required.png) no-repeat right top !important;
 }
 input:required:empty {background: #fff url(./img/required.png) no-repeat right top !important;}
+input.non-bgreq:required:empty {background-image: none !important;}
 input:required:valid {background-image: none !important;}
 
 /* Fonts */
