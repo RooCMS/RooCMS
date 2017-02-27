@@ -3,7 +3,7 @@
  * @subpackage	Admin Control Panel
  * @subpackage	JavaScript
  * @author      alex Roosso
- * @copyright   2010-2016 (c) RooCMS
+ * @copyright   2010-2017 (c) RooCMS
  * @link        http://www.roocms.com
  * @license     http://www.gnu.org/licenses/gpl-3.0.html
  */

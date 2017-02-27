@@ -41,7 +41,7 @@
 * @subpackage	Admin Control Panel
 * @subpackage	Ajax Functions
 * @author       alex Roosso
-* @copyright    2010-2016 (c) RooCMS
+* @copyright    2010-2017 (c) RooCMS
 * @link         http://www.roocms.com
 * @version      1.3.1
 * @since        $date$
