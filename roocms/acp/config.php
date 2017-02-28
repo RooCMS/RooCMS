@@ -43,7 +43,7 @@
 * @author       alex Roosso
 * @copyright    2010-2017 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.2.7
+* @version      1.2.8
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -261,11 +261,9 @@ class ACP_CONFIG {
 					# integer
 					case 'int':
 					case 'integer':
-						if(is_numeric($value)) {
-							$value = round($value);
-							settype($value, "integer");
-							$check = true;
-						}
+						$value = round($value);
+						settype($value, "integer");
+						$check = true;
 						break;
 
 					# email
@@ -289,17 +287,8 @@ class ACP_CONFIG {
 
 					# date
 					case 'date':  // EDIT THIS CODE !!!
-						$date = explode(".",$POST->$key);
-						$d = settype($date[0], "integer");
-						$m = settype($date[1], "integer");
-						$y = settype($date[2], "integer");
-
-						if(count($date) == 3) {
-							if(mb_strlen($date[0], 'utf8') <= 2 && mb_strlen($date[1], 'utf8') <= 2 && mb_strlen($date[2], 'utf8') == 4 && checkdate($m, $d, $y)) {
-								$check = true;
-								$value = $parse->date->gregorian_to_unix($m."/".$d."/".$y);
-							}
-						}
+						$value = $parse->date->rusint_to_unix($POST->$key);
+						$check = true;
 						break;
 
 					case 'select':

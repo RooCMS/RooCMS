@@ -42,7 +42,7 @@
  * @author       alex Roosso
  * @copyright    2010-2017 (c) RooCMS
  * @link         http://www.roocms.com
- * @version      2.2
+ * @version      2.2.1
  * @since        $date$
  * @license      http://www.gnu.org/licenses/gpl-3.0.html
  */
@@ -322,9 +322,9 @@ class ParserDate {
 
 		$time = explode(".", $date);
 
-		$day 	= round($time[0]);
-		$month 	= round($time[1]);
-		$year 	= round($time[2]);
+		$day 	= round(mb_substr($time[0],0,2));
+		$month 	= round(mb_substr($time[1],0,2));
+		$year 	= round(mb_substr($time[2],0,2));
 
 		if(checkdate($month, $day, $year))
 			$unix 	= mktime(0,0,0,$month,$day,$year);
