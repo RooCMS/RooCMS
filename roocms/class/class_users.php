@@ -42,7 +42,7 @@
  * @author       alex Roosso
  * @copyright    2010-2017 (c) RooCMS
  * @link         http://www.roocms.com
- * @version      1.3.1
+ * @version      1.4
  * @since        $date$
  * @license      http://www.gnu.org/licenses/gpl-3.0.html
  */
@@ -254,9 +254,8 @@ class Users extends Security {
 
 		global $db;
 
-		if($db->check_id($nickname, USERS_TABLE, "nickname")) {
+		if($db->check_id($nickname, USERS_TABLE, "nickname"))
 			$nickname = $this->check_new_nickname($nickname.randcode(2,"0123456789"));
-		}
 
 		return $nickname;
 	}
@@ -281,6 +280,22 @@ class Users extends Security {
 				$db->query("UPDATE ".USERS_TABLE." SET avatar='' WHERE uid='".$uid."'");
 			}
 		}
+	}
+
+
+	/**
+	 * Функция првоерки почты пользователя.
+	 * Проверяем на дубли и корректность.
+	 *
+	 * @param $email - адрес электронной почты пользователя.
+	 */
+	public function valid_user_email($email) {
+
+		global $db, $logger, $parse;
+
+		if(!isset($email) || trim($email) == "") $logger->error("Электронная почта обязательная для каждого пользователя");
+		if(isset($email) && trim($email) != "" && !$parse->valid_email($email)) $logger->error("Некоректный адрес электронной почты");
+		if(isset($email) && trim($email) != "" && $db->check_id($email, USERS_TABLE, "email")) $logger->error("Пользователь с таким адресом почты уже существует");
 	}
 
 

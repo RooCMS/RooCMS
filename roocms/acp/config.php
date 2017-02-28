@@ -63,7 +63,6 @@ class ACP_CONFIG {
 
 	# type config
 	private $types	= array();
-	private $t_vars	= array();
 
 	private $part	= "global";
 
@@ -223,7 +222,7 @@ class ACP_CONFIG {
 	private function update_config() {
 
 		global $db, $parse, $logger, $POST, $img;
-
+		$t_vars = array();
 
 		# запрашиваем из БД типа опций
 		$q = $db->query("SELECT option_name, option_type, variants FROM ".CONFIG_TABLE);
@@ -237,7 +236,7 @@ class ACP_CONFIG {
 
 				foreach($vars AS $k=>$v) {
 					$v = explode("|",trim($v));
-					$this->t_vars[$row['option_name']][$v[1]] = trim($v[1]);
+					$t_vars[$row['option_name']][$v[1]] = trim($v[1]);
 				}
 			}
 		}
@@ -286,13 +285,13 @@ class ACP_CONFIG {
 						break;
 
 					# date
-					case 'date':  // EDIT THIS CODE !!!
+					case 'date':
 						$value = $parse->date->rusint_to_unix($POST->$key);
 						$check = true;
 						break;
 
 					case 'select':
-						if(isset($this->t_vars[$key][$value])) $check = true;
+						if(isset($t_vars[$key][$value])) $check = true;
 						break;
 
 					case 'image':

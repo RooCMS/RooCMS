@@ -42,7 +42,7 @@
  * @author       alex Roosso
  * @copyright    2010-2017 (c) RooCMS
  * @link         http://www.roocms.com
- * @version      1.1
+ * @version      1.1.1
  * @since        $date$
  * @license      http://www.gnu.org/licenses/gpl-3.0.html
  */
@@ -139,9 +139,7 @@ class REG {
 		if(isset($POST->login) && trim($POST->login) != "" && $db->check_id($POST->login, USERS_TABLE, "login")) $logger->error("Пользователь с таким логином уже существует");
 
 		# email
-		if(!isset($POST->email) || trim($POST->email) == "") $logger->error("Электронная почта обязательная для каждого пользователя");
-		if(isset($POST->email) && trim($POST->email) != "" && !$parse->valid_email($POST->email)) $logger->error("Некоректный адрес электронной почты");
-		if(isset($POST->email) && trim($POST->email) != "" && $db->check_id($POST->email, USERS_TABLE, "email")) $logger->error("Пользователь с таким адресом почты уже существует");
+		$users->valid_user_email($POST->email);
 
 		if(!isset($_SESSION['error'])) {
 
