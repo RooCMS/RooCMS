@@ -175,7 +175,7 @@ class ACP_FEEDS {
 					break;
 			}
 		}
-		else $this->view_all_feeds();
+		else go(CP."?act=structure");
 	}
 }
 

@@ -237,8 +237,8 @@ AddCharset utf-8 .atom .css .js .json .rss .vtt .xml
 
 
 # CACHE AND Headers _________
-<ifModule mod_headers.c>
-#кэшировать html и htm файлы на один день
+<IfModule mod_headers.c>
+	#кэшировать html и htm файлы на один день
 	<FilesMatch "\.(html|htm)$">
 		Header set Cache-Control "max-age=43200"
 	</FilesMatch>
@@ -260,8 +260,8 @@ AddCharset utf-8 .atom .css .js .json .rss .vtt .xml
 	<FilesMatch "\.(js|css|gif|png|jpe?g|pdf|xml|oga|ogg|m4a|ogv|mp4|m4v|webm|svg|svgz|eot|ttf|otf|woff|ico|webp|appcache|manifest|htc|crx|oex|xpi|safariextz|vcf)$" >
 		Header unset X-UA-Compatible
 	</FilesMatch>
-</ifModule>
-<ifModule mod_expires.c>
+</IfModule>
+<IfModule mod_expires.c>
 	ExpiresActive On
 	ExpiresDefault "access plus 5 seconds"
 	ExpiresByType image/x-icon "access plus 2592000 seconds"
@@ -290,7 +290,75 @@ AddCharset utf-8 .atom .css .js .json .rss .vtt .xml
 	ExpiresByType application/x-font-woff "access plus 1 month"
 	ExpiresByType image/svg+xml "access plus 1 month"
 	ExpiresByType application/vnd.ms-fontobject "access plus 1 month"
-</ifModule>
+</IfModule>
+
+
+# anti traffic
+<IfModule mod_rewrite.c>
+	RewriteEngine On
+	RewriteCond %{REQUEST_URI} !^/403.php$
+	RewriteCond %{HTTP_USER_AGENT} .*Slurp.* [OR]
+	RewriteCond %{HTTP_USER_AGENT} .*Ask\sJeeves.* [OR]
+	RewriteCond %{HTTP_USER_AGENT} .*HP\sWeb\sPrintSmart.* [OR]
+	RewriteCond %{HTTP_USER_AGENT} .*HTTrack.* [OR]
+	RewriteCond %{HTTP_USER_AGENT} .*IDBot.* [OR]
+	RewriteCond %{HTTP_USER_AGENT} .*Indy\sLibrary.* [OR]
+	RewriteCond %{HTTP_USER_AGENT} .*ListChecker.* [OR]
+	RewriteCond %{HTTP_USER_AGENT} .*MSIECrawler.* [OR]
+	RewriteCond %{HTTP_USER_AGENT} .*NetCache.* [OR]
+	RewriteCond %{HTTP_USER_AGENT} .*Nutch.* [OR]
+	RewriteCond %{HTTP_USER_AGENT} .*RPT-HTTPClient.* [OR]
+	RewriteCond %{HTTP_USER_AGENT} .*rulinki\.ru.* [OR]
+	RewriteCond %{HTTP_USER_AGENT} .*Twiceler.* [OR]
+	RewriteCond %{HTTP_USER_AGENT} .*WebAlta.* [OR]
+	RewriteCond %{HTTP_USER_AGENT} .*Webster\sPro.* [OR]
+	RewriteCond %{HTTP_USER_AGENT} .*www\.cys\.ru.* [OR]
+	RewriteCond %{HTTP_USER_AGENT} .*Wysigot.* [OR]
+	RewriteCond %{HTTP_USER_AGENT} .*Yeti.* [OR]
+	RewriteCond %{HTTP_USER_AGENT} .*Accoona.* [OR]
+	RewriteCond %{HTTP_USER_AGENT} .*CazoodleBot.* [OR]
+	RewriteCond %{HTTP_USER_AGENT} .*CFNetwork.* [OR]
+	RewriteCond %{HTTP_USER_AGENT} .*ConveraCrawler.* [OR]
+	RewriteCond %{HTTP_USER_AGENT} .*DISCo.* [OR]
+	RewriteCond %{HTTP_USER_AGENT} .*Download\sMaster.* [OR]
+	RewriteCond %{HTTP_USER_AGENT} .*FAST\sMetaWeb\sCrawler.* [OR]
+	RewriteCond %{HTTP_USER_AGENT} .*Flexum\sspider$ [OR]
+	RewriteCond %{HTTP_USER_AGENT} .*Gigabot.* [OR]
+	RewriteCond %{HTTP_USER_AGENT} .*HTMLParser.* [OR]
+	RewriteCond %{HTTP_USER_AGENT} .*ia_archiver.* [OR]
+	RewriteCond %{HTTP_USER_AGENT} .*ichiro.* [OR]
+	RewriteCond %{HTTP_USER_AGENT} .*IRLbot.* [OR]
+	RewriteCond %{HTTP_USER_AGENT} .*Java.* [OR]
+	RewriteCond %{HTTP_USER_AGENT} .*km\.ru\sbot$ [OR]
+	RewriteCond %{HTTP_USER_AGENT} .*kmSearchBot.* [OR]
+	RewriteCond %{HTTP_USER_AGENT} .*libwww-perl.* [OR]
+	RewriteCond %{HTTP_USER_AGENT} .*Lupa\.ru.* [OR]
+	RewriteCond %{HTTP_USER_AGENT} .*LWP::Simple.* [OR]
+	RewriteCond %{HTTP_USER_AGENT} .*lwp-trivial.* [OR]
+	RewriteCond %{HTTP_USER_AGENT} .*Missigua.* [OR]
+	RewriteCond %{HTTP_USER_AGENT} .*MJ12bot.* [OR]
+	RewriteCond %{HTTP_USER_AGENT} .*msnbot.* [OR]
+	RewriteCond %{HTTP_USER_AGENT} .*msnbot-media.* [OR]
+	RewriteCond %{HTTP_USER_AGENT} .*Offline\sExplorer.* [OR]
+	RewriteCond %{HTTP_USER_AGENT} .*OmniExplorer_Bot.* [OR]
+	RewriteCond %{HTTP_USER_AGENT} .*PEAR.* [OR]
+	RewriteCond %{HTTP_USER_AGENT} .*psbot.* [OR]
+	RewriteCond %{HTTP_USER_AGENT} .*Python.* [OR]
+	RewriteCond %{HTTP_USER_AGENT} .*rulinki\.ru.* [OR]
+	RewriteCond %{HTTP_USER_AGENT} .*SMILE.* [OR]
+	RewriteCond %{HTTP_USER_AGENT} .*Speedy.* [OR]
+	RewriteCond %{HTTP_USER_AGENT} .*Teleport\sPro.* [OR]
+	RewriteCond %{HTTP_USER_AGENT} .*TurtleScanner.* [OR]
+	RewriteCond %{HTTP_USER_AGENT} .*voyager.* [OR]
+	RewriteCond %{HTTP_USER_AGENT} .*Webalta.* [OR]
+	RewriteCond %{HTTP_USER_AGENT} .*WebCopier.* [OR]
+	RewriteCond %{HTTP_USER_AGENT} .*WebData.* [OR]
+	RewriteCond %{HTTP_USER_AGENT} .*WebZIP.* [OR]
+	RewriteCond %{HTTP_USER_AGENT} .*Wget.* [OR]
+	RewriteCond %{HTTP_USER_AGENT} .*Yanga.* [OR]
+	RewriteCond %{HTTP_USER_AGENT} .*Yeti.*
+	RewriteRule .* /index.php?page=e403 [F]
+<IfModule>
 
 
 # Bad Rquest
