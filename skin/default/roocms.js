@@ -26,6 +26,16 @@ $(document).ready(function(){
 		todayHighlight: true
 	});
 
+	/* MOVETOP button */
+	$(window).scroll(function () {
+		if ($(this).scrollTop() > 100) $('a#move_top').fadeIn();
+		else                           $('a#move_top').fadeOut(400);
+	});
+	$('a#move_top').click(function () {
+		$('html, body').animate({scrollTop: 0}, '500', 'swing');
+		return false;
+	});
+
 	/* Placeholder for IE */
 	if($.browser.msie) {
 		$("input[type='text']").each(function() {

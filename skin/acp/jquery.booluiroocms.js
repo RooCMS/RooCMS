@@ -47,8 +47,8 @@
 (function($) {
 
 	var defaults = {
-		on: 'fa-check-square-o',
-		off: 'fa-square-o'
+		icon_on: 'fa-check-square-o',
+		icon_off: 'fa-square-o'
 	};
 
 	var methods = {
@@ -64,17 +64,17 @@
 					var fa = $(this).find(".fa");
 
 					if(labelstatus)
-						fa.removeClass(settings.off).addClass(settings.on);
+						fa.removeClass(settings.icon_off).addClass(settings.icon_on);
 					else
-						fa.removeClass(settings.on).addClass(settings.off);
+						fa.removeClass(settings.icon_on).addClass(settings.icon_off);
 				}).click(function(){
 					$(this).parent().each(function() {
 						var fa = $(this).find(".fa");
-						fa.removeClass(settings.on).addClass(settings.off);
+						fa.removeClass(settings.icon_on).addClass(settings.icon_off);
 					});
 
 					var fa = $(this).find(".fa");
-					fa.removeClass(settings.off).addClass(settings.on);
+					fa.removeClass(settings.icon_off).addClass(settings.icon_on);
 				});
 			});
 		}
