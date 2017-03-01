@@ -42,7 +42,7 @@
 * @author       alex Roosso
 * @copyright    2010-2017 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.2.15
+* @version      1.2.16
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -156,6 +156,7 @@ $sql['CREATE'.STRUCTURE_TABLE] = "CREATE TABLE IF NOT EXISTS `".STRUCTURE_TABLE.
 					  `thumb_img_width` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Thumbnail image width [in pixels]',
 					  `thumb_img_height` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Thumbnail image height [in pixels]',
 					  PRIMARY KEY (`id`),
+					  UNIQUE KEY (`id`),
 					  UNIQUE KEY `alias` (`alias`),
 					  KEY `type` (`page_type`),
 					  KEY `page_id` (`page_id`)
@@ -215,6 +216,7 @@ $sql['CREATE'.PAGES_FEED_TABLE] = "CREATE TABLE IF NOT EXISTS `".PAGES_FEED_TABL
 					  `brief_item` text NOT NULL,
 					  `full_item` longtext NOT NULL,
 					  PRIMARY KEY (`id`),
+					  UNIQUE KEY (`id`),
 					  KEY `sid` (`sid`),
 					  KEY `date_publications` (`date_publications`)
 					) ENGINE=MyISAM  DEFAULT CHARSET=utf8 PACK_KEYS=1 AUTO_INCREMENT=1";
@@ -235,6 +237,7 @@ $sql['CREATE '.BLOCKS_TABLE] = "CREATE TABLE IF NOT EXISTS `".BLOCKS_TABLE."` (
 				  `date_create` int(20) unsigned NOT NULL DEFAULT '0' COMMENT 'format: unixtimestamp',
 				  `date_modified` int(20) unsigned NOT NULL DEFAULT '0' COMMENT 'last modified date',
 				  PRIMARY KEY (`id`),
+				  UNIQUE KEY (`id`),
 				  UNIQUE KEY `alias` (`alias`)
                                 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 PACK_KEYS=1 AUTO_INCREMENT=1";
 //$id = 1;
@@ -306,7 +309,8 @@ $sql['CREATE '.USERS_TABLE] = "CREATE TABLE `".USERS_TABLE."` (
 				  `activation_code` varchar(10) NOT NULL,
 				  `secret_key` varchar(10) NOT NULL,
 				  PRIMARY KEY (`uid`),
-				  UNIQUE KEY `id` (`uid`,`login`),
+				  UNIQUE KEY `id` (`uid`),
+				  UNIQUE KEY `id` (`login`),
 				  UNIQUE KEY `nickname` (`nickname`)
 				) ENGINE=MyISAM  DEFAULT CHARSET=utf8;";
 
@@ -361,6 +365,7 @@ $sql['CREATE '.HELP_TABLE] = "CREATE TABLE IF NOT EXISTS `".HELP_TABLE."` (
 				  `content` longtext NOT NULL,
 				  `date_modified` int(20) unsigned NOT NULL DEFAULT '0',
 				  PRIMARY KEY (`id`),
+				  UNIQUE KEY `id` (`id`),
 				  UNIQUE KEY `uname` (`uname`)
 				) ENGINE=MyISAM  DEFAULT CHARSET=utf8 PACK_KEYS=1 AUTO_INCREMENT=26";
 
@@ -406,5 +411,6 @@ $sql['CREATE '.LOG_TABLE] = "CREATE TABLE IF NOT EXISTS `".LOG_TABLE."` (
 				  `type_log` enum('info','error','log') NOT NULL DEFAULT 'log',
 				  `date_log` int(20) unsigned NOT NULL DEFAULT '0',
 				  PRIMARY KEY (`id`),
+				  UNIQUE KEY (`id`),
 				  KEY `uid` (`uid`)
 				) ENGINE=MyISAM DEFAULT CHARSET=utf8 PACK_KEYS=1 AUTO_INCREMENT=26";
