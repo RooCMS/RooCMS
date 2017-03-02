@@ -150,7 +150,7 @@
 		{if !empty($groups)}
 		<div class="form-group">
 			<label for="inputGroups" class="col-lg-3 control-label">
-				Группа пользователя:
+				Основная группа пользователя:
 			</label>
 			<div class="col-lg-9">
 				<select name="gid" id="inputGroups" class="selectpicker show-tick" required data-header="Группы пользователей" data-size="auto" data-live-search="true" data-width="50%">

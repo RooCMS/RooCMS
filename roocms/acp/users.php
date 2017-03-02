@@ -43,7 +43,7 @@
  * @author       alex Roosso
  * @copyright    2010-2017 (c) RooCMS
  * @link         http://www.roocms.com
- * @version      1.4.3
+ * @version      1.5
  * @since        $date$
  * @license      http://www.gnu.org/licenses/gpl-3.0.html
  */
@@ -120,6 +120,11 @@ class ACP_USERS {
 			case 'delete_group':
 				if($this->gid != 0) $this->delete_group($this->gid);
 				else go(CP."?act=users&part=group_list");
+				break;
+
+			case 'exclude_user_group':
+				if($this->uid != 0 && $this->gid != 0) $this->exclude_user_group($this->uid, $this->gid);
+				else goback();
 				break;
 
 			case 'group_list':
@@ -368,8 +373,15 @@ class ACP_USERS {
 		$q = $db->query("SELECT gid, title FROM ".USERS_GROUP_TABLE." WHERE gid='".$gid."'");
 		$group = $db->fetch_assoc($q);
 
+		$guser = array();
+		$u = $db->query("SELECT uid, nickname, login, avatar, status, ban FROM ".USERS_TABLE." WHERE gid='".$gid."' ORDER BY uid ASC");
+		while($row = $db->fetch_assoc($u)) {
+			$guser[$row['uid']] = $row;
+		}
+
 		# отрисовываем шаблон
 		$smarty->assign("group", $group);
+		$smarty->assign("users", $guser);
 		$content = $tpl->load_template("users_edit_group", true);
 		$smarty->assign("content", $content);
 	}
@@ -551,13 +563,14 @@ class ACP_USERS {
 			# удаляем аватарку.
 			if($data['avatar'] != "" && file_exists(_UPLOADIMAGES."/".$data['avatar'])) unlink(_UPLOADIMAGES."/".$data['avatar']);
 
-			$this->count_users($data['gid']);
-
 			# удаляем юзера
 			$db->query("DELETE FROM ".USERS_TABLE." WHERE uid='".$uid."'");
 			$logger->info("Пользователь #{$uid} был успешно удален из Базы Данных.");
 
-			# удаляем его почту
+			# пересчитываем пользователей в группе.
+			$this->count_users($data['gid']);
+
+			# удаляем его переписку
 			$db->query("DELETE FROM ".USERS_PM_TABLE." WHERE to_uid='".$uid."'");
 		}
 
@@ -584,6 +597,33 @@ class ACP_USERS {
 		goback();
 	}
 
+
+	/**
+	 * Исключаем пользователя из группы
+	 *
+	 * @param $uid - уникальный идентификатор пользователя.
+	 * @param $gid - Уникальный идентификатор группы
+	 */
+	private function exclude_user_group($uid, $gid) {
+
+		global $db, $logger;
+
+		$q = $db->query("SELECT gid FROM ".USERS_TABLE." WHERE uid='".$uid."'");
+		$data = $db->fetch_assoc($q);
+
+		if($data['gid'] == $gid) {
+			$db->query("UPDATE ".USERS_TABLE." SET gid='0' WHERE uid='".$uid."'");
+
+			# уведомление
+			$logger->info("Пользователь #{$uid} был успешно исключен из группы #{$gid}.");
+
+			# пересчитываем пользователей в группе.
+			$this->count_users($gid);
+		}
+
+		# go
+		goback();
+	}
 
 	/**
 	 * Функция проверяет кол-во пользователей состоящих в группе.

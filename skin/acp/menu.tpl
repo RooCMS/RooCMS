@@ -55,7 +55,7 @@
 				{elseif  $menu_item['role'] == "dropdown"}
 					<li class="dropdown">
 						<a href="#" class="dropdown-toggle visible-lg visible-xs" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="{$menu_item['icon']}"></span> {$menu_item['text']} <span class="caret"></span></a>
-						<a href="#" class="dropdown-toggle hidden-lg hidden-xs" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"  rel="tooltip" title="{$menu_item['text']}" data-placement="left" data-container="body"><span class="{$menu_item['icon']}"></span><span class="caret"></span></a>
+						<a href="#" class="dropdown-toggle hidden-lg hidden-xs" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" rel="tooltip" title="{$menu_item['text']}" data-placement="left" data-container="body"><span class="{$menu_item['icon']}"></span><span class="caret"></span></a>
 						<ul class="dropdown-menu">
 							{foreach from=$menu_item item=item}
 								{if is_array($item)}
