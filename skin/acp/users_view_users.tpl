@@ -20,7 +20,7 @@
 		<tr{if $user['status'] == 0 && $user['activation_code'] == ""} class="danger"{elseif $user['status'] == 0 && $user['activation_code'] != ""} class="warning"{/if}>
 			<td class="text-muted">{$user['uid']}</td>
 			<td>
-				{if $user['avatar'] != ""}<a href="{$SCRIPT_NAME}?act=users&part=edit_user&uid={$user['uid']}"><img src="/upload/images/{$user['avatar']}" height="40" class="img-rounded"></a>{/if}
+				{if $user['avatar'] != ""}<a href="{$SCRIPT_NAME}?act=users&part=edit_user&uid={$user['uid']}"><img src="/upload/images/{$user['avatar']}" height="40" class="img-circle"></a>{/if}
 			</td>
 			<td>
 				<a href="{$SCRIPT_NAME}?act=users&part=edit_user&uid={$user['uid']}">{$user['nickname']}</a> {if $user['user_sex'] == "m"}<i class="fa fa-fw fa-mars text-info"></i>{elseif $user['user_sex'] == "f"}<i class="fa fa-fw fa-venus text-danger"></i>{/if}
@@ -53,7 +53,7 @@
 <ul class="list-group visible-xs">
 	{foreach from=$data item=user}
 		<li class="list-group-item{if $user['status'] == 0 && $user['activation_code'] == ""} list-group-item-danger{elseif $user['status'] == 0 && $user['activation_code'] != ""} list-group-item-warning{/if}">
-			{if $user['avatar'] != ""}<a href="{$SCRIPT_NAME}?act=users&part=edit_user&uid={$user['uid']}"><img src="/upload/images/{$user['avatar']}" height="40" class="img-rounded"></a>{/if}
+			{if $user['avatar'] != ""}<a href="{$SCRIPT_NAME}?act=users&part=edit_user&uid={$user['uid']}"><img src="/upload/images/{$user['avatar']}" height="40" class="img-circle"></a>{/if}
 
 			{if $user['status'] == 0}<span style="text-decoration: line-through;">{/if}
 

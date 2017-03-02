@@ -126,7 +126,7 @@
 				Аватар:  <small><span class="fa fa-question-circle fa-fw" rel="tooltip" title="{$config->users_avatar_width}x{$config->users_avatar_height} пикселей" data-placement="left"></span></small>
 			</label>
 			<div class="col-lg-9">
-				{if $user['avatar'] != ""}<span id="dua-{$user['uid']}" class="hover-cursor delete_useravatar pull-right"  rel="tooltip" title="Удалить аватар пользователя" data-placement="left"><img src="/upload/images/{$user['avatar']}" height="40" class="img-rounded"></span>{/if} <input type="file" name="avatar" id="inputAvatar" class="btn btn-default">
+				{if $user['avatar'] != ""}<span id="dua-{$user['uid']}" class="hover-cursor delete_useravatar pull-right"  rel="tooltip" title="Удалить аватар пользователя" data-placement="left"><img src="/upload/images/{$user['avatar']}" height="40" class="img-circle"></span>{/if} <input type="file" name="avatar" id="inputAvatar" class="btn btn-default">
 			</div>
 		</div>
 
