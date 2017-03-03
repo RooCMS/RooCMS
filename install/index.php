@@ -57,7 +57,9 @@ require_once _SITEROOT."/roocms/init.php";
 //#########################################################
 // Anti Hack
 //---------------------------------------------------------
-if(!defined('RooCMS')) die('Access Denied');
+if(!defined('RooCMS')) {
+	die('Access Denied');
+}
 //#########################################################
 
 nocache();

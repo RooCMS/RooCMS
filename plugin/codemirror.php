@@ -50,7 +50,9 @@
 
 
 $mode = "";
-if(isset($_GET['mode']) && trim($_GET['mode']) != "") $mode = $_GET['mode'];
+if(isset($_GET['mode']) && trim($_GET['mode']) != "") {
+	$mode = $_GET['mode'];
+}
 
 # OUTPUT
 header('HTTP/1.1 200 OK');

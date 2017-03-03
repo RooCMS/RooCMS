@@ -51,7 +51,9 @@
 //#########################################################
 // Anti Hack
 //---------------------------------------------------------
-if(!defined('RooCMS') || !defined('INSTALL')) die('Access Denied');
+if(!defined('RooCMS') || !defined('INSTALL')) {
+	die('Access Denied');
+}
 //#########################################################
 
 
@@ -79,10 +81,14 @@ class Install extends Requirement{
 		global $GET, $POST, $site, $parse, $tpl, $smarty;
 
 		# init step
-		if(isset($GET->_step) && round($GET->_step) > 0) $this->step =& $GET->_step;
+		if(isset($GET->_step) && round($GET->_step) > 0) {
+			$this->step =& $GET->_step;
+		}
 
 		# seo
-		if($site['title'] == "") $site['title'] = "Установка RooCMS";
+		if($site['title'] == "") {
+			$site['title'] = "Установка RooCMS";
+		}
 
 		# переход
 		switch($this->step) {
@@ -93,8 +99,12 @@ class Install extends Requirement{
 				require_once _LIB."/license.php";
 				$this->noticetext = $license['ru'];
 				if($this->allowed && isset($POST->submit)) {
-					if(isset($POST->step) && $POST->step == 1) go(SCRIPT_NAME."?step=2");
-					else goback();
+					if(isset($POST->step) && $POST->step == 1) {
+						go(SCRIPT_NAME."?step=2");
+					}
+					else {
+						goback();
+					}
 				}
 				break;
 
@@ -103,8 +113,12 @@ class Install extends Requirement{
 				$this->status = "Проверяем версию PHP, MySQL, Apache<br />Проверяем наличие требуемых PHP и Apache расширений";
 				$this->check_requirement();
 				if($this->allowed && isset($POST->submit)) {
-					if(isset($POST->step) && $POST->step == 2) go(SCRIPT_NAME."?step=3");
-					else goback();
+					if(isset($POST->step) && $POST->step == 2) {
+						go(SCRIPT_NAME."?step=3");
+					}
+					else {
+						goback();
+					}
 				}
 				break;
 
@@ -113,8 +127,12 @@ class Install extends Requirement{
 				$this->status = "Проверяем доступы и разрешения к важным файлам RooCMS<br />Установка доступов и разрешений для важных файлов RooCMS";
 				$this->check_chmod();
 				if($this->allowed && isset($POST->submit)) {
-					if(isset($POST->step) && $POST->step == 3) go(SCRIPT_NAME."?step=4");
-					else goback();
+					if(isset($POST->step) && $POST->step == 3) {
+						go(SCRIPT_NAME."?step=4");
+					}
+					else {
+						goback();
+					}
 				}
 				break;
 
@@ -154,13 +172,19 @@ class Install extends Requirement{
 				require_once _LIB."/license.php";
 				$this->noticetext = $license['ru'];
 				if($this->allowed && isset($POST->submit)) {
-					if(isset($POST->step) && $POST->step == 1) go(SCRIPT_NAME."?step=2");
-					else goback();
+					if(isset($POST->step) && $POST->step == 1) {
+						go(SCRIPT_NAME."?step=2");
+					}
+					else {
+						goback();
+					}
 				}
 				break;
 		}
 
-		if($this->allowed && $this->step != $this->steps) $this->nextstep = $this->step + 1;
+		if($this->allowed && $this->step != $this->steps) {
+			$this->nextstep = $this->step + 1;
+		}
 
 		# draw
 		$smarty->assign("allowed",	$this->allowed);
@@ -246,7 +270,9 @@ class Install extends Requirement{
 
 
 		# переход next step
-		if(isset($site) && trim($site['title']) != "" && trim($site['domain']) != "" && trim($site['sysemail']) != "") go(SCRIPT_NAME."?step=5");
+		if(isset($site) && trim($site['title']) != "" && trim($site['domain']) != "" && trim($site['sysemail']) != "") {
+			go(SCRIPT_NAME."?step=5");
+		}
 	}
 
 
@@ -283,7 +309,9 @@ class Install extends Requirement{
 
 				# check mysql connect
 				$POST->db_info_pass = $parse->text->html($POST->db_info_pass);
-				if(!$db->check_connect($POST->db_info_host, $POST->db_info_user, $POST->db_info_pass, $POST->db_info_base)) $this->allowed = false;
+				if(!$db->check_connect($POST->db_info_host, $POST->db_info_user, $POST->db_info_pass, $POST->db_info_base)) {
+					$this->allowed = false;
+				}
 
 				if($this->allowed) {
 
@@ -301,8 +329,12 @@ class Install extends Requirement{
 						$context .= $f[$i];
 					}
 
-					if(trim($db_info['prefix']) == "")	$context = str_ireplace('$db_info[\'prefix\'] = "";','$db_info[\'prefix\'] = "'.$POST->db_info_prefix.'";',$context);
-					else					$context = str_ireplace('$db_info[\'prefix\'] = "'.$db_info['prefix'].'";','$db_info[\'prefix\'] = "'.$POST->db_info_prefix.'";',$context);
+					if(trim($db_info['prefix']) == "") {
+						$context = str_ireplace('$db_info[\'prefix\'] = "";','$db_info[\'prefix\'] = "'.$POST->db_info_prefix.'";',$context);
+					}
+					else {
+						$context = str_ireplace('$db_info[\'prefix\'] = "'.$db_info['prefix'].'";','$db_info[\'prefix\'] = "'.$POST->db_info_prefix.'";',$context);
+					}
 
 					$ecf = fopen($cf, "w+");
 					if (is_writable($cf)) {
@@ -377,7 +409,9 @@ class Install extends Requirement{
 
 
 		# check mysql connect
-		if(!$db->check_connect($roocms->sess['db_info_host'], $roocms->sess['db_info_user'], $roocms->sess['db_info_pass'], $roocms->sess['db_info_base'])) $this->allowed = false;
+		if(!$db->check_connect($roocms->sess['db_info_host'], $roocms->sess['db_info_user'], $roocms->sess['db_info_pass'], $roocms->sess['db_info_base'])) {
+			$this->allowed = false;
+		}
 
 		if($this->allowed) {
 			require_once _LIB."/mysql_schema.php";
@@ -387,7 +421,9 @@ class Install extends Requirement{
 			foreach($sql AS $k=>$v) {
 				$mysqli->query($v);
 
-				if($mysqli->errno == 0) $this->log[] = array('Операция', $k, true, '');
+				if($mysqli->errno == 0) {
+					$this->log[] = array('Операция', $k, true, '');
+				}
 				else {
 					$this->log[] = array('Операция', $k, false, '# '.$mysqli->errno.'<br />- '.$mysqli->error);
 					$this->allowed = false;
@@ -404,7 +440,9 @@ class Install extends Requirement{
 
 		global $db, $parse, $logger, $POST;
 
-		if($db->check_id(1, USERS_TABLE, "uid")) go(SCRIPT_NAME."?step=8");
+		if($db->check_id(1, USERS_TABLE, "uid")) {
+			go(SCRIPT_NAME."?step=8");
+		}
 
 		if($this->allowed && isset($POST->submit) && isset($POST->step) && $POST->step == 7) {
 
@@ -468,7 +506,9 @@ class Install extends Requirement{
 		$confperms = array('path' => _ROOCMS.'/config/config.php', 'chmod' => '0644');
 
 		@chmod($confperms['path'], $confperms['chmod']);
-		if(!@chmod($confperms['path'], $confperms['chmod'])) $this->log[] = array("", "Не удалось изменить доступ к файлу ".$confperms." вам потребуется установить доступ вручную через FTP. Установить доступ <b>0644</b>", false, "");
+		if(!@chmod($confperms['path'], $confperms['chmod'])) {
+			$this->log[] = array("", "Не удалось изменить доступ к файлу ".$confperms." вам потребуется установить доступ вручную через FTP. Установить доступ <b>0644</b>", false, "");
+		}
 
 		$servname = explode(".", $_SERVER['SERVER_NAME']);
 		$server_name = (count($servname) == 2) ? "www.".$_SERVER['SERVER_NAME']: $_SERVER['SERVER_NAME'] ;

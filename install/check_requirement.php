@@ -51,7 +51,9 @@
 //#########################################################
 // Anti Hack
 //---------------------------------------------------------
-if(!defined('RooCMS') || !defined('INSTALL')) die('Access Denied');
+if(!defined('RooCMS') || !defined('INSTALL')) {
+	die('Access Denied');
+}
 //#########################################################
 
 
@@ -175,8 +177,12 @@ class Requirement {
 			$roocmspath = str_replace(_SITEROOT, "", $v['path']);
 			if($perms != $v['chmod']) {
 				@chmod($v['path'], $v['chmod']);
-				if(@chmod($v['path'], $v['chmod'])) $this->log[] = array("Директория ".$roocmspath, $v['chmod'], true, "");
-				else $this->log[] = array("Директория ".$roocmspath, $perms, false, "Неверные права доступа к директории. Рекомендуемые права ".$v['chmod'].". Для повышения безопастности установите права вручную через ваш FTP доступ");
+				if(@chmod($v['path'], $v['chmod'])) {
+					$this->log[] = array("Директория ".$roocmspath, $v['chmod'], true, "");
+				}
+				else {
+					$this->log[] = array("Директория ".$roocmspath, $perms, false, "Неверные права доступа к директории. Рекомендуемые права ".$v['chmod'].". Для повышения безопастности установите права вручную через ваш FTP доступ");
+				}
 			}
 			else $this->log[] = array("Директория ".$roocmspath, $perms, true, "");
 		}
@@ -187,8 +193,12 @@ class Requirement {
 			$roocmspath = str_replace(_SITEROOT, "", $v['path']);
 			if($perms != $v['chmod']) {
 				@chmod($v['path'], $v['chmod']);
-				if(@chmod($v['path'], $v['chmod'])) $this->log[] = array("Файл ".$roocmspath, $v['chmod'], true, "");
-				else $this->log[] = array("Файл ".$roocmspath, $perms, false, "Неверные права доступа к директории. Рекомендуемые права ".$v['chmod'].". Для повышения безопастности установите права вручную через ваш FTP доступ");
+				if(@chmod($v['path'], $v['chmod'])) {
+					$this->log[] = array("Файл ".$roocmspath, $v['chmod'], true, "");
+				}
+				else {
+					$this->log[] = array("Файл ".$roocmspath, $perms, false, "Неверные права доступа к директории. Рекомендуемые права ".$v['chmod'].". Для повышения безопастности установите права вручную через ваш FTP доступ");
+				}
 			}
 			else $this->log[] = array("Файл ".$roocmspath, $perms, true, "");
 		}

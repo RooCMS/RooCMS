@@ -51,7 +51,9 @@
 //#########################################################
 // Anti Hack
 //---------------------------------------------------------
-if(!defined('RooCMS') || !defined('INSTALL')) die('Access Denied');
+if(!defined('RooCMS') || !defined('INSTALL')) {
+	die('Access Denied');
+}
 //#########################################################
 
 
@@ -79,7 +81,9 @@ class Update extends Requirement{
 		global $GET, $POST, $site, $parse, $tpl, $smarty;
 
 		# init step
-		if(isset($GET->_step) && round($GET->_step) > 0) $this->step =& $GET->_step;
+		if(isset($GET->_step) && round($GET->_step) > 0) {
+			$this->step =& $GET->_step;
+		}
 
 		# seo
 		$site['title'] = "Обновление RooCMS";
@@ -93,8 +97,12 @@ class Update extends Requirement{
 				require_once _LIB."/license.php";
 				$this->noticetext = $license['ru'];
 				if($this->allowed && isset($POST->submit)) {
-					if(isset($POST->step) && $POST->step == 1) go(SCRIPT_NAME."?step=2");
-					else goback();
+					if(isset($POST->step) && $POST->step == 1) {
+						go(SCRIPT_NAME."?step=2");
+					}
+					else {
+						goback();
+					}
 				}
 				break;
 
@@ -103,8 +111,12 @@ class Update extends Requirement{
 				$this->status = "Проверяем версию PHP, MySQL, Apache<br />Проверяем наличие требуемых PHP и Apache расширений";
 				$this->check_requirement();
 				if($this->allowed && isset($POST->submit)) {
-					if(isset($POST->step) && $POST->step == 2) go(SCRIPT_NAME."?step=3");
-					else goback();
+					if(isset($POST->step) && $POST->step == 2) {
+						go(SCRIPT_NAME."?step=3");
+					}
+					else {
+						goback();
+					}
 				}
 				break;
 
@@ -113,8 +125,12 @@ class Update extends Requirement{
 				$this->status = "Проверяем доступы и разрешения к важным файлам RooCMS<br />Установка доступов и разрешений для важных файлов RooCMS";
 				$this->check_chmod();
 				if($this->allowed && isset($POST->submit)) {
-					if(isset($POST->step) && $POST->step == 3) go(SCRIPT_NAME."?step=4");
-					else goback();
+					if(isset($POST->step) && $POST->step == 3) {
+						go(SCRIPT_NAME."?step=4");
+					}
+					else {
+						goback();
+					}
 				}
 				break;
 
@@ -130,13 +146,19 @@ class Update extends Requirement{
 				require_once _LIB."/license.php";
 				$this->noticetext = $license['ru'];
 				if($this->allowed && isset($POST->submit)) {
-					if(isset($POST->step) && $POST->step == 1) go(SCRIPT_NAME."?step=2");
-					else goback();
+					if(isset($POST->step) && $POST->step == 1) {
+						go(SCRIPT_NAME."?step=2");
+					}
+					else {
+						goback();
+					}
 				}
 				break;
 		}
 
-		if($this->allowed && $this->step != $this->steps) $this->nextstep = $this->step + 1;
+		if($this->allowed && $this->step != $this->steps) {
+			$this->nextstep = $this->step + 1;
+		}
 
 		# draw
 		$smarty->assign("allowed",	$this->allowed);
@@ -166,7 +188,9 @@ class Update extends Requirement{
 
 		if(get_http_response_code("http://version.roocms.com/index.php") == "200") {
 			$f = file("http://version.roocms.com/index.php");
-			if(!empty($f)) $this->log[] = array('', 'Последняя версия: '.$f[0].'', true, '');
+			if(!empty($f)) {
+				$this->log[] = array('', 'Последняя версия: '.$f[0].'', true, '');
+			}
 		}
 	}
 }

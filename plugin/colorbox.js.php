@@ -50,7 +50,9 @@
 
 
 $skin = 1;
-if(isset($_GET['s']) && $_GET['s'] >= 1 && $_GET['s'] <=5) $skin = $_GET['s'];
+if(isset($_GET['s']) && $_GET['s'] >= 1 && $_GET['s'] <=5) {
+	$skin = $_GET['s'];
+}
 
 # OUTPUT
 header('HTTP/1.1 200 OK');
