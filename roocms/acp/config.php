@@ -43,7 +43,7 @@
 * @author       alex Roosso
 * @copyright    2010-2017 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.2.8
+* @version      1.3
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -60,9 +60,6 @@ class ACP_CONFIG {
 
 	# classes
 	var $config;
-
-	# type config
-	private $types	= array();
 
 	private $part	= "global";
 
@@ -222,13 +219,14 @@ class ACP_CONFIG {
 	private function update_config() {
 
 		global $db, $parse, $logger, $POST, $img;
-		$t_vars = array();
 
-		# запрашиваем из БД типа опций
-		$q = $db->query("SELECT option_name, option_type, variants FROM ".CONFIG_TABLE);
+		# запрашиваем из БД типы опций и ограничений
+		$cfg_vars = array();
+		$q = $db->query("SELECT option_name, option_type, variants, field_maxleight FROM ".CONFIG_TABLE);
 		while($row = $db->fetch_assoc($q)) {
 
-			$this->types[$row['option_name']] = $row['option_type'];
+			$cfg_vars[$row['option_name']]['type'] 		= $row['option_type'];
+			$cfg_vars[$row['option_name']]['maxleight'] 	= $row['field_maxleight'];
 
 			if(trim($row['variants']) != "") {
 
@@ -236,7 +234,7 @@ class ACP_CONFIG {
 
 				foreach($vars AS $k=>$v) {
 					$v = explode("|",trim($v));
-					$t_vars[$row['option_name']][$v[1]] = trim($v[1]);
+					$cfg_vars[$row['option_name']]['var'][$v[1]] = trim($v[1]);
 				}
 			}
 		}
@@ -256,7 +254,7 @@ class ACP_CONFIG {
 				$check = false;
 
 
-				switch($this->types[$key]) {
+				switch($cfg_vars[$key]['type']) {
 					# integer
 					case 'int':
 					case 'integer':
@@ -275,6 +273,7 @@ class ACP_CONFIG {
 					case 'color':
 					case 'text':
 					case 'textarea':
+						$value = $this->check_string_value($value,$cfg_vars[$key]['maxleight']);
 						$check = true;
 						break;
 
@@ -291,7 +290,7 @@ class ACP_CONFIG {
 						break;
 
 					case 'select':
-						if(isset($t_vars[$key][$value])) $check = true;
+						if(isset($cfg_vars[$key]['var'][$value])) $check = true;
 						break;
 
 					case 'image':
@@ -329,6 +328,23 @@ class ACP_CONFIG {
 			go($path);
 		}
 		else goback();
+	}
+
+
+	/**
+	 * Функция обработки строковых данных конфигуратора сайта
+	 *
+	 * @param string $value 	- Значение
+	 * @param int    $maxleight	- Максимальная длина строки
+	 *
+	 * @return string
+	 */
+	private function check_string_value($value, $maxleight=0) {
+
+		if($maxleight > 0)
+			$value = substr($value, 0, $maxleight);
+
+		return $value;
 	}
 
 

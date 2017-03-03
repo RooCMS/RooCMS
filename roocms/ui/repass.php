@@ -58,7 +58,7 @@ class REPASS {
 
 
 
-	function __construct() {
+	public function __construct() {
 
 		global $structure, $roocms, $users, $POST;
 

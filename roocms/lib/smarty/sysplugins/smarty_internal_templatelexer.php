@@ -199,7 +199,7 @@ class Smarty_Internal_Templatelexer
      * @param   string                             $data template source
      * @param Smarty_Internal_TemplateCompilerBase $compiler
      */
-    function __construct($data, Smarty_Internal_TemplateCompilerBase $compiler)
+    public function __construct($data, Smarty_Internal_TemplateCompilerBase $compiler)
     {
         $this->data = $data;
         $this->counter = 0;

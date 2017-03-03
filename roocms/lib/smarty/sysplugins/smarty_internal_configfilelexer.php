@@ -137,7 +137,7 @@ class Smarty_Internal_Configfilelexer
      * @param   string                             $data template source
      * @param Smarty_Internal_Config_File_Compiler $compiler
      */
-    function __construct($data, Smarty_Internal_Config_File_Compiler $compiler)
+    public function __construct($data, Smarty_Internal_Config_File_Compiler $compiler)
     {
         // set instance object
         self::instance($this);
