@@ -50,7 +50,9 @@
 //#########################################################
 // Anti Hack
 //---------------------------------------------------------
-if(!defined('RooCMS') || !defined('UI')) die('Access Denied');
+if(!defined('RooCMS') || !defined('UI')) {
+	die('Access Denied');
+}
 //#########################################################
 
 
@@ -66,12 +68,16 @@ class REPASS {
 		$structure->breadcumb[] = array('part'=>'repass', 'title'=>'Восстановление пароля');
 
 		# if users registred
-		if($users->uid != 0) go(SCRIPT_NAME."?part=ucp&act=ucp");
+		if($users->uid != 0) {
+			go(SCRIPT_NAME."?part=ucp&act=ucp");
+		}
 
 		# action
 		switch($roocms->act) {
 			case 'reminder':
-				if(isset($POST->reminder)) $this->reminder();
+				if(isset($POST->reminder)) {
+					$this->reminder();
+				}
 				break;
 
 			case 'confirm':

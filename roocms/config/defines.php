@@ -51,7 +51,9 @@
 //#########################################################
 // Anti Hack
 //---------------------------------------------------------
-if(!defined('RooCMS')) die('Access Denied');
+if(!defined('RooCMS')) {
+	die('Access Denied');
+}
 //#########################################################
 
 
@@ -83,8 +85,11 @@ define('LOG_TABLE',             DB_PREFIX.'log');
 /**
 * RooCMS $Path
 */
-if(!defined('_SITEROOT'))
-define('_SITEROOT',     str_ireplace(DIRECTORY_SEPARATOR."roocms".DIRECTORY_SEPARATOR."config", "", dirname(__FILE__)));
+
+if(!defined('_SITEROOT')) {
+	define('_SITEROOT',     str_ireplace(DIRECTORY_SEPARATOR."roocms".DIRECTORY_SEPARATOR."config", "", dirname(__FILE__)));
+}
+
 define('_ROOCMS',       _SITEROOT.'/roocms');
 define('_CLASS',        _ROOCMS.'/class');
 define('_LIB',          _ROOCMS.'/lib');

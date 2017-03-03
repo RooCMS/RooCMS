@@ -51,7 +51,9 @@
 //#########################################################
 // Anti Hack
 //---------------------------------------------------------
-if(!defined('RooCMS') || !defined('UI') || !defined('UCP')) die('Access Denied');
+if(!defined('RooCMS') || !defined('UI') || !defined('UCP')) {
+	die('Access Denied');
+}
 //#########################################################
 
 
@@ -124,27 +126,42 @@ class UCP_CP {
 
 		# login
 		if(isset($POST->login) && trim($POST->login) != "") {
-			if(!$users->check_field("login", $POST->login, $users->userdata['login']))
+			if(!$users->check_field("login", $POST->login, $users->userdata['login'])) {
 				$logger->error("Ваш логин не был изменен. Возможно использование такого логина невозможно, попробуйте выбрать другой логин");
-			else	$query .= "login='".$POST->login."', ";
+			}
+			else {
+				$query .= "login='".$POST->login."', ";
+			}
 		}
-		else $logger->error("Вы не указали логин.");
+		else {
+			$logger->error("Вы не указали логин.");
+		}
 
 		# nickname
 		if(isset($POST->nickname) && trim($POST->nickname) != "") {
-			if(!$users->check_field("nickname", $POST->nickname, $users->userdata['nickname']))
+			if(!$users->check_field("nickname", $POST->nickname, $users->userdata['nickname'])) {
 				$logger->error("Такой псевдоним уже имеется у одного из пользователей. Пожалуйста, выберите другой псевдоним.");
-			else	$query .= "nickname='".$POST->nickname."', ";
+			}
+			else {
+				$query .= "nickname='".$POST->nickname."', ";
+			}
 		}
-		else $logger->error("Вы не указали псевдоним.");
+		else {
+			$logger->error("Вы не указали псевдоним.");
+		}
 
 		# email
 		if(isset($POST->email) && trim($POST->email) != "" && $parse->valid_email($POST->email)) {
-			if(!$users->check_field("email", $POST->email, $users->userdata['email']))
+			if(!$users->check_field("email", $POST->email, $users->userdata['email'])) {
 				$logger->error("Указанный email уже существует в Базе Данных!");
-			else	$query .= "email='".$POST->email."', ";
+			}
+			else {
+				$query .= "email='".$POST->email."', ";
+			}
 		}
-		else $logger->info("Вы не указали электронную почту (или указали в некоректном формате), поэтому мы сохранили ту, что была указана ранее.<br />На эту почту вам будут приходить уведомления с сайта. В случае если вы забудете свой пароль, восстановить его можно будет с помошью указанной почты.");
+		else {
+			$logger->info("Вы не указали электронную почту (или указали в некоректном формате), поэтому мы сохранили ту, что была указана ранее.<br />На эту почту вам будут приходить уведомления с сайта. В случае если вы забудете свой пароль, восстановить его можно будет с помошью указанной почты.");
+		}
 
 		# personal data
 		$users->check_personal_data();
@@ -157,7 +174,9 @@ class UCP_CP {
 
 		$av = $img->upload_image("avatar", "", array($config->users_avatar_width, $config->users_avatar_height), array("filename"=>"av_".$users->uid, "watermark"=>false, "modify"=>false));
 		if(isset($av[0])) {
-			if($users->avatar != "" && $users->avatar != $av[0]) unlink(_UPLOADIMAGES."/".$users->avatar);
+			if($users->avatar != "" && $users->avatar != $av[0]) {
+				unlink(_UPLOADIMAGES."/".$users->avatar);
+			}
 			$query .= "avatar='".$av[0]."', ";
 		}
 
@@ -197,7 +216,9 @@ class UCP_CP {
 			# go out
 			go("index.php?part=ucp&act=ucp");
 		}
-		else goback();
+		else {
+			goback();
+		}
 	}
 }
 

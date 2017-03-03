@@ -50,7 +50,9 @@
 //#########################################################
 // Anti Hack
 //---------------------------------------------------------
-if(!defined('RooCMS') || !defined('UI')) die('Access Denied');
+if(!defined('RooCMS') || !defined('UI')) {
+	die('Access Denied');
+}
 //#########################################################
 
 
@@ -66,12 +68,16 @@ class REG {
 		$structure->breadcumb[] = array('part'=>'reg', 'title'=>'Регистрация');
 
 		# if users registred
-		if($users->uid != 0) go(SCRIPT_NAME."?part=ucp&act=ucp");
+		if($users->uid != 0) {
+			go(SCRIPT_NAME."?part=ucp&act=ucp");
+		}
 		
 		# action
 		switch($roocms->act) {
 			case 'join':
-				if(isset($POST->join)) $this->join();
+				if(isset($POST->join)) {
+					$this->join();
+				}
 				break;
 
 			case 'activation':
@@ -127,16 +133,27 @@ class REG {
 
 
 		# nickname
-		if(!isset($POST->nickname) || trim($POST->nickname) == "") $POST->nickname = mb_ucfirst($POST->login);
+		if(!isset($POST->nickname) || trim($POST->nickname) == "") {
+			$POST->nickname = mb_ucfirst($POST->login);
+		}
 		$POST->nickname = $users->check_new_nickname($POST->nickname);
 
 		# login
 		if(!isset($POST->login) || trim($POST->login) == "") {
-			if(isset($POST->nickname) && trim($POST->nickname) != "") $POST->login = mb_strtolower($parse->text->transliterate($POST->nickname));
-			else $logger->error("У пользователя должен быть логин!");
+			if(isset($POST->nickname) && trim($POST->nickname) != "") {
+				$POST->login = mb_strtolower($parse->text->transliterate($POST->nickname));
+			}
+			else {
+				$logger->error("У пользователя должен быть логин!");
+			}
 		}
-		else $POST->login = $parse->text->transliterate($POST->login);
-		if(isset($POST->login) && trim($POST->login) != "" && $db->check_id($POST->login, USERS_TABLE, "login")) $logger->error("Пользователь с таким логином уже существует");
+		else {
+			$POST->login = $parse->text->transliterate($POST->login);
+		}
+
+		if(isset($POST->login) && trim($POST->login) != "" && $db->check_id($POST->login, USERS_TABLE, "login")) {
+			$logger->error("Пользователь с таким логином уже существует");
+		}
 
 		# email
 		$users->valid_user_email($POST->email);
@@ -144,7 +161,9 @@ class REG {
 		if(!isset($_SESSION['error'])) {
 
 			#password
-			if(!isset($POST->password) || trim($POST->password) == "") $POST->password = $security->create_new_password();
+			if(!isset($POST->password) || trim($POST->password) == "") {
+				$POST->password = $security->create_new_password();
+			}
 
 			$salt = $security->create_new_salt();
 			$password = $security->hashing_password($POST->password, $salt);
@@ -166,7 +185,9 @@ class REG {
 
 			# avatar
 			$av = $img->upload_image("avatar", "", array($config->users_avatar_width, $config->users_avatar_height), array("filename"=>"av_".$uid, "watermark"=>false, "modify"=>false));
-			if(isset($av[0])) $db->query("UPDATE ".USERS_TABLE." SET avatar='".$av[0]."' WHERE uid='".$uid."'");
+			if(isset($av[0])) {
+				$db->query("UPDATE ".USERS_TABLE." SET avatar='".$av[0]."' WHERE uid='".$uid."'");
+			}
 
 
 			# activation link

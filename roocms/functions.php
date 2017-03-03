@@ -42,7 +42,7 @@
 * @author       alex Roosso
 * @copyright    2010-2017 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.3
+* @version      1.3.1
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -50,7 +50,9 @@
 //#########################################################
 // Anti Hack
 //---------------------------------------------------------
-if(!defined('RooCMS')) die('Access Denied');
+if(!defined('RooCMS')) {
+	die('Access Denied');
+}
 //#########################################################
 
 
@@ -65,8 +67,9 @@ if(!defined('RooCMS')) die('Access Denied');
  */
 function randcode($ns, $symbols="ABCEFHKLMNPRSTVXYZ123456789") {
 
-	if(trim($symbols) == "")
+	if(trim($symbols) == "") {
 		$symbols = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+	}
 
 	settype($symbols, "string");
 
@@ -107,7 +110,9 @@ function sendmail($mail, $theme, $message, $from="robot") {
 	$from = trim($from);
 	$pattern = '/^[\.\-_A-Za-z0-9]+?@[\.\-A-Za-z0-9]+?\.[A-Za-z0-9]{2,6}$/';
 
-	if($from == "robot" || !preg_match($pattern, $from)) $from = "robot@".$domain;
+	if($from == "robot" || !preg_match($pattern, $from)) {
+		$from = "robot@".$domain;
+	}
 
 	# заголовки
 	$headers  = "MIME-Version: 1.0\n";
@@ -139,13 +144,42 @@ function mb_ucfirst($string) {
  */
 function go($address, $code=301) {
 
-	if($code == 300)	header($_SERVER['SERVER_PROTOCOL'].' 300 Multiple Choices');	# множественный выбор
-	elseif($code == 301)	header($_SERVER['SERVER_PROTOCOL'].' 301 Moved Permanently');	# перемещен навсегда
-	elseif($code == 302)	header($_SERVER['SERVER_PROTOCOL'].' 302 Found');		# перемещен временно
-	elseif($code == 303)	header($_SERVER['SERVER_PROTOCOL'].' 303 See Other');		# GET на другой адрес
-	elseif($code == 304)	header($_SERVER['SERVER_PROTOCOL'].' 304 Not Modified');	# не изменялось
-	elseif($code == 307)	header($_SERVER['SERVER_PROTOCOL'].' 307 Temporary Redirect');	# перемещен временно
-	else			header($_SERVER['SERVER_PROTOCOL'].' 301 Moved Permanently');
+	switch($code) {
+		# множественный выбор
+		case 300:
+			header($_SERVER['SERVER_PROTOCOL'].' 300 Multiple Choices');
+			break;
+
+		# перемещен навсегда
+		case 301:
+			header($_SERVER['SERVER_PROTOCOL'].' 301 Moved Permanently');
+			break;
+
+		# перемещен временно
+		case 302:
+			header($_SERVER['SERVER_PROTOCOL'].' 302 Found');
+			break;
+
+		# GET на другой адрес
+		case 303:
+			header($_SERVER['SERVER_PROTOCOL'].' 303 See Other');
+			break;
+
+		# не изменялось
+		case 304:
+			header($_SERVER['SERVER_PROTOCOL'].' 304 Not Modified');
+			break;
+
+		# перемещен временно
+		case 307:
+			header($_SERVER['SERVER_PROTOCOL'].' 307 Temporary Redirect');
+			break;
+
+		# по умолчанию 301
+		default:
+			header($_SERVER['SERVER_PROTOCOL'].' 301 Moved Permanently');
+			break;
+	}
 
 	header("Location: ".$address);
 	exit;
@@ -198,8 +232,9 @@ function get_http_response_code($url) {
 function file_read($file) {
 	$buffer = "";
 
-	if(file_exists($file))
+	if(file_exists($file)) {
 		$buffer .= file_get_contents($file);
+	}
 
 	return $buffer;
 }

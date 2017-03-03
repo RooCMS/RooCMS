@@ -51,14 +51,18 @@
 //#########################################################
 // Anti Hack
 //---------------------------------------------------------
-if(!defined('RooCMS')) die('Access Denied');
+if(!defined('RooCMS')) {
+	die('Access Denied');
+}
 //#########################################################
 
 
 //#########################################################
 // Initialisation User CP identification
 //---------------------------------------------------------
-if(!defined('UI')) define('UI', true);
+if(!defined('UI')) {
+	define('UI', true);
+}
 //#########################################################
 
 
@@ -67,8 +71,12 @@ nocache();
 /**
  * Init Blocks & Modules
  */
-if(!class_exists("Blocks"))  require_once "site_blocks.php";
-if(!class_exists("Modules")) require_once "site_module.php";
+if(!class_exists("Blocks"))  {
+	require_once "site_blocks.php";
+}
+if(!class_exists("Modules")) {
+	require_once "site_module.php";
+}
 
 # init partition
 if(trim($roocms->part) != "") {

@@ -53,7 +53,9 @@
 //#########################################################
 // Anti Hack
 //---------------------------------------------------------
-if(!defined('RooCMS') || !defined('ACP')) die('Access Denied');
+if(!defined('RooCMS') || !defined('ACP')) {
+	die('Access Denied');
+}
 //#########################################################
 
 
@@ -203,8 +205,9 @@ class ACP_FEEDS_FEED {
         		$row['publication_status'] = ($row['date_end_publications'] < time() && $row['date_end_publications'] != 0) ? "hide" : "show" ;
 
 			$row['date_publications'] 	= $parse->date->unix_to_rus($row['date_publications']);
-			if($row['date_end_publications'] != 0)
-			$row['date_end_publications'] 	= $parse->date->unix_to_rus($row['date_end_publications']);
+			if($row['date_end_publications'] != 0) {
+				$row['date_end_publications'] 	= $parse->date->unix_to_rus($row['date_end_publications']);
+			}
 			$row['date_update'] 		= $parse->date->unix_to_rus($row['date_update'], false, true, true);
 
 			$feedlist[] = $row;
@@ -232,13 +235,22 @@ class ACP_FEEDS_FEED {
 			if(!isset($_SESSION['error'])) {
 
 				$POST->date_publications = $parse->date->rusint_to_unix($POST->date_publications);
-				if($POST->date_end_publications != 0) $POST->date_end_publications = $parse->date->rusint_to_unix($POST->date_end_publications);
 
-				if($POST->date_end_publications != 0 && $POST->date_end_publications <= $POST->date_publications) $POST->date_end_publications = 0;
+				if($POST->date_end_publications != 0) {
+					$POST->date_end_publications = $parse->date->rusint_to_unix($POST->date_end_publications);
+				}
+
+				if($POST->date_end_publications != 0 && $POST->date_end_publications <= $POST->date_publications) {
+					$POST->date_end_publications = 0;
+				}
 
 				# sort
-				if(!isset($POST->itemsort) || $POST->itemsort < 0) $POST->itemsort = 0;
-				else $POST->itemsort = round($POST->itemsort);
+				if(!isset($POST->itemsort) || $POST->itemsort < 0) {
+					$POST->itemsort = 0;
+				}
+				else {
+					$POST->itemsort = round($POST->itemsort);
+				}
 
 				# insert
 				$db->query("INSERT INTO ".PAGES_FEED_TABLE." (title, meta_description, meta_keywords,
@@ -314,8 +326,9 @@ class ACP_FEEDS_FEED {
 
 		$item['date_publications'] = $parse->date->unix_to_rusint($item['date_publications']);
 
-		if($item['date_end_publications'] != 0)
+		if($item['date_end_publications'] != 0) {
 			$item['date_end_publications'] = $parse->date->unix_to_rusint($item['date_end_publications']);
+		}
 
 
 		$smarty->assign("item",$item);
@@ -370,13 +383,22 @@ class ACP_FEEDS_FEED {
 		if(!isset($_SESSION['error'])) {
 
                         $POST->date_publications = $parse->date->rusint_to_unix($POST->date_publications);
-                        if($POST->date_end_publications != 0) $POST->date_end_publications = $parse->date->rusint_to_unix($POST->date_end_publications);
 
-                        if($POST->date_end_publications != 0 && $POST->date_end_publications <= $POST->date_publications) $POST->date_end_publications = 0;
+                        if($POST->date_end_publications != 0) {
+                        	$POST->date_end_publications = $parse->date->rusint_to_unix($POST->date_end_publications);
+			}
+
+                        if($POST->date_end_publications != 0 && $POST->date_end_publications <= $POST->date_publications) {
+                        	$POST->date_end_publications = 0;
+			}
 
 			# sort
-			if(!isset($POST->itemsort) || $POST->itemsort < 0) $POST->itemsort = 0;
-			else $POST->itemsort = round($POST->itemsort);
+			if(!isset($POST->itemsort) || $POST->itemsort < 0) {
+                        	$POST->itemsort = 0;
+			}
+			else {
+                        	$POST->itemsort = round($POST->itemsort);
+			}
 
 		        $db->query("UPDATE ".PAGES_FEED_TABLE."
 		        		SET
@@ -501,7 +523,9 @@ class ACP_FEEDS_FEED {
 		global $db, $logger;
 
 		$status = round($status);
-		if($status >= 2 || $status < 0) $status = 1;
+		if($status >= 2 || $status < 0) {
+			$status = 1;
+		}
 
 		#db
 		$db->query("UPDATE ".PAGES_FEED_TABLE." SET status='".$status."' WHERE id='".$id."'");
@@ -589,20 +613,36 @@ class ACP_FEEDS_FEED {
 
 		global $POST, $logger;
 
-		if(!isset($POST->title)) 	$logger->error("Не заполнен заголовок элемента");
-		if(!isset($POST->full_item)) 	$logger->error("Не заполнен подробный текст элемента");
+		if(!isset($POST->title)) {
+			$logger->error("Не заполнен заголовок элемента");
+		}
+		if(!isset($POST->full_item)) {
+			$logger->error("Не заполнен подробный текст элемента");
+		}
 
 		# status
-		if(!isset($POST->status) || $POST->status >= 2) $POST->status = 1;
+		if(!isset($POST->status) || $POST->status >= 2) {
+			$POST->status = 1;
+		}
 
 		# дата публикации и продолжительности
-		if(!isset($POST->date_publications)) 		$POST->date_publications	= date("d.m.Y",time());
-		if(!isset($POST->date_end_publications))	$POST->date_end_publications	= 0;
+		if(!isset($POST->date_publications)) {
+			$POST->date_publications	= date("d.m.Y",time());
+		}
+		if(!isset($POST->date_end_publications)) {
+			$POST->date_end_publications	= 0;
+		}
 
 		# meta
-		if(!isset($POST->meta_description))	$POST->meta_description	= "";
-		if(!isset($POST->meta_keywords))	$POST->meta_keywords	= "";
-		if(!isset($POST->brief_item)) 		$POST->brief_item = "";
+		if(!isset($POST->meta_description)){
+			$POST->meta_description	= "";
+		}
+		if(!isset($POST->meta_keywords)) {
+			$POST->meta_keywords	= "";
+		}
+		if(!isset($POST->brief_item)) {
+			$POST->brief_item = "";
+		}
 	}
 }
 ?>

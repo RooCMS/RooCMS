@@ -51,7 +51,9 @@
 //#########################################################
 // Anti Hack
 //---------------------------------------------------------
-if(!defined('RooCMS')) die('Access Denied');
+if(!defined('RooCMS')) {
+	die('Access Denied');
+}
 //#########################################################
 
 
@@ -61,23 +63,31 @@ if(!defined('RooCMS')) die('Access Denied');
 */
 $site['title']		= $structure->page_title;
 $site['description']	= $structure->page_meta_desc;
-if(!empty($site)) 	$site['keywords']	= $structure->page_meta_keys;
+if(!empty($site)) {
+	$site['keywords']	= $structure->page_meta_keys;
+}
 
 
 /**
  * Проверяем имеется ли у пользователя доступ к странице.
  */
-if($users->title == "a" || array_key_exists(0, $structure->page_group_access) || array_key_exists($users->gid, $structure->page_group_access))
+if($users->title == "a" || array_key_exists(0, $structure->page_group_access) || array_key_exists($users->gid, $structure->page_group_access)) {
 	$structure->access = true;
-else
+}
+else {
 	$structure->access = false;
+}
 
 
 /**
  * Init Blocks & Modules
  */
-if(!class_exists("Blocks"))  require_once "site_blocks.php";
-if(!class_exists("Modules")) require_once "site_module.php";
+if(!class_exists("Blocks"))  {
+	require_once "site_blocks.php";
+}
+if(!class_exists("Modules")) {
+	require_once "site_module.php";
+}
 
 
 if($structure->access) {

@@ -51,7 +51,9 @@
 //#########################################################
 // Anti Hack
 //---------------------------------------------------------
-if(!defined('RooCMS') || !defined('UI') || !defined('UCP')) die('Access Denied');
+if(!defined('RooCMS') || !defined('UI') || !defined('UCP')) {
+	die('Access Denied');
+}
 //#########################################################
 
 
@@ -179,7 +181,9 @@ class UCP_PM {
 		if(isset($POST->send) && $POST->to_uid != 0 && $db->check_id($POST->to_uid, USERS_TABLE, "uid", "status='1'") && $POST->to_uid != $users->uid && trim($POST->message) != "") {
 
 			#title
-			if(!isset($POST->title) || trim($POST->title) == "") $POST->title = "Без заголовка";
+			if(!isset($POST->title) || trim($POST->title) == "") {
+				$POST->title = "Без заголовка";
+			}
 
 			# send
 			$db->query("INSERT INTO ".USERS_PM_TABLE." (title, to_uid, from_uid, message, date_create)
@@ -204,10 +208,15 @@ class UCP_PM {
 			go(SCRIPT_NAME."?part=ucp&act=pm");
 		}
 		else {
-			if(trim($POST->message) == "")	$logger->error("Вы попытались отправить пустое сообщение. К сожалению это невозможно.");
-			if($POST->to_uid == $users->uid) $logger->error("Переписываетесь сами с собой? Попробуйте с кем нибудь ещё.");
-			if(!$db->check_id($POST->to_uid, USERS_TABLE, "uid", "status='1'"))
+			if(trim($POST->message) == "") {
+				$logger->error("Вы попытались отправить пустое сообщение. К сожалению это невозможно.");
+			}
+			if($POST->to_uid == $users->uid) {
+				$logger->error("Переписываетесь сами с собой? Попробуйте с кем нибудь ещё.");
+			}
+			if(!$db->check_id($POST->to_uid, USERS_TABLE, "uid", "status='1'")) {
 				$logger->error("К сожалению пользователь, которому вы пытаетесь отправить сообщение больше не принимает корреспонденцию.");
+			}
 			goback();
 		}
 	}

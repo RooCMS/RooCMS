@@ -52,7 +52,9 @@
 //#########################################################
 // Anti Hack
 //---------------------------------------------------------
-if(!defined('RooCMS') || !defined('ACP')) die('Access Denied');
+if(!defined('RooCMS') || !defined('ACP')) {
+	die('Access Denied');
+}
 //#########################################################
 
 
@@ -76,9 +78,13 @@ class ACP_USERS {
 
 
 		# Проверяем идентификатор юзера
-		if(isset($GET->_uid) && $db->check_id($GET->_uid, USERS_TABLE, "uid")) $this->uid = $GET->_uid;
+		if(isset($GET->_uid) && $db->check_id($GET->_uid, USERS_TABLE, "uid")) {
+			$this->uid = $GET->_uid;
+		}
 		# Проверка идентификтора группы
-		if(isset($GET->_gid) && $db->check_id($GET->_gid, USERS_GROUP_TABLE, "gid")) $this->gid = $GET->_gid;
+		if(isset($GET->_gid) && $db->check_id($GET->_gid, USERS_GROUP_TABLE, "gid")) {
+			$this->gid = $GET->_gid;
+		}
 
 
 		# action
@@ -89,18 +95,30 @@ class ACP_USERS {
 				break;
 
 			case 'edit_user':
-				if($this->uid != 0) $this->edit_user($this->uid);
-				else go(CP."?act=users");
+				if($this->uid != 0) {
+					$this->edit_user($this->uid);
+				}
+				else {
+					go(CP."?act=users");
+				}
 				break;
 
 			case 'update_user':
-				if($this->uid != 0) $this->update_user($this->uid);
-				else go(CP."?act=users");
+				if($this->uid != 0) {
+					$this->update_user($this->uid);
+				}
+				else {
+					go(CP."?act=users");
+				}
 				break;
 
 			case 'delete_user':
-				if($this->uid != 0) $this->delete_user($this->uid);
-				else go(CP."?act=users");
+				if($this->uid != 0) {
+					$this->delete_user($this->uid);
+				}
+				else {
+					go(CP."?act=users");
+				}
 				break;
 
 			case 'create_group':
@@ -108,23 +126,39 @@ class ACP_USERS {
 				break;
 
 			case 'edit_group':
-				if($this->gid != 0) $this->edit_group($this->gid);
-				else go(CP."?act=users&part=group_list");
+				if($this->gid != 0) {
+					$this->edit_group($this->gid);
+				}
+				else {
+					go(CP."?act=users&part=group_list");
+				}
 				break;
 
 			case 'update_group':
-				if($this->gid != 0) $this->update_group($this->gid);
-				else go(CP."?act=users&part=group_list");
+				if($this->gid != 0) {
+					$this->update_group($this->gid);
+				}
+				else {
+					go(CP."?act=users&part=group_list");
+				}
 				break;
 
 			case 'delete_group':
-				if($this->gid != 0) $this->delete_group($this->gid);
-				else go(CP."?act=users&part=group_list");
+				if($this->gid != 0) {
+					$this->delete_group($this->gid);
+				}
+				else {
+					go(CP."?act=users&part=group_list");
+				}
 				break;
 
 			case 'exclude_user_group':
-				if($this->uid != 0 && $this->gid != 0) $this->exclude_user_group($this->uid, $this->gid);
-				else goback();
+				if($this->uid != 0 && $this->gid != 0) {
+					$this->exclude_user_group($this->uid, $this->gid);
+				}
+				else {
+					goback();
+				}
 				break;
 
 			case 'group_list':
@@ -204,16 +238,26 @@ class ACP_USERS {
 		if(isset($POST->create_user) || isset($POST->create_user_ae)) {
 
 			# nickname
-			if(!isset($POST->nickname) || trim($POST->nickname) == "") $POST->nickname = mb_ucfirst($POST->login);
+			if(!isset($POST->nickname) || trim($POST->nickname) == "") {
+				$POST->nickname = mb_ucfirst($POST->login);
+			}
 			$POST->nickname = $users->check_new_nickname($POST->nickname);
 
 			# login
 			if(!isset($POST->login) || trim($POST->login) == "") {
-				if(isset($POST->nickname) && trim($POST->nickname) != "") $POST->login = mb_strtolower($parse->text->transliterate($POST->nickname));
-				else $logger->error("У пользователя должен быть логин!");
+				if(isset($POST->nickname) && trim($POST->nickname) != "") {
+					$POST->login = mb_strtolower($parse->text->transliterate($POST->nickname));
+				}
+				else {
+					$logger->error("У пользователя должен быть логин!");
+				}
 			}
-			else $POST->login = $parse->text->transliterate($POST->login);
-			if(isset($POST->login) && trim($POST->login) != "" && $db->check_id($POST->login, USERS_TABLE, "login")) $logger->error("Пользователь с таким логином уже существует");
+			else {
+				$POST->login = $parse->text->transliterate($POST->login);
+			}
+			if(isset($POST->login) && trim($POST->login) != "" && $db->check_id($POST->login, USERS_TABLE, "login")) {
+				$logger->error("Пользователь с таким логином уже существует");
+			}
 
 			# email
 			$users->valid_user_email($POST->email);
@@ -222,7 +266,9 @@ class ACP_USERS {
 			if(!isset($_SESSION['error'])) {
 
 				#password
-				if(!isset($POST->password) || trim($POST->password) == "") $POST->password = $security->create_new_password();
+				if(!isset($POST->password) || trim($POST->password) == "") {
+					$POST->password = $security->create_new_password();
+				}
 				$salt = $security->create_new_salt();
 				$password = $security->hashing_password($POST->password, $salt);
 
@@ -238,7 +284,9 @@ class ACP_USERS {
 
 				# avatar
 				$av = $img->upload_image("avatar", "", array($config->users_avatar_width, $config->users_avatar_height), array("filename"=>"av_".$uid, "watermark"=>false, "modify"=>false));
-				if(isset($av[0])) $db->query("UPDATE ".USERS_TABLE." SET avatar='".$av[0]."' WHERE uid='".$uid."'");
+				if(isset($av[0])) {
+					$db->query("UPDATE ".USERS_TABLE." SET avatar='".$av[0]."' WHERE uid='".$uid."'");
+				}
 
 				# Если мы переназначаем группу пользователя
 				if(isset($POST->gid)) {
@@ -261,8 +309,12 @@ class ACP_USERS {
 				$logger->info("Пользователь #".$uid." был успешно добавлен. Уведомление об учетной записи отправлено на его электронную почту.");
 
 				# переход
-				if(isset($POST->create_user_ae)) go(CP."?act=users");
-				else go(CP."?act=users&part=edit_user&uid=".$uid);
+				if(isset($POST->create_user_ae)) {
+					go(CP."?act=users");
+				}
+				else {
+					go(CP."?act=users&part=edit_user&uid=".$uid);
+				}
 			}
 
 			goback();
@@ -292,8 +344,12 @@ class ACP_USERS {
 		if(isset($POST->create_group) || isset($POST->create_group_ae)) {
 
 			# title
-			if(!isset($POST->title) || trim($POST->title) == "") $logger->error("У группы должно быть название!");
-			if(isset($POST->title) && trim($POST->title) != "" && $db->check_id($POST->title, USERS_GROUP_TABLE, "title")) $logger->error("Группа с таким название уже существует");
+			if(!isset($POST->title) || trim($POST->title) == "") {
+				$logger->error("У группы должно быть название!");
+			}
+			if(isset($POST->title) && trim($POST->title) != "" && $db->check_id($POST->title, USERS_GROUP_TABLE, "title")) {
+				$logger->error("Группа с таким название уже существует");
+			}
 
 			if(!isset($_SESSION['error'])) {
 
@@ -305,8 +361,12 @@ class ACP_USERS {
 				$logger->info("Группа #".$gid." была успешно создана.");
 
 				# переход
-				if(isset($POST->create_group_ae)) go(CP."?act=users&part=group_list");
-				else go(CP."?act=users&part=edit_group&gid=".$gid);
+				if(isset($POST->create_group_ae)) {
+					go(CP."?act=users&part=group_list");
+				}
+				else {
+					go(CP."?act=users&part=edit_group&gid=".$gid);
+				}
 			}
 			else goback();
 		}
@@ -337,12 +397,18 @@ class ACP_USERS {
 			$user = $db->fetch_assoc($q);
 
 			# user personal data birth date
-			if($user['user_birthdate'] != 0) $user['user_birthdate'] = date("d.m.Y", $user['user_birthdate']);
-			else $user['user_birthdate'] = "";
+			if($user['user_birthdate'] != 0) {
+				$user['user_birthdate'] = date("d.m.Y", $user['user_birthdate']);
+			}
+			else {
+				$user['user_birthdate'] = "";
+			}
 
 			# i am groot
 			$i_am_groot = false;
-			if($users->uid == $uid) $i_am_groot = true;
+			if($users->uid == $uid) {
+				$i_am_groot = true;
+			}
 
 			# groups
 			$groups = array();
@@ -404,31 +470,51 @@ class ACP_USERS {
 			$query = "";
 
 			# login
-			if(isset($POST->login) && trim($POST->login) != "")
-				if(!$users->check_field("login", $POST->login, $udata['login']))
+			if(isset($POST->login) && trim($POST->login) != "") {
+				if(!$users->check_field("login", $POST->login, $udata['login'])) {
 					$logger->error("Логин не должен совпадать с логином другого пользователя!");
-				else	$query .= "login='".$POST->login."', ";
-			else $logger->error("У пользователя должен быть логин.");
+				}
+				else {
+					$query .= "login='".$POST->login."', ";
+				}
+			}
+			else {
+				$logger->error("У пользователя должен быть логин.");
+			}
 
 			# nickname
-			if(isset($POST->nickname) && trim($POST->nickname) != "")
-				if(!$users->check_field("nickname", $POST->nickname, $udata['nickname']))
+			if(isset($POST->nickname) && trim($POST->nickname) != "") {
+				if(!$users->check_field("nickname", $POST->nickname, $udata['nickname'])) {
 					$logger->error("Никнейм не должен совпадать с никнеймом другого пользователя!");
-				else	$query .= "nickname='".$POST->nickname."', ";
-			else $logger->error("У пользователя должен быть Никнейм.");
+				}
+				else {
+					$query .= "nickname='".$POST->nickname."', ";
+				}
+			}
+			else {
+				$logger->error("У пользователя должен быть Никнейм.");
+			}
 
 
 			# email
-			if(isset($POST->email) && trim($POST->email) != "")
-				if(!$users->check_field("email", $POST->email, $udata['email']))
+			if(isset($POST->email) && trim($POST->email) != "") {
+				if(!$users->check_field("email", $POST->email, $udata['email'])) {
 					$logger->error("Указанный email уже существует в Базе Данных!");
-				else	$query .= "email='".$POST->email."', ";
-			else $logger->error("E-mail должен быть указан обязательно для каждого пользователя.");
+				}
+				else {
+					$query .= "email='".$POST->email."', ";
+				}
+			}
+			else {
+				$logger->error("E-mail должен быть указан обязательно для каждого пользователя.");
+			}
 
 			# avatar
 			$av = $img->upload_image("avatar", "", array($config->users_avatar_width, $config->users_avatar_height), array("filename"=>"av_".$uid, "watermark"=>false, "modify"=>false));
 			if(isset($av[0])) {
-				if($udata['avatar'] != "" && $udata['avatar'] != $av[0]) unlink(_UPLOADIMAGES."/".$udata['avatar']);
+				if($udata['avatar'] != "" && $udata['avatar'] != $av[0]) {
+					unlink(_UPLOADIMAGES."/".$udata['avatar']);
+				}
 				$query .= "avatar='".$av[0]."', ";
 			}
 
@@ -488,8 +574,12 @@ class ACP_USERS {
 
 
 				# переход
-				if(isset($POST->update_user_ae)) go(CP."?act=users");
-				else go(CP."?act=users&part=edit_user&uid=".$uid);
+				if(isset($POST->update_user_ae)) {
+					go(CP."?act=users");
+				}
+				else {
+					go(CP."?act=users&part=edit_user&uid=".$uid);
+				}
 			}
 		}
 
@@ -514,14 +604,17 @@ class ACP_USERS {
 			$query = "";
 
 			# login
-			if(isset($POST->title) && trim($POST->title) != "")
-				if(!$users->check_field("title", $POST->title, $gdata['title'], USERS_GROUP_TABLE))
+			if(isset($POST->title) && trim($POST->title) != "") {
+				if(!$users->check_field("title", $POST->title, $gdata['title'], USERS_GROUP_TABLE)) {
 					$logger->error("Название группы не может совпадать с названием другой группы!");
-				else
+				}
+				else {
 					$query .= "title='".$POST->title."', ";
-
-			else
+				}
+			}
+			else {
 				$logger->error("У группы должно быть название.");
+			}
 
 			# update
 			if(!isset($_SESSION['error'])) {
@@ -534,12 +627,20 @@ class ACP_USERS {
 				$logger->info("Данные группы #{$gid} успешно обновлены.");
 
 				# переход
-				if(isset($POST->update_group_ae)) go(CP."?act=users&part=group_list");
-				else go(CP."?act=users&part=edit_group&gid=".$gid);
+				if(isset($POST->update_group_ae)) {
+					go(CP."?act=users&part=group_list");
+				}
+				else {
+					go(CP."?act=users&part=edit_group&gid=".$gid);
+				}
 			}
-			else goback();
+			else {
+				goback();
+			}
 		}
-		else goback();
+		else {
+			goback();
+		}
 	}
 
 
@@ -561,7 +662,9 @@ class ACP_USERS {
 			$data = $db->fetch_assoc($q);
 
 			# удаляем аватарку.
-			if($data['avatar'] != "" && file_exists(_UPLOADIMAGES."/".$data['avatar'])) unlink(_UPLOADIMAGES."/".$data['avatar']);
+			if($data['avatar'] != "" && file_exists(_UPLOADIMAGES."/".$data['avatar'])) {
+				unlink(_UPLOADIMAGES."/".$data['avatar']);
+			}
 
 			# удаляем юзера
 			$db->query("DELETE FROM ".USERS_TABLE." WHERE uid='".$uid."'");

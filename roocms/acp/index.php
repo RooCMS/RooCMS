@@ -51,7 +51,9 @@
 //#########################################################
 // Anti Hack
 //---------------------------------------------------------
-if(!defined('RooCMS') || !defined('ACP')) die('Access Denied');
+if(!defined('RooCMS') || !defined('ACP')) {
+	die('Access Denied');
+}
 //#########################################################
 
 
@@ -97,7 +99,9 @@ class ACP_INDEX {
 
 		# warning alerts
 		$warning_subj = array();
-		if(file_exists(_SITEROOT."/install/index.php")) $warning_subj[] = "Инсталятор RooCMS находится в корне сайта. В целях безопастности следует удалить инсталятор!";
+		if(file_exists(_SITEROOT."/install/index.php")) {
+			$warning_subj[] = "Инсталятор RooCMS находится в корне сайта. В целях безопастности следует удалить инсталятор!";
+		}
 
 
 		$smarty->assign('warning_subj',	$warning_subj);
@@ -178,8 +182,9 @@ class ACP_INDEX {
 		$data1['mps']		= ini_get('post_max_size');		# Maximum post size
 		$data1['met']		= ini_get('max_execution_time');	# Max execution time
 
-		if(array_search("apache2handler", $debug->phpextensions))
+		if(array_search("apache2handler", $debug->phpextensions)) {
 			$data1['apache_mods']	= apache_get_modules();		# Расширения Apache
+		}
 
 
 		$server_vars = array(
@@ -229,10 +234,14 @@ class ACP_INDEX {
 		$data2 = array();
 		foreach ($server_vars as $arg) {
 			if (isset($_SERVER[$arg])) {
-				if(is_array($_SERVER[$arg])) $_SERVER[$arg] = json_encode($_SERVER[$arg]);
+				if(is_array($_SERVER[$arg])) {
+					$_SERVER[$arg] = json_encode($_SERVER[$arg]);
+				}
 				$data2[] = array("var"=>$arg, "value"=>$_SERVER[$arg]);
 			}
-			else 	$data2[] = array("var"=>$arg, "value"=>"not found");
+			else {
+				$data2[] = array("var"=>$arg, "value"=>"not found");
+			}
 		}
 
 		# draw

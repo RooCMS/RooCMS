@@ -78,30 +78,42 @@ define('ROOCMS_NOT_RUNNING', 'Запуск RooCMS невозможен. Нару
 /**
 * Настраиваем PHP и прочее
 */
-if(file_exists(_SITEROOT."/roocms/config/set.cfg.php"))
+if(file_exists(_SITEROOT."/roocms/config/set.cfg.php")) {
 	require_once(_SITEROOT."/roocms/config/set.cfg.php");
-else die(ROOCMS_NOT_RUNNING);
+}
+else {
+	die(ROOCMS_NOT_RUNNING);
+}
 
 /**
 * Загружаем конфигурацию
 */
-if(file_exists(_SITEROOT."/roocms/config/config.php"))
+if(file_exists(_SITEROOT."/roocms/config/config.php")) {
 	require_once(_SITEROOT."/roocms/config/config.php");
-else die(ROOCMS_NOT_RUNNING);
+}
+else {
+	die(ROOCMS_NOT_RUNNING);
+}
 
 /**
 * Заружаем основные константы
 */
-if(file_exists(_SITEROOT."/roocms/config/defines.php"))
+if(file_exists(_SITEROOT."/roocms/config/defines.php")) {
 	require_once(_SITEROOT."/roocms/config/defines.php");
-else die(ROOCMS_NOT_RUNNING);
+}
+else {
+	die(ROOCMS_NOT_RUNNING);
+}
 
 /**
  * Загружаем примитивные функции
  */
-if(file_exists(_ROOCMS."/functions.php"))
+if(file_exists(_ROOCMS."/functions.php")) {
 	require_once(_ROOCMS."/functions.php");
-else die(ROOCMS_NOT_RUNNING);
+}
+else {
+	die(ROOCMS_NOT_RUNNING);
+}
 
 /**
 * Запускаем класс отладки
@@ -113,14 +125,19 @@ if(file_exists(_CLASS."/class_debug.php")) {
 	 */
 	$debug = new Debug;
 }
-else die(ROOCMS_NOT_RUNNING);
+else {
+	die(ROOCMS_NOT_RUNNING);
+}
 
 /**
 * Запускаем расширение класса БД MySQL
 */
-if(file_exists(_CLASS."/class_mysqli_ext.php"))
+if(file_exists(_CLASS."/class_mysqli_ext.php")) {
 	require_once(_CLASS."/class_mysqli_ext.php");
-else die(ROOCMS_NOT_RUNNING);
+}
+else {
+	die(ROOCMS_NOT_RUNNING);
+}
 
 /**
 * Запускаем класс БД MySQL
@@ -132,7 +149,9 @@ if(file_exists(_CLASS."/class_mysqli.php")) {
 	 */
 	$db = new MySQLiDatabase;
 }
-else die(ROOCMS_NOT_RUNNING);
+else {
+	die(ROOCMS_NOT_RUNNING);
+}
 
 /**
 * Запускаем глобальный класс
@@ -145,7 +164,9 @@ if(file_exists(_CLASS."/class_global.php")) {
 	$roocms = new Globals;
 	$config =& $roocms->config;
 }
-else die(ROOCMS_NOT_RUNNING);
+else {
+	die(ROOCMS_NOT_RUNNING);
+}
 
 /**
  * Запускаем класс логгера
@@ -157,7 +178,9 @@ if(file_exists(_CLASS."/class_logger.php")) {
 	 */
 	$logger	= new Logger;
 }
-else die(ROOCMS_NOT_RUNNING);
+else {
+	die(ROOCMS_NOT_RUNNING);
+}
 
 /**
 * Запускаем класс парсинга
@@ -171,14 +194,19 @@ if(file_exists(_CLASS."/class_parser.php")) {
 	$GET	=& $parse->Get;
 	$POST	=& $parse->Post;
 }
-else die(ROOCMS_NOT_RUNNING);
+else {
+	die(ROOCMS_NOT_RUNNING);
+}
 
 /**
  * Запускаем расширение класса Security
  */
-if(file_exists(_CLASS."/class_shteirlitz.php"))
+if(file_exists(_CLASS."/class_shteirlitz.php")) {
 	require_once(_CLASS."/class_shteirlitz.php");
-else die(ROOCMS_NOT_RUNNING);
+}
+else {
+	die(ROOCMS_NOT_RUNNING);
+}
 
 /**
  * Запускаем класс безопастности
@@ -190,7 +218,9 @@ if(file_exists(_CLASS."/class_security.php")) {
 	 */
 	$security = new Security;
 }
-else die(ROOCMS_NOT_RUNNING);
+else {
+	die(ROOCMS_NOT_RUNNING);
+}
 
 /**
  * Запускаем класс определения пользователей
@@ -202,7 +232,9 @@ if(file_exists(_CLASS."/class_users.php")) {
 	 */
 	$users = new Users;
 }
-else die(ROOCMS_NOT_RUNNING);
+else {
+	die(ROOCMS_NOT_RUNNING);
+}
 
 /**
 * Запускаем класс работы с файлами
@@ -214,14 +246,19 @@ if(file_exists(_CLASS."/class_files.php")) {
 	 */
 	$files = new Files;
 }
-else die(ROOCMS_NOT_RUNNING);
+else {
+	die(ROOCMS_NOT_RUNNING);
+}
 
 /**
 * Загружаем класс графической обработки
 */
-if(file_exists(_CLASS."/class_gd.php"))
+if(file_exists(_CLASS."/class_gd.php")) {
 	require_once(_CLASS."/class_gd.php");
-else die(ROOCMS_NOT_RUNNING);
+}
+else {
+	die(ROOCMS_NOT_RUNNING);
+}
 
 /**
 * Запускаем класс работы с изображениями
@@ -233,7 +270,9 @@ if(file_exists(_CLASS."/class_images.php")) {
 	 */
 	$img = new Images;
 }
-else die(ROOCMS_NOT_RUNNING);
+else {
+	die(ROOCMS_NOT_RUNNING);
+}
 
 /**
 * Запускаем класс RSS
@@ -245,14 +284,19 @@ if(file_exists(_CLASS."/class_rss.php")) {
 	 */
 	$rss = new RSS;
 }
-else die(ROOCMS_NOT_RUNNING);
+else {
+	die(ROOCMS_NOT_RUNNING);
+}
 
 /**
 * Запускаем библиотеку шаблонизации Smarty
 */
-if(file_exists(_LIB."/smarty.php"))
+if(file_exists(_LIB."/smarty.php")) {
 	require_once(_LIB."/smarty.php");
-else die(ROOCMS_NOT_RUNNING);
+}
+else {
+	die(ROOCMS_NOT_RUNNING);
+}
 
 /**
 * Запускаем класс шаблонизации RooCMS
@@ -264,7 +308,9 @@ if(file_exists(_CLASS."/class_template.php")) {
 	 */
 	$tpl = new Template;
 }
-else die(ROOCMS_NOT_RUNNING);
+else {
+	die(ROOCMS_NOT_RUNNING);
+}
 
 
 /**

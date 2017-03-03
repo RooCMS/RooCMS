@@ -51,7 +51,9 @@
 //#########################################################
 // Anti Hack
 //---------------------------------------------------------
-if(!defined('RooCMS') || (!defined('ACP') && !defined('INSTALL'))) die('Access Denied');
+if(!defined('RooCMS') || (!defined('ACP') && !defined('INSTALL'))) {
+	die('Access Denied');
+}
 //#########################################################
 
 $sql = array();
@@ -173,14 +175,15 @@ $sql['DROP '.PAGES_HTML_TABLE] = "DROP TABLE IF EXISTS `".PAGES_HTML_TABLE."`";
 $sql['CREATE'.PAGES_HTML_TABLE] = "CREATE TABLE IF NOT EXISTS `".PAGES_HTML_TABLE."` (
 					  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
 					  `sid` int(10) unsigned NOT NULL,
+					  `tags` varchar(1024) NOT NULL,
 					  `content` longtext NOT NULL,
 					  `date_modified` int(20) unsigned NOT NULL DEFAULT '0',
 					  PRIMARY KEY (`id`),
 					  UNIQUE KEY `sid` (`sid`)
 					) ENGINE=MyISAM  DEFAULT CHARSET=utf8 PACK_KEYS=1 AUTO_INCREMENT=1";
 
-$sql['INSERT '.PAGES_HTML_TABLE." ID #".$id] = "INSERT INTO `".PAGES_HTML_TABLE."` (`id`, `sid`, `content`, `date_modified`)
-									    VALUES (1, 1, '&lt;h1&gt;\r\n	Добро пожаловать!&lt;/h1&gt;\r\nЭто новый сайт, который был создан с помощью системы управления контентом &lt;a href=&quot;http://www.roocms.com&quot;&gt;RooCMS&lt;/a&gt; &lt;br /&gt;\r\n&lt;br /&gt;\r\nRooCMS - это русская система управления сайтом (контентом). Простая и удобная в использовании как программисту или верстальщику, так и людям, которые совершенно незнакомы с производством сайтов.', ".time().")";
+$sql['INSERT '.PAGES_HTML_TABLE." ID #".$id] = "INSERT INTO `".PAGES_HTML_TABLE."` (`id`, `sid`, `tags`, `content`, `date_modified`)
+									    VALUES (1, 1, '', '&lt;h1&gt;\r\n	Добро пожаловать!&lt;/h1&gt;\r\nЭто новый сайт, который был создан с помощью системы управления контентом &lt;a href=&quot;http://www.roocms.com&quot;&gt;RooCMS&lt;/a&gt; &lt;br /&gt;\r\n&lt;br /&gt;\r\nRooCMS - это русская система управления сайтом (контентом). Простая и удобная в использовании как программисту или верстальщику, так и людям, которые совершенно незнакомы с производством сайтов.', ".time().")";
 
 
 /**
@@ -190,6 +193,7 @@ $sql['DROP '.PAGES_PHP_TABLE] = "DROP TABLE IF EXISTS `".PAGES_PHP_TABLE."`";
 $sql['CREATE'.PAGES_PHP_TABLE] = "CREATE TABLE IF NOT EXISTS `".PAGES_PHP_TABLE."` (
 					  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
 					  `sid` int(10) unsigned NOT NULL,
+					  `tags` varchar(1024) NOT NULL,
 					  `content` longtext NOT NULL,
 					  `date_modified` int(20) unsigned NOT NULL DEFAULT '0',
 					  PRIMARY KEY (`id`),
@@ -210,9 +214,9 @@ $sql['CREATE'.PAGES_FEED_TABLE] = "CREATE TABLE IF NOT EXISTS `".PAGES_FEED_TABL
 					  `date_update` int(20) unsigned NOT NULL DEFAULT '0',
 					  `date_publications` int(20) unsigned NOT NULL DEFAULT '0',
 					  `date_end_publications` int(20) unsigned NOT NULL DEFAULT '0',
-					  `title` varchar(255) NOT NULL,
-					  `meta_description` varchar(255) NOT NULL,
-					  `meta_keywords` varchar(255) NOT NULL,
+					  `title` varchar(512) NOT NULL,
+					  `meta_description` varchar(512) NOT NULL,
+					  `meta_keywords` varchar(512) NOT NULL,
 					  `brief_item` text NOT NULL,
 					  `full_item` longtext NOT NULL,
 					  PRIMARY KEY (`id`),

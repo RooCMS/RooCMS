@@ -51,7 +51,9 @@
 //#########################################################
 // Anti Hack
 //---------------------------------------------------------
-if(!defined('RooCMS')) die('Access Denied');
+if(!defined('RooCMS')) {
+	die('Access Denied');
+}
 //#########################################################
 
 
@@ -115,8 +117,9 @@ class Blocks {
 				$use_blocks[$buid] = $output;
 			}
 			else {
-				if(DEBUGMODE)
+				if(DEBUGMODE) {
 					$output = "Блок с ID или ALIAS - \"".$buid."\" не найден";
+				}
 			}
 
                 }

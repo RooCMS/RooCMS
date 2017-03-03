@@ -53,7 +53,9 @@
 //#########################################################
 // Anti Hack
 //---------------------------------------------------------
-if(!defined('RooCMS') || !defined('ACP')) die('Access Denied');
+if(!defined('RooCMS') || !defined('ACP')) {
+	die('Access Denied');
+}
 //#########################################################
 
 
@@ -68,13 +70,21 @@ class ACP_BLOCKS_PHP {
 
 		if(isset($POST->create_block)) {
 
-			if(!isset($POST->title)) $logger->error("Не указано название блока!");
-			if(!isset($POST->alias) || $db->check_id($POST->alias, BLOCKS_TABLE, "alias"))	$logger->error("Не указан алиас блока или он не уникален!");
-			if(!isset($POST->content)) $logger->error("Пустое тело блока!");
+			if(!isset($POST->title)) {
+				$logger->error("Не указано название блока!");
+			}
+
+			if(!isset($POST->alias) || $db->check_id($POST->alias, BLOCKS_TABLE, "alias"))	{
+				$logger->error("Не указан алиас блока или он не уникален!");
+			}
+
+			if(!isset($POST->content)) {
+				$logger->error("Пустое тело блока!");
+			}
 
 			if(!isset($_SESSION['error'])) {
 				$db->query("INSERT INTO ".BLOCKS_TABLE."   (title, alias, content, date_create, date_modified, block_type)
-				VALUES ('".$POST->title."', '".$POST->alias."', '".$POST->content."', '".time()."', '".time()."', 'php')");
+							VALUES ('".$POST->title."', '".$POST->alias."', '".$POST->content."', '".time()."', '".time()."', 'php')");
 
 				$bid = $db->insert_id();
 
@@ -82,7 +92,9 @@ class ACP_BLOCKS_PHP {
 
 				go(CP."?act=blocks");
 			}
-			else go(CP."?act=blocks&part=create&type=php");
+			else {
+				go(CP."?act=blocks&part=create&type=php");
+			}
 		}
 
 		$content = $tpl->load_template("blocks_create_php", true);
@@ -119,10 +131,21 @@ class ACP_BLOCKS_PHP {
 
 		if(isset($POST->update_block)) {
 
-			if(!isset($POST->title)) $logger->error("Не указано название блока!");
-			if(!isset($POST->alias) || $db->check_id($POST->alias, BLOCKS_TABLE, "alias", "alias!='".$POST->oldalias."'"))	$logger->error("Не указан алиас блока или он не уникален!");
-			if(!isset($POST->content)) $logger->error("Пустое тело блока!");
-			if(!isset($POST->id) || $POST->id != $GET->_block) $logger->error("Системная ошибка...");
+			if(!isset($POST->title)) {
+				$logger->error("Не указано название блока!");
+			}
+
+			if(!isset($POST->alias) || $db->check_id($POST->alias, BLOCKS_TABLE, "alias", "alias!='".$POST->oldalias."'")) {
+				$logger->error("Не указан алиас блока или он не уникален!");
+			}
+
+			if(!isset($POST->content)) {
+				$logger->error("Пустое тело блока!");
+			}
+
+			if(!isset($POST->id) || $POST->id != $GET->_block) {
+				$logger->error("Системная ошибка...");
+			}
 
 			if(!isset($_SESSION['error'])) {
 
@@ -140,7 +163,9 @@ class ACP_BLOCKS_PHP {
 
 			go(CP."?act=blocks");
 		}
-		else goback();
+		else {
+			goback();
+		}
 	}
 
 

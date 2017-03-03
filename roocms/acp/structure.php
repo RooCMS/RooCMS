@@ -51,7 +51,9 @@
 //#########################################################
 // Anti Hack
 //---------------------------------------------------------
-if(!defined('RooCMS') || !defined('ACP')) die('Access Denied');
+if(!defined('RooCMS') || !defined('ACP')) {
+	die('Access Denied');
+}
 //#########################################################
 
 
@@ -94,7 +96,9 @@ class ACP_STRUCTURE {
 		# Проверяем разрешенные типы страниц для использования
 		$page_types = array();
 		foreach($this->engine->page_types AS $key=>$value) {
-			if($value['enable']) $page_types[$key] = $value['title'];
+			if($value['enable']) {
+				$page_types[$key] = $value['title'];
+			}
 		}
 		$smarty->assign('page_types', $page_types);
 
@@ -106,14 +110,18 @@ class ACP_STRUCTURE {
 
 
 		# Проверяем идентификатор
-		if(isset($GET->_id) && $db->check_id($GET->_id, STRUCTURE_TABLE)) $this->sid = $GET->_id;
+		if(isset($GET->_id) && $db->check_id($GET->_id, STRUCTURE_TABLE)) {
+			$this->sid = $GET->_id;
+		}
 
 
 		# действуем
 		switch($roocms->part) {
 			# create
 			case 'create':
-				if(isset($POST->create_unit) || isset($POST->create_unit_ae)) $this->create_unit();
+				if(isset($POST->create_unit) || isset($POST->create_unit_ae)) {
+					$this->create_unit();
+				}
 				else {
 					# groups
 					$groups = array();
@@ -130,9 +138,15 @@ class ACP_STRUCTURE {
 
 			# edit and update
 			case 'edit':
-				if(isset($POST->update_unit) || isset($POST->update_unit_ae)) $this->update_unit($this->sid);
-				elseif($this->sid != 0) $content = $this->edit_unit($this->sid);
-				else go(CP);
+				if(isset($POST->update_unit) || isset($POST->update_unit_ae)) {
+					$this->update_unit($this->sid);
+				}
+				elseif($this->sid != 0) {
+					$content = $this->edit_unit($this->sid);
+				}
+				else {
+					go(CP);
+				}
 				break;
 
 			# delete
@@ -205,13 +219,21 @@ class ACP_STRUCTURE {
 			$logger->info("Структурная еденица успешно добавлена.");
 
 			# переход
-			if(isset($POST->create_unit_ae)) go(CP."?act=structure");
+			if(isset($POST->create_unit_ae)) {
+				go(CP."?act=structure");
+			}
 			else {
-				if($POST->page_type == "feed") go(CP."?act=feeds&page=".$sid);
-				else go(CP."?act=pages&part=edit&page=".$sid);
+				if($POST->page_type == "feed") {
+					go(CP."?act=feeds&page=".$sid);
+				}
+				else {
+					go(CP."?act=pages&part=edit&page=".$sid);
+				}
 			}
 		}
-		else goback();
+		else {
+			goback();
+		}
 	}
 
 
@@ -271,7 +293,9 @@ class ACP_STRUCTURE {
 			$POST->sort = round($POST->sort);
 
 			# Нельзя менять родителя у главной страницы
-			If($sid == 1) $POST->parent_id = 0;
+			If($sid == 1) {
+				$POST->parent_id = 0;
+			}
 
 			# Если мы назначаем нового родителя
 			if($POST->parent_id != $POST->now_parent_id) {
@@ -344,10 +368,16 @@ class ACP_STRUCTURE {
 			$logger->info("Страница успешно обновлена.");
 
 
-			if(isset($POST->update_unit_ae)) go(CP."?act=structure");
-			else go(CP."?act=structure&part=edit&id=".$sid);
+			if(isset($POST->update_unit_ae)) {
+				go(CP."?act=structure");
+			}
+			else {
+				go(CP."?act=structure&part=edit&id=".$sid);
+			}
 		}
-		else goback();
+		else {
+			goback();
+		}
 	}
 
 
@@ -437,9 +467,13 @@ class ACP_STRUCTURE {
 
 			$w = (trim($without) != "") ? "alias!='".$without."'" : "" ;
 
-			if(!$db->check_id($name, STRUCTURE_TABLE, "alias", $w)) $res = true;
+			if(!$db->check_id($name, STRUCTURE_TABLE, "alias", $w)) {
+				$res = true;
+			}
 		}
-		else $res = true;
+		else {
+			$res = true;
+		}
 
 		return $res;
 	}
@@ -473,8 +507,12 @@ class ACP_STRUCTURE {
 
 
 		if(!isset($POST->alias) || trim($POST->alias) == "") {
-			if(isset($POST->title)) $POST->alias = $POST->title;
-			else $logger->error("Не указан alias для структурной еденицы.");
+			if(isset($POST->title)) {
+				$POST->alias = $POST->title;
+			}
+			else {
+				$logger->error("Не указан alias для структурной еденицы.");
+			}
 		}
 
 		# предупреждаем возможные ошибки с алиасом структурной единицы
@@ -489,7 +527,9 @@ class ACP_STRUCTURE {
 			$POST->alias = preg_replace(array('(\s\s+)','(\-\-+)','(__+)','([^a-zA-Z0-9\-_])'), array('_','_','_',''), $POST->alias);
 
 			# а так же проверяем что бы алиас не оказался числом
-			if(is_numeric($POST->alias)) $POST->alias .= randcode(3, "abcdefghijklmnopqrstuvwxyz");
+			if(is_numeric($POST->alias)) {
+				$POST->alias .= randcode(3, "abcdefghijklmnopqrstuvwxyz");
+			}
 		}
 	}
 
@@ -503,16 +543,26 @@ class ACP_STRUCTURE {
 		global $logger, $POST, $img;
 
 		# title
-		if(!isset($POST->title) || trim($POST->title) == "") $logger->error("Не указано название страницы.");
+		if(!isset($POST->title) || trim($POST->title) == "") {
+			$logger->error("Не указано название страницы.");
+		}
 
 		# alias
 		$this->processing_alias();
-		if(!isset($POST->old_alias)) $POST->old_alias = "";
-		if(!$this->check_alias($POST->alias, $POST->old_alias)) $logger->error("Алиас страницы не уникален.");
+		if(!isset($POST->old_alias)) {
+			$POST->old_alias = "";
+		}
+		if(!$this->check_alias($POST->alias, $POST->old_alias)) {
+			$logger->error("Алиас страницы не уникален.");
+		}
 
 		# group access
-		if(isset($POST->gids) && is_array($POST->gids)) $POST->gids = implode(",", $POST->gids);
-		else $POST->gids = 0;
+		if(isset($POST->gids) && is_array($POST->gids)) {
+			$POST->gids = implode(",", $POST->gids);
+		}
+		else {
+			$POST->gids = 0;
+		}
 
 		# thumbnail check
 		$img->check_post_thumb_parametrs();

@@ -53,7 +53,9 @@
 //#########################################################
 // Anti Hack
 //---------------------------------------------------------
-if(!defined('RooCMS') || !defined('ACP')) die('Access Denied');
+if(!defined('RooCMS') || !defined('ACP')) {
+	die('Access Denied');
+}
 //#########################################################
 
 
@@ -181,7 +183,9 @@ class ACP_BLOCKS_HTML {
 			# check parametrs
 			$this->check_block_parametrs();
 
-			if(!isset($POST->id) || $POST->id != $GET->_block) $logger->error("Системная ошибка...");
+			if(!isset($POST->id) || $POST->id != $GET->_block) {
+				$logger->error("Системная ошибка...");
+			}
 
 			if(!isset($_SESSION['error'])) {
 
@@ -264,24 +268,36 @@ class ACP_BLOCKS_HTML {
 		global $db, $parse, $POST, $logger;
 
 
-		if(!isset($POST->title)) $logger->error("Не указано название блока!");
+		if(!isset($POST->title)) {
+			$logger->error("Не указано название блока!");
+		}
 
 		$check_alias = (isset($POST->oldalias)) ? "alias!='".$POST->oldalias."'" : "" ;
 
-		if(!isset($POST->alias) || $db->check_id($parse->text->transliterate($POST->alias), BLOCKS_TABLE, "alias", $check_alias)) $logger->error("Не указан алиас блока или он не уникален!");
+		if(!isset($POST->alias) || $db->check_id($parse->text->transliterate($POST->alias), BLOCKS_TABLE, "alias", $check_alias)) {
+			$logger->error("Не указан алиас блока или он не уникален!");
+		}
 		else {
 			$POST->alias = $parse->text->transliterate($POST->alias);
 			$POST->alias = preg_replace(array('(\s\s+)','(\-\-+)','(__+)','([^a-zA-Z0-9\-_])'), array('','','',''), $POST->alias);
-			if(is_numeric($POST->alias)) $POST->alias .= randcode(3, "abcdefghijklmnopqrstuvwxyz");
+			if(is_numeric($POST->alias)) {
+				$POST->alias .= randcode(3, "abcdefghijklmnopqrstuvwxyz");
+			}
 		}
 
 		// Упраздняем временно...
 		// if(!isset($POST->content)) $parse->msg("Пустое тело блока!", false);
-		if(!isset($POST->content)) $POST->content = "";
+		if(!isset($POST->content)) {
+			$POST->content = "";
+		}
 
 		# check thumb size
-		if(!isset($POST->thumb_img_width)) $POST->thumb_img_width = 0;
-		if(!isset($POST->thumb_img_height)) $POST->thumb_img_height = 0;
+		if(!isset($POST->thumb_img_width)) {
+			$POST->thumb_img_width = 0;
+		}
+		if(!isset($POST->thumb_img_height)) {
+			$POST->thumb_img_height = 0;
+		}
 	}
 }
 

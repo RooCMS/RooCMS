@@ -50,14 +50,18 @@
 //#########################################################
 // Anti Hack
 //---------------------------------------------------------
-if(!defined('RooCMS') || !defined('UI')) die('Access Denied');
+if(!defined('RooCMS') || !defined('UI')) {
+	die('Access Denied');
+}
 //#########################################################
 
 
 //#########################################################
 // Initialisation User CP identification
 //---------------------------------------------------------
-if(!defined('UCP')) define('UCP', true);
+if(!defined('UCP')) {
+	define('UCP', true);
+}
 //#########################################################
 
 
@@ -71,7 +75,9 @@ if($ucpsecurity->access) {
 		if(file_exists(_UI."/ucp/".$roocms->act.".php")) {
 			require_once _UI."/ucp/".$roocms->act.".php";
 		}
-		else require_once _UI."/ucp/ucp.php";
+		else {
+			require_once _UI."/ucp/ucp.php";
+		}
 	}
 }
 else require_once _UI."/ucp/login.php";

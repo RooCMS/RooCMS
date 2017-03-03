@@ -52,7 +52,9 @@
 //#########################################################
 // Anti Hack
 //---------------------------------------------------------
-if(!defined('RooCMS') || !defined('ACP')) die('Access Denied');
+if(!defined('RooCMS') || !defined('ACP')) {
+	die('Access Denied');
+}
 //#########################################################
 
 
@@ -136,38 +138,63 @@ class ACP_FEEDS {
 
 				# edit item in feed
 				case 'edit_item':
-					if($db->check_id($GET->_item, PAGES_FEED_TABLE)) $this->unit->edit_item($GET->_item);
-					else goback();
+					if($db->check_id($GET->_item, PAGES_FEED_TABLE)) {
+						$this->unit->edit_item($GET->_item);
+					}
+					else {
+
+						goback();
+					}
 					break;
 
 				# update item in feed
 				case 'update_item':
-					if(isset($POST->update_item) && $db->check_id($GET->_item, PAGES_FEED_TABLE)) $this->unit->update_item($GET->_item);
-					else goback();
+					if(isset($POST->update_item) && $db->check_id($GET->_item, PAGES_FEED_TABLE)) {
+						$this->unit->update_item($GET->_item);
+					}
+					else {
+						goback();
+					}
 					break;
 
 				# update item in feed
 				case 'migrate_item':
-					if($db->check_id($GET->_item, PAGES_FEED_TABLE)) $this->unit->migrate_item($GET->_item);
-					else goback();
+					if($db->check_id($GET->_item, PAGES_FEED_TABLE)) {
+						$this->unit->migrate_item($GET->_item);
+					}
+					else {
+						goback();
+					}
 					break;
 
 				# update status item in feed to on
 				case 'status_on_item':
-					if($db->check_id($GET->_item, PAGES_FEED_TABLE)) $this->unit->change_item_status($GET->_item, 1);
-					else goback();
+					if($db->check_id($GET->_item, PAGES_FEED_TABLE)) {
+						$this->unit->change_item_status($GET->_item, 1);
+					}
+					else {
+						goback();
+					}
 					break;
 
 				# update status item in feed to off
 				case 'status_off_item':
-					if($db->check_id($GET->_item, PAGES_FEED_TABLE)) $this->unit->change_item_status($GET->_item, 0);
-					else goback();
+					if($db->check_id($GET->_item, PAGES_FEED_TABLE)) {
+						$this->unit->change_item_status($GET->_item, 0);
+					}
+					else {
+						goback();
+					}
 					break;
 
 				# delete item from feed
 				case 'delete_item':
-					if($db->check_id($GET->_item, PAGES_FEED_TABLE)) $this->unit->delete_item($GET->_item);
-					else goback();
+					if($db->check_id($GET->_item, PAGES_FEED_TABLE)) {
+						$this->unit->delete_item($GET->_item);
+					}
+					else {
+						goback();
+					}
 					break;
 
 				default:

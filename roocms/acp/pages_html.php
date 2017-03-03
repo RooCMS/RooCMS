@@ -51,7 +51,9 @@
 //#########################################################
 // Anti Hack
 //---------------------------------------------------------
-if(!defined('RooCMS') || !defined('ACP')) die('Access Denied');
+if(!defined('RooCMS') || !defined('ACP')) {
+	die('Access Denied');
+}
 //#########################################################
 
 
@@ -146,7 +148,9 @@ class ACP_PAGES_HTML {
 		}
 
 
-		if(!isset($POST->content)) $POST->content = "";
+		if(!isset($POST->content)) {
+			$POST->content = "";
+		}
 
 		$db->query("UPDATE ".PAGES_HTML_TABLE." SET content='".$POST->content."', date_modified='".time()."' WHERE sid='".$sid."'");
 

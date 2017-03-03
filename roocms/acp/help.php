@@ -51,7 +51,9 @@
 //#########################################################
 // Anti Hack
 //---------------------------------------------------------
-if(!defined('RooCMS') || !defined('ACP')) die('Access Denied');
+if(!defined('RooCMS') || !defined('ACP')) {
+	die('Access Denied');
+}
 //#########################################################
 
 
@@ -134,12 +136,18 @@ class ACP_HELP {
 			switch($roocms->part) {
 
 				case 'create_part':
-					if(isset($POST->create_part)) $this->create_part();
-					else $content = $tpl->load_template("help_create_part", true);
+					if(isset($POST->create_part)) {
+						$this->create_part();
+					}
+					else {
+						$content = $tpl->load_template("help_create_part", true);
+					}
 					break;
 
 				case 'edit_part':
-					if(isset($POST->update_part)) $this->update_part($this->part_id);
+					if(isset($POST->update_part)) {
+						$this->update_part($this->part_id);
+					}
 					elseif($this->part_id != 0) {
 						$q = $db->query("SELECT id, parent_id, uname, title, sort, content FROM ".HELP_TABLE." WHERE id='".$this->part_id."'");
 						$data = $db->fetch_assoc($q);
@@ -203,16 +211,25 @@ class ACP_HELP {
 			$POST->uname = strtr($POST->uname, array('-'=>'_','='=>'_'));
 
 			# а так же проверяем что бы алиас не оказался числом
-			if(is_numeric($POST->uname)) $POST->uname = randcode(3, "abcdefghijklmnopqrstuvwxyz").$POST->uname;
+			if(is_numeric($POST->uname)) {
+				$POST->uname = randcode(3, "abcdefghijklmnopqrstuvwxyz").$POST->uname;
+			}
 		}
 
 		# проверяем введенный данные
-		if(!isset($POST->title) || trim($POST->title) == "") 					$logger->error("Не указано название раздела.");
-		if(!isset($POST->uname) || (trim($POST->uname) == "" && round($POST->uname) != 0)) 	$logger->error("Не указан uname страницы.");
-		elseif(!$this->check_uname($POST->uname)) 						$logger->error("uname раздела не уникален.");
+		if(!isset($POST->title) || trim($POST->title) == "") {
+			$logger->error("Не указано название раздела.");
+		}
+		if(!isset($POST->uname) || (trim($POST->uname) == "" && round($POST->uname) != 0)) {
+			$logger->error("Не указан uname страницы.");
+		}
+		elseif(!$this->check_uname($POST->uname)) {
+			$logger->error("uname раздела не уникален.");
+		}
 
-		if(!isset($POST->content))
+		if(!isset($POST->content)) {
 			$POST->content = "";
+		}
 
 		# если ошибок нет
 		if(!isset($_SESSION['error'])) {
@@ -243,7 +260,9 @@ class ACP_HELP {
 		global $db, $logger, $POST;
 
 		# Если идентификатор не прошел проверку
-		if($id == 0) goback();
+		if($id == 0) {
+			goback();
+		}
 
 		# предупреждаем возможные ошибки с уникальным именем структурной еденицы
 		if(isset($POST->uname) && trim($POST->uname) != "") {
@@ -251,16 +270,25 @@ class ACP_HELP {
 			$POST->uname = strtr($POST->uname, array('-'=>'_','='=>'_'));
 
 			# а так же проверяем что бы юнейм не оказался числом
-			if(is_numeric($POST->uname)) $POST->uname = randcode(3, "abcdefghijklmnopqrstuvwxyz").$POST->uname;
+			if(is_numeric($POST->uname)) {
+				$POST->uname = randcode(3, "abcdefghijklmnopqrstuvwxyz").$POST->uname;
+			}
 		}
 
 		# проверяем введенный данные
-		if(!isset($POST->title) || trim($POST->title) == "") 					$logger->error("Не указано название раздела.");
-		if(!isset($POST->uname) || (trim($POST->uname) == "" && round($POST->uname) != 0)) 	$logger->error("Не указан uname раздела.");
-		elseif(!$this->check_uname($POST->uname, $POST->old_uname)) 				$logger->error("uname раздела не уникален.");
+		if(!isset($POST->title) || trim($POST->title) == "") {
+			$logger->error("Не указано название раздела.");
+		}
+		if(!isset($POST->uname) || (trim($POST->uname) == "" && round($POST->uname) != 0)) {
+			$logger->error("Не указан uname раздела.");
+		}
+		elseif(!$this->check_uname($POST->uname, $POST->old_uname)) {
+			$logger->error("uname раздела не уникален.");
+		}
 
-		if(!isset($POST->content))
+		if(!isset($POST->content)) {
 			$POST->content = "";
+		}
 
 		# если ошибок нет
 		if(!isset($_SESSION['error'])) {
@@ -268,7 +296,9 @@ class ACP_HELP {
 			$POST->sort = round($POST->sort);
 
 			# Нельзя менять родителя у главного раздела
-			If($id == 1) $POST->parent_id = 0;
+			If($id == 1) {
+				$POST->parent_id = 0;
+			}
 
 			# Если мы назначаем нового родителя
 			if($POST->parent_id != $POST->now_parent_id) {
@@ -328,7 +358,9 @@ class ACP_HELP {
 
 		global $db, $logger;
 
-		if($id == 0) goback();
+		if($id == 0) {
+			goback();
+		}
 
 		$q = $db->query("SELECT id, parent_id, childs FROM ".HELP_TABLE." WHERE id='".$id."'");
 		$row = $db->fetch_assoc($q);
@@ -400,7 +432,9 @@ class ACP_HELP {
 	private function construct_tree(array $unit, $parent=0, $maxlevel=0, $child=true, $level=0) {
 
 		# create array
-		if($level == 0) $tree = array();
+		if($level == 0) {
+			$tree = array();
+		}
 
 		foreach($unit AS $i=>$value) {
 			if($unit[$i]['parent_id'] == $parent) {
@@ -413,14 +447,18 @@ class ACP_HELP {
 				# check child
 				if($child && ($maxlevel == 0 || $level+1 <= $maxlevel)) {
 					$subtree = $this->construct_tree($unit, $unit[$i]['id'], $maxlevel, $child, $level + 1);
-					if(is_array($subtree)) $tree = array_merge($tree, $subtree);
+					if(is_array($subtree)) {
+						$tree = array_merge($tree, $subtree);
+					}
 				}
 			}
 		}
 
 
 		# be back
-		if(!empty($tree)) return $tree;
+		if(!empty($tree)) {
+			return $tree;
+		}
 	}
 
 
@@ -437,7 +475,9 @@ class ACP_HELP {
 								    'uname'	=> $v['uname'],
 								    'title'	=> $v['title']);
 
-					if($v['parent_id'] != 0) $this->construct_breadcumb($v['parent_id']);
+					if($v['parent_id'] != 0) {
+						$this->construct_breadcumb($v['parent_id']);
+					}
 				}
 			}
 		}
@@ -460,11 +500,17 @@ class ACP_HELP {
 
 		if(trim($without) != trim($name)) {
 			$w = "";
-			if(trim($without) != "") $w = "uname!='".$without."'";
+			if(trim($without) != "") {
+				$w = "uname!='".$without."'";
+			}
 
-			if(!$db->check_id($name, HELP_TABLE, "uname", $w)) $res = true;
+			if(!$db->check_id($name, HELP_TABLE, "uname", $w)) {
+				$res = true;
+			}
 		}
-		else $res = true;
+		else {
+			$res = true;
+		}
 
 		return $res;
 	}

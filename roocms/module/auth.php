@@ -51,7 +51,9 @@
 //#########################################################
 // Anti Hack
 //---------------------------------------------------------
-if(!defined('RooCMS')) die('Access Denied');
+if(!defined('RooCMS')) {
+	die('Access Denied');
+}
 //#########################################################
 
 
@@ -79,8 +81,9 @@ class Module_Auth {
 		}
 
 		# draw
-		if(isset($pm))
+		if(isset($pm)) {
 			$smarty->assign("pm", $pm);
+		}
 		$smarty->assign("userdata", $users->userdata);
 		$this->out .= $tpl->load_template("module_auth", true);
 	}

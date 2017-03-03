@@ -51,7 +51,9 @@
 //#########################################################
 // Anti Hack
 //---------------------------------------------------------
-if(!defined('RooCMS')) die('Access Denied');
+if(!defined('RooCMS')) {
+	die('Access Denied');
+}
 //#########################################################
 
 
@@ -82,8 +84,12 @@ class PageFeed {
 			$this->item_id = round($GET->_id);
 			$this->load_item($this->item_id);
 		}
-		elseif(isset($GET->_export) && $GET->_export == "RSS" && $structure->page_rss == 1) $this->load_feed_rss();
-		else $this->load_feed();
+		elseif(isset($GET->_export) && $GET->_export == "RSS" && $structure->page_rss == 1) {
+			$this->load_feed_rss();
+		}
+		else {
+			$this->load_feed();
+		}
 	}
 
 
@@ -117,8 +123,12 @@ class PageFeed {
 
 		# meta
 		$site['title'] .= " - ".$item['title'];
-		if(trim($item['meta_description']) != "")	$site['description']	= $item['meta_description'];
-		if(trim($item['meta_keywords']) != "")		$site['keywords']	= $item['meta_keywords'];
+		if(trim($item['meta_description']) != "") {
+			$site['description']	= $item['meta_description'];
+		}
+		if(trim($item['meta_keywords']) != "") {
+			$site['keywords']	= $item['meta_keywords'];
+		}
 
 		$tpl->load_template("feed_item");
 	}
@@ -132,8 +142,13 @@ class PageFeed {
 		global $db, $config, $structure, $rss, $parse, $img, $tpl, $smarty, $site;
 
 		# set limit on per page
-		if($structure->page_items_per_page > 0) $this->items_per_page =& $structure->page_items_per_page;
-		else $this->items_per_page =& $config->feed_items_per_page;
+		if($structure->page_items_per_page > 0) {
+			$this->items_per_page =& $structure->page_items_per_page;
+		}
+		else {
+			$this->items_per_page =& $config->feed_items_per_page;
+		}
+
 		$db->limit =& $this->items_per_page;
 
 		# query id's feeds begin
@@ -157,20 +172,28 @@ class PageFeed {
 
 		$pages = array();
 		# prev
-		if($db->prev_page != 0) $pages[]['prev'] =& $db->prev_page;
+		if($db->prev_page != 0) {
+			$pages[]['prev'] =& $db->prev_page;
+		}
 		# pages
 		for($p=1;$p<=$db->pages;$p++) {
 			$pages[]['n'] = $p;
 		}
 		# next
-		if($db->next_page > 1) $pages[]['next'] =& $db->next_page;
+		if($db->next_page > 1) {
+			$pages[]['next'] =& $db->next_page;
+		}
 
-		if($db->page > 1) $site['title'] .= " (Страница: ".$db->page.")";
+		if($db->page > 1) {
+			$site['title'] .= " (Страница: ".$db->page.")";
+		}
 
 		$smarty->assign("pages", $pages);
 
 		# RSS
-		if($structure->page_rss == 1) $rss->set_header_link();
+		if($structure->page_rss == 1) {
+			$rss->set_header_link();
+		}
 
 		$smarty->assign("rsslink", $rss->rss_link);
 
@@ -204,8 +227,9 @@ class PageFeed {
 		$q = $db->query("SELECT id, title, brief_item, full_item, date_publications FROM ".PAGES_FEED_TABLE." WHERE date_publications <= '".time()."' ".$queryfeeds." AND (date_end_publications = '0' || date_end_publications > '".time()."') AND status='1' ORDER BY ".$order." LIMIT ".$db->from.",".$db->limit);
 		while($row = $db->fetch_assoc($q)) {
 
-			if(trim($row['brief_item']) == "")
+			if(trim($row['brief_item']) == "") {
 				$row['brief_item'] = $row['full_item'];
+			}
 
 			$row['datepub']		= $parse->date->unix_to_rus($row['date_publications'],true);
 			$row['date'] 		= $parse->date->unix_to_rus_array($row['date_publications']);
@@ -236,7 +260,9 @@ class PageFeed {
 
 			# item
 			$rss->create_item($newslink, $row['title'], $row['brief_item'], $newslink, $row['date_publications'], false, $structure->page_title);
-			if($rss->lastbuilddate == 0) $rss->set_lastbuilddate($row['date_publications']);
+			if($rss->lastbuilddate == 0) {
+				$rss->set_lastbuilddate($row['date_publications']);
+			}
 		}
 	}
 

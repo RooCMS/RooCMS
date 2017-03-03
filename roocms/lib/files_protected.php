@@ -51,7 +51,9 @@
 //#########################################################
 // Anti Hack
 //---------------------------------------------------------
-if(!defined('RooCMS')) die('Access Denied');
+if(!defined('RooCMS')) {
+	die('Access Denied');
+}
 //#########################################################
 
 /**
@@ -85,8 +87,12 @@ $protectfolder[] = array('path'	=> _SITEROOT.'/plugin',	'chmod'	=> '0755');
  * @var array
  */
 $protectfiles = array();
-if(defined('INSTALL')) 	$protectfiles[]	= array('path'	=> _ROOCMS.'/config/config.php',	'chmod'	=> '0755',	'hash'	=> '');
-else			$protectfiles[]	= array('path'	=> _ROOCMS.'/config/config.php',	'chmod'	=> '0644',	'hash'	=> '');
+if(defined('INSTALL')) {
+	$protectfiles[]	= array('path' => _ROOCMS.'/config/config.php', 'chmod' => '0755',	'hash'	=> '');
+}
+else {
+	$protectfiles[]	= array('path' => _ROOCMS.'/config/config.php', 'chmod' => '0644',	'hash'	=> '');
+}
 $protectfiles[]	= array('path'	=> _ROOCMS.'/config/defines.php',	'chmod'	=> '0644',	'hash'	=> '');
 $protectfiles[]	= array('path'	=> _ROOCMS.'/config/set.cfg.php',	'chmod'	=> '0644',	'hash'	=> '');
 $protectfiles[]	= array('path'	=> _CLASS.'/class_debug.php',		'chmod'	=> '0644',	'hash'	=> '');
@@ -149,7 +155,11 @@ $protectfiles[]	= array('path'	=> _LIB.'/smarty.php',			'chmod'	=> '0644',	'hash
 $protectfiles[]	= array('path'	=> _LIB.'/phpqrcode.php',		'chmod'	=> '0644',	'hash'	=> '');
 $protectfiles[]	= array('path'	=> _LIB.'/spiders.php',			'chmod'	=> '0644',	'hash'	=> '');
 $protectfiles[]	= array('path'	=> _LIB.'/license.php',			'chmod'	=> '0644',	'hash'	=> '');
-if(file_exists(_LOGS.'/errors.log'))	$protectfiles[]	= array('path'	=> _LOGS.'/errors.log',		'chmod'	=> '0755',	'hash'	=> '');
-if(file_exists(_LOGS.'/php_error.log'))	$protectfiles[]	= array('path'	=> _LOGS.'/php_error.log',	'chmod'	=> '0755',	'hash'	=> '');
+if(file_exists(_LOGS.'/errors.log')) {
+	$protectfiles[]	= array('path'	=> _LOGS.'/errors.log',		'chmod'	=> '0755',	'hash'	=> '');
+}
+if(file_exists(_LOGS.'/php_error.log'))	{
+	$protectfiles[]	= array('path'	=> _LOGS.'/php_error.log',	'chmod'	=> '0755',	'hash'	=> '');
+}
 
 ?>

@@ -52,7 +52,9 @@
 //#########################################################
 // Anti Hack
 //---------------------------------------------------------
-if(!defined('RooCMS') || !defined('ACP')) die('Access Denied');
+if(!defined('RooCMS') || !defined('ACP')) {
+	die('Access Denied');
+}
 //#########################################################
 
 
@@ -78,8 +80,12 @@ class ACP_CONFIG {
 		$this->config = $config;
 
 		# Если есть запрос на обновление тогда обновляем
-		if(isset($POST->update_config))	$this->update_config();
-		else				$this->view_config();
+		if(isset($POST->update_config))	{
+			$this->update_config();
+		}
+		else {
+			$this->view_config();
+		}
 
 		# Load Template
 		$tpl->load_template("config");
@@ -95,7 +101,9 @@ class ACP_CONFIG {
 		global $db, $smarty, $GET;
 
 
-		if(isset($GET->_part) && $db->check_id($GET->_part, CONFIG_PARTS_TABLE, "name") == 1) $this->part = $GET->_part;
+		if(isset($GET->_part) && $db->check_id($GET->_part, CONFIG_PARTS_TABLE, "name") == 1) {
+			$this->part = $GET->_part;
+		}
 		//elseif(isset($GET->_part) && $GET->_part == "all") $this->part = "all";
 
 
@@ -119,8 +127,12 @@ class ACP_CONFIG {
 				}
 			}
 
-			if($part['type'] == "global")		$parts['global'][] 	= $part;
-			if($part['type'] == "component")	$parts['component'][] 	= $part;
+			if($part['type'] == "global") {
+				$parts['global'][] 	= $part;
+			}
+			if($part['type'] == "component") {
+				$parts['component'][] 	= $part;
+			}
 		}
 
 		$smarty->assign('this_part', 	$this_part);
@@ -243,8 +255,12 @@ class ACP_CONFIG {
 		# Если изменено имя скрипта Панели Администратора.
 		# Пробуем создать новый файл.
 		if(isset($POST->cp_script) && CP != $POST->cp_script) {
-			if($this->change_cp_script($POST->cp_script)) $gonewcp = $POST->cp_script;
-			else $POST->cp_script = CP;
+			if($this->change_cp_script($POST->cp_script)) {
+				$gonewcp = $POST->cp_script;
+			}
+			else {
+				$POST->cp_script = CP;
+			}
 		}
 
 
@@ -265,7 +281,9 @@ class ACP_CONFIG {
 
 					# email
 					case 'email':
-						if($parse->valid_email($value))	$check = true;
+						if($parse->valid_email($value))	{
+							$check = true;
+						}
 						break;
 
 					# text OR textarea
@@ -280,7 +298,9 @@ class ACP_CONFIG {
 					# boolean
 					case 'boolean':
 					case 'bool':
-						if($value == "true" || $value == "false") $check = true;
+						if($value == "true" || $value == "false") {
+							$check = true;
+						}
 						break;
 
 					# date
@@ -290,7 +310,9 @@ class ACP_CONFIG {
 						break;
 
 					case 'select':
-						if(isset($cfg_vars[$key]['var'][$value])) $check = true;
+						if(isset($cfg_vars[$key]['var'][$value])) {
+							$check = true;
+						}
 						break;
 
 					case 'image':
@@ -298,7 +320,9 @@ class ACP_CONFIG {
 						$image = $img->upload_image("image_".$key, "", array(), array("filename"=>$key, "watermark"=>false, "modify"=>false, "noresize"=>true));
 
 						if(isset($image[0])) {
-							if($value != "" && $value != $image[0]) unlink(_UPLOADIMAGES."/".$value);
+							if($value != "" && $value != $image[0]) {
+								unlink(_UPLOADIMAGES."/".$value);
+							}
 							$value = $image[0];
 							$check = true;
 						}
@@ -310,7 +334,9 @@ class ACP_CONFIG {
 				}
 
 
-				if($check) $db->query("UPDATE ".CONFIG_TABLE." SET value='".$value."' WHERE option_name='".$key."'");
+				if($check) {
+					$db->query("UPDATE ".CONFIG_TABLE." SET value='".$value."' WHERE option_name='".$key."'");
+				}
 			}
 		}
 
@@ -341,8 +367,9 @@ class ACP_CONFIG {
 	 */
 	private function check_string_value($value, $maxleight=0) {
 
-		if($maxleight > 0)
+		if($maxleight > 0) {
 			$value = substr($value, 0, $maxleight);
+		}
 
 		return $value;
 	}
@@ -366,7 +393,9 @@ class ACP_CONFIG {
 		if(!file_exists(_SITEROOT."/".$newcp)) {
 			# крафтим новый файл
 			$cps = fopen($newcp, "w+");
-			if(is_writable($newcp)) fwrite($cps, $context);
+			if(is_writable($newcp)) {
+				fwrite($cps, $context);
+			}
 			fclose($cps);
 
 			if(file_exists(_SITEROOT."/".$newcp)) {

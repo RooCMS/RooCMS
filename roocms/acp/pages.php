@@ -50,7 +50,9 @@
 //#########################################################
 // Anti Hack
 //---------------------------------------------------------
-if(!defined('RooCMS') || !defined('ACP')) die('Access Denied');
+if(!defined('RooCMS') || !defined('ACP')) {
+	die('Access Denied');
+}
 //#########################################################
 
 
@@ -100,8 +102,12 @@ class ACP_PAGES {
 				break;
 
 			case 'update':
-				if(isset($POST->update_page)) $this->unit->update($this->engine->page_id);
-				else goback();
+				if(isset($POST->update_page)) {
+					$this->unit->update($this->engine->page_id);
+				}
+				else {
+					goback();
+				}
 				break;
 
 			default:

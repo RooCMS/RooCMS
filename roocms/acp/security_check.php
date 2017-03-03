@@ -51,7 +51,9 @@
 //#########################################################
 // Anti Hack
 //---------------------------------------------------------
-if(!defined('RooCMS') || (!defined('ACP') && !defined('INSTALL'))) die('Access Denied');
+if(!defined('RooCMS') || (!defined('ACP') && !defined('INSTALL'))) {
+	die('Access Denied');
+}
 //#########################################################
 
 
