@@ -103,11 +103,11 @@ class Structure {
 		global $db, $GET;
 
 		# load site tree
-		if($tree)
+		if($tree) {
 			$this->sitetree = $this->load_tree();
+		}
 
-		if(!empty($this->sitetree))
-			$this->update_tree_parent();
+		if(!empty($this->sitetree)) $this->update_tree_parent();
 
         	# user interface loaded
         	if($ui) {
