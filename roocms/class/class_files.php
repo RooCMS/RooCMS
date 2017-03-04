@@ -42,7 +42,7 @@
  * @author       alex Roosso
  * @copyright    2010-2017 (c) RooCMS
  * @link         http://www.roocms.com
- * @version      1.3.1
+ * @version      1.3.2
  * @since        $date$
  * @license      http://www.gnu.org/licenses/gpl-3.0.html
  */
@@ -231,11 +231,10 @@ class Files {
 	 * @param string	$prefix - Префикс имени файла
 	 * @param array|string	$types  - Допустимые типы файлов (в будущем)
 	 * @param string	$path	- путь для загрузки файлов
-	 * @param boolean	$no_empty - определяет пропускать ли пустые элементы в массиве FILES или обозначать их в выходном буфере.
 	 *
 	 * @return array|bool
 	 */
-	public function upload($file, $prefix="", $types="all", $path=_UPLOADFILES, $no_empty=true) {
+	public function upload($file, $prefix="", $types="all", $path=_UPLOADFILES) {
 
     	        # Переписать функцию!!!
     	        # *** Больше проверок от "умников"
@@ -296,18 +295,14 @@ class Files {
 				$filename = false;
 			}
 
-			if(!$no_empty) {
-				$names[$key] = $filename.".".$ext;
-			}
-			else {
-				if($filename) {
-					$names[] = $filename.".".$ext;
-				}
+			$names = array();
+			if($filename) {
+				$names[] = $filename.".".$ext;
 			}
 		}
 
 		# Возвращаем массив имен файлов для внесения в БД
-		return (isset($names) && count($names) > 0) ? $names : false ;
+		return (count($names) > 0) ? $names : false ;
 	}
 
 
@@ -340,7 +335,7 @@ class Files {
 		$fileinfo = pathinfo($filename);
 
 		$db->query("INSERT INTO ".FILES_TABLE." (attachedto, filename, fileext)
-						    VALUES ('".$attached."', '".$fileinfo['filename']."', '".$fileinfo['extension']."')");
+						VALUES ('".$attached."', '".$fileinfo['filename']."', '".$fileinfo['extension']."')");
 
 		# msg
 		$logger->log("Файл ".$filename." успешно загружен на сервер");

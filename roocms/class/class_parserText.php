@@ -42,7 +42,7 @@
 * @author       alex Roosso
 * @copyright    2010-2017 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.1.2
+* @version      1.1.3
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -166,7 +166,7 @@ class ParserText {
 	 * Функция транслитерации русских символов в английские
 	 *
 	 * @param mixed $txt  - строк для траслитирования (?) // не уверен я в этом слове...
-	 * @param mixed $case - указываем регистр [default: false|lower|upper|small|big|0|1]
+	 * @param mixed $case - указываем регистр [default: false|lower|upper]
 	 *
 	 * @return mixed|string вернет транслитированную (?) строку
 	 */
@@ -187,10 +187,10 @@ class ParserText {
 		$txt = str_replace($rus,$eng,trim($txt));
 
 		# case
-		if($case && ($case == "lower" || $case == 0 || $case == "small")) {
+		if($case && ($case == "lower")) {
 			$txt = mb_strtolower($txt);
 		}
-		elseif($case && ($case == "upper" || $case == 1 || $case == "big")) {
+		elseif($case && ($case == "upper")) {
 			$txt = mb_strtoupper($txt);
 		}
 

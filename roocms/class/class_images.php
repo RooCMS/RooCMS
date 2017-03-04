@@ -42,7 +42,7 @@
 * @author       alex Roosso
 * @copyright    2010-2017 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.5
+* @version      1.5.1
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -75,13 +75,12 @@ class Images extends GD {
 	 * @internal param bool		$modify		- флаг указывает подвергать ли изображение полной модификации с сохранением оригинального изображения и созданием превью.
 	 * @internal param bool		$noresize	- флаг указывает подвергать ли изображение изменению размера. Иcпользуется в том случае когда мы не хотим изменять оригинальное изображение.
 	 * @param string  $path      - путь к папке для загрузки изображений.
-	 * @param boolean $no_empty  - определяет пропускать ли пустые элементы в массиве FILES или обозначать их в выходном буфере.
 	 *
 	 * @return array - возвращает массив с именами файлов.
 	 */
-	public function upload_image($file, $prefix="", array $thumbsize=array(), array $options=array("watermark"=>true, "modify"=>true, "noresize"=>false), $path=_UPLOADIMAGES, $no_empty=true) {
+	public function upload_image($file, $prefix="", array $thumbsize=array(), array $options=array("watermark"=>true, "modify"=>true, "noresize"=>false), $path=_UPLOADIMAGES) {
 
-		return $this->upload_post_image($file, $prefix, $thumbsize, $options, $path, $no_empty);
+		return $this->upload_post_image($file, $prefix, $thumbsize, $options, $path);
 	}
 
 
@@ -97,12 +96,10 @@ class Images extends GD {
 	 * @internal param bool		$modify		- флаг указывает подвергать ли изображение полной модификации с сохранением оригинального изображения и созданием превью.
 	 * @internal param bool		$noresize	- флаг указывает подвергать ли изображение изменению размера. Иcпользуется в том случае когда мы не хотим изменять оригинальное изображение.
 	 * @param string  $path      - путь к папке для загрузки изображений.
-	 * @param boolean $no_empty  - определяет пропускать ли пустые элементы в массиве FILES или обозначать их в выходном буфере.
 	 *
-	 * @return array - возвращает массив с именами файлов.
-
+	 * @return array|bool - возвращает массив с именами файлов или false в случае неудачи.
 	 */
-	public function upload_post_image($file, $prefix="", array $thumbsize=array(), array $options=array(), $path=_UPLOADIMAGES, $no_empty=true) {
+	public function upload_post_image($file, $prefix="", array $thumbsize=array(), array $options=array(), $path=_UPLOADIMAGES) {
 
 		global $files;
 
@@ -179,18 +176,14 @@ class Images extends GD {
 				$filename = false;
 			}
 
-			if(!$no_empty) {
-				$names[$key] = $filename.".".$ext;
-			}
-			else {
-				if($filename) {
-					$names[] = $filename.".".$ext;
-				}
+			$names = array();
+			if($filename) {
+				$names[] = $filename.".".$ext;
 			}
 		}
 
 		# Возвращаем массив имен файлов для внесения в БД
-		return (isset($names) && count($names) > 0) ? $names : false ;
+		return (count($names) > 0) ? $names : false ;
 	}
 
 

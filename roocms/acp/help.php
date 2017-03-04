@@ -246,7 +246,9 @@ class ACP_HELP {
 
 			go(CP."?act=help");
 		}
-		else go(CP."?act=help&part=create_part");
+		else {
+			go(CP."?act=help&part=create_part");
+		}
 	}
 
 
@@ -345,7 +347,9 @@ class ACP_HELP {
 
 			go(CP."?act=help&u=".$POST->uname);
 		}
-		else goback();
+		else {
+			goback();
+		}
 	}
 
 
@@ -375,7 +379,9 @@ class ACP_HELP {
 			# пересчитываем детишек
 			$this->count_childs($row['parent_id']);
 		}
-		else $logger->error("Невозможно удалить раздел с имеющимися в подчинении подразделами. Сначала перенесите или удалите подразделы.");
+		else {
+			$logger->error("Невозможно удалить раздел с имеющимися в подчинении подразделами. Сначала перенесите или удалите подразделы.");
+		}
 
 		goback();
 	}
@@ -405,7 +411,9 @@ class ACP_HELP {
 
 			$use = true;
 		}
-		else $tree = $this->helptree;
+		else {
+			$tree = $this->helptree;
+		}
 
 		# construct tree
 		if(isset($tree)) {
@@ -414,7 +422,9 @@ class ACP_HELP {
 			# be back
 			return $tree;
 		}
-		else return false;
+		else {
+			return false;
+		}
 	}
 
 
