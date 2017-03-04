@@ -42,7 +42,7 @@
 * @author       alex Roosso
 * @copyright    2010-2017 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.4.7
+* @version      1.4.8
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -236,9 +236,9 @@ class Install extends Requirement{
 					$context .= $f[$i];
 				}
 
-				$context = str_ireplace('$site[\'title\'] = "";','$site[\'title\'] = "'.$POST->site_title.'";',$context);
-				$context = str_ireplace('$site[\'domain\'] = "";','$site[\'domain\'] = "'.$POST->site_domain.'";',$context);
-				$context = str_ireplace('$site[\'sysemail\'] = "";','$site[\'sysemail\'] = "'.$POST->site_sysemail.'";',$context);
+				$context = str_ireplace('$site[\'title\'] = "'.$site['title'].'";','$site[\'title\'] = "'.$POST->site_title.'";',$context);
+				$context = str_ireplace('$site[\'domain\'] = "'.$site['domain'].'";','$site[\'domain\'] = "'.$POST->site_domain.'";',$context);
+				$context = str_ireplace('$site[\'sysemail\'] = "'.$site['sysemail'].'";','$site[\'sysemail\'] = "'.$POST->site_sysemail.'";',$context);
 
 				$ecf = fopen($cf, "w+");
 				if (is_writable($cf)) {
@@ -284,6 +284,7 @@ class Install extends Requirement{
 		global $db, $db_info, $POST, $parse, $logger;
 
 		if($this->allowed && isset($POST->submit) && isset($POST->step) && $POST->step == 5) {
+
 			if(!isset($POST->db_info_host) || trim($POST->db_info_host) == "") {
 				$this->allowed = false;
 				$logger->error("Не указано соеденение с сервером БД");
@@ -300,9 +301,9 @@ class Install extends Requirement{
 				$this->allowed = false;
 				$logger->error("Не указан пароль пользователя БД");
 			}
-			if(!isset($POST->db_info_prefix) || trim($POST->db_info_prefix) == "") {
-				$this->allowed = false;
-				$logger->error("Не указан префикс БД");
+
+			if(!isset($POST->db_info_prefix)) {
+				$POST->db_info_prefix = "";
 			}
 
 			if($this->allowed) {
@@ -329,12 +330,7 @@ class Install extends Requirement{
 						$context .= $f[$i];
 					}
 
-					if(trim($db_info['prefix']) == "") {
-						$context = str_ireplace('$db_info[\'prefix\'] = "";','$db_info[\'prefix\'] = "'.$POST->db_info_prefix.'";',$context);
-					}
-					else {
-						$context = str_ireplace('$db_info[\'prefix\'] = "'.$db_info['prefix'].'";','$db_info[\'prefix\'] = "'.$POST->db_info_prefix.'";',$context);
-					}
+					$context = str_ireplace('$db_info[\'prefix\'] = "'.$db_info['prefix'].'";','$db_info[\'prefix\'] = "'.$POST->db_info_prefix.'";',$context);
 
 					$ecf = fopen($cf, "w+");
 					if (is_writable($cf)) {
@@ -385,14 +381,10 @@ class Install extends Requirement{
 				$context .= $f[$i];
 			}
 
-			if(trim($db_info['host']) == "")	$context = str_ireplace('$db_info[\'host\'] = "";','$db_info[\'host\'] = "'.$roocms->sess['db_info_host'].'";',$context);
-			else					$context = str_ireplace('$db_info[\'host\'] = "'.$db_info['host'].'";','$db_info[\'host\'] = "'.$roocms->sess['db_info_host'].'";',$context);
-			if(trim($db_info['base']) == "")	$context = str_ireplace('$db_info[\'base\'] = "";','$db_info[\'base\'] = "'.$roocms->sess['db_info_base'].'";',$context);
-			else					$context = str_ireplace('$db_info[\'base\'] = "'.$db_info['base'].'";','$db_info[\'base\'] = "'.$roocms->sess['db_info_base'].'";',$context);
-			if(trim($db_info['user']) == "")	$context = str_ireplace('$db_info[\'user\'] = "";','$db_info[\'user\'] = "'.$roocms->sess['db_info_user'].'";',$context);
-			else					$context = str_ireplace('$db_info[\'user\'] = "'.$db_info['user'].'";','$db_info[\'user\'] = "'.$roocms->sess['db_info_user'].'";',$context);
-			if(trim($db_info['pass']) == "")	$context = str_ireplace('$db_info[\'pass\'] = "";','$db_info[\'pass\'] = "'.$roocms->sess['db_info_pass'].'";',$context);
-			else					$context = str_ireplace('$db_info[\'pass\'] = "'.$db_info['pass'].'";','$db_info[\'pass\'] = "'.$roocms->sess['db_info_pass'].'";',$context);
+			$context = str_ireplace('$db_info[\'host\'] = "'.$db_info['host'].'";','$db_info[\'host\'] = "'.$roocms->sess['db_info_host'].'";',$context);
+			$context = str_ireplace('$db_info[\'base\'] = "'.$db_info['base'].'";','$db_info[\'base\'] = "'.$roocms->sess['db_info_base'].'";',$context);
+			$context = str_ireplace('$db_info[\'user\'] = "'.$db_info['user'].'";','$db_info[\'user\'] = "'.$roocms->sess['db_info_user'].'";',$context);
+			$context = str_ireplace('$db_info[\'pass\'] = "'.$db_info['pass'].'";','$db_info[\'pass\'] = "'.$roocms->sess['db_info_pass'].'";',$context);
 
 			$ecf = fopen($cf, "w+");
 			if (is_writable($cf)) {

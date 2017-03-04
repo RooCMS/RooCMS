@@ -609,13 +609,24 @@ class ACP_FEEDS_FEED {
 	}
 
 
+	/**
+	 * Функция првоеряет вводимые поля на ошибки
+	 */
 	private function check_item_fields() {
 
 		global $POST, $logger;
 
+		# title
 		if(!isset($POST->title)) {
 			$logger->error("Не заполнен заголовок элемента");
 		}
+
+		# brief item
+		if(!isset($POST->brief_item)) {
+			$POST->brief_item = "";
+		}
+
+		# full desc item
 		if(!isset($POST->full_item)) {
 			$logger->error("Не заполнен подробный текст элемента");
 		}
@@ -625,23 +636,24 @@ class ACP_FEEDS_FEED {
 			$POST->status = 1;
 		}
 
-		# дата публикации и продолжительности
+		# дата публикации
 		if(!isset($POST->date_publications)) {
-			$POST->date_publications	= date("d.m.Y",time());
-		}
-		if(!isset($POST->date_end_publications)) {
-			$POST->date_end_publications	= 0;
+			$POST->date_publications = date("d.m.Y",time());
 		}
 
-		# meta
+		# дата завершения публикации
+		if(!isset($POST->date_end_publications)) {
+			$POST->date_end_publications = 0;
+		}
+
+		# meta description
 		if(!isset($POST->meta_description)){
 			$POST->meta_description	= "";
 		}
+
+		# meta keywords
 		if(!isset($POST->meta_keywords)) {
-			$POST->meta_keywords	= "";
-		}
-		if(!isset($POST->brief_item)) {
-			$POST->brief_item = "";
+			$POST->meta_keywords = "";
 		}
 	}
 }

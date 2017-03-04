@@ -100,12 +100,12 @@ class ACP_CONFIG {
 
 		global $db, $smarty, $GET;
 
+		$parts = array();
 
 		if(isset($GET->_part) && $db->check_id($GET->_part, CONFIG_PARTS_TABLE, "name") == 1) {
 			$this->part = $GET->_part;
 		}
 		//elseif(isset($GET->_part) && $GET->_part == "all") $this->part = "all";
-
 
 		# запрос разделов конфигурации из БД
 		$q_1 = $db->query("SELECT name, title, type, ico FROM ".CONFIG_PARTS_TABLE." ORDER BY type ASC, sort ASC");
@@ -127,7 +127,6 @@ class ACP_CONFIG {
 				}
 			}
 
-			$parts = array();
 			if($part['type'] == "global") {
 				$parts['global'][] 	= $part;
 			}
