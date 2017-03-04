@@ -51,7 +51,9 @@
 //#########################################################
 // Anti Hack
 //---------------------------------------------------------
-if(!defined('RooCMS')) die('Access Denied');
+if(!defined('RooCMS')) {
+	die('Access Denied');
+}
 //#########################################################
 
 
@@ -98,8 +100,12 @@ class Debug {
 		set_error_handler(array($this,'debug_critical_error'));
 
 
-                if(!defined('DEBUGMODE'))	define('DEBUGMODE', true);
-                if(!defined('DEVMODE'))		define('DEVMODE', true);
+                if(!defined('DEBUGMODE')) {
+                	define('DEBUGMODE', true);
+		}
+                if(!defined('DEVMODE'))  {
+                	define('DEVMODE', true);
+		}
 
 
         	# Для админа всегда показываем ошибки и замеряем время выполнения RooCMS
@@ -113,10 +119,14 @@ class Debug {
 			# try show error
 			$this->error_report(true);
 		}
-		else $this->error_report(false);
+		else {
+                	$this->error_report(false);
+		}
 
 		# show debug info
-		if($this->show_debug) register_shutdown_function(array($this,'shotdown'), "debug");
+		if($this->show_debug) {
+                	register_shutdown_function(array($this,'shotdown'), "debug");
+		}
 	}
 
 
@@ -159,7 +169,9 @@ class Debug {
 		$this->phpextensions = get_loaded_extensions();
 
 		foreach($this->reqphpext AS $k=>$v) {
-			if(!in_array($v, $this->phpextensions)) $this->nophpextensions[] = $v;
+			if(!in_array($v, $this->phpextensions)) {
+				$this->nophpextensions[] = $v;
+			}
 		}
 	}
 
@@ -225,7 +237,9 @@ class Debug {
         		        break;
                 }
 
-                if($erlevel == 0) register_shutdown_function(array('debug','shotdown'), "debug");
+                if($erlevel == 0) {
+                	register_shutdown_function(array('debug','shotdown'), "debug");
+		}
 
         	$time = date("d.m.Y H:i:s");
 
@@ -239,7 +253,9 @@ class Debug {
 
 		# Не будем ничего выводить, если нам приказано скрыть ошибки.
 		if(error_reporting() == 0) {
-        	        if($erlevel == 0) die(CRITICAL_STYLESHEETS."<blockquote>Извините, что то пошло не так. Мы уже работаем над устранением причин.<small>".$time."</small></blockquote>");
+        	        if($erlevel == 0) {
+        	        	die(CRITICAL_STYLESHEETS."<blockquote>Извините, что то пошло не так. Мы уже работаем над устранением причин.<small>".$time."</small></blockquote>");
+			}
         	        //else return;
 		}
 

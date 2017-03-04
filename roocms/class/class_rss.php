@@ -51,7 +51,9 @@
 //#########################################################
 // Anti Hack
 //---------------------------------------------------------
-if(!defined('RooCMS')) die('Access Denied');
+if(!defined('RooCMS')) {
+	die('Access Denied');
+}
 //#########################################################
 
 
@@ -122,20 +124,28 @@ class RSS {
 		$uri = str_replace("?export=RSS", "", $parse->uri);
 		$uri = str_replace("&export=RSS", "", $uri);
 
-		if(trim($url) == "") 	$this->link = $site['domain'] . SCRIPT_NAME . htmlspecialchars($uri);
-		else			$this->link	= htmlspecialchars($url);
+		if(trim($url) == "") {
+			$this->link = $site['domain'] . SCRIPT_NAME . htmlspecialchars($uri);
+		}
+		else {
+			$this->link	= htmlspecialchars($url);
+		}
 	}
 
 
 	public function set_ttl($ttl) {
 		$ttl = round($ttl);
-		if($ttl > 60) $this->ttl = $ttl;
+		if($ttl > 60) {
+			$this->ttl = $ttl;
+		}
 	}
 
 
 	public function set_lastbuilddate($date) {
 		$now = time();
-		if($now > $date) $this->lastbuilddate = $date;
+		if($now > $date) {
+			$this->lastbuilddate = $date;
+		}
 	}
 
 
@@ -143,10 +153,16 @@ class RSS {
 
 		global $config, $parse;
 
-		if(trim($parse->uri) != "") $rsslink .= $parse->uri."&export=RSS";
-		else $rsslink .= "?export=RSS";
+		if(trim($parse->uri) != "") {
+			$rsslink .= $parse->uri."&export=RSS";
+		}
+		else {
+			$rsslink .= "?export=RSS";
+		}
 
-		if($config->rss_power) $this->rss_link = $parse->transform_uri($rsslink);
+		if($config->rss_power) {
+			$this->rss_link = $parse->transform_uri($rsslink);
+		}
 	}
 
 
@@ -168,8 +184,14 @@ class RSS {
 		$item .= "\n\t\t\t <pubDate>".gmdate("D, d M Y H:i:s", $pubdate)." GMT</pubDate>";
 		$item .= "\n\t\t\t <pubUT>".$pubdate."</pubUT>";
 		$item .= "\n\t\t\t <guid isPermaLink='true'>".$guid."</guid>";
-		if(trim($category) != "") 	$item .= "\n\t\t\t <category>".$category."</category>";
-		if(trim($author) != "") 	$item .= "\n\t\t\t <author>".$author."</author>";
+
+		if(trim($category) != "") {
+			$item .= "\n\t\t\t <category>".$category."</category>";
+		}
+
+		if(trim($author) != "") {
+			$item .= "\n\t\t\t <author>".$author."</author>";
+		}
 		$item .= "\n\t\t </item>";
 
 		$this->items[] = $item;
@@ -189,11 +211,15 @@ class RSS {
 		$this->out .= "\n\t<channel>";
 
 		# title
-		if(trim($this->title) == "") $this->title =& $site['title'];
+		if(trim($this->title) == "") {
+			$this->title =& $site['title'];
+		}
 		$this->out .= "\n\t\t <title>".$this->title."</title>";
 
 		# description
-		if(trim($this->description) == "") $this->description =& $config->meta_description;
+		if(trim($this->description) == "") {
+			$this->description =& $config->meta_description;
+		}
 		$this->out .= "\n\t\t <description>".$this->description."</description>";
 
 		# link
@@ -203,10 +229,14 @@ class RSS {
 		$this->out .= "\n\t\t <language>".$this->language."</language>";
 
 		# set email editor
-		if(trim($this->managingeditor) != "") 	$this->out .= "\n\t\t <managingEditor>".$this->managingeditor."</managingEditor>";
+		if(trim($this->managingeditor) != "") {
+			$this->out .= "\n\t\t <managingEditor>".$this->managingeditor."</managingEditor>";
+		}
 
 		# set email webmaster
-		if(trim($this->webmaster) != "") 		$this->out .= "\n\t\t <webMaster>".$this->webmaster."</webMaster>";
+		if(trim($this->webmaster) != "") {
+			$this->out .= "\n\t\t <webMaster>".$this->webmaster."</webMaster>";
+		}
 
 		# generator
 		$this->out .= "\n\t\t <generator>".$this->generator."</generator>";
@@ -220,7 +250,9 @@ class RSS {
 		$this->image['link'] 	= $this->link;
 		$this->out .= "\n\t\t <image> \n\t\t\t <url>".$this->image['url']."</url> \n\t\t\t <title>".$this->image['title']."</title> \n\t\t\t <link>".$this->image['link']."</link> \n\t\t </image>";
 
-		if($this->lastbuilddate != 0)	$this->out .= "\n\t\t <lastBuildDate>".gmdate("D, d M Y H:i:s", $this->lastbuilddate)." GMT</lastBuildDate>";
+		if($this->lastbuilddate != 0) {
+			$this->out .= "\n\t\t <lastBuildDate>".gmdate("D, d M Y H:i:s", $this->lastbuilddate)." GMT</lastBuildDate>";
+		}
 	}
 
 
@@ -261,9 +293,15 @@ class RSS {
 	//#####################################################
 	// check items
 	public function check_rss() {
+
 		$c = count($this->items);
-		if($c != 0) return true;
-		else return false;
+
+		if($c != 0) {
+			return true;
+		}
+		else {
+			return false;
+		}
 	}
 }
 

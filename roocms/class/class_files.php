@@ -51,7 +51,9 @@
 //#########################################################
 // Anti Hack
 //---------------------------------------------------------
-if(!defined('RooCMS')) die('Access Denied');
+if(!defined('RooCMS')) {
+	die('Access Denied');
+}
 //#########################################################
 
 
@@ -70,11 +72,13 @@ class Files {
 
 		global $debug;
 
-		if(file_exists($file) && array_search("apache2handler", $debug->phpextensions))
+		if(file_exists($file) && array_search("apache2handler", $debug->phpextensions)) {
 			$fileinfo = apache_lookup_uri($file);
+		}
 
-		if(isset($fileinfo->content_type))
+		if(isset($fileinfo->content_type)) {
 			debug($fileinfo);
+		}
 	}
 
 
@@ -97,7 +101,9 @@ class Files {
 
 			$f = round($f,2).$t;
 		}
-		else $f = false;
+		else {
+			$f = false;
+		}
 
 		return $f;
 	}
@@ -122,8 +128,13 @@ class Files {
 		$filename = str_ireplace(".".$pi['extension'], "", $filename);
 
 		# префикс
-		if(trim($prefix) != "")	$prefix .= "_";
-		if(trim($pofix)  != "")	$pofix = "_".$pofix;
+		if(trim($prefix) != "")	{
+			$prefix .= "_";
+		}
+		# постфикс
+		if(trim($pofix)  != "")	{
+			$pofix = "_".$pofix;
+		}
 
 		# транслит
 		$filename = $parse->text->transliterate($filename, "lower");
@@ -133,8 +144,12 @@ class Files {
 
 		# Проверяем длину имения файла
 		$length = 5;
-		if($prefix != "") $length += mb_strlen($prefix) + 1;
-		if($pofix != "") $length += mb_strlen($pofix) + 1;
+		if($prefix != "") {
+			$length += mb_strlen($prefix) + 1;
+		}
+		if($pofix != "") {
+			$length += mb_strlen($pofix) + 1;
+		}
 		$length += mb_strlen(time());
 
 		$filelength = mb_strlen($filename);
@@ -227,8 +242,9 @@ class Files {
 
 		# Составляем массив для проверки разрешенных типов файлов к загрузке
 		static $allow_exts = array();
-		if(empty($allow_exts))
+		if(empty($allow_exts)) {
 			$allow_exts = $this->get_allow_exts();
+		}
 
 
 		# Если $_FILES не является массивом конвертнем в массив
@@ -251,7 +267,9 @@ class Files {
 				$_FILES[$file]['ext'][$key] = array_pop($ffn);
 
 				# исключение для tar.gz (в будущем оформим нормальным образом)
-				if($_FILES[$file]['ext'][$key] == "gz") $_FILES[$file]['ext'][$key] = "tar.gz";
+				if($_FILES[$file]['ext'][$key] == "gz") {
+					$_FILES[$file]['ext'][$key] = "tar.gz";
+				}
 
 				# Грузим апельсины бочками
 				if(array_key_exists($_FILES[$file]['ext'][$key], $allow_exts)) {
@@ -268,7 +286,9 @@ class Files {
 				}
 
 				# Если не загрузка удалась
-				if(!$upload) $filename = false;
+				if(!$upload) {
+					$filename = false;
+				}
 			}
 			else {
 				# вписать сообщение об ошибке.
@@ -280,7 +300,9 @@ class Files {
 				$names[$key] = $filename.".".$ext;
 			}
 			else {
-				if($filename) $names[] = $filename.".".$ext;
+				if($filename) {
+					$names[] = $filename.".".$ext;
+				}
 			}
 		}
 
@@ -337,12 +359,16 @@ class Files {
 
 		global $db, $logger;
 
-		if(is_numeric($file) || is_integer($file))
+		if(is_numeric($file) || is_integer($file)) {
 			$where = " id='".$file."' ";
-		else
+		}
+		else {
 			$where = " attachedto='".$file."' ";
+		}
 
-		if($clwhere) $where = $file;
+		if($clwhere) {
+			$where = $file;
+		}
 
 		$q = $db->query("SELECT id, filename, fileext FROM ".FILES_TABLE." WHERE ".$where);
 		while($row = $db->fetch_assoc($q)) {
@@ -354,7 +380,9 @@ class Files {
 					unlink(_UPLOADFILES."/".$filename);
 					$logger->log("Файл ".$filename." удален");
 				}
-				elseif(!file_exists(_UPLOADFILES."/".$filename)) $logger->error("Не удалось найти файл ".$filename, "error");
+				elseif(!file_exists(_UPLOADFILES."/".$filename)) {
+					$logger->error("Не удалось найти файл ".$filename, "error");
+				}
 			}
 		}
 

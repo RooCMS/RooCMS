@@ -51,7 +51,9 @@
 //#########################################################
 // Anti Hack
 //---------------------------------------------------------
-if(!defined('RooCMS')) die('Access Denied');
+if(!defined('RooCMS')) {
+	die('Access Denied');
+}
 //#########################################################
 
 
@@ -107,12 +109,16 @@ class Structure {
 			$this->sitetree = $this->load_tree();
 		}
 
-		if(!empty($this->sitetree)) $this->update_tree_parent();
+		if(!empty($this->sitetree)) {
+			$this->update_tree_parent();
+		}
 
         	# user interface loaded
         	if($ui) {
 			# const for default structure id
-			if(!defined('PAGEID')) define('PAGEID', 1);
+			if(!defined('PAGEID')) {
+				define('PAGEID', 1);
+			}
 
 			# init page vars
 			if(isset($GET->_page)) {
@@ -121,7 +127,10 @@ class Structure {
 				# запрос
 				$q = $db->query("SELECT id, page_id, parent_id, group_access, alias, title, meta_description, meta_keywords, noindex, page_type, rss, show_child_feeds, items_per_page, items_sorting, items, thumb_img_width, thumb_img_height FROM ".STRUCTURE_TABLE." WHERE ".$where);
 				$row = $db->fetch_assoc($q);
-				if(!empty($row)) $this->set_page_vars($row);
+
+				if(!empty($row)) {
+					$this->set_page_vars($row);
+				}
 				else {	# load index page
 					$q = $db->query("SELECT id, page_id, parent_id, group_access, alias, title, meta_description, meta_keywords, noindex, page_type, rss, show_child_feeds, items_per_page, items, items_sorting, thumb_img_width, thumb_img_height FROM ".STRUCTURE_TABLE." WHERE id='".PAGEID."'");
 					$row = $db->fetch_assoc($q);
@@ -196,7 +205,9 @@ class Structure {
 	private function construct_tree(array $unit, $parent=0, $maxlevel=0, $child=true, $level=0) {
 
 		# create array
-		if($level == 0) $tree = array();
+		if($level == 0) {
+			$tree = array();
+		}
 
 		foreach($unit AS $i=>$value) {
 			if($unit[$i]['parent_id'] == $parent) {
@@ -208,14 +219,20 @@ class Structure {
 
 				# check child
 				if($child && ($maxlevel == 0 || $level+1 <= $maxlevel)) {
+
 					$subtree = $this->construct_tree($unit, $unit[$i]['id'], $maxlevel, $child, $level + 1);
-					if(is_array($subtree)) $tree = $tree + $subtree;
+
+					if(is_array($subtree)) {
+						$tree = $tree + $subtree;
+					}
 				}
 			}
 		}
 
 		# be back
-		if(!empty($tree)) return $tree;
+		if(!empty($tree)) {
+			return $tree;
+		}
 	}
 
 
@@ -238,10 +255,12 @@ class Structure {
 		$this->page_parent 		= $data['parent_id'];
 		$this->page_alias 		= $data['alias'];
 		$this->page_title 		= $data['title'];
-		if(isset($config->meta_description))
+		if(isset($config->meta_description)) {
 			$this->page_meta_desc 	= (trim($data['meta_description']) != "") ? $data['meta_description'] : $config->meta_description;
-		if(isset($config->meta_keywords))
+		}
+		if(isset($config->meta_keywords)) {
 			$this->page_meta_keys 	= (trim($data['meta_keywords']) != "") ? $data['meta_keywords'] : $config->meta_keywords;
+		}
         	$this->page_noindex		= $data['noindex'];
 		$this->page_type 		= $data['page_type'];
 		$this->page_group_access 	= array_flip(explode(",", $data['group_access']));
@@ -275,7 +294,9 @@ class Structure {
 						   'title'	=> $v['title'],
 						   'parent'	=> $v['parent']);
 
-			if($v['parent_id'] != 0) $this->construct_breadcumb($v['parent_id']);
+			if($v['parent_id'] != 0) {
+				$this->construct_breadcumb($v['parent_id']);
+			}
 		}
 
 	}
@@ -296,8 +317,9 @@ class Structure {
 	 */
 	private function update_tree_parent() {
 		foreach($this->sitetree AS $k=>$v) {
-			if($v['parent_id'] != 0)
+			if($v['parent_id'] != 0) {
 				$this->sitetree[$k]['parent'] = $this->get_structure_info($v['parent_id']);
+			}
 		}
 	}
 

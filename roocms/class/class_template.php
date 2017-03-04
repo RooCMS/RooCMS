@@ -51,7 +51,9 @@
 //#########################################################
 // Anti Hack
 //---------------------------------------------------------
-if(!defined('RooCMS')) die('Access Denied');
+if(!defined('RooCMS')) {
+	die('Access Denied');
+}
 //#########################################################
 
 
@@ -83,11 +85,19 @@ class Template {
 		global $site, $smarty;
 
 		if(!$skin) {
-			if(defined('ACP')) $this->skinfolder = "acp";
-			elseif(defined('INSTALL')) $this->skinfolder = "../install/skin";
-			else $this->skinfolder = $site['skin'];
+			if(defined('ACP')) {
+				$this->skinfolder = "acp";
+			}
+			elseif(defined('INSTALL')) {
+				$this->skinfolder = "../install/skin";
+			}
+			else {
+				$this->skinfolder = $site['skin'];
+			}
 		}
-		else $this->skinfolder = $skin;
+		else {
+			$this->skinfolder = $skin;
+		}
 
 		# init settings smarty
 		$this->set_smarty_options();
@@ -114,8 +124,12 @@ class Template {
 		# set other options
                 $smarty->caching 	= 0;
                 $smarty->cache_lifetime = 60;
-		if(isset($config->tpl_recompile_force))	$smarty->force_compile 		= $config->tpl_recompile_force;
-		if(isset($config->if_modified_since)) 	$smarty->cache_modified_check 	= $config->if_modified_since;
+		if(isset($config->tpl_recompile_force))	{
+			$smarty->force_compile 		= $config->tpl_recompile_force;
+		}
+		if(isset($config->if_modified_since)) {
+			$smarty->cache_modified_check 	= $config->if_modified_since;
+		}
 
 		//$smarty->config_fix_newlines = false;
 		//$smarty->compile_check = false;
@@ -149,22 +163,31 @@ class Template {
 		$out 	= "";
 
 		# Если нет шаблона
-		if(!file_exists($path."/".$tpl.".tpl") && DEBUGMODE)
+		if(!file_exists($path."/".$tpl.".tpl") && DEBUGMODE) {
 			$debug->debug_info .= "Не удалось найти шаблон: <br /><b>".$path."/".$tpl.".tpl</b><br />";
+		}
 
 		if(file_exists($path."/".$tpl.".tpl")) {
 			# load html
-			if(DEBUGMODE && $tpl != "header") $out .= "\r\n<!-- begin template: {$tpl} -->\r\n";
+			if(DEBUGMODE && $tpl != "header") {
+				$out .= "\r\n<!-- begin template: {$tpl} -->\r\n";
+			}
 
 			$out .= $smarty->fetch($tpl.".tpl");
 			//$out .= $smarty->display($tpl.".html");
 
 
-			if(DEBUGMODE && $tpl != "footer") $out .= "\r\n<!-- end template: {$tpl} -->\r\n";
+			if(DEBUGMODE && $tpl != "footer") {
+				$out .= "\r\n<!-- end template: {$tpl} -->\r\n";
+			}
 		}
 
-		if($return) return $out;
-		else $this->out .= $out;
+		if($return) {
+			return $out;
+		}
+		else {
+			$this->out .= $out;
+		}
 	}
 
 
@@ -279,7 +302,9 @@ class Template {
                         $this->info_popup();
 
                         # global site title
-                        if(!defined('INSTALL') && isset($config->global_site_title)) $site['title'] .= " &bull; ".$config->site_title;
+                        if(!defined('INSTALL') && isset($config->global_site_title)) {
+                        	$site['title'] .= " &bull; ".$config->site_title;
+			}
 
                         # jquery-core (check brwoser version)
                         $jquerycore = ($parse->browser("ie",8)) ? "jquery-coreie.min.js" : "jquery-core.min.js" ;
@@ -297,8 +322,9 @@ class Template {
 
 			# noindex for robots
 			$noindex = 0;
-			if(isset($structure->page_noindex))
+			if(isset($structure->page_noindex)) {
 				$noindex = $structure->page_noindex;
+			}
 
 			$smarty->assign("noindex",	$noindex);
 			$smarty->assign("error",	$parse->error);

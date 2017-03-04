@@ -51,7 +51,9 @@
 //#########################################################
 // Anti Hack
 //---------------------------------------------------------
-if(!defined('RooCMS')) die('Access Denied');
+if(!defined('RooCMS')) {
+	die('Access Denied');
+}
 //#########################################################
 
 
@@ -101,7 +103,9 @@ class Logger {
 	public function log($subj, $type="log") {
 
 		# обезопасим на всякий случай
-		if($type != "info" && $type != "error") $type="log";
+		if($type != "info" && $type != "error") {
+			$type="log";
+		}
 
 		$this->log[] = array("subj" => $subj, "type"=>$type);
 	}
@@ -120,7 +124,11 @@ class Logger {
 			$uid = (isset($_SESSION['uid'])) ? $_SESSION['uid'] : 0 ;
 
 			foreach($this->log AS $value) {
-				if(trim($dump) != "") $dump .= ", ";
+
+				if(trim($dump) != "") {
+					$dump .= ", ";
+				}
+
 				$dump .= "('".$uid."', '".$value["subj"]."', '".$value["type"]."', '".time()."')";
 			}
 

@@ -51,7 +51,9 @@
 //#########################################################
 // Anti Hack
 //---------------------------------------------------------
-if(!defined('RooCMS')) die('Access Denied');
+if(!defined('RooCMS')) {
+	die('Access Denied');
+}
 //#########################################################
 
 
@@ -100,13 +102,23 @@ class Parsers {
 		$this->parse_uri();
 
 		# act(ion) & part(ition) & move
-		if(isset($this->Get->_act)) 	$roocms->act 	=& $this->Get->_act;
-		if(isset($this->Get->_part)) 	$roocms->part 	=& $this->Get->_part;
-		if(isset($this->Get->_move)) 	$roocms->move 	=& $this->Get->_move;
+		if(isset($this->Get->_act)) {
+			$roocms->act 	=& $this->Get->_act;
+		}
+		if(isset($this->Get->_part)) {
+			$roocms->part 	=& $this->Get->_part;
+		}
+		if(isset($this->Get->_move)) {
+			$roocms->move 	=& $this->Get->_move;
+		}
 		# check query RSS Export
-		if(isset($this->Get->_export)) 	$roocms->rss 	= true;
+		if(isset($this->Get->_export)) {
+			$roocms->rss 	= true;
+		}
 		# check ajax flag
-		if(isset($this->Get->_ajax))	$roocms->ajax	= true;
+		if(isset($this->Get->_ajax)) {
+			$roocms->ajax	= true;
+		}
 
 		# обрабатываем URL
 		$this->parse_url();
@@ -134,14 +146,20 @@ class Parsers {
 
 		# $_GET
 		settype($this->Get, 	"object");
-		if(!empty($_GET)) 	$this->parse_Get();
+		if(!empty($_GET)) {
+			$this->parse_Get();
+		}
 
 		# $_POST
 		settype($this->Post, 	"object");
-		if(!empty($_POST)) 	$this->parse_Post();
+		if(!empty($_POST)) {
+			$this->parse_Post();
+		}
 
 		# init session data
-		if(!empty($_SESSION))	$this->get_session();
+		if(!empty($_SESSION)) {
+			$this->get_session();
+		}
 	}
 
 
@@ -152,16 +170,24 @@ class Parsers {
 	protected function parse_Post() {
 
 		$empty = false;
-		if(isset($_POST['empty']) && ($_POST['empty'] == "1" || $_POST['empty'] == "true")) $empty = true;
+		if(isset($_POST['empty']) && ($_POST['empty'] == "1" || $_POST['empty'] == "true")) {
+			$empty = true;
+		}
 		unset($_POST['empty']);
 
 		$post = $this->check_array($_POST, $empty);
 
 		foreach ($post as $key=>$value) {
 
-			if(is_string($value))		$this->Post->{$key} = (string) $value;
-			else if(is_array($value))	$this->Post->{$key} = (array) $value;
-			else				$this->Post->{$key} = $value;
+			if(is_string($value)) {
+				$this->Post->{$key} = (string) $value;
+			}
+			else if(is_array($value)) {
+				$this->Post->{$key} = (array) $value;
+			}
+			else {
+				$this->Post->{$key} = $value;
+			}
 		}
 
 		unset($_POST);
@@ -181,9 +207,15 @@ class Parsers {
 			# чистим ключ объекта от фигни
 			$key = "_".$key;
 
-			if(is_string($value)) 		$this->Get->{$key} = (string) $value;
-			else if(is_array($value))	$this->Get->{$key} = (array) $value;
-			else 				$this->Get->{$key} = $value;
+			if(is_string($value)) {
+				$this->Get->{$key} = (string) $value;
+			}
+			else if(is_array($value)) {
+				$this->Get->{$key} = (array) $value;
+			}
+			else {
+				$this->Get->{$key} = $value;
+			}
 		}
 	}
 
@@ -208,7 +240,9 @@ class Parsers {
 
 		# Получаем uri
 		$this->uri = str_replace($_SERVER['SCRIPT_NAME'], "", $_SERVER['REQUEST_URI']);
-		if(isset($_SERVER['REDIRECT_URL']) && trim($_SERVER['REDIRECT_URL']) != "") $this->uri = str_replace($_SERVER['REDIRECT_URL'], "", $_SERVER['REQUEST_URI']);
+		if(isset($_SERVER['REDIRECT_URL']) && trim($_SERVER['REDIRECT_URL']) != "") {
+			$this->uri = str_replace($_SERVER['REDIRECT_URL'], "", $_SERVER['REQUEST_URI']);
+		}
 
 		/**
 		 * Ex: ЧПУ fix
@@ -240,14 +274,18 @@ class Parsers {
 					$gets[$el] = str_replace("-","=",$gets[$el],$cs);
 
 					# устанавливаем разделитель, если распознали
-					if($cs > 0) $this->uri_separator = "-";
+					if($cs > 0) {
+						$this->uri_separator = "-";
+					}
 
 					# проверка на присутсвие "="
 					str_replace("=", "=", $gets[$el], $is);
 
 					if($is == 1) {
 						# устанавливаем разделитель, если распознали
-						if(trim($this->uri_separator) == "") $this->uri_separator = "=";
+						if(trim($this->uri_separator) == "") {
+							$this->uri_separator = "=";
+						}
 
 						# Определяем элементы URI ключ и значение
 						$str = explode("=",$gets[$el]);
@@ -260,7 +298,9 @@ class Parsers {
 					elseif($is == 0) {
 
 						# устанавливаем разделитель, если распознали
-						if(trim($this->uri_separator) == "") $this->uri_separator = "/";
+						if(trim($this->uri_separator) == "") {
+							$this->uri_separator = "/";
+						}
 
 						# Определяем элементы URI ключ и значение
 						$elp = $el + 1;
@@ -305,8 +345,9 @@ class Parsers {
 		global $db;
 
 		# Страницы
-		if(isset($this->Get->_pg))
+		if(isset($this->Get->_pg)) {
 			$db->page = floor($this->Get->_pg);
+		}
 	}
 
 
@@ -344,8 +385,14 @@ class Parsers {
 		global $db;
 
 		if(!is_array($string)) {
-			if($key)	$string = str_replace('\\','',$string);
-			else		$string = addslashes($string);
+
+			if($key) {
+				$string = str_replace('\\','',$string);
+			}
+			else {
+				$string = addslashes($string);
+			}
+
 			$string = $db->escape_string($string);
 			$string = str_ireplace('\&','&',$string);
 			$string = trim($string);
@@ -375,7 +422,9 @@ class Parsers {
 				# Чистим значение
 				$value 	= $this->escape_string($value, false);
 
-				if(trim($value) != "" || $empty) $arr[$key] = $value;
+				if(trim($value) != "" || $empty) {
+					$arr[$key] = $value;
+				}
 				//elseif(empty($value) && $empty) $arr[$key] = false;
 			}
 		}
@@ -432,8 +481,12 @@ class Parsers {
 
 		$pattern = '/^[\.\-_A-Za-z0-9]+?@[\.\-A-Za-z0-9]+?\.[A-Za-z0-9]{2,6}$/';
 
-		if(preg_match($pattern, trim($email))) return true;
-		else return false;
+		if(preg_match($pattern, trim($email))) {
+			return true;
+		}
+		else {
+			return false;
+		}
 	}
 
 
@@ -453,8 +506,12 @@ class Parsers {
 
 		$pattern = "/^[\+]?[0-9]?(\s)?(\-)?(\s)?(\()?[0-9]{3,5}(\))?(\s)?(\-)?(\s)?[0-9]{1,3}(\s)?(\-)?(\s)?[0-9]{2}(\s)?(\-)?(\s)?[0-9]{2}\Z/";
 
-		if(preg_match($pattern, trim($phone))) return true;
-		else return false;
+		if(preg_match($pattern, trim($phone))) {
+			return true;
+		}
+		else {
+			return false;
+		}
 	}
 
 
@@ -465,10 +522,15 @@ class Parsers {
 	* @return mixed
 	*/
 	public function prep_url($url) {
-		if($url=='' || $url=='http://' || $url=='https://')
+
+		if($url=='' || $url=='http://' || $url=='https://') {
 			return '';
-		if(mb_substr($url,0,7)!='http://' && mb_substr($url,0,8)!='https://')
+		}
+
+		if(mb_substr($url,0,7)!='http://' && mb_substr($url,0,8)!='https://') {
 			$url = 'http://'.$url;
+		}
+
 		return $url;
 	}
 
@@ -498,7 +560,9 @@ class Parsers {
 	 * @return array|bool
 	 */
 	public function cvrt_color_h2d($hexcolor) {
-		if(mb_strlen($hexcolor) != 7 || mb_strpos($hexcolor, "#") === false) return false;
+		if(mb_strlen($hexcolor) != 7 || mb_strpos($hexcolor, "#") === false) {
+			return false;
+		}
 
 		return array(	"r" => hexdec(mb_substr($hexcolor, 1, 2)),
 				"g" => hexdec(mb_substr($hexcolor, 3, 2)),
@@ -547,7 +611,9 @@ class Parsers {
                                 	preg_match('#version/([0-9\.]+)#', $useragent, $regs);
                                 	$is['opera'] = $regs[1];
 				}
-				else $is['opera'] = $regs[2];
+				else {
+					$is['opera'] = $regs[2];
+				}
 			}
 
 			# detect internet explorer
@@ -629,7 +695,9 @@ class Parsers {
 					return $is["{$browser}"];
 				}
 			}
-			else return $is["{$browser}"];
+			else {
+				return $is["{$browser}"];
+			}
 		}
 
 		# if we got this far, we are not the specified browser, or the version number is too low

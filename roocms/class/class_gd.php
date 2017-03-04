@@ -51,7 +51,9 @@
 //#########################################################
 // Anti Hack
 //---------------------------------------------------------
-if(!defined('RooCMS')) die('Access Denied');
+if(!defined('RooCMS')) {
+	die('Access Denied');
+}
 //#########################################################
 
 
@@ -84,40 +86,48 @@ class GD {
 		$this->info = gd_info();
 
 		# Устанавливаем размеры миниатюр из конфигурации
-		if(isset($config->gd_thumb_image_width) && isset($config->gd_thumb_image_height))
+		if(isset($config->gd_thumb_image_width) && isset($config->gd_thumb_image_height)) {
 			$this->set_thumb_sizes(array($config->gd_thumb_image_width, $config->gd_thumb_image_height));
+		}
 
 		# Устанавливаем максимальные размеры изображений
-		if(isset($config->gd_image_maxwidth) && isset($config->gd_image_maxheight))
+		if(isset($config->gd_image_maxwidth) && isset($config->gd_image_maxheight)) {
 			$this->set_max_sizes(array($config->gd_image_maxwidth, $config->gd_image_maxheight));
+		}
 
 		# Тип генерации фона из конфигурации
-		if(isset($config->gd_thumb_type_gen) && $config->gd_thumb_type_gen == "size")
+		if(isset($config->gd_thumb_type_gen) && $config->gd_thumb_type_gen == "size") {
 			$this->thumbtg = "size";
-
+		}
 
 		# Фоновый цвет  из конфигурации
-		if(isset($config->gd_thumb_bgcolor) && mb_strlen($config->gd_thumb_bgcolor) == 7)
+		if(isset($config->gd_thumb_bgcolor) && mb_strlen($config->gd_thumb_bgcolor) == 7) {
 			$this->thumbbgcol = $parse->cvrt_color_h2d($config->gd_thumb_bgcolor);
-
+		}
 
 		# Качество миниатюр  из конфигурации
-		if(isset($config->gd_thumb_jpg_quality) && $config->gd_thumb_jpg_quality >= 10 && $config->gd_thumb_jpg_quality <= 100)
+		if(isset($config->gd_thumb_jpg_quality) && $config->gd_thumb_jpg_quality >= 10 && $config->gd_thumb_jpg_quality <= 100) {
 			$this->th_quality = $config->gd_thumb_jpg_quality;
-
+		}
 
 		# Если используем watermark
 		if(isset($config->gd_use_watermark) && $config->gd_use_watermark == "text") {
 
 			# watermark text string one
-			if(trim($config->gd_watermark_string_one) != "")
+			if(trim($config->gd_watermark_string_one) != "") {
 				$this->copyright = $parse->text->html($config->gd_watermark_string_one);
-			else $this->copyright = $parse->text->html($site['title']);
+			}
+			else {
+				$this->copyright = $parse->text->html($site['title']);
+			}
 
 			# watermark text string two
-			if(trim($config->gd_watermark_string_two) != "")
+			if(trim($config->gd_watermark_string_two) != "") {
 				$this->domain = $parse->text->html($config->gd_watermark_string_two);
-			else $this->domain = $_SERVER['SERVER_NAME'];
+			}
+			else {
+				$this->domain = $_SERVER['SERVER_NAME'];
+			}
 		}
 	}
 
@@ -148,7 +158,9 @@ class GD {
 			$this->thumbnail($filename, $extension, $path);
 		}
 		else {
-			if(!isset($options['noresize']) || !$options['noresize']) $this->resized($filename, $extension, $path);
+			if(!isset($options['noresize']) || !$options['noresize']) {
+				$this->resized($filename, $extension, $path);
+			}
 		}
 
 
@@ -156,12 +168,14 @@ class GD {
 		if($config->gd_use_watermark != "no" && (isset($options['watermark']) && $options['watermark'])) {
 
 			# Текстовый watermark
-			if($config->gd_use_watermark == "text" )
+			if($config->gd_use_watermark == "text" ) {
 				$this->watermark_text($filename, $extension, $path);
+			}
 
 			# Графический watermark
-			if($config->gd_use_watermark == "image" )
+			if($config->gd_use_watermark == "image" ) {
 				$this->watermark_image($filename, $extension, $path);
+			}
 		}
 	}
 
@@ -211,9 +225,16 @@ class GD {
             		imagecopyresampled($resize, $src, 0, 0, 0, 0, $ns['new_width'], $ns['new_height'], $w, $h);
 
 			# льем измененное изображение
-			if($ext == "jpg")	imagejpeg($resize,$path."/".$fileresize, $this->rs_quality);
-			elseif($ext == "gif")	imagegif($resize,$path."/".$fileresize);
-			elseif($ext == "png")	imagepng($resize,$path."/".$fileresize);
+			if($ext == "jpg") {
+				imagejpeg($resize,$path."/".$fileresize, $this->rs_quality);
+			}
+			elseif($ext == "gif") {
+				imagegif($resize,$path."/".$fileresize);
+			}
+			elseif($ext == "png") {
+				imagepng($resize,$path."/".$fileresize);
+			}
+
 			imagedestroy($resize);
 			imagedestroy($src);
 		}
@@ -242,8 +263,9 @@ class GD {
 		$bgcolor	= imagecolorallocatealpha($thumb, $this->thumbbgcol['r'], $this->thumbbgcol['g'], $this->thumbbgcol['b'], $alpha);
 
 		# alpha
-		if($ext == "gif" || $ext == "png")
+		if($ext == "gif" || $ext == "png") {
 			imagecolortransparent($thumb, $bgcolor);
+		}
 
 		imagefilledrectangle($thumb, 0, 0, $this->tsize['w']-1, $this->tsize['h']-1, $bgcolor);
 
@@ -276,9 +298,16 @@ class GD {
 		imagecopyresampled($thumb, $src, $ns['new_left'], $ns['new_top'], 0, 0, $ns['new_width'], $ns['new_height'], $size[0], $size[1]);
 
 		# льем превью
-		if($ext == "jpg")	imagejpeg($thumb,$path."/".$file, $this->th_quality);
-		elseif($ext == "gif")	imagegif($thumb,$path."/".$file);
-		elseif($ext == "png")	imagepng($thumb,$path."/".$file);
+		if($ext == "jpg") {
+			imagejpeg($thumb,$path."/".$file, $this->th_quality);
+		}
+		elseif($ext == "gif") {
+			imagegif($thumb,$path."/".$file);
+		}
+		elseif($ext == "png") {
+			imagepng($thumb,$path."/".$file);
+		}
+
 		imagedestroy($thumb);
 		imagedestroy($src);
 
@@ -308,8 +337,9 @@ class GD {
         	$bgcolor	= imagecolorallocatealpha($thumb, $this->thumbbgcol['r'], $this->thumbbgcol['g'], $this->thumbbgcol['b'], $alpha);
 
 		# alpha
-		if($ext == "gif" || $ext == "png")
+		if($ext == "gif" || $ext == "png") {
 			imagecolortransparent($thumb, $bgcolor);
+		}
 
 		imagefilledrectangle($thumb, 0, 0, $this->tsize['w']-1, $this->tsize['h']-1, $bgcolor);
 
@@ -342,9 +372,16 @@ class GD {
 		imagecopyresampled($thumb, $src, $ns['new_left'], $ns['new_top'], 0, 0, $ns['new_width'], $ns['new_height'], $size[0], $size[1]);
 
 		# льем превью
-		if($ext == "jpg")	imagejpeg($thumb,$path."/".$filethumb, $this->th_quality);
-		elseif($ext == "gif")	imagegif($thumb,$path."/".$filethumb);
-		elseif($ext == "png")	imagepng($thumb,$path."/".$filethumb);
+		if($ext == "jpg") {
+			imagejpeg($thumb,$path."/".$filethumb, $this->th_quality);
+		}
+		elseif($ext == "gif") {
+			imagegif($thumb,$path."/".$filethumb);
+		}
+		elseif($ext == "png") {
+			imagepng($thumb,$path."/".$filethumb);
+		}
+
 		imagedestroy($thumb);
 		imagedestroy($src);
 	}
@@ -414,9 +451,15 @@ class GD {
 		}
 
 		# вливаем с ватермарком
-		if($ext == "jpg")	imagejpeg($src,$path."/".$fileresize, $this->rs_quality);
-		elseif($ext == "gif")	imagegif($src,$path."/".$fileresize);
-		elseif($ext == "png")	imagepng($src,$path."/".$fileresize);
+		if($ext == "jpg") {
+			imagejpeg($src,$path."/".$fileresize, $this->rs_quality);
+		}
+		elseif($ext == "gif") {
+			imagegif($src,$path."/".$fileresize);
+		}
+		elseif($ext == "png") {
+			imagepng($src,$path."/".$fileresize);
+		}
 
         	imagedestroy($src);
 	}
@@ -457,13 +500,21 @@ class GD {
 
 		# Расчитываем не будет ли выглядеть большим ватермарк на изображении.
 		$maxwmw = floor($w*0.33); $wp = 0;
-		if($ww >= $maxwmw) $wp = $parse->percent($maxwmw, $ww);
+		if($ww >= $maxwmw) {
+			$wp = $parse->percent($maxwmw, $ww);
+		}
 
 		$maxwmh = floor($h*0.33); $hp = 0;
-		if($wh >= $maxwmh) $hp = $parse->percent($maxwmh, $wh);
+		if($wh >= $maxwmh) {
+			$hp = $parse->percent($maxwmh, $wh);
+		}
 
-		if($wp != 0 || $hp != 0) $pr = max($wp, $hp)/100;
-		else $pr = 1;
+		if($wp != 0 || $hp != 0) {
+			$pr = max($wp, $hp)/100;
+		}
+		else {
+			$pr = 1;
+		}
 
 
 		$wms = $this->calc_resize($ww, $wh, $ww*$pr, $wh*$pr, false);
@@ -478,9 +529,15 @@ class GD {
 
 
 		# вливаем с ватермарком
-		if($ext == "jpg")	imagejpeg($src,$path."/".$fileresize, $this->rs_quality);
-		elseif($ext == "gif")	imagegif($src,$path."/".$fileresize);
-		elseif($ext == "png")	imagepng($src,$path."/".$fileresize);
+		if($ext == "jpg") {
+			imagejpeg($src,$path."/".$fileresize, $this->rs_quality);
+		}
+		elseif($ext == "gif") {
+			imagegif($src,$path."/".$fileresize);
+		}
+		elseif($ext == "png") {
+			imagepng($src,$path."/".$fileresize);
+		}
 
 		imagedestroy($src);
 		imagedestroy($watermark);
@@ -585,8 +642,14 @@ class GD {
 	protected function set_thumb_sizes(array $thumbsize) {
 
 		if(is_array($thumbsize) && count($thumbsize) == 2) {
-			if(round($thumbsize[0]) > 16)	$this->tsize['w'] = round($thumbsize[0]);
-			if(round($thumbsize[1]) > 16)	$this->tsize['h'] = round($thumbsize[1]);
+
+			if(round($thumbsize[0]) > 16) {
+				$this->tsize['w'] = round($thumbsize[0]);
+			}
+
+			if(round($thumbsize[1]) > 16) {
+				$this->tsize['h'] = round($thumbsize[1]);
+			}
 		}
 	}
 
@@ -599,8 +662,14 @@ class GD {
 	protected function set_max_sizes(array $maxsize) {
 
 		if(is_array($maxsize) && count($maxsize) == 2) {
-			if(round($maxsize[0]) > 32)	$this->msize['w'] = round($maxsize[0]);
-			if(round($maxsize[1]) > 32)	$this->msize['h'] = round($maxsize[1]);
+
+			if(round($maxsize[0]) > 32) {
+				$this->msize['w'] = round($maxsize[0]);
+			}
+
+			if(round($maxsize[1]) > 32) {
+				$this->msize['h'] = round($maxsize[1]);
+			}
 		}
 	}
 }

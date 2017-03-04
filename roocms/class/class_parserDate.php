@@ -51,7 +51,9 @@
 //#########################################################
 // Anti Hack
 //---------------------------------------------------------
-if(!defined('RooCMS')) die('Access Denied');
+if(!defined('RooCMS')) {
+	die('Access Denied');
+}
 //#########################################################
 
 
@@ -78,7 +80,9 @@ class ParserDate {
 	public function makeCal($year, $month) {
 
 		$wday = $this->get_num_day_of_week(1, $month, $year);
-		if($wday == 0) $wday = 7;
+		if($wday == 0) {
+			$wday = 7;
+		}
 
 		$n = - ($wday - 2);
 		$cal = array();
@@ -97,7 +101,10 @@ class ParserDate {
 				}
 			}
 
-			if(!$notEmpty) break;
+			if(!$notEmpty) {
+				break;
+			}
+
 			$cal[] = $row;
 		}
 
@@ -145,7 +152,9 @@ class ParserDate {
 			# форматируем дату
 			$date = $tday.$day." ".$tm." ".$year."г. ".$time;
 		}
-		else $date = "Некоректная дата";
+		else {
+			$date = "Некоректная дата";
+		}
 
 		return $date;
 	}
@@ -303,9 +312,12 @@ class ParserDate {
 		$month 	= round($time[0]);
 		$year 	= round($time[2]);
 
-		if(checkdate($month, $day, $year))
+		if(checkdate($month, $day, $year)) {
 			$unix 	= mktime(0,0,0,$month,$day,$year);
-		else	$unix	= 1;
+		}
+		else {
+			$unix	= 1;
+		}
 
 		return $unix;
 	}
@@ -326,9 +338,12 @@ class ParserDate {
 		$month 	= round(mb_substr($time[1],0,2));
 		$year 	= round(mb_substr($time[2],0,2));
 
-		if(checkdate($month, $day, $year))
+		if(checkdate($month, $day, $year)) {
 			$unix 	= mktime(0,0,0,$month,$day,$year);
-		else	$unix	= 1;
+		}
+		else {
+			$unix	= 1;
+		}
 
 		return $unix;
 	}
@@ -414,8 +429,12 @@ class ParserDate {
 		$f = "";
 
 		if($ft) {
-			if(!$short) 	$f = ($nm == 3 || $nm == 8) ? "а" : "я" ;
-			else 		$f = ($nm == 3) ? "я" : "" ;
+			if(!$short) {
+				$f = ($nm == 3 || $nm == 8) ? "а" : "я" ;
+			}
+			else {
+				$f = ($nm == 3) ? "я" : "" ;
+			}
 		}
 		else {
 			switch($nm) {

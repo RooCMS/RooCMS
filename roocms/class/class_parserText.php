@@ -51,7 +51,9 @@
 //#########################################################
 // Anti Hack
 //---------------------------------------------------------
-if(!defined('RooCMS')) die('Access Denied');
+if(!defined('RooCMS')) {
+	die('Access Denied');
+}
 //#########################################################
 
 
@@ -185,8 +187,12 @@ class ParserText {
 		$txt = str_replace($rus,$eng,trim($txt));
 
 		# case
-		if($case && ($case == "lower" || $case == 0 || $case == "small"))	$txt = mb_strtolower($txt);
-		elseif($case && ($case == "upper" || $case == 1 || $case == "big"))	$txt = mb_strtoupper($txt);
+		if($case && ($case == "lower" || $case == 0 || $case == "small")) {
+			$txt = mb_strtolower($txt);
+		}
+		elseif($case && ($case == "upper" || $case == 1 || $case == "big")) {
+			$txt = mb_strtoupper($txt);
+		}
 
 		return $txt;
 	}

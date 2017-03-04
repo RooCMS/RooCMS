@@ -51,7 +51,9 @@
 //#########################################################
 // Anti Hack
 //---------------------------------------------------------
-if(!defined('RooCMS')) die('Access Denied');
+if(!defined('RooCMS')) {
+	die('Access Denied');
+}
 //#########################################################
 
 
@@ -87,7 +89,9 @@ class MySQLiExtends {
 			# Получаем кол-во страниц
 			$this->pages = $count[0] / $this->limit;
 			# Проверяем полученное число на "целое" или "десятичное"
-			if(mb_strpos($this->pages,".", 0, "utf8") !== false || mb_strpos($this->pages,",", 0,"utf8") !== false) $this->pages++;
+			if(mb_strpos($this->pages,".", 0, "utf8") !== false || mb_strpos($this->pages,",", 0,"utf8") !== false) {
+				$this->pages++;
+			}
 			# Округляем
 			$this->pages = (int) floor($this->pages);
 		}
@@ -104,11 +108,17 @@ class MySQLiExtends {
 		}
 
 		# Если у нас в строке запроса указана страница, больше максимальной...
-		if($this->page > $this->pages) $this->page = $this->pages;
+		if($this->page > $this->pages) {
+			$this->page = $this->pages;
+		}
 
 		# Предыдущая и следующая страница
-		if($this->page > 1) 		$this->prev_page = $this->page - 1;
-		if($this->page < $this->pages) 	$this->next_page = $this->page + 1;
+		if($this->page > 1) {
+			$this->prev_page = $this->page - 1;
+		}
+		if($this->page < $this->pages) {
+			$this->next_page = $this->page + 1;
+		}
 	}
 
 
@@ -124,7 +134,9 @@ class MySQLiExtends {
 			# Получаем кол-во страниц
 			$this->pages = $items / $this->limit;
 			# Проверяем полученное число на "целое" или "десятичное"
-			if(mb_strpos($this->pages,".", 0, "utf8") !== false || mb_strpos($this->pages,",", 0, "utf8") !== false) $this->pages++;
+			if(mb_strpos($this->pages,".", 0, "utf8") !== false || mb_strpos($this->pages,",", 0, "utf8") !== false) {
+				$this->pages++;
+			}
 			# Округляем
 			$this->pages = (int) floor($this->pages);
 		}
@@ -141,11 +153,17 @@ class MySQLiExtends {
 		}
 
 		# Если у нас в строке запроса указана страница, больше максимальной...
-		if($this->page > $this->pages) $this->page = $this->pages;
+		if($this->page > $this->pages) {
+			$this->page = $this->pages;
+		}
 
 		# Предыдущая и следующая страница
-		if($this->page > 1) 		$this->prev_page = $this->page - 1;
-		if($this->page < $this->pages) 	$this->next_page = $this->page + 1;
+		if($this->page > 1) {
+			$this->prev_page = $this->page - 1;
+		}
+		if($this->page < $this->pages) {
+			$this->next_page = $this->page + 1;
+		}
 	}
 }
 

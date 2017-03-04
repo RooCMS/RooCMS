@@ -51,7 +51,9 @@
 //#########################################################
 // Anti Hack
 //---------------------------------------------------------
-if(!defined('RooCMS')) die('Access Denied');
+if(!defined('RooCMS')) {
+	die('Access Denied');
+}
 //#########################################################
 
 
@@ -101,10 +103,12 @@ class Globals {
 		$this->referer 	= mb_strtolower(getenv("HTTP_REFERER"));
 
 		# init userip
-		if(getenv('HTTP_X_FORWARDED_FOR'))
+		if(getenv('HTTP_X_FORWARDED_FOR')) {
 			$this->userip = getenv('HTTP_X_FORWARDED_FOR');
-		else
+		}
+		else {
 			$this->userip = getenv('REMOTE_ADDR');
+		}
 
 		# init useragent
 		$this->useragent = mb_strtolower($_SERVER['HTTP_USER_AGENT']);
@@ -157,7 +161,9 @@ class Globals {
 		}
 
 		# Устанавливаем title
-		if(isset($this->config->site_title) && trim($this->config->site_title) != "" && trim($site['title']) == "") $site['title'] =& $this->config->site_title;
+		if(isset($this->config->site_title) && trim($this->config->site_title) != "" && trim($site['title']) == "") {
+			$site['title'] =& $this->config->site_title;
+		}
 
 		# Устанавливаем заголовок ответа на запрос об изменении документа от поисковых машин.
 		$this->modifiedsince =& $this->config->if_modified_since;
@@ -177,7 +183,10 @@ class Globals {
 
 		foreach($spider AS $key=>$value) {
 			$check = mb_strpos($this->useragent, $value, 0, 'utf8');
-			if($check !== false) $this->spiderbot = true;
+
+			if($check !== false) {
+				$this->spiderbot = true;
+			}
 		}
 	}
 

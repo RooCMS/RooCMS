@@ -51,7 +51,9 @@
 //#########################################################
 // Anti Hack
 //---------------------------------------------------------
-if(!defined('RooCMS')) die('Access Denied');
+if(!defined('RooCMS')) {
+	die('Access Denied');
+}
 //#########################################################
 
 
@@ -106,12 +108,15 @@ class Images extends GD {
 
 		# Составляем массив для проверки разрешенных типов файлов к загрузке
 		static $allow_exts = array();
-		if(empty($allow_exts))
+		if(empty($allow_exts)) {
 			$allow_exts = $this->get_allow_exts();
+		}
 
 
 		# Определяем настройки размеров для будущих миниатюр
-		if(!empty($thumbsize)) $this->set_thumb_sizes($thumbsize);
+		if(!empty($thumbsize)) {
+			$this->set_thumb_sizes($thumbsize);
+		}
 
 
 		# Если $_FILES не является массивом конвертнем в массив
@@ -160,8 +165,9 @@ class Images extends GD {
 				}
 
 				# Если загрузка удалась
-				if($upload)
+				if($upload) {
 					$this->modify_image($filename, $ext, $path, $options);
+				}
 				else {
 					# Обработчик если загрузка не удалась =)
 					$filename = false;
@@ -177,7 +183,9 @@ class Images extends GD {
 				$names[$key] = $filename.".".$ext;
 			}
 			else {
-				if($filename) $names[] = $filename.".".$ext;
+				if($filename) {
+					$names[] = $filename.".".$ext;
+				}
 			}
 		}
 
@@ -249,12 +257,16 @@ class Images extends GD {
 
                 global $db, $logger;
 
-		if(is_numeric($image) || is_integer($image))
+		if(is_numeric($image) || is_integer($image)) {
 		        $where = " id='".$image."' ";
-		else
+		}
+		else {
 			$where = " attachedto='".$image."' ";
+		}
 
-		if($clwhere) $where = $image;
+		if($clwhere) {
+			$where = $image;
+		}
 
                 $q = $db->query("SELECT id, filename, fileext FROM ".IMAGES_TABLE." WHERE ".$where);
                 while($row = $db->fetch_assoc($q)) {
@@ -268,21 +280,27 @@ class Images extends GD {
                                 	unlink(_UPLOADIMAGES."/".$original);
 					$logger->log("Изображение ".$original." удалено");
 				}
-				elseif(!file_exists(_UPLOADIMAGES."/".$original)) $logger->log("Не удалось найти изображение ".$original, "error");
+				elseif(!file_exists(_UPLOADIMAGES."/".$original)) {
+					$logger->log("Не удалось найти изображение ".$original, "error");
+				}
 
 				# delete resize
 				if(file_exists(_UPLOADIMAGES."/".$resize)) {
                                 	unlink(_UPLOADIMAGES."/".$resize);
 					$logger->log("Изображение ".$resize." удалено");
 				}
-				elseif(!file_exists(_UPLOADIMAGES."/".$resize)) $logger->log("Не удалось найти изображение ".$resize, "error");
+				elseif(!file_exists(_UPLOADIMAGES."/".$resize)) {
+					$logger->log("Не удалось найти изображение ".$resize, "error");
+				}
 
 				# delete thumb
 				if(file_exists(_UPLOADIMAGES."/".$thumb)) {
                                 	unlink(_UPLOADIMAGES."/".$thumb);
 					$logger->log("Изображение ".$thumb." удалено");
 				}
-				elseif(!file_exists(_UPLOADIMAGES."/".$thumb)) $logger->log("Не удалось найти изображение ".$thumb, "error");
+				elseif(!file_exists(_UPLOADIMAGES."/".$thumb)) {
+					$logger->log("Не удалось найти изображение ".$thumb, "error");
+				}
                 	}
                 }
 
@@ -297,14 +315,22 @@ class Images extends GD {
 
 		global $POST;
 
-		if(!isset($POST->thumb_img_width) || trim($POST->thumb_img_width) == "") $POST->thumb_img_width = 0;
-		if(!isset($POST->thumb_img_height) || trim($POST->thumb_img_height) == "") $POST->thumb_img_height = 0;
+		if(!isset($POST->thumb_img_width) || trim($POST->thumb_img_width) == "") {
+			$POST->thumb_img_width = 0;
+		}
+		if(!isset($POST->thumb_img_height) || trim($POST->thumb_img_height) == "") {
+			$POST->thumb_img_height = 0;
+		}
 
 		$POST->thumb_img_width = round($POST->thumb_img_width);
 		$POST->thumb_img_height = round($POST->thumb_img_height);
 
-		if($POST->thumb_img_width < 16) $POST->thumb_img_width = 0;
-		if($POST->thumb_img_height < 16) $POST->thumb_img_height = 0;
+		if($POST->thumb_img_width < 16) {
+			$POST->thumb_img_width = 0;
+		}
+		if($POST->thumb_img_height < 16) {
+			$POST->thumb_img_height = 0;
+		}
 	}
 
 

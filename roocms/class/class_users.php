@@ -51,7 +51,9 @@
 //#########################################################
 // Anti Hack
 //---------------------------------------------------------
-if(!defined('RooCMS')) die('Access Denied');
+if(!defined('RooCMS')) {
+	die('Access Denied');
+}
 //#########################################################
 
 
@@ -231,10 +233,13 @@ class Users extends Security {
 
 			$w = (trim($without) != "") ? $field."!='".$without."'" : "" ;
 
-			if(!$db->check_id($name, $table, $field, $w))
+			if(!$db->check_id($name, $table, $field, $w)) {
 				$res = true;
+			}
 		}
-		else $res = true;
+		else {
+			$res = true;
+		}
 
 		return $res;
 	}
@@ -254,8 +259,9 @@ class Users extends Security {
 
 		global $db;
 
-		if($db->check_id($nickname, USERS_TABLE, "nickname"))
+		if($db->check_id($nickname, USERS_TABLE, "nickname")) {
 			$nickname = $this->check_new_nickname($nickname.randcode(2,"0123456789"));
+		}
 
 		return $nickname;
 	}
@@ -293,9 +299,15 @@ class Users extends Security {
 
 		global $db, $logger, $parse;
 
-		if(!isset($email) || trim($email) == "") $logger->error("Электронная почта обязательная для каждого пользователя");
-		if(isset($email) && trim($email) != "" && !$parse->valid_email($email)) $logger->error("Некоректный адрес электронной почты");
-		if(isset($email) && trim($email) != "" && $db->check_id($email, USERS_TABLE, "email")) $logger->error("Пользователь с таким адресом почты уже существует");
+		if(!isset($email) || trim($email) == "") {
+			$logger->error("Электронная почта обязательная для каждого пользователя");
+		}
+		if(isset($email) && trim($email) != "" && !$parse->valid_email($email)) {
+			$logger->error("Некоректный адрес электронной почты");
+		}
+		if(isset($email) && trim($email) != "" && $db->check_id($email, USERS_TABLE, "email")) {
+			$logger->error("Пользователь с таким адресом почты уже существует");
+		}
 	}
 
 
@@ -307,18 +319,34 @@ class Users extends Security {
 		global $POST, $parse;
 
 		# user name/surname/last_name
-		if(!isset($POST->user_name)) 					$POST->user_name = "";
-		if(!isset($POST->user_surname)) 				$POST->user_surname = "";
-		if(!isset($POST->user_last_name)) 				$POST->user_last_name = "";
+		if(!isset($POST->user_name)) {
+			$POST->user_name = "";
+		}
+		if(!isset($POST->user_surname)) {
+			$POST->user_surname = "";
+		}
+		if(!isset($POST->user_last_name)) {
+			$POST->user_last_name = "";
+		}
 
 		# user birthdate
-		if(isset($POST->user_birthdate) && $POST->user_birthdate != "") $POST->user_birthdate = $parse->date->rusint_to_unix($POST->user_birthdate);
-		else 								$POST->user_birthdate = 0;
+		if(isset($POST->user_birthdate) && $POST->user_birthdate != "") {
+			$POST->user_birthdate = $parse->date->rusint_to_unix($POST->user_birthdate);
+		}
+		else {
+			$POST->user_birthdate = 0;
+		}
 
 		#check user sex
-		if(isset($POST->user_sex) && $POST->user_sex == "m")		$POST->user_sex = "m";
-		elseif(isset($POST->user_sex) && $POST->user_sex == "f")	$POST->user_sex = "f";
-		else								$POST->user_sex = "n";
+		if(isset($POST->user_sex) && $POST->user_sex == "m") {
+			$POST->user_sex = "m";
+		}
+		elseif(isset($POST->user_sex) && $POST->user_sex == "f") {
+			$POST->user_sex = "f";
+		}
+		else {
+			$POST->user_sex = "n";
+		}
 	}
 }
 ?>

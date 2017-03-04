@@ -51,7 +51,9 @@
 //#########################################################
 // Anti Hack
 //---------------------------------------------------------
-if(!defined('RooCMS')) die('Access Denied');
+if(!defined('RooCMS')) {
+	die('Access Denied');
+}
 //#########################################################
 
 
@@ -131,19 +133,29 @@ class Security extends Shteirlitz {
 		$destroy = false;
 
 		# check uid
-		if($roocms->sess['uid'] != $this->uid) $destroy = true;
+		if($roocms->sess['uid'] != $this->uid) {
+			$destroy = true;
+		}
 
 		# check login
-		if($roocms->sess['login'] != $this->login) $destroy = true;
+		if($roocms->sess['login'] != $this->login) {
+			$destroy = true;
+		}
 
 		# check title
-		if($roocms->sess['title'] != $this->title) $destroy = true;
+		if($roocms->sess['title'] != $this->title) {
+			$destroy = true;
+		}
 
 		# check nickname
-		if($roocms->sess['nickname'] != $this->nickname) $destroy = true;
+		if($roocms->sess['nickname'] != $this->nickname) {
+			$destroy = true;
+		}
 
 		# check token
-		if($roocms->sess['token'] != $this->token) $destroy = true;
+		if($roocms->sess['token'] != $this->token) {
+			$destroy = true;
+		}
 
 		if($destroy) {
 			# destroy data

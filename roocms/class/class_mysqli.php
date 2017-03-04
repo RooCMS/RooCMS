@@ -51,7 +51,9 @@
 //#########################################################
 // Anti Hack
 //---------------------------------------------------------
-if(!defined('RooCMS')) die('Access Denied');
+if(!defined('RooCMS')) {
+	die('Access Denied');
+}
 //#########################################################
 
 
@@ -77,11 +79,14 @@ class MySQLiDatabase extends MySQLiExtends {
 
 		global $db_info;
 
-		if(trim($db_info['host']) != "" && trim($db_info['base']) != "")
+		if(trim($db_info['host']) != "" && trim($db_info['base']) != "") {
 			$this->connect($db_info['host'], $db_info['user'], $db_info['pass'], $db_info['base']);
+		}
 
 		# set mysql charset
-		if($this->db_connect) $this->charset();
+		if($this->db_connect) {
+			$this->charset();
+		}
 	}
 
 
@@ -97,8 +102,12 @@ class MySQLiDatabase extends MySQLiExtends {
 
 		$this->sql = new mysqli($host,$user,$pass, $base);
 
-		if($this->sql->connect_errno == 0) $this->db_connect = true;
-		else exit($this->error());
+		if($this->sql->connect_errno == 0) {
+			$this->db_connect = true;
+		}
+		else {
+			exit($this->error());
+		}
 	}
 
 
@@ -118,9 +127,13 @@ class MySQLiDatabase extends MySQLiExtends {
 		$this->sql = new mysqli($host,$user,$pass, $base);
 		error_reporting(E_ALL);
 
-		if($this->sql->connect_errno != 0) return false;
+		if($this->sql->connect_errno != 0) {
+			return false;
+		}
 		else {
-			if(defined('INSTALL')) $this->db_connect = true;
+			if(defined('INSTALL')) {
+				$this->db_connect = true;
+			}
 			return true;
 		}
 	}
@@ -212,7 +225,9 @@ class MySQLiDatabase extends MySQLiExtends {
 				));
 
 				# debug info querys
-				if($this->cnt_querys != 1) $debug->debug_info .= "<hr>";
+				if($this->cnt_querys != 1) {
+					$debug->debug_info .= "<hr>";
+				}
 				$debug->debug_info .= "<blockquote class='col-xs-12'>
 							    <small>Запрос <b>#".$this->cnt_querys."</b></small>
 							    <span class='text-danger'>{$q}</span>
@@ -237,10 +252,15 @@ class MySQLiDatabase extends MySQLiExtends {
 		$values	= "";
 
 		foreach($array AS $key=>$value) {
-			if(trim($fields) != "")		$fields .= ", ";
+
+			if(trim($fields) != "")	{
+				$fields .= ", ";
+			}
 			$fields .= $key;
 
-			if(trim($values) != "") 	$values .= ", ";
+			if(trim($values) != "") {
+				$values .= ", ";
+			}
 			$values .= "'".$value."'";
 		}
 
@@ -262,7 +282,10 @@ class MySQLiDatabase extends MySQLiExtends {
 
 		$update = "";
 		foreach($array AS $key=>$value) {
-			if(trim($update) != "") 	$update .= ", ";
+
+			if(trim($update) != "") {
+				$update .= ", ";
+			}
 			$update .= $key."='".$value."'";
 		}
 
@@ -345,9 +368,13 @@ class MySQLiDatabase extends MySQLiExtends {
 
 		static $results = array();
 
-		if($field == "id") $id = round($id);
+		if($field == "id") {
+			$id = round($id);
+		}
 
-		if(trim($where) != "") $where = " AND ".$where;
+		if(trim($where) != "") {
+			$where = " AND ".$where;
+		}
 
 		# query
 		$query = "SELECT count(*) FROM {$table} WHERE {$field}='{$id}' {$where}";
@@ -361,10 +388,16 @@ class MySQLiDatabase extends MySQLiExtends {
 			$c = $this->fetch_row($q);
 			$results[$qhash] = $c[0];
 		}
-		else $c[0] = $results[$qhash];
+		else {
+			$c[0] = $results[$qhash];
+		}
 
-                if($c[0] == 0) return false;
-                else return $c[0];
+                if($c[0] == 0) {
+			return false;
+		}
+                else {
+			return $c[0];
+		}
 	}
 
 
@@ -409,8 +442,12 @@ class MySQLiDatabase extends MySQLiExtends {
 		        "'"		=> "&#39;"
 		));
 
-		if($this->db_connect) return $this->sql->real_escape_string($q);
-		else return $q;
+		if($this->db_connect) {
+			return $this->sql->real_escape_string($q);
+		}
+		else {
+			return $q;
+		}
 	}
 
 
@@ -423,8 +460,12 @@ class MySQLiDatabase extends MySQLiExtends {
 	 */
 	public function errno($error=false) {
 		if(defined('INSTALL') || defined('UPDATE')) {
-			if($error) return $this->sql->error;
-			else return $this->sql->errno;
+			if($error) {
+				return $this->sql->error;
+			}
+			else {
+				return $this->sql->errno;
+			}
 		}
 
 	}
@@ -435,7 +476,9 @@ class MySQLiDatabase extends MySQLiExtends {
 	 *
 	 */
 	public function close() {
-		if(is_object($this->sql) && $this->sql->connect_errno == 0) $this->sql->close();
+		if(is_object($this->sql) && $this->sql->connect_errno == 0) {
+			$this->sql->close();
+		}
 	}
 }
 

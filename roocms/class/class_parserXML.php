@@ -51,7 +51,9 @@
 //#########################################################
 // Anti Hack
 //---------------------------------------------------------
-if(!defined('RooCMS')) die('Access Denied');
+if(!defined('RooCMS')) {
+	die('Access Denied');
+}
 //#########################################################
 
 
@@ -81,7 +83,9 @@ class ParserXML {
 	 */
 	public function parse($file = false, $callback = false) {
 
-		if(!$file) $file = $this->file;
+		if(!$file) {
+			$file = $this->file;
+		}
 
 		$this->xml_string = "";
 
@@ -108,10 +112,12 @@ class ParserXML {
 		xml_parser_free($this->xml_parser);
 
 		# i-i-h-h-h-a-a-a
-		if($callback)
+		if($callback) {
 			return simplexml_load_string($this->xml_string);
-		else
+		}
+		else {
 			$this->data = simplexml_load_string($this->xml_string);
+		}
 	}
 
 
