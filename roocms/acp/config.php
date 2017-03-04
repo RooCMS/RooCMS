@@ -127,6 +127,7 @@ class ACP_CONFIG {
 				}
 			}
 
+			$parts = array();
 			if($part['type'] == "global") {
 				$parts['global'][] 	= $part;
 			}

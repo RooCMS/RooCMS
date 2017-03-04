@@ -103,6 +103,9 @@ class Images extends GD {
 
 		global $files;
 
+		# Объявляем выходной массив
+		$images = array();
+
 		# Составляем массив для проверки разрешенных типов файлов к загрузке
 		static $allow_exts = array();
 		if(empty($allow_exts)) {
@@ -176,14 +179,13 @@ class Images extends GD {
 				$filename = false;
 			}
 
-			$names = array();
 			if($filename) {
-				$names[] = $filename.".".$ext;
+				$images[] = $filename.".".$ext;
 			}
 		}
 
 		# Возвращаем массив имен файлов для внесения в БД
-		return (count($names) > 0) ? $names : false ;
+		return (count($images) > 0) ? $images : false ;
 	}
 
 

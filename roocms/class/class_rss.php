@@ -134,7 +134,9 @@ class RSS {
 
 
 	public function set_ttl($ttl) {
+
 		$ttl = round($ttl);
+
 		if($ttl > 60) {
 			$this->ttl = $ttl;
 		}
@@ -142,7 +144,9 @@ class RSS {
 
 
 	public function set_lastbuilddate($date) {
+
 		$now = time();
+
 		if($now > $date) {
 			$this->lastbuilddate = $date;
 		}

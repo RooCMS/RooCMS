@@ -239,6 +239,9 @@ class Files {
     	        # Переписать функцию!!!
     	        # *** Больше проверок от "умников"
 
+		# Объявляем выходной массив
+		$files = array();
+
 		# Составляем массив для проверки разрешенных типов файлов к загрузке
 		static $allow_exts = array();
 		if(empty($allow_exts)) {
@@ -295,14 +298,13 @@ class Files {
 				$filename = false;
 			}
 
-			$names = array();
 			if($filename) {
-				$names[] = $filename.".".$ext;
+				$files[] = $filename.".".$ext;
 			}
 		}
 
 		# Возвращаем массив имен файлов для внесения в БД
-		return (count($names) > 0) ? $names : false ;
+		return (count($files) > 0) ? $files : false ;
 	}
 
 
