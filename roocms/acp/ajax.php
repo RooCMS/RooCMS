@@ -69,7 +69,7 @@ class ACP_AJAX {
 
 		global $roocms;
 
-		// turn on ajax
+		// turn "on" ajax
 		$roocms->ajax = true;
 
 		switch($roocms->part) {

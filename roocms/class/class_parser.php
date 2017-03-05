@@ -82,7 +82,7 @@ class Parsers {
 	public	$error		= "";		# [text]	error message
 
 	# arrays
-	private $post 		= array();	# [array]
+	//private $post 		= array();	# [array]
 	private $get 		= array();	# [array]
 
 

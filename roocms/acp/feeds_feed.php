@@ -202,13 +202,16 @@ class ACP_FEEDS_FEED {
 		$feedlist = array();
 		$q = $db->query("SELECT id, status, title, brief_item, date_publications, date_end_publications, date_update FROM ".PAGES_FEED_TABLE." WHERE sid='".$this->feed['id']."' ORDER BY ".$order);
 		while($row = $db->fetch_assoc($q)) {
-        		$row['publication_status'] = ($row['date_end_publications'] < time() && $row['date_end_publications'] != 0) ? "hide" : "show" ;
 
-			$row['date_publications'] 	= $parse->date->unix_to_rus($row['date_publications']);
+			$row['publication_status'] = ($row['date_end_publications'] < time() && $row['date_end_publications'] != 0) ? "hide" : "show" ;
+
+			$row['date_publications'] = $parse->date->unix_to_rus($row['date_publications']);
+
 			if($row['date_end_publications'] != 0) {
-				$row['date_end_publications'] 	= $parse->date->unix_to_rus($row['date_end_publications']);
+				$row['date_end_publications'] = $parse->date->unix_to_rus($row['date_end_publications']);
 			}
-			$row['date_update'] 		= $parse->date->unix_to_rus($row['date_update'], false, true, true);
+
+			$row['date_update'] = $parse->date->unix_to_rus($row['date_update'], false, true, true);
 
 			$feedlist[] = $row;
 		}
@@ -230,12 +233,13 @@ class ACP_FEEDS_FEED {
 		if(isset($POST->create_item)) {
 
 			# Проверяем вводимые поля на ошибки
-			$this->check_item_fields();
+			$this->check_post_data_fields();
 
 			if(!isset($_SESSION['error'])) {
 
 				$POST->date_publications = $parse->date->rusint_to_unix($POST->date_publications);
 
+				# date publications
 				if($POST->date_end_publications != 0) {
 					$POST->date_end_publications = $parse->date->rusint_to_unix($POST->date_end_publications);
 				}
@@ -377,13 +381,14 @@ class ACP_FEEDS_FEED {
 		global $db, $parse, $logger, $files, $img, $POST, $GET;
 
 		# Проверяем вводимые поля на ошибки
-		$this->check_item_fields();
+		$this->check_post_data_fields();
 
 		# update
 		if(!isset($_SESSION['error'])) {
 
                         $POST->date_publications = $parse->date->rusint_to_unix($POST->date_publications);
 
+                        # date publications
                         if($POST->date_end_publications != 0) {
                         	$POST->date_end_publications = $parse->date->rusint_to_unix($POST->date_end_publications);
 			}
@@ -527,13 +532,14 @@ class ACP_FEEDS_FEED {
 			$status = 1;
 		}
 
-		#db
+		# обновляем инфу в бд
 		$db->query("UPDATE ".PAGES_FEED_TABLE." SET status='".$status."' WHERE id='".$id."'");
 
-		# notice
+		# уведомление
 		$mstatus = ($status == 1) ? "Видимый" : "Скрытый" ;
 		$logger->info("Элемент #".$id." успешно изменил свой статус на <".$mstatus.">.");
 
+		# переход
 		goback();
 	}
 
@@ -547,6 +553,7 @@ class ACP_FEEDS_FEED {
 
 		global $db, $logger, $img;
 
+		# получаем информацию
 		$q = $db->query("SELECT sid FROM ".PAGES_FEED_TABLE." WHERE id='".$id."'");
 		$row = $db->fetch_assoc($q);
 
@@ -612,7 +619,7 @@ class ACP_FEEDS_FEED {
 	/**
 	 * Функция првоеряет вводимые поля на ошибки
 	 */
-	private function check_item_fields() {
+	private function check_post_data_fields() {
 
 		global $POST, $logger;
 

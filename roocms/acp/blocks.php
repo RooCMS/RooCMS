@@ -97,7 +97,6 @@ class ACP_BLOCKS {
 			$GET->_type = $t['block_type'];
 		}
 
-
 		if(isset($GET->_type) && array_key_exists($GET->_type, $this->types) && $this->types[$GET->_type]) {
 			switch($GET->_type) {
 				case 'html':

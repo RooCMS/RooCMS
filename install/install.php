@@ -42,7 +42,7 @@
 * @author       alex Roosso
 * @copyright    2010-2017 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.4.8
+* @version      1.4.9
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -57,7 +57,7 @@ if(!defined('RooCMS') || !defined('INSTALL')) {
 //#########################################################
 
 
-class Install extends Requirement{
+class Install extends Requirement {
 
 	# vars
 	protected $allowed	= true;		# [bool]	flag for allowed to continue process
@@ -99,7 +99,7 @@ class Install extends Requirement{
 				require_once _LIB."/license.php";
 				$this->noticetext = $license['ru'];
 				if($this->allowed && isset($POST->submit)) {
-					if(isset($POST->step) && $POST->step == 1) {
+					if($this->check_step(1)) {
 						go(SCRIPT_NAME."?step=2");
 					}
 					else {
@@ -113,7 +113,7 @@ class Install extends Requirement{
 				$this->status = "Проверяем версию PHP, MySQL, Apache<br />Проверяем наличие требуемых PHP и Apache расширений";
 				$this->check_requirement();
 				if($this->allowed && isset($POST->submit)) {
-					if(isset($POST->step) && $POST->step == 2) {
+					if($this->check_step(2)) {
 						go(SCRIPT_NAME."?step=3");
 					}
 					else {
@@ -127,7 +127,7 @@ class Install extends Requirement{
 				$this->status = "Проверяем доступы и разрешения к важным файлам RooCMS<br />Установка доступов и разрешений для важных файлов RooCMS";
 				$this->check_chmod();
 				if($this->allowed && isset($POST->submit)) {
-					if(isset($POST->step) && $POST->step == 3) {
+					if($this->check_step(3)) {
 						go(SCRIPT_NAME."?step=4");
 					}
 					else {
@@ -172,7 +172,7 @@ class Install extends Requirement{
 				require_once _LIB."/license.php";
 				$this->noticetext = $license['ru'];
 				if($this->allowed && isset($POST->submit)) {
-					if(isset($POST->step) && $POST->step == 1) {
+					if($this->check_step(1)) {
 						go(SCRIPT_NAME."?step=2");
 					}
 					else {
@@ -212,7 +212,7 @@ class Install extends Requirement{
 
 		global $POST, $parse, $logger, $site;
 
-		if($this->allowed && isset($POST->submit) && isset($POST->step) && $POST->step == 4) {
+		if($this->allowed && isset($POST->submit) && $this->check_step(4)) {
 			if(!isset($POST->site_title) || trim($POST->site_title) == "") {
 				$this->allowed = false;
 				$logger->error("Неверно указано название сайта");
@@ -283,7 +283,7 @@ class Install extends Requirement{
 
 		global $db, $db_info, $POST, $parse, $logger;
 
-		if($this->allowed && isset($POST->submit) && isset($POST->step) && $POST->step == 5) {
+		if($this->allowed && isset($POST->submit) && $this->check_step(5)) {
 
 			if(!isset($POST->db_info_host) || trim($POST->db_info_host) == "") {
 				$this->allowed = false;
@@ -371,7 +371,7 @@ class Install extends Requirement{
 
 		$roocms->sess['db_info_pass'] = $parse->text->html($roocms->sess['db_info_pass']);
 
-		if($this->allowed && isset($POST->submit) && isset($POST->step) && $POST->step == 6) {
+		if($this->allowed && isset($POST->submit) && $this->check_step(6)) {
 			$cf = _ROOCMS."/config/config.php";
 
 			$f = file($cf);
@@ -436,7 +436,7 @@ class Install extends Requirement{
 			go(SCRIPT_NAME."?step=8");
 		}
 
-		if($this->allowed && isset($POST->submit) && isset($POST->step) && $POST->step == 7) {
+		if($this->allowed && isset($POST->submit) && $this->check_step(7)) {
 
 			if(!isset($POST->adm_login) || trim($POST->adm_login) == "") {
 				$this->allowed = false;
@@ -522,6 +522,26 @@ class Install extends Requirement{
 	RewriteRule ^index\.php$ http://'.$server_name.'/ [R=301,L]
 &lt;/IfModule&gt;</pre>
 						Это важно для поисковой оптимизации, но вовсе не обязательно.</div>', false, '');
+	}
+
+
+	/**
+	 * Check data $POST->step
+	 *
+	 * @param int $n - step
+	 *
+	 * @return bool
+	 */
+	private function check_step($n) {
+
+		global $POST;
+
+		if(isset($POST->step) && $POST->step == $n) {
+			return true;
+		}
+		else {
+			return false;
+		}
 	}
 }
 
