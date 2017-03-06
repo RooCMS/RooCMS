@@ -42,7 +42,7 @@
 * @author       alex Roosso
 * @copyright    2010-2017 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.1.6
+* @version      1.1.7
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -534,7 +534,7 @@ class ACP_HELP {
 
 		global $POST;
 
-		if(isset($POST->uname) && trim($POST->uname) != "") {
+		if(isset($POST->uname)) {
 			return true;
 		}
 		else {
@@ -558,10 +558,10 @@ class ACP_HELP {
 		}
 
 		# checked
-		if(!isset($POST->title) || trim($POST->title) == "") {
+		if(!isset($POST->title)) {
 			$logger->error("Не указано название раздела.");
 		}
-		if(!isset($POST->uname) || (trim($POST->uname) == "" && round($POST->uname) != 0)) {
+		if(!isset($POST->uname) && round($POST->uname) != 0) {
 			$logger->error("Не указан uname раздела.");
 		}
 		elseif(!$this->check_uname($POST->uname, $POST->old_uname)) {

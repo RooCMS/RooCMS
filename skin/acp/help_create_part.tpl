@@ -55,7 +55,6 @@
 		</div>
 		<div class="row">
 			<div class="col-md-12 text-right">
-				<input type="hidden" name="empty" value="1" readonly>
 				<input type="submit" name="create_part" class="btn btn-success" value="Создать раздел">
 			</div>
 		</div>

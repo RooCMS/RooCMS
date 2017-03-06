@@ -160,8 +160,11 @@ class ACP_PAGES_HTML {
 	}
 
 
-	//#####################################################
-	//	Delete
+	/**
+	 * Удаляем страницу из таблицы
+	 *
+	 * @param $sid - Структурный ID
+	 */
 	public function delete($sid) {
 
 		global $db, $img, $logger;
@@ -171,9 +174,6 @@ class ACP_PAGES_HTML {
 
 		# del pageunit
 		$db->query("DELETE FROM ".PAGES_HTML_TABLE." WHERE sid='".$sid."'");
-
-		# notice
-		$logger->info("Страница #".$sid." успешно удалена");
 	}
 }
 ?>

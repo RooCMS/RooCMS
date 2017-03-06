@@ -304,7 +304,7 @@ class GD {
 		# льем превью
 		switch($ext) {
 			case 'jpg':
-				magejpeg($thumb,$path."/".$file, $this->th_quality);
+				imagejpeg($thumb,$path."/".$file, $this->th_quality);
 				break;
 
 			case 'gif':
@@ -591,9 +591,9 @@ class GD {
 				imagesavealpha($src,true);
 				break;
 
-			/* default:
+			default:
 				$src = imagecreatefromjpeg($path);
-				break; */
+				break;
 		}
 
 		return $src;

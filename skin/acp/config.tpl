@@ -37,7 +37,6 @@
 				{/foreach}
 				<div class="row">
 					<div class="col-md-9 col-md-offset-3">
-						<input type="hidden" name="empty" value="1" readonly>
 						<input type="submit" name="update_config" class="btn btn-success" value="Сохранить настройки">
 					</div>
 				</div>

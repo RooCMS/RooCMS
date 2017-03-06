@@ -17,7 +17,6 @@
 
 			<div class="row">
 				<div class="col-lg-8 col-md-offset-4">
-					<input type="hidden" name="empty" value="1">
 					<input type="submit" name="reminder" class="btn btn-success btn-sm" value="Восстановить">
 				</div>
 			</div>

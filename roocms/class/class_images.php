@@ -42,7 +42,7 @@
 * @author       alex Roosso
 * @copyright    2010-2017 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.5.1
+* @version      1.5.2
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -310,10 +310,10 @@ class Images extends GD {
 
 		global $POST;
 
-		if(!isset($POST->thumb_img_width) || trim($POST->thumb_img_width) == "") {
+		if(!isset($POST->thumb_img_width)) {
 			$POST->thumb_img_width = 0;
 		}
-		if(!isset($POST->thumb_img_height) || trim($POST->thumb_img_height) == "") {
+		if(!isset($POST->thumb_img_height)) {
 			$POST->thumb_img_height = 0;
 		}
 

@@ -42,7 +42,7 @@
 * @author       alex Roosso
 * @copyright    2010-2017 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.0.5
+* @version      1.0.6
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -125,7 +125,7 @@ class UCP_CP {
 		$query = "";
 
 		# login
-		if(isset($POST->login) && trim($POST->login) != "") {
+		if(isset($POST->login)) {
 			if(!$users->check_field("login", $POST->login, $users->userdata['login'])) {
 				$logger->error("Ваш логин не был изменен. Возможно использование такого логина невозможно, попробуйте выбрать другой логин");
 			}
@@ -138,7 +138,7 @@ class UCP_CP {
 		}
 
 		# nickname
-		if(isset($POST->nickname) && trim($POST->nickname) != "") {
+		if(isset($POST->nickname)) {
 			if(!$users->check_field("nickname", $POST->nickname, $users->userdata['nickname'])) {
 				$logger->error("Такой псевдоним уже имеется у одного из пользователей. Пожалуйста, выберите другой псевдоним.");
 			}
@@ -151,7 +151,7 @@ class UCP_CP {
 		}
 
 		# email
-		if(isset($POST->email) && trim($POST->email) != "" && $parse->valid_email($POST->email)) {
+		if(isset($POST->email) && $parse->valid_email($POST->email)) {
 			if(!$users->check_field("email", $POST->email, $users->userdata['email'])) {
 				$logger->error("Указанный email уже существует в Базе Данных!");
 			}
@@ -183,7 +183,7 @@ class UCP_CP {
 		# update
 		if(!isset($_SESSION['error'])) {
 			# password
-			if(isset($POST->password) && trim($POST->password) != "") {
+			if(isset($POST->password)) {
 				$salt = $users->create_new_salt();
 				$password = $users->hashing_password($POST->password, $salt);
 

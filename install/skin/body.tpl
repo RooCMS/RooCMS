@@ -31,7 +31,6 @@
 		{/if}
 	<div class="panel-footer text-right">
 		{if isset($allowed) && $allowed}
-			<input type="hidden" name="empty" value="1" readonly>
 			<input type="hidden" name="step" value="{$step}" readonly>
 			<input type="submit" name="submit" class="btn btn-success" value="{if $step != $steps}Продолжить &rarr;{else}Завершить установку и перейти в панель управления RooCMS{/if}">
 		{/if}

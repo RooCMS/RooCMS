@@ -130,7 +130,6 @@
 
 			<div class="row">
 				<div class="col-lg-8 col-md-offset-4">
-					<input type="hidden" name="empty" value="1">
 					<input type="submit" name="update_info" class="btn btn-success btn-sm" value="Обновить данные">
 				</div>
 			</div>

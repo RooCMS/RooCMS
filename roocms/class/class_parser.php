@@ -42,7 +42,7 @@
 * @author       alex Roosso
 * @copyright    2010-2017 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.2.4
+* @version      1.3
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -156,6 +156,8 @@ class Parsers {
 			$this->parse_Post();
 		}
 
+		//die(debug($this->Post));
+
 		# init session data
 		if(!empty($_SESSION)) {
 			$this->get_session();
@@ -169,24 +171,19 @@ class Parsers {
 	*/
 	protected function parse_Post() {
 
-		$empty = false;
-		if(isset($_POST['empty']) && ($_POST['empty'] == "1" || $_POST['empty'] == "true")) {
-			$empty = true;
-		}
-		unset($_POST['empty']);
-
-		$post = $this->check_array($_POST, $empty);
+		$post = $this->check_array($_POST);
 
 		foreach ($post as $key=>$value) {
 
 			if(is_string($value)) {
-				$this->Post->{$key} = (string) $value;
+				$this->Post->{$key} = (trim($value) != "") ? (string) $value : NULL ;
 			}
 			else if(is_array($value)) {
+				$value = $this->check_array($value);
 				$this->Post->{$key} = (array) $value;
 			}
 			else {
-				$this->Post->{$key} = $value;
+				$this->Post->{$key} = (trim($value) != "") ? (string) $value : NULL ;
 			}
 		}
 
@@ -208,13 +205,14 @@ class Parsers {
 			$key = "_".$key;
 
 			if(is_string($value)) {
-				$this->Get->{$key} = (string) $value;
+				$this->Get->{$key} = (trim($value) != "") ? (string) $value : NULL ;
 			}
 			else if(is_array($value)) {
+				$value = $this->check_array($value);
 				$this->Get->{$key} = (array) $value;
 			}
 			else {
-				$this->Get->{$key} = $value;
+				$this->Get->{$key} = (trim($value) != "") ? (string) $value : NULL ;
 			}
 		}
 	}
@@ -411,7 +409,7 @@ class Parsers {
 
 		foreach($array as $key=>$value)	{
 			if(is_array($value)) {
-				$subarr	= $this->check_array($value, $empty);
+				$subarr	= $this->check_array($value);
 				$arr[$key] = $subarr;
 			}
 			else {
@@ -422,10 +420,8 @@ class Parsers {
 				# Чистим значение
 				$value 	= $this->escape_string($value, false);
 
-				if(trim($value) != "" || $empty) {
-					$arr[$key] = $value;
-				}
-				//elseif(empty($value) && $empty) $arr[$key] = false;
+				$arr[$key] = $value;
+				//$arr[$key] = (trim($value) != "") ? $value : NULL ;
 			}
 		}
 

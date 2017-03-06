@@ -42,7 +42,7 @@
 * @author       alex Roosso
 * @copyright    2010-2017 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.5
+* @version      1.5.1
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -440,7 +440,9 @@ class ACP_STRUCTURE {
 			# recount parent childs
 			$this->count_childs($c['parent_id']);
 		}
-		else $logger->error("Невозможно удалить страницу, по причине имеющихся у страницы дочерних связей. Сначала перенесите или удалите дочерние страницы.");
+		else {
+			$logger->error("Невозможно удалить страницу, по причине имеющихся у страницы дочерних связей. Сначала перенесите или удалите дочерние страницы.");
+		}
 
 		# переход
 		goback();
@@ -506,7 +508,7 @@ class ACP_STRUCTURE {
 		global $parse, $logger, $POST;
 
 
-		if(!isset($POST->alias) || trim($POST->alias) == "") {
+		if(!isset($POST->alias)) {
 			if(isset($POST->title)) {
 				$POST->alias = $POST->title;
 			}
@@ -516,7 +518,7 @@ class ACP_STRUCTURE {
 		}
 
 		# предупреждаем возможные ошибки с алиасом структурной единицы
-		if(isset($POST->alias) && trim($POST->alias) != "") {
+		if(isset($POST->alias)) {
 
 			$POST->alias = $parse->text->transliterate($POST->alias,"lower");
 
@@ -543,7 +545,7 @@ class ACP_STRUCTURE {
 		global $logger, $POST, $img;
 
 		# title
-		if(!isset($POST->title) || trim($POST->title) == "") {
+		if(!isset($POST->title)) {
 			$logger->error("Не указано название страницы.");
 		}
 

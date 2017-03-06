@@ -60,7 +60,6 @@
 			<div class="row">
 				<div class="col-lg-8 col-lg-offset-4">
 					<a href="index.php?part=ucp&act=pm" class="btn btn-md btn-default"><i class="fa fa-fw fa-long-arrow-left"></i> Вернуться к списку сообщений</a>
-					<input type="hidden" name="empty" value="1">
 					<button type="submit" name="send" class="btn btn-success pull-right" value="send"><i class="fa fa-fw fa-mail-reply"></i> Ответить {$message['from_name']}</button>
 				</div>
 			</div>

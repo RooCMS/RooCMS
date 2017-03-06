@@ -263,12 +263,13 @@ class ACP_CONFIG {
 			}
 		}
 
+		# Удаляем батон "Сохранить настроки"
+		unset($POST->empty);
 
 		# Обновляем опции
 		foreach($POST AS $key=>$value) {
 			if($key != "update_config") {
 				$check = false;
-
 
 				switch($cfg_vars[$key]['type']) {
 					# integer

@@ -43,7 +43,7 @@
  * @author       alex Roosso
  * @copyright    2010-2017 (c) RooCMS
  * @link         http://www.roocms.com
- * @version      1.5.1
+ * @version      1.5.2
  * @since        $date$
  * @license      http://www.gnu.org/licenses/gpl-3.0.html
  */
@@ -238,14 +238,14 @@ class ACP_USERS {
 		if(isset($POST->create_user) || isset($POST->create_user_ae)) {
 
 			# nickname
-			if(!isset($POST->nickname) || trim($POST->nickname) == "") {
+			if(!isset($POST->nickname)) {
 				$POST->nickname = mb_ucfirst($POST->login);
 			}
 			$POST->nickname = $users->check_new_nickname($POST->nickname);
 
 			# login
-			if(!isset($POST->login) || trim($POST->login) == "") {
-				if(isset($POST->nickname) && trim($POST->nickname) != "") {
+			if(!isset($POST->login)) {
+				if(isset($POST->nickname)) {
 					$POST->login = mb_strtolower($parse->text->transliterate($POST->nickname));
 				}
 				else {
@@ -256,7 +256,7 @@ class ACP_USERS {
 				$POST->login = $parse->text->transliterate($POST->login);
 			}
 
-			if(isset($POST->login) && trim($POST->login) != "" && $db->check_id($POST->login, USERS_TABLE, "login")) {
+			if(isset($POST->login) && $db->check_id($POST->login, USERS_TABLE, "login")) {
 				$logger->error("Пользователь с таким логином уже существует");
 			}
 
@@ -267,7 +267,7 @@ class ACP_USERS {
 			if(!isset($_SESSION['error'])) {
 
 				#password
-				if(!isset($POST->password) || trim($POST->password) == "") {
+				if(!isset($POST->password)) {
 					$POST->password = $security->create_new_password();
 				}
 				$salt = $security->create_new_salt();
@@ -345,10 +345,10 @@ class ACP_USERS {
 		if(isset($POST->create_group) || isset($POST->create_group_ae)) {
 
 			# title
-			if(!isset($POST->title) || trim($POST->title) == "") {
+			if(!isset($POST->title)) {
 				$logger->error("У группы должно быть название!");
 			}
-			if(isset($POST->title) && trim($POST->title) != "" && $db->check_id($POST->title, USERS_GROUP_TABLE, "title")) {
+			if(isset($POST->title) && $db->check_id($POST->title, USERS_GROUP_TABLE, "title")) {
 				$logger->error("Группа с таким название уже существует");
 			}
 
@@ -471,7 +471,7 @@ class ACP_USERS {
 			$query = "";
 
 			# login
-			if(isset($POST->login) && trim($POST->login) != "") {
+			if(isset($POST->login)) {
 				if(!$users->check_field("login", $POST->login, $udata['login'])) {
 					$logger->error("Логин не должен совпадать с логином другого пользователя!");
 				}
@@ -484,7 +484,7 @@ class ACP_USERS {
 			}
 
 			# nickname
-			if(isset($POST->nickname) && trim($POST->nickname) != "") {
+			if(isset($POST->nickname)) {
 				if(!$users->check_field("nickname", $POST->nickname, $udata['nickname'])) {
 					$logger->error("Никнейм не должен совпадать с никнеймом другого пользователя!");
 				}
@@ -498,7 +498,7 @@ class ACP_USERS {
 
 
 			# email
-			if(isset($POST->email) && trim($POST->email) != "") {
+			if(isset($POST->email)) {
 				if(!$users->check_field("email", $POST->email, $udata['email'])) {
 					$logger->error("Указанный email уже существует в Базе Данных!");
 				}
@@ -532,7 +532,7 @@ class ACP_USERS {
 				}
 
 				# password
-				if(isset($POST->password) && trim($POST->password) != "") {
+				if(isset($POST->password)) {
 					$salt = $security->create_new_salt();
 					$password = $security->hashing_password($POST->password, $salt);
 
@@ -605,7 +605,7 @@ class ACP_USERS {
 			$query = "";
 
 			# login
-			if(isset($POST->title) && trim($POST->title) != "") {
+			if(isset($POST->title)) {
 				if(!$users->check_field("title", $POST->title, $gdata['title'], USERS_GROUP_TABLE)) {
 					$logger->error("Название группы не может совпадать с названием другой группы!");
 				}

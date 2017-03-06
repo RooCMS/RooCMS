@@ -166,7 +166,6 @@
 
 		<div class="row">
 			<div class="col-lg-9 col-md-offset-3">
-				<input type="hidden" name="empty" value="1">
 				<input type="submit" name="update_user" class="btn btn-success" value="Обновить">
 				<input type="submit" name="update_user_ae" class="btn btn-default" value="Обновить и выйти">
 			</div>

@@ -62,7 +62,6 @@
 		</div>
 		<div class="row">
 			<div class="col-md-12 text-right">
-				<input type="hidden" name="empty" value="1" readonly>
 				<input type="submit" name="update_part" class="btn btn-success" value="Обновить раздел">
 			</div>
 		</div>

@@ -42,7 +42,7 @@
 * @author       alex Roosso
 * @copyright    2010-2017 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.0.2
+* @version      1.0.3
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -178,10 +178,10 @@ class UCP_PM {
 
 		global $db, $users, $POST, $logger, $site, $smarty, $tpl;
 
-		if(isset($POST->send) && $POST->to_uid != 0 && $db->check_id($POST->to_uid, USERS_TABLE, "uid", "status='1'") && $POST->to_uid != $users->uid && trim($POST->message) != "") {
+		if(isset($POST->send, $POST->message) && $POST->to_uid != 0 && $db->check_id($POST->to_uid, USERS_TABLE, "uid", "status='1'") && $POST->to_uid != $users->uid) {
 
 			#title
-			if(!isset($POST->title) || trim($POST->title) == "") {
+			if(!isset($POST->title)) {
 				$POST->title = "Без заголовка";
 			}
 
@@ -208,7 +208,7 @@ class UCP_PM {
 			go(SCRIPT_NAME."?part=ucp&act=pm");
 		}
 		else {
-			if(trim($POST->message) == "") {
+			if(!isset($POST->message)) {
 				$logger->error("Вы попытались отправить пустое сообщение. К сожалению это невозможно.");
 			}
 			if($POST->to_uid == $users->uid) {

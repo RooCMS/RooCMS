@@ -147,7 +147,6 @@
 
 		<div class="row">
 			<div class="col-lg-9 col-md-offset-3">
-				<input type="hidden" name="empty" value="1" readonly>
 				<input type="submit" name="update_unit" class="btn btn-success" value="Сохранить">
 				<input type="submit" name="update_unit_ae" class="btn btn-default" value="Сохранить и выйти">
 			</div>

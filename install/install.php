@@ -42,7 +42,7 @@
 * @author       alex Roosso
 * @copyright    2010-2017 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.5
+* @version      1.5.1
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -213,11 +213,11 @@ class Install extends Requirement {
 		global $POST, $parse, $logger, $site;
 
 		if($this->check_submit() && $this->check_step(4)) {
-			if(!isset($POST->site_title) || trim($POST->site_title) == "") {
+			if(!isset($POST->site_title)) {
 				$this->allowed = false;
 				$logger->error("Неверно указано название сайта");
 			}
-			if(!isset($POST->site_domain) || trim($POST->site_domain) == "") {
+			if(!isset($POST->site_domain)) {
 				$this->allowed = false;
 				$logger->error("Неверно указан адрес сайта");
 			}
@@ -285,19 +285,19 @@ class Install extends Requirement {
 
 		if($this->check_submit() && $this->check_step(5)) {
 
-			if(!isset($POST->db_info_host) || trim($POST->db_info_host) == "") {
+			if(!isset($POST->db_info_host)) {
 				$this->allowed = false;
 				$logger->error("Не указано соеденение с сервером БД");
 			}
-			if(!isset($POST->db_info_base) || trim($POST->db_info_base) == "") {
+			if(!isset($POST->db_info_base)) {
 				$this->allowed = false;
 				$logger->error("Не указано название БД");
 			}
-			if(!isset($POST->db_info_user) || trim($POST->db_info_user) == "") {
+			if(!isset($POST->db_info_user)) {
 				$this->allowed = false;
 				$logger->error("Не указан пользователь БД");
 			}
-			if(!isset($POST->db_info_pass) || trim($POST->db_info_pass) == "") {
+			if(!isset($POST->db_info_pass)) {
 				$this->allowed = false;
 				$logger->error("Не указан пароль пользователя БД");
 			}
@@ -438,12 +438,12 @@ class Install extends Requirement {
 
 		if($this->check_submit() && $this->check_step(7)) {
 
-			if(!isset($POST->adm_login) || trim($POST->adm_login) == "") {
+			if(!isset($POST->adm_login)) {
 				$this->allowed = false;
 				$logger->error("Неверно указан логин администратора");
 			}
 
-			if(!isset($POST->adm_passw) || trim($POST->adm_passw) == "") {
+			if(!isset($POST->adm_passw)) {
 				$this->allowed = false;
 				$logger->error("Неверно указан пароль администратора");
 			}
