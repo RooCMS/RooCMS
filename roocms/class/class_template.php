@@ -260,7 +260,7 @@ class Template {
 		preg_match_all('(\{\$blocks-\>load\(([a-zA-Z0-9_"\';&-]*?)\)\})', $this->out, $block);
 
 		$b = array_unique($block[1]);
-		foreach($b as $k=>$v) {
+		foreach($b as $v) {
 			$v = str_ireplace('"', '', $v);
 			$buf = $blocks->load($v);
 			$this->out = str_ireplace("{\$blocks->load({$v})}", $buf, $this->out);
@@ -279,7 +279,7 @@ class Template {
 		preg_match_all('(\{\$module-\>load\(([a-zA-Z0-9_"\';&-]*?)\)\})', $this->out, $mod);
 
 		$m = array_unique($mod[1]);
-		foreach($m as $k=>$v) {
+		foreach($m as $v) {
 			$v = str_ireplace('"', '', $v);
 			$buf = $module->load($v);
 			$this->out = str_ireplace("{\$module->load({$v})}", $buf, $this->out);

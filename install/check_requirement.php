@@ -129,7 +129,7 @@ class Requirement {
 					"mysqli");
 		$extensions = get_loaded_extensions();
 
-		foreach($rextensions AS $k=>$v) {
+		foreach($rextensions AS $v) {
 			if(!in_array($v,$extensions)) {
 				$this->log[] = array("Расширение: ".$v, "Отсутствует", false, "Без данного расширения работа RooCMS будет нестабильной!");
 				$this->allowed = false;
@@ -171,7 +171,7 @@ class Requirement {
 
 		require_once _LIB."/files_protected.php";
 
-		foreach($protectfolder AS $k=>$v) {
+		foreach($protectfolder AS $v) {
 			$perms = $files->show_fileperms($v['path']);
 
 			$roocmspath = str_replace(_SITEROOT, "", $v['path']);
@@ -187,7 +187,7 @@ class Requirement {
 			else $this->log[] = array("Директория ".$roocmspath, $perms, true, "");
 		}
 
-		foreach($protectfiles AS $k=>$v) {
+		foreach($protectfiles AS $v) {
 			$perms = $files->show_fileperms($v['path']);
 
 			$roocmspath = str_replace(_SITEROOT, "", $v['path']);

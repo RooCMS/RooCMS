@@ -282,7 +282,7 @@ class RSS {
 
 
 		# init items
-		foreach($this->items AS $key=>$value) {
+		foreach($this->items AS $value) {
 			$this->out .= $value;
 		}
 

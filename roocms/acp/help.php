@@ -295,7 +295,7 @@ class ACP_HELP {
 					$childs = $this->load_tree($id);
 
 					if($childs) {
-						foreach($childs AS $k=>$v) {
+						foreach($childs AS $v) {
 							if($POST->parent_id == $v['id']) {
 								$POST->parent_id = $POST->now_parent_id;
 								$logger->error("Не удалось изменить иерархию! Вы не можете изменить иерархию директории переместив её в свой дочерний элемент!");
@@ -459,7 +459,7 @@ class ACP_HELP {
 	*/
 	private function construct_breadcumb($id = 1) {
 		if($id != 1) {
-			foreach($this->helptree AS $k=>$v) {
+			foreach($this->helptree AS $v) {
 				if($v['id'] == $id) {
 					$this->breadcumb[] = array( 'id'	=> $v['id'],
 								    'uname'	=> $v['uname'],

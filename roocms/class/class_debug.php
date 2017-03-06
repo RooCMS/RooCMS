@@ -168,7 +168,7 @@ class Debug {
 
 		$this->phpextensions = get_loaded_extensions();
 
-		foreach($this->reqphpext AS $k=>$v) {
+		foreach($this->reqphpext AS $v) {
 			if(!in_array($v, $this->phpextensions)) {
 				$this->nophpextensions[] = $v;
 			}

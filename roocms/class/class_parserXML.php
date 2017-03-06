@@ -106,7 +106,7 @@ class ParserXML {
 
 		# read
 		$xml_file = file($file);
-		foreach($xml_file AS $key=>$value) {
+		foreach($xml_file AS $value) {
 			xml_parse($this->xml_parser,$value);
 		}
 		xml_parser_free($this->xml_parser);

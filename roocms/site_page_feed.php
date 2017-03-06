@@ -158,7 +158,7 @@ class PageFeed {
 
 		if($showchilds != "none") {
 			$qfeeds = $this->construct_child_feeds($structure->page_id, $showchilds);
-			foreach($qfeeds as $k=>$v) {
+			foreach($qfeeds as $v) {
 				# query id's feeds collect
 				$queryfeeds .= " OR sid='".$v."' ";
 			}
@@ -283,7 +283,7 @@ class PageFeed {
 
 		$tfeeds = $structure->load_tree($sid, 0, false);
 		if(!empty($tfeeds)) {
-			foreach($tfeeds AS $k=>$v) {
+			foreach($tfeeds AS $v) {
 				if($v['page_type'] == "feed") {
 
 					$feeds[$v['id']] = $v['id'];

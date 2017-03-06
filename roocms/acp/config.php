@@ -190,7 +190,7 @@ class ACP_CONFIG {
 
 			case 'select':
 				$vars = explode("\n",$variants);
-				foreach($vars AS $k=>$v) {
+				foreach($vars AS $v) {
 					$vars = explode("|",trim($v));
 
 					($vars[1] == $value) ? $s = "selected" : $s = "" ;
@@ -244,7 +244,7 @@ class ACP_CONFIG {
 
 				$vars = explode("\n",$row['variants']);
 
-				foreach($vars AS $k=>$v) {
+				foreach($vars AS $v) {
 					$v = explode("|",trim($v));
 					$cfg_vars[$row['option_name']]['var'][$v[1]] = trim($v[1]);
 				}

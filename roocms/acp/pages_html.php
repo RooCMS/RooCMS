@@ -118,7 +118,7 @@ class ACP_PAGES_HTML {
 		#sortable images
 		if(isset($POST->sort)) {
 			$sortimg = $img->load_images("pagesid=".$sid);
-			foreach($sortimg AS $k=>$v) {
+			foreach($sortimg AS $v) {
 				if(isset($POST->sort[$v['id']]) && $POST->sort[$v['id']] != $v['sort']) {
 					$db->query("UPDATE ".IMAGES_TABLE." SET sort='".$POST->sort[$v['id']]."' WHERE id='".$v['id']."'");
 					$logger->info("Изображению ".$v['id']." успешно присвоен порядок ".$POST->sort[$v['id']]);

@@ -181,7 +181,7 @@ class Globals {
 
 		require_once _LIB."/spiders.php";
 
-		foreach($spider AS $key=>$value) {
+		foreach($spider AS $value) {
 			$check = mb_strpos($this->useragent, $value, 0, 'utf8');
 
 			if($check !== false) {

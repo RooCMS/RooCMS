@@ -283,7 +283,7 @@ class ACP_INDEX {
 		global $config, $tpl, $smarty;
 
 		$phpextfunc = array();
-		foreach($config->phpextensions AS $k=>$v) {
+		foreach($config->phpextensions AS $v) {
 			$phpextfunc[$v] = get_extension_funcs($v);
 		}
 
