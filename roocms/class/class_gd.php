@@ -592,7 +592,7 @@ class GD {
 				break;
 
 			default:
-				$src = imagecreatefromjpeg($path);
+				$src = imagecreatefromjpeg($from);
 				break;
 		}
 

@@ -403,7 +403,7 @@ class Parsers {
 	//#####################################################
 	// Функиции проверки массивов на всякую лажу.
 	// Только её надо развить, а то она ещё маленькая.
-	public function check_array($array, $empty = false) {
+	public function check_array($array) {
 
 		$arr = array();
 
