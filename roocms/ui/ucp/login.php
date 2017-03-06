@@ -42,7 +42,7 @@
  * @author       alex Roosso
  * @copyright    2010-2017 (c) RooCMS
  * @link         http://www.roocms.com
- * @version      1.1
+ * @version      1.1.1
  * @since        $date$
  * @license      http://www.gnu.org/licenses/gpl-3.0.html
  */
@@ -83,7 +83,7 @@ class UCP_LOGIN {
 
 		global $db, $POST, $security;
 
-		if(isset($POST->login) && isset($POST->password) &&$db->check_id($POST->login, USERS_TABLE, "login", "status='1'") && isset($POST->password)) {
+		if(isset($POST->login, $POST->password) && $db->check_id($POST->login, USERS_TABLE, "login", "status='1'")) {
 
 			$q = $db->query("SELECT uid, login, title, nickname, password, salt FROM ".USERS_TABLE." WHERE login='".$POST->login."' AND status='1'");
 			$data = $db->fetch_assoc($q);

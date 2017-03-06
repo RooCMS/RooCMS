@@ -42,7 +42,7 @@
 * @author       alex Roosso
 * @copyright    2010-2017 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.4.9
+* @version      1.5
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -98,7 +98,7 @@ class Install extends Requirement {
 				$this->status = "Внимательно прочитайте лицензионное соглашение<br />Помните, что нарушение авторских прав влечет за собой уголовную ответсвенность.";
 				require_once _LIB."/license.php";
 				$this->noticetext = $license['ru'];
-				if($this->allowed && isset($POST->submit)) {
+				if($this->check_submit()) {
 					if($this->check_step(1)) {
 						go(SCRIPT_NAME."?step=2");
 					}
@@ -112,7 +112,7 @@ class Install extends Requirement {
 				$this->page_title = "Проверка требований RooCMS к хостингу";
 				$this->status = "Проверяем версию PHP, MySQL, Apache<br />Проверяем наличие требуемых PHP и Apache расширений";
 				$this->check_requirement();
-				if($this->allowed && isset($POST->submit)) {
+				if($this->check_submit()) {
 					if($this->check_step(2)) {
 						go(SCRIPT_NAME."?step=3");
 					}
@@ -126,7 +126,7 @@ class Install extends Requirement {
 				$this->page_title = "Проверка и установка доступов к файлам RooCMS";
 				$this->status = "Проверяем доступы и разрешения к важным файлам RooCMS<br />Установка доступов и разрешений для важных файлов RooCMS";
 				$this->check_chmod();
-				if($this->allowed && isset($POST->submit)) {
+				if($this->check_submit()) {
 					if($this->check_step(3)) {
 						go(SCRIPT_NAME."?step=4");
 					}
@@ -171,7 +171,7 @@ class Install extends Requirement {
 				$this->status = "Внимательно прочитайте лицензионное соглашение<br />Помните, что нарушение авторских прав влечет за собой уголовную ответсвенность.";
 				require_once _LIB."/license.php";
 				$this->noticetext = $license['ru'];
-				if($this->allowed && isset($POST->submit)) {
+				if($this->check_submit()) {
 					if($this->check_step(1)) {
 						go(SCRIPT_NAME."?step=2");
 					}
@@ -212,7 +212,7 @@ class Install extends Requirement {
 
 		global $POST, $parse, $logger, $site;
 
-		if($this->allowed && isset($POST->submit) && $this->check_step(4)) {
+		if($this->check_submit() && $this->check_step(4)) {
 			if(!isset($POST->site_title) || trim($POST->site_title) == "") {
 				$this->allowed = false;
 				$logger->error("Неверно указано название сайта");
@@ -283,7 +283,7 @@ class Install extends Requirement {
 
 		global $db, $db_info, $POST, $parse, $logger;
 
-		if($this->allowed && isset($POST->submit) && $this->check_step(5)) {
+		if($this->check_submit() && $this->check_step(5)) {
 
 			if(!isset($POST->db_info_host) || trim($POST->db_info_host) == "") {
 				$this->allowed = false;
@@ -371,7 +371,7 @@ class Install extends Requirement {
 
 		$roocms->sess['db_info_pass'] = $parse->text->html($roocms->sess['db_info_pass']);
 
-		if($this->allowed && isset($POST->submit) && $this->check_step(6)) {
+		if($this->check_submit() && $this->check_step(6)) {
 			$cf = _ROOCMS."/config/config.php";
 
 			$f = file($cf);
@@ -436,7 +436,7 @@ class Install extends Requirement {
 			go(SCRIPT_NAME."?step=8");
 		}
 
-		if($this->allowed && isset($POST->submit) && $this->check_step(7)) {
+		if($this->check_submit() && $this->check_step(7)) {
 
 			if(!isset($POST->adm_login) || trim($POST->adm_login) == "") {
 				$this->allowed = false;
@@ -537,6 +537,24 @@ class Install extends Requirement {
 		global $POST;
 
 		if(isset($POST->step) && $POST->step == $n) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+
+
+	/**
+	 * Check used $POST->submit
+	 *
+	 * @return bool
+	 */
+	private function check_submit() {
+
+		global $POST;
+
+		if($this->allowed && isset($POST->submit)) {
 			return true;
 		}
 		else {

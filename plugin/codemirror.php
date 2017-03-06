@@ -66,8 +66,8 @@ document.write('<link rel="stylesheet" href="/plugin/codemirror/lib/codemirror.m
 document.write('<link rel="stylesheet" href="/plugin/codemirror/addon/dialog/dialog.min.css">');
 document.write('<link rel="stylesheet" href="/plugin/codemirror/addon/display/fullscreen.min.css">');
 
-document.write('<script src="/plugin/codemirror/lib/codemirror.min.js"></script>');				// Engine
-document.write('<script src="/plugin/codemirror/addon/dialog/dialog.min.js"></script>');			// ALL
+document.write('<script src="/plugin/codemirror/lib/codemirror.min.js"></script>');			// Engine
+document.write('<script src="/plugin/codemirror/addon/dialog/dialog.min.js"></script>');		// ALL
 document.write('<script src="/plugin/codemirror/addon/search/search.min.js"></script>');
 document.write('<script src="/plugin/codemirror/addon/search/searchcursor.min.js"></script>');
 document.write('<script src="/plugin/codemirror/addon/search/match-highlighter.min.js"></script>');

@@ -42,7 +42,7 @@
 * @author	alex Roosso
 * @copyright	2010-2017 (c) RooCMS
 * @link		http://www.roocms.com
-* @version	1.12.1
+* @version	1.12.2
 * @since	$date$
 * @license	http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -86,12 +86,12 @@ class GD {
 		$this->info = gd_info();
 
 		# Устанавливаем размеры миниатюр из конфигурации
-		if(isset($config->gd_thumb_image_width) && isset($config->gd_thumb_image_height)) {
+		if(isset($config->gd_thumb_image_width, $config->gd_thumb_image_height)) {
 			$this->set_thumb_sizes(array($config->gd_thumb_image_width, $config->gd_thumb_image_height));
 		}
 
 		# Устанавливаем максимальные размеры изображений
-		if(isset($config->gd_image_maxwidth) && isset($config->gd_image_maxheight)) {
+		if(isset($config->gd_image_maxwidth, $config->gd_image_maxheight)) {
 			$this->set_max_sizes(array($config->gd_image_maxwidth, $config->gd_image_maxheight));
 		}
 

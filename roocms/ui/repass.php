@@ -42,7 +42,7 @@
  * @author       alex Roosso
  * @copyright    2010-2017 (c) RooCMS
  * @link         http://www.roocms.com
- * @version      1.0
+ * @version      1.0.1
  * @since        $date$
  * @license      http://www.gnu.org/licenses/gpl-3.0.html
  */
@@ -182,7 +182,7 @@ class REPASS {
 
 		global $db, $parse, $logger, $POST, $site, $security, $smarty, $tpl;
 
-		if(isset($POST->email) && isset($POST->code) && $parse->valid_email($POST->email) && $db->check_id($POST->email, USERS_TABLE, "email", "secret_key='".$POST->code."'")) {
+		if(isset($POST->email, $POST->code) && $parse->valid_email($POST->email) && $db->check_id($POST->email, USERS_TABLE, "email", "secret_key='".$POST->code."'")) {
 
 			# new password
 			$salt = $security->create_new_salt();

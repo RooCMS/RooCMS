@@ -42,7 +42,7 @@
 * @author       alex Roosso
 * @copyright    2010-2017 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      2.0.5
+* @version      2.0.6
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -71,7 +71,7 @@ class ACP_LOGIN {
 
 
 		# check
-		if(isset($POST->login) && $db->check_id($POST->login, USERS_TABLE, "login", "status='1' AND title='a'") && isset($POST->password)) {
+		if(isset($POST->login, $POST->password) && $db->check_id($POST->login, USERS_TABLE, "login", "status='1' AND title='a'")) {
 
 			$q = $db->query("SELECT uid, login, nickname, title, password, salt FROM ".USERS_TABLE." WHERE login='".$POST->login."' AND status='1' AND title='a'");
 			$data = $db->fetch_assoc($q);

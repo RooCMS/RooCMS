@@ -42,7 +42,7 @@
 * @author       alex Roosso
 * @copyright    2010-2017 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.1.3
+* @version      1.1.6
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -111,7 +111,7 @@ class ACP_HELP {
 		}
 
 		# Запрашиваем техническую информацию о разделе по умолчанию, если не было верного запроса ни по идентификатору ни уникалному имени
-		if((!isset($GET->_id) && !isset($GET->_u)) || $this->part_id == 0) {
+		if(!isset($GET->_id, $GET->_u) || $this->part_id == 0) {
 				$q = $db->query("SELECT id, parent_id, uname, title, content, date_modified FROM ".HELP_TABLE." WHERE id='1'");
 				$row = $db->fetch_assoc($q);
 
@@ -206,7 +206,7 @@ class ACP_HELP {
 		global $db, $logger, $POST;
 
 		# предупреждаем возможные ошибки с уникальным именем структурной еденицы
-		if(isset($POST->uname) && trim($POST->uname) != "") {
+		if($this->isset_post_uname()) {
 			# избавляем URI от возможных конвульсий
 			$POST->uname = strtr($POST->uname, array('-'=>'_','='=>'_'));
 
@@ -217,19 +217,8 @@ class ACP_HELP {
 		}
 
 		# проверяем введенный данные
-		if(!isset($POST->title) || trim($POST->title) == "") {
-			$logger->error("Не указано название раздела.");
-		}
-		if(!isset($POST->uname) || (trim($POST->uname) == "" && round($POST->uname) != 0)) {
-			$logger->error("Не указан uname страницы.");
-		}
-		elseif(!$this->check_uname($POST->uname)) {
-			$logger->error("uname раздела не уникален.");
-		}
+		$this->check_post_data("create");
 
-		if(!isset($POST->content)) {
-			$POST->content = "";
-		}
 
 		# если ошибок нет
 		if(!isset($_SESSION['error'])) {
@@ -267,7 +256,7 @@ class ACP_HELP {
 		}
 
 		# предупреждаем возможные ошибки с уникальным именем структурной еденицы
-		if(isset($POST->uname) && trim($POST->uname) != "") {
+		if($this->isset_post_uname()) {
 			# избавляем URI от возможных конвульсий
 			$POST->uname = strtr($POST->uname, array('-'=>'_','='=>'_'));
 
@@ -278,19 +267,8 @@ class ACP_HELP {
 		}
 
 		# проверяем введенный данные
-		if(!isset($POST->title) || trim($POST->title) == "") {
-			$logger->error("Не указано название раздела.");
-		}
-		if(!isset($POST->uname) || (trim($POST->uname) == "" && round($POST->uname) != 0)) {
-			$logger->error("Не указан uname раздела.");
-		}
-		elseif(!$this->check_uname($POST->uname, $POST->old_uname)) {
-			$logger->error("uname раздела не уникален.");
-		}
+		$this->check_post_data("update");
 
-		if(!isset($POST->content)) {
-			$POST->content = "";
-		}
 
 		# если ошибок нет
 		if(!isset($_SESSION['error'])) {
@@ -542,6 +520,55 @@ class ACP_HELP {
 
 		# уведомление
 		$logger->info("Информация о подразделах для раздела {$id} обновлена.");
+	}
+
+
+	/**
+	 * Функция проверяет существует ли $POST->uname и не является ли он пустым
+	 *
+	 * @return bool
+	 */
+	private function isset_post_uname()  {
+
+		global $POST;
+
+		if(isset($POST->uname) && trim($POST->uname) != "") {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+
+
+	/**
+	 * Функция проверяет поступающие в массиве $POST данные при создании или обновлении раздела
+	 *
+	 * @param string $operation - Тип операции (create|update)
+	 */
+	private function check_post_data($operation="create") {
+
+		global $POST, $logger;
+
+		# operation type
+		if($operation == "create") {
+			$POST->old_uname = "";
+		}
+
+		# checked
+		if(!isset($POST->title) || trim($POST->title) == "") {
+			$logger->error("Не указано название раздела.");
+		}
+		if(!isset($POST->uname) || (trim($POST->uname) == "" && round($POST->uname) != 0)) {
+			$logger->error("Не указан uname раздела.");
+		}
+		elseif(!$this->check_uname($POST->uname, $POST->old_uname)) {
+			$logger->error("uname раздела не уникален.");
+		}
+
+		if(!isset($POST->content)) {
+			$POST->content = "";
+		}
 	}
 }
 

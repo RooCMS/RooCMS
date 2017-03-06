@@ -43,7 +43,7 @@
  * @author       alex Roosso
  * @copyright    2010-2017 (c) RooCMS
  * @link         http://www.roocms.com
- * @version      1.5
+ * @version      1.5.1
  * @since        $date$
  * @license      http://www.gnu.org/licenses/gpl-3.0.html
  */
@@ -255,6 +255,7 @@ class ACP_USERS {
 			else {
 				$POST->login = $parse->text->transliterate($POST->login);
 			}
+
 			if(isset($POST->login) && trim($POST->login) != "" && $db->check_id($POST->login, USERS_TABLE, "login")) {
 				$logger->error("Пользователь с таким логином уже существует");
 			}
@@ -552,7 +553,7 @@ class ACP_USERS {
 								WHERE uid='".$uid."'");
 
 				# Если мы переназначаем группу пользователя
-				if(isset($POST->gid) && isset($POST->now_gid)  && $POST->gid != $POST->now_gid) {
+				if(isset($POST->gid, $POST->now_gid) && $POST->gid != $POST->now_gid) {
 					# пересчитываем пользователей
 					$this->count_users($POST->gid);
 					$this->count_users($POST->now_gid);
