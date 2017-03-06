@@ -42,7 +42,7 @@
 * @author	alex Roosso
 * @copyright	2010-2017 (c) RooCMS
 * @link		http://www.roocms.com
-* @version	1.12.2
+* @version	1.12.3
 * @since	$date$
 * @license	http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -225,14 +225,18 @@ class GD {
             		imagecopyresampled($resize, $src, 0, 0, 0, 0, $ns['new_width'], $ns['new_height'], $w, $h);
 
 			# льем измененное изображение
-			if($ext == "jpg") {
-				imagejpeg($resize,$path."/".$fileresize, $this->rs_quality);
-			}
-			elseif($ext == "gif") {
-				imagegif($resize,$path."/".$fileresize);
-			}
-			elseif($ext == "png") {
-				imagepng($resize,$path."/".$fileresize);
+			switch($ext) {
+				case 'jpg':
+					imagejpeg($resize,$path."/".$fileresize, $this->rs_quality);
+					break;
+
+				case 'gif':
+					imagegif($resize,$path."/".$fileresize);
+					break;
+
+				case 'png':
+					imagepng($resize,$path."/".$fileresize);
+					break;
 			}
 
 			imagedestroy($resize);
@@ -298,14 +302,18 @@ class GD {
 		imagecopyresampled($thumb, $src, $ns['new_left'], $ns['new_top'], 0, 0, $ns['new_width'], $ns['new_height'], $size[0], $size[1]);
 
 		# льем превью
-		if($ext == "jpg") {
-			imagejpeg($thumb,$path."/".$file, $this->th_quality);
-		}
-		elseif($ext == "gif") {
-			imagegif($thumb,$path."/".$file);
-		}
-		elseif($ext == "png") {
-			imagepng($thumb,$path."/".$file);
+		switch($ext) {
+			case 'jpg':
+				magejpeg($thumb,$path."/".$file, $this->th_quality);
+				break;
+
+			case 'gif':
+				imagegif($thumb,$path."/".$file);
+				break;
+
+			case 'png':
+				imagepng($thumb,$path."/".$file);
+				break;
 		}
 
 		imagedestroy($thumb);
@@ -372,14 +380,18 @@ class GD {
 		imagecopyresampled($thumb, $src, $ns['new_left'], $ns['new_top'], 0, 0, $ns['new_width'], $ns['new_height'], $size[0], $size[1]);
 
 		# льем превью
-		if($ext == "jpg") {
-			imagejpeg($thumb,$path."/".$filethumb, $this->th_quality);
-		}
-		elseif($ext == "gif") {
-			imagegif($thumb,$path."/".$filethumb);
-		}
-		elseif($ext == "png") {
-			imagepng($thumb,$path."/".$filethumb);
+		switch($ext) {
+			case 'jpg':
+				imagejpeg($thumb,$path."/".$filethumb, $this->th_quality);
+				break;
+
+			case 'gif':
+				imagegif($thumb,$path."/".$filethumb);
+				break;
+
+			case 'png':
+				imagepng($thumb,$path."/".$filethumb);
+				break;
 		}
 
 		imagedestroy($thumb);
@@ -451,14 +463,18 @@ class GD {
 		}
 
 		# вливаем с ватермарком
-		if($ext == "jpg") {
-			imagejpeg($src,$path."/".$fileresize, $this->rs_quality);
-		}
-		elseif($ext == "gif") {
-			imagegif($src,$path."/".$fileresize);
-		}
-		elseif($ext == "png") {
-			imagepng($src,$path."/".$fileresize);
+		switch($ext) {
+			case 'jpg':
+				imagejpeg($src,$path."/".$fileresize, $this->rs_quality);
+				break;
+
+			case 'gif':
+				imagegif($src,$path."/".$fileresize);
+				break;
+
+			case 'png':
+				imagepng($src,$path."/".$fileresize);
+				break;
 		}
 
         	imagedestroy($src);
@@ -477,7 +493,7 @@ class GD {
 		global $config, $parse;
 
 		# vars
-		$fileresize 	= $filename."_resize.".$ext;
+		$fileresize = $filename."_resize.".$ext;
 
 		# определяем размер картинки
 		$size = getimagesize($path."/".$fileresize);
@@ -529,14 +545,18 @@ class GD {
 
 
 		# вливаем с ватермарком
-		if($ext == "jpg") {
-			imagejpeg($src,$path."/".$fileresize, $this->rs_quality);
-		}
-		elseif($ext == "gif") {
-			imagegif($src,$path."/".$fileresize);
-		}
-		elseif($ext == "png") {
-			imagepng($src,$path."/".$fileresize);
+		switch($ext) {
+			case 'jpg':
+				imagejpeg($src,$path."/".$fileresize, $this->rs_quality);
+				break;
+
+			case 'gif':
+				imagegif($src,$path."/".$fileresize);
+				break;
+
+			case 'png':
+				imagepng($src,$path."/".$fileresize);
+				break;
 		}
 
 		imagedestroy($src);
@@ -561,20 +581,19 @@ class GD {
 
 			case 'gif':
                 		$src = imagecreatefromgif($from);
+				imagealphablending($src, false);
+				imagesavealpha($src,true);
 				break;
 
 			case 'png':
                 		$src = imagecreatefrompng($from);
+				imagealphablending($src, true);
+				imagesavealpha($src,true);
 				break;
 
 			/* default:
 				$src = imagecreatefromjpeg($path);
 				break; */
-		}
-
-		if($ext == "png" || $ext == "gif") {
-	                imagealphablending($src, false);
-			imagesavealpha($src,true);
 		}
 
 		return $src;

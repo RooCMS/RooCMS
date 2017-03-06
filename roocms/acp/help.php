@@ -166,7 +166,9 @@ class ACP_HELP {
 					break;
 			}
 		}
-		else $content = $this->show_help();
+		else {
+			$content = $this->show_help();
+		}
 
 		# отрисовываем шаблон
 		$smarty->assign('content', $content);
