@@ -1,6 +1,17 @@
 engines:
 	csslint:
 		enabled: true
+	eslint:
+		enabled: true
+	fixme:
+		enabled: true
+		config:
+			strings:
+			- FIXME
+			- BUG
+			- CUSTOM
+	gnu-complexity:
+            	enabled: true
 	duplication:
 		enabled: true
 	config:
