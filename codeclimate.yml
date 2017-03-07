@@ -1,0 +1,15 @@
+engines:
+  csslint:
+    enabled: true
+  jslint:
+    enabled: true
+  duplication:
+  	enabled: true
+    config:
+    	languages:
+      - php
+      - javascript
+exclude_paths:
+- plugin/*
+- roocms/lib/smarty/*
+- roocms/lib/phpqrcode/*
