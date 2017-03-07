@@ -42,7 +42,7 @@
 * @author	alex Roosso
 * @copyright	2010-2017 (c) RooCMS
 * @link		http://www.roocms.com
-* @version	4.6.3
+* @version	4.6.4
 * @since	$date$
 * @license	http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -305,9 +305,6 @@ class Template {
                         if(!defined('INSTALL') && isset($config->global_site_title)) {
                         	$site['title'] .= " &bull; ".$config->site_title;
 			}
-
-                        # jquery-core (check brwoser version)
-                        $jquerycore = ($parse->browser("ie",8)) ? "jquery-coreie.min.js" : "jquery-core.min.js" ;
 
                         # get actual version included js and styles in templates (only Developer or Debug mode)
                         $build = (DEBUGMODE or DEVMODE) ? "?v=".str_ireplace(".","",ROOCMS_VERSION)."-".time() : "" ;

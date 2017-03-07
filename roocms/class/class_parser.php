@@ -42,7 +42,7 @@
 * @author       alex Roosso
 * @copyright    2010-2017 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.3
+* @version      1.4
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -564,140 +564,6 @@ class Parsers {
 				"g" => hexdec(mb_substr($hexcolor, 3, 2)),
 				"b" => hexdec(mb_substr($hexcolor, 5, 2))
 			    );
-	}
-
-
-	/**
-	* Browser detect
-	*
-	* @param string $browser - [ie|opera|mozilla|firebird|firefox|konqueror|camino|safari|webtv|webkit|netscape|mac]
-	* @param int $version
-	*
-	* @return int $version OR bool false
-	*/
-	public function browser($browser, $version = 0) {
-
-		global $roocms;
-		static $is;
-
-		if (!is_array($is)) {
-
-			$useragent = mb_strtolower($roocms->useragent);
-
-			$is = array(
-				'opera'     => 0,
-				'ie'        => 0,
-				'mozilla'   => 0,
-				'firebird'  => 0,
-				'firefox'   => 0,
-				'camino'    => 0,
-				'konqueror' => 0,
-				'safari'    => 0,
-				'webkit'    => 0,
-				'webtv'     => 0,
-				'netscape'  => 0,
-				'mac'       => 0,
-				'chrome'    => 0
-			);
-
-			# detect opera
-			if (mb_strpos($useragent, 'opera', 0, 'utf8') !== false) {
-				preg_match('#opera(/| )([0-9\.]+)#', $useragent, $regs);
-				if($regs[2] == "9.80")	{
-                                	preg_match('#version/([0-9\.]+)#', $useragent, $regs);
-                                	$is['opera'] = $regs[1];
-				}
-				else {
-					$is['opera'] = $regs[2];
-				}
-			}
-
-			# detect internet explorer
-			if (mb_strpos($useragent, 'msie ', 0, 'utf8') !== false && !$is['opera']) {
-				preg_match('#msie ([0-9\.]+)#', $useragent, $regs);
-				$is['ie'] = $regs[1];
-			}
-
-			# detect macintosh
-			if (mb_strpos($useragent, 'mac', 0, 'utf8') !== false) {
-				$is['mac'] = 1;
-			}
-
-			# detect chrome
-			if (mb_strpos($useragent, 'chrome', 0, 'utf8') !== false) {
-				preg_match('#chrome/([0-9\.]+)#', $useragent, $regs);
-				$is['chrome'] = $regs[1];
-			}
-
-			# detect safari
-			if (mb_strpos($useragent, 'applewebkit', 0, 'utf8') !== false && !$is['chrome']) {
-				preg_match('#applewebkit/([0-9\.]+)#', $useragent, $regs);
-				$is['webkit'] = $regs[1];
-
-				if (mb_strpos($useragent, 'safari', 0, 'utf8') !== false) {
-					preg_match('#safari/([0-9\.]+)#', $useragent, $regs);
-					$is['safari'] = $regs[1];
-				}
-			}
-
-			# detect konqueror
-			if (mb_strpos($useragent, 'konqueror', 0, 'utf8') !== false) {
-				preg_match('#konqueror/([0-9\.-]+)#', $useragent, $regs);
-				$is['konqueror'] = $regs[1];
-			}
-
-			# detect mozilla
-			if (mb_strpos($useragent, 'gecko', 0, 'utf8') !== false && !$is['safari'] && !$is['konqueror'] && !$is['chrome']) {
-				# detect mozilla
-				$is['mozilla'] = 20090105;
-				if (preg_match('#gecko/(\d+)#', $useragent, $regs)) {
-					$is['mozilla'] = $regs[1];
-				}
-
-				# detect firebird / firefox
-				if (mb_strpos($useragent, 'firefox', 0, 'utf8') !== false || mb_strpos($useragent, 'firebird', 0, 'utf8') !== false || mb_strpos($useragent, 'phoenix', 0, 'utf8') !== false) {
-					preg_match('#(phoenix|firebird|firefox)( browser)?/([0-9\.]+)#', $useragent, $regs);
-					$is['firebird'] = $regs[3];
-
-					if ($regs[1] == 'firefox') {
-						$is['firefox'] = $regs[3];
-					}
-				}
-
-				# detect camino
-				if (mb_strpos($useragent, 'chimera', 0, 'utf8') !== false || mb_strpos($useragent, 'camino', 0, 'utf8') !== false) {
-					preg_match('#(chimera|camino)/([0-9\.]+)#', $useragent, $regs);
-					$is['camino'] = $regs[2];
-				}
-			}
-
-			# detect web tv
-			if (mb_strpos($useragent, 'webtv', 0, 'utf8') !== false) {
-				preg_match('#webtv/([0-9\.]+)#', $useragent, $regs);
-				$is['webtv'] = $regs[1];
-			}
-
-			# detect pre-gecko netscape
-			if (preg_match('#mozilla/([1-4]{1})\.([0-9]{2}|[1-8]{1})#', $useragent, $regs)) {
-				$is['netscape'] = "{$regs[1]}.{$regs[2]}";
-			}
-		}
-
-		# return the version number of the detected browser if it is the same as $browser
-		if ($is["{$browser}"]) {
-			# $version was specified - only return version number if detected version is >= to specified $version
-			if ($version) {
-				if ($is["{$browser}"] <= $version) {
-					return $is["{$browser}"];
-				}
-			}
-			else {
-				return $is["{$browser}"];
-			}
-		}
-
-		# if we got this far, we are not the specified browser, or the version number is too low
-		return false;
 	}
 }
 
