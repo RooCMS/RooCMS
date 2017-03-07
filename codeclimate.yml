@@ -24,6 +24,6 @@ ratings:
   - "**.js"
   - "**.php"
 exclude_paths:
-- plugin/*
-- roocms/lib/smarty/*
-- roocms/lib/phpqrcode/*
+- "plugin/*"
+- "roocms/lib/smarty/*"
+- "roocms/lib/phpqrcode/*"
