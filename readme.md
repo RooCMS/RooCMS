@@ -1,5 +1,6 @@
 [![RooCMS](http://version.roocms.com/logo.png)](http://www.roocms.com)
 ===============================
+[![Build Status](https://scrutinizer-ci.com/g/RooCMS/RooCMS/badges/build.png?b=master)]
 
 | RooCMS   | Open Source Free CMS                            |
 |:--------:|:------------------------------------------------|
