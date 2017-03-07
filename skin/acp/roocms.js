@@ -90,7 +90,7 @@ $(document).ready(function() {
 	$('.colorpicker').colorpicker();
 
 	/* Colorbox */
-    	//$("a[rel='img']").colorbox({maxWidth: "98%", maxHeight: "98%"});
+    	$("a[rel='colorbox']").colorbox({maxWidth: "95%", maxHeight: "95%"});
 
 	$(".show-feed-element").hover(function() {
 		var l = $(this).find(".fa");

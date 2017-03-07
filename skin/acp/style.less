@@ -299,9 +299,10 @@ span.CodeMirror-matchhighlight { background: @grey; }
 .CodeMirror-focused span.CodeMirror-matchhighlight { background: @grey !important; }
 
 /* anti drag */
-*[class^="CodeMirror"]>*, *[class^="CodeMirror"], body.modal-open, body,
+*[class^="CodeMirror"]>*, *[class^="CodeMirror"],
+body, body.modal-open,
 .ckeditor, *[class^="cke_"], *[class^="cke_"]>*, .cke,
-.lightbox, *[class^="lb-"], *[class^="lb-"]>*,
+#colorbox, #colorbox>*, *[id^="cbox"],
 .collapse, .collapse>*
 	{transition: none !important;-webkit-transition: none !important;-moz-transition: none !important;outline:none;}
 
