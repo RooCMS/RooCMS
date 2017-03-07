@@ -313,7 +313,6 @@ class Template {
 			# assign tpl vars
 			$smarty->assign("site",		$site);
 			$smarty->assign("charset",	CHARSET);
-			$smarty->assign("jquerycore",	$jquerycore);
 			$smarty->assign("build",	$build);
 			$smarty->assign("jscript",	$this->js);
 
