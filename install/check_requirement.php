@@ -87,12 +87,16 @@ class Requirement {
 			$this->log[] = array("Версия PHP", $php, false, "Версия PHP не подходит для использования RooCMS. Оптимальная версия 5.2 или 5.3");
 			$this->allowed = false;
 		}
-		else $this->log[] = array("Версия PHP", $php, true, "");
+		else {
+			$this->log[] = array("Версия PHP", $php, true, "");
+		}
 
 		if(ini_get('safe_mode') == '1' || mb_strtolower(ini_get('safe_mode')) == 'on') {
 			$this->log[] = array("Безопасный режим PHP", "Вкл", false, "Ваш PHP включен в безопасном режиме. Это может повлечь за собой некоректную работу некоторых алгоритмов.");
 		}
-		else $this->log[] = array("Безопасный режим PHP", "Выкл", true, "");
+		else {
+			$this->log[] = array("Безопасный режим PHP", "Выкл", true, "");
+		}
 	}
 
 
@@ -105,7 +109,8 @@ class Requirement {
 
 		if (substr($sapi_type, 0, 3) == 'cgi') {
 			$this->log[] = array("PHP инсталирован на сервере", "как CGI", false, "RooCMS не будет выполнятся корректно. Для коректной работы требуется, что бы PHP был установлен как модуль Apache");
-		} else {
+		}
+		else {
 			$this->log[] = array("PHP инсталирован на сервере", "как модуль", true, "");
 		}
 	}
@@ -134,7 +139,9 @@ class Requirement {
 				$this->log[] = array("Расширение: ".$v, "Отсутствует", false, "Без данного расширения работа RooCMS будет нестабильной!");
 				$this->allowed = false;
 			}
-			else $this->log[] = array("Расширение: ".$v, "Установлено", true, "");
+			else {
+				$this->log[] = array("Расширение: ".$v, "Установлено", true, "");
+			}
 		}
 	}
 
@@ -147,18 +154,24 @@ class Requirement {
 			$this->log[] = array("Режим REGISTR_GLOBALS", "Вкл", false, "У вас включен режим REGISTR_GLOBALS. Это может угрожать безопастности RooCMS.");
 			$this->allowed = false;
 		}
-		else $this->log[] = array("Режим REGISTR_GLOBALS", "Выкл", true, "");
+		else {
+			$this->log[] = array("Режим REGISTR_GLOBALS", "Выкл", true, "");
+		}
 
 		if(ini_get('magic_quotes_gpc') == '1' || mb_strtolower(ini_get('magic_quotes_gpc')) == 'on') {
 			$this->log[] = array("Режим MAGIC_QUOTES_GPC", "Вкл", false, "У вас включен режим экранирования спецсимволов. Данный режим вызывает конфликты при работе с RooCMS.");
 		}
-		else $this->log[] = array("Режим MAGIC_QUOTES_GPC", "Выкл", true, "");
+		else {
+			$this->log[] = array("Режим MAGIC_QUOTES_GPC", "Выкл", true, "");
+		}
 
 		if(!preg_match('//u', '')) {
 			$this->log[] = array("Поддержка PCRE UTF-8", "Выкл", false, "Регулярные выражения не поддерживают UTF-8");
 			$this->allowed = false;
 		}
-		else $this->log[] = array("Поддержка PCRE UTF-8", "Вкл", true, "");
+		else {
+			$this->log[] = array("Поддержка PCRE UTF-8", "Вкл", true, "");
+		}
 	}
 
 
@@ -184,7 +197,9 @@ class Requirement {
 					$this->log[] = array("Директория ".$roocmspath, $perms, false, "Неверные права доступа к директории. Рекомендуемые права ".$v['chmod'].". Для повышения безопастности установите права вручную через ваш FTP доступ");
 				}
 			}
-			else $this->log[] = array("Директория ".$roocmspath, $perms, true, "");
+			else {
+				$this->log[] = array("Директория ".$roocmspath, $perms, true, "");
+			}
 		}
 
 		foreach($protectfiles AS $v) {
@@ -200,7 +215,9 @@ class Requirement {
 					$this->log[] = array("Файл ".$roocmspath, $perms, false, "Неверные права доступа к директории. Рекомендуемые права ".$v['chmod'].". Для повышения безопастности установите права вручную через ваш FTP доступ");
 				}
 			}
-			else $this->log[] = array("Файл ".$roocmspath, $perms, true, "");
+			else {
+				$this->log[] = array("Файл ".$roocmspath, $perms, true, "");
+			}
 		}
 
 		clearstatcache();
