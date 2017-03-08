@@ -1,10 +1,3 @@
-{literal}
-<style>
-	/*#logo {top: 5px; left: 0px;}
-	.navbar-brand {width: 110px;}*/
-</style>
-{/literal}
-
 <div class="container visible-xs" id="logo-xs">
 	<div class="row">
     		<div class="col-md-12 text-center">
