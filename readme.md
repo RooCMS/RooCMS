@@ -1,6 +1,6 @@
 [![RooCMS](http://version.roocms.com/logo.png)](http://www.roocms.com)
 ===============================
-![Build Status](https://scrutinizer-ci.com/g/RooCMS/RooCMS/badges/build.png?b=master)
+![Build Status](https://scrutinizer-ci.com/g/RooCMS/RooCMS/badges/build.png?b=master) [![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](http://www.gnu.org/licenses/gpl-3.0)
 
 | RooCMS   | Open Source Free CMS                            |
 |:--------:|:------------------------------------------------|
