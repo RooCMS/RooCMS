@@ -1,10 +1,10 @@
 Version: 1.2.1
 ========================
-**release date:	08.03.2017**
+**release date:	09.03.2017**
 
 Plugins
 -------
-- CKEditor		`v4.5.6 `
+- CKEditor		`v4.6.2 `
 - Codemirror		`v5.24.2`
 - Colorbox		`v1.4.32`
 - Bootstrap		`v3.3.5`
@@ -26,6 +26,7 @@ Release info
 	[-]	Удален js плагин lightbox
 	[*]	Обновлен Codemirror до веврсии 5.24.2
 	[*]	Обновлен jQuery до веврсии 3.1.1
+	[*]	Обновлен CKEditor до веврсии 4.6.2
 
 	[*]	А так же:
 		исправлены некоторые мелкие ошибки

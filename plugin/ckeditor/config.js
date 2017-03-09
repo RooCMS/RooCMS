@@ -1,5 +1,5 @@
 /**
- * @license Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
@@ -25,8 +25,8 @@ CKEDITOR.editorConfig = function( config )
 	config.protectedSource.push( /<i[\s\S]*?\>/g ); //allows beginning <i> tag
 	config.protectedSource.push( /<\/i[\s\S]*?\>/g ); //allows ending </i> tag
 	//config.fillEmptyBlocks = true
-        //config.entities_processNumerical = true;
-        //config.forceSimpleAmpersand = true;
+	//config.entities_processNumerical = true;
+	//config.forceSimpleAmpersand = true;
 
 	//config.extraPlugins='codemirror';
 
@@ -55,9 +55,9 @@ CKEDITOR.editorConfig = function( config )
 	// ANOTHER CONFIG
 
 	config.contentsCss = ['/skin/default/style.css',
-				'/plugin/bootstrap/css/bootstrap.min.css',
-				'/plugin/bootstrap/css/bootstrap-select.min.css',
-				'/plugin/bootstrap/css/font-awesome.min.css'];
+		'/plugin/bootstrap/css/bootstrap.min.css',
+		'/plugin/bootstrap/css/bootstrap-select.min.css',
+		'/plugin/bootstrap/css/font-awesome.min.css'];
 	//config.bodyId = 'content';
 
 	config.stylesSet = [
@@ -110,57 +110,57 @@ CKEDITOR.editorConfig = function( config )
 		//{ name: 'PHP',			element: 'pre', attributes: { 'data-lang': 'text/x-php' } }
 	];
 
-        //config.colorButton_colors = '00923E,F8C100,28166F';
+	//config.colorButton_colors = '00923E,F8C100,28166F';
 
 	config.coreStyles_bold		= { element : 'b', overrides : 'strong' };
 	config.coreStyles_italic	= { element : 'i', overrides : 'em' };
-        config.format_tags = 'h1;h2;h3;h4;h5;h6;p;pre;address';
-        config.disableObjectResizing = true;
+	config.format_tags = 'h1;h2;h3;h4;h5;h6;p;pre;address';
+	config.disableObjectResizing = true;
 
 	config.toolbar = 'RooCMS';
 
 	config.toolbar_Full =
-	[
-		['Source','-','Save','NewPage','Preview','-','Templates'],
-		['Cut','Copy','Paste','PasteText','PasteFromWord','-','Print', 'SpellChecker', 'Scayt'],
-		['Undo','Redo','-','Find','Replace','-','SelectAll','RemoveFormat'],
-		['Form', 'Checkbox', 'Radio', 'TextField', 'Textarea', 'Select', 'Button', 'ImageButton', 'HiddenField'],
-		'/',
-		['Bold','Italic','Underline','Strike','-','Subscript','Superscript'],
-		['NumberedList','BulletedList','-','Outdent','Indent','Blockquote','CreateDiv'],
-		['JustifyLeft','JustifyCenter','JustifyRight','JustifyBlock'],
-		['BidiLtr', 'BidiRtl'],
-		['Link','Unlink','Anchor'],
-		['Image','Flash','Table','HorizontalRule','SpecialChar','PageBreak','Iframe'],
-		'/',
-		['Styles','Format','Font','FontSize'],
-		['TextColor','BGColor'],
-		['Maximize', 'ShowBlocks','-','About']
-	];
+		[
+			['Source','-','Save','NewPage','Preview','-','Templates'],
+			['Cut','Copy','Paste','PasteText','PasteFromWord','-','Print', 'SpellChecker', 'Scayt'],
+			['Undo','Redo','-','Find','Replace','-','SelectAll','RemoveFormat'],
+			['Form', 'Checkbox', 'Radio', 'TextField', 'Textarea', 'Select', 'Button', 'ImageButton', 'HiddenField'],
+			'/',
+			['Bold','Italic','Underline','Strike','-','Subscript','Superscript'],
+			['NumberedList','BulletedList','-','Outdent','Indent','Blockquote','CreateDiv'],
+			['JustifyLeft','JustifyCenter','JustifyRight','JustifyBlock'],
+			['BidiLtr', 'BidiRtl'],
+			['Link','Unlink','Anchor'],
+			['Image','Flash','Table','HorizontalRule','SpecialChar','PageBreak','Iframe'],
+			'/',
+			['Styles','Format','Font','FontSize'],
+			['TextColor','BGColor'],
+			['Maximize', 'ShowBlocks','-','About']
+		];
 
 	config.toolbar_RooCMS =
-	[
-		['Source','-','Preview','-','Templates'],
-		['Undo','Redo'],
-		['SelectAll', '-', 'Cut','Copy','Paste','PasteText','PasteFromWord'],
-		['Find','Replace'],
-		['Form', 'Checkbox', 'Radio', 'TextField', 'Textarea', 'Select', 'Button', 'ImageButton', 'HiddenField'],
-		['RemoveFormat'],
-		'/',
-		['Bold','Italic','Underline','Strike','-','Subscript','Superscript'],
-		['JustifyLeft','JustifyCenter','JustifyRight','JustifyBlock'],
-		['NumberedList','BulletedList','-','Outdent','Indent','Blockquote','CreateDiv'],
-		['BidiLtr', 'BidiRtl'],
-		['Link','Unlink','Anchor'],
-		['Image','Flash','Table','HorizontalRule','SpecialChar','Iframe'],
-		'/',
-		['Styles','Format','Font','FontSize'],
-		['TextColor','BGColor'],
-		['Maximize', 'ShowBlocks','-','About']
-	];
+		[
+			['Source','-','Preview','-','Templates'],
+			['Undo','Redo'],
+			['SelectAll', '-', 'Cut','Copy','Paste','PasteText','PasteFromWord'],
+			['Find','Replace'],
+			['Form', 'Checkbox', 'Radio', 'TextField', 'Textarea', 'Select', 'Button', 'ImageButton', 'HiddenField'],
+			['RemoveFormat'],
+			'/',
+			['Bold','Italic','Underline','Strike','-','Subscript','Superscript'],
+			['JustifyLeft','JustifyCenter','JustifyRight','JustifyBlock'],
+			['NumberedList','BulletedList','-','Outdent','Indent','Blockquote','CreateDiv'],
+			['BidiLtr', 'BidiRtl'],
+			['Link','Unlink','Anchor'],
+			['Image','Flash','Table','HorizontalRule','SpecialChar','Iframe'],
+			'/',
+			['Styles','Format','Font','FontSize'],
+			['TextColor','BGColor'],
+			['Maximize', 'ShowBlocks','-','About']
+		];
 
 	config.toolbar_Basic =
-	[
-		['Bold', 'Italic', 'Underline','Strike', '-', 'NumberedList', 'BulletedList', '-', 'Link', 'Unlink','-','About']
-	];
+		[
+			['Bold', 'Italic', 'Underline','Strike', '-', 'NumberedList', 'BulletedList', '-', 'Link', 'Unlink','-','About']
+		];
 };
