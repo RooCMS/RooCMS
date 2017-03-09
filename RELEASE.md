@@ -17,7 +17,7 @@ Plugins
 - Smarty plugins:	`get_params`
 - PHP QR Code		`v1.1.4`
 - jQuery		`v2.1.4`
-- jQuery-Migrate	`v1.2.1`
+- jQuery-Migrate	`v3.0.0`
 
 
 Release info

@@ -43,7 +43,7 @@
  * @author	alex Roosso
  * @copyright	2010-2017 (c) RooCMS
  * @link	http://www.roocms.com
- * @version	0.1
+ * @version	0.1.1
  * @since	$date$
  * @license	http://www.gnu.org/licenses/gpl-3.0.html
  */
@@ -61,8 +61,14 @@ require_once(_LIB."/phpqrcode.php");
 
 if(isset($GET->_url)) {
 	$GET->_url = str_ireplace('%and%', '&', $GET->_url);
-	$qrcontent = "www."._DOMAIN.$GET->_url;
+	$qrcontent = _DOMAIN.$GET->_url;
 	QRcode::png($qrcontent);
+}
+
+if(isset($GET->_tel)) {
+	$GET->_url = str_ireplace(' ', '', $GET->_tel);
+	$qrcontent = "tel:".$GET->_tel;
+	QRcode::png($qrcontent,false, QR_ECLEVEL_L, 4, 0);
 }
 
 ?>
