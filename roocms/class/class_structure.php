@@ -63,9 +63,9 @@ if(!defined('RooCMS')) {
 class Structure {
 
 	# vars
-	public $page_types		= array('html'	=> array('enable'	=> true, 'title'	=> 'HTML страница'),
-						'php'	=> array('enable'	=> true, 'title'	=> 'PHP страница'),
-						'feed'	=> array('enable'	=> true, 'title'	=> 'Лента'));
+	public $content_types		= array('html'	=> array('enable' => true, 'title' => 'HTML страница'),
+						'php'	=> array('enable' => true, 'title' => 'PHP страница'),
+						'feed'	=> array('enable' => true, 'title' => 'Лента'));
 
 	public $breadcumb		= array();
 

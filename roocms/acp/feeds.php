@@ -92,7 +92,7 @@ class ACP_FEEDS {
 		global $roocms, $GET, $POST, $db;
 
 		# set object for works content
-		if(isset($GET->_page) && array_key_exists($this->engine->page_type, $this->engine->page_types) && $this->engine->page_types[$this->engine->page_type]['enable'] == 1) {
+		if(isset($GET->_page) && array_key_exists($this->engine->page_type, $this->engine->content_types) && $this->engine->content_types[$this->engine->page_type]['enable']) {
 
 			$feeds_data = array(
 				'id'			=> $this->engine->page_id,

@@ -76,19 +76,9 @@ class Debug {
 	public	$productivity_memory	= 0;
 	public	$memory_peak_usage	= 0;
 
-	# requirement
-	private $reqphpext		= array("Core",		# [array]	Обязательные php расширения для работы RooCMS
-						"calendar",
-						"date",
-						"pcre",
-						"session",
-						"xml",
-						"gd",
-						"mbstring",
-						"standard",
-						"SimpleXML",
-						//"apache2handler",
-						"mysqli");
+	# requirement php extension
+	private $reqphpext		= array("Core", "standard", "mysqli", "session", "mbstring",
+						"calendar", "date", "pcre", "xml", "SimpleXML", "gd");
 
 
 	/**

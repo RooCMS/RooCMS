@@ -94,8 +94,8 @@
 			</label>
 			<div class="col-lg-9">
 				<select name="page_type" id="inputType" class="selectpicker show-tick" required>
-					{foreach from=$page_types key=ptype item=ptitle}
-						<option value="{$ptype}"{if isset($smarty.get.type) && $smarty.get.type == $ptype} selected{/if}>{$ptitle}</option>
+					{foreach from=$content_types key=type item=title}
+						<option value="{$type}"{if isset($smarty.get.type) && $smarty.get.type == $type} selected{/if}>{$title}</option>
 					{/foreach}
 				</select>
 			</div>

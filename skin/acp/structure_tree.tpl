@@ -30,7 +30,7 @@
 				<small class="trinfo">{$page['alias']}</small>
 			</td>
 			<td class="text-left">
-				<span class="label label-default">{$page_types[$page['page_type']]}</span>
+				<span class="label label-default">{$content_types[$page['page_type']]}</span>
 				{if $page['page_type'] == "feed"}
 				<span class="label label-info">{$page['items']} эл.</span>
 				{/if}

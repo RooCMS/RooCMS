@@ -94,13 +94,13 @@ class ACP_STRUCTURE {
 		$smarty->assign('tree', $this->engine->sitetree);
 
 		# Проверяем разрешенные типы страниц для использования
-		$page_types = array();
-		foreach($this->engine->page_types AS $key=>$value) {
+		$content_types = array();
+		foreach($this->engine->content_types AS $key=>$value) {
 			if($value['enable']) {
-				$page_types[$key] = $value['title'];
+				$content_types[$key] = $value['title'];
 			}
 		}
-		$smarty->assign('page_types', $page_types);
+		$smarty->assign('content_types', $content_types);
 
 
 		# default thumb size
