@@ -178,7 +178,9 @@ class Structure {
 
 			$use = true;
 		}
-		else $tree = $this->sitetree;
+		else {
+			$tree = $this->sitetree;
+		}
 
 		# construct tree
 		if(isset($tree)) {
@@ -187,7 +189,9 @@ class Structure {
 			# be back
 			return $tree;
 		}
-		else return false;
+		else {
+			return false;
+		}
 	}
 
 

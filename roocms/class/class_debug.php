@@ -283,7 +283,9 @@ class Debug {
 			ini_set("ignore_repeated_errors",	1);
 			ini_set("ignore_repeated_source",	1);
 		}
-		else error_reporting(0);
+		else {
+			error_reporting(0);
+		}
 	}
 
 
@@ -308,8 +310,9 @@ class Debug {
 
 			$this->debug_dump['backtrace'] = $backtrace;
     	        }
-    	        elseif($use == 1 && !$expand)
-			register_shutdown_function(array($this,'shotdown'), "debug");
+    	        elseif($use == 1 && !$expand) {
+    	        	register_shutdown_function(array($this,'shotdown'), "debug");
+		}
 
 		# print var
 		ob_start();

@@ -145,7 +145,9 @@ class Images extends GD {
 					if(isset($options['filename']) && $options['filename'] != "") {
 						$filename = $options['filename'];
 					}
-					else $filename = $files->create_filename($_FILES[$file]['name'][$key], $prefix);
+					else {
+						$filename = $files->create_filename($_FILES[$file]['name'][$key], $prefix);
+					}
 
 					# если разрешено сохранять оригинальное изображение
 					if(isset($options['modify']) && $options['modify']) {

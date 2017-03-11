@@ -204,8 +204,14 @@ class Globals {
 
 			$ifmodsince = false;
 
-			if (isset($_ENV['HTTP_IF_MODIFIED_SINCE']))	$ifmodsince = strtotime(mb_substr($_ENV['HTTP_IF_MODIFIED_SINCE'], 5));
-			if (isset($_SERVER['HTTP_IF_MODIFIED_SINCE']))	$ifmodsince = strtotime(mb_substr($_SERVER['HTTP_IF_MODIFIED_SINCE'], 5));
+			if (isset($_ENV['HTTP_IF_MODIFIED_SINCE'])) {
+				$ifmodsince = strtotime(mb_substr($_ENV['HTTP_IF_MODIFIED_SINCE'], 5));
+			}
+
+			if (isset($_SERVER['HTTP_IF_MODIFIED_SINCE'])) {
+				$ifmodsince = strtotime(mb_substr($_SERVER['HTTP_IF_MODIFIED_SINCE'], 5));
+			}
+
 			if ($ifmodsince && $ifmodsince >= $lastmodifed) {
 				header($_SERVER['SERVER_PROTOCOL']." 304 Not Modified");
 				exit;

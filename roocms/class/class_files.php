@@ -75,10 +75,6 @@ class Files {
 		if(file_exists($file) && array_search("apache2handler", $debug->phpextensions)) {
 			$fileinfo = apache_lookup_uri($file);
 		}
-
-		if(isset($fileinfo->content_type)) {
-			debug($fileinfo);
-		}
 	}
 
 

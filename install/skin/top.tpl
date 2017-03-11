@@ -7,7 +7,7 @@
 <div class="container visible-xs" id="logo-xs">
 	<div class="row">
 		<div class="col-md-12 text-center">
-			<a href="{$SCRIPT_NAME}"><img src="/skin/acp/img/logo_lg.png" border="0"></a>
+			<a href="{$SCRIPT_NAME}"><img src="/skin/acp/img/logo_acp.png" border="0"></a>
 		</div>
 	</div>
 </div>
@@ -15,7 +15,7 @@
 <div class="navbar navbar-fixed-top navbar-inverse">
 
 	<div class="navbar-header text-center">
-		<a class="navbar-brand hidden-xs" href="{$SCRIPT_NAME}"><img src="/skin/acp/img/logo_lg.png" border="0" class="absolute" id="logo"></a>
+		<a class="navbar-brand hidden-xs" href="{$SCRIPT_NAME}"><img src="/skin/acp/img/logo_acp.png" border="0" class="absolute" id="logo"></a>
 	</div>
 
 	<div class="collapse navbar-collapse navbar-ex-collapse">

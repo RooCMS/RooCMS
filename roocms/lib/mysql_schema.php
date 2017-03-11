@@ -261,7 +261,7 @@ $sql['CREATE '.IMAGES_TABLE] = "CREATE TABLE IF NOT EXISTS `".IMAGES_TABLE."` (
 				  `sort` int(10) unsigned NOT NULL DEFAULT '0',
 				  `alt` varchar(255) NOT NULL COMMENT 'alternative text for hover or unuse image',
 				  PRIMARY KEY (`id`),
-				  UNIQUE KEY  `id` (  `id` ) ,
+				  UNIQUE KEY  `id` (`id`) ,
 				  KEY `filename` (`filename`),
 				  KEY `attachedto` (`attachedto`)
 				) ENGINE=MyISAM  DEFAULT CHARSET=utf8 PACK_KEYS=1 AUTO_INCREMENT=1";
@@ -277,10 +277,10 @@ $sql['CREATE '.FILES_TABLE] = "CREATE TABLE IF NOT EXISTS `".FILES_TABLE."` (
 				  `filename` varchar(255) NOT NULL,
 				  `fileext` varchar(10) NOT NULL COMMENT 'extension file',
 				  `sort` int(10) unsigned NOT NULL DEFAULT '0',
-				  PRIMARY KEY (  `id` ) ,
-				  UNIQUE KEY  `id` (  `id` ) ,
-				  KEY  `attachedto` (  `attachedto` ) ,
-				  KEY  `filename` (  `filename` )
+				  PRIMARY KEY (`id` ) ,
+				  UNIQUE KEY  `id` (`id`) ,
+				  KEY  `filename` (`filename`),
+				  KEY  `attachedto` (`attachedto`)
 				) ENGINE=MyISAM  DEFAULT CHARSET=utf8 PACK_KEYS=1 AUTO_INCREMENT=1";
 
 
