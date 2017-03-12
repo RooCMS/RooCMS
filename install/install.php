@@ -85,11 +85,6 @@ class Install extends Requirement {
 			$this->step =& $GET->_step;
 		}
 
-		# seo
-		if($site['title'] == "") {
-			$site['title'] = "Установка RooCMS";
-		}
-
 		# переход
 		switch($this->step) {
 

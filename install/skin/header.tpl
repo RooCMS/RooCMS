@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en" id="roocms">
 <head>
-<title>{$site['title']}</title>
+<title>Установка {if $site['title'] == ""}RooCMS{else}{$site['title']} на RooCMS{/if}</title>
 <meta name="robots"			content="no-index,no-follow,all" />
 <meta name="revisit-after"		content="365 days" />
 <meta name="Document-state" 		content="dynamic" />
