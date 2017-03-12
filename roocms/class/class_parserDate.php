@@ -336,7 +336,7 @@ class ParserDate {
 
 		$day 	= round(mb_substr($time[0],0,2));
 		$month 	= round(mb_substr($time[1],0,2));
-		$year 	= round(mb_substr($time[2],0,2));
+		$year 	= round(mb_substr($time[2],0,4));
 
 		if(checkdate($month, $day, $year)) {
 			$unix 	= mktime(0,0,0,$month,$day,$year);
