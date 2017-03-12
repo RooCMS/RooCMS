@@ -42,7 +42,7 @@
 * @author       alex Roosso
 * @copyright    2010-2017 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.4
+* @version      1.4.1
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -96,7 +96,7 @@ class Parsers {
 		global $roocms;
 
 		# обрабатываем глобальные массивы.
-		$this->parse_global();
+		$this->parse_global_arrays();
 
 		# обрабатываем URI
 		$this->parse_uri();
@@ -142,21 +142,19 @@ class Parsers {
 	* Parse global array
 	*
 	*/
-	private function parse_global() {
+	private function parse_global_arrays() {
 
 		# $_GET
-		settype($this->Get, 	"object");
+		settype($this->Get, "object");
 		if(!empty($_GET)) {
 			$this->parse_Get();
 		}
 
 		# $_POST
-		settype($this->Post, 	"object");
+		settype($this->Post, "object");
 		if(!empty($_POST)) {
 			$this->parse_Post();
 		}
-
-		//die(debug($this->Post));
 
 		# init session data
 		if(!empty($_SESSION)) {
@@ -288,7 +286,7 @@ class Parsers {
 						# Определяем элементы URI ключ и значение
 						$str = explode("=",$gets[$el]);
 						if(trim($str[0]) != "" && trim($str[1]) != "") {
-							$str[0] = "_".$this->clear_key($str[0]);
+							$str[0] = "_".$this->clear_string($str[0]);
 							$this->Get->{$str[0]} = $str[1];
 
 						}
@@ -304,7 +302,7 @@ class Parsers {
 						$elp = $el + 1;
 
 						if(trim($gets[$el]) != "" && isset($gets[$elp]) && trim($gets[$elp]) != "") {
-							$gets[$el] = "_".$this->clear_key($gets[$el]);
+							$gets[$el] = "_".$this->clear_string($gets[$el]);
 							$this->Get->{$gets[$el]} = $gets[$elp];
 							$el++;
 						}
@@ -352,13 +350,13 @@ class Parsers {
 	/**
 	 * функция чистит ключи глобальных переменных
 	 *
-	 * @param string $key - имя ключа
+	 * @param string $string - имя ключа
 	 *
 	 * @return string clear $key
 	 */
-	public function clear_key($key) {
+	public function clear_string($string) {
 
-		$key = strtr($key, array(
+		$string = strtr($string, array(
 			'?' => '', 	'!' => '',
 			'@' => '', 	'#' => '',
 			'$' => '', 	'%' => '',
@@ -368,12 +366,13 @@ class Parsers {
 			'}' => '', 	'[' => '',
 			']' => '', 	'|' => '',
 			'<' => '', 	'>' => '',
-			'/' => '', 	'"' => '',
+			'/' => '', 	'\\' => '',
+			'"' => '',	'`' => '',
 			';' => '', 	',' => '',
-			'`' => '', 	'~' => ''
+			'~' => '',	'=' => ''
 		));
 
-		return $key;
+		return $string;
 	}
 
 
