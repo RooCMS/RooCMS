@@ -105,7 +105,9 @@ class ACP_FEEDS_FEED {
 			$content = $tpl->load_template("feeds_settings_feed", true);
 			$smarty->assign("content", $content);
 		}
-		else goback();
+		else {
+			goback();
+		}
 	}
 
 
@@ -608,11 +610,10 @@ class ACP_FEEDS_FEED {
 		global $db;
 
 		# count
-		$q = $db->query("SELECT count(*) as items FROM ".PAGES_FEED_TABLE." WHERE sid='".$sid."'");
-		$row = $db->fetch_assoc($q);
+		$items = $db->count(PAGES_FEED_TABLE, "sid='".$sid."'");
 
 		# save
-		$db->query("UPDATE ".STRUCTURE_TABLE." SET items='".$row['items']."' WHERE id='".$sid."'");
+		$db->query("UPDATE ".STRUCTURE_TABLE." SET items='".$items."' WHERE id='".$sid."'");
 	}
 
 

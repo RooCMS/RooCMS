@@ -515,7 +515,7 @@ class ACP_HELP {
 
 		global $db, $logger;
 
-		$c = $db->cnt(HELP_TABLE, "parent_id='".$id."'");
+		$c = $db->count(HELP_TABLE, "parent_id='".$id."'");
 
 		$db->query("UPDATE ".HELP_TABLE." SET childs='".$c."' WHERE id='".$id."'");
 

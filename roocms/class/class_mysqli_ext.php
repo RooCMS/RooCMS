@@ -82,7 +82,7 @@ class MySQLiExtends {
 
 		# Считаем
 
-		$count = $this->cnt($from, "{$where} {$query}");
+		$count = $this->count($from, "{$where} {$query}");
 
 		# Если товаров больше чем на одну страницу...
 		if($count > $this->limit) {

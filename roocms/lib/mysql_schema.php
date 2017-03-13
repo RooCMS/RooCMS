@@ -175,7 +175,6 @@ $sql['DROP '.PAGES_HTML_TABLE] = "DROP TABLE IF EXISTS `".PAGES_HTML_TABLE."`";
 $sql['CREATE'.PAGES_HTML_TABLE] = "CREATE TABLE IF NOT EXISTS `".PAGES_HTML_TABLE."` (
 					  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
 					  `sid` int(10) unsigned NOT NULL,
-					  `tags` varchar(1024) NOT NULL,
 					  `content` longtext NOT NULL,
 					  `date_modified` int(20) unsigned NOT NULL DEFAULT '0',
 					  PRIMARY KEY (`id`),
@@ -193,7 +192,6 @@ $sql['DROP '.PAGES_PHP_TABLE] = "DROP TABLE IF EXISTS `".PAGES_PHP_TABLE."`";
 $sql['CREATE'.PAGES_PHP_TABLE] = "CREATE TABLE IF NOT EXISTS `".PAGES_PHP_TABLE."` (
 					  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
 					  `sid` int(10) unsigned NOT NULL,
-					  `tags` varchar(1024) NOT NULL,
 					  `content` longtext NOT NULL,
 					  `date_modified` int(20) unsigned NOT NULL DEFAULT '0',
 					  PRIMARY KEY (`id`),
@@ -217,7 +215,6 @@ $sql['CREATE'.PAGES_FEED_TABLE] = "CREATE TABLE IF NOT EXISTS `".PAGES_FEED_TABL
 					  `title` varchar(512) NOT NULL,
 					  `meta_description` varchar(512) NOT NULL,
 					  `meta_keywords` varchar(512) NOT NULL,
-					  `tags` varchar(1024) NOT NULL,
 					  `brief_item` text NOT NULL,
 					  `full_item` longtext NOT NULL,
 					  PRIMARY KEY (`id`),

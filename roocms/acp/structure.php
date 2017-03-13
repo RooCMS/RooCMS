@@ -489,7 +489,7 @@ class ACP_STRUCTURE {
 
 		global $db, $logger;
 
-		$c = $db->cnt(STRUCTURE_TABLE, "parent_id='".$id."'");
+		$c = $db->count(STRUCTURE_TABLE, "parent_id='".$id."'");
 
 		$db->query("UPDATE ".STRUCTURE_TABLE." SET childs='".$c."' WHERE id='".$id."'");
 

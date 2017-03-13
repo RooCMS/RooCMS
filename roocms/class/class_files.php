@@ -78,11 +78,9 @@ class Files {
 			$fileinfo = apache_lookup_uri($file);
 		}
 
-		//if(isset($fileinfo->content_type)) {
-		//	debug($fileinfo);
-		//}
-
-		return $fileinfo;
+		if(isset($fileinfo->content_type)) {
+			debug($fileinfo);
+		}
 	}
 
 

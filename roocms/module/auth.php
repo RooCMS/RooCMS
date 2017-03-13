@@ -76,7 +76,7 @@ class Module_Auth {
 		global $db, $users, $tpl, $smarty;
 
 		if($users->uid != 0) {
-			$newpm = $db->cnt(USERS_PM_TABLE, "to_uid='".$users->uid."' AND see='0'");
+			$newpm = $db->count(USERS_PM_TABLE, "to_uid='".$users->uid."' AND see='0'");
 		}
 
 		# draw

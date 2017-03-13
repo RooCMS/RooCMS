@@ -375,7 +375,7 @@ class MySQLiDatabase extends MySQLiExtends {
 			$proviso = " AND ".$proviso;
 		}
 
-		$res = $this->cnt($table, "{$field}='{$id}' {$proviso}");
+		$res = $this->count($table, "{$field}='{$id}' {$proviso}");
 
 		if($res > 0) {
 			return true;
@@ -399,27 +399,40 @@ class MySQLiDatabase extends MySQLiExtends {
 	 */
 	public function check_array_id(array $ids, $table, $field="id", $proviso="") {
 
-		if(is_array($ids)) {
-
-			$primcond = "(";
-			foreach($ids AS $value) {
-				if($primcond != "(") {
-					$primcond .= " OR ";
-				}
-				$primcond .= " ".$field."='".$value."' ";
-			}
-			$primcond .= ")";
-
-			if(trim($proviso) != "") {
-				$proviso = " AND ".$proviso;
-			}
-
-			$q = $this->query("SELECT ".$field." FROM ".$table." WHERE ".$primcond.$proviso);
-		}
-		else {
+		# break if $ids not array
+		if(!is_array($ids)) {
 			return false;
 		}
 
+		# write condition
+		$primcond = "(";
+		foreach($ids AS $value) {
+			if($primcond != "(") {
+				$primcond .= " OR ";
+			}
+			$primcond .= " ".$field."='".$value."' ";
+		}
+		$primcond .= ")";
+
+		# more proviso
+		if(trim($proviso) != "") {
+			$proviso = " AND ".$proviso;
+		}
+
+		# query
+		$data = array();
+		$q = $this->query("SELECT ".$field." FROM ".$table." WHERE ".$primcond.$proviso);
+		while($row = $this->fetch_assoc($q)) {
+			$data[] = $row[$field];
+		}
+
+		# work result
+		$result = array();
+		foreach($ids AS $value) {
+			$result['value'] = (in_array($value, $data)) ? true : false ;
+		}
+
+		return $result;
 	}
 
 
@@ -431,7 +444,7 @@ class MySQLiDatabase extends MySQLiExtends {
 	 *
 	 * @return int
 	 */
-	public function cnt($from, $proviso) {
+	public function count($from, $proviso) {
 
 		static $results = array();
 

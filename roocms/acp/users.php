@@ -740,7 +740,7 @@ class ACP_USERS {
 
 		if($gid != 0 && $db->check_id($gid, USERS_GROUP_TABLE, "gid")) {
 			# count
-			$c = $db->cnt(USERS_TABLE, "gid='".$gid."'");
+			$c = $db->count(USERS_TABLE, "gid='".$gid."'");
 
 			# update
 			$db->query("UPDATE ".USERS_GROUP_TABLE." SET users='".$c."' WHERE gid='".$gid."'");
