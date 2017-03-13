@@ -397,7 +397,7 @@ class MySQLiDatabase extends MySQLiExtends {
 	 *
 	 * @return bool | array
 	 */
-	public function check_array_id(array $ids, $table, $field="id", $proviso="") {
+	public function check_array_ids(array $ids, $table, $field="id", $proviso="") {
 
 		# break if $ids not array
 		if(!is_array($ids)) {
@@ -429,7 +429,7 @@ class MySQLiDatabase extends MySQLiExtends {
 		# work result
 		$result = array();
 		foreach($ids AS $value) {
-			$result['value'] = (in_array($value, $data)) ? true : false ;
+			$result[$value] = (in_array($value, $data)) ? true : false ;
 		}
 
 		return $result;
