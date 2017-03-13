@@ -179,7 +179,6 @@ class ACP_STRUCTURE {
 		if(!isset($_SESSION['error'])) {
 			$POST->sort = round($POST->sort);
 
-			// FIXME: replace this query
 			# проверяем тип родителя
 			$q = $db->query("SELECT page_type FROM ".STRUCTURE_TABLE." WHERE id='".$POST->parent_id."'");
 			$d = $db->fetch_assoc($q);
@@ -490,10 +489,9 @@ class ACP_STRUCTURE {
 
 		global $db, $logger;
 
-		$q = $db->query("SELECT count(*) FROM ".STRUCTURE_TABLE." WHERE parent_id='".$id."'");
-		$c = $db->fetch_row($q);
+		$c = $db->cnt(STRUCTURE_TABLE, "parent_id='".$id."'");
 
-		$db->query("UPDATE ".STRUCTURE_TABLE." SET childs='".$c[0]."' WHERE id='".$id."'");
+		$db->query("UPDATE ".STRUCTURE_TABLE." SET childs='".$c."' WHERE id='".$id."'");
 
 		# уведомление
 		$logger->info("Информация о вложенных (подструктурных) страницах для страницы {$id} обновлена.");

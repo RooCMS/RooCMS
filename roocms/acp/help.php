@@ -515,10 +515,9 @@ class ACP_HELP {
 
 		global $db, $logger;
 
-		$q = $db->query("SELECT count(*) FROM ".HELP_TABLE." WHERE parent_id='".$id."'");
-		$c = $db->fetch_row($q);
+		$c = $db->cnt(HELP_TABLE, "parent_id='".$id."'");
 
-		$db->query("UPDATE ".HELP_TABLE." SET childs='".$c[0]."' WHERE id='".$id."'");
+		$db->query("UPDATE ".HELP_TABLE." SET childs='".$c."' WHERE id='".$id."'");
 
 		# уведомление
 		$logger->info("Информация о подразделах для раздела {$id} обновлена.");

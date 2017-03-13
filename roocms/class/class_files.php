@@ -63,11 +63,13 @@ if(!defined('RooCMS')) {
 class Files {
 
 	/**
-	* Функция проверки Content-type
-	* [не дописана]
-	*
-	* @param string $file - файл для проверки
-	*/
+	 * Функция проверки Content-type
+	 * [не дописана]
+	 *
+	 * @param string $file - файл для проверки
+	 *
+	 * @return object
+	 */
 	public function mimetype($file) {
 
 		global $debug;
@@ -75,6 +77,12 @@ class Files {
 		if(file_exists($file) && array_search("apache2handler", $debug->phpextensions)) {
 			$fileinfo = apache_lookup_uri($file);
 		}
+
+		//if(isset($fileinfo->content_type)) {
+		//	debug($fileinfo);
+		//}
+
+		return $fileinfo;
 	}
 
 

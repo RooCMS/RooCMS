@@ -174,7 +174,7 @@ class Parsers {
 		foreach ($post as $key=>$value) {
 
 			if(is_string($value)) {
-				$this->Post->{$key} = (trim($value) != "") ? (string) $value : NULL ;
+				$this->Post->{$key} = (trim($value) != "") ? $value : NULL ;
 			}
 			else if(is_array($value)) {
 				$value = $this->check_array($value);
@@ -203,7 +203,7 @@ class Parsers {
 			$key = "_".$key;
 
 			if(is_string($value)) {
-				$this->Get->{$key} = (trim($value) != "") ? (string) $value : NULL ;
+				$this->Get->{$key} = (trim($value) != "") ? $value : NULL ;
 			}
 			else if(is_array($value)) {
 				$value = $this->check_array($value);
@@ -368,8 +368,9 @@ class Parsers {
 			'<' => '', 	'>' => '',
 			'/' => '', 	'\\' => '',
 			'"' => '',	'`' => '',
-			';' => '', 	',' => '',
-			'~' => '',	'=' => ''
+			'.' => '', 	',' => '',
+			'~' => '',	'=' => '',
+			';' => '',
 		));
 
 		return $string;

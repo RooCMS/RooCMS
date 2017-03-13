@@ -81,13 +81,13 @@ class MySQLiExtends {
 	public function pages_mysql($from, $where="id!=0", $query="") {
 
 		# Считаем
-		$c = $this->query("SELECT count(*) FROM {$from} WHERE {$where} {$query}");
-		$count = $this->fetch_row($c);
+
+		$count = $this->cnt($from, "{$where} {$query}");
 
 		# Если товаров больше чем на одну страницу...
-		if($count[0] > $this->limit) {
+		if($count > $this->limit) {
 			# Получаем кол-во страниц
-			$this->pages = $count[0] / $this->limit;
+			$this->pages = $count / $this->limit;
 			# Проверяем полученное число на "целое" или "десятичное"
 			if(mb_strpos($this->pages,".", 0, "utf8") !== false || mb_strpos($this->pages,",", 0,"utf8") !== false) {
 				$this->pages++;

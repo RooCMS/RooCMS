@@ -740,11 +740,10 @@ class ACP_USERS {
 
 		if($gid != 0 && $db->check_id($gid, USERS_GROUP_TABLE, "gid")) {
 			# count
-			$q = $db->query("SELECT count(*) FROM ".USERS_TABLE." WHERE gid='".$gid."'");
-			$c = $db->fetch_row($q);
+			$c = $db->cnt(USERS_TABLE, "gid='".$gid."'");
 
 			# update
-			$db->query("UPDATE ".USERS_GROUP_TABLE." SET users='".$c[0]."' WHERE gid='".$gid."'");
+			$db->query("UPDATE ".USERS_GROUP_TABLE." SET users='".$c."' WHERE gid='".$gid."'");
 
 			# уведомление
 			$logger->info("Информация о кол-ве пользователей для группы {$gid} обновлена.");

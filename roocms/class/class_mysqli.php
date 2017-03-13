@@ -42,7 +42,7 @@
  * @author       alex Roosso
  * @copyright    2010-2017 (c) RooCMS
  * @link         http://www.roocms.com
- * @version      3.3.1
+ * @version      3.4
  * @since        $date$
  * @license      http://www.gnu.org/licenses/gpl-3.0.html
  */
@@ -274,11 +274,11 @@ class MySQLiDatabase extends MySQLiExtends {
 	 * Функция обновляет данные из массива в указанную таблицу.
 	 * Не рекомендуется использовать данную функцию в пользовательской части CMS
 	 *
-	 * @param array $array  - Массив данных, где ключ это имя поля в таблице а значение данные этого поля.
-	 * @param string $table - Название целевой таблицы.
-	 * @param string $where - Условие (фильтр) для отборо целевых строк таблицы
+	 * @param array $array    - Массив данных, где ключ это имя поля в таблице а значение данные этого поля.
+	 * @param string $table   - Название целевой таблицы.
+	 * @param string $proviso - Условие (фильтр) для отборо целевых строк таблицы
 	 */
-	public function update_array(array $array, $table, $where) {
+	public function update_array(array $array, $table, $proviso) {
 
 		$update = "";
 		foreach($array AS $key=>$value) {
@@ -289,7 +289,7 @@ class MySQLiDatabase extends MySQLiExtends {
 			$update .= $key."='".$value."'";
 		}
 
-		$q = "UPDATE {$table} SET {$update} WHERE {$where}";
+		$q = "UPDATE {$table} SET {$update} WHERE {$proviso}";
 
 		$this->query($q);
 	}
@@ -356,15 +356,14 @@ class MySQLiDatabase extends MySQLiExtends {
 	/**
 	 * Функция проверяет имеется ли запрашиваймый id.
 	 *
-	 * @param        $id
-	 * @param string $table - таблица в которой проводится проверка
-	 * @param string $field - название поля таблицы содержащий идентификатор
-	 * @param string $where - Дополнительное условие (фильтр) для проверки
+	 * @param string $id
+	 * @param string $table   - таблица в которой проводится проверка
+	 * @param string $field   - название поля таблицы содержащий идентификатор
+	 * @param string $proviso - Дополнительное условие (фильтр) для проверки
 	 *
-	 * @internal param int $uniq $id  - проверямый идентификатор
 	 * @return int|boolean - Возвращает количество найденных строк, соответсвующих критериям или false в случае неудачи
 	 */
-	public function check_id($id, $table, $field="id", $where="") {
+	public function check_id($id, $table, $field="id", $proviso="") {
 
 		static $results = array();
 
@@ -372,32 +371,86 @@ class MySQLiDatabase extends MySQLiExtends {
 			$id = round($id);
 		}
 
-		if(trim($where) != "") {
-			$where = " AND ".$where;
+		if(trim($proviso) != "") {
+			$proviso = " AND ".$proviso;
 		}
 
-		# query
-		$query = "SELECT count(*) FROM {$table} WHERE {$field}='{$id}' {$where}";
-		$qhash = md5($query);
+		$res = $this->cnt($table, "{$field}='{$id}' {$proviso}");
+
+		if($res > 0) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+
+
+	/**
+	 * Функция проверяет имеется ли список запрашиваемых id.
+	 * И возвращает ввиде массива список найденых или false
+	 *
+	 * @param array  $ids     - массив с идентификаторами
+	 * @param string $table   - таблица в которой проводится проверка
+	 * @param string $field   - название поля таблицы содержащий идентификатор
+	 * @param string $proviso - Дополнительное условие (фильтр) для проверки
+	 *
+	 * @return bool | array
+	 */
+	public function check_array_id(array $ids, $table, $field="id", $proviso="") {
+
+		if(is_array($ids)) {
+
+			$primcond = "(";
+			foreach($ids AS $value) {
+				if($primcond != "(") {
+					$primcond .= " OR ";
+				}
+				$primcond .= " ".$field."='".$value."' ";
+			}
+			$primcond .= ")";
+
+			if(trim($proviso) != "") {
+				$proviso = " AND ".$proviso;
+			}
+
+			$q = $this->query("SELECT ".$field." FROM ".$table." WHERE ".$primcond.$proviso);
+		}
+		else {
+			return false;
+		}
+
+	}
+
+
+	/**
+	 * Функция обработчик Count()
+	 *
+	 * @param string $from    - таблица где ведеться подсчет
+	 * @param string $proviso - условие для подсчета
+	 *
+	 * @return int
+	 */
+	public function cnt($from, $proviso) {
+
+		static $results = array();
+
+		$query = "SELECT count(*) FROM ".$from." WHERE ".$proviso;
+		$rkey = md5($query);
 
 		$c = array();
-		if(!array_key_exists($qhash, $results)) {
+		if(!array_key_exists($rkey, $results)) {
 			# check in DB
 			$q = $this->query($query);
 
 			$c = $this->fetch_row($q);
-			$results[$qhash] = $c[0];
+			$results[$rkey] = $c[0];
 		}
 		else {
-			$c[0] = $results[$qhash];
+			$c[0] = $results[$rkey];
 		}
 
-                if($c[0] == 0) {
-			return false;
-		}
-                else {
-			return $c[0];
-		}
+		return $c[0];
 	}
 
 
