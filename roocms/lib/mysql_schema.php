@@ -252,7 +252,7 @@ $sql['CREATE '.BLOCKS_TABLE] = "CREATE TABLE IF NOT EXISTS `".BLOCKS_TABLE."` (
 $sql['DROP '.IMAGES_TABLE] = "DROP TABLE IF EXISTS `".IMAGES_TABLE."`";
 $sql['CREATE '.IMAGES_TABLE] = "CREATE TABLE IF NOT EXISTS `".IMAGES_TABLE."` (
 				  `id` int(10) NOT NULL AUTO_INCREMENT,
-				  `attachedto` varchar(255) NOT NULL COMMENT 'site partition and identificator',
+				  `attachedto` varchar(64) NOT NULL COMMENT 'site partition and identificator',
 				  `filename` varchar(255) NOT NULL,
 				  `fileext` varchar(10) NOT NULL COMMENT 'extension file',
 				  `sort` int(10) unsigned NOT NULL DEFAULT '0',
@@ -270,7 +270,7 @@ $sql['CREATE '.IMAGES_TABLE] = "CREATE TABLE IF NOT EXISTS `".IMAGES_TABLE."` (
 $sql['DROP '.FILES_TABLE] = "DROP TABLE IF EXISTS `".FILES_TABLE."`";
 $sql['CREATE '.FILES_TABLE] = "CREATE TABLE IF NOT EXISTS `".FILES_TABLE."` (
 				  `id` int(10) NOT NULL AUTO_INCREMENT,
-				  `attachedto` varchar(255) NOT NULL COMMENT 'site partition and identificator',
+				  `attachedto` varchar(64) NOT NULL COMMENT 'site partition and identificator',
 				  `filename` varchar(255) NOT NULL,
 				  `fileext` varchar(10) NOT NULL COMMENT 'extension file',
 				  `sort` int(10) unsigned NOT NULL DEFAULT '0',

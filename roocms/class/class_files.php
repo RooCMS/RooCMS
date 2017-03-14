@@ -70,7 +70,7 @@ class Files {
 	 *
 	 * @return object
 	 */
-	public function mimetype($file) {
+	/*public function mimetype($file) {
 
 		global $debug;
 
@@ -81,7 +81,7 @@ class Files {
 		if(isset($fileinfo->content_type)) {
 			debug($fileinfo);
 		}
-	}
+	}*/
 
 
 	/**
