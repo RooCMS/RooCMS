@@ -1,7 +1,7 @@
 
 [![RooCMS](http://version.roocms.com/logo.png)](http://www.roocms.com)
 ===============================
-![Build Status](https://scrutinizer-ci.com/g/RooCMS/RooCMS/badges/build.png?b=master) [![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](http://www.gnu.org/licenses/gpl-3.0) [![Codacy Badge](https://api.codacy.com/project/badge/Grade/40bb2b9d6cc74ef4bb5b424607eabc6c)](https://www.codacy.com/app/Roosso/RooCMS?utm_source=github.com&utm_medium=referral&utm_content=RooCMS/RooCMS&utm_campaign=badger)
+![Build Status](https://scrutinizer-ci.com/g/RooCMS/RooCMS/badges/build.png?b=master) [![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](http://www.gnu.org/licenses/gpl-3.0) [![Codacy Badge](https://api.codacy.com/project/badge/Grade/40bb2b9d6cc74ef4bb5b424607eabc6c)](https://www.codacy.com/app/Roosso/RooCMS?utm_source=github.com&utm_medium=referral&utm_content=RooCMS/RooCMS&utm_campaign=badger) [![Code Climate](https://codeclimate.com/github/RooCMS/RooCMS/badges/gpa.svg)](https://codeclimate.com/github/RooCMS/RooCMS) [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/RooCMS/RooCMS/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/RooCMS/RooCMS/?branch=master)
 
 | RooCMS   | Open Source Free CMS                            |
 |:--------:|:------------------------------------------------|
