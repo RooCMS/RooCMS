@@ -42,7 +42,7 @@
 * @author       alex Roosso
 * @copyright    2010-2017 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.2.16
+* @version      1.2.17
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -70,6 +70,7 @@ $sql['CREATE '.CONFIG_PARTS_TABLE] = "CREATE TABLE IF NOT EXISTS `".CONFIG_PARTS
 				  `name` varchar(255) NOT NULL,
 				  `title` varchar(255) NOT NULL,
 				  `ico` varchar(255) NOT NULL,
+				  PRIMARY KEY (`id`),
 				  UNIQUE KEY `id` (`id`),
 				  UNIQUE KEY `name` (`name`)
 				) ENGINE=MyISAM  DEFAULT CHARSET=utf8 PACK_KEYS=1 AUTO_INCREMENT=1";
@@ -100,6 +101,7 @@ $sql['CREATE'.CONFIG_TABLE] = "CREATE TABLE IF NOT EXISTS `".CONFIG_TABLE."` (
 				  `value` longtext NOT NULL,
 				  `default_value` text NOT NULL,
 				  `field_maxleight` smallint(4) unsigned NOT NULL DEFAULT '0',
+				  PRIMARY KEY (`id`),
 				  UNIQUE KEY `id` (`id`),
 				  UNIQUE KEY `option` (`option_name`),
 				  KEY `part` (`part`)
@@ -178,6 +180,7 @@ $sql['CREATE'.PAGES_HTML_TABLE] = "CREATE TABLE IF NOT EXISTS `".PAGES_HTML_TABL
 					  `content` longtext NOT NULL,
 					  `date_modified` int(20) unsigned NOT NULL DEFAULT '0',
 					  PRIMARY KEY (`id`),
+					  UNIQUE KEY `id` (`id`),
 					  UNIQUE KEY `sid` (`sid`)
 					) ENGINE=MyISAM  DEFAULT CHARSET=utf8 PACK_KEYS=1 AUTO_INCREMENT=1";
 
@@ -195,6 +198,7 @@ $sql['CREATE'.PAGES_PHP_TABLE] = "CREATE TABLE IF NOT EXISTS `".PAGES_PHP_TABLE.
 					  `content` longtext NOT NULL,
 					  `date_modified` int(20) unsigned NOT NULL DEFAULT '0',
 					  PRIMARY KEY (`id`),
+					  UNIQUE KEY `id` (`id`),
 					  UNIQUE KEY `sid` (`sid`)
 					) ENGINE=MyISAM  DEFAULT CHARSET=utf8 PACK_KEYS=1 AUTO_INCREMENT=1";
 
@@ -222,6 +226,27 @@ $sql['CREATE'.PAGES_FEED_TABLE] = "CREATE TABLE IF NOT EXISTS `".PAGES_FEED_TABL
 					  KEY `sid` (`sid`),
 					  KEY `date_publications` (`date_publications`)
 					) ENGINE=MyISAM  DEFAULT CHARSET=utf8 PACK_KEYS=1 AUTO_INCREMENT=1";
+
+/**
+ * Теги
+ */
+$sql['DROP '.TAGS_TABLE] = "DROP TABLE IF EXISTS `".TAGS_TABLE."`";
+$sql['CREATE'.TAGS_TABLE] = "CREATE TABLE `".TAGS_TABLE."` (
+					`id` INT(10) UNSIGNED ZEROFILL NOT NULL AUTO_INCREMENT,
+					`title` VARCHAR(50) NOT NULL DEFAULT '0',
+					`amount` INT(10) UNSIGNED NOT NULL DEFAULT '0',
+					PRIMARY KEY (`id`),
+					UNIQUE KEY `id` (`id`),
+					UNIQUE KEY `title` (`title`)
+				) ENGINE=MyISAM  DEFAULT CHARSET=utf8 PACK_KEYS=1 AUTO_INCREMENT=1";
+
+$sql['DROP '.TAGS_LINK_TABLE] = "DROP TABLE IF EXISTS `".TAGS_LINK_TABLE."`";
+$sql['CREATE'.TAGS_LINK_TABLE] = "CREATE TABLE `".TAGS_LINK_TABLE."` (
+					`tag_id` INT(10) UNSIGNED NOT NULL,
+					`linkedto` VARCHAR(64) NOT NULL,
+					KEY `tag_id` (`tag_id`),
+					KEY `linkedto` (`linkedto`)
+				) ENGINE=MyISAM  DEFAULT CHARSET=utf8 PACK_KEYS=1 AUTO_INCREMENT=1";
 
 
 /**
