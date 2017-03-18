@@ -626,7 +626,7 @@ class ACP_FEEDS_FEED {
 
 		# title
 		if(!isset($POST->title)) {
-			$logger->error("Не заполнен заголовок элемента");
+			$logger->error("Не заполнен заголовок элемента", false);
 		}
 
 		# brief item
@@ -636,7 +636,7 @@ class ACP_FEEDS_FEED {
 
 		# full desc item
 		if(!isset($POST->full_item)) {
-			$logger->error("Не заполнен подробный текст элемента");
+			$logger->error("Не заполнен подробный текст элемента", false);
 		}
 
 		# status

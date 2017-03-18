@@ -42,7 +42,7 @@
  * @author       alex Roosso
  * @copyright    2010-2017 (c) RooCMS
  * @link         http://www.roocms.com
- * @version      1.0.1
+ * @version      1.1
  * @since        $date$
  * @license      http://www.gnu.org/licenses/gpl-3.0.html
  */
@@ -75,22 +75,28 @@ class Logger {
 	/**
 	 * Записываем ошибку
 	 *
-	 * @param $subj
+	 * @param      $subj
+	 * @param bool $save - флаг указывающий записывать ли ошибку в лог
 	 */
-	public function error($subj) {
+	public function error($subj, $save=true) {
 		$_SESSION['error'][] = $subj;
-		$this->log($subj, "error");
+		if($save) {
+			$this->log($subj, "error");
+		}
 	}
 
 
 	/**
 	 * Записываем информационное сообщение
 	 *
-	 * @param $subj
+	 * @param      $subj
+	 * @param bool $save - флаг указывающий записывать ли уведомление в лог
 	 */
-	public function info($subj) {
+	public function info($subj, $save=true) {
 		$_SESSION['info'][] = $subj;
-		$this->log($subj, "info");
+		if($save) {
+			$this->log($subj, "info");
+		}
 	}
 
 
