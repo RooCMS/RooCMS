@@ -461,7 +461,7 @@ class ACP_USERS {
 	 */
 	private function update_user($uid) {
 
-		global $db, $POST, $config, $site, $users, $img, $security, $logger, $smarty, $tpl;
+		global $db, $POST, $config, $site, $users, $img, $security, $logger, $parse, $smarty, $tpl;
 
 		if(isset($POST->update_user) || isset($POST->update_user_ae)) {
 
