@@ -42,7 +42,7 @@
 * @author       alex Roosso
 * @copyright    2010-2017 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.0.6
+* @version      1.0.7
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -126,6 +126,9 @@ class UCP_CP {
 
 		# login
 		if(isset($POST->login)) {
+
+			$POST->login = mb_strtolower($parse->text->transliterate($POST->login));
+
 			if(!$users->check_field("login", $POST->login, $users->userdata['login'])) {
 				$logger->error("Ваш логин не был изменен. Возможно использование такого логина невозможно, попробуйте выбрать другой логин");
 			}

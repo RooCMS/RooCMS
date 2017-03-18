@@ -43,7 +43,7 @@
  * @author       alex Roosso
  * @copyright    2010-2017 (c) RooCMS
  * @link         http://www.roocms.com
- * @version      1.5.2
+ * @version      1.5.3
  * @since        $date$
  * @license      http://www.gnu.org/licenses/gpl-3.0.html
  */
@@ -238,10 +238,10 @@ class ACP_USERS {
 		if(isset($POST->create_user) || isset($POST->create_user_ae)) {
 
 			# nickname
-			if(!isset($POST->nickname)) {
-				$POST->nickname = mb_ucfirst($POST->login);
+			if(isset($POST->nickname)) {
+				$POST->nickname = $users->check_new_nickname($POST->nickname);
 			}
-			$POST->nickname = $users->check_new_nickname($POST->nickname);
+
 
 			# login
 			if(!isset($POST->login)) {
@@ -253,7 +253,7 @@ class ACP_USERS {
 				}
 			}
 			else {
-				$POST->login = $parse->text->transliterate($POST->login);
+				$POST->login = mb_strtolower($parse->text->transliterate($POST->login));
 			}
 
 			if(isset($POST->login) && $db->check_id($POST->login, USERS_TABLE, "login")) {
@@ -472,6 +472,9 @@ class ACP_USERS {
 
 			# login
 			if(isset($POST->login)) {
+
+				$POST->login = mb_strtolower($parse->text->transliterate($POST->login));
+
 				if(!$users->check_field("login", $POST->login, $udata['login'])) {
 					$logger->error("Логин не должен совпадать с логином другого пользователя!");
 				}

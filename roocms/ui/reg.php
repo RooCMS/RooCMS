@@ -42,7 +42,7 @@
  * @author       alex Roosso
  * @copyright    2010-2017 (c) RooCMS
  * @link         http://www.roocms.com
- * @version      1.1.3
+ * @version      1.1.4
  * @since        $date$
  * @license      http://www.gnu.org/licenses/gpl-3.0.html
  */
@@ -133,10 +133,10 @@ class REG {
 
 
 		# nickname
-		if(!isset($POST->nickname)) {
-			$POST->nickname = mb_ucfirst($POST->login);
+		if(isset($POST->nickname)) {
+			$POST->nickname = $users->check_new_nickname($POST->nickname);
 		}
-		$POST->nickname = $users->check_new_nickname($POST->nickname);
+
 
 		# login
 		if(!isset($POST->login)) {
@@ -148,7 +148,7 @@ class REG {
 			}
 		}
 		else {
-			$POST->login = $parse->text->transliterate($POST->login);
+			$POST->login = mb_strtolower($parse->text->transliterate($POST->login));
 		}
 
 		if(isset($POST->login) && $db->check_id($POST->login, USERS_TABLE, "login")) {
