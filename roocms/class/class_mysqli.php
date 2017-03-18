@@ -428,8 +428,6 @@ class MySQLiDatabase extends MySQLiExtends {
 			$result[$value] = (in_array($value, $data)) ? true : false ;
 		}
 
-		$this->identy_primary_key(USERS_PM_TABLE);
-
 		return $result;
 	}
 
