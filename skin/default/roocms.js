@@ -68,9 +68,9 @@ $(document).ready(function(){
 /**
 * Java Script
 **/
-function open_window(link,w,h)
+/*function open_window(link,w,h)
 {
 	var win = "width="+w+",height="+h+",menubar=no,location=no,resizable=yes,scrollbars=auto";
 	newWin = window.open(link,'newWin',win);
 	newWin.focus();
-}
+}*/
