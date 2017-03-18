@@ -42,7 +42,7 @@
  * @author       alex Roosso
  * @copyright    2010-2017 (c) RooCMS
  * @link         http://www.roocms.com
- * @version      3.4
+ * @version      3.5
  * @since        $date$
  * @license      http://www.gnu.org/licenses/gpl-3.0.html
  */
@@ -363,7 +363,7 @@ class MySQLiDatabase extends MySQLiExtends {
 	 *
 	 * @return int|boolean - Возвращает количество найденных строк, соответсвующих критериям или false в случае неудачи
 	 */
-	public function check_id($id, $table, $field="id", $proviso="") {
+	public function check_id($id, $table, $field="id", $proviso=NULL) {
 
 		static $results = array();
 
@@ -371,6 +371,7 @@ class MySQLiDatabase extends MySQLiExtends {
 			$id = round($id);
 		}
 
+		# more proviso
 		if(trim($proviso) != "") {
 			$proviso = " AND ".$proviso;
 		}
@@ -397,12 +398,7 @@ class MySQLiDatabase extends MySQLiExtends {
 	 *
 	 * @return bool | array
 	 */
-	public function check_array_ids(array $ids, $table, $field="id", $proviso="") {
-
-		# break if $ids not array
-		if(!is_array($ids)) {
-			return false;
-		}
+	public function check_array_ids(array $ids, $table, $field="id", $proviso=NULL) {
 
 		# write condition
 		$primcond = "(";
@@ -431,6 +427,8 @@ class MySQLiDatabase extends MySQLiExtends {
 		foreach($ids AS $value) {
 			$result[$value] = (in_array($value, $data)) ? true : false ;
 		}
+
+		$this->identy_primary_key(USERS_PM_TABLE);
 
 		return $result;
 	}
@@ -514,6 +512,28 @@ class MySQLiDatabase extends MySQLiExtends {
 		else {
 			return $q;
 		}
+	}
+
+
+	/**
+	 * Функция находит название главного ключа таблицы.
+	 *
+	 * @param $table = имя таблицы БД
+	 *
+	 * @return mixed|null - название столбца с главным ключом таблицы.
+	 */
+	private function identy_primary_key($table) {
+
+		$index = NULL;
+		$q = $this->query("SHOW INDEX FROM ".$table);
+		while($data = $this->fetch_assoc($q)) {
+			if($data['Key_name'] == "PRIMARY") {
+				$index = $data['Column_name'];
+				break;
+			}
+		}
+
+		return $index;
 	}
 
 
