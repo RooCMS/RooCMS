@@ -42,7 +42,7 @@
 * @author       alex Roosso
 * @copyright    2010-2017 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.1.1
+* @version      1.2
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -81,7 +81,6 @@ class MySQLiExtends {
 	public function pages_mysql($from, $where="id!=0", $query="") {
 
 		# Считаем
-
 		$count = $this->count($from, "{$where} {$query}");
 
 		# Если товаров больше чем на одну страницу...
@@ -96,29 +95,8 @@ class MySQLiExtends {
 			$this->pages = (int) floor($this->pages);
 		}
 
-		# Если у нас используется переменная страницы в строке запроса, неравная первой странице...
-		if($this->pages > "1" && $this->page != 0) {
-			# Округляем до целых, что бы не вызвать ошибки в скрипте.
-			$this->page = (int) floor($this->page);
-
-			# Если запрос не к нулевой странице и такая страница имеет право быть...
-			if($this->page != "0" && $this->page <= $this->pages) {
-				$this->from = (int) $this->limit * ($this->page - 1);
-			}
-		}
-
-		# Если у нас в строке запроса указана страница, больше максимальной...
-		if($this->page > $this->pages) {
-			$this->page = $this->pages;
-		}
-
-		# Предыдущая и следующая страница
-		if($this->page > 1) {
-			$this->prev_page = $this->page - 1;
-		}
-		if($this->page < $this->pages) {
-			$this->next_page = $this->page + 1;
-		}
+		# завершаем расчитывать переменные
+		$this->claculate_page_vars();
 	}
 
 
@@ -141,6 +119,16 @@ class MySQLiExtends {
 			$this->pages = (int) floor($this->pages);
 		}
 
+		# завершаем расчитывать переменные
+		$this->claculate_page_vars();
+	}
+
+
+	/**
+	 * Вспомогательная функция расчитывает переменные для управления постраничного листинга
+	 */
+	private function claculate_page_vars() {
+
 		# Если у нас используется переменная страницы в строке запроса, неравная первой странице...
 		if($this->pages > "1" && $this->page != 0) {
 			# Округляем до целых, что бы не вызвать ошибки в скрипте.
@@ -165,6 +153,9 @@ class MySQLiExtends {
 			$this->next_page = $this->page + 1;
 		}
 	}
+
+
+
 }
 
 ?>
