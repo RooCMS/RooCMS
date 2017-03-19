@@ -44,7 +44,7 @@
 * @author       alex Roosso
 * @copyright    2010-2017 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.10.1
+* @version      1.12
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -230,33 +230,19 @@ class ACP_FEEDS_FEED {
 	 */
 	public function create_item() {
 
-		global $db, $parse, $logger, $files, $img, $POST, $tpl, $smarty;
+		global $db, $logger, $tags, $files, $img, $POST, $tpl, $smarty;
 
 		if(isset($POST->create_item)) {
 
 			# Проверяем вводимые поля на ошибки
 			$this->check_post_data_fields();
+			$this->control_post_data_date();
+			$this->control_post_data_meta();
 
 			if(!isset($_SESSION['error'])) {
 
-				$POST->date_publications = $parse->date->rusint_to_unix($POST->date_publications);
-
-				# date publications
-				if($POST->date_end_publications != 0) {
-					$POST->date_end_publications = $parse->date->rusint_to_unix($POST->date_end_publications);
-				}
-
-				if($POST->date_end_publications != 0 && $POST->date_end_publications <= $POST->date_publications) {
-					$POST->date_end_publications = 0;
-				}
-
-				# sort
-				if(!isset($POST->itemsort) || $POST->itemsort < 0) {
-					$POST->itemsort = 0;
-				}
-				else {
-					$POST->itemsort = round($POST->itemsort);
-				}
+				# Проверяем "неважные" поля
+				$this->correct_post_fields();
 
 				# insert
 				$db->query("INSERT INTO ".PAGES_FEED_TABLE." (title, meta_description, meta_keywords,
@@ -264,16 +250,18 @@ class ACP_FEEDS_FEED {
 									      date_create, date_update, date_publications, date_end_publications,
 									      sort, sid)
 								      VALUES ('".$POST->title."', '".$POST->meta_description."', '".$POST->meta_keywords."',
-									      '".$POST->brief_item."', '".$POST->full_item."', '".time()."', '".time()."',
-									      '".$POST->date_publications."', '".$POST->date_end_publications."',
+									      '".$POST->brief_item."', '".$POST->full_item."', 
+									      '".time()."', '".time()."', '".$POST->date_publications."', '".$POST->date_end_publications."',
 									      '".$POST->itemsort."', '".$this->feed['id']."')");
-
-				# notice
-				$logger->info("Элемент ".$POST->title." успешно создан.");
 
 				# get feed id
 				$fid = $db->insert_id();
 
+				# save tags
+				$tags->save_tags($POST->tags, "feedid=".$fid);
+
+				# notice
+				$logger->info("Элемент #".$fid." <".$POST->title."> успешно создан.");
 
 				# attachment images
 				$images = $img->upload_image("images", "", array($this->feed['thumb_img_width'], $this->feed['thumb_img_height']));
@@ -323,7 +311,7 @@ class ACP_FEEDS_FEED {
 	 */
 	public function edit_item($id) {
 
-		global $db, $files, $img, $tpl, $smarty, $parse;
+		global $db, $tags, $files, $img, $tpl, $smarty, $parse;
 
 
 		$q = $db->query("SELECT id, sid, status, sort, title, meta_description, meta_keywords, brief_item, full_item, date_publications, date_end_publications FROM ".PAGES_FEED_TABLE." WHERE id='".$id."'");
@@ -380,33 +368,20 @@ class ACP_FEEDS_FEED {
 	 */
 	public function update_item($id) {
 
-		global $db, $parse, $logger, $files, $img, $POST, $GET;
+		global $db, $logger, $tags, $files, $img, $POST, $GET;
 
 		# Проверяем вводимые поля на ошибки
 		$this->check_post_data_fields();
+		$this->control_post_data_date();
+		$this->control_post_data_meta();
 
 		# update
 		if(!isset($_SESSION['error'])) {
 
-                        $POST->date_publications = $parse->date->rusint_to_unix($POST->date_publications);
+                        # Проверяем "неважные" поля
+			$this->correct_post_fields();
 
-                        # date publications
-                        if($POST->date_end_publications != 0) {
-                        	$POST->date_end_publications = $parse->date->rusint_to_unix($POST->date_end_publications);
-			}
-
-                        if($POST->date_end_publications != 0 && $POST->date_end_publications <= $POST->date_publications) {
-                        	$POST->date_end_publications = 0;
-			}
-
-			# sort
-			if(!isset($POST->itemsort) || $POST->itemsort < 0) {
-                        	$POST->itemsort = 0;
-			}
-			else {
-                        	$POST->itemsort = round($POST->itemsort);
-			}
-
+			# update
 		        $db->query("UPDATE ".PAGES_FEED_TABLE."
 		        		SET
 		        			status = '".$POST->status."',
@@ -422,6 +397,10 @@ class ACP_FEEDS_FEED {
 					WHERE
 						id = '".$id."'");
 
+			# save tags
+			$tags->save_tags($POST->tags, "feedid=".$id);
+
+			# notice
 			$logger->info("Элемент ".$POST->title." успешно отредактирован.");
 
 			# sortable images
@@ -618,7 +597,7 @@ class ACP_FEEDS_FEED {
 
 
 	/**
-	 * Функция првоеряет вводимые поля на ошибки
+	 * Функция првоеряет вводимые поля элеметна ленты на ошибки.
 	 */
 	private function check_post_data_fields() {
 
@@ -643,6 +622,15 @@ class ACP_FEEDS_FEED {
 		if(!isset($POST->status) || $POST->status >= 2) {
 			$POST->status = 1;
 		}
+	}
+
+
+	/**
+	 *  Функция првоеряет вводимые даты элеметна ленты на ошибки.
+	 */
+	private function control_post_data_date() {
+
+		global $POST, $parse;
 
 		# дата публикации
 		if(!isset($POST->date_publications)) {
@@ -654,6 +642,27 @@ class ACP_FEEDS_FEED {
 			$POST->date_end_publications = 0;
 		}
 
+		# date publications
+		$POST->date_publications = $parse->date->rusint_to_unix($POST->date_publications);
+
+		# date end publications
+		if($POST->date_end_publications != 0) {
+			$POST->date_end_publications = $parse->date->rusint_to_unix($POST->date_end_publications);
+		}
+
+		if($POST->date_end_publications <= $POST->date_publications) {
+			$POST->date_end_publications = 0;
+		}
+	}
+
+
+	/**
+	 *  Функция првоеряет вводимые мета данные элеметна ленты на ошибки.
+	 */
+	private function control_post_data_meta() {
+
+		global $POST;
+
 		# meta description
 		if(!isset($POST->meta_description)){
 			$POST->meta_description	= "";
@@ -662,6 +671,29 @@ class ACP_FEEDS_FEED {
 		# meta keywords
 		if(!isset($POST->meta_keywords)) {
 			$POST->meta_keywords = "";
+		}
+	}
+
+
+	/**
+	 * Функция предназначена для кореекции необязательных полей,
+	 * что бы не вызывать ошибок про обращении в БД
+	 */
+	private function correct_post_fields() {
+
+		global $POST;
+
+		# tags
+		if(!isset($POST->tags)) {
+			$POST->tags = NULL;
+		}
+
+		# sort
+		if(!isset($POST->itemsort) || round($POST->itemsort) < 0) {
+			$POST->itemsort = 0;
+		}
+		else {
+			$POST->itemsort = round($POST->itemsort);
 		}
 	}
 }
