@@ -246,28 +246,6 @@ class Users extends Security {
 
 
 	/**
-	 * Функция проверяет Никнейм на уникальность.
-	 * В случае повторения добавляет к никнейму несколько цифр.
-	 *
-	 * ВНИМАНИЕ! Не расчитывайте на эту функцию. Она временная.
-	 *
-	 * @param string $nickname - Никнейм
-	 *
-	 * @return string
-	 */
-	public function uniq_nickname($nickname) {
-
-		global $db;
-
-		if($db->check_id($nickname, USERS_TABLE, "nickname")) {
-			$nickname = $this->uniq_nickname($nickname.randcode(2,"0123456789"));
-		}
-
-		return $nickname;
-	}
-
-
-	/**
 	 * Функция удаляет пользовательский аватар.
 	 *
 	 * @param $uid - Уникальный идентификатор пользователя
@@ -300,14 +278,51 @@ class Users extends Security {
 		global $db, $logger, $parse;
 
 		if(!isset($email) || trim($email) == "") {
-			$logger->error("Электронная почта обязательная для каждого пользователя");
+			$logger->error("Электронная почта обязательная для каждого пользователя", false);
 		}
+
 		if(isset($email) && trim($email) != "" && !$parse->valid_email($email)) {
-			$logger->error("Некоректный адрес электронной почты");
+			$logger->error("Некоректный адрес электронной почты", false);
 		}
+
 		if(isset($email) && trim($email) != "" && $db->check_id($email, USERS_TABLE, "email")) {
-			$logger->error("Пользователь с таким адресом почты уже существует");
+			$logger->error("Пользователь с таким адресом почты уже существует", false);
 		}
+	}
+
+
+	/**
+	 * Функция проверяет Никнейм на уникальность.
+	 * В случае повторения добавляет к никнейму несколько цифр.
+	 *
+	 * ВНИМАНИЕ! Не расчитывайте на эту функцию. Она временная.
+	 *
+	 * @param string $nickname - Никнейм
+	 *
+	 * @return string
+	 */
+	public function uniq_nickname($nickname) {
+
+		global $db, $logger;
+
+		static $nick = NULL;
+
+		if(!isset($nick)) {
+			$nick = $nickname;
+		}
+
+		# Проверяем на уникальность
+		if($db->check_id($nickname, USERS_TABLE, "nickname")) {
+			$nickname = $this->uniq_nickname($nickname.randcode(2,"0123456789"));
+			$notice = "Псевдоним ".$nick." недоступен. Был присвоен псевдоним ".$nickname;
+		}
+
+		# уведомление если оно есть
+		if(isset($notice)) {
+			$logger->info($notice, false);
+		}
+
+		return $nickname;
 	}
 
 
@@ -351,9 +366,9 @@ class Users extends Security {
 
 
 	/**
-	 * Функция проверяет никнейм пользователя указанный во время создания или обновления учетной записи
+	 * Функция проверяет никнейм пользователя указанный во время создания учетной записи
 	 */
-	public function check_post_new_nickname() {
+	public function check_create_nickname() {
 
 		global $POST;
 
@@ -367,5 +382,49 @@ class Users extends Security {
 			$POST->nickname = $this->uniq_nickname($POST->nickname);
 		}
 	}
+
+
+	/**
+	 * Функция проверяет логин пользователя указанный во время создания учетной записи
+	 */
+	public function check_create_login() {
+
+		global $db, $POST, $parse, $logger;
+
+		if(!isset($POST->login)) {
+			if(isset($POST->nickname)) {
+				$POST->login = mb_strtolower($parse->text->transliterate($POST->nickname));
+			}
+			else {
+				$logger->error("У пользователя должен быть логин!", false);
+			}
+		}
+		else {
+			$POST->login = mb_strtolower($parse->text->transliterate($POST->login));
+		}
+
+		if(isset($POST->login) && $db->check_id($POST->login, USERS_TABLE, "login")) {
+			$logger->error("Логин ".$POST->login." недоступен.", false);
+		}
+	}
+
+
+	/**
+	 * Функция загружает вновь созданному пользователю аватар.
+	 *
+	 * @param int $uid - уникальный идентификатор пользователя.
+	 */
+	public function upload_avatar($uid) {
+
+		global $db, $config, $img;
+
+		$av = $img->upload_image("avatar", "", array($config->users_avatar_width, $config->users_avatar_height), array("filename"=>"av_".$uid, "watermark"=>false, "modify"=>false));
+		if(isset($av[0])) {
+			$db->query("UPDATE ".USERS_TABLE." SET avatar='".$av[0]."' WHERE uid='".$uid."'");
+		}
+	}
+
+
+
 }
 ?>

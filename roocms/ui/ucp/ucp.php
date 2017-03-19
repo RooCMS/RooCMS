@@ -150,7 +150,7 @@ class UCP_CP {
 			}
 		}
 		else {
-			$logger->error("Вы не указали псевдоним.");
+			$logger->error("Вы не указали псевдоним.", false);
 		}
 
 		# email

@@ -129,27 +129,13 @@ class REG {
 	 */
 	private function join() {
 
-		global $db, $config, $img, $smarty, $users, $tpl, $POST, $parse, $logger, $security, $site;
+		global $db, $smarty, $users, $tpl, $POST, $logger, $security, $site;
 
 		# nickname
-		$users->check_post_new_nickname();
+		$users->check_create_nickname();
 
 		# login
-		if(!isset($POST->login)) {
-			if(isset($POST->nickname)) {
-				$POST->login = mb_strtolower($parse->text->transliterate($POST->nickname));
-			}
-			else {
-				$logger->error("У пользователя должен быть логин!");
-			}
-		}
-		else {
-			$POST->login = mb_strtolower($parse->text->transliterate($POST->login));
-		}
-
-		if(isset($POST->login) && $db->check_id($POST->login, USERS_TABLE, "login")) {
-			$logger->error("Пользователь с таким логином уже существует");
-		}
+		$users->check_create_login();
 
 		# email
 		$users->valid_user_email($POST->email);
@@ -180,10 +166,7 @@ class REG {
 
 
 			# avatar
-			$av = $img->upload_image("avatar", "", array($config->users_avatar_width, $config->users_avatar_height), array("filename"=>"av_".$uid, "watermark"=>false, "modify"=>false));
-			if(isset($av[0])) {
-				$db->query("UPDATE ".USERS_TABLE." SET avatar='".$av[0]."' WHERE uid='".$uid."'");
-			}
+			$users->upload_avatar($uid);
 
 
 			# activation link
