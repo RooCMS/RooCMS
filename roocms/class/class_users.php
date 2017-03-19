@@ -109,8 +109,8 @@ class Users extends Security {
 
 
 		if($this->uid != 0) {
-			# check user data for security
-			$this->check_userdata();
+			# control user data for security
+			$this->control_userdata();
 
 			# update users info
 			$this->update_user_time_last_visit($this->uid);
@@ -255,12 +255,12 @@ class Users extends Security {
 	 *
 	 * @return string
 	 */
-	public function check_new_nickname($nickname) {
+	public function uniq_nickname($nickname) {
 
 		global $db;
 
 		if($db->check_id($nickname, USERS_TABLE, "nickname")) {
-			$nickname = $this->check_new_nickname($nickname.randcode(2,"0123456789"));
+			$nickname = $this->uniq_nickname($nickname.randcode(2,"0123456789"));
 		}
 
 		return $nickname;
@@ -314,7 +314,7 @@ class Users extends Security {
 	/**
 	 * Проверяем персональные данные пользователя при попытки их создания и обновления
 	 */
-	public function check_personal_data() {
+	public function correct_personal_data() {
 
 		global $POST, $parse;
 
@@ -346,6 +346,25 @@ class Users extends Security {
 		}
 		else {
 			$POST->user_sex = "n";
+		}
+	}
+
+
+	/**
+	 * Функция проверяет никнейм пользователя указанный во время создания или обновления учетной записи
+	 */
+	public function check_post_new_nickname() {
+
+		global $POST;
+
+		# Если никнейм не ввведен, делаем никнем из логина
+		if(!isset($POST->nickname) && isset($POST->login)) {
+			$POST->nickname = mb_ucfirst($POST->nickname);
+		}
+
+		# теперь проверяем на никальность
+		if(isset($POST->nickname)) {
+			$POST->nickname = $this->uniq_nickname($POST->nickname);
 		}
 	}
 }

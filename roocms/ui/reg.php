@@ -131,12 +131,8 @@ class REG {
 
 		global $db, $config, $img, $smarty, $users, $tpl, $POST, $parse, $logger, $security, $site;
 
-
 		# nickname
-		if(isset($POST->nickname)) {
-			$POST->nickname = $users->check_new_nickname($POST->nickname);
-		}
-
+		$users->check_post_new_nickname();
 
 		# login
 		if(!isset($POST->login)) {
@@ -169,7 +165,7 @@ class REG {
 			$password = $security->hashing_password($POST->password, $salt);
 
 			# check personal data
-			$users->check_personal_data();
+			$users->correct_personal_data();
 
 			# activation code
 			$activation = array();

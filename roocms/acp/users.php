@@ -238,10 +238,7 @@ class ACP_USERS {
 		if(isset($POST->create_user) || isset($POST->create_user_ae)) {
 
 			# nickname
-			if(isset($POST->nickname)) {
-				$POST->nickname = $users->check_new_nickname($POST->nickname);
-			}
-
+			$users->check_post_new_nickname();
 
 			# login
 			if(!isset($POST->login)) {
@@ -761,7 +758,6 @@ class ACP_USERS {
 
 		global $db, $POST, $users;
 
-
 		# group
 		$POST->gid = (isset($POST->gid) && $db->check_id($POST->gid, USERS_GROUP_TABLE, "gid")) ? $POST->gid : 0 ;
 
@@ -771,8 +767,8 @@ class ACP_USERS {
 		# title
 		$POST->title = ((isset($POST->title) && $POST->title == "a")) ? "a" : "u" ;
 
-		# check personal data
-		$users->check_personal_data();
+		# correct personal data
+		$users->correct_personal_data();
 	}
 }
 

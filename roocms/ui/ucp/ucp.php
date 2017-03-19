@@ -167,7 +167,7 @@ class UCP_CP {
 		}
 
 		# personal data
-		$users->check_personal_data();
+		$users->correct_personal_data();
 
 		# avatar
 		if(isset($POST->delete_avatar)) {

@@ -42,7 +42,7 @@
 * @author       alex Roosso
 * @copyright    2010-2017 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.2
+* @version      1.2.1
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -126,7 +126,7 @@ class Security extends Shteirlitz {
 	 * Паранои много не бывает.
 	 * Проверяем данные авторизации, не было ли попыток совершения подмены данных
 	 */
-	protected function check_userdata() {
+	protected function control_userdata() {
 
 		global $roocms, $logger;
 
