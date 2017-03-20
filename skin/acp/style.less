@@ -8,6 +8,71 @@
 	.container {min-width: 1895px;}
 }
 
+// LESS Variables
+
+// Color
+@roocms-bg:	#ede1cb;
+
+@black: 	#1B1E24;
+@white:		#fff;
+@winter-light:	#fefeff;
+@shadowcolor: 	#B8AD9A;
+@middle-grey:	#999;
+@grey:		#ccc;
+@blue:		#49E;
+
+@brand-primary:	#3D4F61; // #428bca
+@brand-success:	#72B110; // #5cb85c
+@brand-info:	#3581D5; // #5bc0de
+@brand-warning:	#FB8C00; // #f0ad4e
+@brand-danger:	#C60D14; // #d9534f
+
+@bq-background:	#fbfbfb;
+
+@blogger: 	#fb8f3d;
+@dribbble: 	#ea4c89;
+@facebook:	#3b5998;
+@flickr: 	#ff0084;
+@forrst: 	#5B9A68;
+@foursquare: 	#0072b1;
+@googleplus: 	#dd4b39;
+@instagram: 	#517fa4;
+@linkedin: 	#007bb6;
+@pinterest: 	#cb2027;
+@quora: 	#a82400;
+@soundcloud: 	#ff3a00;
+@stumbleupon: 	#EB4823;
+@tumblr: 	#32506d;
+@twitter: 	#00aced;
+@vimeo: 	#aad450;
+@vk: 		#45668e;
+@wordpress: 	#21759b;
+@yahoo: 	#7B0099;
+@youtube: 	#bb0000;
+
+// Fonts
+@arial:		'Arial', 'Helvetica', 'sans-serif';
+@tahoma:	'Tahoma';
+@verdana:	'Verdana';
+@calibri:	'Calibri';
+@trebuchet:	'Trebuchet MS';
+@consolas:	'Consolas';
+@ubuntu:	'Ubuntu';
+@ptsans:	'PT Sans';
+@opensans:	'Open Sans';
+@bloggersans:	'Blogger Sans';
+@kelsonsans:	'Kelson Sans';
+@firasans:	'Fira Sans';
+
+::-moz-selection {
+	color: @white;
+	background: @brand-primary;
+}
+::selection {
+	color: @white;
+	background: @brand-primary;
+}
+
 /*@media (min-width: 1200px) {}
 @media (min-width: 992px) {}
 @media (min-width: 768px) {}
@@ -17,7 +82,7 @@
 html, body {
 	font-family: @ptsans, @ubuntu, @calibri, @trebuchet, @tahoma, @verdana !important;
 	.black;	.t12;
-	background: #ede1cb url('./img/bgcp.png') repeat fixed top !important;
+	background: @roocms-bg url('./img/bgcp.png') repeat fixed top !important;
 	padding: 0; margin: 0;
 	behavior: url("../../csshover.htc") !important;
 	text-rendering: optimizeLegibility;
@@ -38,8 +103,8 @@ a {font-family: @ptsans, @ubuntu, @calibri, @tahoma, @trebuchet !important;}
 input:focus:invalid {	/* transition: all 0.15s ease-in-out;-webkit-transition: all 0.15s ease-in-out;-moz-transition: all 0.15s ease-in-out;outline:none; */
 	-moz-box-shadow: 0 0 6px @brand-danger; -webkit-box-shadow: 0 0 6px @brand-danger;box-shadow: 0 0 6px @brand-danger;
 	border: 1px solid @brand-danger;
-	background: #fff url(./img/required.png) no-repeat right top !important;}
-input:required:empty {background: #fff url(./img/required.png) no-repeat right top !important;}
+	background: @white url(./img/required.png) no-repeat right top !important;}
+input:required:empty {background: @white url(./img/required.png) no-repeat right top !important;}
 input.non-bgreq:required:empty {background-image: none !important;}
 input:required:valid {background-image: none !important;}
 
@@ -130,7 +195,7 @@ blockquote.quote h4,
 blockquote.quote h5,
 blockquote.quote h6	{margin: 0 0 10px 0;padding: 0;}
 
-blockquote.quote small	{color: #888;}
+blockquote.quote small	{color: @middle-grey;}
 
 blockquote.quote-primary > h1, blockquote.quote-primary > h2,
 blockquote.quote-primary > h3, blockquote.quote-primary > h4,
@@ -152,21 +217,7 @@ blockquote.quote-danger > h1, blockquote.quote-danger > h2,
 blockquote.quote-danger > h3, blockquote.quote-danger > h4,
 blockquote.quote-danger > h5, blockquote.quote-danger > h6	{color: @brand-danger;}
 
-
-
-/* Fonts */
-@arial:		'Arial', 'Helvetica', 'sans-serif';
-@tahoma:	'Tahoma';
-@verdana:	'Verdana';
-@calibri:	'Calibri';
-@trebuchet:	'Trebuchet MS';
-@consolas:	'Consolas';
-@ubuntu:	'Ubuntu';
-@ptsans:	'PT Sans';
-@opensans:	'Open Sans';
-@bloggersans:	'Blogger Sans';
-@kelsonsans:	'Kelson Sans';
-@firasans:	'Fira Sans';
+/*Fonts*/
 
 .arial		{font-family: @arial;}
 .tahoma		{font-family: @tahoma;}
@@ -201,48 +252,6 @@ h6 {.t12}
 .t15 {font-size: 15px;}
 .t16 {font-size: 16px;}
 .t17 {font-size: 17px;}
-
-
-/* Color */
-@roocms-bg:	#fffffe;
-
-@black: 	#1B1E24;
-@white:		#fff;
-@winter-light:	#fefeff;
-@shadowcolor: 	#B8AD9A;
-@middle-grey:	#999;
-@grey:		#ccc;
-@blue:		#49E;
-
-@brand-primary:	#3D4F61; // #428bca
-@brand-success:	#72B110; // #5cb85c
-@brand-info:	#3581D5; // #5bc0de
-@brand-warning:	#FB8C00; // #f0ad4e
-@brand-danger:	#C60D14; // #d9534f
-
-@bq-background:	#fbfbfb;
-
-@blogger: 	#fb8f3d;
-@dribbble: 	#ea4c89;
-@facebook:	#3b5998;
-@flickr: 	#ff0084;
-@forrst: 	#5B9A68;
-@foursquare: 	#0072b1;
-@googleplus: 	#dd4b39;
-@instagram: 	#517fa4;
-@linkedin: 	#007bb6;
-@pinterest: 	#cb2027;
-@quora: 	#a82400;
-@soundcloud: 	#ff3a00;
-@stumbleupon: 	#EB4823;
-@tumblr: 	#32506d;
-@twitter: 	#00aced;
-@vimeo: 	#aad450;
-@vk: 		#45668e;
-@wordpress: 	#21759b;
-@yahoo: 	#7B0099;
-@youtube: 	#bb0000;
-
 
 .blue 		{color: @blue;}
 .black		{color: @black;}

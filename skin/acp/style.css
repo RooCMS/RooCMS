@@ -12,6 +12,14 @@
     min-width: 1895px;
   }
 }
+::-moz-selection {
+  color: #ffffff;
+  background: #3d4f61;
+}
+::selection {
+  color: #ffffff;
+  background: #3d4f61;
+}
 /*@media (min-width: 1200px) {}
 @media (min-width: 992px) {}
 @media (min-width: 768px) {}
@@ -224,7 +232,7 @@ blockquote.quote h6 {
   padding: 0;
 }
 blockquote.quote small {
-  color: #888;
+  color: #999999;
 }
 blockquote.quote-primary > h1,
 blockquote.quote-primary > h2,
@@ -266,7 +274,7 @@ blockquote.quote-danger > h5,
 blockquote.quote-danger > h6 {
   color: #c60d14;
 }
-/* Fonts */
+/*Fonts*/
 .arial {
   font-family: 'Arial', 'Helvetica', 'sans-serif';
 }
@@ -359,7 +367,6 @@ h6 {
 .t17 {
   font-size: 17px;
 }
-/* Color */
 .blue {
   color: #4499ee;
 }
