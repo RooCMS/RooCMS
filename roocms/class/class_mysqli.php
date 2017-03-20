@@ -42,7 +42,7 @@
  * @author       alex Roosso
  * @copyright    2010-2017 (c) RooCMS
  * @link         http://www.roocms.com
- * @version      3.5
+ * @version      3.5.1
  * @since        $date$
  * @license      http://www.gnu.org/licenses/gpl-3.0.html
  */
@@ -396,7 +396,8 @@ class MySQLiDatabase extends MySQLiExtends {
 	 * @param string $field   - название поля таблицы содержащий идентификатор
 	 * @param string $proviso - Дополнительное условие (фильтр) для проверки
 	 *
-	 * @return bool | array
+	 * @return array $result  - Возвращает массив с данными, первичный ключ массива будет проверяем значением, вторичный ключ res булевом с результатом проверки.
+	 *                          И вторичный ключ pkey будет содержать название главного индекса и его значение для результатов прошедших роверку.
 	 */
 	public function check_array_ids(array $ids, $table, $field="id", $proviso=NULL) {
 
@@ -415,17 +416,27 @@ class MySQLiDatabase extends MySQLiExtends {
 			$proviso = " AND ".$proviso;
 		}
 
+		# Получаем primary key
+		$pkey = $this->identy_primary_key($table);
+
 		# query
 		$data = array();
-		$q = $this->query("SELECT ".$field." FROM ".$table." WHERE ".$primcond.$proviso);
+		$q = $this->query("SELECT ".$field.", ".$pkey." FROM ".$table." WHERE ".$primcond.$proviso);
 		while($row = $this->fetch_assoc($q)) {
-			$data[] = $row[$field];
+			$data[$row[$pkey]] = $row[$field];
 		}
 
 		# work result
 		$result = array();
-		foreach($ids AS $value) {
-			$result[$value] = (in_array($value, $data)) ? true : false ;
+		foreach($ids AS $k=>$value) {
+			if(in_array($value, $data)) {
+				$result[$value]['res'] = true;
+				$result[$value]['pkey']['title'] = $pkey;
+				$result[$value]['pkey']['value'] = $k;
+			}
+			else {
+				$result[$value]['res'] = false;
+			}
 		}
 
 		return $result;
@@ -444,9 +455,11 @@ class MySQLiDatabase extends MySQLiExtends {
 
 		static $results = array();
 
+		# считаем
 		$query = "SELECT count(*) FROM ".$from." WHERE ".$proviso;
 		$rkey = md5($query);
 
+		# проверяем результат
 		$c = array();
 		if(!array_key_exists($rkey, $results)) {
 			# check in DB
@@ -516,11 +529,12 @@ class MySQLiDatabase extends MySQLiExtends {
 	/**
 	 * Функция находит название главного ключа таблицы.
 	 *
-	 * @param $table = имя таблицы БД
+	 * @param string $table - имя таблицы БД
+	 * @param string $key   - Имя проверяемого ключа, если надо.
 	 *
 	 * @return mixed|null - название столбца с главным ключом таблицы.
 	 */
-	private function identy_primary_key($table) {
+	private function identy_primary_key($table, $key=NULL) {
 
 		$index = NULL;
 		$q = $this->query("SHOW INDEX FROM ".$table);
