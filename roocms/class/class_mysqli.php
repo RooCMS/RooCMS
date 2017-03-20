@@ -396,8 +396,11 @@ class MySQLiDatabase extends MySQLiExtends {
 	 * @param string $field   - название поля таблицы содержащий идентификатор
 	 * @param string $proviso - Дополнительное условие (фильтр) для проверки
 	 *
-	 * @return array $result  - Возвращает массив с данными, первичный ключ массива будет проверяем значением, вторичный ключ res булевом с результатом проверки.
-	 *                          И вторичный ключ pkey будет содержать название главного индекса и его значение для результатов прошедших роверку.
+	 * @return array $result  - Возвращает массив с подмассивом данных. Название подмассивая такое же как у проверяемого значения.
+	 *                          Подмассив содержит ключи: check булево с результатом проверки значения.
+	 *                          Ключ value будет содержать название проверяемого значения
+	 *                          Ключ id_title будет содержать название поля главного индекса таблицы с данными, в которой выполнялась проверка
+	 *                          Ключ id_value будет содержать значение главного индекса из строки которая обозначена как найденая.
 	 */
 	public function check_array_ids(array $ids, $table, $field="id", $proviso=NULL) {
 
@@ -429,13 +432,16 @@ class MySQLiDatabase extends MySQLiExtends {
 		# work result
 		$result = array();
 		foreach($ids AS $k=>$value) {
+
+			$result[$value]['value'] = $value;
+
 			if(in_array($value, $data)) {
-				$result[$value]['res'] = true;
-				$result[$value]['pkey']['title'] = $pkey;
-				$result[$value]['pkey']['value'] = $k;
+				$result[$value]['check'] = true;
+				$result[$value]['id_title'] = $pkey;
+				$result[$value]['id_value'] = $k;
 			}
 			else {
-				$result[$value]['res'] = false;
+				$result[$value]['check'] = false;
 			}
 		}
 
