@@ -90,8 +90,9 @@ class RSS {
 
 
 
-	//#####################################################
-	// initialisation parametrs
+	/**
+	 * initialisation parametrs
+	 */
 	public function init_params() {
 
 		global $config, $site, $structure;
@@ -105,13 +106,21 @@ class RSS {
 	}
 
 
-	//#####################################################
-	// set params
+	/**
+	 * Устанавливаем загаловок
+	 *
+	 * @param $title
+	 */
 	public function set_title($title) {
 		$this->title = $title;
 	}
 
 
+	/**
+	 * Устанавливаем описание
+	 *
+	 * @param $text
+	 */
 	public function set_description($text) {
 		$this->description = $text;
 	}
@@ -267,8 +276,11 @@ class RSS {
 	}
 
 
-	//#####################################################
-	// Output RSS
+	/**
+	 * Выводим результат
+	 *
+	 * @return string
+	 */
 	public function out() {
 
 		# set header type

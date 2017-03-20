@@ -42,7 +42,7 @@
 * @author       alex Roosso
 * @copyright    2010-2017 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.3.3
+* @version      1.3.4
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -84,7 +84,7 @@ class PageFeed {
 			$this->item_id = round($GET->_id);
 			$this->load_item($this->item_id);
 		}
-		elseif(isset($GET->_export) && $GET->_export == "RSS" && $structure->page_rss == 1) {
+		elseif(isset($GET->_export) && $GET->_export == "RSS" && $structure->page_rss) {
 			$this->load_feed_rss();
 		}
 		else {
@@ -142,14 +142,9 @@ class PageFeed {
 		global $db, $config, $structure, $rss, $parse, $img, $tpl, $smarty, $site;
 
 		# set limit on per page
-		if($structure->page_items_per_page > 0) {
-			$this->items_per_page =& $structure->page_items_per_page;
-		}
-		else {
-			$this->items_per_page =& $config->feed_items_per_page;
-		}
-
+		$this->items_per_page = ($structure->page_items_per_page > 0) ? $structure->page_items_per_page : $config->feed_items_per_page ;
 		$db->limit =& $this->items_per_page;
+
 
 		# query id's feeds begin
 		$queryfeeds = " AND ( sid='".$structure->page_id."' ";
@@ -166,6 +161,7 @@ class PageFeed {
 
 		# query id's feeds final
 		$queryfeeds .= " ) ";
+
 
 		# calculate pages
 		$db->pages_mysql(PAGES_FEED_TABLE, "date_publications <= '".time()."' ".$queryfeeds." AND (date_end_publications = '0' || date_end_publications > '".time()."') AND status='1'");
@@ -184,18 +180,18 @@ class PageFeed {
 			$pages[]['next'] =& $db->next_page;
 		}
 
+
+		# Указываем в титуле страницу
+		# Это можно было бы оставить на усмотрение верстальщиков. Но использование одинаковых титулов на целом ряде страниц неполезно для SEO
+		# (Есть небольшая вероятность, что этот момент будет исправлен и перенесен на усмотрение верстальщиков в шаблоны)
 		if($db->page > 1) {
 			$site['title'] .= " (Страница: ".$db->page.")";
 		}
 
-		$smarty->assign("pages", $pages);
-
 		# RSS
-		if($structure->page_rss == 1) {
+		if($structure->page_rss) {
 			$rss->set_header_link();
 		}
-
-		$smarty->assign("rsslink", $rss->rss_link);
 
 
 		# order
@@ -240,7 +236,11 @@ class PageFeed {
 			$feeds[] = $row;
 		}
 
+
+		# smarty
 		$smarty->assign("feeds", $feeds);
+		$smarty->assign("pages", $pages);
+		$smarty->assign("rsslink", $rss->rss_link);
 
 		$tpl->load_template("feed");
 	}

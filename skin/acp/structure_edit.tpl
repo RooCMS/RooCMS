@@ -53,11 +53,11 @@
 			</label>
 			<div class="col-lg-9">
 				<div class="btn-group" data-toggle="buttons">
-					<label class="btn btn-default{if $data['noindex'] == 0} active{/if}">
-						<input type="radio" name="noindex" value="0" id="flag_noindex_false"{if $data['noindex'] == 0} checked{/if}><i class="fa fa-fw fa-eye"></i>Разрешить индексацию
+					<label class="btn btn-default{if !$data['noindex']} active{/if}">
+						<input type="radio" name="noindex" value="0" id="flag_noindex_false"{if !$data['noindex']} checked{/if}><i class="fa fa-fw fa-eye"></i>Разрешить индексацию
 					</label>
-					<label class="btn btn-default{if $data['noindex'] == 1} active{/if}">
-						<input type="radio" name="noindex" value="1" id="flag_noindex_true"{if $data['noindex'] == 1} checked{/if}><i class="fa fa-fw fa-eye-slash"></i>Запретить индексацию
+					<label class="btn btn-default{if $data['noindex']} active{/if}">
+						<input type="radio" name="noindex" value="1" id="flag_noindex_true"{if $data['noindex']} checked{/if}><i class="fa fa-fw fa-eye-slash"></i>Запретить индексацию
 					</label>
 				</div>
 			</div>

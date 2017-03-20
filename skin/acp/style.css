@@ -187,11 +187,14 @@ p.attach_files {
   padding: 6px 12px !important;
 }
 /* Structure style */
-tr .trinfo {
+.trinfo {
+  float: right;
+}
+tr .tralias {
   display: none;
   float: right;
 }
-tr:hover .trinfo {
+tr:hover .tralias {
   display: block;
 }
 .table-hover > tbody > tr:hover .structure-highlight {

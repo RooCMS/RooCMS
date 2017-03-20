@@ -42,7 +42,7 @@
 * @author       alex Roosso
 * @copyright    2010-2017 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.4.6
+* @version      1.4.7
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -81,10 +81,10 @@ class Structure {
 	public $page_title		= "Добро пожаловать [RooCMS]";	# [string]	title page
 	public $page_meta_desc		= "";				# [string]	Meta description
 	public $page_meta_keys		= "";				# [string]	Meta keywords
-	public $page_noindex		= 0;				# [bool]	Meta noindex
+	public $page_noindex		= false;			# [bool]	Meta noindex
 	public $page_type		= "html";			# [string]	page type
 	public $page_group_access	= array(0);			# [array]	allowed acces to user group (sep. comma)
-	public $page_rss		= 0;				# [bool]	on/off RSS feed
+	public $page_rss		= false;			# [bool]	on/off RSS feed
 	public $page_show_child_feeds	= 'none';			# [string]	feed option for show childs feed
 	public $page_items_per_page	= 10;				# [int]		show items on per page
 	public $page_items_sorting	= "datepublication";		# [string]	type sorting for feed
@@ -265,10 +265,10 @@ class Structure {
 		if(isset($config->meta_keywords)) {
 			$this->page_meta_keys 	= (trim($data['meta_keywords']) != "") ? $data['meta_keywords'] : $config->meta_keywords;
 		}
-        	$this->page_noindex		= $data['noindex'];
+        	$this->page_noindex		= (bool) $data['noindex'];
 		$this->page_type 		= $data['page_type'];
 		$this->page_group_access 	= array_flip(explode(",", $data['group_access']));
-		$this->page_rss 		= $data['rss'];
+		$this->page_rss 		= (bool) $data['rss'];
 		$this->page_show_child_feeds  	= $data['show_child_feeds'];
 		$this->page_items_per_page 	= $data['items_per_page'];
 		$this->page_items_sorting 	= $data['items_sorting'];

@@ -26,8 +26,11 @@
 						<a href="{$SCRIPT_NAME}?act=feeds&part=control&page={$page['id']}">{$page['title']}</a>
 					{/if}
 				</nobr>
-				{if $page['noindex'] == 1}<sup><i class="fa fa-fw fa-eye-slash" rel="tooltip" data-toggle="tooltip" data-placement="top" title="Неиндексируется поисковыми системами"></i></sup>{/if}
-				<small class="trinfo">{$page['alias']}</small>
+				<small class="trinfo">
+					{if $page['page_type'] == "feed" && $page['rss']}<i class="fa fa-fw fa-rss"></i>{else}<i class="fa fa-fw"></i>{/if}
+					{if $page['noindex']}<i class="fa fa-fw fa-eye-slash" rel="tooltip" data-toggle="tooltip" data-placement="top" title="Неиндексируется поисковыми системами"></i>{else}<i class="fa fa-fw"></i>{/if}
+				</small>
+				<small class="tralias">{$page['alias']}</small>
 			</td>
 			<td class="text-left">
 				<span class="label label-default">{$content_types[$page['page_type']]}</span>
