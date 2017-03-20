@@ -530,11 +530,10 @@ class MySQLiDatabase extends MySQLiExtends {
 	 * Функция находит название главного ключа таблицы.
 	 *
 	 * @param string $table - имя таблицы БД
-	 * @param string $key   - Имя проверяемого ключа, если надо.
 	 *
 	 * @return mixed|null - название столбца с главным ключом таблицы.
 	 */
-	private function identy_primary_key($table, $key=NULL) {
+	private function identy_primary_key($table) {
 
 		$index = NULL;
 		$q = $this->query("SHOW INDEX FROM ".$table);
