@@ -43,7 +43,7 @@
 * @author       alex Roosso
 * @copyright    2010-2017 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.3.1
+* @version      1.3.2
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -263,79 +263,78 @@ class ACP_CONFIG {
 			}
 		}
 
-		# Удаляем батон "Сохранить настроки"
-		unset($POST->empty);
+		# Удаляем тех батоны "Сохранить настроки" итд
+		unset($POST->update_config);
 
 		# Обновляем опции
 		foreach($POST AS $key=>$value) {
-			if($key != "update_config") {
-				$check = false;
 
-				switch($cfg_vars[$key]['type']) {
-					# integer
-					case 'int':
-					case 'integer':
-						$value = round($value);
-						settype($value, "integer");
+			$check = false;
+
+			switch($cfg_vars[$key]['type']) {
+				# integer
+				case 'int':
+				case 'integer':
+					$value = round($value);
+					settype($value, "integer");
+					$check = true;
+					break;
+
+				# email
+				case 'email':
+					$check = $parse->valid_email($value);
+					break;
+
+				# text OR textarea
+				case 'string':
+				case 'color':
+				case 'text':
+				case 'textarea':
+					$value = $this->check_string_value($value,$cfg_vars[$key]['maxleight']);
+					$check = true;
+					break;
+
+				# boolean
+				case 'boolean':
+				case 'bool':
+					if($value == "true" || $value == "false") {
 						$check = true;
-						break;
+					}
+					break;
 
-					# email
-					case 'email':
-						$check = $parse->valid_email($value);
-						break;
+				# date
+				case 'date':
+					$value = $parse->date->rusint_to_unix($POST->$key);
+					$check = true;
+					break;
 
-					# text OR textarea
-					case 'string':
-					case 'color':
-					case 'text':
-					case 'textarea':
-						$value = $this->check_string_value($value,$cfg_vars[$key]['maxleight']);
+				case 'select':
+					if(isset($cfg_vars[$key]['var'][$value])) {
 						$check = true;
-						break;
+					}
+					break;
 
-					# boolean
-					case 'boolean':
-					case 'bool':
-						if($value == "true" || $value == "false") {
-							$check = true;
+				case 'image':
+				case 'img':
+					$image = $img->upload_image("image_".$key, "", array(), array("filename"=>$key, "watermark"=>false, "modify"=>false, "noresize"=>true));
+
+					if(isset($image[0])) {
+						if($value != "" && $value != $image[0]) {
+							unlink(_UPLOADIMAGES."/".$value);
 						}
-						break;
-
-					# date
-					case 'date':
-						$value = $parse->date->rusint_to_unix($POST->$key);
+						$value = $image[0];
 						$check = true;
-						break;
+					}
+					break;
 
-					case 'select':
-						if(isset($cfg_vars[$key]['var'][$value])) {
-							$check = true;
-						}
-						break;
-
-					case 'image':
-					case 'img':
-						$image = $img->upload_image("image_".$key, "", array(), array("filename"=>$key, "watermark"=>false, "modify"=>false, "noresize"=>true));
-
-						if(isset($image[0])) {
-							if($value != "" && $value != $image[0]) {
-								unlink(_UPLOADIMAGES."/".$value);
-							}
-							$value = $image[0];
-							$check = true;
-						}
-						break;
-
-					default:
-						$check = false;
-						break;
-				}
+				default:
+					$check = false;
+					break;
+			}
 
 
-				if($check) {
-					$db->query("UPDATE ".CONFIG_TABLE." SET value='".$value."' WHERE option_name='".$key."'");
-				}
+			if($check) {
+				$db->query("UPDATE ".CONFIG_TABLE." SET value='".$value."' WHERE option_name='".$key."'");
 			}
 		}
 
