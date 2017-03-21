@@ -307,7 +307,7 @@ class Template {
 			}
 
                         # get actual version included js and styles in templates (only Developer or Debug mode)
-                        $build = (DEBUGMODE or DEVMODE) ? "?v=".str_ireplace(".","",ROOCMS_VERSION)."-".time() : "" ;
+                        $build = (DEBUGMODE || DEVMODE) ? "?v=".str_ireplace(".","",ROOCMS_VERSION)."-".time() : "" ;
 
 			# assign tpl vars
 			$smarty->assign("site",		$site);
