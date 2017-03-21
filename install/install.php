@@ -536,7 +536,7 @@ class Install extends Requirement {
 	 */
 	private function check_data_post_step_4() {
 
-		global $POST, $logger;
+		global $POST, $parse, $logger;
 
 		# Проверяем введен ли заголовок сайта
 		if(!isset($POST->site_title)) {
