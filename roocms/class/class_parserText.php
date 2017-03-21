@@ -42,7 +42,7 @@
 * @author       alex Roosso
 * @copyright    2010-2017 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.1.3
+* @version      1.1.4
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -165,26 +165,20 @@ class ParserText {
 	/**
 	 * Функция транслитерации русских символов в английские
 	 *
-	 * @param mixed $txt  - строк для траслитирования (?) // не уверен я в этом слове...
-	 * @param mixed $case - указываем регистр [default: false|lower|upper]
+	 * @param mixed  $txt  - строк для траслитирования (?) // не уверен я в этом слове...
+	 * @param mixed  $case - указываем регистр [default: false|lower|upper]
+	 *
+	 * @param string $from - Язык который транслитируем
+	 * @param string $to   - Язык в который транслитируем
 	 *
 	 * @return mixed|string вернет транслитированную (?) строку
 	 */
-	public function transliterate($txt, $case=false) {
+	public function transliterate($txt, $case=false, $from="rus", $to="eng") {
 
-		$rus = Array('А','Б','В','Г','Д','Е','Ё','Ж','З','И','Й','К',
-		'Л','М','Н','О','П','Р','С','Т','У','Ф','Х','Ц','Ч','Ш','Щ',
-		'Ь','Ы','Ъ','Э','Ю','Я','а','б','в','г','д','е','ё','ж','з',
-		'и','й','к','л','м','н','о','п','р','с','т','у','ф','х','ц',
-		'ч','ш','щ','ь','ы','ъ','э','ю','я');
+		# подгружаем алфавиты
+		require_once _LIB."/abc.php";
 
-		$eng = Array('A','B','V','G','D','E','Yo','J','Z','I','Y','K',
-		'L','M','N','O','P','R','S','T','U','F','H','C','Ch','Sh','Csh',
-		'','i','','E','Yu','Ya','a','b','v','g','d','e','yo','j','z',
-		'i','y','k','l','m','n','o','p','r','s','t','u','f','h','c',
-		'ch','sh','csh','','i','','e','yu','ya');
-
-		$txt = str_replace($rus,$eng,trim($txt));
+		$txt = str_replace($abc[$from],$abc[$to],trim($txt));
 
 		# case
 		if($case && ($case == "lower")) {
