@@ -42,7 +42,7 @@
  * @author       alex Roosso
  * @copyright    2010-2017 (c) RooCMS
  * @link         http://www.roocms.com
- * @version      1.4
+ * @version      1.4.1
  * @since        $date$
  * @license      http://www.gnu.org/licenses/gpl-3.0.html
  */
@@ -281,12 +281,14 @@ class Users extends Security {
 			$logger->error("Электронная почта обязательная для каждого пользователя", false);
 		}
 
-		if(isset($email) && trim($email) != "" && !$parse->valid_email($email)) {
-			$logger->error("Некоректный адрес электронной почты", false);
-		}
+		if(isset($email) && trim($email) != "") {
+			if(!$parse->valid_email($email)) {
+				$logger->error("Некоректный адрес электронной почты", false);
+			}
 
-		if(isset($email) && trim($email) != "" && $db->check_id($email, USERS_TABLE, "email")) {
-			$logger->error("Пользователь с таким адресом почты уже существует", false);
+			if($db->check_id($email, USERS_TABLE, "email")) {
+				$logger->error("Пользователь с таким адресом почты уже существует", false);
+			}
 		}
 	}
 
