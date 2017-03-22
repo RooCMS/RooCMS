@@ -173,7 +173,8 @@ class RSS {
 			return;
 		}
 
-		$rsslink = SCRIPT_NAME.(trim($parse->uri) != "") ? $parse->uri."&export=RSS" : $rsslink .= "?export=RSS"; ;
+		$rsslink  = SCRIPT_NAME;
+		$rsslink .= (trim($parse->uri) != "") ? $parse->uri."&export=RSS" : $rsslink .= "?export=RSS"; ;
 
 		if($config->rss_power) {
 			$this->rss_link = $parse->transform_uri($rsslink);
