@@ -189,9 +189,7 @@ class PageFeed {
 		}
 
 		# RSS
-		if($structure->page_rss) {
-			$rss->set_header_link();
-		}
+		$rss->set_header_link();
 
 
 		# order

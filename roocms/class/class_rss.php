@@ -162,16 +162,18 @@ class RSS {
 	}
 
 
-	public function set_header_link($rsslink = SCRIPT_NAME) {
+	/**
+	 * Генерирует ссылка для мета
+	 */
+	public function set_header_link() {
 
-		global $config, $parse;
+		global $config, $structure, $parse;
 
-		if(trim($parse->uri) != "") {
-			$rsslink .= $parse->uri."&export=RSS";
+		if(!$structure->page_rss) {
+			return;
 		}
-		else {
-			$rsslink .= "?export=RSS";
-		}
+
+		$rsslink = SCRIPT_NAME.(trim($parse->uri) != "") ? $parse->uri."&export=RSS" : $rsslink .= "?export=RSS"; ;
 
 		if($config->rss_power) {
 			$this->rss_link = $parse->transform_uri($rsslink);
