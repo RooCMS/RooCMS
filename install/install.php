@@ -78,7 +78,7 @@ class Install extends Requirement {
 	 */
 	public function Install() {
 
-		global $GET, $POST, $site, $parse, $tpl, $smarty;
+		global $GET, $site, $parse, $tpl, $smarty;
 
 		# init step
 		if(isset($GET->_step) && round($GET->_step) > 0) {

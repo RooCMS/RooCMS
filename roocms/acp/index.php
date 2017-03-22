@@ -67,6 +67,7 @@ class ACP_INDEX {
 
 		global $roocms, $smarty, $tpl;
 
+		# subpart
 		switch($roocms->part) {
 			case 'serverinfo':
 				$this->serverinfo();
@@ -103,7 +104,7 @@ class ACP_INDEX {
 			$warning_subj[] = "Инсталятор RooCMS находится в корне сайта. В целях безопастности следует удалить инсталятор!";
 		}
 
-
+		# smarty alerts
 		$smarty->assign('warning_subj',	$warning_subj);
 
 		# load template
