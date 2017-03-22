@@ -42,7 +42,7 @@
 * @author       alex Roosso
 * @copyright    2010-2017 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.5.2
+* @version      1.6
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -209,8 +209,17 @@ class Install extends Requirement {
 
 		if($this->check_submit() && $this->check_step(4)) {
 
-			# Проверяем вводимые данные
-			$this->check_data_post_step_4();
+			# Проверяем введен ли заголовок сайта
+			$this->check_data_post("site_title", "Неверно указано название сайта");
+
+			# Проверяем указан ли домен сайта
+			$this->check_data_post("site_domain", "Неверно указан адрес сайта");
+
+			# Проверяем указан ли почтовый ящик администратора сайта
+			if(!isset($POST->site_sysemail) || !$parse->valid_email($POST->site_sysemail)) {
+				$this->allowed = false;
+				$logger->error("Неверно указан адрес электронной почты администратора");
+			}
 
 			if($this->allowed) {
 				$cf = _ROOCMS."/config/config.php";
@@ -271,8 +280,22 @@ class Install extends Requirement {
 
 		if($this->check_submit() && $this->check_step(5)) {
 
-			# Проверяем вводимые данные
-			$this->check_data_post_step_5();
+			# Проверяем указан ли хост БД
+			$this->check_data_post("db_info_host", "Не указано соеденение с сервером БД");
+
+			# Проверяем указано ли название БД
+			$this->check_data_post("db_info_base", "Не указано название БД");
+
+			# Проверяем указан ли пользователь для соеденения с БД
+			$this->check_data_post("db_info_user", "Не указан пользователь БД");
+
+			# Проверяем указан ли пароль от БД
+			$this->check_data_post("db_info_pass", "Не указан пароль пользователя БД");
+
+			# Префикс таблич
+			if(!isset($POST->db_info_prefix)) {
+				$POST->db_info_prefix = "";
+			}
 
 			if($this->allowed) {
 
@@ -532,66 +555,18 @@ class Install extends Requirement {
 
 
 	/**
-	 * Проверяем вводимые данные на 4 шаге установки
+	 * Проверяем вводимые данные в прцоессе установки
+	 *
+	 * @param string $field - проверяемое поле
+	 * @param string $ermsg - сообщение об ошибке
 	 */
-	private function check_data_post_step_4() {
-
-		global $POST, $parse, $logger;
-
-		# Проверяем введен ли заголовок сайта
-		if(!isset($POST->site_title)) {
-			$this->allowed = false;
-			$logger->error("Неверно указано название сайта");
-		}
-
-		# Проверяем указан ли домен сайта
-		if(!isset($POST->site_domain)) {
-			$this->allowed = false;
-			$logger->error("Неверно указан адрес сайта");
-		}
-
-		# Проверяем указан ли почтовый ящик администратора сайта
-		if(!isset($POST->site_sysemail) || !$parse->valid_email($POST->site_sysemail)) {
-			$this->allowed = false;
-			$logger->error("Неверно указан адрес электронной почты администратора");
-		}
-	}
-
-
-	/**
-	 * Проверяем вводимые данные на 5 шаге установки
-	 */
-	private function check_data_post_step_5() {
+	private function check_data_post($field, $ermsg) {
 
 		global $POST, $logger;
 
-		# Проверяем указан ли хост БД
-		if(!isset($POST->db_info_host)) {
+		if(!isset($POST->{$field})) {
 			$this->allowed = false;
-			$logger->error("Не указано соеденение с сервером БД");
-		}
-
-		# Проверяем указано ли название БД
-		if(!isset($POST->db_info_base)) {
-			$this->allowed = false;
-			$logger->error("Не указано название БД");
-		}
-
-		# Проверяем указан ли пользователь для соеденения с БД
-		if(!isset($POST->db_info_user)) {
-			$this->allowed = false;
-			$logger->error("Не указан пользователь БД");
-		}
-
-		# Проверяем указан ли пароль от БД
-		if(!isset($POST->db_info_pass)) {
-			$this->allowed = false;
-			$logger->error("Не указан пароль пользователя БД");
-		}
-
-		# Префикс таблич
-		if(!isset($POST->db_info_prefix)) {
-			$POST->db_info_prefix = "";
+			$logger->error($ermsg);
 		}
 	}
 }
