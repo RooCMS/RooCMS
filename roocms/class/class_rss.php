@@ -42,7 +42,7 @@
 * @author       alex Roosso
 * @copyright    2010-2017 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.0.9
+* @version      1.0.10
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */

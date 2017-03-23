@@ -44,7 +44,7 @@
 * @author       alex Roosso
 * @copyright    2010-2017 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.4.1
+* @version      1.4.2
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -206,7 +206,6 @@ class ACP_BLOCKS_HTML {
 					foreach($sortimg AS $v) {
 						if(isset($POST->sort[$v['id']]) && $POST->sort[$v['id']] != $v['sort']) {
 							$db->query("UPDATE ".IMAGES_TABLE." SET sort='".$POST->sort[$v['id']]."' WHERE id='".$v['id']."'");
-							$logger->info("Изображению ".$v['id']." успешно присвоен порядок ".$POST->sort[$v['id']]);
 						}
 					}
 				}
@@ -233,7 +232,7 @@ class ACP_BLOCKS_HTML {
 				}
 
 
-				$logger->info("Блок успешно обновлен!");
+				$logger->info("Блок #".$id." успешно обновлен!");
 			}
 
 			go(CP."?act=blocks");

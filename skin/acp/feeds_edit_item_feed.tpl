@@ -64,6 +64,16 @@
 				</div>
 			</div>
 		</div>
+
+		<div class="form-group">
+			<label for="inputTags" class="col-lg-3 control-label">
+				Метки:
+			</label>
+			<div class="col-lg-9">
+				<input type="text" name="tags" id="inputTags" class="form-control" value="{$item['tags']}">
+			</div>
+		</div>
+
 		<div class="row">
 			<div class="col-lg-12">
 				<label for="brief_item" class="control-label">

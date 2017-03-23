@@ -520,7 +520,7 @@ class ACP_HELP {
 		$db->query("UPDATE ".HELP_TABLE." SET childs='".$c."' WHERE id='".$id."'");
 
 		# уведомление
-		$logger->info("Информация о подразделах для раздела {$id} обновлена.");
+		$logger->info("Информация о подразделах для раздела #".$id." обновлена.");
 	}
 
 

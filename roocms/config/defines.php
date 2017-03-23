@@ -42,7 +42,7 @@
 * @author	alex Roosso
 * @copyright	2010-2017 (c) RooCMS
 * @link		http://www.roocms.com
-* @version	1.5.1
+* @version	1.5.2
 * @since	$date$
 * @license	http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -72,6 +72,8 @@ define('STRUCTURE_TABLE',       DB_PREFIX.'structure');
 define('PAGES_HTML_TABLE',      DB_PREFIX.'pages__html');
 define('PAGES_PHP_TABLE',       DB_PREFIX.'pages__php');
 define('PAGES_FEED_TABLE',      DB_PREFIX.'pages__feed');
+define('TAGS_TABLE',            DB_PREFIX.'tags');
+define('TAGS_LINK_TABLE',       DB_PREFIX.'tags_linked');
 define('BLOCKS_TABLE',          DB_PREFIX.'blocks');
 define('IMAGES_TABLE',          DB_PREFIX.'images');
 define('FILES_TABLE',           DB_PREFIX.'files');

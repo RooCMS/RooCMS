@@ -42,7 +42,7 @@
 * @author       alex Roosso
 * @copyright    2010-2017 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.6
+* @version      1.6.1
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -245,10 +245,10 @@ class Install extends Requirement {
 				$_SESSION['site_title'] = $parse->text->html($POST->site_title);
 
 				# уведомление
-				$logger->info("Данные успешно записаны:");
-				$logger->info("Название сайта - ".$parse->text->html($POST->site_title));
-				$logger->info("Адрес сайта - ".$POST->site_domain);
-				$logger->info("E-mail администратора - ".$POST->site_sysemail);
+				$logger->info("Данные успешно записаны:", false);
+				$logger->info("Название сайта - ".$parse->text->html($POST->site_title, false));
+				$logger->info("Адрес сайта - ".$POST->site_domain, false);
+				$logger->info("E-mail администратора - ".$POST->site_sysemail, false);
 
 				# переход next step
 				go(SCRIPT_NAME."?step=5");
@@ -330,13 +330,13 @@ class Install extends Requirement {
 					fclose($ecf);
 
 					# уведомление
-					$logger->info("Данные для соеденения с БД успешно записаны");
+					$logger->info("Данные для соеденения с БД успешно записаны", false);
 
 					# переход next step
 					go(SCRIPT_NAME."?step=6");
 				}
 				else {
-					$logger->error("Указаны неверные параметры для соеденения с БД");
+					$logger->error("Указаны неверные параметры для соеденения с БД", false);
 					goback();
 				}
 			}
@@ -384,7 +384,7 @@ class Install extends Requirement {
 			fclose($ecf);
 
 			# уведомление
-			$logger->info("Данные занесены в БД успешно!");
+			$logger->info("Данные занесены в БД успешно!", false);
 
 			# переход next step
 			go(SCRIPT_NAME."?step=7");

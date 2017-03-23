@@ -184,9 +184,8 @@ class REG {
 
 			sendmail($POST->email, "Вы зарегистрировались на сайте ".$site['title'], $message);
 
-
 			# уведомление
-			$logger->info("Поздравляем с успешной регистрацией. Вам осталось подтвердить адрес электронной почты и вы сможете пользоваться приемуществамми зарегистрированных пользователей.");
+			$logger->info("Поздравляем с успешной регистрацией. Вам осталось подтвердить адрес электронной почты и вы сможете пользоваться приемуществамми зарегистрированных пользователей.", false);
 
 			# переход
 			go(SCRIPT_NAME."?part=reg&act=activation&email=".$POST->email);
@@ -204,11 +203,11 @@ class REG {
 		
 		if(isset($POST->email, $POST->code) && $parse->valid_email($POST->email) && $db->check_id($POST->email, USERS_TABLE, "email", "activation_code='".$POST->code."'")) {
 			$db->query("UPDATE ".USERS_TABLE." SET status='1', activation_code='', last_visit='".time()."' WHERE email='".$POST->email."'");
-			$logger->info("Спасибо. Ваша учетная запись активирована. Добро пожжаловать.");
+			$logger->info("Спасибо. Ваша учетная запись активирована. Добро пожжаловать.", false);
 			go("/");
 		}
 		else {
-			$logger->error("Активация не удалась. Мы не нашли подходящих сведений в базе данных.");
+			$logger->error("Активация не удалась. Мы не нашли подходящих сведений в базе данных.", false);
 			goback();
 		}
 

@@ -42,7 +42,7 @@
 * @author       alex Roosso
 * @copyright    2010-2017 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.5.1
+* @version      1.5.2
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -215,7 +215,7 @@ class ACP_STRUCTURE {
 			$this->count_childs($POST->parent_id);
 
 			# уведомление
-			$logger->info("Структурная еденица успешно добавлена.");
+			$logger->info("Структурная еденица #".$sid." успешно добавлена.");
 
 			# переход
 			if(isset($POST->create_unit_ae)) {
@@ -364,7 +364,7 @@ class ACP_STRUCTURE {
 			}
 
 			# уведомление
-			$logger->info("Страница успешно обновлена.");
+			$logger->info("Страница #".$sid." успешно обновлена.");
 
 
 			if(isset($POST->update_unit_ae)) {
@@ -487,14 +487,11 @@ class ACP_STRUCTURE {
 	*/
 	private function count_childs($id) {
 
-		global $db, $logger;
+		global $db;
 
 		$c = $db->count(STRUCTURE_TABLE, "parent_id='".$id."'");
 
 		$db->query("UPDATE ".STRUCTURE_TABLE." SET childs='".$c."' WHERE id='".$id."'");
-
-		# уведомление
-		$logger->info("Информация о вложенных (подструктурных) страницах для страницы {$id} обновлена.");
 	}
 
 

@@ -544,7 +544,7 @@ class ACP_USERS {
 
 
 				# notice
-				$logger->info("Данные пользователя #{$uid} успешно обновлены.");
+				$logger->info("Данные пользователя #".$uid." успешно обновлены.");
 
 				# Уведомление пользователю на электропочту
 				$smarty->assign("login", $POST->login);
@@ -608,7 +608,7 @@ class ACP_USERS {
 				$this->count_users($gid);
 
 				# notice
-				$logger->info("Данные группы #{$gid} успешно обновлены.");
+				$logger->info("Данные группы #".$gid." успешно обновлены.");
 
 				# переход
 				if(isset($POST->update_group_ae)) {
@@ -652,7 +652,7 @@ class ACP_USERS {
 
 			# удаляем юзера
 			$db->query("DELETE FROM ".USERS_TABLE." WHERE uid='".$uid."'");
-			$logger->info("Пользователь #{$uid} был успешно удален из Базы Данных.");
+			$logger->info("Пользователь #".$uid." был успешно удален из Базы Данных.");
 
 			# пересчитываем пользователей в группе.
 			$this->count_users($data['gid']);
@@ -678,7 +678,7 @@ class ACP_USERS {
 		$db->query("UPDATE ".USERS_TABLE." SET gid='0' WHERE gid='".$gid."'");
 
 		$db->query("DELETE FROM ".USERS_GROUP_TABLE." WHERE gid='".$gid."'");
-		$logger->info("Группа #{$gid} был успешна удалена из Базы Данных.");
+		$logger->info("Группа #".$gid." был успешна удалена из Базы Данных.");
 
 		# go
 		goback();
@@ -702,7 +702,7 @@ class ACP_USERS {
 			$db->query("UPDATE ".USERS_TABLE." SET gid='0' WHERE uid='".$uid."'");
 
 			# уведомление
-			$logger->info("Пользователь #{$uid} был успешно исключен из группы #{$gid}.");
+			$logger->info("Пользователь #".$uid." был успешно исключен из группы #".$gid.".");
 
 			# пересчитываем пользователей в группе.
 			$this->count_users($gid);
@@ -729,7 +729,7 @@ class ACP_USERS {
 			$db->query("UPDATE ".USERS_GROUP_TABLE." SET users='".$c."' WHERE gid='".$gid."'");
 
 			# уведомление
-			$logger->info("Информация о кол-ве пользователей для группы {$gid} обновлена.");
+			$logger->info("Информация о кол-ве пользователей для группы #".$gid." обновлена.");
 		}
 	}
 

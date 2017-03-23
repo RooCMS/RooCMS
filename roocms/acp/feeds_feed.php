@@ -162,7 +162,7 @@ class ACP_FEEDS_FEED {
 					WHERE
 						id='".$this->feed['id']."'");
 
-			$logger->info("Настройки успешно обновлены.");
+			$logger->info("Настройки ленты #".$this->feed['id']." успешно обновлены.");
 		}
 
 		# переход
@@ -254,20 +254,20 @@ class ACP_FEEDS_FEED {
 									      '".time()."', '".time()."', '".$POST->date_publications."', '".$POST->date_end_publications."',
 									      '".$POST->itemsort."', '".$this->feed['id']."')");
 
-				# get feed id
-				$fid = $db->insert_id();
+				# get feed item id
+				$fiid = $db->insert_id();
 
 				# save tags
-				$tags->save_tags($POST->tags, "feedid=".$fid);
+				$tags->save_tags($POST->tags, "feeditemid=".$fiid);
 
 				# notice
-				$logger->info("Элемент #".$fid." <".$POST->title."> успешно создан.");
+				$logger->info("Элемент #".$fiid." <".$POST->title."> успешно создан.");
 
 				# attachment images
 				$images = $img->upload_image("images", "", array($this->feed['thumb_img_width'], $this->feed['thumb_img_height']));
 				if($images) {
 					foreach($images AS $image) {
-						$img->insert_images($image, "feedid=".$fid);
+						$img->insert_images($image, "feeditemid=".$fiid);
 					}
 				}
 
@@ -276,7 +276,7 @@ class ACP_FEEDS_FEED {
 				$attachs = $files->upload("files");
 				if($attachs) {
 					foreach($attachs AS $attach) {
-						$files->insert_file($attach, "feedid=".$fid);
+						$files->insert_file($attach, "feeditemid=".$fiid);
 					}
 				}
 
@@ -324,12 +324,14 @@ class ACP_FEEDS_FEED {
 			$item['date_end_publications'] = $parse->date->unix_to_rusint($item['date_end_publications']);
 		}
 
+		# tags
+		$item['tags'] = $tags->read_tags("feeditemid=".$id);
 
 		$smarty->assign("item",$item);
 
 
 		# download attached images
-		$attachimg = $img->load_images("feedid=".$id);
+		$attachimg = $img->load_images("feeditemid=".$id);
 		$smarty->assign("attachimg", $attachimg);
 
 		# show attached images
@@ -338,7 +340,7 @@ class ACP_FEEDS_FEED {
 
 
 		# download attached files
-		$attachfile = $files->load_files("feedid=".$id);
+		$attachfile = $files->load_files("feeditemid=".$id);
 		$smarty->assign("attachfile", $attachfile);
 
 		# show attached files
@@ -398,18 +400,17 @@ class ACP_FEEDS_FEED {
 						id = '".$id."'");
 
 			# save tags
-			$tags->save_tags($POST->tags, "feedid=".$id);
+			$tags->save_tags($POST->tags, "feeditemid=".$id);
 
 			# notice
-			$logger->info("Элемент ".$POST->title." успешно отредактирован.");
+			$logger->info("Элемент ".$POST->title." (#".$id.") успешно отредактирован.");
 
 			# sortable images
 			if(isset($POST->sort)) {
-				$sortimg = $img->load_images("feedid=".$id);
+				$sortimg = $img->load_images("feeditemid=".$id);
 				foreach($sortimg AS $v) {
 					if(isset($POST->sort[$v['id']]) && $POST->sort[$v['id']] != $v['sort']) {
 						$db->query("UPDATE ".IMAGES_TABLE." SET sort='".$POST->sort[$v['id']]."' WHERE id='".$v['id']."'");
-						$logger->info("Изображению ".$v['id']." успешно присвоен порядок ".$POST->sort[$v['id']]);
 					}
 				}
 			}
@@ -419,7 +420,7 @@ class ACP_FEEDS_FEED {
 			$images = $img->upload_image("images", "", array($this->feed['thumb_img_width'], $this->feed['thumb_img_height']));
 			if($images) {
 				foreach($images AS $image) {
-					$img->insert_images($image, "feedid=".$id);
+					$img->insert_images($image, "feeditemid=".$id);
 				}
 			}
 
@@ -428,7 +429,7 @@ class ACP_FEEDS_FEED {
 			$attachs = $files->upload("files");
 			if($attachs) {
 				foreach($attachs AS $attach) {
-					$files->insert_file($attach, "feedid=".$id);
+					$files->insert_file($attach, "feeditemid=".$id);
 				}
 			}
 
@@ -467,7 +468,7 @@ class ACP_FEEDS_FEED {
 
 
 			# notice
-			$logger->info("Элемент id : ".$id." успешно перемещен.");
+			$logger->info("Элемент #".$id." успешно перемещен.");
 
 			#go
 			go(CP."?act=feeds&part=control&page=".$POST->to);
@@ -539,7 +540,7 @@ class ACP_FEEDS_FEED {
 		$row = $db->fetch_assoc($q);
 
 		# del attached images
-		$img->delete_images("feedid=".$id);
+		$img->delete_images("feeditemid=".$id);
 
 		# delete item
 		$db->query("DELETE FROM ".PAGES_FEED_TABLE." WHERE id='".$id."'");
@@ -548,7 +549,7 @@ class ACP_FEEDS_FEED {
 		$this->count_items($row['sid']);
 
 		# уведомление
-		$logger->info("Элемент id-".$id." успешно удален.");
+		$logger->info("Элемент #".$id." успешно удален.");
 
 		# переход
 		goback();
@@ -567,7 +568,7 @@ class ACP_FEEDS_FEED {
 		$where = "";
 		$f = $db->query("SELECT id FROM ".PAGES_FEED_TABLE." WHERE sid='".$sid."'");
 		while($fid = $db->fetch_assoc($f)) {
-			$where .= (trim($where) != "") ? " OR attachedto='feedid=".$fid['id']."' " :  " attachedto='feedid=".$fid['id']."' " ;
+			$where .= (trim($where) != "") ? " OR attachedto='feeditemid=".$fid['id']."' " :  " attachedto='feeditemid=".$fid['id']."' " ;
 		}
 
 		# del attached images

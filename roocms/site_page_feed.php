@@ -111,11 +111,11 @@ class PageFeed {
 
 
 		# load attached images
-                $images = $img->load_images("feedid=".$id);
+                $images = $img->load_images("feeditemid=".$id);
 		$smarty->assign("images", $images);
 
 		# load attached files
-		$attachfile = $files->load_files("feedid=".$id);
+		$attachfile = $files->load_files("feeditemid=".$id);
 		$smarty->assign("attachfile", $attachfile);
 
 
@@ -229,7 +229,7 @@ class PageFeed {
 			$row['date'] 		= $parse->date->unix_to_rus_array($row['date_publications']);
 			$row['brief_item'] 	= $parse->text->html($row['brief_item']);
 
-			$row['image'] 		= $img->load_images("feedid=".$row['id']."", 0, 1);
+			$row['image'] 		= $img->load_images("feeditemid=".$row['id']."", 0, 1);
 
 			$feeds[] = $row;
 		}

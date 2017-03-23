@@ -121,7 +121,6 @@ class ACP_PAGES_HTML {
 			foreach($sortimg AS $v) {
 				if(isset($POST->sort[$v['id']]) && $POST->sort[$v['id']] != $v['sort']) {
 					$db->query("UPDATE ".IMAGES_TABLE." SET sort='".$POST->sort[$v['id']]."' WHERE id='".$v['id']."'");
-					$logger->info("Изображению ".$v['id']." успешно присвоен порядок ".$POST->sort[$v['id']]);
 				}
 			}
 		}
