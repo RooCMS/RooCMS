@@ -35,34 +35,6 @@ $(document).ready(function(){
 		$('html, body').animate({scrollTop: 0}, '500', 'swing');
 		return false;
 	});
-
-	/* Placeholder for IE */
-	if($.browser.msie) {
-		$("input[type='text']").each(function() {
-			var tp = $(this).attr("placeholder");
-			if(tp != undefined) $(this).attr('value',tp).css('color','#ccc');
-		}).focusin(function() {
-			var val = $(this).attr('placeholder');
-			if($(this).val() == val) {
-				$(this).attr('value','').css('color','#303030');
-			}
-		}).focusout(function() {
-			var val = $(this).attr('placeholder');
-			if($(this).val() == "") {
-				$(this).attr('value', val).css('color','#ccc');
-			}
-		});
-
-		/* Protected send form */
-		$("form").submit(function() {
-			$(this).children("input[type='text']").each(function() {
-				var val = $(this).attr('placeholder');
-				if($(this).val() == val) {
-					$(this).attr('value','').css('color','#303030');
-				}
-			})
-		});
-	}
 });
 
 /**
