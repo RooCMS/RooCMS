@@ -438,7 +438,7 @@ class MySQLiDatabase extends MySQLiExtends {
 			if(in_array($value, $data)) {
 				$result[$value]['check'] = true;
 				$result[$value]['id_title'] = $pkey;
-				$result[$value]['id_value'] = $k;
+				$result[$value]['id_value'] = array_search($value, $data);
 			}
 			else {
 				$result[$value]['check'] = false;

@@ -42,7 +42,7 @@
  * @author       alex Roosso
  * @copyright    2010-2017 (c) RooCMS
  * @link         http://www.roocms.com
- * @version      1.0
+ * @version      1.0.1
  * @since        $date$
  * @license      http://www.gnu.org/licenses/gpl-3.0.html
  */
@@ -64,30 +64,31 @@ if(!defined('RooCMS')) {
 class Tags {
 
 
-
 	/**
 	 * Функция собирает теги объекта в строку разделенные запятыми.
 	 *
 	 * @param string $linkedto - ссылка на объект
 	 *
-	 * @return null|string
+	 * @return string
 	 */
 	public function read_tags($linkedto) {
 
 		global $db;
 
-		$tags = "";
-		$q = $db->query("SELECT l.tag_id, t.title FROM ".TAGS_LINK_TABLE." AS l LEFT JOIN ".TAGS_TABLE." AS t ON (t.id = l.tag_id) WHERE l.linkedto='".$linkedto."'");
+		$strtags = "";
+		$q = $db->query("SELECT l.tag_id, t.title FROM ".TAGS_LINK_TABLE." AS l LEFT JOIN ".TAGS_TABLE." AS t ON (t.id = l.tag_id) WHERE l.linkedto='".$linkedto."' ORDER BY t.title ASC");
 		while($data = $db->fetch_assoc($q)) {
-			if(trim($tags) != "") {
-				$tags .= ", ";
+			if(trim($strtags) != "") {
+				$strtags .= ", ";
 			}
 
-			$tags .= $data['title'];
+			$strtags .= $data['title'];
 		}
 
-		return $tags;
+		# return
+		return $strtags;
 	}
+
 
 	/**
 	 * Функция сохраняет теги в БД
@@ -99,23 +100,74 @@ class Tags {
 
 		global $db;
 
-		# Разбираем строку с тегами
-		$tags = $this->parse_tags($tags);
+		# Получаем текущие теги и разбираем
+		$now_tags = $this->parse_tags($this->read_tags($linkedto));
 
-		# если есть теги
+		# Разбираем строку с полученными тегами
+		$new_tags = $this->parse_tags($tags);
+
+		# Сравниваем старые и новые теги, манипулируем.
+		$tags = $this->diff_tag($now_tags, $new_tags, $linkedto);
+
+		# Если есть теги
 		if(!empty($tags)) {
 			$v = $db->check_array_ids($tags, TAGS_TABLE, "title");
+			//die(debug($v));
 			foreach($tags AS $value) {
 				if($v[$value]['check']) {
-					# добавляем линк к уже имеющимуся тегу
+					# Добавляем линк к уже имеющимуся тегу
 					$this->add_instock_tag($v[$value]['id_value'], $linkedto);
 				}
 				else {
-					# создаем новый те и линк к нему
+					# Создаем новый тег и линк к нему
 					$this->add_new_tag($v[$value]['value'], $linkedto);
 				}
 			}
 		}
+	}
+
+
+	/**
+	 * Функция проводит сравнении данных в массивах определя какие теги трогать, как пропустить
+	 *
+	 * @param array  $now      - массив с имеющимися у объекта тегами
+	 * @param array  $new      - массив с новыми тегами
+	 * @param string $linkedto - ссылка на объект
+	 *
+	 * @return array
+	 */
+	public function diff_tag(array $now, array $new, $linkedto) {
+
+		$tags = array();
+
+		if(empty($new)) {     // Если теги удалили...
+			$this->remove_tags($now, $linkedto);
+		}
+		elseif(empty($now)) { // Если тегов не было, то дальнейшие обработки не нужны. Возвращаем список новых тегов.
+			$tags = $new;
+		}
+		else {                // Если в массивах есть что, проводим сравнение
+			$tags = $new;
+
+			# массив для устаревших тегов
+			$old = array();
+
+			foreach($now AS $value) {
+				if(!in_array($value, $new)) {
+					$old[] = $value;
+				}
+
+				if(($k = array_search($value, $new)) !== false) {
+					unset($tags[$k]);
+				}
+			}
+
+			# Удаляем ненужные теги
+			$this->remove_tags($old, $linkedto);
+		}
+
+		# возвращаем список новых/обновленных тегов
+		return $tags;
 	}
 
 
@@ -134,7 +186,7 @@ class Tags {
 		$tag_id = $db->insert_id();
 
 		# linked
-		$db->query("INSERT INTO ".TAGS_LINK_TABLE." (tag_id, linkedto) VALUES ('".$tag_id."', '".$linkedto."')");
+		$this->add_instock_tag($tag_id, $linkedto);
 	}
 
 
@@ -148,13 +200,62 @@ class Tags {
 
 		global $db;
 
-		# Если к данному объекту не прикреплен такой, то добавляем.
-		if(!$db->check_id($tag_id, TAGS_LINK_TABLE, "tag_id", "linkedto='".$linkedto."'")) {
-			# linked
-			$db->query("INSERT INTO ".TAGS_LINK_TABLE." (tag_id, linkedto) VALUES ('".$tag_id."', '".$linkedto."')");
+		# linked
+		$db->query("INSERT INTO ".TAGS_LINK_TABLE." (tag_id, linkedto) VALUES ('".$tag_id."', '".$linkedto."')");
+
+		# recount
+		$this->recount_tag($tag_id);
+	}
+
+
+	/**
+	 * Функция удаляет теги у заданного объекта.
+	 *
+	 * @param array|string $tags     - массив или строка с тегами
+	 * @param string       $linkedto - ссылка на объект
+	 */
+	private function remove_tags($tags, $linkedto) {
+
+		global $db;
+
+		# Если получили строку, преобразуем ее в массив.
+		if(!is_array($tags)) {
+			$tags = $this->parse_tags($tags);
+		}
+
+		# Если массив не пустой.
+		if(!empty($tags)) {
+
+			# составляем условие
+			$cond1 = "";
+			foreach($tags AS $value) {
+				if(trim($cond1) != "") {
+					$cond1 .= " OR ";
+				}
+				$cond1 .= "title='".$value."'";
+			}
+
+			# get tag id for condition unlinks
+			$tr = array();
+			$cond2 = "(";
+			$q = $db->query("SELECT id FROM ".TAGS_TABLE." WHERE ".$cond1);
+			while($data = $db->fetch_assoc($q)) {
+				if(trim($cond2) != "(") {
+					$cond2 .= " OR ";
+				}
+				$cond2 .= "tag_id='".$data['id']."'";
+
+				$tr[] = $data['id'];
+			}
+			$cond2 .= ")";
+
+			# unlinked
+			$db->query("DELETE FROM ".TAGS_LINK_TABLE." WHERE ".$cond2." AND linkedto='".$linkedto."'");
 
 			# recount
-			$this->recount_tag($tag_id);
+			foreach($tr AS $v) {
+				$this->recount_tag($v);
+			}
 		}
 	}
 
@@ -162,7 +263,7 @@ class Tags {
 	/**
 	 * Функция парсит и форматирует строку с тегами разделенными запятыми и преобразует её в массив.
 	 *
-	 * @param string $tags - строка с тегами разделенными запятой
+	 * @param string $tags     - строка с тегами разделенными запятой
 	 *
 	 * @return array возврашает массив с тегами
 	 */
@@ -189,16 +290,19 @@ class Tags {
 	 * Пересчитываем кол-во использований тега.
 	 *
 	 * @param int $tag_id - Идентификатор Тега
+	 * @param int $amount - кол-во на текущий момент, если известно
 	 */
-	private function recount_tag($tag_id) {
+	private function recount_tag($tag_id, $amount=-1) {
 
 		global $db;
 
 		# считаем
-		$amount = $db->count(TAGS_LINK_TABLE, "tag_id='".$tag_id."'");
+		$c = $db->count(TAGS_LINK_TABLE, "tag_id='".$tag_id."'");
 
-		# обновляем
-		$db->query("UPDATE ".TAGS_TABLE." SET amount='".$amount."' WHERE id='".$tag_id."'");
+		# обновляем если кол-во изменилось
+		if(round($amount) != $c) {
+			$db->query("UPDATE ".TAGS_TABLE." SET amount='".$c."' WHERE id='".$tag_id."'");
+		}
 	}
 }
 

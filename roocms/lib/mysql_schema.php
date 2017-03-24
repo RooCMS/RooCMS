@@ -244,7 +244,7 @@ $sql['DROP '.TAGS_LINK_TABLE] = "DROP TABLE IF EXISTS `".TAGS_LINK_TABLE."`";
 $sql['CREATE'.TAGS_LINK_TABLE] = "CREATE TABLE `".TAGS_LINK_TABLE."` (
 					`tag_id` INT(10) UNSIGNED NOT NULL,
 					`linkedto` VARCHAR(64) NOT NULL,
-					PRIMARY KEY (`tag_id`),
+					KEY `tag_id` (`tag_id`),
 					KEY `linkedto` (`linkedto`)
 				) ENGINE=MyISAM  DEFAULT CHARSET=utf8 PACK_KEYS=1 AUTO_INCREMENT=1";
 
