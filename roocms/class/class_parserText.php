@@ -42,7 +42,7 @@
 * @author       alex Roosso
 * @copyright    2010-2017 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.1.4
+* @version      1.1.5
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -178,9 +178,9 @@ class ParserText {
 	public function transliterate($txt, $case=false, $from="rus", $to="eng") {
 
 		# подгружаем алфавиты
-		require_once _LIB."/abc.php";
+		require _LIB."/abc.php";
 
-		$txt = str_replace($abc[$from],$abc[$to],trim($txt));
+		$txt = str_ireplace($abc[$from],$abc[$to],trim($txt));
 
 		# case
 		if($case && ($case == "lower")) {
