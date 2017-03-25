@@ -42,7 +42,7 @@
  * @author       alex Roosso
  * @copyright    2010-2017 (c) RooCMS
  * @link         http://www.roocms.com
- * @version      1.0.1
+ * @version      1.0.2
  * @since        $date$
  * @license      http://www.gnu.org/licenses/gpl-3.0.html
  */
@@ -75,18 +75,14 @@ class Tags {
 
 		global $db;
 
-		$strtags = "";
-		$q = $db->query("SELECT l.tag_id, t.title FROM ".TAGS_LINK_TABLE." AS l LEFT JOIN ".TAGS_TABLE." AS t ON (t.id = l.tag_id) WHERE l.linkedto='".$linkedto."' ORDER BY t.title ASC");
+		$tags = array();
+		$q = $db->query("SELECT l.tag_id, t.title, t.amount FROM ".TAGS_LINK_TABLE." AS l LEFT JOIN ".TAGS_TABLE." AS t ON (t.id = l.tag_id) WHERE l.linkedto='".$linkedto."' ORDER BY t.title ASC");
 		while($data = $db->fetch_assoc($q)) {
-			if(trim($strtags) != "") {
-				$strtags .= ", ";
-			}
-
-			$strtags .= $data['title'];
+			$tags[$data['title']] = $data;
 		}
 
 		# return
-		return $strtags;
+		return $tags;
 	}
 
 
@@ -101,7 +97,7 @@ class Tags {
 		global $db;
 
 		# Получаем текущие теги и разбираем
-		$now_tags = $this->parse_tags($this->read_tags($linkedto));
+		$now_tags = array_keys($this->read_tags($linkedto));
 
 		# Разбираем строку с полученными тегами
 		$new_tags = $this->parse_tags($tags);
@@ -112,7 +108,7 @@ class Tags {
 		# Если есть теги
 		if(!empty($tags)) {
 			$v = $db->check_array_ids($tags, TAGS_TABLE, "title");
-			//die(debug($v));
+
 			foreach($tags AS $value) {
 				if($v[$value]['check']) {
 					# Добавляем линк к уже имеющимуся тегу
