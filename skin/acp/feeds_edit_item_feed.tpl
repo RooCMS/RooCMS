@@ -70,7 +70,7 @@
 				Метки:
 			</label>
 			<div class="col-lg-9">
-				<input type="text" name="tags" id="inputTags" class="form-control" value="{$item['tags']}">
+				<input type="text" name="tags" id="inputTags" class="form-control, tagsinput" value="{$item['tags']}">
 			</div>
 		</div>
 

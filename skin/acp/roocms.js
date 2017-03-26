@@ -66,13 +66,6 @@ $(document).ready(function() {
 		$('.selectpicker').selectpicker();
 	}
 
-	/* Logotype */
-	/*$('#logo').css({top:'-=62px'}).mouseover(function(){
-		$(this).stop().animate({top: '5px'}, 200);
-	}).mouseout(function(){
-		$(this).stop().animate({top: '-57px'}, 200);
-	});*/
-
 	/* Datepicker */
 	$('.datepicker').datepicker({
 		format: 'dd.mm.yyyy',
@@ -88,6 +81,14 @@ $(document).ready(function() {
 
 	/* Colorpicker */
 	$('.colorpicker').colorpicker();
+
+	/* Tags Input */
+	$('.tagsinput').tagsinput({
+		confirmKeys: [13, 44],
+		maxTags: 10,
+		trimValue: true,
+		allowDuplicates: false
+	});
 
 	/* Colorbox */
     	$("a[rel='colorbox']").colorbox({maxWidth: "95%", maxHeight: "95%"});

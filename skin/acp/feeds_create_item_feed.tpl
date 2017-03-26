@@ -61,7 +61,7 @@
 				Метки:
 			</label>
 			<div class="col-lg-9">
-				<input type="text" name="tags" id="inputTags" class="form-control">
+				<input type="text" name="tags" id="inputTags" class="form-control, tagsinput">
 			</div>
 		</div>
 

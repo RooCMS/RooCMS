@@ -11,6 +11,7 @@ Plugins
 - Bootstrap Select	`v1.3.4`
 - Bootstrap Datepicker	`v1.3`
 - Bootstrap Colorpicker	`v1`
+- Bootstrap TagsInput	`v0.8.0`
 - typeahead.js		`v0.11.1`
 - Font Awesome		`v4.7`
 - Smarty		`v3.1.30`
