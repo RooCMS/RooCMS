@@ -87,7 +87,8 @@ $(document).ready(function() {
 		confirmKeys: [13, 44],
 		maxTags: 10,
 		trimValue: true,
-		allowDuplicates: false
+		allowDuplicates: false,
+		splitOn: ','
 	});
 
 	/* Colorbox */
