@@ -50,12 +50,12 @@ $(document).ready(function() {
 	$("[rel='popover']").popover();
 	$(".alert").alert();
 
-	$('#LeftMenu').affix({
+	/*$('#LeftMenu').affix({
 		offset: {
 			top: 60,
 			bottom: 60
 		}
-	});
+	});*/
 	//$(".collapse").collapse({hide: true});
 
 	/* Select */
@@ -67,23 +67,23 @@ $(document).ready(function() {
 	}
 
 	/* Datepicker */
-	$('.datepicker').datepicker({
+	$(".datepicker").datepicker({
 		format: 'dd.mm.yyyy',
 		language: 'ru',
 		todayHighlight: true
 	});
 
-	$('.datepicker-0d').datepicker({
+	$(".datepicker-0d").datepicker({
 		format: 'dd.mm.yyyy',
 		language: 'ru',
 		startDate: '0'
 	});
 
 	/* Colorpicker */
-	$('.colorpicker').colorpicker();
+	$(".colorpicker").colorpicker();
 
 	/* Tags Input */
-	$('.tagsinput').tagsinput({
+	$(".tagsinput").tagsinput({
 		confirmKeys: [13, 44],
 		maxTags: 10,
 		trimValue: true,
@@ -94,6 +94,8 @@ $(document).ready(function() {
 	/* Colorbox */
     	$("a[rel='colorbox']").colorbox({maxWidth: "95%", maxHeight: "95%"});
 
+
+    	/* Style */
 	$(".show-feed-element").hover(function() {
 		var l = $(this).find(".fa");
 		l.removeClass("text-muted fa-eye-slash").addClass("text-info fa-eye");
