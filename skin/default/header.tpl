@@ -47,7 +47,7 @@
 <script type="text/javascript" src="plugin/jquery.corner.min.js{$build}"></script>
 <script type="text/javascript" src="plugin/lightbox.js.php{$build}"></script>
 <script type="text/javascript" src="plugin/colorbox.js.php{$build}"></script>
-<script type="text/javascript" src="plugin/bootstrap.php{$build}"></script>
+<script type="text/javascript" src="plugin/bootstrap.php{$build}{if trim($build) != ""}&{else}?{/if}short"></script>
 <script type="text/javascript" src="{$SKIN}/roocms.min.js{$build}"></script>
 {literal}
 <script type="text/javascript">

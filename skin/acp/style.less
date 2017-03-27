@@ -108,14 +108,17 @@ input:required:empty {background: @white url(./img/required.png) no-repeat right
 input.non-bgreq:required:empty {background-image: none !important;}
 input:required:valid {background-image: none !important;}
 
-/* All */
+/* logo */
 #logo {margin-top: -8px;}
 .logo-xs {width: 140px;}
 
+/* fix navbar collapse on sx screen*/
 .navbar-collapse {max-height: none !important;}
 
-.notice {margin-top: -10px;position: fixed; z-index: 100;right: 0;}
+/* notice */
+.notice {margin-top: -15px;position: fixed; z-index: 100;right: 5px;}
 
+/* footer */
 .footer {line-height: 13px !important;padding: 10px 0;}
 
 /* sup styles / restyle */
@@ -125,14 +128,16 @@ input:required:valid {background-image: none !important;}
 blockquote 	{.t14 !important; .ptsans !important;}
 code		{.ubuntu !important;}
 
-.paragraph 	{margin-left: 20px;}
-
+/* Hover */
 .hover-without-underline:hover	{text-decoration: none !important;}
 .hover-cursor			{cursor: pointer;}
+
 
 .progress.pb0 {margin-bottom: 0 !important;}
 
 .shy, .wbr {word-break: break-all;}
+
+.bootstrap-tagsinput {width: 100%;}
 
 /* fix font-awesome underline */
 a:hover [class^="fa-"] {text-decoration: none !important;}
@@ -220,7 +225,6 @@ blockquote.quote-danger > h5, blockquote.quote-danger > h6	{color: @brand-danger
 
 /*Fonts*/
 
-.arial		{font-family: @arial;}
 .tahoma		{font-family: @tahoma;}
 .verdana	{font-family: @verdana;}
 .calibri	{font-family: @calibri;}

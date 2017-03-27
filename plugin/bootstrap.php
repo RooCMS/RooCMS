@@ -77,12 +77,7 @@ document.write('<script src="/plugin/bootstrap/js/bootstrap-tagsinput.min.js"></
 document.write('<link href="/plugin/bootstrap/css/font-awesome.min.css" rel="stylesheet">');
 document.write('<link href="/plugin/bootstrap/css/bootstrap.min.css" rel="stylesheet">');
 document.write('<link href="/plugin/bootstrap/css/bootstrap-select.min.css" rel="stylesheet">');
-document.write('<link href="/plugin/bootstrap/css/bootstrap-datepicker.min.css" rel="stylesheet">');
-document.write('<link href="/plugin/bootstrap/css/bootstrap-tagsinput.min.css" rel="stylesheet">');
 document.write('<script src="/plugin/bootstrap/js/bootstrap.min.js"></script>');
 document.write('<script src="/plugin/bootstrap/js/bootstrap-select.min.js"></script>');
-document.write('<script src="/plugin/bootstrap/js/bootstrap-datepicker.min.js"></script>');
-document.write('<script src="/plugin/bootstrap/js/locales/bootstrap-datepicker.ru.js"></script>');
-document.write('<script src="/plugin/bootstrap/js/bootstrap-tagsinput.min.js"></script>');
 
 <?php } ?>

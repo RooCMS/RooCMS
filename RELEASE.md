@@ -1,13 +1,13 @@
 Version: 1.2.2
 ========================
-**release date:	25.03.2017**
+**release date:	27.03.2017**
 
 Plugins
 -------
 - CKEditor		`v4.6.2 `
 - Codemirror		`v5.24.2`
 - Colorbox		`v1.4.32`
-- Bootstrap		`v3.3.5`
+- Bootstrap		`v3.3.7`
 - Bootstrap Select	`v1.3.4`
 - Bootstrap Datepicker	`v1.3`
 - Bootstrap Colorpicker	`v1`
@@ -28,6 +28,7 @@ Release info
 	[+]	Добавлены метки (теги) к лентам
 	[-]	Удален js плагин lightbox
 	[*]	Решили изменить логотип. То, что уже несколько лет было логотипом, никуда не годиться.
+	[*]	Обновлен Bottstrap до веврсии 3.3.7
 	[*]	Обновлен Codemirror до веврсии 5.24.2
 	[*]	Обновлен jQuery до веврсии 3.1.1
 	[*]	Обновлен CKEditor до веврсии 4.6.2

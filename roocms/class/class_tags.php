@@ -42,7 +42,7 @@
  * @author       alex Roosso
  * @copyright    2010-2017 (c) RooCMS
  * @link         http://www.roocms.com
- * @version      1.0.2
+ * @version      1.0.3
  * @since        $date$
  * @license      http://www.gnu.org/licenses/gpl-3.0.html
  */
@@ -62,6 +62,34 @@ if(!defined('RooCMS')) {
  * Class Tags
  */
 class Tags {
+
+
+	/**
+	 * Функция возвращает ввиде массива полный список тегов
+	 *
+	 * @param bool $with_zero - Если флаг true, то вернет список тегов включая, нулевые значения. Иначе вернет только используемые теги.
+	 *
+	 * @return array
+	 */
+	public function list_tags($with_zero=false) {
+
+		global $db;
+
+		# condition
+		$cond = "";
+		if($with_zero) {
+			$cond = " WHERE amount != '0' ";
+		}
+
+		# query
+		$tags = array();
+		$q = $db->query("SELECT title, amount FROM ".TAGS_TABLE." ".$cond);
+		while($data = $db->fetch_assoc($q)) {
+			$tags[] = $data;
+		}
+
+		return $tags;
+	}
 
 
 	/**

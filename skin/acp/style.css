@@ -74,22 +74,25 @@ input.non-bgreq:required:empty {
 input:required:valid {
   background-image: none !important;
 }
-/* All */
+/* logo */
 #logo {
   margin-top: -8px;
 }
 .logo-xs {
   width: 140px;
 }
+/* fix navbar collapse on sx screen*/
 .navbar-collapse {
   max-height: none !important;
 }
+/* notice */
 .notice {
-  margin-top: -10px;
+  margin-top: -15px;
   position: fixed;
   z-index: 100;
-  right: 0;
+  right: 5px;
 }
+/* footer */
 .footer {
   line-height: 13px !important;
   padding: 10px 0;
@@ -112,9 +115,7 @@ blockquote {
 code {
   font-family: 'Ubuntu' !important;
 }
-.paragraph {
-  margin-left: 20px;
-}
+/* Hover */
 .hover-without-underline:hover {
   text-decoration: none !important;
 }
@@ -127,6 +128,9 @@ code {
 .shy,
 .wbr {
   word-break: break-all;
+}
+.bootstrap-tagsinput {
+  width: 100%;
 }
 /* fix font-awesome underline */
 a:hover [class^="fa-"] {
@@ -278,9 +282,6 @@ blockquote.quote-danger > h6 {
   color: #c60d14;
 }
 /*Fonts*/
-.arial {
-  font-family: 'Arial', 'Helvetica', 'sans-serif';
-}
 .tahoma {
   font-family: 'Tahoma';
 }

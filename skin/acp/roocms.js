@@ -84,11 +84,8 @@ $(document).ready(function() {
 
 	/* Tags Input */
 	$(".tagsinput").tagsinput({
-		confirmKeys: [13, 44],
 		maxTags: 10,
-		trimValue: true,
-		allowDuplicates: false,
-		splitOn: ','
+		trimValue: true
 	});
 
 	/* Colorbox */
