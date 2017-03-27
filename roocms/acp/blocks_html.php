@@ -44,7 +44,7 @@
 * @author       alex Roosso
 * @copyright    2010-2017 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.4.2
+* @version      1.4.3
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -268,19 +268,25 @@ class ACP_BLOCKS_HTML {
 
 
 		if(!isset($POST->title)) {
-			$logger->error("Не указано название блока!");
+			$logger->error("Не указано название блока!", false);
 		}
 
-		$check_alias = (isset($POST->oldalias)) ? "alias!='".$POST->oldalias."'" : "" ;
-
-		if(!isset($POST->alias) || $db->check_id($parse->text->transliterate($POST->alias), BLOCKS_TABLE, "alias", $check_alias)) {
-			$logger->error("Не указан алиас блока или он не уникален!");
+		if(!isset($POST->alias)) {
+			$logger->error("Не указан алиас блока!", false);
 		}
 		else {
-			$POST->alias = $parse->text->transliterate($POST->alias);
 			$POST->alias = preg_replace(array('(\s\s+)','(\-\-+)','(__+)','([^a-zA-Z0-9\-_])'), array('','','',''), $POST->alias);
+			$POST->alias = $parse->text->transliterate($POST->alias);
+
 			if(is_numeric($POST->alias)) {
 				$POST->alias .= randcode(3, "abcdefghijklmnopqrstuvwxyz");
+			}
+
+
+			$check_alias = (isset($POST->oldalias)) ? "alias!='".$POST->oldalias."'" : "" ;
+
+			if($db->check_id($POST->alias, BLOCKS_TABLE, "alias", $check_alias)) {
+				$logger->error("Алиас блока не уникален!", false);
 			}
 		}
 

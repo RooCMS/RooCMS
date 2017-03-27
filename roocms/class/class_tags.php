@@ -68,10 +68,11 @@ class Tags {
 	 * Функция возвращает ввиде массива полный список тегов
 	 *
 	 * @param bool $with_zero - Если флаг true, то вернет список тегов включая, нулевые значения. Иначе вернет только используемые теги.
+	 * @param int  $limit     - Кол-во тегов (срез) которые вернет запрос
 	 *
 	 * @return array
 	 */
-	public function list_tags($with_zero=false) {
+	public function list_tags($with_zero=false, $limit=0) {
 
 		global $db;
 
@@ -81,9 +82,15 @@ class Tags {
 			$cond = " WHERE amount != '0' ";
 		}
 
+		# limit condition
+		$lcond = "";
+		if($limit > 0) {
+			$lcond = " LIMIT 0,".$limit;
+		}
+
 		# query
 		$tags = array();
-		$q = $db->query("SELECT title, amount FROM ".TAGS_TABLE." ".$cond);
+		$q = $db->query("SELECT title, amount FROM ".TAGS_TABLE." ".$cond." ORDER BY amount DESC".$lcond);
 		while($data = $db->fetch_assoc($q)) {
 			$tags[] = $data;
 		}
