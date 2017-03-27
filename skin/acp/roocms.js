@@ -83,6 +83,7 @@ $(document).ready(function() {
 	$(".colorpicker").colorpicker();
 
 	/* Tags Input */
+
 	$(".tagsinput").tagsinput({
 		maxTags: 10,
 		trimValue: true

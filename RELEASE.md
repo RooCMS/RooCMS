@@ -12,7 +12,6 @@ Plugins
 - Bootstrap Datepicker	`v1.3`
 - Bootstrap Colorpicker	`v1`
 - Bootstrap TagsInput	`v0.8.0`
-- typeahead.js		`v0.11.1`
 - Font Awesome		`v4.7`
 - Smarty		`v3.1.30`
 - Smarty plugins:	`get_params`
@@ -24,7 +23,6 @@ Plugins
 Release info
 ------------
 	[!]	Далее RooCMS не поддерживает PHP версии ниже 5.4.0
-	[+]	Добавлен js плагин typeahead
 	[+]	Добавлены метки (теги) к лентам
 	[-]	Удален js плагин lightbox
 	[*]	Решили изменить логотип. То, что уже несколько лет было логотипом, никуда не годиться.
