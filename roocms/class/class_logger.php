@@ -1,7 +1,7 @@
 <?php
 /**
- *   RooCMS - Russian free content managment system
- *   Copyright © 2010-2017 alexandr Belov aka alex Roosso. All rights reserved.
+ *   RooCMS - Russian Open Source Free Content Managment System
+ *   Copyright © 2010-2018 alexandr Belov aka alex Roosso. All rights reserved.
  *   Contacts: <info@roocms.com>
  *
  *   This program is free software: you can redistribute it and/or modify
@@ -18,8 +18,8 @@
  *   along with this program.  If not, see http://www.gnu.org/licenses/
  *
  *
- *   RooCMS - Русская бесплатная система управления контентом
- *   Copyright © 2010-2017 александр Белов (alex Roosso). Все права защищены.
+ *   RooCMS - Бесплатная система управления контентом с открытым исходным кодом
+ *   Copyright © 2010-2018 александр Белов (alex Roosso). Все права защищены.
  *   Для связи: <info@roocms.com>
  *
  *   Это программа является свободным программным обеспечением. Вы можете
@@ -40,7 +40,7 @@
  * @package      RooCMS
  * @subpackage	 Engine RooCMS classes
  * @author       alex Roosso
- * @copyright    2010-2017 (c) RooCMS
+ * @copyright    2010-2018 (c) RooCMS
  * @link         http://www.roocms.com
  * @version      1.1
  * @since        $date$

@@ -4,13 +4,13 @@
  * @subpackage	UI
  * @subpackage	jQuery plugin
  * @author      alex Roosso
- * @copyright   2010-2017 (c) RooCMS
+ * @copyright   2010-2018 (c) RooCMS
  * @link        http://www.roocms.com
  * @license     http://www.gnu.org/licenses/gpl-3.0.html
  */
 
 /**
- *   RooCMS - Russian free content managment system
+ *   RooCMS - Russian Open Source Free Content Managment System
  *   Copyright (C) 2010-2014 alex Roosso aka alexandr Belov info@roocms.com
  *
  *   This program is free software: you can redistribute it and/or modify
