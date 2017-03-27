@@ -8,7 +8,7 @@ Plugins
 - Codemirror		`v5.24.2`
 - Colorbox		`v1.4.32`
 - Bootstrap		`v3.3.7`
-- Bootstrap Select	`v1.3.4`
+- Bootstrap Select	`v1.12.2`
 - Bootstrap Datepicker	`v1.3`
 - Bootstrap Colorpicker	`v1`
 - Bootstrap TagsInput	`v0.8.0`
@@ -30,6 +30,7 @@ Release info
 	[*]	Обновлен Codemirror до веврсии 5.24.2
 	[*]	Обновлен jQuery до веврсии 3.1.1
 	[*]	Обновлен CKEditor до веврсии 4.6.2
+	[*]	Обновлен BS Select до веврсии 1.12.2
 	[*]	Расширен новыми функциями класс работы с Mysqli.
 
 	[*]	А так же:
