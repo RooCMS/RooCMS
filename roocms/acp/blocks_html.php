@@ -275,8 +275,8 @@ class ACP_BLOCKS_HTML {
 			$logger->error("Не указан алиас блока!", false);
 		}
 		else {
-			$POST->alias = preg_replace(array('(\s\s+)','(\-\-+)','(__+)','([^a-zA-Z0-9\-_])'), array('','','',''), $POST->alias);
 			$POST->alias = $parse->text->transliterate($POST->alias);
+			$POST->alias = preg_replace(array('(\s\s+)','(\-\-+)','(__+)','([^a-zA-Z0-9\-_])'), array('','','',''), $POST->alias);
 
 			if(is_numeric($POST->alias)) {
 				$POST->alias .= randcode(3, "abcdefghijklmnopqrstuvwxyz");
