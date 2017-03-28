@@ -76,7 +76,7 @@ class ACP_STRUCTURE {
 	public function __construct() {
 
 		require_once _CLASS."/class_structure.php";
-		$this->engine = new Structure(true, false);
+		$this->engine = new Structure(false);
 
 		# initialise
 		$this->init();

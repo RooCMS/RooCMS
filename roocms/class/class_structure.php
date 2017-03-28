@@ -42,7 +42,7 @@
 * @author       alex Roosso
 * @copyright    2010-2018 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.4.7
+* @version      1.5
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -67,11 +67,17 @@ class Structure {
 						'php'	=> array('enable' => true, 'title' => 'PHP страница'),
 						'feed'	=> array('enable' => true, 'title' => 'Лента'));
 
+	# bread cumb
 	public $breadcumb		= array();
 
+	# site tree
 	public $sitetree		= array();
 
+	# on/off (release in future)
 	public $access			= true;
+
+	# aliases
+	private $aliases 		= array();
 
 	# page vars
 	public $page_id			= 1;				# [int]		page sid
@@ -97,17 +103,14 @@ class Structure {
 	/**
 	* Запускаем класс
 	*
-	* @param boolean $tree - true для инициализации структуры сайта
-	* @param boolean $ui - использовать true только в пользовательском интерфейсе.
+	* @param boolean $ui - использовать true только в клиентском интерфейсе.
 	*/
-	public function __construct($tree=true, $ui=true) {
+	public function __construct($ui=true) {
 
 		global $db, $GET;
 
 		# load site tree
-		if($tree) {
-			$this->sitetree = $this->load_tree();
-		}
+		$this->sitetree = $this->load_tree();
 
 		if(!empty($this->sitetree)) {
 			$this->update_tree_parent();
@@ -115,40 +118,7 @@ class Structure {
 
         	# user interface loaded
         	if($ui) {
-			# const for default structure id
-			if(!defined('PAGEID')) {
-				define('PAGEID', 1);
-			}
-
-			# init page vars
-			if(isset($GET->_page)) {
-				$cond = (is_numeric($GET->_page)) ? "id='".$GET->_page."'" : "alias='".$GET->_page."'" ;
-
-				# запрос
-				$q = $db->query("SELECT id, page_id, parent_id, group_access, alias, title, meta_description, meta_keywords, noindex, page_type, rss, show_child_feeds, items_per_page, items_sorting, items, thumb_img_width, thumb_img_height FROM ".STRUCTURE_TABLE." WHERE ".$cond);
-				$row = $db->fetch_assoc($q);
-
-				if(!empty($row)) {
-					$this->set_page_vars($row);
-				}
-				else {	# load index page
-					$q = $db->query("SELECT id, page_id, parent_id, group_access, alias, title, meta_description, meta_keywords, noindex, page_type, rss, show_child_feeds, items_per_page, items, items_sorting, thumb_img_width, thumb_img_height FROM ".STRUCTURE_TABLE." WHERE id='".PAGEID."'");
-					$row = $db->fetch_assoc($q);
-					$this->set_page_vars($row);
-				}
-			}
-			# deafult load index
-			else {
-				$q = $db->query("SELECT id, page_id, parent_id, group_access, alias, title, meta_description, meta_keywords, noindex, page_type, rss, show_child_feeds, items_per_page, items, items_sorting, thumb_img_width, thumb_img_height FROM ".STRUCTURE_TABLE." WHERE id='".PAGEID."'");
-				$row = $db->fetch_assoc($q);
-				$this->set_page_vars($row);
-			}
-
-			# mites
-			if($this->page_parent != 0) {
-				$this->construct_breadcumb($this->page_id);
-				krsort($this->breadcumb);
-			}
+			$this->load_ui();
 		}
 	}
 
@@ -169,11 +139,19 @@ class Structure {
 
 		# Делаем единичный запрос в БД собирая данные по структуре сайта.
 		if(!$use) {
-			$q = $db->query("SELECT id, alias, parent_id, sort, group_access, title, noindex, page_type, childs, page_id, rss, show_child_feeds, items_per_page, items, items_sorting, thumb_img_width, thumb_img_height FROM ".STRUCTURE_TABLE." ORDER BY sort ASC");
+			$q = $db->query("SELECT 
+						id, page_id, alias, parent_id,  
+						title, meta_description, meta_keywords, noindex, rss,
+						page_type, sort, childs, items, show_child_feeds, group_access, 
+						items_per_page, items_sorting, thumb_img_width, thumb_img_height 
+					FROM ".STRUCTURE_TABLE." ORDER BY sort ASC");
 			while($row = $db->fetch_assoc($q)) {
-				$row['level']	= 0;
-				$row['parent']	= 0;
-				$tree[] 	= $row;
+				$row['level']	  = 0;
+				$row['parent']	  = 0;
+
+				$tree[$row['id']] = $row;
+
+				$this->aliases[$row['alias']] = $row['id'];
 			}
 
 			$use = true;
@@ -185,8 +163,6 @@ class Structure {
 		# construct tree
 		if(isset($tree)) {
 			$tree = $this->construct_tree($tree, $parent, $maxlevel, $child);
-
-			# be back
 			return $tree;
 		}
 		else {
@@ -236,6 +212,44 @@ class Structure {
 		# be back
 		if(!empty($tree)) {
 			return $tree;
+		}
+	}
+
+
+	/**
+	 * Загружаем ui data
+	 */
+	private function load_ui() {
+
+		global $db, $GET;
+
+		# const for default structure id
+		if(!defined('PAGEID')) {
+			define('PAGEID', 1);
+		}
+
+
+		# init id for vars
+		$lid = PAGEID;
+
+		if(isset($GET->_page)) {
+			if(isset($this->sitetree[$GET->_page])) {
+				$lid = $GET->_page;
+			}
+
+			if(isset($this->aliases[$GET->_page])) {
+				$lid = $this->aliases[$GET->_page];
+			}
+		}
+
+		# set vars
+		$this->set_page_vars($this->sitetree[$lid]);
+
+
+		# mites
+		if($this->page_parent != 0) {
+			$this->construct_breadcumb($this->page_id);
+			krsort($this->breadcumb);
 		}
 	}
 
@@ -302,7 +316,6 @@ class Structure {
 				$this->construct_breadcumb($v['parent_id']);
 			}
 		}
-
 	}
 
 
