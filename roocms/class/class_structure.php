@@ -122,10 +122,10 @@ class Structure {
 
 			# init page vars
 			if(isset($GET->_page)) {
-				$where = (is_numeric($GET->_page)) ? "id='".$GET->_page."'" : "alias='".$GET->_page."'" ;
+				$cond = (is_numeric($GET->_page)) ? "id='".$GET->_page."'" : "alias='".$GET->_page."'" ;
 
 				# запрос
-				$q = $db->query("SELECT id, page_id, parent_id, group_access, alias, title, meta_description, meta_keywords, noindex, page_type, rss, show_child_feeds, items_per_page, items_sorting, items, thumb_img_width, thumb_img_height FROM ".STRUCTURE_TABLE." WHERE ".$where);
+				$q = $db->query("SELECT id, page_id, parent_id, group_access, alias, title, meta_description, meta_keywords, noindex, page_type, rss, show_child_feeds, items_per_page, items_sorting, items, thumb_img_width, thumb_img_height FROM ".STRUCTURE_TABLE." WHERE ".$cond);
 				$row = $db->fetch_assoc($q);
 
 				if(!empty($row)) {

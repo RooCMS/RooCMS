@@ -191,13 +191,13 @@ class Files {
 	/**
 	 * Выгружаем присоедененные файлы
 	 *
-	 * @param string $where - параметр указывающий на элемент к которому прикреплены изображения
+	 * @param string $cond - параметр указывающий на элемент к которому прикреплены изображения
 	 * @param int    $from - стартовая позиция для загрузки файлов
 	 * @param int    $limit - лимит загружаемых файлов
 	 *
 	 * @return array $data - массив с данными о файлах.
 	 */
-	public function load_files($where, $from = 0, $limit = 0) {
+	public function load_files($cond, $from = 0, $limit = 0) {
 
 		global $db;
 
@@ -205,7 +205,7 @@ class Files {
 
 		$l = ($limit != 0) ? "LIMIT {$from},{$limit}" : "" ;
 
-		$q = $db->query("SELECT id, filename, fileext, sort FROM ".FILES_TABLE." WHERE attachedto='{$where}' ORDER BY sort ASC ".$l);
+		$q = $db->query("SELECT id, filename, fileext, sort FROM ".FILES_TABLE." WHERE attachedto='{$cond}' ORDER BY sort ASC ".$l);
 		while($file = $db->fetch_assoc($q)) {
 			$file['file']	= $file['filename'].".".$file['fileext'];
 			$data[] = $file;
@@ -359,17 +359,17 @@ class Files {
 		global $db, $logger;
 
 		if(is_numeric($file) || is_integer($file)) {
-			$where = " id='".$file."' ";
+			$cond = " id='".$file."' ";
 		}
 		else {
-			$where = " attachedto='".$file."' ";
+			$cond = " attachedto='".$file."' ";
 		}
 
 		if($clwhere) {
-			$where = $file;
+			$cond = $file;
 		}
 
-		$q = $db->query("SELECT id, filename, fileext FROM ".FILES_TABLE." WHERE ".$where);
+		$q = $db->query("SELECT id, filename, fileext FROM ".FILES_TABLE." WHERE ".$cond);
 		while($row = $db->fetch_assoc($q)) {
 			if(!empty($row)) {
 				$filename = $row['filename'].".".$row['fileext'];
@@ -385,7 +385,7 @@ class Files {
 			}
 		}
 
-		$db->query("DELETE FROM ".FILES_TABLE." WHERE ".$where);
+		$db->query("DELETE FROM ".FILES_TABLE." WHERE ".$cond);
 	}
 }
 

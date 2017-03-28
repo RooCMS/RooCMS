@@ -75,13 +75,13 @@ class MySQLiExtends {
 	* Функция подсчета страниц
 	*
 	* @param mixed $from
-	* @param mixed $where
+	* @param mixed $cond
 	* @param mixed $query
 	*/
-	public function pages_mysql($from, $where="id!=0", $query="") {
+	public function pages_mysql($from, $cond="id!=0", $query="") {
 
 		# Считаем
-		$count = $this->count($from, "{$where} {$query}");
+		$count = $this->count($from, "{$cond} {$query}");
 
 		# Если товаров больше чем на одну страницу...
 		if($count > $this->limit) {

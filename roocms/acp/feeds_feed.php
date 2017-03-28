@@ -324,8 +324,9 @@ class ACP_FEEDS_FEED {
 			$item['date_end_publications'] = $parse->date->unix_to_rusint($item['date_end_publications']);
 		}
 
-		# tags
+		# item tags
 		$item['tags'] = implode(", ", array_keys($tags->read_tags("feeditemid=".$id)));
+
 
 		$smarty->assign("item",$item);
 
@@ -565,15 +566,15 @@ class ACP_FEEDS_FEED {
 
 		global $db, $img;
 
-		$where = "";
+		$cond = "";
 		$f = $db->query("SELECT id FROM ".PAGES_FEED_TABLE." WHERE sid='".$sid."'");
 		while($fid = $db->fetch_assoc($f)) {
-			$where .= (trim($where) != "") ? " OR attachedto='feeditemid=".$fid['id']."' " :  " attachedto='feeditemid=".$fid['id']."' " ;
+			$cond .= (trim($cond) != "") ? " OR attachedto='feeditemid=".$fid['id']."' " :  " attachedto='feeditemid=".$fid['id']."' " ;
 		}
 
 		# del attached images
-		if(trim($where) != "") {
-                	$img->delete_images($where, true);
+		if(trim($cond) != "") {
+                	$img->delete_images($cond, true);
 		}
 
 		$db->query("DELETE FROM ".PAGES_FEED_TABLE." WHERE sid='".$sid."'");

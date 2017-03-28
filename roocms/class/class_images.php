@@ -194,13 +194,13 @@ class Images extends GD {
 	/**
 	 * Выгружаем присоедененные изображения
 	 *
-	 * @param string $where - параметр указывающий на элемент к которому прикреплены изображения
+	 * @param string $cond - параметр указывающий на элемент к которому прикреплены изображения
 	 * @param int    $from - стартовая позиция для загрузки изображений
 	 * @param int    $limit - лимит загружаемых изображений
 	 *
 	 * @return array $data - массив с данными об изображениях.
 	 */
-	public function load_images($where, $from = 0, $limit = 0) {
+	public function load_images($cond, $from = 0, $limit = 0) {
 
                 global $db;
 
@@ -208,7 +208,7 @@ class Images extends GD {
 
 		$l = ($limit != 0) ? "LIMIT {$from},{$limit}" : "" ;
 
-		$q = $db->query("SELECT id, filename, fileext, sort, alt FROM ".IMAGES_TABLE." WHERE attachedto='{$where}' ORDER BY sort ASC ".$l);
+		$q = $db->query("SELECT id, filename, fileext, sort, alt FROM ".IMAGES_TABLE." WHERE attachedto='{$cond}' ORDER BY sort ASC ".$l);
 		while($image = $db->fetch_assoc($q)) {
 			$image['original']	= $image['filename']."_original.".$image['fileext'];
 			$image['resize']	= $image['filename']."_resize.".$image['fileext'];
@@ -255,17 +255,17 @@ class Images extends GD {
                 global $db, $logger;
 
 		if(is_numeric($image) || is_integer($image)) {
-		        $where = " id='".$image."' ";
+			$cond = " id='".$image."' ";
 		}
 		else {
-			$where = " attachedto='".$image."' ";
+			$cond = " attachedto='".$image."' ";
 		}
 
 		if($clwhere) {
-			$where = $image;
+			$cond = $image;
 		}
 
-                $q = $db->query("SELECT id, filename, fileext FROM ".IMAGES_TABLE." WHERE ".$where);
+                $q = $db->query("SELECT id, filename, fileext FROM ".IMAGES_TABLE." WHERE ".$cond);
                 while($row = $db->fetch_assoc($q)) {
                 	if(!empty($row)) {
                 		$original = $row['filename']."_original.".$row['fileext'];
@@ -301,7 +301,7 @@ class Images extends GD {
                 	}
                 }
 
-                $db->query("DELETE FROM ".IMAGES_TABLE." WHERE ".$where);
+                $db->query("DELETE FROM ".IMAGES_TABLE." WHERE ".$cond);
         }
 
 
