@@ -182,8 +182,17 @@ class RSS {
 	}
 
 
-	//#####################################################
-	// draw item
+	/**
+	 * draw item
+	 *
+	 * @param        $guid
+	 * @param        $title
+	 * @param        $description
+	 * @param        $link
+	 * @param        $pubdate
+	 * @param string $author
+	 * @param string $category
+	 */
 	public function create_item($guid, $title, $description, $link, $pubdate, $author = "", $category = "") {
 
 		global $site, $parse;
@@ -272,8 +281,9 @@ class RSS {
 	}
 
 
-	//#####################################################
-	// draw footer doc
+	/**
+	 * draw footer doc
+	 */
 	protected function footer() {
 		$this->out .= "\n\t</channel>\n</rss>";
 	}

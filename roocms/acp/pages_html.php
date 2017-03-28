@@ -62,8 +62,11 @@ if(!defined('RooCMS') || !defined('ACP')) {
  */
 class ACP_PAGES_HTML {
 
-	//#####################################################
-	//	Edit
+	/**
+	 * Функция собирает данные страницы для редактирования
+	 *
+	 * @param int $sid - Структурный идентификатор
+	 */
 	public function edit($sid) {
 
 		global $db, $files, $img, $tpl, $smarty, $parse;

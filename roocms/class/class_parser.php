@@ -377,8 +377,14 @@ class Parsers {
 	}
 
 
-	//#####################################################
-	// Escape special String
+	/**
+	 * Escape special String
+	 *
+	 * @param      $string
+	 * @param bool $key
+	 *
+	 * @return mixed|string
+	 */
 	public function escape_string($string, $key=true) {
 		global $db;
 
