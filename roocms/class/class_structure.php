@@ -139,6 +139,7 @@ class Structure {
 
 		# Делаем единичный запрос в БД собирая данные по структуре сайта.
 		if(!$use) {
+			$tree = array();
 			$q = $db->query("SELECT 
 						id, page_id, alias, parent_id,  
 						title, meta_description, meta_keywords, noindex, rss,
