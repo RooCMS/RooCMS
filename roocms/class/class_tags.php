@@ -42,7 +42,7 @@
  * @author       alex Roosso
  * @copyright    2010-2018 (c) RooCMS
  * @link         http://www.roocms.com
- * @version      1.0.3
+ * @version      1.0.4
  * @since        $date$
  * @license      http://www.gnu.org/licenses/gpl-3.0.html
  */
@@ -64,6 +64,7 @@ if(!defined('RooCMS')) {
 class Tags {
 
 
+
 	/**
 	 * Функция возвращает ввиде массива полный список тегов
 	 *
@@ -79,7 +80,7 @@ class Tags {
 		# condition
 		$cond = "";
 		if($with_zero) {
-			$cond = " WHERE amount != '0' ";
+			$cond = " amount != '0' ";
 		}
 
 		# limit condition
@@ -90,7 +91,7 @@ class Tags {
 
 		# query
 		$tags = array();
-		$q = $db->query("SELECT title, amount FROM ".TAGS_TABLE." ".$cond." ORDER BY amount DESC".$lcond);
+		$q = $db->query("SELECT title, amount FROM ".TAGS_TABLE." WHERE ".$cond." ORDER BY amount DESC".$lcond);
 		while($data = $db->fetch_assoc($q)) {
 			$tags[] = $data;
 		}
@@ -110,8 +111,24 @@ class Tags {
 
 		global $db;
 
+		# create condition
+		$cond = "(";
+		if(is_array($linkedto)) {
+			foreach($linkedto AS $value) {
+				if($cond != "(") {
+					$cond .= " AND ";
+				}
+
+				$cond .= " l.linkedto='".$value."' ";
+			}
+		}
+		else {
+			$cond .= " l.linkedto='".$linkedto."' ";
+		}
+		$cond .= ")";
+
 		$tags = array();
-		$q = $db->query("SELECT l.tag_id, t.title, t.amount FROM ".TAGS_LINK_TABLE." AS l LEFT JOIN ".TAGS_TABLE." AS t ON (t.id = l.tag_id) WHERE l.linkedto='".$linkedto."' ORDER BY t.title ASC");
+		$q = $db->query("SELECT l.tag_id, t.title, t.amount FROM ".TAGS_LINK_TABLE." AS l LEFT JOIN ".TAGS_TABLE." AS t ON (t.id = l.tag_id) WHERE ".$cond." ORDER BY t.title ASC");
 		while($data = $db->fetch_assoc($q)) {
 			$tags[$data['title']] = $data;
 		}
