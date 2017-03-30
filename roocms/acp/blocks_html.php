@@ -111,7 +111,9 @@ class ACP_BLOCKS_HTML {
 
 				go(CP."?act=blocks");
 			}
-			else go(CP."?act=blocks&part=create&type=html");
+			else {
+				go(CP."?act=blocks&part=create&type=html");
+			}
 		}
 
 		# show upload files & images form

@@ -111,7 +111,7 @@ class ACP_HELP {
 		}
 
 		# Запрашиваем техническую информацию о разделе по умолчанию, если не было верного запроса ни по идентификатору ни уникалному имени
-		if(!isset($GET->_id, $GET->_u) || $this->part_id == 0) {
+		if((!isset($GET->_id) && !isset($GET->_u)) || $this->part_id == 0) {
 				$q = $db->query("SELECT id, parent_id, uname, title, content, date_modified FROM ".HELP_TABLE." WHERE id='1'");
 				$row = $db->fetch_assoc($q);
 
@@ -294,12 +294,10 @@ class ACP_HELP {
 				else {
 					$childs = $this->load_tree($id);
 
-					if($childs) {
-						foreach($childs AS $v) {
-							if($POST->parent_id == $v['id']) {
-								$POST->parent_id = $POST->now_parent_id;
-								$logger->error("Не удалось изменить иерархию! Вы не можете изменить иерархию директории переместив её в свой дочерний элемент!");
-							}
+					foreach((array)$childs AS $v) {
+						if($POST->parent_id == $v['id']) {
+							$POST->parent_id = $POST->now_parent_id;
+							$logger->error("Не удалось изменить иерархию! Вы не можете изменить иерархию директории переместив её в свой дочерний элемент!");
 						}
 					}
 				}

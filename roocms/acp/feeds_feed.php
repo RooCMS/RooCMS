@@ -325,7 +325,7 @@ class ACP_FEEDS_FEED {
 		}
 
 		# item tags
-		$item['tags'] = implode(", ", array_keys($tags->read_tags("feeditemid=".$id)));
+		$item['tags'] = implode(", ", array_map(array("Tags", "get_tag_title"), $tags->read_tags("feeditemid=".$id)));
 
 
 		$smarty->assign("item",$item);

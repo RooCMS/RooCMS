@@ -308,14 +308,13 @@ class ACP_STRUCTURE {
 				else {
 					$childs = $this->engine->load_tree($sid);
 
-					if($childs) {
-						foreach($childs AS $v) {
-							if($POST->parent_id == $v['id']) {
-								$POST->parent_id = $POST->now_parent_id;
-								$logger->error("Не удалось изменить иерархию! Вы не можете изменить иерархию директории переместив её в свой дочерний элемент!");
-							}
+					foreach((array)$childs AS $v) {
+						if($POST->parent_id == $v['id']) {
+							$POST->parent_id = $POST->now_parent_id;
+							$logger->error("Не удалось изменить иерархию! Вы не можете изменить иерархию директории переместив её в свой дочерний элемент!");
 						}
 					}
+
 				}
 			}
 

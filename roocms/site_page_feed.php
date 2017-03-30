@@ -42,7 +42,7 @@
 * @author       alex Roosso
 * @copyright    2010-2018 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.3.4
+* @version      1.4
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -139,7 +139,7 @@ class PageFeed {
 	 */
 	private function load_feed() {
 
-		global $db, $config, $structure, $rss, $parse, $img, $tpl, $smarty, $site;
+		global $db, $config, $structure, $tags,  $rss, $parse, $img, $tpl, $smarty;
 
 		# set limit on per page
 		$this->items_per_page = ($structure->page_items_per_page > 0) ? $structure->page_items_per_page : $config->feed_items_per_page ;
@@ -147,7 +147,7 @@ class PageFeed {
 
 
 		# query id's feeds begin
-		$queryfeeds = " AND ( sid='".$structure->page_id."' ";
+		$cond = " AND ( sid='".$structure->page_id."' ";
 
 		$showchilds =& $structure->page_show_child_feeds;
 
@@ -155,38 +155,19 @@ class PageFeed {
 			$qfeeds = $this->construct_child_feeds($structure->page_id, $showchilds);
 			foreach($qfeeds as $v) {
 				# query id's feeds collect
-				$queryfeeds .= " OR sid='".$v."' ";
+				$cond .= " OR sid='".$v."' ";
 			}
 		}
 
 		# query id's feeds final
-		$queryfeeds .= " ) ";
+		$cond .= " ) ";
 
 
 		# calculate pages
-		$db->pages_mysql(PAGES_FEED_TABLE, "date_publications <= '".time()."' ".$queryfeeds." AND (date_end_publications = '0' || date_end_publications > '".time()."') AND status='1'");
+		$db->pages_mysql(PAGES_FEED_TABLE, "date_publications <= '".time()."' ".$cond." AND (date_end_publications = '0' || date_end_publications > '".time()."') AND status='1'");
 
-		$pages = array();
-		# prev
-		if($db->prev_page != 0) {
-			$pages[]['prev'] =& $db->prev_page;
-		}
-		# pages
-		for($p=1;$p<=$db->pages;$p++) {
-			$pages[]['n'] = $p;
-		}
-		# next
-		if($db->next_page > 1) {
-			$pages[]['next'] =& $db->next_page;
-		}
-
-
-		# Указываем в титуле страницу
-		# Это можно было бы оставить на усмотрение верстальщиков. Но использование одинаковых титулов на целом ряде страниц неполезно для SEO
-		# (Есть небольшая вероятность, что этот момент будет исправлен и перенесен на усмотрение верстальщиков в шаблоны)
-		if($db->page > 1) {
-			$site['title'] .= " (Страница: ".$db->page.")";
-		}
+		# get array pagination template array
+		$pages = $this->construct_pagination();
 
 		# RSS
 		$rss->set_header_link();
@@ -217,23 +198,34 @@ class PageFeed {
 
 
 		# Feed list
-		$feeds = array();
-		$q = $db->query("SELECT id, title, brief_item, full_item, date_publications FROM ".PAGES_FEED_TABLE." WHERE date_publications <= '".time()."' ".$queryfeeds." AND (date_end_publications = '0' || date_end_publications > '".time()."') AND status='1' ORDER BY ".$order." LIMIT ".$db->from.",".$db->limit);
+		$taglinks = array();
+		$feeds    = array();
+		$q = $db->query("SELECT id, title, brief_item, full_item, date_publications FROM ".PAGES_FEED_TABLE." WHERE date_publications <= '".time()."' ".$cond." AND (date_end_publications = '0' || date_end_publications > '".time()."') AND status='1' ORDER BY ".$order." LIMIT ".$db->from.",".$db->limit);
 		while($row = $db->fetch_assoc($q)) {
 
 			if(trim($row['brief_item']) == "") {
 				$row['brief_item'] = $row['full_item'];
 			}
 
-			$row['datepub']		= $parse->date->unix_to_rus($row['date_publications'],true);
-			$row['date'] 		= $parse->date->unix_to_rus_array($row['date_publications']);
-			$row['brief_item'] 	= $parse->text->html($row['brief_item']);
+			$row['datepub']    = $parse->date->unix_to_rus($row['date_publications'],true);
+			$row['date']       = $parse->date->unix_to_rus_array($row['date_publications']);
+			$row['brief_item'] = $parse->text->html($row['brief_item']);
 
-			$row['image'] 		= $img->load_images("feeditemid=".$row['id']."", 0, 1);
+			$row['image']      = $img->load_images("feeditemid=".$row['id']."", 0, 1);
 
-			$feeds[] = $row;
+			$row['tags']       = array();
+
+
+			$taglinks[$row['id']] = "feeditemid=".$row['id'];
+			$feeds[$row['id']] = $row;
 		}
 
+		# tags collect
+		$alltags = $tags->read_tags($taglinks);
+		foreach((array)$alltags AS $value) {
+			$lid = explode("=",$value['linkedto']);
+			$feeds[$lid[1]]['tags'][] = array("tag_id"=>$value['tag_id'], "title"=>$value['title']);
+		}
 
 		# smarty
 		$smarty->assign("feeds", $feeds);
@@ -280,28 +272,61 @@ class PageFeed {
 		$feeds = array();
 
 		$tfeeds = $structure->load_tree($sid, 0, false);
-		if(!empty($tfeeds)) {
-			foreach($tfeeds AS $v) {
-				if($v['page_type'] == "feed") {
+		foreach((array)$tfeeds AS $v) {
+			if($v['page_type'] == "feed") {
 
-					$feeds[$v['id']] = $v['id'];
+				$feeds[$v['id']] = $v['id'];
 
-					# default rule
-					if($type == "default" && $v['show_child_feeds'] != "none") {
-						$addfeeds = $this->construct_child_feeds($v['id'],$v['show_child_feeds']);
-						$feeds = array_merge($feeds, $addfeeds);
-					}
+				# default rule
+				if($type == "default" && $v['show_child_feeds'] != "none") {
+					$addfeeds = $this->construct_child_feeds($v['id'],$v['show_child_feeds']);
+					$feeds = array_merge($feeds, $addfeeds);
+				}
 
-					# force rule
-					if($type == "forced") {
-						$addfeeds = $this->construct_child_feeds($v['id'],$type);
-						$feeds = array_merge($feeds, $addfeeds);
-					}
+				# force rule
+				if($type == "forced") {
+					$addfeeds = $this->construct_child_feeds($v['id'],$type);
+					$feeds = array_merge($feeds, $addfeeds);
 				}
 			}
 		}
 
+
 		return $feeds;
+	}
+
+
+	/**
+	 * Функция формирует массив данных для постраничной навигации, который будет использован в шаблонах
+	 *
+	 * @return array
+	 */
+	private function construct_pagination() {
+
+		global $db, $site;
+
+		$pages = array();
+		# prev
+		if($db->prev_page != 0) {
+			$pages[]['prev'] =& $db->prev_page;
+		}
+		# pages
+		for($p=1;$p<=$db->pages;$p++) {
+			$pages[]['n'] = $p;
+		}
+		# next
+		if($db->next_page > 1) {
+			$pages[]['next'] =& $db->next_page;
+		}
+
+		# Указываем в титуле страницу
+		# Это можно было бы оставить на усмотрение верстальщиков. Но использование одинаковых титулов на целом ряде страниц неполезно для SEO
+		# (Есть небольшая вероятность, что этот момент будет исправлен и перенесен на усмотрение верстальщиков в шаблоны)
+		if($db->page > 1) {
+			$site['title'] .= " (Страница: ".$db->page.")";
+		}
+
+		return $pages;
 	}
 }
 

@@ -116,7 +116,7 @@ class Tags {
 		if(is_array($linkedto)) {
 			foreach($linkedto AS $value) {
 				if($cond != "(") {
-					$cond .= " AND ";
+					$cond .= " OR ";
 				}
 
 				$cond .= " l.linkedto='".$value."' ";
@@ -128,9 +128,9 @@ class Tags {
 		$cond .= ")";
 
 		$tags = array();
-		$q = $db->query("SELECT l.tag_id, t.title, t.amount FROM ".TAGS_LINK_TABLE." AS l LEFT JOIN ".TAGS_TABLE." AS t ON (t.id = l.tag_id) WHERE ".$cond." ORDER BY t.title ASC");
+		$q = $db->query("SELECT l.tag_id, t.title, t.amount, l.linkedto FROM ".TAGS_LINK_TABLE." AS l LEFT JOIN ".TAGS_TABLE." AS t ON (t.id = l.tag_id) WHERE ".$cond." ORDER BY t.title ASC");
 		while($data = $db->fetch_assoc($q)) {
-			$tags[$data['title']] = $data;
+			$tags[] = $data;
 		}
 
 		# return
@@ -149,7 +149,7 @@ class Tags {
 		global $db;
 
 		# Получаем текущие теги и разбираем
-		$now_tags = array_keys($this->read_tags($linkedto));
+		$now_tags = array_map(array($this, "get_tag_title"), $this->read_tags($linkedto));
 
 		# Разбираем строку с полученными тегами
 		$new_tags = $this->parse_tags($tags);
@@ -351,6 +351,19 @@ class Tags {
 		if(round($amount) != $c) {
 			$db->query("UPDATE ".TAGS_TABLE." SET amount='".$c."' WHERE id='".$tag_id."'");
 		}
+	}
+
+
+	/**
+	 * Функция для array_map, которая вернет названия тега.
+	 *
+	 * @param $tag
+	 *
+	 * @return mixed
+	 */
+	static function get_tag_title($tag) {
+
+		return $tag['title'];
 	}
 }
 

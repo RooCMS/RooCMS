@@ -15,7 +15,16 @@
 					<div class="col-sm-12">
 						<h4>
 							<a href="{$SCRIPT_NAME}?page={$feed['alias']}{if isset($smarty.get.pg)}&pg={$smarty.get.pg}{/if}&id={$item['id']}">{$item['title']}</a>
-							<small><br /><i class="fa fa-fw fa-calendar"></i> {$item['datepub']}</small>
+							<small>
+								<br /><i class="fa fa-fw fa-calendar"></i> {$item['datepub']}
+								{if !empty($item['tags'])}
+									<span class="pull-right">
+									{foreach from=$item['tags'] item=tag}
+										<span class="label label-info"><i class="fa fa-fw fa-tag"></i>{$tag['title']}</span>
+									{/foreach}
+									</span>
+								{/if}
+							</small>
 						</h4>
 					</div>
 				</div>
