@@ -361,7 +361,7 @@ class Tags {
 	 *
 	 * @return mixed
 	 */
-	static function get_tag_title($tag) {
+	static public function get_tag_title($tag) {
 
 		return $tag['title'];
 	}
