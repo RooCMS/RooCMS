@@ -42,7 +42,7 @@
 * @author       alex Roosso
 * @copyright    2010-2018 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.1.4
+* @version      1.1.5
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -173,39 +173,21 @@ class Requirement {
 
 		require_once _LIB."/files_protected.php";
 
-		foreach($protectfolder AS $v) {
+		foreach($protect AS $v) {
 			$perms = $files->show_fileperms($v['path']);
 
 			$roocmspath = str_replace(_SITEROOT, "", $v['path']);
 			if($perms != $v['chmod']) {
 				@chmod($v['path'], $v['chmod']);
 				if(@chmod($v['path'], $v['chmod'])) {
-					$this->log[] = array("Директория ".$roocmspath, $v['chmod'], true, "");
+					$this->log[] = array("Директория/Файл ".$roocmspath, $v['chmod'], true, "");
 				}
 				else {
-					$this->log[] = array("Директория ".$roocmspath, $perms, false, "Неверные права доступа к директории. Рекомендуемые права ".$v['chmod'].". Для повышения безопастности установите права вручную через ваш FTP доступ");
+					$this->log[] = array("Директория/Файл ".$roocmspath, $perms, false, "Неверные права доступа к директории/файлу. Рекомендуемые права ".$v['chmod'].". Для повышения безопастности установите права вручную через ваш FTP доступ");
 				}
 			}
 			else {
-				$this->log[] = array("Директория ".$roocmspath, $perms, true, "");
-			}
-		}
-
-		foreach($protectfiles AS $v) {
-			$perms = $files->show_fileperms($v['path']);
-
-			$roocmspath = str_replace(_SITEROOT, "", $v['path']);
-			if($perms != $v['chmod']) {
-				@chmod($v['path'], $v['chmod']);
-				if(@chmod($v['path'], $v['chmod'])) {
-					$this->log[] = array("Файл ".$roocmspath, $v['chmod'], true, "");
-				}
-				else {
-					$this->log[] = array("Файл ".$roocmspath, $perms, false, "Неверные права доступа к директории. Рекомендуемые права ".$v['chmod'].". Для повышения безопастности установите права вручную через ваш FTP доступ");
-				}
-			}
-			else {
-				$this->log[] = array("Файл ".$roocmspath, $perms, true, "");
+				$this->log[] = array("Директория/Файл ".$roocmspath, $perms, true, "");
 			}
 		}
 
