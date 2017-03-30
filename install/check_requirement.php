@@ -171,6 +171,7 @@ class Requirement {
 
 		global $files;
 
+		$protect = array();
 		require_once _LIB."/files_protected.php";
 
 		foreach($protect AS $v) {
