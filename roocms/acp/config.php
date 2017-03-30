@@ -43,7 +43,7 @@
 * @author       alex Roosso
 * @copyright    2010-2018 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.3.3
+* @version      1.4
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -233,24 +233,7 @@ class ACP_CONFIG {
 		global $db, $parse, $logger, $POST, $img;
 
 		# запрашиваем из БД типы опций и ограничений
-		$cfg_vars = array();
-		$q = $db->query("SELECT option_name, option_type, variants, field_maxleight FROM ".CONFIG_TABLE);
-		while($row = $db->fetch_assoc($q)) {
-
-			$cfg_vars[$row['option_name']]['type'] 		= $row['option_type'];
-			$cfg_vars[$row['option_name']]['maxleight'] 	= $row['field_maxleight'];
-
-			if(trim($row['variants']) != "") {
-
-				$vars = explode("\n",$row['variants']);
-
-				foreach($vars AS $v) {
-					$v = explode("|",trim($v));
-					$cfg_vars[$row['option_name']]['var'][$v[1]] = trim($v[1]);
-				}
-			}
-		}
-
+		$cfg_vars = $this->get_cfg_vars();
 
 		# Если изменено имя скрипта Панели Администратора.
 		# Пробуем создать новый файл.
@@ -355,7 +338,9 @@ class ACP_CONFIG {
 
 			go($path);
 		}
-		else goback();
+		else {
+			goback();
+		}
 	}
 
 
@@ -413,6 +398,37 @@ class ACP_CONFIG {
 			$logger->error("У вас уже есть такой файл. Новое имя скрипта панели управление не должно совпадать с уже имеющимся файлом. Укажите другое имя для создаваемого файла.");
 			return false;
 		}
+	}
+
+
+	/**
+	 * Функция запрашивает из БД типы опций и ограничений и возвращает их в массиве
+	 *
+	 * @return array
+	 */
+	private function get_cfg_vars() {
+
+		global $db;
+
+		$cfg_vars = array();
+		$q = $db->query("SELECT option_name, option_type, variants, field_maxleight FROM ".CONFIG_TABLE);
+		while($row = $db->fetch_assoc($q)) {
+
+			$cfg_vars[$row['option_name']]['type'] 		= $row['option_type'];
+			$cfg_vars[$row['option_name']]['maxleight'] 	= $row['field_maxleight'];
+
+			if(trim($row['variants']) != "") {
+
+				$vars = explode("\n",$row['variants']);
+
+				foreach($vars AS $v) {
+					$v = explode("|",trim($v));
+					$cfg_vars[$row['option_name']]['var'][$v[1]] = trim($v[1]);
+				}
+			}
+		}
+
+		return $cfg_vars;
 	}
 }
 
