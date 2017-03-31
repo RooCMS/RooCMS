@@ -28,6 +28,9 @@ p.lead {font-family: "PT Sans" !important;}
 /* Other BS fix styles */
 .form-control.datepicker {padding:6px 12px !important;}
 
+/* Font Awesome correct */
+.fa-va {vertical-align: middle;}
+
 /* Other Skin style */
 .tmenu {box-shadow: 0 0 4px #bbb  !important;padding: 5px !important;border-radius: 5px !important;background-color: #fff !important;}
 .topmenu {background-color: transparent !important;text-shadow: none !important;box-shadow: none !important;border: 0 !important;}

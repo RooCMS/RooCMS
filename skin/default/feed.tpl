@@ -20,7 +20,7 @@
 								{if !empty($item['tags'])}
 									<span class="pull-right">
 									{foreach from=$item['tags'] item=tag}
-										<span class="label label-info"><i class="fa fa-fw fa-tag"></i>{$tag['title']}</span>
+										<i class="fa fa-fw fa-tag fa-va"></i>{$tag['title']}
 									{/foreach}
 									</span>
 								{/if}
@@ -42,7 +42,7 @@
 				</div>
 				<div class="row">
 					<div class="col-sm-12 text-right">
-						<a href="{$SCRIPT_NAME}?page={$feed['alias']}{if isset($smarty.get.pg)}&pg={$smarty.get.pg}{/if}&id={$item['id']}" class="btn btn-xs btn-primary">Читать полностью <span class="fa fa-chevron-circle-right fa-fw"></span></a>
+						<a href="{$SCRIPT_NAME}?page={$feed['alias']}{if isset($smarty.get.pg)}&pg={$smarty.get.pg}{/if}&id={$item['id']}" class="btn btn-sm btn-primary">Читать полностью <span class="fa fa-chevron-circle-right fa-fw"></span></a>
 					</div>
 				</div>
 			</div>
