@@ -13,30 +13,28 @@
 			<div id="item-id-{$item['id']}">
 				<div class="row">
 					<div class="col-sm-12">
-						<h4>
-							<a href="{$SCRIPT_NAME}?page={$feed['alias']}{if isset($smarty.get.pg)}&pg={$smarty.get.pg}{/if}&id={$item['id']}">{$item['title']}</a>
-							<small>
-								<br /><i class="fa fa-fw fa-calendar"></i> {$item['datepub']}
-								{if !empty($item['tags'])}
-									<span class="pull-right">
+						{if !empty($item['tags'])}
+							<span class="pull-right small">
 									{foreach from=$item['tags'] item=tag}
 										<i class="fa fa-fw fa-tag fa-va"></i>{$tag['title']}
 									{/foreach}
-									</span>
-								{/if}
-							</small>
-						</h4>
+								</span>
+						{/if}
+						<h3 class="feed-title">
+							<a href="{$SCRIPT_NAME}?page={$feed['alias']}{if isset($smarty.get.pg)}&pg={$smarty.get.pg}{/if}&id={$item['id']}">{$item['title']}</a>
+						</h3>
+						<div class="feed-date small">
+							<i class="fa fa-calendar"></i> {$item['datepub']}
+						</div>
 					</div>
 				</div>
 				<div class="row">
-					{if isset($item['image'][0])}
-						{foreach from=$item['image'] item=image}
-							<div class="col-lg-2 col-md-3 col-sm-4 text-left">
-								<a href="{$SCRIPT_NAME}?page={$feed['alias']}{if isset($smarty.get.pg)}&pg={$smarty.get.pg}{/if}&id={$item['id']}"><img src="upload/images/{$image['thumb']}" border="0" alt="{$image['alt']}" class="img-thumbnail"></a>
-							</div>
-						{/foreach}
-					{/if}
-					<div class="col-lg-{if isset($item['image'][0])}10{else}12{/if} col-md-{if isset($item['image'][0])}9{else}12{/if} col-sm-{if isset($item['image'][0])}8{else}12{/if}">
+					<div class="col-sm-12">
+						{if isset($item['image'][0])}
+							{foreach from=$item['image'] item=image}
+								<a href="{$SCRIPT_NAME}?page={$feed['alias']}{if isset($smarty.get.pg)}&pg={$smarty.get.pg}{/if}&id={$item['id']}"><img src="upload/images/{$image['thumb']}" border="0" alt="{$image['alt']}" class="img-thumbnail feed-image-prev"></a>
+							{/foreach}
+						{/if}
 						{$item['brief_item']}
 					</div>
 				</div>

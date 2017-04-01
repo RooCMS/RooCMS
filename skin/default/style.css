@@ -12,7 +12,7 @@ ul.nav {font-family: 'PT Sans', 'Open Sans' !important;}
 .pagination {font-family: 'Neucha' !important;}
 
 small, button, .btn, .label, .badge {font-family: 'PT Sans' !important;}
-.small, small {line-height: 12px;color: #999; font-size: 11px;}
+.small, small {line-height: 12px;color: #999; font-size: 12px;}
 
 /* Fonts */
 .ptsans {font-family: 'PT Sans';}
@@ -51,6 +51,10 @@ a#move_top {
 .mauth-avatar {margin-top: 4px;margin-right: 5px;border: 2px solid rgba(84, 92, 104, 0.5);}
 .mauth-avatar:hover {border: 2px solid #545c68;}
 .mb0 {margin-bottom: 0 !important;}
+
+.feed-title {margin-top: 0 !important;}
+.feed-date {margin-bottom: 15px;}
+.feed-image-prev {float: right; margin: 0 0 15px 15px;}
 
 .airmail {
 	font-family: 'PT Sans';
