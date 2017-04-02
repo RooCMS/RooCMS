@@ -42,7 +42,7 @@
 * @author	alex Roosso
 * @copyright	2010-2018 (c) RooCMS
 * @link		http://www.roocms.com
-* @version	1.12.3
+* @version	1.13
 * @since	$date$
 * @license	http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -280,23 +280,7 @@ class GD {
 
 		# Проводим расчеты по сжатию превью и уменьшению в размерах
 		$ns = $this->calc_resize($size[0], $size[1], $this->tsize['w'], $this->tsize['h'], false);
-
-
-		if($ns['new_left'] > 0) {
-			$ns['new_top'] = $ns['new_top'] - $ns['new_left'];
-			$proc = (($ns['new_left'] * 2) / $ns['new_width']);
-			$ns['new_width']	= ($ns['new_width'] + ($ns['new_width'] * $proc)) + 2;
-			$ns['new_height']	= ($ns['new_height'] + ($ns['new_height'] * $proc)) + 2;
-			$ns['new_left'] = 0;
-		}
-
-		if($ns['new_top'] > 0) {
-			$ns['new_left'] = $ns['new_left'] - $ns['new_top'];
-			$proc = (($ns['new_top'] * 2) / $ns['new_height']);
-			$ns['new_width']	= ($ns['new_width'] + ($ns['new_width'] * $proc)) + 2;
-			$ns['new_height']	= ($ns['new_height'] + ($ns['new_height'] * $proc)) + 2;
-			$ns['new_top'] = 0;
-		}
+		$ns = $this->calc_newsize($ns);
 
 
 		imagecopyresampled($thumb, $src, $ns['new_left'], $ns['new_top'], 0, 0, $ns['new_width'], $ns['new_height'], $size[0], $size[1]);
@@ -360,21 +344,7 @@ class GD {
 
 		# Перерасчет для заливки превью
 		if($this->thumbtg == "fill") {
-			if($ns['new_left'] > 0) {
-				$ns['new_top'] = $ns['new_top'] - $ns['new_left'];
-				$proc = (($ns['new_left'] * 2) / $ns['new_width']);
-				$ns['new_width']	= ($ns['new_width'] + ($ns['new_width'] * $proc)) + 2;
-				$ns['new_height']	= ($ns['new_height'] + ($ns['new_height'] * $proc)) + 2;
-				$ns['new_left'] = 0;
-			}
-
-			if($ns['new_top'] > 0) {
-				$ns['new_left'] = $ns['new_left'] - $ns['new_top'];
-				$proc = (($ns['new_top'] * 2) / $ns['new_height']);
-				$ns['new_width']	= ($ns['new_width'] + ($ns['new_width'] * $proc)) + 2;
-				$ns['new_height']	= ($ns['new_height'] + ($ns['new_height'] * $proc)) + 2;
-				$ns['new_top'] = 0;
-			}
+			$ns = $this->calc_newsize($ns);
 		}
 
 		imagecopyresampled($thumb, $src, $ns['new_left'], $ns['new_top'], 0, 0, $ns['new_width'], $ns['new_height'], $size[0], $size[1]);
@@ -409,7 +379,7 @@ class GD {
 	protected function watermark_text($filename, $ext, $path=_UPLOADIMAGES) {
 
 		# vars
-        	$fileresize 	= $filename."_resize.".$ext;
+        	$fileresize = $filename."_resize.".$ext;
 
 		# определяем размер картинки
 		$size = getimagesize($path."/".$fileresize);
@@ -570,7 +540,7 @@ class GD {
 	 * @param string $from	- полный путь и имя файла из которого будем крафтить изображение
 	 * @param string $ext	- расширение файла без точки
 	 *
-	 * @return data - функция вернет идентификатор (сырец) для работы (издевательств) с изображением.
+	 * @return resource
 	 */
 	private function imgcreate($from, $ext) {
 
@@ -650,6 +620,35 @@ class GD {
 				'new_top'	=> $new_top);
 
 		return $return;
+	}
+
+
+	/**
+	 * Корректируем массив с обновленными размерами.
+	 *
+	 * @param array $ns - array new size
+	 *
+	 * @return array $ns
+	 */
+	private function calc_newsize(array $ns) {
+
+		if($ns['new_left'] > 0) {
+			$ns['new_top'] = $ns['new_top'] - $ns['new_left'];
+			$proc = (($ns['new_left'] * 2) / $ns['new_width']);
+			$ns['new_width']  = ($ns['new_width'] + ($ns['new_width'] * $proc)) + 2;
+			$ns['new_height'] = ($ns['new_height'] + ($ns['new_height'] * $proc)) + 2;
+			$ns['new_left'] = 0;
+		}
+
+		if($ns['new_top'] > 0) {
+			$ns['new_left'] = $ns['new_left'] - $ns['new_top'];
+			$proc = (($ns['new_top'] * 2) / $ns['new_height']);
+			$ns['new_width']  = ($ns['new_width'] + ($ns['new_width'] * $proc)) + 2;
+			$ns['new_height'] = ($ns['new_height'] + ($ns['new_height'] * $proc)) + 2;
+			$ns['new_top'] = 0;
+		}
+
+		return $ns;
 	}
 
 
