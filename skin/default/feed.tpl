@@ -13,13 +13,6 @@
 			<div id="item-id-{$item['id']}">
 				<div class="row">
 					<div class="col-sm-12">
-						{if !empty($item['tags'])}
-							<span class="pull-right small">
-									{foreach from=$item['tags'] item=tag}
-										<i class="fa fa-fw fa-tag fa-va"></i>{$tag['title']}
-									{/foreach}
-								</span>
-						{/if}
 						<h3 class="feed-title">
 							<a href="{$SCRIPT_NAME}?page={$feed['alias']}{if isset($smarty.get.pg)}&pg={$smarty.get.pg}{/if}&id={$item['id']}">{$item['title']}</a>
 						</h3>
@@ -39,7 +32,16 @@
 					</div>
 				</div>
 				<div class="row">
-					<div class="col-sm-12 text-right">
+					<div class="col-sm-6">
+						{if !empty($item['tags'])}
+							<span class="small">
+								{foreach from=$item['tags'] item=tag}
+									<i class="fa fa-fw fa-tag fa-va"></i>{$tag['title']}
+								{/foreach}
+							</span>
+						{/if}
+					</div>
+					<div class="col-sm-6 text-right">
 						<a href="{$SCRIPT_NAME}?page={$feed['alias']}{if isset($smarty.get.pg)}&pg={$smarty.get.pg}{/if}&id={$item['id']}" class="btn btn-sm btn-primary">Читать полностью <span class="fa fa-chevron-circle-right fa-fw"></span></a>
 					</div>
 				</div>
