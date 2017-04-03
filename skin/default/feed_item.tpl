@@ -21,7 +21,20 @@
 			{/foreach}
 		</div>
 	{/if}
-	<div class="text-right">
-		<a href="{$SCRIPT_NAME}?page={$feed['alias']}{if isset($smarty.get.pg)}&pg={$smarty.get.pg}{/if}" class="btn btn-xs btn-primary"><span class="fa fa-chevron-circle-left fa-fw"></span> Вернуться</a>
+
+	<div class="row">
+		<div class="col-sm-6">
+			{if !empty($item['tags'])}
+				<span class="small">
+					{foreach from=$item['tags'] item=tag}
+						<i class="fa fa-fw fa-tag fa-va"></i>{$tag['title']}
+					{/foreach}
+				</span>
+			{/if}
+		</div>
+		<div class="col-sm-6 text-right">
+			<a href="{$SCRIPT_NAME}?page={$feed['alias']}{if isset($smarty.get.pg)}&pg={$smarty.get.pg}{/if}" class="btn btn-xs btn-primary"><span class="fa fa-chevron-circle-left fa-fw"></span> Вернуться</a>
+		</div>
 	</div>
+
 </div>

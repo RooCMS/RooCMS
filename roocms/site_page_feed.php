@@ -93,47 +93,6 @@ class PageFeed {
 	}
 
 
-        /**
-        * Load Feed Item
-        *
-        * @param int $id  - идентификатор новости
-        */
-	private function load_item($id) {
-
-		global $db, $parse, $files, $img, $tpl, $smarty, $site;
-
-		# query data
-		$q = $db->query("SELECT id, title, meta_description, meta_keywords, full_item, date_publications FROM ".PAGES_FEED_TABLE." WHERE id='".$id."'");
-		$item = $db->fetch_assoc($q);
-		$item['datepub'] 	= $parse->date->unix_to_rus($item['date_publications'],true);
-		$item['date']		= $parse->date->unix_to_rus_array($item['date_publications']);
-		$item['full_item']	= $parse->text->html($item['full_item']);
-
-
-		# load attached images
-                $images = $img->load_images("feeditemid=".$id);
-		$smarty->assign("images", $images);
-
-		# load attached files
-		$attachfile = $files->load_files("feeditemid=".$id);
-		$smarty->assign("attachfile", $attachfile);
-
-
-		$smarty->assign("item", $item);
-
-		# meta
-		$site['title'] .= " - ".$item['title'];
-		if(trim($item['meta_description']) != "") {
-			$site['description']	= $item['meta_description'];
-		}
-		if(trim($item['meta_keywords']) != "") {
-			$site['keywords']	= $item['meta_keywords'];
-		}
-
-		$tpl->load_template("feed_item");
-	}
-
-
 	/**
 	 * Загружаем фид
 	 */
@@ -233,6 +192,47 @@ class PageFeed {
 		$smarty->assign("rsslink", $rss->rss_link);
 
 		$tpl->load_template("feed");
+	}
+
+
+	/**
+	 * Load Feed Item
+	 *
+	 * @param int $id  - идентификатор новости
+	 */
+	private function load_item($id) {
+
+		global $db, $parse, $tags, $files, $img, $tpl, $smarty, $site;
+
+		# query data
+		$q = $db->query("SELECT id, title, meta_description, meta_keywords, full_item, date_publications FROM ".PAGES_FEED_TABLE." WHERE id='".$id."'");
+		$item = $db->fetch_assoc($q);
+		$item['datepub'] 	= $parse->date->unix_to_rus($item['date_publications'],true);
+		$item['date']		= $parse->date->unix_to_rus_array($item['date_publications']);
+		$item['full_item']	= $parse->text->html($item['full_item']);
+
+		# tags
+		$item['tags'] = $tags->read_tags("feeditemid=".$id);
+
+		# load attached images
+		$images = $img->load_images("feeditemid=".$id);
+		$smarty->assign("images", $images);
+
+		# load attached files
+		$attachfile = $files->load_files("feeditemid=".$id);
+		$smarty->assign("attachfile", $attachfile);
+
+		# meta
+		$site['title'] .= " - ".$item['title'];
+		if(trim($item['meta_description']) != "") {
+			$site['description']	= $item['meta_description'];
+		}
+		if(trim($item['meta_keywords']) != "") {
+			$site['keywords']	= $item['meta_keywords'];
+		}
+
+		$smarty->assign("item", $item);
+		$tpl->load_template("feed_item");
 	}
 
 
