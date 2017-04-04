@@ -44,7 +44,7 @@
 * @author       alex Roosso
 * @copyright    2010-2018 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.12
+* @version      1.12.1
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -76,106 +76,12 @@ class ACP_FEEDS_FEED {
 	}
 
 
-        /**
-        * Действия для редактирования настроек ленты
-        */
-	public function settings() {
-
-		global $db, $config, $tpl, $smarty, $GET;
-
-		if($db->check_id($GET->_page, STRUCTURE_TABLE, "id", "page_type='feed'")) {
-
-			$feed =& $this->feed;
-
-			# Уведомление о глобальном отключении RSS лент
-			$feed['rss_warn'] = (!$config->rss_power) ? true : false ;
-
-			# глобальное значение количества элементов на страницу
-			$feed['global_items_per_page'] =& $config->feed_items_per_page;
-
-			$smarty->assign("feed",$feed);
-
-
-			# default thumb size
-			$default_thumb_size = array('width'	=> $config->gd_thumb_image_width,
-						    'height'	=> $config->gd_thumb_image_height);
-			$smarty->assign("default_thumb_size", $default_thumb_size);
-
-
-			$content = $tpl->load_template("feeds_settings_feed", true);
-			$smarty->assign("content", $content);
-		}
-		else {
-			goback();
-		}
-	}
-
-
-	/**
-	 * Функция обновления настроек ленты
-	 */
-	public function update_settings() {
-
-		global $db, $img, $POST, $logger;
-
-		if(isset($POST->update_settings)) {
-			# update buffer
-			$update = "";
-
-			# RSS flag
-			$update .= (isset($POST->rss) && $POST->rss == "1") ? " rss='1', " : " rss='0', " ;
-			$update .= (isset($POST->items_per_page) && round($POST->items_per_page) >= 0) ? " items_per_page='".round($POST->items_per_page)."', " : "" ;
-
-			# thumbnail check
-			$img->check_post_thumb_parametrs();
-
-			$update .= (isset($POST->items_sorting) && ($POST->items_sorting == "title_asc" || $POST->items_sorting == "title_desc" || $POST->items_sorting == "manual_sorting"))
-				? " items_sorting = '".$POST->items_sorting."', " : " items_sorting = 'datepublication', " ;
-
-			# show_child_feeds
-			$show_child_feeds = "none";
-			if(isset($POST->show_child_feeds)) {
-				switch($POST->show_child_feeds) {
-					case 'default':
-						$show_child_feeds = "default";
-						break;
-
-					case 'forced':
-						$show_child_feeds = "forced";
-						break;
-
-					default:
-						$show_child_feeds = "none";
-						break;
-				}
-			}
-
-
-			# up data to db
-			$db->query("UPDATE ".STRUCTURE_TABLE."
-					SET
-						".$update."
-						show_child_feeds='".$show_child_feeds."',
-						thumb_img_width='".$POST->thumb_img_width."',
-						thumb_img_height='".$POST->thumb_img_height."',
-						date_modified='".time()."'
-					WHERE
-						id='".$this->feed['id']."'");
-
-			$logger->info("Настройки ленты #".$this->feed['id']." успешно обновлены.");
-		}
-
-		# переход
-		goback();
-	}
-
-
 	/**
 	 * Функция вызова ленты для редактирования.
 	 */
 	public function control() {
 
-		global $db, $parse, $tpl, $smarty;
+		global $db, $parse, $tags, $tpl, $smarty;
 
 		switch($this->feed['items_sorting']) {
 			case 'datepublication':
@@ -201,6 +107,9 @@ class ACP_FEEDS_FEED {
 
 		$smarty->assign("feed", $this->feed);
 
+
+		# feed items
+		$taglinks = array();
 		$feedlist = array();
 		$q = $db->query("SELECT id, status, title, brief_item, date_publications, date_end_publications, date_update FROM ".PAGES_FEED_TABLE." WHERE sid='".$this->feed['id']."' ORDER BY ".$order);
 		while($row = $db->fetch_assoc($q)) {
@@ -215,8 +124,18 @@ class ACP_FEEDS_FEED {
 
 			$row['date_update'] = $parse->date->unix_to_rus($row['date_update'], false, true, true);
 
-			$feedlist[] = $row;
+			$taglinks[$row['id']] = "feeditemid=".$row['id'];
+			$feedlist[$row['id']] = $row;
 		}
+
+
+		# tags collect
+		$alltags = $tags->read_tags($taglinks);
+		foreach((array)$alltags AS $value) {
+			$lid = explode("=",$value['linkedto']);
+			$feedlist[$lid[1]]['tags'][] = array("tag_id"=>$value['tag_id'], "title"=>$value['title']);
+		}
+
 
 		$smarty->assign("feedlist",$feedlist);
 
@@ -578,6 +497,100 @@ class ACP_FEEDS_FEED {
 		}
 
 		$db->query("DELETE FROM ".PAGES_FEED_TABLE." WHERE sid='".$sid."'");
+	}
+
+
+	/**
+	 * Действия для редактирования настроек ленты
+	 */
+	public function settings() {
+
+		global $db, $config, $tpl, $smarty, $GET;
+
+		if($db->check_id($GET->_page, STRUCTURE_TABLE, "id", "page_type='feed'")) {
+
+			$feed =& $this->feed;
+
+			# Уведомление о глобальном отключении RSS лент
+			$feed['rss_warn'] = (!$config->rss_power) ? true : false ;
+
+			# глобальное значение количества элементов на страницу
+			$feed['global_items_per_page'] =& $config->feed_items_per_page;
+
+			$smarty->assign("feed",$feed);
+
+
+			# default thumb size
+			$default_thumb_size = array('width'	=> $config->gd_thumb_image_width,
+						    'height'	=> $config->gd_thumb_image_height);
+			$smarty->assign("default_thumb_size", $default_thumb_size);
+
+
+			$content = $tpl->load_template("feeds_settings_feed", true);
+			$smarty->assign("content", $content);
+		}
+		else {
+			goback();
+		}
+	}
+
+
+	/**
+	 * Функция обновления настроек ленты
+	 */
+	public function update_settings() {
+
+		global $db, $img, $POST, $logger;
+
+		if(isset($POST->update_settings)) {
+			# update buffer
+			$update = "";
+
+			# RSS flag
+			$update .= (isset($POST->rss) && $POST->rss == "1") ? " rss='1', " : " rss='0', " ;
+			$update .= (isset($POST->items_per_page) && round($POST->items_per_page) >= 0) ? " items_per_page='".round($POST->items_per_page)."', " : "" ;
+
+			# thumbnail check
+			$img->check_post_thumb_parametrs();
+
+			$update .= (isset($POST->items_sorting) && ($POST->items_sorting == "title_asc" || $POST->items_sorting == "title_desc" || $POST->items_sorting == "manual_sorting"))
+				? " items_sorting = '".$POST->items_sorting."', " : " items_sorting = 'datepublication', " ;
+
+			# show_child_feeds
+			$show_child_feeds = "none";
+			if(isset($POST->show_child_feeds)) {
+				switch($POST->show_child_feeds) {
+					case 'default':
+						$show_child_feeds = "default";
+						break;
+
+					case 'forced':
+						$show_child_feeds = "forced";
+						break;
+
+					default:
+						$show_child_feeds = "none";
+						break;
+				}
+			}
+
+
+			# up data to db
+			$db->query("UPDATE ".STRUCTURE_TABLE."
+					SET
+						".$update."
+						show_child_feeds='".$show_child_feeds."',
+						thumb_img_width='".$POST->thumb_img_width."',
+						thumb_img_height='".$POST->thumb_img_height."',
+						date_modified='".time()."'
+					WHERE
+						id='".$this->feed['id']."'");
+
+			$logger->info("Настройки ленты #".$this->feed['id']." успешно обновлены.");
+		}
+
+		# переход
+		goback();
 	}
 
 

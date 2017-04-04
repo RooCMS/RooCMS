@@ -29,6 +29,7 @@
 					<i class="fa fa-fw fa-eye{if $item['publication_status'] == "hide" || $item['status'] == 0}-slash text-muted{else} text-primary{/if}"></i>{if $item['publication_status'] != "hide"}</a>{/if}
 					<a href="{$SCRIPT_NAME}?act=feeds&part=edit_item&page={$feed['id']}&item={$item['id']}" title="{$item['title']}"{if $item['publication_status'] == "hide" || $item['status'] == 0} class="text-muted"{/if}>{if $item['status'] == 0}<s>{/if}{$item['title']}{if $item['status'] == 0}</s>{/if}</a>
 					{if $item['publication_status'] == "hide"}<small class="text-danger trinfo">истек период публикации</small>{/if}
+					{if isset($item['tags'])}<span class="pull-right small"><i class="fa fa-fw fa-tags" rel="tooltip" title="{foreach from=$item['tags'] item=tag} #{$tag['title']} {/foreach}" data-placement="auto" data-container="body"></i></span>{/if}
 				</td>
 				<td class="small">c {$item['date_publications']}{if $item['date_end_publications'] != 0}<br />по {$item['date_end_publications']}{/if}</td>
 				<td class="small">{$item['date_update']}</td>
