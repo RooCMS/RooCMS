@@ -59,7 +59,7 @@ if(!defined('RooCMS') || !defined('ACP')) {
 //#########################################################
 
 
-class ACP_BLOCKS_PHP {
+class ACP_Blocks_PHP {
 
 	/**
 	 * Создаем PHP блок

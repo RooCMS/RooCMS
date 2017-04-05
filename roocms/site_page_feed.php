@@ -62,8 +62,10 @@ if(!defined('RooCMS')) {
  */
 class PageFeed {
 
-	var $item_id 		= 0;
-	var $items_per_page	= 10;
+	# vars
+	private $item_id	= 0;
+	private $items_per_page	= 10;
+
 
 
 	/**
@@ -180,10 +182,12 @@ class PageFeed {
 		}
 
 		# tags collect
-		$alltags = $tags->read_tags($taglinks);
-		foreach((array)$alltags AS $value) {
-			$lid = explode("=",$value['linkedto']);
-			$feeds[$lid[1]]['tags'][] = array("tag_id"=>$value['tag_id'], "title"=>$value['title']);
+		if(!empty($taglinks)) {
+			$alltags = $tags->read_tags($taglinks);
+			foreach((array) $alltags AS $value) {
+				$lid                      = explode("=", $value['linkedto']);
+				$feeds[$lid[1]]['tags'][] = array("tag_id" => $value['tag_id'], "title" => $value['title']);
+			}
 		}
 
 		# smarty

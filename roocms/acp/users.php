@@ -61,7 +61,7 @@ if(!defined('RooCMS') || !defined('ACP')) {
 /**
  * Class ACP_USERS
  */
-class ACP_USERS {
+class ACP_Users {
 
 	# vars
 	private $uid = 0;
@@ -759,5 +759,5 @@ class ACP_USERS {
 /**
  * Init class
  */
-$acp_users = new ACP_USERS;
+$acp_users = new ACP_Users;
 ?>

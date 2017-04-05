@@ -58,7 +58,7 @@ if(!defined('RooCMS') || !defined('ACP')) {
 //#########################################################
 
 
-class ACP_BLOCKS {
+class ACP_Blocks {
 
 	private $unit;			# ... object for works content blocks
 
@@ -101,12 +101,12 @@ class ACP_BLOCKS {
 			switch($GET->_type) {
 				case 'html':
 					require_once _ROOCMS."/acp/blocks_html.php";
-					$this->unit = new ACP_BLOCKS_HTML;
+					$this->unit = new ACP_Blocks_HTML;
 					break;
 
 				case 'php':
 					require_once _ROOCMS."/acp/blocks_php.php";
-					$this->unit = new ACP_BLOCKS_PHP;
+					$this->unit = new ACP_Blocks_PHP;
 					break;
 			}
 		}
@@ -166,5 +166,5 @@ class ACP_BLOCKS {
 /**
  * Init Class
  */
-$acp_blocks = new ACP_BLOCKS;
+$acp_blocks = new ACP_Blocks;
 ?>

@@ -59,7 +59,7 @@ if(!defined('RooCMS') || !defined('ACP')) {
 //#########################################################
 
 
-class ACP_BLOCKS_HTML {
+class ACP_Blocks_HTML {
 
 	/**
 	 * Создаем HTML блок

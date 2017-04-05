@@ -56,7 +56,7 @@ if(!defined('RooCMS') || !defined('UI')) {
 //#########################################################
 
 
-class REG {
+class UI_Reg {
 
 
 
@@ -217,5 +217,5 @@ class REG {
 /**
  * Init Class
  */
-$reg = new REG;
+$uireg = new UI_Reg;
 ?>

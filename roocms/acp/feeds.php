@@ -58,7 +58,7 @@ if(!defined('RooCMS') || !defined('ACP')) {
 //#########################################################
 
 
-class ACP_FEEDS {
+class ACP_Feeds {
 
 	# objects
 	private $engine;	# ... object global structure operations
@@ -110,7 +110,7 @@ class ACP_FEEDS {
 			switch($this->engine->page_type) {
 				case 'feed':
 					require_once _ROOCMS."/acp/feeds_feed.php";
-					$this->unit = new ACP_FEEDS_FEED($feeds_data);
+					$this->unit = new ACP_Feeds_Feed($feeds_data);
 					break;
 			}
 
@@ -209,5 +209,5 @@ class ACP_FEEDS {
 /**
  * Init Class
  */
-$acp_feeds = new ACP_FEEDS;
+$acp_feeds = new ACP_Feeds;
 ?>

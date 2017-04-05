@@ -59,7 +59,7 @@ if(!defined('RooCMS') || !defined('ACP')) {
 /**
  * Class ACP_PAGES
  */
-class ACP_PAGES {
+class ACP_Pages {
 
 	# vars
 	private $engine;	# [object] global structure operations
@@ -84,12 +84,12 @@ class ACP_PAGES {
 			switch($this->engine->page_type) {
 				case 'html':
 					require_once _ROOCMS."/acp/pages_html.php";
-					$this->unit = new ACP_PAGES_HTML;
+					$this->unit = new ACP_Pages_HTML;
 					break;
 
 				case 'php':
 					require_once _ROOCMS."/acp/pages_php.php";
-					$this->unit = new ACP_PAGES_PHP;
+					$this->unit = new ACP_Pages_PHP;
 					break;
 			}
 		}
@@ -124,5 +124,5 @@ class ACP_PAGES {
 /**
  * Init class
  */
-$acp_pages = new ACP_PAGES;
+$acp_pages = new ACP_Pages;
 ?>

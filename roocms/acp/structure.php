@@ -60,7 +60,7 @@ if(!defined('RooCMS') || !defined('ACP')) {
 /**
  * Class ACP_STRUCTURE
  */
-class ACP_STRUCTURE {
+class ACP_Structure {
 
 	# vars
 	private	$engine;
@@ -568,6 +568,6 @@ class ACP_STRUCTURE {
 /**
  * Init Class
  */
-$acp_structure = new ACP_STRUCTURE;
+$acp_structure = new ACP_Structure;
 
 ?>

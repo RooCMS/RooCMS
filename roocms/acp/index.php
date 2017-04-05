@@ -57,7 +57,7 @@ if(!defined('RooCMS') || !defined('ACP')) {
 //#########################################################
 
 
-class ACP_INDEX {
+class ACP_Index {
 
 
 	/**
@@ -360,5 +360,5 @@ class ACP_INDEX {
 /**
  * Init Class
  */
-$acp_index = new ACP_INDEX;
+$acp_index = new ACP_Index;
 ?>

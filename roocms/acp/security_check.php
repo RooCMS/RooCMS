@@ -57,7 +57,7 @@ if(!defined('RooCMS') || (!defined('ACP') && !defined('INSTALL'))) {
 //#########################################################
 
 
-class ACP_SECURITY {
+class ACP_Security {
 
 	/**
 	 * @var bool
@@ -94,6 +94,6 @@ class ACP_SECURITY {
 /**
  * Init Class
  */
-$acpsecurity = new ACP_SECURITY;
+$acpsecurity = new ACP_Security;
 
 ?>

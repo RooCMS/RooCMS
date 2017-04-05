@@ -60,7 +60,7 @@ if(!defined('RooCMS') || !defined('ACP')) {
 /**
  * Class ACP_PAGES_PHP
  */
-class ACP_PAGES_PHP {
+class ACP_Pages_PHP {
 
 	/**
 	* Редактирование PHP страницы

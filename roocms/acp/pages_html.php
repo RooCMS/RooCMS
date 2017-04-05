@@ -60,7 +60,7 @@ if(!defined('RooCMS') || !defined('ACP')) {
 /**
  * Class ACP_PAGES_HTML
  */
-class ACP_PAGES_HTML {
+class ACP_Pages_HTML {
 
 	/**
 	 * Функция собирает данные страницы для редактирования

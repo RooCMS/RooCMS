@@ -57,7 +57,7 @@ if(!defined('RooCMS') || (!defined('ACP') && !defined('INSTALL'))) {
 //#########################################################
 
 
-class ACP_LOGIN {
+class ACP_Login {
 
 	/**
 	 * Проверяем введенные данные
@@ -124,6 +124,6 @@ class ACP_LOGIN {
 /**
  * Init Class
  */
-$acplogin = new ACP_LOGIN;
+$acplogin = new ACP_Login;
 
 ?>

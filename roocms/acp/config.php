@@ -58,7 +58,7 @@ if(!defined('RooCMS') || !defined('ACP')) {
 //#########################################################
 
 
-class ACP_CONFIG {
+class ACP_Config {
 
 	# classes
 	var $config;
@@ -435,6 +435,6 @@ class ACP_CONFIG {
 /**
  * Init Class
  */
-$acp_config = new ACP_CONFIG;
+$acp_config = new ACP_Config;
 
 ?>

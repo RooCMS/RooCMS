@@ -59,7 +59,7 @@ if(!defined('RooCMS') || !defined('ACP')) {
 //#########################################################
 
 
-class ACP_FEEDS_FEED {
+class ACP_Feeds_Feed {
 
 	# vars
 	private $feed = array();	# structure parametrs

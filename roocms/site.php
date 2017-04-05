@@ -38,7 +38,7 @@
 
 /**
 * @package      RooCMS
-* @subpackage	Frontend
+* @subpackage   Frontend
 * @author       alex Roosso
 * @copyright    2010-2018 (c) RooCMS
 * @link         http://www.roocms.com
@@ -91,7 +91,6 @@ if(!class_exists("Modules")) {
 
 
 if($structure->access) {
-
 	if(trim($roocms->part) == "") {
 		/**
 		* Load structure unit
@@ -99,30 +98,23 @@ if($structure->access) {
 		switch($structure->page_type) {
 			case 'html':
 				require_once "site_page_html.php";
-				/**
-				 * init Class
-				 */
 				$page_html = new PageHTML;
 				break;
 
 			case 'php':
 				require_once "site_page_php.php";
-				/**
-				 * Init Class
-				 */
 				$page_php = new PagePHP;
 				break;
 
 			case 'feed':
 				require_once "site_page_feed.php";
-				/**
-				 * init Class
-				 */
 				$page_feed = new PageFeed;
 				break;
 		}
 	}
 }
-else $tpl->load_template("access_denied");
+else {
+	$tpl->load_template("access_denied");
+}
 
 ?>

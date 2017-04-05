@@ -21,10 +21,10 @@
 							 || $ext == "mbstring"
 							 || $ext == "SimpleXML"
 							 || $ext == "mysqli"}
-							class="text-success"
+							class="text-success text-bold"
 							{elseif $ext == "xdebug"
 							     || $ext == "apache2handler"}
-							class="text-warning"
+							class="text-warning text-bold"
 							{/if}>
 							{$ext}
 						</a>

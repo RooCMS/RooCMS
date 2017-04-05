@@ -57,7 +57,7 @@ if(!defined('RooCMS') || !defined('UI') || !defined('UCP')) {
 //#########################################################
 
 
-class UCP_LOGIN {
+class UCP_Login {
 
 	/**
 	 * Проверяем введенные данные
@@ -136,6 +136,6 @@ class UCP_LOGIN {
 /**
  * Init Class
  */
-$ucplogin = new UCP_LOGIN;
+$ucplogin = new UCP_Login;
 
 ?>

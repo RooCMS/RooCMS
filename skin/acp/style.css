@@ -402,8 +402,6 @@ h6 {
 .both {
   clear: both;
 }
-.strong,
-.bold,
 .text-strong,
 .text-bold {
   font-weight: bold;

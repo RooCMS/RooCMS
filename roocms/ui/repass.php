@@ -56,7 +56,7 @@ if(!defined('RooCMS') || !defined('UI')) {
 //#########################################################
 
 
-class REPASS {
+class UI_RePass {
 
 
 
@@ -222,5 +222,5 @@ class REPASS {
 /**
  * Init Class
  */
-$repass = new REPASS;
+$uirepass = new UI_RePass;
 ?>

@@ -57,7 +57,7 @@ if(!defined('RooCMS') || !defined('UI') || !defined('UCP')) {
 //#########################################################
 
 
-class UCP_SECURITY {
+class UCP_Security {
 
 	/**
 	 * @var bool
@@ -89,6 +89,6 @@ class UCP_SECURITY {
 /**
  * Init Class
  */
-$ucpsecurity = new UCP_SECURITY;
+$ucpsecurity = new UCP_Security;
 
 ?>

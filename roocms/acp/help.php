@@ -60,7 +60,7 @@ if(!defined('RooCMS') || !defined('ACP')) {
 /**
  * Class ACP_HELP
  */
-class ACP_HELP {
+class ACP_Help {
 
 	# vars
 	private $part		= "help";
@@ -574,6 +574,6 @@ class ACP_HELP {
 /**
  * Init Class
  */
-$acp_help = new ACP_HELP;
+$acp_help = new ACP_Help;
 
 ?>

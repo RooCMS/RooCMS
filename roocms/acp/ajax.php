@@ -58,7 +58,7 @@ if(!defined('RooCMS') || !defined('ACP')) {
 //#########################################################
 
 
-class ACP_AJAX {
+class ACP_Ajax {
 
 
 	/**
@@ -170,6 +170,6 @@ class ACP_AJAX {
 /**
  * Init Class
  */
-$acp_ajax = new ACP_AJAX;
+$acp_ajax = new ACP_Ajax;
 
 ?>
