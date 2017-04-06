@@ -61,28 +61,28 @@ if(!defined('RooCMS') || !defined('ACP')) {
 * Structure
 */
 if(file_exists(_ROOCMS."/acp/structure.php")) {
-	$menu_items_left[] = array('role'=>'navlink', 'link'=>CP.'?act=structure', 'act'=>'structure', 'icon'=>'fa fa-sitemap', 'text'=>'Структура', 'window'=>'_self');
+	$menu_items_left[] = array('role'=>'navlink', 'link'=>CP.'?act=structure', 'act'=>'structure', 'icon'=>'fa fa-fw fa-sitemap', 'text'=>'Структура', 'window'=>'_self');
 }
 
 /**
 * Blocks
 */
 if(file_exists(_ROOCMS."/acp/blocks.php")) {
-	$menu_items_left[] = array('role'=>'navlink', 'link'=>CP.'?act=blocks', 'act'=>'blocks', 'icon'=>'fa fa-th', 'text'=>'Блоки', 'window'=>'_self');
+	$menu_items_left[] = array('role'=>'navlink', 'link'=>CP.'?act=blocks', 'act'=>'blocks', 'icon'=>'fa fa-fw fa-th', 'text'=>'Блоки', 'window'=>'_self');
 }
 
 /**
  * Users
  */
 if(file_exists(_ROOCMS."/acp/users.php")) {
-	$menu_items_left[] = array('role'=>'navlink', 'link'=>CP.'?act=users', 'act'=>'users', 'icon'=>'fa fa-users', 'text'=>'Пользователи', 'window'=>'_self');
+	$menu_items_left[] = array('role'=>'navlink', 'link'=>CP.'?act=users', 'act'=>'users', 'icon'=>'fa fa-fw fa-users', 'text'=>'Пользователи', 'window'=>'_self');
 }
 
 /**
 * Configuration
 */
 if(file_exists(_ROOCMS."/acp/config.php")) {
-	$menu_items_left[] = array('role'=>'navlink', 'link'=>CP.'?act=config', 'act'=>'config', 'icon'=>'fa fa-cogs', 'text'=>'Настройки', 'window'=>'_self');
+	$menu_items_left[] = array('role'=>'navlink', 'link'=>CP.'?act=config', 'act'=>'config', 'icon'=>'fa fa-fw fa-cogs', 'text'=>'Настройки', 'window'=>'_self');
 }
 
 
@@ -91,16 +91,16 @@ if(file_exists(_ROOCMS."/acp/config.php")) {
 /**
 * On site
 */
-	$menu_items_right[] = array('role'=>'navlink', 'link'=>'/', 'act'=>'RooCMS', 'icon'=>'fa fa-home', 'text'=>'На сайт', 'window'=>'_blank');
+	$menu_items_right[] = array('role'=>'navlink', 'link'=>'/', 'act'=>'RooCMS', 'icon'=>'fa fa-fw fa-home', 'text'=>'На сайт', 'window'=>'_blank');
 
 /**
  * Admin menu
  */
-	$menu_items_right[] = array('role'=>'dropdown', 'icon'=>'fa fa-id-badge', 'text'=>$users->nickname,
+	$menu_items_right[] = array('role'=>'dropdown', 'icon'=>'fa fa-fw fa-user', 'text'=>$users->nickname,
 		array('role'=>'header', 'text'=>'Ваше личное меню'),												# header
-		array('role'=>'navlink', 'link'=>CP.'?act=help', 'act'=>'help', 'icon'=>'fa fa-support', 'text'=>'Помощь', 'window'=>'_self'),			# help
+		array('role'=>'navlink', 'link'=>CP.'?act=help', 'act'=>'help', 'icon'=>'fa fa-fw fa-support', 'text'=>'Помощь', 'window'=>'_self'),			# help
 		array('role'=>'davider'), 															# davider
-		array('role'=>'navlink', 'link'=>CP.'?act=logout', 'act'=>'logout', 'icon'=>'fa fa-sign-out', 'text'=>'Выход', 'window'=>'_self')		# logout
+		array('role'=>'navlink', 'link'=>CP.'?act=logout', 'act'=>'logout', 'icon'=>'fa fa-fw fa-sign-out', 'text'=>'Выход', 'window'=>'_self')		# logout
 	);
 
 

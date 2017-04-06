@@ -42,7 +42,7 @@
 * @author       alex Roosso
 * @copyright    2010-2018 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.0.7
+* @version      1.0.8
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -66,6 +66,9 @@ class UCP_CP {
 	public function __construct() {
 
 		global $structure, $roocms;
+
+		# title
+		$structure->page_title = "Личный кабинет";
 
 		# breadcumb
 		$structure->breadcumb[] = array('part'=>'ucp', 'act'=>'ucp', 'title'=>'Личный кабинет');
@@ -105,6 +108,9 @@ class UCP_CP {
 	private function edit_info() {
 
 		global $structure, $users, $tpl, $smarty;
+
+		# title
+		$structure->page_title = "Изменяем личные данные";
 
 		# breadcumb
 		$structure->breadcumb[] = array('part'=>'edit_info', 'act' => 'ucp', 'title'=>'Изменяем личные данные');

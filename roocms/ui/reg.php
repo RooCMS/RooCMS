@@ -42,7 +42,7 @@
  * @author       alex Roosso
  * @copyright    2010-2018 (c) RooCMS
  * @link         http://www.roocms.com
- * @version      1.1.4
+ * @version      1.1.5
  * @since        $date$
  * @license      http://www.gnu.org/licenses/gpl-3.0.html
  */
@@ -63,6 +63,9 @@ class UI_Reg {
 	public function __construct() {
 
 		global $structure, $roocms, $users, $POST;
+
+		# title
+		$structure->page_title = "Регистрация";
 
 		# breadcumb
 		$structure->breadcumb[] = array('part'=>'reg', 'title'=>'Регистрация');

@@ -105,7 +105,7 @@ class UI_Tags {
 	 */
 	private function init_tag($tag, $type="id") {
 
-		global $db, $smarty;
+		global $db, $structure, $smarty;
 
 		if($db->check_id($tag, TAGS_TABLE, $type)) {
 
@@ -115,6 +115,12 @@ class UI_Tags {
 			# init
 			$this->id  = $data['id'];
 			$this->tag = $data['title'];
+
+			# title
+			$structure->page_title = "Тег : ".$data['title'];
+
+			# breadcumb
+			$structure->breadcumb[] = array('part'=>'tags', 'title'=>'Тег: '.$data['title']);
 
 			# smarty
 			$smarty->assign("tag", $data);

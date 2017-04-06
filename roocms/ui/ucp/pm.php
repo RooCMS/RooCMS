@@ -42,7 +42,7 @@
 * @author       alex Roosso
 * @copyright    2010-2018 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.0.3
+* @version      1.0.4
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -69,6 +69,9 @@ class UCP_PM {
 	public function __construct() {
 
 		global $structure, $roocms;
+
+		# title
+		$structure->page_title = "Личные сообщения";
 
 		# breadcumb
 		$structure->breadcumb[] = array('part'=>'ucp', 'act'=>'pm', 'title'=>'Личные сообщения');
