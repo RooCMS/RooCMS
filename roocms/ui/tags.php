@@ -219,7 +219,7 @@ class UI_Tags {
 	 */
 	private function construct_pagination() {
 
-		global $db, $site;
+		global $db, $structure;
 
 		$pages = array();
 		# prev
@@ -239,7 +239,7 @@ class UI_Tags {
 		# Это можно было бы оставить на усмотрение верстальщиков. Но использование одинаковых титулов на целом ряде страниц неполезно для SEO
 		# (Есть небольшая вероятность, что этот момент будет исправлен и перенесен на усмотрение верстальщиков в шаблоны)
 		if($db->page > 1) {
-			$site['title'] .= " (Страница: ".$db->page.")";
+			$structure->page_title .= " (Страница: ".$db->page.")";
 		}
 
 		return $pages;
