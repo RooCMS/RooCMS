@@ -23,8 +23,7 @@
 		</div>
 		<div class="col-md-3 text-right footer">
 			<small>
-				<nobr>{$copyright}</nobr>
-				<br /><nobr>Версия {$smarty.const.ROOCMS_FULL_VERSION}</nobr>
+				<nobr>{$copyright}<br />Версия {$smarty.const.ROOCMS_FULL_VERSION}</nobr>
 			</small>
 		</div>
 	</div>
@@ -37,13 +36,14 @@
 				{if $smarty.const.DEVMODE}<nobr><b class="text-warning"><span class="fa fa-exclamation-triangle"></span> Внимание! У вас включен режим разработчика!</b></nobr>{/if}
 
 				<br />
-				<br /><nobr><span class="fa fa-bar-chart-o fa-fw"></span> Число обращений к БД: <b>{$db_querys}</b></nobr>
-				<br /><nobr><span class="fa fa-tachometer fa-fw"></span> Использовано памяти : <b>{round($debug_memory/1024/1024, 2)} Мб ({round($debug_memusage/1024/1024, 2)} Мб макс)</b></nobr>
-				<br /><nobr><span class="fa fa-clock-o fa-fw"></span> Время работы скрипта : <b>{$debug_timer} мс</b></nobr>
+				<nobr>
+				<br /><span class="fa fa-bar-chart-o fa-fw"></span> Число обращений к БД: <b>{$db_querys}</b>
+				<br /><span class="fa fa-tachometer fa-fw"></span> Использовано памяти : <b>{round($debug_memory/1024/1024, 2)} Мб ({round($debug_memusage/1024/1024, 2)} Мб макс)</b>
+				<br /><span class="fa fa-clock-o fa-fw"></span> Время работы скрипта : <b>{$debug_timer} мс</b>
+				</nobr>
 
 				<br />
-				<br /><nobr>{$copyright}</nobr>
-				<br /><nobr>Версия {$smarty.const.ROOCMS_FULL_VERSION}</nobr>
+				<br /><nobr>{$copyright}<br />Версия {$smarty.const.ROOCMS_FULL_VERSION}</nobr>
 			</div>
 		</div>
 	</div>
