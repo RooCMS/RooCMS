@@ -64,12 +64,11 @@ if(!defined('RooCMS')) {
 class Tags {
 
 
-
 	/**
 	 * Функция возвращает ввиде массива полный список тегов
 	 *
-	 * @param bool $with_zero - Если флаг true, то вернет список тегов включая, нулевые значения. Иначе вернет только используемые теги.
-	 * @param int  $limit     - Кол-во тегов (срез) которые вернет запрос
+	 * @param bool   $with_zero - Если флаг true, то вернет список тегов включая, нулевые значения. Иначе вернет только используемые теги.
+	 * @param int    $limit     - Кол-во тегов (срез) которые вернет запрос
 	 *
 	 * @return array
 	 */
@@ -78,9 +77,9 @@ class Tags {
 		global $db;
 
 		# condition
-		$cond = "";
+		$cond = "amount != '0' ";
 		if($with_zero) {
-			$cond = " amount != '0' ";
+			$cond = " amount >= '0' ";
 		}
 
 		# limit condition
@@ -91,7 +90,7 @@ class Tags {
 
 		# query
 		$tags = array();
-		$q = $db->query("SELECT title, amount FROM ".TAGS_TABLE." WHERE ".$cond." ORDER BY amount DESC".$lcond);
+		$q = $db->query("SELECT title, amount FROM ".TAGS_TABLE." WHERE ".$cond." ORDER BY amount DESC ".$lcond);
 		while($data = $db->fetch_assoc($q)) {
 			$tags[] = $data;
 		}

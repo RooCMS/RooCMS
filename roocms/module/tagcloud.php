@@ -37,15 +37,15 @@
  */
 
 /**
-* @package      RooCMS
-* @subpackage   Module
-* @author       alex Roosso
-* @copyright    2010-2018 (c) RooCMS
-* @link         http://www.roocms.com
-* @version      1.2
-* @since        $date$
-* @license      http://www.gnu.org/licenses/gpl-3.0.html
-*/
+ * @package     RooCMS
+ * @subpackage  Module
+ * @author      alex Roosso
+ * @copyright   2010-2018 (c) RooCMS
+ * @link        http://www.roocms.com
+ * @version     1.0
+ * @since       $date$
+ * @license     http://www.gnu.org/licenses/gpl-3.0.html
+ */
 
 
 //#########################################################
@@ -60,9 +60,9 @@ if(!defined('RooCMS')) {
 /**
  * Class Module_Auth
  */
-class Module_Auth {
+class Module_Tag_Cloud {
 
-	public $title = "Авторизация пользователя";
+	public $title = "Облако Тегов";
 
 	# buffer out
 	private $out = "";
@@ -73,18 +73,35 @@ class Module_Auth {
 	 */
 	public function __construct() {
 
-		global $db, $users, $tpl, $smarty;
+		global $db, $tags, $tpl, $smarty;
 
-		if($users->uid != 0) {
-			$newpm = $db->count(USERS_PM_TABLE, "to_uid='".$users->uid."' AND see='0'");
+		# get tag listen
+		$taglist = $tags->list_tags();
+
+		# set min/max
+		$min = $taglist[count($taglist)-1]['amount'];
+		$max = $taglist[0]['amount'];
+
+		$minsize = 90;
+		$maxsize = 175;
+
+		foreach ($taglist AS $key=>$value) {
+			if($min == $max) {
+				$fontsize = round(($maxsize - $minsize)/2+$minsize);
+			}
+			else {
+				$fontsize = round(((($maxsize-$minsize)/$max)*$value['amount'])+$minsize);
+			}
+
+			$ukey = urlencode($value['title']);
+
+			$taglist[$key] = array('title'=>$value['title'], 'amount'=>$value['amount'], 'fontsize'=>$fontsize, 'ukey'=>$ukey);
 		}
 
-		# draw
-		if(isset($newpm)) {
-			$smarty->assign("pm", $newpm);
-		}
-		$smarty->assign("userdata", $users->userdata);
-		$this->out .= $tpl->load_template("module_auth", true);
+		shuffle($taglist);
+
+		$smarty->assign("tags", $taglist);
+		$this->out .= $tpl->load_template("module_tagcloud", true);
 	}
 
 
@@ -100,6 +117,6 @@ class Module_Auth {
 /**
  * Init class
  */
-$module_auth = new Module_Auth;
+$module_tagcloud = new Module_Tag_Cloud;
 
 ?>

@@ -72,3 +72,5 @@
 		{/foreach}
 	</ul>
 {/if}
+
+{$module->load("tagcloud")}

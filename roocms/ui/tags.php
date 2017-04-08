@@ -116,6 +116,9 @@ class UI_Tags {
 			$this->id  = $data['id'];
 			$this->tag = $data['title'];
 
+			# settings
+			$db->limit =& $this->tags_per_page;
+
 			# title
 			$structure->page_title = "Тег : ".$data['title'];
 
@@ -146,9 +149,6 @@ class UI_Tags {
 			$id = explode("=", $data['linkedto']);
 			$links[] = $id[1];
 		}
-
-		# settings
-		$db->limit =& $this->tags_per_page;
 
 		# cond
 		$cond = "(";
