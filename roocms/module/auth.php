@@ -96,7 +96,6 @@ class Module_Auth {
 	}
 }
 
-
 /**
  * Init class
  */

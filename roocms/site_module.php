@@ -66,9 +66,9 @@ class Modules {
 	/**
 	 * Загружаем модуль
 	 *
-	 * @param string $modulename	- идентификатор модуля
+	 * @param  string $modulename - идентификатор модуля
 	 *
-	 * @return text $output		- возвращает код модуля
+	 * @return string $output     - Возвращает код модуля
 	 */
 	public function load($modulename) {
 

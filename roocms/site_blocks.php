@@ -123,7 +123,9 @@ class Blocks {
 			}
 
                 }
-                else $output = $use_blocks[$buid];
+                else {
+                	$output = $use_blocks[$buid];
+		}
 
 		return $output;
 	}
@@ -134,6 +136,7 @@ class Blocks {
  * Init Class
  */
 $blocks = new Blocks;
+
 /**
  * assign in templates
  */
