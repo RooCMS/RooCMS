@@ -73,7 +73,7 @@ class Module_Tag_Cloud {
 	 */
 	public function __construct() {
 
-		global $db, $tags, $tpl, $smarty;
+		global $tags, $tpl, $smarty;
 
 		# get tag listen
 		$taglist = $tags->list_tags();
