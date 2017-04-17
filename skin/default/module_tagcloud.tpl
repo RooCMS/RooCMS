@@ -2,7 +2,7 @@
 
 <hr />
 <div class="row">
-	<div class="col-md-8 col-md-offset-2 text-center">
+	<div class="col-md-12 text-center">
 		<h4><i class="fa fa-fw fa-tags"></i> Облако тегов </h4>
 
 		{foreach from=$tags item=tag}

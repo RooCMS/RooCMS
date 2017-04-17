@@ -105,16 +105,20 @@ class Parsers {
 		if(isset($this->Get->_act)) {
 			$roocms->act 	=& $this->Get->_act;
 		}
+
 		if(isset($this->Get->_part)) {
 			$roocms->part 	=& $this->Get->_part;
 		}
+
 		if(isset($this->Get->_move)) {
 			$roocms->move 	=& $this->Get->_move;
 		}
+
 		# check query RSS Export
 		if(isset($this->Get->_export)) {
 			$roocms->rss 	= true;
 		}
+
 		# check ajax flag
 		if(isset($this->Get->_ajax)) {
 			$roocms->ajax	= true;

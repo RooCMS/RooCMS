@@ -42,7 +42,7 @@
 * @author       alex Roosso
 * @copyright    2010-2018 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.4
+* @version      1.4.1
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -106,26 +106,11 @@ class PageFeed {
 		$this->items_per_page = ($structure->page_items_per_page > 0) ? $structure->page_items_per_page : $config->feed_items_per_page ;
 		$db->limit =& $this->items_per_page;
 
-
-		# query id's feeds begin
-		$cond = " AND ( sid='".$structure->page_id."' ";
-
-		$showchilds =& $structure->page_show_child_feeds;
-
-		if($showchilds != "none") {
-			$qfeeds = $this->construct_child_feeds($structure->page_id, $showchilds);
-			foreach($qfeeds as $v) {
-				# query id's feeds collect
-				$cond .= " OR sid='".$v."' ";
-			}
-		}
-
-		# query id's feeds final
-		$cond .= " ) ";
-
+		# cond
+		$cond = $this->condition();
 
 		# calculate pages
-		$db->pages_mysql(PAGES_FEED_TABLE, "date_publications <= '".time()."' ".$cond." AND (date_end_publications = '0' || date_end_publications > '".time()."') AND status='1'");
+		$db->pages_mysql(PAGES_FEED_TABLE, $cond);
 
 		# get array pagination template array
 		$pages = $this->construct_pagination();
@@ -161,7 +146,7 @@ class PageFeed {
 		# Feed list
 		$taglinks = array();
 		$feeds    = array();
-		$q = $db->query("SELECT id, title, brief_item, full_item, date_publications FROM ".PAGES_FEED_TABLE." WHERE date_publications <= '".time()."' ".$cond." AND (date_end_publications = '0' || date_end_publications > '".time()."') AND status='1' ORDER BY ".$order." LIMIT ".$db->from.",".$db->limit);
+		$q = $db->query("SELECT id, title, brief_item, full_item, date_publications FROM ".PAGES_FEED_TABLE." WHERE ".$cond." ORDER BY ".$order." LIMIT ".$db->from.",".$db->limit);
 		while($row = $db->fetch_assoc($q)) {
 
 			if(trim($row['brief_item']) == "") {
@@ -258,6 +243,35 @@ class PageFeed {
 				$rss->set_lastbuilddate($row['date_publications']);
 			}
 		}
+	}
+
+
+	/**
+	 * функция возвращает условие для запроса фида из БД
+	 *
+	 * @return string
+	 */
+	private function condition() {
+
+		global $structure;
+
+		# query id's feeds begin
+		$cond = " date_publications <= '".time()."' AND ( sid='".$structure->page_id."' ";
+
+		$showchilds =& $structure->page_show_child_feeds;
+
+		if($showchilds != "none") {
+			$qfeeds = $this->construct_child_feeds($structure->page_id, $showchilds);
+			foreach($qfeeds as $v) {
+				# query id's feeds collect
+				$cond .= " OR sid='".$v."' ";
+			}
+		}
+
+		# query id's feeds final
+		$cond .= " ) AND (date_end_publications = '0' || date_end_publications > '".time()."') AND status='1' ";
+
+		return $cond;
 	}
 
 
