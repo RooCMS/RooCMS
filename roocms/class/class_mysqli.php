@@ -42,7 +42,7 @@
  * @author       alex Roosso
  * @copyright    2010-2018 (c) RooCMS
  * @link         http://www.roocms.com
- * @version      3.5.1
+ * @version      3.5.2
  * @since        $date$
  * @license      http://www.gnu.org/licenses/gpl-3.0.html
  */
@@ -194,8 +194,15 @@ class MySQLiDatabase extends MySQLiExtends {
 		global $debug;
 
 		if($this->db_connect || DEBUGMODE) {
+
+			# таймер старт
+			$start = microtime(true);
+
 			# Выполняем запрос
 			$query = $this->sql->query($q) or die ($this->error($q));
+
+			# таймер стоп
+			$finish = microtime(true);
 
 			# Считаем запросы
 			$this->cnt_querys++;
@@ -228,9 +235,13 @@ class MySQLiDatabase extends MySQLiExtends {
 				if($this->cnt_querys != 1) {
 					$debug->debug_info .= "<hr>";
 				}
+
+				$timequery = $finish-$start;
+
 				$debug->debug_info .= "<blockquote class='col-xs-12'>
 							    <small>Запрос <b>#".$this->cnt_querys."</b></small>
 							    <span class='text-danger'>{$q}</span>
+							    <br /><small><span class='label label-info'>Timer: {$timequery}</span></small>
 						       </blockquote>";
 			}
 
