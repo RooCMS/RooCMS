@@ -42,7 +42,7 @@
 * @author       alex Roosso
 * @copyright    2010-2018 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.4.1
+* @version      1.4.2
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -106,8 +106,11 @@ class PageFeed {
 		$this->items_per_page = ($structure->page_items_per_page > 0) ? $structure->page_items_per_page : $config->feed_items_per_page ;
 		$db->limit =& $this->items_per_page;
 
-		# cond
-		$cond = $this->condition();
+		# cond request
+		$cond = $this->feed_condition();
+
+		# order request
+		$order = $this->feed_order();
 
 		# calculate pages
 		$db->pages_mysql(PAGES_FEED_TABLE, $cond);
@@ -117,30 +120,6 @@ class PageFeed {
 
 		# RSS
 		$rss->set_header_link();
-
-
-		# order
-		switch($structure->page_items_sorting) {
-			case 'datepublication':
-				$order = "date_publications DESC, date_create DESC, date_update DESC";
-				break;
-
-			case 'title_asc':
-				$order = "title ASC, date_publications DESC";
-				break;
-
-			case 'title_desc':
-				$order = "title DESC, date_publications DESC";
-				break;
-
-			case 'manual_sorting':
-				$order = "sort ASC, date_publications DESC, date_create DESC";
-				break;
-
-			default:
-				$order = "date_publications DESC, date_create DESC, date_update DESC";
-				break;
-		}
 
 
 		# Feed list
@@ -194,7 +173,7 @@ class PageFeed {
 		global $db, $parse, $tags, $files, $img, $tpl, $smarty, $site;
 
 		# query data
-		$q = $db->query("SELECT id, title, meta_description, meta_keywords, full_item, date_publications FROM ".PAGES_FEED_TABLE." WHERE id='".$id."'");
+		$q = $db->query("SELECT id, title, meta_description, meta_keywords, full_item, date_publications, sort FROM ".PAGES_FEED_TABLE." WHERE id='".$id."'");
 		$item = $db->fetch_assoc($q);
 		$item['datepub'] 	= $parse->date->unix_to_rus($item['date_publications'],true);
 		$item['date']		= $parse->date->unix_to_rus_array($item['date_publications']);
@@ -202,6 +181,9 @@ class PageFeed {
 
 		# tags
 		$item['tags'] = $tags->read_tags("feeditemid=".$id);
+
+		# add prev/next item
+		$item = array_merge($item, $this->load_prevnext_item($item['id']));
 
 		# load attached images
 		$images = $img->load_images("feeditemid=".$id);
@@ -251,7 +233,7 @@ class PageFeed {
 	 *
 	 * @return string
 	 */
-	private function condition() {
+	private function feed_condition() {
 
 		global $structure;
 
@@ -271,7 +253,86 @@ class PageFeed {
 		# query id's feeds final
 		$cond .= " ) AND (date_end_publications = '0' || date_end_publications > '".time()."') AND status='1' ";
 
+
+		# return
 		return $cond;
+	}
+
+
+	/**
+	 * Функция возвращает условие для порядка сортировки результата запроса из БД
+	 *
+	 * @return string
+	 */
+	private function feed_order() {
+
+		global $structure;
+
+		switch($structure->page_items_sorting) {
+			case 'title_asc':
+				$order = "title ASC, date_publications DESC";
+				break;
+
+			case 'title_desc':
+				$order = "title DESC, date_publications DESC";
+				break;
+
+			case 'manual_sorting':
+				$order = "sort ASC, date_publications DESC, date_create DESC";
+				break;
+
+			default: // case 'datepublication'
+				$order = "date_publications DESC, date_create DESC, date_update DESC";
+				break;
+		}
+
+		return $order;
+	}
+
+
+	/**
+	 * Функция собирает данные по предыдущему и следующим элементом
+	 *
+	 * @param $id - Идентификатор текущего элемента
+	 *
+	 * @return array - массив данных с предыдущим и следующим элементами в ленте
+	 */
+	private function load_prevnext_item($id) {
+
+		global $structure, $db, $img;
+
+		# cond request
+		$cond = $this->feed_condition();
+
+		# order request
+		$order = $this->feed_order();
+
+		# query
+		$i = 0; $previndex = -1; $nextindex = -1;
+		$data = array();
+		$q = $db->query("SELECT id, title, date_publications FROM ".PAGES_FEED_TABLE." WHERE ".$cond." ORDER BY ".$order."");
+		while($row = $db->fetch_assoc($q)) {
+			$res[$i] = $row;
+
+			if($row['id'] == $id) {
+				$nextindex = $i - 1;
+				if($nextindex >= 0) {
+					$data['next'] = $res[$nextindex];
+				}
+
+				$previndex = $i + 1;
+			}
+
+			if($i == $previndex) {
+				$data['prev'] = $res[$previndex];
+				break;
+			}
+
+			$i++;
+		}
+
+		# return
+		return $data;
 	}
 
 
