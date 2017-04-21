@@ -309,7 +309,7 @@ class PageFeed {
 
 		# query
 		$i = 0; $previndex = -1; $nextindex = -1;
-		$data = array();
+		$data = array(); $res = array();
 		$q = $db->query("SELECT id, title, date_publications FROM ".PAGES_FEED_TABLE." WHERE ".$cond." ORDER BY ".$order."");
 		while($row = $db->fetch_assoc($q)) {
 
