@@ -45,6 +45,7 @@
 
 					<small>Ранее {$item['prev']['datepub']}</small>
 					<a href="{$SCRIPT_NAME}?page={$feed['alias']}{if isset($smarty.get.pg)}&pg={$smarty.get.pg}{/if}&id={$item['prev']['id']}"><i class="fa fa-angle-left fa-3x pull-left"></i>
+						{if isset($item['prev']['image'][0])}<img src="/upload/images/{$item['prev']['image'][0]['thumb']}" class="img-rounded pull-left feed-image-pn">{/if}
 					<br />{$item['prev']['title']}</a>
 
 				{/if}
@@ -53,6 +54,7 @@
 				{if isset($item['next'])}
 					<small>Далее {$item['next']['datepub']}</small>
 					<a href="{$SCRIPT_NAME}?page={$feed['alias']}{if isset($smarty.get.pg)}&pg={$smarty.get.pg}{/if}&id={$item['next']['id']}"><i class="fa fa-angle-right fa-3x pull-right"></i>
+						{if isset($item['next']['image'][0])}<img src="/upload/images/{$item['next']['image'][0]['thumb']}" class="img-rounded pull-right feed-image-pn">{/if}
 					<br />{$item['next']['title']}</a>
 				{/if}
 			</div>

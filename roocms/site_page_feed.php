@@ -299,7 +299,7 @@ class PageFeed {
 	 */
 	private function load_prevnext_item($id) {
 
-		global $structure, $db, $parse;
+		global $structure, $db, $img, $parse;
 
 		# cond request
 		$cond = $this->feed_condition();
@@ -314,6 +314,7 @@ class PageFeed {
 		while($row = $db->fetch_assoc($q)) {
 
 			$row['datepub'] = $parse->date->unix_to_rus($row['date_publications']);
+			$row['image']   = $img->load_images("feeditemid=".$row['id']."", 0, 1);
 
 			$res[$i] = $row;
 
