@@ -42,7 +42,7 @@
 * @author       alex Roosso
 * @copyright    2010-2018 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.4.2
+* @version      1.4.2b
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -214,7 +214,13 @@ class PageFeed {
 
 		global $db, $rss, $structure;
 
-		$q = $db->query("SELECT id, title, brief_item, date_publications FROM ".PAGES_FEED_TABLE." WHERE date_publications <= '".time()."' AND sid='".$structure->page_id."' AND status='1' ORDER BY date_publications DESC, date_create DESC, date_update DESC LIMIT ".$db->from.",".$db->limit);
+		# cond request
+		$cond = $this->feed_condition();
+
+		# order request
+		$order = $this->feed_order();
+
+		$q = $db->query("SELECT id, title, brief_item, date_publications FROM ".PAGES_FEED_TABLE." WHERE ".$cond." ORDER BY ".$order." LIMIT ".$db->from.",".$db->limit);
 		while($row = $db->fetch_assoc($q)) {
 			# uri
 			$newslink = SCRIPT_NAME."?page=".$structure->page_alias."&id=".$row['id'];
