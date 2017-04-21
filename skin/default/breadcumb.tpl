@@ -2,7 +2,7 @@
 {if !empty($breadcumb)}
 	<ul class="breadcrumb small">
 		<li>
-			<a href="/index.php"><span class="fa fa-fw fa-folder-o fa-lg"></span>Главная</a>
+			<a href="{$SCRIPT_NAME}"><span class="fa fa-fw fa-folder-o fa-lg"></span>Главная</a>
 		</li>
 		{foreach from=$breadcumb item=bc key=i name=breadcumb}
 			<li{if $smarty.foreach.breadcumb.last} class="active"{/if}>

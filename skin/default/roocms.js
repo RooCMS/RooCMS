@@ -4,7 +4,7 @@
 $(document).ready(function(){
 	$("a[rel='img']").colorbox({maxWidth: "98%", maxHeight: "98%"}); //, rel: true
 
-	$(".corner").corner("round 4px");
+	//$(".corner").corner("round 4px");
 
 	$("[rel='tooltip']").tooltip();
 	$("[rel='popover']").popover();
@@ -20,19 +20,19 @@ $(document).ready(function(){
 	}
 
 	/* Datepicker */
-	$('.datepicker').datepicker({
+	/*$(".datepicker").datepicker({
 		format: 'dd.mm.yyyy',
 		language: 'ru',
 		todayHighlight: true
-	});
+	});*/
 
 	/* MOVETOP button */
 	$(window).scroll(function () {
-		if ($(this).scrollTop() > 100) $('a#move_top').fadeIn();
-		else                           $('a#move_top').fadeOut(400);
+		if ($(this).scrollTop() > 100) $("a#move_top").fadeIn();
+		else                           $("a#move_top").fadeOut(400);
 	});
-	$('a#move_top').click(function () {
-		$('html, body').animate({scrollTop: 0}, '500', 'swing');
+	$("a#move_top").click(function () {
+		$("html, body").animate({scrollTop: 0}, '500', 'swing');
 		return false;
 	});
 });

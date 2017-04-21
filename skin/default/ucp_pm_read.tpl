@@ -4,7 +4,7 @@
 
 {*<div class="row">
 	<div class="col-sm-12">
-		<a href="index.php?act=pm&part=write" class="btn btn-md btn-default"><i class="fa fa-fw fa-envelope"></i> Написать сообщение</a>
+		<a href="{$SCRIPT_NAME}?act=pm&part=write" class="btn btn-md btn-default"><i class="fa fa-fw fa-envelope"></i> Написать сообщение</a>
 	</div>
 </div>*}
 
@@ -24,7 +24,7 @@
 
 <div class="row">
 	<div class="col-sm-12">
-		<form method="post" action="index.php?part=ucp&act=pm&move=send" class="form-horizontal">
+		<form method="post" action="{$SCRIPT_NAME}?part=ucp&act=pm&move=send" class="form-horizontal">
 
 			<div class="form-group">
 				<label for="inputTo" class="col-lg-4 control-label">Получатель:</label>
@@ -59,7 +59,7 @@
 
 			<div class="row">
 				<div class="col-lg-8 col-lg-offset-4">
-					<a href="index.php?part=ucp&act=pm" class="btn btn-md btn-default"><i class="fa fa-fw fa-long-arrow-left"></i> Вернуться к списку сообщений</a>
+					<a href="{$SCRIPT_NAME}?part=ucp&act=pm" class="btn btn-md btn-default"><i class="fa fa-fw fa-long-arrow-left"></i> Вернуться к списку сообщений</a>
 					<button type="submit" name="send" class="btn btn-success pull-right" value="send"><i class="fa fa-fw fa-mail-reply"></i> Ответить {$message['from_name']}</button>
 				</div>
 			</div>

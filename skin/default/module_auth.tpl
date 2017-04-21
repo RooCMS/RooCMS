@@ -26,8 +26,8 @@
 	</div>
 	<div class="row">
 		<div class="col-sm-12 text-right">
-			<a href="/index.php?part=reg" class="btn btn-xs btn-link" style="margin-right: 59px;"><i class="fa fa-fw fa-key"></i>Регистрация</a>
-			<a href="/index.php?part=repass" class="btn btn-xs btn-link" style="margin-right: 35px;"><i class="fa fa-fw fa-question-circle-o"></i>Забыли пароль</a>
+			<a href="{$SCRIPT_NAME}?part=reg" class="btn btn-xs btn-link" style="margin-right: 59px;"><i class="fa fa-fw fa-key"></i>Регистрация</a>
+			<a href="{$SCRIPT_NAME}?part=repass" class="btn btn-xs btn-link" style="margin-right: 35px;"><i class="fa fa-fw fa-question-circle-o"></i>Забыли пароль</a>
 		</div>
 	</div>
 
@@ -47,12 +47,12 @@
 {else}
 	<div class="row">
 		<div class="col-sm-12 text-right">
-			{if $userdata['avatar'] != ""}<a href="/index.php?part=ucp&act=ucp"><img src="/upload/images/{$userdata['avatar']}" height="70" class="img-circle mauth-avatar"></a>{/if}
+			{if $userdata['avatar'] != ""}<a href="{$SCRIPT_NAME}?part=ucp&act=ucp"><img src="/upload/images/{$userdata['avatar']}" height="70" class="img-circle mauth-avatar"></a>{/if}
 			<div class="pull-right">
-				<h4>Здравствуйте, <a href="/index.php?part=ucp&act=ucp">{if $userdata['user_sex'] != "n"}<i class="fa fa-fw fa-{if $userdata['user_sex'] != "m"}fe{/if}male"></i>{/if}{$userdata['nickname']}</a></h4>
+				<h4>Здравствуйте, <a href="{$SCRIPT_NAME}?part=ucp&act=ucp">{if $userdata['user_sex'] != "n"}<i class="fa fa-fw fa-{if $userdata['user_sex'] != "m"}fe{/if}male"></i>{/if}{$userdata['nickname']}</a></h4>
 
-				<a href="/index.php?part=ucp&act=pm" class="btn btn-{if $pm == 0}default{else}success{/if} btn-xs"><i class="fa fa-fw fa-envelope-o"></i> У вас {if $pm == 0}нет{else}{$pm}{/if} новых сообщений</a>
-				<a href="/index.php?part=ucp&act=logout" class="btn btn-default btn-xs">Выйти <i class="fa fa-fw fa-sign-out"></i></a>
+				<a href="{$SCRIPT_NAME}?part=ucp&act=pm" class="btn btn-{if $pm == 0}default{else}success{/if} btn-xs"><i class="fa fa-fw fa-envelope-o"></i> У вас {if $pm == 0}нет{else}{$pm}{/if} новых сообщений</a>
+				<a href="{$SCRIPT_NAME}?part=ucp&act=logout" class="btn btn-default btn-xs">Выйти <i class="fa fa-fw fa-sign-out"></i></a>
 			</div>
 		</div>
 	</div>

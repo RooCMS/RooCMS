@@ -44,7 +44,7 @@
  */
 $(document).ready(function() {
 
-	$(".corner").corner("round 4px");
+	//$(".corner").corner("round 4px");
 
 	$("[rel='tooltip']").tooltip();
 	$("[rel='popover']").popover();

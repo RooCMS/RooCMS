@@ -299,7 +299,7 @@ class PageFeed {
 	 */
 	private function load_prevnext_item($id) {
 
-		global $structure, $db, $img;
+		global $structure, $db, $parse;
 
 		# cond request
 		$cond = $this->feed_condition();
@@ -312,6 +312,9 @@ class PageFeed {
 		$data = array();
 		$q = $db->query("SELECT id, title, date_publications FROM ".PAGES_FEED_TABLE." WHERE ".$cond." ORDER BY ".$order."");
 		while($row = $db->fetch_assoc($q)) {
+
+			$row['datepub'] = $parse->date->unix_to_rus($row['date_publications']);
+
 			$res[$i] = $row;
 
 			if($row['id'] == $id) {
