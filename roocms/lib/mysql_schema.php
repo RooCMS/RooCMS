@@ -219,7 +219,6 @@ $sql['CREATE'.PAGES_FEED_TABLE] = "CREATE TABLE IF NOT EXISTS `".PAGES_FEED_TABL
 					  `title` varchar(512) NOT NULL,
 					  `meta_description` varchar(512) NOT NULL,
 					  `meta_keywords` varchar(512) NOT NULL,
-					  `preview` varchar(260) NOT NULL,
 					  `brief_item` text NOT NULL,
 					  `full_item` longtext NOT NULL,
 					  PRIMARY KEY (`id`),
