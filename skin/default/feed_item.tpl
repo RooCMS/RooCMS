@@ -31,34 +31,29 @@
 		</div>
 	{/if}
 
+	<hr />
 	<div class="row">
-		<div class="col-sm-6 col-sm-offset-6 text-right">
-			<a href="{$SCRIPT_NAME}?page={$feed['alias']}{if isset($smarty.get.pg)}&pg={$smarty.get.pg}{/if}" class="btn btn-xs btn-primary"><span class="fa fa-chevron-circle-left fa-fw"></span> Вернуться</a>
+		<div class="col-xs-5 text-left">
+			{if isset($item['prev'])}
+
+				<small>Ранее {$item['prev']['datepub']}</small>
+				<a href="{$SCRIPT_NAME}?page={$feed['alias']}{if isset($smarty.get.pg)}&pg={$smarty.get.pg}{/if}&id={$item['prev']['id']}"><i class="fa fa-angle-left fa-3x pull-left"></i>
+					{if isset($item['prev']['image'][0])}<img src="/upload/images/{$item['prev']['image'][0]['thumb']}" class="img-rounded pull-left feed-image-pn">{/if}
+				<br />{$item['prev']['title']}</a>
+
+			{/if}
+		</div>
+		<div class="col-xs-2 text-center">
+			<a href="{$SCRIPT_NAME}?page={$feed['alias']}{if isset($smarty.get.pg)}&pg={$smarty.get.pg}{/if}" class="btn btn-xs btn-default"><span class="fa fa-sort-asc fa-fw"></span><br />Вернуться</a>
+		</div>
+		<div class="col-xs-5 text-right">
+			{if isset($item['next'])}
+				<small>Далее {$item['next']['datepub']}</small>
+				<a href="{$SCRIPT_NAME}?page={$feed['alias']}{if isset($smarty.get.pg)}&pg={$smarty.get.pg}{/if}&id={$item['next']['id']}"><i class="fa fa-angle-right fa-3x pull-right"></i>
+					{if isset($item['next']['image'][0])}<img src="/upload/images/{$item['next']['image'][0]['thumb']}" class="img-rounded pull-right feed-image-pn">{/if}
+				<br />{$item['next']['title']}</a>
+			{/if}
 		</div>
 	</div>
-
-	{if isset($item['prev']) || isset($item['next'])}
-		<hr />
-		<div class="row">
-			<div class="col-xs-6 text-left">
-				{if isset($item['prev'])}
-
-					<small>Ранее {$item['prev']['datepub']}</small>
-					<a href="{$SCRIPT_NAME}?page={$feed['alias']}{if isset($smarty.get.pg)}&pg={$smarty.get.pg}{/if}&id={$item['prev']['id']}"><i class="fa fa-angle-left fa-3x pull-left"></i>
-						{if isset($item['prev']['image'][0])}<img src="/upload/images/{$item['prev']['image'][0]['thumb']}" class="img-rounded pull-left feed-image-pn">{/if}
-					<br />{$item['prev']['title']}</a>
-
-				{/if}
-			</div>
-			<div class="col-xs-6 text-right">
-				{if isset($item['next'])}
-					<small>Далее {$item['next']['datepub']}</small>
-					<a href="{$SCRIPT_NAME}?page={$feed['alias']}{if isset($smarty.get.pg)}&pg={$smarty.get.pg}{/if}&id={$item['next']['id']}"><i class="fa fa-angle-right fa-3x pull-right"></i>
-						{if isset($item['next']['image'][0])}<img src="/upload/images/{$item['next']['image'][0]['thumb']}" class="img-rounded pull-right feed-image-pn">{/if}
-					<br />{$item['next']['title']}</a>
-				{/if}
-			</div>
-		</div>
-	{/if}
 
 </div>
