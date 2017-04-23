@@ -55,8 +55,8 @@ a#move_top {
 .feed-title {margin-top: 0 !important;}
 .feed-date {margin-bottom: 15px;}
 .feed-image-prev {float: right; margin: 0 0 15px 15px;}
-.feed-image-pn {border: 2px solid rgba(84, 92, 104, 0.5); max-height: 48px;}
-a:hover>.feed-image-pn {border: 2px solid #545c68;}
+.feed-image-pn {border: 2px solid rgba(84, 92, 104, 0.5); max-height: 48px;opacity: 0.9;filter: grayscale(75%);}
+a:hover>.feed-image-pn {border: 2px solid #545c68;opacity: 1;filter: grayscale(0%);}
 .pull-left.feed-image-pn {margin-right: 10px;}
 .pull-right.feed-image-pn {margin-left: 10px;}
 

@@ -56,4 +56,25 @@
 		</div>
 	</div>
 
+	{if !empty($more)}
+		<hr />
+		<div class="row">
+			<div class="col-sm-12">
+				<h4>Вам понравится:</h4>
+			</div>
+		</div>
+		<div class="row">
+			{foreach from=$more item=$an}
+				<div class="col-sm-4 text-center">
+
+					<a href="{$SCRIPT_NAME}?page={$feed['alias']}&id={$an['id']}">
+						{if isset($an['image'][0])}<img src="/upload/images/{$an['image'][0]['thumb']}" class="img-rounded">{/if}
+						<br />{$an['title']}
+					</a>
+					<br /><small>{$an['datepub']}</small>
+				</div>
+			{/foreach}
+		</div>
+	{/if}
+
 </div>

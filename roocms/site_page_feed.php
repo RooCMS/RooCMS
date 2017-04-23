@@ -42,7 +42,7 @@
 * @author       alex Roosso
 * @copyright    2010-2018 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.4.2b
+* @version      1.5
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -193,6 +193,9 @@ class PageFeed {
 		$attachfile = $files->load_files("feeditemid=".$id);
 		$smarty->assign("attachfile", $attachfile);
 
+		# more items
+		$more = $this->rand_items($item);
+
 		# meta
 		$site['title'] .= " - ".$item['title'];
 		if(trim($item['meta_description']) != "") {
@@ -202,6 +205,7 @@ class PageFeed {
 			$site['keywords']	= $item['meta_keywords'];
 		}
 
+		$smarty->assign("more", $more);
 		$smarty->assign("item", $item);
 		$tpl->load_template("feed_item");
 	}
@@ -305,7 +309,7 @@ class PageFeed {
 	 */
 	private function load_prevnext_item($id) {
 
-		global $structure, $db, $img, $parse;
+		global $db, $img, $parse;
 
 		# cond request
 		$cond = $this->feed_condition();
@@ -342,6 +346,46 @@ class PageFeed {
 		}
 
 		# return
+		return $data;
+	}
+
+
+	/**
+	 * Функция выгружает случайные элементы ленты
+	 *
+	 * @param array $i - массив с исключениями.
+	 *
+	 * @return array
+	 */
+	private function rand_items(array $i) {
+
+		global $db, $img, $parse;
+
+		# cond request
+		$cond = $this->feed_condition();
+
+		# добавляем к условию исключения
+		$cond .= " AND (id !='".$i['id']."'";
+
+		if(isset($i['prev']['id'])) {
+			$cond .= " AND id !='".$i['prev']['id']."'";
+		}
+
+		if(isset($i['next']['id'])) {
+			$cond .= " AND id !='".$i['next']['id']."'";
+		}
+
+		$cond .= " )";
+
+		$data = array();
+		$q = $db->query("SELECT id, title, date_publications FROM ".PAGES_FEED_TABLE." WHERE ".$cond." ORDER BY RAND() LIMIT 3");
+		while($row = $db->fetch_assoc($q)) {
+			$row['datepub'] = $parse->date->unix_to_rus($row['date_publications']);
+			$row['image']   = $img->load_images("feeditemid=".$row['id']."", 0, 1);
+
+			$data[] = $row;
+		}
+
 		return $data;
 	}
 
