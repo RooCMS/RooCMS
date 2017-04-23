@@ -70,7 +70,7 @@ class GD {
 	public $tsize		= array('w' => 267,'h' => 150);		# Размеры миниатюры
 	private $rs_quality	= 90;					# Качество обработанных изображений
 	private $th_quality	= 90;					# Качество генерируемых миниматюр
-	private $thumbtg	= "fill";				# Тип генерируемой миниатюры ( Возможные значения: fill - заливка, size - по размеру изображения )
+	private $thumbtg	= "cover";				# Тип генерируемой миниатюры ( Возможные значения: cover - заливка, contain - по размеру изображения )
 	private $thumbbgcol	= array('r' => 0, 'g' => 0, 'b' => 0);	# Значение фонового цвета, если тип генерируемых миниатюр производится по размеру ( $thumbtg = size )
 
 
@@ -96,8 +96,8 @@ class GD {
 		}
 
 		# Тип генерации фона из конфигурации
-		if(isset($config->gd_thumb_type_gen) && $config->gd_thumb_type_gen == "size") {
-			$this->thumbtg = "size";
+		if(isset($config->gd_thumb_type_gen) && $config->gd_thumb_type_gen == "contain") {
+			$this->thumbtg = "contain";
 		}
 
 		# Фоновый цвет  из конфигурации
@@ -339,11 +339,11 @@ class GD {
 		$src = $this->imgcreate($path."/".$fileresize, $ext);
 
 		# Проводим расчеты по сжатию превью и уменьшению в размерах
-		$resize = ($this->thumbtg != "fill") ? true : false ;
+		$resize = ($this->thumbtg != "cover") ? true : false ;
 		$ns = $this->calc_resize($size[0], $size[1], $this->tsize['w'], $this->tsize['h'], $resize);
 
 		# Перерасчет для заливки превью
-		if($this->thumbtg == "fill") {
+		if($this->thumbtg == "cover") {
 			$ns = $this->calc_newsize($ns);
 		}
 
