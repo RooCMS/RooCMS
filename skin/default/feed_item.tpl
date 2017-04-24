@@ -64,12 +64,24 @@
 			</div>
 		</div>
 		<div class="row">
-			{foreach from=$more item=$an}
+			{foreach from=$more item=an key=i}
 				<div class="col-sm-4 text-center">
+					{*<style>
+						{if isset($an['image'][0])}
+							{literal}
+							.feed-more-preview-{/literal}{$i}{literal} {
+								width: 90%;
+								height: 120px;
+								background: transparent url('/upload/images/{/literal}{$an['image'][0]['thumb']}{literal}') no-repeat local center 50%;
+								background-size: cover;
+							}
+							{/literal}
+						{/if}
+					</style>
+					<div class="feed-more-preview-{$i}"></div>*}
 					<a href="{$SCRIPT_NAME}?page={$feed['alias']}&id={$an['id']}">
-						{if isset($an['image'][0])}<img src="/upload/images/{$an['image'][0]['thumb']}" class="img-rounded">{/if}
-						<br />{$an['title']}
-					</a>
+						{if isset($an['image'][0])}<img src="/upload/images/{$an['image'][0]['thumb']}" class="img-rounded feed-more-preview">{/if}
+						<br />{$an['title']}</a>
 					<br /><small>{$an['datepub']}</small>
 				</div>
 			{/foreach}

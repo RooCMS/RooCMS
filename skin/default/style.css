@@ -1,7 +1,7 @@
 @charset "utf-8";
 body {	background: #fefeff;
 	font-family: 'Open Sans','Ubuntu','Trebuchet MS','Tahoma' !important;
-	padding: 0px;margin: 0px;
+	padding: 0;margin: 0;
 	behavior: url("../../csshover.htc") !important;
 	text-rendering: optimizeLegibility;}
 img {behavior: url("../../iepngfix.htc") !important;}
@@ -59,6 +59,8 @@ a#move_top {
 a:hover>.feed-image-pn {border: 2px solid #545c68;opacity: 1;filter: grayscale(0%);}
 .pull-left.feed-image-pn {margin-right: 10px;}
 .pull-right.feed-image-pn {margin-left: 10px;}
+.feed-more-preview {border: 2px solid rgba(84, 92, 104, 0.5); max-height: 100px;opacity: 0.8;filter: grayscale(50%);}
+a:hover>.feed-more-preview {border: 2px solid #545c68;opacity: 1;filter: grayscale(0%);}
 
 .airmail {
 	font-family: 'PT Sans';
@@ -82,8 +84,8 @@ a:hover>.feed-image-pn {border: 2px solid #545c68;opacity: 1;filter: grayscale(0
 	pointer-events: none;
 }
 
-.left-addon .glyphicon, .left-addon .fa  { left:  0px;}
-.right-addon .glyphicon, .right-addon .fa { right: 0px;}
+.left-addon .glyphicon, .left-addon .fa  { left:  0;}
+.right-addon .glyphicon, .right-addon .fa { right: 0;}
 
 .left-addon input  { padding-left:  25px !important; }
 .right-addon input { padding-right: 25px !important; }
@@ -104,9 +106,9 @@ a:hover>.feed-image-pn {border: 2px solid #545c68;opacity: 1;filter: grayscale(0
 
 input:focus:invalid {
 	/* transition: all 0.15s ease-in-out;-webkit-transition: all 0.15s ease-in-out;-moz-transition: all 0.15s ease-in-out;outline:none; */
-	-moz-box-shadow: 0px 0px 6px #fe402b;
-	-webkit-box-shadow: 0px 0px 6px #fe402b;
-	box-shadow: 0px 0px 6px #fe402b;
+	-moz-box-shadow: 0 0 6px #fe402b;
+	-webkit-box-shadow: 0 0 6px #fe402b;
+	box-shadow: 0 0 6px #fe402b;
 	border: 1px solid #fe402b;
 	background: #fff url(./img/required.png) no-repeat right top !important;
 }
