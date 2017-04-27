@@ -102,7 +102,7 @@ class ParserText {
 	 *
 	 * @param text $text - Текстовый буфер, который надлежит отпарсить
 	 *
-	 * @return text
+	 * @return string|text
 	 */
 	public function html($text) {
 
@@ -128,7 +128,7 @@ class ParserText {
 	 *
 	 * @param text $text - Текстовый буфер, который надлежит отпарсить
 	 *
-	 * @return text
+	 * @return string|text
 	 */
 	public function clearhtml($text) {
 
@@ -154,7 +154,7 @@ class ParserText {
 	 *
 	 * @param text $text - Текстовый буфер, который надлежит отпарсить
 	 *
-	 * @return text
+	 * @return string|text
 	 */
 	public function br($text) {
 		$text = nl2br($text);

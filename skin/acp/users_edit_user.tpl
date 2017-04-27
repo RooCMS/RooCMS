@@ -103,6 +103,15 @@
 		</div>
 
 		<div class="form-group">
+			<label for="inputUserSlogan" class="col-lg-3 control-label">
+				Девиз:
+			</label>
+			<div class="col-lg-9">
+				<textarea class="form-control" id="inputUserSlogan" name="user_slogan" rows="3">{$user['user_slogan']}</textarea>
+			</div>
+		</div>
+
+		<div class="form-group">
 			<label for="inputUserSex" class="col-lg-3 control-label">
 				Пол:
 			</label>

@@ -42,7 +42,7 @@
 * @author       alex Roosso
 * @copyright    2010-2018 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.2.18
+* @version      1.2.19
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -323,6 +323,7 @@ $sql['CREATE '.USERS_TABLE] = "CREATE TABLE `".USERS_TABLE."` (
 				  `user_last_name` varchar(255) NOT NULL,
 				  `user_birthdate` int(20) unsigned NOT NULL DEFAULT '0',
 				  `user_sex` enum('n','m','f') NOT NULL DEFAULT 'n',
+				  `user_slogan` text NOT NULL,
 				  `title` enum('a','u') NOT NULL DEFAULT 'u',
 				  `password` varchar(32) NOT NULL,
 				  `salt` char(5) NOT NULL,

@@ -17,7 +17,7 @@
 	</thead>
 	<tbody>
 	{foreach from=$data item=user}
-		<tr{if $user['status'] == 0 && $user['activation_code'] == ""} class="danger"{elseif $user['status'] == 0 && $user['activation_code'] != ""} class="warning"{/if}>
+		<tr{if $user['status'] == 0 && $user['activation_code'] == ""} class="danger"{elseif $user['status'] == 0 && $user['activation_code'] != ""} class="warning"{/if} title="{$user['user_slogan']}">
 			<td class="text-muted">{$user['uid']}</td>
 			<td>
 				{if $user['avatar'] != ""}<a href="{$SCRIPT_NAME}?act=users&part=edit_user&uid={$user['uid']}"><img src="/upload/images/{$user['avatar']}" height="40" class="img-circle"></a>{/if}

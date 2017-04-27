@@ -42,7 +42,7 @@
  * @author       alex Roosso
  * @copyright    2010-2018 (c) RooCMS
  * @link         http://www.roocms.com
- * @version      1.4.1
+ * @version      1.4.2
  * @since        $date$
  * @license      http://www.gnu.org/licenses/gpl-3.0.html
  */
@@ -129,7 +129,7 @@ class Users extends Security {
 
 			# get data
 			$q    = $db->query("SELECT u.uid, u.gid, u.login, u.nickname, u.avatar, u.email,
- 							u.user_name, u.user_surname, u.user_last_name, u.user_birthdate, u.user_sex,
+ 							u.user_name, u.user_surname, u.user_last_name, u.user_birthdate, u.user_sex, u.user_slogan,
 							u.title, u.password, u.salt, u.ban, u.ban_reason, u.ban_expiried,
 							g.title as gtitle
 						FROM ".USERS_TABLE." AS u
@@ -174,6 +174,7 @@ class Users extends Security {
 				'user_birthdate'	=> $parse->date->unix_to_rus($data['user_birthdate']),
 				'user_birthdaten'	=> date("d.m.Y", $data['user_birthdate']),
 				'user_sex'		=> $data['user_sex'],
+				'user_slogan'		=> $data['user_slogan'],
 				'ban'			=> $data['ban'],
 				'ban_reason'		=> $data['ban_reason'],
 				'ban_expiried'		=> $parse->date->unix_to_rus($data['ban_expiried'])
@@ -364,6 +365,13 @@ class Users extends Security {
 		else {
 			$POST->user_sex = "n";
 		}
+
+		# check slogan
+		if(!isset($POST->user_slogan)) {
+			$POST->user_slogan = "";
+		}
+
+		$POST->user_slogan = $parse->text->clearhtml($POST->user_slogan);
 	}
 
 
