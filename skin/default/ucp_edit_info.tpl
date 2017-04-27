@@ -11,9 +11,10 @@
 		{else}
 		<div class="col-xs-12">
 			{/if}
-			<h2>
+			<h2 class="ucp-user-nickname">
 				{$userdata['nickname']} {if $userdata['user_sex'] == "m"}<i class="fa fa-fw fa-mars text-info"></i>{elseif $userdata['user_sex'] == "f"}<i class="fa fa-fw fa-venus text-danger"></i>{/if}
 			</h2>
+			<div class="ucp-user-slogan">{$userdata['user_slogan']}</div>
 			<small class="label label-primary">{$userdata['gtitle']}</small>
 		</div>
 
@@ -125,6 +126,15 @@
 				</label>
 				<div class="col-lg-8">
 					{if $userdata['avatar'] != ""}<div class="btn-group pull-right" data-toggle="buttons"><label class="btn btn-default btn-xs bda"><input type="checkbox" name="delete_avatar" class="ida" value="1" autocomplete="on"><i class="iconda fa fa-fw fa-trash"></i> Удалить аватар?</label></div>{/if} <input type="file" name="avatar" id="inputAvatar" class="btn btn-default">
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label for="inputUserSlogan" class="col-lg-4 control-label">
+					Девиз:
+				</label>
+				<div class="col-lg-8">
+					<textarea class="form-control" id="inputUserSlogan" name="user_slogan" rows="3">{$userdata['user_slogan_edit']}</textarea>
 				</div>
 			</div>
 

@@ -62,6 +62,9 @@ a:hover>.feed-image-pn {border: 2px solid #545c68;opacity: 1;filter: grayscale(0
 .feed-more-preview {border: 2px solid rgba(84, 92, 104, 0.5); max-height: 100px;opacity: 0.8;filter: grayscale(50%);}
 a:hover>.feed-more-preview {border: 2px solid #545c68;opacity: 1;filter: grayscale(0%);}
 
+.ucp-user-nickname {margin-top: 0;}
+.ucp-user-slogan {height: 46px;overflow: hidden;font-size: 13px;font-family: "PT Sans";}
+
 .airmail {
 	font-family: 'PT Sans';
 	background-color: #fff;

@@ -42,7 +42,7 @@
 * @author       alex Roosso
 * @copyright    2010-2018 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.0.8
+* @version      1.0.9
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -107,7 +107,7 @@ class UCP_CP {
 	 */
 	private function edit_info() {
 
-		global $structure, $users, $tpl, $smarty;
+		global $structure, $users, $parse, $tpl, $smarty;
 
 		# title
 		$structure->page_title = "Изменяем личные данные";
@@ -116,6 +116,7 @@ class UCP_CP {
 		$structure->breadcumb[] = array('part'=>'edit_info', 'act' => 'ucp', 'title'=>'Изменяем личные данные');
 
 		# tpl
+		$users->userdata['user_slogan_edit'] = $parse->text->clearhtml($users->userdata['user_slogan']);
 		$smarty->assign("userdata", $users->userdata);
 		$tpl->load_template("ucp_edit_info");
 	}
@@ -206,6 +207,7 @@ class UCP_CP {
 								user_last_name = '".$POST->user_last_name."',
 								user_birthdate = '".$POST->user_birthdate."',
 								user_sex='".$POST->user_sex."',
+								user_slogan='".$POST->user_slogan."',
 								date_update='".time()."' 
 							WHERE uid='".$users->userdata['uid']."'");
 

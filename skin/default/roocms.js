@@ -20,11 +20,11 @@ $(document).ready(function(){
 	}
 
 	/* Datepicker */
-	/*$(".datepicker").datepicker({
+	$(".datepicker").datepicker({
 		format: 'dd.mm.yyyy',
 		language: 'ru',
 		todayHighlight: true
-	});*/
+	});
 
 	/* MOVETOP button */
 	$(window).scroll(function () {

@@ -174,7 +174,7 @@ class Users extends Security {
 				'user_birthdate'	=> $parse->date->unix_to_rus($data['user_birthdate']),
 				'user_birthdaten'	=> date("d.m.Y", $data['user_birthdate']),
 				'user_sex'		=> $data['user_sex'],
-				'user_slogan'		=> $data['user_slogan'],
+				'user_slogan'		=> $parse->text->br($data['user_slogan']),
 				'ban'			=> $data['ban'],
 				'ban_reason'		=> $data['ban_reason'],
 				'ban_expiried'		=> $parse->date->unix_to_rus($data['ban_expiried'])

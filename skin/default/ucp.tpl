@@ -8,11 +8,12 @@
 	<div class="col-xs-3 col-sm-2 col-md-2 text-center"><img src="/upload/images/{$userdata['avatar']}"  class="img-thumbnail"></div>
 	<div class="col-xs-9 col-sm-10 col-md-10">
 		{else}
-		<div class="col-xs-12">
+		<small class="col-xs-12">
 			{/if}
-			<h2>
+			<h2 class="ucp-user-nickname">
 				{$userdata['nickname']} {if $userdata['user_sex'] == "m"}<i class="fa fa-fw fa-mars text-info"></i>{elseif $userdata['user_sex'] == "f"}<i class="fa fa-fw fa-venus text-danger"></i>{/if}
 			</h2>
+			<div class="ucp-user-slogan">{$userdata['user_slogan']}</div>
 			<small class="label label-primary">{$userdata['gtitle']}</small>
 		</div>
 
@@ -79,6 +80,9 @@
 							<i class="fa fa-fw fa-genderless"></i> Не указан
 						{/if}
 					</dd>
+
+					<dt class="text-info">Девиз</dt>
+					<dd>{$userdata['user_slogan']}</dd>
 				</dl>
 			</div>
 		</div>
