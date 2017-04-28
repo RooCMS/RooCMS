@@ -42,7 +42,7 @@
 * @author       alex Roosso
 * @copyright    2010-2018 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.0.9
+* @version      1.0.10
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -139,9 +139,6 @@ class UCP_CP {
 			if(!$users->check_field("login", $POST->login, $users->userdata['login'])) {
 				$logger->error("Ваш логин не был изменен. Возможно использование такого логина невозможно, попробуйте выбрать другой логин");
 			}
-			else {
-				$query .= "login='".$POST->login."', ";
-			}
 		}
 		else {
 			$logger->error("Вы не указали логин.");
@@ -152,9 +149,6 @@ class UCP_CP {
 			if(!$users->check_field("nickname", $POST->nickname, $users->userdata['nickname'])) {
 				$logger->error("Такой псевдоним уже имеется у одного из пользователей. Пожалуйста, выберите другой псевдоним.");
 			}
-			else {
-				$query .= "nickname='".$POST->nickname."', ";
-			}
 		}
 		else {
 			$logger->error("Вы не указали псевдоним.", false);
@@ -164,9 +158,6 @@ class UCP_CP {
 		if(isset($POST->email) && $parse->valid_email($POST->email)) {
 			if(!$users->check_field("email", $POST->email, $users->userdata['email'])) {
 				$logger->error("Указанный email уже существует в Базе Данных!");
-			}
-			else {
-				$query .= "email='".$POST->email."', ";
 			}
 		}
 		else {
@@ -201,6 +192,9 @@ class UCP_CP {
 			}
 
 			$db->query("UPDATE ".USERS_TABLE." SET 
+								login = '".$POST->login."',
+								nickname = '".$POST->nickname."',
+								email = '".$POST->email."',
 								".$query." 
 								user_name = '".$POST->user_name."',
 								user_surname = '".$POST->user_surname."',
