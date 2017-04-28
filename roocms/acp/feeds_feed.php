@@ -44,7 +44,7 @@
 * @author       alex Roosso
 * @copyright    2010-2018 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.12.1
+* @version      1.13
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -62,7 +62,8 @@ if(!defined('RooCMS') || !defined('ACP')) {
 class ACP_Feeds_Feed {
 
 	# vars
-	private $feed = array();	# structure parametrs
+	private $feed     = array();	# structure parametrs
+	private $userlist = array();
 
 
 
@@ -84,10 +85,6 @@ class ACP_Feeds_Feed {
 		global $db, $parse, $tags, $tpl, $smarty;
 
 		switch($this->feed['items_sorting']) {
-			case 'datepublication':
-				$order = "date_publications DESC, date_create DESC, date_update DESC";
-				break;
-
 			case 'title_asc':
 				$order = "title ASC, date_publications DESC";
 				break;
@@ -100,7 +97,7 @@ class ACP_Feeds_Feed {
 				$order = "sort ASC, date_publications DESC, date_create DESC";
 				break;
 
-			default:
+			default:  // case 'datepublication'
 				$order = "date_publications DESC, date_create DESC, date_update DESC";
 				break;
 		}
@@ -149,7 +146,10 @@ class ACP_Feeds_Feed {
 	 */
 	public function create_item() {
 
-		global $db, $logger, $tags, $files, $img, $POST, $tpl, $smarty;
+		global $db, $users, $logger, $tags, $files, $img, $POST, $tpl, $smarty;
+
+		# userlist
+		$this->userlist = $users->get_userlist();
 
 		if(isset($POST->create_item)) {
 
@@ -165,11 +165,11 @@ class ACP_Feeds_Feed {
 
 				# insert
 				$db->query("INSERT INTO ".PAGES_FEED_TABLE." (title, meta_description, meta_keywords,
-									      brief_item, full_item,
+									      brief_item, full_item, author_id,
 									      date_create, date_update, date_publications, date_end_publications,
 									      sort, sid)
 								      VALUES ('".$POST->title."', '".$POST->meta_description."', '".$POST->meta_keywords."',
-									      '".$POST->brief_item."', '".$POST->full_item."', 
+									      '".$POST->brief_item."', '".$POST->full_item."', '".$POST->author_id."'
 									      '".time()."', '".time()."', '".$POST->date_publications."', '".$POST->date_end_publications."',
 									      '".$POST->itemsort."', '".$this->feed['id']."')");
 
@@ -216,6 +216,8 @@ class ACP_Feeds_Feed {
 		# feed data
 		$smarty->assign("feed", $this->feed);
 
+		# users
+		$smarty->assign("userlist", $this->userlist);
 
 		# tpl
 		$content = $tpl->load_template("feeds_create_item_feed", true);
@@ -230,10 +232,13 @@ class ACP_Feeds_Feed {
 	 */
 	public function edit_item($id) {
 
-		global $db, $tags, $files, $img, $tpl, $smarty, $parse;
+		global $db, $users, $tags, $files, $img, $tpl, $smarty, $parse;
 
+		# userlist
+		$this->userlist = $users->get_userlist();
 
-		$q = $db->query("SELECT id, sid, status, sort, title, meta_description, meta_keywords, brief_item, full_item, date_publications, date_end_publications FROM ".PAGES_FEED_TABLE." WHERE id='".$id."'");
+		# get data
+		$q = $db->query("SELECT id, sid, status, sort, title, meta_description, meta_keywords, brief_item, full_item, author_id, date_publications, date_end_publications FROM ".PAGES_FEED_TABLE." WHERE id='".$id."'");
 		$item = $db->fetch_assoc($q);
 
 
@@ -276,6 +281,9 @@ class ACP_Feeds_Feed {
 		# feed data
 		$smarty->assign("feed", $this->feed);
 
+		# users
+		$smarty->assign("userdata", $users->userdata);
+		$smarty->assign("userlist", $this->userlist);
 
 		# tpl
 		$content = $tpl->load_template("feeds_edit_item_feed", true);
@@ -315,7 +323,8 @@ class ACP_Feeds_Feed {
 						full_item = '".$POST->full_item."',
 						date_publications = '".$POST->date_publications."',
 						date_end_publications = '".$POST->date_end_publications."',
-						date_update = '".time()."'
+						date_update = '".time()."',
+						author_id = '".$POST->author_id."'
 					WHERE
 						id = '".$id."'");
 
@@ -370,7 +379,6 @@ class ACP_Feeds_Feed {
 	public function migrate_item($id) {
 
 		global $db, $logger, $tpl, $smarty, $POST;
-
 
 		# Migrate
 		if(isset($POST->migrate_item) && isset($POST->from) && isset($POST->to) && $db->check_id($POST->from, STRUCTURE_TABLE, "id", "page_type='feed'") && $db->check_id($POST->to, STRUCTURE_TABLE, "id", "page_type='feed'")) {
@@ -427,6 +435,7 @@ class ACP_Feeds_Feed {
 	 * @param int $status - 1= Видимый , 2=Скрытый
 	 */
 	public function change_item_status($id, $status = 1) {
+
 		global $db, $logger;
 
 		$status = round($status);
@@ -696,7 +705,7 @@ class ACP_Feeds_Feed {
 	 */
 	private function correct_post_fields() {
 
-		global $POST;
+		global $users, $POST;
 
 		# tags
 		if(!isset($POST->tags)) {
@@ -709,6 +718,14 @@ class ACP_Feeds_Feed {
 		}
 		else {
 			$POST->itemsort = round($POST->itemsort);
+		}
+
+		# userlist
+		$this->userlist = $users->get_userlist();
+
+		# author
+		if(!isset($POST->author_id) || !array_key_exists($POST->author_id, $this->userlist)) {
+			$POST->author_id = 0;
 		}
 	}
 }

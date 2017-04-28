@@ -16,7 +16,7 @@
 							<a href="{$SCRIPT_NAME}?page={$feed['alias']}{if isset($smarty.get.pg)}&pg={$smarty.get.pg}{/if}&id={$item['id']}">{$item['title']}</a>
 						</h3>
 						<div class="feed-date small">
-							<i class="fa fa-calendar"></i> {$item['datepub']}
+							<i class="fa fa-calendar" title="Дата публикации"></i> {$item['datepub']} {if $item['author_id'] != 0} <i class="fa fa-fw fa-user-circle-o" title="Автор"></i> {$authors[$item['author_id']]['nickname']}{/if}
 						</div>
 					</div>
 				</div>

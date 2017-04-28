@@ -65,6 +65,20 @@
 			</div>
 		</div>
 
+		<div class="form-group">
+			<label for="author" class="col-lg-3 control-label">
+				Автор:
+			</label>
+			<div class="col-lg-9">
+				<select name="author_id" id="author_id" class="selectpicker show-tick" required data-size="auto" data-live-search="true" data-width="100%">
+					<option value="0">Без автора</option>
+					{foreach from=$userlist item=user}
+						<option value="{$user['uid']}" data-subtext="{$user['uid']}" {if $user['uid'] == $userdata['uid']} selected{/if}>{$user['nickname']}</option>
+					{/foreach}
+				</select>
+			</div>
+		</div>
+
 		<div class="row">
 			<div class="col-lg-12">
 				<label for="brief_item" class="control-label">

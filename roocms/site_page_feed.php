@@ -42,7 +42,7 @@
 * @author       alex Roosso
 * @copyright    2010-2018 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.5
+* @version      1.6
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -65,6 +65,8 @@ class PageFeed {
 	# vars
 	private $item_id	= 0;
 	private $items_per_page	= 10;
+
+	private $userlist       = array();
 
 
 
@@ -100,7 +102,7 @@ class PageFeed {
 	 */
 	private function load_feed() {
 
-		global $db, $config, $structure, $tags,  $rss, $parse, $img, $tpl, $smarty;
+		global $db, $config, $structure, $users, $tags, $rss, $parse, $img, $tpl, $smarty;
 
 		# set limit on per page
 		$this->items_per_page = ($structure->page_items_per_page > 0) ? $structure->page_items_per_page : $config->feed_items_per_page ;
@@ -124,8 +126,9 @@ class PageFeed {
 
 		# Feed list
 		$taglinks = array();
+		$authors  = array();
 		$feeds    = array();
-		$q = $db->query("SELECT id, title, brief_item, full_item, date_publications FROM ".PAGES_FEED_TABLE." WHERE ".$cond." ORDER BY ".$order." LIMIT ".$db->from.",".$db->limit);
+		$q = $db->query("SELECT id, author_id, title, brief_item, full_item, date_publications FROM ".PAGES_FEED_TABLE." WHERE ".$cond." ORDER BY ".$order." LIMIT ".$db->from.",".$db->limit);
 		while($row = $db->fetch_assoc($q)) {
 
 			if(trim($row['brief_item']) == "") {
@@ -142,6 +145,9 @@ class PageFeed {
 
 
 			$taglinks[$row['id']] = "feeditemid=".$row['id'];
+
+			$authors[] = $row['author_id'];
+
 			$feeds[$row['id']] = $row;
 		}
 
@@ -154,7 +160,11 @@ class PageFeed {
 			}
 		}
 
+		# authors
+		$this->userlist = $users->get_userlist(-1,-1,$authors);
+
 		# smarty
+		$smarty->assign("authors", $this->userlist);
 		$smarty->assign("feeds", $feeds);
 		$smarty->assign("pages", $pages);
 		$smarty->assign("rsslink", $rss->rss_link);
@@ -170,10 +180,10 @@ class PageFeed {
 	 */
 	private function load_item($id) {
 
-		global $db, $parse, $tags, $files, $img, $tpl, $smarty, $site;
+		global $db, $users, $parse, $tags, $files, $img, $tpl, $smarty, $site;
 
 		# query data
-		$q = $db->query("SELECT id, title, meta_description, meta_keywords, full_item, date_publications, sort FROM ".PAGES_FEED_TABLE." WHERE id='".$id."'");
+		$q = $db->query("SELECT id, title, meta_description, meta_keywords, author_id, full_item, date_publications, sort FROM ".PAGES_FEED_TABLE." WHERE id='".$id."'");
 		$item = $db->fetch_assoc($q);
 		$item['datepub'] 	= $parse->date->unix_to_rus($item['date_publications'],true);
 		$item['date']		= $parse->date->unix_to_rus_array($item['date_publications']);
@@ -184,6 +194,11 @@ class PageFeed {
 
 		# add prev/next item
 		$item = array_merge($item, $this->load_prevnext_item($item['id']));
+
+		# author
+		if($item['author_id'] != 0) {
+			$item['author'] = $users->get_user_data($item['author_id']);
+		}
 
 		# load attached images
 		$images = $img->load_images("feeditemid=".$id);

@@ -1,7 +1,6 @@
 {* Шаблон отображения элемента ленты *}
 <div id="item_{$item['id']}">
 	<h1>{$item['title']}</h1>
-	<small><i class="fa fa-fw fa-calendar"></i> {$item['datepub']}</small>
 	<div class="pull-right">
 		{if !empty($item['tags'])}
 			<span class="small">
@@ -11,6 +10,10 @@
 			</span>
 		{/if}
 	</div>
+	<small>
+		<i class="fa fa-fw fa-calendar" title="Дата публикации"></i> {$item['datepub']}
+		{if $item['author_id'] != 0}<br /> <i class="fa fa-fw fa-user-circle-o" title="Автор"></i> {$item['author']['nickname']}{/if}
+	</small>
 	<hr>
 	{$item['full_item']}
 
@@ -35,12 +38,10 @@
 	<div class="row">
 		<div class="col-xs-5 text-left">
 			{if isset($item['prev'])}
-
 				<small>Ранее {$item['prev']['datepub']}</small>
 				<a href="{$SCRIPT_NAME}?page={$feed['alias']}{if isset($smarty.get.pg)}&pg={$smarty.get.pg}{/if}&id={$item['prev']['id']}"><i class="fa fa-angle-left fa-3x pull-left"></i>
 					{if isset($item['prev']['image'][0])}<img src="/upload/images/{$item['prev']['image'][0]['thumb']}" class="img-rounded pull-left feed-image-pn">{/if}
 				<br />{$item['prev']['title']}</a>
-
 			{/if}
 		</div>
 		<div class="col-xs-2 text-center">
@@ -80,8 +81,7 @@
 					</style>
 					<div class="feed-more-preview-{$i}"></div>*}
 					<a href="{$SCRIPT_NAME}?page={$feed['alias']}&id={$an['id']}">
-						{if isset($an['image'][0])}<img src="/upload/images/{$an['image'][0]['thumb']}" class="img-rounded feed-more-preview">{/if}
-						<br />{$an['title']}</a>
+						{if isset($an['image'][0])}<img src="/upload/images/{$an['image'][0]['thumb']}" class="img-rounded feed-more-preview">{/if}<br />{$an['title']}</a>
 					<br /><small>{$an['datepub']}</small>
 				</div>
 			{/foreach}

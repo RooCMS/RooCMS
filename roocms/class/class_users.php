@@ -42,7 +42,7 @@
  * @author       alex Roosso
  * @copyright    2010-2018 (c) RooCMS
  * @link         http://www.roocms.com
- * @version      1.5
+ * @version      1.5.1
  * @since        $date$
  * @license      http://www.gnu.org/licenses/gpl-3.0.html
  */
@@ -205,28 +205,43 @@ class Users extends Security {
 	 * Функция получения данных о пользователе.
 	 *
 	 * @param int $uid идентификатор пользователя
+	 *
+	 * @return array user data
 	 */
 	public function get_user_data($uid) {
 
 		global $db;
+
+		if($db->check_id($uid, USERS_TABLE, "uid")) {
+			$q = $db->query("SELECT uid, nickname, user_slogan, avatar, user_sex FROM ".USERS_TABLE." WHERE uid='".$uid."'");
+			$row = $db->fetch_assoc($q);
+		}
+		else {
+			$row = array(
+				'uid' => 0,
+			);
+		}
+
+		return $row;
 	}
 
 
 	/**
 	 * Функция получения списка пользователей.
 	 *
-	 * @param int $status - Текущий статус пользователя: 1 включенные, 0 отключенные, -1 все
-	 * @param int $ban    - Текущий бан пользователя: 0 без бана, 1 с баном, -1 все
+	 * @param int   $status - Текущий статус пользователя: 1 включенные, 0 отключенные, -1 все
+	 * @param int   $ban    - Текущий бан пользователя: 0 без бана, 1 с баном, -1 все
+	 * @param array $users  - массив с идентификаторами запрашиваемых пользователей.
 	 *
 	 * @return array
 	 */
-	public function get_userlist($status=-1, $ban=-1) {
+	public function get_userlist($status=-1, $ban=-1, $users=array()) {
 
 		global $db;
 
 		# condition
 		$cond = "";
-		$arcond = array("status"=>$status,"ban"=>$ban);
+		$arcond = array("status"=>$status, "ban"=>$ban);
 
 		foreach($arcond AS $k=>$v) {
 
@@ -239,6 +254,27 @@ class Users extends Security {
 			}
 		}
 
+		if(!empty($users)) {
+
+			if($cond != "") {
+				$cond .= " AND ";
+			}
+
+			$cond .= " ( ";
+
+			$i = 0;
+			foreach($users AS $k=>$v) {
+				if($i != 0) {
+					$cond .= " OR ";
+				}
+
+				$cond .= " uid='".$v."'";
+
+				$i++;
+			}
+
+			$cond .= " ) ";
+		}
 
 		# condition formating
 		if($cond != "") {
