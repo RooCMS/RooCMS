@@ -42,7 +42,7 @@
 * @author       alex Roosso
 * @copyright    2010-2018 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.2.19
+* @version      1.2.20
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -221,6 +221,7 @@ $sql['CREATE'.PAGES_FEED_TABLE] = "CREATE TABLE IF NOT EXISTS `".PAGES_FEED_TABL
 					  `meta_keywords` varchar(512) NOT NULL,
 					  `brief_item` text NOT NULL,
 					  `full_item` longtext NOT NULL,
+					  `author_id` int(10) unsigned NOT NULL DEFAULT '0',
 					  PRIMARY KEY (`id`),
 					  UNIQUE KEY (`id`),
 					  KEY `sid` (`sid`),
