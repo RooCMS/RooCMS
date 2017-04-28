@@ -226,20 +226,17 @@ class Users extends Security {
 
 		# condition
 		$cond = "";
+		$arcond = array("status"=>$status,"ban"=>$ban);
 
-		# status
-		if($status == 0 || $status == 1) {
-			$cond .= " status='".$status."' ";
-		}
-
-		# ban
-		if($ban == 0 || $ban == 1) {
+		foreach($arcond AS $k=>$v) {
 
 			if($cond != "") {
 				$cond .= " AND ";
 			}
 
-			$cond .= " ban='".$ban."' ";
+			if($v == 0 || $v == 1) {
+				$cond .= " ".$k."='".$v."' ";
+			}
 		}
 
 
