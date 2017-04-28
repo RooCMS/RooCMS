@@ -42,7 +42,7 @@
  * @author       alex Roosso
  * @copyright    2010-2018 (c) RooCMS
  * @link         http://www.roocms.com
- * @version      1.4.2
+ * @version      1.5
  * @since        $date$
  * @license      http://www.gnu.org/licenses/gpl-3.0.html
  */
@@ -209,6 +209,53 @@ class Users extends Security {
 	public function get_user_data($uid) {
 
 		global $db;
+	}
+
+
+	/**
+	 * Функция получения списка пользователей.
+	 *
+	 * @param int $status - Текущий статус пользователя: 1 включенные, 0 отключенные, -1 все
+	 * @param int $ban    - Текущий бан пользователя: 0 без бана, 1 с баном, -1 все
+	 *
+	 * @return array
+	 */
+	public function get_userlist($status=-1, $ban=-1) {
+
+		global $db;
+
+		# condition
+		$cond = "";
+
+		# status
+		if($status == 0 || $status == 1) {
+			$cond .= " status='".$status."' ";
+		}
+
+		# ban
+		if($ban == 0 || $ban == 1) {
+
+			if($cond != "") {
+				$cond .= " AND ";
+			}
+
+			$cond .= " ban='".$ban."' ";
+		}
+
+
+		# condition formating
+		if($cond != "") {
+			$cond = "WHERE".$cond;
+		}
+
+		# получаем список пользователей
+		$userlist = array();
+		$q = $db->query("SELECT uid, nickname, user_slogan, avatar, user_sex FROM ".USERS_TABLE." ".$cond." ORDER BY nickname ASC");
+		while($row = $db->fetch_assoc($q)) {
+			$userlist[$row['uid']] = $row;
+		}
+
+		return $userlist;
 	}
 
 

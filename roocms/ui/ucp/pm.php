@@ -42,7 +42,7 @@
 * @author       alex Roosso
 * @copyright    2010-2018 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.0.4
+* @version      1.1
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -68,7 +68,7 @@ class UCP_PM {
 	 */
 	public function __construct() {
 
-		global $structure, $roocms;
+		global $structure, $roocms, $users;
 
 		# title
 		$structure->page_title = "Личные сообщения";
@@ -77,7 +77,7 @@ class UCP_PM {
 		$structure->breadcumb[] = array('part'=>'ucp', 'act'=>'pm', 'title'=>'Личные сообщения');
 
 		# get userlist
-		$this->get_userlist();
+		$this->userlist = $users->get_userlist(1,0);
 
 
 		switch($roocms->move) {
@@ -222,27 +222,6 @@ class UCP_PM {
 			}
 			goback();
 		}
-	}
-
-
-	/**
-	 * Получаем список пользователей
-	 *
-	 * Данная функция будет в дальнейшем изменена!
-	 * В целях снижения запросов к БД. Будет использоваться Кеш
-	 */
-	private function get_userlist() {
-
-		global $db;
-
-		# список пользователей
-		$userlist = array();
-		$q = $db->query("SELECT uid, nickname FROM ".USERS_TABLE." WHERE status='1' ORDER BY nickname ASC");
-		while($row = $db->fetch_assoc($q)) {
-			$userlist[$row['uid']] = $row;
-		}
-
-		$this->userlist = $userlist;
 	}
 }
 
