@@ -169,7 +169,7 @@ class ACP_Feeds_Feed {
 									      date_create, date_update, date_publications, date_end_publications,
 									      sort, sid)
 								      VALUES ('".$POST->title."', '".$POST->meta_description."', '".$POST->meta_keywords."',
-									      '".$POST->brief_item."', '".$POST->full_item."', '".$POST->author_id."'
+									      '".$POST->brief_item."', '".$POST->full_item."', '".$POST->author_id."',
 									      '".time()."', '".time()."', '".$POST->date_publications."', '".$POST->date_end_publications."',
 									      '".$POST->itemsort."', '".$this->feed['id']."')");
 
@@ -217,6 +217,7 @@ class ACP_Feeds_Feed {
 		$smarty->assign("feed", $this->feed);
 
 		# users
+		$smarty->assign("userdata", $users->userdata);
 		$smarty->assign("userlist", $this->userlist);
 
 		# tpl
