@@ -82,7 +82,7 @@
 				<select name="author_id" id="author_id" class="selectpicker show-tick" required data-size="auto" data-live-search="true" data-width="100%">
 					<option value="0">Без автора</option>
 					{foreach from=$userlist item=user}
-						<option value="{$user['uid']}" data-subtext="{$user['uid']}" {if $user['uid'] == $item['author_id']} selected{/if}>{$user['nickname']}</option>
+						<option value="{$user['uid']}" {if $user['uid'] == $item['author_id']} selected{/if}>{$user['nickname']}</option>
 					{/foreach}
 				</select>
 			</div>
