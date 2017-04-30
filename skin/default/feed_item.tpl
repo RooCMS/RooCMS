@@ -37,12 +37,12 @@
 	{if $item['author_id'] != 0}
 		<h5>Автор:</h5>
 		{if file_exists("upload/images/{$item['author']['avatar']}")}
-			<img src="/upload/images/{$item['author']['avatar']}" class="img-circle pull-left mauth-avatar" height="50">
+			<img src="/upload/images/{$item['author']['avatar']}" class="img-circle pull-left mauth-avatar" height="55">
 		{else}
 			<i class="fa fa-fw fa-user-circle-o fa-4x pull-left" title="Автор"></i>
 		{/if}
-		<b>{$item['author']['nickname']}</b>
-		<br />{$item['author']['user_slogan']}
+		<b class="ubuntu">{$item['author']['nickname']}</b>
+		<br /><i class="ubuntu">{$item['author']['slogan']}</i>
 	{/if}
 
 	<hr />

@@ -210,11 +210,12 @@ class Users extends Security {
 	 */
 	public function get_user_data($uid) {
 
-		global $db;
+		global $db, $parse;
 
 		if($db->check_id($uid, USERS_TABLE, "uid")) {
 			$q = $db->query("SELECT uid, nickname, user_slogan, avatar, user_sex FROM ".USERS_TABLE." WHERE uid='".$uid."'");
 			$row = $db->fetch_assoc($q);
+			$row['slogan'] = $parse->text->br($row['user_slogan']);
 		}
 		else {
 			$row = array(
