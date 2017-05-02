@@ -295,19 +295,19 @@ class PageFeed {
 
 		switch($structure->page_items_sorting) {
 			case 'title_asc':
-				$order = "title ASC, date_publications DESC";
+				$order = "title ASC, date_publications DESC, id ASC";
 				break;
 
 			case 'title_desc':
-				$order = "title DESC, date_publications DESC";
+				$order = "title DESC, date_publications DESC, id ASC";
 				break;
 
 			case 'manual_sorting':
-				$order = "sort ASC, date_publications DESC, date_create DESC";
+				$order = "sort ASC, date_publications DESC, date_create DESC, id ASC";
 				break;
 
 			default: // case 'datepublication'
-				$order = "date_publications DESC, date_create DESC, date_update DESC";
+				$order = "date_publications DESC, date_create DESC, date_update DESC, id ASC";
 				break;
 		}
 
