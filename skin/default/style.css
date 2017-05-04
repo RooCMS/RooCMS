@@ -96,10 +96,26 @@ a:hover>.feed-more-preview {border: 2px solid #545c68;opacity: 1;filter: graysca
 /* Blur */
 
 .blur {
-	-webkit-filter: blur(25px);
-	-moz-filter: blur(25px);
-	-o-filter: blur(25px);
-	-ms-filter: blur(25px);
+	-webkit-filter: blur(5px);
+	-moz-filter: blur(5px);
+	-o-filter: blur(5px);
+	-ms-filter: blur(5px);
+	filter: blur(5px);
+}
+
+.blured {
+	-webkit-filter: blur(2px);
+	-moz-filter: blur(2px);
+	-o-filter: blur(2px);
+	-ms-filter: blur(2px);
+	filter: blur(2px);
+}
+.blured:hover {
+	-webkit-filter: blur(0);
+	-moz-filter: blur(0);
+	-o-filter: blur(0);
+	-ms-filter: blur(0);
+	filter: blur(0);
 }
 
 /* Transition */
