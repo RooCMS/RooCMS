@@ -93,11 +93,9 @@
 			<div class="col-sm-12">
 				{$blocks->load("nav_pages")}
 			</div>
-		</div>
-	</div>
-	<div class="row">
-		<div class="col-sm-12">
-			{$breadcumb}
+			<div class="col-sm-12">
+				{$breadcumb}
+			</div>
 		</div>
 	</div>
 	<div class="row">

@@ -38,6 +38,8 @@ p.lead {font-family: "PT Sans" !important;}
 .topsubmenu:hover {background: #545c68 none !important;	color: #fff !important;}
 .topsubmenu:hover > .small {color: #545c68 !important;}
 
+.breadcrumb {box-shadow: 0 0 4px #bbb  !important;}
+
 a#move_top {
 	position: fixed;
 	right: 10px;
@@ -104,11 +106,11 @@ a:hover>.feed-more-preview {border: 2px solid #545c68;opacity: 1;filter: graysca
 }
 
 .blured {
-	-webkit-filter: blur(2px);
-	-moz-filter: blur(2px);
-	-o-filter: blur(2px);
-	-ms-filter: blur(2px);
-	filter: blur(2px);
+	-webkit-filter: blur(1px);
+	-moz-filter: blur(1px);
+	-o-filter: blur(1px);
+	-ms-filter: blur(1px);
+	filter: blur(1px);
 }
 .blured:hover {
 	-webkit-filter: blur(0);
@@ -117,6 +119,9 @@ a:hover>.feed-more-preview {border: 2px solid #545c68;opacity: 1;filter: graysca
 	-ms-filter: blur(0);
 	filter: blur(0);
 }
+
+/* Footer */
+footer {padding-bottom: 20px;}
 
 /* Transition */
 *:hover, .table-hover>tbody>tr:hover>td, .table-hover>tbody>tr:hover>th {
