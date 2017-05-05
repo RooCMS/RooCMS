@@ -42,7 +42,7 @@
  * @author       alex Roosso
  * @copyright    2010-2018 (c) RooCMS
  * @link         http://www.roocms.com
- * @version      1.0.5
+ * @version      1.0.6
  * @since        $date$
  * @license      http://www.gnu.org/licenses/gpl-3.0.html
  */
@@ -110,28 +110,33 @@ class Tags {
 
 		global $db;
 
-		# create condition
-		$cond = "";
-		if(is_array($linkedto)) {
-			foreach($linkedto AS $value) {
-				if($cond != "") {
-					$cond .= " OR ";
-				}
-
-				$cond .= " l.linkedto='".$value."' ";
-			}
+		if(!is_array($linkedto)) {
+			$linkedto = array($linkedto);
 		}
-		else {
-			$cond .= " l.linkedto='".$linkedto."' ";
+
+		# create condition
+
+		$cond = "";
+
+		foreach($linkedto AS $value) {
+			if($cond != "") {
+				$cond .= " OR ";
+			}
+
+			$cond .= " l.linkedto='".$value."' ";
 		}
 
 
 		if($cond != "") {
-			$cond = "WHERE (".$cond.")";
+			$cond = " (".$cond.")";
+		}
+		else {
+			$cond .= " l.linkedto='0' ";
 		}
 
+
 		$tags = array();
-		$q = $db->query("SELECT l.tag_id, t.title, t.amount, l.linkedto FROM ".TAGS_LINK_TABLE." AS l LEFT JOIN ".TAGS_TABLE." AS t ON (t.id = l.tag_id) ".$cond." ORDER BY t.title ASC");
+		$q = $db->query("SELECT l.tag_id, t.title, t.amount, l.linkedto FROM ".TAGS_LINK_TABLE." AS l LEFT JOIN ".TAGS_TABLE." AS t ON (t.id = l.tag_id) WHERE".$cond." ORDER BY t.title ASC");
 		while($data = $db->fetch_assoc($q)) {
 			$tags[] = $data;
 		}
