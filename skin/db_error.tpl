@@ -18,15 +18,15 @@
 <link href="favicon.ico" 	rel="icon" 			type="image/x-icon" />
 <link href="favicon.ico" 	rel="shortcut icon" type="image/x-icon" />
 
-<link rel="stylesheet" type="text/css" href="./skin/default/style.css" media="screen" />
+<link rel="stylesheet" type="text/css" href="/skin/default/style.css" media="screen" />
 
 <!-- JS -->
 <!--[if lt IE 9]><script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
 <!--[if IE]><script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
-<script type="text/javascript" src="./plugin/iepngfix_tilebg.min.js"></script>
-<script type="text/javascript" src="./plugin/jquery-core.min.js.php"></script>
-<script type="text/javascript" src="./plugin/jquery-migrate.min.js.php"></script>
-<script type="text/javascript" src="./plugin/bootstrap.php"></script>
+<script type="text/javascript" src="/plugin/iepngfix_tilebg.min.js"></script>
+<script type="text/javascript" src="/plugin/jquery-core.min.js"></script>
+<script type="text/javascript" src="/plugin/jquery-migrate.min.js"></script>
+<script type="text/javascript" src="/plugin/bootstrap.php"></script>
 
 </head>
 <body>
