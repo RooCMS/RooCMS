@@ -78,33 +78,37 @@ class Module_Tag_Cloud {
 		# get tag listen
 		$taglist = $tags->list_tags();
 
-		# set min/max
-		$min = $taglist[count($taglist)-1]['amount'];
-		$max = $taglist[0]['amount'];
+		$ct = count($taglist);
 
-		$minsize = 90;
-		$maxsize = 175;
+		if($ct != 0) {
+			# set min/max
+			$min = $taglist[$ct-1]['amount'];
+			$max = $taglist[0]['amount'];
 
-		foreach ($taglist AS $key=>$value) {
-			if($min == $max) {
-				$fontsize = round(($maxsize - $minsize)/2+$minsize);
+			$minsize = 90;
+			$maxsize = 175;
+
+			foreach ($taglist AS $key=>$value) {
+				if($min == $max) {
+					$fontsize = round(($maxsize - $minsize)/2+$minsize);
+				}
+				else {
+					$fontsize = round(((($maxsize-$minsize)/$max)*$value['amount'])+$minsize);
+				}
+
+				$ukey = urlencode($value['title']);
+
+				$taglist[$key] = array('title'=>$value['title'], 'amount'=>$value['amount'], 'fontsize'=>$fontsize, 'ukey'=>$ukey);
 			}
-			else {
-				$fontsize = round(((($maxsize-$minsize)/$max)*$value['amount'])+$minsize);
-			}
 
-			$ukey = urlencode($value['title']);
+			shuffle($taglist);
 
-			$taglist[$key] = array('title'=>$value['title'], 'amount'=>$value['amount'], 'fontsize'=>$fontsize, 'ukey'=>$ukey);
+			$smarty->assign("tags", $taglist);
+			$this->out .= $tpl->load_template("module_tagcloud", true);
+
+			# finish
+			echo $this->out;
 		}
-
-		shuffle($taglist);
-
-		$smarty->assign("tags", $taglist);
-		$this->out .= $tpl->load_template("module_tagcloud", true);
-
-		# finish
-		echo $this->out;
 	}
 }
 
