@@ -42,7 +42,7 @@
  * @author       alex Roosso
  * @copyright    2010-2018 (c) RooCMS
  * @link         http://www.roocms.com
- * @version      1.0.4
+ * @version      1.0.5
  * @since        $date$
  * @license      http://www.gnu.org/licenses/gpl-3.0.html
  */
@@ -104,17 +104,17 @@ class Tags {
 	 *
 	 * @param string $linkedto - ссылка на объект
 	 *
-	 * @return string
+	 * @return array
 	 */
 	public function read_tags($linkedto) {
 
 		global $db;
 
 		# create condition
-		$cond = "(";
+		$cond = "";
 		if(is_array($linkedto)) {
 			foreach($linkedto AS $value) {
-				if($cond != "(") {
+				if($cond != "") {
 					$cond .= " OR ";
 				}
 
@@ -124,10 +124,14 @@ class Tags {
 		else {
 			$cond .= " l.linkedto='".$linkedto."' ";
 		}
-		$cond .= ")";
+
+
+		if($cond != "") {
+			$cond = "WHERE (".$cond.")";
+		}
 
 		$tags = array();
-		$q = $db->query("SELECT l.tag_id, t.title, t.amount, l.linkedto FROM ".TAGS_LINK_TABLE." AS l LEFT JOIN ".TAGS_TABLE." AS t ON (t.id = l.tag_id) WHERE ".$cond." ORDER BY t.title ASC");
+		$q = $db->query("SELECT l.tag_id, t.title, t.amount, l.linkedto FROM ".TAGS_LINK_TABLE." AS l LEFT JOIN ".TAGS_TABLE." AS t ON (t.id = l.tag_id) ".$cond." ORDER BY t.title ASC");
 		while($data = $db->fetch_assoc($q)) {
 			$tags[] = $data;
 		}
