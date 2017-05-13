@@ -494,6 +494,9 @@ body.modal-open,
   -moz-transition: none !important;
   outline: none;
 }
+[data-cke-saved-href] {
+  font-weight: 600 !important;
+}
 /* Fonts */
 @font-face {
   font-family: 'Ubuntu';

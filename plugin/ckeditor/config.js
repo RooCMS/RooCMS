@@ -54,11 +54,11 @@ CKEDITOR.editorConfig = function( config )
 	// PARSER
 	// ANOTHER CONFIG
 
-	config.contentsCss = ['/skin/default/style.css',
+	config.contentsCss = ['/skin/default/style.min.css',
 		'/plugin/bootstrap/css/bootstrap.min.css',
 		'/plugin/bootstrap/css/bootstrap-select.min.css',
 		'/plugin/bootstrap/css/font-awesome.min.css'];
-	//config.bodyId = 'content';
+	// config.bodyId = 'content_editable';
 
 	config.stylesSet = [
 		{ name: 'block muted',		element: 'p', attributes: { class: 'text-muted' } },
