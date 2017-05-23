@@ -42,7 +42,7 @@
 * @author       alex Roosso
 * @copyright    2010-2018 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.6
+* @version      1.6.1
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -128,7 +128,7 @@ class PageFeed {
 		$taglinks = array();
 		$authors  = array();
 		$feeds    = array();
-		$q = $db->query("SELECT id, author_id, title, brief_item, full_item, date_publications FROM ".PAGES_FEED_TABLE." WHERE ".$cond." ORDER BY ".$order." LIMIT ".$db->from.",".$db->limit);
+		$q = $db->query("SELECT id, author_id, title, brief_item, full_item, date_publications, views FROM ".PAGES_FEED_TABLE." WHERE ".$cond." ORDER BY ".$order." LIMIT ".$db->from.",".$db->limit);
 		while($row = $db->fetch_assoc($q)) {
 
 			if(trim($row['brief_item']) == "") {
@@ -176,14 +176,14 @@ class PageFeed {
 	/**
 	 * Load Feed Item
 	 *
-	 * @param int $id  - идентификатор новости
+	 * @param int $id  - идентификатор элемента
 	 */
 	private function load_item($id) {
 
 		global $db, $users, $parse, $tags, $files, $img, $tpl, $smarty, $site;
 
 		# query data
-		$q = $db->query("SELECT id, title, meta_description, meta_keywords, author_id, full_item, date_publications, sort FROM ".PAGES_FEED_TABLE." WHERE id='".$id."'");
+		$q = $db->query("SELECT id, title, meta_description, meta_keywords, author_id, full_item, views, date_publications, sort FROM ".PAGES_FEED_TABLE." WHERE id='".$id."'");
 		$item = $db->fetch_assoc($q);
 		$item['datepub'] 	= $parse->date->unix_to_rus($item['date_publications'],true);
 		$item['date']		= $parse->date->unix_to_rus_array($item['date_publications']);
@@ -223,6 +223,9 @@ class PageFeed {
 		$smarty->assign("more", $more);
 		$smarty->assign("item", $item);
 		$tpl->load_template("feed_item");
+
+		// cnt views
+		$this->count_views($id);
 	}
 
 
@@ -254,64 +257,22 @@ class PageFeed {
 
 
 	/**
-	 * функция возвращает условие для запроса фида из БД
+	 * Считаем показы/просмотры элемента
 	 *
-	 * @return string
+	 * @param $id - идентификатор элемента
 	 */
-	private function feed_condition() {
+	private function count_views($id) {
 
-		global $structure;
+		global $db;
 
-		# query id's feeds begin
-		$cond = " date_publications <= '".time()."' AND ( sid='".$structure->page_id."' ";
+		if(!isset($_COOKIE[$id])) {
 
-		$showchilds =& $structure->page_show_child_feeds;
+			$db->query("UPDATE ".PAGES_FEED_TABLE." SET views=views+1 WHERE id='".$id."'");
 
-		if($showchilds != "none") {
-			$qfeeds = $this->construct_child_feeds($structure->page_id, $showchilds);
-			foreach($qfeeds as $v) {
-				# query id's feeds collect
-				$cond .= " OR sid='".$v."' ";
-			}
+			// TODO: В дальнейшем время жизни будет опционально устанавливаться.
+			$exp = time()+(60*60*24);
+			setcookie($id, true, $exp);
 		}
-
-		# query id's feeds final
-		$cond .= " ) AND (date_end_publications = '0' || date_end_publications > '".time()."') AND status='1' ";
-
-
-		# return
-		return $cond;
-	}
-
-
-	/**
-	 * Функция возвращает условие для порядка сортировки результата запроса из БД
-	 *
-	 * @return string
-	 */
-	private function feed_order() {
-
-		global $structure;
-
-		switch($structure->page_items_sorting) {
-			case 'title_asc':
-				$order = "title ASC, date_publications DESC, id DESC";
-				break;
-
-			case 'title_desc':
-				$order = "title DESC, date_publications DESC, id DESC";
-				break;
-
-			case 'manual_sorting':
-				$order = "sort ASC, date_publications DESC, date_create DESC, id DESC";
-				break;
-
-			default: // case 'datepublication'
-				$order = "date_publications DESC, date_create DESC, date_update DESC, id DESC";
-				break;
-		}
-
-		return $order;
 	}
 
 
@@ -441,6 +402,68 @@ class PageFeed {
 
 
 		return $feeds;
+	}
+
+
+	/**
+	 * функция возвращает условие для запроса фида из БД
+	 *
+	 * @return string
+	 */
+	private function feed_condition() {
+
+		global $structure;
+
+		# query id's feeds begin
+		$cond = " date_publications <= '".time()."' AND ( sid='".$structure->page_id."' ";
+
+		$showchilds =& $structure->page_show_child_feeds;
+
+		if($showchilds != "none") {
+			$qfeeds = $this->construct_child_feeds($structure->page_id, $showchilds);
+			foreach($qfeeds as $v) {
+				# query id's feeds collect
+				$cond .= " OR sid='".$v."' ";
+			}
+		}
+
+		# query id's feeds final
+		$cond .= " ) AND (date_end_publications = '0' || date_end_publications > '".time()."') AND status='1' ";
+
+
+		# return
+		return $cond;
+	}
+
+
+	/**
+	 * Функция возвращает условие для порядка сортировки результата запроса из БД
+	 *
+	 * @return string
+	 */
+	private function feed_order() {
+
+		global $structure;
+
+		switch($structure->page_items_sorting) {
+			case 'title_asc':
+				$order = "title ASC, date_publications DESC, id DESC";
+				break;
+
+			case 'title_desc':
+				$order = "title DESC, date_publications DESC, id DESC";
+				break;
+
+			case 'manual_sorting':
+				$order = "sort ASC, date_publications DESC, date_create DESC, id DESC";
+				break;
+
+			default: // case 'datepublication'
+				$order = "date_publications DESC, date_create DESC, date_update DESC, id DESC";
+				break;
+		}
+
+		return $order;
 	}
 
 

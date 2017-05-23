@@ -13,6 +13,7 @@
 	<small>
 		<i class="fa fa-fw fa-calendar" title="Дата публикации"></i> {$item['datepub']}
 		{if $item['author_id'] != 0}<br /> <i class="fa fa-fw fa-user-circle-o" title="Автор"></i> {$item['author']['nickname']}{/if}
+		{if $item['views'] != 0}<br /><i class="fa fa-fw fa-eye" title="Просмотрено раз"></i> {$item['views']}{/if}
 	</small>
 	<hr>
 	{$item['full_item']}
