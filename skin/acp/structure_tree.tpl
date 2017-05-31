@@ -35,11 +35,14 @@
 			<td class="text-left">
 				<span class="label label-default">{$content_types[$page['page_type']]}</span>
 				{if $page['page_type'] == "feed"}
-				<span class="label label-info">{$page['items']} эл.</span>
+					<span class="label label-info">{$page['items']} эл.</span>
 				{/if}
 			</td>
 			<td class="text-right">
 				<div class="btn-group">
+					{if $page['page_type'] == "feed"}
+						<a href="{$SCRIPT_NAME}?act=feeds&part=settings&page={$page['id']}" class="btn btn-xs btn-default"><i class="fa fa-fw fa-cog" rel="tooltip" data-toggle="tooltip" data-placement="top" title="Настройки ленты"></i></a>
+					{/if}
 					<a href="{$SCRIPT_NAME}?act=structure&part=edit&id={$page['id']}" class="btn btn-xs btn-default"><span class="fa fa-pencil-square-o fa-fw"></span><span class="hidden-sm">Редактировать</span></a>
 					{if $page['id'] != 1}<a href="{$SCRIPT_NAME}?act=structure&part=delete&id={$page['id']}" class="btn btn-xs btn-danger"><span class="fa fa-trash-o fa-fw"></span><span class="hidden-sm">Удалить</span></a>{/if}
 				</div>
