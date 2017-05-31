@@ -15,7 +15,9 @@
 							<a href="{$SCRIPT_NAME}?page={$item['alias']}&id={$item['id']}">{$item['title']}</a>
 						</h3>
 						<div class="feed-date small">
+							<a href="{$SCRIPT_NAME}?page={$item['alias']}"><i class="fa fa-folder"></i> {$item['feed_title']}</a>
 							<i class="fa fa-calendar"></i> {$item['datepub']}
+							{if $item['views'] != 0}<i class="fa fa-fw fa-eye" title="Просмотрено раз"></i> {$item['views']}{/if}
 						</div>
 					</div>
 				</div>

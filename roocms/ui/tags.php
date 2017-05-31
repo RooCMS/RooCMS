@@ -42,7 +42,7 @@
  * @author       alex Roosso
  * @copyright    2010-2018 (c) RooCMS
  * @link         http://www.roocms.com
- * @version      0.9
+ * @version      0.10
  * @since        $date$
  * @license      http://www.gnu.org/licenses/gpl-3.0.html
  */
@@ -170,7 +170,7 @@ class UI_Tags {
 		$taglinks = array();
 		$feeds    = array();
 		$cond = str_ireplace("id=", "fi.id=", $cond);
-		$q = $db->query("SELECT fi.id, fi.sid, s.alias, fi.title, fi.brief_item, fi.full_item, fi.date_publications 
+		$q = $db->query("SELECT fi.id, fi.sid, s.alias, s.title AS feed_title, fi.title, fi.brief_item, fi.full_item, fi.date_publications, fi.views 
 					FROM ".PAGES_FEED_TABLE." AS fi
 					LEFT JOIN ".STRUCTURE_TABLE." AS s ON (s.id = fi.sid)
 					WHERE fi.date_publications <= '".time()."' AND ".$cond." AND (fi.date_end_publications = '0' || fi.date_end_publications > '".time()."') AND fi.status='1' 
