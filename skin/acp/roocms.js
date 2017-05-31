@@ -90,7 +90,11 @@ $(document).ready(function() {
 	});
 
 	/* Colorbox */
-    	$("a[rel='colorbox']").colorbox({maxWidth: "95%", maxHeight: "95%"});
+    	$("a[rel='colorbox']").colorbox({maxWidth: "95%", maxHeight: "95%",
+		'onComplete': function(){
+			$('#cboxLoadedContent').zoom({'on': 'click'});
+		}
+	});
 
 
     	/* Style */

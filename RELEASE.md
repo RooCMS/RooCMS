@@ -4,20 +4,21 @@ Version: 1.2.2
 
 Plugins
 -------
-- CKEditor		`v4.6.2 `
-- Codemirror		`v5.24.2`
-- Colorbox		`v1.4.32`
-- Bootstrap		`v3.3.7`
-- Bootstrap Select	`v1.12.2`
-- Bootstrap Datepicker	`v1.3`
-- Bootstrap Colorpicker	`v1`
-- Bootstrap TagsInput	`v0.8.0`
-- Font Awesome		`v4.7`
-- Smarty		`v3.1.30`
-- Smarty plugins:	`get_params`
-- PHP QR Code		`v1.1.4`
-- jQuery		`v2.1.4`
-- jQuery-Migrate	`v3.0.0`
+- CKEditor              `v4.6.2 `
+- Codemirror            `v5.24.2`
+- Colorbox (Jack Moore)	`v1.4.32`
+- Zoom (Jack Moore)     `v1.7.20`
+- Bootstrap             `v3.3.7`
+- Bootstrap Select      `v1.12.2`
+- Bootstrap Datepicker  `v1.3`
+- Bootstrap Colorpicker `v1`
+- Bootstrap TagsInput   `v0.8.0`
+- Font Awesome          `v4.7`
+- Smarty                `v3.1.30`
+- Smarty plugins:       `get_params`
+- PHP QR Code           `v1.1.4`
+- jQuery                `v2.1.4`
+- jQuery-Migrate        `v3.0.0`
 
 
 Release info

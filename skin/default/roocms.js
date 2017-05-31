@@ -2,7 +2,11 @@
 *	jQuery
 **/
 $(document).ready(function(){
-	$("a[rel='img']").colorbox({maxWidth: "98%", maxHeight: "98%"}); //, rel: true
+	$("a[rel='img']").colorbox({maxWidth: "98%", maxHeight: "98%",
+		'onComplete': function(){
+			$('#cboxLoadedContent').zoom({'on': 'click'});
+		}
+	}); //, rel: true
 
 	//$(".corner").corner("round 4px");
 
