@@ -85,8 +85,8 @@ class Module_Tag_Cloud {
 			$min = $taglist[$ct-1]['amount'];
 			$max = $taglist[0]['amount'];
 
-			$minsize = 90;
-			$maxsize = 175;
+			$minsize = 45;
+			$maxsize = 100;
 
 			foreach ($taglist AS $key=>$value) {
 				if($min == $max) {

@@ -82,6 +82,28 @@ a:hover>.feed-more-preview {border: 2px solid #545c68;opacity: 1;filter: graysca
 	background-image: repeating-linear-gradient(135deg, #F29B91 0px, #F09290 30px, transparent 30px, transparent 50px, #83B3DB 50px, #84ADCB 80px, transparent 80px, transparent 100px);
 }
 
+/* Tag Cloud */
+.tag {text-transform: capitalize;}
+.tag_amount {
+	display: inline-block;
+	position: relative;
+	/*line-height: 14px;*/
+	padding: 3px 0 3px 10px;
+	margin: 0 6px;
+	border-left: 1px solid #adadad;
+}
+.tag_amount::after, .tag_amount::before {
+	content: '';
+	position: absolute;
+	top: 37%;
+	border-top: 4px solid transparent;
+	border-right: 4px solid transparent;
+	border-bottom: 4px solid transparent;
+}
+.tag_amount::before {left: 0;border-left: 4px solid #adadad;}
+.tag_amount::after {left: -1px;	border-left: 4px solid #fff;}
+a.tag:hover .tag_amount::after {left: -1px; border-left: 4px solid #e6e6e6;}
+
 /*  Input icon */
 .inner-addon {position: relative;}
 .inner-addon .glyphicon, .inner-addon .fa {
