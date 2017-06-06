@@ -166,6 +166,12 @@ CKEDITOR.editorConfig = function( config )
 
 	config.toolbar_Mail =
 		[
-			['Bold', 'Italic', 'Underline','Strike', '-', 'NumberedList', 'BulletedList', '-', 'Link', 'Unlink','-','About']
+			['Source','Preview','-','Maximize', 'ShowBlocks','-','About'],
+			'/',
+			['Undo','Redo'],
+			['Bold', 'Italic', 'Underline','Strike','-','Outdent','Indent','-','Subscript','Superscript', '-', 'NumberedList', 'BulletedList', '-', 'Link', 'Unlink'],
+			['JustifyLeft','JustifyCenter','JustifyRight','JustifyBlock'],
+			['Table'],
+			['Link','Unlink','Anchor']
 		];
 };
