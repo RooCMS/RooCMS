@@ -39,7 +39,17 @@
 				Электронная почта:  <small><span class="fa fa-question-circle fa-fw" rel="tooltip" title="Должна быть уникальной. Нельзя заводить несколько аккаунтов на один почтовый ящик" data-placement="left"></span></small>
 			</label>
 			<div class="col-lg-9">
-				<input type="text" name="email" id="inputEmail" class="form-control" pattern="[A-Za-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{literal}{2,6}{/literal}$" required>
+				<div class="input-group">
+					<input type="text" name="email" id="inputEmail" class="form-control" pattern="[A-Za-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{literal}{2,6}{/literal}$" required>
+					<div class="input-group-btn" data-toggle="buttons">
+						<label class="btn btn-default active" for="flag_status_true" rel="tooltip" title="Получать рассылку" data-placement="auto" data-container="body">
+							<input type="radio" name="mailing" value="1" id="flag_status_true" checked> <span class="text-success"><i class="fa fa-fw fa-envelope-open"></i></span>
+						</label>
+						<label class="btn btn-default" for="flag_status_false" rel="tooltip" title="Не получать рассылку" data-placement="auto" data-container="body">
+							<input type="radio" name="mailing" value="0" id="flag_status_false"> <span class="text-danger"><i class="fa fa-fw fa-envelope"></i></span>
+						</label>
+					</div>
+				</div>
 			</div>
 		</div>
 

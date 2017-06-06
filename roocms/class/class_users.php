@@ -42,7 +42,7 @@
  * @author       alex Roosso
  * @copyright    2010-2018 (c) RooCMS
  * @link         http://www.roocms.com
- * @version      1.5.1
+ * @version      1.6
  * @since        $date$
  * @license      http://www.gnu.org/licenses/gpl-3.0.html
  */
@@ -128,7 +128,7 @@ class Users extends Security {
 		if(isset($roocms->sess['login']) && trim($roocms->sess['login']) != "" && $db->check_id($roocms->sess['login'], USERS_TABLE, "login", "status='1'") && isset($roocms->sess['token']) && strlen($roocms->sess['token']) == 32) {
 
 			# get data
-			$q    = $db->query("SELECT u.uid, u.gid, u.login, u.nickname, u.avatar, u.email,
+			$q    = $db->query("SELECT u.uid, u.gid, u.login, u.nickname, u.avatar, u.email, u.mailing,
  							u.user_name, u.user_surname, u.user_last_name, u.user_birthdate, u.user_sex, u.user_slogan,
 							u.title, u.password, u.salt, u.ban, u.ban_reason, u.ban_expiried,
 							g.title as gtitle
@@ -167,6 +167,7 @@ class Users extends Security {
 				'nickname'		=> $data['nickname'],
 				'avatar'		=> $data['avatar'],
 				'email'			=> $data['email'],
+				'mailing'		=> $data['mailing'],
 				'title'			=> $data['title'],
 				'user_name'		=> $data['user_name'],
 				'user_surname'		=> $data['user_surname'],
@@ -450,6 +451,11 @@ class Users extends Security {
 		# check slogan
 		if(!isset($POST->user_slogan)) {
 			$POST->user_slogan = "";
+		}
+
+		# mailing
+		if(!isset($POST->mailing) || round($POST->mailing) > 1 || round($POST->mailing) < 0) {
+			$POST->mailing = 0;
 		}
 
 		$POST->user_slogan = $parse->text->clearhtml($POST->user_slogan);

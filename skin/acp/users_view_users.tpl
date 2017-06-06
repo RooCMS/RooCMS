@@ -23,11 +23,12 @@
 				{if $user['avatar'] != ""}<a href="{$SCRIPT_NAME}?act=users&part=edit_user&uid={$user['uid']}"><img src="/upload/images/{$user['avatar']}" height="40" class="img-circle"></a>{/if}
 			</td>
 			<td>
-				<a href="{$SCRIPT_NAME}?act=users&part=edit_user&uid={$user['uid']}">{$user['nickname']}</a> {if $user['user_sex'] == "m"}<i class="fa fa-fw fa-mars text-info"></i>{elseif $user['user_sex'] == "f"}<i class="fa fa-fw fa-venus text-danger"></i>{/if}
+				<a href="{$SCRIPT_NAME}?act=users&part=edit_user&uid={$user['uid']}">{$user['nickname']}</a>
+				{if $user['user_sex'] == "m"}<i class="fa fa-fw fa-mars text-info"></i>{elseif $user['user_sex'] == "f"}<i class="fa fa-fw fa-venus text-danger"></i>{/if}
 				<span class="label label-info pull-right">{$user['gtitle']}</span>
 				{if $user['status'] == 0 && $user['activation_code'] != ""}<span class="label label-warning pull-right">Не активирован</span>{/if}
 				{if $user['status'] == 0 && $user['activation_code'] == ""}<span class="label label-danger pull-right">Отключен</span>{/if}
-				<br /><small>{$user['login']} ({$user['email']})</small>
+				<br /><small>{$user['login']} ({$user['email']}) <i class="fa fa-fw {if $user['mailing'] == 0}fa-envelope text-muted{else}fa-envelope-open text-success{/if}"></i></small>
 			</td>
 			<td class="text-left">
 				{if $user['title'] == "a" && $user['uid'] == 1}

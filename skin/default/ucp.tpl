@@ -42,7 +42,7 @@
 
 					<dt class="text-info">Электронная почта</dt>
 					<dd>
-						{$userdata['email']}
+						{$userdata['email']} <span class="label {if $userdata['mailing'] == 0}label-default">Рыссылка отключена{else}label-success">Рассылка подключена{/if}</span>
 						<br /><small>на этот адрес вы получаете уведомления с сайта</small>
 					</dd>
 				</dl>

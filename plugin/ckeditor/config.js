@@ -163,4 +163,9 @@ CKEDITOR.editorConfig = function( config )
 		[
 			['Bold', 'Italic', 'Underline','Strike', '-', 'NumberedList', 'BulletedList', '-', 'Link', 'Unlink','-','About']
 		];
+
+	config.toolbar_Mail =
+		[
+			['Bold', 'Italic', 'Underline','Strike', '-', 'NumberedList', 'BulletedList', '-', 'Link', 'Unlink','-','About']
+		];
 };

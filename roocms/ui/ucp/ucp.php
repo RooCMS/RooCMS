@@ -42,7 +42,7 @@
 * @author       alex Roosso
 * @copyright    2010-2018 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.0.10
+* @version      1.0.11
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -195,6 +195,7 @@ class UCP_CP {
 								login = '".$POST->login."',
 								nickname = '".$POST->nickname."',
 								email = '".$POST->email."',
+								mailing = '".$POST->mailing."',
 								".$query." 
 								user_name = '".$POST->user_name."',
 								user_surname = '".$POST->user_surname."',

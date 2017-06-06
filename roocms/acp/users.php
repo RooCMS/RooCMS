@@ -43,7 +43,7 @@
  * @author       alex Roosso
  * @copyright    2010-2018 (c) RooCMS
  * @link         http://www.roocms.com
- * @version      1.5.4
+ * @version      1.6
  * @since        $date$
  * @license      http://www.gnu.org/licenses/gpl-3.0.html
  */
@@ -183,7 +183,7 @@ class ACP_Users {
 		global $db, $smarty, $tpl, $parse;
 
 		$data = array();
-		$q = $db->query("SELECT u.uid, u.gid, u.status, u.login, u.nickname, u.avatar, u.email, u.title, u.user_sex, u.user_slogan,
+		$q = $db->query("SELECT u.uid, u.gid, u.status, u.login, u.nickname, u.avatar, u.email, u.mailing, u.title, u.user_sex, u.user_slogan,
 					u.date_create, u.date_update, u.last_visit, u.activation_code, u.ban, u.ban_reason, u.ban_expiried,
 					g.title AS gtitle
 					FROM ".USERS_TABLE." AS u
@@ -259,9 +259,9 @@ class ACP_Users {
 				# check_user data
 				$this->check_users_data();
 
-				$db->query("INSERT INTO ".USERS_TABLE." (login, nickname, email, title, password, salt, date_create, date_update, last_visit, status, gid,
+				$db->query("INSERT INTO ".USERS_TABLE." (login, nickname, email, mailing, title, password, salt, date_create, date_update, last_visit, status, gid,
 									 user_name, user_surname, user_last_name, user_birthdate, user_sex, user_slogan)
-								 VALUES ('".$POST->login."', '".$POST->nickname."', '".$POST->email."', '".$POST->title."', '".$password."', '".$salt."', '".time()."', '".time()."', '".time()."', '1', '".$POST->gid."',
+								 VALUES ('".$POST->login."', '".$POST->nickname."', '".$POST->email."', '".$POST->mailing."', ''".$POST->title."', '".$password."', '".$salt."', '".time()."', '".time()."', '".time()."', '1', '".$POST->gid."',
 								 	 '".$POST->user_name."', '".$POST->user_surname."', '".$POST->user_last_name."', '".$POST->user_birthdate."', '".$POST->user_sex."', '".$POST->user_slogan."')");
 				$uid = $db->insert_id();
 
@@ -374,7 +374,7 @@ class ACP_Users {
 			goback();
 		}
 		else {
-			$q = $db->query("SELECT uid, gid, status, avatar, login, nickname, email, title, date_create, last_visit, user_name, user_surname, user_last_name, user_birthdate, user_sex, user_slogan, activation_code FROM ".USERS_TABLE." WHERE uid='".$uid."'");
+			$q = $db->query("SELECT uid, gid, status, avatar, login, nickname, email, mailing, title, date_create, last_visit, user_name, user_surname, user_last_name, user_birthdate, user_sex, user_slogan, activation_code FROM ".USERS_TABLE." WHERE uid='".$uid."'");
 			$user = $db->fetch_assoc($q);
 
 			# user personal data birth date
@@ -533,6 +533,7 @@ class ACP_Users {
 									user_slogan='".$POST->user_slogan."',
 									title='".$POST->title."',
 									status='".$POST->status."',
+									mailing='".$POST->mailing."',
 									date_update='".time()."' 
 								WHERE uid='".$uid."'");
 

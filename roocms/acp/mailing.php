@@ -38,31 +38,68 @@
 
 /**
  * @package      RooCMS
- * @subpackage	 Plugin Utilites
- * @subpackage	 CKEditor
+ * @subpackage   Admin Control Panel
  * @author       alex Roosso
  * @copyright    2010-2018 (c) RooCMS
  * @link         http://www.roocms.com
- * @version      1.1
+ * @version      1.0
  * @since        $date$
  * @license      http://www.gnu.org/licenses/gpl-3.0.html
  */
 
+//#########################################################
+// Anti Hack
+//---------------------------------------------------------
+if(!defined('RooCMS') || !defined('ACP')) {
+	die('Access Denied');
+}
+//#########################################################
 
-# OUTPUT
-header('HTTP/1.1 200 OK');
-header('Content-type: application/x-javascript');
-header('Content-transfer-encoding: binary\n');
-header('Accept-Ranges: bytes');
-ob_start("ob_gzhandler", 9);
+
+/**
+ * Class ACP_Mailing
+ */
+class ACP_Mailing {
+
+	/**
+	 * ACP_Mailing constructor.
+	 */
+	public function __construct() {
+
+		global $roocms, $tpl;
+
+		# action
+		switch($roocms->part) {
+
+			case 'send':
+				$this->send();
+				break;
+
+			default:
+				$this->message();
+				break;
+		}
+
+		# output
+		$tpl->load_template("mailing");
+	}
+
+
+	/**
+	 * Форма набора сообщения.
+	 */
+	private function message() {
+
+		global $smarty, $tpl;
+
+		$content = $tpl->load_template("mailing_message", true);
+		$smarty->assign("content", $content);
+	}
+}
+
+/**
+ * Init class
+ */
+$acp_mailing = new ACP_Mailing;
 
 ?>
-
-document.write('<script type="text/javascript" src="plugin/ckeditor/ckeditor.js"></script>');
-document.write('<script type="text/javascript" src="plugin/ckeditor/adapters/jquery.js"></script>');
-
-$(document).ready(function() {
-	/* CKEditor */
-	$(".ckeditor").ckeditor();
-	$(".ckeditor_mail").ckeditor({toolbar: 'Mail'});
-});
