@@ -79,7 +79,7 @@
 			</div>
 		</div>
 
-		<div class="row">
+		<div class="form-group">
 			<div class="col-lg-12">
 				<label for="brief_item" class="control-label">
 					Аннотация:
@@ -87,7 +87,7 @@
 				<textarea id="brief_item" class="form-control ckeditor" name="brief_item" required></textarea>
 			</div>
 		</div>
-		<div class="row">
+		<div class="form-group">
 			<div class="col-lg-12">
 				<label for="brief_item" class="control-label">
 					Полный текст: <small><span class="fa fa-warning fa-fw text-danger" rel="tooltip" title="Обазательно заполнить это поле" data-placement="right"></span></small>

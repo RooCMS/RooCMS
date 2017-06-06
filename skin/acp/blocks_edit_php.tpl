@@ -23,7 +23,7 @@
 			</div>
 		</div>
 
-		<div class="row">
+		<div class="form-group">
 			<div class="col-sm-6 col-md-4 col-lg-2"><span class="btn btn-default btn-xs">Ctrl</span> + <span class="btn btn-default btn-xs">F</span> - поиск</div>
 			<div class="col-sm-6 col-md-4 col-lg-2"><span class="btn btn-default btn-xs">Ctrl</span> + <span class="btn btn-default btn-xs">G</span> - след.результат</div>
 			<div class="col-sm-6 col-md-4 col-lg-2"><span class="btn btn-default btn-xs">Ctrl</span> + <span class="btn btn-default btn-xs">Shift</span> + <span class="btn btn-default btn-xs">G</span> - пред.результат</div>
@@ -31,13 +31,13 @@
 			<div class="col-sm-6 col-md-4 col-lg-2"><span class="btn btn-default btn-xs">Ctrl</span> + <span class="btn btn-default btn-xs">Shift</span> + <span class="btn btn-default btn-xs">R</span> - заменить все</div>
 			<div class="col-sm-6 col-md-4 col-lg-2"><span class="btn btn-default btn-xs">F11</span> - во весь экран</div>
 		</div>
-		<div class="row">
+		<div class="form-group">
 			<div class="col-lg-12">
 				<textarea id="content" class="form-control" name="content" wrap="off">{$data['content']}</textarea>
 			</div>
 		</div>
 
-		<div class="row">
+		<div class="form-group">
 			<div class="col-lg-12 text-right">
 				<input type="hidden" name="id" value="{$data['id']}" readonly>
 				<input type="hidden" name="oldalias" value="{$data['alias']}" readonly>

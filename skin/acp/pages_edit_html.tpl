@@ -35,7 +35,7 @@
 				</dl>
 			</div>
 		</div>
-		<div class="row">
+		<div class="form-group">
 			<div class="col-lg-12">
 				<textarea id="content_field" class="form-control ckeditor" name="content">{$data['content']}</textarea>
 			</div>

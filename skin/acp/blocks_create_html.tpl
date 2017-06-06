@@ -48,7 +48,7 @@
 			</div>
 		</div>
 
-		<div class="row">
+		<div class="form-group">
 			<div class="col-md-12">
 			    <label for="content" class="control-label">
 				Код блока: <small><span class="fa fa-question-circle fa-fw" rel="tooltip" title="Код блока на языке HTML" data-placement="auto"></span></small>
