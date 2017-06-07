@@ -197,6 +197,7 @@ class UI_Reg {
 
 		$var = explode("@", $POST->email);
 		$POST->nickname = $var[0];
+		$POST->mailing = 1;
 
 		// TODO: Не уверен что тут то самое место. Надо обдумать этот момент.
 		$exp = time()+(60*60*24*7);

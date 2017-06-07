@@ -342,7 +342,8 @@ $sql['CREATE '.USERS_TABLE] = "CREATE TABLE `".USERS_TABLE."` (
 				  PRIMARY KEY (`uid`),
 				  UNIQUE KEY `id` (`uid`),
 				  UNIQUE KEY `login` (`login`),
-				  UNIQUE KEY `nickname` (`nickname`)
+				  UNIQUE KEY `nickname` (`nickname`),
+				  UNIQUE KEY `email` (`email`)
 				) ENGINE=MyISAM  DEFAULT CHARSET=utf8;";
 
 
