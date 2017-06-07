@@ -37,17 +37,17 @@
  */
 
 /**
-* @package      RooCMS
-* @subpackage	Admin Control Panel
-* @subpackage	Feeds
-* @subpackage	Feed
-* @author       alex Roosso
-* @copyright    2010-2018 (c) RooCMS
-* @link         http://www.roocms.com
-* @version      1.13.1
-* @since        $date$
-* @license      http://www.gnu.org/licenses/gpl-3.0.html
-*/
+ * @package      RooCMS
+ * @subpackage   Admin Control Panel
+ * @subpackage   Feeds
+ * @subpackage   Feed
+ * @author       alex Roosso
+ * @copyright    2010-2018 (c) RooCMS
+ * @link         http://www.roocms.com
+ * @version      1.14
+ * @since        $date$
+ * @license      http://www.gnu.org/licenses/gpl-3.0.html
+ */
 
 
 //#########################################################
@@ -179,8 +179,6 @@ class ACP_Feeds_Feed {
 				# save tags
 				$tags->save_tags($POST->tags, "feeditemid=".$fiid);
 
-				# notice
-				$logger->info("Элемент #".$fiid." <".$POST->title."> успешно создан.");
 
 				# attachment images
 				$images = $img->upload_image("images", "", array($this->feed['thumb_img_width'], $this->feed['thumb_img_height']));
@@ -189,7 +187,6 @@ class ACP_Feeds_Feed {
 						$img->insert_images($image, "feeditemid=".$fiid);
 					}
 				}
-
 
 				# attachment files
 				$attachs = $files->upload("files");
@@ -202,6 +199,13 @@ class ACP_Feeds_Feed {
 
 				# recount items
 				$this->count_items($this->feed['id']);
+
+
+				# notice
+				$logger->info("Элемент #".$fiid." <".$POST->title."> успешно создан.");
+
+				# mailling
+				$this->mailing($fiid, $POST->title,$POST->brief_item, $POST->force);
 			}
 
 			# переход
@@ -727,6 +731,50 @@ class ACP_Feeds_Feed {
 		# author
 		if(!isset($POST->author_id) || !array_key_exists($POST->author_id, $this->userlist)) {
 			$POST->author_id = 0;
+		}
+	}
+
+
+	/**
+	 * Это временная функция
+	 *
+	 * @param     $id
+	 * @param     $title
+	 * @param     $subject
+	 * @param int $force
+	 */
+	private function mailing($id, $title, $subject, $force=-1) {
+
+		global $db, $users, $logger, $parse, $site;
+
+		if($force != -1) {
+
+			if($force == 1) {
+				# all
+				$userlist = $users->get_userlist(1,0,-1, NULL, true);
+			}
+			else {
+				# только подписчики
+				$userlist = $users->get_userlist(1,0,1, NULL, true);
+			}
+
+			# html
+			$subject = $parse->text->html($subject);
+			$subject = "<h1>".$title."</h1>
+					".$subject."
+					<br /><br /><a href='".$site['domain']."/index.php?page=".$this->feed['alias']."&id=".$id."'>Читать полностью</a>";
+
+			$log = "";
+			foreach($userlist AS $k=>$v) {
+
+				# send
+				sendmail($v['email'], $title, $subject);
+
+				# log
+				$log .= " ".$v['email'];
+			}
+
+			$logger->info("Новость отправлена по адресам: ".$log);
 		}
 	}
 }

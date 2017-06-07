@@ -97,9 +97,12 @@ class ACP_Mailing {
 	}
 
 
+	/**
+	 * Sender
+	 */
 	private function send() {
 
-		global $db, $POST, $users, $logger;
+		global $db, $POST, $parse, $users, $logger;
 
 		if(isset($POST->title) && isset($POST->message)) {
 
@@ -111,6 +114,9 @@ class ACP_Mailing {
 				# только подписчики
 				$userlist = $users->get_userlist(1,0,1, NULL, true);
 			}
+
+			# html
+			$POST->message = $parse->text->html($POST->message);
 
 			$log = "";
 			foreach($userlist AS $k=>$v) {

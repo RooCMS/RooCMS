@@ -80,6 +80,25 @@
 		</div>
 
 		<div class="form-group">
+			<label for="inputTitle" class="col-lg-3 control-label">
+				Рассылка:
+			</label>
+			<div class="col-lg-9">
+				<div class="btn-group" data-toggle="buttons">
+					<label class="btn btn-default btn-sm" for="flag_status_ignore">
+						<input type="radio" name="force" value="-1" id="flag_status_ignore"> <span class="text-muted"><i class="fa fa-fw fa-close"></i> Не осуществлять рассылку</span>
+					</label>
+					<label class="btn btn-default active btn-sm" for="flag_status_false">
+						<input type="radio" name="force" value="0" id="flag_status_false" checked> <span class="text-success"><i class="fa fa-fw fa-envelope"></i> Отправить подписчикам</span>
+					</label>
+					<label class="btn btn-default btn-sm" for="flag_status_true">
+						<input type="radio" name="force" value="1" id="flag_status_true"> <span class="text-danger"><i class="fa fa-fw fa-envelope-o"></i> Отправить всем</span>
+					</label>
+				</div>
+			</div>
+		</div>
+
+		<div class="form-group">
 			<div class="col-lg-12">
 				<label for="brief_item" class="control-label">
 					Аннотация:

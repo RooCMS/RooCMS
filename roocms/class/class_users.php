@@ -255,7 +255,7 @@ class Users extends Security {
 				if($cond != "") {
 					$cond .= " AND ";
 				}
-				
+
 				$cond .= " ".$k."='".$v."' ";
 			}
 		}
