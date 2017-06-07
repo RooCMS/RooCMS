@@ -42,7 +42,7 @@
  * @author       alex Roosso
  * @copyright    2010-2018 (c) RooCMS
  * @link         http://www.roocms.com
- * @version      1.6
+ * @version      1.6.1
  * @since        $date$
  * @license      http://www.gnu.org/licenses/gpl-3.0.html
  */
@@ -231,27 +231,31 @@ class Users extends Security {
 	/**
 	 * Функция получения списка пользователей.
 	 *
-	 * @param int   $status - Текущий статус пользователя: 1 включенные, 0 отключенные, -1 все
-	 * @param int   $ban    - Текущий бан пользователя: 0 без бана, 1 с баном, -1 все
-	 * @param array $users  - массив с идентификаторами запрашиваемых пользователей.
+	 * @param int   $status  - Текущий статус пользователя: 1 включенные, 0 отключенные, -1 все
+	 * @param int   $ban     - Текущий бан пользователя: 0 без бана, 1 с баном, -1 все
+	 * @param int   $mailing - Является пользователь подписчиком рассылки: 0 нет, 1 да, -1 все
+	 * @param array $users   - массив с идентификаторами запрашиваемых пользователей.
+	 * @param bool  $email   - Флаг запрашивать ли почтовые адреса пользователей
 	 *
 	 * @return array
 	 */
-	public function get_userlist($status=-1, $ban=-1, $users=array()) {
+	public function get_userlist($status=-1, $ban=-1, $mailing=-1, $users=array(), $email=false) {
 
 		global $db;
 
 		# condition
 		$cond = "";
-		$arcond = array("status"=>$status, "ban"=>$ban);
+
+		$arcond = array("status"=>$status, "ban"=>$ban, "mailing"=>$mailing);
 
 		foreach($arcond AS $k=>$v) {
 
-			if($cond != "") {
-				$cond .= " AND ";
-			}
-
 			if($v == 0 || $v == 1) {
+
+				if($cond != "") {
+					$cond .= " AND ";
+				}
+				
 				$cond .= " ".$k."='".$v."' ";
 			}
 		}
@@ -283,9 +287,15 @@ class Users extends Security {
 			$cond = "WHERE".$cond;
 		}
 
+		# email
+		$query = "";
+		if($email) {
+			$query = ", email";
+		}
+
 		# получаем список пользователей
 		$userlist = array();
-		$q = $db->query("SELECT uid, nickname, user_slogan, avatar, user_sex FROM ".USERS_TABLE." ".$cond." ORDER BY nickname ASC");
+		$q = $db->query("SELECT uid, nickname, user_slogan, avatar, user_sex".$query." FROM ".USERS_TABLE." ".$cond." ORDER BY nickname ASC");
 		while($row = $db->fetch_assoc($q)) {
 			$userlist[$row['uid']] = $row;
 		}

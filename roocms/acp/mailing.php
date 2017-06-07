@@ -95,6 +95,41 @@ class ACP_Mailing {
 		$content = $tpl->load_template("mailing_message", true);
 		$smarty->assign("content", $content);
 	}
+
+
+	private function send() {
+
+		global $db, $POST, $users, $logger;
+
+		if(isset($POST->title) && isset($POST->message)) {
+
+			if(isset($POST->force) && $POST->force == 1) {
+				# all
+				$userlist = $users->get_userlist(1,0,-1, NULL, true);
+			}
+			else {
+				# только подписчики
+				$userlist = $users->get_userlist(1,0,1, NULL, true);
+			}
+
+			$log = "";
+			foreach($userlist AS $k=>$v) {
+
+				# send
+				sendmail($v['email'], $POST->title, $POST->message);
+
+				# log
+				$log .= " ".$v['email'];
+			}
+
+			$logger->info("Отправлено сообщение по адресам: ".$log);
+		}
+		else {
+			$logger->error("Необхходимо заполнить все поля, что бы произвести рассылку.", false);
+		}
+
+		goback();
+	}
 }
 
 /**

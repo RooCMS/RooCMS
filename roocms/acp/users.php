@@ -261,7 +261,7 @@ class ACP_Users {
 
 				$db->query("INSERT INTO ".USERS_TABLE." (login, nickname, email, mailing, title, password, salt, date_create, date_update, last_visit, status, gid,
 									 user_name, user_surname, user_last_name, user_birthdate, user_sex, user_slogan)
-								 VALUES ('".$POST->login."', '".$POST->nickname."', '".$POST->email."', '".$POST->mailing."', ''".$POST->title."', '".$password."', '".$salt."', '".time()."', '".time()."', '".time()."', '1', '".$POST->gid."',
+								 VALUES ('".$POST->login."', '".$POST->nickname."', '".$POST->email."', '".$POST->mailing."', '".$POST->title."', '".$password."', '".$salt."', '".time()."', '".time()."', '".time()."', '1', '".$POST->gid."',
 								 	 '".$POST->user_name."', '".$POST->user_surname."', '".$POST->user_last_name."', '".$POST->user_birthdate."', '".$POST->user_sex."', '".$POST->user_slogan."')");
 				$uid = $db->insert_id();
 

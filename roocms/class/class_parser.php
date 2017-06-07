@@ -430,8 +430,8 @@ class Parsers {
 				# Чистим значение
 				$value 	= $this->escape_string($value, false);
 
-				$arr[$key] = $value;
-				//$arr[$key] = (trim($value) != "") ? $value : NULL ;
+				//$arr[$key] = $value;
+				$arr[$key] = (trim($value) != "") ? $value : NULL ;
 			}
 		}
 
