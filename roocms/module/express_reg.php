@@ -38,7 +38,7 @@
 
 /**
  * @package      RooCMS
- * @subpackage   Admin Control Panel
+ * @subpackage   Module
  * @author       alex Roosso
  * @copyright    2010-2018 (c) RooCMS
  * @link         http://www.roocms.com
@@ -47,101 +47,60 @@
  * @license      http://www.gnu.org/licenses/gpl-3.0.html
  */
 
+
 //#########################################################
 // Anti Hack
 //---------------------------------------------------------
-if(!defined('RooCMS') || !defined('ACP')) {
+if(!defined('RooCMS')) {
 	die('Access Denied');
 }
 //#########################################################
 
 
 /**
- * Class ACP_Mailing
+ * Class Module_Express_Reg
  */
-class ACP_Mailing {
+class Module_Express_Reg {
+
+	public $title = "Экспресс регистрация";
+
+	# buffer out
+	private $out = "";
+
 
 	/**
-	 * ACP_Mailing constructor.
+	 * Start
 	 */
 	public function __construct() {
 
-		global $roocms, $tpl;
+		global $db, $users, $tpl, $smarty;
 
-		// TODO: Расширить до нормальной службы расслки.
-		# action
-		switch($roocms->part) {
+		# Флаг сокрытия формы
+		$hide =  false;
 
-			case 'send':
-				$this->send();
-				break;
-
-			default:
-				$this->message();
-				break;
+		# Если пользователь уже есть в системе
+		if($users->uid != 0 && $users->userdata['mailing'] == 1) {
+			$hide = true;
 		}
 
-		# output
-		$tpl->load_template("mailing");
-	}
-
-
-	/**
-	 * Форма набора сообщения.
-	 */
-	private function message() {
-
-		global $smarty, $tpl;
-
-		$content = $tpl->load_template("mailing_message", true);
-		$smarty->assign("content", $content);
-	}
-
-
-	/**
-	 * Sender
-	 */
-	private function send() {
-
-		global $POST, $parse, $users, $logger;
-
-		if(isset($POST->title) && isset($POST->message)) {
-
-			if(isset($POST->force) && $POST->force == 1) {
-				# all
-				$userlist = $users->get_userlist(1,0,-1, NULL, true);
-			}
-			else {
-				# только подписчики
-				$userlist = $users->get_userlist(1,0,1, NULL, true);
-			}
-
-			# html
-			$POST->message = $parse->text->html($POST->message);
-
-			$log = "";
-			foreach($userlist AS $val) {
-
-				# send
-				sendmail($val['email'], $POST->title, $POST->message);
-
-				# log
-				$log .= " ".$val['email'];
-			}
-
-			$logger->info("Отправлено сообщение по адресам: ".$log);
-		}
-		else {
-			$logger->error("Необхходимо заполнить все поля, что бы произвести рассылку.", false);
+		# Если человек уже подписан и есть кукисы подверждающие это.
+		if(isset($_COOKIE['mailing'])) {
+			$hide = true;
 		}
 
-		goback();
+		# template
+		$smarty->assign("hide", $hide);
+		$smarty->assign("userdata", $users->userdata);
+		$this->out .= $tpl->load_template("module_express_reg", true);
+
+		# finish
+		echo $this->out;
 	}
 }
 
 /**
  * Init class
  */
-$acp_mailing = new ACP_Mailing;
+$module_express_reg = new Module_Express_Reg;
 
 ?>

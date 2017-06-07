@@ -42,7 +42,7 @@
 * @author       alex Roosso
 * @copyright    2010-2018 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.0.11
+* @version      1.1
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -81,6 +81,14 @@ class UCP_CP {
 			case 'update_info':
 				$this->update_info();
 				break;
+
+			case 'mailing':
+				$this->mailing();
+				break;
+
+			//case 'ummailing':
+			//	$this->unmailing();
+			//	break;
 
 			default:
 				$this->cp();
@@ -225,6 +233,24 @@ class UCP_CP {
 		else {
 			goback();
 		}
+	}
+
+
+	/**
+	 * Быстрая подписка на рассылку
+	 */
+	private function mailing() {
+
+		global $db, $users, $logger;
+
+		# update
+		$db->query("UPDATE ".USERS_TABLE." SET mailing = '1', date_update='".time()."' WHERE uid='".$users->userdata['uid']."'");
+
+		# notice
+		$logger->info("Спасибо, что подписались на рассылку.", false);
+
+		# go
+		goback();
 	}
 }
 

@@ -1,4 +1,5 @@
 {* Шаблон "ног" *}
+{$module->load("express_reg")}
 <hr />
 	<footer>
 		<div class="pull-right"><small>{$copyright}</small></div>

@@ -42,7 +42,7 @@
  * @author       alex Roosso
  * @copyright    2010-2018 (c) RooCMS
  * @link         http://www.roocms.com
- * @version      1.1.6
+ * @version      1.2
  * @since        $date$
  * @license      http://www.gnu.org/licenses/gpl-3.0.html
  */
@@ -83,6 +83,12 @@ class UI_Reg {
 				}
 				break;
 
+			case 'expressreg':
+				if(isset($POST->expressreg)) {
+					$this->expressreg();
+				}
+				break;
+
 			case 'activation':
 				$this->activation();
 				break;
@@ -107,23 +113,6 @@ class UI_Reg {
 
 
 		$tpl->load_template("reg_profile");
-	}
-
-
-	/**
-	 * Функция активации аккаунта и проверки электронной почты
-	 */
-	private function activation() {
-
-		global $GET, $parse, $smarty, $tpl;
-
-		$email = (isset($GET->_email) && $parse->valid_email($GET->_email)) ? $GET->_email : "" ;
-		$code  = (isset($GET->_code)) ? $GET->_code : "" ;
-
-		# tpl
-		$smarty->assign("email", $email);
-		$smarty->assign("code",  $code);
-		$tpl->load_template("reg_activation");
 	}
 
 
@@ -163,7 +152,7 @@ class UI_Reg {
 
 			$db->query("INSERT INTO ".USERS_TABLE." (login, nickname, email, mailing, password, salt, date_create, date_update, last_visit, activation_code,
 								 user_name, user_surname, user_last_name, user_birthdate, user_sex)
-							 VALUES ('".$POST->login."', '".$POST->nickname."', '".$POST->email."', '".$POST->mailing."', ''".$password."', '".$salt."', '".time()."', '".time()."', '".time()."', '".$activation['code']."',
+							 VALUES ('".$POST->login."', '".$POST->nickname."', '".$POST->email."', '".$POST->mailing."', '".$password."', '".$salt."', '".time()."', '".time()."', '".time()."', '".$activation['code']."',
 								 '".$POST->user_name."', '".$POST->user_surname."', '".$POST->user_last_name."', '".$POST->user_birthdate."', '".$POST->user_sex."')");
 			$uid = $db->insert_id();
 
@@ -188,12 +177,49 @@ class UI_Reg {
 			sendmail($POST->email, "Вы зарегистрировались на сайте ".$site['title'], $message);
 
 			# уведомление
-			$logger->info("Поздравляем с успешной регистрацией. Вам осталось подтвердить адрес электронной почты и вы сможете пользоваться приемуществамми зарегистрированных пользователей.", false);
+			$logger->info("Поздравляем с Регистрацией. Вам осталось подтвердить адрес электронной почты для этого пройдите по ссылке отправленной Вам в письме.", false);
 
 			# переход
 			go(SCRIPT_NAME."?part=reg&act=activation&email=".$POST->email);
 		}
-		else goback();
+		else {
+			goback();
+		}
+	}
+
+
+	/**
+	 * Функция экспресс регистрации
+	 */
+	private function expressreg() {
+
+		global $POST;
+
+		$var = explode("@", $POST->email);
+		$POST->nickname = $var[0];
+
+		// TODO: Не уверен что тут то самое место. Надо обдумать этот момент.
+		$exp = time()+(60*60*24*7);
+		setcookie("mailing", true, $exp);
+
+		$this->join();
+	}
+
+
+	/**
+	 * Функция активации аккаунта и проверки электронной почты
+	 */
+	private function activation() {
+
+		global $GET, $parse, $smarty, $tpl;
+
+		$email = (isset($GET->_email) && $parse->valid_email($GET->_email)) ? $GET->_email : "" ;
+		$code  = (isset($GET->_code)) ? $GET->_code : "" ;
+
+		# tpl
+		$smarty->assign("email", $email);
+		$smarty->assign("code",  $code);
+		$tpl->load_template("reg_activation");
 	}
 
 

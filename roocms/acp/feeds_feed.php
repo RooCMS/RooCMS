@@ -204,6 +204,7 @@ class ACP_Feeds_Feed {
 				# notice
 				$logger->info("Элемент #".$fiid." <".$POST->title."> успешно создан.");
 
+				// TODO: Переделать!
 				# mailling
 				$this->mailing($fiid, $POST->title,$POST->brief_item, $POST->force);
 			}
@@ -735,6 +736,7 @@ class ACP_Feeds_Feed {
 	}
 
 
+	// TODO: Переделать!
 	/**
 	 * Это временная функция
 	 *

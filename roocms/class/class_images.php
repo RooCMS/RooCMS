@@ -42,7 +42,7 @@
 * @author       alex Roosso
 * @copyright    2010-2018 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.5.2
+* @version      1.5.3
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -102,6 +102,11 @@ class Images extends GD {
 	public function upload_post_image($file, $prefix="", array $thumbsize=array(), array $options=array(), $path=_UPLOADIMAGES) {
 
 		global $files;
+
+		# Если ложный вызов
+		if(!isset($_FILES[$file])) {
+			return false;
+		}
 
 		# Объявляем выходной массив
 		$images = array();

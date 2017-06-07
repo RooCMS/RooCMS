@@ -339,28 +339,6 @@ class Users extends Security {
 
 
 	/**
-	 * Функция удаляет пользовательский аватар.
-	 *
-	 * @param $uid - Уникальный идентификатор пользователя
-	 */
-	public function delete_avatar($uid) {
-
-		global $db;
-
-		if($db->check_id($uid, USERS_TABLE, "uid", "avatar!=''") && ($this->uid == $uid || $this->title == "a")) {
-
-			$q = $db->query("SELECT avatar FROM ".USERS_TABLE." WHERE uid='".$uid."'");
-			$data = $db->fetch_assoc($q);
-
-			if(file_exists(_UPLOADIMAGES."/".$data['avatar'])) {
-				unlink(_UPLOADIMAGES."/".$data['avatar']);
-				$db->query("UPDATE ".USERS_TABLE." SET avatar='' WHERE uid='".$uid."'");
-			}
-		}
-	}
-
-
-	/**
 	 * Функция првоерки почты пользователя.
 	 * Проверяем на дубли и корректность.
 	 *
@@ -380,7 +358,7 @@ class Users extends Security {
 			}
 
 			if($db->check_id($email, USERS_TABLE, "email")) {
-				$logger->error("Пользователь с таким адресом почты уже существует", false);
+				$logger->error("Пользователь с таким адресом почты уже есть в нашей базе данных", false);
 			}
 		}
 	}
@@ -458,14 +436,14 @@ class Users extends Security {
 			$POST->user_sex = "n";
 		}
 
-		# check slogan
-		if(!isset($POST->user_slogan)) {
-			$POST->user_slogan = "";
-		}
-
 		# mailing
 		if(!isset($POST->mailing) || round($POST->mailing) > 1 || round($POST->mailing) < 0) {
 			$POST->mailing = 0;
+		}
+
+		# check slogan
+		if(!isset($POST->user_slogan)) {
+			$POST->user_slogan = "";
 		}
 
 		$POST->user_slogan = $parse->text->clearhtml($POST->user_slogan);
@@ -532,6 +510,25 @@ class Users extends Security {
 	}
 
 
+	/**
+	 * Функция удаляет пользовательский аватар.
+	 *
+	 * @param $uid - Уникальный идентификатор пользователя
+	 */
+	public function delete_avatar($uid) {
 
+		global $db;
+
+		if($db->check_id($uid, USERS_TABLE, "uid", "avatar!=''") && ($this->uid == $uid || $this->title == "a")) {
+
+			$q = $db->query("SELECT avatar FROM ".USERS_TABLE." WHERE uid='".$uid."'");
+			$data = $db->fetch_assoc($q);
+
+			if(file_exists(_UPLOADIMAGES."/".$data['avatar'])) {
+				unlink(_UPLOADIMAGES."/".$data['avatar']);
+				$db->query("UPDATE ".USERS_TABLE." SET avatar='' WHERE uid='".$uid."'");
+			}
+		}
+	}
 }
 ?>
