@@ -102,7 +102,7 @@ class ACP_Mailing {
 	 */
 	private function send() {
 
-		global $db, $POST, $parse, $users, $logger;
+		global $POST, $parse, $users, $logger;
 
 		if(isset($POST->title) && isset($POST->message)) {
 
@@ -119,13 +119,13 @@ class ACP_Mailing {
 			$POST->message = $parse->text->html($POST->message);
 
 			$log = "";
-			foreach($userlist AS $k=>$v) {
+			foreach($userlist AS $val) {
 
 				# send
-				sendmail($v['email'], $POST->title, $POST->message);
+				sendmail($val['email'], $POST->title, $POST->message);
 
 				# log
-				$log .= " ".$v['email'];
+				$log .= " ".$val['email'];
 			}
 
 			$logger->info("Отправлено сообщение по адресам: ".$log);

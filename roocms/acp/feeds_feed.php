@@ -745,7 +745,7 @@ class ACP_Feeds_Feed {
 	 */
 	private function mailing($id, $title, $subject, $force=-1) {
 
-		global $db, $users, $logger, $parse, $site;
+		global $users, $logger, $parse, $site;
 
 		if($force != -1) {
 
@@ -765,13 +765,13 @@ class ACP_Feeds_Feed {
 					<br /><br /><a href='".$site['domain']."/index.php?page=".$this->feed['alias']."&id=".$id."'>Читать полностью</a>";
 
 			$log = "";
-			foreach($userlist AS $k=>$v) {
+			foreach($userlist AS $val) {
 
 				# send
-				sendmail($v['email'], $title, $subject);
+				sendmail($val['email'], $title, $subject);
 
 				# log
-				$log .= " ".$v['email'];
+				$log .= " ".$val['email'];
 			}
 
 			$logger->info("Новость отправлена по адресам: ".$log);
