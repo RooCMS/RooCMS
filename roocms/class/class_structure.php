@@ -42,7 +42,7 @@
 * @author       alex Roosso
 * @copyright    2010-2018 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.5
+* @version      1.5.1
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -222,7 +222,7 @@ class Structure {
 	 */
 	private function load_ui() {
 
-		global $db, $GET;
+		global $db, $GET, $smarty, $tpl;
 
 		# const for default structure id
 		if(!defined('PAGEID')) {
@@ -247,10 +247,14 @@ class Structure {
 		$this->set_page_vars($this->sitetree[$lid]);
 
 
-		# mites
+		# breadcumb
 		if($this->page_parent != 0) {
 			$this->construct_breadcumb($this->page_id);
 			krsort($this->breadcumb);
+
+			$smarty->assign("breadcumb",	$structure->breadcumb);
+			$breadcumb = $this->load_template("breadcumb", true);
+			$smarty->assign("breadcumb",	$breadcumb);
 		}
 	}
 

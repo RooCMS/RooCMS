@@ -42,7 +42,7 @@
 * @author	alex Roosso
 * @copyright	2010-2018 (c) RooCMS
 * @link		http://www.roocms.com
-* @version	4.6.5
+* @version	4.6.6
 * @since	$date$
 * @license	http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -323,11 +323,6 @@ class Template {
 
 				# meta noindex
 				$smarty->assign("noindex",	$structure->page_noindex);
-
-				# breadcumb
-				$smarty->assign("breadcumb",	$structure->breadcumb);
-				$breadcumb = $this->load_template("breadcumb", true);
-				$smarty->assign("breadcumb",	$breadcumb);
 			}
 
 
