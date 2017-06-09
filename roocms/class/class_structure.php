@@ -115,7 +115,7 @@ class Structure {
 		if(!empty($this->sitetree)) {
 			$this->update_tree_parent();
 		}
-
+debug($ui);
         	# user interface loaded
         	if($ui) {
 			$this->load_ui();
@@ -229,7 +229,6 @@ class Structure {
 			define('PAGEID', 1);
 		}
 
-
 		# init id for vars
 		$lid = PAGEID;
 
@@ -252,8 +251,8 @@ class Structure {
 			$this->construct_breadcumb($this->page_id);
 			krsort($this->breadcumb);
 
-			$smarty->assign("breadcumb",	$structure->breadcumb);
-			$breadcumb = $this->load_template("breadcumb", true);
+			$smarty->assign("breadcumb",	$this->breadcumb);
+			$breadcumb = $tpl->load_template("breadcumb", true);
 			$smarty->assign("breadcumb",	$breadcumb);
 		}
 	}
