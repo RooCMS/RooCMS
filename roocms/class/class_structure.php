@@ -115,7 +115,7 @@ class Structure {
 		if(!empty($this->sitetree)) {
 			$this->update_tree_parent();
 		}
-debug($ui);
+
         	# user interface loaded
         	if($ui) {
 			$this->load_ui();
