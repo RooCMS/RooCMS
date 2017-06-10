@@ -132,11 +132,10 @@ code		{.ubuntu !important;}
 .hover-without-underline:hover	{text-decoration: none !important;}
 .hover-cursor			{cursor: pointer;}
 
-
+/* install */
 .progress.pb0 {margin-bottom: 0 !important;}
 
-.shy, .wbr {word-break: break-all;}
-
+/* BS TagsInput */
 .bootstrap-tagsinput {width: 100%;}
 
 /* fix font-awesome underline */
@@ -152,12 +151,6 @@ a:hover [class^="fa-"] {text-decoration: none !important;}
 .delete_image {margin-right: -3px;margin-top: 5px;}
 p.attach_files {padding: 8px 8px;}
 
-/* style for delete user avatar */
-.delete_useravatar:hover,
-.delete_config_image:hover {background-color: @brand-danger;border-radius: 5px;}
-.delete_useravatar:hover > img,
-.delete_config_image:hover > img {opacity: 0.5;}
-
 /* Avatar */
 .avatar {
 	max-width: 60px;
@@ -172,6 +165,12 @@ p.attach_files {padding: 8px 8px;}
 	opacity: 1;
 	filter: alpha(opacity=100);
 }
+
+/* style for delete user avatar */
+.delete_useravatar:hover,
+.delete_config_image:hover {background-color: @brand-danger;border-radius: 5px;}
+.delete_useravatar:hover > img,
+.delete_config_image:hover > img {opacity: 0.5;}
 
 /* style for datepicker*/
 .form-date			{width: 50% !important;}
@@ -271,6 +270,8 @@ h6 {.t12}
 /* SPECIFICATION */
 .clear, .both	{clear:both;}
 
+.bold,
+.strong,
 .text-strong,
 .text-bold	{font-weight:bold;}
 
@@ -283,21 +284,25 @@ h6 {.t12}
 .none		{display:none;}
 .invis		{position:absolute; left:-9999px;}
 
-.lower		{text-transform:lowercase;}
-.upper		{text-transform:uppercase;}
+.lower		{text-transform: lowercase;}
+.upper		{text-transform: uppercase;}
+.capit		{text-transform: capitalize;}
 
 .vtop 		{vertical-align: top;}
 .vbottom 	{vertical-align: bottom;}
 .vmiddle 	{vertical-align: middle;}
 
-.overflowh,
 .no-overflow	{overflow: hidden;}
 
 .relative 	{position: relative;}
 .absolute 	{position: absolute;}
 .fixed	  	{position: fixed;}
 
-.z99 		{z-index: 99;}
+.nobr		{
+	white-space: nowrap;
+	word-wrap: normal;
+	word-break: normal;
+}
 
 /* For CodeMirror */
 @cm-shadow: rgba(0, 0, 0, 0.075);
@@ -309,6 +314,8 @@ h6 {.t12}
 span.CodeMirror-matchhighlight { background: @grey; }
 .CodeMirror-gutter { background: @cm-shadow !important; color: @middle-grey !important; }
 .CodeMirror-focused span.CodeMirror-matchhighlight { background: @grey !important; }
+
+.shy, .wbr {word-break: break-all;}
 
 /* anti drag */
 *[class^="CodeMirror"]>*, *[class^="CodeMirror"],
