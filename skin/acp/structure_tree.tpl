@@ -27,6 +27,7 @@
 					{/if}
 				</nobr>
 				<small class="trinfo">
+					{if $page['group_access'] != 0}<i class="fa fa-fw fa-user-secret" rel="tooltip" data-toggle="tooltip" data-placement="top" title="Есть ограничения доступа"></i>{else}<i class="fa fa-fw"></i>{/if}
 					{if $page['page_type'] == "feed" && $page['rss']}<i class="fa fa-fw fa-rss"></i>{else}<i class="fa fa-fw"></i>{/if}
 					{if $page['noindex']}<i class="fa fa-fw fa-eye-slash" rel="tooltip" data-toggle="tooltip" data-placement="top" title="Неиндексируется поисковыми системами"></i>{else}<i class="fa fa-fw"></i>{/if}
 				</small>
