@@ -62,6 +62,12 @@
 			</label>
 			<div class="col-lg-9">
 				<input type="text" name="tags" id="inputTags" class="form-control, tagsinput">
+				<br />
+				{if !empty($poptags)}
+					{foreach from=$poptags item=tag}
+						<a name="assdag" class="addtag btn btn-xs btn-default" value="{$tag['title']}">{$tag['title']}</a>
+					{/foreach}
+				{/if}
 			</div>
 		</div>
 

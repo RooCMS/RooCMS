@@ -44,7 +44,7 @@
  * @author       alex Roosso
  * @copyright    2010-2018 (c) RooCMS
  * @link         http://www.roocms.com
- * @version      1.14
+ * @version      1.14.1
  * @since        $date$
  * @license      http://www.gnu.org/licenses/gpl-3.0.html
  */
@@ -148,9 +148,7 @@ class ACP_Feeds_Feed {
 
 		global $db, $users, $logger, $tags, $files, $img, $POST, $tpl, $smarty;
 
-		# userlist
-		$this->userlist = $users->get_userlist();
-
+		# insert db
 		if(isset($POST->create_item)) {
 
 			# Проверяем вводимые поля на ошибки
@@ -213,6 +211,11 @@ class ACP_Feeds_Feed {
 			go(CP."?act=feeds&part=control&page=".$this->feed['id']);
 		}
 
+		# userlist
+		$this->userlist = $users->get_userlist();
+
+		# popular tags
+		$poptags = $tags->list_tags(true, 15);
 
 		# show upload files & images form
 		$tpl->load_image_upload_tpl("imagesupload");
@@ -220,6 +223,9 @@ class ACP_Feeds_Feed {
 
 		# feed data
 		$smarty->assign("feed", $this->feed);
+
+		# tags
+		$smarty->assign("poptags", $poptags);
 
 		# users
 		$smarty->assign("userdata", $users->userdata);
@@ -260,6 +266,9 @@ class ACP_Feeds_Feed {
 
 		$smarty->assign("item",$item);
 
+		# popular tags
+		$poptags = $tags->list_tags(true, 15);
+
 
 		# download attached images
 		$attachimg = $img->load_images("feeditemid=".$id);
@@ -286,6 +295,9 @@ class ACP_Feeds_Feed {
 
 		# feed data
 		$smarty->assign("feed", $this->feed);
+
+		# tags
+		$smarty->assign("poptags", $poptags);
 
 		# users
 		$smarty->assign("userdata", $users->userdata);

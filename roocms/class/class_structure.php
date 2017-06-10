@@ -250,11 +250,11 @@ class Structure {
 		if($this->page_parent != 0) {
 			$this->construct_breadcumb($this->page_id);
 			krsort($this->breadcumb);
-
-			$smarty->assign("breadcumb",	$this->breadcumb);
-			$breadcumb = $tpl->load_template("breadcumb", true);
-			$smarty->assign("breadcumb",	$breadcumb);
 		}
+
+		$smarty->assign("breadcumb",	$this->breadcumb);
+		$breadcumb = $tpl->load_template("breadcumb", true);
+		$smarty->assign("breadcumb",	$breadcumb);
 	}
 
 
