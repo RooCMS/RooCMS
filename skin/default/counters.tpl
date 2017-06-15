@@ -12,21 +12,6 @@ var s = d.getElementsByTagName(t)[0]; s.parentNode.insertBefore(j, s);
 </script>
 <!--/Openstat-->
 
-
-<!--LiveInternet counter-->
-<script type="text/javascript">
-document.write("<a href='http://www.liveinternet.ru/click' "+
-"target=_blank rel=nofollow><img src='//counter.yadro.ru/hit?t15.6;r"+
-escape(document.referrer)+((typeof(screen)=="undefined")?"":
-";s"+screen.width+"*"+screen.height+"*"+(screen.colorDepth?
-screen.colorDepth:screen.pixelDepth))+";u"+escape(document.URL)+
-";"+Math.random()+
-"' alt='' title='LiveInternet: показано число просмотров за 24"+
-" часа, посетителей за 24 часа и за сегодня' "+
-"border='0' width='88' height='31'><\/a>")
-</script>
-<!--/LiveInternet-->
-
 <!-- Yandex.Metrika informer -->
 <a href="http://metrika.yandex.ru/stat/?id=10076272&amp;from=informer"
 target="_blank" rel="nofollow"><img src="//bs.yandex.ru/informer/10076272/3_0_F7F2E5FF_F7F2E5FF_0_pageviews"
