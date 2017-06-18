@@ -58,9 +58,9 @@ if(!defined('RooCMS')) {
 
 
 /**
- * Class PageFeed
+ * Class SitePageFeed
  */
-class PageFeed {
+class SitePageFeed {
 
 	# vars
 	private $item_id	= 0;

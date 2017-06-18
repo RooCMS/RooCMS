@@ -58,9 +58,9 @@ if(!defined('RooCMS')) {
 
 
 /**
- * Class PageHTML
+ * Class SitePageHTML
  */
-class PageHTML {
+class SitePageHTML {
 
 	/**
 	* Initialisation

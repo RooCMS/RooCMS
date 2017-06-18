@@ -98,17 +98,17 @@ if($structure->access) {
 		switch($structure->page_type) {
 			case 'html':
 				require_once "site_page_html.php";
-				$page_html = new PageHTML;
+				$page_html = new SitePageHTML;
 				break;
 
 			case 'php':
 				require_once "site_page_php.php";
-				$page_php = new PagePHP;
+				$page_php = new SitePagePHP;
 				break;
 
 			case 'feed':
 				require_once "site_page_feed.php";
-				$page_feed = new PageFeed;
+				$page_feed = new SitePageFeed;
 				break;
 		}
 	}
