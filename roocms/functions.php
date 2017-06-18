@@ -38,7 +38,7 @@
 
 /**
 * @package      RooCMS
-* @subpackage	Function
+* @subpackage   Function
 * @author       alex Roosso
 * @copyright    2010-2018 (c) RooCMS
 * @link         http://www.roocms.com

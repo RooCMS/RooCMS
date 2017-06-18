@@ -83,7 +83,9 @@ if(trim($roocms->part) != "") {
 	if(file_exists(_UI."/".$roocms->part.".php")) {
 		require_once _UI."/".$roocms->part.".php";
 	}
-	else go("/");
+	else {
+		go("/");
+	}
 }
 
 
