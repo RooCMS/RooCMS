@@ -62,6 +62,7 @@ if(!defined('RooCMS')) {
  */
 class Module_Tag_Cloud {
 
+	# Название
 	public $title = "Облако Тегов";
 
 	# buffer out

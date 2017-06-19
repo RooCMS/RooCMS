@@ -38,50 +38,59 @@
 
 /**
  * @package      RooCMS
- * @subpackage	 User Control Panel
+ * @subpackage   Module
  * @author       alex Roosso
  * @copyright    2010-2018 (c) RooCMS
  * @link         http://www.roocms.com
- * @version      1.1
+ * @version      1.0
  * @since        $date$
  * @license      http://www.gnu.org/licenses/gpl-3.0.html
  */
 
+
 //#########################################################
 // Anti Hack
 //---------------------------------------------------------
-if(!defined('RooCMS') || !defined('UI')) {
+if(!defined('RooCMS')) {
 	die('Access Denied');
 }
 //#########################################################
 
 
-//#########################################################
-// Initialisation User CP identification
-//---------------------------------------------------------
-if(!defined('UCP')) {
-	define('UCP', true);
-}
-//#########################################################
+/**
+ * Class Module_Search
+ */
+class Module_Search {
+
+	# Название
+	public $title = "Поиск";
+
+	# buffer out
+	private $out = "";
 
 
-nocache();
+	/**
+	 * Start
+	 */
+	public function __construct() {
 
-# Security check
-require_once _UI."/ucp/security_check.php";
+		global $db, $users, $tpl, $smarty;
 
-if($ucpsecurity->access) {
-	if(trim($roocms->act) != "") {
-		if(file_exists(_UI."/ucp/".$roocms->act.".php")) {
-			require_once _UI."/ucp/".$roocms->act.".php";
-		}
-		else {
-			require_once _UI."/ucp/ucp.php";
-		}
+		// TODO: В конфиг
+		$minleight = 3;
+
+		# template
+		$smarty->assign("minleight", $minleight);
+		$this->out .= $tpl->load_template("module_search", true);
+
+		# finish
+		echo $this->out;
 	}
 }
-else {
-	require_once _UI."/ucp/login.php";
-}
+
+/**
+ * Init class
+ */
+$module_search = new Module_Search;
 
 ?>

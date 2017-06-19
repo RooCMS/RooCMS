@@ -62,6 +62,7 @@ if(!defined('RooCMS')) {
  */
 class Module_Auth {
 
+	# Название
 	public $title = "Авторизация пользователя";
 
 	# buffer out

@@ -62,6 +62,7 @@ if(!defined('RooCMS')) {
  */
 class Module_Express_Reg {
 
+	# Название
 	public $title = "Экспресс регистрация";
 
 	# buffer out

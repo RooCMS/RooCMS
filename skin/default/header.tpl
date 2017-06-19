@@ -46,7 +46,6 @@
 <script type="text/javascript" src="plugin/jquery-migrate.min.js{$build}"></script>
 <!-- <script type="text/javascript" src="plugin/jquery.corner.min.js{$build}"></script> -->
 <script type="text/javascript" src="plugin/colorbox.js.php{$build}"></script>
-<script type="text/javascript" src="plugin/jquery.zoom.min.js{$build}"></script>
 <script type="text/javascript" src="plugin/bootstrap.php{$build}{if trim($build) != ""}&{else}?{/if}short"></script>
 <script type="text/javascript" src="{$SKIN}/roocms.min.js{$build}"></script>
 {literal}
@@ -101,3 +100,4 @@
 	</div>
 	<div class="row">
 		<div class="col-sm-12">
+			{$module->load("search")}

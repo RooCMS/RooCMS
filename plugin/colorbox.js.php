@@ -65,7 +65,4 @@ ob_start("ob_gzhandler", 9);
 
 document.write('<link href="/plugin/colorbox/<?=$skin;?>/colorbox.min.css" rel="stylesheet">');
 document.write('<script src="/plugin/colorbox/jquery.colorbox.min.js"></script>');
-
-
-
-
+/*document.write('<script src="/plugin/colorbox/jquery.zoom.min.js"></script>');*/

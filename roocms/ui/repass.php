@@ -56,6 +56,9 @@ if(!defined('RooCMS') || !defined('UI')) {
 //#########################################################
 
 
+/**
+ * Class UI_RePass
+ */
 class UI_RePass {
 
 

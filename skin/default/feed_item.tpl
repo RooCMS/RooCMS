@@ -43,7 +43,7 @@
 			<i class="fa fa-fw fa-user-circle-o fa-4x pull-left" title="Автор"></i>
 		{/if}
 		<b class="ubuntu">{$item['author']['nickname']}</b>
-		<br /><i class="ubuntu">{$item['author']['slogan']}</i>
+		<p style="min-height: 30px;"><i class="ubuntu">{$item['author']['slogan']}</i></p>
 	{/if}
 
 	<hr />

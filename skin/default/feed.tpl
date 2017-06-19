@@ -1,10 +1,11 @@
 {* Шаблон ленты *}
 
-{if !empty($rsslink)}
-	<a href="{$rsslink}" class="btn btn-warning btn-xs pull-right"><span class="fa fa-rss fa-fw"></span>RSS 2.0</a>
-{/if}
-
-<h1>{$page_title}</h1>
+<h1>
+	{$page_title}
+	{if !empty($rsslink)}
+		<a href="{$rsslink}" class="btn btn-warning btn-xs"><span class="fa fa-rss fa-fw"></span>RSS 2.0</a>
+	{/if}
+</h1>
 
 {foreach from=$feeds item=item}
 	<div class="panel panel-default">

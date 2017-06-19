@@ -1,6 +1,6 @@
 {* Шаблон тегов *}
 
-<h1>
+<h1 class="text-capitalize">
 	<i class="fa fa-fw fa-tag fa-va"></i>
 	{$tag['title']}
 </h1>
