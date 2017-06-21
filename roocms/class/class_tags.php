@@ -42,7 +42,7 @@
  * @author       alex Roosso
  * @copyright    2010-2018 (c) RooCMS
  * @link         http://www.roocms.com
- * @version      1.0.6
+ * @version      1.0.7
  * @since        $date$
  * @license      http://www.gnu.org/licenses/gpl-3.0.html
  */
@@ -79,7 +79,7 @@ class Tags {
 		# condition
 		$cond = "amount != '0' ";
 		if($with_zero) {
-			$cond = " amount >= '0' ";
+			$cond = " amount > '0' ";
 		}
 
 		# limit condition
