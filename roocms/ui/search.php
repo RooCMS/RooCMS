@@ -112,7 +112,8 @@ class UI_Search {
 			$cond .= " (f.brief_item LIKE '%".$val."%' OR f.full_item LIKE '%".$val."%') ";
 		}
 
-		$result = array();
+		$taglinks = array();
+		$result   = array();
 		$q = $db->query("SELECT f.id, f.title, f.brief_item, s.title AS feed_title, s.alias, f.date_publications, f.views FROM ".PAGES_FEED_TABLE." AS f LEFT JOIN ".STRUCTURE_TABLE." AS s ON (s.id = f.sid) WHERE (".$cond.") AND (".$condsid.") AND (f.date_end_publications = '0' || f.date_end_publications > '".time()."') AND f.status='1' AND date_publications <= '".time()."' ORDER BY f.date_publications DESC, f.views DESC");
 		while($row = $db->fetch_assoc($q)) {
 			if(trim($row['brief_item']) == "") {
