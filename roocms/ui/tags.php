@@ -77,7 +77,7 @@ class UI_Tags {
 	 */
 	public function __construct() {
 
-		global $GET;
+		global $structure, $GET;
 
 		# init tag
 		if(isset($GET->_tag)) {

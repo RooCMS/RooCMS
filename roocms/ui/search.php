@@ -42,7 +42,7 @@
  * @author       alex Roosso
  * @copyright    2010-2018 (c) RooCMS
  * @link         http://www.roocms.com
- * @version      0.1
+ * @version      0.2
  * @since        $date$
  * @license      http://www.gnu.org/licenses/gpl-3.0.html
  */
@@ -97,7 +97,13 @@ class UI_Search {
 	 */
 	private function search($searchstring) {
 
-		global $db, $tags, $parse, $img, $tpl, $smarty;
+		global $structure, $db, $tags, $parse, $img, $tpl, $smarty;
+
+		# title
+		$structure->page_title = "Поиск : ".$searchstring;
+
+		# breadcumb
+		$structure->breadcumb[] = array('part'=>'search', 'title'=>'Поиск: '.$searchstring);
 
 		# search
 		$srch = explode(" ", $searchstring);

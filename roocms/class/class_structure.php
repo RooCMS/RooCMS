@@ -42,7 +42,7 @@
 * @author       alex Roosso
 * @copyright    2010-2018 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.6
+* @version      1.6.1
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -253,17 +253,6 @@ class Structure {
 
 		# set vars
 		$this->set_page_vars($this->sitetree[$lid]);
-
-
-		# breadcumb
-		if($this->page_parent != 0) {
-			$this->construct_breadcumb($this->page_id);
-			krsort($this->breadcumb);
-		}
-
-		$smarty->assign("breadcumb",	$this->breadcumb);
-		$breadcumb = $tpl->load_template("breadcumb", true);
-		$smarty->assign("breadcumb",	$breadcumb);
 	}
 
 
@@ -318,7 +307,7 @@ class Structure {
 	 *
 	 * @param int $sid - идентификатор текущей страницы от которой выстраиваются "крошки"
 	 */
-	private function construct_breadcumb($sid = 1) {
+	public function construct_breadcumb($sid = 1) {
 		if($sid != 1) {
 			$v = $this->get_structure_info($sid);
 			$this->breadcumb[] = array('id'		=> $v['id'],
