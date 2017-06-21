@@ -42,7 +42,7 @@
 * @author       alex Roosso
 * @copyright    2010-2018 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.5.1
+* @version      1.6
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -134,7 +134,7 @@ class Structure {
 	 */
 	public function load_tree($parent=0, $maxlevel=0, $child=true) {
 
-		global $db;
+		global $db, $users;
 		static $use = false;
 
 		# Делаем единичный запрос в БД собирая данные по структуре сайта.
@@ -147,8 +147,17 @@ class Structure {
 						items_per_page, items_sorting, thumb_img_width, thumb_img_height 
 					FROM ".STRUCTURE_TABLE." ORDER BY sort ASC");
 			while($row = $db->fetch_assoc($q)) {
+
+				# structure
 				$row['level']	  = 0;
 				$row['parent']	  = 0;
+
+				# group access
+				$row['group_access'] = array_flip(explode(",", $row['group_access']));
+
+				# access
+				$row['access'] = ($users->title == "a" || array_key_exists(0, $row['group_access']) || array_key_exists($users->gid, $row['group_access'])) ? true : false ;
+
 
 				$tree[$row['id']] = $row;
 
@@ -285,7 +294,7 @@ class Structure {
 		}
         	$this->page_noindex		= (bool) $data['noindex'];
 		$this->page_type 		= $data['page_type'];
-		$this->page_group_access 	= array_flip(explode(",", $data['group_access']));
+		$this->page_group_access 	= $data['group_access'];
 		$this->page_rss 		= (bool) $data['rss'];
 		$this->page_show_child_feeds  	= $data['show_child_feeds'];
 		$this->page_items_per_page 	= $data['items_per_page'];
@@ -293,6 +302,9 @@ class Structure {
 		$this->page_items 		= $data['items'];
 		$this->page_thumb_img_width 	= $data['thumb_img_width'];
 		$this->page_thumb_img_height 	= $data['thumb_img_height'];
+
+		# access
+		$this->access = $data['access'];
 
                 # set smarty vars
                 $smarty->assign("page_id",      $data['id']);

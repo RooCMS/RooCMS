@@ -74,7 +74,7 @@ class Module_Search {
 	 */
 	public function __construct() {
 
-		global $db, $users, $tpl, $smarty;
+		global $tpl, $smarty;
 
 		// TODO: В конфиг
 		$minleight = 3;

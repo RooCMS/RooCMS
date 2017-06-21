@@ -42,7 +42,7 @@
 * @author       alex Roosso
 * @copyright    2010-2018 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.1.3
+* @version      1.2
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -67,16 +67,6 @@ if(!empty($site)) {
 	$site['keywords']	= $structure->page_meta_keys;
 }
 
-
-/**
- * Проверяем имеется ли у пользователя доступ к странице.
- */
-if($users->title == "a" || array_key_exists(0, $structure->page_group_access) || array_key_exists($users->gid, $structure->page_group_access)) {
-	$structure->access = true;
-}
-else {
-	$structure->access = false;
-}
 
 
 /**

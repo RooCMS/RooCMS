@@ -4,7 +4,7 @@
 
 <div class="row">
 	<div class="col-sm-12">
-		<form method="post" action="{$SCRIPT_NAME}?part=reg&act=join" role="form" class="form-horizontal" enctype="multipart/form-data">
+		<form method="post" action="{$SCRIPT_NAME}?part=reg&act=join" role="form" class="form-horizontal">
 			<hr />
 			<h3>Персональные данные</h3>
 			<div class="form-group">

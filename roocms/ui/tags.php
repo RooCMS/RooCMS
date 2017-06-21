@@ -42,7 +42,7 @@
  * @author       alex Roosso
  * @copyright    2010-2018 (c) RooCMS
  * @link         http://www.roocms.com
- * @version      0.10
+ * @version      0.2
  * @since        $date$
  * @license      http://www.gnu.org/licenses/gpl-3.0.html
  */
@@ -140,7 +140,7 @@ class UI_Tags {
 	 */
 	private function show_tagged_items() {
 
-		global $db, $parse, $img, $tags, $tpl, $smarty;
+		global $db, $structure, $parse, $img, $tags, $tpl, $smarty;
 
 		# data linked
 		$links = array();
@@ -160,8 +160,17 @@ class UI_Tags {
 		}
 		$cond .= ")";
 
+		$scond = "(";
+		foreach($structure->sitetree AS $i=>$val) {
+			if($val['access']) {
+				if(trim($scond) != "(") $scond .= " OR ";
+				$scond .= " sid='".$val['id']."' ";
+			}
+		}
+		$scond .= ")";
+
 		# calculate pages
-		$db->pages_mysql(PAGES_FEED_TABLE, "date_publications <= '".time()."' AND ".$cond." AND (date_end_publications = '0' || date_end_publications > '".time()."') AND status='1'");
+		$db->pages_mysql(PAGES_FEED_TABLE, "date_publications <= '".time()."' AND ".$cond." AND ".$scond." AND (date_end_publications = '0' || date_end_publications > '".time()."') AND status='1'");
 
 		# get array pagination template array
 		$pages = $this->construct_pagination();
@@ -170,10 +179,11 @@ class UI_Tags {
 		$taglinks = array();
 		$feeds    = array();
 		$cond = str_ireplace("id=", "fi.id=", $cond);
+		$scond = str_ireplace("sid=", "fi.sid=", $scond);
 		$q = $db->query("SELECT fi.id, fi.sid, s.alias, s.title AS feed_title, fi.title, fi.brief_item, fi.full_item, fi.date_publications, fi.views 
 					FROM ".PAGES_FEED_TABLE." AS fi
 					LEFT JOIN ".STRUCTURE_TABLE." AS s ON (s.id = fi.sid)
-					WHERE fi.date_publications <= '".time()."' AND ".$cond." AND (fi.date_end_publications = '0' || fi.date_end_publications > '".time()."') AND fi.status='1' 
+					WHERE fi.date_publications <= '".time()."' AND ".$cond." AND ".$scond." AND (fi.date_end_publications = '0' || fi.date_end_publications > '".time()."') AND fi.status='1'
 					ORDER BY fi.date_publications DESC, fi.date_create DESC, fi.date_update DESC 
 					LIMIT ".$db->from.",".$db->limit);
 		while($row = $db->fetch_assoc($q)) {
