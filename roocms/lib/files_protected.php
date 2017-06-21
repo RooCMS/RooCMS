@@ -42,7 +42,7 @@
  * @author       alex Roosso
  * @copyright    2010-2018 (c) RooCMS
  * @link         http://www.roocms.com
- * @version      1.2
+ * @version      1.3
  * @since        $date$
  * @license      http://www.gnu.org/licenses/gpl-3.0.html
  */
@@ -136,8 +136,13 @@ $protect[] = array('path' => _UI.'/ucp/security_check.php',	'chmod'	=> '0644',	'
 $protect[] = array('path' => _UI.'/ucp/ucp.php',		'chmod'	=> '0644',	'hash'	=> '');
 $protect[] = array('path' => _UI.'/reg.php',			'chmod'	=> '0644',	'hash'	=> '');
 $protect[] = array('path' => _UI.'/repass.php',			'chmod'	=> '0644',	'hash'	=> '');
+$protect[] = array('path' => _UI.'/search.php',			'chmod'	=> '0644',	'hash'	=> '');
+$protect[] = array('path' => _UI.'/tags.php',			'chmod'	=> '0644',	'hash'	=> '');
 $protect[] = array('path' => _UI.'/ucp.php',			'chmod'	=> '0644',	'hash'	=> '');
 $protect[] = array('path' => _MODULE.'/auth.php',		'chmod'	=> '0644',	'hash'	=> '');
+$protect[] = array('path' => _MODULE.'/express_reg.php',	'chmod'	=> '0644',	'hash'	=> '');
+$protect[] = array('path' => _MODULE.'/search.php',		'chmod'	=> '0644',	'hash'	=> '');
+$protect[] = array('path' => _MODULE.'/tagcloud.php',		'chmod'	=> '0644',	'hash'	=> '');
 $protect[] = array('path' => _ROOCMS.'/acp.php',		'chmod'	=> '0644',	'hash'	=> '');
 $protect[] = array('path' => _ROOCMS.'/functions.php',		'chmod'	=> '0644',	'hash'	=> '');
 $protect[] = array('path' => _ROOCMS.'/init.php',		'chmod'	=> '0644',	'hash'	=> '');
