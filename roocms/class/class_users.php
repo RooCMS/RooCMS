@@ -339,7 +339,7 @@ class Users extends Security {
 
 
 	/**
-	 * Функция првоерки почты пользователя.
+	 * Функция проверки почты пользователя.
 	 * Проверяем на дубли и корректность.
 	 *
 	 * @param $email - адрес электронной почты пользователя.
@@ -354,7 +354,7 @@ class Users extends Security {
 
 		if(isset($email) && trim($email) != "") {
 			if(!$parse->valid_email($email)) {
-				$logger->error("Некоректный адрес электронной почты", false);
+				$logger->error("Некорректный адрес электронной почты", false);
 			}
 
 			if($db->check_id($email, USERS_TABLE, "email")) {

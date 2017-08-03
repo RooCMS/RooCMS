@@ -153,7 +153,7 @@ class ParserDate {
 			$date = $tday.$day." ".$tm." ".$year."г. ".$time;
 		}
 		else {
-			$date = "Некоректная дата";
+			$date = "Некорректная дата";
 		}
 
 		return $date;
