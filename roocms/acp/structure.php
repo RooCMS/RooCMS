@@ -42,7 +42,7 @@
 * @author       alex Roosso
 * @copyright    2010-2018 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.5.2
+* @version      1.5.3
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -291,9 +291,10 @@ class ACP_Structure {
 		if(!isset($_SESSION['error'])) {
 			$POST->sort = round($POST->sort);
 
-			# Нельзя менять родителя у главной страницы
+			# Нельзя менять родителя у главной страницы и алиас
 			If($sid == 1) {
 				$POST->parent_id = 0;
+				$POST->alias = "index";
 			}
 
 			# Если мы назначаем нового родителя
@@ -330,12 +331,6 @@ class ACP_Structure {
 			if($p['page_type'] == "feed" && $n['page_type'] != "feed") {
 				$logger->error("Вы не можете установить для ленты в качестве дочерней страницы другой структурный элемент, кроме ленты.");
 				$POST->parent_id = $POST->now_parent_id;
-			}
-
-			# Нельзя изменять алиас главной страницы
-			if($sid == 1 && $POST->alias != "index") {
-				$POST->alias = "index";
-				$logger->error("Нельзя изменять алиас главной страницы!");
 			}
 
 			# DB
