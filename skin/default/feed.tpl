@@ -45,7 +45,7 @@
 						{/if}
 					</div>
 					<div class="col-sm-6 text-right">
-						<a href="{$SCRIPT_NAME}?page={$feed['alias']}{if isset($smarty.get.pg)}&pg={$smarty.get.pg}{/if}&id={$item['id']}" class="btn btn-sm btn-primary">Читать полностью <span class="fa fa-chevron-circle-right fa-fw"></span></a>
+						<a href="{$SCRIPT_NAME}?page={$feed['alias']}{if isset($smarty.get.pg)}&pg={$smarty.get.pg}{/if}&id={$item['id']}" class="btn btn-sm btn-primary">Читать <span class="fa fa-chevron-circle-right fa-fw"></span></a>
 					</div>
 				</div>
 			</div>
@@ -53,7 +53,7 @@
 	</div>
 {/foreach}
 
-
+{* Pagination *}
 {if isset($pages) && !empty($pages)}
 	<ul class="pagination">
 		{foreach from=$pages item=page}

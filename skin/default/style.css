@@ -29,6 +29,14 @@ a[class=""], a:not([class]) {font-weight: 600 !important;}
 /* Other BS fix styles */
 .form-control.datepicker {padding:6px 12px !important;}
 
+/* Mark */
+mark {
+	padding: 0 !important;
+	/*background-color: #545c68 !important;
+	color: #fff !important;*/
+	border-bottom: 1px dotted #c60d14;
+}
+
 /* Font Awesome correct */
 .fa-va {vertical-align: middle;}
 
@@ -71,6 +79,7 @@ a:hover>.feed-more-preview {border: 2px solid #545c68;opacity: 1;filter: graysca
 .ucp-user-nickname {margin-top: 0;}
 .ucp-user-slogan {height: 46px;overflow: hidden;font-size: 13px;font-family: "PT Sans";}
 
+/* Airmail */
 .airmail {
 	font-family: 'PT Sans';
 	background-color: #fff;
@@ -179,7 +188,7 @@ input:required:valid {background-image: none !important;}
 @font-face { font-family: 'Open Sans'; font-style: normal; font-weight: 400; src: local('Open Sans'), local('OpenSans'), url('Open_Sans_Normal.woff') format('woff'); }
 
 /* Correct `block` display not defined in IE 8/9. */
-article, aside, details, figcaption, figure, footer, header, hgroup, main, mark, menu, nav, time, section, summary {display: block;}
+article, aside, details, figcaption, figure, footer, header, hgroup, main, mark, menu, nav, time, section, summary {display: inline-block;}
 
 /* Correct `inline-block` display not defined in IE 8/9. */
 audio, canvas, video {display: inline-block;}

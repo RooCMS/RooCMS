@@ -16,7 +16,12 @@
 		{if $item['views'] != 0}<br /><i class="fa fa-fw fa-eye" title="Просмотрено раз"></i> {$item['views']}{/if}
 	</small>
 	<hr>
-	{$item['full_item']}
+	{if isset($smarty.get.search)}
+		{$item['full_item']|highlight:$smarty.get.search}
+	{else}
+		{$item['full_item']}
+	{/if}
+
 
 	{* Шаблон отображения картинок в элементах ленты *}
 	{if !empty($images)}
