@@ -153,7 +153,7 @@ class UI_Tags {
 		# cond
 		$cond = "(";
 		foreach($links AS $value) {
-			if($cond != "(") {
+			if(trim($cond) != "(") {
 				$cond .= "OR ";
 			}
 			$cond .= " id='".$value."' ";
@@ -161,10 +161,12 @@ class UI_Tags {
 		$cond .= ")";
 
 		$scond = "(";
-		foreach($structure->sitetree AS $i=>$val) {
-			if($val['access']) {
-				if(trim($scond) != "(") $scond .= " OR ";
-				$scond .= " sid='".$val['id']."' ";
+		foreach($structure->sitetree AS $value) {
+			if($value['access']) {
+				if(trim($scond) != "(") {
+					$scond .= " OR ";
+				}
+				$scond .= " sid='".$value['id']."' ";
 			}
 		}
 		$scond .= ")";
