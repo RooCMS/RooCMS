@@ -42,7 +42,7 @@
 * @author       alex Roosso
 * @copyright    2010-2018 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.1.5
+* @version      1.1.6
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -106,17 +106,24 @@ class ParserText {
 	 */
 	public function html($text) {
 
-		$text = htmlspecialchars_decode($text);
- 		$text = strtr($text, array(
-			'&#123;'	=> '{', 	#	{
-			'&#125;'	=> '}', 	#	}
-			'&#39;'		=> '\'', 	#	" [quot]
-			'&#36;'		=> '$',
-			'&#036;'	=> '$',
-			'&#33;'		=> '!',
-			'&#124;'	=> '|',
-			'...'		=> '&hellip;'
-		));
+		if(is_array($text)) {
+			foreach($text AS $k=>$v) {
+				$text[$k] = $this->html($v);
+			}
+		}
+		else {
+			$text = htmlspecialchars_decode($text);
+			$text = strtr($text, array(
+				'&#123;' => '{',        #	{
+				'&#125;' => '}',        #	}
+				'&#39;'  => '\'',       #	" [quot]
+				'&#36;'  => '$',
+				'&#036;' => '$',
+				'&#33;'  => '!',
+				'&#124;' => '|',
+				'...'    => '&hellip;'
+			));
+		}
 
 		return $text;
 	}
