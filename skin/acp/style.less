@@ -116,7 +116,17 @@ input:required:valid {background-image: none !important;}
 .navbar-collapse {max-height: none !important;}
 
 /* notice */
-.notice {margin-top: -15px;position: fixed; z-index: 100;right: 5px;}
+@keyframes notice {
+	from {margin-top: -50px;opacity: 0;}
+	50% {margin-top: 15px;}
+	to {margin-top: -5px;opacity: 1;}
+}
+.notice {
+	margin-top: -5px;position: fixed; z-index: 100;right: 5px;
+	animation-name: notice;
+	animation-duration: .7s;
+	animation-timing-function: linear;
+}
 
 /* footer */
 .footer {line-height: 13px !important;padding: 10px 0;}

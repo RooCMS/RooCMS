@@ -62,7 +62,7 @@
 				$(".alert-info").animate({'margin-top': '-='+mm+'px'}, 1200, function() {
 					$(this).hide();
 				});
-			}, 3200);
+			}, 3700);
 		});
 	</script>
 {/literal}
