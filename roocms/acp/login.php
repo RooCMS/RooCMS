@@ -42,7 +42,7 @@
 * @author       alex Roosso
 * @copyright    2010-2018 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      2.0.6
+* @version      2.0.7
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -71,33 +71,37 @@ class ACP_Login {
 
 
 		# check
-		if(isset($POST->login, $POST->password) && $db->check_id($POST->login, USERS_TABLE, "login", "status='1' AND title='a'")) {
+		if(isset($POST->login, $POST->password)) {
 
-			$q = $db->query("SELECT uid, login, nickname, title, password, salt FROM ".USERS_TABLE." WHERE login='".$POST->login."' AND status='1' AND title='a'");
-			$data = $db->fetch_assoc($q);
+			if($db->check_id($POST->login, USERS_TABLE, "login", "status='1' AND title='a'")) {
 
-			$dbpass = $security->hashing_password($POST->password, $data['salt']);
+				$q = $db->query("SELECT uid, login, nickname, title, password, salt FROM ".USERS_TABLE." WHERE login='".$POST->login."' AND status='1' AND title='a'");
+				$data = $db->fetch_assoc($q);
 
-			if($dbpass == $data['password']) {
+				$dbpass = $security->hashing_password($POST->password, $data['salt']);
 
-				$_SESSION['uid'] 	= $data['uid'];
-				$_SESSION['login'] 	= $data['login'];
-				$_SESSION['title'] 	= $data['title'];
-				$_SESSION['nickname'] 	= $data['nickname'];
-				$_SESSION['token'] 	= $security->hashing_token($data['login'], $dbpass, $data['salt']);
+				if($dbpass == $data['password']) {
 
-				# log
-				$logger->log("Успешная авторизация под логином: ".$POST->login);
+					$_SESSION['uid'] 	= $data['uid'];
+					$_SESSION['login'] 	= $data['login'];
+					$_SESSION['title'] 	= $data['title'];
+					$_SESSION['nickname'] 	= $data['nickname'];
+					$_SESSION['token'] 	= $security->hashing_token($data['login'], $dbpass, $data['salt']);
 
-				# go
-				goback();
+					# log
+					$logger->log("Успешная авторизация под логином: ".$POST->login);
+
+					# go
+					goback();
+				}
+				else {
+					# неверный логин или пароль
+					$this->incorrect_entering($POST->login, mb_strlen($POST->password));
+				}
 			}
 			else {
 				# неверный логин или пароль
-				$this->incorrect_entering("Неверный логин или пароль.");
-
-				# log
-				$logger->log("Попытка авторизации - логин: ".$POST->login." пароль: *".mb_strlen($POST->password)." символов*");
+				$this->incorrect_entering($POST->login, mb_strlen($POST->password));
 			}
 		}
 
@@ -108,16 +112,22 @@ class ACP_Login {
 
 
 	/**
-	 * @param $msg - сообщение об ошибке передаваемое в шаблон
+	 * Функция вывода сообщения о некоректной попытки входа
+	 *
+	 * @param $login    - введенный логин
+	 * @param $password - введенный пароль
 	 */
-	private function incorrect_entering($msg) {
+	private function incorrect_entering($login, $password) {
 
-		global $smarty;
+		global $smarty, $logger;
+
+		# log
+		$logger->log("Попытка авторизации - логин: ".$login." пароль: *".$password." символов*");
 
 		session_destroy();
 
 		sleep(3);
-		$smarty->assign("error_login", $msg);
+		$smarty->assign("error_login", "Неверный логин или пароль.");
 	}
 }
 

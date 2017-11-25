@@ -1,9 +1,34 @@
 {literal}
 <style>
-body {overflow: hidden;background: transparent url('{/literal}{$SKIN}{literal}/img/bgcp_loginlow.jpg') !important;}
-#bglogin {position: absolute;z-index: 1;top: 0px;left: 0px;right: 0px;bottom: 0px;background: transparent url('{/literal}{$SKIN}{literal}/img/bgcp_loginhigh.jpg') no-repeat 50% 50%;background-size: cover;}
-.bg_login {background: transparent url('{/literal}{$SKIN}{literal}/img/bg_login.png') repeat 50% 50%;}
-#LoginForm {border: 10px solid rgba(220,220,220,0.5);}
+	body {overflow: hidden;background: transparent url('{/literal}{$SKIN}{literal}/img/bgcp_loginlow.jpg') !important;}
+	#bglogin {position: absolute;z-index: 1;top: 0;left: 0;right: 0;bottom: 0;background: transparent url('{/literal}{$SKIN}{literal}/img/bgcp_loginhigh.jpg') no-repeat 50% 50%;background-size: cover;}
+
+	{/literal}{if !isset($error_login)}{literal}
+	@keyframes show {
+		from {opacity: 0;}
+		to {opacity: 1;}
+	}
+	.login {
+		animation-name: show;
+		animation-duration: 1s;
+		animation-timing-function: cubic-bezier(0, 0, 0.18, 0.99);
+	}
+	{/literal}{else}{literal}
+	@keyframes error {
+		from, to {left: 0;}
+		20% {left: 25px; }
+		40% {left: -25px;}
+		60% {left: 25px;}
+		80% {left: -25px;}
+	}
+	.login {
+		animation-name: error;
+		animation-duration: .5s;
+		animation-timing-function: linear;
+	}
+	{/literal}{/if}{literal}
+	.bg_login {background: transparent url('{/literal}{$SKIN}{literal}/img/bg_login.png') repeat 50% 50%;}
+	#LoginForm {border: 10px solid rgba(220,220,220,0.5);}
 </style>
 {/literal}
 
@@ -11,7 +36,7 @@ body {overflow: hidden;background: transparent url('{/literal}{$SKIN}{literal}/i
 	<form method="post" class="form-horizontal" role="form">
 		<div class="modal show" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 			<div class="modal-dialog modal-login">
-        		<div class="modal-content" id="LoginForm">
+        		<div class="modal-content login" id="LoginForm">
 					<div class="modal-header text-center bg_login">
 						<a href="/" class="close" data-dismiss="modal" aria-hidden="true">×</a>
 						<img src="{$SKIN}/img/logo_login.png" border="0" alt="Добро пожаловать в Панель Администратора RooCMS" title="Добро пожаловать в Панель Администратора RooCMS">
