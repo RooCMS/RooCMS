@@ -27,3 +27,11 @@ exclude_paths:
 - "plugin/**/*"
 - "roocms/lib/smarty/**/*"
 - "roocms/lib/phpqrcode/**/*"
+version: "2"         # required to adjust maintainability checks
+checks:
+  file-lines:
+    config:
+      threshold: 999
+  method-lines:
+    config:
+      threshold: 99
