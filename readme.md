@@ -11,7 +11,7 @@
 | Download | http://www.roocms.com/index.php?page=download   |
 | Source   | https://github.com/RooCMS/RooCMS                |
 | License  | GNU GPL v3                                      |
-| CodeRank | [![Codacy Badge](https://api.codacy.com/project/badge/Grade/40bb2b9d6cc74ef4bb5b424607eabc6c)](https://www.codacy.com/app/Roosso/RooCMS?utm_source=github.com&utm_medium=referral&utm_content=RooCMS/RooCMS&utm_campaign=badger) [![Maintainability](https://api.codeclimate.com/v1/badges/b0207082867439c142fc/maintainability)](https://codeclimate.com/github/RooCMS/RooCMS/maintainability) [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/RooCMS/RooCMS/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/RooCMS/RooCMS/?branch=master)                                      |
+| CodeRank | [![Codacy Badge](https://api.codacy.com/project/badge/Grade/40bb2b9d6cc74ef4bb5b424607eabc6c)](https://www.codacy.com/app/Roosso/RooCMS?utm_source=github.com&utm_medium=referral&utm_content=RooCMS/RooCMS&utm_campaign=badger)  [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/RooCMS/RooCMS/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/RooCMS/RooCMS/?branch=master)                                      |
 
 
 Cистемные требования
