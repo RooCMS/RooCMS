@@ -42,7 +42,7 @@
 * @author       alex Roosso
 * @copyright    2010-2018 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.1.7
+* @version      1.1.8
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -84,7 +84,6 @@ class ACP_Help {
 
 		# загружаем "дерево" помощи
     		$this->helptree = $this->load_tree();
-    		$smarty->assign("tree", $this->helptree);
 
 		# Запрашиваем техническую информацию о разделе по уникальному имени
 		if(isset($GET->_u) && $db->check_id($GET->_u, HELP_TABLE, "uname") && !isset($GET->_id)) {
