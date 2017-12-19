@@ -42,7 +42,7 @@
 * @author	alex Roosso
 * @copyright	2010-2018 (c) RooCMS
 * @link		http://www.roocms.com
-* @version	1.13.1
+* @version	1.14
 * @since	$date$
 * @license	http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -255,23 +255,24 @@ class GD {
 	protected function resized($filename, $ext, $path=_UPLOADIMAGES) {
 
 		# vars
-		$file 	= $filename.".".$ext;
+		$file = $filename.".".$ext;
+		$exif = $this->exif($path."/".$file);
 
 		# определяем размер картинки
 		$size = getimagesize($path."/".$file);
 
 		# вносим в память пустую превью и оригинальный файл, для дальнейшего издевательства над ними.
-		$thumb		= $this->imgcreatetruecolor($this->tsize['w'], $this->tsize['h'], $ext);
+		$resize  = $this->imgcreatetruecolor($this->tsize['w'], $this->tsize['h'], $ext);
+		$alpha   = ($ext == "png" || $ext == "gif") ? 127 : 0;
 
-		$alpha 		= ($ext == "png" || $ext == "gif") ? 127 : 0 ;
-		$bgcolor	= imagecolorallocatealpha($thumb, $this->thumbbgcol['r'], $this->thumbbgcol['g'], $this->thumbbgcol['b'], $alpha);
+		$bgcolor = imagecolorallocatealpha($resize, $this->thumbbgcol['r'], $this->thumbbgcol['g'], $this->thumbbgcol['b'], $alpha);
 
 		# alpha
 		if($ext == "gif" || $ext == "png") {
-			imagecolortransparent($thumb, $bgcolor);
+			imagecolortransparent($resize, $bgcolor);
 		}
 
-		imagefilledrectangle($thumb, 0, 0, $this->tsize['w']-1, $this->tsize['h']-1, $bgcolor);
+		imagefilledrectangle($resize, 0, 0, $this->tsize['w']-1, $this->tsize['h']-1, $bgcolor);
 
 		# вводим в память файл для издевательств
 		$src = $this->imgcreate($path."/".$file, $ext);
@@ -283,24 +284,38 @@ class GD {
 		$ns = $this->calc_newsize($ns);
 
 
-		imagecopyresampled($thumb, $src, $ns['new_left'], $ns['new_top'], 0, 0, $ns['new_width'], $ns['new_height'], $size[0], $size[1]);
+		imagecopyresampled($resize, $src, $ns['new_left'], $ns['new_top'], 0, 0, $ns['new_width'], $ns['new_height'], $size[0], $size[1]);
+
+
+		# Переворачиваем изображение, если в этом есть необходимость
+		switch($exif['Orientation']) {
+			case 3:
+				$resize = imagerotate($resize, 180, 0);
+				break;
+			case 6:
+				$resize = imagerotate($resize, -90, 0);
+				break;
+			case 8:
+				$resize = imagerotate($resize, 90, 0);
+				break;
+		}
 
 		# льем превью
 		switch($ext) {
 			case 'jpg':
-				imagejpeg($thumb,$path."/".$file, $this->th_quality);
+				imagejpeg($resize,$path."/".$file, $this->th_quality);
 				break;
 
 			case 'gif':
-				imagegif($thumb,$path."/".$file);
+				imagegif($resize,$path."/".$file);
 				break;
 
 			case 'png':
-				imagepng($thumb,$path."/".$file);
+				imagepng($resize,$path."/".$file);
 				break;
 		}
 
-		imagedestroy($thumb);
+		imagedestroy($resize);
 		imagedestroy($src);
 
 	}
@@ -589,6 +604,25 @@ class GD {
 		}
 
 		return $src;
+	}
+
+
+	/**
+	 * Получаем EXIF информация об изображении
+	 *
+	 * @param $image - указываем изображение
+	 *
+	 * @return array - возвращаем массив с данными
+	 */
+	private function exif($image) {
+
+		$exif = exif_read_data($file);
+
+		if(!isset($exif['Orientation'])) {
+			$exif['Orientation'] = 1;
+		}
+
+		return $exif;
 	}
 
 
