@@ -39,7 +39,7 @@
         		<div class="modal-content login" id="LoginForm">
 					<div class="modal-header text-center bg_login">
 						<a href="/" class="close" data-dismiss="modal" aria-hidden="true">×</a>
-						<img src="{$SKIN}/img/logo_login.png" border="0" alt="Добро пожаловать в Панель Администратора RooCMS" title="Добро пожаловать в Панель Администратора RooCMS">
+						<img src="{$SKIN}/img/logo.png" border="0" alt="Добро пожаловать в Панель Администратора RooCMS" title="Добро пожаловать в Панель Администратора RooCMS">
 					</div>
 					<div class="modal-body text-center bg_login">
             				{if isset($error_login)}

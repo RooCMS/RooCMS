@@ -79,7 +79,8 @@ input:required:valid {
   margin-top: -8px;
 }
 .logo-xs {
-  width: 140px;
+  max-width: 100%;
+  padding: 15px 0;
 }
 /* fix navbar collapse on sx screen*/
 .navbar-collapse {

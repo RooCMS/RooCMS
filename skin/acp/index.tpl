@@ -1,5 +1,5 @@
 {* Шаблон главной страницы Панели Администратора *}
-<div class="col-md-2">
+<div class="col-sm-3 col-md-2">
 	<ul class="nav nav-pills nav-stacked">
 		{*<ul class="nav nav-list">*}
 		<li class="nav-header">Системная информация</li>
@@ -12,7 +12,7 @@
 		<li{if isset($smarty.get.part) && $smarty.get.part == "license"} class="active"{/if}><a href="{$SCRIPT_NAME}?part=license"><i class="fa fa-fw fa-legal"></i> Лицензия RooCMS</a></li>
 	</ul>
 </div>
-<div class="col-md-10">
+<div class="col-sm-9 col-md-10">
 	{if isset($warning_subj) && !empty($warning_subj)}
 		<div class="row">
 			<div class="col-sm-12">
