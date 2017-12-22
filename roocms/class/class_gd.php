@@ -616,7 +616,7 @@ class GD {
 	 */
 	private function exif($image) {
 
-		$exif = exif_read_data($file);
+		$exif = exif_read_data($image);
 
 		if(!isset($exif['Orientation'])) {
 			$exif['Orientation'] = 1;
