@@ -42,7 +42,7 @@
 * @author	alex Roosso
 * @copyright	2010-2018 (c) RooCMS
 * @link		http://www.roocms.com
-* @version	1.14
+* @version	1.15
 * @since	$date$
 * @license	http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -87,12 +87,12 @@ class GD {
 
 		# Устанавливаем размеры миниатюр из конфигурации
 		if(isset($config->gd_thumb_image_width, $config->gd_thumb_image_height)) {
-			$this->set_thumb_sizes(array($config->gd_thumb_image_width, $config->gd_thumb_image_height));
+			$this->tsize = $this->set_mod_sizes(array($config->gd_thumb_image_width, $config->gd_thumb_image_height));
 		}
 
 		# Устанавливаем максимальные размеры изображений
 		if(isset($config->gd_image_maxwidth, $config->gd_image_maxheight)) {
-			$this->set_max_sizes(array($config->gd_image_maxwidth, $config->gd_image_maxheight));
+			$this->msize = $this->set_mod_sizes(array($config->gd_image_maxwidth, $config->gd_image_maxheight));
 		}
 
 		# Тип генерации фона из конфигурации
@@ -689,38 +689,24 @@ class GD {
 	/**
 	 * Функция устанавливает параметры размеров миниатюр для изображений
 	 *
-	 * @param array $thumbsize - array(width,height) - размеры миниатюры будут изменены согласно параметрам.
-	 */
-	protected function set_thumb_sizes(array $thumbsize) {
-
-		if(is_array($thumbsize) && count($thumbsize) == 2) {
-
-			if(round($thumbsize[0]) > 16) {
-				$this->tsize['w'] = round($thumbsize[0]);
-			}
-
-			if(round($thumbsize[1]) > 16) {
-				$this->tsize['h'] = round($thumbsize[1]);
-			}
-		}
-	}
-
-
-	/**
-	 * Функция устанавливает параметры максимальных размеров для изображений
+	 * @param array $sizes - array(width,height) - размеры будут изменены согласно параметрам.
 	 *
-	 * @param array $maxsize - array(width,height) - размеры изображений будут изменены согласно параметрам.
+	 * @return mixed
 	 */
-	protected function set_max_sizes(array $maxsize) {
+	protected function set_mod_sizes(array $sizes) {
 
-		if(is_array($maxsize) && count($maxsize) == 2) {
+		if(is_array($sizes) && count($sizes) == 2) {
 
-			if(round($maxsize[0]) > 32) {
-				$this->msize['w'] = round($maxsize[0]);
+			if(round($sizes[0]) > 16) {
+				$size['w'] = round($sizes[0]);
 			}
 
-			if(round($maxsize[1]) > 32) {
-				$this->msize['h'] = round($maxsize[1]);
+			if(round($sizes[1]) > 16) {
+				$size['h'] = round($sizes[1]);
+			}
+
+			if(!empty($size)) {
+				return $size;
 			}
 		}
 	}
