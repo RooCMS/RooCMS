@@ -147,7 +147,7 @@ class ACP_Config {
 	 * @param string $option_name - имя поля
 	 * @param string $option_type - тип поля
 	 * @param string $value       - значение
-	 * @param text   $variants    - варианты (для селектов)
+	 * @param        $variants    - варианты (для селектов)
 	 *
 	 * @param int    $maxlength   - максимально допустимое количество символов в поле.
 	 *
@@ -365,9 +365,9 @@ class ACP_Config {
 	/**
 	 * Функция изменения адреса входной страницы в Панель Администратора
 	 *
-	 * @param $newcp - новый путь скрипта панели администратора
+	 * @param $newcp  - новый путь скрипта панели администратора
 	 *
-	 * @return bool - флаг успеха/провала
+	 * @return bool   - флаг успеха/провала
 	 */
 	private function change_cp_script($newcp) {
 
