@@ -42,7 +42,7 @@
 * @author	alex Roosso
 * @copyright	2010-2018 (c) RooCMS
 * @link		http://www.roocms.com
-* @version	1.6
+* @version	1.6.1
 * @since	$date$
 * @license	http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -85,8 +85,9 @@ ini_set("session.name", 		"PHPSESSID");	#	Имя параметра с сесс�
 //ini_set("session.save_handler",	"files");	#	Хранить значение сессиий в файлах (разкоментерийте, если испытываете трудности с настройками PHP по-умолчанию)
 //ini_set("session.save_path",		"tmp");		#	Путь сохранения файла сессии (разкоментируйте, если испытываете трудности с настройками PHP по-умолчанию)
 //session_save_path("tmp");
-session_start();
-
+if(session_status() == 1) {
+	session_start();
+}
 
 
 /**
