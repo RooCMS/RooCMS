@@ -697,6 +697,8 @@ class GD {
 
 		if(is_array($sizes) && count($sizes) == 2) {
 
+			$size = array();
+
 			if(round($sizes[0]) > 16) {
 				$size['w'] = round($sizes[0]);
 			}

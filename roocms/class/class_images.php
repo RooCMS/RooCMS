@@ -42,7 +42,7 @@
 * @author       alex Roosso
 * @copyright    2010-2018 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.5.3
+* @version      1.5.4
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -120,7 +120,7 @@ class Images extends GD {
 
 		# Определяем настройки размеров для будущих миниатюр
 		if(!empty($thumbsize)) {
-			$this->set_thumb_sizes($thumbsize);
+			$this->tsize = $this->set_mod_sizes($thumbsize);
 		}
 
 
