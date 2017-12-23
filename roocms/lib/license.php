@@ -40,7 +40,7 @@
 * @package      RooCMS
 * @subpackage	License
 * @author       alex Roosso
-* @copyright    2010-2018 (c) RooCMS
+* @copyright    2010-2019 (c) RooCMS
 * @link         http://www.roocms.com
 * @version      1.0.0
 * @since        $date$

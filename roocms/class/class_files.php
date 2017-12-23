@@ -40,9 +40,9 @@
  * @package      RooCMS
  * @subpackage	 Engine RooCMS classes
  * @author       alex Roosso
- * @copyright    2010-2018 (c) RooCMS
+ * @copyright    2010-2019 (c) RooCMS
  * @link         http://www.roocms.com
- * @version      1.3.2
+ * @version      1.4
  * @since        $date$
  * @license      http://www.gnu.org/licenses/gpl-3.0.html
  */
@@ -66,7 +66,7 @@ class Files {
 	 * Функция проверки Content-type
 	 * [не дописана]
 	 *
-	 * @param string $file - файл для проверки
+	 * @param string $file файл для проверки
 	 *
 	 * @return object
 	 */
@@ -85,11 +85,12 @@ class Files {
 
 
 	/**
-	* Проверка размера файла
-	*
-	* @param string $file - Указывается путь к файлу и имя файла
-	* @return string - Функция возвращает результат вида 10.2Kb или 2.10Mb
-	*/
+	 * Проверка размера файла
+	 *
+	 * @param string $file Указывается путь к файлу и имя файла
+	 *
+	 * @return string Функция возвращает результат вида 10.2Kb или 2.10Mb
+	 */
 	public function file_size($file) {
 
 		if(file_exists($file)) {
@@ -114,9 +115,9 @@ class Files {
 	/**
 	 * Создание имени файлов
 	 *
-	 * @param string $filename - Имя файла
-	 * @param string $prefix   - Префикс имени файла
-	 * @param string $pofix    - Пофикс имени файла
+	 * @param string $filename Имя файла
+	 * @param string $prefix   Префикс имени файла
+	 * @param string $pofix    Пофикс имени файла
 	 *
 	 * @return mixed|string Имя файла
 	 */
@@ -174,28 +175,13 @@ class Files {
 
 
 	/**
-	* Узнаем расширение файла по его имени
-	*
-	* @param string $filename - Полное имя файла, включая расширение
-	* @return string расширение файла без точки
-	*/
-	public function get_ext($filename) {
-
-		$pi = pathinfo($filename);
-		$ext = $pi['extension'];
-
-		return $ext;
-	}
-
-
-	/**
 	 * Выгружаем присоедененные файлы
 	 *
-	 * @param string $cond - параметр указывающий на элемент к которому прикреплены изображения
-	 * @param int    $from - стартовая позиция для загрузки файлов
-	 * @param int    $limit - лимит загружаемых файлов
+	 * @param string $cond  параметр указывающий на элемент к которому прикреплены изображения
+	 * @param int    $from  стартовая позиция для загрузки файлов
+	 * @param int    $limit лимит загружаемых файлов
 	 *
-	 * @return array $data - массив с данными о файлах.
+	 * @return array $data  массив с данными о файлах.
 	 */
 	public function load_files($cond, $from = 0, $limit = 0) {
 
@@ -216,23 +202,12 @@ class Files {
 
 
 	/**
-	 * Отображение прав доступа в виде восьмеричного числа
-	 *
-	 * @param string $file  - название файла с указанием полного пути до него
-	 * @return int
-	 */
-	public function show_fileperms($file) {
-		return mb_substr(sprintf('%o', fileperms($file)), -4);
-	}
-
-
-	/**
 	 * Функция загрузки файлов
 	 *
-	 * @param string	$file   - Параметр файла массива $_FILES
-	 * @param string	$prefix - Префикс имени файла
-	 * @param array|string	$types  - Допустимые типы файлов (в будущем)
-	 * @param string	$path	- путь для загрузки файлов
+	 * @param string	$file   Параметр файла массива $_FILES
+	 * @param string	$prefix Префикс имени файла
+	 * @param array|string	$types  Допустимые типы файлов (в будущем)
+	 * @param string	$path	путь для загрузки файлов
 	 *
 	 * @return array|bool
 	 */
@@ -311,26 +286,10 @@ class Files {
 
 
 	/**
-	 * Функция составляет массив допустимых расширений файлов разрешенных для загрузки на сервер.
-	 *
-	 * @return mixed Возвращает массив с допустимыми расширениями изображения для загрузки на сервер
-	 */
-	public function get_allow_exts() {
-		require _LIB."/mimetype.php";
-
-		foreach($filetype AS $itype) {
-			$allow_exts[$itype['ext']] = $itype['ext'];
-		}
-
-		return $allow_exts;
-	}
-
-
-	/**
 	 * Загружаем информацию о файлах в БД
 	 *
-	 * @param string $filename - имя файла без $pofix
-	 * @param mixed  $attached - родитель файла
+	 * @param string $filename имя файла без $pofix
+	 * @param mixed  $attached родитель файла
 	 */
 	public function insert_file($filename, $attached) {
 
@@ -386,5 +345,66 @@ class Files {
 		}
 
 		$db->query("DELETE FROM ".FILES_TABLE." WHERE ".$cond);
+	}
+
+
+	/**
+	 * Функция составляет массив допустимых расширений файлов разрешенных для загрузки на сервер.
+	 *
+	 * @return mixed Возвращает массив с допустимыми расширениями изображения для загрузки на сервер
+	 */
+	public function get_allow_exts() {
+		require _LIB."/mimetype.php";
+
+		foreach($filetype AS $itype) {
+			$allow_exts[$itype['ext']] = $itype['ext'];
+		}
+
+		return $allow_exts;
+	}
+
+
+	/**
+	 * Узнаем расширение файла по его имени
+	 *
+	 * @param string $filename Полное имя файла, включая расширение
+	 *
+	 * @return string расширение файла без точки
+	 */
+	public function get_ext($filename) {
+
+		$pi = pathinfo($filename);
+		$ext = $pi['extension'];
+
+		return $ext;
+	}
+
+
+	/**
+	 * Отображение прав доступа в виде восьмеричного числа
+	 *
+	 * @param string $file название файла с указанием полного пути до него
+	 *
+	 * @return int
+	 */
+	public function show_fileperms($file) {
+		return mb_substr(sprintf('%o', fileperms($file)), -4);
+	}
+
+
+	/**
+	 * Записываем файл
+	 *
+	 * @param $file полный пукть к файлу
+	 * @param $context информация для записи в файл
+	 *
+	 * @return string данные файла
+	 */
+	public function write_file($file, $context) {
+		$f = fopen($file, "w+");
+		if(is_writable($file)) {
+			fwrite($f, $context);
+		}
+		fclose($f);
 	}
 }

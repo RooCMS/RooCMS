@@ -41,7 +41,7 @@
  * @subpackage  Frontend
  * @subpackage  Main page
  * @author      alex Roosso
- * @copyright   2010-2018 (c) RooCMS
+ * @copyright   2010-2019 (c) RooCMS
  * @link        http://www.roocms.com
  * @version     2.1.3
  * @since       $date$
@@ -50,8 +50,8 @@
 
 
 /**
-* Инициализируем RooCMS
-*/
+ * Инициализируем RooCMS
+ */
 define('_SITEROOT', dirname(__FILE__));
 require_once _SITEROOT."/roocms/init.php";
 require_once INIT_UI;
@@ -59,8 +59,8 @@ require_once INIT_SITE;
 
 
 /**
-* Генерим HTML
-*
-* @return frontend html
-*/
+ * Генерим HTML
+ *
+ * @return frontend html
+ */
 $tpl->out();

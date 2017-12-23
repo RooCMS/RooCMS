@@ -43,7 +43,7 @@
 * @author       alex Roosso
 * @copyright    2010-2018 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.4
+* @version      1.4.1
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -379,11 +379,7 @@ class ACP_Config {
 		# Создаем и записываем
 		if(!file_exists(_SITEROOT."/".$newcp)) {
 			# крафтим новый файл
-			$cps = fopen($newcp, "w+");
-			if(is_writable($newcp)) {
-				fwrite($cps, $context);
-			}
-			fclose($cps);
+			$files->write_file($newcp, $context);
 
 			if(file_exists(_SITEROOT."/".$newcp)) {
 				$logger->info("Новый файл для входа в панель управления успешно создан!");

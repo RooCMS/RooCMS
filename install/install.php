@@ -76,7 +76,7 @@ class Install extends Requirement {
 	/**
 	 * Доктор, начнем операцию...
 	 */
-	public function Install() {
+	public function __construct() {
 
 		global $GET, $site, $parse, $tpl, $smarty;
 
@@ -190,7 +190,7 @@ class Install extends Requirement {
 	 */
 	private function step_4() {
 
-		global $POST, $parse, $logger, $site;
+		global $POST, $parse, $logger, $files, $site;
 
 		if($this->check_submit() && $this->check_step(4)) {
 
@@ -207,24 +207,16 @@ class Install extends Requirement {
 			}
 
 			if($this->allowed) {
-				$cf = _ROOCMS."/config/config.php";
+				$conffile = _ROOCMS."/config/config.php";
 
-				$f = file($cf);
-
-				$context = "";
-				for($i=0;$i<=count($f)-1;$i++) {
-					$context .= $f[$i];
-				}
+				$context = file_read($conffile);
 
 				$context = str_ireplace('$site[\'title\'] = "'.$site['title'].'";','$site[\'title\'] = "'.$POST->site_title.'";',$context);
 				$context = str_ireplace('$site[\'domain\'] = "'.$site['domain'].'";','$site[\'domain\'] = "'.$POST->site_domain.'";',$context);
 				$context = str_ireplace('$site[\'sysemail\'] = "'.$site['sysemail'].'";','$site[\'sysemail\'] = "'.$POST->site_sysemail.'";',$context);
 
-				$ecf = fopen($cf, "w+");
-				if (is_writable($cf)) {
-					fwrite($ecf, $context);
-				}
-				fclose($ecf);
+				$files->write_file($conffile, $context);
+
 
 				# запоминаем название сайта для БД
 				$_SESSION['site_title'] = $parse->text->html($POST->site_title);
@@ -261,7 +253,7 @@ class Install extends Requirement {
 	 */
 	private function step_5() {
 
-		global $db, $db_info, $POST, $parse, $logger;
+		global $db, $db_info, $POST, $parse, $logger, $files;
 
 		if($this->check_submit() && $this->check_step(5)) {
 
@@ -297,22 +289,13 @@ class Install extends Requirement {
 					$_SESSION['db_info_pass'] = $POST->db_info_pass;
 					$_SESSION['db_info_base'] = $POST->db_info_base;
 
-					$cf = _ROOCMS."/config/config.php";
+					$conffile = _ROOCMS."/config/config.php";
 
-					$f = file($cf);
-
-					$context = "";
-					for($i=0;$i<=count($f)-1;$i++) {
-						$context .= $f[$i];
-					}
+					$context = file_read($conffile);
 
 					$context = str_ireplace('$db_info[\'prefix\'] = "'.$db_info['prefix'].'";','$db_info[\'prefix\'] = "'.$POST->db_info_prefix.'";',$context);
 
-					$ecf = fopen($cf, "w+");
-					if (is_writable($cf)) {
-						fwrite($ecf, $context);
-					}
-					fclose($ecf);
+					$files->write_file($conffile, $context);
 
 					# уведомление
 					$logger->info("Данные для соеденения с БД успешно записаны", false);
@@ -343,30 +326,22 @@ class Install extends Requirement {
 	 */
 	private function step_6() {
 
-		global $db, $db_info, $roocms, $POST, $parse, $logger, $site;
+		global $db, $db_info, $roocms, $POST, $parse, $logger, $files, $site;
 
 		$roocms->sess['db_info_pass'] = $parse->text->html($roocms->sess['db_info_pass']);
 
 		if($this->check_submit() && $this->check_step(6)) {
-			$cf = _ROOCMS."/config/config.php";
 
-			$f = file($cf);
+			$conffile = _ROOCMS."/config/config.php";
 
-			$context = "";
-			for($i=0;$i<=count($f)-1;$i++) {
-				$context .= $f[$i];
-			}
+			$context = file_read($conffile);
 
 			$context = str_ireplace('$db_info[\'host\'] = "'.$db_info['host'].'";','$db_info[\'host\'] = "'.$roocms->sess['db_info_host'].'";',$context);
 			$context = str_ireplace('$db_info[\'base\'] = "'.$db_info['base'].'";','$db_info[\'base\'] = "'.$roocms->sess['db_info_base'].'";',$context);
 			$context = str_ireplace('$db_info[\'user\'] = "'.$db_info['user'].'";','$db_info[\'user\'] = "'.$roocms->sess['db_info_user'].'";',$context);
 			$context = str_ireplace('$db_info[\'pass\'] = "'.$db_info['pass'].'";','$db_info[\'pass\'] = "'.$roocms->sess['db_info_pass'].'";',$context);
 
-			$ecf = fopen($cf, "w+");
-			if (is_writable($cf)) {
-				fwrite($ecf, $context);
-			}
-			fclose($ecf);
+			$files->write_file($conffile, $context);
 
 			# уведомление
 			$logger->info("Данные занесены в БД успешно!", false);
