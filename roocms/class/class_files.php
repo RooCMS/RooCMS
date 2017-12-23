@@ -395,14 +395,14 @@ class Files {
 	/**
 	 * Записываем файл
 	 *
-	 * @param $file полный пукть к файлу
+	 * @param $file    полный пукть к файлу
 	 * @param $context информация для записи в файл
 	 *
-	 * @return string данные файла
+	 * @return string  данные файла
 	 */
 	public function write_file($file, $context) {
 		$f = fopen($file, "w+");
-		if(is_writable($file)) {
+		if(is_writable($file) && is_resource($f)) {
 			fwrite($f, $context);
 		}
 		fclose($f);

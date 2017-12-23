@@ -371,7 +371,7 @@ class ACP_Config {
 	 */
 	private function change_cp_script($newcp) {
 
-		global $logger;
+		global $files, $logger;
 
 		# Собираем лут из старого файла
 		$context = file_read(_SITEROOT."/".CP);
