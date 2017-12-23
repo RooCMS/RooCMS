@@ -219,5 +219,3 @@ class Globals {
 		}
 	}
 }
-
-?>

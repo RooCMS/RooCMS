@@ -168,7 +168,3 @@ class Security extends Shteirlitz {
 		}
 	}
 }
-
-
-
-?>

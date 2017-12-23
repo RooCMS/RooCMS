@@ -107,5 +107,3 @@ $module = new Modules;
  * assign in templates
  */
 $smarty->assign("module", $module);
-
-?>

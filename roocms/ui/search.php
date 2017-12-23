@@ -180,5 +180,3 @@ class UI_Search {
  * Init Class
  */
 $uisearch = new UI_Search;
-
-?>

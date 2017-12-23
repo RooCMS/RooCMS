@@ -101,5 +101,3 @@ class Module_Auth {
  * Init class
  */
 $module_auth = new Module_Auth;
-
-?>

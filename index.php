@@ -64,5 +64,3 @@ require_once INIT_SITE;
 * @return frontend html
 */
 $tpl->out();
-
-?>

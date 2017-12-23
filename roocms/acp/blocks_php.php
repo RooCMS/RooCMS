@@ -202,5 +202,3 @@ class ACP_Blocks_PHP {
 
 	}
 }
-
-?>

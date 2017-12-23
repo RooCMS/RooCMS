@@ -251,4 +251,3 @@ class UI_Reg {
  * Init Class
  */
 $uireg = new UI_Reg;
-?>

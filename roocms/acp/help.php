@@ -574,5 +574,3 @@ class ACP_Help {
  * Init Class
  */
 $acp_help = new ACP_Help;
-
-?>

@@ -357,5 +357,3 @@ class Structure {
 		return $this->sitetree[$sid];
 	}
 }
-
-?>

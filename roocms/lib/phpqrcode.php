@@ -65,7 +65,3 @@ $QRtools	= new QRtools;
 $smarty->assign("QRcode",	$QRcode);
 $smarty->assign("QRtools",	$QRtools);
 */
-
-
-
-?>

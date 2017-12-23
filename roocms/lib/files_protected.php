@@ -166,5 +166,3 @@ if(file_exists(_LOGS.'/errors.log')) {
 if(file_exists(_LOGS.'/php_error.log'))	{
 	$protect[] = array('path' => _LOGS.'/php_error.log',	'chmod'	=> '0755',	'hash'	=> '');
 }
-
-?>

@@ -90,5 +90,3 @@ class UCP_Security {
  * Init Class
  */
 $ucpsecurity = new UCP_Security;
-
-?>

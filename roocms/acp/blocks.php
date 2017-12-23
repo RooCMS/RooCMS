@@ -167,4 +167,3 @@ class ACP_Blocks {
  * Init Class
  */
 $acp_blocks = new ACP_Blocks;
-?>

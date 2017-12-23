@@ -66,6 +66,3 @@ $spider = array();
 $spider[] =	"yandex";
 $spider[] =	"google";
 $spider[] =	"yahoo";
-
-
-?>

@@ -92,5 +92,3 @@ class SitePagePHP {
 		$tpl->load_template("page_php");
 	}
 }
-
-?>

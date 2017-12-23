@@ -425,5 +425,3 @@ function debug($obj) {
 	global $debug;
 	$debug->godebug($obj);
 }
-
-?>

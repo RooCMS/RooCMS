@@ -119,4 +119,3 @@ class ACP_Pages_PHP {
 		$logger->info("Страница #".$sid." успешно удалена");
 	}
 }
-?>

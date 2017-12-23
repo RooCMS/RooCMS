@@ -92,5 +92,3 @@ class Module_Search {
  * Init class
  */
 $module_search = new Module_Search;
-
-?>

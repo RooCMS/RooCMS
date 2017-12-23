@@ -238,5 +238,3 @@ function file_read($file) {
 
 	return $buffer;
 }
-
-?>

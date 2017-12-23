@@ -106,5 +106,3 @@ if($structure->access) {
 else {
 	$tpl->load_template("access_denied");
 }
-
-?>

@@ -374,5 +374,3 @@ class Tags {
 		return $tag['title'];
 	}
 }
-
-?>

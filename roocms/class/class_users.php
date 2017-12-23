@@ -531,4 +531,3 @@ class Users extends Security {
 		}
 	}
 }
-?>

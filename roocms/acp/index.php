@@ -361,4 +361,3 @@ class ACP_Index {
  * Init Class
  */
 $acp_index = new ACP_Index;
-?>

@@ -109,5 +109,3 @@ $imagetype[]	= array('ext'	=> 'jpg',	'mime_type'	=> 'image/pjpeg',	'ico'	=> 'jpg
 //$imagetype[]	= array('ext'	=> 'bmp',	'mime_type'	=> 'image/bmp',		'ico'	=> 'bmp.png');
 
 $mimetype = array_merge($filetype, $imagetype);
-
-?>

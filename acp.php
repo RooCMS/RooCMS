@@ -64,6 +64,4 @@ require_once INIT_ACP;
 */
 $tpl->out();
 
-?>
-
 

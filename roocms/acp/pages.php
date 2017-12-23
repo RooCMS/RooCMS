@@ -125,4 +125,3 @@ class ACP_Pages {
  * Init class
  */
 $acp_pages = new ACP_Pages;
-?>

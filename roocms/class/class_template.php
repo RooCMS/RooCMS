@@ -366,5 +366,3 @@ class Template {
 		unset($_GET);
 	}
 }
-
-?>

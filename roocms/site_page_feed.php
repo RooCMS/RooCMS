@@ -500,5 +500,3 @@ class SitePageFeed {
 		return $pages;
 	}
 }
-
-?>

@@ -118,5 +118,3 @@ class Module_Tag_Cloud {
  * Init class
  */
 $module_tagcloud = new Module_Tag_Cloud;
-
-?>

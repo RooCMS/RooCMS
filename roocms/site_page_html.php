@@ -97,5 +97,3 @@ class SitePageHTML {
 		$tpl->load_template("page_html");
 	}
 }
-
-?>

@@ -259,5 +259,3 @@ class UI_Tags {
 }
 
 $uitags = new UI_Tags;
-
-?>

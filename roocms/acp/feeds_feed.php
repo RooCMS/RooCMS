@@ -792,4 +792,3 @@ class ACP_Feeds_Feed {
 		}
 	}
 }
-?>

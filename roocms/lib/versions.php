@@ -61,5 +61,3 @@ $version_list[] = array(
 	'ver'	=> '1.0',
 	'build'	=> '100'
 );
-
-?>

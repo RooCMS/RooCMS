@@ -103,5 +103,3 @@ class Module_Express_Reg {
  * Init class
  */
 $module_express_reg = new Module_Express_Reg;
-
-?>

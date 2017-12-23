@@ -335,7 +335,6 @@ if(!defined('ACP') && file_exists(_CLASS."/class_structure.php")) {
 	$structure = new Structure;
 }
 
-
 // $PEAR_PATH_LOCAL = _SITEROOT.'/pear';
 
 //set_include_path(
@@ -345,5 +344,3 @@ if(!defined('ACP') && file_exists(_CLASS."/class_structure.php")) {
 // function __autoload($class_name) {
      // include_once($class_name . "php");
 // }
-
-?>

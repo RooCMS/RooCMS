@@ -229,4 +229,3 @@ class UI_RePass {
  * Init Class
  */
 $uirepass = new UI_RePass;
-?>

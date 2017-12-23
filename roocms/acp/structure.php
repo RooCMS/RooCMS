@@ -564,5 +564,3 @@ class ACP_Structure {
  * Init Class
  */
 $acp_structure = new ACP_Structure;
-
-?>

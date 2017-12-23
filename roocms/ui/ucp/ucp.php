@@ -258,5 +258,3 @@ class UCP_CP {
  * Init Class
  */
 $ucpcp = new UCP_CP;
-
-?>

@@ -87,6 +87,3 @@ else {
 	$smarty->assign("no_footer", true);
 	require_once _ROOCMS."/acp/login.php";
 }
-
-
-?>

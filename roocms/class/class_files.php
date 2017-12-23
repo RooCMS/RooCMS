@@ -388,5 +388,3 @@ class Files {
 		$db->query("DELETE FROM ".FILES_TABLE." WHERE ".$cond);
 	}
 }
-
-?>

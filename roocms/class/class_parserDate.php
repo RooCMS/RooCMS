@@ -457,5 +457,3 @@ class ParserDate {
 		return $month[$nm].$f;
 	}
 }
-
-?>

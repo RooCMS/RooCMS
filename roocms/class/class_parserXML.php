@@ -189,4 +189,3 @@ class ParserXML {
 		$this->xml_string .= "<!".$data."!>";
 	}
 }
-?>

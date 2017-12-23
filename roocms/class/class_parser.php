@@ -576,5 +576,3 @@ class Parsers {
 			    );
 	}
 }
-
-?>

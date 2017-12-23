@@ -595,5 +595,3 @@ class MySQLiDatabase extends MySQLiExtends {
 		}
 	}
 }
-
-?>

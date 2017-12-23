@@ -87,6 +87,3 @@ if(trim($roocms->part) != "") {
 		go("/");
 	}
 }
-
-
-?>

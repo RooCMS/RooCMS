@@ -145,5 +145,3 @@ class Logger {
 		$db->close();
 	}
 }
-
-?>

@@ -762,4 +762,3 @@ class ACP_Users {
  * Init class
  */
 $acp_users = new ACP_Users;
-?>

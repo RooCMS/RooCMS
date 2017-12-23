@@ -141,5 +141,3 @@ $blocks = new Blocks;
  * assign in templates
  */
 $smarty->assign("blocks", $blocks);
-
-?>

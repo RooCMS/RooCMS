@@ -73,6 +73,3 @@ require_once _SMARTY."/Smarty.class.php";
 * @var Smarty
 */
 $smarty = new Smarty();
-
-
-?>

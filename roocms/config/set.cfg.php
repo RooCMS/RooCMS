@@ -143,5 +143,3 @@ header("Content-type: text/html; charset=utf-8");
 header("X-Engine: RooCMS");
 header("X-Engine-Copyright: 2010-".date("Y")." (c) RooCMS");
 header("X-Engine-Site: http://www.roocms.com");
-
-?>

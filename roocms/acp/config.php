@@ -437,5 +437,3 @@ class ACP_Config {
  * Init Class
  */
 $acp_config = new ACP_Config;
-
-?>

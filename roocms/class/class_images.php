@@ -351,5 +351,3 @@ class Images extends GD {
 		return $allow_exts;
 	}
 }
-
-?>

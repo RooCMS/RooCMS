@@ -178,4 +178,3 @@ class ACP_Pages_HTML {
 		$db->query("DELETE FROM ".PAGES_HTML_TABLE." WHERE sid='".$sid."'");
 	}
 }
-?>

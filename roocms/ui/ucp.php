@@ -83,5 +83,3 @@ if($ucpsecurity->access) {
 else {
 	require_once _UI."/ucp/login.php";
 }
-
-?>

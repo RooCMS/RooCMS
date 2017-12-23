@@ -171,5 +171,3 @@ class ACP_Ajax {
  * Init Class
  */
 $acp_ajax = new ACP_Ajax;
-
-?>

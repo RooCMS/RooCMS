@@ -135,5 +135,3 @@ class ACP_Login {
  * Init Class
  */
 $acplogin = new ACP_Login;
-
-?>

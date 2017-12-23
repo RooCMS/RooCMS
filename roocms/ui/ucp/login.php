@@ -137,5 +137,3 @@ class UCP_Login {
  * Init Class
  */
 $ucplogin = new UCP_Login;
-
-?>

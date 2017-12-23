@@ -229,5 +229,3 @@ class UCP_PM {
  * Init Class
  */
 $ucppm = new UCP_PM;
-
-?>

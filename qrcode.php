@@ -70,5 +70,3 @@ if(isset($GET->_tel)) {
 	$qrcontent = "tel:".$GET->_tel;
 	QRcode::png($qrcontent,false, QR_ECLEVEL_L, 4, 0);
 }
-
-?>

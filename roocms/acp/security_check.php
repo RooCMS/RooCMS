@@ -95,5 +95,3 @@ class ACP_Security {
  * Init Class
  */
 $acpsecurity = new ACP_Security;
-
-?>

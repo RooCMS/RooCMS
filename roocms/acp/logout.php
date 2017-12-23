@@ -63,5 +63,3 @@ session_destroy();
 
 # move
 go("/");
-
-?>

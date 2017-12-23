@@ -118,5 +118,3 @@ $smarty->assign('menu_items_right',	$menu_items_right);
 # load template
 $cpmenu = $tpl->load_template("menu", true);
 $smarty->assign("cpmenu", $cpmenu);
-
-?>

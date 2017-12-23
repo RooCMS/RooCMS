@@ -307,5 +307,3 @@ class ACP_Blocks_HTML {
 		}
 	}
 }
-
-?>

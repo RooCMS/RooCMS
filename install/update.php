@@ -194,5 +194,3 @@ class Update extends Requirement{
 		}
 	}
 }
-
-?>

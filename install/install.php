@@ -570,5 +570,3 @@ class Install extends Requirement {
 		}
 	}
 }
-
-?>

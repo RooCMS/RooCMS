@@ -143,5 +143,3 @@ class ACP_Mailing {
  * Init class
  */
 $acp_mailing = new ACP_Mailing;
-
-?>

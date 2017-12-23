@@ -210,4 +210,3 @@ class ACP_Feeds {
  * Init Class
  */
 $acp_feeds = new ACP_Feeds;
-?>
