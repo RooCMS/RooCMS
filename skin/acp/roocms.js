@@ -3,7 +3,7 @@
  * @subpackage	Admin Control Panel
  * @subpackage	JavaScript
  * @author      alex Roosso
- * @copyright   2010-2018 (c) RooCMS
+ * @copyright   2010-2019 (c) RooCMS
  * @link        http://www.roocms.com
  * @license     http://www.gnu.org/licenses/gpl-3.0.html
  */
@@ -130,4 +130,13 @@ $(document).ready(function() {
 		}
 		$('#calcbd').attr('class', c);
 	});*/
+
+	/* Alert */
+	/*setTimeout(function() {
+		var ah = $(".alert-info").height();
+		var mm = ah + 100;
+		$(".alert-info").animate({'margin-top': '-='+mm+'px'}, 1200, function() {
+			$(this).hide();
+		});
+	}, 3700);*/
 });

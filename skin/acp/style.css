@@ -88,26 +88,35 @@ input:required:valid {
 }
 /* notice */
 @keyframes notice {
-  from {
-    margin-top: -50px;
-    opacity: 0;
-  }
-  50% {
-    margin-top: 15px;
-  }
+  from,
   to {
-    margin-top: -5px;
+    margin-right: -400px;
+    opacity: 0;
+    z-index: -10;
+  }
+  15%,
+  85% {
+    margin-right: 60px;
+  }
+  30%,
+  70% {
+    margin-right: 15px;
     opacity: 1;
+    z-index: 100;
   }
 }
 .notice {
-  margin-top: -5px;
+  /*margin-top: -5px;*/
   position: fixed;
-  z-index: 100;
+  z-index: -10;
   right: 5px;
+  opacity: 0;
   animation-name: notice;
-  animation-duration: .7s;
-  animation-timing-function: linear;
+  animation-duration: 3.7s;
+  animation-timing-function: ease-in-out;
+}
+.notice:hover {
+  animation-play-state: paused;
 }
 /* footer */
 .footer {
@@ -458,6 +467,7 @@ h6 {
 }
 .no-overflow {
   overflow: hidden;
+  text-overflow: ellipsis;
 }
 .relative {
   position: relative;

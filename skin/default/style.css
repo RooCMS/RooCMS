@@ -77,7 +77,7 @@ a:hover>.feed-image-pn {border: 2px solid #545c68;opacity: 1;filter: grayscale(0
 a:hover>.feed-more-preview {border: 2px solid #545c68;opacity: 1;filter: grayscale(0%);}
 
 .ucp-user-nickname {margin-top: 0;}
-.ucp-user-slogan {height: 46px;overflow: hidden;font-size: 13px;font-family: "PT Sans";}
+.ucp-user-slogan {height: 46px;overflow: hidden;text-overflow: ellipsis;font-size: 13px;font-family: "PT Sans";}
 
 /* Airmail */
 .airmail {
@@ -91,7 +91,8 @@ a:hover>.feed-more-preview {border: 2px solid #545c68;opacity: 1;filter: graysca
 	z-index: -999;
 	content: '';
 	top: 0;	right: 15px; bottom: 0;	left: 15px;
-	background-image: repeating-linear-gradient(135deg, #F29B91 0px, #F09290 30px, transparent 30px, transparent 50px, #83B3DB 50px, #84ADCB 80px, transparent 80px, transparent 100px);
+	border: 10px solid transparent;
+	border-image: 10 repeating-linear-gradient(45deg, #A7CECC, #A7CECC 10px, transparent 10px, transparent 20px, #F8463F 20px, #F8463F 30px,transparent 30px, transparent 40px);
 }
 
 /* Tag Cloud */

@@ -52,20 +52,6 @@
 		<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
 		{$info}
 	</div>
-{literal}
-	<script>
-		$(document).ready(function() {
-			/* Alert */
-			setTimeout(function() {
-				var ah = $(".alert-info").height();
-				var mm = ah + 100;
-				$(".alert-info").animate({'margin-top': '-='+mm+'px'}, 1200, function() {
-					$(this).hide();
-				});
-			}, 3700);
-		});
-	</script>
-{/literal}
 {/if}
 
 <div class="container-fluid">
