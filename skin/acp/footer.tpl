@@ -38,7 +38,7 @@
 				<br />
 				<nobr>
 				<br /><span class="fa fa-bar-chart-o fa-fw"></span> Число обращений к БД: <b>{$db_querys}</b>
-				<br /><span class="fa fa-tachometer fa-fw"></span> Использовано памяти : <b>{round($debug_memory/1024/1024, 2)} Мб ({round($debug_memusage/1024/1024, 2)} Мб макс)</b>
+					<br /><span class="fa fa-tachometer fa-fw"></span> Использовано памяти : <b>{round($debug_memory/1024/1024, 2)} Мб <span class="hidden-xs">({round($debug_memusage/1024/1024, 2)} Мб макс)</span></b>
 				<br /><span class="fa fa-clock-o fa-fw"></span> Время работы скрипта : <b>{$debug_timer} мс</b>
 				</nobr>
 

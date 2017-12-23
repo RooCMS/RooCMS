@@ -37,7 +37,7 @@
 	<div class="panel-heading">Предопределённые переменные сервера</div>
 	<table class="table table-hover table-condensed">
 		<thead>
-		<tr class="active">
+		<tr class="active hidden-xs hidden-sm">
 			<th>Параметр</th>
 			<th>Значение</th>
 		</tr>
@@ -45,8 +45,8 @@
 		<tbody>
 		{foreach from=$data2 item=svar}
 			<tr>
-				<td class="col-sm-4">$_SERVER['{$svar['var']}']</td>
-				<td class="col-sm-8 {if $svar['value'] == "not found"}text-muted{/if}">{$svar['value']}</td>
+				<td class="col-sm-4 hidden-xs hidden-sm">$_SERVER['{$svar['var']}']</td>
+				<td class="col-sm-8 breakword {if $svar['value'] == "not found"}text-muted{/if}"><span class="bold visible-xs visible-sm">$_SERVER['{$svar['var']}']</span>{$svar['value']}</td>
 			</tr>
 		{/foreach}
 		</tbody>

@@ -16,7 +16,7 @@
 @black: 	#1B1E24;
 @white:		#fff;
 @winter-light:	#fefeff;
-@shadowcolor: 	#B8AD9A;
+@shadowcolor: 	#777; //#B8AD9A;
 @middle-grey:	#999;
 @grey:		#ccc;
 @blue:		#49E;
@@ -82,7 +82,7 @@
 html, body {
 	font-family: @ptsans, @ubuntu, @calibri, @trebuchet, @tahoma, @verdana !important;
 	.black;	.t12;
-	background: @roocms-bg url('./img/bgcp.png') repeat fixed top !important;
+	background: @roocms-bg url('./img/bgcp.jpg') repeat fixed top !important;
 	padding: 0; margin: 0;
 	behavior: url("../../csshover.htc") !important;
 	text-rendering: optimizeLegibility;
@@ -125,7 +125,7 @@ input:required:valid {background-image: none !important;}
 	70% {margin-right: 15px;opacity: 1;z-index: 100;}
 }
 .notice {
-	/*margin-top: -5px;*/position: fixed; z-index: -10;right: 5px; opacity: 0;
+	margin-top: 5px;position: fixed; z-index: -10;right: 5px; opacity: 0;
 	animation-name: notice;
 	animation-duration: 3.7s;
 	animation-timing-function: ease-in-out;
@@ -316,6 +316,10 @@ h6 {.t12}
 	white-space: nowrap;
 	word-wrap: normal;
 	word-break: normal;
+}
+.breakword	{
+	word-wrap: break-word !important;
+	word-break: break-all;
 }
 
 /* For CodeMirror */

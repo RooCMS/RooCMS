@@ -30,7 +30,7 @@ body {
   font-family: 'PT Sans', 'Ubuntu', 'Calibri', 'Trebuchet MS', 'Tahoma', 'Verdana' !important;
   color: #1b1e24;
   font-size: 12px;
-  background: #ede1cb url('img/bgcp.png') repeat fixed top !important;
+  background: #ede1cb url('img/bgcp.jpg') repeat fixed top !important;
   padding: 0;
   margin: 0;
   behavior: url("../../csshover.htc") !important;
@@ -106,7 +106,7 @@ input:required:valid {
   }
 }
 .notice {
-  /*margin-top: -5px;*/
+  margin-top: 5px;
   position: fixed;
   z-index: -10;
   right: 5px;
@@ -412,14 +412,14 @@ h6 {
   text-shadow: 1px 1px 1px #1b1e24;
 }
 .shadow {
-  -moz-box-shadow: 0 0 6px #b8ad9a;
-  -webkit-box-shadow: 0 0 6px #b8ad9a;
-  box-shadow: 0 0 6px #b8ad9a;
+  -moz-box-shadow: 0 0 6px #777777;
+  -webkit-box-shadow: 0 0 6px #777777;
+  box-shadow: 0 0 6px #777777;
 }
 .inshadow {
-  -moz-box-shadow: 0 0 2px #b8ad9a inset;
-  -webkit-box-shadow: 0 0 2px #b8ad9a inset;
-  box-shadow: 0 0 2px #b8ad9a inset;
+  -moz-box-shadow: 0 0 2px #777777 inset;
+  -webkit-box-shadow: 0 0 2px #777777 inset;
+  box-shadow: 0 0 2px #777777 inset;
 }
 /* SPECIFICATION */
 .clear,
@@ -482,6 +482,10 @@ h6 {
   white-space: nowrap;
   word-wrap: normal;
   word-break: normal;
+}
+.breakword {
+  word-wrap: break-word !important;
+  word-break: break-all;
 }
 /* For CodeMirror */
 .CodeMirror {
