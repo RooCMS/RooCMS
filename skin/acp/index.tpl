@@ -18,7 +18,7 @@
 		</div>
 	</div>
 
-	<div class="btn-group btn-group-sm btn-group-justified visible-xs">
+	<div class="btn-group btn-group-sm btn-group-justified visible-xs submenu-xs">
 		<a href="{$SCRIPT_NAME}" class="btn btn-default{if !isset($smarty.get.part)} active{/if}"><i class="fa fa-fw fa-list"></i></a>
 		<a href="{$SCRIPT_NAME}?part=serverinfo" class="btn btn-default{if isset($smarty.get.part) && $smarty.get.part == "serverinfo"} active{/if}"><i class="fa fa-fw fa-terminal"></i></a>
 		<a href="{$SCRIPT_NAME}?part=phpext" class="btn btn-default{if isset($smarty.get.part) && $smarty.get.part == "phpext"} active{/if}"><i class="fa fa-fw fa-code"></i></a>

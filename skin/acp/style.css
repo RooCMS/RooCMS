@@ -86,6 +86,10 @@ input:required:valid {
 .navbar-collapse {
   max-height: none !important;
 }
+/* Submenu */
+.submenu-xs {
+  margin-bottom: 20px;
+}
 /* notice */
 @keyframes notice {
   from,
