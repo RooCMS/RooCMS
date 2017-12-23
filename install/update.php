@@ -42,7 +42,7 @@
 * @author       alex Roosso
 * @copyright    2010-2018 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.2.3
+* @version      1.2.4
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -90,21 +90,6 @@ class Update extends Requirement{
 
 		# переход
 		switch($this->step) {
-
-			case 1:
-				$this->page_title = "Лицензионное соглашение";
-				$this->status = "Внимательно прочитайте лицензионное соглашение<br />Помните, что нарушение авторских прав влечет за собой уголовную ответсвенность.";
-				require_once _LIB."/license.php";
-				$this->noticetext = $license['ru'];
-				if($this->allowed && isset($POST->submit)) {
-					if(isset($POST->step) && $POST->step == 1) {
-						go(SCRIPT_NAME."?step=2");
-					}
-					else {
-						goback();
-					}
-				}
-				break;
 
 			case 2:
 				$this->page_title = "Проверка требований RooCMS к хостингу";
