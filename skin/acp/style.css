@@ -76,11 +76,11 @@ input:required:valid {
 }
 /* logo */
 #logo {
-  margin-top: -8px;
+  margin-top: -10px;
 }
 .logo-xs {
   max-width: 100%;
-  padding: 15px 0;
+  padding: 10px 0;
 }
 /* fix navbar collapse on sx screen*/
 .navbar-collapse {

@@ -82,7 +82,7 @@
 	<div class="header">
 		<div class="row">
 			<div class="col-md-6">
-				<h1><a href="/"><img src="{$SKIN}/img/logo.png" border="0" style="vertical-align: top;"></a></h1>
+				<a href="/"><img src="{$SKIN}/img/logo.png" border="0" id="logo"></a>
 
 			</div>
 			<div class="col-md-6">

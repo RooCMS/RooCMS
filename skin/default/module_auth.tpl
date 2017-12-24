@@ -1,7 +1,7 @@
 {* Шаблон для модуля: auth *}
 
 {if $userdata['uid'] == 0}
-	<div class="row">
+	<div class="row auth">
 		<div class="col-sm-12 text-right">
 			<form method="post" action="?part=ucp&act=login" class="form-inline">
 
@@ -45,7 +45,7 @@
 	</div>
 	*}
 {else}
-	<div class="row">
+	<div class="row auth">
 		<div class="col-sm-12 text-right">
 			{if $userdata['avatar'] != ""}<a href="{$SCRIPT_NAME}?part=ucp&act=ucp"><img src="/upload/images/{$userdata['avatar']}" height="70" class="img-circle mauth-avatar"></a>{/if}
 			<div class="pull-right">
