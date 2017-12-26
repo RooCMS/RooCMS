@@ -43,7 +43,7 @@
  * @author       alex Roosso
  * @copyright    2010-2018 (c) RooCMS
  * @link         http://www.roocms.com
- * @version      1.6
+ * @version      1.6.1
  * @since        $date$
  * @license      http://www.gnu.org/licenses/gpl-3.0.html
  */
@@ -467,30 +467,20 @@ class ACP_Users {
 			}
 
 			# nickname
-			if(isset($POST->nickname)) {
-				if(!$users->check_field("nickname", $POST->nickname, $udata['nickname'])) {
-					$logger->error("Никнейм не должен совпадать с никнеймом другого пользователя!");
-				}
-				else {
-					$query .= "nickname='".$POST->nickname."', ";
-				}
+			if(isset($POST->nickname) && $users->check_field("nickname", $POST->nickname, $udata['nickname'])) {
+				$query .= "nickname='".$POST->nickname."', ";
 			}
 			else {
-				$logger->error("У пользователя должен быть Никнейм.", false);
+				$logger->error("Не удалось обновить Никнейм пользователя (возможные он был некоректно указан, или такой никнейм уже есть в БД)", false);
 			}
 
 
 			# email
-			if(isset($POST->email)) {
-				if(!$users->check_field("email", $POST->email, $udata['email'])) {
-					$logger->error("Указанный email уже существует в Базе Данных!");
-				}
-				else {
-					$query .= "email='".$POST->email."', ";
-				}
+			if(isset($POST->email) && $parse->valid_email($POST->email) && $users->check_field("email", $POST->email, $udata['email'])) {
+				$query .= "email='".$POST->email."', ";
 			}
 			else {
-				$logger->error("E-mail должен быть указан обязательно для каждого пользователя.");
+				$logger->error("Не удалось обновить Email (возможные он был некоректно указан, или такой email уже есть в БД)");
 			}
 
 			# avatar
