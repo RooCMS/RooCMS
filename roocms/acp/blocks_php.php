@@ -66,16 +66,16 @@ class ACP_Blocks_PHP {
 	 */
 	public function create() {
 
-		global $db, $tpl, $smarty, $POST, $logger;
+		global $db, $tpl, $smarty, $post, $logger;
 
-		if(isset($POST->create_block)) {
+		if(isset($post->create_block)) {
 
 			# check data post
 			$this->check_block_parametrs();
 
 			if(!isset($_SESSION['error'])) {
 				$db->query("INSERT INTO ".BLOCKS_TABLE."   (title, alias, content, date_create, date_modified, block_type)
-							VALUES ('".$POST->title."', '".$POST->alias."', '".$POST->content."', '".time()."', '".time()."', 'php')");
+							VALUES ('".$post->title."', '".$post->alias."', '".$post->content."', '".time()."', '".time()."', 'php')");
 
 				$bid = $db->insert_id();
 
@@ -118,14 +118,14 @@ class ACP_Blocks_PHP {
 	 */
 	public function update($id) {
 
-		global $db, $POST, $get, $logger;
+		global $db, $post, $get, $logger;
 
-		if(isset($POST->update_block)) {
+		if(isset($post->update_block)) {
 
 			# check data post
 			$this->check_block_parametrs();
 
-			if(!isset($POST->id) || $POST->id != $get->_block) {
+			if(!isset($post->id) || $post->id != $get->_block) {
 				$logger->error("Системная ошибка...");
 			}
 
@@ -133,9 +133,9 @@ class ACP_Blocks_PHP {
 
 				$db->query("UPDATE ".BLOCKS_TABLE."
 							SET
-								title='".$POST->title."',
-								alias='".$POST->alias."',
-								content='".$POST->content."',
+								title='".$post->title."',
+								alias='".$post->alias."',
+								content='".$post->content."',
 								date_modified='".time()."'
 							WHERE
 								id='".$id."'");
@@ -171,32 +171,32 @@ class ACP_Blocks_PHP {
 	 */
 	private function check_block_parametrs() {
 
-		global $db, $parse, $POST, $logger;
+		global $db, $parse, $post, $logger;
 
-		if(!isset($POST->title)) {
+		if(!isset($post->title)) {
 			$logger->error("Не указано название блока!", false);
 		}
 
-		if(!isset($POST->alias)) {
+		if(!isset($post->alias)) {
 			$logger->error("Не указан алиас блока!", false);
 		}
 		else {
-			$POST->alias = $parse->text->transliterate($POST->alias);
-			$POST->alias = preg_replace(array('(\s\s+)','(\-\-+)','(__+)','([^a-zA-Z0-9\-_])'), array('','','',''), $POST->alias);
+			$post->alias = $parse->text->transliterate($post->alias);
+			$post->alias = preg_replace(array('(\s\s+)','(\-\-+)','(__+)','([^a-zA-Z0-9\-_])'), array('','','',''), $post->alias);
 
-			if(is_numeric($POST->alias)) {
-				$POST->alias .= randcode(3, "abcdefghijklmnopqrstuvwxyz");
+			if(is_numeric($post->alias)) {
+				$post->alias .= randcode(3, "abcdefghijklmnopqrstuvwxyz");
 			}
 
 
-			$check_alias = (isset($POST->oldalias)) ? "alias!='".$POST->oldalias."'" : "" ;
+			$check_alias = (isset($post->oldalias)) ? "alias!='".$post->oldalias."'" : "" ;
 
-			if($db->check_id($POST->alias, BLOCKS_TABLE, "alias", $check_alias)) {
+			if($db->check_id($post->alias, BLOCKS_TABLE, "alias", $check_alias)) {
 				$logger->error("Алиас блока не уникален!", false);
 			}
 		}
 
-		if(!isset($POST->content)) {
+		if(!isset($post->content)) {
 			$logger->error("Пустое тело блока!", false);
 		}
 

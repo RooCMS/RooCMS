@@ -73,11 +73,11 @@ class UI_Search {
 	 */
 	public function __construct() {
 
-		global $POST, $get;
+		global $post, $get;
 
 		# POST
-		if(isset($POST->search) && mb_strlen($POST->search) >= $this->minleight) {
-			go(SCRIPT_NAME."?part=search&search=".$POST->search);
+		if(isset($post->search) && mb_strlen($post->search) >= $this->minleight) {
+			go(SCRIPT_NAME."?part=search&search=".$post->search);
 		}
 
 		# GET

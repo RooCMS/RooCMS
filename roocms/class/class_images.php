@@ -315,23 +315,23 @@ class Images extends GD {
 	 */
 	public function check_post_thumb_parametrs() {
 
-		global $POST;
+		global $post;
 
-		if(!isset($POST->thumb_img_width)) {
-			$POST->thumb_img_width = 0;
+		if(!isset($post->thumb_img_width)) {
+			$post->thumb_img_width = 0;
 		}
-		if(!isset($POST->thumb_img_height)) {
-			$POST->thumb_img_height = 0;
+		if(!isset($post->thumb_img_height)) {
+			$post->thumb_img_height = 0;
 		}
 
-		$POST->thumb_img_width = round($POST->thumb_img_width);
-		$POST->thumb_img_height = round($POST->thumb_img_height);
+		$post->thumb_img_width = round($post->thumb_img_width);
+		$post->thumb_img_height = round($post->thumb_img_height);
 
-		if($POST->thumb_img_width < 16) {
-			$POST->thumb_img_width = 0;
+		if($post->thumb_img_width < 16) {
+			$post->thumb_img_width = 0;
 		}
-		if($POST->thumb_img_height < 16) {
-			$POST->thumb_img_height = 0;
+		if($post->thumb_img_height < 16) {
+			$post->thumb_img_height = 0;
 		}
 	}
 

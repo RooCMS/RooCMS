@@ -64,13 +64,13 @@ class UCP_Login {
 	 */
 	public function __construct() {
 
-		global $POST;
+		global $post;
 
 
 		/**
 		 * Проверяем запрос
 		 */
-		if(isset($POST->userlogin)) {
+		if(isset($post->userlogin)) {
 			$this->entering();
 		}
 	}
@@ -81,15 +81,15 @@ class UCP_Login {
 	 */
 	private function entering() {
 
-		global $db, $POST, $security;
+		global $db, $post, $security;
 
-		if(isset($POST->login, $POST->password) && $db->check_id($POST->login, USERS_TABLE, "login", "status='1'")) {
+		if(isset($post->login, $post->password) && $db->check_id($post->login, USERS_TABLE, "login", "status='1'")) {
 
-			$q = $db->query("SELECT uid, login, title, nickname, password, salt FROM ".USERS_TABLE." WHERE login='".$POST->login."' AND status='1'");
+			$q = $db->query("SELECT uid, login, title, nickname, password, salt FROM ".USERS_TABLE." WHERE login='".$post->login."' AND status='1'");
 			$data = $db->fetch_assoc($q);
 
 			# hash
-			$dbpass = $security->hashing_password($POST->password, $data['salt']);
+			$dbpass = $security->hashing_password($post->password, $data['salt']);
 
 			if($dbpass == $data['password']) {
 

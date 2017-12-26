@@ -116,14 +116,14 @@ class ACP_Pages_HTML {
 	 */
 	public function update($sid) {
 
-		global $db, $logger, $files, $img, $POST;
+		global $db, $logger, $files, $img, $post;
 
 		#sortable images
-		if(isset($POST->sort)) {
+		if(isset($post->sort)) {
 			$sortimg = $img->load_images("pagesid=".$sid);
 			foreach($sortimg AS $v) {
-				if(isset($POST->sort[$v['id']]) && $POST->sort[$v['id']] != $v['sort']) {
-					$db->query("UPDATE ".IMAGES_TABLE." SET sort='".$POST->sort[$v['id']]."' WHERE id='".$v['id']."'");
+				if(isset($post->sort[$v['id']]) && $post->sort[$v['id']] != $v['sort']) {
+					$db->query("UPDATE ".IMAGES_TABLE." SET sort='".$post->sort[$v['id']]."' WHERE id='".$v['id']."'");
 				}
 			}
 		}
@@ -150,11 +150,11 @@ class ACP_Pages_HTML {
 		}
 
 
-		if(!isset($POST->content)) {
-			$POST->content = "";
+		if(!isset($post->content)) {
+			$post->content = "";
 		}
 
-		$db->query("UPDATE ".PAGES_HTML_TABLE." SET content='".$POST->content."', date_modified='".time()."' WHERE sid='".$sid."'");
+		$db->query("UPDATE ".PAGES_HTML_TABLE." SET content='".$post->content."', date_modified='".time()."' WHERE sid='".$sid."'");
 
 		$logger->info("Страница #".$sid." успешно обновлена.");
 

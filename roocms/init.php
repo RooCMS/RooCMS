@@ -193,7 +193,7 @@ if(file_exists(_CLASS."/class_parser.php")) {
 	 */
 	$parse 	= new Parsers;
 	$get	=& $parse->get;
-	$POST	=& $parse->post;
+	$post	=& $parse->post;
 }
 else {
 	die(ROOCMS_NOT_RUNNING);

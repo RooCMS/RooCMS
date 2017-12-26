@@ -88,7 +88,7 @@ class ACP_Structure {
 	*/
 	private function init() {
 
-		global $roocms, $config, $db, $tpl, $smarty, $get, $POST;
+		global $roocms, $config, $db, $tpl, $smarty, $get, $post;
 
 		# считываем "дерево"
 		$smarty->assign('tree', $this->engine->sitetree);
@@ -119,7 +119,7 @@ class ACP_Structure {
 		switch($roocms->part) {
 			# create
 			case 'create':
-				if(isset($POST->create_unit) || isset($POST->create_unit_ae)) {
+				if(isset($post->create_unit) || isset($post->create_unit_ae)) {
 					$this->create_unit();
 				}
 				else {
@@ -138,7 +138,7 @@ class ACP_Structure {
 
 			# edit and update
 			case 'edit':
-				if(isset($POST->update_unit) || isset($POST->update_unit_ae)) {
+				if(isset($post->update_unit) || isset($post->update_unit_ae)) {
 					$this->update_unit($this->sid);
 				}
 				elseif($this->sid != 0) {
@@ -170,32 +170,32 @@ class ACP_Structure {
 	*/
 	private function create_unit() {
 
-		global $db, $logger, $POST;
+		global $db, $logger, $post;
 
 		# check unit parametrs
 		$this->check_unit_parametrs();
 
 
 		if(!isset($_SESSION['error'])) {
-			$POST->sort = round($POST->sort);
+			$post->sort = round($post->sort);
 
 			# проверяем тип родителя
-			$q = $db->query("SELECT page_type FROM ".STRUCTURE_TABLE." WHERE id='".$POST->parent_id."'");
+			$q = $db->query("SELECT page_type FROM ".STRUCTURE_TABLE." WHERE id='".$post->parent_id."'");
 			$d = $db->fetch_assoc($q);
 
 			# Нельзя к лентам добавлять другие дочерние элементы, кроме таких же лент.
-			if($d['page_type'] == "feed" && $POST->page_type != "feed") {
+			if($d['page_type'] == "feed" && $post->page_type != "feed") {
 				$logger->error("Вы не можете установить для ленты в качестве дочерней страницы другой структурный элемент, кроме ленты.");
 				goback();
 			}
 
 			# добавляем структурную еденицу
 			$db->query("INSERT INTO ".STRUCTURE_TABLE."    (alias, title, parent_id, group_access, page_type, meta_description, meta_keywords, noindex, sort, date_create, date_modified, thumb_img_width, thumb_img_height)
-								VALUES ('".$POST->alias."', '".$POST->title."', '".$POST->parent_id."', '".$POST->gids."', '".$POST->page_type."', '".$POST->meta_description."', '".$POST->meta_keywords."', '".$POST->noindex."', '".$POST->sort."', '".time()."', '".time()."', '".$POST->thumb_img_width."', '".$POST->thumb_img_height."')");
+								VALUES ('".$post->alias."', '".$post->title."', '".$post->parent_id."', '".$post->gids."', '".$post->page_type."', '".$post->meta_description."', '".$post->meta_keywords."', '".$post->noindex."', '".$post->sort."', '".time()."', '".time()."', '".$post->thumb_img_width."', '".$post->thumb_img_height."')");
 			$sid = $db->insert_id();
 
 			# create body unit for html & php pages
-			switch($POST->page_type) {
+			switch($post->page_type) {
 				case 'html':
 					$db->query("INSERT INTO ".PAGES_HTML_TABLE." (sid, date_modified) VALUE ('".$sid."', '".time()."')");
 					# get body unit id
@@ -212,17 +212,17 @@ class ACP_Structure {
 			}
 
 			# пересчитываем "детей"
-			$this->count_childs($POST->parent_id);
+			$this->count_childs($post->parent_id);
 
 			# уведомление
 			$logger->info("Структурная еденица #".$sid." успешно добавлена.");
 
 			# переход
-			if(isset($POST->create_unit_ae)) {
+			if(isset($post->create_unit_ae)) {
 				go(CP."?act=structure");
 			}
 			else {
-				if($POST->page_type == "feed") {
+				if($post->page_type == "feed") {
 					go(CP."?act=feeds&page=".$sid);
 				}
 				else {
@@ -282,27 +282,27 @@ class ACP_Structure {
 	 */
 	private function update_unit($sid) {
 
-		global $db, $logger, $POST;
+		global $db, $logger, $post;
 
 		# check unit parametrs
 		$this->check_unit_parametrs();
 
 
 		if(!isset($_SESSION['error'])) {
-			$POST->sort = round($POST->sort);
+			$post->sort = round($post->sort);
 
 			# Нельзя менять родителя у главной страницы и алиас
 			If($sid == 1) {
-				$POST->parent_id = 0;
-				$POST->alias = "index";
+				$post->parent_id = 0;
+				$post->alias = "index";
 			}
 
 			# Если мы назначаем нового родителя
-			if($POST->parent_id != $POST->now_parent_id) {
+			if($post->parent_id != $post->now_parent_id) {
 
 				# Проверим, что не пытаемся быть родителем самим себе
-				if($POST->parent_id == $sid) {
-					$POST->parent_id = $POST->now_parent_id;
+				if($post->parent_id == $sid) {
+					$post->parent_id = $post->now_parent_id;
 					$logger->error("Не удалось изменить иерархию! Вы не можете изменить иерархию директории назначив её родителем самой себе!");
 				}
 				# ... и что новый родитель это не наш ребенок
@@ -310,8 +310,8 @@ class ACP_Structure {
 					$childs = $this->engine->load_tree($sid);
 
 					foreach((array)$childs AS $v) {
-						if($POST->parent_id == $v['id']) {
-							$POST->parent_id = $POST->now_parent_id;
+						if($post->parent_id == $v['id']) {
+							$post->parent_id = $post->now_parent_id;
 							$logger->error("Не удалось изменить иерархию! Вы не можете изменить иерархию директории переместив её в свой дочерний элемент!");
 						}
 					}
@@ -320,7 +320,7 @@ class ACP_Structure {
 			}
 
 			# проверяем тип родителя
-			$q = $db->query("SELECT page_type FROM ".STRUCTURE_TABLE." WHERE id='".$POST->parent_id."'");
+			$q = $db->query("SELECT page_type FROM ".STRUCTURE_TABLE." WHERE id='".$post->parent_id."'");
 			$p = $db->fetch_assoc($q);
 
 			# проверяем тип текущей страницы
@@ -330,38 +330,38 @@ class ACP_Structure {
 			# Нельзя к лентам добавлять другие дочерние элементы, кроме таких же лент.
 			if($p['page_type'] == "feed" && $n['page_type'] != "feed") {
 				$logger->error("Вы не можете установить для ленты в качестве дочерней страницы другой структурный элемент, кроме ленты.");
-				$POST->parent_id = $POST->now_parent_id;
+				$post->parent_id = $post->now_parent_id;
 			}
 
 			# DB
 			$db->query("UPDATE ".STRUCTURE_TABLE."
 					SET
-						alias='".$POST->alias."',
-						title='".$POST->title."',
-						parent_id='".$POST->parent_id."',
-						group_access='".$POST->gids."',
-						meta_description='".$POST->meta_description."',
-						meta_keywords='".$POST->meta_keywords."',
-						noindex='".$POST->noindex."',
-						sort='".$POST->sort."',
+						alias='".$post->alias."',
+						title='".$post->title."',
+						parent_id='".$post->parent_id."',
+						group_access='".$post->gids."',
+						meta_description='".$post->meta_description."',
+						meta_keywords='".$post->meta_keywords."',
+						noindex='".$post->noindex."',
+						sort='".$post->sort."',
 						date_modified='".time()."',
-						thumb_img_width='".$POST->thumb_img_width."',
-						thumb_img_height='".$POST->thumb_img_height."'
+						thumb_img_width='".$post->thumb_img_width."',
+						thumb_img_height='".$post->thumb_img_height."'
 					WHERE
 						id='".$sid."'");
 
 			# Если мы назначаем нового родителя
-			if($POST->parent_id != $POST->now_parent_id) {
+			if($post->parent_id != $post->now_parent_id) {
 				# пересчитываем "детей"
-				$this->count_childs($POST->parent_id);
-				$this->count_childs($POST->now_parent_id);
+				$this->count_childs($post->parent_id);
+				$this->count_childs($post->now_parent_id);
 			}
 
 			# уведомление
 			$logger->info("Страница #".$sid." успешно обновлена.");
 
 
-			if(isset($POST->update_unit_ae)) {
+			if(isset($post->update_unit_ae)) {
 				go(CP."?act=structure");
 			}
 			else {
@@ -494,12 +494,12 @@ class ACP_Structure {
 	 */
 	private function processing_alias() {
 
-		global $parse, $logger, $POST;
+		global $parse, $logger, $post;
 
 
-		if(!isset($POST->alias)) {
-			if(isset($POST->title)) {
-				$POST->alias = $POST->title;
+		if(!isset($post->alias)) {
+			if(isset($post->title)) {
+				$post->alias = $post->title;
 			}
 			else {
 				$logger->error("Не указан alias для структурной еденицы.");
@@ -507,19 +507,19 @@ class ACP_Structure {
 		}
 
 		# предупреждаем возможные ошибки с алиасом структурной единицы
-		if(isset($POST->alias)) {
+		if(isset($post->alias)) {
 
-			$POST->alias = $parse->text->transliterate($POST->alias,"lower");
+			$post->alias = $parse->text->transliterate($post->alias,"lower");
 
 			# избавляем URI от возможных конвульсий
-			$POST->alias = strtr($POST->alias, array(' '=>'_', '-'=>'_', '='=>'_'));
+			$post->alias = strtr($post->alias, array(' '=>'_', '-'=>'_', '='=>'_'));
 
 			# Чистим alias
-			$POST->alias = preg_replace(array('(\s\s+)','(\-\-+)','(__+)','([^a-zA-Z0-9\-_])'), array('_','_','_',''), $POST->alias);
+			$post->alias = preg_replace(array('(\s\s+)','(\-\-+)','(__+)','([^a-zA-Z0-9\-_])'), array('_','_','_',''), $post->alias);
 
 			# а так же проверяем что бы алиас не оказался числом
-			if(is_numeric($POST->alias)) {
-				$POST->alias .= randcode(3, "abcdefghijklmnopqrstuvwxyz");
+			if(is_numeric($post->alias)) {
+				$post->alias .= randcode(3, "abcdefghijklmnopqrstuvwxyz");
 			}
 		}
 	}
@@ -531,28 +531,28 @@ class ACP_Structure {
 	 */
 	private function check_unit_parametrs() {
 
-		global $logger, $POST, $img;
+		global $logger, $post, $img;
 
 		# title
-		if(!isset($POST->title)) {
+		if(!isset($post->title)) {
 			$logger->error("Не указано название страницы.");
 		}
 
 		# alias
 		$this->processing_alias();
-		if(!isset($POST->old_alias)) {
-			$POST->old_alias = "";
+		if(!isset($post->old_alias)) {
+			$post->old_alias = "";
 		}
-		if(!$this->check_alias($POST->alias, $POST->old_alias)) {
+		if(!$this->check_alias($post->alias, $post->old_alias)) {
 			$logger->error("Алиас страницы не уникален.");
 		}
 
 		# group access
-		if(isset($POST->gids) && is_array($POST->gids)) {
-			$POST->gids = implode(",", $POST->gids);
+		if(isset($post->gids) && is_array($post->gids)) {
+			$post->gids = implode(",", $post->gids);
 		}
 		else {
-			$POST->gids = 0;
+			$post->gids = 0;
 		}
 
 		# thumbnail check

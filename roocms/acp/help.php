@@ -80,7 +80,7 @@ class ACP_Help {
 	*/
 	public function __construct() {
 
-    		global $roocms, $db, $get, $POST, $tpl, $smarty;
+    		global $roocms, $db, $get, $post, $tpl, $smarty;
 
 		# загружаем "дерево" помощи
     		$this->helptree = $this->load_tree();
@@ -135,7 +135,7 @@ class ACP_Help {
 			switch($roocms->part) {
 
 				case 'create_part':
-					if(isset($POST->create_part)) {
+					if(isset($post->create_part)) {
 						$this->create_part();
 					}
 					else {
@@ -144,7 +144,7 @@ class ACP_Help {
 					break;
 
 				case 'edit_part':
-					if(isset($POST->update_part)) {
+					if(isset($post->update_part)) {
 						$this->update_part($this->part_id);
 					}
 					elseif($this->part_id != 0) {
@@ -204,16 +204,16 @@ class ACP_Help {
 	*/
 	private function create_part() {
 
-		global $db, $logger, $POST;
+		global $db, $logger, $post;
 
 		# предупреждаем возможные ошибки с уникальным именем структурной еденицы
 		if($this->isset_post_uname()) {
 			# избавляем URI от возможных конвульсий
-			$POST->uname = strtr($POST->uname, array('-'=>'_','='=>'_'));
+			$post->uname = strtr($post->uname, array('-'=>'_','='=>'_'));
 
 			# а так же проверяем что бы алиас не оказался числом
-			if(is_numeric($POST->uname)) {
-				$POST->uname = randcode(3, "abcdefghijklmnopqrstuvwxyz").$POST->uname;
+			if(is_numeric($post->uname)) {
+				$post->uname = randcode(3, "abcdefghijklmnopqrstuvwxyz").$post->uname;
 			}
 		}
 
@@ -225,11 +225,11 @@ class ACP_Help {
 		if(!isset($_SESSION['error'])) {
 
 			$db->query("INSERT INTO ".HELP_TABLE." (title, uname, sort, content, parent_id, date_modified)
-							VALUES ('".$POST->title."', '".$POST->uname."', '".$POST->sort."','".$POST->content."', '".$POST->parent_id."', '".time()."')");
+							VALUES ('".$post->title."', '".$post->uname."', '".$post->sort."','".$post->content."', '".$post->parent_id."', '".time()."')");
 			$id = $db->insert_id();
 
 			# пересчитываем "детей"
-			$this->count_childs($POST->parent_id);
+			$this->count_childs($post->parent_id);
 
 			# уведомление
 			$logger->info("Раздел #".$id." успешно добавлен!");
@@ -249,7 +249,7 @@ class ACP_Help {
 	*/
 	private function update_part($id) {
 
-		global $db, $logger, $POST;
+		global $db, $logger, $post;
 
 		# Если идентификатор не прошел проверку
 		if($id == 0) {
@@ -259,11 +259,11 @@ class ACP_Help {
 		# предупреждаем возможные ошибки с уникальным именем структурной еденицы
 		if($this->isset_post_uname()) {
 			# избавляем URI от возможных конвульсий
-			$POST->uname = strtr($POST->uname, array('-'=>'_','='=>'_'));
+			$post->uname = strtr($post->uname, array('-'=>'_','='=>'_'));
 
 			# а так же проверяем что бы юнейм не оказался числом
-			if(is_numeric($POST->uname)) {
-				$POST->uname = randcode(3, "abcdefghijklmnopqrstuvwxyz").$POST->uname;
+			if(is_numeric($post->uname)) {
+				$post->uname = randcode(3, "abcdefghijklmnopqrstuvwxyz").$post->uname;
 			}
 		}
 
@@ -274,19 +274,19 @@ class ACP_Help {
 		# если ошибок нет
 		if(!isset($_SESSION['error'])) {
 
-			$POST->sort = round($POST->sort);
+			$post->sort = round($post->sort);
 
 			# Нельзя менять родителя у главного раздела
 			If($id == 1) {
-				$POST->parent_id = 0;
+				$post->parent_id = 0;
 			}
 
 			# Если мы назначаем нового родителя
-			if($POST->parent_id != $POST->now_parent_id) {
+			if($post->parent_id != $post->now_parent_id) {
 
 				# Проверим, что не пытаемся быть родителем самим себе
-				if($POST->parent_id == $id) {
-					$POST->parent_id = $POST->now_parent_id;
+				if($post->parent_id == $id) {
+					$post->parent_id = $post->now_parent_id;
 					$logger->error("Не удалось изменить иерархию! Вы не можете изменить иерархию директории назначив её родителем самой себе!");
 				}
 				# ... и что новый родитель это не наш ребенок
@@ -294,8 +294,8 @@ class ACP_Help {
 					$childs = $this->load_tree($id);
 
 					foreach((array)$childs AS $v) {
-						if($POST->parent_id == $v['id']) {
-							$POST->parent_id = $POST->now_parent_id;
+						if($post->parent_id == $v['id']) {
+							$post->parent_id = $post->now_parent_id;
 							$logger->error("Не удалось изменить иерархию! Вы не можете изменить иерархию директории переместив её в свой дочерний элемент!");
 						}
 					}
@@ -303,26 +303,26 @@ class ACP_Help {
 			}
 
 			# Нельзя изменять алиас главной страницы
-			if($id == 1 && $POST->uname != "help") {
-				$POST->alias = "help";
+			if($id == 1 && $post->uname != "help") {
+				$post->alias = "help";
 				$logger->error("Нельзя изменять uname главной страницы!");
 			}
 
 
 
-			$db->query("UPDATE ".HELP_TABLE." SET title='".$POST->title."', uname='".$POST->uname."', sort='".$POST->sort."', parent_id='".$POST->parent_id."', content='".$POST->content."', date_modified='".time()."' WHERE id='".$id."'");
+			$db->query("UPDATE ".HELP_TABLE." SET title='".$post->title."', uname='".$post->uname."', sort='".$post->sort."', parent_id='".$post->parent_id."', content='".$post->content."', date_modified='".time()."' WHERE id='".$id."'");
 
 			# Если мы назначаем нового родителя
-			if($POST->parent_id != $POST->now_parent_id) {
+			if($post->parent_id != $post->now_parent_id) {
 				# пересчитываем "детей"
-				$this->count_childs($POST->parent_id);
-				$this->count_childs($POST->now_parent_id);
+				$this->count_childs($post->parent_id);
+				$this->count_childs($post->now_parent_id);
 			}
 
 			# уведомление
 			$logger->info("Раздел #".$id." успешно обновлен!");
 
-			go(CP."?act=help&u=".$POST->uname);
+			go(CP."?act=help&u=".$post->uname);
 		}
 		else {
 			goback();
@@ -522,15 +522,15 @@ class ACP_Help {
 
 
 	/**
-	 * Функция проверяет существует ли $POST->uname и не является ли он пустым
+	 * Функция проверяет существует ли $post->uname и не является ли он пустым
 	 *
 	 * @return bool
 	 */
 	private function isset_post_uname()  {
 
-		global $POST;
+		global $post;
 
-		if(isset($POST->uname)) {
+		if(isset($post->uname)) {
 			return true;
 		}
 		else {
@@ -540,32 +540,32 @@ class ACP_Help {
 
 
 	/**
-	 * Функция проверяет поступающие в массиве $POST данные при создании или обновлении раздела
+	 * Функция проверяет поступающие в массиве $post данные при создании или обновлении раздела
 	 *
 	 * @param string $operation - Тип операции (create|update)
 	 */
 	private function check_post_data($operation="create") {
 
-		global $POST, $logger;
+		global $post, $logger;
 
 		# operation type
 		if($operation == "create") {
-			$POST->old_uname = "";
+			$post->old_uname = "";
 		}
 
 		# checked
-		if(!isset($POST->title)) {
+		if(!isset($post->title)) {
 			$logger->error("Не указано название раздела.");
 		}
-		if(!isset($POST->uname) && round($POST->uname) != 0) {
+		if(!isset($post->uname) && round($post->uname) != 0) {
 			$logger->error("Не указан uname раздела.");
 		}
-		elseif(!$this->check_uname($POST->uname, $POST->old_uname)) {
+		elseif(!$this->check_uname($post->uname, $post->old_uname)) {
 			$logger->error("uname раздела не уникален.");
 		}
 
-		if(!isset($POST->content)) {
-			$POST->content = "";
+		if(!isset($post->content)) {
+			$post->content = "";
 		}
 	}
 }

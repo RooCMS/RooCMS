@@ -66,7 +66,7 @@ class ACP_Blocks_HTML {
 	 */
 	public function create() {
 
-		global $config, $db, $files, $img, $tpl, $smarty, $logger, $POST;
+		global $config, $db, $files, $img, $tpl, $smarty, $logger, $post;
 
 
 		# default thumb size
@@ -75,19 +75,19 @@ class ACP_Blocks_HTML {
 		$smarty->assign("default_thumb_size", $default_thumb_size);
 
 
-		if(isset($POST->create_block)) {
+		if(isset($post->create_block)) {
 
 			# check parametrs
 			$this->check_block_parametrs();
 
 			if(!isset($_SESSION['error'])) {
 				$db->query("INSERT INTO ".BLOCKS_TABLE."   (title, alias, content, thumb_img_width, thumb_img_height, date_create, date_modified, block_type)
-								    VALUES ('".$POST->title."', '".$POST->alias."', '".$POST->content."', '".$POST->thumb_img_width."', '".$POST->thumb_img_height."', '".time()."', '".time()."', 'html')");
+								    VALUES ('".$post->title."', '".$post->alias."', '".$post->content."', '".$post->thumb_img_width."', '".$post->thumb_img_height."', '".time()."', '".time()."', 'html')");
 				$id = $db->insert_id();
 
 
-				$thumbsize['thumb_img_width'] = ($POST->thumb_img_width != 0) ? $POST->thumb_img_width : $config->gd_thumb_image_width ;
-				$thumbsize['thumb_img_height'] = ($POST->thumb_img_height != 0) ? $POST->thumb_img_height : $config->gd_thumb_image_height ;
+				$thumbsize['thumb_img_width'] = ($post->thumb_img_width != 0) ? $post->thumb_img_width : $config->gd_thumb_image_width ;
+				$thumbsize['thumb_img_height'] = ($post->thumb_img_height != 0) ? $post->thumb_img_height : $config->gd_thumb_image_height ;
 
 
 				# attachment images
@@ -178,14 +178,14 @@ class ACP_Blocks_HTML {
 	 */
 	public function update($id) {
 
-		global $config, $db, $files, $img, $POST, $get, $logger;
+		global $config, $db, $files, $img, $post, $get, $logger;
 
-		if(isset($POST->update_block)) {
+		if(isset($post->update_block)) {
 
 			# check parametrs
 			$this->check_block_parametrs();
 
-			if(!isset($POST->id) || $POST->id != $get->_block) {
+			if(!isset($post->id) || $post->id != $get->_block) {
 				$logger->error("Системная ошибка...");
 			}
 
@@ -193,28 +193,28 @@ class ACP_Blocks_HTML {
 
 				$db->query("UPDATE ".BLOCKS_TABLE."
 					        SET
-						    title='".$POST->title."',
-						    alias='".$POST->alias."',
-						    content='".$POST->content."',
-						    thumb_img_width='".$POST->thumb_img_width."',
-						    thumb_img_height='".$POST->thumb_img_height."',
+						    title='".$post->title."',
+						    alias='".$post->alias."',
+						    content='".$post->content."',
+						    thumb_img_width='".$post->thumb_img_width."',
+						    thumb_img_height='".$post->thumb_img_height."',
 						    date_modified='".time()."'
 					        WHERE
 						    id='".$id."'");
 
 				#sortable images
-				if(isset($POST->sort)) {
+				if(isset($post->sort)) {
 					$sortimg = $img->load_images("blockid=".$id);
 					foreach($sortimg AS $v) {
-						if(isset($POST->sort[$v['id']]) && $POST->sort[$v['id']] != $v['sort']) {
-							$db->query("UPDATE ".IMAGES_TABLE." SET sort='".$POST->sort[$v['id']]."' WHERE id='".$v['id']."'");
+						if(isset($post->sort[$v['id']]) && $post->sort[$v['id']] != $v['sort']) {
+							$db->query("UPDATE ".IMAGES_TABLE." SET sort='".$post->sort[$v['id']]."' WHERE id='".$v['id']."'");
 						}
 					}
 				}
 
 
-				$thumbsize['thumb_img_width'] = ($POST->thumb_img_width != 0) ? $POST->thumb_img_width : $config->gd_thumb_image_width ;
-				$thumbsize['thumb_img_height'] = ($POST->thumb_img_height != 0) ? $POST->thumb_img_height : $config->gd_thumb_image_height ;
+				$thumbsize['thumb_img_width'] = ($post->thumb_img_width != 0) ? $post->thumb_img_width : $config->gd_thumb_image_width ;
+				$thumbsize['thumb_img_height'] = ($post->thumb_img_height != 0) ? $post->thumb_img_height : $config->gd_thumb_image_height ;
 
 				# attachment images
 				$images = $img->upload_image("images", "", array($thumbsize['thumb_img_width'], $thumbsize['thumb_img_height']));
@@ -266,44 +266,44 @@ class ACP_Blocks_HTML {
 	 */
 	private function check_block_parametrs() {
 
-		global $db, $parse, $POST, $logger;
+		global $db, $parse, $post, $logger;
 
 
-		if(!isset($POST->title)) {
+		if(!isset($post->title)) {
 			$logger->error("Не указано название блока!", false);
 		}
 
-		if(!isset($POST->alias)) {
+		if(!isset($post->alias)) {
 			$logger->error("Не указан алиас блока!", false);
 		}
 		else {
-			$POST->alias = $parse->text->transliterate($POST->alias);
-			$POST->alias = preg_replace(array('(\s\s+)','(\-\-+)','(__+)','([^a-zA-Z0-9\-_])'), array('','','',''), $POST->alias);
+			$post->alias = $parse->text->transliterate($post->alias);
+			$post->alias = preg_replace(array('(\s\s+)','(\-\-+)','(__+)','([^a-zA-Z0-9\-_])'), array('','','',''), $post->alias);
 
-			if(is_numeric($POST->alias)) {
-				$POST->alias .= randcode(3, "abcdefghijklmnopqrstuvwxyz");
+			if(is_numeric($post->alias)) {
+				$post->alias .= randcode(3, "abcdefghijklmnopqrstuvwxyz");
 			}
 
 
-			$check_alias = (isset($POST->oldalias)) ? "alias!='".$POST->oldalias."'" : "" ;
+			$check_alias = (isset($post->oldalias)) ? "alias!='".$post->oldalias."'" : "" ;
 
-			if($db->check_id($POST->alias, BLOCKS_TABLE, "alias", $check_alias)) {
+			if($db->check_id($post->alias, BLOCKS_TABLE, "alias", $check_alias)) {
 				$logger->error("Алиас блока не уникален!", false);
 			}
 		}
 
 		// Упраздняем временно...
-		// if(!isset($POST->content)) $parse->msg("Пустое тело блока!", false);
-		if(!isset($POST->content)) {
-			$POST->content = "";
+		// if(!isset($post->content)) $parse->msg("Пустое тело блока!", false);
+		if(!isset($post->content)) {
+			$post->content = "";
 		}
 
 		# check thumb size
-		if(!isset($POST->thumb_img_width)) {
-			$POST->thumb_img_width = 0;
+		if(!isset($post->thumb_img_width)) {
+			$post->thumb_img_width = 0;
 		}
-		if(!isset($POST->thumb_img_height)) {
-			$POST->thumb_img_height = 0;
+		if(!isset($post->thumb_img_height)) {
+			$post->thumb_img_height = 0;
 		}
 	}
 }

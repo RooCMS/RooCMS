@@ -89,7 +89,7 @@ class ACP_Feeds {
 	 */
 	private function init() {
 
-		global $roocms, $get, $POST, $db;
+		global $roocms, $get, $post, $db;
 
 		# set object for works content
 		if(isset($get->_page) && array_key_exists($this->engine->page_type, $this->engine->content_types) && $this->engine->content_types[$this->engine->page_type]['enable']) {
@@ -149,7 +149,7 @@ class ACP_Feeds {
 
 				# update item in feed
 				case 'update_item':
-					if(isset($POST->update_item) && $db->check_id($get->_item, PAGES_FEED_TABLE)) {
+					if(isset($post->update_item) && $db->check_id($get->_item, PAGES_FEED_TABLE)) {
 						$this->unit->update_item($get->_item);
 					}
 					else {

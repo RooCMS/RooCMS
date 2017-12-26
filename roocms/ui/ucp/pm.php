@@ -179,21 +179,21 @@ class UCP_PM {
 	 */
 	private function send() {
 
-		global $db, $users, $POST, $logger, $site, $smarty, $tpl;
+		global $db, $users, $post, $logger, $site, $smarty, $tpl;
 
-		if(isset($POST->send, $POST->message) && $POST->to_uid != 0 && $db->check_id($POST->to_uid, USERS_TABLE, "uid", "status='1'") && $POST->to_uid != $users->uid) {
+		if(isset($post->send, $post->message) && $post->to_uid != 0 && $db->check_id($post->to_uid, USERS_TABLE, "uid", "status='1'") && $post->to_uid != $users->uid) {
 
 			#title
-			if(!isset($POST->title)) {
-				$POST->title = "Без заголовка";
+			if(!isset($post->title)) {
+				$post->title = "Без заголовка";
 			}
 
 			# send
 			$db->query("INSERT INTO ".USERS_PM_TABLE." (title, to_uid, from_uid, message, date_create)
-							VALUES ('".$POST->title."', '".$POST->to_uid."', '".$users->uid."', '".$POST->message."', '".time()."')");
+							VALUES ('".$post->title."', '".$post->to_uid."', '".$users->uid."', '".$post->message."', '".time()."')");
 
 			# email notice
-			$q = $db->query("SELECT nickname, email FROM ".USERS_TABLE." WHERE uid='".$POST->to_uid."'");
+			$q = $db->query("SELECT nickname, email FROM ".USERS_TABLE." WHERE uid='".$post->to_uid."'");
 			$u = $db->fetch_assoc($q);
 
 			$smarty->assign("nickname", $u['nickname']);
@@ -211,13 +211,13 @@ class UCP_PM {
 			go(SCRIPT_NAME."?part=ucp&act=pm");
 		}
 		else {
-			if(!isset($POST->message)) {
+			if(!isset($post->message)) {
 				$logger->error("Вы попытались отправить пустое сообщение. К сожалению это невозможно.", false);
 			}
-			if($POST->to_uid == $users->uid) {
+			if($post->to_uid == $users->uid) {
 				$logger->error("Переписываетесь сами с собой? Попробуйте с кем нибудь ещё.", false);
 			}
-			if(!$db->check_id($POST->to_uid, USERS_TABLE, "uid", "status='1'")) {
+			if(!$db->check_id($post->to_uid, USERS_TABLE, "uid", "status='1'")) {
 				$logger->error("К сожалению пользователь, которому вы пытаетесь отправить сообщение больше не принимает корреспонденцию.", false);
 			}
 			goback();

@@ -404,49 +404,49 @@ class Users extends Security {
 	 */
 	public function correct_personal_data() {
 
-		global $POST, $parse;
+		global $post, $parse;
 
 		# user name/surname/last_name
-		if(!isset($POST->user_name)) {
-			$POST->user_name = "";
+		if(!isset($post->user_name)) {
+			$post->user_name = "";
 		}
-		if(!isset($POST->user_surname)) {
-			$POST->user_surname = "";
+		if(!isset($post->user_surname)) {
+			$post->user_surname = "";
 		}
-		if(!isset($POST->user_last_name)) {
-			$POST->user_last_name = "";
+		if(!isset($post->user_last_name)) {
+			$post->user_last_name = "";
 		}
 
 		# user birthdate
-		if(isset($POST->user_birthdate) && $POST->user_birthdate != "") {
-			$POST->user_birthdate = $parse->date->rusint_to_unix($POST->user_birthdate);
+		if(isset($post->user_birthdate) && $post->user_birthdate != "") {
+			$post->user_birthdate = $parse->date->rusint_to_unix($post->user_birthdate);
 		}
 		else {
-			$POST->user_birthdate = 0;
+			$post->user_birthdate = 0;
 		}
 
 		#check user sex
-		if(isset($POST->user_sex) && $POST->user_sex == "m") {
-			$POST->user_sex = "m";
+		if(isset($post->user_sex) && $post->user_sex == "m") {
+			$post->user_sex = "m";
 		}
-		elseif(isset($POST->user_sex) && $POST->user_sex == "f") {
-			$POST->user_sex = "f";
+		elseif(isset($post->user_sex) && $post->user_sex == "f") {
+			$post->user_sex = "f";
 		}
 		else {
-			$POST->user_sex = "n";
+			$post->user_sex = "n";
 		}
 
 		# mailing
-		if(!isset($POST->mailing) || round($POST->mailing) > 1 || round($POST->mailing) < 0) {
-			$POST->mailing = 0;
+		if(!isset($post->mailing) || round($post->mailing) > 1 || round($post->mailing) < 0) {
+			$post->mailing = 0;
 		}
 
 		# check slogan
-		if(!isset($POST->user_slogan)) {
-			$POST->user_slogan = "";
+		if(!isset($post->user_slogan)) {
+			$post->user_slogan = "";
 		}
 
-		$POST->user_slogan = $parse->text->clearhtml($POST->user_slogan);
+		$post->user_slogan = $parse->text->clearhtml($post->user_slogan);
 	}
 
 
@@ -455,16 +455,16 @@ class Users extends Security {
 	 */
 	public function check_create_nickname() {
 
-		global $POST;
+		global $post;
 
 		# Если никнейм не ввведен, делаем никнем из логина
-		if(!isset($POST->nickname) && isset($POST->login)) {
-			$POST->nickname = mb_ucfirst($POST->nickname);
+		if(!isset($post->nickname) && isset($post->login)) {
+			$post->nickname = mb_ucfirst($post->nickname);
 		}
 
 		# теперь проверяем на никальность
-		if(isset($POST->nickname)) {
-			$POST->nickname = $this->uniq_nickname($POST->nickname);
+		if(isset($post->nickname)) {
+			$post->nickname = $this->uniq_nickname($post->nickname);
 		}
 	}
 
@@ -474,22 +474,22 @@ class Users extends Security {
 	 */
 	public function check_create_login() {
 
-		global $db, $POST, $parse, $logger;
+		global $db, $post, $parse, $logger;
 
-		if(!isset($POST->login)) {
-			if(isset($POST->nickname)) {
-				$POST->login = mb_strtolower($parse->text->transliterate($POST->nickname));
+		if(!isset($post->login)) {
+			if(isset($post->nickname)) {
+				$post->login = mb_strtolower($parse->text->transliterate($post->nickname));
 			}
 			else {
 				$logger->error("У пользователя должен быть логин!", false);
 			}
 		}
 		else {
-			$POST->login = mb_strtolower($parse->text->transliterate($POST->login));
+			$post->login = mb_strtolower($parse->text->transliterate($post->login));
 		}
 
-		if(isset($POST->login) && $db->check_id($POST->login, USERS_TABLE, "login")) {
-			$logger->error("Логин ".$POST->login." недоступен.", false);
+		if(isset($post->login) && $db->check_id($post->login, USERS_TABLE, "login")) {
+			$logger->error("Логин ".$post->login." недоступен.", false);
 		}
 	}
 

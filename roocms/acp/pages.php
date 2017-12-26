@@ -73,7 +73,7 @@ class ACP_Pages {
 	*/
 	public function __construct() {
 
-		global $roocms, $get, $POST, $tpl;
+		global $roocms, $get, $post, $tpl;
 
 		require_once _CLASS."/class_structure.php";
 		$this->engine = new Structure();
@@ -102,7 +102,7 @@ class ACP_Pages {
 				break;
 
 			case 'update':
-				if(isset($POST->update_page)) {
+				if(isset($post->update_page)) {
 					$this->unit->update($this->engine->page_id);
 				}
 				else {

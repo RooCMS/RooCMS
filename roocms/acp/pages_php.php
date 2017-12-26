@@ -93,9 +93,9 @@ class ACP_Pages_PHP {
 	*/
 	public function update($sid) {
 
-		global $db, $logger, $POST;
+		global $db, $logger, $post;
 
-		$db->query("UPDATE ".PAGES_PHP_TABLE." SET content='".$POST->content."', date_modified='".time()."' WHERE sid='".$sid."'");
+		$db->query("UPDATE ".PAGES_PHP_TABLE." SET content='".$post->content."', date_modified='".time()."' WHERE sid='".$sid."'");
 
 		$logger->info("Страница #".$sid." успешно обновлена.");
 

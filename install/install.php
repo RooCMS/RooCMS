@@ -190,7 +190,7 @@ class Install extends Requirement {
 	 */
 	private function step_4() {
 
-		global $POST, $parse, $logger, $files, $site;
+		global $post, $parse, $logger, $files, $site;
 
 		if($this->check_submit() && $this->check_step(4)) {
 
@@ -201,7 +201,7 @@ class Install extends Requirement {
 			$this->check_data_post("site_domain", "Неверно указан адрес сайта");
 
 			# Проверяем указан ли почтовый ящик администратора сайта
-			if(!isset($POST->site_sysemail) || !$parse->valid_email($POST->site_sysemail)) {
+			if(!isset($post->site_sysemail) || !$parse->valid_email($post->site_sysemail)) {
 				$this->allowed = false;
 				$logger->error("Неверно указан адрес электронной почты администратора");
 			}
@@ -211,21 +211,21 @@ class Install extends Requirement {
 
 				$context = file_read($conffile);
 
-				$context = str_ireplace('$site[\'title\'] = "'.$site['title'].'";','$site[\'title\'] = "'.$POST->site_title.'";',$context);
-				$context = str_ireplace('$site[\'domain\'] = "'.$site['domain'].'";','$site[\'domain\'] = "'.$POST->site_domain.'";',$context);
-				$context = str_ireplace('$site[\'sysemail\'] = "'.$site['sysemail'].'";','$site[\'sysemail\'] = "'.$POST->site_sysemail.'";',$context);
+				$context = str_ireplace('$site[\'title\'] = "'.$site['title'].'";','$site[\'title\'] = "'.$post->site_title.'";',$context);
+				$context = str_ireplace('$site[\'domain\'] = "'.$site['domain'].'";','$site[\'domain\'] = "'.$post->site_domain.'";',$context);
+				$context = str_ireplace('$site[\'sysemail\'] = "'.$site['sysemail'].'";','$site[\'sysemail\'] = "'.$post->site_sysemail.'";',$context);
 
 				$files->write_file($conffile, $context);
 
 
 				# запоминаем название сайта для БД
-				$_SESSION['site_title'] = $parse->text->html($POST->site_title);
+				$_SESSION['site_title'] = $parse->text->html($post->site_title);
 
 				# уведомление
 				$logger->info("Данные успешно записаны:", false);
-				$logger->info("Название сайта - ".$parse->text->html($POST->site_title, false));
-				$logger->info("Адрес сайта - ".$POST->site_domain, false);
-				$logger->info("E-mail администратора - ".$POST->site_sysemail, false);
+				$logger->info("Название сайта - ".$parse->text->html($post->site_title, false));
+				$logger->info("Адрес сайта - ".$post->site_domain, false);
+				$logger->info("E-mail администратора - ".$post->site_sysemail, false);
 
 				# переход next step
 				go(SCRIPT_NAME."?step=5");
@@ -253,7 +253,7 @@ class Install extends Requirement {
 	 */
 	private function step_5() {
 
-		global $db, $db_info, $POST, $parse, $logger, $files;
+		global $db, $db_info, $post, $parse, $logger, $files;
 
 		if($this->check_submit() && $this->check_step(5)) {
 
@@ -270,30 +270,30 @@ class Install extends Requirement {
 			$this->check_data_post("db_info_pass", "Не указан пароль пользователя БД");
 
 			# Префикс таблич
-			if(!isset($POST->db_info_prefix)) {
-				$POST->db_info_prefix = "";
+			if(!isset($post->db_info_prefix)) {
+				$post->db_info_prefix = "";
 			}
 
 			if($this->allowed) {
 
 				# check mysql connect
-				$POST->db_info_pass = $parse->text->html($POST->db_info_pass);
-				if(!$db->check_connect($POST->db_info_host, $POST->db_info_user, $POST->db_info_pass, $POST->db_info_base)) {
+				$post->db_info_pass = $parse->text->html($post->db_info_pass);
+				if(!$db->check_connect($post->db_info_host, $post->db_info_user, $post->db_info_pass, $post->db_info_base)) {
 					$this->allowed = false;
 				}
 
 				if($this->allowed) {
 
-					$_SESSION['db_info_host'] = $POST->db_info_host;
-					$_SESSION['db_info_user'] = $POST->db_info_user;
-					$_SESSION['db_info_pass'] = $POST->db_info_pass;
-					$_SESSION['db_info_base'] = $POST->db_info_base;
+					$_SESSION['db_info_host'] = $post->db_info_host;
+					$_SESSION['db_info_user'] = $post->db_info_user;
+					$_SESSION['db_info_pass'] = $post->db_info_pass;
+					$_SESSION['db_info_base'] = $post->db_info_base;
 
 					$conffile = _ROOCMS."/config/config.php";
 
 					$context = file_read($conffile);
 
-					$context = str_ireplace('$db_info[\'prefix\'] = "'.$db_info['prefix'].'";','$db_info[\'prefix\'] = "'.$POST->db_info_prefix.'";',$context);
+					$context = str_ireplace('$db_info[\'prefix\'] = "'.$db_info['prefix'].'";','$db_info[\'prefix\'] = "'.$post->db_info_prefix.'";',$context);
 
 					$files->write_file($conffile, $context);
 
@@ -326,7 +326,7 @@ class Install extends Requirement {
 	 */
 	private function step_6() {
 
-		global $db, $db_info, $roocms, $POST, $parse, $logger, $files, $site;
+		global $db, $db_info, $roocms, $post, $parse, $logger, $files, $site;
 
 		$roocms->sess['db_info_pass'] = $parse->text->html($roocms->sess['db_info_pass']);
 
@@ -381,7 +381,7 @@ class Install extends Requirement {
 	 */
 	private function step_7() {
 
-		global $db, $parse, $logger, $POST;
+		global $db, $parse, $logger, $post;
 
 		if($db->check_id(1, USERS_TABLE, "uid")) {
 			go(SCRIPT_NAME."?step=8");
@@ -389,19 +389,19 @@ class Install extends Requirement {
 
 		if($this->check_submit() && $this->check_step(7)) {
 
-			if(!isset($POST->adm_login)) {
+			if(!isset($post->adm_login)) {
 				$this->allowed = false;
 				$logger->error("Неверно указан логин администратора");
 			}
 
-			if(!isset($POST->adm_passw)) {
+			if(!isset($post->adm_passw)) {
 				$this->allowed = false;
 				$logger->error("Неверно указан пароль администратора");
 			}
 
 			if($this->allowed) {
-				$_SESSION['adm_login'] = $parse->text->transliterate($POST->adm_login);
-				$_SESSION['adm_passw'] = $POST->adm_passw;
+				$_SESSION['adm_login'] = $parse->text->transliterate($post->adm_login);
+				$_SESSION['adm_passw'] = $post->adm_passw;
 
 				# переход
 				go(SCRIPT_NAME."?step=8");
@@ -477,7 +477,7 @@ class Install extends Requirement {
 
 
 	/**
-	 * Check data $POST->step
+	 * Check data $post->step
 	 *
 	 * @param int $n - step
 	 *
@@ -485,9 +485,9 @@ class Install extends Requirement {
 	 */
 	private function check_step($n) {
 
-		global $POST;
+		global $post;
 
-		if(isset($POST->step) && $POST->step == $n) {
+		if(isset($post->step) && $post->step == $n) {
 			return true;
 		}
 		else {
@@ -497,15 +497,15 @@ class Install extends Requirement {
 
 
 	/**
-	 * Check used $POST->submit
+	 * Check used $post->submit
 	 *
 	 * @return bool
 	 */
 	private function check_submit() {
 
-		global $POST;
+		global $post;
 
-		if($this->allowed && isset($POST->submit)) {
+		if($this->allowed && isset($post->submit)) {
 			return true;
 		}
 		else {
@@ -522,9 +522,9 @@ class Install extends Requirement {
 	 */
 	private function check_data_post($field, $ermsg) {
 
-		global $POST, $logger;
+		global $post, $logger;
 
-		if(!isset($POST->{$field})) {
+		if(!isset($post->{$field})) {
 			$this->allowed = false;
 			$logger->error($ermsg);
 		}

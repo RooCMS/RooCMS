@@ -233,9 +233,9 @@ class ACP_Users {
 	 */
 	private function create_new_user() {
 
-		global $db, $smarty, $users, $tpl, $POST, $logger, $security, $site;
+		global $db, $smarty, $users, $tpl, $post, $logger, $security, $site;
 
-		if(isset($POST->create_user) || isset($POST->create_user_ae)) {
+		if(isset($post->create_user) || isset($post->create_user_ae)) {
 
 			# nickname
 			$users->check_create_nickname();
@@ -244,25 +244,25 @@ class ACP_Users {
 			$users->check_create_login();
 
 			# email
-			$users->valid_user_email($POST->email);
+			$users->valid_user_email($post->email);
 
 
 			if(!isset($_SESSION['error'])) {
 
 				#password
-				if(!isset($POST->password)) {
-					$POST->password = $security->create_new_password();
+				if(!isset($post->password)) {
+					$post->password = $security->create_new_password();
 				}
 				$salt = $security->create_new_salt();
-				$password = $security->hashing_password($POST->password, $salt);
+				$password = $security->hashing_password($post->password, $salt);
 
 				# check_user data
 				$this->check_users_data();
 
 				$db->query("INSERT INTO ".USERS_TABLE." (login, nickname, email, mailing, title, password, salt, date_create, date_update, last_visit, status, gid,
 									 user_name, user_surname, user_last_name, user_birthdate, user_sex, user_slogan)
-								 VALUES ('".$POST->login."', '".$POST->nickname."', '".$POST->email."', '".$POST->mailing."', '".$POST->title."', '".$password."', '".$salt."', '".time()."', '".time()."', '".time()."', '1', '".$POST->gid."',
-								 	 '".$POST->user_name."', '".$POST->user_surname."', '".$POST->user_last_name."', '".$POST->user_birthdate."', '".$POST->user_sex."', '".$POST->user_slogan."')");
+								 VALUES ('".$post->login."', '".$post->nickname."', '".$post->email."', '".$post->mailing."', '".$post->title."', '".$password."', '".$salt."', '".time()."', '".time()."', '".time()."', '1', '".$post->gid."',
+								 	 '".$post->user_name."', '".$post->user_surname."', '".$post->user_last_name."', '".$post->user_birthdate."', '".$post->user_sex."', '".$post->user_slogan."')");
 				$uid = $db->insert_id();
 
 
@@ -270,27 +270,27 @@ class ACP_Users {
 				$users->upload_avatar($uid);
 
 				# Если мы переназначаем группу пользователя
-				if(isset($POST->gid)) {
+				if(isset($post->gid)) {
 					# пересчитываем пользователей
-					$this->count_users($POST->gid);
+					$this->count_users($post->gid);
 				}
 
 				# Уведомление пользователю на электропочту
-				$smarty->assign("login", $POST->login);
-				$smarty->assign("nickname", $POST->nickname);
-				$smarty->assign("email", $POST->email);
-				$smarty->assign("password", $POST->password);
+				$smarty->assign("login", $post->login);
+				$smarty->assign("nickname", $post->nickname);
+				$smarty->assign("email", $post->email);
+				$smarty->assign("password", $post->password);
 				$smarty->assign("site", $site);
 				$message = $tpl->load_template("email_new_registration", true);
 
-				sendmail($POST->email, "Вас зарегистрировали на сайте ".$site['title'], $message);
+				sendmail($post->email, "Вас зарегистрировали на сайте ".$site['title'], $message);
 
 
 				# уведомление
 				$logger->info("Пользователь #".$uid." был успешно добавлен. Уведомление об учетной записи отправлено на его электронную почту.");
 
 				# переход
-				if(isset($POST->create_user_ae)) {
+				if(isset($post->create_user_ae)) {
 					go(CP."?act=users");
 				}
 				else {
@@ -320,29 +320,29 @@ class ACP_Users {
 	 */
 	private function create_new_group() {
 
-		global $db, $smarty, $tpl, $POST, $logger;
+		global $db, $smarty, $tpl, $post, $logger;
 
-		if(isset($POST->create_group) || isset($POST->create_group_ae)) {
+		if(isset($post->create_group) || isset($post->create_group_ae)) {
 
 			# title
-			if(!isset($POST->title)) {
+			if(!isset($post->title)) {
 				$logger->error("У группы должно быть название!");
 			}
-			if(isset($POST->title) && $db->check_id($POST->title, USERS_GROUP_TABLE, "title")) {
+			if(isset($post->title) && $db->check_id($post->title, USERS_GROUP_TABLE, "title")) {
 				$logger->error("Группа с таким название уже существует");
 			}
 
 			if(!isset($_SESSION['error'])) {
 
 				$db->query("INSERT INTO ".USERS_GROUP_TABLE." (title, date_create, date_update)
-								       VALUES ('".$POST->title."', '".time()."', '".time()."')");
+								       VALUES ('".$post->title."', '".time()."', '".time()."')");
 				$gid = $db->insert_id();
 
 				# уведомление
 				$logger->info("Группа #".$gid." была успешно создана.");
 
 				# переход
-				if(isset($POST->create_group_ae)) {
+				if(isset($post->create_group_ae)) {
 					go(CP."?act=users&part=group_list");
 				}
 				else {
@@ -441,9 +441,9 @@ class ACP_Users {
 	 */
 	private function update_user($uid) {
 
-		global $db, $POST, $config, $site, $users, $img, $security, $logger, $parse, $smarty, $tpl;
+		global $db, $post, $config, $site, $users, $img, $security, $logger, $parse, $smarty, $tpl;
 
-		if(isset($POST->update_user) || isset($POST->update_user_ae)) {
+		if(isset($post->update_user) || isset($post->update_user_ae)) {
 
 			$q = $db->query("SELECT login, nickname, email, avatar FROM ".USERS_TABLE." WHERE uid='".$uid."'");
 			$udata = $db->fetch_assoc($q);
@@ -451,15 +451,15 @@ class ACP_Users {
 			$query = "";
 
 			# login
-			if(isset($POST->login)) {
+			if(isset($post->login)) {
 
-				$POST->login = mb_strtolower($parse->text->transliterate($POST->login));
+				$post->login = mb_strtolower($parse->text->transliterate($post->login));
 
-				if(!$users->check_field("login", $POST->login, $udata['login'])) {
+				if(!$users->check_field("login", $post->login, $udata['login'])) {
 					$logger->error("Логин не должен совпадать с логином другого пользователя!");
 				}
 				else {
-					$query .= "login='".$POST->login."', ";
+					$query .= "login='".$post->login."', ";
 				}
 			}
 			else {
@@ -467,8 +467,8 @@ class ACP_Users {
 			}
 
 			# nickname
-			if(isset($POST->nickname) && $users->check_field("nickname", $POST->nickname, $udata['nickname'])) {
-				$query .= "nickname='".$POST->nickname."', ";
+			if(isset($post->nickname) && $users->check_field("nickname", $post->nickname, $udata['nickname'])) {
+				$query .= "nickname='".$post->nickname."', ";
 			}
 			else {
 				$logger->error("Не удалось обновить Никнейм пользователя (возможные он был некоректно указан, или такой никнейм уже есть в БД)", false);
@@ -476,8 +476,8 @@ class ACP_Users {
 
 
 			# email
-			if(isset($POST->email) && $parse->valid_email($POST->email) && $users->check_field("email", $POST->email, $udata['email'])) {
-				$query .= "email='".$POST->email."', ";
+			if(isset($post->email) && $parse->valid_email($post->email) && $users->check_field("email", $post->email, $udata['email'])) {
+				$query .= "email='".$post->email."', ";
 			}
 			else {
 				$logger->error("Не удалось обновить Email (возможные он был некоректно указан, или такой email уже есть в БД)");
@@ -500,38 +500,38 @@ class ACP_Users {
 				$this->check_users_data();
 
 				if($uid == 1) {
-					$POST->status = 1;
-					$POST->title = "a";
+					$post->status = 1;
+					$post->title = "a";
 				}
 
 				# password
-				if(isset($POST->password)) {
+				if(isset($post->password)) {
 					$salt = $security->create_new_salt();
-					$password = $security->hashing_password($POST->password, $salt);
+					$password = $security->hashing_password($post->password, $salt);
 
 					$query .= "password='".$password."', salt='".$salt."', ";
 				}
 
 				$db->query("UPDATE ".USERS_TABLE." SET 
 									".$query."
-									gid = '".$POST->gid."',
-									user_name = '".$POST->user_name."',
-									user_surname = '".$POST->user_surname."',
-									user_last_name = '".$POST->user_last_name."',
-									user_birthdate = '".$POST->user_birthdate."',
-									user_sex='".$POST->user_sex."',
-									user_slogan='".$POST->user_slogan."',
-									title='".$POST->title."',
-									status='".$POST->status."',
-									mailing='".$POST->mailing."',
+									gid = '".$post->gid."',
+									user_name = '".$post->user_name."',
+									user_surname = '".$post->user_surname."',
+									user_last_name = '".$post->user_last_name."',
+									user_birthdate = '".$post->user_birthdate."',
+									user_sex='".$post->user_sex."',
+									user_slogan='".$post->user_slogan."',
+									title='".$post->title."',
+									status='".$post->status."',
+									mailing='".$post->mailing."',
 									date_update='".time()."' 
 								WHERE uid='".$uid."'");
 
 				# Если мы переназначаем группу пользователя
-				if(isset($POST->gid, $POST->now_gid) && $POST->gid != $POST->now_gid) {
+				if(isset($post->gid, $post->now_gid) && $post->gid != $post->now_gid) {
 					# пересчитываем пользователей
-					$this->count_users($POST->gid);
-					$this->count_users($POST->now_gid);
+					$this->count_users($post->gid);
+					$this->count_users($post->now_gid);
 				}
 
 
@@ -539,18 +539,18 @@ class ACP_Users {
 				$logger->info("Данные пользователя #".$uid." успешно обновлены.");
 
 				# Уведомление пользователю на электропочту
-				$smarty->assign("login", $POST->login);
-				$smarty->assign("nickname", $POST->nickname);
-				$smarty->assign("email", $POST->email);
-				$smarty->assign("password", $POST->password);
+				$smarty->assign("login", $post->login);
+				$smarty->assign("nickname", $post->nickname);
+				$smarty->assign("email", $post->email);
+				$smarty->assign("password", $post->password);
 				$smarty->assign("site", $site);
 				$message = $tpl->load_template("email_update_userdata", true);
 
-				sendmail($POST->email, "Ваши данные на \"".$site['title']."\" были обновлены администрацией", $message);
+				sendmail($post->email, "Ваши данные на \"".$site['title']."\" были обновлены администрацией", $message);
 
 
 				# переход
-				if(isset($POST->update_user_ae)) {
+				if(isset($post->update_user_ae)) {
 					go(CP."?act=users");
 				}
 				else {
@@ -570,9 +570,9 @@ class ACP_Users {
 	 */
 	private function update_group($gid) {
 
-		global $db, $POST, $users, $logger;
+		global $db, $post, $users, $logger;
 
-		if(isset($POST->update_group) || isset($POST->update_group_ae)) {
+		if(isset($post->update_group) || isset($post->update_group_ae)) {
 
 			$q = $db->query("SELECT title FROM ".USERS_GROUP_TABLE." WHERE gid='".$gid."'");
 			$gdata = $db->fetch_assoc($q);
@@ -580,12 +580,12 @@ class ACP_Users {
 			$query = "";
 
 			# login
-			if(isset($POST->title)) {
-				if(!$users->check_field("title", $POST->title, $gdata['title'], USERS_GROUP_TABLE)) {
+			if(isset($post->title)) {
+				if(!$users->check_field("title", $post->title, $gdata['title'], USERS_GROUP_TABLE)) {
 					$logger->error("Название группы не может совпадать с названием другой группы!");
 				}
 				else {
-					$query .= "title='".$POST->title."', ";
+					$query .= "title='".$post->title."', ";
 				}
 			}
 			else {
@@ -603,7 +603,7 @@ class ACP_Users {
 				$logger->info("Данные группы #".$gid." успешно обновлены.");
 
 				# переход
-				if(isset($POST->update_group_ae)) {
+				if(isset($post->update_group_ae)) {
 					go(CP."?act=users&part=group_list");
 				}
 				else {
@@ -731,16 +731,16 @@ class ACP_Users {
 	 */
 	private function check_users_data() {
 
-		global $db, $POST, $users;
+		global $db, $post, $users;
 
 		# group
-		$POST->gid = (isset($POST->gid) && $db->check_id($POST->gid, USERS_GROUP_TABLE, "gid")) ? $POST->gid : 0 ;
+		$post->gid = (isset($post->gid) && $db->check_id($post->gid, USERS_GROUP_TABLE, "gid")) ? $post->gid : 0 ;
 
 		# status
-		$POST->status = ((isset($POST->status) && $POST->status == 1)) ? 1 : 0 ;
+		$post->status = ((isset($post->status) && $post->status == 1)) ? 1 : 0 ;
 
 		# title
-		$POST->title = ((isset($POST->title) && $POST->title == "a")) ? "a" : "u" ;
+		$post->title = ((isset($post->title) && $post->title == "a")) ? "a" : "u" ;
 
 		# correct personal data
 		$users->correct_personal_data();

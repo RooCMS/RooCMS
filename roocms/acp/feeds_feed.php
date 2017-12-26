@@ -146,10 +146,10 @@ class ACP_Feeds_Feed {
 	 */
 	public function create_item() {
 
-		global $db, $users, $logger, $tags, $files, $img, $POST, $tpl, $smarty;
+		global $db, $users, $logger, $tags, $files, $img, $post, $tpl, $smarty;
 
 		# insert db
-		if(isset($POST->create_item)) {
+		if(isset($post->create_item)) {
 
 			# Проверяем вводимые поля на ошибки
 			$this->check_post_data_fields();
@@ -166,16 +166,16 @@ class ACP_Feeds_Feed {
 									      brief_item, full_item, author_id,
 									      date_create, date_update, date_publications, date_end_publications,
 									      sort, sid)
-								      VALUES ('".$POST->title."', '".$POST->meta_description."', '".$POST->meta_keywords."',
-									      '".$POST->brief_item."', '".$POST->full_item."', '".$POST->author_id."',
-									      '".time()."', '".time()."', '".$POST->date_publications."', '".$POST->date_end_publications."',
-									      '".$POST->itemsort."', '".$this->feed['id']."')");
+								      VALUES ('".$post->title."', '".$post->meta_description."', '".$post->meta_keywords."',
+									      '".$post->brief_item."', '".$post->full_item."', '".$post->author_id."',
+									      '".time()."', '".time()."', '".$post->date_publications."', '".$post->date_end_publications."',
+									      '".$post->itemsort."', '".$this->feed['id']."')");
 
 				# get feed item id
 				$fiid = $db->insert_id();
 
 				# save tags
-				$tags->save_tags($POST->tags, "feeditemid=".$fiid);
+				$tags->save_tags($post->tags, "feeditemid=".$fiid);
 
 
 				# attachment images
@@ -200,11 +200,11 @@ class ACP_Feeds_Feed {
 
 
 				# notice
-				$logger->info("Элемент #".$fiid." <".$POST->title."> успешно создан.");
+				$logger->info("Элемент #".$fiid." <".$post->title."> успешно создан.");
 
 				// TODO: Переделать!
 				# mailling
-				$this->mailing($fiid, $POST->title,$POST->brief_item, $POST->force);
+				$this->mailing($fiid, $post->title,$post->brief_item, $post->force);
 			}
 
 			# переход
@@ -316,7 +316,7 @@ class ACP_Feeds_Feed {
 	 */
 	public function update_item($id) {
 
-		global $db, $logger, $tags, $files, $img, $POST, $get;
+		global $db, $logger, $tags, $files, $img, $post, $get;
 
 		# Проверяем вводимые поля на ошибки
 		$this->check_post_data_fields();
@@ -332,32 +332,32 @@ class ACP_Feeds_Feed {
 			# update
 		        $db->query("UPDATE ".PAGES_FEED_TABLE."
 		        		SET
-		        			status = '".$POST->status."',
-		        			sort = '".$POST->itemsort."',
-						title = '".$POST->title."',
-						meta_description = '".$POST->meta_description."',
-						meta_keywords = '".$POST->meta_keywords."',
-						brief_item = '".$POST->brief_item."',
-						full_item = '".$POST->full_item."',
-						date_publications = '".$POST->date_publications."',
-						date_end_publications = '".$POST->date_end_publications."',
+		        			status = '".$post->status."',
+		        			sort = '".$post->itemsort."',
+						title = '".$post->title."',
+						meta_description = '".$post->meta_description."',
+						meta_keywords = '".$post->meta_keywords."',
+						brief_item = '".$post->brief_item."',
+						full_item = '".$post->full_item."',
+						date_publications = '".$post->date_publications."',
+						date_end_publications = '".$post->date_end_publications."',
 						date_update = '".time()."',
-						author_id = '".$POST->author_id."'
+						author_id = '".$post->author_id."'
 					WHERE
 						id = '".$id."'");
 
 			# save tags
-			$tags->save_tags($POST->tags, "feeditemid=".$id);
+			$tags->save_tags($post->tags, "feeditemid=".$id);
 
 			# notice
-			$logger->info("Элемент ".$POST->title." (#".$id.") успешно отредактирован.");
+			$logger->info("Элемент ".$post->title." (#".$id.") успешно отредактирован.");
 
 			# sortable images
-			if(isset($POST->sort)) {
+			if(isset($post->sort)) {
 				$sortimg = $img->load_images("feeditemid=".$id);
 				foreach($sortimg AS $v) {
-					if(isset($POST->sort[$v['id']]) && $POST->sort[$v['id']] != $v['sort']) {
-						$db->query("UPDATE ".IMAGES_TABLE." SET sort='".$POST->sort[$v['id']]."' WHERE id='".$v['id']."'");
+					if(isset($post->sort[$v['id']]) && $post->sort[$v['id']] != $v['sort']) {
+						$db->query("UPDATE ".IMAGES_TABLE." SET sort='".$post->sort[$v['id']]."' WHERE id='".$v['id']."'");
 					}
 				}
 			}
@@ -396,28 +396,28 @@ class ACP_Feeds_Feed {
 	 */
 	public function migrate_item($id) {
 
-		global $db, $logger, $tpl, $smarty, $POST;
+		global $db, $logger, $tpl, $smarty, $post;
 
 		# Migrate
-		if(isset($POST->migrate_item) && isset($POST->from) && isset($POST->to) && $db->check_id($POST->from, STRUCTURE_TABLE, "id", "page_type='feed'") && $db->check_id($POST->to, STRUCTURE_TABLE, "id", "page_type='feed'")) {
+		if(isset($post->migrate_item) && isset($post->from) && isset($post->to) && $db->check_id($post->from, STRUCTURE_TABLE, "id", "page_type='feed'") && $db->check_id($post->to, STRUCTURE_TABLE, "id", "page_type='feed'")) {
 
 			$db->query("UPDATE ".PAGES_FEED_TABLE."
 		        		SET
-		        			sid = '".$POST->to."',
+		        			sid = '".$post->to."',
 						date_update = '".time()."'
 					WHERE
 						id = '".$id."'");
 
 			# recount items
-			$this->count_items($POST->from);
-			$this->count_items($POST->to);
+			$this->count_items($post->from);
+			$this->count_items($post->to);
 
 
 			# notice
 			$logger->info("Элемент #".$id." успешно перемещен.");
 
 			#go
-			go(CP."?act=feeds&part=control&page=".$POST->to);
+			go(CP."?act=feeds&part=control&page=".$post->to);
 		}
 
 
@@ -567,26 +567,26 @@ class ACP_Feeds_Feed {
 	 */
 	public function update_settings() {
 
-		global $db, $img, $POST, $logger;
+		global $db, $img, $post, $logger;
 
-		if(isset($POST->update_settings)) {
+		if(isset($post->update_settings)) {
 			# update buffer
 			$update = "";
 
 			# RSS flag
-			$update .= (isset($POST->rss) && $POST->rss == "1") ? " rss='1', " : " rss='0', " ;
-			$update .= (isset($POST->items_per_page) && round($POST->items_per_page) >= 0) ? " items_per_page='".round($POST->items_per_page)."', " : "" ;
+			$update .= (isset($post->rss) && $post->rss == "1") ? " rss='1', " : " rss='0', " ;
+			$update .= (isset($post->items_per_page) && round($post->items_per_page) >= 0) ? " items_per_page='".round($post->items_per_page)."', " : "" ;
 
 			# thumbnail check
 			$img->check_post_thumb_parametrs();
 
-			$update .= (isset($POST->items_sorting) && ($POST->items_sorting == "title_asc" || $POST->items_sorting == "title_desc" || $POST->items_sorting == "manual_sorting"))
-				? " items_sorting = '".$POST->items_sorting."', " : " items_sorting = 'datepublication', " ;
+			$update .= (isset($post->items_sorting) && ($post->items_sorting == "title_asc" || $post->items_sorting == "title_desc" || $post->items_sorting == "manual_sorting"))
+				? " items_sorting = '".$post->items_sorting."', " : " items_sorting = 'datepublication', " ;
 
 			# show_child_feeds
 			$show_child_feeds = "none";
-			if(isset($POST->show_child_feeds)) {
-				switch($POST->show_child_feeds) {
+			if(isset($post->show_child_feeds)) {
+				switch($post->show_child_feeds) {
 					case 'default':
 						$show_child_feeds = "default";
 						break;
@@ -607,8 +607,8 @@ class ACP_Feeds_Feed {
 					SET
 						".$update."
 						show_child_feeds='".$show_child_feeds."',
-						thumb_img_width='".$POST->thumb_img_width."',
-						thumb_img_height='".$POST->thumb_img_height."',
+						thumb_img_width='".$post->thumb_img_width."',
+						thumb_img_height='".$post->thumb_img_height."',
 						date_modified='".time()."'
 					WHERE
 						id='".$this->feed['id']."'");
@@ -643,26 +643,26 @@ class ACP_Feeds_Feed {
 	 */
 	private function check_post_data_fields() {
 
-		global $POST, $logger;
+		global $post, $logger;
 
 		# title
-		if(!isset($POST->title)) {
+		if(!isset($post->title)) {
 			$logger->error("Не заполнен заголовок элемента", false);
 		}
 
 		# brief item
-		if(!isset($POST->brief_item)) {
-			$POST->brief_item = "";
+		if(!isset($post->brief_item)) {
+			$post->brief_item = "";
 		}
 
 		# full desc item
-		if(!isset($POST->full_item)) {
+		if(!isset($post->full_item)) {
 			$logger->error("Не заполнен подробный текст элемента", false);
 		}
 
 		# status
-		if(!isset($POST->status) || $POST->status >= 2) {
-			$POST->status = 1;
+		if(!isset($post->status) || $post->status >= 2) {
+			$post->status = 1;
 		}
 	}
 
@@ -672,28 +672,28 @@ class ACP_Feeds_Feed {
 	 */
 	private function control_post_data_date() {
 
-		global $POST, $parse;
+		global $post, $parse;
 
 		# дата публикации
-		if(!isset($POST->date_publications)) {
-			$POST->date_publications = date("d.m.Y",time());
+		if(!isset($post->date_publications)) {
+			$post->date_publications = date("d.m.Y",time());
 		}
 
 		# дата завершения публикации
-		if(!isset($POST->date_end_publications)) {
-			$POST->date_end_publications = 0;
+		if(!isset($post->date_end_publications)) {
+			$post->date_end_publications = 0;
 		}
 
 		# date publications
-		$POST->date_publications = $parse->date->rusint_to_unix($POST->date_publications);
+		$post->date_publications = $parse->date->rusint_to_unix($post->date_publications);
 
 		# date end publications
-		if($POST->date_end_publications != 0) {
-			$POST->date_end_publications = $parse->date->rusint_to_unix($POST->date_end_publications);
+		if($post->date_end_publications != 0) {
+			$post->date_end_publications = $parse->date->rusint_to_unix($post->date_end_publications);
 		}
 
-		if($POST->date_end_publications <= $POST->date_publications) {
-			$POST->date_end_publications = 0;
+		if($post->date_end_publications <= $post->date_publications) {
+			$post->date_end_publications = 0;
 		}
 	}
 
@@ -703,16 +703,16 @@ class ACP_Feeds_Feed {
 	 */
 	private function control_post_data_meta() {
 
-		global $POST;
+		global $post;
 
 		# meta description
-		if(!isset($POST->meta_description)){
-			$POST->meta_description	= "";
+		if(!isset($post->meta_description)){
+			$post->meta_description	= "";
 		}
 
 		# meta keywords
-		if(!isset($POST->meta_keywords)) {
-			$POST->meta_keywords = "";
+		if(!isset($post->meta_keywords)) {
+			$post->meta_keywords = "";
 		}
 	}
 
@@ -723,27 +723,27 @@ class ACP_Feeds_Feed {
 	 */
 	private function correct_post_fields() {
 
-		global $users, $POST;
+		global $users, $post;
 
 		# tags
-		if(!isset($POST->tags)) {
-			$POST->tags = NULL;
+		if(!isset($post->tags)) {
+			$post->tags = NULL;
 		}
 
 		# sort
-		if(!isset($POST->itemsort) || round($POST->itemsort) < 0) {
-			$POST->itemsort = 0;
+		if(!isset($post->itemsort) || round($post->itemsort) < 0) {
+			$post->itemsort = 0;
 		}
 		else {
-			$POST->itemsort = round($POST->itemsort);
+			$post->itemsort = round($post->itemsort);
 		}
 
 		# userlist
 		$this->userlist = $users->get_userlist();
 
 		# author
-		if(!isset($POST->author_id) || !array_key_exists($POST->author_id, $this->userlist)) {
-			$POST->author_id = 0;
+		if(!isset($post->author_id) || !array_key_exists($post->author_id, $this->userlist)) {
+			$post->author_id = 0;
 		}
 	}
 

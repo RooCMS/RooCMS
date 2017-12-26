@@ -103,11 +103,11 @@ class ACP_Mailing {
 	 */
 	private function send() {
 
-		global $POST, $parse, $users, $logger;
+		global $post, $parse, $users, $logger;
 
-		if(isset($POST->title) && isset($POST->message)) {
+		if(isset($post->title) && isset($post->message)) {
 
-			if(isset($POST->force) && $POST->force == 1) {
+			if(isset($post->force) && $post->force == 1) {
 				# all
 				$userlist = $users->get_userlist(1,0,-1, NULL, true);
 			}
@@ -117,13 +117,13 @@ class ACP_Mailing {
 			}
 
 			# html
-			$POST->message = $parse->text->html($POST->message);
+			$post->message = $parse->text->html($post->message);
 
 			$log = "";
 			foreach($userlist AS $val) {
 
 				# send
-				sendmail($val['email'], $POST->title, $POST->message);
+				sendmail($val['email'], $post->title, $post->message);
 
 				# log
 				$log .= " ".$val['email'];

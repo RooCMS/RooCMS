@@ -65,7 +65,7 @@ class UI_RePass {
 
 	public function __construct() {
 
-		global $structure, $roocms, $users, $POST;
+		global $structure, $roocms, $users, $post;
 
 		# title
 		$structure->page_title = "Восстановление пароля";
@@ -81,7 +81,7 @@ class UI_RePass {
 		# action
 		switch($roocms->act) {
 			case 'reminder':
-				if(isset($POST->reminder)) {
+				if(isset($post->reminder)) {
 					$this->reminder();
 				}
 				break;
@@ -135,26 +135,26 @@ class UI_RePass {
 	 */
 	private function reminder() {
 
-		global $db, $roocms, $site, $POST, $users, $parse, $logger, $smarty, $tpl;
+		global $db, $roocms, $site, $post, $users, $parse, $logger, $smarty, $tpl;
 
 		# log
-		$logger->log("Запрос на восстановление пароля для почтового ящика: ".$POST->email." с IP:".$roocms->userip);
+		$logger->log("Запрос на восстановление пароля для почтового ящика: ".$post->email." с IP:".$roocms->userip);
 
 		# check
-		if(isset($POST->email) && $parse->valid_email($POST->email) && $db->check_id($POST->email, USERS_TABLE, "email")) {
+		if(isset($post->email) && $parse->valid_email($post->email) && $db->check_id($post->email, USERS_TABLE, "email")) {
 
 			$confirm = array();
 			$confirm['code'] = randcode(10);
 
 			# set secret key
-			$db->query("UPDATE ".USERS_TABLE." SET secret_key='".$confirm['code']."' WHERE email='".$POST->email."'");
+			$db->query("UPDATE ".USERS_TABLE." SET secret_key='".$confirm['code']."' WHERE email='".$post->email."'");
 
 			# userdata
-			$q = $db->query("SELECT nickname FROM ".USERS_TABLE." WHERE email='".$POST->email."'");
+			$q = $db->query("SELECT nickname FROM ".USERS_TABLE." WHERE email='".$post->email."'");
 			$userdata = $db->fetch_assoc($q);
 
 			# confirm link
-			$confirm['link'] = $site['domain'].SCRIPT_NAME."?part=repass&act=confirm&email=".$POST->email."&code=".$confirm['code'];
+			$confirm['link'] = $site['domain'].SCRIPT_NAME."?part=repass&act=confirm&email=".$post->email."&code=".$confirm['code'];
 
 
 			# Уведомление пользователю на электропочту
@@ -163,14 +163,14 @@ class UI_RePass {
 			$smarty->assign("site", $site);
 			$message = $tpl->load_template("email_confirm_repass", true);
 
-			sendmail($POST->email, "Запрос на восстановление пароля для сайта: ".$site['title'], $message);
+			sendmail($post->email, "Запрос на восстановление пароля для сайта: ".$site['title'], $message);
 
 
 			# уведомление
 			$logger->info("Инструкции для восстановления пароля, отправлены Вам на электронную почту", false);
 
 			# переход
-			go(SCRIPT_NAME."?part=repass&act=confirm&email=".$POST->email);
+			go(SCRIPT_NAME."?part=repass&act=confirm&email=".$post->email);
 		}
 		else {
 			# bad result
@@ -186,9 +186,9 @@ class UI_RePass {
 	 */
 	private function verification() {
 
-		global $db, $parse, $logger, $POST, $site, $security, $smarty, $tpl;
+		global $db, $parse, $logger, $post, $site, $security, $smarty, $tpl;
 
-		if(isset($POST->email, $POST->code) && $parse->valid_email($POST->email) && $db->check_id($POST->email, USERS_TABLE, "email", "secret_key='".$POST->code."'")) {
+		if(isset($post->email, $post->code) && $parse->valid_email($post->email) && $db->check_id($post->email, USERS_TABLE, "email", "secret_key='".$post->code."'")) {
 
 			# new password
 			$salt = $security->create_new_salt();
@@ -196,11 +196,11 @@ class UI_RePass {
 			$password = $security->hashing_password($pass, $salt);
 
 			# userdata
-			$q = $db->query("SELECT login, nickname FROM ".USERS_TABLE." WHERE email='".$POST->email."'");
+			$q = $db->query("SELECT login, nickname FROM ".USERS_TABLE." WHERE email='".$post->email."'");
 			$userdata = $db->fetch_assoc($q);
 
 			# update
-			$db->query("UPDATE ".USERS_TABLE." SET salt='".$salt."', password='".$password."', secret_key='', last_visit='".time()."' WHERE email='".$POST->email."'");
+			$db->query("UPDATE ".USERS_TABLE." SET salt='".$salt."', password='".$password."', secret_key='', last_visit='".time()."' WHERE email='".$post->email."'");
 
 
 			# Уведомление пользователю на электропочту
@@ -209,7 +209,7 @@ class UI_RePass {
 			$smarty->assign("site", $site);
 			$message = $tpl->load_template("email_send_repass", true);
 
-			sendmail($POST->email, "Ваш новый пароль для сайта: ".$site['title'], $message);
+			sendmail($post->email, "Ваш новый пароль для сайта: ".$site['title'], $message);
 
 
 			# log

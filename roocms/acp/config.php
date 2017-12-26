@@ -73,14 +73,14 @@ class ACP_Config {
 	*/
 	public function __construct() {
 
-		global $config, $tpl, $POST;
+		global $config, $tpl, $post;
 
 
 		# include config class
 		$this->config = $config;
 
 		# Если есть запрос на обновление тогда обновляем
-		if(isset($POST->update_config))	{
+		if(isset($post->update_config))	{
 			$this->update_config();
 		}
 		else {
@@ -230,27 +230,27 @@ class ACP_Config {
 	 */
 	private function update_config() {
 
-		global $db, $parse, $logger, $POST, $img;
+		global $db, $parse, $logger, $post, $img;
 
 		# запрашиваем из БД типы опций и ограничений
 		$cfg_vars = $this->get_cfg_vars();
 
 		# Если изменено имя скрипта Панели Администратора.
 		# Пробуем создать новый файл.
-		if(isset($POST->cp_script) && CP != $POST->cp_script) {
-			if($this->change_cp_script($POST->cp_script)) {
-				$gonewcp = $POST->cp_script;
+		if(isset($post->cp_script) && CP != $post->cp_script) {
+			if($this->change_cp_script($post->cp_script)) {
+				$gonewcp = $post->cp_script;
 			}
 			else {
-				$POST->cp_script = CP;
+				$post->cp_script = CP;
 			}
 		}
 
 		# Удаляем тех батоны "Сохранить настроки" итд
-		unset($POST->update_config);
+		unset($post->update_config);
 
 		# Обновляем опции
-		foreach($POST AS $key=>$value) {
+		foreach($post AS $key=>$value) {
 
 			$check = false;
 
@@ -287,7 +287,7 @@ class ACP_Config {
 
 				# date
 				case 'date':
-					$value = $parse->date->rusint_to_unix($POST->$key);
+					$value = $parse->date->rusint_to_unix($post->$key);
 					$check = true;
 					break;
 

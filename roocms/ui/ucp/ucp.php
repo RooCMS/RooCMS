@@ -135,16 +135,16 @@ class UCP_CP {
 	 */
 	private function update_info() {
 
-		global $db, $config, $POST, $img, $parse, $logger, $users, $site, $tpl, $smarty;
+		global $db, $config, $post, $img, $parse, $logger, $users, $site, $tpl, $smarty;
 
 		$query = "";
 
 		# login
-		if(isset($POST->login)) {
+		if(isset($post->login)) {
 
-			$POST->login = mb_strtolower($parse->text->transliterate($POST->login));
+			$post->login = mb_strtolower($parse->text->transliterate($post->login));
 
-			if(!$users->check_field("login", $POST->login, $users->userdata['login'])) {
+			if(!$users->check_field("login", $post->login, $users->userdata['login'])) {
 				$logger->error("Ваш логин не был изменен. Возможно использование такого логина невозможно, попробуйте выбрать другой логин");
 			}
 		}
@@ -153,8 +153,8 @@ class UCP_CP {
 		}
 
 		# nickname
-		if(isset($POST->nickname)) {
-			if(!$users->check_field("nickname", $POST->nickname, $users->userdata['nickname'])) {
+		if(isset($post->nickname)) {
+			if(!$users->check_field("nickname", $post->nickname, $users->userdata['nickname'])) {
 				$logger->error("Такой псевдоним уже имеется у одного из пользователей. Пожалуйста, выберите другой псевдоним.");
 			}
 		}
@@ -163,8 +163,8 @@ class UCP_CP {
 		}
 
 		# email
-		if(isset($POST->email) && $parse->valid_email($POST->email)) {
-			if(!$users->check_field("email", $POST->email, $users->userdata['email'])) {
+		if(isset($post->email) && $parse->valid_email($post->email)) {
+			if(!$users->check_field("email", $post->email, $users->userdata['email'])) {
 				$logger->error("Указанный email уже существует в Базе Данных!");
 			}
 		}
@@ -176,7 +176,7 @@ class UCP_CP {
 		$users->correct_personal_data();
 
 		# avatar
-		if(isset($POST->delete_avatar)) {
+		if(isset($post->delete_avatar)) {
 			$users->delete_avatar($users->uid);
 			$query .= "avatar='', ";
 		}
@@ -192,25 +192,25 @@ class UCP_CP {
 		# update
 		if(!isset($_SESSION['error'])) {
 			# password
-			if(isset($POST->password)) {
+			if(isset($post->password)) {
 				$salt = $users->create_new_salt();
-				$password = $users->hashing_password($POST->password, $salt);
+				$password = $users->hashing_password($post->password, $salt);
 
 				$query .= "password='".$password."', salt='".$salt."', ";
 			}
 
 			$db->query("UPDATE ".USERS_TABLE." SET 
-								login = '".$POST->login."',
-								nickname = '".$POST->nickname."',
-								email = '".$POST->email."',
-								mailing = '".$POST->mailing."',
+								login = '".$post->login."',
+								nickname = '".$post->nickname."',
+								email = '".$post->email."',
+								mailing = '".$post->mailing."',
 								".$query." 
-								user_name = '".$POST->user_name."',
-								user_surname = '".$POST->user_surname."',
-								user_last_name = '".$POST->user_last_name."',
-								user_birthdate = '".$POST->user_birthdate."',
-								user_sex='".$POST->user_sex."',
-								user_slogan='".$POST->user_slogan."',
+								user_name = '".$post->user_name."',
+								user_surname = '".$post->user_surname."',
+								user_last_name = '".$post->user_last_name."',
+								user_birthdate = '".$post->user_birthdate."',
+								user_sex='".$post->user_sex."',
+								user_slogan='".$post->user_slogan."',
 								date_update='".time()."' 
 							WHERE uid='".$users->userdata['uid']."'");
 
@@ -218,14 +218,14 @@ class UCP_CP {
 			$logger->info("Ваши данные успешно обновлены.", false);
 
 			# Уведомление пользователю на электропочту
-			$smarty->assign("login", $POST->login);
-			$smarty->assign("nickname", $POST->nickname);
-			$smarty->assign("email", $POST->email);
-			$smarty->assign("password", $POST->password);
+			$smarty->assign("login", $post->login);
+			$smarty->assign("nickname", $post->nickname);
+			$smarty->assign("email", $post->email);
+			$smarty->assign("password", $post->password);
 			$smarty->assign("site", $site);
 			$message = $tpl->load_template("email_update_userinfo", true);
 
-			sendmail($POST->email, "Ваши данные на \"".$site['title']."\" были обновлены", $message);
+			sendmail($post->email, "Ваши данные на \"".$site['title']."\" были обновлены", $message);
 
 			# go out
 			go(SCRIPT_NAME."?part=ucp&act=ucp");

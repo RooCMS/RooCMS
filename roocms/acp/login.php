@@ -64,21 +64,21 @@ class ACP_Login {
 	 */
 	public function __construct() {
 
-		global $db, $POST, $security, $smarty, $tpl, $site, $logger;
+		global $db, $post, $security, $smarty, $tpl, $site, $logger;
 
 
 		$smarty->assign("site", $site);
 
 
 		# check
-		if(isset($POST->login, $POST->password)) {
+		if(isset($post->login, $post->password)) {
 
-			if($db->check_id($POST->login, USERS_TABLE, "login", "status='1' AND title='a'")) {
+			if($db->check_id($post->login, USERS_TABLE, "login", "status='1' AND title='a'")) {
 
-				$q = $db->query("SELECT uid, login, nickname, title, password, salt FROM ".USERS_TABLE." WHERE login='".$POST->login."' AND status='1' AND title='a'");
+				$q = $db->query("SELECT uid, login, nickname, title, password, salt FROM ".USERS_TABLE." WHERE login='".$post->login."' AND status='1' AND title='a'");
 				$data = $db->fetch_assoc($q);
 
-				$dbpass = $security->hashing_password($POST->password, $data['salt']);
+				$dbpass = $security->hashing_password($post->password, $data['salt']);
 
 				if($dbpass == $data['password']) {
 
@@ -89,19 +89,19 @@ class ACP_Login {
 					$_SESSION['token'] 	= $security->hashing_token($data['login'], $dbpass, $data['salt']);
 
 					# log
-					$logger->log("Успешная авторизация под логином: ".$POST->login);
+					$logger->log("Успешная авторизация под логином: ".$post->login);
 
 					# go
 					goback();
 				}
 				else {
 					# неверный логин или пароль
-					$this->incorrect_entering($POST->login, mb_strlen($POST->password));
+					$this->incorrect_entering($post->login, mb_strlen($post->password));
 				}
 			}
 			else {
 				# неверный логин или пароль
-				$this->incorrect_entering($POST->login, mb_strlen($POST->password));
+				$this->incorrect_entering($post->login, mb_strlen($post->password));
 			}
 		}
 

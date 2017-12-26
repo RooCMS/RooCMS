@@ -65,7 +65,7 @@ class UI_Reg {
 
 	public function __construct() {
 
-		global $structure, $roocms, $users, $POST;
+		global $structure, $roocms, $users, $post;
 
 		# title
 		$structure->page_title = "Регистрация";
@@ -81,13 +81,13 @@ class UI_Reg {
 		# action
 		switch($roocms->act) {
 			case 'join':
-				if(isset($POST->join)) {
+				if(isset($post->join)) {
 					$this->join();
 				}
 				break;
 
 			case 'expressreg':
-				if(isset($POST->expressreg)) {
+				if(isset($post->expressreg)) {
 					$this->expressreg();
 				}
 				break;
@@ -124,7 +124,7 @@ class UI_Reg {
 	 */
 	private function join() {
 
-		global $db, $smarty, $users, $tpl, $POST, $logger, $security, $site;
+		global $db, $smarty, $users, $tpl, $post, $logger, $security, $site;
 
 		# nickname
 		$users->check_create_nickname();
@@ -133,17 +133,17 @@ class UI_Reg {
 		$users->check_create_login();
 
 		# email
-		$users->valid_user_email($POST->email);
+		$users->valid_user_email($post->email);
 
 		if(!isset($_SESSION['error'])) {
 
 			#password
-			if(!isset($POST->password)) {
-				$POST->password = $security->create_new_password();
+			if(!isset($post->password)) {
+				$post->password = $security->create_new_password();
 			}
 
 			$salt = $security->create_new_salt();
-			$password = $security->hashing_password($POST->password, $salt);
+			$password = $security->hashing_password($post->password, $salt);
 
 			# check personal data
 			$users->correct_personal_data();
@@ -155,8 +155,8 @@ class UI_Reg {
 
 			$db->query("INSERT INTO ".USERS_TABLE." (login, nickname, email, mailing, password, salt, date_create, date_update, last_visit, activation_code,
 								 user_name, user_surname, user_last_name, user_birthdate, user_sex)
-							 VALUES ('".$POST->login."', '".$POST->nickname."', '".$POST->email."', '".$POST->mailing."', '".$password."', '".$salt."', '".time()."', '".time()."', '".time()."', '".$activation['code']."',
-								 '".$POST->user_name."', '".$POST->user_surname."', '".$POST->user_last_name."', '".$POST->user_birthdate."', '".$POST->user_sex."')");
+							 VALUES ('".$post->login."', '".$post->nickname."', '".$post->email."', '".$post->mailing."', '".$password."', '".$salt."', '".time()."', '".time()."', '".time()."', '".$activation['code']."',
+								 '".$post->user_name."', '".$post->user_surname."', '".$post->user_last_name."', '".$post->user_birthdate."', '".$post->user_sex."')");
 			$uid = $db->insert_id();
 
 
@@ -165,25 +165,25 @@ class UI_Reg {
 
 
 			# activation link
-			$activation['link'] = $site['domain'].SCRIPT_NAME."?part=reg&act=activation&email=".$POST->email."&code=".$activation['code'];
+			$activation['link'] = $site['domain'].SCRIPT_NAME."?part=reg&act=activation&email=".$post->email."&code=".$activation['code'];
 
 
 			# Уведомление пользователю на электропочту
-			$smarty->assign("login", $POST->login);
-			$smarty->assign("nickname", $POST->nickname);
-			$smarty->assign("email", $POST->email);
-			$smarty->assign("password", $POST->password);
+			$smarty->assign("login", $post->login);
+			$smarty->assign("nickname", $post->nickname);
+			$smarty->assign("email", $post->email);
+			$smarty->assign("password", $post->password);
 			$smarty->assign("activation", $activation);
 			$smarty->assign("site", $site);
 			$message = $tpl->load_template("email_new_registration", true);
 
-			sendmail($POST->email, "Вы зарегистрировались на сайте ".$site['title'], $message);
+			sendmail($post->email, "Вы зарегистрировались на сайте ".$site['title'], $message);
 
 			# уведомление
 			$logger->info("Поздравляем с Регистрацией. Вам осталось подтвердить адрес электронной почты для этого пройдите по ссылке отправленной Вам в письме.", false);
 
 			# переход
-			go(SCRIPT_NAME."?part=reg&act=activation&email=".$POST->email);
+			go(SCRIPT_NAME."?part=reg&act=activation&email=".$post->email);
 		}
 		else {
 			goback();
@@ -196,11 +196,11 @@ class UI_Reg {
 	 */
 	private function expressreg() {
 
-		global $POST;
+		global $post;
 
-		$var = explode("@", $POST->email);
-		$POST->nickname = $var[0];
-		$POST->mailing = 1;
+		$var = explode("@", $post->email);
+		$post->nickname = $var[0];
+		$post->mailing = 1;
 
 		// TODO: Не уверен что тут то самое место. Надо обдумать этот момент.
 		$exp = time()+(60*60*24*7);
@@ -232,10 +232,10 @@ class UI_Reg {
 	 */
 	private function verification() {
 
-		global $db, $parse, $logger, $POST;
+		global $db, $parse, $logger, $post;
 		
-		if(isset($POST->email, $POST->code) && $parse->valid_email($POST->email) && $db->check_id($POST->email, USERS_TABLE, "email", "activation_code='".$POST->code."'")) {
-			$db->query("UPDATE ".USERS_TABLE." SET status='1', activation_code='', last_visit='".time()."' WHERE email='".$POST->email."'");
+		if(isset($post->email, $post->code) && $parse->valid_email($post->email) && $db->check_id($post->email, USERS_TABLE, "email", "activation_code='".$post->code."'")) {
+			$db->query("UPDATE ".USERS_TABLE." SET status='1', activation_code='', last_visit='".time()."' WHERE email='".$post->email."'");
 			$logger->info("Спасибо. Ваша учетная запись активирована. Добро пожжаловать.", false);
 			go("/");
 		}
