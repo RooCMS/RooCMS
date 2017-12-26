@@ -73,14 +73,14 @@ class ACP_Pages {
 	*/
 	public function __construct() {
 
-		global $roocms, $GET, $POST, $tpl;
+		global $roocms, $get, $POST, $tpl;
 
 		require_once _CLASS."/class_structure.php";
 		$this->engine = new Structure();
 
 
 		# set object for works content
-		if(isset($GET->_page)) {
+		if(isset($get->_page)) {
 			switch($this->engine->page_type) {
 				case 'html':
 					require_once _ROOCMS."/acp/pages_html.php";

@@ -118,14 +118,14 @@ class ACP_Blocks_PHP {
 	 */
 	public function update($id) {
 
-		global $db, $POST, $GET, $logger;
+		global $db, $POST, $get, $logger;
 
 		if(isset($POST->update_block)) {
 
 			# check data post
 			$this->check_block_parametrs();
 
-			if(!isset($POST->id) || $POST->id != $GET->_block) {
+			if(!isset($POST->id) || $POST->id != $get->_block) {
 				$logger->error("Системная ошибка...");
 			}
 

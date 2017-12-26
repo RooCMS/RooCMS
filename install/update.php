@@ -78,11 +78,11 @@ class Update extends Requirement{
 	 */
 	public function Update() {
 
-		global $GET, $POST, $site, $parse, $tpl, $smarty;
+		global $get, $POST, $site, $parse, $tpl, $smarty;
 
 		# init step
-		if(isset($GET->_step) && round($GET->_step) > 0) {
-			$this->step =& $GET->_step;
+		if(isset($get->_step) && round($get->_step) > 0) {
+			$this->step =& $get->_step;
 		}
 
 		# seo

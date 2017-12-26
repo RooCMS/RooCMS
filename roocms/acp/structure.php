@@ -88,7 +88,7 @@ class ACP_Structure {
 	*/
 	private function init() {
 
-		global $roocms, $config, $db, $tpl, $smarty, $GET, $POST;
+		global $roocms, $config, $db, $tpl, $smarty, $get, $POST;
 
 		# считываем "дерево"
 		$smarty->assign('tree', $this->engine->sitetree);
@@ -110,8 +110,8 @@ class ACP_Structure {
 
 
 		# Проверяем идентификатор
-		if(isset($GET->_id) && $db->check_id($GET->_id, STRUCTURE_TABLE)) {
-			$this->sid = $GET->_id;
+		if(isset($get->_id) && $db->check_id($get->_id, STRUCTURE_TABLE)) {
+			$this->sid = $get->_id;
 		}
 
 

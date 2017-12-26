@@ -74,16 +74,16 @@ class ACP_Users {
 	 */
 	public function __construct() {
 
-		global $db, $roocms, $tpl, $GET;
+		global $db, $roocms, $tpl, $get;
 
 
 		# Проверяем идентификатор юзера
-		if(isset($GET->_uid) && $db->check_id($GET->_uid, USERS_TABLE, "uid")) {
-			$this->uid = $GET->_uid;
+		if(isset($get->_uid) && $db->check_id($get->_uid, USERS_TABLE, "uid")) {
+			$this->uid = $get->_uid;
 		}
 		# Проверка идентификтора группы
-		if(isset($GET->_gid) && $db->check_id($GET->_gid, USERS_GROUP_TABLE, "gid")) {
-			$this->gid = $GET->_gid;
+		if(isset($get->_gid) && $db->check_id($get->_gid, USERS_GROUP_TABLE, "gid")) {
+			$this->gid = $get->_gid;
 		}
 
 

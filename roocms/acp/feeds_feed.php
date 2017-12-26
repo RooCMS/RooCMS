@@ -316,7 +316,7 @@ class ACP_Feeds_Feed {
 	 */
 	public function update_item($id) {
 
-		global $db, $logger, $tags, $files, $img, $POST, $GET;
+		global $db, $logger, $tags, $files, $img, $POST, $get;
 
 		# Проверяем вводимые поля на ошибки
 		$this->check_post_data_fields();
@@ -382,7 +382,7 @@ class ACP_Feeds_Feed {
 
 
 			# go
-			go(CP."?act=feeds&part=control&page=".$GET->_page);
+			go(CP."?act=feeds&part=control&page=".$get->_page);
 		}
 		# back
 		else goback();
@@ -532,9 +532,9 @@ class ACP_Feeds_Feed {
 	 */
 	public function settings() {
 
-		global $db, $config, $tpl, $smarty, $GET;
+		global $db, $config, $tpl, $smarty, $get;
 
-		if($db->check_id($GET->_page, STRUCTURE_TABLE, "id", "page_type='feed'")) {
+		if($db->check_id($get->_page, STRUCTURE_TABLE, "id", "page_type='feed'")) {
 
 			$feed =& $this->feed;
 

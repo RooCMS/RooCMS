@@ -40,9 +40,9 @@
 * @package      RooCMS
 * @subpackage	Engine RooCMS classes
 * @author       alex Roosso
-* @copyright    2010-2018 (c) RooCMS
+* @copyright    2010-2019 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.4.2
+* @version      1.4.3
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -69,8 +69,8 @@ class Parsers {
 	public	$xml;				# [obj]		for parsing xml data
 
 	# objects
-	public 	$Post;				# [obj]		$_POST data
-	public 	$Get;				# [obj]		$_GET data
+	public 	$post;				# [obj]		$_POST data
+	public 	$get;				# [obj]		$_GET data
 
 	# params
 	public 	$uri		= "";		# [string]	URI
@@ -80,10 +80,6 @@ class Parsers {
 	# уведомление
 	public	$info		= "";		# [text]	information
 	public	$error		= "";		# [text]	error message
-
-	# arrays
-	//private $post 		= array();	# [array]
-	private $get 		= array();	# [array]
 
 
 
@@ -102,25 +98,25 @@ class Parsers {
 		$this->parse_uri();
 
 		# act(ion) & part(ition) & move
-		if(isset($this->Get->_act)) {
-			$roocms->act 	=& $this->Get->_act;
+		if(isset($this->get->_act)) {
+			$roocms->act 	=& $this->get->_act;
 		}
 
-		if(isset($this->Get->_part)) {
-			$roocms->part 	=& $this->Get->_part;
+		if(isset($this->get->_part)) {
+			$roocms->part 	=& $this->get->_part;
 		}
 
-		if(isset($this->Get->_move)) {
-			$roocms->move 	=& $this->Get->_move;
+		if(isset($this->get->_move)) {
+			$roocms->move 	=& $this->get->_move;
 		}
 
 		# check query RSS Export
-		if(isset($this->Get->_export)) {
+		if(isset($this->get->_export)) {
 			$roocms->rss 	= true;
 		}
 
 		# check ajax flag
-		if(isset($this->Get->_ajax)) {
+		if(isset($this->get->_ajax)) {
 			$roocms->ajax	= true;
 		}
 
@@ -149,15 +145,15 @@ class Parsers {
 	private function parse_global_arrays() {
 
 		# $_GET
-		settype($this->Get, "object");
+		settype($this->get, "object");
 		if(!empty($_GET)) {
-			$this->parse_Get();
+			$this->parse_get();
 		}
 
 		# $_POST
-		settype($this->Post, "object");
+		settype($this->post, "object");
 		if(!empty($_POST)) {
-			$this->parse_Post();
+			$this->parse_post();
 		}
 
 		# init session data
@@ -171,21 +167,21 @@ class Parsers {
 	* parse $_POST array
 	*
 	*/
-	protected function parse_Post() {
+	protected function parse_post() {
 
 		$post = $this->check_array($_POST);
 
 		foreach ($post as $key=>$value) {
 
 			if(is_string($value)) {
-				$this->Post->{$key} = (trim($value) != "") ? $value : NULL ;
+				$this->post->{$key} = (trim($value) != "") ? $value : NULL ;
 			}
 			else if(is_array($value)) {
 				$value = $this->check_array($value);
-				$this->Post->{$key} = (array) $value;
+				$this->post->{$key} = (array) $value;
 			}
 			else {
-				$this->Post->{$key} = (trim($value) != "") ? (string) $value : NULL ;
+				$this->post->{$key} = (trim($value) != "") ? (string) $value : NULL ;
 			}
 		}
 
@@ -197,24 +193,24 @@ class Parsers {
 	* parse $_GET array
 	*
 	*/
-	protected function parse_Get() {
+	protected function parse_get() {
 
-		$this->get = $this->check_array($_GET);
+		$get = $this->check_array($_GET);
 
-		foreach ($this->get as $key=>$value) {
+		foreach ($get as $key=>$value) {
 
 			# чистим ключ объекта от фигни
 			$key = "_".$key;
 
 			if(is_string($value)) {
-				$this->Get->{$key} = (trim($value) != "") ? $value : NULL ;
+				$this->get->{$key} = (trim($value) != "") ? $value : NULL ;
 			}
 			else if(is_array($value)) {
 				$value = $this->check_array($value);
-				$this->Get->{$key} = (array) $value;
+				$this->get->{$key} = (array) $value;
 			}
 			else {
-				$this->Get->{$key} = (trim($value) != "") ? (string) $value : NULL ;
+				$this->get->{$key} = (trim($value) != "") ? (string) $value : NULL ;
 			}
 		}
 	}

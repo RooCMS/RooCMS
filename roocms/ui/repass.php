@@ -118,10 +118,10 @@ class UI_RePass {
 	 */
 	private function confirm() {
 
-		global $GET, $parse, $smarty, $tpl;
+		global $get, $parse, $smarty, $tpl;
 
-		$email = (isset($GET->_email) && $parse->valid_email($GET->_email)) ? $GET->_email : "" ;
-		$code  = (isset($GET->_code)) ? $GET->_code : "" ;
+		$email = (isset($get->_email) && $parse->valid_email($get->_email)) ? $get->_email : "" ;
+		$code  = (isset($get->_code)) ? $get->_code : "" ;
 
 		# tpl
 		$smarty->assign("email", $email);

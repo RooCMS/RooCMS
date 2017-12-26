@@ -80,14 +80,14 @@ class ACP_Help {
 	*/
 	public function __construct() {
 
-    		global $roocms, $db, $GET, $POST, $tpl, $smarty;
+    		global $roocms, $db, $get, $POST, $tpl, $smarty;
 
 		# загружаем "дерево" помощи
     		$this->helptree = $this->load_tree();
 
 		# Запрашиваем техническую информацию о разделе по уникальному имени
-		if(isset($GET->_u) && $db->check_id($GET->_u, HELP_TABLE, "uname") && !isset($GET->_id)) {
-				$q = $db->query("SELECT id, parent_id, uname, title, content, date_modified FROM ".HELP_TABLE." WHERE uname='".$GET->_u."'");
+		if(isset($get->_u) && $db->check_id($get->_u, HELP_TABLE, "uname") && !isset($get->_id)) {
+				$q = $db->query("SELECT id, parent_id, uname, title, content, date_modified FROM ".HELP_TABLE." WHERE uname='".$get->_u."'");
 				$row = $db->fetch_assoc($q);
 
 				$this->part = $row['uname'];
@@ -98,8 +98,8 @@ class ACP_Help {
 		}
 
 		# Запрашиваем техническую информацию о разделе по идентификатору
-		if(isset($GET->_id) && $db->check_id($GET->_id, HELP_TABLE)) {
-				$q = $db->query("SELECT id, parent_id, uname, title, content, date_modified FROM ".HELP_TABLE." WHERE id='".$GET->_id."'");
+		if(isset($get->_id) && $db->check_id($get->_id, HELP_TABLE)) {
+				$q = $db->query("SELECT id, parent_id, uname, title, content, date_modified FROM ".HELP_TABLE." WHERE id='".$get->_id."'");
 				$row = $db->fetch_assoc($q);
 
 				$this->part = $row['uname'];
@@ -110,7 +110,7 @@ class ACP_Help {
 		}
 
 		# Запрашиваем техническую информацию о разделе по умолчанию, если не было верного запроса ни по идентификатору ни уникалному имени
-		if((!isset($GET->_id) && !isset($GET->_u)) || $this->part_id == 0) {
+		if((!isset($get->_id) && !isset($get->_u)) || $this->part_id == 0) {
 				$q = $db->query("SELECT id, parent_id, uname, title, content, date_modified FROM ".HELP_TABLE." WHERE id='1'");
 				$row = $db->fetch_assoc($q);
 

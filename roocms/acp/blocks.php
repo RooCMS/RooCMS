@@ -88,17 +88,17 @@ class ACP_Blocks {
 	*/
 	private function init() {
 
-		global $db, $GET;
+		global $db, $get;
 
-		if(isset($GET->_block) && $db->check_id($GET->_block, BLOCKS_TABLE)) {
-			$this->block = $GET->_block;
+		if(isset($get->_block) && $db->check_id($get->_block, BLOCKS_TABLE)) {
+			$this->block = $get->_block;
 			$q = $db->query("SELECT block_type FROM ".BLOCKS_TABLE." WHERE id='".$this->block."'");
 			$t = $db->fetch_assoc($q);
-			$GET->_type = $t['block_type'];
+			$get->_type = $t['block_type'];
 		}
 
-		if(isset($GET->_type) && array_key_exists($GET->_type, $this->types) && $this->types[$GET->_type]) {
-			switch($GET->_type) {
+		if(isset($get->_type) && array_key_exists($get->_type, $this->types) && $this->types[$get->_type]) {
+			switch($get->_type) {
 				case 'html':
 					require_once _ROOCMS."/acp/blocks_html.php";
 					$this->unit = new ACP_Blocks_HTML;

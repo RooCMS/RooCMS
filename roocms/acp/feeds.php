@@ -89,10 +89,10 @@ class ACP_Feeds {
 	 */
 	private function init() {
 
-		global $roocms, $GET, $POST, $db;
+		global $roocms, $get, $POST, $db;
 
 		# set object for works content
-		if(isset($GET->_page) && array_key_exists($this->engine->page_type, $this->engine->content_types) && $this->engine->content_types[$this->engine->page_type]['enable']) {
+		if(isset($get->_page) && array_key_exists($this->engine->page_type, $this->engine->content_types) && $this->engine->content_types[$this->engine->page_type]['enable']) {
 
 			$feeds_data = array(
 				'id'			=> $this->engine->page_id,
@@ -138,8 +138,8 @@ class ACP_Feeds {
 
 				# edit item in feed
 				case 'edit_item':
-					if($db->check_id($GET->_item, PAGES_FEED_TABLE)) {
-						$this->unit->edit_item($GET->_item);
+					if($db->check_id($get->_item, PAGES_FEED_TABLE)) {
+						$this->unit->edit_item($get->_item);
 					}
 					else {
 
@@ -149,8 +149,8 @@ class ACP_Feeds {
 
 				# update item in feed
 				case 'update_item':
-					if(isset($POST->update_item) && $db->check_id($GET->_item, PAGES_FEED_TABLE)) {
-						$this->unit->update_item($GET->_item);
+					if(isset($POST->update_item) && $db->check_id($get->_item, PAGES_FEED_TABLE)) {
+						$this->unit->update_item($get->_item);
 					}
 					else {
 						goback();
@@ -159,8 +159,8 @@ class ACP_Feeds {
 
 				# update item in feed
 				case 'migrate_item':
-					if($db->check_id($GET->_item, PAGES_FEED_TABLE)) {
-						$this->unit->migrate_item($GET->_item);
+					if($db->check_id($get->_item, PAGES_FEED_TABLE)) {
+						$this->unit->migrate_item($get->_item);
 					}
 					else {
 						goback();
@@ -169,8 +169,8 @@ class ACP_Feeds {
 
 				# update status item in feed to on
 				case 'status_on_item':
-					if($db->check_id($GET->_item, PAGES_FEED_TABLE)) {
-						$this->unit->change_item_status($GET->_item, 1);
+					if($db->check_id($get->_item, PAGES_FEED_TABLE)) {
+						$this->unit->change_item_status($get->_item, 1);
 					}
 					else {
 						goback();
@@ -179,8 +179,8 @@ class ACP_Feeds {
 
 				# update status item in feed to off
 				case 'status_off_item':
-					if($db->check_id($GET->_item, PAGES_FEED_TABLE)) {
-						$this->unit->change_item_status($GET->_item, 0);
+					if($db->check_id($get->_item, PAGES_FEED_TABLE)) {
+						$this->unit->change_item_status($get->_item, 0);
 					}
 					else {
 						goback();
@@ -189,8 +189,8 @@ class ACP_Feeds {
 
 				# delete item from feed
 				case 'delete_item':
-					if($db->check_id($GET->_item, PAGES_FEED_TABLE)) {
-						$this->unit->delete_item($GET->_item);
+					if($db->check_id($get->_item, PAGES_FEED_TABLE)) {
+						$this->unit->delete_item($get->_item);
 					}
 					else {
 						goback();

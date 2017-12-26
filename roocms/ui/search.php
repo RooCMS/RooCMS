@@ -73,7 +73,7 @@ class UI_Search {
 	 */
 	public function __construct() {
 
-		global $POST, $GET;
+		global $POST, $get;
 
 		# POST
 		if(isset($POST->search) && mb_strlen($POST->search) >= $this->minleight) {
@@ -81,8 +81,8 @@ class UI_Search {
 		}
 
 		# GET
-		if(isset($GET->_search) && mb_strlen($GET->_search) >= $this->minleight) {
-			$this->search($GET->_search);
+		if(isset($get->_search) && mb_strlen($get->_search) >= $this->minleight) {
+			$this->search($get->_search);
 		}
 		else {
 			goback();

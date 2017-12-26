@@ -76,7 +76,7 @@ class SitePageFeed {
 	 */
 	public function __construct() {
 
-		global $GET, $db, $structure, $smarty;
+		global $get, $db, $structure, $smarty;
 
 		$feed['title'] 	= $structure->page_title;
 		$feed['alias'] 	= $structure->page_alias;
@@ -84,11 +84,11 @@ class SitePageFeed {
 
 		$smarty->assign("feed", $feed);
 
-		if(isset($GET->_id) && $db->check_id(round($GET->_id), PAGES_FEED_TABLE, "id", "(date_end_publications = '0' || date_end_publications > '".time()."') AND status='1'")) {
-			$this->item_id = round($GET->_id);
+		if(isset($get->_id) && $db->check_id(round($get->_id), PAGES_FEED_TABLE, "id", "(date_end_publications = '0' || date_end_publications > '".time()."') AND status='1'")) {
+			$this->item_id = round($get->_id);
 			$this->load_item($this->item_id);
 		}
-		elseif(isset($GET->_export) && $GET->_export == "RSS" && $structure->page_rss) {
+		elseif(isset($get->_export) && $get->_export == "RSS" && $structure->page_rss) {
 			$this->load_feed_rss();
 		}
 		else {

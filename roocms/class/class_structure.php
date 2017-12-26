@@ -40,9 +40,9 @@
 * @package      RooCMS
 * @subpackage	Engine RooCMS classes
 * @author       alex Roosso
-* @copyright    2010-2018 (c) RooCMS
+* @copyright    2010-2019 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.6.1
+* @version      1.6.2
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -107,7 +107,7 @@ class Structure {
 	*/
 	public function __construct($ui=true) {
 
-		global $db, $GET;
+		global $db;
 
 		# load site tree
 		$this->sitetree = $this->load_tree();
@@ -231,7 +231,7 @@ class Structure {
 	 */
 	private function load_ui() {
 
-		global $db, $GET, $smarty, $tpl;
+		global $db, $get, $smarty, $tpl;
 
 		# const for default structure id
 		if(!defined('PAGEID')) {
@@ -241,13 +241,13 @@ class Structure {
 		# init id for vars
 		$lid = PAGEID;
 
-		if(isset($GET->_page)) {
-			if(isset($this->sitetree[$GET->_page])) {
-				$lid = $GET->_page;
+		if(isset($get->_page)) {
+			if(isset($this->sitetree[$get->_page])) {
+				$lid = $get->_page;
 			}
 
-			if(isset($this->aliases[$GET->_page])) {
-				$lid = $this->aliases[$GET->_page];
+			if(isset($this->aliases[$get->_page])) {
+				$lid = $this->aliases[$get->_page];
 			}
 		}
 

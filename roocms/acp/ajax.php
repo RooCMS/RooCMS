@@ -100,12 +100,12 @@ class ACP_Ajax {
 	*/
 	private function delete_attached_image() {
 
-		global $db, $GET, $img, $logger;
+		global $db, $get, $img, $logger;
 
-		if(isset($GET->_id) && $db->check_id($GET->_id, IMAGES_TABLE)) {
+		if(isset($get->_id) && $db->check_id($get->_id, IMAGES_TABLE)) {
 
-			$img->delete_images($GET->_id);
-			$logger->log("Изображение #".$GET->_id." удалено");
+			$img->delete_images($get->_id);
+			$logger->log("Изображение #".$get->_id." удалено");
 
 			echo "<small class=\"text-success btn btn-xs delete_image\"><span class=\"fa fa-trash-o\"></span> Удалено!</small>";
 		}
@@ -118,12 +118,12 @@ class ACP_Ajax {
 	 */
 	private function delete_attached_file() {
 
-		global $db, $GET, $files, $logger;
+		global $db, $get, $files, $logger;
 
-		if(isset($GET->_id) && $db->check_id($GET->_id, FILES_TABLE)) {
+		if(isset($get->_id) && $db->check_id($get->_id, FILES_TABLE)) {
 
-			$files->delete_files($GET->_id);
-			$logger->log("Файл #".$GET->_id." удален");
+			$files->delete_files($get->_id);
+			$logger->log("Файл #".$get->_id." удален");
 
 			echo "<small class=\"text-success btn btn-xs delete_image\"><span class=\"fa fa-trash-o\"></span> Удалено!</small>";
 		}
@@ -136,11 +136,11 @@ class ACP_Ajax {
 	 */
 	private function delete_user_avatar() {
 
-		global $db, $GET, $users;
+		global $db, $get, $users;
 
-		if(isset($GET->_uid) && $db->check_id($GET->_uid, USERS_TABLE, "uid", "avatar!=''")) {
+		if(isset($get->_uid) && $db->check_id($get->_uid, USERS_TABLE, "uid", "avatar!=''")) {
 
-			$users->delete_avatar($GET->_uid);
+			$users->delete_avatar($get->_uid);
 
 			echo "<small class=\"text-success btn btn-xs\"><span class=\"fa fa-trash-o\"></span> Удалено!</small>";
 		}
@@ -152,15 +152,15 @@ class ACP_Ajax {
 	 */
 	private function delete_config_image() {
 
-		global $db, $GET;
+		global $db, $get;
 
-		if(isset($GET->_option) && $db->check_id($GET->_option, CONFIG_TABLE, "option_name", "value!=''")) {
+		if(isset($get->_option) && $db->check_id($get->_option, CONFIG_TABLE, "option_name", "value!=''")) {
 
-			$q = $db->query("SELECT value FROM ".CONFIG_TABLE." WHERE option_name='".$GET->_option."'");
+			$q = $db->query("SELECT value FROM ".CONFIG_TABLE." WHERE option_name='".$get->_option."'");
 			$data = $db->fetch_assoc($q);
 
 			unlink(_UPLOADIMAGES."/".$data['value']);
-			$db->query("UPDATE ".CONFIG_TABLE." SET value='' WHERE option_name='".$GET->_option."'");
+			$db->query("UPDATE ".CONFIG_TABLE." SET value='' WHERE option_name='".$get->_option."'");
 
 			echo "<small class=\"text-success btn btn-xs\"><span class=\"fa fa-trash-o\"></span> Удалено!</small>";
 		}

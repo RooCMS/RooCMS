@@ -78,11 +78,11 @@ class Install extends Requirement {
 	 */
 	public function __construct() {
 
-		global $GET, $site, $parse, $tpl, $smarty;
+		global $get, $site, $parse, $tpl, $smarty;
 
 		# init step
-		if(isset($GET->_step) && round($GET->_step) > 0) {
-			$this->step =& $GET->_step;
+		if(isset($get->_step) && round($get->_step) > 0) {
+			$this->step =& $get->_step;
 		}
 
 		# переход

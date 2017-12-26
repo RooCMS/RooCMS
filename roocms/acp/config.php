@@ -98,14 +98,14 @@ class ACP_Config {
 	*/
 	private function view_config() {
 
-		global $db, $smarty, $GET;
+		global $db, $smarty, $get;
 
 		$parts = array();
 
-		if(isset($GET->_part) && $db->check_id($GET->_part, CONFIG_PARTS_TABLE, "name") == 1) {
-			$this->part = $GET->_part;
+		if(isset($get->_part) && $db->check_id($get->_part, CONFIG_PARTS_TABLE, "name") == 1) {
+			$this->part = $get->_part;
 		}
-		//elseif(isset($GET->_part) && $GET->_part == "all") $this->part = "all";
+		//elseif(isset($get->_part) && $get->_part == "all") $this->part = "all";
 
 		# запрос разделов конфигурации из БД
 		$q_1 = $db->query("SELECT name, title, type, ico FROM ".CONFIG_PARTS_TABLE." ORDER BY type ASC, sort ASC");

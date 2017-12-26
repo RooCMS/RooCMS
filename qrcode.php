@@ -59,14 +59,14 @@ require_once _SITEROOT."/roocms/init.php";
 require_once(_LIB."/phpqrcode.php");
 
 
-if(isset($GET->_url)) {
-	$GET->_url = str_ireplace('%and%', '&', $GET->_url);
-	$qrcontent = _DOMAIN.$GET->_url;
+if(isset($get->_url)) {
+	$get->_url = str_ireplace('%and%', '&', $get->_url);
+	$qrcontent = _DOMAIN.$get->_url;
 	QRcode::png($qrcontent);
 }
 
-if(isset($GET->_tel)) {
-	$GET->_url = str_ireplace(' ', '', $GET->_tel);
-	$qrcontent = "tel:".$GET->_tel;
+if(isset($get->_tel)) {
+	$get->_url = str_ireplace(' ', '', $get->_tel);
+	$qrcontent = "tel:".$get->_tel;
 	QRcode::png($qrcontent,false, QR_ECLEVEL_L, 4, 0);
 }

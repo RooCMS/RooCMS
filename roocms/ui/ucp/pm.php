@@ -129,15 +129,15 @@ class UCP_PM {
 	 */
 	private function read() {
 
-		global $db, $GET, $users, $parse, $tpl, $smarty;
+		global $db, $get, $users, $parse, $tpl, $smarty;
 
-		if(isset($GET->_id) && $db->check_id($GET->_id, USERS_PM_TABLE, "id", "to_uid='".$users->uid."'")) {
+		if(isset($get->_id) && $db->check_id($get->_id, USERS_PM_TABLE, "id", "to_uid='".$users->uid."'")) {
 
 			# breadcumb
 			//$structure->breadcumb[] = array('act' => 'pm', 'part'=>'read', 'title'=>'Читаем сообщение');
 
 			# get pm
-			$q = $db->query("SELECT title, date_create, message, from_uid FROM ".USERS_PM_TABLE." WHERE id='".$GET->_id."'");
+			$q = $db->query("SELECT title, date_create, message, from_uid FROM ".USERS_PM_TABLE." WHERE id='".$get->_id."'");
 			$message = $db->fetch_assoc($q);
 			$message['showmessage'] = $parse->text->br($message['message']);
 			$message['date_send'] = $parse->date->unix_to_rus($message['date_create'], true);
@@ -145,7 +145,7 @@ class UCP_PM {
 
 
 			# now you see?
-			$db->query("UPDATE ".USERS_PM_TABLE." SET see='1', date_read='".time()."' WHERE id='".$GET->_id."'");
+			$db->query("UPDATE ".USERS_PM_TABLE." SET see='1', date_read='".time()."' WHERE id='".$get->_id."'");
 
 			# tpl
 			$smarty->assign("message", $message);

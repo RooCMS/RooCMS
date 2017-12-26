@@ -77,14 +77,14 @@ class UI_Tags {
 	 */
 	public function __construct() {
 
-		global $structure, $GET;
+		global $structure, $get;
 
 		# init tag
-		if(isset($GET->_tag)) {
-			$this->init_tag($GET->_tag, "title");
+		if(isset($get->_tag)) {
+			$this->init_tag($get->_tag, "title");
 		}
-		elseif(isset($GET->_tagid)) {
-			$this->init_tag($GET->_tagid);
+		elseif(isset($get->_tagid)) {
+			$this->init_tag($get->_tagid);
 		}
 
 		# safe

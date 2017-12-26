@@ -192,7 +192,7 @@ if(file_exists(_CLASS."/class_parser.php")) {
 	 * Инициализируем класс
 	 */
 	$parse 	= new Parsers;
-	$GET	=& $parse->Get;
+	$get	=& $parse->Get;
 	$POST	=& $parse->Post;
 }
 else {
