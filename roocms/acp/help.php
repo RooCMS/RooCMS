@@ -40,9 +40,9 @@
 * @package      RooCMS
 * @subpackage	Admin Control Panel
 * @author       alex Roosso
-* @copyright    2010-2018 (c) RooCMS
+* @copyright    2010-2019 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.1.8
+* @version      1.1.9
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -207,7 +207,7 @@ class ACP_Help {
 		global $db, $logger, $post;
 
 		# предупреждаем возможные ошибки с уникальным именем структурной еденицы
-		if($this->isset_post_uname()) {
+		if(isset($post->uname)) {
 			# избавляем URI от возможных конвульсий
 			$post->uname = strtr($post->uname, array('-'=>'_','='=>'_'));
 
@@ -257,7 +257,7 @@ class ACP_Help {
 		}
 
 		# предупреждаем возможные ошибки с уникальным именем структурной еденицы
-		if($this->isset_post_uname()) {
+		if(isset($post->uname)) {
 			# избавляем URI от возможных конвульсий
 			$post->uname = strtr($post->uname, array('-'=>'_','='=>'_'));
 
@@ -518,24 +518,6 @@ class ACP_Help {
 
 		# уведомление
 		$logger->info("Информация о подразделах для раздела #".$id." обновлена.");
-	}
-
-
-	/**
-	 * Функция проверяет существует ли $post->uname и не является ли он пустым
-	 *
-	 * @return bool
-	 */
-	private function isset_post_uname()  {
-
-		global $post;
-
-		if(isset($post->uname)) {
-			return true;
-		}
-		else {
-			return false;
-		}
 	}
 
 

@@ -40,9 +40,9 @@
 * @package      RooCMS
 * @subpackage	Engine RooCMS classes
 * @author       alex Roosso
-* @copyright    2010-2018 (c) RooCMS
+* @copyright    2010-2019 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.0.10
+* @version      1.0.11
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -319,17 +319,15 @@ class RSS {
 	}
 
 
-	//#####################################################
-	// check items
+	/**
+	 * Check items
+	 *
+	 * @return bool
+	 */
 	public function check_rss() {
 
 		$c = count($this->items);
 
-		if($c != 0) {
-			return true;
-		}
-		else {
-			return false;
-		}
+		return $c != 0;
 	}
 }

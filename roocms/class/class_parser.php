@@ -42,7 +42,7 @@
 * @author       alex Roosso
 * @copyright    2010-2019 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.4.3
+* @version      1.4.4
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -488,12 +488,8 @@ class Parsers {
 
 		$pattern = '/^[\.\-_A-Za-z0-9]+?@[\.\-A-Za-z0-9]+?\.[A-Za-z0-9]{2,6}$/';
 
-		if(preg_match($pattern, trim($email))) {
-			return true;
-		}
-		else {
-			return false;
-		}
+		return preg_match($pattern, trim($email));
+
 	}
 
 
@@ -513,12 +509,8 @@ class Parsers {
 
 		$pattern = "/^[\+]?[0-9]?(\s)?(\-)?(\s)?(\()?[0-9]{3,5}(\))?(\s)?(\-)?(\s)?[0-9]{1,3}(\s)?(\-)?(\s)?[0-9]{2}(\s)?(\-)?(\s)?[0-9]{2}\Z/";
 
-		if(preg_match($pattern, trim($phone))) {
-			return true;
-		}
-		else {
-			return false;
-		}
+		return preg_match($pattern, trim($phone));
+
 	}
 
 

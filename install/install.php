@@ -40,9 +40,9 @@
 * @package      RooCMS
 * @subpackage	Installer
 * @author       alex Roosso
-* @copyright    2010-2018 (c) RooCMS
+* @copyright    2010-2019 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.6.2
+* @version      1.6.3
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -487,12 +487,8 @@ class Install extends Requirement {
 
 		global $post;
 
-		if(isset($post->step) && $post->step == $n) {
-			return true;
-		}
-		else {
-			return false;
-		}
+		return isset($post->step) && $post->step == $n;
+
 	}
 
 
@@ -505,12 +501,8 @@ class Install extends Requirement {
 
 		global $post;
 
-		if($this->allowed && isset($post->submit)) {
-			return true;
-		}
-		else {
-			return false;
-		}
+		return $this->allowed && isset($post->submit);
+
 	}
 
 

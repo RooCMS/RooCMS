@@ -40,9 +40,9 @@
  * @package      RooCMS
  * @subpackage	 Engine RooCMS classes
  * @author       alex Roosso
- * @copyright    2010-2018 (c) RooCMS
+ * @copyright    2010-2019 (c) RooCMS
  * @link         http://www.roocms.com
- * @version      3.5.2
+ * @version      3.5.3
  * @since        $date$
  * @license      http://www.gnu.org/licenses/gpl-3.0.html
  */
@@ -389,12 +389,8 @@ class MySQLiDatabase extends MySQLiExtends {
 
 		$res = $this->count($table, "{$field}='{$id}' {$proviso}");
 
-		if($res > 0) {
-			return true;
-		}
-		else {
-			return false;
-		}
+
+		return $res > 0;
 	}
 
 
