@@ -126,6 +126,8 @@ class Images extends GD {
 
 		# Если $_FILES не является массивом конвертнем в массив
 		# Я кстати в курсе, что сам по себе $_FILES уже массив. Тут в другом смысл.
+		$upfiles = array();
+		$upfiles[$file] =  $_FILES[$file];
 		if(!is_array($_FILES[$file]['tmp_name'])) {
                 	foreach($_FILES[$file] AS $k=>$v) {
                         	$upfiles[$file][$k][$file] = $v;
