@@ -40,9 +40,9 @@
 * @package      RooCMS
 * @subpackage	Engine RooCMS classes
 * @author       alex Roosso
-* @copyright    2010-2019 (c) RooCMS
+* @copyright    2010-2018 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.6
+* @version      1.5.4
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -127,11 +127,13 @@ class Images extends GD {
 		# Если $_FILES не является массивом конвертнем в массив
 		# Я кстати в курсе, что сам по себе $_FILES уже массив. Тут в другом смысл.
 		$upfiles = array();
-		$upfiles[$file] =  $_FILES[$file];
 		if(!is_array($_FILES[$file]['tmp_name'])) {
                 	foreach($_FILES[$file] AS $k=>$v) {
-                        	$upfiles[$file][$k][$file] = $v;
+				$upfiles[$file][$k][$file] = $v;
                 	}
+		}
+		else {
+			$upfiles[$file] = $_FILES[$file];
 		}
 
 

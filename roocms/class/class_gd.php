@@ -40,9 +40,9 @@
 * @package	RooCMS
 * @subpackage	Engine RooCMS classes
 * @author	alex Roosso
-* @copyright	2010-2018 (c) RooCMS
+* @copyright	2010-2019 (c) RooCMS
 * @link		http://www.roocms.com
-* @version	1.15
+* @version	1.16
 * @since	$date$
 * @license	http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -256,10 +256,12 @@ class GD {
 
 		# vars
 		$file = $filename.".".$ext;
-		$exif = $this->exif($path."/".$file);
 
 		# определяем размер картинки
 		$size = getimagesize($path."/".$file);
+
+		# пробуем определить ориентацию изображения
+		$orientation = $this->get_orientation($path."/".$file);
 
 		# вносим в память пустую превью и оригинальный файл, для дальнейшего издевательства над ними.
 		$resize  = $this->imgcreatetruecolor($this->tsize['w'], $this->tsize['h'], $ext);
@@ -288,7 +290,7 @@ class GD {
 
 
 		# Переворачиваем изображение, если в этом есть необходимость
-		switch($exif['Orientation']) {
+		switch($orientation) {
 			case 3:
 				$resize = imagerotate($resize, 180, 0);
 				break;
@@ -608,21 +610,21 @@ class GD {
 
 
 	/**
-	 * Получаем EXIF информация об изображении
+	 * Получаем ориентацию изображения
 	 *
 	 * @param $image - указываем изображение
 	 *
-	 * @return array - возвращаем массив с данными
+	 * @return int
 	 */
-	private function exif($image) {
+	private function get_orientation($image) {
 
-		$exif = exif_read_data($image);
+		$orient = 1;
 
-		if(!isset($exif['Orientation'])) {
-			$exif['Orientation'] = 1;
+		if (preg_match('@\x12\x01\x03\x00\x01\x00\x00\x00(.)\x00\x00\x00@', file_get_contents($image), $matches)) {
+			$orient = ord($matches[1]);
 		}
 
-		return $exif;
+		return $orient;
 	}
 
 
