@@ -618,13 +618,17 @@ class GD {
 	 */
 	private function get_orientation($image) {
 
-		$orient = 1;
+		$orientation = 1;
 
-		if (preg_match('@\x12\x01\x03\x00\x01\x00\x00\x00(.)\x00\x00\x00@', file_get_contents($image), $matches)) {
-			$orient = ord($matches[1]);
+		if(function_exists('exif_read_data') && exif_imagetype($image) == 2) {
+			$exif = exif_read_data($image);
+			if(isset($exif['Orentation'])) {
+				$orientation = $exif['Orentation'];
+			}
 		}
 
-		return $orient;
+
+		return $orientation;
 	}
 
 
