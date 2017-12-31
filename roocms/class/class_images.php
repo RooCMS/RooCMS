@@ -40,9 +40,9 @@
 * @package      RooCMS
 * @subpackage	Engine RooCMS classes
 * @author       alex Roosso
-* @copyright    2010-2018 (c) RooCMS
+* @copyright    2010-2019 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.5.4
+* @version      1.6
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -128,43 +128,42 @@ class Images extends GD {
 		# Я кстати в курсе, что сам по себе $_FILES уже массив. Тут в другом смысл.
 		if(!is_array($_FILES[$file]['tmp_name'])) {
                 	foreach($_FILES[$file] AS $k=>$v) {
-                        	$FILES[$file][$k][$file] = $v;
+                        	$upfiles[$file][$k][$file] = $v;
                 	}
-			$_FILES = $FILES;
 		}
 
 
 		# приступаем к обработке
-		foreach($_FILES[$file]['tmp_name'] AS $key=>$value) {
-			if(isset($_FILES[$file]['tmp_name'][$key]) && $_FILES[$file]['error'][$key] == 0) {
+		foreach($upfiles[$file]['tmp_name'] AS $key=>$value) {
+			if(isset($upfiles[$file]['tmp_name'][$key]) && $upfiles[$file]['error'][$key] == 0) {
 
 				$upload = false;
 
 				# Грузим апельсины бочками
-				if(array_key_exists($_FILES[$file]['type'][$key], $allow_exts)) {
+				if(array_key_exists($upfiles[$file]['type'][$key], $allow_exts)) {
 
 					# расширение файла
-					$ext = $allow_exts[$_FILES[$file]['type'][$key]];
+					$ext = $allow_exts[$upfiles[$file]['type'][$key]];
 
 					# Создаем имя файлу.
 					if(isset($options['filename']) && $options['filename'] != "") {
 						$filename = $options['filename'];
 					}
 					else {
-						$filename = $files->create_filename($_FILES[$file]['name'][$key], $prefix);
+						$filename = $files->create_filename($upfiles[$file]['name'][$key], $prefix);
 					}
 
 					# если разрешено сохранять оригинальное изображение
 					if(isset($options['modify']) && $options['modify']) {
 						# Сохраняем оригинал
-						copy($_FILES[$file]['tmp_name'][$key], $path."/".$filename."_original.".$ext);
+						copy($upfiles[$file]['tmp_name'][$key], $path."/".$filename."_original.".$ext);
 
 						# Если загрузка прошла и файл на месте
 						$upload = (!file_exists($path."/".$filename."_original.".$ext)) ? false : true ;
 					}
 					else {
 						# Сохраняем оригинал
-						copy($_FILES[$file]['tmp_name'][$key], $path."/".$filename.".".$ext);
+						copy($upfiles[$file]['tmp_name'][$key], $path."/".$filename.".".$ext);
 
 						# Если загрузка прошла и файл на месте
 						$upload = (!file_exists($path."/".$filename.".".$ext)) ? false : true ;

@@ -42,7 +42,7 @@
  * @author       alex Roosso
  * @copyright    2010-2019 (c) RooCMS
  * @link         http://www.roocms.com
- * @version      1.4
+ * @version      1.5
  * @since        $date$
  * @license      http://www.gnu.org/licenses/gpl-3.0.html
  */
@@ -230,35 +230,35 @@ class Files {
 		# Я кстати в курсе, что сам по себе $_FILES уже массив. Тут в другом смысл.
 		if(!is_array($_FILES[$file]['tmp_name'])) {
 			foreach($_FILES[$file] AS $k=>$v) {
-				$_FILES[$file][$k][$file] = $v;
+				$upfiles[$file][$k][$file] = $v;
 			}
 		}
 
 
 		# приступаем к обработке
-		foreach($_FILES[$file]['tmp_name'] AS $key=>$value) {
-			if(isset($_FILES[$file]['tmp_name'][$key]) && $_FILES[$file]['error'][$key] == 0) {
+		foreach($upfiles[$file]['tmp_name'] AS $key=>$value) {
+			if(isset($upfiles[$file]['tmp_name'][$key]) && $upfiles[$file]['error'][$key] == 0) {
 
 				$upload = false;
 
 				# ext
-				$ffn = explode(".", $_FILES[$file]['name'][$key]);
-				$_FILES[$file]['ext'][$key] = array_pop($ffn);
+				$ffn = explode(".", $upfiles[$file]['name'][$key]);
+				$upfiles[$file]['ext'][$key] = array_pop($ffn);
 
 				# исключение для tar.gz (в будущем оформим нормальным образом)
-				if($_FILES[$file]['ext'][$key] == "gz") {
-					$_FILES[$file]['ext'][$key] = "tar.gz";
+				if($upfiles[$file]['ext'][$key] == "gz") {
+					$upfiles[$file]['ext'][$key] = "tar.gz";
 				}
 
 				# Грузим апельсины бочками
-				if(array_key_exists($_FILES[$file]['ext'][$key], $allow_exts)) {
+				if(array_key_exists($upfiles[$file]['ext'][$key], $allow_exts)) {
 
 					# Создаем имя файлу.
-					$ext = $allow_exts[$_FILES[$file]['ext'][$key]];
-					$filename = $this->create_filename($_FILES[$file]['name'][$key], $prefix);
+					$ext = $allow_exts[$upfiles[$file]['ext'][$key]];
+					$filename = $this->create_filename($upfiles[$file]['name'][$key], $prefix);
 
 					# Сохраняем оригинал
-					copy($_FILES[$file]['tmp_name'][$key], $path."/".$filename.".".$ext);
+					copy($upfiles[$file]['tmp_name'][$key], $path."/".$filename.".".$ext);
 
 					# Если загрузка прошла и файл на месте
 					$upload = (!file_exists($path."/".$filename.".".$ext)) ? false : true ;
