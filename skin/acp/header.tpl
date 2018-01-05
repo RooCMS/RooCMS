@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en" id="RooCMS">
+<html title="RooCMS Admin Panel" xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en" id="RooCMS">
 <head>
 <title>{$site['title']}</title>
 <meta name="robots"			content="no-index,no-follow,all" />
@@ -43,13 +43,13 @@
 
 {if trim($error) != ""}
 	<div class="alert alert-danger t12 text-left in fade notice" role="alert">
-		<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+		<button type="button" class="close" data-dismiss="alert">&times;</button>
 		{$error}
 	</div>
 {/if}
 {if trim($info) != ""}
 	<div class="alert alert-info t12 text-left in fade notice" role="alert">
-		<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+		<button type="button" class="close" data-dismiss="alert">&times;</button>
 		{$info}
 	</div>
 {/if}

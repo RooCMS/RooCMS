@@ -99,7 +99,6 @@ $(document).ready(function() {
 		}
 	});
 
-
     	/* Style */
 	$(".show-feed-element").hover(function() {
 		var l = $(this).find(".fa");

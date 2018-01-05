@@ -627,7 +627,6 @@ class GD {
 			}
 		}
 
-
 		return $orientation;
 	}
 

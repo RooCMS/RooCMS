@@ -23,7 +23,8 @@
 							 || $ext == "mysqli"}
 							class="text-success text-bold"
 							{elseif $ext == "xdebug"
-							     || $ext == "apache2handler"}
+							     || $ext == "apache2handler"
+							     || $ext == "exif"}
 							class="text-warning text-bold"
 							{/if}>
 							{$ext}
