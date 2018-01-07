@@ -10,7 +10,7 @@
 				Название страницы: <small><span class="fa fa-question-circle fa-fw" rel="tooltip" title="Будет использовано в мета теге title." data-placement="left"></span></small>
 			</label>
 			<div class="col-lg-9">
-				<input type="text" name="title" id="inputTitle" class="form-control" required value="{$data['title']}">
+				<input type="text" name="title" id="inputTitle" class="form-control" spellcheck required value="{$data['title']}">
 			</div>
 		</div>
 
@@ -34,7 +34,7 @@
 				Мета описание страницы:
 			</label>
 			<div class="col-lg-9">
-				<input type="text" name="meta_description" id="inputMetaDesc" class="form-control" value="{$data['meta_description']}">
+				<input type="text" name="meta_description" id="inputMetaDesc" class="form-control" value="{$data['meta_description']}" spellcheck>
 			</div>
 		</div>
 
@@ -43,7 +43,7 @@
 				Ключевые слова страницы:
 			</label>
 			<div class="col-lg-9">
-				<input type="text" name="meta_keywords" id="inputMetaKeys" class="form-control" value="{$data['meta_keywords']}">
+				<input type="text" name="meta_keywords" id="inputMetaKeys" class="form-control" value="{$data['meta_keywords']}" spellcheck>
 			</div>
 		</div>
 

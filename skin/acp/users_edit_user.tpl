@@ -32,7 +32,7 @@
 				Псевдоним пользователя:  <small><span class="fa fa-question-circle fa-fw" rel="tooltip" title="Должен быть уникальным" data-placement="left"></span></small>
 			</label>
 			<div class="col-lg-9">
-				<input type="text" name="nickname" id="inputNickname" class="form-control" value="{$user['nickname']}" required>
+				<input type="text" name="nickname" id="inputNickname" class="form-control" value="{$user['nickname']}" spellcheck required>
 			</div>
 		</div>
 
@@ -81,7 +81,7 @@
 				Имя:
 			</label>
 			<div class="col-lg-9">
-				<input type="text" name="user_name" id="inputUserName" class="form-control"  value="{$user['user_name']}">
+				<input type="text" name="user_name" id="inputUserName" class="form-control" value="{$user['user_name']}">
 			</div>
 		</div>
 
@@ -90,7 +90,7 @@
 				Фамилия:
 			</label>
 			<div class="col-lg-9">
-				<input type="text" name="user_surname" id="inputUserSurName" class="form-control"  value="{$user['user_surname']}">
+				<input type="text" name="user_surname" id="inputUserSurName" class="form-control" value="{$user['user_surname']}">
 			</div>
 		</div>
 
@@ -99,7 +99,7 @@
 				Отчество:
 			</label>
 			<div class="col-lg-9">
-				<input type="text" name="user_last_name" id="inputUserLastName" class="form-control"  value="{$user['user_last_name']}">
+				<input type="text" name="user_last_name" id="inputUserLastName" class="form-control" value="{$user['user_last_name']}">
 			</div>
 		</div>
 
@@ -117,7 +117,7 @@
 				Девиз:
 			</label>
 			<div class="col-lg-9">
-				<textarea class="form-control" id="inputUserSlogan" name="user_slogan" rows="3">{$user['user_slogan']}</textarea>
+				<textarea class="form-control" id="inputUserSlogan" name="user_slogan" rows="3" spellcheck>{$user['user_slogan']}</textarea>
 			</div>
 		</div>
 

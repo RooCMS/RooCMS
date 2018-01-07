@@ -53,7 +53,7 @@
 				<label for="content" class="control-label">
 					Код блока: <small><span class="fa fa-question-circle fa-fw" rel="tooltip" title="Код блока на языке HTML" data-placement="auto"></span></small>
 				</label>
-				<textarea id="content" class="form-control ckeditor" name="content" required>{$data['content']}</textarea>
+				<textarea id="content" class="form-control ckeditor" name="content" spellcheck required>{$data['content']}</textarea>
 			</div>
 		</div>
 

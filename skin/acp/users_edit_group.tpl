@@ -10,7 +10,7 @@
 				Название группы: <small><span class="fa fa-question-circle fa-fw" rel="tooltip" title="Название должно быть уникальным" data-placement="left"></span></small>
 			</label>
 			<div class="col-lg-9">
-				<input type="text" name="title" id="inputTitle" class="form-control" value="{$group['title']}" required>
+				<input type="text" name="title" id="inputTitle" class="form-control" value="{$group['title']}" spellcheck required>
 			</div>
 		</div>
 

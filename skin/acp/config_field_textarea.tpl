@@ -1,4 +1,4 @@
-<textarea name="{$field['name']}" id="input_{$field['name']}" class="form-control">{$field['value']}</textarea>
+<textarea name="{$field['name']}" id="input_{$field['name']}" class="form-control" spellcheck>{$field['value']}</textarea>
 <br />
 <font id="p{$field['name']}" class="btn btn-xs">+ увеличить</font>
 <font id="m{$field['name']}" class="btn btn-xs">- уменьшить</font>

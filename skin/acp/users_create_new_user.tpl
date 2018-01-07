@@ -12,7 +12,7 @@
 				Псевдоним пользователя:  <small><span class="fa fa-question-circle fa-fw" rel="tooltip" title="Должен быть уникальным" data-placement="left"></span></small>
 			</label>
 			<div class="col-lg-9">
-				<input type="text" name="nickname" id="inputNickname" class="form-control" required>
+				<input type="text" name="nickname" id="inputNickname" class="form-control" spellcheck required>
 			</div>
 		</div>
 
@@ -97,7 +97,7 @@
 				Девиз:
 			</label>
 			<div class="col-lg-9">
-				<textarea class="form-control" id="inputUserSlogan" name="user_slogan" rows="3"></textarea>
+				<textarea class="form-control" id="inputUserSlogan" name="user_slogan" rows="3" spellcheck></textarea>
 			</div>
 		</div>
 

@@ -37,7 +37,7 @@
 		</div>
 		<div class="form-group">
 			<div class="col-lg-12">
-				<textarea id="content_field" class="form-control ckeditor" name="content">{$data['content']}</textarea>
+				<textarea id="content_field" class="form-control ckeditor" name="content" spellcheck>{$data['content']}</textarea>
 			</div>
 		</div>
 		<div class="row">

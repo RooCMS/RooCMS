@@ -12,7 +12,7 @@
 				Заголовок:
 			</label>
 			<div class="col-lg-9">
-				<input type="text" name="title" id="inputTitle" class="form-control" required>
+				<input type="text" name="title" id="inputTitle" class="form-control" spellcheck required>
 			</div>
 		</div>
 
@@ -21,7 +21,7 @@
 				Мета описание:
 			</label>
 			<div class="col-lg-9">
-				<input type="text" name="meta_description" id="inputMetaDescription" class="form-control">
+				<input type="text" name="meta_description" id="inputMetaDescription" class="form-control" spellcheck>
 			</div>
 		</div>
 		<div class="form-group">
@@ -29,7 +29,7 @@
 				Мета ключевые слова:
 			</label>
 			<div class="col-lg-9">
-				<input type="text" name="meta_keywords" id="inputMetaKeywords" class="form-control">
+				<input type="text" name="meta_keywords" id="inputMetaKeywords" class="form-control" spellcheck>
 			</div>
 		</div>
 		{if $feed['items_sorting'] == "manual_sorting"}
@@ -109,7 +109,7 @@
 				<label for="brief_item" class="control-label">
 					Аннотация:
 				</label>
-				<textarea id="brief_item" class="form-control ckeditor" name="brief_item" required></textarea>
+				<textarea id="brief_item" class="form-control ckeditor" name="brief_item" spellcheck required></textarea>
 			</div>
 		</div>
 		<div class="form-group">
@@ -117,7 +117,7 @@
 				<label for="brief_item" class="control-label">
 					Полный текст: <small><span class="fa fa-warning fa-fw text-danger" rel="tooltip" title="Обазательно заполнить это поле" data-placement="right"></span></small>
 				</label>
-				<textarea id="full_item" class="form-control ckeditor" name="full_item" required></textarea>
+				<textarea id="full_item" class="form-control ckeditor" name="full_item" spellcheck required></textarea>
 			</div>
 		</div>
 

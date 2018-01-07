@@ -19,7 +19,7 @@
 				Заголовок:
 			</label>
 			<div class="col-md-9">
-				<input type="text" name="title" id="inputTitle" class="form-control" required>
+				<input type="text" name="title" id="inputTitle" class="form-control" spellcheck required>
 			</div>
 		</div>
 
@@ -50,7 +50,7 @@
 				<label for="content" class="control-label">
 					Текст: <small><span class="fa fa-question-circle fa-fw" rel="tooltip" title="HTML разрешен" data-placement="right"></span></small>
 				</label>
-				<textarea id="content" class="form-control ckeditor" name="content"></textarea>
+				<textarea id="content" class="form-control ckeditor" name="content" spellcheck></textarea>
 			</div>
 		</div>
 		<div class="row">
