@@ -201,6 +201,13 @@ p.attach_files {
   opacity: 1;
   filter: alpha(opacity=100);
 }
+.avatar-xs {
+  margin-right: 15px;
+  /*max-height: 50px;*/
+}
+.avatar-xs > img {
+  max-height: 48px;
+}
 /* style for delete user avatar */
 .delete_useravatar:hover,
 .delete_config_image:hover {

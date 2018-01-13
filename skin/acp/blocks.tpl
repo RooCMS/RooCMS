@@ -1,13 +1,25 @@
 {* Основной шаблон управления блоками *}
-<div class="col-md-2">
-	<ul class="nav nav-pills nav-stacked">
-		<li class="nav-header">Опции</li>
-		<li{if isset($smarty.get.part) && $smarty.get.part == "create" && isset($smarty.get.type) && $smarty.get.type == "html"} class="active"{/if}><a href="{$SCRIPT_NAME}?act=blocks&part=create&type=html"><span class="fa fa-fw fa-cube"></span> Создать новый <strong>HTML</strong> блок</a></li>
-		<li{if isset($smarty.get.part) && $smarty.get.part == "create" && isset($smarty.get.type) && $smarty.get.type == "php"} class="active"{/if}><a href="{$SCRIPT_NAME}?act=blocks&part=create&type=php"><span class="fa fa-fw fa-cube"></span> Создать новый <strong>PHP</strong> блок</a></li>
-	</ul>
+<div class="col-sm-3 col-md-2">
+	<div class="row hidden-xs">
+		<div class="panel panel-default">
+
+			<div class="panel-heading visible-lg">
+				Управление блоками
+			</div>
+			<div class="list-group">
+				<a href="{$SCRIPT_NAME}?act=blocks&part=create&type=html" class="list-group-item{if isset($smarty.get.part) && $smarty.get.part == "create" && isset($smarty.get.type) && $smarty.get.type == "html"} active{/if}"><span class="fa fa-fw fa-cube"></span> Создать <strong>HTML</strong> блок</a>
+				<a href="{$SCRIPT_NAME}?act=blocks&part=create&type=php" class="list-group-item{if isset($smarty.get.part) && $smarty.get.part == "create" && isset($smarty.get.type) && $smarty.get.type == "php"} active{/if}"><span class="fa fa-fw fa-cube"></span> Создать <strong>PHP</strong> блок</a>
+			</div>
+		</div>
+	</div>
+
+	<div class="btn-group btn-group-sm btn-group-justified visible-xs submenu-xs">
+		<a href="{$SCRIPT_NAME}?act=blocks&part=create&type=html" class="btn btn-default {if isset($smarty.get.part) && $smarty.get.part == "create" && isset($smarty.get.type) && $smarty.get.type == "html"} active{/if}"><span class="fa fa-fw fa-cube"></span> Создать <strong>HTML</strong> блок</a>
+		<a href="{$SCRIPT_NAME}?act=blocks&part=create&type=php" class="btn btn-default {if isset($smarty.get.part) && $smarty.get.part == "create" && isset($smarty.get.type) && $smarty.get.type == "php"} active{/if}"><span class="fa fa-fw fa-cube"></span> Создать <strong>PHP</strong> блок</a>
+	</div>
 </div>
-<div class="col-md-10">
+<div class="col-sm-9 col-md-10">
 	<div class=" panel panel-default">
-    		{$content}
+		{$content}
 	</div>
 </div>

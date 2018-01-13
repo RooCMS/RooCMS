@@ -38,7 +38,7 @@
 
 	<ul class="list-group visible-xs">
 		{foreach from=$data item=block}
-			<li class="list-group-item">
+			<li class="list-group-item no-overflow">
 
 				<span class="label label-primary upper">{$block['block_type']}</span> <a href="{$SCRIPT_NAME}?act=blocks&part=edit&block={$block['id']}">{$block['title']}</a>
 

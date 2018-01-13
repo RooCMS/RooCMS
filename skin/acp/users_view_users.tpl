@@ -53,20 +53,21 @@
 
 <ul class="list-group visible-xs">
 	{foreach from=$data item=user}
-		<li class="list-group-item{if $user['status'] == 0 && $user['activation_code'] == ""} list-group-item-danger{elseif $user['status'] == 0 && $user['activation_code'] != ""} list-group-item-warning{/if}">
-			{if $user['avatar'] != ""}<a href="{$SCRIPT_NAME}?act=users&part=edit_user&uid={$user['uid']}"><img src="/upload/images/{$user['avatar']}" height="40" class="img-circle"></a>{/if}
+		<li class="list-group-item{if $user['status'] == 0 && $user['activation_code'] == ""} list-group-item-danger{elseif $user['status'] == 0 && $user['activation_code'] != ""} list-group-item-warning{/if} no-overflow">
+			{if $user['avatar'] != ""}<a href="{$SCRIPT_NAME}?act=users&part=edit_user&uid={$user['uid']}" class="pull-left avatar-xs"><img src="/upload/images/{$user['avatar']}" class="img-circle"></a>{/if}
 
 			{if $user['status'] == 0}<span style="text-decoration: line-through;">{/if}
 
-			<a href="{$SCRIPT_NAME}?act=users&part=edit_user&user={$user['uid']}"><!-- #{$user['uid']} --> {$user['nickname']}</a>
+				<a href="{$SCRIPT_NAME}?act=users&part=edit_user&user={$user['uid']}"><!-- #{$user['uid']} --> {$user['nickname']}</a>
 
-			{if $user['title'] == "a" && $user['uid'] == 1}
-				<span class="label label-primary">Супер Администратор</span>
-			{elseif $user['title'] == "a" && $user['uid'] != 1}
-				<span class="label label-info">Администратор</span>
-			{else}
-				<span class="label label-default">Пользователь</span>
-			{/if}
+				<br />
+				{if $user['title'] == "a" && $user['uid'] == 1}
+					<span class="label label-primary">Супер Администратор</span>
+				{elseif $user['title'] == "a" && $user['uid'] != 1}
+					<span class="label label-info">Администратор</span>
+				{else}
+					<span class="label label-default">Пользователь</span>
+				{/if}
 
 			{if $user['status'] == 0}</span>{/if}
 

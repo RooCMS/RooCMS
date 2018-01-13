@@ -56,13 +56,7 @@
 
 <ul class="list-group visible-xs">
 	{foreach from=$tree item=page}
-		<li class="list-group-item">
-
-			{section name=foo start=1 loop=$page['level'] step=1}
-				<span class="text-muted">&emsp;</span>
-			{/section}
-
-			{*<span class="text-muted">{$page['id']}</span>*}
+		<li class="list-group-item no-overflow">
 
 			{if $page['page_type'] == "html" or $page['page_type'] == "php"}
 				<a href="{$SCRIPT_NAME}?act=pages&part=edit&page={$page['id']}">{$page['title']}</a>
