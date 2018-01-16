@@ -13,7 +13,7 @@
 					<dd>{$data['sid']}</dd>
 
 					<dt>Название страницы:</dt>
-					<dd><a href="index.php/page-{$data['alias']}" target="_blank">{$data['title']}</a></dd>
+					<dd><a href="index.php?page={$data['alias']}" target="_blank">{$data['title']}</a></dd>
 
 					<dt>Алиас страницы:</dt>
 					<dd>{$data['alias']}</dd>
