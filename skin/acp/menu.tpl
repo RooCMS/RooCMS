@@ -10,7 +10,7 @@
 
 	<div class="navbar-header text-center">
 		<a class="navbar-brand hidden-xs" href="{$SCRIPT_NAME}"><img src="{$SKIN}/img/logo_acp.png" border="0" id="logo"></a>
-		<button type="button" class="navbar-btn btn btn-danger visible-xs btn-block" data-toggle="collapse" data-target=".navbar-collapse">
+		<button type="button" class="navbar-btn btn btn-primary visible-xs btn-block" data-toggle="collapse" data-target=".navbar-collapse">
 			Навигация
 		</button>
 	</div>

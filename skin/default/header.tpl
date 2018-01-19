@@ -35,7 +35,6 @@
 <link rel="alternate" type="application/rss+xml" title="{$site['title']}" href="{$rsslink}" />{/if}
 
 <!-- Style -->
-<link rel="stylesheet" type="text/css" href="{$SKIN}/theme.min.css{$build}" media="screen" />
 <link rel="stylesheet" type="text/css" href="{$SKIN}/style.min.css{$build}" media="screen" />
 
 <!-- JS -->
@@ -48,6 +47,7 @@
 <script type="text/javascript" src="plugin/colorbox.js.php{$build}"></script>
 <script type="text/javascript" src="plugin/bootstrap.php{$build}{if trim($build) != ""}&{else}?{/if}short"></script>
 <script type="text/javascript" src="{$SKIN}/roocms.min.js{$build}"></script>
+
 {literal}
 <script type="text/javascript">
   var _gaq = _gaq || [];

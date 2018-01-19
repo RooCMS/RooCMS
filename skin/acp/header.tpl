@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html title="RooCMS Admin Panel" xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en" id="RooCMS">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en" id="RooCMS">
 <head>
 <title>{$site['title']}</title>
 <meta name="robots"			content="no-index,no-follow,all" />
