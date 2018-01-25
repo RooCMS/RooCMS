@@ -58,7 +58,7 @@
 
 			{if $user['status'] == 0}<span style="text-decoration: line-through;">{/if}
 
-				<a href="{$SCRIPT_NAME}?act=users&part=edit_user&user={$user['uid']}"><!-- #{$user['uid']} --> {$user['nickname']}</a>
+				<a href="{$SCRIPT_NAME}?act=users&part=edit_user&uid={$user['uid']}"><!-- #{$user['uid']} --> {$user['nickname']}</a>
 
 				<br />
 				{if $user['title'] == "a" && $user['uid'] == 1}

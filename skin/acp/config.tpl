@@ -1,24 +1,47 @@
 {* Основной шаблон конфигурации *}
 <script src="{$SKIN}/jquery.booluiroocms.min.js"></script>
 
-<div class="col-md-2">
-	<ul class="nav nav-pills nav-stacked">
-		{*<ul class="nav nav-list">*}
-		<li class="nav-header">Сайт</li>
+<div class="col-sm-3 col-md-2">
+	<div class="row hidden-xs">
+		<div class="panel panel-default">
+			<div class="panel-heading visible-lg">
+				Сайт
+			</div>
+			<div class="list-group">
+				{if !empty($parts['global'])}
+					{foreach from=$parts['global'] item=part}
+						<a href="{$SCRIPT_NAME}?act=config&part={$part['name']}" class="list-group-item{if $thispart == $part['name']} active{/if}"><i class="fa fa-fw fa-{$part['ico']}"></i> {$part['title']}</a>
+					{/foreach}
+				{/if}
+			</div>
+
+			<div class="panel-heading visible-lg">
+				Компоненты
+			</div>
+			<div class="list-group">
+				{if !empty($parts['component'])}
+					{foreach from=$parts['component'] item=part}
+						<a href="{$SCRIPT_NAME}?act=config&part={$part['name']}" class="list-group-item{if $thispart == $part['name']} active{/if}"><i class="fa fa-fw fa-{$part['ico']}"></i> {$part['title']}</a>
+					{/foreach}
+				{/if}
+			</div>
+		</div>
+	</div>
+
+	<div class="btn-group btn-group-sm btn-group-justified visible-xs submenu-xs">
 		{if !empty($parts['global'])}
 			{foreach from=$parts['global'] item=part}
-				<li{if $thispart == $part['name']} class="active"{/if}><a href="{$SCRIPT_NAME}?act=config&part={$part['name']}"><i class="fa fa-fw fa-{$part['ico']}"></i> {$part['title']}</a></li>
+				<a href="{$SCRIPT_NAME}?act=config&part={$part['name']}" class="btn btn-default{if $thispart == $part['name']} active{/if}" title="{$part['title']}"><i class="fa fa-fw fa-{$part['ico']}"></i> </a>
 			{/foreach}
 		{/if}
-		<li class="nav-header">Компоненты</li>
 		{if !empty($parts['component'])}
 			{foreach from=$parts['component'] item=part}
-				<li{if $thispart == $part['name']} class="active"{/if}><a href="{$SCRIPT_NAME}?act=config&part={$part['name']}"><i class="fa fa-fw fa-{$part['ico']}"></i> {$part['title']}</a></li>
+				<a href="{$SCRIPT_NAME}?act=config&part={$part['name']}" class="btn btn-default{if $thispart == $part['name']} active{/if}" title="{$part['title']}"><i class="fa fa-fw fa-{$part['ico']}"></i> </a>
 			{/foreach}
 		{/if}
-	</ul>
+	</div>
 </div>
-<div class="col-md-10">
+<div class="col-sm-9 col-md-10">
 	<div class=" panel panel-default" id="{$this_part['name']}">
 		<div class="panel-heading">
 			<i class="fa fa-fw fa-{$this_part['ico']}"></i> {$this_part['title']}
