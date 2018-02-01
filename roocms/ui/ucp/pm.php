@@ -40,9 +40,9 @@
 * @package      RooCMS
 * @subpackage	User Control Panel
 * @author       alex Roosso
-* @copyright    2010-2018 (c) RooCMS
+* @copyright    2010-2019 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.1
+* @version      1.1.1
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -73,13 +73,10 @@ class UCP_PM {
 		# title
 		$structure->page_title = "Личные сообщения";
 
-		# breadcumb
-		$structure->breadcumb[] = array('part'=>'ucp', 'act'=>'pm', 'title'=>'Личные сообщения');
-
 		# get userlist
 		$this->userlist = $users->get_userlist(1,0);
 
-
+		# move
 		switch($roocms->move) {
 			case 'write':
 				$this->write();
@@ -97,6 +94,9 @@ class UCP_PM {
 				$this->show();
 				break;
 		}
+
+		# breadcumb
+		$structure->breadcumb[] = array('part'=>'ucp', 'act'=>'pm', 'title'=>'Личные сообщения');
 	}
 
 
@@ -129,12 +129,9 @@ class UCP_PM {
 	 */
 	private function read() {
 
-		global $db, $get, $users, $parse, $tpl, $smarty;
+		global $db, $structure, $get, $users, $parse, $tpl, $smarty;
 
 		if(isset($get->_id) && $db->check_id($get->_id, USERS_PM_TABLE, "id", "to_uid='".$users->uid."'")) {
-
-			# breadcumb
-			//$structure->breadcumb[] = array('act' => 'pm', 'part'=>'read', 'title'=>'Читаем сообщение');
 
 			# get pm
 			$q = $db->query("SELECT title, date_create, message, from_uid FROM ".USERS_PM_TABLE." WHERE id='".$get->_id."'");
@@ -143,6 +140,8 @@ class UCP_PM {
 			$message['date_send'] = $parse->date->unix_to_rus($message['date_create'], true);
 			$message['from_name'] = $this->userlist[$message['from_uid']]['nickname'];
 
+			# breadcumb
+			$structure->breadcumb[] = array('act' => 'pm', 'part'=>'ucp', 'title'=>$message['title']);
 
 			# now you see?
 			$db->query("UPDATE ".USERS_PM_TABLE." SET see='1', date_read='".time()."' WHERE id='".$get->_id."'");

@@ -40,9 +40,9 @@
 * @package      RooCMS
 * @subpackage	User Control Panel
 * @author       alex Roosso
-* @copyright    2010-2018 (c) RooCMS
+* @copyright    2010-2019 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.1
+* @version      1.1.1
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -70,9 +70,7 @@ class UCP_CP {
 		# title
 		$structure->page_title = "Личный кабинет";
 
-		# breadcumb
-		$structure->breadcumb[] = array('part'=>'ucp', 'act'=>'ucp', 'title'=>'Личный кабинет');
-
+		# move
 		switch($roocms->move) {
 			case 'edit_info':
 				$this->edit_info();
@@ -94,6 +92,9 @@ class UCP_CP {
 				$this->cp();
 				break;
 		}
+
+		# breadcumb
+		$structure->breadcumb[] = array('part'=>'ucp', 'act'=>'ucp', 'title'=>'Личный кабинет');
 	}
 
 
@@ -121,7 +122,7 @@ class UCP_CP {
 		$structure->page_title = "Изменяем личные данные";
 
 		# breadcumb
-		$structure->breadcumb[] = array('part'=>'edit_info', 'act' => 'ucp', 'title'=>'Изменяем личные данные');
+		$structure->breadcumb[] = array('part'=>'ucp', 'act' => 'ucp', 'title'=>'Изменяем личные данные');
 
 		# tpl
 		$users->userdata['user_slogan_edit'] = $parse->text->clearhtml($users->userdata['user_slogan']);
