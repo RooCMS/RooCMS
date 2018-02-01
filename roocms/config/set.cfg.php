@@ -113,6 +113,8 @@ ini_set("max_execution_time",		30);
 ini_set("memory_limit", 		"512M");
 #ini_set("upload_tmp_dir", 		"/tmp");	# временная директория для загружаемых файлов. (разкоментируйте, если испытываете трудности с настройками PHP по-умолчанию)
 
+ini_set("serialize_precision", 		"-1");
+
 ini_set("date.timezone",		"Europe/Moscow");
 ini_set("default_charset",		"utf-8");
 ini_set("default_mimetype",		"text/html");

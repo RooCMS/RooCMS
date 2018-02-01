@@ -53,6 +53,10 @@ $skin = 1;
 if(isset($_GET['s']) && $_GET['s'] >= 1 && $_GET['s'] <=5) {
 	$skin = $_GET['s'];
 }
+$zoom = false;
+if(isset($_GET['zoom'])) {
+	$zoom = true;
+}
 
 # OUTPUT
 header('HTTP/1.1 200 OK');
@@ -65,4 +69,10 @@ ob_start("ob_gzhandler", 9);
 
 document.write('<link href="/plugin/colorbox/<?=$skin;?>/colorbox.min.css" rel="stylesheet">');
 document.write('<script src="/plugin/colorbox/jquery.colorbox.min.js"></script>');
-/*document.write('<script src="/plugin/colorbox/jquery.zoom.min.js"></script>');*/
+<?php
+	if($zoom) :
+?>
+document.write('<script src="/plugin/colorbox/jquery.zoom.min.js"></script>');
+<?php
+	endif;
+?>

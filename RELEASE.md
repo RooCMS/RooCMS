@@ -1,24 +1,25 @@
 Version: 1.2.2
 ========================
-**release date:	21.01.2017**
+**release date:	01.02.2017**
 
 Plugins
 -------
-- CKEditor              `v4.7 `
-- Codemirror            `v5.24.2`
-- Colorbox (Jack Moore)	`v1.4.32`
-- Zoom (Jack Moore)     `v1.7.20`
+- Smarty                `v3.1.30`
+- Smarty plugins:       `get_params`
+- jQuery                `v3.1.1`
+- jQuery-Migrate        `v3.0.0`
+- jQuery TouchSwipe	`v1.6.18`
 - Bootstrap             `v3.3.7`
 - Bootstrap Select      `v1.12.2`
 - Bootstrap Datepicker  `v1.3`
 - Bootstrap Colorpicker `v1`
 - Bootstrap TagsInput   `v0.8.0`
 - Font Awesome          `v4.7`
-- Smarty                `v3.1.30`
-- Smarty plugins:       `get_params`
+- CKEditor              `v4.7 `
+- Codemirror            `v5.24.2`
+- Colorbox (Jack Moore)	`v1.4.32`
+- Zoom (Jack Moore)     `v1.7.20`
 - PHP QR Code           `v1.1.4`
-- jQuery                `v3.1.1`
-- jQuery-Migrate        `v3.0.0`
 
 
 Release info:
