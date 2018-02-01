@@ -30,6 +30,21 @@ $(document).ready(function(){
 		todayHighlight: true
 	});
 
+	/* Swiper */
+	$(document).bind('cbox_open', function(){
+		$("#colorbox").swipe({
+			//Generic swipe handler for all directions
+			swipeLeft:function(event, direction, distance, duration, fingerCount) {
+				jQuery.colorbox.next();
+			},
+			swipeRight:function(event, direction, distance, duration, fingerCount) {
+				jQuery.colorbox.prev();
+			},
+			//Default is 75px, set to 0 for demo so any distance triggers swipe
+			threshold:0
+		});
+	});
+
 	/* MOVETOP button */
 	$(window).scroll(function () {
 		if ($(this).scrollTop() > 100) $("a#move_top").fadeIn();
@@ -40,6 +55,7 @@ $(document).ready(function(){
 		return false;
 	});
 });
+
 
 /**
 * Java Script
