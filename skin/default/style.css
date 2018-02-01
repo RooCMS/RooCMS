@@ -83,7 +83,90 @@ a:hover>.feed-image-pn, a:hover>.feed-more-preview {border: 2px solid #545c68;op
 .ucp-user-slogan {height: 46px;overflow: hidden;text-overflow: ellipsis;font-size: 13px;font-family: "PT Sans";}
 
 /* Breadcrumb */
-.breadcrumb {box-shadow: 0 0 4px #bbb  !important;}
+.breadcrumb, .btn-breadcrumb {box-shadow: 0 0 4px #bbb  !important;}
+
+.btn-breadcrumb{
+	width: 100%;
+	background-color: #fff;
+	border-radius: 4px;
+	border: solid 1px transparent;
+}
+.btn-breadcrumb .btn{
+	border: 0 solid transparent;
+	border-right: 1px solid transparent !important;
+	font-size: 11px;
+}
+.breadcrumb-default{ background-color: #fff;border: 0; }
+
+.btn-breadcrumb .btn:last-child {font-weight: bold;}
+.btn-breadcrumb .btn:last-child:after{margin-left: -2px;}
+.btn-breadcrumb .btn:last-child:before{margin-left: -1px;}
+
+.btn-breadcrumb .btn-derecha{
+	float: right;
+	margin-right: 0;
+	padding: 6px 10px 6px 10px !important;
+	margin-left: 0 !important;
+	border-radius: 0 !important;
+}
+.btn-breadcrumb .btn-derecha:first-child {
+	border-top-right-radius: 2px !important;
+	border-bottom-right-radius: 2px !important;
+}
+
+.btn-breadcrumb .btn-derecha:after, .btn-breadcrumb .btn-derecha:before{content: none !important;}
+
+.btn-breadcrumb .btn:after {
+	content: " ";
+	display: block;
+	width: 0;
+	height: 0;
+	border-top: 13px solid transparent;
+	border-bottom: 14px solid transparent;
+	border-left: 10px solid white;
+	position: absolute;
+	top: 50%;
+	margin-top: -14px;
+	margin-left: 0;
+	left: 100%;
+	z-index: 3;
+}
+.btn-breadcrumb .btn:before {
+	content: " ";
+	display: block;
+	width: 0;
+	height: 0;
+	border-top: 13px solid transparent;
+	border-bottom: 14px solid transparent;
+	border-left: 10px solid #cecece;
+	position: absolute;
+	top: 50%;
+	margin-top: -14px;
+	margin-left: 1px;
+	left: 100%;
+	z-index: 3;
+}
+
+/** The Spacing **/
+.btn-breadcrumb .btn {padding:6px 12px 6px 24px;}
+.btn-breadcrumb .btn:first-child {padding:6px 6px 6px 10px;}
+.btn-breadcrumb .btn:last-child {padding:6px 18px 6px 24px;}
+
+/** Default button **/
+.btn-breadcrumb .btn.btn-default:after { border-left: 10px solid #fff;}
+.btn-breadcrumb .btn.btn-default:hover:after {border-left: 10px solid #e6e6e6;}
+.btn-breadcrumb .btn.btn-default:hover:before, .btn-breadcrumb .btn.btn-default:before {border-left: 10px solid #cecece;}
+.btn-breadcrumb .btn.btn-default:active, .btn-breadcrumb .btn.btn-default.active, .btn-breadcrumb .btn.btn-default:focus {box-shadow: none !important;z-index: auto !important;}
+.btn-breadcrumb .btn.btn-default:active:after, .btn-breadcrumb .btn.btn-default.active:after {border-left: 10px solid #e6e6e6;box-shadow: none !important;}
+.btn-breadcrumb .btn.btn-default:active:before, .btn-breadcrumb .btn.btn-default.active:before {border-left: 10px solid #cecece;}
+.btn-breadcrumb .btn.btn-default:active:hover:after, .btn-breadcrumb .btn.btn-default:focus:after {border-left: 10px solid #d4d4d4;}
+.btn-breadcrumb .btn.btn-default:active:hover:before, .btn-breadcrumb .btn.btn-default:focus:before {border-left: 10px solid #8c8c8c;}
+.btn-breadcrumb .btn.btn-default.active:hover {background-color: #e6e6e6;cursor: default;}
+.btn-breadcrumb .btn.btn-default.active:hover:after {border-left: 10px solid #e6e6e6;}
+.btn-breadcrumb .btn.btn-default.active:hover:before {border-left: 10px solid #cecece;}
+
+
+
 
 /* Airmail */
 .airmail {
@@ -168,8 +251,9 @@ footer {padding-bottom: 20px;}
 /* Transition */
 *:hover, .table-hover>tbody>tr:hover>td, .table-hover>tbody>tr:hover>th {
 	transition: all 0.20s ease-in-out;-webkit-transition: all 0.20s ease-in-out;-moz-transition: all 0.20s ease-in-out;outline:none;-ms-transition:  all 0.20s ease-in-out;-o-transition:  all 0.20s ease-in-out;}
-#colorbox, *[id^="cbox"] {transition: none !important;-webkit-transition: none !important;-moz-transition: none !important;outline:none;}
+#colorbox, *[id^="cbox"], .btn-breadcrumb, .btn-breadcrumb > * {transition: none !important;-webkit-transition: none !important;-moz-transition: none !important;outline:none;}
 
+/* Input Field */
 input:focus:invalid {
 	/* transition: all 0.15s ease-in-out;-webkit-transition: all 0.15s ease-in-out;-moz-transition: all 0.15s ease-in-out;outline:none; */
 	-moz-box-shadow: 0 0 6px #fe402b;
@@ -181,6 +265,9 @@ input:focus:invalid {
 input:required:empty {background: #fff url(./img/required.png) no-repeat right top !important;}
 input.non-bgreq:required:empty {background-image: none !important;}
 input:required:valid {background-image: none !important;}
+
+/* Outline */
+a:focus, .btn:focus {outline: none !important;}
 
 /* Fonts */
 @font-face { font-family: 'Ubuntu'; font-style: normal; font-weight: 400; src: local('Ubuntu'), url('Ubuntu.woff') format('woff'); }
