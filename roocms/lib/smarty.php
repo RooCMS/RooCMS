@@ -40,9 +40,9 @@
 * @package      RooCMS
 * @subpackage	Library
 * @author       alex Roosso
-* @copyright    2010-2018 (c) RooCMS
+* @copyright    2010-2019 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.0
+* @version      1.1
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -73,3 +73,8 @@ require_once _SMARTY."/Smarty.class.php";
 * @var Smarty
 */
 $smarty = new Smarty();
+
+/**
+ * Add folder users plugins for smarty
+ */
+$smarty->addPluginsDir(_LIB.'/smarty_plugins');
