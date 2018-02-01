@@ -42,7 +42,7 @@
 * @author       alex Roosso
 * @copyright    2010-2019 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.4.4
+* @version      1.4.5
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -287,7 +287,7 @@ class Parsers {
 						$str = explode("=",$gets[$el]);
 						if(trim($str[0]) != "" && trim($str[1]) != "") {
 							$str[0] = "_".$this->clear_string($str[0]);
-							$this->Get->{$str[0]} = $str[1];
+							$this->get->{$str[0]} = $str[1];
 
 						}
 					}
@@ -303,7 +303,7 @@ class Parsers {
 
 						if(trim($gets[$el]) != "" && isset($gets[$elp]) && trim($gets[$elp]) != "") {
 							$gets[$el] = "_".$this->clear_string($gets[$el]);
-							$this->Get->{$gets[$el]} = $gets[$elp];
+							$this->get->{$gets[$el]} = $gets[$elp];
 							$el++;
 						}
 					}
@@ -341,8 +341,8 @@ class Parsers {
 		global $db;
 
 		# Страницы
-		if(isset($this->Get->_pg)) {
-			$db->page = floor($this->Get->_pg);
+		if(isset($this->get->_pg)) {
+			$db->page = floor($this->get->_pg);
 		}
 	}
 

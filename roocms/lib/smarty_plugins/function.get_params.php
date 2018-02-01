@@ -30,31 +30,24 @@ function smarty_function_get_params($params, $template)
 	$prefix = isset($params['prefix']) ? trim($params['prefix']) : "";
 	$forcePrefix = isset($params['forcePrefix']) ? $params['forcePrefix'] : false;
 	$suffix = isset($params['suffix']) ? trim($params['suffix']) : "";
-	$excludeParams = isset($params['exclude']) ? trim($params['exclude']) : false;
+	$excludeParams = isset($params['exclude']) ? trim($params['exclude']) : "";
 	$noentity = isset($params['noentity']) ? true : false;
 	$output = "";
 	
-	if($excludeParams) {
-		$excludeParams = explode(",", $excludeParams);
-		foreach($excludeParams as $key => $value) $excludeParams[$key] = trim($value);
-	}
-	
+	$excludeParams = explode(",", $excludeParams);
+	foreach($excludeParams as $key => $value) $excludeParams[$key] = trim($value);
+
 	if($_GET) {
 
 		$entity = ($noentity) ? "&" : "&amp;" ;
 
-		if($excludeParams) {
-			foreach($_GET as $key=>$value) {
-				if(!in_array($key, $excludeParams)) {
-					$output .= $entity.$key."=".$value;
-				}
-			}
-		}
-		else {
-			foreach($_GET as $key=>$value) {
+
+		foreach($_GET as $key=>$value) {
+			if(!in_array($key, $excludeParams)) {
 				$output .= $entity.$key."=".$value;
 			}
 		}
+
 		
 		$output = $output ? substr($output, 5) : "";
 	}
