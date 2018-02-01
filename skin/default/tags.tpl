@@ -56,17 +56,17 @@
 	<ul class="pagination">
 		{foreach from=$pages item=page}
 			{if isset($page['prev'])}
-				<li><a href="{$SCRIPT_NAME}?part=tags{get_params prefix='&amp;' exclude='part,pg'}&pg={$page['prev']}">&larr;</a></li>
+				<li><a href="{$SCRIPT_NAME}?part=tags{get_params exclude='part,pg'}&pg={$page['prev']}">&larr;</a></li>
 			{elseif isset($page['next'])}
-				<li><a href="{$SCRIPT_NAME}?part=tags{get_params prefix='&amp;' exclude='part,pg'}&pg={$page['next']}">&rarr;</a></li>
+				<li><a href="{$SCRIPT_NAME}?part=tags{get_params exclude='part,pg'}&pg={$page['next']}">&rarr;</a></li>
 			{else}
 				{if isset($smarty.get.pg) && $smarty.get.pg == $page['n']}
-					<li class="active"><a href="{$SCRIPT_NAME}?part=tags{get_params prefix='&amp;' exclude='part,pg'}&pg={$page['n']}">{$page['n']}</a></li>
+					<li class="active"><a href="{$SCRIPT_NAME}?part=tags{get_params exclude='part,pg'}&pg={$page['n']}">{$page['n']}</a></li>
 				{else}
 					{if !isset($smarty.get.pg) && $page['n'] == "1"}
-						<li class="active"><a href="{$SCRIPT_NAME}?part=tags{get_params prefix='&amp;' exclude='part,pg'}&pg={$page['n']}">{$page['n']}</a></li>
+						<li class="active"><a href="{$SCRIPT_NAME}?part=tags{get_params exclude='part,pg'}&pg={$page['n']}">{$page['n']}</a></li>
 					{else}
-						<li><a href="{$SCRIPT_NAME}?part=tags{get_params prefix='&amp;' exclude='part,pg'}&pg={$page['n']}">{$page['n']}</a></li>
+						<li><a href="{$SCRIPT_NAME}?part=tags{get_params exclude='part,pg'}&pg={$page['n']}">{$page['n']}</a></li>
 					{/if}
 				{/if}
 			{/if}
