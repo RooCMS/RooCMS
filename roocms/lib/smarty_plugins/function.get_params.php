@@ -43,7 +43,7 @@ function smarty_function_get_params($params, $template)
 	if($_GET) {
 		foreach($_GET as $key=>$value) {
 			if(!in_array($key, $excludeParams)) {
-				$entity = ($noentity) ? "&" : "&amp;" ;
+				$entity = $noentity ? "&" : "&amp;" ;
 				$output .= $entity.$key."=".$value;
 			}
 		}

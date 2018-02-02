@@ -41,9 +41,9 @@
 * @subpackage	Admin Control Panel
 * @subpackage	Configuration settings
 * @author       alex Roosso
-* @copyright    2010-2018 (c) RooCMS
+* @copyright    2010-2019 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.4.1
+* @version      1.4.2
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -238,12 +238,7 @@ class ACP_Config {
 		# Если изменено имя скрипта Панели Администратора.
 		# Пробуем создать новый файл.
 		if(isset($post->cp_script) && CP != $post->cp_script) {
-			if($this->change_cp_script($post->cp_script)) {
-				$gonewcp = $post->cp_script;
-			}
-			else {
-				$post->cp_script = CP;
-			}
+			$post->cp_script = $this->change_cp_script($post->cp_script);
 		}
 
 		# Удаляем тех батоны "Сохранить настроки" итд
@@ -330,9 +325,9 @@ class ACP_Config {
 
 
 		# move
-		if(isset($gonewcp)) { // Если мы изменяли путь скрипта к панели управления.
+		if(isset($post->cp_script) && CP != $post->cp_script) { // Если мы изменяли путь скрипта к панели управления.
 			$path = getenv("HTTP_REFERER");
-			$path = str_ireplace(CP, $gonewcp, $path);
+			$path = str_ireplace(CP, $post->cp_script, $path);
 
 			unlink(_SITEROOT."/".CP);
 
@@ -383,17 +378,17 @@ class ACP_Config {
 
 			if(file_exists(_SITEROOT."/".$newcp)) {
 				$logger->info("Новый файл для входа в панель управления успешно создан!");
-				return true;
+				return $newcp;
 			}
 			else {
 				$logger->error("Не удалось создать новый файл для входа в панель управления! Проверьте chmod настройки на сервере для работы с файлами.");
-				return false;
+				return CP;
 			}
 
 		}
 		else {
 			$logger->error("У вас уже есть такой файл. Новое имя скрипта панели управление не должно совпадать с уже имеющимся файлом. Укажите другое имя для создаваемого файла.");
-			return false;
+			return CP;
 		}
 	}
 
