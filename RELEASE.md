@@ -15,7 +15,7 @@ Plugins
 - Bootstrap Colorpicker `v1`
 - Bootstrap TagsInput   `v0.8.0`
 - Font Awesome          `v4.7`
-- CKEditor              `v4.7 `
+- CKEditor              `v4.8 `
 - Codemirror            `v5.24.2`
 - Colorbox (Jack Moore)	`v1.4.32`
 - Zoom (Jack Moore)     `v1.7.20`
@@ -43,7 +43,7 @@ Release info:
 	[*]	Обновлен Bootstrap до версии 3.3.7
 	[*]	Обновлен Codemirror до версии 5.24.2
 	[*]	Обновлен jQuery до версии 3.1.1
-	[*]	Обновлен CKEditor до версии 4.7
+	[*]	Обновлен CKEditor до версии 4.8
 	[*]	Обновлен BS Select до версии 1.12.2
 	[*]	Расширен новыми функциями класс работы с Mysqli.
 	[*]	Улучшены алгоритмы работы со структурой сайта. Удалось сократить число постоянных обращений к БД.

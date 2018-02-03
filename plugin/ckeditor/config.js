@@ -3,8 +3,7 @@
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
-CKEDITOR.editorConfig = function( config )
-{
+CKEDITOR.editorConfig = function( config ) {
 	config.uiColor = '#f0f0f0';
 	config.Defaultlanguage = 'ru';
 	config.enterMode = CKEDITOR.ENTER_P;
@@ -29,6 +28,8 @@ CKEDITOR.editorConfig = function( config )
 	//config.forceSimpleAmpersand = true;
 
 	//config.extraPlugins='codemirror';
+
+	config.fontawesomePath = '/plugin/bootstrap/css/font-awesome.min.css';
 
 	//config.filebrowserBrowseUrl = '/browser/browse.php';
 	//config.filebrowserUploadUrl = '/uploader/upload.php';
@@ -152,7 +153,7 @@ CKEDITOR.editorConfig = function( config )
 			['NumberedList','BulletedList','-','Outdent','Indent','Blockquote','CreateDiv'],
 			['BidiLtr', 'BidiRtl'],
 			['Link','Unlink','Anchor'],
-			['Image','Flash','Table','HorizontalRule','SpecialChar','Iframe'],
+			['Image','base64image','Flash','Table','HorizontalRule','SpecialChar','ckawesome','Glyphicons','Iframe'],
 			'/',
 			['Styles','Format','Font','FontSize'],
 			['TextColor','BGColor'],
