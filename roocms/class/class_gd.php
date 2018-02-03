@@ -640,7 +640,7 @@ class GD {
 	 * @param int  $toheight - Требуемая высота
 	 * @param bool $resize   - Флаг указывающий производим мы пропорциональное изменение или образание. True - производим расчеты для пропорционального изменения. False - производим обрезание (crop)
 	 *
-	 * @return array - Функция возвращает массив с ключами ['new_width'] - новая ширина, ['new_height'] - новая высота, ['new_left'] - значение позиции слева, ['new_top'] - значение позиции сверху
+	 * @return array<int> - Функция возвращает массив с ключами ['new_width'] - новая ширина, ['new_height'] - новая высота, ['new_left'] - значение позиции слева, ['new_top'] - значение позиции сверху
 	 */
 	private function calc_resize($width, $height, $towidth, $toheight, $resize = true) {
 
@@ -696,7 +696,7 @@ class GD {
 	 *
 	 * @param array $sizes - array(width,height) - размеры будут изменены согласно параметрам.
 	 *
-	 * @return mixed
+	 * @return array|null
 	 */
 	protected function set_mod_sizes(array $sizes) {
 

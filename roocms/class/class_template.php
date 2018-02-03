@@ -293,7 +293,7 @@ class Template {
 	/**
 	 * Функция компилирует вывод параметров в head
 	 *
-	 * @return string tpl
+	 * @return string|null tpl
 	 */
 	private function init_head() {
 
@@ -345,7 +345,7 @@ class Template {
 	/**
 	 * Функция компилирует вывод параметров в footer
 	 *
-	 * @return string tpl
+	 * @return string|null tpl
 	 */
 	private function init_footer() {
 

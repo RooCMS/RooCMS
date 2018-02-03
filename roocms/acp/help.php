@@ -176,9 +176,10 @@ class ACP_Help {
 
 
 	/**
-	* Отображаем помошь...
-	*
-	*/
+	 * Отображаем помошь...
+	 *
+	 * @return string|null tpl
+	 */
 	private function show_help() {
 
 		global $parse, $tpl, $smarty;
@@ -371,7 +372,7 @@ class ACP_Help {
 	 * @param int     $maxlevel - указываем уровень глубины построения дерева, только если не хотим выводить все дерево.
 	 * @param boolean $child    - укажите false если не хотите расчитывать подуровни.
 	 *
-	 * @return array|bool - вернет флаг false если дерево не собрано, или вернет массив с деревом.
+	 * @return array|null|boolean - вернет флаг false если дерево не собрано, или вернет массив с деревом.
 	 */
 	public function load_tree($parent=0, $maxlevel=0, $child=true) {
 
@@ -414,7 +415,7 @@ class ACP_Help {
 	 * @param boolean $child    - укажите false если не хотите расчитывать подуровни.
 	 * @param int     $level    - текущий обрабатываемый уровень (используется прирасчете подкатегорий)
 	 *
-	 * @return array
+	 * @return array|null
 	 */
 	private function construct_tree(array $unit, $parent=0, $maxlevel=0, $child=true, $level=0) {
 

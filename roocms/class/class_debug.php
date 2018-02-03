@@ -176,7 +176,7 @@ class Debug {
 	 *
 	 * @param       $context
 	 *
-	 * @return bool
+	 * @return null|boolean
 	 */
 	public static function debug_critical_error($errno, $msg, $file, $line, $context) {
 

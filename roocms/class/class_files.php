@@ -89,7 +89,7 @@ class Files {
 	 *
 	 * @param string $file Указывается путь к файлу и имя файла
 	 *
-	 * @return string Функция возвращает результат вида 10.2Kb или 2.10Mb
+	 * @return string|false Функция возвращает результат вида 10.2Kb или 2.10Mb
 	 */
 	public function file_size($file) {
 
@@ -119,7 +119,7 @@ class Files {
 	 * @param string $prefix   Префикс имени файла
 	 * @param string $pofix    Пофикс имени файла
 	 *
-	 * @return mixed|string Имя файла
+	 * @return string Имя файла
 	 */
 	public function create_filename($filename, $prefix="", $pofix="") {
 
@@ -389,7 +389,7 @@ class Files {
 	 *
 	 * @param string $file название файла с указанием полного пути до него
 	 *
-	 * @return int
+	 * @return int|string
 	 */
 	public function show_fileperms($file) {
 		return mb_substr(sprintf('%o', fileperms($file)), -4);
@@ -401,8 +401,6 @@ class Files {
 	 *
 	 * @param $file    полный пукть к файлу
 	 * @param $context информация для записи в файл
-	 *
-	 * @return string  данные файла
 	 */
 	public function write_file($file, $context) {
 		$f = fopen($file, "w+");
