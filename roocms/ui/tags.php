@@ -42,7 +42,7 @@
  * @author       alex Roosso
  * @copyright    2010-2019 (c) RooCMS
  * @link         http://www.roocms.com
- * @version      0.3
+ * @version      0.3.1
  * @since        $date$
  * @license      http://www.gnu.org/licenses/gpl-3.0.html
  */
@@ -213,13 +213,7 @@ class UI_Tags {
 		}
 
 		# tags collect
-		if(!empty($taglinks)) {
-			$alltags = $tags->read_tags($taglinks);
-			foreach((array)$alltags AS $value) {
-				$lid = explode("=",$value['linkedto']);
-				$feeds[$lid[1]]['tags'][] = array("tag_id"=>$value['tag_id'], "title"=>$value['title']);
-			}
-		}
+		$feeds = $tags->collect_tags($feeds, $taglinks);
 
 		# smarty
 		$smarty->assign("feeds", $feeds);

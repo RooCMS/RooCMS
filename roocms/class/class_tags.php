@@ -40,9 +40,9 @@
  * @package      RooCMS
  * @subpackage   Engine RooCMS classes
  * @author       alex Roosso
- * @copyright    2010-2018 (c) RooCMS
+ * @copyright    2010-2019 (c) RooCMS
  * @link         http://www.roocms.com
- * @version      1.0.7
+ * @version      1.1
  * @since        $date$
  * @license      http://www.gnu.org/licenses/gpl-3.0.html
  */
@@ -143,6 +143,28 @@ class Tags {
 
 		# return
 		return $tags;
+	}
+
+
+	/**
+	 * Функция собирает теги к объектам лент
+	 *
+	 * @param array $resarray - выходной массив, к которому добавляются теги
+	 * @param array $taglinks - массив с ссылками на теги по которому осуществляется сбор
+	 *
+	 * @return array
+	 */
+	public function collect_tags(array $resarray, array $taglinks) {
+
+		if(!empty($taglinks)) {
+			$alltags = $this->read_tags($taglinks);
+			foreach((array)$alltags AS $value) {
+				$lid = explode("=",$value['linkedto']);
+				$resarray[$lid[1]]['tags'][] = array("tag_id"=>$value['tag_id'], "title"=>$value['title']);
+			}
+		}
+
+		return $resarray;
 	}
 
 

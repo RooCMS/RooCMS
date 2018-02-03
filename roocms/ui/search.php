@@ -40,9 +40,9 @@
  * @package      RooCMS
  * @subpackage   Frontend
  * @author       alex Roosso
- * @copyright    2010-2018 (c) RooCMS
+ * @copyright    2010-2019 (c) RooCMS
  * @link         http://www.roocms.com
- * @version      0.2
+ * @version      0.2.1
  * @since        $date$
  * @license      http://www.gnu.org/licenses/gpl-3.0.html
  */
@@ -140,13 +140,7 @@ class UI_Search {
 		}
 
 		# tags collect
-		if(!empty($taglinks)) {
-			$alltags = $tags->read_tags($taglinks);
-			foreach((array) $alltags AS $value) {
-				$lid                       = explode("=", $value['linkedto']);
-				$result[$lid[1]]['tags'][] = array("tag_id" => $value['tag_id'], "title" => $value['title']);
-			}
-		}
+		$result = $tags->collect_tags($feedlist, $taglinks);
 
 		# template
 		$smarty->assign("searchstring", $searchstring);

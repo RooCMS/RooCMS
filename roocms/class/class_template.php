@@ -336,7 +336,9 @@ class Template {
 		}
 
 		# head
-		return $this->load_template("header", true);
+		$output = $this->load_template("header", true);
+
+		return $output;
 	}
 
 
@@ -357,9 +359,10 @@ class Template {
 		$smarty->assign("debug_memory",		$debug->productivity_memory);
 		$smarty->assign("debug_memusage",	$debug->memory_peak_usage);
 
-
 		# foot
-		return $this->load_template("footer", true);
+		$output = $this->load_template("footer", true);
+
+		return $output;
 	}
 
 

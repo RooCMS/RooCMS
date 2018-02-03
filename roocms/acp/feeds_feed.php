@@ -42,9 +42,9 @@
  * @subpackage   Feeds
  * @subpackage   Feed
  * @author       alex Roosso
- * @copyright    2010-2018 (c) RooCMS
+ * @copyright    2010-2019 (c) RooCMS
  * @link         http://www.roocms.com
- * @version      1.14.1
+ * @version      1.14.2
  * @since        $date$
  * @license      http://www.gnu.org/licenses/gpl-3.0.html
  */
@@ -127,13 +127,9 @@ class ACP_Feeds_Feed {
 
 
 		# tags collect
-		$alltags = $tags->read_tags($taglinks);
-		foreach((array)$alltags AS $value) {
-			$lid = explode("=",$value['linkedto']);
-			$feedlist[$lid[1]]['tags'][] = array("tag_id"=>$value['tag_id'], "title"=>$value['title']);
-		}
+		$feedlist = $tags->collect_tags($feedlist, $taglinks);
 
-
+		# smarty
 		$smarty->assign("feedlist",$feedlist);
 
 		$content = $tpl->load_template("feeds_control_feed", true);

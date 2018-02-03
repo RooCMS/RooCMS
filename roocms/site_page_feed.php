@@ -40,9 +40,9 @@
  * @package      RooCMS
  * @subpackage   Frontend
  * @author       alex Roosso
- * @copyright    2010-2018 (c) RooCMS
+ * @copyright    2010-2019 (c) RooCMS
  * @link         http://www.roocms.com
- * @version      1.6.1
+ * @version      1.6.2
  * @since        $date$
  * @license      http://www.gnu.org/licenses/gpl-3.0.html
  */
@@ -152,13 +152,7 @@ class SitePageFeed {
 		}
 
 		# tags collect
-		if(!empty($taglinks)) {
-			$alltags = $tags->read_tags($taglinks);
-			foreach((array) $alltags AS $value) {
-				$lid                      = explode("=", $value['linkedto']);
-				$feeds[$lid[1]]['tags'][] = array("tag_id" => $value['tag_id'], "title" => $value['title']);
-			}
-		}
+		$feeds = $tags->collect_tags($feeds, $taglinks);
 
 		# authors
 		$this->userlist = $users->get_userlist(-1,-1,$authors);
