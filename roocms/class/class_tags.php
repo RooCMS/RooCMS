@@ -102,7 +102,7 @@ class Tags {
 	/**
 	 * Функция собирает теги объекта в строку разделенные запятыми.
 	 *
-	 * @param string $linkedto - ссылка на объект
+	 * @param string|array $linkedto - ссылка на объект
 	 *
 	 * @return array
 	 */
