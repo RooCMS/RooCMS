@@ -156,7 +156,7 @@ class MySQLiDatabase extends MySQLiExtends {
 	* Функция используется для отладки запросов
 	*
 	* @param string $q - Запрос осуществленный к БД
-	* @return mixed при влключенном режиме отладки вернет ошибку, иначе выведет общее сообщение на экран об ошибке
+	* @return string|null при влключенном режиме отладки вернет ошибку, иначе выведет общее сообщение на экран об ошибке
 	*/
 	private function error($q = "") {
 
@@ -325,7 +325,7 @@ class MySQLiDatabase extends MySQLiExtends {
 	 * Преобразует результаты запроса в ассоциативный массив
 	 *
 	 * @param data $q - Результат произведенного в БД запроса.
-	 * @return array  - Возвращает данные из БД в ввиде ассоциативного массива
+	 * @return array|null  - Возвращает данные из БД в ввиде ассоциативного массива
 	 */
 	public function fetch_assoc($q) {
 
@@ -339,8 +339,8 @@ class MySQLiDatabase extends MySQLiExtends {
 	/**
 	 * Преобразует результаты запроса в объект
 	 *
-	 * @param data $q - Результат произведенного в БД запроса.
-	 * @return object - Возвращает данные из БД в ввиде объекта
+	 * @param  data     $q - Результат произведенного в БД запроса.
+	 * @return object|null - Возвращает данные из БД в ввиде объекта
 	 */
 	public function fetch_object($q) {
 
@@ -367,12 +367,12 @@ class MySQLiDatabase extends MySQLiExtends {
 	/**
 	 * Функция проверяет имеется ли запрашиваймый id.
 	 *
-	 * @param string $id
-	 * @param string $table   - таблица в которой проводится проверка
-	 * @param string $field   - название поля таблицы содержащий идентификатор
-	 * @param string $proviso - Дополнительное условие (фильтр) для проверки
+	 * @param string      $id
+	 * @param string      $table   - таблица в которой проводится проверка
+	 * @param string      $field   - название поля таблицы содержащий идентификатор
+	 * @param string|null $proviso - Дополнительное условие (фильтр) для проверки
 	 *
-	 * @return int|boolean - Возвращает количество найденных строк, соответсвующих критериям или false в случае неудачи
+	 * @return int|false - Возвращает количество найденных строк, соответсвующих критериям или false в случае неудачи
 	 */
 	public function check_id($id, $table, $field="id", $proviso=NULL) {
 
@@ -398,10 +398,10 @@ class MySQLiDatabase extends MySQLiExtends {
 	 * Функция проверяет имеется ли список запрашиваемых id.
 	 * И возвращает ввиде массива список найденых или false
 	 *
-	 * @param array  $ids     - массив с идентификаторами
-	 * @param string $table   - таблица в которой проводится проверка
-	 * @param string $field   - название поля таблицы содержащий идентификатор
-	 * @param string $proviso - Дополнительное условие (фильтр) для проверки
+	 * @param array       $ids     - массив с идентификаторами
+	 * @param string      $table   - таблица в которой проводится проверка
+	 * @param string      $field   - название поля таблицы содержащий идентификатор
+	 * @param string|null $proviso - Дополнительное условие (фильтр) для проверки
 	 *
 	 * @return array $result  - Возвращает массив с подмассивом данных. Название подмассивая такое же как у проверяемого значения.
 	 *                          Подмассив содержит ключи: check булево с результатом проверки значения.

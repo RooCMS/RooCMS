@@ -1,6 +1,6 @@
 Version: 1.2.2
 ========================
-**release date:	02.02.2017**
+**release date:	03.02.2017**
 
 Plugins
 -------

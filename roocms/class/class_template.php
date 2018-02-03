@@ -156,7 +156,7 @@ class Template {
 	 * @param string  $tpl    - Имя шаблона.
 	 * @param boolean $return - Включенный флаг возвращает загруженный через return
 	 *
-	 * @return string
+	 * @return string|null
 	 */
 	public function load_template($tpl, $return=false) {
 
@@ -314,6 +314,7 @@ class Template {
 		$smarty->assign("site",	   $site);
 		$smarty->assign("charset", CHARSET);
 		$smarty->assign("build",   $build);
+		$smarty->assign("css",     $this->css);
 		$smarty->assign("jscript", $this->js);
 		$smarty->assign("error",   $parse->error);
 		$smarty->assign("info",	   $parse->info);

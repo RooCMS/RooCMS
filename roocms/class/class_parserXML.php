@@ -79,7 +79,7 @@ class ParserXML {
 	 * @param bool $file
 	 * @param bool $callback
 	 *
-	 * @return SimpleXMLElement
+	 * @return SimpleXMLElement|null
 	 */
 	public function parse($file = false, $callback = false) {
 

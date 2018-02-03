@@ -61,7 +61,7 @@ if(!defined('RooCMS')) {
  * Class Parser
  * $_POST / $_GET && other input data
  */
-class Parsers {
+class Parser {
 
 	# included classes
 	public 	$text;				# [obj]		for parsing texts
@@ -380,7 +380,7 @@ class Parsers {
 	 * @param      $string
 	 * @param bool $key
 	 *
-	 * @return mixed|string
+	 * @return string|array
 	 */
 	public function escape_string($string, $key=true) {
 		global $db;
@@ -553,7 +553,7 @@ class Parsers {
 	 *
 	 * @param string $hexcolor - Значение цвета в HEX. Example: #A9B7D3
 	 *
-	 * @return array|bool
+	 * @return array|false
 	 */
 	public function cvrt_color_h2d($hexcolor) {
 		if(mb_strlen($hexcolor) != 7 || mb_strpos($hexcolor, "#") === false) {

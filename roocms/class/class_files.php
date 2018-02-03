@@ -209,7 +209,7 @@ class Files {
 	 * @param array|string	$types  Допустимые типы файлов (в будущем)
 	 * @param string	$path	путь для загрузки файлов
 	 *
-	 * @return array|bool
+	 * @return array|false
 	 */
 	public function upload($file, $prefix="", $types="all", $path=_UPLOADFILES) {
 

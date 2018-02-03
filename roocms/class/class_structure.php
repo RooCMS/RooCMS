@@ -130,7 +130,7 @@ class Structure {
 	 * @param int     $maxlevel - указываем уровень глубины построения дерева, только если не хотим выводить все дерево.
 	 * @param boolean $child    - укажите false если не хотите расчитывать подуровни.
 	 *
-	 * @return array|bool
+	 * @return array|null|false
 	 */
 	public function load_tree($parent=0, $maxlevel=0, $child=true) {
 
@@ -190,7 +190,7 @@ class Structure {
 	 * @param boolean $child    - укажите false если не хотите расчитывать подуровни.
 	 * @param int     $level    - текущий обрабатываемый уровень (используется прирасчете дочерних страниц)
 	 *
-	 * @return array
+	 * @return array|null
 	 */
 	private function construct_tree(array $unit, $parent=0, $maxlevel=0, $child=true, $level=0) {
 

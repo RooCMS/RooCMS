@@ -372,7 +372,7 @@ class ACP_Help {
 	 * @param int     $maxlevel - указываем уровень глубины построения дерева, только если не хотим выводить все дерево.
 	 * @param boolean $child    - укажите false если не хотите расчитывать подуровни.
 	 *
-	 * @return array|null|boolean - вернет флаг false если дерево не собрано, или вернет массив с деревом.
+	 * @return array|null|false - вернет флаг false если дерево не собрано, или вернет массив с деревом.
 	 */
 	public function load_tree($parent=0, $maxlevel=0, $child=true) {
 
