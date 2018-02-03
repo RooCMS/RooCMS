@@ -39,9 +39,9 @@ mark {
 .fa-va {vertical-align: middle;}
 
 /* Other Skin style */
-#logo, .auth {
-	margin: 10px 0;
-}
+#logo {margin: 10px 0;}
+.auth {margin-top: 10px;}
+
 .mb0 {margin-bottom: 0 !important;}
 
 /* Top Menu */

@@ -42,7 +42,7 @@
 * @author       alex Roosso
 * @copyright    2010-2019 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.4.5
+* @version      1.4.6
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -99,14 +99,17 @@ class Parsers {
 
 		# act(ion) & part(ition) & move
 		if(isset($this->get->_act)) {
+			$this->get->_act = $this->clear_string($this->get->_act);
 			$roocms->act 	=& $this->get->_act;
 		}
 
 		if(isset($this->get->_part)) {
+			$this->get->_part = $this->clear_string($this->get->_part);
 			$roocms->part 	=& $this->get->_part;
 		}
 
 		if(isset($this->get->_move)) {
+			$this->get->_move = $this->clear_string($this->get->_move);
 			$roocms->move 	=& $this->get->_move;
 		}
 
@@ -173,10 +176,7 @@ class Parsers {
 
 		foreach ($post as $key=>$value) {
 
-			if(is_string($value)) {
-				$this->post->{$key} = (trim($value) != "") ? $value : NULL ;
-			}
-			else if(is_array($value)) {
+			if(is_array($value)) {
 				$value = $this->check_array($value);
 				$this->post->{$key} = (array) $value;
 			}
@@ -202,15 +202,12 @@ class Parsers {
 			# чистим ключ объекта от фигни
 			$key = "_".$key;
 
-			if(is_string($value)) {
-				$this->get->{$key} = (trim($value) != "") ? $value : NULL ;
-			}
-			else if(is_array($value)) {
+			if(is_array($value)) {
 				$value = $this->check_array($value);
 				$this->get->{$key} = (array) $value;
 			}
 			else {
-				$this->get->{$key} = (trim($value) != "") ? (string) $value : NULL ;
+				$this->get->{$key} = (trim($value) != "") ? (string) $this->escape_string($value) : NULL ;
 			}
 		}
 	}

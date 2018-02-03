@@ -21,7 +21,7 @@
 				<label for="brief_item" class="control-label">
 					Сообщение: <small><span class="fa fa-warning fa-fw text-danger" rel="tooltip" title="Обазательно заполнить это поле" data-placement="right"></span></small>
 				</label>
-				<textarea id="message" class="form-control ckeditor_mail" name="message" required></textarea>
+				<textarea id="message" class="form-control ckeditor-mail" name="message" required></textarea>
 			</div>
 		</div>
 

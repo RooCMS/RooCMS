@@ -40,9 +40,9 @@
  * @package      RooCMS
  * @subpackage   Frontend
  * @author       alex Roosso
- * @copyright    2010-2018 (c) RooCMS
+ * @copyright    2010-2019 (c) RooCMS
  * @link         http://www.roocms.com
- * @version      0.2
+ * @version      0.3
  * @since        $date$
  * @license      http://www.gnu.org/licenses/gpl-3.0.html
  */
@@ -148,6 +148,11 @@ class UI_Tags {
 		while($data = $db->fetch_assoc($q)) {
 			$id = explode("=", $data['linkedto']);
 			$links[] = $id[1];
+		}
+
+		# abort mission
+		if(empty($links)) {
+			goback();
 		}
 
 		# cond

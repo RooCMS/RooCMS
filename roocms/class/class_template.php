@@ -40,9 +40,9 @@
 * @package	RooCMS
 * @subpackage	Engine RooCMS classes
 * @author	alex Roosso
-* @copyright	2010-2018 (c) RooCMS
+* @copyright	2010-2019 (c) RooCMS
 * @link		http://www.roocms.com
-* @version	4.6.7
+* @version	4.7
 * @since	$date$
 * @license	http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -82,7 +82,7 @@ class Template {
 	*/
 	public function __construct($skin=false) {
 
-		global $site, $smarty;
+		global $config, $site, $smarty;
 
 		if(!$skin) {
 			if(defined('ACP')) {
@@ -101,6 +101,9 @@ class Template {
 
 		# init settings smarty
 		$this->set_smarty_options();
+
+		# config vars
+		$smarty->assign("config",  $config);
 
 		# copyright text
 		$smarty->assign("copyright",	"<a href=\"http://www.roocms.com/\">RooCMS</a> &copy; 2010-".date("Y"));
@@ -288,79 +291,107 @@ class Template {
 
 
 	/**
+	 * Функция компилирует вывод параметров в head
+	 *
+	 * @return string tpl
+	 */
+	private function init_head() {
+
+		global $config, $site, $structure, $parse, $debug, $rss, $smarty;
+
+		# check notice
+		$this->info_popup();
+
+		# global site title
+		if(!defined('INSTALL') && isset($config->global_site_title)) {
+			$site['title'] .= " &bull; ".$config->site_title;
+		}
+
+		# get actual version included js and styles in templates (only Developer or Debug mode)
+		$build = (DEBUGMODE || DEVMODE) ? "?v=".str_ireplace(".","",ROOCMS_VERSION)."-".time() : "" ;
+
+		# assign tpl vars
+		$smarty->assign("site",	   $site);
+		$smarty->assign("charset", CHARSET);
+		$smarty->assign("build",   $build);
+		$smarty->assign("jscript", $this->js);
+		$smarty->assign("error",   $parse->error);
+		$smarty->assign("info",	   $parse->info);
+
+		if(!defined('ACP')) {
+			# rss link
+			$smarty->assign("rsslink",	$rss->rss_link);
+
+			# meta noindex
+			$smarty->assign("noindex",	$structure->page_noindex);
+
+			# breadcumb
+			$structure->construct_breadcumb($structure->page_id);
+			krsort($structure->breadcumb);
+
+			$smarty->assign("breadcumb",	$structure->breadcumb);
+
+			$breadcumb = $this->load_template("breadcumb", true);
+			$smarty->assign("breadcumb",	$breadcumb);
+		}
+
+		# head
+		return $this->load_template("header", true);
+	}
+
+
+	/**
+	 * Функция компилирует вывод параметров в footer
+	 *
+	 * @return string tpl
+	 */
+	private function init_footer() {
+
+		global $db, $debug, $smarty;
+
+		# debug_info in footer
+		$smarty->assign("db_querys", 		$db->cnt_querys);
+
+		$debug->end_productivity();
+		$smarty->assign("debug_timer",		$debug->productivity_time);
+		$smarty->assign("debug_memory",		$debug->productivity_memory);
+		$smarty->assign("debug_memusage",	$debug->memory_peak_usage);
+
+
+		# foot
+		return $this->load_template("footer", true);
+	}
+
+
+	/**
 	* Выводим скомпилированный HTML на экран
 	*
 	*/
 	public function out() {
 
-		global $roocms, $config, $db, $structure, $site, $smarty, $parse, $rss, $debug;
+		global $roocms, $rss;
 
-		# header & footer
-		if(!$roocms->ajax && !$roocms->rss) {
+		# html output
+		if(!$roocms->rss) {
 
-                        # check notice
-                        $this->info_popup();
-
-                        # global site title
-                        if(!defined('INSTALL') && isset($config->global_site_title)) {
-                        	$site['title'] .= " &bull; ".$config->site_title;
+			# template with header and footer
+			if(!$roocms->ajax) {
+				$this->out = $this->init_head().$this->out.$this->init_footer();
 			}
-
-                        # get actual version included js and styles in templates (only Developer or Debug mode)
-                        $build = (DEBUGMODE || DEVMODE) ? "?v=".str_ireplace(".","",ROOCMS_VERSION)."-".time() : "" ;
-
-			# assign tpl vars
-			$smarty->assign("site",		$site);
-			$smarty->assign("charset",	CHARSET);
-			$smarty->assign("build",	$build);
-			$smarty->assign("jscript",	$this->js);
-			$smarty->assign("error",	$parse->error);
-			$smarty->assign("info",		$parse->info);
-
-			if(!defined('ACP')) {
-				# rss link
-				$smarty->assign("rsslink",	$rss->rss_link);
-
-				# meta noindex
-				$smarty->assign("noindex",	$structure->page_noindex);
-
-				# breadcumb
-				$structure->construct_breadcumb($structure->page_id);
-				krsort($structure->breadcumb);
-
-				$smarty->assign("breadcumb",	$structure->breadcumb);
-				$breadcumb = $this->load_template("breadcumb", true);
-				$smarty->assign("breadcumb",	$breadcumb);
-			}
-
-			# head
-			$head = $this->load_template("header", true);
-
-			# debug_info in footer
-			$smarty->assign("db_querys", 		$db->cnt_querys);
-
-			$debug->end_productivity();
-			$smarty->assign("debug_timer",		$debug->productivity_time);
-			$smarty->assign("debug_memory",		$debug->productivity_memory);
-			$smarty->assign("debug_memusage",	$debug->memory_peak_usage);
-
-
-			# foot
-			$foot = $this->load_template("footer", true);
-
-
-			# output buffer
-			$this->out = $head.$this->out.$foot;
 
 			# blocks & module
 			if(!defined('ACP')) {
 				$this->init_blocks();
 				$this->init_modules();
 			}
-		}
 
-		# output
-		echo (!$roocms->rss) ? $this->out : $rss->out() ;
+			# output
+			echo $this->out;
+		}
+		else {
+			# rss output
+			echo $rss->out();
+		}
 
 		# secure
 		unset($_GET);

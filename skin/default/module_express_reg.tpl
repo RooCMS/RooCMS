@@ -12,6 +12,9 @@
 			{else}
 				<form method="post" action="{$SCRIPT_NAME}?part=reg&act=expressreg">
 					<br /><input type="text" class="form-control input-lg" name="email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{literal}{2,6}{/literal}$" required>
+					{if $config->fl152_use}
+						<p class="small text-center">Совершая подписку Вы соглашаетесь <nobr>с <a href="{$SCRIPT_NAME}?part=fl152&ajax=true" rel="html"><b>условиями передачи информации</b></a></nobr></p>
+					{/if}
 					<br /><input type="submit" name="expressreg" class="btn btn-default" value="Подписаться">
 				</form>
 			{/if}

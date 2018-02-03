@@ -164,12 +164,25 @@ CKEDITOR.editorConfig = function( config )
 			['Bold', 'Italic', 'Underline','Strike', '-', 'NumberedList', 'BulletedList', '-', 'Link', 'Unlink','-','About']
 		];
 
+	config.toolbar_HTML =
+		[
+			['Undo','Redo'],
+			['Bold', 'Italic', 'Underline','Strike','-','Outdent','Indent','Blockquote','-','Subscript','Superscript', '-', 'NumberedList', 'BulletedList'],
+			['JustifyLeft','JustifyCenter','JustifyRight','JustifyBlock'],
+			['Table'],
+			['Link','Unlink','Anchor', '-', 'RemoveFormat'],
+			'/',
+			['Styles','Format','Font','FontSize'],
+			['TextColor','BGColor'],
+			['Maximize', 'ShowBlocks']
+		];
+
 	config.toolbar_Mail =
 		[
 			['Source','Preview','-','Maximize', 'ShowBlocks','-','About'],
 			'/',
 			['Undo','Redo'],
-			['Bold', 'Italic', 'Underline','Strike','-','Outdent','Indent','-','Subscript','Superscript', '-', 'NumberedList', 'BulletedList', '-', 'Link', 'Unlink'],
+			['Bold', 'Italic', 'Underline','Strike','-','Outdent','Indent','-','Subscript','Superscript', '-', 'NumberedList', 'BulletedList'],
 			['JustifyLeft','JustifyCenter','JustifyRight','JustifyBlock'],
 			['Table'],
 			['Link','Unlink','Anchor']

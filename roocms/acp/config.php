@@ -176,6 +176,11 @@ class ACP_Config {
 				$out = $tpl->load_template("config_field_textarea",true);
 				break;
 
+			# html
+			case 'html':
+				$out = $tpl->load_template("config_field_html",true);
+				break;
+
 			# boolean
 			case 'boolean':
 			case 'bool':
@@ -263,11 +268,12 @@ class ACP_Config {
 					$check = $parse->valid_email($value);
 					break;
 
-				# text OR textarea
+				# text OR textarea OR html
 				case 'string':
 				case 'color':
 				case 'text':
 				case 'textarea':
+				case 'html':
 					$value = $this->check_string_value($value,$cfg_vars[$key]['maxleight']);
 					$check = true;
 					break;

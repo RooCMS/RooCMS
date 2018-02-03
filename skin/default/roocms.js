@@ -2,11 +2,17 @@
 *	jQuery
 **/
 $(document).ready(function(){
-	$("a[rel='img']").colorbox({maxWidth: "98%", maxHeight: "98%",
+
+	/* Colorbox */
+	$("a[rel='img']").colorbox({maxWidth: "98%", maxHeight: "98%", retinaImage:true, retinaUrl:true,
 		'onComplete': function(){
 			$('#cboxLoadedContent').zoom({'on': 'click'});
 		}
-	}); //, rel: true
+	});
+
+	$("a[rel='html']").colorbox({maxWidth: "75%", maxHeight: "90%"});
+	$("a[rel='iframe']").colorbox({width: "75%", height: "75%", iframe: true});
+
 
 	//$(".corner").corner("round 4px");
 

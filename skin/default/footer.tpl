@@ -1,5 +1,7 @@
 {* Шаблон "ног" *}
-{$module->load("express_reg")}
+{if !isset($smarty.get.part)}
+	{$module->load("express_reg")}
+{/if}
 <hr />
 	<footer>
 		<div class="pull-right"><small>{$copyright}</small></div>

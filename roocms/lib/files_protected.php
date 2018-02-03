@@ -40,9 +40,9 @@
  * @package      RooCMS
  * @subpackage	 Library
  * @author       alex Roosso
- * @copyright    2010-2018 (c) RooCMS
+ * @copyright    2010-2019 (c) RooCMS
  * @link         http://www.roocms.com
- * @version      1.3
+ * @version      1.3.1
  * @since        $date$
  * @license      http://www.gnu.org/licenses/gpl-3.0.html
  */
@@ -134,6 +134,7 @@ $protect[] = array('path' => _UI.'/ucp/logout.php',		'chmod'	=> '0644',	'hash'	=
 $protect[] = array('path' => _UI.'/ucp/pm.php',			'chmod'	=> '0644',	'hash'	=> '');
 $protect[] = array('path' => _UI.'/ucp/security_check.php',	'chmod'	=> '0644',	'hash'	=> '');
 $protect[] = array('path' => _UI.'/ucp/ucp.php',		'chmod'	=> '0644',	'hash'	=> '');
+$protect[] = array('path' => _UI.'/fl152.php',			'chmod'	=> '0644',	'hash'	=> '');
 $protect[] = array('path' => _UI.'/reg.php',			'chmod'	=> '0644',	'hash'	=> '');
 $protect[] = array('path' => _UI.'/repass.php',			'chmod'	=> '0644',	'hash'	=> '');
 $protect[] = array('path' => _UI.'/search.php',			'chmod'	=> '0644',	'hash'	=> '');

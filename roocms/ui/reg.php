@@ -61,8 +61,6 @@ if(!defined('RooCMS') || !defined('UI')) {
  */
 class UI_Reg {
 
-
-
 	public function __construct() {
 
 		global $structure, $roocms, $users, $post;
@@ -113,7 +111,6 @@ class UI_Reg {
 	private function profile() {
 
 		global $tpl;
-
 
 		$tpl->load_template("reg_profile");
 	}

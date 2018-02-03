@@ -1,7 +1,7 @@
 <?php
 /**
  *   RooCMS - Russian Open Source Free Content Managment System
- *   Copyright © 2010-2018 alexandr Belov aka alex Roosso. All rights reserved.
+ *   Copyright © 2010-2019 alexandr Belov aka alex Roosso. All rights reserved.
  *   Contacts: <info@roocms.com>
  *
  *   This program is free software: you can redistribute it and/or modify
@@ -40,9 +40,9 @@
 * @package	RooCMS
 * @subpackage	Engine RooCMS classes
 * @author	alex Roosso
-* @copyright	2010-2018 (c) RooCMS
+* @copyright	2010-2019 (c) RooCMS
 * @link		http://www.roocms.com
-* @version	1.2.3
+* @version	1.2.4
 * @since	$date$
 * @license	http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -124,7 +124,7 @@ class Globals {
 	*/
 	protected function init_configuration() {
 
-		global $db, $site, $debug;
+		global $db, $site, $parse, $debug;
 
 		# делаем объектом
 		settype($this->config, "object");
@@ -141,7 +141,7 @@ class Globals {
 			switch($row['option_type']) {
 				case 'boolean':
 				case 'bool':
-					$this->config->{$row['option_name']} = (bool) $row['value'];
+					$this->config->{$row['option_name']} = ($row['value'] === "true");
 					break;
 
 				case 'int':
@@ -152,6 +152,10 @@ class Globals {
 
 				case 'string':
 					$this->config->{$row['option_name']} = (string) $row['value'];
+					break;
+
+				case 'html':
+					$this->config->{$row['option_name']} = $row['value'];
 					break;
 
 				default:

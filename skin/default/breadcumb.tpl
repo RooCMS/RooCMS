@@ -12,7 +12,7 @@
 				<a href="{$SCRIPT_NAME}?{if isset($bc['alias']) && trim($bc['alias']) != ""}page={$bc['alias']}{/if}{if isset($bc['part']) && trim($bc['part']) != ""}{if (isset($bc['alias']) && trim($bc['alias']) != "")}&{/if}part={$bc['part']}{/if}{if isset($bc['act']) && trim($bc['act']) != ""}{if (isset($bc['alias']) && trim($bc['alias']) != "") || (isset($bc['part']) && trim($bc['part']) != "")}&{/if}act={$bc['act']}{/if}" class="btn btn-default visible-lg-block visible-md-block">{$bc['title']}</a>
 			{/if}
 			{if $smarty.foreach.breadcumb.last} {*&& !isset($smarty.get.id)*}
-				<div class="btn btn-default visible-xs-block hidden-xs visible-sm-block ">...</div>
+				{*<div class="btn btn-default visible-xs-block hidden-xs visible-sm-block ">...</div>*}
 				<div class="btn btn-default active"><b>{$bc['title']}</b></div>
 			{/if}
 		{/foreach}

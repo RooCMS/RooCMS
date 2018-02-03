@@ -64,5 +64,6 @@ document.write('<script type="text/javascript" src="plugin/ckeditor/adapters/jqu
 $(document).ready(function() {
 	/* CKEditor */
 	$(".ckeditor").ckeditor();
-	$(".ckeditor_mail").ckeditor({toolbar: 'Mail'});
+	$(".ckeditor-mail").ckeditor({toolbar: 'Mail'});
+	$(".ckeditor-html").ckeditor({height: '150px', toolbar: 'HTML'});
 });
