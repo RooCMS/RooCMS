@@ -1,6 +1,6 @@
 Version: 1.2.2
 ========================
-**release date:	03.02.2017**
+**release date:	05.02.2017**
 
 Plugins
 -------
@@ -10,7 +10,7 @@ Plugins
 - jQuery-Migrate        `v3.0.0`
 - jQuery TouchSwipe	`v1.6.18`
 - Bootstrap             `v3.3.7`
-- Bootstrap Select      `v1.12.2`
+- Bootstrap Select      `v1.12.4`
 - Bootstrap Datepicker  `v1.3`
 - Bootstrap Colorpicker `v1`
 - Bootstrap TagsInput   `v0.8.0`
@@ -44,7 +44,7 @@ Release info:
 	[*]	Обновлен Codemirror до версии 5.24.2
 	[*]	Обновлен jQuery до версии 3.1.1
 	[*]	Обновлен CKEditor до версии 4.8
-	[*]	Обновлен BS Select до версии 1.12.2
+	[*]	Обновлен BS Select до версии 1.12.4
 	[*]	Расширен новыми функциями класс работы с Mysqli.
 	[*]	Улучшены алгоритмы работы со структурой сайта. Удалось сократить число постоянных обращений к БД.
 	[*]	Colorbox поддерживает свайп действия.
