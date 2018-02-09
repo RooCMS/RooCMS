@@ -114,6 +114,15 @@ $(document).ready(function() {
 		});
 	});
 
+	$(".carousel").swipe({
+		swipe: function(event, direction, distance, duration, fingerCount, fingerData) {
+
+			if (direction == 'left') $(this).carousel('next');
+			if (direction == 'right') $(this).carousel('prev');
+		},
+		allowPageScroll:"vertical"
+	});
+
     	/* Style */
 	$(".show-feed-element").hover(function() {
 		var l = $(this).find(".fa");
