@@ -45,9 +45,9 @@ mark {
 .mb0 {margin-bottom: 0 !important;}
 
 /* Top Menu */
-.tmenu {box-shadow: 0 0 4px #bbb  !important;padding: 5px !important;border-radius: 5px !important;background-color: #fff !important;}
+.tmenu {padding: 5px !important;border-radius: 4px !important;background-color: #fff !important;border: 1px solid #ddd;}
 .topmenu {background-color: transparent !important;text-shadow: none !important;box-shadow: none !important;border: 0 !important;}
-.topmenu:hover{background: #62aeef none !important;}
+.topmenu:hover, /*{background: #62aeef none !important;}*/
 .topsubmenu:hover {background: #545c68 none !important;	color: #fff !important;}
 .topsubmenu:hover > .small {color: #545c68 !important;}
 
@@ -83,20 +83,19 @@ a:hover>.feed-image-pn, a:hover>.feed-more-preview {border: 2px solid #545c68;op
 .ucp-user-slogan {height: 46px;overflow: hidden;text-overflow: ellipsis;font-size: 13px;font-family: "PT Sans";}
 
 /* Breadcrumb */
-.breadcrumb, .btn-breadcrumb {box-shadow: 0 0 4px #bbb  !important;}
-
 .btn-breadcrumb{
 	width: 100%;
 	background-color: #fff;
 	border-radius: 4px;
-	border: solid 1px transparent;
+	border: 1px solid #ddd;
+	margin-top: 3px;
 }
 .btn-breadcrumb .btn{
 	border: 0 solid transparent;
 	border-right: 1px solid transparent !important;
 	font-size: 11px;
 }
-.breadcrumb-default{ background-color: #fff;border: 0; }
+.breadcrumb-default{ background-color: #fff;border: 1px solid #ddd; }
 
 .btn-breadcrumb .btn:last-child {font-weight: bold;}
 .btn-breadcrumb .btn:last-child:after{margin-left: -2px;}
