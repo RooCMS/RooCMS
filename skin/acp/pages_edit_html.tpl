@@ -1,7 +1,7 @@
 {* Шаблон редактирования HTML страницы *}
-<div class="panel-heading">
-	<script type="text/javascript" src="plugin/ckeditor.php"></script>
+<script type="text/javascript" src="plugin/ckeditor.php"></script>
 
+<div class="panel-heading">
 	<q>{$data['title']}</q>
 
 	<p class="pull-right"><a href="{$SCRIPT_NAME}?act=structure&part=edit&id={$data['sid']}" class="btn btn-default btn-xs"><span class="fa fa-pencil-square-o fa-fw"></span> Редактировать теги</a></p>
