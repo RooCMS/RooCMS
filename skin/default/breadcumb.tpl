@@ -16,6 +16,7 @@
 				<div class="btn btn-default active"><b>{$bc['title']}</b></div>
 			{/if}
 		{/foreach}
+		{$module->load("search")}
 
 
 	</div>

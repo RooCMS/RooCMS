@@ -1,21 +1,34 @@
 {* Шаблон отображения элемента ленты *}
 <div id="item_{$item['id']}">
-	<h1>{$item['title']}</h1>
-	<div class="pull-right">
-		{if !empty($item['tags'])}
-			<span class="small">
-				{foreach from=$item['tags'] item=tag}
-					<a href="{$SCRIPT_NAME}?part=tags&tag={$tag['title']}" class="btn btn-default btn-xs"><i class="fa fa-fw fa-tag fa-va"></i>{$tag['title']}</a>
-				{/foreach}
-			</span>
-		{/if}
-	</div>
-	<small>
-		<i class="fa fa-fw fa-calendar" title="Дата публикации"></i> {$item['datepub']}
-		{if $item['author_id'] != 0}<br /> <i class="fa fa-fw fa-user-circle-o" title="Автор"></i> {$item['author']['nickname']}{/if}
-		{if $item['views'] != 0}<br /><i class="fa fa-fw fa-eye" title="Просмотрено раз"></i> {$item['views']}{/if}
-	</small>
-	<hr>
+	{if isset($images[0]['resize'])}
+	<style>
+		.feed-item-head::after {
+			background: transparent url('/upload/images/{$images[0]['resize']}') no-repeat center 50%;
+			background-size: cover;
+		}
+	</style>
+
+	<div class="feed-item-head">
+	{/if}
+		<h1>{$item['title']}</h1>
+		<div class="pull-right">
+			{if !empty($item['tags'])}
+				<span class="small">
+					{foreach from=$item['tags'] item=tag}
+						<a href="{$SCRIPT_NAME}?part=tags&tag={$tag['title']}" class="btn btn-default btn-xs"><i class="fa fa-fw fa-tag fa-va"></i>{$tag['title']}</a>
+					{/foreach}
+				</span>
+			{/if}
+		</div>
+		<small>
+			<i class="fa fa-fw fa-calendar" title="Дата публикации"></i> {$item['datepub']}
+			{if $item['views'] != 0} <i class="fa fa-fw fa-eye" title="Просмотрено раз"></i> {$item['views']}{/if}
+			{*{if $item['author_id'] != 0}<br /> <i class="fa fa-fw fa-user-circle-o" title="Автор"></i> {$item['author']['nickname']}{/if}*}
+		</small>
+
+	{if isset($images[0]['resize'])}</div>{else}<hr />{/if}
+
+
 	{if isset($smarty.get.search)}
 		{$item['full_item']|highlight:$smarty.get.search}
 	{else}

@@ -140,7 +140,7 @@ class UI_Search {
 		}
 
 		# tags collect
-		$result = $tags->collect_tags($feedlist, $taglinks);
+		$result = $tags->collect_tags($result, $taglinks);
 
 		# template
 		$smarty->assign("searchstring", $searchstring);
