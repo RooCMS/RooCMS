@@ -81,6 +81,9 @@ a#move_top {
 	position: absolute;
 	z-index: -1;
 }
+.feed-item-head > h1 {
+	text-shadow: -1px -1px 0 #fff;
+}
 
 @media (min-width: 992px) {
 	.feed-image-prev {max-width: 50% !important;}
