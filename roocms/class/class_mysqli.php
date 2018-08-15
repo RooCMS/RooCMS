@@ -372,7 +372,7 @@ class MySQLiDatabase extends MySQLiExtends {
 	 * @param string      $field   - название поля таблицы содержащий идентификатор
 	 * @param string|null $proviso - Дополнительное условие (фильтр) для проверки
 	 *
-	 * @return int|false - Возвращает количество найденных строк, соответсвующих критериям или false в случае неудачи
+	 * @return int|boolean - Возвращает количество найденных строк, соответсвующих критериям или false в случае неудачи
 	 */
 	public function check_id($id, $table, $field="id", $proviso=NULL) {
 
