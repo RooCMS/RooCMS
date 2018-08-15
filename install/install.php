@@ -42,7 +42,7 @@
 * @author       alex Roosso
 * @copyright    2010-2019 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.6.3
+* @version      1.6.4
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -57,16 +57,16 @@ if(!defined('RooCMS') || !defined('INSTALL')) {
 //#########################################################
 
 
-class Install extends Requirement {
+class Install extends ExtIUFunction {
 
 	# vars
 	protected $allowed	= true;		# [bool]	flag for allowed to continue process
 	protected $log		= array();	# [array]	array log process actions
 
 	private $action		= "install";	# [string]	alias for identy process
-	private $step		= 1;		# [int]		now use step
-	private $nextstep	= 2;		# [int]		next use step
-	private $steps		= 8;		# [int]		all step in operations
+	protected $step		= 1;		# [int]		now use step
+	protected $nextstep	= 2;		# [int]		next use step
+	protected $steps	= 8;		# [int]		all step in operations
 	private $page_title	= "";
 	private $status		= "";
 	private $noticetext	= "";		# [string]	attention text in head form
@@ -162,9 +162,8 @@ class Install extends Requirement {
 				break;
 		}
 
-		if($this->allowed && $this->step != $this->steps) {
-			$this->nextstep = $this->step + 1;
-		}
+		# nextstep
+		$this->set_nextstep();
 
 		# draw
 		$smarty->assign("allowed",	$this->allowed);
@@ -473,36 +472,6 @@ class Install extends Requirement {
 	RewriteRule ^index\.php$ http://'.$server_name.'/ [R=301,L]
 &lt;/IfModule&gt;</pre>
 						Это важно для поисковой оптимизации, но вовсе не обязательно.</div>', false, '');
-	}
-
-
-	/**
-	 * Check data $post->step
-	 *
-	 * @param int $n - step
-	 *
-	 * @return bool
-	 */
-	private function check_step($n) {
-
-		global $post;
-
-		return isset($post->step) && $post->step == $n;
-
-	}
-
-
-	/**
-	 * Check used $post->submit
-	 *
-	 * @return bool
-	 */
-	private function check_submit() {
-
-		global $post;
-
-		return $this->allowed && isset($post->submit);
-
 	}
 
 

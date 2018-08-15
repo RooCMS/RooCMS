@@ -40,9 +40,9 @@
 * @package      RooCMS
 * @subpackage	Installer or Updater
 * @author       alex Roosso
-* @copyright    2010-2018 (c) RooCMS
+* @copyright    2010-2019 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.1.1
+* @version      1.1.2
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -71,6 +71,7 @@ if(trim($db_info['user']) != "" && trim($db_info['base']) != "" && $db->check_id
 	if($acpsecurity->access) {
 
 		require_once "check_requirement.php";
+		require_once "ext_function.php";
 
 		if(!empty($db_info['user']) && !empty($db_info['pass']) && !empty($db_info['base'])) {
 			require_once "update.php";

@@ -40,9 +40,9 @@
 * @package      RooCMS
 * @subpackage	Updater
 * @author       alex Roosso
-* @copyright    2010-2018 (c) RooCMS
+* @copyright    2010-2019 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.2.4
+* @version      1.2.5
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -57,16 +57,16 @@ if(!defined('RooCMS') || !defined('INSTALL')) {
 //#########################################################
 
 
-class Update extends Requirement{
+class Update extends ExtIUFunction {
 
 	# vars
 	protected $allowed	= true;			# [bool]	flag for allowed to continue process
 	protected $log		= array();		# [array]	array log process actions
 
 	private $action		= "update";		# [string]	alias for identy process
-	private $step		= 1;			# [int]		now use step
-	private $nextstep	= 2;			# [int]		next use step
-	private $steps		= 4;			# [int]		all step in operations
+	protected $step		= 1;			# [int]		now use step
+	protected $nextstep	= 2;			# [int]		next use step
+	protected $steps	= 4;			# [int]		all step in operations
 	private $page_title	= "";
 	private $status		= "";
 	private $noticetext	= "";			# [string]	attention text in head form
@@ -141,9 +141,8 @@ class Update extends Requirement{
 				break;
 		}
 
-		if($this->allowed && $this->step != $this->steps) {
-			$this->nextstep = $this->step + 1;
-		}
+		# nextstep
+		$this->set_nextstep();
 
 		# draw
 		$smarty->assign("allowed",	$this->allowed);
