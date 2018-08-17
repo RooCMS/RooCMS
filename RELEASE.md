@@ -1,6 +1,6 @@
 Version: 1.2.2
 ========================
-**release date:	16.08.2018**
+**release date:	17.08.2018**
 
 Plugins
 -------
@@ -8,7 +8,7 @@ Plugins
 - Smarty plugins:       `get_params`
 - jQuery                `v3.1.1`
 - jQuery-Migrate        `v3.0.0`
-- jQuery TouchSwipe	`v1.6.18`
+- jQuery TouchSwipe     `v1.6.18`
 - Bootstrap             `v3.3.7`
 - Bootstrap Select      `v1.12.4`
 - Bootstrap Datepicker  `v1.3`

@@ -9,7 +9,7 @@
  */
 
 /**
- *   RooCMS - Russian Open Source Free Content Managment System
+ *   RooCMS - Russian
  *   Copyright (C) 2010-2014 alex Roosso aka alexandr Belov info@roocms.com
  *
  *   This program is free software: you can redistribute it and/or modify
@@ -26,7 +26,7 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/
  *
  *
- *   RooCMS - Русская бесплатная система управления сайтом
+ *   RooCMS - Бесплатная система управления сайтом
  *   Copyright (C) 2010-2014 alex Roosso (александр Белов) info@roocms.com
  *
  *   Это программа является свободным программным обеспечением. Вы можете
