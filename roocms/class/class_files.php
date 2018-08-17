@@ -259,8 +259,8 @@ class Files {
 				if(array_key_exists($upfiles[$file]['ext'][$key], $allow_exts)) {
 
 					# Создаем имя файлу.
-					$ext = $allow_exts[$upfiles[$file]['ext'][$key]];
 					$filename = $this->create_filename($upfiles[$file]['name'][$key], $prefix);
+					$ext = $allow_exts[$upfiles[$file]['ext'][$key]];
 
 					# Сохраняем оригинал
 					copy($upfiles[$file]['tmp_name'][$key], $path."/".$filename.".".$ext);
@@ -280,7 +280,7 @@ class Files {
 				$filename = false;
 			}
 
-			if($filename) {
+			if($filename !== false) {
 				# upload
 				$this->insert_file($filename.".".$ext, $attached);
 
