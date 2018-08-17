@@ -382,7 +382,7 @@ class Files {
 
 			# create callback array
 			foreach($filetype AS $itype) {
-				if(in_array($itype['ext'], $exts)) $allow_exts[$itype['ext']] = $itype['ext'];
+				if(in_array($itype['ext'], $allowtypes)) $allow_exts[$itype['ext']] = $itype['ext'];
 			}
 		}
 		else {
