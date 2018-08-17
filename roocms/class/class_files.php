@@ -42,7 +42,7 @@
  * @author       alex Roosso
  * @copyright    2010-2019 (c) RooCMS
  * @link         http://www.roocms.com
- * @version      1.6
+ * @version      1.7
  * @since        $date$
  * @license      http://www.gnu.org/licenses/gpl-3.0.html
  */
@@ -204,15 +204,15 @@ class Files {
 	/**
 	 * Функция загрузки файлов
 	 *
-	 * @param string       $file      Параметр файла массива $_FILES
-	 * @param string       $attached  Элемент родитель файла
-	 * @param string       $prefix    Префикс имени файла
-	 * @param array|string $types     Допустимые типы файлов (в будущем)
-	 * @param string       $path      путь для загрузки файлов
+	 * @param string       $file        Параметр файла массива $_FILES
+	 * @param string       $attached    Элемент родитель файла
+	 * @param string       $prefix      Префикс имени файла
+	 * @param string|array $allowtypes  Допустимые типы файлов (в будущем)
+	 * @param string       $path        путь для загрузки файлов
 	 *
 	 * @return array|false
 	 */
-	public function upload($file, $attached, $prefix="", $types="all", $path=_UPLOADFILES) {
+	public function upload($file, $attached, $prefix="", $allowtypes="", $path=_UPLOADFILES) {
 
     	        # Переписать функцию!!!
     	        # *** Больше проверок от "умников"
@@ -223,7 +223,7 @@ class Files {
 		# Составляем массив для проверки разрешенных типов файлов к загрузке
 		static $allow_exts = array();
 		if(empty($allow_exts)) {
-			$allow_exts = $this->get_allow_exts();
+			$allow_exts = $this->get_allow_exts($allowtypes);
 		}
 
 
@@ -360,13 +360,36 @@ class Files {
 	/**
 	 * Функция составляет массив допустимых расширений файлов разрешенных для загрузки на сервер.
 	 *
+	 * @param string|array $allowtypes     Допустимые типы файлов (в будущем)
+	 *
 	 * @return mixed Возвращает массив с допустимыми расширениями изображения для загрузки на сервер
 	 */
-	public function get_allow_exts() {
+	public function get_allow_exts($allowtypes="") {
 		require _LIB."/mimetype.php";
 
-		foreach($filetype AS $itype) {
-			$allow_exts[$itype['ext']] = $itype['ext'];
+		$allow_exts = array();
+
+		# listing allow types
+		if($allowtypes != "") {
+
+			if(!is_array($allowtypes)) {
+				$exts = array();
+				$exts = preg_split("/[\s,-]+/", $allowtypes);
+
+				$allowtypes = array();
+				$allowtypes = $exts;
+			}
+
+			# create callback array
+			foreach($filetype AS $itype) {
+				if(in_array($itype['ext'], $exts)) $allow_exts[$itype['ext']] = $itype['ext'];
+			}
+		}
+		else {
+			# create callback array
+			foreach($filetype AS $itype) {
+				$allow_exts[$itype['ext']] = $itype['ext'];
+			}
 		}
 
 		return $allow_exts;
