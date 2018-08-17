@@ -42,7 +42,7 @@
 * @author       alex Roosso
 * @copyright    2010-2019 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.3.5
+* @version      1.3.6
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -142,12 +142,7 @@ class ACP_Pages_HTML {
 
 
 		# attachment files
-		$attachs = $files->upload("files");
-		if($attachs) {
-			foreach($attachs AS $attach) {
-				$files->insert_file($attach, "pagesid=".$sid);
-			}
-		}
+		$files->upload("files", "pagesid=".$sid);
 
 
 		if(!isset($post->content)) {

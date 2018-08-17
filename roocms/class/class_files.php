@@ -42,7 +42,7 @@
  * @author       alex Roosso
  * @copyright    2010-2019 (c) RooCMS
  * @link         http://www.roocms.com
- * @version      1.5
+ * @version      1.6
  * @since        $date$
  * @license      http://www.gnu.org/licenses/gpl-3.0.html
  */
@@ -158,7 +158,7 @@ class Files {
 		$filelength = mb_strlen($filename);
 
 		# постараемся не выскочить за длину допустимого пути.
-		$maxlenght = PHP_MAXPATHLEN - __DIR__;
+		$maxlenght = PHP_MAXPATHLEN - count(__DIR__);
 		if($length + $filelength > $maxlenght) {
 			$maxfilelength = $maxlenght - $length;
                         $filename = mb_substr($filename,0,$maxfilelength);
@@ -204,14 +204,15 @@ class Files {
 	/**
 	 * Функция загрузки файлов
 	 *
-	 * @param string	$file   Параметр файла массива $_FILES
-	 * @param string	$prefix Префикс имени файла
-	 * @param array|string	$types  Допустимые типы файлов (в будущем)
-	 * @param string	$path	путь для загрузки файлов
+	 * @param string       $file      Параметр файла массива $_FILES
+	 * @param string       $attached  Элемент родитель файла
+	 * @param string       $prefix    Префикс имени файла
+	 * @param array|string $types     Допустимые типы файлов (в будущем)
+	 * @param string       $path      путь для загрузки файлов
 	 *
 	 * @return array|false
 	 */
-	public function upload($file, $prefix="", $types="all", $path=_UPLOADFILES) {
+	public function upload($file, $attached, $prefix="", $types="all", $path=_UPLOADFILES) {
 
     	        # Переписать функцию!!!
     	        # *** Больше проверок от "умников"
@@ -280,6 +281,10 @@ class Files {
 			}
 
 			if($filename) {
+				# upload
+				$this->insert_file($filename.".".$ext, $attached);
+
+				# callback array
 				$files[] = $filename.".".$ext;
 			}
 		}

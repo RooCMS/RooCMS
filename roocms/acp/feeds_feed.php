@@ -44,7 +44,7 @@
  * @author       alex Roosso
  * @copyright    2010-2019 (c) RooCMS
  * @link         http://www.roocms.com
- * @version      1.14.2
+ * @version      1.14.3
  * @since        $date$
  * @license      http://www.gnu.org/licenses/gpl-3.0.html
  */
@@ -183,17 +183,10 @@ class ACP_Feeds_Feed {
 				}
 
 				# attachment files
-				$attachs = $files->upload("files");
-				if($attachs) {
-					foreach($attachs AS $attach) {
-						$files->insert_file($attach, "feeditemid=".$fiid);
-					}
-				}
-
+				$files->upload("files", "feeditemid=".$fiid);
 
 				# recount items
 				$this->count_items($this->feed['id']);
-
 
 				# notice
 				$logger->info("Элемент #".$fiid." <".$post->title."> успешно создан.");
@@ -367,15 +360,8 @@ class ACP_Feeds_Feed {
 				}
 			}
 
-
 			# attachment files
-			$attachs = $files->upload("files");
-			if($attachs) {
-				foreach($attachs AS $attach) {
-					$files->insert_file($attach, "feeditemid=".$id);
-				}
-			}
-
+			$files->upload("files", "feeditemid=".$id);
 
 			# go
 			go(CP."?act=feeds&part=control&page=".$get->_page);
