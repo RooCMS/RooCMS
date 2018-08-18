@@ -42,7 +42,7 @@
 * @author       alex Roosso
 * @copyright    2010-2019 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      2.3
+* @version      2.3.1
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -99,7 +99,7 @@ class ACP_Index {
 		}
 
 		# warning alerts
-		$warning_subj = array();
+		$warning_subj = [];
 		if(file_exists(_SITEROOT."/install/index.php")) {
 			$warning_subj[] = "Инсталятор RooCMS находится в корне сайта. В целях безопастности следует удалить инсталятор!";
 		}
@@ -120,7 +120,7 @@ class ACP_Index {
 
 		global $site, $config, $tpl, $smarty;
 
-		$info = array();
+		$info = [];
 		$info['sitetitle']	= $config->site_title;
 		$info['sitedomain']	= $site['domain'];
 		$info['email']		= $config->cp_email;
@@ -155,7 +155,7 @@ class ACP_Index {
 		global $db, $debug, $tpl, $smarty;
 
 		# Версия MYSQL
-		$data1 = array();
+		$data1 = [];
 		$q = $db->query("SHOW VARIABLES LIKE 'version'");
 		$mysql = $db->fetch_row($q);
 		$data1['mysql']		= $mysql[1];
@@ -232,7 +232,7 @@ class ACP_Index {
 		) ;
 
 
-		$data2 = array();
+		$data2 = [];
 		foreach ($server_vars as $arg) {
 			if (isset($_SERVER[$arg])) {
 				if(is_array($_SERVER[$arg])) {
@@ -283,7 +283,7 @@ class ACP_Index {
 
 		global $config, $tpl, $smarty;
 
-		$phpextfunc = array();
+		$phpextfunc = [];
 		foreach($config->phpextensions AS $v) {
 			$phpextfunc[$v] = get_extension_funcs($v);
 		}

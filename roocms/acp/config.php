@@ -43,7 +43,7 @@
 * @author       alex Roosso
 * @copyright    2010-2019 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.4.2
+* @version      1.4.3
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -100,7 +100,7 @@ class ACP_Config {
 
 		global $db, $smarty, $get;
 
-		$parts = array();
+		$parts = [];
 
 		if(isset($get->_part) && $db->check_id($get->_part, CONFIG_PARTS_TABLE, "name") == 1) {
 			$this->part = $get->_part;
@@ -209,7 +209,7 @@ class ACP_Config {
 
 			case 'image':
 			case 'img':
-				$image = array();
+				$image = [];
 				if(trim($field['value']) != "" && file_exists(_UPLOADIMAGES."/".$field['value'])) {
 					$image['src'] = $field['value'];
 					$size = getimagesize(_UPLOADIMAGES."/".$image['src']);
@@ -408,7 +408,7 @@ class ACP_Config {
 
 		global $db;
 
-		$cfg_vars = array();
+		$cfg_vars = [];
 		$q = $db->query("SELECT option_name, option_type, variants, field_maxleight FROM ".CONFIG_TABLE);
 		while($row = $db->fetch_assoc($q)) {
 

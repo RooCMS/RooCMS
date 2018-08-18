@@ -44,7 +44,7 @@
  * @author       alex Roosso
  * @copyright    2010-2019 (c) RooCMS
  * @link         http://www.roocms.com
- * @version      1.14.3
+ * @version      1.14.4
  * @since        $date$
  * @license      http://www.gnu.org/licenses/gpl-3.0.html
  */
@@ -62,8 +62,8 @@ if(!defined('RooCMS') || !defined('ACP')) {
 class ACP_Feeds_Feed {
 
 	# vars
-	private $feed     = array();	# structure parametrs
-	private $userlist = array();
+	private $feed     = [];	# structure parametrs
+	private $userlist = [];
 
 
 
@@ -106,8 +106,8 @@ class ACP_Feeds_Feed {
 
 
 		# feed items
-		$taglinks = array();
-		$feedlist = array();
+		$taglinks = [];
+		$feedlist = [];
 		$q = $db->query("SELECT id, status, title, brief_item, date_publications, date_end_publications, date_update, views FROM ".PAGES_FEED_TABLE." WHERE sid='".$this->feed['id']."' ORDER BY ".$order);
 		while($row = $db->fetch_assoc($q)) {
 
@@ -412,7 +412,7 @@ class ACP_Feeds_Feed {
 
 
 		# get data feeds from db
-		$feeds = array();
+		$feeds = [];
 		$q = $db->query("SELECT id, title, alias FROM ".STRUCTURE_TABLE." WHERE page_type='feed' ORDER BY id ASC");
 		while($row = $db->fetch_assoc($q)) {
 			$feeds[$row['id']] = $row;

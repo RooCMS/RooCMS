@@ -43,7 +43,7 @@
 * @author       alex Roosso
 * @copyright    2010-2019 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.0.2
+* @version      1.0.3
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -151,7 +151,7 @@ class ACP_Blocks {
 
 		global $db, $tpl, $smarty;
 
-		$data = array();
+		$data = [];
 		$q = $db->query("SELECT id, alias, block_type, title FROM ".BLOCKS_TABLE." ORDER BY id ASC");
 		while($row = $db->fetch_assoc($q)) {
 			$data[] = $row;

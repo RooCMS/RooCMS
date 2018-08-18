@@ -42,7 +42,7 @@
 * @author       alex Roosso
 * @copyright    2010-2019 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.5.3
+* @version      1.5.4
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -94,7 +94,7 @@ class ACP_Structure {
 		$smarty->assign('tree', $this->engine->sitetree);
 
 		# Проверяем разрешенные типы страниц для использования
-		$content_types = array();
+		$content_types = [];
 		foreach($this->engine->content_types AS $key=>$value) {
 			if($value['enable']) {
 				$content_types[$key] = $value['title'];
@@ -124,7 +124,7 @@ class ACP_Structure {
 				}
 				else {
 					# groups
-					$groups = array();
+					$groups = [];
 					$q = $db->query("SELECT gid, title, users FROM ".USERS_GROUP_TABLE." ORDER BY gid ASC");
 					while($row = $db->fetch_assoc($q)) {
 						$groups[] = $row;
@@ -258,7 +258,7 @@ class ACP_Structure {
 		else $gids[0] = 0;
 
 		# list groups
-		$groups = array();
+		$groups = [];
 		$q = $db->query("SELECT gid, title, users FROM ".USERS_GROUP_TABLE." ORDER BY gid ASC");
 		while($row = $db->fetch_assoc($q)) {
 			$groups[] = $row;

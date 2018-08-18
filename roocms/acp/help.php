@@ -42,7 +42,7 @@
 * @author       alex Roosso
 * @copyright    2010-2019 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.1.9
+* @version      1.1.10
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -67,10 +67,10 @@ class ACP_Help {
 	private $part_id	= 0;
 	private $part_parent	= 0;
 
-	private $part_data	= array(); # Информация по текущему разделу
+	private $part_data	= []; # Информация по текущему разделу
 
-	private $helptree 	= array();
-	private $breadcumb	= array();
+	private $helptree 	= [];
+	private $breadcumb	= [];
 
 
 

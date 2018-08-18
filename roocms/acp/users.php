@@ -43,7 +43,7 @@
  * @author       alex Roosso
  * @copyright    2010-2019 (c) RooCMS
  * @link         http://www.roocms.com
- * @version      1.6.1
+ * @version      1.6.2
  * @since        $date$
  * @license      http://www.gnu.org/licenses/gpl-3.0.html
  */
@@ -182,7 +182,7 @@ class ACP_Users {
 
 		global $db, $smarty, $tpl, $parse;
 
-		$data = array();
+		$data = [];
 		$q = $db->query("SELECT u.uid, u.gid, u.status, u.login, u.nickname, u.avatar, u.email, u.mailing, u.title, u.user_sex, u.user_slogan,
 					u.date_create, u.date_update, u.last_visit, u.activation_code, u.ban, u.ban_reason, u.ban_expiried,
 					g.title AS gtitle
@@ -212,7 +212,7 @@ class ACP_Users {
 
 		global $db, $smarty, $tpl, $parse;
 
-		$data = array();
+		$data = [];
 		$q = $db->query("SELECT gid, title, users, date_create, date_update FROM ".USERS_GROUP_TABLE." ORDER BY gid ASC");
 		while($row = $db->fetch_assoc($q)) {
 
@@ -302,7 +302,7 @@ class ACP_Users {
 		}
 
 		# groups
-		$groups = array();
+		$groups = [];
 		$q = $db->query("SELECT gid, title, users FROM ".USERS_GROUP_TABLE." ORDER BY gid ASC");
 		while($row = $db->fetch_assoc($q)) {
 			$groups[] = $row;
@@ -392,7 +392,7 @@ class ACP_Users {
 			}
 
 			# groups
-			$groups = array();
+			$groups = [];
 			$q = $db->query("SELECT gid, title, users FROM ".USERS_GROUP_TABLE." ORDER BY gid ASC");
 			while($row = $db->fetch_assoc($q)) {
 				$groups[] = $row;
@@ -420,7 +420,7 @@ class ACP_Users {
 		$q = $db->query("SELECT gid, title FROM ".USERS_GROUP_TABLE." WHERE gid='".$gid."'");
 		$group = $db->fetch_assoc($q);
 
-		$guser = array();
+		$guser = [];
 		$u = $db->query("SELECT uid, nickname, login, avatar, status, ban FROM ".USERS_TABLE." WHERE gid='".$gid."' ORDER BY uid ASC");
 		while($row = $db->fetch_assoc($u)) {
 			$guser[$row['uid']] = $row;
