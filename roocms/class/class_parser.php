@@ -42,7 +42,7 @@
 * @author       alex Roosso
 * @copyright    2010-2019 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.4.7
+* @version      1.4.8
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -95,6 +95,7 @@ class Parser {
 		$this->parse_global_arrays();
 
 		# обрабатываем URI
+		$this->get_uri();
 		$this->parse_uri();
 
 		# act(ion) & part(ition) & move
@@ -226,10 +227,9 @@ class Parser {
 
 
 	/**
-	* Parser URI
-	*
-	*/
-	private function parse_uri() {
+	 * Get URI and clear garbage
+	 */
+	private function get_uri() {
 
 		# Получаем uri
 		$this->uri = str_replace($_SERVER['SCRIPT_NAME'], "", $_SERVER['REQUEST_URI']);
@@ -245,6 +245,14 @@ class Parser {
 		}
 
 		$this->uri = str_ireplace("\\","", $this->uri);
+	}
+
+
+	/**
+	* Parser URI
+	*
+	*/
+	private function parse_uri() {
 
 		# разбиваем
 		$gets = explode("/",$this->uri);
