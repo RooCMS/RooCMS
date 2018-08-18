@@ -42,7 +42,7 @@
  * @author       alex Roosso
  * @copyright    2010-2019 (c) RooCMS
  * @link         http://www.roocms.com
- * @version      0.2.1
+ * @version      0.2.2
  * @since        $date$
  * @license      http://www.gnu.org/licenses/gpl-3.0.html
  */
@@ -118,8 +118,8 @@ class UI_Search {
 			$cond .= " (f.brief_item LIKE '%".$val."%' OR f.full_item LIKE '%".$val."%') ";
 		}
 
-		$taglinks = array();
-		$result   = array();
+		$taglinks = [];
+		$result   = [];
 		$q = $db->query("SELECT f.id, f.title, f.brief_item, s.title AS feed_title, s.alias, f.date_publications, f.views FROM ".PAGES_FEED_TABLE." AS f LEFT JOIN ".STRUCTURE_TABLE." AS s ON (s.id = f.sid) WHERE (".$cond.") AND (".$condsid.") AND (f.date_end_publications = '0' || f.date_end_publications > '".time()."') AND f.status='1' AND date_publications <= '".time()."' ORDER BY f.date_publications DESC, f.views DESC");
 		while($row = $db->fetch_assoc($q)) {
 			if(trim($row['brief_item']) == "") {
@@ -132,7 +132,7 @@ class UI_Search {
 
 			$row['image']      = $img->load_images("feeditemid=".$row['id']."", 0, 1);
 
-			$row['tags']       = array();
+			$row['tags']       = [];
 
 			$taglinks[$row['id']] = "feeditemid=".$row['id'];
 

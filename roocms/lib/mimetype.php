@@ -42,7 +42,7 @@
 * @author       alex Roosso
 * @copyright    2010-2019 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.0.3
+* @version      1.0.4
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -57,7 +57,7 @@ if(!defined('RooCMS')) {
 //#########################################################
 
 
-$mimetype = array();
+$mimetype = [];
 
 
 /**
@@ -65,7 +65,7 @@ $mimetype = array();
 *
 * @var array
 */
-$filetype	= array();
+$filetype	= [];
 $filetype[]	= array('ext'	=> '7z',	'mime_type'	=> 'application/octet-stream',		'ico'	=> '7z.png');
 $filetype[]	= array('ext'	=> 'm3u',	'mime_type'	=> 'audio/mpegurl',			'ico'	=> 'mp3.png');
 $filetype[]	= array('ext'	=> 'ttf',	'mime_type'	=> 'application/octet-stream',		'ico'	=> 'ttf.png');
@@ -99,7 +99,7 @@ $filetype[]	= array('ext'	=> 'torrent',	'mime_type'	=> 'application/x-bittorrent
 *
 * @var array
 */
-$imagetype	= array();
+$imagetype	= [];
 $imagetype[]	= array('ext'	=> 'png',	'mime_type'	=> 'image/png',		'ico'	=> 'png.png');
 $imagetype[]	= array('ext'	=> 'gif',	'mime_type'	=> 'image/gif',		'ico'	=> 'gif.png');
 $imagetype[]	= array('ext'	=> 'jpg',	'mime_type'	=> 'image/jpg',		'ico'	=> 'jpg.png');

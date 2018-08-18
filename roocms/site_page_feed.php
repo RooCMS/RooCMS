@@ -42,7 +42,7 @@
  * @author       alex Roosso
  * @copyright    2010-2019 (c) RooCMS
  * @link         http://www.roocms.com
- * @version      1.6.2
+ * @version      1.6.3
  * @since        $date$
  * @license      http://www.gnu.org/licenses/gpl-3.0.html
  */
@@ -66,7 +66,7 @@ class SitePageFeed {
 	private $item_id	= 0;
 	private $items_per_page	= 10;
 
-	private $userlist       = array();
+	private $userlist       = [];
 
 
 
@@ -125,9 +125,9 @@ class SitePageFeed {
 
 
 		# Feed list
-		$taglinks = array();
-		$authors  = array();
-		$feeds    = array();
+		$taglinks = [];
+		$authors  = [];
+		$feeds    = [];
 		$q = $db->query("SELECT id, author_id, title, brief_item, full_item, date_publications, views FROM ".PAGES_FEED_TABLE." WHERE ".$cond." ORDER BY ".$order." LIMIT ".$db->from.",".$db->limit);
 		while($row = $db->fetch_assoc($q)) {
 
@@ -141,7 +141,7 @@ class SitePageFeed {
 
 			$row['image']      = $img->load_images("feeditemid=".$row['id']."", 0, 1);
 
-			$row['tags']       = array();
+			$row['tags']       = [];
 
 
 			$taglinks[$row['id']] = "feeditemid=".$row['id'];
@@ -292,7 +292,7 @@ class SitePageFeed {
 
 		# query
 		$i = 0; $previndex = -1; $nextindex = -1;
-		$data = array(); $res = array();
+		$data = []; $res = [];
 		$q = $db->query("SELECT id, title, date_publications FROM ".PAGES_FEED_TABLE." WHERE ".$cond." ORDER BY ".$order."");
 		while($row = $db->fetch_assoc($q)) {
 
@@ -350,7 +350,7 @@ class SitePageFeed {
 
 		$cond .= " )";
 
-		$data = array();
+		$data = [];
 		$q = $db->query("SELECT id, title, date_publications FROM ".PAGES_FEED_TABLE." WHERE ".$cond." ORDER BY RAND() LIMIT 3");
 		while($row = $db->fetch_assoc($q)) {
 			$row['datepub'] = $parse->date->unix_to_rus($row['date_publications']);
@@ -375,7 +375,7 @@ class SitePageFeed {
 
 		global $structure;
 
-		$feeds = array();
+		$feeds = [];
 
 		$tfeeds = $structure->load_tree($sid, 0, false);
 		foreach((array)$tfeeds AS $v) {
@@ -473,7 +473,7 @@ class SitePageFeed {
 
 		global $db, $site;
 
-		$pages = array();
+		$pages = [];
 		# prev
 		if($db->prev_page != 0) {
 			$pages[]['prev'] =& $db->prev_page;

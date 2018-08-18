@@ -42,7 +42,7 @@
  * @author       alex Roosso
  * @copyright    2010-2019 (c) RooCMS
  * @link         http://www.roocms.com
- * @version      1.0.2
+ * @version      1.0.3
  * @since        $date$
  * @license      http://www.gnu.org/licenses/gpl-3.0.html
  */
@@ -143,7 +143,7 @@ class UI_RePass {
 		# check
 		if(isset($post->email) && $parse->valid_email($post->email) && $db->check_id($post->email, USERS_TABLE, "email")) {
 
-			$confirm = array();
+			$confirm = [];
 			$confirm['code'] = randcode(10);
 
 			# set secret key

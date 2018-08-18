@@ -42,7 +42,7 @@
 * @author       alex Roosso
 * @copyright    2010-2019 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.1.1
+* @version      1.1.2
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -59,7 +59,7 @@ if(!defined('RooCMS') || !defined('UI') || !defined('UCP')) {
 
 class UCP_PM {
 
-	private $userlist = array();
+	private $userlist = [];
 
 
 
@@ -108,7 +108,7 @@ class UCP_PM {
 		global $db, $users, $parse,  $tpl, $smarty;
 
 		# список сообщений
-		$pm = array();
+		$pm = [];
 		$q = $db->query("SELECT id, from_uid, title, see, date_create FROM ".USERS_PM_TABLE." WHERE to_uid='".$users->uid."' ORDER BY date_create DESC");
 		while($row = $db->fetch_assoc($q)) {
 			$row['date_send'] = $parse->date->unix_to_rus($row['date_create']);

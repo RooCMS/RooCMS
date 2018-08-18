@@ -42,7 +42,7 @@
 * @author       alex Roosso
 * @copyright    2010-2019 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.0.3
+* @version      1.0.4
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -62,7 +62,7 @@ if(!defined('RooCMS')) {
 *
 * @var array list names spider bots
 */
-$spider = array();
+$spider = [];
 $spider[] =	"yandex";
 $spider[] =	"google";
 $spider[] =	"yahoo";

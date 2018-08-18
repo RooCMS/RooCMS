@@ -42,7 +42,7 @@
  * @author       alex Roosso
  * @copyright    2010-2019 (c) RooCMS
  * @link         http://www.roocms.com
- * @version      1.2
+ * @version      1.2.1
  * @since        $date$
  * @license      http://www.gnu.org/licenses/gpl-3.0.html
  */
@@ -146,7 +146,7 @@ class UI_Reg {
 			$users->correct_personal_data();
 
 			# activation code
-			$activation = array();
+			$activation = [];
 			$activation['code'] = randcode(7);
 
 

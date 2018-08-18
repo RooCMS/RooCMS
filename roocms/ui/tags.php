@@ -42,7 +42,7 @@
  * @author       alex Roosso
  * @copyright    2010-2019 (c) RooCMS
  * @link         http://www.roocms.com
- * @version      0.3.1
+ * @version      0.3.2
  * @since        $date$
  * @license      http://www.gnu.org/licenses/gpl-3.0.html
  */
@@ -143,7 +143,7 @@ class UI_Tags {
 		global $db, $structure, $parse, $img, $tags, $tpl, $smarty;
 
 		# data linked
-		$links = array();
+		$links = [];
 		$q = $db->query("SELECT linkedto FROM ".TAGS_LINK_TABLE." WHERE tag_id='".$this->id."'");
 		while($data = $db->fetch_assoc($q)) {
 			$id = explode("=", $data['linkedto']);
@@ -183,8 +183,8 @@ class UI_Tags {
 		$pages = $this->construct_pagination();
 
 		# Feed list
-		$taglinks = array();
-		$feeds    = array();
+		$taglinks = [];
+		$feeds    = [];
 		$cond = str_ireplace("id=", "fi.id=", $cond);
 		$scond = str_ireplace("sid=", "fi.sid=", $scond);
 		$q = $db->query("SELECT fi.id, fi.sid, s.alias, s.title AS feed_title, fi.title, fi.brief_item, fi.full_item, fi.date_publications, fi.views 
@@ -205,7 +205,7 @@ class UI_Tags {
 
 			$row['image']      = $img->load_images("feeditemid=".$row['id']."", 0, 1);
 
-			$row['tags']       = array();
+			$row['tags']       = [];
 
 
 			$taglinks[$row['id']] = "feeditemid=".$row['id'];
@@ -232,7 +232,7 @@ class UI_Tags {
 
 		global $db, $structure;
 
-		$pages = array();
+		$pages = [];
 		# prev
 		if($db->prev_page != 0) {
 			$pages[]['prev'] =& $db->prev_page;
