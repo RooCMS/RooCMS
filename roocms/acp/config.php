@@ -65,7 +65,7 @@ class ACP_Config extends ACP_Config_SpecPart {
 	# classes
 	var $config;
 
-	private $part	= "global";
+	private $part = "global";
 
 
 
@@ -195,6 +195,7 @@ class ACP_Config extends ACP_Config_SpecPart {
 				$out = $tpl->load_template("config_field_date",true);
 				break;
 
+			# select
 			case 'select':
 				$vars = explode("\n",$variants);
 				foreach($vars AS $v) {
@@ -209,6 +210,7 @@ class ACP_Config extends ACP_Config_SpecPart {
 				$out = $tpl->load_template("config_field_select",true);
 				break;
 
+			# image
 			case 'image':
 			case 'img':
 				$image = [];
@@ -291,12 +293,14 @@ class ACP_Config extends ACP_Config_SpecPart {
 					$check = true;
 					break;
 
+				# select
 				case 'select':
 					if(isset($cfg_vars[$key]['var'][$value])) {
 						$check = true;
 					}
 					break;
 
+				# image
 				case 'image':
 				case 'img':
 					$image = $img->upload_image("image_".$key, "", array(), array("filename"=>$key, "watermark"=>false, "modify"=>false, "noresize"=>true));

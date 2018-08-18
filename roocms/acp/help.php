@@ -42,7 +42,7 @@
 * @author       alex Roosso
 * @copyright    2010-2019 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.1.10
+* @version      1.1.11
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -84,22 +84,11 @@ class ACP_Help {
 
 		# загружаем "дерево" помощи
     		$this->helptree = $this->load_tree();
+		$smarty->assign("tree", $this->helptree);
 
 		# Запрашиваем техническую информацию о разделе по уникальному имени
-		if(isset($get->_u) && $db->check_id($get->_u, HELP_TABLE, "uname") && !isset($get->_id)) {
+		if(isset($get->_u) && $db->check_id($get->_u, HELP_TABLE, "uname")) {
 				$q = $db->query("SELECT id, parent_id, uname, title, content, date_modified FROM ".HELP_TABLE." WHERE uname='".$get->_u."'");
-				$row = $db->fetch_assoc($q);
-
-				$this->part = $row['uname'];
-				$this->part_id = $row['id'];
-				$this->part_parent = $row['parent_id'];
-
-				$this->part_data = $row;
-		}
-
-		# Запрашиваем техническую информацию о разделе по идентификатору
-		if(isset($get->_id) && $db->check_id($get->_id, HELP_TABLE)) {
-				$q = $db->query("SELECT id, parent_id, uname, title, content, date_modified FROM ".HELP_TABLE." WHERE id='".$get->_id."'");
 				$row = $db->fetch_assoc($q);
 
 				$this->part = $row['uname'];
@@ -123,10 +112,9 @@ class ACP_Help {
 
 
 		# Варганим "хлебные хрошки"
-		if($this->part_parent != 0) {
-			$this->construct_breadcumb($this->part_id);
-			krsort($this->breadcumb);
-		}
+		$this->construct_breadcumb($this->part_id);
+		krsort($this->breadcumb);
+
 
 		$smarty->assign('helpmites', $this->breadcumb);
 
