@@ -42,7 +42,7 @@
  * @author       alex Roosso
  * @copyright    2010-2019 (c) RooCMS
  * @link         http://www.roocms.com
- * @version      1.1.5
+ * @version      1.1.6
  * @since        $date$
  * @license      http://www.gnu.org/licenses/gpl-3.0.html
  */
@@ -60,8 +60,8 @@ if(!defined('RooCMS') || !defined('INSTALL')) {
 class Requirement {
 
 	# vars
-	protected $allowed 	= true;		# [bool] 	flag for checked requirement for stable work RooCMS
-	protected $log		= array();	# [array]
+	protected $allowed 	= true;	  # [bool] 	flag for checked requirement for stable work RooCMS
+	protected $log		= [];	  # [array]
 
 
 
@@ -171,7 +171,7 @@ class Requirement {
 
 		global $files;
 
-		$protect = array();
+		$protect = [];
 		require_once _LIB."/files_protected.php";
 
 		foreach($protect AS $v) {
