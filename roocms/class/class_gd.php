@@ -42,7 +42,7 @@
 * @author	alex Roosso
 * @copyright	2010-2019 (c) RooCMS
 * @link		http://www.roocms.com
-* @version	1.16
+* @version	1.16.1
 * @since	$date$
 * @license	http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -63,7 +63,7 @@ if(!defined('RooCMS')) {
 class GD {
 
 	# vars
-	public $info		= array();				# Информация о GD расширении
+	public $info		= [];					# Информация о GD расширении
 	public $copyright	= "";					# Текст копирайта ( По умолчанию: $site['title'] )
 	public $domain		= "";					# Адрес домена ( По умолчанию: $site['domain'] )
 	public $msize		= array('w' => 900,'h' => 900);		# Максимальные размеры сохраняемого изображения
@@ -702,7 +702,7 @@ class GD {
 
 		if(is_array($sizes) && count($sizes) == 2) {
 
-			$size = array();
+			$size = [];
 
 			if(round($sizes[0]) > 16) {
 				$size['w'] = round($sizes[0]);

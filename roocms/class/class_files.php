@@ -42,7 +42,7 @@
  * @author       alex Roosso
  * @copyright    2010-2019 (c) RooCMS
  * @link         http://www.roocms.com
- * @version      1.7
+ * @version      1.7.1
  * @since        $date$
  * @license      http://www.gnu.org/licenses/gpl-3.0.html
  */
@@ -124,7 +124,7 @@ class Files {
 	public function create_filename($filename, $prefix="", $pofix="") {
 
 		global $parse;
-		static $names = array();
+		static $names = [];
 
 		# убиваем прицепившиейся расширение к имени файла
 		$pi = pathinfo($filename);
@@ -187,7 +187,7 @@ class Files {
 
 		global $db;
 
-		$data = array();
+		$data = [];
 
 		$l = ($limit != 0) ? "LIMIT {$from},{$limit}" : "" ;
 
@@ -218,10 +218,10 @@ class Files {
     	        # *** Больше проверок от "умников"
 
 		# Объявляем выходной массив
-		$files = array();
+		$files = [];
 
 		# Составляем массив для проверки разрешенных типов файлов к загрузке
-		static $allow_exts = array();
+		static $allow_exts = [];
 		if(empty($allow_exts)) {
 			$allow_exts = $this->get_allow_exts($allowtypes);
 		}
@@ -229,7 +229,7 @@ class Files {
 
 		# Если $_FILES не является массивом конвертнем в массив
 		# Я кстати в курсе, что сам по себе $_FILES уже массив. Тут в другом смысл.
-		$upfiles = array();
+		$upfiles = [];
 		if(!is_array($_FILES[$file]['tmp_name'])) {
 			foreach($_FILES[$file] AS $k=>$v) {
 				$upfiles[$file][$k][$file] = $v;
@@ -367,7 +367,7 @@ class Files {
 	public function get_allow_exts($allowtypes="") {
 		require _LIB."/mimetype.php";
 
-		$allow_exts = array();
+		$allow_exts = [];
 
 		# listing allow types
 		if($allowtypes != "") {

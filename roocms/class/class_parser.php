@@ -42,7 +42,7 @@
 * @author       alex Roosso
 * @copyright    2010-2019 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.4.6
+* @version      1.4.7
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -413,7 +413,7 @@ class Parser {
 	 */
 	public function check_array($array) {
 
-		$arr = array();
+		$arr = [];
 
 		foreach($array as $key=>$value)	{
 			if(is_array($value)) {

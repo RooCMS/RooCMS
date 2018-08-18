@@ -42,7 +42,7 @@
 * @author       alex Roosso
 * @copyright    2010-2019 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.6.2
+* @version      1.6.3
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -68,16 +68,16 @@ class Structure {
 						'feed'	=> array('enable' => true, 'title' => 'Лента'));
 
 	# bread cumb
-	public $breadcumb		= array();
+	public $breadcumb		= [];
 
 	# site tree
-	public $sitetree		= array();
+	public $sitetree		= [];
 
 	# on/off (release in future)
 	public $access			= true;
 
 	# aliases
-	private $aliases 		= array();
+	private $aliases 		= [];
 
 	# page vars
 	public $page_id			= 1;				# [int]		page sid
@@ -139,7 +139,7 @@ class Structure {
 
 		# Делаем единичный запрос в БД собирая данные по структуре сайта.
 		if(!$use) {
-			$tree = array();
+			$tree = [];
 			$q = $db->query("SELECT 
 						id, page_id, alias, parent_id,  
 						title, meta_description, meta_keywords, noindex, rss,
@@ -196,7 +196,7 @@ class Structure {
 
 		# create array
 		if($level == 0) {
-			$tree = array();
+			$tree = [];
 		}
 
 		foreach($unit AS $i=>$value) {

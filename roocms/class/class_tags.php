@@ -42,7 +42,7 @@
  * @author       alex Roosso
  * @copyright    2010-2019 (c) RooCMS
  * @link         http://www.roocms.com
- * @version      1.1
+ * @version      1.1.1
  * @since        $date$
  * @license      http://www.gnu.org/licenses/gpl-3.0.html
  */
@@ -89,7 +89,7 @@ class Tags {
 		}
 
 		# query
-		$tags = array();
+		$tags = [];
 		$q = $db->query("SELECT title, amount FROM ".TAGS_TABLE." WHERE ".$cond." ORDER BY amount DESC ".$lcond);
 		while($data = $db->fetch_assoc($q)) {
 			$tags[] = $data;
@@ -135,7 +135,7 @@ class Tags {
 		}
 
 
-		$tags = array();
+		$tags = [];
 		$q = $db->query("SELECT l.tag_id, t.title, t.amount, l.linkedto FROM ".TAGS_LINK_TABLE." AS l LEFT JOIN ".TAGS_TABLE." AS t ON (t.id = l.tag_id) WHERE".$cond." ORDER BY t.title ASC");
 		while($data = $db->fetch_assoc($q)) {
 			$tags[] = $data;
@@ -216,7 +216,7 @@ class Tags {
 	 */
 	public function diff_tag(array $now, array $new, $linkedto) {
 
-		$tags = array();
+		$tags = [];
 
 		if(empty($new)) {     // Если теги удалили...
 			$this->remove_tags($now, $linkedto);
@@ -228,7 +228,7 @@ class Tags {
 			$tags = $new;
 
 			# массив для устаревших тегов
-			$old = array();
+			$old = [];
 
 			foreach($now AS $value) {
 				if(!in_array($value, $new)) {
@@ -314,7 +314,7 @@ class Tags {
 			}
 
 			# get tag id for condition unlinks
-			$tr = array();
+			$tr = [];
 			$cond2 = "(";
 			$q = $db->query("SELECT id FROM ".TAGS_TABLE." WHERE ".$cond1);
 			while($data = $db->fetch_assoc($q)) {
@@ -352,7 +352,7 @@ class Tags {
 		# check
 		$strtag = array_unique($parse->check_array(explode(",",mb_strtolower($tags))));
 
-		$tag = array();
+		$tag = [];
 		foreach($strtag as $value) {
 			if(trim($value) != "") {
 				# чистим от мусорных символов

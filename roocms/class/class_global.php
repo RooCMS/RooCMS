@@ -42,7 +42,7 @@
 * @author	alex Roosso
 * @copyright	2010-2019 (c) RooCMS
 * @link		http://www.roocms.com
-* @version	1.2.4
+* @version	1.2.5
 * @since	$date$
 * @license	http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -70,7 +70,7 @@ class Globals {
 	public	$act		= "";		# [string]	param $_GET['act'] for init actions
 	public	$move		= "";		# [string]	param $_GET['move'] for init move
 
-	public 	$sess		= array();	# [array]	parsing $_SESSION
+	public 	$sess		= [];		# [array]	parsing $_SESSION
 
 	# options
 	public	$ajax		= false;	# [bool]	flag ajax output

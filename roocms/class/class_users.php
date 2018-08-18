@@ -42,7 +42,7 @@
  * @author       alex Roosso
  * @copyright    2010-2019 (c) RooCMS
  * @link         http://www.roocms.com
- * @version      1.6.1
+ * @version      1.6.2
  * @since        $date$
  * @license      http://www.gnu.org/licenses/gpl-3.0.html
  */
@@ -239,7 +239,7 @@ class Users extends Security {
 	 *
 	 * @return array
 	 */
-	public function get_userlist($status=-1, $ban=-1, $mailing=-1, $users=array(), $email=false) {
+	public function get_userlist($status=-1, $ban=-1, $mailing=-1, $users=[], $email=false) {
 
 		global $db;
 
@@ -294,7 +294,7 @@ class Users extends Security {
 		}
 
 		# получаем список пользователей
-		$userlist = array();
+		$userlist = [];
 		$q = $db->query("SELECT uid, nickname, user_slogan, avatar, user_sex".$query." FROM ".USERS_TABLE." ".$cond." ORDER BY nickname ASC");
 		while($row = $db->fetch_assoc($q)) {
 			$userlist[$row['uid']] = $row;

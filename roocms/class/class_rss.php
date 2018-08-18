@@ -42,7 +42,7 @@
 * @author       alex Roosso
 * @copyright    2010-2019 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.0.11
+* @version      1.0.12
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -64,29 +64,29 @@ if(!defined('RooCMS')) {
 class RSS {
 
 	# param
-	private		$encoding		= "utf-8";					# [string]
-	private 	$version		= "2.0";					# [string]
+	private		$encoding		= "utf-8";				# [string]
+	private 	$version		= "2.0";				# [string]
 
 	# header link
-	public		$rss_link		= "";						# [string]
+	public		$rss_link		= "";					# [string]
 
-	protected	$title			= "";						# [string]
-	protected	$description		= "";						# [string]
-	protected	$link			= "";						# [string]
-	protected 	$language		= "ru";						# [string]
-	protected 	$copyright		= "";						# [string]
-	protected 	$managingeditor 	= "";						# [string]
-	protected 	$webmaster		= "";						# [string]
-	private 	$generator		= "RooCMS";					# [string]
-	protected 	$ttl			= 240;						# [int]
-	public		$lastbuilddate		= 0;						# [int]
+	protected	$title			= "";					# [string]
+	protected	$description		= "";					# [string]
+	protected	$link			= "";					# [string]
+	protected 	$language		= "ru";					# [string]
+	protected 	$copyright		= "";					# [string]
+	protected 	$managingeditor 	= "";					# [string]
+	protected 	$webmaster		= "";					# [string]
+	private 	$generator		= "RooCMS";				# [string]
+	protected 	$ttl			= 240;					# [int]
+	public		$lastbuilddate		= 0;					# [int]
 	protected	$image			= array("url"	=>	"",
 						        "title"	=>	"",
 							"link"	=>	"");
 
 	# output buffer
-	protected	$items			= array();					# [array]
-	public 		$out			= "";						# [text]
+	protected	$items			= [];					# [array]
+	public 		$out			= "";					# [text]
 
 
 

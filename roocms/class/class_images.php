@@ -42,7 +42,7 @@
 * @author       alex Roosso
 * @copyright    2010-2019 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.5.4
+* @version      1.5.5
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -78,7 +78,7 @@ class Images extends GD {
 	 *
 	 * @return array - возвращает массив с именами файлов.
 	 */
-	public function upload_image($file, $prefix="", array $thumbsize=array(), array $options=array("watermark"=>true, "modify"=>true, "noresize"=>false), $path=_UPLOADIMAGES) {
+	public function upload_image($file, $prefix="", array $thumbsize=[], array $options=array("watermark"=>true, "modify"=>true, "noresize"=>false), $path=_UPLOADIMAGES) {
 
 		return $this->upload_post_image($file, $prefix, $thumbsize, $options, $path);
 	}
@@ -99,7 +99,7 @@ class Images extends GD {
 	 *
 	 * @return array|bool - возвращает массив с именами файлов или false в случае неудачи.
 	 */
-	public function upload_post_image($file, $prefix="", array $thumbsize=array(), array $options=array(), $path=_UPLOADIMAGES) {
+	public function upload_post_image($file, $prefix="", array $thumbsize=[], array $options=[], $path=_UPLOADIMAGES) {
 
 		global $files;
 
@@ -109,10 +109,10 @@ class Images extends GD {
 		}
 
 		# Объявляем выходной массив
-		$images = array();
+		$images = [];
 
 		# Составляем массив для проверки разрешенных типов файлов к загрузке
-		static $allow_exts = array();
+		static $allow_exts = [];
 		if(empty($allow_exts)) {
 			$allow_exts = $this->get_allow_exts();
 		}
@@ -126,7 +126,7 @@ class Images extends GD {
 
 		# Если $_FILES не является массивом конвертнем в массив
 		# Я кстати в курсе, что сам по себе $_FILES уже массив. Тут в другом смысл.
-		$upfiles = array();
+		$upfiles = [];
 		if(!is_array($_FILES[$file]['tmp_name'])) {
                 	foreach($_FILES[$file] AS $k=>$v) {
 				$upfiles[$file][$k][$file] = $v;
@@ -212,7 +212,7 @@ class Images extends GD {
 
                 global $db;
 
-		$data = array();
+		$data = [];
 
 		$l = ($limit != 0) ? "LIMIT {$from},{$limit}" : "" ;
 

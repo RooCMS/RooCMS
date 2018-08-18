@@ -42,7 +42,7 @@
  * @author       alex Roosso
  * @copyright    2010-2019 (c) RooCMS
  * @link         http://www.roocms.com
- * @version      3.5.3
+ * @version      3.5.4
  * @since        $date$
  * @license      http://www.gnu.org/licenses/gpl-3.0.html
  */
@@ -65,7 +65,7 @@ class MySQLiDatabase extends MySQLiExtends {
 	# obj
 	private $sql;
 
-	private	$querys = array();
+	private	$querys = [];
 
 	public	$db_connect 	= false;	# [bool]	Флаг состояния подключения к БД
 	public	$cnt_querys 	= 0;		# [int] 	Счетчик запросов в БД
@@ -376,7 +376,7 @@ class MySQLiDatabase extends MySQLiExtends {
 	 */
 	public function check_id($id, $table, $field="id", $proviso=NULL) {
 
-		static $results = array();
+		static $results = [];
 
 		if($field == "id") {
 			$id = round($id);
@@ -430,14 +430,14 @@ class MySQLiDatabase extends MySQLiExtends {
 		$pkey = $this->identy_primary_key($table);
 
 		# query
-		$data = array();
+		$data = [];
 		$q = $this->query("SELECT ".$field.", ".$pkey." FROM ".$table." WHERE ".$primcond.$proviso);
 		while($row = $this->fetch_assoc($q)) {
 			$data[$row[$pkey]] = $row[$field];
 		}
 
 		# work result
-		$result = array();
+		$result = [];
 		foreach($ids AS $k=>$value) {
 
 			$result[$value]['value'] = $value;
@@ -466,14 +466,14 @@ class MySQLiDatabase extends MySQLiExtends {
 	 */
 	public function count($from, $proviso) {
 
-		static $results = array();
+		static $results = [];
 
 		# считаем
 		$query = "SELECT count(*) FROM ".$from." WHERE ".$proviso;
 		$rkey = md5($query);
 
 		# проверяем результат
-		$c = array();
+		$c = [];
 		if(!array_key_exists($rkey, $results)) {
 			# check in DB
 			$q = $this->query($query);

@@ -42,7 +42,7 @@
  * @author       alex Roosso
  * @copyright    2010-2019 (c) RooCMS
  * @link         http://www.roocms.com
- * @version      2.2.1
+ * @version      2.2.2
  * @since        $date$
  * @license      http://www.gnu.org/licenses/gpl-3.0.html
  */
@@ -85,10 +85,10 @@ class ParserDate {
 		}
 
 		$n = - ($wday - 2);
-		$cal = array();
+		$cal = [];
 
 		for($y=0;$y<=6;$y++) {
-			$row = array();
+			$row = [];
 			$notEmpty = false;
 
 			for($x=0;$x<7;$x++,$n++) {
@@ -246,7 +246,7 @@ class ParserDate {
 	 */
 	public function unix_to_rus_array($udate) {
 
-		$ar = array();
+		$ar = [];
 
 		$ar['day']	= date("d", $udate);
 		$ar['month']	= date("m", $udate);
@@ -382,7 +382,7 @@ class ParserDate {
 		$nw = round($nw);
 
 		# full day			# short day
-		$day	= array();		$sday	 = array();
+		$day	= [];			$sday	 = [];
 		$day[0] = 'Воскресенье';	$sday[0] = 'Вс';
 		$day[1] = 'Понедельник';	$sday[1] = 'Пн';
 		$day[2] = 'Вторник';		$sday[2] = 'Вт';
@@ -411,7 +411,7 @@ class ParserDate {
 		$nm = round($nm);
 
 		# month
-		$month = array();
+		$month = [];
 		if(!$short) {
 			$month[1]	= 'Январ';	$month[2]	= 'Феврал';	$month[3]	= 'Март';
 			$month[4]	= 'Апрел';	$month[5]	= 'Ма';		$month[6]	= 'Июн';

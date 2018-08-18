@@ -42,7 +42,7 @@
 * @author	alex Roosso
 * @copyright	2010-2019 (c) RooCMS
 * @link		http://www.roocms.com
-* @version	2.3.2
+* @version	2.3.3
 * @since	$date$
 * @license	http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -63,11 +63,11 @@ if(!defined('RooCMS')) {
 class Debug {
 
 	# vars
-	public	$show_debug 		= false;		# [bool] 	hand flag show full debug text
-	public	$debug_info 		= "";			# [text] 	buffer for debug info text
-	private	$debug_dump		= array();		# [array]	Дамп с данными отладки, для разработчика.
-	public	$phpextensions		= array();		# [array]	Список установленных PHP расширений
-	public	$nophpextensions	= array();		# [array]	Список отсуствующих PHP приложений, требуемых для RooCMS
+	public	$show_debug 		= false;	# [bool] 	hand flag show full debug text
+	public	$debug_info 		= "";		# [text] 	buffer for debug info text
+	private	$debug_dump		= [];		# [array]	Дамп с данными отладки, для разработчика.
+	public	$phpextensions		= [];		# [array]	Список установленных PHP расширений
+	public	$nophpextensions	= [];		# [array]	Список отсуствующих PHP приложений, требуемых для RooCMS
 
 	private	$starttime		= 0;
 	public	$productivity_time	= 0.0;
