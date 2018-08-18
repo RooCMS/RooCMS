@@ -72,6 +72,7 @@ class ACP_Config_SpecPart {
 		# Если изменено имя скрипта Панели Администратора.
 		# Пробуем создать новый файл.
 		if(isset($post->cp_script) && CP != $post->cp_script) {
+			# change cp script
 			$post->cp_script = $this->change_cp_script($post->cp_script);
 		}
 	}

@@ -58,7 +58,7 @@ if(!defined('RooCMS') || !defined('ACP')) {
 //#########################################################
 
 # require special part for config
-require_once "config_spart.php";
+require_once "config_specpart.php";
 
 class ACP_Config extends ACP_Config_SpecPart {
 
@@ -237,7 +237,7 @@ class ACP_Config extends ACP_Config_SpecPart {
 	 */
 	private function update_config() {
 
-		global $db, $parse, $logger, $post, $img;
+		global $parse, $logger, $post, $img;
 
 		# запрашиваем из БД типы опций и ограничений
 		$cfg_vars = $this->get_cfg_vars();
@@ -315,17 +315,12 @@ class ACP_Config extends ACP_Config_SpecPart {
 					break;
 			}
 
-
-			if($check) {
-				$db->query("UPDATE ".CONFIG_TABLE." SET value='".$value."' WHERE option_name='".$key."'");
-
-				# log
-				$logger->log("Update config: option name=".$key.", value=".$value);
-			}
+			# update db
+			$this->update_db_config($check, $key, $value);
 		}
 
 
-		# уведомление
+		# notice
 		$logger->info("Настройки обновлены", false);
 
 
@@ -340,6 +335,26 @@ class ACP_Config extends ACP_Config_SpecPart {
 		}
 		else {
 			goback();
+		}
+	}
+
+
+	/**
+	 * Update config in database
+	 *
+	 * @param bool   $check  - флаг проверки
+	 * @param string $option - option name
+	 * @param string $value  - option value
+	 */
+	private function update_db_config($check, $option, $value) {
+
+		global $db, $logger;
+
+		if($check) {
+			$db->query("UPDATE ".CONFIG_TABLE." SET value='".$value."' WHERE option_name='".$option."'");
+
+			# log
+			$logger->log("Update config: option name=".$option.", value=".$value);
 		}
 	}
 
