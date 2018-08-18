@@ -373,11 +373,8 @@ class Files {
 		if($allowtypes != "") {
 
 			if(!is_array($allowtypes)) {
-				$exts = [];
 				$exts = preg_split("/[\s,-]+/", $allowtypes);
-
-				$allowtypes = [];
-				$allowtypes = $exts;
+				$allowtypes &= $exts;
 			}
 
 			# create callback array
