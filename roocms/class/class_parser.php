@@ -42,7 +42,7 @@
 * @author       alex Roosso
 * @copyright    2010-2019 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.4.8
+* @version      1.5
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -72,10 +72,10 @@ class Parser {
 	public 	$post;				# [obj]		$_POST data
 	public 	$get;				# [obj]		$_GET data
 
-	# params
+	# uri params
 	public 	$uri		= "";		# [string]	URI
 	public	$uri_chpu	= false;	# [bool]	on/off flag for use (как ЧПУ по аглицки будет?)
-	public	$uri_separator	= "";		# [string]	URI seperator
+	public	$uri_separator	= "/";		# [string]	URI seperator
 
 	# уведомление
 	public	$info		= "";		# [text]	information
@@ -271,46 +271,12 @@ class Parser {
 				# Если элемент строки не пустой
 				if(trim($gets[$el]) != "") {
 
-					# тире и равно одинаковы для ЧПУ, и заодно узнаем разделитель
-					$gets[$el] = str_replace("-","=",$gets[$el],$cs);
+					$elp = $el + 1;
 
-					# устанавливаем разделитель, если распознали
-					if($cs > 0) {
-						$this->uri_separator = "-";
-					}
-
-					# проверка на присутсвие "="
-					str_replace("=", "=", $gets[$el], $is);
-
-					if($is == 1) {
-						# устанавливаем разделитель, если распознали
-						if(trim($this->uri_separator) == "") {
-							$this->uri_separator = "=";
-						}
-
-						# Определяем элементы URI ключ и значение
-						$str = explode("=",$gets[$el]);
-						if(trim($str[0]) != "" && trim($str[1]) != "") {
-							$str[0] = "_".$this->clear_string($str[0]);
-							$this->get->{$str[0]} = $str[1];
-
-						}
-					}
-					elseif($is == 0) {
-
-						# устанавливаем разделитель, если распознали
-						if(trim($this->uri_separator) == "") {
-							$this->uri_separator = "/";
-						}
-
-						# Определяем элементы URI ключ и значение
-						$elp = $el + 1;
-
-						if(trim($gets[$el]) != "" && isset($gets[$elp]) && trim($gets[$elp]) != "") {
-							$gets[$el] = "_".$this->clear_string($gets[$el]);
-							$this->get->{$gets[$el]} = $gets[$elp];
-							$el++;
-						}
+					if(trim($gets[$el]) != "" && isset($gets[$elp]) && trim($gets[$elp]) != "") {
+						$gets[$el] = "_".$this->clear_string($gets[$el]);
+						$this->get->{$gets[$el]} = $gets[$elp];
+						$el++;
 					}
 				}
 			}
