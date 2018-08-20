@@ -42,7 +42,7 @@
 * @author       alex Roosso
 * @copyright    2010-2019 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.6.5
+* @version      1.6.6
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -72,18 +72,17 @@ class Install extends ExtIUFunction {
 	private $noticetext	= "";		# [string]	attention text in head form
 
 
-
 	/**
 	 * Доктор, начнем операцию...
+	 *
+	 * @throws SmartyException
 	 */
 	public function __construct() {
 
-		global $get, $site, $parse, $tpl, $smarty;
+		global $site, $parse, $tpl, $smarty;
 
 		# init step
-		if(isset($get->_step) && round($get->_step) > 0) {
-			$this->step =& $get->_step;
-		}
+		$this->init_step();
 
 		# переход
 		switch($this->step) {
@@ -229,7 +228,9 @@ class Install extends ExtIUFunction {
 				# переход next step
 				go(SCRIPT_NAME."?step=5");
 			}
-			else goback();
+			else {
+				goback();
+			}
 		}
 
 		$servname = explode(".", $_SERVER['SERVER_NAME']);
@@ -316,7 +317,9 @@ class Install extends ExtIUFunction {
 			$this->log[] = array('Пароль пользователя БД', '<input type="text" class="form-control" name="db_info_pass" required>', true, 'Укажите пароль пользователя для соеденения с БД');
 			$this->log[] = array('Префикс таблиц БД', '<input type="text" class="form-control" name="db_info_prefix" required placeholder="roocms_" value="roocms_">', true, 'Укажите префикс для таблиц БД.');
 		}
-		else go(SCRIPT_NAME."?step=6");
+		else {
+			go(SCRIPT_NAME."?step=6");
+		}
 	}
 
 
@@ -382,6 +385,7 @@ class Install extends ExtIUFunction {
 
 		global $db, $parse, $logger, $post;
 
+		# check superadmin data in db
 		if($db->check_id(1, USERS_TABLE, "uid")) {
 			go(SCRIPT_NAME."?step=8");
 		}
@@ -405,7 +409,9 @@ class Install extends ExtIUFunction {
 				# переход
 				go(SCRIPT_NAME."?step=8");
 			}
-			else goback();
+			else {
+				goback();
+			}
 		}
 
 		$this->log[] = array('Логин администратора', '<input type="text" class="form-control" name="adm_login" required>', true, 'Укажите логин администратора для доступа к Панели Управления сайтом.');
