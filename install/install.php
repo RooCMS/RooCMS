@@ -456,8 +456,9 @@ class Install extends ExtIUFunction {
 		$server_name = (count($servname) == 2) ? "www.".$_SERVER['SERVER_NAME']: $_SERVER['SERVER_NAME'] ;
 		$hostname = (count($servname) == 2) ? $servname[0] : $servname[1] ;
 
-
-		$this->log[] = array('', '<div class="alert alert-info" style="margin-top: 10px;"><b class="label label-primary">Внимание!</b>
+		# .htaccess
+		if(APACHE) {
+			$this->log[] = array('', '<div class="alert alert-info" style="margin-top: 10px;"><b class="label label-primary">Внимание!</b>
 						<br />Отредактируйте файл <code>.htaccess</code> расположенный в корне сайта
 						<br />Для этого откройте его любым текстовым редактором
 						<br />Выделите стрки с 6 по 13 включительно (они закоментированны знаком <code>#</code>) и замените их на эти:
@@ -472,6 +473,7 @@ class Install extends ExtIUFunction {
 	RewriteRule ^index\.php$ http://'.$server_name.'/ [R=301,L]
 &lt;/IfModule&gt;</pre>
 						Это важно для поисковой оптимизации, но вовсе не обязательно.</div>', false, '');
+		}
 	}
 
 

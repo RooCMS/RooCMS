@@ -42,7 +42,7 @@
 * @author	alex Roosso
 * @copyright	2010-2019 (c) RooCMS
 * @link		http://www.roocms.com
-* @version	1.6.1
+* @version	1.6.2
 * @since	$date$
 * @license	http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -65,6 +65,16 @@ define('DEVMODE',	false);				# Режим разработчики. Если и�
 define('STARTTIME',	microtime(true));
 define('MEMORYUSAGE', 	memory_get_usage());
 
+
+/**
+ * Проверяем работает ли Apache
+ */
+if(stristr(strtolower($_SERVER['SERVER_SOFTWARE']), 'apache') === FALSE) {
+	define('APACHE', false);
+}
+else {
+	define('APACHE', true);
+}
 
 
 /**
@@ -97,11 +107,13 @@ if(session_status() == 1) {
 *  - Печеньки захвачены, мой генерал!"
 * 				(с) Шутник
 */
-ini_set("session.use_cookie",		true);	#	Активируем "печеньки"
-ini_set("session.cookie_domain",	"");	#	Устанавливаем домен для "печенек"
-ini_set("session.cookie_path",		"/");	#	Устанавливаем путь к "печенькам"
-ini_set("session.cookie_secure",	"");	#	Секрет хороших "печенек"
-ini_set("session.cookie_httponly",	true);	#	Секрет хороших "печенек"
+ini_set("session.use_cookie",			true);	#	Активируем "печеньки"
+if(APACHE) {
+	ini_set("session.cookie_domain",	"");	#	Устанавливаем домен для "печенек"
+	ini_set("session.cookie_path",		"/");	#	Устанавливаем путь к "печенькам"
+	ini_set("session.cookie_secure",	"");	#	Секрет хороших "печенек"
+	ini_set("session.cookie_httponly",	true);	#	Секрет хороших "печенек"
+}
 //setcookie("", "", time()+3600);
 
 
