@@ -42,7 +42,7 @@
 * @author	alex Roosso
 * @copyright	2010-2019 (c) RooCMS
 * @link		http://www.roocms.com
-* @version	1.16.1
+* @version	1.16.2
 * @since	$date$
 * @license	http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -696,25 +696,28 @@ class GD {
 	 *
 	 * @param array $sizes - array(width,height) - размеры будут изменены согласно параметрам.
 	 *
-	 * @return array|null
+	 * @return array
 	 */
 	protected function set_mod_sizes(array $sizes) {
 
 		if(is_array($sizes) && count($sizes) == 2) {
-
 			$size = [];
 
-			if(round($sizes[0]) > 16) {
-				$size['w'] = round($sizes[0]);
+			$size['w'] = round($sizes[0]);
+			if(round($sizes[0]) < 16) {
+				$size['w'] = 16;
 			}
 
+			$size['h'] = round($sizes[1]);
 			if(round($sizes[1]) > 16) {
-				$size['h'] = round($sizes[1]);
-			}
-
-			if(!empty($size)) {
-				return $size;
+				$size['h'] = 16;
 			}
 		}
+		else {
+			$size['w'] = $this->tsize['w'] / 2;
+			$size['h'] = $this->tsize['h'] / 2;
+		}
+
+		return $size;
 	}
 }

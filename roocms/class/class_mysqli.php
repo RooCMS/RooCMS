@@ -42,7 +42,7 @@
  * @author       alex Roosso
  * @copyright    2010-2019 (c) RooCMS
  * @link         http://www.roocms.com
- * @version      3.5.4
+ * @version      3.5.5
  * @since        $date$
  * @license      http://www.gnu.org/licenses/gpl-3.0.html
  */
@@ -82,11 +82,6 @@ class MySQLiDatabase extends MySQLiExtends {
 		if(trim($db_info['host']) != "" && trim($db_info['base']) != "") {
 			$this->connect($db_info['host'], $db_info['user'], $db_info['pass'], $db_info['base']);
 		}
-
-		# set mysql charset
-		if($this->db_connect) {
-			$this->charset();
-		}
 	}
 
 
@@ -104,6 +99,9 @@ class MySQLiDatabase extends MySQLiExtends {
 
 		if($this->sql->connect_errno == 0) {
 			$this->db_connect = true;
+
+			# set mysql charset
+			$this->charset();
 		}
 		else {
 			exit($this->error());
@@ -178,8 +176,10 @@ class MySQLiDatabase extends MySQLiExtends {
 
 			return $query;
 		}
-		# рабочий режим
-		else echo file_read(_SKIN."/db_error.tpl");
+		# рабочий режим выводим заглушку
+		else {
+			echo file_read(_SKIN."/db_error.tpl");
+		}
 	}
 
 
