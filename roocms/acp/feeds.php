@@ -43,7 +43,7 @@
 * @author       alex Roosso
 * @copyright    2010-2019 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.4
+* @version      1.4.1
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -124,63 +124,55 @@ class ACP_Feeds {
 					$this->unit->create_item();
 					break;
 
-				# edit item in feed
+
+				# modify
 				case 'edit_item':
-					if($db->check_id($get->_item, PAGES_FEED_TABLE)) {
-						$this->unit->edit_item($get->_item);
-					}
-					else {
-
-						goback();
-					}
-					break;
-
-				# update item in feed
 				case 'update_item':
-					if(isset($post->update_item) && $db->check_id($get->_item, PAGES_FEED_TABLE)) {
-						$this->unit->update_item($get->_item);
-					}
-					else {
-						goback();
-					}
-					break;
-
-				# update item in feed
 				case 'migrate_item':
-					if($db->check_id($get->_item, PAGES_FEED_TABLE)) {
-						$this->unit->migrate_item($get->_item);
-					}
-					else {
-						goback();
-					}
-					break;
-
-				# update status item in feed to on
 				case 'status_on_item':
-					if($db->check_id($get->_item, PAGES_FEED_TABLE)) {
-						$this->unit->change_item_status($get->_item, 1);
-					}
-					else {
-						goback();
-					}
-					break;
-
-				# update status item in feed to off
 				case 'status_off_item':
-					if($db->check_id($get->_item, PAGES_FEED_TABLE)) {
-						$this->unit->change_item_status($get->_item, 0);
-					}
-					else {
-						goback();
-					}
-					break;
-
-				# delete item from feed
 				case 'delete_item':
 					if($db->check_id($get->_item, PAGES_FEED_TABLE)) {
-						$this->unit->delete_item($get->_item);
+						switch($roocms->part) {
+							# edit item in feed
+							case 'edit_item':
+								$this->unit->edit_item($get->_item);
+								break;
+
+							# update item in feed
+							case 'update_item':
+								if(isset($post->update_item)) {
+									$this->unit->update_item($get->_item);
+								}
+								else {
+									goback();
+								}
+								break;
+
+							# migrate item in feeds
+							case 'migrate_item':
+								$this->unit->migrate_item($get->_item);
+								break;
+
+							# update status item in feed to on
+							case 'status_on_item':
+								$this->unit->change_item_status($get->_item, 1);
+								break;
+
+							# update status item in feed to off
+							case 'status_off_item':
+								$this->unit->change_item_status($get->_item, 0);
+								break;
+
+							# delete item from feed
+							case 'delete_item':
+								$this->unit->delete_item($get->_item);
+								break;
+						}
+
 					}
 					else {
+
 						goback();
 					}
 					break;
