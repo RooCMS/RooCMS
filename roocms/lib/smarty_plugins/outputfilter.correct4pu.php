@@ -32,9 +32,9 @@ function smarty_outputfilter_correct4pu($tpl_source) {
 
 		if(substr($value, 0, 1) == "/") {
 			$od = $value;
-			$rd = $url = strtr($value, array('?' => $parse->uri_separator,
-						         '&' => $parse->uri_separator,
-						         '=' => $parse->uri_separator));
+			$rd = strtr($value, array('?' => $parse->uri_separator,
+						  '&' => $parse->uri_separator,
+						  '=' => $parse->uri_separator));
 
 			$tpl_source = str_ireplace($od, $rd, $tpl_source);
 		}
