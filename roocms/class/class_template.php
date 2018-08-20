@@ -42,7 +42,7 @@
 * @author	alex Roosso
 * @copyright	2010-2019 (c) RooCMS
 * @link		http://www.roocms.com
-* @version	4.7
+* @version	4.7.1
 * @since	$date$
 * @license	http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -116,7 +116,7 @@ class Template {
 	*/
 	private function set_smarty_options() {
 
-		global $config, $smarty;
+		global $config, $parse, $smarty;
 
 		# set tempplates options
                 $smarty->template_dir 	= _SKIN."/".$this->skinfolder."/";
@@ -132,6 +132,11 @@ class Template {
 		}
 		if(isset($config->if_modified_since)) {
 			$smarty->cache_modified_check 	= $config->if_modified_since;
+		}
+
+		# filters
+		if($parse->uri_chpu) {
+			$smarty->autoload_filters = array('output' => array('correct4pu'));
 		}
 
 		//$smarty->config_fix_newlines = false;
@@ -157,6 +162,7 @@ class Template {
 	 * @param boolean $return - Включенный флаг возвращает загруженный через return
 	 *
 	 * @return string|null
+	 * @throws SmartyException
 	 */
 	public function load_template($tpl, $return=false) {
 
@@ -199,8 +205,10 @@ class Template {
 	 * Определяет какой из шаблонов требуется подключать и в какую переменную
 	 *
 	 * @param        $smarty_variable - указываем переменную для смарти шаблонов.
-	 * @param string $tpl - На случай если вам потребуется использовать собственный шаблон
-	 * @param bool   $tplreturn - Возврат скомпилорованного шаблона в переменную. По-умолчанию включено.
+	 * @param string $tpl             - На случай если вам потребуется использовать собственный шаблон
+	 * @param bool   $tplreturn       - Возврат скомпилорованного шаблона в переменную. По-умолчанию включено.
+	 *
+	 * @throws SmartyException
 	 */
 	public function load_image_upload_tpl($smarty_variable, $tpl="images_upload", $tplreturn=true) {
 
@@ -219,8 +227,10 @@ class Template {
 	 * Определяет какой из шаблонов требуется подключать и в какую переменную
 	 *
 	 * @param        $smarty_variable - указываем переменную для смарти шаблонов.
-	 * @param string $tpl - На случай если вам потребуется использовать собственный шаблон
-	 * @param bool   $tplreturn - Возврат скомпилорованного шаблона в переменную. По-умолчанию включено.
+	 * @param string $tpl             - На случай если вам потребуется использовать собственный шаблон
+	 * @param bool   $tplreturn       - Возврат скомпилорованного шаблона в переменную. По-умолчанию включено.
+	 *
+	 * @throws SmartyException
 	 */
 	public function load_files_upload_tpl($smarty_variable, $tpl="files_upload", $tplreturn=true) {
 
@@ -294,6 +304,7 @@ class Template {
 	 * Функция компилирует вывод параметров в head
 	 *
 	 * @return string|null tpl
+	 * @throws SmartyException
 	 */
 	private function init_head() {
 
@@ -347,6 +358,7 @@ class Template {
 	 * Функция компилирует вывод параметров в footer
 	 *
 	 * @return string|null tpl
+	 * @throws SmartyException
 	 */
 	private function init_footer() {
 
@@ -383,7 +395,7 @@ class Template {
 				$this->out = $this->init_head().$this->out.$this->init_footer();
 			}
 
-			# blocks & module
+			# blocks & module in UI
 			if(!defined('ACP')) {
 				$this->init_blocks();
 				$this->init_modules();

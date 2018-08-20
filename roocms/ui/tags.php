@@ -42,7 +42,7 @@
  * @author       alex Roosso
  * @copyright    2010-2019 (c) RooCMS
  * @link         http://www.roocms.com
- * @version      0.3.2
+ * @version      0.3.3
  * @since        $date$
  * @license      http://www.gnu.org/licenses/gpl-3.0.html
  */
@@ -106,6 +106,8 @@ class UI_Tags {
 	private function init_tag($tag, $type="id") {
 
 		global $db, $structure, $smarty;
+
+		$tag = urldecode($tag);
 
 		if($db->check_id($tag, TAGS_TABLE, $type)) {
 
