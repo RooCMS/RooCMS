@@ -700,8 +700,9 @@ class GD {
 	 */
 	protected function set_mod_sizes(array $sizes) {
 
+		$size = [];
+
 		if(is_array($sizes) && count($sizes) == 2) {
-			$size = [];
 
 			$size['w'] = round($sizes[0]);
 			if(round($sizes[0]) < 16) {
