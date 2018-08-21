@@ -90,6 +90,7 @@ if(trim($db_info['user']) != "" && trim($db_info['base']) != "" && $db->check_id
 }
 else {
 	require_once "check_requirement.php";
+	require_once "ext_function.php";
 	require_once "install.php";
 	$install = new Install;
 }

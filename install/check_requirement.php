@@ -59,11 +59,6 @@ if(!defined('RooCMS') || !defined('INSTALL')) {
 
 class Requirement {
 
-	# vars
-	protected $allowed 	= true;	  # [bool] 	flag for checked requirement for stable work RooCMS
-	protected $log		= [];	  # [array]
-
-
 
 	/**
 	* Проверяем настройки хостинга
@@ -74,7 +69,6 @@ class Requirement {
 		$this->check_php_extensions();
 		$this->check_php_ini();
 	}
-
 
 
 	/**

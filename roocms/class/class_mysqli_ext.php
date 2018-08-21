@@ -153,7 +153,4 @@ class MySQLiExtends {
 			$this->next_page = $this->page + 1;
 		}
 	}
-
-
-
 }

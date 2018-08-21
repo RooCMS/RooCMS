@@ -455,7 +455,7 @@ class Install extends ExtIUFunction {
 
 		@chmod($confperms['path'], $confperms['chmod']);
 		if(!@chmod($confperms['path'], $confperms['chmod'])) {
-			$this->log[] = array("", "Не удалось изменить доступ к файлу ".$confperms." вам потребуется установить доступ вручную через FTP. Установить доступ <b>0644</b>", false, "");
+			$this->log[] = array("", "Не удалось изменить доступ к файлу ".$confperms['path']." вам потребуется установить доступ вручную через FTP. Установить доступ <b>0644</b>", false, "");
 		}
 
 		$servname = explode(".", $_SERVER['SERVER_NAME']);
