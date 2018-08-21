@@ -76,7 +76,7 @@ class Images extends GD {
 	 * @internal param bool		$noresize	- флаг указывает подвергать ли изображение изменению размера. Иcпользуется в том случае когда мы не хотим изменять оригинальное изображение.
 	 * @param string  $path      - путь к папке для загрузки изображений.
 	 *
-	 * @return array - возвращает массив с именами файлов.
+	 * @return false|array - возвращает массив с именами файлов.
 	 */
 	public function upload_image($file, $prefix="", array $thumbsize=[], array $options=array("watermark"=>true, "modify"=>true, "noresize"=>false), $path=_UPLOADIMAGES) {
 
@@ -97,7 +97,7 @@ class Images extends GD {
 	 * @internal param bool		$noresize	- флаг указывает подвергать ли изображение изменению размера. Иcпользуется в том случае когда мы не хотим изменять оригинальное изображение.
 	 * @param string  $path      - путь к папке для загрузки изображений.
 	 *
-	 * @return array|bool - возвращает массив с именами файлов или false в случае неудачи.
+	 * @return false|array - возвращает массив с именами файлов или false в случае неудачи.
 	 */
 	public function upload_post_image($file, $prefix="", array $thumbsize=[], array $options=[], $path=_UPLOADIMAGES) {
 

@@ -653,10 +653,10 @@ class GD {
 		$new_left 	= $use_x_ratio 	? 0 : floor(($towidth - $new_width) / 2);
 		$new_top 	= !$use_x_ratio ? 0 : floor(($toheight - $new_height) / 2);
 
-		$return = array('new_width'	=> $new_width,
-				'new_height'	=> $new_height,
-				'new_left'	=> $new_left,
-				'new_top'	=> $new_top);
+		$return = array('new_width'	=> (int) $new_width,
+				'new_height'	=> (int) $new_height,
+				'new_left'	=> (int) $new_left,
+				'new_top'	=> (int) $new_top);
 
 		return $return;
 	}
