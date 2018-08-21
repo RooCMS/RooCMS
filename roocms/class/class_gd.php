@@ -696,7 +696,7 @@ class GD {
 	 *
 	 * @param array $sizes - array(width,height) - размеры будут изменены согласно параметрам.
 	 *
-	 * @return array
+	 * @return array|null
 	 */
 	protected function set_mod_sizes(array $sizes) {
 

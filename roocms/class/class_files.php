@@ -261,7 +261,7 @@ class Files {
 					$filename  = $this->create_filename($upfiles[$file]['name'][$key], $prefix);
 					$ext       = $allow_exts[$upfiles[$file]['ext'][$key]];
 
-					$filetitle = $parse->text->transliterate($upfiles[$file]['name'][$key]);
+					# Создаем титул файлу
 					$filetitle = preg_replace(array('(\s\s+)','(\-\-+)','(__+)','([^a-zA-Z0-9а-яА-Я\-\._]+/msi)'), array(' ','-','_',''), $upfiles[$file]['name'][$key]);
 
 
