@@ -700,25 +700,21 @@ class GD {
 	 */
 	protected function set_mod_sizes(array $sizes) {
 
-		$size = [];
-
 		if(is_array($sizes) && count($sizes) == 2) {
 
-			$size['w'] = round($sizes[0]);
-			if(round($sizes[0]) < 16) {
-				$size['w'] = 16;
+			$size = [];
+
+			if(round($sizes[0]) > 16) {
+				$size['w'] = round($sizes[0]);
 			}
 
-			$size['h'] = round($sizes[1]);
 			if(round($sizes[1]) > 16) {
-				$size['h'] = 16;
+				$size['h'] = round($sizes[1]);
+			}
+
+			if(!empty($size)) {
+				return $size;
 			}
 		}
-		else {
-			$size['w'] = $this->tsize['w'] / 2;
-			$size['h'] = $this->tsize['h'] / 2;
-		}
-
-		return $size;
 	}
 }

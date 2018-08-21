@@ -42,7 +42,7 @@
  * @author       alex Roosso
  * @copyright    2010-2019 (c) RooCMS
  * @link         http://www.roocms.com
- * @version      1.7.1
+ * @version      1.7.2
  * @since        $date$
  * @license      http://www.gnu.org/licenses/gpl-3.0.html
  */
@@ -158,7 +158,7 @@ class Files {
 		$filelength = mb_strlen($filename);
 
 		# постараемся не выскочить за длину допустимого пути.
-		$maxlenght = PHP_MAXPATHLEN - count(__DIR__);
+		$maxlenght = PHP_MAXPATHLEN - mb_strlen(__DIR__);
 		if($length + $filelength > $maxlenght) {
 			$maxfilelength = $maxlenght - $length;
                         $filename = mb_substr($filename,0,$maxfilelength);
@@ -191,7 +191,7 @@ class Files {
 
 		$l = ($limit != 0) ? "LIMIT {$from},{$limit}" : "" ;
 
-		$q = $db->query("SELECT id, filename, fileext, sort FROM ".FILES_TABLE." WHERE attachedto='{$cond}' ORDER BY sort ASC ".$l);
+		$q = $db->query("SELECT id, filename, fileext, filetitle, sort FROM ".FILES_TABLE." WHERE attachedto='{$cond}' ORDER BY sort ASC ".$l);
 		while($file = $db->fetch_assoc($q)) {
 			$file['file']	= $file['filename'].".".$file['fileext'];
 			$data[] = $file;
@@ -214,8 +214,7 @@ class Files {
 	 */
 	public function upload($file, $attached, $prefix="", $allowtypes="", $path=_UPLOADFILES) {
 
-    	        # Переписать функцию!!!
-    	        # *** Больше проверок от "умников"
+    	        global $parse;
 
 		# Объявляем выходной массив
 		$files = [];
@@ -259,8 +258,12 @@ class Files {
 				if(array_key_exists($upfiles[$file]['ext'][$key], $allow_exts)) {
 
 					# Создаем имя файлу.
-					$filename = $this->create_filename($upfiles[$file]['name'][$key], $prefix);
-					$ext = $allow_exts[$upfiles[$file]['ext'][$key]];
+					$filename  = $this->create_filename($upfiles[$file]['name'][$key], $prefix);
+					$ext       = $allow_exts[$upfiles[$file]['ext'][$key]];
+
+					$filetitle = $parse->text->transliterate($upfiles[$file]['name'][$key]);
+					$filetitle = preg_replace(array('(\s\s+)','(\-\-+)','(__+)','([^a-zA-Z0-9а-яА-Я\-\._]+/msi)'), array(' ','-','_',''), $upfiles[$file]['name'][$key]);
+
 
 					# Сохраняем оригинал
 					copy($upfiles[$file]['tmp_name'][$key], $path."/".$filename.".".$ext);
@@ -282,7 +285,7 @@ class Files {
 
 			if($filename !== false) {
 				# upload
-				$this->insert_file($filename.".".$ext, $attached);
+				$this->insert_file($filename.".".$ext, $filetitle, $attached);
 
 				# callback array
 				$files[] = $filename.".".$ext;
@@ -298,16 +301,17 @@ class Files {
 	 * Загружаем информацию о файлах в БД
 	 *
 	 * @param string $filename имя файла без $pofix
+	 * @param string $filetitle название файла
 	 * @param mixed  $attached родитель файла
 	 */
-	public function insert_file($filename, $attached) {
+	public function insert_file($filename, $filetitle, $attached) {
 
 		global $db, $logger;
 
 		$fileinfo = pathinfo($filename);
 
-		$db->query("INSERT INTO ".FILES_TABLE." (attachedto, filename, fileext)
-						VALUES ('".$attached."', '".$fileinfo['filename']."', '".$fileinfo['extension']."')");
+		$db->query("INSERT INTO ".FILES_TABLE." (attachedto, filename, fileext, filetitle)
+						VALUES ('".$attached."', '".$fileinfo['filename']."', '".$fileinfo['extension']."', '".$filetitle."')");
 
 		# msg
 		$logger->log("Файл ".$filename." успешно загружен на сервер");

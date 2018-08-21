@@ -73,18 +73,18 @@ function randcode($ns, $symbols="ABCEFHKLMNPRSTVXYZ123456789") {
 
 	settype($symbols, "string");
 
-	$Code = ""; $i = 0;
+	$code = ""; $i = 0;
 
 	while ($i < $ns) {
 		$a = rand(0,1);
 		mt_srand(); srand();
-		$Code .= ($a == 1)
+		$code .= ($a == 1)
 			? $symbols[mt_rand(0, mb_strlen($symbols) - 1)]
 			: $symbols[rand(0, mb_strlen($symbols) - 1)]	;
 		$i++;
 	}
 
-	return $Code;
+	return $code;
 }
 
 /**

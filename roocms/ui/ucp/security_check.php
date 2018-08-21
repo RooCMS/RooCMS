@@ -82,7 +82,9 @@ class UCP_Security {
 				$this->access = false;	# access denied
 			}
 		}
-		else $this->access = false; # access denied
+		else {
+			$this->access = false;		# access denied
+		}
 	}
 }
 

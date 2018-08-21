@@ -42,7 +42,7 @@
 * @author       alex Roosso
 * @copyright    2010-2019 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.2.30
+* @version      1.2.31
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -285,8 +285,8 @@ $sql['CREATE '.IMAGES_TABLE] = "CREATE TABLE IF NOT EXISTS `".IMAGES_TABLE."` (
 				  `attachedto` varchar(64) NOT NULL COMMENT 'site partition and identificator',
 				  `filename` varchar(255) NOT NULL,
 				  `fileext` varchar(10) NOT NULL COMMENT 'extension file',
+				  `alt` VARCHAR(255) NOT NULL COMMENT 'alternative text for hover or unuse image',
 				  `sort` int(10) unsigned NOT NULL DEFAULT '0',
-				  `alt` varchar(255) NOT NULL COMMENT 'alternative text for hover or unuse image',
 				  PRIMARY KEY (`id`),
 				  UNIQUE KEY  `id` (`id`) ,
 				  KEY `filename` (`filename`),
@@ -303,6 +303,7 @@ $sql['CREATE '.FILES_TABLE] = "CREATE TABLE IF NOT EXISTS `".FILES_TABLE."` (
 				  `attachedto` varchar(64) NOT NULL COMMENT 'site partition and identificator',
 				  `filename` varchar(255) NOT NULL,
 				  `fileext` varchar(10) NOT NULL COMMENT 'extension file',
+				  `filetitle` VARCHAR(255) NOT NULL COMMENT 'title for file',
 				  `sort` int(10) unsigned NOT NULL DEFAULT '0',
 				  PRIMARY KEY (`id` ) ,
 				  UNIQUE KEY  `id` (`id`) ,
