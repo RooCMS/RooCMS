@@ -230,6 +230,8 @@ class ACP_Feeds_Feed {
 	 * Функция вызова параметров элемента ленты для их редактирвоания
 	 *
 	 * @param $id - идентификатор элемента ленты
+	 *
+	 * @throws SmartyException
 	 */
 	public function edit_item($id) {
 
@@ -375,6 +377,8 @@ class ACP_Feeds_Feed {
 	 * Функция переноса элемента из одной ленты в другую
 	 *
 	 * @param $id - идентификатор элемента ленты
+	 *
+	 * @throws SmartyException
 	 */
 	public function migrate_item($id) {
 
@@ -557,7 +561,9 @@ class ACP_Feeds_Feed {
 
 			# RSS flag
 			$update .= (isset($post->rss) && $post->rss == "1") ? " rss='1', " : " rss='0', " ;
-			$update .= (isset($post->items_per_page) && round($post->items_per_page) >= 0) ? " items_per_page='".round($post->items_per_page)."', " : "" ;
+			if((isset($post->items_per_page) && round($post->items_per_page) >= 0)) {
+				$update .= " items_per_page='".round($post->items_per_page)."', " ;
+			}
 
 			# thumbnail check
 			$img->check_post_thumb_parametrs();
