@@ -1,6 +1,8 @@
 engines:
   csslint:
     enabled: true
+  apexmetrics:
+    enabled: true
   eslint:
     enabled: true
   fixme:
@@ -31,7 +33,7 @@ version: "2"         # required to adjust maintainability checks
 checks:
   file-lines:
     config:
-      threshold: 999
+      threshold: 1999
   method-lines:
     config:
-      threshold: 99
+      threshold: 199
