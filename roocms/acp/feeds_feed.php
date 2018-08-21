@@ -229,7 +229,7 @@ class ACP_Feeds_Feed {
 	/**
 	 * Функция вызова параметров элемента ленты для их редактирвоания
 	 *
-	 * @param $id - идентификатор элемента ленты
+	 * @param int $id - идентификатор элемента ленты
 	 *
 	 * @throws SmartyException
 	 */
@@ -376,7 +376,7 @@ class ACP_Feeds_Feed {
 	/**
 	 * Функция переноса элемента из одной ленты в другую
 	 *
-	 * @param $id - идентификатор элемента ленты
+	 * @param int $id - идентификатор элемента ленты
 	 *
 	 * @throws SmartyException
 	 */
@@ -435,7 +435,7 @@ class ACP_Feeds_Feed {
 	/**
 	 * Функция изменяет статус элемента ленты
 	 *
-	 * @param     $id - идентификатор элемента ленты
+	 * @param int $id - идентификатор элемента ленты
 	 * @param int $status - 1= Видимый , 2=Скрытый
 	 */
 	public function change_item_status($id, $status = 1) {
@@ -462,7 +462,7 @@ class ACP_Feeds_Feed {
 	/**
 	 * Функция удаления отдельного элемента из ленты
 	 *
-	 * @param $id - идентификатор элемента ленты
+	 * @param int $id - идентификатор элемента ленты
 	 */
 	public function delete_item($id) {
 
@@ -492,7 +492,7 @@ class ACP_Feeds_Feed {
 	/**
 	 * Функция удаления ленты
 	 *
-	 * @param $sid - structure element id
+	 * @param int $sid - structure element id
 	 */
 	public function delete_feed($sid) {
 
@@ -740,10 +740,10 @@ class ACP_Feeds_Feed {
 	/**
 	 * Это временная функция
 	 *
-	 * @param     $id
-	 * @param     $title
-	 * @param     $subject
-	 * @param int $force
+	 * @param int    $id
+	 * @param string $title
+	 * @param string $subject
+	 * @param int    $force
 	 */
 	private function mailing($id, $title, $subject, $force=-1) {
 
