@@ -4,8 +4,8 @@
 
 	Редактируем HTML блок "{$data['title']}"
 </div>
-<div class="panel-body">
-	<form method="post" action="{$SCRIPT_NAME}?act=blocks&part=update&block={$data['id']}" enctype="multipart/form-data" role="form" class="form-horizontal">
+<form method="post" action="{$SCRIPT_NAME}?act=blocks&part=update&block={$data['id']}" enctype="multipart/form-data" role="form" class="form-horizontal">
+	<div class="panel-body">
 		<div class="form-group">
 			<label for="inputAlias" class="col-lg-3 control-label">
 				Alias: <small><span class="fa fa-question-circle fa-fw" rel="tooltip" title="Значение должно быть уникальным" data-placement="left"></span></small>
@@ -73,13 +73,14 @@
 				{$filesupload}
 			</div>
 		</div>
-
+	</div>
+	<div class="panel-footer">
 		<div class="row">
-			<div class="col-lg-12">
+			<div class="col-md-12">
 				<input type="hidden" name="id" value="{$data['id']}" readonly>
 				<input type="hidden" name="oldalias" value="{$data['alias']}" readonly>
 				<input type="submit" name="update_block" class="btn btn-success" value="Обновить блок">
 			</div>
 		</div>
-	</form>
-</div>
+	</div>
+</form>

@@ -4,8 +4,8 @@
 
 	Новый HTML блок
 </div>
-<div class="panel-body">
-	<form method="post" action="{$SCRIPT_NAME}?act=blocks&part=create&type=html" enctype="multipart/form-data" role="form" class="form-horizontal">
+<form method="post" action="{$SCRIPT_NAME}?act=blocks&part=create&type=html" enctype="multipart/form-data" role="form" class="form-horizontal">
+	<div class="panel-body">
 		<div class="form-group">
 			<label for="inputAlias" class="col-md-3 control-label">
 				Alias: <small><span class="fa fa-question-circle fa-fw" rel="tooltip" title="Значение должно быть уникальным" data-placement="left"></span></small>
@@ -65,11 +65,12 @@
 				{$filesupload}
 			</div>
 		</div>
-
+	</div>
+	<div class="panel-footer">
 		<div class="row">
 			<div class="col-md-12">
 				<input type="submit" name="create_block" class="btn btn-success" value="Создать блок">
 			</div>
 		</div>
-	</form>
-</div>
+	</div>
+</form>
