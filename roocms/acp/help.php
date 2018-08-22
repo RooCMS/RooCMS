@@ -193,7 +193,7 @@ class ACP_Help {
 	*/
 	private function create_part() {
 
-		global $db, $logger, $post;
+		global $db, $parse, $logger, $post;
 
 		# предупреждаем возможные ошибки с уникальным именем структурной еденицы
 		if(isset($post->uname)) {
@@ -232,7 +232,7 @@ class ACP_Help {
 	*/
 	private function update_part($id) {
 
-		global $db, $logger, $post;
+		global $db, $parse, $logger, $post;
 
 		# Если идентификатор не прошел проверку
 		if($id == 0) {
