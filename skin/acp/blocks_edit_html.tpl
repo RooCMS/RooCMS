@@ -75,7 +75,7 @@
 		</div>
 
 		<div class="row">
-			<div class="col-lg-12 text-right">
+			<div class="col-lg-12">
 				<input type="hidden" name="id" value="{$data['id']}" readonly>
 				<input type="hidden" name="oldalias" value="{$data['alias']}" readonly>
 				<input type="submit" name="update_block" class="btn btn-success" value="Обновить блок">

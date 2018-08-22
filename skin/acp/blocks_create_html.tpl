@@ -67,7 +67,7 @@
 		</div>
 
 		<div class="row">
-			<div class="col-md-12 text-right">
+			<div class="col-md-12">
 				<input type="submit" name="create_block" class="btn btn-success" value="Создать блок">
 			</div>
 		</div>
