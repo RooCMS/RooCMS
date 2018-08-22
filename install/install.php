@@ -74,8 +74,6 @@ class Install extends ExtIUFunction {
 
 	/**
 	 * Доктор, начнем операцию...
-	 *
-	 * @throws SmartyException
 	 */
 	public function __construct() {
 

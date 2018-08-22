@@ -138,7 +138,7 @@
 	<div class="row">
 		<div class="col-lg-9 col-md-offset-3">
 			<input type="submit" name="create_unit" class="btn btn-success" value="Создать">
-			<input type="submit" name="create_unit_ae" class="btn btn-default" value="Создать и выйти">
+			<input type="submit" name="create_unit['ae']" class="btn btn-default" value="Создать и выйти">
 		</div>
 	</div>
 </div>

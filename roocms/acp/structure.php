@@ -37,15 +37,15 @@
  */
 
 /**
-* @package      RooCMS
-* @subpackage	Admin Control Panel
-* @author       alex Roosso
-* @copyright    2010-2019 (c) RooCMS
-* @link         http://www.roocms.com
-* @version      1.5.4
-* @since        $date$
-* @license      http://www.gnu.org/licenses/gpl-3.0.html
-*/
+ * @package      RooCMS
+ * @subpackage	 Admin Control Panel
+ * @author       alex Roosso
+ * @copyright    2010-2019 (c) RooCMS
+ * @link         http://www.roocms.com
+ * @version      1.5.5
+ * @since        $date$
+ * @license      http://www.gnu.org/licenses/gpl-3.0.html
+ */
 
 
 //#########################################################
@@ -71,8 +71,8 @@ class ACP_Structure {
 
 
 	/**
-	* Lets mortal kombat begin
-	*/
+	 * Lets mortal kombat begin
+	 */
 	public function __construct() {
 
 		require_once _CLASS."/class_structure.php";
@@ -84,8 +84,8 @@ class ACP_Structure {
 
 
 	/**
-	* initialisation action
-	*/
+	 * initialisation action
+	 */
 	private function init() {
 
 		global $roocms, $config, $db, $tpl, $smarty, $get, $post;
@@ -119,7 +119,7 @@ class ACP_Structure {
 		switch($roocms->part) {
 			# create
 			case 'create':
-				if(isset($post->create_unit) || isset($post->create_unit_ae)) {
+				if(isset($post->create_unit)) {
 					$this->create_unit();
 				}
 				else {
@@ -138,7 +138,7 @@ class ACP_Structure {
 
 			# edit and update
 			case 'edit':
-				if(isset($post->update_unit) || isset($post->update_unit_ae)) {
+				if(isset($post->update_unit)) {
 					$this->update_unit($this->sid);
 				}
 				elseif($this->sid != 0) {
@@ -151,7 +151,7 @@ class ACP_Structure {
 
 			# delete
 			case 'delete':
-                		$this->delete_unit($this->sid);
+				$this->delete_unit($this->sid);
 				break;
 
 			default:
@@ -166,8 +166,8 @@ class ACP_Structure {
 
 
 	/**
-	* Создаем новый структурный элемент
-	*/
+	 * Создаем новый структурный элемент
+	 */
 	private function create_unit() {
 
 		global $db, $logger, $post;
@@ -218,7 +218,7 @@ class ACP_Structure {
 			$logger->info("Структурная еденица #".$sid." успешно добавлена.");
 
 			# переход
-			if(isset($post->create_unit_ae)) {
+			if(isset($post->create_unit['ae'])) {
 				go(CP."?act=structure");
 			}
 			else {
@@ -241,7 +241,7 @@ class ACP_Structure {
 	 *
 	 * @param int $sid - уникальный идентификатор структурной едеицы
 	 *
-	 * @return data
+	 * @return data|string
 	 */
 	private function edit_unit($sid) {
 
@@ -361,7 +361,7 @@ class ACP_Structure {
 			$logger->info("Страница #".$sid." успешно обновлена.");
 
 
-			if(isset($post->update_unit_ae)) {
+			if(isset($post->update_unit['ae'])) {
 				go(CP."?act=structure");
 			}
 			else {
@@ -475,10 +475,10 @@ class ACP_Structure {
 
 
 	/**
-	* Пересчитываем "детей"
-	*
-	* @param int $id
-	*/
+	 * Пересчитываем "детей"
+	 *
+	 * @param int $id
+	 */
 	private function count_childs($id) {
 
 		global $db;

@@ -60,16 +60,16 @@ if(!defined('RooCMS') || !defined('INSTALL')) {
 class Update extends ExtIUFunction {
 
 	# vars
-	protected $allowed	= true;			# [bool]	flag for allowed to continue process
-	protected $log		= [];			# [array]	array log process actions
+	protected $allowed	= true;		# [bool]	flag for allowed to continue process
+	protected $log		= [];		# [array]	array log process actions
 
-	private $action		= "update";		# [string]	alias for identy process
-	protected $step		= 1;			# [int]		now use step
-	protected $nextstep	= 2;			# [int]		next use step
-	protected $steps	= 4;			# [int]		all step in operations
+	private $action		= "update";	# [string]	alias for identy process
+	protected $step		= 1;		# [int]		now use step
+	protected $nextstep	= 2;		# [int]		next use step
+	protected $steps	= 4;		# [int]		all step in operations
 	private $page_title	= "";
 	private $status		= "";
-	private $noticetext	= "";			# [string]	attention text in head form
+	private $noticetext	= "";		# [string]	attention text in head form
 
 
 

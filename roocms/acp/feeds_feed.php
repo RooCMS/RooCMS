@@ -230,8 +230,6 @@ class ACP_Feeds_Feed {
 	 * Функция вызова параметров элемента ленты для их редактирвоания
 	 *
 	 * @param int $id - идентификатор элемента ленты
-	 *
-	 * @throws SmartyException
 	 */
 	public function edit_item($id) {
 
@@ -377,8 +375,6 @@ class ACP_Feeds_Feed {
 	 * Функция переноса элемента из одной ленты в другую
 	 *
 	 * @param int $id - идентификатор элемента ленты
-	 *
-	 * @throws SmartyException
 	 */
 	public function migrate_item($id) {
 

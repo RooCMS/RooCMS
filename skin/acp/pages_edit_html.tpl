@@ -6,8 +6,8 @@
 
 	<p class="pull-right"><a href="{$SCRIPT_NAME}?act=structure&part=edit&id={$data['sid']}" class="btn btn-default btn-xs"><span class="fa fa-pencil-square-o fa-fw"></span> Редактировать теги</a></p>
 </div>
-<div class="panel-body">
-	<form method="post" action="{$SCRIPT_NAME}?act=pages&part=update&page={$data['sid']}" enctype="multipart/form-data" role="form" class="form-horizontal cked">
+<form method="post" action="{$SCRIPT_NAME}?act=pages&part=update&page={$data['sid']}" enctype="multipart/form-data" role="form" class="form-horizontal">
+	<div class="panel-body">
 		<div class="row">
 			<div class="col-lg-12">
 				<dl class="dl-horizontal">
@@ -56,10 +56,12 @@
 				{$filesupload}
 			</div>
 		</div>
+	</div>
+	<div class="panel-footer">
 		<div class="row">
-			<div class="col-lg-12 text-right">
+			<div class="col-md-12">
 				<input type="submit" name="update_page" class="btn btn-success" value="Обновить страницу">
 			</div>
 		</div>
-	</form>
-</div>
+	</div>
+</form>

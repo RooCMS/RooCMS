@@ -5,8 +5,8 @@
 	<q>{$data['title']}</q>
 	<p class="pull-right"><a href="{$SCRIPT_NAME}?act=structure&part=edit&id={$data['sid']}" class="btn btn-default btn-xs"><span class="fa fa-pencil-square-o fa-fw"></span> Редактировать теги</a></p>
 </div>
-<div class="panel-body">
-	<form method="post" action="{$SCRIPT_NAME}?act=pages&part=update&page={$data['sid']}" enctype="multipart/form-data">
+<form method="post" action="{$SCRIPT_NAME}?act=pages&part=update&page={$data['sid']}" enctype="multipart/form-data">
+	<div class="panel-body">
 		<div class="row">
 			<div class="col-lg-12">
 				<dl class="dl-horizontal">
@@ -47,13 +47,15 @@
 				<textarea id="content" class="form-control" name="content" wrap="off">{$data['content']}</textarea>
 			</div>
 		</div>
-		<div class="form-group">
-			<div class="col-lg-12 text-right">
+	</div>
+	<div class="panel-footer">
+		<div class="row">
+			<div class="col-md-12">
 				<input type="submit" name="update_page" class="btn btn-success" value="Обновить страницу">
 			</div>
 		</div>
-	</form>
-</div>
+	</div>
+</form>
 {literal}
 <script>
 	var editor = CodeMirror.fromTextArea(document.getElementById("content"), {

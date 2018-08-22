@@ -148,7 +148,7 @@
 	<div class="row">
 		<div class="col-lg-9 col-md-offset-3">
 			<input type="submit" name="update_unit" class="btn btn-success" value="Сохранить">
-			<input type="submit" name="update_unit_ae" class="btn btn-default" value="Сохранить и выйти">
+			<input type="submit" name="update_unit['ae']" class="btn btn-default" value="Сохранить и выйти">
 		</div>
 	</div>
 </div>

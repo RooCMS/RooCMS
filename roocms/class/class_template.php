@@ -162,7 +162,6 @@ class Template {
 	 * @param boolean $return - Включенный флаг возвращает загруженный через return
 	 *
 	 * @return string|null
-	 * @throws SmartyException
 	 */
 	public function load_template($tpl, $return=false) {
 
@@ -207,8 +206,6 @@ class Template {
 	 * @param        $smarty_variable - указываем переменную для смарти шаблонов.
 	 * @param string $tpl             - На случай если вам потребуется использовать собственный шаблон
 	 * @param bool   $tplreturn       - Возврат скомпилорованного шаблона в переменную. По-умолчанию включено.
-	 *
-	 * @throws SmartyException
 	 */
 	public function load_image_upload_tpl($smarty_variable, $tpl="images_upload", $tplreturn=true) {
 
@@ -229,8 +226,6 @@ class Template {
 	 * @param        $smarty_variable - указываем переменную для смарти шаблонов.
 	 * @param string $tpl             - На случай если вам потребуется использовать собственный шаблон
 	 * @param bool   $tplreturn       - Возврат скомпилорованного шаблона в переменную. По-умолчанию включено.
-	 *
-	 * @throws SmartyException
 	 */
 	public function load_files_upload_tpl($smarty_variable, $tpl="files_upload", $tplreturn=true) {
 
@@ -304,7 +299,6 @@ class Template {
 	 * Функция компилирует вывод параметров в head
 	 *
 	 * @return string|null tpl
-	 * @throws SmartyException
 	 */
 	private function init_head() {
 
@@ -358,7 +352,6 @@ class Template {
 	 * Функция компилирует вывод параметров в footer
 	 *
 	 * @return string|null tpl
-	 * @throws SmartyException
 	 */
 	private function init_footer() {
 
