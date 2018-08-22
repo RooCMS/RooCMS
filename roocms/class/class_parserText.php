@@ -42,7 +42,7 @@
 * @author       alex Roosso
 * @copyright    2010-2019 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.1.7
+* @version      1.2
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -279,5 +279,24 @@ class ParserText {
 		}
 
 		return $uni;
+	}
+
+
+	/**
+	 * Корректируем имена алиасов, что бы избегать ошибок
+	 *
+	 * @param string|int $var - Значение переменной
+	 *
+	 * @return string
+	 */
+	public function correct_aliases($var) {
+
+		$var  = preg_replace(array('(\s\s+)','(\-\-+)','(__+)','([^a-zA-Z0-9\-_])'), array('-','-','_',''), $var);
+
+		if(is_numeric($var) || $var == "") {
+			$var .= randcode(3, "abcdefghijklmnopqrstuvwxyz");
+		}
+
+		return $var;
 	}
 }

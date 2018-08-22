@@ -42,7 +42,7 @@
 * @author       alex Roosso
 * @copyright    2010-2019 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.1.11
+* @version      1.1.12
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -197,13 +197,7 @@ class ACP_Help {
 
 		# предупреждаем возможные ошибки с уникальным именем структурной еденицы
 		if(isset($post->uname)) {
-			# избавляем URI от возможных конвульсий
-			$post->uname = strtr($post->uname, array('-'=>'_','='=>'_'));
-
-			# а так же проверяем что бы алиас не оказался числом
-			if(is_numeric($post->uname)) {
-				$post->uname = randcode(3, "abcdefghijklmnopqrstuvwxyz").$post->uname;
-			}
+			$post->uname = $parse->text->correct_aliases($post->uname);
 		}
 
 		# проверяем введенный данные
@@ -247,13 +241,7 @@ class ACP_Help {
 
 		# предупреждаем возможные ошибки с уникальным именем структурной еденицы
 		if(isset($post->uname)) {
-			# избавляем URI от возможных конвульсий
-			$post->uname = strtr($post->uname, array('-'=>'_','='=>'_'));
-
-			# а так же проверяем что бы юнейм не оказался числом
-			if(is_numeric($post->uname)) {
-				$post->uname = randcode(3, "abcdefghijklmnopqrstuvwxyz").$post->uname;
-			}
+			$post->uname = $parse->text->correct_aliases($post->uname);
 		}
 
 		# проверяем введенный данные

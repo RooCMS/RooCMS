@@ -518,9 +518,7 @@ class ACP_Structure {
 			$post->alias = preg_replace(array('(\s\s+)','(\-\-+)','(__+)','([^a-zA-Z0-9\-_])'), array('_','_','_',''), $post->alias);
 
 			# а так же проверяем что бы алиас не оказался числом
-			if(is_numeric($post->alias)) {
-				$post->alias .= randcode(3, "abcdefghijklmnopqrstuvwxyz");
-			}
+			$post->alias = $parse->text->correct_aliases($post->alias);
 		}
 	}
 

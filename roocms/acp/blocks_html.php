@@ -44,7 +44,7 @@
 * @author       alex Roosso
 * @copyright    2010-2019 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.4.4
+* @version      1.4.5
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -267,12 +267,7 @@ class ACP_Blocks_HTML {
 		}
 		else {
 			$post->alias = $parse->text->transliterate($post->alias);
-			$post->alias = preg_replace(array('(\s\s+)','(\-\-+)','(__+)','([^a-zA-Z0-9\-_])'), array('','','',''), $post->alias);
-
-			if(is_numeric($post->alias)) {
-				$post->alias .= randcode(3, "abcdefghijklmnopqrstuvwxyz");
-			}
-
+			$post->alias = $parse->text->correct_aliases($post->alias);
 
 			$check_alias = (isset($post->oldalias)) ? "alias!='".$post->oldalias."'" : "" ;
 
