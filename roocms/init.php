@@ -42,7 +42,7 @@
  * @author       alex Roosso
  * @copyright    2010-2019 (c) RooCMS
  * @link         http://www.roocms.com
- * @version      1.7.6
+ * @version      1.7.7
  * @since        $date$
  * @license      http://www.gnu.org/licenses/gpl-3.0.html
  */
@@ -246,6 +246,16 @@ if(file_exists(_CLASS."/class_files.php")) {
 	 * Инициализируем класс
 	 */
 	$files = new Files;
+}
+else {
+	die(ROOCMS_NOT_RUNNING);
+}
+
+/**
+ * Загружаем класс функций расширений графической обработки
+ */
+if(file_exists(_CLASS."/class_gd_ext.php")) {
+	require_once(_CLASS."/class_gd_ext.php");
 }
 else {
 	die(ROOCMS_NOT_RUNNING);

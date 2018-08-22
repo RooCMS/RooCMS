@@ -42,7 +42,7 @@
 * @author	alex Roosso
 * @copyright	2010-2019 (c) RooCMS
 * @link		http://www.roocms.com
-* @version	1.16.2
+* @version	1.17
 * @since	$date$
 * @license	http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -60,7 +60,7 @@ if(!defined('RooCMS')) {
 /**
  * Class GD
  */
-class GD {
+class GD extends GDExtends {
 
 	# vars
 	public $info		= [];					# Информация о GD расширении
@@ -209,11 +209,11 @@ class GD {
 			# вносим в память пустую превью и оригинальный файл, для дальнейшего издевательства над ними.
 			$resize 	= $this->imgcreatetruecolor($ns['new_width'], $ns['new_height'], $ext);
 
-	        	$alpha 		= ($ext == "png" || $ext == "gif") ? 127 : 0 ;
+	        	$alpha 		= ($this->is_gifpng($ext)) ? 127 : 0 ;
 	        	$bgcolor 	= imagecolorallocatealpha($resize, $this->thumbbgcol['r'], $this->thumbbgcol['g'], $this->thumbbgcol['b'], $alpha);
 
 	        	# alpha
-			if($ext == "gif" || $ext == "png") {
+			if($this->is_gifpng($ext)) {
 				imagecolortransparent($resize, $bgcolor);
 			}
 
@@ -265,12 +265,12 @@ class GD {
 
 		# вносим в память пустую превью и оригинальный файл, для дальнейшего издевательства над ними.
 		$resize  = $this->imgcreatetruecolor($this->tsize['w'], $this->tsize['h'], $ext);
-		$alpha   = ($ext == "png" || $ext == "gif") ? 127 : 0;
+		$alpha   = ($this->is_gifpng($ext)) ? 127 : 0;
 
 		$bgcolor = imagecolorallocatealpha($resize, $this->thumbbgcol['r'], $this->thumbbgcol['g'], $this->thumbbgcol['b'], $alpha);
 
 		# alpha
-		if($ext == "gif" || $ext == "png") {
+		if($this->is_gifpng($ext)) {
 			imagecolortransparent($resize, $bgcolor);
 		}
 
@@ -342,11 +342,11 @@ class GD {
 		# вносим в память пустую превью и оригинальный файл, для дальнейшего издевательства над ними.
 		$thumb		= $this->imgcreatetruecolor($this->tsize['w'], $this->tsize['h'], $ext);
 
-		$alpha 		= ($ext == "png" || $ext == "gif") ? 127 : 0 ;
+		$alpha 		= ($this->is_gifpng($ext)) ? 127 : 0 ;
         	$bgcolor	= imagecolorallocatealpha($thumb, $this->thumbbgcol['r'], $this->thumbbgcol['g'], $this->thumbbgcol['b'], $alpha);
 
 		# alpha
-		if($ext == "gif" || $ext == "png") {
+		if($this->is_gifpng($ext)) {
 			imagecolortransparent($thumb, $bgcolor);
 		}
 
@@ -600,7 +600,7 @@ class GD {
 
                 $src = imagecreatetruecolor($width, $height);
 
-		if($ext == "png" || $ext == "gif") {
+		if($this->is_gifpng($ext)) {
 	                imagealphablending($src, false);
 			imagesavealpha($src,true);
 		}

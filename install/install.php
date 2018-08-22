@@ -57,7 +57,7 @@ if(!defined('RooCMS') || !defined('INSTALL')) {
 //#########################################################
 
 
-class Install extends ExtIUFunction {
+class Install extends IU_Extends {
 
 	# vars
 	protected $allowed	= true;		# [bool]	flag for allowed to continue process

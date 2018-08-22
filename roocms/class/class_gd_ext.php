@@ -18,7 +18,7 @@
  * along with this program.  If not, see http://www.gnu.org/licenses/
  *
  *
- * RooCMS - Бесплатная система управления сайтом
+ * RooCMS - Бесплатная система управления сайтом с открытым исходным кодом
  * Copyright © 2010-2018 александр Белов  (alex Roosso). Все права защищены
  * Для связи: info@roocms.com
  *
@@ -37,78 +37,47 @@
  */
 
 /**
- * @package      RooCMS
- * @subpackage	 Extended function for install/update script RooCMS
- * @author       alex Roosso
- * @copyright    2010-2019 (c) RooCMS
- * @link         http://www.roocms.com
- * @version      1.0.1
- * @since        $date$
- * @license      http://www.gnu.org/licenses/gpl-3.0.html
+ * @package	RooCMS
+ * @subpackage	Engine RooCMS classes
+ * @author	alex Roosso
+ * @copyright	2010-2019 (c) RooCMS
+ * @link	http://www.roocms.com
+ * @version	1.0
+ * @since	$date$
+ * @license	http://www.gnu.org/licenses/gpl-3.0.html
  */
 
 
 //#########################################################
 // Anti Hack
 //---------------------------------------------------------
-if(!defined('RooCMS') || !defined('INSTALL')) {
+if(!defined('RooCMS')) {
 	die('Access Denied');
 }
 //#########################################################
 
 
-class ExtIUFunction extends Requirement {
+/**
+ * Class GD_ext
+ */
+class GDExtends {
 
 
 	/**
-	 * Init var $this->>step
-	 */
-	protected function init_step() {
-
-		global $get;
-
-		if(isset($get->_step) && round($get->_step) > 0) {
-			$this->step =& $get->_step;
-		}
-	}
-
-
-	/**
-	 * This function check steps in algorythm and set next step
-	 */
-	protected function set_nextstep() {
-		if($this->allowed && $this->step != $this->steps) {
-			$this->nextstep = $this->step + 1;
-		}
-	}
-
-
-	/**
-	 * Check data $post->step
+	 * Check extension on gif or png
 	 *
-	 * @param int $n - step
+	 * @param string $ext - extension
 	 *
 	 * @return bool
 	 */
-	protected function check_step($n) {
+	protected function is_gifpng($ext) {
 
-		global $post;
+		$check = false;
 
-		return isset($post->step) && $post->step == $n;
+		if($ext == "gif" || $ext == "png") {
+			$check = true;
+		}
 
-	}
-
-
-	/**
-	 * Check used $post->submit
-	 *
-	 * @return bool
-	 */
-	protected function check_submit() {
-
-		global $post;
-
-		return $this->allowed && isset($post->submit);
-
+		return $check;
 	}
 }
