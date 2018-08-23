@@ -42,7 +42,7 @@
 * @author	alex Roosso
 * @copyright	2010-2019 (c) RooCMS
 * @link		http://www.roocms.com
-* @version	1.18
+* @version	1.19
 * @since	$date$
 * @license	http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -147,7 +147,6 @@ class GD extends GDExtends {
 	protected function modify_image($filename, $extension, $path, array $options=array("watermark"=>true, "modify"=>true, "noresize"=>false)) {
 
 		global $config;
-
 
 		# Модифицируем?
 		if(isset($options['modify']) && $options['modify']) {
@@ -345,7 +344,7 @@ class GD extends GDExtends {
         	$filethumb 	= $filename."_thumb.".$ext;
 
 		# определяем размер картинки
-		$size = getimagesize($path."/".$fileresize);
+		$size 		= getimagesize($path."/".$fileresize);
 
 		# вносим в память пустую превью и оригинальный файл, для дальнейшего издевательства над ними.
 		$thumb		= $this->imgcreatetruecolor($this->tsize['w'], $this->tsize['h'], $ext);
@@ -436,8 +435,8 @@ class GD extends GDExtends {
 		$angle = 0;
 
 		# Тень следом текст, далее цвет линии подложки
-		$shadow 	= imagecolorallocatealpha($src, 0, 0, 0, 20);
-		$color  	= imagecolorallocatealpha($src, 255, 255, 255, 20);
+		$shadow = imagecolorallocatealpha($src, 0, 0, 0, 20);
+		$color  = imagecolorallocatealpha($src, 255, 255, 255, 20);
 
 		# размер шрифта
 		$size = 10;
@@ -488,8 +487,8 @@ class GD extends GDExtends {
 	 * Функция генерация водяного знака на изображении
 	 *
 	 * @param string $filename - Имя файла
-	 * @param string $ext - Расширение файла без точки
-	 * @param string $path - Путь к папке с файлом. По умолчанию указан путь к папке с изображениями
+	 * @param string $ext      - Расширение файла без точки
+	 * @param string $path     - Путь к папке с файлом. По умолчанию указан путь к папке с изображениями
 	 */
 	protected function watermark_image($filename, $ext, $path=_UPLOADIMAGES) {
 
@@ -572,6 +571,48 @@ class GD extends GDExtends {
 
 
 	/**
+	 * Фуекция конвертирует изображение jpg в webp
+	 *
+	 * @param string $filename - Имя файла
+	 * @param string $ext      - Расширение файла без точки
+	 * @param string $path     - Путь к папке с файлом. По умолчанию указан путь к папке с изображениями
+	 *
+	 * @return string          - возвращает новое или неизменное расширение.
+	 */
+	protected function convert_jpgtowebp($filename, $ext, $path=_UPLOADIMAGES) {
+
+		global $config;
+
+		if($this->is_jpg($ext)) {
+
+			if(file_exists($path."/".$filename."_original.".$ext)) {
+				$filename = $filename."_original";
+			}
+
+			# определяем размер картинки
+			$size = getimagesize($path."/".$filename.".".$ext);
+
+			# create
+			$src = $this->imgcreate($path."/".$filename.".".$ext,$ext);
+
+			# remove original
+			unlink($path."/".$filename.".".$ext);
+
+			# re:set ext for callback
+			$ext = "webp";
+
+			# save
+			imagewebp($src,$path."/".$filename.".".$ext, $this->rs_quality);
+
+			# destroy
+			imagedestroy($src);
+		}
+
+		return $ext;
+	}
+
+
+	/**
 	 * Функция создает исходник из готового изображения для дальнейшей с ним работы (обработки).
 	 *
 	 * @param string $from	- полный путь и имя файла из которого будем крафтить изображение
@@ -630,115 +671,5 @@ class GD extends GDExtends {
 		}
 
 		return $src;
-	}
-
-
-	/**
-	 * Получаем ориентацию изображения
-	 *
-	 * @param $image - указываем изображение
-	 *
-	 * @return int
-	 */
-	private function get_orientation($image) {
-
-		$orientation = 1;
-
-		if(function_exists('exif_read_data') && exif_imagetype($image) == 2) {
-			$exif = exif_read_data($image);
-			if(isset($exif['Orentation'])) {
-				$orientation = $exif['Orentation'];
-			}
-		}
-
-		return $orientation;
-	}
-
-
-	/**
-	 * Расчитываем новые размеры изображений
-	 *
-	 * @param int  $width    - Текущая ширина
-	 * @param int  $height   - Текущая высота
-	 * @param int  $towidth  - Требуемая ширина
-	 * @param int  $toheight - Требуемая высота
-	 * @param bool $resize   - Флаг указывающий производим мы пропорциональное изменение или образание. True - производим расчеты для пропорционального изменения. False - производим обрезание (crop)
-	 *
-	 * @return array<int> - Функция возвращает массив с ключами ['new_width'] - новая ширина, ['new_height'] - новая высота, ['new_left'] - значение позиции слева, ['new_top'] - значение позиции сверху
-	 */
-	private function calc_resize($width, $height, $towidth, $toheight, $resize = true) {
-
-		$x_ratio 	= $towidth / $width;
-		$y_ratio 	= $toheight / $height;
-		$ratio 		= ($resize) ? min($x_ratio, $y_ratio) : max($x_ratio, $y_ratio);
-		$use_x_ratio 	= ($x_ratio == $ratio);
-		$new_width 	= $use_x_ratio 	? $towidth : floor($width * $ratio);
-		$new_height 	= !$use_x_ratio ? $toheight : floor($height * $ratio);
-		$new_left 	= $use_x_ratio 	? 0 : floor(($towidth - $new_width) / 2);
-		$new_top 	= !$use_x_ratio ? 0 : floor(($toheight - $new_height) / 2);
-
-		$return = array('new_width'	=> (int) $new_width,
-				'new_height'	=> (int) $new_height,
-				'new_left'	=> (int) $new_left,
-				'new_top'	=> (int) $new_top);
-
-		return $return;
-	}
-
-
-	/**
-	 * Корректируем массив с обновленными размерами.
-	 *
-	 * @param array $ns - array new size
-	 *
-	 * @return array $ns
-	 */
-	private function calc_newsize(array $ns) {
-
-		if($ns['new_left'] > 0) {
-			$ns['new_top'] = $ns['new_top'] - $ns['new_left'];
-			$proc = (($ns['new_left'] * 2) / $ns['new_width']);
-			$ns['new_width']  = ($ns['new_width'] + ($ns['new_width'] * $proc)) + 2;
-			$ns['new_height'] = ($ns['new_height'] + ($ns['new_height'] * $proc)) + 2;
-			$ns['new_left'] = 0;
-		}
-
-		if($ns['new_top'] > 0) {
-			$ns['new_left'] = $ns['new_left'] - $ns['new_top'];
-			$proc = (($ns['new_top'] * 2) / $ns['new_height']);
-			$ns['new_width']  = ($ns['new_width'] + ($ns['new_width'] * $proc)) + 2;
-			$ns['new_height'] = ($ns['new_height'] + ($ns['new_height'] * $proc)) + 2;
-			$ns['new_top'] = 0;
-		}
-
-		return $ns;
-	}
-
-
-	/**
-	 * Функция устанавливает параметры размеров миниатюр для изображений
-	 *
-	 * @param array $sizes - array(width,height) - размеры будут изменены согласно параметрам.
-	 *
-	 * @return array|null
-	 */
-	protected function set_mod_sizes(array $sizes) {
-
-		if(is_array($sizes) && count($sizes) == 2) {
-
-			$size = [];
-
-			if(round($sizes[0]) > 16) {
-				$size['w'] = round($sizes[0]);
-			}
-
-			if(round($sizes[1]) > 16) {
-				$size['h'] = round($sizes[1]);
-			}
-
-			if(!empty($size)) {
-				return $size;
-			}
-		}
 	}
 }

@@ -42,7 +42,7 @@
 * @author       alex Roosso
 * @copyright    2010-2019 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.5.5
+* @version      1.5.6
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -101,7 +101,7 @@ class Images extends GD {
 	 */
 	public function upload_post_image($file, $prefix="", array $thumbsize=[], array $options=[], $path=_UPLOADIMAGES) {
 
-		global $files;
+		global $config, $files;
 
 		# Если ложный вызов
 		if(!isset($_FILES[$file])) {
@@ -163,19 +163,28 @@ class Images extends GD {
 						copy($upfiles[$file]['tmp_name'][$key], $path."/".$filename."_original.".$ext);
 
 						# Если загрузка прошла и файл на месте
-						$upload = (!file_exists($path."/".$filename."_original.".$ext)) ? false : true ;
+						if(file_exists($path."/".$filename."_original.".$ext)) {
+							$upload = true ;
+						}
 					}
 					else {
 						# Сохраняем оригинал
 						copy($upfiles[$file]['tmp_name'][$key], $path."/".$filename.".".$ext);
 
 						# Если загрузка прошла и файл на месте
-						$upload = (!file_exists($path."/".$filename.".".$ext)) ? false : true ;
+						if(file_exists($path."/".$filename.".".$ext)) {
+							$upload = true;
+						}
 					}
 				}
 
 				# Если загрузка удалась
 				if($upload) {
+					# convert jpgtowebp
+					if($config->gd_convert_jpg_to_webp) {
+						$ext = $this->convert_jpgtowebp($filename, $ext, $path);
+					}
+
 					$this->modify_image($filename, $ext, $path, $options);
 				}
 				else {
