@@ -59,6 +59,11 @@ if(!defined('RooCMS') || !defined('INSTALL')) {
 
 class IU_Extends extends Requirement {
 
+	# var
+	protected $step;
+	protected $nextstep;
+
+
 
 	/**
 	 * Init var $this->>step
@@ -95,7 +100,6 @@ class IU_Extends extends Requirement {
 		global $post;
 
 		return isset($post->step) && $post->step == $n;
-
 	}
 
 
@@ -109,6 +113,5 @@ class IU_Extends extends Requirement {
 		global $post;
 
 		return $this->allowed && isset($post->submit);
-
 	}
 }

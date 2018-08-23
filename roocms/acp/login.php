@@ -114,8 +114,8 @@ class ACP_Login {
 	/**
 	 * Функция вывода сообщения о некоректной попытки входа
 	 *
-	 * @param $login    - введенный логин
-	 * @param $password - введенный пароль
+	 * @param string $login    - введенный логин
+	 * @param string $password - введенный пароль
 	 */
 	private function incorrect_entering($login, $password) {
 

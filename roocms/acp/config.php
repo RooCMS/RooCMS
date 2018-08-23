@@ -149,7 +149,7 @@ class ACP_Config extends ACP_Config_SpecPart {
 	 * @param string $option_name - имя поля
 	 * @param string $option_type - тип поля
 	 * @param string $value       - значение
-	 * @param        $variants    - варианты (для селектов)
+	 * @param text   $variants    - варианты (для селектов)
 	 *
 	 * @param int    $maxlength   - максимально допустимое количество символов в поле.
 	 *

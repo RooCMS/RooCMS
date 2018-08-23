@@ -127,6 +127,7 @@ class ACP_Index {
 		$info['sysemail']	= $site['sysemail'];
 		$info['roocms']		= ROOCMS_VERSION;
 
+		$warning_subj = [];
 
 		if(get_http_response_code("http://version.roocms.com/index.php") == "200") {
 			$f = file("http://version.roocms.com/index.php");

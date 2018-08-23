@@ -81,9 +81,9 @@ class ACP_Config_SpecPart {
 	/**
 	 * Функция изменения адреса входной страницы в Панель Администратора
 	 *
-	 * @param $newcp  - новый путь скрипта панели администратора
+	 * @param string $newcp  - новый путь скрипта панели администратора
 	 *
-	 * @return bool   - флаг успеха/провала
+	 * @return bool          - флаг успеха/провала
 	 */
 	private function change_cp_script($newcp) {
 

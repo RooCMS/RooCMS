@@ -85,7 +85,7 @@ class ACP_Blocks_HTML {
 								    VALUES ('".$post->title."', '".$post->alias."', '".$post->content."', '".$post->thumb_img_width."', '".$post->thumb_img_height."', '".time()."', '".time()."', 'html')");
 				$id = $db->insert_id();
 
-
+				$thumbsize = [];
 				$thumbsize['thumb_img_width'] = ($post->thumb_img_width != 0) ? $post->thumb_img_width : $config->gd_thumb_image_width ;
 				$thumbsize['thumb_img_height'] = ($post->thumb_img_height != 0) ? $post->thumb_img_height : $config->gd_thumb_image_height ;
 
@@ -123,7 +123,7 @@ class ACP_Blocks_HTML {
 	/**
 	 * Редактируем HTML блок
 	 *
-	 * @param $id - идентификатор блока
+	 * @param int $id - идентификатор блока
 	 */
 	public function edit($id) {
 
@@ -169,7 +169,7 @@ class ACP_Blocks_HTML {
 	/**
 	 * Обновляем HTML блок
 	 *
-	 * @param $id - идентификатор
+	 * @param int $id - идентификатор
 	 */
 	public function update($id) {
 
@@ -207,7 +207,7 @@ class ACP_Blocks_HTML {
 					}
 				}
 
-
+				$thumbsize = [];
 				$thumbsize['thumb_img_width'] = ($post->thumb_img_width != 0) ? $post->thumb_img_width : $config->gd_thumb_image_width ;
 				$thumbsize['thumb_img_height'] = ($post->thumb_img_height != 0) ? $post->thumb_img_height : $config->gd_thumb_image_height ;
 
@@ -235,7 +235,7 @@ class ACP_Blocks_HTML {
 	/**
 	 * Удаление блока
 	 *
-	 * @param $id - идентификатор блока
+	 * @param int $id - идентификатор блока
 	 */
 	public function delete($id) {
 

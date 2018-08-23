@@ -96,7 +96,7 @@ class ACP_Blocks_PHP {
 	/**
 	 * Редактируем PHP блок
 	 *
-	 * @param $id - идентификатор блока
+	 * @param int $id - идентификатор блока
 	 */
 	public function edit($id) {
 
@@ -114,7 +114,7 @@ class ACP_Blocks_PHP {
 	/**
 	 * Обновляем PHP блок
 	 *
-	 * @param $id - идентификатор блока
+	 * @param int $id - идентификатор блока
 	 */
 	public function update($id) {
 
@@ -154,7 +154,7 @@ class ACP_Blocks_PHP {
 	/**
 	 * Удаляем PHP блок
 	 *
-	 * @param $id - идентификатор блока
+	 * @param int $id - идентификатор блока
 	 */
 	public function delete($id) {
 

@@ -59,6 +59,10 @@ if(!defined('RooCMS') || !defined('INSTALL')) {
 
 class Requirement {
 
+	# var
+	protected $allowed;
+	protected $log;
+
 
 	/**
 	* Проверяем настройки хостинга
