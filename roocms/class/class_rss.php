@@ -137,7 +137,7 @@ class RSS {
 			$this->link = $site['domain'] . SCRIPT_NAME . htmlspecialchars($uri);
 		}
 		else {
-			$this->link	= htmlspecialchars($url);
+			$this->link = htmlspecialchars($url);
 		}
 	}
 

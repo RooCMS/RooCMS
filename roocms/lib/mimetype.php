@@ -42,7 +42,7 @@
 * @author       alex Roosso
 * @copyright    2010-2019 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.0.4
+* @version      1.0.5
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -105,6 +105,7 @@ $imagetype[]	= array('ext'	=> 'gif',	'mime_type'	=> 'image/gif',		'ico'	=> 'gif.
 $imagetype[]	= array('ext'	=> 'jpg',	'mime_type'	=> 'image/jpg',		'ico'	=> 'jpg.png');
 $imagetype[]	= array('ext'	=> 'jpg',	'mime_type'	=> 'image/jpeg',	'ico'	=> 'jpeg.png');
 $imagetype[]	= array('ext'	=> 'jpg',	'mime_type'	=> 'image/pjpeg',	'ico'	=> 'jpg.png');
+$imagetype[]	= array('ext'	=> 'webp',	'mime_type'	=> 'image/webp',	'ico'	=> 'jpeg.png'); # TODO: Find icon
 //$imagetype[]	= array('ext'	=> 'ico',	'mime_type'	=> 'image/x-icon',	'ico'	=> 'ico.png');
 //$imagetype[]	= array('ext'	=> 'bmp',	'mime_type'	=> 'image/bmp',		'ico'	=> 'bmp.png');
 

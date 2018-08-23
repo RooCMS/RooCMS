@@ -42,7 +42,7 @@
 * @author	alex Roosso
 * @copyright	2010-2019 (c) RooCMS
 * @link		http://www.roocms.com
-* @version	1.17
+* @version	1.18
 * @since	$date$
 * @license	http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -230,6 +230,10 @@ class GD extends GDExtends {
 					imagejpeg($resize,$path."/".$fileresize, $this->rs_quality);
 					break;
 
+				case 'webp':
+					imagewebp($resize,$path."/".$fileresize, $this->rs_quality);
+					break;
+
 				case 'gif':
 					imagegif($resize,$path."/".$fileresize);
 					break;
@@ -308,6 +312,10 @@ class GD extends GDExtends {
 				imagejpeg($resize,$path."/".$file, $this->th_quality);
 				break;
 
+			case 'webp':
+				imagewebp($resize,$path."/".$file, $this->th_quality);
+				break;
+
 			case 'gif':
 				imagegif($resize,$path."/".$file);
 				break;
@@ -370,6 +378,10 @@ class GD extends GDExtends {
 		switch($ext) {
 			case 'jpg':
 				imagejpeg($thumb,$path."/".$filethumb, $this->th_quality);
+				break;
+
+			case 'webp':
+				imagewebp($thumb,$path."/".$filethumb, $this->th_quality);
 				break;
 
 			case 'gif':
@@ -455,6 +467,10 @@ class GD extends GDExtends {
 				imagejpeg($src,$path."/".$fileresize, $this->rs_quality);
 				break;
 
+			case 'webp':
+				imagewebp($src,$path."/".$fileresize, $this->rs_quality);
+				break;
+
 			case 'gif':
 				imagegif($src,$path."/".$fileresize);
 				break;
@@ -537,6 +553,10 @@ class GD extends GDExtends {
 				imagejpeg($src,$path."/".$fileresize, $this->rs_quality);
 				break;
 
+			case 'webp':
+				imagewebp($src,$path."/".$fileresize, $this->rs_quality);
+				break;
+
 			case 'gif':
 				imagegif($src,$path."/".$fileresize);
 				break;
@@ -565,6 +585,10 @@ class GD extends GDExtends {
 			case 'jpg':
                 	        $src = imagecreatefromjpeg($from);
 			        break;
+
+			case 'webp':
+				$src = imagecreatefromwebp($from);
+				break;
 
 			case 'gif':
                 		$src = imagecreatefromgif($from);

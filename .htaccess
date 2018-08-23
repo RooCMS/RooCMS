@@ -28,6 +28,7 @@ Options All -ExecCGI -Indexes -Includes +FollowSymLinks
 	# RewriteRule \.css$ plugin/GzipFile.php?file=$1
 	# RewriteRule \.js$ plugin/GzipFile.php?file=$1
 </IfModule>
+
 # Маска
 # RedirectMatch 301 /blog(.*) http://www.roocms.com/$1
 # Без маски
@@ -86,6 +87,10 @@ Options All -ExecCGI -Indexes -Includes +FollowSymLinks
 </IfModule>
 
 
+# INDEX FILE ________________
+DirectoryIndex index.php
+
+
 # HANDLER ___________________
 <IfModule mod_mime.c>
 	AddHandler application/x-httpd-php .html
@@ -127,10 +132,6 @@ Options All -ExecCGI -Indexes -Includes +FollowSymLinks
 	# AddType application/octet-stream .doc .mov .avi .pdf .xls .rar .zip .mp3 .wmv .ppt .tar .gz .docx .xlsx
 	# ForceType application/x-httpd-php
 </IfModule>
-
-
-# INDEX FILE ________________
-DirectoryIndex index.php
 
 
 # GZIP ______________________
@@ -179,7 +180,7 @@ php_value	docref_ext 0
 # php_value	error_append_string " "
 # php_value	auto_prepend_file prepend.php
 # php_value	auto_append_file append.php
-#php_value	user_agent “Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1)”
+# php_value	user_agent “Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1)”
 
 
 # With Apache 2.4 the "Order, Deny" syntax has been deprecated and moved from
