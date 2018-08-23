@@ -83,7 +83,7 @@ class ACP_Config_SpecPart {
 	 *
 	 * @param string $newcp  - новый путь скрипта панели администратора
 	 *
-	 * @return bool          - флаг успеха/провала
+	 * @return string        - новый или действующий путь к скрипту панели администратора
 	 */
 	private function change_cp_script($newcp) {
 
