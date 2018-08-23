@@ -589,9 +589,6 @@ class GD extends GDExtends {
 				$filename = $filename."_original";
 			}
 
-			# определяем размер картинки
-			$size = getimagesize($path."/".$filename.".".$ext);
-
 			# create
 			$src = $this->imgcreate($path."/".$filename.".".$ext,$ext);
 
