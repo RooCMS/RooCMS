@@ -172,7 +172,6 @@ class ACP_Feeds {
 
 					}
 					else {
-
 						goback();
 					}
 					break;

@@ -418,26 +418,22 @@ class Users extends Security {
 		}
 
 		# user birthdate
+		$post->user_birthdate = 0;
 		if(isset($post->user_birthdate) && $post->user_birthdate != "") {
 			$post->user_birthdate = $parse->date->rusint_to_unix($post->user_birthdate);
 		}
-		else {
-			$post->user_birthdate = 0;
-		}
 
 		#check user sex
+		$post->user_sex = "n";
 		if(isset($post->user_sex) && $post->user_sex == "m") {
 			$post->user_sex = "m";
 		}
 		elseif(isset($post->user_sex) && $post->user_sex == "f") {
 			$post->user_sex = "f";
 		}
-		else {
-			$post->user_sex = "n";
-		}
 
 		# mailing
-		if(!isset($post->mailing) || round($post->mailing) > 1 || round($post->mailing) < 0) {
+		if(!isset($post->mailing) || round($post->mailing) != 1) {
 			$post->mailing = 0;
 		}
 

@@ -95,26 +95,22 @@ class ACP_Users {
 				break;
 
 			case 'edit_user':
-				if($this->uid != 0) {
-					$this->edit_user($this->uid);
-				}
-				else {
-					go(CP."?act=users");
-				}
-				break;
-
 			case 'update_user':
-				if($this->uid != 0) {
-					$this->update_user($this->uid);
-				}
-				else {
-					go(CP."?act=users");
-				}
-				break;
-
 			case 'delete_user':
 				if($this->uid != 0) {
-					$this->delete_user($this->uid);
+					switch($roocms->part) {
+						case 'edit_user':
+							$this->edit_user($this->uid);
+							break;
+
+						case 'update_user':
+							$this->update_user($this->uid);
+							break;
+
+						case 'delete_user':
+							$this->delete_user($this->uid);
+							break;
+					}
 				}
 				else {
 					go(CP."?act=users");
@@ -126,26 +122,22 @@ class ACP_Users {
 				break;
 
 			case 'edit_group':
-				if($this->gid != 0) {
-					$this->edit_group($this->gid);
-				}
-				else {
-					go(CP."?act=users&part=group_list");
-				}
-				break;
-
 			case 'update_group':
-				if($this->gid != 0) {
-					$this->update_group($this->gid);
-				}
-				else {
-					go(CP."?act=users&part=group_list");
-				}
-				break;
-
 			case 'delete_group':
 				if($this->gid != 0) {
-					$this->delete_group($this->gid);
+					switch($roocms->part) {
+						case 'edit_group':
+							$this->edit_group($this->gid);
+							break;
+
+						case 'update_group':
+							$this->update_group($this->gid);
+							break;
+
+						case 'delete_group':
+							$this->delete_group($this->gid);
+							break;
+					}
 				}
 				else {
 					go(CP."?act=users&part=group_list");
@@ -235,7 +227,7 @@ class ACP_Users {
 
 		global $db, $smarty, $users, $tpl, $post, $logger, $security, $site;
 
-		if(isset($post->create_user) || isset($post->create_user_ae)) {
+		if(isset($post->create_user)) {
 
 			# nickname
 			$users->check_create_nickname();
@@ -290,7 +282,7 @@ class ACP_Users {
 				$logger->info("Пользователь #".$uid." был успешно добавлен. Уведомление об учетной записи отправлено на его электронную почту.");
 
 				# переход
-				if(isset($post->create_user_ae)) {
+				if(isset($post->create_user_ae['ae'])) {
 					go(CP."?act=users");
 				}
 				else {
@@ -322,7 +314,7 @@ class ACP_Users {
 
 		global $db, $smarty, $tpl, $post, $logger;
 
-		if(isset($post->create_group) || isset($post->create_group_ae)) {
+		if(isset($post->create_group)) {
 
 			# title
 			if(!isset($post->title)) {
@@ -342,7 +334,7 @@ class ACP_Users {
 				$logger->info("Группа #".$gid." была успешно создана.");
 
 				# переход
-				if(isset($post->create_group_ae)) {
+				if(isset($post->create_group['ae'])) {
 					go(CP."?act=users&part=group_list");
 				}
 				else {
@@ -443,7 +435,7 @@ class ACP_Users {
 
 		global $db, $post, $config, $site, $users, $img, $security, $logger, $parse, $smarty, $tpl;
 
-		if(isset($post->update_user) || isset($post->update_user_ae)) {
+		if(isset($post->update_user)) {
 
 			$q = $db->query("SELECT login, nickname, email, avatar FROM ".USERS_TABLE." WHERE uid='".$uid."'");
 			$udata = $db->fetch_assoc($q);
@@ -550,7 +542,7 @@ class ACP_Users {
 
 
 				# переход
-				if(isset($post->update_user_ae)) {
+				if(isset($post->update_user['ae'])) {
 					go(CP."?act=users");
 				}
 				else {
@@ -572,7 +564,7 @@ class ACP_Users {
 
 		global $db, $post, $users, $logger;
 
-		if(isset($post->update_group) || isset($post->update_group_ae)) {
+		if(isset($post->update_group)) {
 
 			$q = $db->query("SELECT title FROM ".USERS_GROUP_TABLE." WHERE gid='".$gid."'");
 			$gdata = $db->fetch_assoc($q);
@@ -603,7 +595,7 @@ class ACP_Users {
 				$logger->info("Данные группы #".$gid." успешно обновлены.");
 
 				# переход
-				if(isset($post->update_group_ae)) {
+				if(isset($post->update_group['ae'])) {
 					go(CP."?act=users&part=group_list");
 				}
 				else {

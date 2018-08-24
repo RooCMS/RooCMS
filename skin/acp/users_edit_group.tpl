@@ -26,7 +26,7 @@
 			<div class="col-lg-9 col-md-offset-3">
 				<br />
 				<input type="submit" name="update_group" class="btn btn-success" value="Обновить">
-				<input type="submit" name="update_group_ae" class="btn btn-default" value="Обновить и выйти">
+				<input type="submit" name="update_group['ae']" class="btn btn-default" value="Обновить и выйти">
 			</div>
 		</div>
 

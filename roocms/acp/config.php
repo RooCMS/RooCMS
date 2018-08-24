@@ -201,7 +201,10 @@ class ACP_Config extends ACP_Config_SpecPart {
 				foreach($vars AS $v) {
 					$vars = explode("|",trim($v));
 
-					($vars[1] == $value) ? $s = "selected" : $s = "" ;
+					$s = "";
+					if($vars[1] == $value)  {
+						$s = "selected";
+					}
 
 					$field['variants'][] = array('value'=>$vars[1], 'title'=>$vars[0], 'selected'=>$s);
 				}
@@ -312,10 +315,6 @@ class ACP_Config extends ACP_Config_SpecPart {
 						$value = $image[0];
 						$check = true;
 					}
-					break;
-
-				default:
-					$check = false;
 					break;
 			}
 
