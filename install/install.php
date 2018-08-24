@@ -42,7 +42,7 @@
 * @author       alex Roosso
 * @copyright    2010-2019 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.6.6
+* @version      1.7
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -67,9 +67,9 @@ class Install extends IU_Extends {
 	protected $step		= 1;		# [int]		now use step
 	protected $nextstep	= 2;		# [int]		next use step
 	protected $steps	= 8;		# [int]		all step in operations
-	private $page_title	= "";
-	private $status		= "";
-	private $noticetext	= "";		# [string]	attention text in head form
+	protected $page_title	= "";
+	protected $status	= "";
+	protected $noticetext	= "";		# [string]	attention text in head form
 
 
 	/**
@@ -86,31 +86,11 @@ class Install extends IU_Extends {
 		switch($this->step) {
 
 			case 2:
-				$this->page_title = "Проверка требований RooCMS к хостингу";
-				$this->status = "Проверяем версию PHP, MySQL, Apache<br />Проверяем наличие требуемых PHP и Apache расширений";
-				$this->check_requirement();
-				if($this->check_submit()) {
-					if($this->check_step(2)) {
-						go(SCRIPT_NAME."?step=3");
-					}
-					else {
-						goback();
-					}
-				}
+				$this->step_2();
 				break;
 
 			case 3:
-				$this->page_title = "Проверка и установка доступов к файлам RooCMS";
-				$this->status = "Проверяем доступы и разрешения к важным файлам RooCMS<br />Установка доступов и разрешений для важных файлов RooCMS";
-				$this->check_chmod();
-				if($this->check_submit()) {
-					if($this->check_step(3)) {
-						go(SCRIPT_NAME."?step=4");
-					}
-					else {
-						goback();
-					}
-				}
+				$this->step_3();
 				break;
 
 			case 4:
@@ -144,18 +124,7 @@ class Install extends IU_Extends {
 				break;
 
 			default:
-				$this->page_title = "Лицензионное соглашение";
-				$this->status = "Внимательно прочитайте лицензионное соглашение<br />Помните, что нарушение авторских прав влечет за собой уголовную ответсвенность.";
-				require_once _LIB."/license.php";
-				$this->noticetext = $license['ru'];
-				if($this->check_submit()) {
-					if($this->check_step(1)) {
-						go(SCRIPT_NAME."?step=2");
-					}
-					else {
-						goback();
-					}
-				}
+				$this->step_1();
 				break;
 		}
 
