@@ -136,10 +136,10 @@ class GD extends GDExtends {
 	 * Функция проводит стандартные операции над загруженным файлом.
 	 * Изменяет размеры, создает миниатюру, наносит водяной знак.
 	 *
-	 * @param       $filename  - Имя файла (без расширения)
-	 * @param       $extension - расширение файла
-	 * @param       $path      - путь к расположению файла.
-	 * @param array $options
+	 * @param string $filename  - Имя файла (без расширения)
+	 * @param string $extension - расширение файла
+	 * @param string $path      - путь к расположению файла.
+	 * @param array  $options
 	 * @internal param bool $watermark 	- флаг указывает наносить ли водяной знак на рисунок.
 	 * @internal param bool $modify 	- флаг указывает подвергать ли изображение полной модификации с сохранением оригинального изображения и созданием превью.
 	 * @internal param bool $noresize 	- флаг указывает подвергать ли изображение изменению размера. Иcпользуется в том случае когда мы не хотим изменять оригинальное изображение.
@@ -182,9 +182,9 @@ class GD extends GDExtends {
 	/**
 	 * Изменяем размер изображения, если оно превышает допустимый администратором.
 	 *
-	 * @param string      $filename - Имя файла изображения
-	 * @param string      $ext      - Расширение файла без точки
-	 * @param path|string $path     - Путь к папке с файлом. По умолчанию указан путь к папке с изображениями
+	 * @param string $filename - Имя файла изображения
+	 * @param string $ext      - Расширение файла без точки
+	 * @param string $path     - Путь к папке с файлом. По умолчанию указан путь к папке с изображениями
 	 */
 	protected function resize($filename, $ext, $path=_UPLOADIMAGES) {
 

@@ -264,6 +264,7 @@ class ACP_Index {
 
 		require_once _LIB."/mimetype.php";
 
+		$filetypes = [];
 		$filetypes['mfs']		= ini_get('upload_max_filesize');	# Maximum file size
 		$filetypes['mps']		= ini_get('post_max_size');		# Maximum post size
 		$filetypes['images']		= $imagetype;				# Allow image types

@@ -70,8 +70,8 @@ class Security extends Shteirlitz {
 	/**
 	 * Функция хешерования пароля пользователя
 	 *
-	 * @param $password	- нехешированный пароль пользователя
-	 * @param $salt		- сальт паользователя
+	 * @param string $password	- нехешированный пароль пользователя
+	 * @param string $salt		- сальт паользователя
 	 *
 	 * @return string	- хешированный пароль пользователя
 	 */
@@ -85,9 +85,9 @@ class Security extends Shteirlitz {
 	 * Функция генерирует хешобразный ключ для проверки текущего доступа
 	 * Временный ключ генерируется на основе текущей сессии пользователя.
 	 *
-	 * @param $login	- логин пользователя
-	 * @param $password	- хеш пароля пользователя
-	 * @param $salt		- сальт пользователя
+	 * @param string $login		- логин пользователя
+	 * @param string $password	- хеш пароля пользователя
+	 * @param string $salt		- сальт пользователя
 	 *
 	 * @return string - токен
 	 */

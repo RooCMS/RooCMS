@@ -115,10 +115,10 @@ class ParserDate {
 	/**
 	 * Переводим дату иг Грегорианского формата в русское представление.
 	 *
-	 * @param      $gdate - дата в грегорианском формате
-	 * @param bool $full - флаг указывает на вывод даты в полном или сокращенном формате
-	 * @param bool $short - флаг указывает на использование сокращений в названии дней
-	 * @param bool $time -  флаг указывает на вывод даты со временем и без
+	 * @param string $gdate  - дата в грегорианском формате
+	 * @param bool   $full   - флаг указывает на вывод даты в полном или сокращенном формате
+	 * @param bool   $short  - флаг указывает на использование сокращений в названии дней
+	 * @param string $time   - переменная содержит часы и минуты.
 	 *
 	 *	if $full == true and $short=false
 	 *		date = Четверг, 22 апреля 2010г.
@@ -162,9 +162,9 @@ class ParserDate {
 	/**
 	 * Функция преобразования даты из Юлианского Календаря в русский формат
 	 *
-	 * @param      $jddate - дата в формате юлианского календаря
-	 * @param bool $full - флаг формата вывода даты
-	 * @param bool $short - флаг формата вывода даты
+	 * @param string $jddate - дата в формате юлианского календаря
+	 * @param bool   $full   - флаг формата вывода даты
+	 * @param bool   $short  - флаг формата вывода даты
 	 *                    	if $full == true and $short=false
 	 *				date = Четверг, 22 апреля 2010г.
 	 *			else if $full == true and $short=true
@@ -187,10 +187,10 @@ class ParserDate {
 	/**
 	 * Преобразование даты из unix формата в русский формат
 	 *
-	 * @param            $udate - дата в формате unixtimestamp
-	 * @param bool|false $full - флаг указывает на вывод даты в полном или сокращенном формате
+	 * @param int        $udate - дата в формате unixtimestamp
+	 * @param bool|false $full  - флаг указывает на вывод даты в полном или сокращенном формате
 	 * @param bool|true  $short - флаг указывает на использование сокращений в названии дней
-	 * @param bool|false $time -  флаг указывает на вывод даты со временем и без
+	 * @param bool|false $time  - флаг указывает на вывод даты со временем и без
 	 *
 	 *	if $full == true and $short=false
 	 *		date = Четверг, 22 апреля 2010г.
@@ -266,7 +266,7 @@ class ParserDate {
 	/**
 	 * Переводим unixtimestamp  в русское представление даты в формат dd.mm.YYYY
 	 *
-	 * @param $udate - дата в формате unixtimestamp
+	 * @param int $udate - дата в формате unixtimestamp
 	 *
 	 * @return string
 	 */
@@ -281,7 +281,7 @@ class ParserDate {
 	/**
 	 * unix timestamp преобразовываем в грегорианскую дату
 	 *
-	 * @param $udate - unixtimestamp
+	 * @param int $udate - unixtimestamp
 	 *
 	 * @return string - дата в грегорианском представлении
 	 */
@@ -300,7 +300,7 @@ class ParserDate {
 	/**
 	 * Convert gregorian to unix timestamp
 	 *
-	 * @param $gdate - date in gregorian format
+	 * @param string $gdate - date in gregorian format
 	 *
 	 * @return int - date formated in unix timestamp
 	 */
@@ -326,7 +326,7 @@ class ParserDate {
 	/**
 	 * Преобразовываем представление даты из цифрового российского в unixtimestamp
 	 *
-	 * @param $date - Дата в форме дд.мм.гггг
+	 * @param string $date - Дата в форме дд.мм.гггг
 	 *
 	 * @return int - unixtimestamp
 	 */
@@ -353,9 +353,9 @@ class ParserDate {
 	 * Функция вернет номер дня недели.
 	 * 0 - Вс, 1 - Пн и т.д. и т.п.
 	 *
-	 * @param $day
-	 * @param $month
-	 * @param $year
+	 * @param int $day
+	 * @param int $month
+	 * @param int $year
 	 *
 	 * @return int
 	 */
@@ -375,7 +375,7 @@ class ParserDate {
 	 *                    true вернет сокращенное название [пример: Сб]
 	 *                    false вернет полное название [пример: Суббота]
 	 *
-	 * @return string
+	 * @return array
 	 */
 	public function get_title_day($nw, $short=true) {
 
@@ -400,9 +400,9 @@ class ParserDate {
 	/**
 	 * Функция получения русского названия месяца
 	 *
-	 * @param int  $nm порядковый номер месяца [1-Янв,...,12-Дек]
-	 * @param bool $ft флаг вывода формата месяцоы. Истина - будет показывать Февраля, Ложь - будет показывать Февраль
-	 * @param bool $short флаг использования сокращений для названия месяцов.
+	 * @param int  $nm    - порядковый номер месяца [1-Янв,...,12-Дек]
+	 * @param bool $ft    - флаг вывода формата месяцоы. Истина - будет показывать Февраля, Ложь - будет показывать Февраль
+	 * @param bool $short - флаг использования сокращений для названия месяцов.
 	 *
 	 * @return string
 	 */

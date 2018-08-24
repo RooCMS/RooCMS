@@ -342,7 +342,7 @@ class Users extends Security {
 	 * Функция проверки почты пользователя.
 	 * Проверяем на дубли и корректность.
 	 *
-	 * @param $email - адрес электронной почты пользователя.
+	 * @param string $email - адрес электронной почты пользователя.
 	 */
 	public function valid_user_email($email) {
 
@@ -513,7 +513,7 @@ class Users extends Security {
 	/**
 	 * Функция удаляет пользовательский аватар.
 	 *
-	 * @param $uid - Уникальный идентификатор пользователя
+	 * @param int $uid - Уникальный идентификатор пользователя
 	 */
 	public function delete_avatar($uid) {
 

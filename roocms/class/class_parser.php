@@ -42,7 +42,7 @@
 * @author       alex Roosso
 * @copyright    2010-2019 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.5.1
+* @version      1.5.2
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -402,7 +402,6 @@ class Parser {
 				# Чистим значение
 				$value 	= $this->escape_string($value, false);
 
-				//$arr[$key] = $value;
 				$arr[$key] = (trim($value) != "") ? $value : NULL ;
 			}
 		}
@@ -459,7 +458,7 @@ class Parser {
 
 		$pattern = '/^[\.\-_A-Za-z0-9]+?@[\.\-A-Za-z0-9]+?\.[A-Za-z0-9]{2,6}$/';
 
-		return preg_match($pattern, trim($email));
+		return (bool) preg_match($pattern, trim($email));
 
 	}
 
@@ -480,7 +479,7 @@ class Parser {
 
 		$pattern = "/^[\+]?[0-9]?(\s)?(\-)?(\s)?(\()?[0-9]{3,5}(\))?(\s)?(\-)?(\s)?[0-9]{1,3}(\s)?(\-)?(\s)?[0-9]{2}(\s)?(\-)?(\s)?[0-9]{2}\Z/";
 
-		return preg_match($pattern, trim($phone));
+		return (bool) preg_match($pattern, trim($phone));
 
 	}
 

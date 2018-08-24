@@ -104,7 +104,7 @@ class GDExtends {
 	/**
 	 * Получаем ориентацию изображения
 	 *
-	 * @param $image - указываем изображение
+	 * @param string $image - указываем путь к изображению
 	 *
 	 * @return int
 	 */

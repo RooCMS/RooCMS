@@ -428,8 +428,8 @@ class Files {
 	/**
 	 * Записываем файл
 	 *
-	 * @param $file    полный пукть к файлу
-	 * @param $context информация для записи в файл
+	 * @param string $file    - полный пукть к файлу
+	 * @param string $context - информация для записи в файл
 	 */
 	public function write_file($file, $context) {
 		$f = fopen($file, "w+");

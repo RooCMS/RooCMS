@@ -112,7 +112,7 @@ class ACP_Pages_HTML {
 	/**
 	 * Обновляем контент страницы
 	 *
-	 * @param $sid - Structure element id
+	 * @param int $sid - Structure element id
 	 */
 	public function update($sid) {
 
@@ -160,7 +160,7 @@ class ACP_Pages_HTML {
 	/**
 	 * Удаляем страницу из таблицы
 	 *
-	 * @param $sid - Структурный ID
+	 * @param int $sid - Структурный ID
 	 */
 	public function delete($sid) {
 
