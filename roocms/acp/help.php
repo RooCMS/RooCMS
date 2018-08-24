@@ -216,11 +216,11 @@ class ACP_Help {
 			# уведомление
 			$logger->info("Раздел #".$id." успешно добавлен!");
 
+			# go
 			go(CP."?act=help");
 		}
-		else {
-			go(CP."?act=help&part=create_part");
-		}
+
+		go(CP."?act=help&part=create_part");
 	}
 
 
@@ -297,11 +297,12 @@ class ACP_Help {
 			# уведомление
 			$logger->info("Раздел #".$id." успешно обновлен!");
 
+			# go
 			go(CP."?act=help&u=".$post->uname);
 		}
-		else {
-			goback();
-		}
+
+		# goback
+		goback();
 	}
 
 

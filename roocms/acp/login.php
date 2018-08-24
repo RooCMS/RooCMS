@@ -42,7 +42,7 @@
 * @author       alex Roosso
 * @copyright    2010-2019 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      2.0.7
+* @version      2.0.8
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -94,15 +94,10 @@ class ACP_Login {
 					# go
 					goback();
 				}
-				else {
-					# неверный логин или пароль
-					$this->incorrect_entering($post->login, mb_strlen($post->password));
-				}
 			}
-			else {
-				# неверный логин или пароль
-				$this->incorrect_entering($post->login, mb_strlen($post->password));
-			}
+
+			# неверный логин или пароль
+			$this->incorrect_entering($post->login, mb_strlen($post->password));
 		}
 
 

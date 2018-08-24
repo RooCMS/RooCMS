@@ -43,7 +43,7 @@
  * @author       alex Roosso
  * @copyright    2010-2019 (c) RooCMS
  * @link         http://www.roocms.com
- * @version      1.6.2
+ * @version      1.7
  * @since        $date$
  * @license      http://www.gnu.org/licenses/gpl-3.0.html
  */
@@ -74,17 +74,13 @@ class ACP_Users {
 	 */
 	public function __construct() {
 
-		global $db, $roocms, $tpl, $get;
+		global $roocms, $tpl;
 
 
 		# Проверяем идентификатор юзера
-		if(isset($get->_uid) && $db->check_id($get->_uid, USERS_TABLE, "uid")) {
-			$this->uid = $get->_uid;
-		}
+		$this->check_var_uid();
 		# Проверка идентификтора группы
-		if(isset($get->_gid) && $db->check_id($get->_gid, USERS_GROUP_TABLE, "gid")) {
-			$this->gid = $get->_gid;
-		}
+		$this->check_var_gid();
 
 
 		# action
@@ -285,9 +281,8 @@ class ACP_Users {
 				if(isset($post->create_user_ae['ae'])) {
 					go(CP."?act=users");
 				}
-				else {
-					go(CP."?act=users&part=edit_user&uid=".$uid);
-				}
+
+				go(CP."?act=users&part=edit_user&uid=".$uid);
 			}
 
 			goback();
@@ -337,11 +332,11 @@ class ACP_Users {
 				if(isset($post->create_group['ae'])) {
 					go(CP."?act=users&part=group_list");
 				}
-				else {
-					go(CP."?act=users&part=edit_group&gid=".$gid);
-				}
+
+				go(CP."?act=users&part=edit_group&gid=".$gid);
 			}
-			else goback();
+
+			goback();
 		}
 
 
@@ -545,12 +540,12 @@ class ACP_Users {
 				if(isset($post->update_user['ae'])) {
 					go(CP."?act=users");
 				}
-				else {
-					go(CP."?act=users&part=edit_user&uid=".$uid);
-				}
+
+				go(CP."?act=users&part=edit_user&uid=".$uid);
 			}
 		}
 
+		# goback
 		goback();
 	}
 
@@ -598,17 +593,18 @@ class ACP_Users {
 				if(isset($post->update_group['ae'])) {
 					go(CP."?act=users&part=group_list");
 				}
-				else {
-					go(CP."?act=users&part=edit_group&gid=".$gid);
-				}
+
+				go(CP."?act=users&part=edit_group&gid=".$gid);
+
 			}
-			else {
-				goback();
-			}
-		}
-		else {
+
+			# goback
 			goback();
 		}
+
+		# goback
+		goback();
+
 	}
 
 
@@ -736,6 +732,32 @@ class ACP_Users {
 
 		# correct personal data
 		$users->correct_personal_data();
+	}
+
+
+	/**
+	 * Check & init $this->uid
+	 */
+	private function check_var_uid() {
+
+		global $db, $get;
+
+		if(isset($get->_uid) && $db->check_id($get->_uid, USERS_TABLE, "uid")) {
+			$this->uid = $get->_uid;
+		}
+	}
+
+
+	/**
+	 * Check & init $this->gid
+	 */
+	private function check_var_gid() {
+
+		global $db, $get;
+
+		if(isset($get->_gid) && $db->check_id($get->_gid, USERS_GROUP_TABLE, "gid")) {
+			$this->gid = $get->_gid;
+		}
 	}
 }
 

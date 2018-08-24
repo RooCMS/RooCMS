@@ -221,18 +221,16 @@ class ACP_Structure {
 			if(isset($post->create_unit['ae'])) {
 				go(CP."?act=structure");
 			}
-			else {
-				if($post->page_type == "feed") {
-					go(CP."?act=feeds&page=".$sid);
-				}
-				else {
-					go(CP."?act=pages&part=edit&page=".$sid);
-				}
+
+			if($post->page_type == "feed") {
+				go(CP."?act=feeds&part=control&page=".$sid);
 			}
+
+			go(CP."?act=pages&part=edit&page=".$sid);
 		}
-		else {
-			goback();
-		}
+
+		# goback
+		goback();
 	}
 
 
@@ -360,17 +358,16 @@ class ACP_Structure {
 			# уведомление
 			$logger->info("Страница #".$sid." успешно обновлена.");
 
-
+			# go
 			if(isset($post->update_unit['ae'])) {
 				go(CP."?act=structure");
 			}
-			else {
-				go(CP."?act=structure&part=edit&id=".$sid);
-			}
+
+			go(CP."?act=structure&part=edit&id=".$sid);
 		}
-		else {
-			goback();
-		}
+
+		# goback
+		goback();
 	}
 
 

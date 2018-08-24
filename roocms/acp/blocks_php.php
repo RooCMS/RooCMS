@@ -74,18 +74,20 @@ class ACP_Blocks_PHP {
 			$this->check_block_parametrs();
 
 			if(!isset($_SESSION['error'])) {
-				$db->query("INSERT INTO ".BLOCKS_TABLE."   (title, alias, content, date_create, date_modified, block_type)
-							VALUES ('".$post->title."', '".$post->alias."', '".$post->content."', '".time()."', '".time()."', 'php')");
+				$db->query("INSERT INTO ".BLOCKS_TABLE." (title, alias, content, date_create, date_modified, block_type)
+								  VALUES ('".$post->title."', '".$post->alias."', '".$post->content."', '".time()."', '".time()."', 'php')");
 
 				$bid = $db->insert_id();
 
+				# уведомление
 				$logger->info("Блок #".$bid." успешно добавлен!");
 
+				# переход
 				go(CP."?act=blocks");
 			}
-			else {
-				go(CP."?act=blocks&part=create&type=php");
-			}
+
+			# go
+			go(CP."?act=blocks&part=create&type=php");
 		}
 
 		$content = $tpl->load_template("blocks_create_php", true);
@@ -140,14 +142,15 @@ class ACP_Blocks_PHP {
 							WHERE
 								id='".$id."'");
 
+				# notice
 				$logger->info("Блок #".$id." успешно обновлен!");
 			}
 
 			go(CP."?act=blocks");
 		}
-		else {
-			goback();
-		}
+
+		# goback
+		goback();
 	}
 
 
@@ -160,8 +163,13 @@ class ACP_Blocks_PHP {
 
 		global $db, $logger;
 
+		# query
 		$db->query("DELETE FROM ".BLOCKS_TABLE." WHERE id='".$id."'");
+
+		# notice
 		$logger->info("Блок #".$id." успешно удален!");
+
+		# go
 		go(CP."?act=blocks");
 	}
 

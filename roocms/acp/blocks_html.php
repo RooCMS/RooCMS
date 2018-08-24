@@ -104,11 +104,12 @@ class ACP_Blocks_HTML {
 				# log
 				$logger->info("Блок #".$id." успешно добавлен!");
 
+				# go
 				go(CP."?act=blocks");
 			}
-			else {
-				go(CP."?act=blocks&part=create&type=html");
-			}
+
+			# go
+			go(CP."?act=blocks&part=create&type=html");
 		}
 
 		# show upload files & images form
@@ -226,9 +227,12 @@ class ACP_Blocks_HTML {
 				$logger->info("Блок #".$id." успешно обновлен!");
 			}
 
+			# go
 			go(CP."?act=blocks");
 		}
-		else goback();
+
+		# go
+		goback();
 	}
 
 
@@ -243,9 +247,13 @@ class ACP_Blocks_HTML {
 
                 $img->delete_images("blockid=".$id);
 
+                # query
 		$db->query("DELETE FROM ".BLOCKS_TABLE." WHERE id='".$id."'");
 
+		# log
 		$logger->info("Блок #".$id." успешно удален!");
+
+		#go
 		go(CP."?act=blocks");
 	}
 

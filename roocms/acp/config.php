@@ -336,9 +336,9 @@ class ACP_Config extends ACP_Config_SpecPart {
 
 			go($path);
 		}
-		else {
-			goback();
-		}
+
+		# goback
+		goback();
 	}
 
 

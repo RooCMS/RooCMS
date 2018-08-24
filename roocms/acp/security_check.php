@@ -42,7 +42,7 @@
  * @author       alex Roosso
  * @copyright    2010-2019 (c) RooCMS
  * @link         http://www.roocms.com
- * @version      2.2.2
+ * @version      2.3
  * @since        $date$
  * @license      http://www.gnu.org/licenses/gpl-3.0.html
  */
@@ -73,20 +73,13 @@ class ACP_Security {
 
 		global $users;
 
-		if($users->uid != 0 && $users->title == "a") {
-			# check access
-			if($users->token != "") {
-				# access granted
-				$this->access = true;
-			}
-			else {
-				# access denied
-				$this->access = false;
-			}
-		}
-		else {
-			# access denied
-			$this->access = false;
+		# default: access denied
+		$this->access = false;
+
+		# check access
+		if($users->uid != 0 && $users->title == "a" && $users->token != "") {
+			# access granted
+			$this->access = true;
 		}
 	}
 }
