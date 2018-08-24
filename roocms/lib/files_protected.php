@@ -76,7 +76,6 @@ $protect[] = array('path' => _UPLOADIMAGES,		'chmod'	=> '0755');
 $protect[] = array('path' => _UPLOADFILES,		'chmod'	=> '0755');
 $protect[] = array('path' => _CACHE,			'chmod'	=> '0755');
 $protect[] = array('path' => _CACHESKIN,		'chmod'	=> '0755');
-$protect[] = array('path' => _CACHEIMAGE,		'chmod'	=> '0755');
 $protect[] = array('path' => _LOGS,			'chmod'	=> '0755');
 $protect[] = array('path' => _SITEROOT.'/plugin',	'chmod'	=> '0755');
 
