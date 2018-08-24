@@ -13,12 +13,12 @@
   }
 }
 ::-moz-selection {
-  color: #ffffff;
-  background: #3d4f61;
+  color: #fff;
+  background: #3D4F61;
 }
 ::selection {
-  color: #ffffff;
-  background: #3d4f61;
+  color: #fff;
+  background: #3D4F61;
 }
 /*@media (min-width: 1200px) {}
 @media (min-width: 992px) {}
@@ -28,9 +28,9 @@
 html,
 body {
   font-family: 'PT Sans', 'Ubuntu', 'Calibri', 'Trebuchet MS', 'Tahoma', 'Verdana' !important;
-  color: #1b1e24;
+  color: #1B1E24;
   font-size: 12px;
-  background: #ede1cb url('img/bgcp.jpg') repeat fixed top !important;
+  background: #ede1cb url('./img/bgcp.jpg') repeat fixed top !important;
   padding: 0;
   margin: 0;
   behavior: url("../../csshover.htc") !important;
@@ -59,14 +59,14 @@ a {
 /* OTHER STYLE */
 input:focus:invalid {
   /* transition: all 0.15s ease-in-out;-webkit-transition: all 0.15s ease-in-out;-moz-transition: all 0.15s ease-in-out;outline:none; */
-  -moz-box-shadow: 0 0 6px #c60d14;
-  -webkit-box-shadow: 0 0 6px #c60d14;
-  box-shadow: 0 0 6px #c60d14;
-  border: 1px solid #c60d14;
-  background: #ffffff url(img/required.png) no-repeat right top !important;
+  -moz-box-shadow: 0 0 6px #C60D14;
+  -webkit-box-shadow: 0 0 6px #C60D14;
+  box-shadow: 0 0 6px #C60D14;
+  border: 1px solid #C60D14;
+  background: #fff url(./img/required.png) no-repeat right top !important;
 }
 input:required:empty {
-  background: #ffffff url(img/required.png) no-repeat right top !important;
+  background: #fff url(./img/required.png) no-repeat right top !important;
 }
 input.non-bgreq:required:empty {
   background-image: none !important;
@@ -131,7 +131,7 @@ input:required:valid {
 .small,
 small {
   line-height: 12px;
-  color: #999999;
+  color: #999;
   font-size: 11px;
 }
 .middle {
@@ -188,16 +188,16 @@ p.attach_files {
 /* Avatar */
 .avatar {
   max-width: 60px;
-  border: 2px solid #3d4f61;
+  border: 2px solid #3D4F61;
   margin: 2px;
   opacity: 0.9;
   filter: alpha(opacity=90);
 }
 .avatar.ban {
-  border-color: #c60d14;
+  border-color: #C60D14;
 }
 .avatar:hover {
-  border-color: #3581d5;
+  border-color: #3581D5;
   opacity: 1;
   filter: alpha(opacity=100);
 }
@@ -211,7 +211,7 @@ p.attach_files {
 /* style for delete user avatar */
 .delete_useravatar:hover,
 .delete_config_image:hover {
-  background-color: #c60d14;
+  background-color: #C60D14;
   border-radius: 5px;
 }
 .delete_useravatar:hover > img,
@@ -237,7 +237,7 @@ tr:hover .tralias {
   display: block;
 }
 .table-hover > tbody > tr:hover .structure-highlight {
-  color: #3d4f61;
+  color: #3D4F61;
 }
 /* ckeditor styles */
 .cked {
@@ -245,23 +245,23 @@ tr:hover .tralias {
 }
 /* Add BS */
 blockquote.quote-primary {
-  border-left-color: #3d4f61;
+  border-left-color: #3D4F61;
   background-color: #fbfbfb;
 }
 blockquote.quote-info {
-  border-left-color: #3581d5;
+  border-left-color: #3581D5;
   background-color: #fbfbfb;
 }
 blockquote.quote-success {
-  border-left-color: #72b110;
+  border-left-color: #72B110;
   background-color: #fbfbfb;
 }
 blockquote.quote-warning {
-  border-left-color: #fb8c00;
+  border-left-color: #FB8C00;
   background-color: #fbfbfb;
 }
 blockquote.quote-danger {
-  border-left-color: #c60d14;
+  border-left-color: #C60D14;
   background-color: #fbfbfb;
 }
 blockquote.quote h1,
@@ -274,7 +274,7 @@ blockquote.quote h6 {
   padding: 0;
 }
 blockquote.quote small {
-  color: #999999;
+  color: #999;
 }
 blockquote.quote-primary > h1,
 blockquote.quote-primary > h2,
@@ -282,7 +282,7 @@ blockquote.quote-primary > h3,
 blockquote.quote-primary > h4,
 blockquote.quote-primary > h5,
 blockquote.quote-primary > h6 {
-  color: #3d4f61;
+  color: #3D4F61;
 }
 blockquote.quote-info > h1,
 blockquote.quote-info > h2,
@@ -290,7 +290,7 @@ blockquote.quote-info > h3,
 blockquote.quote-info > h4,
 blockquote.quote-info > h5,
 blockquote.quote-info > h6 {
-  color: #3581d5;
+  color: #3581D5;
 }
 blockquote.quote-success > h1,
 blockquote.quote-success > h2,
@@ -298,7 +298,7 @@ blockquote.quote-success > h3,
 blockquote.quote-success > h4,
 blockquote.quote-success > h5,
 blockquote.quote-success > h6 {
-  color: #72b110;
+  color: #72B110;
 }
 blockquote.quote-warning > h1,
 blockquote.quote-warning > h2,
@@ -306,7 +306,7 @@ blockquote.quote-warning > h3,
 blockquote.quote-warning > h4,
 blockquote.quote-warning > h5,
 blockquote.quote-warning > h6 {
-  color: #fb8c00;
+  color: #FB8C00;
 }
 blockquote.quote-danger > h1,
 blockquote.quote-danger > h2,
@@ -314,7 +314,7 @@ blockquote.quote-danger > h3,
 blockquote.quote-danger > h4,
 blockquote.quote-danger > h5,
 blockquote.quote-danger > h6 {
-  color: #c60d14;
+  color: #C60D14;
 }
 /*Fonts*/
 .tahoma {
@@ -407,30 +407,30 @@ h6 {
   font-size: 17px;
 }
 .blue {
-  color: #4499ee;
+  color: #49E;
 }
 .black {
-  color: #1b1e24;
+  color: #1B1E24;
 }
 .white {
-  color: #ffffff;
+  color: #fff;
 }
 .mgrey {
-  color: #999999;
+  color: #999;
 }
 /* Shadows */
 .tshadow {
-  text-shadow: 1px 1px 1px #1b1e24;
+  text-shadow: 1px 1px 1px #1B1E24;
 }
 .shadow {
-  -moz-box-shadow: 0 0 6px #777777;
-  -webkit-box-shadow: 0 0 6px #777777;
-  box-shadow: 0 0 6px #777777;
+  -moz-box-shadow: 0 0 6px #777;
+  -webkit-box-shadow: 0 0 6px #777;
+  box-shadow: 0 0 6px #777;
 }
 .inshadow {
-  -moz-box-shadow: 0 0 2px #777777 inset;
-  -webkit-box-shadow: 0 0 2px #777777 inset;
-  box-shadow: 0 0 2px #777777 inset;
+  -moz-box-shadow: 0 0 2px #777 inset;
+  -webkit-box-shadow: 0 0 2px #777 inset;
+  box-shadow: 0 0 2px #777 inset;
 }
 /* SPECIFICATION */
 .clear,
@@ -505,21 +505,21 @@ h6 {
   font-size: 14px;
   height: auto;
   margin: 5px 0;
-  border: 1px solid #cccccc;
+  border: 1px solid #ccc;
   -moz-box-shadow: 0 0 2px rgba(0, 0, 0, 0.075) inset;
   -webkit-box-shadow: 0 0 2px rgba(0, 0, 0, 0.075) inset;
   box-shadow: 0 0 2px rgba(0, 0, 0, 0.075) inset;
   border-radius: 4px;
 }
 span.CodeMirror-matchhighlight {
-  background: #cccccc;
+  background: #ccc;
 }
 .CodeMirror-gutter {
   background: rgba(0, 0, 0, 0.075) !important;
-  color: #999999 !important;
+  color: #999 !important;
 }
 .CodeMirror-focused span.CodeMirror-matchhighlight {
-  background: #cccccc !important;
+  background: #ccc !important;
 }
 .shy,
 .wbr {
