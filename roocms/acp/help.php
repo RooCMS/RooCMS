@@ -42,7 +42,7 @@
 * @author       alex Roosso
 * @copyright    2010-2019 (c) RooCMS
 * @link         http://www.roocms.com
-* @version      1.1.12
+* @version      1.1.13
 * @since        $date$
 * @license      http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -86,29 +86,28 @@ class ACP_Help {
     		$this->helptree = $this->load_tree();
 		$smarty->assign("tree", $this->helptree);
 
+		# default: load root
+		$where = "id='1'";
+
 		# Запрашиваем техническую информацию о разделе по уникальному имени
 		if(isset($get->_u) && $db->check_id($get->_u, HELP_TABLE, "uname")) {
-				$q = $db->query("SELECT id, parent_id, uname, title, content, date_modified FROM ".HELP_TABLE." WHERE uname='".$get->_u."'");
-				$row = $db->fetch_assoc($q);
-
-				$this->part = $row['uname'];
-				$this->part_id = $row['id'];
-				$this->part_parent = $row['parent_id'];
-
-				$this->part_data = $row;
+			$where = "uname='".$get->_u."'";
 		}
 
-		# Запрашиваем техническую информацию о разделе по умолчанию, если не было верного запроса ни по идентификатору ни уникалному имени
-		if((!isset($get->_id) && !isset($get->_u)) || $this->part_id == 0) {
-				$q = $db->query("SELECT id, parent_id, uname, title, content, date_modified FROM ".HELP_TABLE." WHERE id='1'");
-				$row = $db->fetch_assoc($q);
-
-				$this->part = $row['uname'];
-				$this->part_id = $row['id'];
-				$this->part_parent = $row['parent_id'];
-
-				$this->part_data = $row;
+		# Запрашиваем техническую информацию о разделе по идентификатору
+		if(isset($get->_id) && $db->check_id($get->_id, HELP_TABLE)) {
+			$where = "id='".$get->_id."'";
 		}
+
+		# query data
+		$q = $db->query("SELECT id, parent_id, uname, title, content, date_modified FROM ".HELP_TABLE." WHERE ".$where);
+		$row = $db->fetch_assoc($q);
+
+		$this->part = $row['uname'];
+		$this->part_id = $row['id'];
+		$this->part_parent = $row['parent_id'];
+
+		$this->part_data = $row;
 
 
 		# Варганим "хлебные хрошки"
@@ -281,10 +280,9 @@ class ACP_Help {
 
 			# Нельзя изменять алиас главной страницы
 			if($id == 1 && $post->uname != "help") {
-				$post->alias = "help";
+				$post->uname = "help";
 				$logger->error("Нельзя изменять uname главной страницы!");
 			}
-
 
 
 			$db->query("UPDATE ".HELP_TABLE." SET title='".$post->title."', uname='".$post->uname."', sort='".$post->sort."', parent_id='".$post->parent_id."', content='".$post->content."', date_modified='".time()."' WHERE id='".$id."'");
