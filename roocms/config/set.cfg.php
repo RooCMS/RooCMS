@@ -62,9 +62,18 @@ if(!defined('RooCMS')) {
 define('DEBUGMODE',	false);				# Режим отладки
 define('DEVMODE',	false);				# Режим разработчики. Если используете этот режим, рекомендуется так же включить режим отладки.
 
-define('STARTTIME',	$_SERVER['REQUEST_TIME']);
-define('MEMORYUSAGE', 	memory_get_usage());
 
+/**
+ * Определяем время начала выполнения скриптов
+ * для последующей оценки производительности
+ */
+define('STARTTIME',     $_SERVER['REQUEST_TIME']);
+
+/**
+ * Получаем количество выделенной памяти в самом начале работы
+ * В дальнейшем будет вычеслять продуктивность
+ */
+define('MEMORYUSAGE', 	memory_get_usage());
 
 
 /**
@@ -81,7 +90,7 @@ else {
 /**
 * Start GZip
 */
-ob_start("ob_gzhandler", 9);
+ob_start("ob_gzhandler", 8);
 
 
 

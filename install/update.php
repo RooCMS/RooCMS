@@ -81,9 +81,7 @@ class Update extends IU_Extends {
 		global $get, $post, $site, $parse, $tpl, $smarty;
 
 		# init step
-		if(isset($get->_step) && round($get->_step) > 0) {
-			$this->step =& $get->_step;
-		}
+		$this->init_step();
 
 		# seo
 		$site['title'] = "Обновление RooCMS";

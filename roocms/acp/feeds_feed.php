@@ -556,16 +556,40 @@ class ACP_Feeds_Feed {
 			$update = "";
 
 			# RSS flag
-			$update .= (isset($post->rss) && $post->rss == "1") ? " rss='1', " : " rss='0', " ;
-			if((isset($post->items_per_page) && round($post->items_per_page) >= 0)) {
-				$update .= " items_per_page='".round($post->items_per_page)."', " ;
+			$rss = 0;
+			if(isset($post->rss) && $post->rss == "1") {
+				$rss = 1;
 			}
+			$update .= " rss='".$rss."', ";
+
+			# items per page
+			$items_per_page = 0;
+			if((isset($post->items_per_page) && round($post->items_per_page) >= 0)) {
+				$items_per_page = round($post->items_per_page);
+			}
+			$update .= " items_per_page='".$items_per_page."', " ;
 
 			# thumbnail check
 			$img->check_post_thumb_parametrs();
 
-			$update .= (isset($post->items_sorting) && ($post->items_sorting == "title_asc" || $post->items_sorting == "title_desc" || $post->items_sorting == "manual_sorting"))
-				? " items_sorting = '".$post->items_sorting."', " : " items_sorting = 'datepublication', " ;
+			# items sorting in feed
+			$items_sorting = "datepublication";
+			if(isset($post->items_sorting)) {
+				switch($post->items_sorting) {
+					case 'title_asc':
+						$items_sorting = "title_asc";
+						break;
+
+					case 'title_desc':
+						$items_sorting = "title_desc";
+						break;
+
+					case 'manual_sorting':
+						$items_sorting = "manual_sorting";
+						break;
+				}
+			}
+			$update .= " items_sorting = '".$items_sorting."', ";
 
 			# show_child_feeds
 			$show_child_feeds = "none";
@@ -577,10 +601,6 @@ class ACP_Feeds_Feed {
 
 					case 'forced':
 						$show_child_feeds = "forced";
-						break;
-
-					default:
-						$show_child_feeds = "none";
 						break;
 				}
 			}
