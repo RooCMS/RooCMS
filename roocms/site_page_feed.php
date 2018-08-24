@@ -78,6 +78,7 @@ class SitePageFeed {
 
 		global $get, $db, $structure, $smarty;
 
+		$feed           = [];
 		$feed['title'] 	= $structure->page_title;
 		$feed['alias'] 	= $structure->page_alias;
 		$feed['id'] 	= $structure->page_id;
@@ -256,7 +257,7 @@ class SitePageFeed {
 	/**
 	 * Считаем показы/просмотры элемента
 	 *
-	 * @param $id - идентификатор элемента
+	 * @param int $id - идентификатор элемента
 	 */
 	private function count_views($id) {
 
@@ -276,7 +277,7 @@ class SitePageFeed {
 	/**
 	 * Функция собирает данные по предыдущему и следующим элементом
 	 *
-	 * @param $id - Идентификатор текущего элемента
+	 * @param int $id - Идентификатор текущего элемента
 	 *
 	 * @return array - массив данных с предыдущим и следующим элементами в ленте
 	 */
@@ -366,7 +367,7 @@ class SitePageFeed {
 	/**
 	 * Функция возвращает массив идентификаторов лент, для условий запроса к БД, в случаях когда лента публикует элементы из дочерних лент.
 	 *
-	 * @param        $sid - structure id
+	 * @param int    $sid  - structure id
 	 * @param string $type - rule
 	 *
 	 * @return array - id's

@@ -60,7 +60,7 @@ if(!defined('RooCMS')) {
  * Генератор псевдослучайного кода.
  * Сколько не мучайся, это скотина все равно на случайность не смахивает.
  *
- * @param int $ns        - количество символов в коде
+ * @param int   $ns      - количество символов в коде
  * @param mixed $symbols - Символы из которых будет сгенерирован код
  *
  * @return string $Code  - Возвращает сгенерированный код
@@ -128,7 +128,7 @@ function sendmail($mail, $theme, $message, $from="robot") {
 /**
  * мультибайтовая функция преобразования первого символа строки
  *
- * @param $string
+ * @param string $string
  *
  * @return string
  */
@@ -139,8 +139,8 @@ function mb_ucfirst($string) {
 /**
  * Переадресация
  *
- * @param     $address - URL назначения
- * @param int $code - Код переадресации
+ * @param string $address - URL назначения
+ * @param int    $code    - Код переадресации
  */
 function go($address, $code=301) {
 
@@ -208,7 +208,7 @@ function nocache() {
 /**
  * Функция получает код ответа от удаленного адреса
  *
- * @param $url -  удаленный адрес
+ * @param string $url -  удаленный адрес
  *
  * @return string - код ответа
  */
@@ -220,7 +220,7 @@ function get_http_response_code($url) {
 /**
  * Считываем файл
  *
- * @param $file - полный пукть к файлу
+ * @param string $file - полный пукть к файлу
  *
  * @return string - данные файла
  */

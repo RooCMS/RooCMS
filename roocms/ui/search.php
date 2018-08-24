@@ -93,7 +93,7 @@ class UI_Search {
 	/**
 	 * Функция вывода результатов поиска
 	 *
-	 * @param $searchstring - Searchstring
+	 * @param string $searchstring - Searchstring
 	 */
 	private function search($searchstring) {
 

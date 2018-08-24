@@ -100,9 +100,9 @@ class ParserText {
 	 * Парсим хтмл (HTML)
 	 * Функция принимает данные обработанный функцией htmlspecialchars() и возвращает им обратное значение.
 	 *
-	 * @param string $text  - Текстовый буфер, который надлежит отпарсить
+	 * @param string|array $text  - Текстовый буфер, который надлежит отпарсить
 	 *
-	 * @return string|text
+	 * @return string
 	 */
 	public function html($text) {
 

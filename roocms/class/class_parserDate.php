@@ -134,9 +134,9 @@ class ParserDate {
 
 		$edate = explode("/", $gdate);
 
-		$day	= round($edate[1]);	# day
-		$mon	= round($edate[0]);	# month
-		$year	= round($edate[2]);	# year
+		$day	= (int) round($edate[1]);	# day
+		$mon	= (int) round($edate[0]);	# month
+		$year	= (int) round($edate[2]);	# year
 
 		if(checkdate($mon, $day, $year)) {
 			# num day of week
@@ -187,10 +187,10 @@ class ParserDate {
 	/**
 	 * Преобразование даты из unix формата в русский формат
 	 *
-	 * @param int        $udate - дата в формате unixtimestamp
-	 * @param bool|false $full  - флаг указывает на вывод даты в полном или сокращенном формате
-	 * @param bool|true  $short - флаг указывает на использование сокращений в названии дней
-	 * @param bool|false $time  - флаг указывает на вывод даты со временем и без
+	 * @param int        $udate    - дата в формате unixtimestamp
+	 * @param bool|false $full     - флаг указывает на вывод даты в полном или сокращенном формате
+	 * @param bool|true  $short    - флаг указывает на использование сокращений в названии дней
+	 * @param bool|false $showtime - флаг указывает на вывод даты со временем и без
 	 *
 	 *	if $full == true and $short=false
 	 *		date = Четверг, 22 апреля 2010г.
@@ -204,18 +204,16 @@ class ParserDate {
 	 *
 	 * @return string
 	 */
-	public function unix_to_rus($udate, $full=false, $short=true, $time=false) {
+	public function unix_to_rus($udate, $full=false, $short=true, $showtime=false) {
 
 		$day 	= date("d", $udate);
 		$month 	= date("m", $udate);
 		$year 	= date("Y", $udate);
+		$time	= "";
 
 		# time
-		if($time) {
-			$hour 	= date("H", $udate);
-			$minute	= date("i", $udate);
-
-			$time = $hour.":".$minute;
+		if($showtime) {
+			$time = date("H:i", $udate);
 		}
 
 		$gregorian = $month."/".$day."/".$year;
@@ -248,11 +246,11 @@ class ParserDate {
 
 		$ar = [];
 
-		$ar['day']	= date("d", $udate);
-		$ar['month']	= date("m", $udate);
-		$ar['year']	= date("Y", $udate);
-		$ar['hour']	= date("H", $udate);
-		$ar['minute']	= date("i", $udate);
+		$ar['day']	= (int) date("d", $udate);
+		$ar['month']	= (int) date("m", $udate);
+		$ar['year']	= (int) date("Y", $udate);
+		$ar['hour']	= (int) date("H", $udate);
+		$ar['minute']	= (int) date("i", $udate);
 		$ar['time']	= $ar['hour'].":".$ar['minute'];
 		$ar['wday']	= $this->get_num_day_of_week($ar['day'], $ar['month'], $ar['year']);
 		$ar['stday']	= $this->get_title_day($ar['wday']);

@@ -411,8 +411,6 @@ class GD extends GDExtends {
 
 		# определяем размер картинки
 		$size = getimagesize($path."/".$fileresize);
-		$w = $size[0];
-		$h = $size[1];
 
 		# вводим в память файл для издевательств
 		$src = $this->imgcreate($path."/".$fileresize, $ext);
@@ -445,19 +443,19 @@ class GD extends GDExtends {
 		$fontfile = ""._ROOCMS."/fonts/trebuc.ttf";
 
 		if(trim($this->copyright) != "") {
-			imagettftext($src, $size, $angle, 7+1, $h-18+1, $shadow, $fontfile, $this->copyright);
-			imagettftext($src, $size, $angle, 7-1, $h-18-1, $shadow, $fontfile, $this->copyright);
-			imagettftext($src, $size, $angle, 7+1, $h-18-1, $shadow, $fontfile, $this->copyright);
-			imagettftext($src, $size, $angle, 7-1, $h-18+1, $shadow, $fontfile, $this->copyright);
-			imagettftext($src, $size, $angle, 7, $h-18, $color, $fontfile, $this->copyright);
+			imagettftext($src, $size, $angle, 7+1, $size[1]-18+1, $shadow, $fontfile, $this->copyright);
+			imagettftext($src, $size, $angle, 7-1, $size[1]-18-1, $shadow, $fontfile, $this->copyright);
+			imagettftext($src, $size, $angle, 7+1, $size[1]-18-1, $shadow, $fontfile, $this->copyright);
+			imagettftext($src, $size, $angle, 7-1, $size[1]-18+1, $shadow, $fontfile, $this->copyright);
+			imagettftext($src, $size, $angle, 7, $size[1]-18, $color, $fontfile, $this->copyright);
 		}
 
 		if(trim($this->domain) != "") {
-			imagettftext($src, $size, $angle, 7+1, $h-5+1, $shadow, $fontfile, $this->domain);
-			imagettftext($src, $size, $angle, 7-1, $h-5-1, $shadow, $fontfile, $this->domain);
-			imagettftext($src, $size, $angle, 7+1, $h-5-1, $shadow, $fontfile, $this->domain);
-			imagettftext($src, $size, $angle, 7-1, $h-5+1, $shadow, $fontfile, $this->domain);
-			imagettftext($src, $size, $angle, 7, $h-5, $color, $fontfile, $this->domain);
+			imagettftext($src, $size, $angle, 7+1, $size[1]-5+1, $shadow, $fontfile, $this->domain);
+			imagettftext($src, $size, $angle, 7-1, $size[1]-5-1, $shadow, $fontfile, $this->domain);
+			imagettftext($src, $size, $angle, 7+1, $size[1]-5-1, $shadow, $fontfile, $this->domain);
+			imagettftext($src, $size, $angle, 7-1, $size[1]-5+1, $shadow, $fontfile, $this->domain);
+			imagettftext($src, $size, $angle, 7, $size[1]-5, $color, $fontfile, $this->domain);
 		}
 
 		# вливаем с ватермарком

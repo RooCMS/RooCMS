@@ -115,7 +115,7 @@ class UCP_Login {
 
 
 	/**
-	 * @param $msg - сообщение об ошибке передаваемое в шаблон
+	 * @param string $msg - сообщение об ошибке передаваемое в шаблон
 	 */
 	private function incorrect_entering($msg) {
 
