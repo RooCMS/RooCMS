@@ -197,8 +197,8 @@ class RSS {
 
 		global $site, $parse;
 
-		$link = htmlspecialchars($site['domain']."/".$parse->transform_uri($link));
-		$guid = htmlspecialchars($site['domain']."/".$parse->transform_uri($guid));
+		$link = htmlspecialchars($site['domain'].$parse->transform_uri($link));
+		$guid = htmlspecialchars($site['domain'].$parse->transform_uri($guid));
 
 		# ??? <![CDATA[ ??? ]]>
 		$item  = "\n\t\t <item>";
