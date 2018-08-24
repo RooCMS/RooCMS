@@ -102,7 +102,7 @@ class ParserText {
 	 *
 	 * @param string|array $text  - Текстовый буфер, который надлежит отпарсить
 	 *
-	 * @return string
+	 * @return string|array
 	 */
 	public function html($text) {
 
