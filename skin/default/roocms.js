@@ -4,11 +4,7 @@
 $(document).ready(function(){
 
 	/* Colorbox */
-	$("a[rel='img']").colorbox({maxWidth: "98%", maxHeight: "98%", retinaImage:true, retinaUrl:true,
-		'onComplete': function(){
-			$('#cboxLoadedContent').zoom({'on': 'click'});
-		}
-	});
+	$("a[rel='img']").colorbox({maxWidth: "98%", maxHeight: "98%", retinaImage:true, retinaUrl:true});
 
 	$("a[rel='html']").colorbox({maxWidth: "75%", maxHeight: "90%"});
 	$("a[rel='iframe']").colorbox({width: "75%", height: "75%", iframe: true});

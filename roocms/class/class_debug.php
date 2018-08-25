@@ -42,7 +42,7 @@
 * @author	alex Roosso
 * @copyright	2010-2019 (c) RooCMS
 * @link		http://www.roocms.com
-* @version	2.3.3
+* @version	2.3.4
 * @since	$date$
 * @license	http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -63,18 +63,18 @@ if(!defined('RooCMS')) {
 class Debug {
 
 	# vars
-	public	$show_debug 		= false;	# [bool] 	hand flag show full debug text
-	public	$debug_info 		= "";		# [text] 	buffer for debug info text
-	private	$debug_dump		= [];		# [array]	Дамп с данными отладки, для разработчика.
-	public	$phpextensions		= [];		# [array]	Список установленных PHP расширений
-	public	$nophpextensions	= [];		# [array]	Список отсуствующих PHP приложений, требуемых для RooCMS
+	public  $show_debug          = false;   # [bool] 	hand flag show full debug text
+	public  $debug_info          = "";      # [text] 	buffer for debug info text
+	private $debug_dump          = [];      # [array]	Дамп с данными отладки, для разработчика.
+	public  $phpextensions       = [];      # [array]	Список установленных PHP расширений
+	public  $nophpextensions     = [];      # [array]	Список отсуствующих PHP приложений, требуемых для RooCMS
 
-	private	$starttime		= 0;
-	public	$productivity_time	= 0.0;
+	private $starttime           = 0;
+	public  $productivity_time   = 0.0;
 
-	private	$memory_usage		= 0;
-	public	$productivity_memory	= 0;
-	public	$memory_peak_usage	= 0;
+	private $memory_usage        = 0;
+	public  $productivity_memory = 0;
+	public  $memory_peak_usage   = 0;
 
 	# requirement php extension
 	private $reqphpext		= array("Core", "standard", "mysqli", "session", "mbstring",
@@ -97,6 +97,8 @@ class Debug {
                 	define('DEVMODE', true);
 		}
 
+		# default : error hide
+		$this->error_report(false);
 
         	# Для админа всегда показываем ошибки и замеряем время выполнения RooCMS
 		if(DEBUGMODE || defined('ACP') || defined('INSTALL')) {
@@ -109,13 +111,10 @@ class Debug {
 			# try show error
 			$this->error_report(true);
 		}
-		else {
-                	$this->error_report(false);
-		}
 
 		# show debug info
 		if($this->show_debug) {
-                	register_shutdown_function(array($this,'shotdown'), "debug");
+                	register_shutdown_function(array($this,'shutdown'), "debug");
 		}
 	}
 
@@ -126,7 +125,7 @@ class Debug {
         private function start_productivity() {
 
     	        # timer
-                $this->starttime = STARTTIME;
+                $this->starttime = $_SERVER['REQUEST_TIME'];
 
                 # memory
                 $this->memory_usage = MEMORYUSAGE;
@@ -228,7 +227,7 @@ class Debug {
                 }
 
                 if($erlevel == 0) {
-                	register_shutdown_function(array('debug','shotdown'), "debug");
+                	register_shutdown_function(array('debug','shutdown'), "debug");
 		}
 
         	$time = date("d.m.Y H:i:s");
@@ -242,11 +241,8 @@ class Debug {
 		fclose($f);
 
 		# Не будем ничего выводить, если нам приказано скрыть ошибки.
-		if(error_reporting() == 0) {
-        	        if($erlevel == 0) {
-        	        	die(CRITICAL_STYLESHEETS."<blockquote>Извините, что то пошло не так. Мы уже работаем над устранением причин.<small>".$time."</small></blockquote>");
-			}
-        	        //else return;
+		if(error_reporting() == 0 && $erlevel == 0) {
+			die(CRITICAL_STYLESHEETS."<blockquote>Извините, что то пошло не так. Мы уже работаем над устранением причин.<small>".$time."</small></blockquote>");
 		}
 
                 echo CRITICAL_STYLESHEETS."
@@ -300,19 +296,21 @@ class Debug {
                 static $use = 1;
 
                 # регестрируем шотдаун
-    	        if($use == 1 && $expand) {
-        	        register_shutdown_function(array($this,'shotdown'), "debugexpand");
+    	        if($use == 1) {
+    	        	if($expand) {
+				register_shutdown_function(array($this,'shutdown'), "debugexpand");
 
-			ob_start();
+				ob_start();
 				debug_print_backtrace();
 				$backtrace = ob_get_contents();
-			ob_end_clean();
+				ob_end_clean();
 
-			$this->debug_dump['backtrace'] = $backtrace;
+				$this->debug_dump['backtrace'] = $backtrace;
+			}
+			else {
+				register_shutdown_function(array($this,'shutdown'), "debug");
+			}
     	        }
-    	        elseif($use == 1 && !$expand) {
-    	        	register_shutdown_function(array($this,'shotdown'), "debug");
-		}
 
 		# print var
 		ob_start();
@@ -339,8 +337,9 @@ class Debug {
         *
         * @param mixed $type
         */
-	public static function shotdown($type="debug") {
-    	        global $debug, $db;
+	public static function shutdown($type="debug") {
+
+		global $debug, $db;
 
                 echo "<div class='container'><div class='row'><div class='col-xs-12'><h3>Отладка</h3>";
 
@@ -359,44 +358,51 @@ class Debug {
 
                 echo "</div></div></div>";
 
-		echo "<div class='container'><div class='row'><div class='col-xs-12'><div class='panel-group' id='debugaccordion'>";
+
 
 		if($debug->show_debug) {
-			echo "	<div class='panel panel-primary'>
-					<div class='panel-heading'><h4 class='panel-title'><a class='accordion-toggle' data-toggle='collapse' data-parent='#debugaccordion' href='#collapseQuerys'>Запросы к БД</a></h4></div>
-					<div id='collapseQuerys' class='panel-collapse collapse'>
-						<div class='panel-body'>";
+			echo "<div class='container'><div class='row'><div class='col-xs-12'><div class='panel-group' id='debugaccordion'>";
 
-			echo "  <div class='alert alert-dismissable t12 text-left in fade' role='alert'>
-				<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button>
-					{$debug->debug_info}
+			echo "	<div class='panel panel-primary'>
+					<div class='panel-heading'>
+						<h4 class='panel-title'><a class='accordion-toggle' data-toggle='collapse' data-parent='#debugaccordion' href='#collapseQuerys'>Запросы к БД</a></h4>
+					</div>
+					<div id='collapseQuerys' class='panel-collapse collapse'>
+						<div class='panel-body'>
+							{$debug->debug_info}
+						</div>
+					</div>
 				</div>";
 
-			echo "</div></div></div>";
+			echo "</div></div></div></div>";
 		}
 
 
 		# Функции
+
+		echo "<div class='container'><div class='row'><div class='col-xs-12'><div class='panel-group' id='debug2accordion'>";
 		echo "	<div class='panel panel-default'>
-			<div class='panel-heading'><h4 class='panel-title'><a class='accordion-toggle' data-toggle='collapse' data-parent='#debugaccordion' href='#collapseQuery'>---</a></h4></div>
-			<ul id='collapseQuery' class='list-group panel-collapse collapse'>";
+				<div class='panel-heading'>
+					<h4 class='panel-title'><a class='accordion-toggle' data-toggle='collapse' data-parent='#debug2accordion' href='#collapseFCC'>Defined Functions/Classes/Constants</a></h4>
+				</div>
+			<ul id='collapseFCC' class='list-group panel-collapse collapse'>";
 
 
 		$func_array = get_defined_functions();
 		foreach($func_array['user'] AS $v) {
-			echo "<li class='list-group-item'>{$v}();</li>";
+			echo "\n<li class='list-group-item'><b>function</b> {$v}();</li>";
 		}
 
 
 		$cl_array = get_declared_classes();
 		foreach($cl_array AS $v) {
-			echo "<li class='list-group-item'><b>class</b> {$v}</li>";
+			echo "\n<li class='list-group-item'><b>class</b> {$v}</li>";
 		}
 
 
 		$const_array = get_defined_constants(true);
 		foreach($const_array['user'] AS $k=>$v) {
-			echo "<li class='list-group-item'><b>{$k}</b> - {$v}</li>";
+			echo "\n<li class='list-group-item'><b>{$k}</b> - ".htmlspecialchars($v)."</li>";
 		}
 
 		echo "	</ul></div>";

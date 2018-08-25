@@ -42,7 +42,7 @@
 * @author	alex Roosso
 * @copyright	2010-2019 (c) RooCMS
 * @link		http://www.roocms.com
-* @version	1.6.3
+* @version	1.6.4
 * @since	$date$
 * @license	http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -63,11 +63,6 @@ define('DEBUGMODE',	false);				# Режим отладки
 define('DEVMODE',	false);				# Режим разработчики. Если используете этот режим, рекомендуется так же включить режим отладки.
 
 
-/**
- * Определяем время начала выполнения скриптов
- * для последующей оценки производительности
- */
-define('STARTTIME',     $_SERVER['REQUEST_TIME']);
 
 /**
  * Получаем количество выделенной памяти в самом начале работы
