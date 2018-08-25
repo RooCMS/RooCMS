@@ -252,16 +252,6 @@ else {
 }
 
 /**
- * Загружаем класс функций расширений графической обработки
- */
-if(file_exists(_CLASS."/class_gd_ext.php")) {
-	require_once(_CLASS."/class_gd_ext.php");
-}
-else {
-	die(ROOCMS_NOT_RUNNING);
-}
-
-/**
 * Загружаем класс графической обработки
 */
 if(file_exists(_CLASS."/class_gd.php")) {

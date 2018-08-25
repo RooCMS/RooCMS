@@ -668,3 +668,158 @@ class GD extends GDExtends {
 		return $src;
 	}
 }
+
+
+/**
+ * Class GD_ext
+ */
+class GDExtends {
+
+
+	/**
+	 * Check extension on gif or png
+	 *
+	 * @param string $ext - extension
+	 *
+	 * @return bool
+	 */
+	protected function is_gifpng($ext) {
+
+		$check = false;
+
+		if($ext == "gif" || $ext == "png") {
+			$check = true;
+		}
+
+		return $check;
+	}
+
+
+	/**
+	 * Check extension on jpg or jpeg
+	 *
+	 * @param string $ext - extension
+	 *
+	 * @return bool
+	 */
+	protected function is_jpg($ext) {
+
+		$check = false;
+
+		if($ext == "jpg" || $ext == "jpeg") {
+			$check = true;
+		}
+
+		return $check;
+	}
+
+
+	/**
+	 * Получаем ориентацию изображения
+	 *
+	 * @param string $image - указываем путь к изображению
+	 *
+	 * @return int
+	 */
+	protected function get_orientation($image) {
+
+		$orientation = 1;
+
+		if(function_exists('exif_read_data') && exif_imagetype($image) == 2) {
+			$exif = exif_read_data($image);
+			if(isset($exif['Orentation'])) {
+				$orientation = $exif['Orentation'];
+			}
+		}
+
+		return $orientation;
+	}
+
+
+	/**
+	 * Расчитываем новые размеры изображений
+	 *
+	 * @param int  $width    - Текущая ширина
+	 * @param int  $height   - Текущая высота
+	 * @param int  $towidth  - Требуемая ширина
+	 * @param int  $toheight - Требуемая высота
+	 * @param bool $resize   - Флаг указывающий производим мы пропорциональное изменение или образание. True - производим расчеты для пропорционального изменения. False - производим обрезание (crop)
+	 *
+	 * @return array<int> - Функция возвращает массив с ключами ['new_width'] - новая ширина, ['new_height'] - новая высота, ['new_left'] - значение позиции слева, ['new_top'] - значение позиции сверху
+	 */
+	protected function calc_resize($width, $height, $towidth, $toheight, $resize = true) {
+
+		$x_ratio 	= $towidth / $width;
+		$y_ratio 	= $toheight / $height;
+		$ratio 		= ($resize) ? min($x_ratio, $y_ratio) : max($x_ratio, $y_ratio);
+		$use_x_ratio 	= ($x_ratio == $ratio);
+		$new_width 	= $use_x_ratio 	? $towidth : floor($width * $ratio);
+		$new_height 	= !$use_x_ratio ? $toheight : floor($height * $ratio);
+		$new_left 	= $use_x_ratio 	? 0 : floor(($towidth - $new_width) / 2);
+		$new_top 	= !$use_x_ratio ? 0 : floor(($toheight - $new_height) / 2);
+
+		$return = array('new_width'	=> (int) $new_width,
+				'new_height'	=> (int) $new_height,
+				'new_left'	=> (int) $new_left,
+				'new_top'	=> (int) $new_top);
+
+		return $return;
+	}
+
+
+	/**
+	 * Корректируем массив с обновленными размерами.
+	 *
+	 * @param array $ns - array new size
+	 *
+	 * @return array $ns
+	 */
+	protected function calc_newsize(array $ns) {
+
+		if($ns['new_left'] > 0) {
+			$ns['new_top'] = $ns['new_top'] - $ns['new_left'];
+			$proc = (($ns['new_left'] * 2) / $ns['new_width']);
+			$ns['new_width']  = ($ns['new_width'] + ($ns['new_width'] * $proc)) + 2;
+			$ns['new_height'] = ($ns['new_height'] + ($ns['new_height'] * $proc)) + 2;
+			$ns['new_left'] = 0;
+		}
+
+		if($ns['new_top'] > 0) {
+			$ns['new_left'] = $ns['new_left'] - $ns['new_top'];
+			$proc = (($ns['new_top'] * 2) / $ns['new_height']);
+			$ns['new_width']  = ($ns['new_width'] + ($ns['new_width'] * $proc)) + 2;
+			$ns['new_height'] = ($ns['new_height'] + ($ns['new_height'] * $proc)) + 2;
+			$ns['new_top'] = 0;
+		}
+
+		return $ns;
+	}
+
+
+	/**
+	 * Функция устанавливает параметры размеров миниатюр для изображений
+	 *
+	 * @param array $sizes - array(width,height) - размеры будут изменены согласно параметрам.
+	 *
+	 * @return array|null
+	 */
+	protected function set_mod_sizes(array $sizes) {
+
+		if(is_array($sizes) && count($sizes) == 2) {
+
+			$size = [];
+
+			if(round($sizes[0]) > 16) {
+				$size['w'] = round($sizes[0]);
+			}
+
+			if(round($sizes[1]) > 16) {
+				$size['h'] = round($sizes[1]);
+			}
+
+			if(!empty($size)) {
+				return $size;
+			}
+		}
+	}
+}
