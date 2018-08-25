@@ -145,11 +145,13 @@ class MySQLiDatabase extends MySQLiExtends {
 	* Поэтому если БД работает стабильно, лучше выключить данную функцию.
 	*/
 	private function charset() {
-		$this->sql->set_charset("utf8");
+		if($this->sql->character_set_name() != "utf8") {
+			$this->sql->set_charset("utf8");
 
-		# alternative
-		if(!$this->sql->set_charset("utf8")) {
-			$this->sql->query('set names utf8');
+			# alternative
+			if(!$this->sql->set_charset("utf8")) {
+				$this->sql->query('set names utf8');
+			}
 		}
 	}
 
