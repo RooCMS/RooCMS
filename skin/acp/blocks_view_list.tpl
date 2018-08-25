@@ -24,7 +24,7 @@
 				<td class="text-muted">{$block['id']}</td>
 				<td>{$block['alias']}</td>
 				<td><a href="{$SCRIPT_NAME}?act=blocks&part=edit&block={$block['id']}">{$block['title']}</a></td>
-				<td><span class="label label-primary upper">{$block['block_type']}</span></td>
+				<td><span class="label label-primary text-uppercase">{$block['block_type']}</span></td>
 				<td class="text-right">
 					<div class="btn-group">
 						<a href="{$SCRIPT_NAME}?act=blocks&part=edit&block={$block['id']}" class="btn btn-xs btn-default"><span class="fa fa-pencil-square-o fa-fw"></span><span class="hidden-sm">Редактировать</span></a>
@@ -40,7 +40,7 @@
 		{foreach from=$data item=block}
 			<li class="list-group-item no-overflow">
 
-				<span class="label label-primary upper">{$block['block_type']}</span> <a href="{$SCRIPT_NAME}?act=blocks&part=edit&block={$block['id']}">{$block['title']}</a>
+				<span class="label label-primary text-uppercase">{$block['block_type']}</span> <a href="{$SCRIPT_NAME}?act=blocks&part=edit&block={$block['id']}">{$block['title']}</a>
 
 				<div class="pull-right">
 					<div class="btn-group">

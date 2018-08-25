@@ -12,18 +12,15 @@
     min-width: 1895px;
   }
 }
-::-moz-selection {
-  color: #fff;
-  background: #3D4F61;
-}
-::selection {
-  color: #fff;
-  background: #3D4F61;
-}
 /*@media (min-width: 1200px) {}
 @media (min-width: 992px) {}
 @media (min-width: 768px) {}
 @media (max-width: 767px) {}*/
+::-moz-selection,
+::selection {
+  color: #fff;
+  background: #3D4F61;
+}
 /* СТИЛЬ ПАНЕЛИ АДМИНИСТРАТОРА */
 html,
 body {
@@ -68,9 +65,7 @@ input:focus:invalid {
 input:required:empty {
   background: #fff url(./img/required.png) no-repeat right top !important;
 }
-input.non-bgreq:required:empty {
-  background-image: none !important;
-}
+input.non-bgreq:required:empty,
 input:required:valid {
   background-image: none !important;
 }
@@ -134,10 +129,6 @@ small {
   color: #999;
   font-size: 11px;
 }
-.middle {
-  line-height: 14px;
-  font-size: 12px;
-}
 blockquote {
   font-size: 14px !important;
   font-family: 'PT Sans' !important;
@@ -152,6 +143,15 @@ code {
 .hover-cursor {
   cursor: pointer;
 }
+/* Outline */
+a:focus,
+.btn:focus {
+  outline: none !important;
+}
+/* visible style */
+.visible-inline {
+  display: inline-block !important;
+}
 /* install */
 .progress.pb0 {
   margin-bottom: 0 !important;
@@ -164,20 +164,7 @@ code {
 a:hover [class^="fa-"] {
   text-decoration: none !important;
 }
-/* visible style */
-.visible-inline {
-  display: inline-block !important;
-}
-.display-block {
-  display: block !important;
-}
-.display-none {
-  display: none !important;
-}
 /* style for attached files */
-.field_attach {
-  padding: 10px 0;
-}
 .delete_image {
   margin-right: -3px;
   margin-top: 5px;
@@ -203,7 +190,6 @@ p.attach_files {
 }
 .avatar-xs {
   margin-right: 15px;
-  /*max-height: 50px;*/
 }
 .avatar-xs > img {
   max-height: 48px;
@@ -323,9 +309,6 @@ blockquote.quote-danger > h6 {
 .verdana {
   font-family: 'Verdana';
 }
-.calibri {
-  font-family: 'Calibri';
-}
 .trebuchet {
   font-family: 'Trebuchet MS';
 }
@@ -340,15 +323,6 @@ blockquote.quote-danger > h6 {
 }
 .opensans {
   font-family: 'Open Sans';
-}
-.bloggersans {
-  font-family: 'Blogger Sans';
-}
-.kelsonsans {
-  font-family: 'Kelson Sans';
-}
-.firasans {
-  font-family: 'Fira Sans';
 }
 /*input[type="text"], textarea {-moz-box-shadow: 0px 0px 2px #B8AD9A inset; -webkit-box-shadow: 0px 0px 2px #B8AD9A inset; box-shadow: 0px 0px 2px #B8AD9A inset;}*/
 /* Titles */
@@ -406,17 +380,11 @@ h6 {
 .t17 {
   font-size: 17px;
 }
-.blue {
-  color: #49E;
-}
 .black {
   color: #1B1E24;
 }
 .white {
   color: #fff;
-}
-.mgrey {
-  color: #999;
 }
 /* Shadows */
 .tshadow {
@@ -437,17 +405,13 @@ h6 {
 .both {
   clear: both;
 }
-.bold,
-.strong,
 .text-strong,
 .text-bold {
   font-weight: bold;
 }
-.italic,
 .text-italic {
   font-style: italic;
 }
-.strike,
 .text-strike {
   text-decoration: line-through;
 }
@@ -457,15 +421,6 @@ h6 {
 .invis {
   position: absolute;
   left: -9999px;
-}
-.lower {
-  text-transform: lowercase;
-}
-.upper {
-  text-transform: uppercase;
-}
-.capit {
-  text-transform: capitalize;
 }
 .vtop {
   vertical-align: top;
@@ -524,11 +479,6 @@ span.CodeMirror-matchhighlight {
 .shy,
 .wbr {
   word-break: break-all;
-}
-/* Outline */
-a:focus,
-.btn:focus {
-  outline: none !important;
 }
 /* anti drag */
 *[class^="CodeMirror"] > *,

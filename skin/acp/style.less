@@ -64,19 +64,22 @@
 @kelsonsans:	'Kelson Sans';
 @firasans:	'Fira Sans';
 
-::-moz-selection {
-	color: @white;
-	background: @brand-primary;
-}
-::selection {
-	color: @white;
-	background: @brand-primary;
-}
+// inc
+@csshbehavior: url("../../csshover.htc") !important;
+@pngfbehavior: url("../../iepngfix.htc") !important;
+
 
 /*@media (min-width: 1200px) {}
 @media (min-width: 992px) {}
 @media (min-width: 768px) {}
 @media (max-width: 767px) {}*/
+
+
+::-moz-selection,
+::selection {
+	color: @white;
+	background: @brand-primary;
+}
 
 /* СТИЛЬ ПАНЕЛИ АДМИНИСТРАТОРА */
 html, body {
@@ -84,11 +87,11 @@ html, body {
 	.black;	.t12;
 	background: @roocms-bg url('./img/bgcp.jpg') repeat fixed top !important;
 	padding: 0; margin: 0;
-	behavior: url("../../csshover.htc") !important;
+	behavior: @csshbehavior;
 	text-rendering: optimizeLegibility;
 }
 body {margin: 60px 0 !important;}
-img {behavior: url("../../iepngfix.htc") !important;}
+img {behavior: @pngfbehavior;}
 
 
 /* LINK STYLE */
@@ -96,17 +99,24 @@ a {font-family: @ptsans, @ubuntu, @calibri, @tahoma, @trebuchet !important;}
 
 
 /* Transition */
-*, *:hover, .table-hover>tbody>tr:hover>td, .table-hover>tbody>tr:hover>th {
-	transition: all 0.20s ease-in-out;-webkit-transition: all 0.20s ease-in-out;-moz-transition: all 0.20s ease-in-out;outline:none;}
+*,
+*:hover,
+.table-hover>tbody>tr:hover>td,
+.table-hover>tbody>tr:hover>th {
+	transition: all 0.20s ease-in-out;-webkit-transition: all 0.20s ease-in-out;-moz-transition: all 0.20s ease-in-out;outline:none;
+}
 
 /* OTHER STYLE */
 input:focus:invalid {	/* transition: all 0.15s ease-in-out;-webkit-transition: all 0.15s ease-in-out;-moz-transition: all 0.15s ease-in-out;outline:none; */
 	-moz-box-shadow: 0 0 6px @brand-danger; -webkit-box-shadow: 0 0 6px @brand-danger;box-shadow: 0 0 6px @brand-danger;
 	border: 1px solid @brand-danger;
-	background: @white url(./img/required.png) no-repeat right top !important;}
+	background: @white url(./img/required.png) no-repeat right top !important;
+}
 input:required:empty {background: @white url(./img/required.png) no-repeat right top !important;}
-input.non-bgreq:required:empty {background-image: none !important;}
-input:required:valid {background-image: none !important;}
+input.non-bgreq:required:empty,
+input:required:valid {
+	background-image: none !important;
+}
 
 /* logo */
 #logo {margin-top: -11px;}
@@ -140,7 +150,6 @@ input:required:valid {background-image: none !important;}
 
 /* sup styles / restyle */
 .small, small	{line-height: 12px;color: @middle-grey; .t11;}
-.middle		{line-height: 14px; .t12;}
 
 blockquote 	{.t14 !important; .ptsans !important;}
 code		{.ubuntu !important;}
@@ -148,6 +157,12 @@ code		{.ubuntu !important;}
 /* Hover */
 .hover-without-underline:hover	{text-decoration: none !important;}
 .hover-cursor			{cursor: pointer;}
+
+/* Outline */
+a:focus, .btn:focus {outline: none !important;}
+
+/* visible style */
+.visible-inline {display: inline-block !important;}
 
 /* install */
 .progress.pb0 {margin-bottom: 0 !important;}
@@ -158,13 +173,7 @@ code		{.ubuntu !important;}
 /* fix font-awesome underline */
 a:hover [class^="fa-"] {text-decoration: none !important;}
 
-/* visible style */
-.visible-inline {display: inline-block !important;}
-.display-block	{display: block !important;}
-.display-none	{display: none !important;}
-
 /* style for attached files */
-.field_attach {padding: 10px 0;}
 .delete_image {margin-right: -3px;margin-top: 5px;}
 p.attach_files {padding: 8px 8px;}
 
@@ -184,7 +193,6 @@ p.attach_files {padding: 8px 8px;}
 }
 .avatar-xs {
 	margin-right: 15px;
-	/*max-height: 50px;*/
 }
 .avatar-xs > img {
 	max-height: 48px;
@@ -202,7 +210,7 @@ p.attach_files {padding: 8px 8px;}
 
 /* Structure style */
 .trinfo {float: right;}
-tr .tralias {display: none;float: right;}
+tr .tralias {display: none; .trinfo;}
 tr:hover .tralias {display: block;}
 
 .table-hover>tbody>tr:hover .structure-highlight {color: @brand-primary}
@@ -247,18 +255,13 @@ blockquote.quote-danger > h3, blockquote.quote-danger > h4,
 blockquote.quote-danger > h5, blockquote.quote-danger > h6	{color: @brand-danger;}
 
 /*Fonts*/
-
 .tahoma		{font-family: @tahoma;}
 .verdana	{font-family: @verdana;}
-.calibri	{font-family: @calibri;}
 .trebuchet	{font-family: @trebuchet;}
 .consolas	{font-family: @consolas;}
 .ubuntu		{font-family: @ubuntu;}
 .ptsans		{font-family: @ptsans;}
 .opensans	{font-family: @opensans;}
-.bloggersans	{font-family: @bloggersans;}
-.kelsonsans	{font-family: @kelsonsans;}
-.firasans	{font-family: @firasans;}
 
 /*input[type="text"], textarea {-moz-box-shadow: 0px 0px 2px #B8AD9A inset; -webkit-box-shadow: 0px 0px 2px #B8AD9A inset; box-shadow: 0px 0px 2px #B8AD9A inset;}*/
 
@@ -281,10 +284,8 @@ h6 {.t12}
 .t16 {font-size: 16px;}
 .t17 {font-size: 17px;}
 
-.blue 		{color: @blue;}
 .black		{color: @black;}
 .white 		{color: @white;}
-.mgrey		{color: @middle-grey;}
 
 /* Shadows */
 .tshadow 	{text-shadow: 1px 1px 1px @black;}
@@ -294,23 +295,15 @@ h6 {.t12}
 /* SPECIFICATION */
 .clear, .both	{clear:both;}
 
-.bold,
-.strong,
 .text-strong,
 .text-bold	{font-weight:bold;}
 
-.italic,
 .text-italic	{font-style:italic;}
 
-.strike,
 .text-strike	{text-decoration:line-through;}
 
 .none		{display:none;}
 .invis		{position:absolute; left:-9999px;}
-
-.lower		{text-transform: lowercase;}
-.upper		{text-transform: uppercase;}
-.capit		{text-transform: capitalize;}
 
 .vtop 		{vertical-align: top;}
 .vbottom 	{vertical-align: bottom;}
@@ -344,9 +337,6 @@ span.CodeMirror-matchhighlight { background: @grey; }
 .CodeMirror-focused span.CodeMirror-matchhighlight { background: @grey !important; }
 
 .shy, .wbr {word-break: break-all;}
-
-/* Outline */
-a:focus, .btn:focus {outline: none !important;}
 
 /* anti drag */
 *[class^="CodeMirror"]>*, *[class^="CodeMirror"],
