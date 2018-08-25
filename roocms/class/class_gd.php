@@ -251,9 +251,9 @@ class GD extends GDExtends {
 	/**
 	 * Изменяем размер изображения.
 	 *
-	 * @param string      $filename - Имя файла изображения
-	 * @param string      $ext      - Расширение файла без точки
-	 * @param path|string $path     - Путь к папке с файлом. По умолчанию указан путь к папке с изображениями
+	 * @param string $filename - Имя файла изображения
+	 * @param string $ext      - Расширение файла без точки
+	 * @param string $path     - Путь к папке с файлом. По умолчанию указан путь к папке с изображениями
 	 */
 	protected function resized($filename, $ext, $path=_UPLOADIMAGES) {
 
