@@ -39,6 +39,7 @@ if(!defined('_SITEROOT')) {
  */
 define('ROOCMS_NOT_RUNNING', 'Запуск RooCMS невозможен. Нарушена целостность системы.');
 
+
 /**
 * Настраиваем PHP и прочее
 */
@@ -83,6 +84,7 @@ else {
 * Запускаем класс отладки
 */
 if(file_exists(_CLASS."/class_debuger.php")) {
+
 	require_once(_CLASS."/class_debuger.php");
 
 	/**
@@ -99,7 +101,7 @@ if(file_exists(_CLASS."/class_debuger.php")) {
 	 */
 	function debug($obj) {
 		global $debug;
-		$debug->godebug($obj);
+		$debug->rundebug($obj);
 	}
 }
 else {

@@ -28,7 +28,7 @@ class ACP_Index {
 	 */
 	public function __construct() {
 
-		global $roocms, $smarty, $tpl;
+		global $roocms, $debug, $smarty, $tpl;
 
 		# subpart
 		switch($roocms->part) {
@@ -65,6 +65,10 @@ class ACP_Index {
 		$warning_subj = [];
 		if(file_exists(_SITEROOT."/install/index.php")) {
 			$warning_subj[] = "Инсталятор RooCMS находится в корне сайта. В целях безопастности следует удалить инсталятор!";
+		}
+
+		if($debug->exist_errors) {
+			$warning_subj[] = "Лог файл PHP ошибок (".$debug->error_log.") содержит несколько записей!";
 		}
 
 		# smarty alerts

@@ -21,27 +21,36 @@ if(!defined('RooCMS')) {
 
 
 /**
- * Class Debug
+ * Class Debuger
  */
 class Debuger {
 
-	# vars
-	public  $show_debug          = false;   # [bool] 	hand flag show full debug text
-	public  $debug_info          = "";      # [text] 	buffer for debug info text
-	private $debug_dump          = [];      # [array]	Дамп с данными отладки, для разработчика.
-	public  $phpextensions       = [];      # [array]	Список установленных PHP расширений
-	public  $nophpextensions     = [];      # [array]	Список отсуствующих PHP приложений, требуемых для RooCMS
+	# hand flag show full debug text
+	public  $show_debug          = false;
 
+	# debug info
+	public  $debug_info          = ""; # buffer for debug info text
+	private $debug_dump          = []; # Дамп с данными отладки, для разработчика.
+
+	# Timer
 	private $starttime           = 0;
 	public  $productivity_time   = 0.0;
 
+	# Memory
 	private $memory_usage        = 0;
 	public  $productivity_memory = 0;
 	public  $memory_peak_usage   = 0;
 
+	# error log file
+	public  $error_log           = _LOGS."/errors.log";
+	public  $exist_errors        = false;
+
 	# requirement php extension
 	private $reqphpext		= array("Core", "standard", "mysqli", "session", "mbstring",
 						"calendar", "date", "pcre", "xml", "SimpleXML", "gd");
+
+	public  $phpextensions       = []; # Список установленных PHP расширений
+	public  $nophpextensions     = []; # Список отсуствующих PHP приложений, требуемых для RooCMS
 
 
 	/**
@@ -68,11 +77,14 @@ class Debuger {
 
 			# try show error
 			$this->error_report(true);
+
+			# check error log
+			$this->check_errorlog();
 		}
 
 		# show debug info
 		if($this->show_debug) {
-                	register_shutdown_function(array($this,'shutdown'), "debug");
+                	register_shutdown_function(array($this,'shutdown'), false);
 		}
 	}
 
@@ -127,11 +139,24 @@ class Debuger {
 	 * Проверяем важные для разработчика константы
 	 */
 	private function check_dev_constants() {
+		# check debugmode flag
 		if(!defined('DEBUGMODE')) {
 			define('DEBUGMODE', true);
 		}
+		# check developer mode flag
 		if(!defined('DEVMODE'))  {
 			define('DEVMODE', true);
+		}
+	}
+
+
+	/**
+	 * Check log file for errors
+	 * and set flag 'true' if file not empty
+	 */
+	private function check_errorlog() {
+		if(filesize($this->error_log) != 0) {
+			$this->exist_errors = true;
 		}
 	}
 
@@ -150,9 +175,10 @@ class Debuger {
 	 */
 	public static function debug_critical_error($errno, $msg, $file, $line, $context) {
 
-                // Записываем ошибку в файл
-                $file_error = _LOGS."/errors.log";
-		$subj = file_read($file_error);
+		global $debug;
+
+                # Записываем ошибку в файл
+		$subj = file_read($debug->error_log);
 		
 
                 switch($errno) {	// Для "умников" - E_CORE_ERROR не вписываем, потому что, до выполнения этого скрипта дело не дойдет. А дойдет, значит не E_CORE_ERROR
@@ -203,7 +229,7 @@ class Debuger {
 
         	$time = date("d.m.Y H:i:s");
 
-		$subj .= $time."\t|\tPHPError\t|\t".$ertitle."\t|\t[ #".$errno." ] ".$msg." (Строка: ".$line." в файле ".$file.")\r\n";
+		$subj .= $time."\t|\t".$ertitle."\t|\t[ #".$errno." ] ".$msg." (Строка: ".$line." в файле ".$file.")\r\n";
 
 		$f = fopen($file_error, "w+");
 		if(is_writable($file_error)) {
@@ -263,13 +289,13 @@ class Debuger {
         * @param mixed $expand  - Флаг развернутого вида
         * @return mixed - Функция выводит на экран дамп переменной $var
         */
-	public function godebug($var, $expand=false) {
+	public function rundebug($var, $expand=false) {
                 static $use = 1;
 
                 # регестрируем шотдаун
     	        if($use == 1) {
     	        	if($expand) {
-				register_shutdown_function(array($this,'shutdown'), "debugexpand");
+				register_shutdown_function(array($this,'shutdown'), true);
 
 				ob_start();
 				debug_print_backtrace();
@@ -279,7 +305,7 @@ class Debuger {
 				$this->debug_dump['backtrace'] = $backtrace;
 			}
 			else {
-				register_shutdown_function(array($this,'shutdown'), "debug");
+				register_shutdown_function(array($this,'shutdown'), false);
 			}
     	        }
 
@@ -306,9 +332,9 @@ class Debuger {
         /**
         * Шотдаун (выодвим отладку)
         *
-        * @param mixed $type
+        * @param bool $expand
         */
-	public static function shutdown($type="debug") {
+	public static function shutdown($expand=false) {
 
 		global $debug, $db;
 
@@ -318,7 +344,7 @@ class Debuger {
         	        echo "<code>debug <b>#".$k."</b></code><pre class='small' style='overflow: auto;max-height: 300px;'>".htmlspecialchars($v)."</pre>";
                 }
 
-                if($type == "debugexpand") {
+                if($expand) {
 		        ob_start();
 			        print_r(debug_backtrace());
 			        $backtrace = ob_get_contents();
