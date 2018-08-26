@@ -1,11 +1,11 @@
 <?php
 /**
- *   RooCMS - Open Source Free Content Managment System
- *   Copyright © 2010-2018 alexandr Belov aka alex Roosso. All rights reserved.
- *   Contacts: <info@roocms.com>
+ * RooCMS - Open Source Free Content Managment System
+ * Copyright © 2010-2018 alexandr Belov aka alex Roosso. All rights reserved.
+ * Contacts: <info@roocms.com>
  *
- *   You should have received a copy of the GNU General Public License v3
- *   along with this program.  If not, see http://www.gnu.org/licenses/
+ * You should have received a copy of the GNU General Public License v3
+ * along with this program.  If not, see http://www.gnu.org/licenses/
  */
 
 /**

@@ -1,11 +1,11 @@
 <?php
 /**
- *   RooCMS - Open Source Free Content Managment System
- *   Copyright © 2010-2018 alexandr Belov aka alex Roosso. All rights reserved.
- *   Contacts: <info@roocms.com>
+ * RooCMS - Open Source Free Content Managment System
+ * Copyright © 2010-2018 alexandr Belov aka alex Roosso. All rights reserved.
+ * Contacts: <info@roocms.com>
  *
- *   You should have received a copy of the GNU General Public License v3
- *   along with this program.  If not, see http://www.gnu.org/licenses/
+ * You should have received a copy of the GNU General Public License v3
+ * along with this program.  If not, see http://www.gnu.org/licenses/
  */
 
 /**
@@ -14,8 +14,7 @@
  * @author       alex Roosso
  * @copyright    2010-2019 (c) RooCMS
  * @link         http://www.roocms.com
- * @version      1.7.7
- * @since        $date$
+ * @version      1.7.8
  * @license      http://www.gnu.org/licenses/gpl-3.0.html
  */
 
@@ -93,10 +92,24 @@ else {
 */
 if(file_exists(_CLASS."/class_debug.php")) {
 	require_once(_CLASS."/class_debug.php");
+
 	/**
 	 * Инициализируем класс
 	 */
 	$debug = new Debug;
+
+	/**
+	 * Debug функция
+	 * Синоним $Debug->debug();
+	 *
+	 * @param mixed $obj
+	 *
+	 * @example debug($var);
+	 */
+	function debug($obj) {
+		global $debug;
+		$debug->godebug($obj);
+	}
 }
 else {
 	die(ROOCMS_NOT_RUNNING);
