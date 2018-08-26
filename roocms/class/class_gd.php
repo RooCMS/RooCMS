@@ -74,7 +74,6 @@ class GD extends GDExtends {
 	private $thumbbgcol	= array('r' => 0, 'g' => 0, 'b' => 0);	# Значение фонового цвета, если тип генерируемых миниатюр производится по размеру ( $thumbtg = size )
 
 
-
 	/**
 	* Let's go
 	*/

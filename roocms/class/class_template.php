@@ -63,15 +63,15 @@ if(!defined('RooCMS')) {
 class Template {
 
 	# vars
-	private $skinfolder	= "default";	# [string]	skin templates folder
+	private $skinfolder	= "default";
 
 	# other buffer
-	private $css		= "";		# [text]	CSS buffer
-	private $js		= "";		# [text]	JavaScript buffer
-	private $skin		= "";		# [string]	skin
+	private $css		= "";
+	private $js		= "";
+	private $skin		= "";
 
 	# output buffer
-	private $out 		= "";		# [text]	output buffer
+	private $out 		= "";
 
 
 	/**
