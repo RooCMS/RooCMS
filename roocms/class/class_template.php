@@ -74,12 +74,11 @@ class Template {
 	private $out 		= "";		# [text]	output buffer
 
 
-
 	/**
-	* Инициализируем "шкурку"
-	*
-	* @param mixed $skin - указываем относительный путь к папке с "шкуркой" от папки _SKIN
-	*/
+	 * Инициализируем "шкурку"
+	 *
+	 * @param mixed $skin - указываем относительный путь к папке с "шкуркой" от папки _SKIN
+	 */
 	public function __construct($skin=false) {
 
 		global $config, $site, $smarty;
