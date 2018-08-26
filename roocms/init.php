@@ -92,7 +92,6 @@ if(file_exists(_CLASS."/class_debuger.php")) {
 
 	/**
 	 * Debug функция
-	 * Синоним $Debug->debug();
 	 *
 	 * @param mixed $obj
 	 *

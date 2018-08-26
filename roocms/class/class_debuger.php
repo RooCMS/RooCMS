@@ -52,13 +52,8 @@ class Debuger {
 		# устанавливаем перехватчик ошибок
 		set_error_handler(array($this,'debug_critical_error'));
 
-
-                if(!defined('DEBUGMODE')) {
-                	define('DEBUGMODE', true);
-		}
-                if(!defined('DEVMODE'))  {
-                	define('DEVMODE', true);
-		}
+		# check developer constants
+		$this->check_dev_constants();
 
 		# default : error hide
 		$this->error_report(false);
@@ -124,6 +119,19 @@ class Debuger {
 			if(!in_array($v, $this->phpextensions)) {
 				$this->nophpextensions[] = $v;
 			}
+		}
+	}
+
+
+	/**
+	 * Проверяем важные для разработчика константы
+	 */
+	private function check_dev_constants() {
+		if(!defined('DEBUGMODE')) {
+			define('DEBUGMODE', true);
+		}
+		if(!defined('DEVMODE'))  {
+			define('DEVMODE', true);
 		}
 	}
 
