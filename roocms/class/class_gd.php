@@ -10,16 +10,6 @@
  * along with this program.  If not, see http://www.gnu.org/licenses/
  */
 
-/**
-* @package	RooCMS
-* @subpackage	Engine RooCMS classes
-* @author	alex Roosso
-* @copyright	2010-2019 (c) RooCMS
-* @link		http://www.roocms.com
-* @version	1.19
-* @license	http://www.gnu.org/licenses/gpl-3.0.html
-*/
-
 
 //#########################################################
 // Anti Hack
@@ -305,9 +295,9 @@ class GD extends GDExtends {
 	/**
 	 * Генерируем миниатюру изображения для предпросмотра.
 	 *
-	 * @param string $filename	- Имя файла изображения
-	 * @param string $ext		- Расширение файла без точки
-	 * @param path|string $path	- Путь к папке с файлом. По умолчанию указан путь к папке с изображениями
+	 * @param string $filename - Имя файла изображения
+	 * @param string $ext	   - Расширение файла без точки
+	 * @param string $path	   - Путь к папке с файлом. По умолчанию указан путь к папке с изображениями
 	 */
 	protected function thumbnail($filename, $ext, $path=_UPLOADIMAGES) {
 

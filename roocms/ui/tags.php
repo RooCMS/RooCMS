@@ -36,16 +36,6 @@
  * с программой. В случае её отсутствия, посмотрите http://www.gnu.org/licenses/
  */
 
-/**
- * @package      RooCMS
- * @subpackage   Frontend
- * @author       alex Roosso
- * @copyright    2010-2019 (c) RooCMS
- * @link         http://www.roocms.com
- * @version      0.3.3
- * @license      http://www.gnu.org/licenses/gpl-3.0.html
- */
-
 
 //#########################################################
 // Anti Hack

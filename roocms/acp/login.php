@@ -10,17 +10,6 @@
  * along with this program.  If not, see http://www.gnu.org/licenses/
  */
 
-/**
-* @package      RooCMS
-* @subpackage	Admin Control Panel
-* @author       alex Roosso
-* @copyright    2010-2019 (c) RooCMS
-* @link         http://www.roocms.com
-* @version      2.0.8
-* @since        $date$
-* @license      http://www.gnu.org/licenses/gpl-3.0.html
-*/
-
 
 //#########################################################
 // Anti Hack
