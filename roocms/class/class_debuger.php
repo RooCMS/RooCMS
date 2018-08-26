@@ -23,7 +23,7 @@ if(!defined('RooCMS')) {
 /**
  * Class Debug
  */
-class Debug {
+class Debuger {
 
 	# vars
 	public  $show_debug          = false;   # [bool] 	hand flag show full debug text

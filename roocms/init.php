@@ -82,13 +82,13 @@ else {
 /**
 * Запускаем класс отладки
 */
-if(file_exists(_CLASS."/class_debug.php")) {
-	require_once(_CLASS."/class_debug.php");
+if(file_exists(_CLASS."/class_debuger.php")) {
+	require_once(_CLASS."/class_debuger.php");
 
 	/**
 	 * Инициализируем класс
 	 */
-	$debug = new Debug;
+	$debug = new Debuger;
 
 	/**
 	 * Debug функция
