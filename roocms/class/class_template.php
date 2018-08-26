@@ -42,7 +42,7 @@
 * @author	alex Roosso
 * @copyright	2010-2019 (c) RooCMS
 * @link		http://www.roocms.com
-* @version	4.7.1
+* @version	4.8
 * @since	$date$
 * @license	http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -165,25 +165,18 @@ class Template {
 	 */
 	public function load_template($tpl, $return=false) {
 
-		global $smarty, $debug;
+		global $smarty;
 
 		$path	= _SKIN."/".$this->skinfolder;
 		$out 	= "";
 
-		# Если нет шаблона
-		if(!file_exists($path."/".$tpl.".tpl") && DEBUGMODE) {
-			$debug->debug_info .= "Не удалось найти шаблон: <br /><b>".$path."/".$tpl.".tpl</b><br />";
-		}
-
-		if(file_exists($path."/".$tpl.".tpl")) {
+		if($this->tpl_exists($path, $tpl)) {
 			# load html
 			if(DEBUGMODE && $tpl != "header") {
 				$out .= "\r\n<!-- begin template: {$tpl} -->\r\n";
 			}
 
 			$out .= $smarty->fetch($tpl.".tpl");
-			//$out .= $smarty->display($tpl.".html");
-
 
 			if(DEBUGMODE && $tpl != "footer") {
 				$out .= "\r\n<!-- end template: {$tpl} -->\r\n";
@@ -195,6 +188,32 @@ class Template {
 		}
 		else {
 			$this->out .= $out;
+		}
+	}
+
+
+	/**
+	 * Функция проверяет наличие шаблона
+	 *
+	 * @param string $path - path to folder
+	 * @param string $tpl  template name
+	 *
+	 * @return bool
+	 */
+	private function tpl_exists($path, $tpl) {
+
+		global $debug;
+
+		if(file_exists($path."/".$tpl.".tpl")) {
+			return true;
+		}
+		else {
+			if(DEBUGMODE) {
+				# show message in debugmode
+				$debug->debug_info .= "Не удалось найти шаблон: <br /><b>".$path."/".$tpl.".tpl</b><br />";
+			}
+
+			return false;
 		}
 	}
 
