@@ -182,7 +182,7 @@ class ACP_Config extends ACP_Config_SpecPart {
 			case 'image':
 			case 'img':
 				$image = [];
-				if(trim($field['value']) != "" && file_exists(_UPLOADIMAGES."/".$field['value'])) {
+				if(is_file(_UPLOADIMAGES."/".$field['value'])) {
 					$image['src'] = $field['value'];
 					$size = getimagesize(_UPLOADIMAGES."/".$image['src']);
 					$image['width'] = $size[0];

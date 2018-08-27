@@ -483,7 +483,7 @@ class Users extends Security {
 			$q = $db->query("SELECT avatar FROM ".USERS_TABLE." WHERE uid='".$uid."'");
 			$data = $db->fetch_assoc($q);
 
-			if(file_exists(_UPLOADIMAGES."/".$data['avatar'])) {
+			if(is_file(_UPLOADIMAGES."/".$data['avatar'])) {
 				unlink(_UPLOADIMAGES."/".$data['avatar']);
 				$db->query("UPDATE ".USERS_TABLE." SET avatar='' WHERE uid='".$uid."'");
 			}

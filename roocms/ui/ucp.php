@@ -35,7 +35,7 @@ nocache();
 require_once _UI."/ucp/security_check.php";
 
 if($ucpsecurity->access) {
-	if(file_exists(_UI."/ucp/".$roocms->act.".php")) {
+	if(is_file(_UI."/ucp/".$roocms->act.".php")) {
 		require_once _UI."/ucp/".$roocms->act.".php";
 	}
 	else {

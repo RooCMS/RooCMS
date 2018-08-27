@@ -43,7 +43,7 @@ if(!class_exists("Modules")) {
 
 # init partition
 if(trim($roocms->part) != "") {
-	if(file_exists(_UI."/".$roocms->part.".php")) {
+	if(is_file(_UI."/".$roocms->part.".php")) {
 		require_once _UI."/".$roocms->part.".php";
 	}
 	else {

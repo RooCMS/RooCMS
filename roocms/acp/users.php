@@ -588,7 +588,7 @@ class ACP_Users {
 			$data = $db->fetch_assoc($q);
 
 			# удаляем аватарку.
-			if($data['avatar'] != "" && file_exists(_UPLOADIMAGES."/".$data['avatar'])) {
+			if(is_file(_UPLOADIMAGES."/".$data['avatar'])) {
 				unlink(_UPLOADIMAGES."/".$data['avatar']);
 			}
 

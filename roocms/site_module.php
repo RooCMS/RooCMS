@@ -41,7 +41,7 @@ class Modules {
 
 		$modulename = preg_replace(array('(\s\s+)','(\-\-+)','(__+)','([^a-zA-Z0-9\-_])'), array('','','',''), $modulename);
 
-		if(file_exists(_MODULE."/".$modulename.".php")) {
+		if(is_file(_MODULE."/".$modulename.".php")) {
 
 			ob_start();
 				require_once _MODULE."/".$modulename.".php";

@@ -191,7 +191,7 @@ function get_http_response_code($url) {
 function file_read($file) {
 	$buffer = "";
 
-	if(file_exists($file)) {
+	if(is_file($file)) {
 		$buffer .= file_get_contents($file);
 	}
 

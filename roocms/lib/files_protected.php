@@ -123,9 +123,9 @@ $protect[] = array('path' => _LIB.'/smarty.php',		'chmod'	=> '0644',	'hash'	=> '
 $protect[] = array('path' => _LIB.'/phpqrcode.php',		'chmod'	=> '0644',	'hash'	=> '');
 $protect[] = array('path' => _LIB.'/spiders.php',		'chmod'	=> '0644',	'hash'	=> '');
 $protect[] = array('path' => _LIB.'/license.php',		'chmod'	=> '0644',	'hash'	=> '');
-if(file_exists(_LOGS.'/errors.log')) {
+if(is_file(_LOGS.'/errors.log')) {
 	$protect[] = array('path' => _LOGS.'/errors.log',	'chmod'	=> '0755',	'hash'	=> '');
 }
-if(file_exists(_LOGS.'/php_error.log'))	{
+if(is_file(_LOGS.'/php_error.log'))	{
 	$protect[] = array('path' => _LOGS.'/php_error.log',	'chmod'	=> '0755',	'hash'	=> '');
 }

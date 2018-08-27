@@ -126,7 +126,7 @@ class Images extends GD {
 						copy($upfiles[$file]['tmp_name'][$key], $path."/".$filename."_original.".$ext);
 
 						# Если загрузка прошла и файл на месте
-						if(file_exists($path."/".$filename."_original.".$ext)) {
+						if(is_file($path."/".$filename."_original.".$ext)) {
 							$upload = true ;
 						}
 					}
@@ -135,7 +135,7 @@ class Images extends GD {
 						copy($upfiles[$file]['tmp_name'][$key], $path."/".$filename.".".$ext);
 
 						# Если загрузка прошла и файл на месте
-						if(file_exists($path."/".$filename.".".$ext)) {
+						if(is_file($path."/".$filename.".".$ext)) {
 							$upload = true;
 						}
 					}
@@ -318,7 +318,7 @@ class Images extends GD {
 
 		global $logger;
 
-		if(file_exists($image)) {
+		if(is_file($image)) {
 			unlink($image);
 			$logger->log("Изображение ".$image." удалено");
 		}

@@ -166,7 +166,7 @@ class Template {
 
 		global $debug;
 
-		if(file_exists($path."/".$tpl.".tpl")) {
+		if(is_file($path."/".$tpl.".tpl")) {
 			return true;
 		}
 		else {

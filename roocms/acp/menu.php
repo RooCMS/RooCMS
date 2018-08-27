@@ -23,28 +23,28 @@ if(!defined('RooCMS') || !defined('ACP')) {
 /**
 * Structure
 */
-if(file_exists(_ROOCMS."/acp/structure.php")) {
+if(is_file(_ROOCMS."/acp/structure.php")) {
 	$menu_items_left[] = array('role'=>'navlink', 'link'=>CP.'?act=structure', 'act'=>'structure', 'icon'=>'fa fa-fw fa-sitemap', 'text'=>'Структура', 'window'=>'_self');
 }
 
 /**
 * Blocks
 */
-if(file_exists(_ROOCMS."/acp/blocks.php")) {
+if(is_file(_ROOCMS."/acp/blocks.php")) {
 	$menu_items_left[] = array('role'=>'navlink', 'link'=>CP.'?act=blocks', 'act'=>'blocks', 'icon'=>'fa fa-fw fa-th', 'text'=>'Блоки', 'window'=>'_self');
 }
 
 /**
  * Users
  */
-if(file_exists(_ROOCMS."/acp/users.php")) {
+if(is_file(_ROOCMS."/acp/users.php")) {
 	$menu_items_left[] = array('role'=>'navlink', 'link'=>CP.'?act=users', 'act'=>'users', 'icon'=>'fa fa-fw fa-users', 'text'=>'Пользователи', 'window'=>'_self');
 }
 
 /**
 * Configuration
 */
-if(file_exists(_ROOCMS."/acp/config.php")) {
+if(is_file(_ROOCMS."/acp/config.php")) {
 	$menu_items_left[] = array('role'=>'navlink', 'link'=>CP.'?act=config', 'act'=>'config', 'icon'=>'fa fa-fw fa-cogs', 'text'=>'Настройки', 'window'=>'_self');
 }
 

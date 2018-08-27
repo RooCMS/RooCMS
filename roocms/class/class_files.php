@@ -37,7 +37,7 @@ class Files {
 
 		global $debug;
 
-		if(file_exists($file) && array_search("apache2handler", $debug->phpextensions)) {
+		if(is_file($file) && array_search("apache2handler", $debug->phpextensions)) {
 			$fileinfo = apache_lookup_uri($file);
 		}
 
@@ -56,7 +56,7 @@ class Files {
 	 */
 	public function file_size($file) {
 
-		if(file_exists($file)) {
+		if(is_file($file)) {
 			$t = "Kb";
 
 			$f = filesize($file) / 1024;
@@ -232,7 +232,7 @@ class Files {
 					copy($upfiles[$file]['tmp_name'][$key], $path."/".$filename.".".$ext);
 
 					# Если загрузка прошла и файл на месте
-					$upload = (!file_exists($path."/".$filename.".".$ext)) ? false : true ;
+					$upload = (!is_file($path."/".$filename.".".$ext)) ? false : true ;
 				}
 
 				# Если не загрузка удалась
@@ -310,11 +310,11 @@ class Files {
 				$filename = $row['filename'].".".$row['fileext'];
 
 				# delete
-				if(file_exists(_UPLOADFILES."/".$filename)) {
+				if(is_file(_UPLOADFILES."/".$filename)) {
 					unlink(_UPLOADFILES."/".$filename);
 					$logger->log("Файл ".$filename." удален");
 				}
-				elseif(!file_exists(_UPLOADFILES."/".$filename)) {
+				elseif(!is_file(_UPLOADFILES."/".$filename)) {
 					$logger->error("Не удалось найти файл ".$filename, "error");
 				}
 			}

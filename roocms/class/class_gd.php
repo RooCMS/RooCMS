@@ -545,7 +545,7 @@ class GD extends GDExtends {
 
 		if($this->is_jpg($ext)) {
 
-			if(file_exists($path."/".$filename."_original.".$ext)) {
+			if(is_file($path."/".$filename."_original.".$ext)) {
 				$filename = $filename."_original";
 			}
 

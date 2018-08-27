@@ -43,7 +43,7 @@ define('ROOCMS_NOT_RUNNING', 'Запуск RooCMS невозможен. Нару
 /**
 * Настраиваем PHP и прочее
 */
-if(file_exists(_SITEROOT."/roocms/config/set.cfg.php")) {
+if(is_file(_SITEROOT."/roocms/config/set.cfg.php")) {
 	require_once(_SITEROOT."/roocms/config/set.cfg.php");
 }
 else {
@@ -53,7 +53,7 @@ else {
 /**
 * Загружаем конфигурацию
 */
-if(file_exists(_SITEROOT."/roocms/config/config.php")) {
+if(is_file(_SITEROOT."/roocms/config/config.php")) {
 	require_once(_SITEROOT."/roocms/config/config.php");
 }
 else {
@@ -63,7 +63,7 @@ else {
 /**
 * Заружаем основные константы
 */
-if(file_exists(_SITEROOT."/roocms/config/defines.php")) {
+if(is_file(_SITEROOT."/roocms/config/defines.php")) {
 	require_once(_SITEROOT."/roocms/config/defines.php");
 }
 else {
@@ -73,7 +73,7 @@ else {
 /**
  * Загружаем примитивные функции
  */
-if(file_exists(_ROOCMS."/functions.php")) {
+if(is_file(_ROOCMS."/functions.php")) {
 	require_once(_ROOCMS."/functions.php");
 }
 else {
@@ -83,7 +83,7 @@ else {
 /**
 * Запускаем класс отладки
 */
-if(file_exists(_CLASS."/class_debuger.php")) {
+if(is_file(_CLASS."/class_debuger.php")) {
 
 	require_once(_CLASS."/class_debuger.php");
 
@@ -111,7 +111,7 @@ else {
 /**
 * Запускаем расширение класса БД MySQL
 */
-if(file_exists(_CLASS."/class_mysqli_ext.php")) {
+if(is_file(_CLASS."/class_mysqli_ext.php")) {
 	require_once(_CLASS."/class_mysqli_ext.php");
 }
 else {
@@ -121,7 +121,7 @@ else {
 /**
 * Запускаем класс БД MySQL
 */
-if(file_exists(_CLASS."/class_mysqli.php")) {
+if(is_file(_CLASS."/class_mysqli.php")) {
 	require_once(_CLASS."/class_mysqli.php");
 	/**
 	 * Инициализируем класс
@@ -135,7 +135,7 @@ else {
 /**
 * Запускаем глобальный класс
 */
-if(file_exists(_CLASS."/class_global.php")) {
+if(is_file(_CLASS."/class_global.php")) {
 	require_once(_CLASS."/class_global.php");
 	/**
 	 * Инициализируем класс
@@ -150,7 +150,7 @@ else {
 /**
  * Запускаем класс логгера
  */
-if(file_exists(_CLASS."/class_logger.php")) {
+if(is_file(_CLASS."/class_logger.php")) {
 	require_once(_CLASS."/class_logger.php");
 	/**
 	 * Инициализируем класс
@@ -164,7 +164,7 @@ else {
 /**
 * Запускаем класс парсинга
 */
-if(file_exists(_CLASS."/class_parser.php")) {
+if(is_file(_CLASS."/class_parser.php")) {
 	require_once(_CLASS."/class_parser.php");
 	/**
 	 * Инициализируем класс
@@ -180,7 +180,7 @@ else {
 /**
  * Запускаем расширение класса Security
  */
-if(file_exists(_CLASS."/class_shteirlitz.php")) {
+if(is_file(_CLASS."/class_shteirlitz.php")) {
 	require_once(_CLASS."/class_shteirlitz.php");
 }
 else {
@@ -190,7 +190,7 @@ else {
 /**
  * Запускаем класс безопастности
  */
-if(file_exists(_CLASS."/class_security.php")) {
+if(is_file(_CLASS."/class_security.php")) {
 	require_once(_CLASS."/class_security.php");
 	/**
 	 * Инициализируем класс
@@ -204,7 +204,7 @@ else {
 /**
  * Запускаем класс определения пользователей
  */
-if(file_exists(_CLASS."/class_users.php")) {
+if(is_file(_CLASS."/class_users.php")) {
 	require_once(_CLASS."/class_users.php");
 	/**
 	 * Инициализируем класс
@@ -218,7 +218,7 @@ else {
 /**
 * Запускаем класс работы с файлами
 */
-if(file_exists(_CLASS."/class_files.php")) {
+if(is_file(_CLASS."/class_files.php")) {
 	require_once(_CLASS."/class_files.php");
 	/**
 	 * Инициализируем класс
@@ -232,7 +232,7 @@ else {
 /**
  * Загружаем класс функций расширений графической обработки
  */
-if(file_exists(_CLASS."/class_gd_ext.php")) {
+if(is_file(_CLASS."/class_gd_ext.php")) {
 	require_once(_CLASS."/class_gd_ext.php");
 }
 else {
@@ -242,7 +242,7 @@ else {
 /**
 * Загружаем класс графической обработки
 */
-if(file_exists(_CLASS."/class_gd.php")) {
+if(is_file(_CLASS."/class_gd.php")) {
 	require_once(_CLASS."/class_gd.php");
 }
 else {
@@ -252,7 +252,7 @@ else {
 /**
 * Запускаем класс работы с изображениями
 */
-if(file_exists(_CLASS."/class_images.php")) {
+if(is_file(_CLASS."/class_images.php")) {
 	require_once(_CLASS."/class_images.php");
 	/**
 	 * Инициализируем класс
@@ -266,7 +266,7 @@ else {
 /**
 * Запускаем класс RSS
 */
-if(file_exists(_CLASS."/class_rss.php")) {
+if(is_file(_CLASS."/class_rss.php")) {
 	require_once(_CLASS."/class_rss.php");
 	/**
 	 * Инициализируем класс
@@ -280,7 +280,7 @@ else {
 /**
 * Запускаем библиотеку шаблонизации Smarty
 */
-if(file_exists(_LIB."/smarty.php")) {
+if(is_file(_LIB."/smarty.php")) {
 	require_once(_LIB."/smarty.php");
 }
 else {
@@ -290,7 +290,7 @@ else {
 /**
 * Запускаем класс шаблонизации RooCMS
 */
-if(file_exists(_CLASS."/class_template.php")) {
+if(is_file(_CLASS."/class_template.php")) {
 	require_once(_CLASS."/class_template.php");
 	/**
 	 * Запускаем шаблонизатор
@@ -304,7 +304,7 @@ else {
 /**
  * Запускаем класс для работы с Тегами
  */
-if(file_exists(_CLASS."/class_tags.php")) {
+if(is_file(_CLASS."/class_tags.php")) {
 	require_once(_CLASS."/class_tags.php");
 	/**
 	 * Инициализируем класс
@@ -318,7 +318,7 @@ else {
 /**
 * Инициализируем класс управления структурой сайта
 */
-if(!defined('ACP') && file_exists(_CLASS."/class_structure.php")) {
+if(!defined('ACP') && is_file(_CLASS."/class_structure.php")) {
 	require_once(_CLASS."/class_structure.php");
 	$structure = new Structure;
 }
