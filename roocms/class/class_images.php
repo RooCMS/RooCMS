@@ -77,7 +77,7 @@ class Images extends GD {
 		# Составляем массив для проверки разрешенных типов файлов к загрузке
 		static $allow_exts = [];
 		if(empty($allow_exts)) {
-			$allow_exts = $this->get_allow_exts();
+			$allow_exts = $this->get_allow_images();
 		}
 
 
@@ -253,31 +253,13 @@ class Images extends GD {
                 		$thumb = $row['filename']."_thumb.".$row['fileext'];
 
                 		# delete original
-				if(file_exists(_UPLOADIMAGES."/".$original)) {
-                                	unlink(_UPLOADIMAGES."/".$original);
-					$logger->log("Изображение ".$original." удалено");
-				}
-				elseif(!file_exists(_UPLOADIMAGES."/".$original)) {
-					$logger->log("Не удалось найти изображение ".$original, "error");
-				}
+				$this->erase_image(_UPLOADIMAGES."/".$original);
 
 				# delete resize
-				if(file_exists(_UPLOADIMAGES."/".$resize)) {
-                                	unlink(_UPLOADIMAGES."/".$resize);
-					$logger->log("Изображение ".$resize." удалено");
-				}
-				elseif(!file_exists(_UPLOADIMAGES."/".$resize)) {
-					$logger->log("Не удалось найти изображение ".$resize, "error");
-				}
+				$this->erase_image(_UPLOADIMAGES."/".$resize);
 
 				# delete thumb
-				if(file_exists(_UPLOADIMAGES."/".$thumb)) {
-                                	unlink(_UPLOADIMAGES."/".$thumb);
-					$logger->log("Изображение ".$thumb." удалено");
-				}
-				elseif(!file_exists(_UPLOADIMAGES."/".$thumb)) {
-					$logger->log("Не удалось найти изображение ".$thumb, "error");
-				}
+				$this->erase_image(_UPLOADIMAGES."/".$thumb);
                 	}
                 }
 
@@ -316,7 +298,7 @@ class Images extends GD {
 	 *
 	 * @return mixed Возвращает массив с допустимыми расширениями изображения для загрузки на сервер
 	 */
-	public function get_allow_exts() {
+	public function get_allow_images() {
 		require _LIB."/mimetype.php";
 
 		foreach($imagetype AS $itype) {
@@ -324,5 +306,24 @@ class Images extends GD {
 		}
 
 		return $allow_exts;
+	}
+
+
+	/**
+	 * Функция стирает файл с указанным изображением
+	 *
+	 * @param $image
+	 */
+	private function erase_image($image) {
+
+		global $logger;
+
+		if(file_exists($file)) {
+			unlink($file);
+			$logger->log("Изображение ".$file." удалено");
+		}
+		else {
+			$logger->log("Не удалось найти изображение ".$file, "error");
+		}
 	}
 }

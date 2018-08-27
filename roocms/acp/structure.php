@@ -202,7 +202,7 @@ class ACP_Structure {
 	 *
 	 * @param int $sid - уникальный идентификатор структурной едеицы
 	 *
-	 * @return data|string
+	 * @return string
 	 */
 	private function edit_unit($sid) {
 

@@ -317,12 +317,13 @@ class ACP_Help {
 		global $db;
 		static $use = false;
 
+		$tree = [];
+
 		if(!$use) {
-			$tree = array();
 			$q = $db->query("SELECT id, uname, parent_id, sort, title, childs FROM ".HELP_TABLE." ORDER BY sort ASC, title ASC");
 			while($row = $db->fetch_assoc($q)) {
 				$row['level']	= 0;
-				$tree[] 		= $row;
+				$tree[] 	= $row;
 			}
 
 			$use = true;
@@ -332,7 +333,7 @@ class ACP_Help {
 		}
 
 		# construct tree
-		if(isset($tree)) {
+		if(!empty($tree)) {
 			$tree = $this->construct_tree($tree, $parent, $maxlevel, $child);
 
 			# be back

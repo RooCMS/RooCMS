@@ -183,7 +183,7 @@ class Files {
 		$files = [];
 
 		# Составляем массив для проверки разрешенных типов файлов к загрузке
-		static $allow_exts = [];
+		$allow_exts = [];
 		if(empty($allow_exts)) {
 			$allow_exts = $this->get_allow_exts($allowtypes);
 		}

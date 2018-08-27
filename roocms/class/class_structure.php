@@ -99,10 +99,10 @@ class Structure {
 
 		global $db, $users;
 		static $use = false;
+		$tree = [];
 
 		# Делаем единичный запрос в БД собирая данные по структуре сайта.
 		if(!$use) {
-			$tree = [];
 			$q = $db->query("SELECT 
 						id, page_id, alias, parent_id,  
 						title, meta_description, meta_keywords, noindex, rss,
@@ -134,7 +134,7 @@ class Structure {
 		}
 
 		# construct tree
-		if(isset($tree)) {
+		if(!empty($tree)) {
 			$tree = $this->construct_tree($tree, $parent, $maxlevel, $child);
 			return $tree;
 		}

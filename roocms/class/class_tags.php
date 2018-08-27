@@ -234,7 +234,7 @@ class Tags {
 	/**
 	 * Добавляем Тег, который уже используется на сайте.
 	 *
-	 * @param string $tag_id   - Идентификатор теша
+	 * @param int    $tag_id   - Идентификатор теша
 	 * @param string $linkedto - Указатель к чему прикреплен данный тег
 	 */
 	private function add_instock_tag($tag_id, $linkedto) {
