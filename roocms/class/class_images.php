@@ -318,12 +318,12 @@ class Images extends GD {
 
 		global $logger;
 
-		if(file_exists($file)) {
-			unlink($file);
-			$logger->log("Изображение ".$file." удалено");
+		if(file_exists($image)) {
+			unlink($image);
+			$logger->log("Изображение ".$image." удалено");
 		}
 		else {
-			$logger->log("Не удалось найти изображение ".$file, "error");
+			$logger->log("Не удалось найти изображение ".$image, "error");
 		}
 	}
 }
