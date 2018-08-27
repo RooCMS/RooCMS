@@ -288,9 +288,14 @@ h6 {.t12}
 .white 		{color: @white;}
 
 /* Shadows */
+.shadows (@shadow) {
+	-moz-box-shadow: @shadow;
+	-webkit-box-shadow: @shadow;
+	box-shadow: @shadow;
+}
 .tshadow 	{text-shadow: 1px 1px 1px @black;}
-.shadow 	{-moz-box-shadow: 0 0 6px @shadowcolor; -webkit-box-shadow: 0 0 6px @shadowcolor;box-shadow: 0 0 6px @shadowcolor;}
-.inshadow 	{-moz-box-shadow: 0 0 2px @shadowcolor inset; -webkit-box-shadow: 0 0 2px @shadowcolor inset;	box-shadow: 0 0 2px @shadowcolor inset;}
+.shadow 	{.shadows(0 0 6px @shadowcolor)}
+.inshadow 	{.shadows(0 0 2px @shadowcolor inset)}
 
 /* SPECIFICATION */
 .clear, .both	{clear:both;}
@@ -328,8 +333,8 @@ h6 {.t12}
 /* For CodeMirror */
 @cm-shadow: rgba(0, 0, 0, 0.075);
 .CodeMirror {
-	overflow: auto; font-family: @consolas; font-size: 14px; height: auto; margin: 5px 0; border: 1px solid @grey;
-	-moz-box-shadow: 0 0 2px @cm-shadow inset; -webkit-box-shadow: 0 0 2px @cm-shadow inset; box-shadow: 0 0 2px @cm-shadow inset;
+	overflow: auto; font-family: @consolas; .t14; height: auto; margin: 5px 0; border: 1px solid @grey;
+	.shadows(0 0 2px @cm-shadow inset);
 	border-radius: 4px;
 }
 span.CodeMirror-matchhighlight { background: @grey; }
