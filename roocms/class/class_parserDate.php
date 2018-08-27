@@ -269,9 +269,9 @@ class ParserDate {
 
 		$time = explode("/", $gdate);
 
-		$day 	= round($time[1]);
-		$month 	= round($time[0]);
-		$year 	= round($time[2]);
+		$day 	= (int) round($time[1]);
+		$month 	= (int) round($time[0]);
+		$year 	= (int) round($time[2]);
 
 		if(checkdate($month, $day, $year)) {
 			$unix 	= mktime(0,0,0,$month,$day,$year);
@@ -295,9 +295,9 @@ class ParserDate {
 
 		$time = explode(".", $date);
 
-		$day 	= round(mb_substr($time[0],0,2));
-		$month 	= round(mb_substr($time[1],0,2));
-		$year 	= round(mb_substr($time[2],0,4));
+		$day 	= (int) round(mb_substr($time[0],0,2));
+		$month 	= (int) round(mb_substr($time[1],0,2));
+		$year 	= (int) round(mb_substr($time[2],0,4));
 
 		if(checkdate($month, $day, $year)) {
 			$unix 	= mktime(0,0,0,$month,$day,$year);
@@ -336,23 +336,23 @@ class ParserDate {
 	 *                    true вернет сокращенное название [пример: Сб]
 	 *                    false вернет полное название [пример: Суббота]
 	 *
-	 * @return array
+	 * @return string
 	 */
 	public function get_title_day($nw, $short=true) {
 
 		$nw = round($nw);
 
-		# full day			# short day
-		$day	= [];			$sday	 = [];
-		$day[0] = 'Воскресенье';	$sday[0] = 'Вс';
-		$day[1] = 'Понедельник';	$sday[1] = 'Пн';
-		$day[2] = 'Вторник';		$sday[2] = 'Вт';
-		$day[3] = 'Среда';		$sday[3] = 'Ср';
-		$day[4] = 'Четверг';		$sday[4] = 'Чт';
-		$day[5] = 'Пятница';		$sday[5] = 'Пт';
-		$day[6] = 'Суббота';		$sday[6] = 'Сб';
+		# long day			# short day
+		$lday	= [];			$sday	 = [];
+		$lday[0] = 'Воскресенье';	$sday[0] = 'Вс';
+		$lday[1] = 'Понедельник';	$sday[1] = 'Пн';
+		$lday[2] = 'Вторник';		$sday[2] = 'Вт';
+		$lday[3] = 'Среда';		$sday[3] = 'Ср';
+		$lday[4] = 'Четверг';		$sday[4] = 'Чт';
+		$lday[5] = 'Пятница';		$sday[5] = 'Пт';
+		$lday[6] = 'Суббота';		$sday[6] = 'Сб';
 
-		$day = ($short) ? $sday[$nw] : $day[$nw] ;
+		$day = ($short) ? $sday[$nw] : $lday[$nw] ;
 
 		return $day;
 	}

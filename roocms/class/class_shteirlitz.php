@@ -42,7 +42,7 @@ class Shteirlitz {
 	 * @param string $salt  - соль
 	 * @param string $passw - пароль
 	 *
-	 * @return data|int
+	 * @return mixed
 	 */
 	public function decode($str, $passw="", $salt="") {
 		return $this->code(base64_decode($str), $passw, $salt);
@@ -56,7 +56,7 @@ class Shteirlitz {
 	 * @param string $salt		- соль
 	 * @param string $passw		- пароль
 	 *
-	 * @return data|int
+	 * @return mixed
 	 */
 	private function code($str, $passw="", $salt="") {
 

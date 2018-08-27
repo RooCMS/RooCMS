@@ -89,6 +89,9 @@ class ACP_Config extends ACP_Config_SpecPart {
 					# compile for output
 					$this_part['options'][] = $option;
 				}
+
+				# tpl
+				$smarty->assign('this_part', $this_part);
 			}
 
 			if($part['type'] == "global") {
@@ -99,7 +102,7 @@ class ACP_Config extends ACP_Config_SpecPart {
 			}
 		}
 
-		$smarty->assign('this_part', 	$this_part);
+		# tpl
 		$smarty->assign('parts',	$parts);
 		$smarty->assign('thispart',	$this->part);
 	}

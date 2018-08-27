@@ -98,7 +98,7 @@ class ParserText {
 	 *
 	 * @param string $text - Текстовый буфер, который надлежит отпарсить
 	 *
-	 * @return string|text
+	 * @return string
 	 */
 	public function clearhtml($text) {
 
