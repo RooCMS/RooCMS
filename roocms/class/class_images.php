@@ -126,18 +126,14 @@ class Images extends GD {
 						copy($upfiles[$file]['tmp_name'][$key], $path."/".$filename."_original.".$ext);
 
 						# Если загрузка прошла и файл на месте
-						if(is_file($path."/".$filename."_original.".$ext)) {
-							$upload = true ;
-						}
+						$upload = is_file($path."/".$filename."_original.".$ext);
 					}
 					else {
 						# Сохраняем оригинал
 						copy($upfiles[$file]['tmp_name'][$key], $path."/".$filename.".".$ext);
 
 						# Если загрузка прошла и файл на месте
-						if(is_file($path."/".$filename.".".$ext)) {
-							$upload = true;
-						}
+						$upload = is_file($path."/".$filename.".".$ext);
 					}
 				}
 

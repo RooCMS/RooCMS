@@ -232,7 +232,7 @@ class Files {
 					copy($upfiles[$file]['tmp_name'][$key], $path."/".$filename.".".$ext);
 
 					# Если загрузка прошла и файл на месте
-					$upload = (!is_file($path."/".$filename.".".$ext)) ? false : true ;
+					$upload = is_file($path."/".$filename.".".$ext);
 				}
 
 				# Если не загрузка удалась
