@@ -411,7 +411,7 @@ class Files {
 			$logger->log("Удален файл: ".$file);
 		}
 		elseif(!is_file($file)) {
-			$logger->error("Не удалось найти файл ".$filename, "error");
+			$logger->error("Не удалось найти файл ".$file, "error");
 		}
 	}
 }
