@@ -17,7 +17,7 @@
 	</div>
 </div>
 <div class="col-sm-9 col-md-10">
-	<div class=" panel panel-default">
+	<div class="panel panel-default">
 		{$content}
 	</div>
 </div>

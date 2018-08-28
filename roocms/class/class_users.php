@@ -26,29 +26,28 @@ if(!defined('RooCMS')) {
 class Users extends Security {
 
 	# user uniq data
-	public	$uid		= 0;		# [int]		user id
-	public	$login		= "";		# [string]	user login
-	public	$nickname	= "";		# [string]	user nickname
-	public	$avatar		= "";		# [string]	user avatar
-	public	$email		= "";		# [string]	user nickname
-	public	$title		= "u";		# [enum]	user title
-	public	$gid		= 0;		# [int]		user group id
-	public	$gtitle		= "";		# [string]	user group title
-	public	$token		= "";		# [string]	user security token
+	public	$uid		= 0;		# user id
+	public	$login		= "";		# user login
+	public	$nickname	= "";		# user nickname
+	public	$avatar		= "";		# user avatar
+	public	$email		= "";		# user nickname
+	public	$title		= "u";		# user title
+	public	$gid		= 0;		# user group id
+	public	$gtitle		= "";		# user group title
+	public	$token		= "";		# user security token
 
 	# user ban status
-	public  $ban		= 0;		# [enum]	ban status
-	public  $ban_reason	= "";		# [string]	ban reason
-	public  $ban_expiried	= 0;		# [int]		ban date expiried (unixtimestamp)
-
+	public  $ban		= 0;		# ban status
+	public  $ban_reason	= "";		# ban reason
+	public  $ban_expiried	= 0;		# ban date expiried (unixtimestamp)
 
 	public	$userdata	= array('uid'=>0);
 
 	# user global data
-	private	$usersession	= "";		# [string]	user session
-	private $userip		= "";		# [string]	user ip address
-	private	$useragent	= "";		# [string]	user agent string
-	private $referer	= "";		# [string]	user referer
+	private	$usersession	= "";		# user session
+	private $userip		= "";		# user ip address
+	private	$useragent	= "";		# user agent string
+	private $referer	= "";		# user referer
 
 
 

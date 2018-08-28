@@ -80,7 +80,7 @@ function sendmail($mail, $theme, $message, $from="robot") {
 
 	# заголовки
 	$headers  = "MIME-Version: 1.0\n";
-	$headers .= "From: '{$from}' <'Mail {$domain}'>\n".EMAIL_MESSAGE_PARAMETERS."\n";
+	$headers .= "From: ".$site['title']." <{$from}>\n".EMAIL_MESSAGE_PARAMETERS."\n";
 	$headers .= "X-Sender: <no-reply@".$domain.">\n";
 	$headers .= "X-Mailer: PHP ".$domain."\n";
 	$headers .= "Return-Path: <no-replay@".$domain.">";

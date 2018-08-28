@@ -446,12 +446,7 @@ class ACP_Users {
 			if(!isset($_SESSION['error'])) {
 
 				# check_user data
-				$this->check_users_data();
-
-				if($uid == 1) {
-					$post->status = 1;
-					$post->title = "a";
-				}
+				$this->check_users_data($uid);
 
 				# password
 				if(isset($post->password)) {
@@ -678,8 +673,10 @@ class ACP_Users {
 
 	/**
 	 * Check user data for insert/update
+	 *
+	 * @param int $uid - user id
 	 */
-	private function check_users_data() {
+	private function check_users_data($uid) {
 
 		global $db, $post, $users;
 
@@ -691,6 +688,12 @@ class ACP_Users {
 
 		# title
 		$post->title = ((isset($post->title) && $post->title == "a")) ? "a" : "u" ;
+
+		# correct for ID=1
+		if($uid == 1) {
+			$post->status = 1;
+			$post->title = "a";
+		}
 
 		# correct personal data
 		$users->correct_personal_data();

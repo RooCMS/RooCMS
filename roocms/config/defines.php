@@ -86,6 +86,11 @@ define('INIT_UI',      _ROOCMS.'/ui.php');
 define('INIT_UCP',     _UI.'/ucp.php');
 define('INIT_SITE',    _ROOCMS.'/site.php');
 
+/**
+ * Logs
+ */
+define('ERRORSLOG', 	_LOGS."/errors.log");
+
 
 /**
 * $Param

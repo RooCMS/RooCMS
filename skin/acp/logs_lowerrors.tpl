@@ -1,0 +1,29 @@
+{* Шаблон просмотра ошибок *}
+
+<div class="panel-heading">
+	Некртические ошибки PHP
+</div>
+
+<table class="table table-hover table-condensed hidden-xs">
+	<thead>
+		<tr class="active">
+			<th width="10%">Дата</th>
+			<th width="15%">Тип ошибки </th>
+			<th width="3%" class="text-center">№</th>
+			<th width="72%">Ошибка</th>
+		</tr>
+	</thead>
+	<tbody>
+	{foreach from=$error item=e}
+		<tr>
+			<td class="small">{$e[0]}</td>
+			<td>{$e[1]}</td>
+			<td class="text-center">{$e[2]}</td>
+			<td>
+				<b class="small">Файл:</b> {$e[5]} <b class="small">Строка:</b> {$e[4]}
+				<br /><mark>{$e[3]}</mark>
+			</td>
+		</tr>
+	{/foreach}
+	</tbody>
+</table>

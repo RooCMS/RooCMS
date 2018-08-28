@@ -42,7 +42,6 @@ class Debuger {
 	public  $memory_peak_usage   = 0;
 
 	# error log file
-	public  $error_log           = _LOGS."/errors.log";
 	public  $exist_errors        = false;
 
 	# requirement php extension
@@ -155,7 +154,7 @@ class Debuger {
 	 * and set flag 'true' if file not empty
 	 */
 	private function check_errorlog() {
-		if(filesize($this->error_log) != 0) {
+		if(is_file(ERRORSLOG) && filesize(ERRORSLOG) != 0) {
 			$this->exist_errors = true;
 		}
 	}
@@ -175,10 +174,8 @@ class Debuger {
 	 */
 	public static function debug_critical_error($errno, $msg, $file, $line, $context) {
 
-		global $debug;
-
                 # Записываем ошибку в файл
-		$subj = file_read($debug->error_log);
+		$subj = file_read(ERRORSLOG);
 		
 
                 switch($errno) {	// Для "умников" - E_CORE_ERROR не вписываем, потому что, до выполнения этого скрипта дело не дойдет. А дойдет, значит не E_CORE_ERROR
@@ -229,10 +226,10 @@ class Debuger {
 
         	$time = date("d.m.Y H:i:s");
 
-		$subj .= $time."\t|\t".$ertitle."\t|\t[ #".$errno." ] ".$msg." (Строка: ".$line." в файле ".$file.")\r\n";
+		$subj .= $time." | ".$ertitle." | ".$errno." | ".$msg." | ".$line." | ".$file."\r\n";
 
-		$f = fopen($file_error, "w+");
-		if(is_writable($file_error)) {
+		$f = fopen(ERRORSLOG, "w+");
+		if(is_writable(ERRORSLOG)) {
 			fwrite($f, $subj);
 		}
 		fclose($f);
@@ -376,7 +373,6 @@ class Debuger {
 
 
 		# Функции
-
 		echo "<div class='container'><div class='row'><div class='col-xs-12'><div class='panel-group' id='debug2accordion'>";
 		echo "	<div class='panel panel-default'>
 				<div class='panel-heading'>

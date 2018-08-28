@@ -384,7 +384,7 @@ class Parser {
 		# Уведомления
 		if(isset($roocms->sess['info'])) {
 			foreach($roocms->sess['info'] AS $value) {
-				$this->info .= "<span class='fa fa-info-circle fa-fw'></span> {$value}<br />";
+				$this->info .= "<i class='fa fa-info-circle fa-fw'></i> {$value}<br />";
 			}
 
 			# уничтожаем
@@ -394,7 +394,7 @@ class Parser {
 		# Ошибки
 		if(isset($roocms->sess['error'])) {
 			foreach($roocms->sess['error'] AS $value) {
-				$this->error .= "<span class='fa fa-exclamation-triangle fa-fw'></span> {$value}<br />";
+				$this->error .= "<i class='fa fa-exclamation-triangle fa-fw'></i> {$value}<br />";
 			}
 
 			# уничтожаем

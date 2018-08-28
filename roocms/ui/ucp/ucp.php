@@ -194,9 +194,9 @@ class UCP_CP {
 			# go out
 			go(SCRIPT_NAME."?part=ucp&act=ucp");
 		}
-		else {
-			goback();
-		}
+
+		# go
+		goback();
 	}
 
 

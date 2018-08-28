@@ -345,6 +345,7 @@ class Template {
 		$smarty->assign("debug_timer",		$debug->productivity_time);
 		$smarty->assign("debug_memory",		$debug->productivity_memory);
 		$smarty->assign("debug_memusage",	$debug->memory_peak_usage);
+		$smarty->assign("exist_errors",		$debug->exist_errors);
 
 		# foot
 		$output = $this->load_template("footer", true);
