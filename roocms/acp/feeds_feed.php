@@ -430,7 +430,7 @@ class ACP_Feeds_Feed {
 		$row = $db->fetch_assoc($q);
 
 		# del attached images
-		$img->delete_images("feeditemid=".$id);
+		$img->remove_images("feeditemid=".$id);
 
 		# delete item
 		$db->query("DELETE FROM ".PAGES_FEED_TABLE." WHERE id='".$id."'");
@@ -463,7 +463,7 @@ class ACP_Feeds_Feed {
 
 		# del attached images
 		if(trim($cond) != "") {
-                	$img->delete_images($cond, true);
+                	$img->remove_images($cond, true);
 		}
 
 		$db->query("DELETE FROM ".PAGES_FEED_TABLE." WHERE sid='".$sid."'");

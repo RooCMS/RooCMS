@@ -130,7 +130,7 @@ class ACP_Pages_HTML {
 		global $db, $img, $logger;
 
 		# del attached images
-		$img->delete_images("pagesid=".$sid);
+		$img->remove_images("pagesid=".$sid);
 
 		# del pageunit
 		$db->query("DELETE FROM ".PAGES_HTML_TABLE." WHERE sid='".$sid."'");

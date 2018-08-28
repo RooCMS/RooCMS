@@ -66,7 +66,7 @@ class ACP_Ajax {
 
 		if(isset($get->_id) && $db->check_id($get->_id, IMAGES_TABLE)) {
 
-			$img->delete_images($get->_id);
+			$img->remove_images($get->_id);
 			$logger->log("Изображение #".$get->_id." удалено");
 
 			echo "<small class=\"text-success btn btn-xs delete_image\"><span class=\"fa fa-trash-o\"></span> Удалено!</small>";
@@ -84,7 +84,7 @@ class ACP_Ajax {
 
 		if(isset($get->_id) && $db->check_id($get->_id, FILES_TABLE)) {
 
-			$files->delete_files($get->_id);
+			$files->remove_files($get->_id);
 			$logger->log("Файл #".$get->_id." удален");
 
 			echo "<small class=\"text-success btn btn-xs delete_image\"><span class=\"fa fa-trash-o\"></span> Удалено!</small>";

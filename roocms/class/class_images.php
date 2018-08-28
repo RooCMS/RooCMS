@@ -230,7 +230,7 @@ class Images extends GD {
 	 * 				положение false указывает, что передается параметр id или attachedto
 	 * 				положение true указывает, что передается полностью выраженное условие
 	 */
-	public function delete_images($image, $clwhere=false) {
+	public function remove_images($image, $clwhere=false) {
 
                 global $db, $logger;
 
@@ -314,7 +314,7 @@ class Images extends GD {
 	 *
 	 * @param $image
 	 */
-	private function erase_image($image) {
+	public function erase_image($image) {
 
 		global $logger;
 

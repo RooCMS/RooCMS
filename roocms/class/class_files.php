@@ -282,14 +282,14 @@ class Files {
 
 
 	/**
-	 * Функция удаления файлов
+	 * Функция удаления файлов из хранилища
 	 *
 	 * @param int|string $file - указать числовой идентификатор или attachedto
 	 * @param boolean    $clwhere - флаг указывает как считывать параметр $file
 	 * 				положение false указывает, что передается параметр id или attachedto
 	 * 				положение true указывает, что передается полностью выраженное условие
 	 */
-	public function delete_files($file, $clwhere=false) {
+	public function remove_files($file, $clwhere=false) {
 
 		global $db, $logger;
 
@@ -310,13 +310,7 @@ class Files {
 				$filename = $row['filename'].".".$row['fileext'];
 
 				# delete
-				if(is_file(_UPLOADFILES."/".$filename)) {
-					unlink(_UPLOADFILES."/".$filename);
-					$logger->log("Файл ".$filename." удален");
-				}
-				elseif(!is_file(_UPLOADFILES."/".$filename)) {
-					$logger->error("Не удалось найти файл ".$filename, "error");
-				}
+				$this->erase_file(_UPLOADFILES."/".$filename);
 			}
 		}
 
@@ -400,5 +394,24 @@ class Files {
 			fwrite($f, $context);
 		}
 		fclose($f);
+	}
+
+
+	/**
+	 * Стираем файл
+	 *
+	 * @param string $file - путь к файлу
+	 */
+	public function erase_file($file) {
+
+		global $logger;
+
+		if(is_file($file)) {
+			unlink($file);
+			$logger->log("Удален файл: ".$file);
+		}
+		elseif(!is_file($file)) {
+			$logger->error("Не удалось найти файл ".$filename, "error");
+		}
 	}
 }

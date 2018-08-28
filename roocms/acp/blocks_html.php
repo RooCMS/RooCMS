@@ -206,7 +206,7 @@ class ACP_Blocks_HTML {
 
 		global $db, $img, $logger;
 
-                $img->delete_images("blockid=".$id);
+                $img->remove_images("blockid=".$id);
 
                 # query
 		$db->query("DELETE FROM ".BLOCKS_TABLE." WHERE id='".$id."'");

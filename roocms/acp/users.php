@@ -572,7 +572,7 @@ class ACP_Users {
 	 */
 	private function delete_user($uid) {
 
-		global $db, $logger;
+		global $db, $img, $logger;
 
 		# О Боже, только не это...
 		if($uid == 1) {
@@ -583,9 +583,7 @@ class ACP_Users {
 			$data = $db->fetch_assoc($q);
 
 			# удаляем аватарку.
-			if(is_file(_UPLOADIMAGES."/".$data['avatar'])) {
-				unlink(_UPLOADIMAGES."/".$data['avatar']);
-			}
+			$img->erase_image(_UPLOADIMAGES."/".$data['avatar']);
 
 			# удаляем юзера
 			$db->query("DELETE FROM ".USERS_TABLE." WHERE uid='".$uid."'");
@@ -676,7 +674,7 @@ class ACP_Users {
 	 *
 	 * @param int $uid - user id
 	 */
-	private function check_users_data($uid) {
+	private function check_users_data($uid = 0) {
 
 		global $db, $post, $users;
 
