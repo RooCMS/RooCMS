@@ -45,8 +45,8 @@
 					{if $page['page_type'] == "feed"}
 						<a href="{$SCRIPT_NAME}?act=feeds&part=settings&page={$page['id']}" class="btn btn-xs btn-default"><i class="fa fa-fw fa-cog" rel="tooltip" data-toggle="tooltip" data-placement="top" title="Настройки ленты"></i></a>
 					{/if}
-					<a href="{$SCRIPT_NAME}?act=structure&part=edit&id={$page['id']}" class="btn btn-xs btn-default"><span class="fa fa-pencil-square-o fa-fw"></span><span class="hidden-sm">Редактировать</span></a>
-					{if $page['id'] != 1}<a href="{$SCRIPT_NAME}?act=structure&part=delete&id={$page['id']}" class="btn btn-xs btn-danger"><span class="fa fa-trash-o fa-fw"></span><span class="hidden-sm">Удалить</span></a>{/if}
+					<a href="{$SCRIPT_NAME}?act=structure&part=edit&id={$page['id']}" class="btn btn-xs btn-default"><i class="fa fa-pencil-square-o fa-fw"></i><span class="hidden-sm">Редактировать</span></a>
+					{if $page['id'] != 1}<a href="{$SCRIPT_NAME}?act=structure&part=delete&id={$page['id']}" class="btn btn-xs btn-danger"><i class="fa fa-trash-o fa-fw"></i><span class="hidden-sm">Удалить</span></a>{/if}
 				</div>
 			</td>
 		</tr>
@@ -66,8 +66,8 @@
 
 			<div class="pull-right">
 				<div class="btn-group">
-					<a href="{$SCRIPT_NAME}?act=structure&part=edit&id={$page['id']}" class="btn btn-xs btn-default"><span class="fa fa-pencil-square-o fa-fw"></span></a>
-					{if $page['id'] != 1}<a href="{$SCRIPT_NAME}?act=structure&part=delete&id={$page['id']}" class="btn btn-xs btn-danger"><span class="fa fa-trash-o fa-fw"></span></a>{/if}
+					<a href="{$SCRIPT_NAME}?act=structure&part=edit&id={$page['id']}" class="btn btn-xs btn-default"><i class="fa fa-pencil-square-o fa-fw"></i></a>
+					{if $page['id'] != 1}<a href="{$SCRIPT_NAME}?act=structure&part=delete&id={$page['id']}" class="btn btn-xs btn-danger"><i class="fa fa-trash-o fa-fw"></i></a>{/if}
 				</div>
 			</div>
 		</li>

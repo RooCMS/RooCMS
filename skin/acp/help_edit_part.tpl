@@ -55,7 +55,7 @@
 		<div class="form-group">
 			<div class="col-md-12">
 				<label for="content" class="control-label">
-					Текст: <small><span class="fa fa-question-circle fa-fw" rel="tooltip" title="HTML разрешен" data-placement="right"></span></small>
+					Текст: <small><i class="fa fa-question-circle fa-fw" rel="tooltip" title="HTML разрешен" data-placement="right"></i></small>
 				</label>
 				<textarea id="content" class="form-control ckeditor" name="content" spellcheck>{$data['content']}</textarea>
 			</div>
