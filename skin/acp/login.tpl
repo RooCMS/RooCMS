@@ -53,14 +53,14 @@
 							<div class="form-group">
 								<label class="col-md-2 control-label hidden-xs hidden-sm" for="Login">Логин</label>
 								<div class="input-group col-md-10">
-									<span class="input-group-addon"><span class="fa fa-fw fa-user" rel="tooltip" title="Введите ваш логин в это поле" data-placement="right"></span></span>
+									<span class="input-group-addon"><i class="fa fa-fw fa-user" rel="tooltip" title="Введите ваш логин в это поле" data-placement="right"></i></span>
 									<input class="form-control non-bgreq" id="Login" type="text" name="login" placeholder="Логин" required autocomplete="off">
 								</div>
 							</div>
 							<div class="form-group">
 								<label class="col-md-2 control-label hidden-xs hidden-sm" for="Password">Пароль</label>
 								<div class="input-group col-md-10">
-									<span class="input-group-addon"><span class="fa fa-fw fa-key" rel="tooltip" title="Введите ваш пароль в это поле" data-placement="right"></span></span>
+									<span class="input-group-addon"><i class="fa fa-fw fa-key" rel="tooltip" title="Введите ваш пароль в это поле" data-placement="right"></i></span>
 									<input class="form-control non-bgreq" id="Password" type="password" name="password" placeholder="Пароль" required autocomplete="off">
 								</div>
 							</div>

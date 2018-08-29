@@ -27,3 +27,7 @@
 	{/foreach}
 	</tbody>
 </table>
+
+<div class="panel-footer">
+	<a href="{$SCRIPT_NAME}?act=logs&part=clear_lowerrors" class="btn btn-danger"><i class="fa fa-fw fa-trash-o"></i> Очистить лог</a>
+</div>

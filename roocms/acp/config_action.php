@@ -46,7 +46,7 @@ if(!defined('RooCMS') || !defined('ACP')) {
 //#########################################################
 
 
-class ACP_Config_SpecPart {
+class ACP_ConfigAction {
 
 
 	/**

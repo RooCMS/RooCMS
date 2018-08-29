@@ -7,8 +7,8 @@
 	<span class="thumbnail visible-inline hover-without-underline text-right" width="100" id="imga-{$img['id']}">
 		<a href="/upload/images/{$img['resize']}" rel="colorbox"><img src="/upload/images/{$img['thumb']}" border="0" width="100" id="aimage-{$img['id']}"></a>
 		<br />
-			<span class="btn btn-link btn-xs hover-without-underline delete_image pull-left" id="move-{$img['id']}"><span class="fa fa-arrows fa-fw"></span></span>
-			<span id="imgoption-{$img['id']}"><span class="btn btn-link btn-xs hover-without-underline delete_image" id="delimage-{$img['id']}" rel="tooltip" title="Удалить" data-placement="left"><span class="fa fa-trash-o fa-fw"></span></span></span>
+			<span class="btn btn-link btn-xs hover-without-underline delete_image pull-left" id="move-{$img['id']}"><i class="fa fa-arrows fa-fw"></i></span>
+			<span id="imgoption-{$img['id']}"><span class="btn btn-link btn-xs hover-without-underline delete_image" id="delimage-{$img['id']}" rel="tooltip" title="Удалить" data-placement="left"><i class="fa fa-trash-o fa-fw"></i></span></span>
 		<input type="hidden" name="sort[{$img['id']}]" value="{$img['sort']}">
 	</span>
 {/foreach}

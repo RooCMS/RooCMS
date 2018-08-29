@@ -4,25 +4,25 @@
 			{if $exist_errors}
 				<a href="{$SCRIPT_NAME}?act=logs&part=lowerrors" class="btn btn-xs btn-danger"><i class='fa fa-exclamation-triangle fa-fw'></i> Обнаружены ошибки</a>
 			{else}
-				{if $smarty.const.DEBUGMODE}<nobr><b class="text-warning t10"><span class="fa fa-exclamation-triangle"></span> Включен режим отладки!</b></nobr><br />{/if}
-				{if !$smarty.const.DEBUGMODE && $smarty.const.DEVMODE}<nobr><b class="text-error t10"><span class="fa fa-exclamation-triangle"></span> ТРЕБУЕТСЯ ВКЛЮЧИТЬ РЕЖИМ ОТЛАДКИ !!!</b></nobr><br />{/if}
-				{if $smarty.const.DEVMODE}<nobr><b class="text-warning t10"><span class="fa fa-exclamation-triangle"></span> Включен режим разработчика!</b></nobr>{/if}
+				{if $smarty.const.DEBUGMODE}<nobr><b class="text-warning t10"><i class="fa fa-exclamation-triangle"></i> Включен режим отладки!</b></nobr><br />{/if}
+				{if !$smarty.const.DEBUGMODE && $smarty.const.DEVMODE}<nobr><b class="text-error t10"><i class="fa fa-exclamation-triangle"></i> ТРЕБУЕТСЯ ВКЛЮЧИТЬ РЕЖИМ ОТЛАДКИ !!!</b></nobr><br />{/if}
+				{if $smarty.const.DEVMODE}<nobr><b class="text-warning t10"><i class="fa fa-exclamation-triangle"></i> Включен режим разработчика!</b></nobr>{/if}
 			{/if}
 		</div>
 
 		<div class="col-md-2 text-left footer">
 			<small>
-				<br /><nobr><span class="fa fa-bar-chart-o"></span> Число обращений к БД: <b>{$db_querys}</b></nobr>
+				<br /><nobr><i class="fa fa-bar-chart-o"></i> Число обращений к БД: <b>{$db_querys}</b></nobr>
 			</small>
 		</div>
 		<div class="col-md-2 text-left footer">
 			<small>
-				<br /><nobr><span class="fa fa-tachometer"></span> Использовано памяти : <span style="cursor: help;" title="{round($debug_memusage/1024/1024, 2)} Мб макс"><b>{round($debug_memory/1024/1024, 2)} Мб</b></span></nobr>
+				<br /><nobr><i class="fa fa-tachometer"></i> Использовано памяти : <span style="cursor: help;" title="{round($debug_memusage/1024/1024, 2)} Мб макс"><b>{round($debug_memory/1024/1024, 2)} Мб</b></span></nobr>
 			</small>
 		</div>
 		<div class="col-md-2 text-left footer">
 			<small>
-				<br /><nobr><span class="fa fa-clock-o"></span> Время работы скрипта : <b>{$debug_timer} мс</b></nobr>
+				<br /><nobr><i class="fa fa-clock-o"></i> Время работы скрипта : <b>{$debug_timer} мс</b></nobr>
 			</small>
 		</div>
 		<div class="col-md-3 text-right footer">
@@ -46,9 +46,9 @@
 
 				<br />
 				<nobr>
-				<br /><span class="fa fa-bar-chart-o fa-fw"></span> Число обращений к БД: <b>{$db_querys}</b>
-					<br /><span class="fa fa-tachometer fa-fw"></span> Использовано памяти : <b>{round($debug_memory/1024/1024, 2)} Мб <span class="hidden-xs">({round($debug_memusage/1024/1024, 2)} Мб макс)</span></b>
-				<br /><span class="fa fa-clock-o fa-fw"></span> Время работы скрипта : <b>{$debug_timer} мс</b>
+				<br /><i class="fa fa-bar-chart-o fa-fw"></i> Число обращений к БД: <b>{$db_querys}</b>
+					<br /><i class="fa fa-tachometer fa-fw"></i> Использовано памяти : <b>{round($debug_memory/1024/1024, 2)} Мб <span class="hidden-xs">({round($debug_memusage/1024/1024, 2)} Мб макс)</span></b>
+				<br /><i class="fa fa-clock-o fa-fw"></i> Время работы скрипта : <b>{$debug_timer} мс</b>
 				</nobr>
 
 				<br />

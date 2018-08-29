@@ -3,7 +3,7 @@
 <div class="col-sm-2">
 	<ul class="nav nav-pills nav-stacked">
 		<li class="nav-header">Разработчику</li>
-		<li{if isset($smarty.get.part) && $smarty.get.part == "create_part"} class="active"{/if}><a href="{$SCRIPT_NAME}?act=help&part=create_part"><span class="fa fa-fw fa-plus-circle"></span>Добавить новый раздел</a></li>
+		<li{if isset($smarty.get.part) && $smarty.get.part == "create_part"} class="active"{/if}><a href="{$SCRIPT_NAME}?act=help&part=create_part"><i class="fa fa-fw fa-plus-circle"></i>Добавить новый раздел</a></li>
 	</ul>
 </div>
 {/if}

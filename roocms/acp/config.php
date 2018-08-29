@@ -20,9 +20,9 @@ if(!defined('RooCMS') || !defined('ACP')) {
 //#########################################################
 
 # require special part for config
-require_once "config_specpart.php";
+require_once "config_action.php";
 
-class ACP_Config extends ACP_Config_SpecPart {
+class ACP_Config extends ACP_ConfigAction {
 
 	# classes
 	var $config;

@@ -9,7 +9,7 @@
 	{if !empty($helpmites)}
 		<ul class="breadcrumb small">
 			<li>
-				<a href="{$SCRIPT_NAME}?act=help" rel="tooltip" title="Нажмите, что бы перейти в оглавление раздела &quot;Помощь&quot;" data-placement="top"><span class="fa fa-support fa-fw"></span></a>
+				<a href="{$SCRIPT_NAME}?act=help" rel="tooltip" title="Нажмите, что бы перейти в оглавление раздела &quot;Помощь&quot;" data-placement="top"><i class="fa fa-support fa-fw"></i></a>
 			</li>
 			{foreach from=$helpmites item=smites key=i name=mites}
 				<li{if $smarty.foreach.mites.last} class="active"{/if}>
@@ -32,8 +32,8 @@
 		<small>Последняя редакция: {$data['date_modified']}</small>
 		{if $smarty.const.DEVMODE}
 		    <br />
-		    <a href="{$SCRIPT_NAME}?act=help&part=edit_part&u={$data['uname']}" class="btn btn-xs btn-default"><span class="fa fa-pencil-square-o fa-fw"></span>Редактировать</a>
-		    <a href="{$SCRIPT_NAME}?act=help&part=delete_part&u={$data['uname']}" class="btn btn-xs btn-danger"><span class="fa fa-trash-o fa-fw"></span>Удалить</a>
+		    <a href="{$SCRIPT_NAME}?act=help&part=edit_part&u={$data['uname']}" class="btn btn-xs btn-default"><i class="fa fa-pencil-square-o fa-fw"></i>Редактировать</a>
+		    <a href="{$SCRIPT_NAME}?act=help&part=delete_part&u={$data['uname']}" class="btn btn-xs btn-danger"><i class="fa fa-trash-o fa-fw"></i>Удалить</a>
 		{/if}
 	</div>
 

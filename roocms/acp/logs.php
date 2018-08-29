@@ -30,8 +30,12 @@ class ACP_Logs {
 		global $roocms, $tpl;
 
 		switch($roocms->part) {
-			case 'phperror':
+			case 'lowerrors':
 				$this->lowerrors();
+				break;
+
+			case 'clear_lowerrors':
+				$this->clear_lowerrors();
 				break;
 
 			default:
@@ -44,6 +48,9 @@ class ACP_Logs {
 	}
 
 
+	/**
+	 * Show lowerrors
+	 */
 	private function lowerrors() {
 
 		global $tpl, $smarty;
@@ -61,6 +68,24 @@ class ACP_Logs {
 		$smarty->assign('error', $error);
 		$content = $tpl->load_template("logs_lowerrors", true);
 		$smarty->assign('content', $content);
+	}
+
+
+	/**
+	 * Очищаем лог некритических ошибок
+	 */
+	private function clear_lowerrors() {
+
+		global $files, $logger;
+
+		# empty files
+		$files->write_file(ERRORSLOG, "");
+
+		# log
+		$logger->info("Лог некритических ошибок очищен");
+
+		# go
+		go(CP."?act=logs&part=lowerrors");
 	}
 }
 

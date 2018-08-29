@@ -25,8 +25,8 @@
 				</td>
 				<td>
 					<div class="btn-group">
-						<a href="{$SCRIPT_NAME}?act=users&part=edit_group&gid={$group['gid']}" class="btn btn-xs btn-default"><span class="fa fa-pencil-square-o fa-fw"></span><span class="hidden-sm">Редактировать</span></a>
-						<a href="{$SCRIPT_NAME}?act=users&part=delete_group&gid={$group['gid']}" class="btn btn-xs btn-danger"><span class="fa fa-trash fa-fw"></span><span class="hidden-sm">Удалить</span></a>
+						<a href="{$SCRIPT_NAME}?act=users&part=edit_group&gid={$group['gid']}" class="btn btn-xs btn-default"><i class="fa fa-pencil-square-o fa-fw"></i><span class="hidden-sm">Редактировать</span></a>
+						<a href="{$SCRIPT_NAME}?act=users&part=delete_group&gid={$group['gid']}" class="btn btn-xs btn-danger"><i class="fa fa-trash fa-fw"></i><span class="hidden-sm">Удалить</span></a>
 					</div>
 				</td>
 			</tr>
@@ -42,8 +42,8 @@
 
 				<div class="pull-right">
 					<div class="btn-group">
-						<a href="{$SCRIPT_NAME}?act=users&part=edit_group&gid={$group['gid']}" class="btn btn-xs btn-default"><span class="fa fa-pencil-square-o fa-fw"></span><span class="hidden-sm"></span></a>
-						<a href="{$SCRIPT_NAME}?act=users&part=delete_group&gid={$group['gid']}" class="btn btn-xs btn-danger"><span class="fa fa-trash fa-fw"></span><span class="hidden-sm"></span></a>
+						<a href="{$SCRIPT_NAME}?act=users&part=edit_group&gid={$group['gid']}" class="btn btn-xs btn-default"><i class="fa fa-pencil-square-o fa-fw"></i><span class="hidden-sm"></span></a>
+						<a href="{$SCRIPT_NAME}?act=users&part=delete_group&gid={$group['gid']}" class="btn btn-xs btn-danger"><i class="fa fa-trash fa-fw"></i><span class="hidden-sm"></span></a>
 					</div>
 				</div>
 			</li>
