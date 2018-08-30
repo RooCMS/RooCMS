@@ -94,12 +94,7 @@ class ACP_Config extends ACP_ConfigAction {
 				$smarty->assign('this_part', $this_part);
 			}
 
-			if($part['type'] == "global") {
-				$parts['global'][] 	= $part;
-			}
-			if($part['type'] == "component") {
-				$parts['component'][] 	= $part;
-			}
+			$parts[$part['type']][] = $part;
 		}
 
 		# tpl

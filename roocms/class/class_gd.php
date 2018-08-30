@@ -76,19 +76,15 @@ class GD extends GDExtends {
 		if(isset($config->gd_use_watermark) && $config->gd_use_watermark == "text") {
 
 			# watermark text string one
+			$this->copyright = $parse->text->html($site['title']);
 			if(trim($config->gd_watermark_string_one) != "") {
 				$this->copyright = $parse->text->html($config->gd_watermark_string_one);
 			}
-			else {
-				$this->copyright = $parse->text->html($site['title']);
-			}
 
 			# watermark text string two
+			$this->domain = $_SERVER['SERVER_NAME'];
 			if(trim($config->gd_watermark_string_two) != "") {
 				$this->domain = $parse->text->html($config->gd_watermark_string_two);
-			}
-			else {
-				$this->domain = $_SERVER['SERVER_NAME'];
 			}
 		}
 	}
@@ -186,23 +182,7 @@ class GD extends GDExtends {
             		imagecopyresampled($resize, $src, 0, 0, 0, 0, $ns['new_width'], $ns['new_height'], $w, $h);
 
 			# льем измененное изображение
-			switch($ext) {
-				case 'jpg':
-					imagejpeg($resize,$path."/".$fileresize, $this->rs_quality);
-					break;
-
-				case 'webp':
-					imagewebp($resize,$path."/".$fileresize, $this->rs_quality);
-					break;
-
-				case 'gif':
-					imagegif($resize,$path."/".$fileresize);
-					break;
-
-				case 'png':
-					imagepng($resize,$path."/".$fileresize);
-					break;
-			}
+			$this->imgsave($resize, $path."/".$fileresize, $ext, $this->rs_quality);
 
 			imagedestroy($resize);
 			imagedestroy($src);
@@ -268,23 +248,7 @@ class GD extends GDExtends {
 		}
 
 		# льем превью
-		switch($ext) {
-			case 'jpg':
-				imagejpeg($resize,$path."/".$file, $this->th_quality);
-				break;
-
-			case 'webp':
-				imagewebp($resize,$path."/".$file, $this->th_quality);
-				break;
-
-			case 'gif':
-				imagegif($resize,$path."/".$file);
-				break;
-
-			case 'png':
-				imagepng($resize,$path."/".$file);
-				break;
-		}
+		$this->imgsave($resize, $path."/".$file, $ext, $this->th_quality);
 
 		imagedestroy($resize);
 		imagedestroy($src);
@@ -336,23 +300,7 @@ class GD extends GDExtends {
 		imagecopyresampled($thumb, $src, $ns['new_left'], $ns['new_top'], 0, 0, $ns['new_width'], $ns['new_height'], $size[0], $size[1]);
 
 		# льем превью
-		switch($ext) {
-			case 'jpg':
-				imagejpeg($thumb,$path."/".$filethumb, $this->th_quality);
-				break;
-
-			case 'webp':
-				imagewebp($thumb,$path."/".$filethumb, $this->th_quality);
-				break;
-
-			case 'gif':
-				imagegif($thumb,$path."/".$filethumb);
-				break;
-
-			case 'png':
-				imagepng($thumb,$path."/".$filethumb);
-				break;
-		}
+		$this->imgsave($thumb, $path."/".$filethumb, $ext, $this->th_quality);
 
 		imagedestroy($thumb);
 		imagedestroy($src);
@@ -421,23 +369,7 @@ class GD extends GDExtends {
 		}
 
 		# вливаем с ватермарком
-		switch($ext) {
-			case 'jpg':
-				imagejpeg($src,$path."/".$fileresize, $this->rs_quality);
-				break;
-
-			case 'webp':
-				imagewebp($src,$path."/".$fileresize, $this->rs_quality);
-				break;
-
-			case 'gif':
-				imagegif($src,$path."/".$fileresize);
-				break;
-
-			case 'png':
-				imagepng($src,$path."/".$fileresize);
-				break;
-		}
+		$this->imgsave($src, $path."/".$fileresize, $ext, $this->rs_quality);
 
         	imagedestroy($src);
 	}
@@ -494,36 +426,16 @@ class GD extends GDExtends {
 			$pr = 1;
 		}
 
-
 		$wms = $this->calc_resize($ww, $wh, $ww*$pr, $wh*$pr, false);
-
 
 		$x = $w - ($wms['new_width'] + 10);
 		$y = $h - ($wms['new_height'] + 10);
 
-
 		//imagecopyresampled($src, $watermark, $x, $y, 0, 0, $wms['new_width'], $wms['new_height'], $ww, $wh);
 		imagecopyresized($src, $watermark, $x, $y, 0, 0, $wms['new_width'], $wms['new_height'], $ww, $wh);
 
-
 		# вливаем с ватермарком
-		switch($ext) {
-			case 'jpg':
-				imagejpeg($src,$path."/".$fileresize, $this->rs_quality);
-				break;
-
-			case 'webp':
-				imagewebp($src,$path."/".$fileresize, $this->rs_quality);
-				break;
-
-			case 'gif':
-				imagegif($src,$path."/".$fileresize);
-				break;
-
-			case 'png':
-				imagepng($src,$path."/".$fileresize);
-				break;
-		}
+		$this->imgsave($src, $path."/".$fileresize, $ext,  $this->rs_quality);
 
 		imagedestroy($src);
 		imagedestroy($watermark);
@@ -628,5 +540,34 @@ class GD extends GDExtends {
 		}
 
 		return $src;
+	}
+
+
+	/**
+	 * Image save
+	 *
+	 * @param resource $res     - image
+	 * @param string   $path    - path for save
+	 * @param string   $ext     - extension
+	 * @param int      $quality - качество
+	 */
+	private function imgsave($res, $path, $ext, $quality=0) {
+		switch($ext) {
+			case 'jpg':
+				imagejpeg($res, $path, $quality);
+				break;
+
+			case 'webp':
+				imagewebp($res, $path, $quality);
+				break;
+
+			case 'gif':
+				imagegif($res, $path);
+				break;
+
+			case 'png':
+				imagepng($res, $path);
+				break;
+		}
 	}
 }

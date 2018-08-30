@@ -146,9 +146,8 @@ class UI_Reg {
 			# переход
 			go(SCRIPT_NAME."?part=reg&act=activation&email=".$post->email);
 		}
-		else {
-			goback();
-		}
+
+		goback();
 	}
 
 
@@ -200,10 +199,10 @@ class UI_Reg {
 			$logger->info("Спасибо. Ваша учетная запись активирована. Добро пожжаловать.", false);
 			go("/");
 		}
-		else {
-			$logger->error("Активация не удалась. Мы не нашли подходящих сведений в базе данных.", false);
-			goback();
-		}
+
+		# Если не сработало...
+		$logger->error("Активация не удалась. Мы не нашли подходящих сведений в базе данных.", false);
+		goback();
 
 	}
 }

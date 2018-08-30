@@ -401,7 +401,6 @@ class ACP_Users {
 
 			# login
 			if(isset($post->login)) {
-
 				$post->login = mb_strtolower($parse->text->transliterate($post->login));
 
 				if(!$users->check_field("login", $post->login, $udata['login'])) {
@@ -492,7 +491,6 @@ class ACP_Users {
 
 				sendmail($post->email, "Ваши данные на \"".$site['title']."\" были обновлены администрацией", $message);
 
-
 				# переход
 				if(isset($post->update_user['ae'])) {
 					go(CP."?act=users");
@@ -552,7 +550,6 @@ class ACP_Users {
 				}
 
 				go(CP."?act=users&part=edit_group&gid=".$gid);
-
 			}
 
 			# goback

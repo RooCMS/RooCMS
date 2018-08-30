@@ -105,7 +105,6 @@ class UCP_CP {
 
 		# login
 		if(isset($post->login)) {
-
 			$post->login = mb_strtolower($parse->text->transliterate($post->login));
 
 			if(!$users->check_field("login", $post->login, $users->userdata['login'])) {
