@@ -253,25 +253,25 @@ class Parser {
 
 		# act(ion) & part(ition) & move
 		if(isset($this->get->_act)) {
-			$roocms->act =& $this->clear_string($this->get->_act);
+			$roocms->act = $this->clear_string($this->get->_act);
 		}
 
 		if(isset($this->get->_part)) {
-			$roocms->part =& $this->clear_string($this->get->_part);
+			$roocms->part = $this->clear_string($this->get->_part);
 		}
 
 		if(isset($this->get->_move)) {
-			$roocms->move =& $this->clear_string($this->get->_move);
+			$roocms->move = $this->clear_string($this->get->_move);
 		}
 
 		# check query RSS Export
 		if(isset($this->get->_export)) {
-			$roocms->rss 	= true;
+			$roocms->rss = true;
 		}
 
 		# check ajax flag
 		if(isset($this->get->_ajax)) {
-			$roocms->ajax	= true;
+			$roocms->ajax = true;
 		}
 	}
 
