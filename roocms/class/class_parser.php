@@ -443,24 +443,6 @@ class Parser {
 
 
 	/**
-	* В разработке
-	*
-	* @param mixed $url
-	* @return mixed
-	*/
-	public function prep_url($url) {
-
-		$url = "";
-
-		if(mb_substr($url,0,7)!='http://' && mb_substr($url,0,8)!='https://') {
-			$url = "http://".$url;
-		}
-
-		return $url;
-	}
-
-
-	/**
 	 * Вычисляем процент от числа
 	 *
 	 * @param int $n    - %
