@@ -47,32 +47,33 @@ if(!defined('RooCMS')) {
 
 
 /**
- * Class Globals
+ * Class RooCMS_Globals
  */
-class Globals {
+class RooCMS_Global {
 
 	# clasess
-	public	$config;			# [obj]	object global configuration
+	public	$config;		 # [obj]	object global configuration
 
 	# global vars
-	public	$part		= "";		# [string]	param $_GET['part'] for init partition
-	public	$act		= "";		# [string]	param $_GET['act'] for init actions
-	public	$move		= "";		# [string]	param $_GET['move'] for init move
+	public	$part		= "";	 # [string]	param $_GET['part'] for init partition
+	public	$act		= "";	 # [string]	param $_GET['act'] for init actions
+	public	$move		= "";	 # [string]	param $_GET['move'] for init move
 
-	public 	$sess		= [];		# [array]	parsing $_SESSION
+	public 	$sess		= [];	 # [array]	parsing $_SESSION
 
 	# options
-	public	$ajax		= false;	# [bool]	flag ajax output
-	public	$rss		= false;	# [bool]	flag rss output
-	public	$modifiedsince	= false;	# [bool]	flag for answer IF MODIFIED SINCE
-	//public $noscript	= false;	# [bool]	flag noscript identification
+	public	$ajax		= false; # [bool]	flag ajax output
+	public	$rss		= false; # [bool]	flag rss output
+	public	$modifiedsince	= false; # [bool]	flag for answer IF MODIFIED SINCE
+	//public $noscript	= false; # [bool]	flag noscript identification
 
 	# userdata
-	public	$usersession	= "";		# [string]	user ssession
-	public  $userip		= "";		# [string]	user ip address
-	public	$useragent	= "";		# [string]	user agent string
-	public  $referer	= "";		# [string]	user referer
-	public	$spiderbot	= false;	# [bool]	if this search spider bot
+	public	$usersession	= "";	 # [string]	user ssession
+	public  $userip		= "";	 # [string]	user ip address
+	public	$useragent	= "";	 # [string]	user agent string
+	public  $referer	= "";	 # [string]	user referer
+
+	public	$spiderbot	= false; # [bool]	if this search spider bot
 
 
 

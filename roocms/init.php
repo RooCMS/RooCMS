@@ -51,7 +51,7 @@ else {
 }
 
 /**
-* Загружаем конфигурацию
+* Загружаем конфигурацию RooCMS
 */
 if(is_file(_SITEROOT."/roocms/config/config.php")) {
 	require_once(_SITEROOT."/roocms/config/config.php");
@@ -61,7 +61,7 @@ else {
 }
 
 /**
-* Заружаем основные константы
+* Заружаем основные константы RooCMS
 */
 if(is_file(_SITEROOT."/roocms/config/defines.php")) {
 	require_once(_SITEROOT."/roocms/config/defines.php");
@@ -140,7 +140,7 @@ if(is_file(_CLASS."/class_global.php")) {
 	/**
 	 * Инициализируем класс
 	 */
-	$roocms = new Globals;
+	$roocms = new RooCMS_Global;
 	$config =& $roocms->config;
 }
 else {
