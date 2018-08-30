@@ -52,8 +52,6 @@ class Parser {
 	*/
 	public function __construct() {
 
-		global $roocms;
-
 		# обрабатываем глобальные массивы.
 		$this->parse_global_arrays();
 
@@ -61,34 +59,8 @@ class Parser {
 		$this->get_uri();
 		$this->parse_uri();
 
-		# act(ion) & part(ition) & move
-		if(isset($this->get->_act)) {
-			$this->get->_act = $this->clear_string($this->get->_act);
-			$roocms->act 	=& $this->get->_act;
-		}
-
-		if(isset($this->get->_part)) {
-			$this->get->_part = $this->clear_string($this->get->_part);
-			$roocms->part 	=& $this->get->_part;
-		}
-
-		if(isset($this->get->_move)) {
-			$this->get->_move = $this->clear_string($this->get->_move);
-			$roocms->move 	=& $this->get->_move;
-		}
-
-		# check query RSS Export
-		if(isset($this->get->_export)) {
-			$roocms->rss 	= true;
-		}
-
-		# check ajax flag
-		if(isset($this->get->_ajax)) {
-			$roocms->ajax	= true;
-		}
-
 		# обрабатываем URL
-		$this->parse_url();
+		$this->set_url_vars();
 
 		# обрабатываем уведомления для вывода пользователю
 		$this->parse_notice();
@@ -267,16 +239,39 @@ class Parser {
 
 
 	/**
-	* parse URL
+	* Set global vars from url
 	*
 	*/
-	protected function parse_url() {
+	protected function set_url_vars() {
 
-		global $db;
+		global $roocms, $db;
 
 		# Страницы
 		if(isset($this->get->_pg)) {
 			$db->page = floor($this->get->_pg);
+		}
+
+		# act(ion) & part(ition) & move
+		if(isset($this->get->_act)) {
+			$roocms->act =& $this->clear_string($this->get->_act);
+		}
+
+		if(isset($this->get->_part)) {
+			$roocms->part =& $this->clear_string($this->get->_part);
+		}
+
+		if(isset($this->get->_move)) {
+			$roocms->move =& $this->clear_string($this->get->_move);
+		}
+
+		# check query RSS Export
+		if(isset($this->get->_export)) {
+			$roocms->rss 	= true;
+		}
+
+		# check ajax flag
+		if(isset($this->get->_ajax)) {
+			$roocms->ajax	= true;
 		}
 	}
 
@@ -455,12 +450,10 @@ class Parser {
 	*/
 	public function prep_url($url) {
 
-		if($url=='' || $url=='http://' || $url=='https://') {
-			return '';
-		}
+		$url = "";
 
 		if(mb_substr($url,0,7)!='http://' && mb_substr($url,0,8)!='https://') {
-			$url = 'http://'.$url;
+			$url = "http://".$url;
 		}
 
 		return $url;
