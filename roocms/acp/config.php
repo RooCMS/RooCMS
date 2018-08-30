@@ -125,7 +125,6 @@ class ACP_Config extends ACP_ConfigAction {
 		switch($option_type) {
 			# integer OR string OR email
 			case 'int':
-			case 'integer':
 			case 'string':
 			case 'email':
 			case 'color':
@@ -134,7 +133,6 @@ class ACP_Config extends ACP_ConfigAction {
 
 			# text OR textarea
 			case 'text':
-			case 'textarea':
 				$out = $tpl->load_template("config_field_textarea",true);
 				break;
 
@@ -145,7 +143,6 @@ class ACP_Config extends ACP_ConfigAction {
 
 			# boolean
 			case 'boolean':
-			case 'bool':
 				$out = $tpl->load_template("config_field_boolean",true);
 				break;
 
@@ -175,7 +172,6 @@ class ACP_Config extends ACP_ConfigAction {
 
 			# image
 			case 'image':
-			case 'img':
 				$image = [];
 				if(is_file(_UPLOADIMAGES."/".$field['value'])) {
 					$image['src'] = $field['value'];
@@ -221,7 +217,6 @@ class ACP_Config extends ACP_ConfigAction {
 			switch($cfg_vars[$key]['type']) {
 				# integer
 				case 'int':
-				case 'integer':
 					$value = round($value);
 					settype($value, "integer");
 					$check = true;
@@ -236,7 +231,6 @@ class ACP_Config extends ACP_ConfigAction {
 				case 'string':
 				case 'color':
 				case 'text':
-				case 'textarea':
 				case 'html':
 					$value = $this->check_string_value($value,$cfg_vars[$key]['maxleight']);
 					$check = true;
@@ -244,7 +238,6 @@ class ACP_Config extends ACP_ConfigAction {
 
 				# boolean
 				case 'boolean':
-				case 'bool':
 					if($value == "true" || $value == "false") {
 						$check = true;
 					}
@@ -265,7 +258,6 @@ class ACP_Config extends ACP_ConfigAction {
 
 				# image
 				case 'image':
-				case 'img':
 					$image = $img->upload_image("image_".$key, "", array(), array("filename"=>$key, "watermark"=>false, "modify"=>false, "noresize"=>true));
 
 					if(isset($image[0])) {

@@ -130,12 +130,10 @@ class RooCMS_Global {
 
 			switch($row['option_type']) {
 				case 'boolean':
-				case 'bool':
 					$this->config->{$row['option_name']} = ($row['value'] === "true");
 					break;
 
 				case 'int':
-				case 'integer':
 					settype($row['value'], "integer");
 					$this->config->{$row['option_name']} = (int) $row['value'];
 					break;

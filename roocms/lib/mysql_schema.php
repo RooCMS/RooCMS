@@ -60,7 +60,7 @@ $sql['CREATE'.CONFIG_TABLE] = "CREATE TABLE IF NOT EXISTS `".CONFIG_TABLE."` (
 				  `title` varchar(255) NOT NULL,
 				  `description` text NOT NULL,
 				  `option_name` varchar(255) NOT NULL,
-				  `option_type` enum('boolean','bool','integer','int','string','color','text','textarea','html','date','email','select','image', 'img') NOT NULL DEFAULT 'boolean',
+				  `option_type` enum('boolean','int','string','color','text','html','date','email','select','image') NOT NULL DEFAULT 'boolean',
 				  `variants` text NOT NULL,
 				  `value` longtext NOT NULL,
 				  `default_value` longtext NOT NULL,
