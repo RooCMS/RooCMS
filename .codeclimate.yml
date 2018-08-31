@@ -38,4 +38,6 @@ checks:
     config:
       threshold: 199
   method-complexity:
-    config: 10
+    enabled: true
+    config:
+      threshold: 10
