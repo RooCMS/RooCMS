@@ -59,6 +59,7 @@ class ACP_Feeds {
 			# init codeengine
 			switch($this->engine->page_type) {
 				case 'feed':
+					require_once _CLASS."/trait_feed_extension.php";
 					require_once _ROOCMS."/acp/feeds_feed.php";
 					$this->unit = new ACP_Feeds_Feed($this->get_settings());
 					break;

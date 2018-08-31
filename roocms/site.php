@@ -60,6 +60,7 @@ if($structure->access) {
 				break;
 
 			case 'feed':
+				require_once _CLASS."/trait_feed_extension.php";
 				require_once "site_page_feed.php";
 				$page_feed = new SitePageFeed;
 				break;

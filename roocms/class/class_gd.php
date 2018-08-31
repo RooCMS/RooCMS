@@ -492,10 +492,6 @@ class GD extends GDExtends {
 	private function imgcreate($from, $ext) {
 
 		switch($ext) {
-			case 'jpg':
-                	        $src = imagecreatefromjpeg($from);
-			        break;
-
 			case 'webp':
 				$src = imagecreatefromwebp($from);
 				break;
@@ -512,7 +508,7 @@ class GD extends GDExtends {
 				imagesavealpha($src,true);
 				break;
 
-			default:
+			default: # jpg
 				$src = imagecreatefromjpeg($from);
 				break;
 		}
@@ -553,10 +549,6 @@ class GD extends GDExtends {
 	 */
 	private function imgsave($res, $path, $ext, $quality=0) {
 		switch($ext) {
-			case 'jpg':
-				imagejpeg($res, $path, $quality);
-				break;
-
 			case 'webp':
 				imagewebp($res, $path, $quality);
 				break;
@@ -567,6 +559,10 @@ class GD extends GDExtends {
 
 			case 'png':
 				imagepng($res, $path);
+				break;
+
+			default: #jpg
+				imagejpeg($res, $path, $quality);
 				break;
 		}
 	}

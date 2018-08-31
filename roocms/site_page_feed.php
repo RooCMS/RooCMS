@@ -25,6 +25,8 @@ if(!defined('RooCMS')) {
  */
 class SitePageFeed {
 
+	use Feed_Extension;
+
 	# vars
 	private $item_id	= 0;
 	private $items_per_page	= 10;
@@ -76,7 +78,7 @@ class SitePageFeed {
 		$cond = $this->feed_condition();
 
 		# order request
-		$order = $this->feed_order();
+		$order = $this->feed_order($structure->page_items_sorting);
 
 		# calculate pages
 		$db->pages_mysql(PAGES_FEED_TABLE, $cond);
@@ -201,7 +203,7 @@ class SitePageFeed {
 		$cond = $this->feed_condition();
 
 		# order request
-		$order = $this->feed_order();
+		$order = $this->feed_order($structure->page_items_sorting);
 
 		$q = $db->query("SELECT id, title, brief_item, date_publications FROM ".PAGES_FEED_TABLE." WHERE ".$cond." ORDER BY ".$order." LIMIT ".$db->from.",".$db->limit);
 		while($row = $db->fetch_assoc($q)) {
@@ -252,7 +254,7 @@ class SitePageFeed {
 		$cond = $this->feed_condition();
 
 		# order request
-		$order = $this->feed_order();
+		$order = $this->feed_order($structure->page_items_sorting);
 
 		# query
 		$i = 0; $previndex = -1; $nextindex = -1;
@@ -394,37 +396,6 @@ class SitePageFeed {
 
 		# return
 		return $cond;
-	}
-
-
-	/**
-	 * Функция возвращает условие для порядка сортировки результата запроса из БД
-	 *
-	 * @return string
-	 */
-	private function feed_order() {
-
-		global $structure;
-
-		switch($structure->page_items_sorting) {
-			case 'title_asc':
-				$order = "title ASC, date_publications DESC, id DESC";
-				break;
-
-			case 'title_desc':
-				$order = "title DESC, date_publications DESC, id DESC";
-				break;
-
-			case 'manual_sorting':
-				$order = "sort ASC, date_publications DESC, date_create DESC, id DESC";
-				break;
-
-			default: // case 'datepublication'
-				$order = "date_publications DESC, date_create DESC, date_update DESC, id DESC";
-				break;
-		}
-
-		return $order;
 	}
 
 

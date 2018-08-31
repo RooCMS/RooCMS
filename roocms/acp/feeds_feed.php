@@ -22,6 +22,8 @@ if(!defined('RooCMS') || !defined('ACP')) {
 
 class ACP_Feeds_Feed {
 
+	use Feed_Extension;
+
 	# vars
 	private $feed     = [];	# structure parametrs
 	private $userlist = [];
@@ -45,23 +47,8 @@ class ACP_Feeds_Feed {
 
 		global $db, $parse, $tags, $tpl, $smarty;
 
-		switch($this->feed['items_sorting']) {
-			case 'title_asc':
-				$order = "title ASC, date_publications DESC";
-				break;
-
-			case 'title_desc':
-				$order = "title DESC, date_publications DESC";
-				break;
-
-			case 'manual_sorting':
-				$order = "sort ASC, date_publications DESC, date_create DESC";
-				break;
-
-			default:  // case 'datepublication'
-				$order = "date_publications DESC, date_create DESC, date_update DESC";
-				break;
-		}
+		# order request
+		$order = $this->feed_order($this->feed['items_sorting']);
 
 		$smarty->assign("feed", $this->feed);
 
