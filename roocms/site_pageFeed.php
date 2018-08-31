@@ -28,8 +28,8 @@ class PageFeed {
 	use FeedExtends;
 
 	# vars
-	private $item_id	= (int) 0;
-	private $items_per_page	= (int) 10;
+	private $item_id	= 0;
+	private $items_per_page	= 10;
 
 	private $userlist       = [];
 
