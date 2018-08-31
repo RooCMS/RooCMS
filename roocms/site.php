@@ -50,19 +50,19 @@ if($structure->access) {
 		*/
 		switch($structure->page_type) {
 			case 'html':
-				require_once "site_page_html.php";
-				$page_html = new SitePageHTML;
+				require_once "site_pageHTML.php";
+				$page_html = new PageHTML;
 				break;
 
 			case 'php':
-				require_once "site_page_php.php";
-				$page_php = new SitePagePHP;
+				require_once "site_pagePHP.php";
+				$page_php = new PagePHP;
 				break;
 
 			case 'feed':
-				require_once _CLASS."/trait_feed_extension.php";
-				require_once "site_page_feed.php";
-				$page_feed = new SitePageFeed;
+				require_once _CLASS."/trait_feedExtends.php";
+				require_once "site_pageFeed.php";
+				$page_feed = new PageFeed;
 				break;
 		}
 	}

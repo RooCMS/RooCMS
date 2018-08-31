@@ -111,8 +111,8 @@ else {
 /**
 * Запускаем расширение класса БД MySQL
 */
-if(is_file(_CLASS."/class_mysqli_ext.php")) {
-	require_once(_CLASS."/class_mysqli_ext.php");
+if(is_file(_CLASS."/class_mysqlidbExtends.php")) {
+	require_once(_CLASS."/class_mysqlidbExtends.php");
 }
 else {
 	die(ROOCMS_NOT_RUNNING);
@@ -121,12 +121,12 @@ else {
 /**
 * Запускаем класс БД MySQL
 */
-if(is_file(_CLASS."/class_mysqli.php")) {
-	require_once(_CLASS."/class_mysqli.php");
+if(is_file(_CLASS."/class_mysqlidb.php")) {
+	require_once(_CLASS."/class_mysqlidb.php");
 	/**
 	 * Инициализируем класс
 	 */
-	$db = new MySQLiDatabase;
+	$db = new MySQLiDB;
 }
 else {
 	die(ROOCMS_NOT_RUNNING);
@@ -232,8 +232,8 @@ else {
 /**
  * Загружаем класс функций расширений графической обработки
  */
-if(is_file(_CLASS."/class_gd_ext.php")) {
-	require_once(_CLASS."/class_gd_ext.php");
+if(is_file(_CLASS."/class_gdExtends.php")) {
+	require_once(_CLASS."/class_gdExtends.php");
 }
 else {
 	die(ROOCMS_NOT_RUNNING);

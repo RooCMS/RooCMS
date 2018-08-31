@@ -23,9 +23,9 @@ if(!defined('RooCMS')) {
 /**
  * Class SitePageFeed
  */
-class SitePageFeed {
+class PageFeed {
 
-	use Feed_Extension;
+	use FeedExtends;
 
 	# vars
 	private $item_id	= 0;
@@ -248,7 +248,7 @@ class SitePageFeed {
 	 */
 	private function load_prevnext_item($id) {
 
-		global $db, $img, $parse;
+		global $db, $structure, $img, $parse;
 
 		# cond request
 		$cond = $this->feed_condition();

@@ -23,7 +23,7 @@ if(!defined('RooCMS')) {
 /**
  * Class MySqlExtends
  */
-class MySQLiExtends {
+class MySQLiDBExtends {
 
 	# pages param
 	public  $pages		= 0;	# [int]	Всего страниц

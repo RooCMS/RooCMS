@@ -23,7 +23,7 @@ if(!defined('RooCMS')) {
 /**
  * Class SitePagePHP
  */
-class SitePagePHP {
+class PagePHP {
 
 	/**
 	* Initialisation

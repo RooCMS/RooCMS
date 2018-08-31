@@ -22,7 +22,7 @@ if(!defined('RooCMS') || !defined('ACP')) {
 
 class ACP_Feeds_Feed {
 
-	use Feed_Extension;
+	use FeedExtends;
 
 	# vars
 	private $feed     = [];	# structure parametrs

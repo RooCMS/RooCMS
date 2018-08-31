@@ -23,7 +23,7 @@ if(!defined('RooCMS')) {
 /**
  * Class MySQLDatabase
  */
-class MySQLiDatabase extends MySQLiExtends {
+class MySQLiDB extends MySQLiDBExtends {
 
 	# obj
 	private $sql;
