@@ -70,10 +70,11 @@ a#move_top {
 	position: relative;
 	padding: 10px 5px 10px 10px;
 	margin: 5px 0 15px 0;
+	background-color: rgba(0, 0, 0, 0.65);
 }
 .feed-item-head::after {
 	content: "";
-	opacity: 0.12;
+	opacity: 0.90;
 	top: 0;
 	left: 0;
 	bottom: 0;
@@ -81,9 +82,11 @@ a#move_top {
 	position: absolute;
 	z-index: -1;
 }
-.feed-item-head > h1 {
-	text-shadow: -1px -1px 0 #fff;
+.feed-item-head > h1, .feed-item-head > small {
+	color: #fff;
+	text-shadow: -1px -1px 0 #000;
 }
+
 
 @media (min-width: 992px) {
 	.feed-image-prev {max-width: 50% !important;}
