@@ -78,7 +78,6 @@ class Tags {
 		}
 
 		# create condition
-
 		$cond = "";
 
 		foreach($linkedto AS $value) {

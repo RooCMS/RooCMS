@@ -391,8 +391,21 @@ class PageFeed {
 		}
 
 		# query id's feeds final
-		$cond .= " ) AND (date_end_publications = '0' || date_end_publications > '".time()."') AND status='1' ";
+		$cond .= " ) ";
 
+		# access condition
+		$accesscond = "(";
+		foreach($structure->sitetree AS $value) {
+			if($value['access']) {
+				if(trim($accesscond) != "(") {
+					$accesscond .= " OR ";
+				}
+				$accesscond .= " sid='".$value['id']."' ";
+			}
+		}
+		$accesscond .= ")";
+
+		$cond .= " AND ".$accesscond." AND (date_end_publications = '0' || date_end_publications > '".time()."') AND status='1' ";
 
 		# return
 		return $cond;
