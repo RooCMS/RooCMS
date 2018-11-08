@@ -116,37 +116,4 @@ class MySQLiDBExtends {
 			$this->next_page = $this->page + 1;
 		}
 	}
-
-
-	/**
-	 * Функция обработчик Count()
-	 *
-	 * @param string $from    - таблица где ведеться подсчет
-	 * @param string $proviso - условие для подсчета
-	 *
-	 * @return int
-	 */
-	public function count($from, $proviso) {
-
-		static $results = [];
-
-		# считаем
-		$query = "SELECT count(*) FROM ".$from." WHERE ".$proviso;
-		$rkey = md5($query);
-
-		# проверяем результат
-		$c = [];
-		if(!array_key_exists($rkey, $results)) {
-			# check in DB
-			$q = $this->query($query);
-
-			$c = $this->fetch_row($q);
-			$results[$rkey] = $c[0];
-		}
-		else {
-			$c[0] = $results[$rkey];
-		}
-
-		return $c[0];
-	}
 }
