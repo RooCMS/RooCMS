@@ -3,7 +3,7 @@
 <h1>
 	{$page_title}
 	{if !empty($rsslink)}
-		<a href="{$rsslink}" class="btn btn-warning btn-xs"><span class="fa fa-rss fa-fw"></span>RSS 2.0</a>
+		<a href="{$rsslink}" class="btn btn-default btn-xs"><span class="fa fa-rss fa-fw"></span></a>
 	{/if}
 </h1>
 
