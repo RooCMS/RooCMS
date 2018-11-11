@@ -205,10 +205,10 @@ class UI_Tags {
 		$feeds = $tags->collect_tags($feeds, $taglinks);
 
 		# authors
-		$this->userlist = $users->get_userlist(-1,-1,$authors);
+		$fauthors = $users->get_userlist(-1,-1,$authors);
 
 		# smarty
-		$smarty->assign("authors", $this->userlist);
+		$smarty->assign("authors", $fauthors);
 		$smarty->assign("feeds", $feeds);
 		$smarty->assign("pages", $pages);
 

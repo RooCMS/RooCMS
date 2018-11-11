@@ -105,10 +105,10 @@ class UI_Search {
 		$result = $tags->collect_tags($result, $taglinks);
 
 		# authors
-		$this->userlist = $users->get_userlist(-1,-1,$authors);
+		$fauthors = $users->get_userlist(-1,-1,$authors);
 
 		# template
-		$smarty->assign("authors", $this->userlist);
+		$smarty->assign("authors", $fauthors);
 		$smarty->assign("searchstring", $searchstring);
 		$smarty->assign("result", $result);
 		$tpl->load_template("search");

@@ -31,9 +31,6 @@ class PageFeed {
 	private $item_id	= 0;
 	private $items_per_page	= 10;
 
-	private $userlist       = [];
-
-
 
 	/**
 	 * Lets begin...
@@ -115,10 +112,10 @@ class PageFeed {
 		$feeds = $tags->collect_tags($feeds, $taglinks);
 
 		# authors
-		$this->userlist = $users->get_userlist(-1,-1,$authors);
+		$fauthors = $users->get_userlist(-1,-1,$authors);
 
 		# smarty
-		$smarty->assign("authors", $this->userlist);
+		$smarty->assign("authors", $fauthors);
 		$smarty->assign("feeds", $feeds);
 		$smarty->assign("pages", $pages);
 		$smarty->assign("rsslink", $rss->rss_link);

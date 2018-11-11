@@ -279,7 +279,7 @@ class MySQLiDB extends MySQLiDBExtends {
 	/**
 	 * Преобразует результаты запроса в простой массив
 	 *
-	 * @param data $q - Результат произведенного в БД запроса.
+	 * @param mixed $q - Результат произведенного в БД запроса.
 	 * @return array  - Возвращает данные из БД в ввиде нумерованного массива
 	 */
 	public function fetch_row($q) {
