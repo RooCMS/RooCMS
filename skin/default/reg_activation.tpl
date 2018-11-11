@@ -1,8 +1,8 @@
 {* Шаблон для активации аккаунта *}
-
-<h1>Активация аккаунта</h1>
-
 <div class="row">
+	<div class="col-sm-12">
+		<h1>Активация аккаунта</h1>
+	</div>
 	<div class="col-sm-12">
 		<form method="post" action="{$SCRIPT_NAME}?part=reg&act=verification" role="form" class="form-horizontal">
 			<hr />

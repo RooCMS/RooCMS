@@ -1,7 +1,9 @@
 {* Шаблон экспресс регистрации *}
 {if !$hide}
-	<hr />
 	<div class="row">
+		<div class="col-xs-12">
+			<hr />
+		</div>
 		<div class="col-md-6 col-md-offset-3 text-center">
 			<h2>Подпишись на новости</h2>
 			Спешите получать последние новости безотлагательно

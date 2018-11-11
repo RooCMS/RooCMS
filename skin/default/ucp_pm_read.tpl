@@ -1,7 +1,9 @@
 {* Шаблон личного сообщения пользователя *}
-
-<h1>{$message['title']}</h1>
-
+<div class="row">
+	<div class="col-sm-12">
+		<h1>{$message['title']}</h1>
+	</div>
+</div>
 {*<div class="row">
 	<div class="col-sm-12">
 		<a href="{$SCRIPT_NAME}?act=pm&part=write" class="btn btn-md btn-default"><i class="fa fa-fw fa-envelope"></i> Написать сообщение</a>
@@ -20,7 +22,11 @@
 	</div>
 </div>
 
-<h2>Ответить</h2>
+<div class="row">
+	<div class="col-sm-12">
+		<h2>Ответить</h2>
+	</div>
+</div>
 
 <div class="row">
 	<div class="col-sm-12">
@@ -67,3 +73,4 @@
 		</form>
 	</div>
 </div>
+

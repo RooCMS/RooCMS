@@ -131,7 +131,7 @@ class UI_Tags {
 	 */
 	private function show_tagged_items() {
 
-		global $db, $structure, $parse, $img, $tags, $tpl, $smarty;
+		global $db, $structure, $parse, $img, $tags, $users, $tpl, $smarty;
 
 		# data linked
 		$links = [];
@@ -175,21 +175,17 @@ class UI_Tags {
 
 		# Feed list
 		$taglinks = [];
+		$authors  = [];
 		$feeds    = [];
 		$cond = str_ireplace("id=", "fi.id=", $cond);
 		$scond = str_ireplace("sid=", "fi.sid=", $scond);
-		$q = $db->query("SELECT fi.id, fi.sid, s.alias, s.title AS feed_title, fi.title, fi.brief_item, fi.full_item, fi.date_publications, fi.views 
+		$q = $db->query("SELECT fi.id, fi.sid, fi.author_id, s.alias, s.title AS feed_title, fi.title, fi.brief_item, fi.date_publications, fi.views 
 					FROM ".PAGES_FEED_TABLE." AS fi
 					LEFT JOIN ".STRUCTURE_TABLE." AS s ON (s.id = fi.sid)
 					WHERE fi.date_publications <= '".time()."' AND ".$cond." AND ".$scond." AND (fi.date_end_publications = '0' || fi.date_end_publications > '".time()."') AND fi.status='1'
 					ORDER BY fi.date_publications DESC, fi.date_create DESC, fi.date_update DESC 
 					LIMIT ".$db->from.",".$db->limit);
 		while($row = $db->fetch_assoc($q)) {
-
-			if(trim($row['brief_item']) == "") {
-				$row['brief_item'] = $row['full_item'];
-			}
-
 			$row['datepub']    = $parse->date->unix_to_rus($row['date_publications'],true);
 			$row['date']       = $parse->date->unix_to_rus_array($row['date_publications']);
 			$row['brief_item'] = $parse->text->html($row['brief_item']);
@@ -198,15 +194,21 @@ class UI_Tags {
 
 			$row['tags']       = [];
 
-
 			$taglinks[$row['id']] = "feeditemid=".$row['id'];
+
+			$authors[] = $row['author_id'];
+
 			$feeds[$row['id']] = $row;
 		}
 
 		# tags collect
 		$feeds = $tags->collect_tags($feeds, $taglinks);
 
+		# authors
+		$this->userlist = $users->get_userlist(-1,-1,$authors);
+
 		# smarty
+		$smarty->assign("authors", $this->userlist);
 		$smarty->assign("feeds", $feeds);
 		$smarty->assign("pages", $pages);
 

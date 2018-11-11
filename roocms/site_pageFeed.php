@@ -94,13 +94,8 @@ class PageFeed {
 		$taglinks = [];
 		$authors  = [];
 		$feeds    = [];
-		$q = $db->query("SELECT id, author_id, title, brief_item, full_item, date_publications, views FROM ".PAGES_FEED_TABLE." WHERE ".$cond." ORDER BY ".$order." LIMIT ".$db->from.",".$db->limit);
+		$q = $db->query("SELECT id, author_id, title, brief_item, date_publications, views FROM ".PAGES_FEED_TABLE." WHERE ".$cond." ORDER BY ".$order." LIMIT ".$db->from.",".$db->limit);
 		while($row = $db->fetch_assoc($q)) {
-
-			if(trim($row['brief_item']) == "") {
-				$row['brief_item'] = $row['full_item'];
-			}
-
 			$row['datepub']    = $parse->date->unix_to_rus($row['date_publications'],true);
 			$row['date']       = $parse->date->unix_to_rus_array($row['date_publications']);
 			$row['brief_item'] = $parse->text->html($row['brief_item']);
@@ -108,7 +103,6 @@ class PageFeed {
 			$row['image']      = $img->load_images("feeditemid=".$row['id']."", 0, 1);
 
 			$row['tags']       = [];
-
 
 			$taglinks[$row['id']] = "feeditemid=".$row['id'];
 

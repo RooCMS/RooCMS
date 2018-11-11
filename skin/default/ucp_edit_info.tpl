@@ -1,26 +1,30 @@
 {* Шаблон редактирования личных данных пользователя *}
-
-<h1>Личный кабинет</h1>
-<hr>
+<div class="row">
+	<div class="col-sm-12">
+		<h1>Личный кабинет</h1>
+		<hr>
+	</div>
+</div>
 
 <div class="row">
 
 	{if $userdata['avatar'] != ""}
-	<div class="col-xs-3 col-sm-2 col-md-2 text-center"><img src="/upload/images/{$userdata['avatar']}"  class="img-thumbnail"></div>
-	<div class="col-xs-9 col-sm-10 col-md-10">
-		{else}
-		<div class="col-xs-12">
-			{/if}
-			<h2 class="ucp-user-nickname">
-				{$userdata['nickname']} {if $userdata['user_sex'] == "m"}<i class="fa fa-fw fa-mars text-info"></i>{elseif $userdata['user_sex'] == "f"}<i class="fa fa-fw fa-venus text-danger"></i>{/if}
-			</h2>
-			<div class="ucp-user-slogan">{$userdata['user_slogan']}</div>
-			<small class="label label-primary">{$userdata['gtitle']}</small>
-		</div>
+		<div class="col-xs-3 col-sm-2 col-md-2 text-center"><img src="/upload/images/{$userdata['avatar']}"  class="img-thumbnail"></div>
+	{/if}
 
 
+	<div class="{if $userdata['avatar'] != ""}col-xs-9 col-sm-10 col-md-10{else}col-xs-12{/if}">
+
+		<h2 class="ucp-user-nickname">
+			{$userdata['nickname']} {if $userdata['user_sex'] == "m"}<i class="fa fa-fw fa-mars text-info"></i>{elseif $userdata['user_sex'] == "f"}<i class="fa fa-fw fa-venus text-danger"></i>{/if}
+		</h2>
+		<div class="ucp-user-slogan">{$userdata['user_slogan']}</div>
+		<small class="label label-primary">{$userdata['gtitle']}</small>
 	</div>
-<hr>
+	<div class="col-xs-12">
+		<hr />
+	</div>
+</div>
 
 <div class="row">
 	<div class="col-sm-8">
@@ -154,10 +158,9 @@
 				</div>
 			</div>
 		</form>
+		<hr />
 	</div>
 </div>
-
-<br />
 
 <div class="row">
 	<div class="col-sm-8">

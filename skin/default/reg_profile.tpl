@@ -1,8 +1,8 @@
 {* Шаблон регистрации нового пользователя *}
-
-<h1>Регистрация</h1>
-
 <div class="row">
+	<div class="col-sm-12">
+		<h1>Регистрация</h1>
+	</div>
 	<div class="col-sm-12">
 		<form method="post" action="{$SCRIPT_NAME}?part=reg&act=join" role="form" class="form-horizontal">
 			<hr />

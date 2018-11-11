@@ -1,7 +1,10 @@
 {* Шаблон личных сообщений пользователя *}
-
-<h1>Личные cообщения</h1>
-{if empty($pm)}<hr />{/if}
+<div class="row">
+	<div class="col-sm-12">
+		<h1>Личные cообщения</h1>
+		{if empty($pm)}<hr />{/if}
+	</div>
+</div>
 
 {*<div class="row">
 	<div class="col-sm-12">
@@ -29,8 +32,12 @@
 {/if}
 </div>
 
-{if empty($pm)}<hr />{/if}
-<h2>Новое сообщение</h2>
+<div class="row">
+	<div class="col-sm-12">
+		{if empty($pm)}<hr />{/if}
+		<h2>Новое сообщение</h2>
+	</div>
+</div>
 
 <div class="row">
 	<div class="col-sm-12">

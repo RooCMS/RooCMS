@@ -60,7 +60,7 @@ class UI_Search {
 	 */
 	private function search($searchstring) {
 
-		global $structure, $db, $tags, $parse, $img, $tpl, $smarty;
+		global $structure, $db, $tags, $users, $parse, $img, $tpl, $smarty;
 
 		# title
 		$structure->page_title = "Поиск : ".$searchstring;
@@ -82,13 +82,10 @@ class UI_Search {
 		}
 
 		$taglinks = [];
+		$authors  = [];
 		$result   = [];
-		$q = $db->query("SELECT f.id, f.title, f.brief_item, s.title AS feed_title, s.alias, f.date_publications, f.views FROM ".PAGES_FEED_TABLE." AS f LEFT JOIN ".STRUCTURE_TABLE." AS s ON (s.id = f.sid) WHERE (".$cond.") AND (".$condsid.") AND (f.date_end_publications = '0' || f.date_end_publications > '".time()."') AND f.status='1' AND date_publications <= '".time()."' ORDER BY f.date_publications DESC, f.views DESC");
+		$q = $db->query("SELECT f.id, f.author_id, f.title, f.brief_item, s.title AS feed_title, s.alias, f.date_publications, f.views FROM ".PAGES_FEED_TABLE." AS f LEFT JOIN ".STRUCTURE_TABLE." AS s ON (s.id = f.sid) WHERE (".$cond.") AND (".$condsid.") AND (f.date_end_publications = '0' || f.date_end_publications > '".time()."') AND f.status='1' AND date_publications <= '".time()."' ORDER BY f.date_publications DESC, f.views DESC");
 		while($row = $db->fetch_assoc($q)) {
-			if(trim($row['brief_item']) == "") {
-				$row['brief_item'] = $row['full_item'];
-			}
-
 			$row['datepub']    = $parse->date->unix_to_rus($row['date_publications'],true);
 			$row['date']       = $parse->date->unix_to_rus_array($row['date_publications']);
 			$row['brief_item'] = $parse->text->html($row['brief_item']);
@@ -99,13 +96,19 @@ class UI_Search {
 
 			$taglinks[$row['id']] = "feeditemid=".$row['id'];
 
+			$authors[] = $row['author_id'];
+
 			$result[$row['id']] = $row;
 		}
 
 		# tags collect
 		$result = $tags->collect_tags($result, $taglinks);
 
+		# authors
+		$this->userlist = $users->get_userlist(-1,-1,$authors);
+
 		# template
+		$smarty->assign("authors", $this->userlist);
 		$smarty->assign("searchstring", $searchstring);
 		$smarty->assign("result", $result);
 		$tpl->load_template("search");

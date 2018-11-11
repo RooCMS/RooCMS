@@ -1,8 +1,7 @@
 {* Шаблон для модуля: tagcloud *}
-
-<hr />
 <div class="row">
 	<div class="col-md-12 text-center">
+		<hr />
 		<h4> Популярные Метки </h4>
 
 		{foreach from=$tags item=tag}
