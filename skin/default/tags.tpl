@@ -17,8 +17,8 @@
 								</h3>
 								<div class="feed-date small">
 									<i class="fa fa-calendar"></i> {$item['datepub']}
-									{if $item['views'] != 0}<i class="fa fa-fw fa-eye" title="Просмотрено раз"></i>{$item['views']}{/if}
-									{if $item['author_id'] != 0} <i class="fa fa-fw fa-user-circle-o" title="Автор"></i>{$authors[$item['author_id']]['nickname']}{/if}
+									{if $item['views'] != 0}<i class="fa fa-fw fa-eye" title="Просмотрено раз"></i> {$item['views']}{/if}
+									{if $item['author_id'] != 0} <i class="fa fa-fw fa-user-circle-o" title="Автор"></i> {$authors[$item['author_id']]['nickname']}{/if}
 									<a href="{$SCRIPT_NAME}?page={$item['alias']}"><i class="fa fa-fw fa-folder"></i>{$item['feed_title']}</a>
 								</div>
 							</div>
