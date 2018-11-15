@@ -219,6 +219,41 @@ class Images extends GD {
 
 
 	/**
+	 * Обноялвем информацию об изображениях
+	 *
+	 * @param $attachedto - структурный определитель
+	 * @param $id         - идентификатор изображения
+	 */
+	public function update_images_info($attachedto, $id) {
+
+		global $db, $post, $img;
+
+		if(isset($post->sort) || isset($post->alt)) {
+			$sortimg = $img->load_images($attachedto."=".$id);
+			foreach($sortimg AS $v) {
+
+				$field = "";
+
+				if(isset($post->sort[$v['id']]) && $post->sort[$v['id']] != $v['sort']) {
+					$field .= "sort='".$post->sort[$v['id']]."'";
+				}
+
+				if(isset($post->alt[$v['id']]) && $post->alt[$v['id']] != $v['alt']) {
+					if($field != "") {
+						$field .= ", ";
+					}
+					$field .= "alt='".$post->alt[$v['id']]."'";
+				}
+
+				if($field != "") {
+					$db->query("UPDATE ".IMAGES_TABLE." SET ".$field." WHERE id='".$v['id']."'");
+				}
+			}
+		}
+	}
+
+
+	/**
 	 * Функция удаления картинок
 	 *
 	 * @param int|string $image - указать числовой идентификатор или attachedto
@@ -264,6 +299,25 @@ class Images extends GD {
 
 
 	/**
+	 * Функция стирает файл с указанным изображением
+	 *
+	 * @param $image
+	 */
+	public function erase_image($image) {
+
+		global $logger;
+
+		if(is_file($image)) {
+			unlink($image);
+			$logger->log("Изображение ".$image." удалено");
+		}
+		else {
+			$logger->log("Не удалось найти изображение ".$image, "error");
+		}
+	}
+
+
+	/**
 	 * Функция проверяет ввод параметров ширины и высоты для генерации уменьшинных изображений.
 	 */
 	public function check_post_thumb_parametrs() {
@@ -302,24 +356,5 @@ class Images extends GD {
 		}
 
 		return $allow_exts;
-	}
-
-
-	/**
-	 * Функция стирает файл с указанным изображением
-	 *
-	 * @param $image
-	 */
-	public function erase_image($image) {
-
-		global $logger;
-
-		if(is_file($image)) {
-			unlink($image);
-			$logger->log("Изображение ".$image." удалено");
-		}
-		else {
-			$logger->log("Не удалось найти изображение ".$image, "error");
-		}
 	}
 }

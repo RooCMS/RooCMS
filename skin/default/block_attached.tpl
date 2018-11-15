@@ -1,11 +1,11 @@
 {* Шаблон дизайна отображения картинок и файлов в блоках *}
 
 {if !empty($images)}
-<div class="text-center">
-	{foreach from=$images item=img}
-		<a href="/upload/images/{$img['resize']}" rel="img"><img src="/upload/images/{$img['thumb']}" class="img-thumbnail" style="margin: 3px 0px;"></a>
-	{/foreach}
-</div>
+	<div class="text-center">
+		{foreach from=$images item=img}
+			<a href="/upload/images/{$img['resize']}" rel="img" title="{$img['alt']}"><img src="/upload/images/{$img['thumb']}" class="img-thumbnail" alt="{$img['alt']}" style="margin: 3px 0px;"></a>
+		{/foreach}
+	</div>
 {/if}
 
 

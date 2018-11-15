@@ -26,7 +26,7 @@ if(!defined('RooCMS')) {
 class Structure {
 
 	# vars
-	public $content_types		= array('html'	=> array('enable' => true, 'title' => 'HTML страница'),
+	public $content_types		= array('html'	=> array('enable' => true, 'title' => 'Простая страница'),
 						'php'	=> array('enable' => true, 'title' => 'PHP страница'),
 						'feed'	=> array('enable' => true, 'title' => 'Лента'));
 

@@ -165,7 +165,7 @@ a:hover [class^="fa-"] {
   text-decoration: none !important;
 }
 /* style for attached files */
-.delete_image {
+.op_attached_images {
   margin-right: -3px;
   margin-top: 5px;
 }

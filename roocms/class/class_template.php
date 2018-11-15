@@ -188,7 +188,7 @@ class Template {
 	 * @param string $tpl             - На случай если вам потребуется использовать собственный шаблон
 	 * @param bool   $tplreturn       - Возврат скомпилорованного шаблона в переменную. По-умолчанию включено.
 	 */
-	public function load_image_upload_tpl($smarty_variable, $tpl="images_upload", $tplreturn=true) {
+	public function load_image_upload_tpl($smarty_variable, $tpl="attached_images_upload", $tplreturn=true) {
 
 		global $smarty;
 
@@ -208,7 +208,7 @@ class Template {
 	 * @param string $tpl             - На случай если вам потребуется использовать собственный шаблон
 	 * @param bool   $tplreturn       - Возврат скомпилорованного шаблона в переменную. По-умолчанию включено.
 	 */
-	public function load_files_upload_tpl($smarty_variable, $tpl="files_upload", $tplreturn=true) {
+	public function load_files_upload_tpl($smarty_variable, $tpl="attached_files_upload", $tplreturn=true) {
 
 		global $smarty;
 

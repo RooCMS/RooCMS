@@ -1,6 +1,6 @@
 {* Шаблон прикрепленных файлов *}
 
-<p class="files_attach">
+<p class="attached_files">
 {foreach from=$attachfile item=file}
 	<p class="bg-success attach_files"  id="filea-{$file['id']}">
 		<a href="/upload/files/{$file['file']}" id="afile-{$file['id']}" target="_blank">

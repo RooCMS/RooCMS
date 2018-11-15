@@ -212,7 +212,7 @@ class ACP_Feeds_Feed {
 		$smarty->assign("attachimg", $attachimg);
 
 		# show attached images
-		$attachedimages = $tpl->load_template("images_attach", true);
+		$attachedimages = $tpl->load_template("attached_images", true);
 		$smarty->assign("attachedimages", $attachedimages);
 
 
@@ -221,7 +221,7 @@ class ACP_Feeds_Feed {
 		$smarty->assign("attachfile", $attachfile);
 
 		# show attached files
-		$attachedfiles = $tpl->load_template("files_attach", true);
+		$attachedfiles = $tpl->load_template("attached_files", true);
 		$smarty->assign("attachedfiles", $attachedfiles);
 
 
@@ -289,16 +289,8 @@ class ACP_Feeds_Feed {
 			# notice
 			$logger->info("Элемент ".$post->title." (#".$id.") успешно отредактирован.");
 
-			# sortable images
-			if(isset($post->sort)) {
-				$sortimg = $img->load_images("feeditemid=".$id);
-				foreach($sortimg AS $v) {
-					if(isset($post->sort[$v['id']]) && $post->sort[$v['id']] != $v['sort']) {
-						$db->query("UPDATE ".IMAGES_TABLE." SET sort='".$post->sort[$v['id']]."' WHERE id='".$v['id']."'");
-					}
-				}
-			}
-
+			# update images
+			$img->update_images_info("feeditemid", $id);
 
 			# attachment images
 			$images = $img->upload_image("images", "", array($this->feed['thumb_img_width'], $this->feed['thumb_img_height']));

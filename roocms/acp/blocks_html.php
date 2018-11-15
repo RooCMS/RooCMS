@@ -104,7 +104,7 @@ class ACP_Blocks_HTML {
 		$smarty->assign("attachimg", $attachimg);
 
 		# show attached images
-		$attachedimages = $tpl->load_template("images_attach", true);
+		$attachedimages = $tpl->load_template("attached_images", true);
 		$smarty->assign("attachedimages", $attachedimages);
 
 
@@ -113,7 +113,7 @@ class ACP_Blocks_HTML {
 		$smarty->assign("attachfile", $attachfile);
 
 		# show attached files
-		$attachedfiles = $tpl->load_template("files_attach", true);
+		$attachedfiles = $tpl->load_template("attached_files", true);
 		$smarty->assign("attachedfiles", $attachedfiles);
 
 
@@ -160,14 +160,7 @@ class ACP_Blocks_HTML {
 						    id='".$id."'");
 
 				#sortable images
-				if(isset($post->sort)) {
-					$sortimg = $img->load_images("blockid=".$id);
-					foreach($sortimg AS $v) {
-						if(isset($post->sort[$v['id']]) && $post->sort[$v['id']] != $v['sort']) {
-							$db->query("UPDATE ".IMAGES_TABLE." SET sort='".$post->sort[$v['id']]."' WHERE id='".$v['id']."'");
-						}
-					}
-				}
+				$img->update_images_info("blockid", $id);
 
 				$thumbsize = [];
 				$thumbsize['thumb_img_width'] = ($post->thumb_img_width != 0) ? $post->thumb_img_width : $config->gd_thumb_image_width ;

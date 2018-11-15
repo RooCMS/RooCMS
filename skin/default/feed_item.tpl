@@ -42,7 +42,7 @@
 		{if !empty($images)}
 			<div class="text-center">
 				{foreach from=$images item=img}
-					<a href="/upload/images/{$img['resize']}" rel="img" title="{$item['title']}"><img src="/upload/images/{$img['thumb']}" class="img-thumbnail" style="margin: 3px 0;" alt="{$item['title']}"></a>
+					<a href="/upload/images/{$img['resize']}" rel="img" title="{if $img['alt'] != ""}{$img['alt']}{else}{$item['title']}{/if}"><img src="/upload/images/{$img['thumb']}" class="img-thumbnail" style="margin: 3px 0;" alt="{if $img['alt'] != ""}{$img['alt']}{else}{$item['title']}{/if}"></a>
 				{/foreach}
 			</div>
 		{/if}

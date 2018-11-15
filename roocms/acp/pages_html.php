@@ -50,7 +50,7 @@ class ACP_Pages_HTML {
 		$smarty->assign("attachimg", $attachimg);
 
 		# show attached images
-		$attachedimages = $tpl->load_template("images_attach", true);
+		$attachedimages = $tpl->load_template("attached_images", true);
 		$smarty->assign("attachedimages", $attachedimages);
 
 
@@ -59,7 +59,7 @@ class ACP_Pages_HTML {
 		$smarty->assign("attachfile", $attachfile);
 
 		# show attached files
-		$attachedfiles = $tpl->load_template("files_attach", true);
+		$attachedfiles = $tpl->load_template("attached_files", true);
 		$smarty->assign("attachedfiles", $attachedfiles);
 
 
@@ -82,14 +82,7 @@ class ACP_Pages_HTML {
 		global $db, $logger, $files, $img, $post;
 
 		#sortable images
-		if(isset($post->sort)) {
-			$sortimg = $img->load_images("pagesid=".$sid);
-			foreach($sortimg AS $v) {
-				if(isset($post->sort[$v['id']]) && $post->sort[$v['id']] != $v['sort']) {
-					$db->query("UPDATE ".IMAGES_TABLE." SET sort='".$post->sort[$v['id']]."' WHERE id='".$v['id']."'");
-				}
-			}
-		}
+		$img->update_images_info("pagesid", $sid);
 
 		# read thumbnail parametrs
 		$q = $db->query("SELECT thumb_img_width, thumb_img_height FROM ".STRUCTURE_TABLE." WHERE id='".$sid."'");
