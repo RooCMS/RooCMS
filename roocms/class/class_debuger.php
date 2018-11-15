@@ -283,27 +283,14 @@ class Debuger {
         * Функция отладки
         *
         * @param mixed $var     - Переменная для отладки
-        * @param mixed $expand  - Флаг развернутого вида
         * @return mixed - Функция выводит на экран дамп переменной $var
         */
-	public function rundebug($var, $expand=false) {
+	public function rundebug($var) {
                 static $use = 1;
 
                 # регестрируем шотдаун
     	        if($use == 1) {
-    	        	if($expand) {
-				register_shutdown_function(array($this,'shutdown'), true);
-
-				ob_start();
-				debug_print_backtrace();
-				$backtrace = ob_get_contents();
-				ob_end_clean();
-
-				$this->debug_dump['backtrace'] = $backtrace;
-			}
-			else {
-				register_shutdown_function(array($this,'shutdown'), false);
-			}
+			register_shutdown_function(array($this,'shutdown'));
     	        }
 
 		# print var
@@ -328,10 +315,8 @@ class Debuger {
 
         /**
         * Шотдаун (выодвим отладку)
-        *
-        * @param bool $expand
         */
-	public static function shutdown($expand=false) {
+	public static function shutdown() {
 
 		global $debug, $db;
 
@@ -341,18 +326,7 @@ class Debuger {
         	        echo "<code>debug <b>#".$k."</b></code><pre class='small' style='overflow: auto;max-height: 300px;'>".htmlspecialchars($v)."</pre>";
                 }
 
-                if($expand) {
-		        ob_start();
-			        print_r(debug_backtrace());
-			        $backtrace = ob_get_contents();
-		        ob_end_clean();
-
-        	        echo "<code>backtrace</code><pre class='small' style='overflow: auto;max-height: 300px;'>".$backtrace."</pre>";
-                }
-
                 echo "</div></div></div>";
-
-
 
 		if($debug->show_debug) {
 			echo "<div class='container'><div class='row'><div class='col-xs-12'><div class='panel-group' id='debugaccordion'>";
@@ -370,7 +344,6 @@ class Debuger {
 
 			echo "</div></div></div></div>";
 		}
-
 
 		# Функции
 		echo "<div class='container'><div class='row'><div class='col-xs-12'><div class='panel-group' id='debug2accordion'>";

@@ -96,7 +96,6 @@ class ACP_Pages_HTML {
 			}
 		}
 
-
 		# attachment files
 		$files->upload("files", "pagesid=".$sid);
 

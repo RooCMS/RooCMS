@@ -232,21 +232,21 @@ class Images extends GD {
 			$sortimg = $img->load_images($attachedto."=".$id);
 			foreach($sortimg AS $v) {
 
-				$field = "";
+				$cond = "";
 
 				if(isset($post->sort[$v['id']]) && $post->sort[$v['id']] != $v['sort']) {
-					$field .= "sort='".$post->sort[$v['id']]."'";
+					$cond .= "sort='".$post->sort[$v['id']]."'";
 				}
 
 				if(isset($post->alt[$v['id']]) && $post->alt[$v['id']] != $v['alt']) {
-					if($field != "") {
-						$field .= ", ";
+					if($cond != "") {
+						$cond .= ", ";
 					}
-					$field .= "alt='".$post->alt[$v['id']]."'";
+					$cond .= "alt='".$post->alt[$v['id']]."'";
 				}
 
-				if($field != "") {
-					$db->query("UPDATE ".IMAGES_TABLE." SET ".$field." WHERE id='".$v['id']."'");
+				if($cond != "") {
+					$db->query("UPDATE ".IMAGES_TABLE." SET ".$cond." WHERE id='".$v['id']."'");
 				}
 			}
 		}
