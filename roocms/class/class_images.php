@@ -221,8 +221,8 @@ class Images extends GD {
 	/**
 	 * Обноялвем информацию об изображениях
 	 *
-	 * @param $attachedto - структурный определитель
-	 * @param $id         - идентификатор изображения
+	 * @param mixed $attachedto - структурный определитель
+	 * @param int   $id         - идентификатор изображения
 	 */
 	public function update_images_info($attachedto, $id) {
 
