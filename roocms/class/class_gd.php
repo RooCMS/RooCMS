@@ -97,17 +97,16 @@ class GD extends GDExtends {
 	 * @param string $filename  - Имя файла (без расширения)
 	 * @param string $extension - расширение файла
 	 * @param string $path      - путь к расположению файла.
-	 * @param array  $options
-	 * @internal param bool $watermark 	- флаг указывает наносить ли водяной знак на рисунок.
-	 * @internal param bool $modify 	- флаг указывает подвергать ли изображение полной модификации с сохранением оригинального изображения и созданием превью.
-	 * @internal param bool $noresize 	- флаг указывает подвергать ли изображение изменению размера. Иcпользуется в том случае когда мы не хотим изменять оригинальное изображение.
+	 * @param bool   $watermark - флаг указывает наносить ли водяной знак на рисунок.
+	 * @param bool   $modify    - флаг указывает подвергать ли изображение полной модификации с сохранением оригинального изображения и созданием превью.
+	 * @param bool   $noresize  - флаг указывает подвергать ли изображение изменению размера. Иcпользуется в том случае когда мы не хотим изменять оригинальное изображение.
 	 */
-	protected function modify_image($filename, $extension, $path, array $options=array("watermark"=>true, "modify"=>true, "noresize"=>false)) {
+	protected function modify_image($filename, $extension, $path, $watermark=true, $modify=true, $noresize=false) {
 
 		global $config;
 
 		# Модифицируем?
-		if(isset($options['modify']) && $options['modify']) {
+		if($modify) {
 			# изменяем изображение если, оно превышает допустимые размеры
 			$this->resize($filename, $extension, $path);
 
@@ -115,14 +114,14 @@ class GD extends GDExtends {
 			$this->thumbnail($filename, $extension, $path);
 		}
 		else {
-			if(!isset($options['noresize']) || !$options['noresize']) {
+			if(!$noresize) {
 				$this->resized($filename, $extension, $path);
 			}
 		}
 
 
 		# Наносим ватермарк
-		if($config->gd_use_watermark != "no" && (isset($options['watermark']) && $options['watermark'])) {
+		if($config->gd_use_watermark != "no" && $watermark) {
 
 			# Текстовый watermark
 			if($config->gd_use_watermark == "text" ) {

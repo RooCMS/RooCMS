@@ -29,40 +29,37 @@ class Images extends GD {
 	/**
 	 * Раздатчик функции загрузки файлов на сервер и в БД
 	 *
-	 * @param string  $file      - имя в массиве $_FILES
-	 * @param string  $prefix    - префикс для имения файла.
-	 * @param array   $thumbsize - array(width,height) - размеры миниатюры будут изменены согласно параметрам.
-	 * @param array   $options   - array(internal param)
-	 * @internal param bool		$watermark	- флаг указывает наносить ли водяной знак на рисунок.
-	 * @internal param string	$filename	- устанавливаем имя для файла принудительно
-	 * @internal param bool		$modify		- флаг указывает подвергать ли изображение полной модификации с сохранением оригинального изображения и созданием превью.
-	 * @internal param bool		$noresize	- флаг указывает подвергать ли изображение изменению размера. Иcпользуется в том случае когда мы не хотим изменять оригинальное изображение.
-	 * @param string  $path      - путь к папке для загрузки изображений.
+	 * @param string $file      - имя в массиве $_FILES
+	 * @param string $prefix    - префикс для имения файла.
+	 * @param array  $thumbsize - array(width,height) - размеры миниатюры будут изменены согласно параметрам.
+	 * @param bool   $watermark - флаг указывает наносить ли водяной знак на рисунок.
+	 * @param bool   $modify    - флаг указывает подвергать ли изображение полной модификации с сохранением оригинального изображения и созданием превью.
+	 * @param bool   $noresize  - флаг указывает подвергать ли изображение изменению размера. Иcпользуется в том случае когда мы не хотим изменять оригинальное изображение.
+	 * @param string $filename  - устанавливаем имя для файла принудительно
+	 * @param string $path      - путь к папке для загрузки изображений.
 	 *
 	 * @return false|array - возвращает массив с именами файлов.
 	 */
-	public function upload_image($file, $prefix="", array $thumbsize=[], array $options=array("watermark"=>true, "modify"=>true, "noresize"=>false), $path=_UPLOADIMAGES) {
-
-		return $this->upload_post_image($file, $prefix, $thumbsize, $options, $path);
+	public function upload_image($file, $prefix="", array $thumbsize=[], $watermark=true, $modify=true, $noresize=false, $filename="", $path=_UPLOADIMAGES) {
+		return $this->upload_post_image($file, $prefix, $thumbsize, $watermark, $modify, $noresize, $filename, $path);
 	}
 
 
 	/**
 	 * Загрузка картинок через $_POST
 	 *
-	 * @param string  $file      - имя в массиве $_FILES
-	 * @param string  $prefix    - префикс для имения файла.
-	 * @param array   $thumbsize - array(width,height) - размеры миниатюры будут изменены согласно параметрам.
-	 * @param array   $options   - array(internal param)
-	 * @internal param bool		$watermark	- флаг указывает наносить ли водяной знак на рисунок.
-	 * @internal param string	$filename	- устанавливаем имя для файла принудительно
-	 * @internal param bool		$modify		- флаг указывает подвергать ли изображение полной модификации с сохранением оригинального изображения и созданием превью.
-	 * @internal param bool		$noresize	- флаг указывает подвергать ли изображение изменению размера. Иcпользуется в том случае когда мы не хотим изменять оригинальное изображение.
-	 * @param string  $path      - путь к папке для загрузки изображений.
+	 * @param string $file      - имя в массиве $_FILES
+	 * @param string $prefix    - префикс для имения файла.
+	 * @param array  $thumbsize - array(width,height) - размеры миниатюры будут изменены согласно параметрам.
+	 * @param bool   $watermark - флаг указывает наносить ли водяной знак на рисунок.
+	 * @param bool   $modify    - флаг указывает подвергать ли изображение полной модификации с сохранением оригинального изображения и созданием превью.
+	 * @param bool   $noresize  - флаг указывает подвергать ли изображение изменению размера. Иcпользуется в том случае когда мы не хотим изменять оригинальное изображение.
+	 * @param string $filename  - устанавливаем имя для файла принудительно
+	 * @param string $path      - путь к папке для загрузки изображений.
 	 *
 	 * @return false|array - возвращает массив с именами файлов или false в случае неудачи.
 	 */
-	public function upload_post_image($file, $prefix="", array $thumbsize=[], array $options=[], $path=_UPLOADIMAGES) {
+	public function upload_post_image($file, $prefix="", array $thumbsize=[], $watermark=true, $modify=true, $noresize=false, $filename="", $path=_UPLOADIMAGES) {
 
 		global $config, $files;
 
@@ -113,15 +110,12 @@ class Images extends GD {
 					$ext = $allow_exts[$upfiles[$file]['type'][$key]];
 
 					# Создаем имя файлу.
-					if(isset($options['filename']) && $options['filename'] != "") {
-						$filename = $options['filename'];
-					}
-					else {
+					if($filename == "") {
 						$filename = $files->create_filename($upfiles[$file]['name'][$key], $prefix);
 					}
 
 					# если разрешено сохранять оригинальное изображение
-					if(isset($options['modify']) && $options['modify']) {
+					if($modify) {
 						# Сохраняем оригинал
 						copy($upfiles[$file]['tmp_name'][$key], $path."/".$filename."_original.".$ext);
 
@@ -144,7 +138,7 @@ class Images extends GD {
 						$ext = $this->convert_jpgtowebp($filename, $ext, $path);
 					}
 
-					$this->modify_image($filename, $ext, $path, $options);
+					$this->modify_image($filename, $ext, $path, $watermark, $modify, $noresize);
 				}
 				else {
 					# Обработчик если загрузка не удалась =)

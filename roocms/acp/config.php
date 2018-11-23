@@ -258,11 +258,11 @@ class ACP_Config extends ACP_ConfigAction {
 
 				# image
 				case 'image':
-					$image = $img->upload_image("image_".$key, "", array(), array("filename"=>$key, "watermark"=>false, "modify"=>false, "noresize"=>true));
+					$image = $img->upload_image("image_".$key, "", array(), false, false, true, $key);
 
 					if(isset($image[0])) {
 						if($value != "" && $value != $image[0]) {
-							unlink(_UPLOADIMAGES."/".$value);
+							$img->erase_image(_UPLOADIMAGES."/".$value);
 						}
 						$value = $image[0];
 						$check = true;

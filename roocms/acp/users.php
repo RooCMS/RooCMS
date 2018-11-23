@@ -432,10 +432,10 @@ class ACP_Users {
 			}
 
 			# avatar
-			$av = $img->upload_image("avatar", "", array($config->users_avatar_width, $config->users_avatar_height), array("filename"=>"av_".$uid, "watermark"=>false, "modify"=>false));
+			$av = $users->upload_avatar($uid);
 			if(isset($av[0])) {
 				if($udata['avatar'] != "" && $udata['avatar'] != $av[0]) {
-					unlink(_UPLOADIMAGES."/".$udata['avatar']);
+					$img->erase_image(_UPLOADIMAGES."/".$udata['avatar']);
 				}
 				$query .= "avatar='".$av[0]."', ";
 			}

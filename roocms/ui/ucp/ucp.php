@@ -144,7 +144,7 @@ class UCP_CP {
 			$query .= "avatar='', ";
 		}
 
-		$av = $img->upload_image("avatar", "", array($config->users_avatar_width, $config->users_avatar_height), array("filename"=>"av_".$users->uid, "watermark"=>false, "modify"=>false));
+		$av = $users->upload_avatar($users->uid);
 		if(isset($av[0])) {
 			if($users->avatar != "" && $users->avatar != $av[0]) {
 				unlink(_UPLOADIMAGES."/".$users->avatar);

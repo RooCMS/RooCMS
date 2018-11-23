@@ -461,7 +461,7 @@ class Users extends Security {
 
 		global $db, $config, $img;
 
-		$av = $img->upload_image("avatar", "", array($config->users_avatar_width, $config->users_avatar_height), array("filename"=>"av_".$uid, "watermark"=>false, "modify"=>false));
+		$av = $img->upload_image("avatar", "", array($config->users_avatar_width, $config->users_avatar_height), false, false, false, "av_".$uid);
 		if(isset($av[0])) {
 			$db->query("UPDATE ".USERS_TABLE." SET avatar='".$av[0]."' WHERE uid='".$uid."'");
 		}
