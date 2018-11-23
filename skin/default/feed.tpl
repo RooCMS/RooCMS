@@ -1,6 +1,6 @@
 {* Шаблон ленты *}
 <div class="row">
-	<div class="col-sm-12">
+	<div class="col-sm-9">
 		<h1>
 			{$page_title}
 			{if !empty($rsslink)}
@@ -36,7 +36,7 @@
 						</div>
 						<hr />
 						<div class="row">
-							<div class="col-sm-6">
+							<div class="col-xs-9">
 								{if !empty($item['tags'])}
 									<span class="small">
 										{foreach from=$item['tags'] item=tag}
@@ -45,7 +45,7 @@
 									</span>
 								{/if}
 							</div>
-							<div class="col-sm-6 text-right">
+							<div class="col-xs-3 text-right">
 								<a href="{$SCRIPT_NAME}?page={$feed['alias']}{if isset($smarty.get.pg)}&pg={$smarty.get.pg}{/if}&id={$item['id']}" class="btn btn-sm btn-primary">Читать <span class="fa fa-chevron-circle-right fa-fw"></span></a>
 							</div>
 						</div>
@@ -76,7 +76,8 @@
 				{/foreach}
 			</ul>
 		{/if}
-
-		{$module->load("tagcloud")}
+	</div>
+	<div class="col-sm-3" style="padding-top:60px;">
+		{$module->load('tagcloud')}
 	</div>
 </div>

@@ -3,13 +3,6 @@
 **/
 $(document).ready(function(){
 
-	/* Colorbox */
-	$("a[rel='img']").colorbox({maxWidth: "98%", maxHeight: "98%", retinaImage:true, retinaUrl:true});
-
-	$("a[rel='html']").colorbox({maxWidth: "75%", maxHeight: "90%"});
-	$("a[rel='iframe']").colorbox({width: "75%", height: "75%", iframe: true});
-
-
 	//$(".corner").corner("round 4px");
 
 	$("[rel='tooltip']").tooltip();
@@ -58,8 +51,12 @@ $(document).ready(function(){
 
 	/* MOVETOP button */
 	$(window).scroll(function () {
-		if ($(this).scrollTop() > 100) $("a#move_top").fadeIn();
-		else                           $("a#move_top").fadeOut(400);
+		if ($(this).scrollTop() > 100) {
+			$("a#move_top").fadeIn();
+		}
+		else {
+			$("a#move_top").fadeOut(400);
+		}
 	});
 	$("a#move_top").click(function () {
 		$("html, body").animate({scrollTop: 0}, '500', 'swing');

@@ -65,8 +65,6 @@ class Module_Tag_Cloud {
 				$taglist[$key] = array('title'=>$value['title'], 'amount'=>$value['amount'], 'fontsize'=>$fontsize, 'ukey'=>$ukey);
 			}
 
-			shuffle($taglist);
-
 			$smarty->assign("tags", $taglist);
 			$this->out .= $tpl->load_template("module_tagcloud", true);
 

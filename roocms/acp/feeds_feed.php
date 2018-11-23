@@ -152,7 +152,7 @@ class ACP_Feeds_Feed {
 		$this->userlist = $users->get_userlist();
 
 		# popular tags
-		$poptags = $tags->list_tags(true, 15);
+		$poptags = $tags->list_tags(true, 20);
 
 		# show upload files & images form
 		$tpl->load_image_upload_tpl("imagesupload");
