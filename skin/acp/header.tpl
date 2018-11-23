@@ -22,6 +22,7 @@
 
 <!-- Style -->
 <link rel="stylesheet" type="text/css" href="{$SKIN}/style.min.css{$build}" media="screen" />
+<link rel="stylesheet" type="text/css" href="plugin/fancybox/jquery.fancybox.min.css{$build}" media="screen" />
 
 <!-- JS -->
 <!--[if lt IE 9]><script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
@@ -29,7 +30,7 @@
 <script type="text/javascript" src="plugin/iepngfix_tilebg.min.js{$build}"></script>
 <script type="text/javascript" src="plugin/jquery-core.min.js{$build}"></script>
 <script type="text/javascript" src="plugin/jquery-migrate.min.js{$build}"></script>
-<script type="text/javascript" src="plugin/colorbox.js.php{$build}{if trim($build) != ""}&{else}?{/if}zoom"></script>
+<script type="text/javascript" src="plugin/fancybox/jquery.fancybox.min.js{$build}"></script>
 <script type="text/javascript" src="plugin/jquery.touchswipe.min.js{$build}"></script>
 <script type="text/javascript" src="plugin/bootstrap.php{$build}"></script>
 <script type="text/javascript" src="{$SKIN}/roocms.min.js{$build}"></script>

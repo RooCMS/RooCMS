@@ -5,8 +5,9 @@
 		{* Шаблон шаблон отображения картинок на страницах *}
 		{if !empty($images)}
 		<div class="well well-sm">
+			{assign var=UGID value= 400|rand:699}
 			{foreach from=$images item=img}
-				<a href="/upload/images/{$img['resize']}" title="{$img['alt']}" rel="img"><img src="/upload/images/{$img['thumb']}" alt="{$img['alt']}" class="img-thumbnail" style="margin: 3px 0px;"></a>
+				<a href="/upload/images/{$img['resize']}" data-fancybox="gallery{$UGID}" data-caption="{$img['alt']}" title="{$img['alt']}"><img src="/upload/images/{$img['thumb']}" alt="{$img['alt']}" class="img-thumbnail" style="margin: 3px 0px;"></a>
 			{/foreach}
 		</div>
 		{/if}

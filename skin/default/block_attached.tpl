@@ -2,8 +2,9 @@
 
 {if !empty($images)}
 	<div class="text-center">
+		{assign var=UGID value= 1|rand:399}
 		{foreach from=$images item=img}
-			<a href="/upload/images/{$img['resize']}" rel="img" title="{$img['alt']}"><img src="/upload/images/{$img['thumb']}" class="img-thumbnail" alt="{$img['alt']}" style="margin: 3px 0px;"></a>
+			<a href="/upload/images/{$img['resize']}" data-fancybox="gallery{$UGID}" data-caption="{$img['alt']}" title="{$img['alt']}"><img src="/upload/images/{$img['thumb']}" class="img-thumbnail" alt="{$img['alt']}" style="margin: 3px 0px;"></a>
 		{/foreach}
 	</div>
 {/if}

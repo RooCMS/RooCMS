@@ -99,8 +99,8 @@ a {font-family: @ptsans, @ubuntu, @calibri, @tahoma, @trebuchet !important;}
 
 
 /* Transition */
-*,
-*:hover,
+*:not([class^="fancybox"]),
+*:not([class^="fancybox"]):hover,
 .table-hover>tbody>tr:hover>td,
 .table-hover>tbody>tr:hover>th {
 	transition: all 0.20s ease-in-out;-webkit-transition: all 0.20s ease-in-out;-moz-transition: all 0.20s ease-in-out;outline:none;
@@ -347,7 +347,6 @@ span.CodeMirror-matchhighlight { background: @grey; }
 *[class^="CodeMirror"]>*, *[class^="CodeMirror"],
 body, body.modal-open,
 .ckeditor, *[class^="cke_"], *[class^="cke_"]>*, .cke,
-#colorbox, #colorbox>*, *[id^="cbox"],
 .collapse, .collapse>*
 	{transition: none !important;-webkit-transition: none !important;-moz-transition: none !important;outline:none;}
 

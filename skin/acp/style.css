@@ -44,8 +44,8 @@ a {
   font-family: 'PT Sans', 'Ubuntu', 'Calibri', 'Tahoma', 'Trebuchet MS' !important;
 }
 /* Transition */
-*,
-*:hover,
+*:not([class^="fancybox"]),
+*:not([class^="fancybox"]):hover,
 .table-hover > tbody > tr:hover > td,
 .table-hover > tbody > tr:hover > th {
   transition: all 0.2s ease-in-out;
@@ -489,9 +489,6 @@ body.modal-open,
 *[class^="cke_"],
 *[class^="cke_"] > *,
 .cke,
-#colorbox,
-#colorbox > *,
-*[id^="cbox"],
 .collapse,
 .collapse > * {
   transition: none !important;

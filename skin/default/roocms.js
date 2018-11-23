@@ -1,5 +1,5 @@
 /**
-*	jQuery
+* RooCMS
 **/
 $(document).ready(function(){
 
