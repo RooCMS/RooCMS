@@ -85,7 +85,7 @@ class Logger {
 	 */
 	public function save() {
 
-		global $db;
+		global $db, $parse;
 
 		if(!empty($this->log)) {
 
@@ -93,11 +93,7 @@ class Logger {
 			$uid = (isset($_SESSION['uid'])) ? $_SESSION['uid'] : 0 ;
 
 			foreach($this->log AS $value) {
-
-				if(trim($dump) != "") {
-					$dump .= ", ";
-				}
-
+				$dump = $parse->text->comma($dump);
 				$dump .= "('".$uid."', '".$value["subj"]."', '".$value["type"]."', '".time()."')";
 			}
 

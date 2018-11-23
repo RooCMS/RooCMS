@@ -30,8 +30,8 @@ class MySQLiDB extends MySQLiDBExtends {
 
 	private	$querys = [];
 
-	public	$db_connect 	= false;	# [bool]	Флаг состояния подключения к БД
-	public	$cnt_querys 	= 0;		# [int] 	Счетчик запросов в БД
+	public	$db_connect 	= false; # [bool]	Флаг состояния подключения к БД
+	public	$cnt_querys 	= 0;	 # [int] 	Счетчик запросов в БД
 
 
 	/**
@@ -201,11 +201,6 @@ class MySQLiDB extends MySQLiDBExtends {
 					'LIMIT' 	=> '<b>LIMIT</b>'
 				));
 
-				# debug info querys
-				if($this->cnt_querys != 1) {
-					$debug->debug_info .= "<hr>";
-				}
-
 				$timequery = $finish-$start;
 
 				$debug->debug_info .= "<blockquote class='col-xs-12'>
@@ -229,19 +224,17 @@ class MySQLiDB extends MySQLiDBExtends {
 	*/
 	public function insert_array(array $array, $table) {
 
+		global $parse;
+
 		$fields	= "";
 		$values	= "";
 
 		foreach($array AS $key=>$value) {
 
-			if(trim($fields) != "")	{
-				$fields .= ", ";
-			}
+			$fields = $parse->text->comma($fields);
 			$fields .= $key;
 
-			if(trim($values) != "") {
-				$values .= ", ";
-			}
+			$values = $parse->text->comma($values);
 			$values .= "'".$value."'";
 		}
 
@@ -261,12 +254,12 @@ class MySQLiDB extends MySQLiDBExtends {
 	 */
 	public function update_array(array $array, $table, $proviso) {
 
+		global $parse;
+
 		$update = "";
 		foreach($array AS $key=>$value) {
 
-			if(trim($update) != "") {
-				$update .= ", ";
-			}
+			$update = $parse->text->comma($update);
 			$update .= $key."='".$value."'";
 		}
 

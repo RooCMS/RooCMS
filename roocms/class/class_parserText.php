@@ -262,4 +262,21 @@ class ParserText {
 
 		return $var;
 	}
+
+
+	/**
+	 * Add comma in condition or another loop through
+	 *
+	 * @param string $string
+	 *
+	 * @return string
+	 */
+	public function comma($string) {
+
+		if(trim($string) != "") {
+			$string .= ", ";
+		}
+
+		return $string;
+	}
 }

@@ -226,7 +226,7 @@ class Images extends GD {
 	 */
 	public function update_images_info($attachedto, $id) {
 
-		global $db, $post, $img;
+		global $db, $post, $img, $parse;
 
 		if(isset($post->sort) || isset($post->alt)) {
 			$sortimg = $img->load_images($attachedto."=".$id);
@@ -239,9 +239,7 @@ class Images extends GD {
 				}
 
 				if(isset($post->alt[$v['id']]) && $post->alt[$v['id']] != $v['alt']) {
-					if($cond != "") {
-						$cond .= ", ";
-					}
+					$cond = $parse->text->comma($cond);
 					$cond .= "alt='".$post->alt[$v['id']]."'";
 				}
 
