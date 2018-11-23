@@ -65,10 +65,10 @@ class Template {
 		$this->set_smarty_options();
 
 		# config vars
-		$smarty->assign("config",  $config);
+		$smarty->assign("config", $config);
 
 		# copyright text
-		$smarty->assign("copyright",	"<a href=\"http://www.roocms.com/\">RooCMS</a> &copy; 2010-".date("Y"));
+		$smarty->assign("copyright", "<a href=\"http://www.roocms.com/\">RooCMS</a> &copy; 2010-".date("Y"));
 	}
 
 

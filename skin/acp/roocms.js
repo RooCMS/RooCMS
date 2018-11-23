@@ -1,14 +1,4 @@
 /**
- * @package     RooCMS
- * @subpackage	Admin Control Panel
- * @subpackage	JavaScript
- * @author      alex Roosso
- * @copyright   2010-2019 (c) RooCMS
- * @link        http://www.roocms.com
- * @license     http://www.gnu.org/licenses/gpl-3.0.html
- */
-
-/**
  *   RooCMS - Russian
  *   Copyright (C) 2010-2014 alex Roosso aka alexandr Belov info@roocms.com
  *
@@ -90,28 +80,6 @@ $(document).ready(function() {
 
 	$(".addtag").click(function() {
 		$("#inputTags").tagsinput('add', $(this).attr("value"));
-	});
-
-	/* Colorbox */
-    	$("a[rel='colorbox']").colorbox({maxWidth: "95%", maxHeight: "95%",
-		'onComplete': function(){
-			$('#cboxLoadedContent').zoom({'on': 'click'});
-		}
-	});
-
-	/* Swiper */
-	$(document).bind('cbox_open', function(){
-		$("#colorbox").swipe({
-			//Generic swipe handler for all directions
-			swipeLeft:function(event, direction, distance, duration, fingerCount) {
-				jQuery.colorbox.next();
-			},
-			swipeRight:function(event, direction, distance, duration, fingerCount) {
-				jQuery.colorbox.prev();
-			},
-			//Default is 75px, set to 0 for demo so any distance triggers swipe
-			threshold:0
-		});
 	});
 
 	$(".carousel").swipe({

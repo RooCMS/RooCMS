@@ -2,9 +2,9 @@
 body {	background: #fefeff;
 	font-family: 'Open Sans','Ubuntu','Trebuchet MS','Tahoma' !important;
 	padding: 0;margin: 0;
-	behavior: url("../../csshover.htc") !important;
+	behavior: url("../csshover.htc") !important;
 	text-rendering: optimizeLegibility;}
-img {behavior: url("../../iepngfix.htc") !important;}
+img {behavior: url("../iepngfix.htc") !important;}
 
 /* Style fonts */
 h1, h2, h3, h4, h5, h6 {font-family: 'Ubuntu', 'PT Sans' !important;}
