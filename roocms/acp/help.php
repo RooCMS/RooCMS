@@ -43,40 +43,18 @@ class ACP_Help {
 	*/
 	public function __construct() {
 
-    		global $roocms, $db, $get, $post, $tpl, $smarty;
+    		global $roocms, $db, $post, $tpl, $smarty;
 
-		# загружаем "дерево" помощи
+		# Load structure tree
     		$this->helptree = $this->load_tree();
 		$smarty->assign("tree", $this->helptree);
 
-		# default: load root
-		$where = "id='1'";
+		# Load data
+		$this->load_data();
 
-		# Запрашиваем техническую информацию о разделе по уникальному имени
-		if(isset($get->_u) && $db->check_id($get->_u, HELP_TABLE, "uname")) {
-			$where = "uname='".$get->_u."'";
-		}
-
-		# Запрашиваем техническую информацию о разделе по идентификатору
-		if(isset($get->_id) && $db->check_id($get->_id, HELP_TABLE)) {
-			$where = "id='".$get->_id."'";
-		}
-
-		# query data
-		$q = $db->query("SELECT id, parent_id, uname, title, content, date_modified FROM ".HELP_TABLE." WHERE ".$where);
-		$row = $db->fetch_assoc($q);
-
-		$this->part = $row['uname'];
-		$this->part_id = $row['id'];
-		$this->part_parent = $row['parent_id'];
-
-		$this->part_data = $row;
-
-
-		# Варганим "хлебные хрошки"
+		# Construct breadcumb
 		$this->construct_breadcumb($this->part_id);
 		krsort($this->breadcumb);
-
 
 		$smarty->assign('helpmites', $this->breadcumb);
 
@@ -408,6 +386,37 @@ class ACP_Help {
 				}
 			}
 		}
+	}
+
+
+	/**
+	 * Loading data part
+	 */
+	private function load_data() {
+
+		global $db, $get;
+		# default: load root
+		$cond = "id='1'";
+
+		# Запрашиваем техническую информацию о разделе по уникальному имени
+		if(isset($get->_u) && $db->check_id($get->_u, HELP_TABLE, "uname")) {
+			$cond = "uname='".$get->_u."'";
+		}
+
+		# Запрашиваем техническую информацию о разделе по идентификатору
+		if(isset($get->_id) && $db->check_id($get->_id, HELP_TABLE)) {
+			$cond = "id='".$get->_id."'";
+		}
+
+		# query data
+		$q = $db->query("SELECT id, parent_id, uname, title, content, date_modified FROM ".HELP_TABLE." WHERE ".$cond);
+		$row = $db->fetch_assoc($q);
+
+		$this->part = $row['uname'];
+		$this->part_id = $row['id'];
+		$this->part_parent = $row['parent_id'];
+
+		$this->part_data = $row;
 	}
 
 

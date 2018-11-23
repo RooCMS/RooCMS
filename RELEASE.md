@@ -6,7 +6,7 @@ Plugins
 -------
 - Smarty                `v3.1.30`
 - Smarty plugins:       `get_params`
-- jQuery                `v3.1.1`
+- jQuery                `v3.3.1`
 - jQuery-Migrate        `v3.0.0`
 - jQuery TouchSwipe     `v1.6.18`
 - Bootstrap             `v3.3.7`
@@ -48,7 +48,7 @@ Release info:
 	[*]	Решили изменить логотип. То, что уже несколько лет было логотипом, никуда не годиться.
 	[*]	Обновлен Bootstrap до версии 3.3.7
 	[*]	Обновлен Codemirror до версии 5.24.2
-	[*]	Обновлен jQuery до версии 3.1.1
+	[*]	Обновлен jQuery до версии 3.3.1
 	[*]	Обновлен CKEditor до версии 4.8
 	[*]	Обновлен BS Select до версии 1.12.4
 	[*]	Расширен новыми функциями класс работы с Mysqli.
