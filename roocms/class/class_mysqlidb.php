@@ -348,7 +348,7 @@ class MySQLiDB {
 		}
 
 		# more proviso
-		if(!is_null($proviso)) {
+		if(trim($proviso) != "") {
 			$proviso = " AND ".$proviso;
 		}
 
@@ -387,7 +387,7 @@ class MySQLiDB {
 		$primcond .= ")";
 
 		# more proviso
-		if(!is_null($proviso)) {
+		if(trim($proviso) != "") {
 			$proviso = " AND ".$proviso;
 		}
 
@@ -431,7 +431,7 @@ class MySQLiDB {
 	 */
 	public function count($from, $proviso) {
 
-		static $results = [];
+		$results = [];
 
 		# считаем
 		$query = "SELECT count(*) FROM ".$from." WHERE ".$proviso;

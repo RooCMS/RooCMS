@@ -134,4 +134,15 @@ trait MySQLiDBExtends {
 
 		return $res;
 	}
+
+
+	/**
+	 * Abstract
+	 *
+	 * @param $from
+	 * @param $proviso
+	 *
+	 * @return mixed
+	 */
+	abstract protected function count($from, $proviso);
 }

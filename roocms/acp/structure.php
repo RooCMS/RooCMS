@@ -376,6 +376,7 @@ class ACP_Structure {
 						'thumb_img_height'	=> $this->engine->page_thumb_img_height
 					);
 
+					require_once _CLASS."/trait_feedExtends.php";
 					require_once _ROOCMS."/acp/feeds_feed.php";
 					$this->unit = new ACP_FEEDS_FEED($feeds_data);
 					$this->unit->delete_feed($sid);

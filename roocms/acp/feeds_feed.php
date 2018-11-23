@@ -402,7 +402,7 @@ class ACP_Feeds_Feed {
 	 */
 	public function delete_item($id) {
 
-		global $db, $logger, $img;
+		global $db, $logger, $img, $tags;
 
 		# получаем информацию
 		$q = $db->query("SELECT sid FROM ".PAGES_FEED_TABLE." WHERE id='".$id."'");
@@ -410,6 +410,9 @@ class ACP_Feeds_Feed {
 
 		# del attached images
 		$img->remove_images("feeditemid=".$id);
+
+		# del tags
+		$tags->save_tags("", "feeditemid=".$id);
 
 		# delete item
 		$db->query("DELETE FROM ".PAGES_FEED_TABLE." WHERE id='".$id."'");
@@ -432,11 +435,14 @@ class ACP_Feeds_Feed {
 	 */
 	public function delete_feed($sid) {
 
-		global $db, $img;
+		global $db, $img, $tags;
 
 		$cond = "";
 		$f = $db->query("SELECT id FROM ".PAGES_FEED_TABLE." WHERE sid='".$sid."'");
 		while($fid = $db->fetch_assoc($f)) {
+			# del tags
+			$tags->save_tags("", "feeditemid=".$fid['id']);
+			# cond
 			$cond .= (trim($cond) != "") ? " OR attachedto='feeditemid=".$fid['id']."' " :  " attachedto='feeditemid=".$fid['id']."' " ;
 		}
 
