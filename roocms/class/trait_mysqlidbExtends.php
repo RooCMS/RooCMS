@@ -23,7 +23,7 @@ if(!defined('RooCMS')) {
 /**
  * Class MySqlExtends
  */
-class MySQLiDBExtends {
+trait MySQLiDBExtends {
 
 	# pages param
 	public  $pages		= 0;	# [int]	Всего страниц
@@ -115,5 +115,23 @@ class MySQLiDBExtends {
 		if($this->page < $this->pages) {
 			$this->next_page = $this->page + 1;
 		}
+	}
+
+
+	/**
+	 * check connection pattern
+	 *
+	 * @return bool
+	 */
+	protected function connecting() {
+
+		if($this->db_connect || DEBUGMODE) {
+			$res = true;
+		}
+		else {
+			$res = false;
+		}
+
+		return $res;
 	}
 }

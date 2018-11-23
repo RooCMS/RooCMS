@@ -23,7 +23,9 @@ if(!defined('RooCMS')) {
 /**
  * Class MySQLDatabase
  */
-class MySQLiDB extends MySQLiDBExtends {
+class MySQLiDB {
+
+	use MySQLiDBExtends;
 
 	# obj
 	private $sql;
@@ -163,7 +165,7 @@ class MySQLiDB extends MySQLiDBExtends {
 
 		global $debug;
 
-		if($this->db_connect || DEBUGMODE) {
+		if($this->connecting()) {
 
 			# таймер старт
 			$start = microtime(true);
@@ -277,7 +279,7 @@ class MySQLiDB extends MySQLiDBExtends {
 	 */
 	public function fetch_row($q) {
 
-		if($this->db_connect || DEBUGMODE) {
+		if($this->connecting()) {
 			$result = mysqli_fetch_row($q);
 			return $result;
 		}
@@ -292,7 +294,7 @@ class MySQLiDB extends MySQLiDBExtends {
 	 */
 	public function fetch_assoc($q) {
 
-		if($this->db_connect || DEBUGMODE) {
+		if($this->connecting()) {
 			$result = mysqli_fetch_assoc($q);
 			return $result;
 		}
@@ -307,7 +309,7 @@ class MySQLiDB extends MySQLiDBExtends {
 	 */
 	public function fetch_object($q) {
 
-		if($this->db_connect || DEBUGMODE) {
+		if($this->connecting()) {
 			$obj = mysqli_fetch_object($q);
 			return $obj;
 		}
@@ -320,7 +322,7 @@ class MySQLiDB extends MySQLiDBExtends {
 	 */
 	public function insert_id() {
 
-		if($this->db_connect || DEBUGMODE) {
+		if($this->connecting()) {
 			$id = $this->sql->insert_id;
 			return $id;
 		}
@@ -346,7 +348,7 @@ class MySQLiDB extends MySQLiDBExtends {
 		}
 
 		# more proviso
-		if(trim($proviso) != "") {
+		if(!is_null($proviso)) {
 			$proviso = " AND ".$proviso;
 		}
 
@@ -385,7 +387,7 @@ class MySQLiDB extends MySQLiDBExtends {
 		$primcond .= ")";
 
 		# more proviso
-		if(trim($proviso) != "") {
+		if(!is_null($proviso)) {
 			$proviso = " AND ".$proviso;
 		}
 

@@ -111,8 +111,8 @@ else {
 /**
 * Запускаем расширение класса БД MySQL
 */
-if(is_file(_CLASS."/class_mysqlidbExtends.php")) {
-	require_once(_CLASS."/class_mysqlidbExtends.php");
+if(is_file(_CLASS."/trait_mysqlidbExtends.php")) {
+	require_once(_CLASS."/trait_mysqlidbExtends.php");
 }
 else {
 	die(ROOCMS_NOT_RUNNING);

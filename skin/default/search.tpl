@@ -1,6 +1,6 @@
 {* Шаблон результатов поиска *}
 <div class="row">
-	<div class="col-sm-12">
+	<div class="col-sm-9">
 		<h1>
 			Поиск: {$searchstring}
 		</h1>
@@ -34,7 +34,7 @@
 						</div>
 						<hr />
 						<div class="row">
-							<div class="col-sm-6">
+							<div class="col-xs-9">
 								{if !empty($item['tags'])}
 									<span class="small">
 										{foreach from=$item['tags'] item=tag}
@@ -43,7 +43,7 @@
 									</span>
 								{/if}
 							</div>
-							<div class="col-sm-6 text-right">
+							<div class="col-xs-3 text-right">
 								<a href="{$SCRIPT_NAME}?page={$item['alias']}&id={$item['id']}{if isset($smarty.get.search)}&search={$smarty.get.search}{/if}" class="btn btn-sm btn-primary">Читать полностью <span class="fa fa-chevron-circle-right fa-fw"></span></a>
 							</div>
 						</div>
@@ -74,5 +74,12 @@
 				{/foreach}
 			</ul>
 		{/if}
+	</div>
+	<div class="col-sm-3" style="padding-top:70px;">
+		<div class="panel panel-default">
+			<div class="panel-body">
+				{$module->load('tagcloud')}
+			</div>
+		</div>
 	</div>
 </div>

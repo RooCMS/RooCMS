@@ -2,7 +2,7 @@
 <script type="text/javascript" src="plugin/ckeditor.php"></script>
 
 <div class="panel-heading">
-	Новый элемент ленты
+	Новый запись в ленте
 </div>
 
 <form method="post" action="{$SCRIPT_NAME}?act=feeds&part=create_item&page={$smarty.get.page}" enctype="multipart/form-data" role="form" class="form-horizontal">
