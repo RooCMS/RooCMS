@@ -48,34 +48,6 @@ class Files {
 
 
 	/**
-	 * Проверка размера файла
-	 *
-	 * @param string $file Указывается путь к файлу и имя файла
-	 *
-	 * @return string|false Функция возвращает результат вида 10.2Kb или 2.10Mb
-	 */
-	public function file_size($file) {
-
-		if(is_file($file)) {
-			$t = "Kb";
-
-			$f = filesize($file) / 1024;
-			if($f > 1024) {
-				$t = "Mb";
-				$f = $f / 1024;
-			}
-
-			$f = round($f,2).$t;
-		}
-		else {
-			$f = false;
-		}
-
-		return $f;
-	}
-
-
-	/**
 	 * Создание имени файлов
 	 *
 	 * @param string $filename Имя файла
@@ -184,10 +156,7 @@ class Files {
 
 		# Составляем массив для проверки разрешенных типов файлов к загрузке
 		$allow_exts = [];
-		if(empty($allow_exts)) {
-			$allow_exts = $this->get_allow_exts($allowtypes);
-		}
-
+		$allow_exts = $this->get_allow_exts($allowtypes);
 
 		# Если $_FILES не является массивом конвертнем в массив
 		# Я кстати в курсе, что сам по себе $_FILES уже массив. Тут в другом смысл.
@@ -351,6 +320,34 @@ class Files {
 		}
 
 		return $allow_exts;
+	}
+
+
+	/**
+	 * Проверка размера файла
+	 *
+	 * @param string $file Указывается путь к файлу и имя файла
+	 *
+	 * @return string|false Функция возвращает результат вида 10.2Kb или 2.10Mb
+	 */
+	public function file_size($file) {
+
+		if(is_file($file)) {
+			$t = "Kb";
+
+			$f = filesize($file) / 1024;
+			if($f > 1024) {
+				$t = "Mb";
+				$f = $f / 1024;
+			}
+
+			$f = round($f,2).$t;
+		}
+		else {
+			$f = false;
+		}
+
+		return $f;
 	}
 
 

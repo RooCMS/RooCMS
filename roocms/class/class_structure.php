@@ -43,23 +43,23 @@ class Structure {
 	private $aliases 		= [];
 
 	# page vars
-	public $page_id			= 1;				# [int]		page sid
-	public $page_pid		= 1;				# [int]		id content
-	public $page_parent		= 0;				# [int]		Parent id
-	public $page_alias		= "index";			# [string]	unique alias name
-	public $page_title		= "Добро пожаловать [RooCMS]";	# [string]	title page
-	public $page_meta_desc		= "";				# [string]	Meta description
-	public $page_meta_keys		= "";				# [string]	Meta keywords
-	public $page_noindex		= false;			# [bool]	Meta noindex
-	public $page_type		= "html";			# [string]	page type
-	public $page_group_access	= array(0);			# [array]	allowed acces to user group (sep. comma)
-	public $page_rss		= false;			# [bool]	on/off RSS feed
-	public $page_show_child_feeds	= 'none';			# [string]	feed option for show childs feed
-	public $page_items_per_page	= 10;				# [int]		show items on per page
-	public $page_items_sorting	= "datepublication";		# [string]	type sorting for feed
-	public $page_items		= 0;				# [int]		show amount items on feed
-	public $page_thumb_img_width	= 0;				# [int]		in pixels
-	public $page_thumb_img_height	= 0;				# [int]		in pixels
+	public $page_id			= 1;				# page sid
+	public $page_pid		= 1;				# id content
+	public $page_parent		= 0;				# Parent id
+	public $page_alias		= "index";			# unique alias name
+	public $page_title		= "Добро пожаловать [RooCMS]";	# title page
+	public $page_meta_desc		= "";				# Meta description
+	public $page_meta_keys		= "";				# Meta keywords
+	public $page_noindex		= false;			# Meta noindex
+	public $page_type		= "html";			# page type
+	public $page_group_access	= array(0);			# allowed acces to user group (sep. comma)
+	public $page_rss		= false;			# on/off RSS feed
+	public $page_show_child_feeds	= 'none';			# feed option for show childs feed
+	public $page_items_per_page	= 10;				# show items on per page
+	public $page_items_sorting	= "datepublication";		# type sorting for feed
+	public $page_items		= 0;				# show amount items on feed
+	public $page_thumb_img_width	= 0;				# in pixels
+	public $page_thumb_img_height	= 0;				# in pixels
 
 
 
