@@ -77,11 +77,7 @@
 			</ul>
 		{/if}
 	</div>
-	<div class="col-sm-3" style="padding-top:70px;">
-		<div class="panel panel-default">
-			<div class="panel-body">
-				{$module->load('tagcloud')}
-			</div>
-		</div>
+	<div class="col-sm-3" style="padding-top:60px;">
+		{$module->load('tagcloud')}
 	</div>
 </div>
