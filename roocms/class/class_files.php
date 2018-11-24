@@ -155,7 +155,6 @@ class Files {
 		$files = [];
 
 		# Составляем массив для проверки разрешенных типов файлов к загрузке
-		$allow_exts = [];
 		$allow_exts = $this->get_allow_exts($allowtypes);
 
 		# Если $_FILES не является массивом конвертнем в массив

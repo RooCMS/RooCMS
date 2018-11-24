@@ -137,9 +137,6 @@ class Install extends IU_Extends {
 			if($this->allowed) {
 				$conffile = _ROOCMS."/config/config.php";
 
-				# set chmod
-				@chmod($conffile, 0755);
-
 				# open
 				$context = file_read($conffile);
 
@@ -149,10 +146,6 @@ class Install extends IU_Extends {
 
 				# write
 				$files->write_file($conffile, $context);
-
-				# set chmod
-				@chmod($conffile, 0644);
-
 
 				# запоминаем название сайта для БД
 				$_SESSION['site_title'] = $parse->text->html($post->site_title);
