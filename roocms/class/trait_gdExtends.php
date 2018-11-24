@@ -51,7 +51,6 @@ if(!defined('RooCMS')) {
  */
 trait GDExtends {
 
-
 	/**
 	 * Check extension on gif or png
 	 *

@@ -2,16 +2,12 @@
 <link rel="stylesheet" type="text/css" href="{$SKIN}/jquery-ui-1.10.3.custom.min.css" media="screen" />
 <script type="text/javascript" src="{$SKIN}/jquery-ui-1.10.3.custom.min.js"></script>
 
-<p class="attached_images">
+<p class="attached-images">
 {foreach from=$attachimg item=img}
-	<span class="thumbnail visible-inline hover-without-underline text-right" width="150" id="imga-{$img['id']}">
-		<a href="/upload/images/{$img['resize']}" data-fancybox="gallery" data-caption="{$img['alt']}"><img src="/upload/images/{$img['thumb']}" border="0" width="120" id="aimage-{$img['id']}" alt="{$img['alt']}" rel="tooltip" title="{$img['alt']}" data-placement="top"></a>
-
+	<span class="thumbnail visible-inline hover-without-underline text-right" width="160" id="imga-{$img['id']}">
+		<a href="/upload/images/{$img['resize']}" data-fancybox="gallery" data-caption="{$img['alt']}"><img src="/upload/images/{$img['thumb']}" class="attach-img" id="aimage-{$img['id']}" alt="{$img['alt']}" rel="tooltip" title="{$img['alt']}" data-placement="top"></a>
+		<input type="text" class="form-control input-sm input-alt-text" id="altimage-{$img['id']}" name="alt[{$img['id']}]" value="{$img['alt']}" placeholder="---">
 		<span class="btn btn-link btn-xs hover-without-underline op_attached_images pull-left handlesort"><i class="fa fa-fw fa-arrows"></i></span>
-		<span class="btn btn-link btn-xs hover-without-underline op_attached_images pull-left" id="alt-{$img['id']}"
-		      rel="popover" role="button" data-placement="top" data-toggle="popover" data-html="true" data-content="<input type='text' class='form-control input-sm' id='altimage-{$img['id']}' name='alt[{$img['id']}]' value='{$img['alt']}'>">
-			<i class="fa fa-fw fa-comment{if $img['alt'] == ""}-o{/if}"></i>
-		</span>
 		<span id="imgoption-{$img['id']}">
 			<span class="btn btn-link btn-xs hover-without-underline op_attached_images" id="delimage-{$img['id']}" rel="tooltip" title="Удалить" data-placement="left"><i class="fa fa-trash-o fa-fw"></i></span>
 		</span>
@@ -36,8 +32,8 @@
 			});
 		});
 
-		$('.attached_images').sortable({
-			connectWith: '.attached_images',
+		$('.attached-images').sortable({
+			connectWith: '.attached-images',
 			opacity: 0.8,
 			handle: '.handlesort',
 			stop: function(event, ui) {

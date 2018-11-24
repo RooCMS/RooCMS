@@ -232,7 +232,11 @@ class Images extends GD {
 					$cond .= "sort='".$post->sort[$v['id']]."'";
 				}
 
-				if(isset($post->alt[$v['id']]) && $post->alt[$v['id']] != $v['alt']) {
+				if(!isset($post->alt[$v['id']])) {
+					$post->alt[$v['id']] = "";
+				}
+
+				if($post->alt[$v['id']] != $v['alt']) {
 					$cond = $parse->text->comma($cond);
 					$cond .= "alt='".$post->alt[$v['id']]."'";
 				}
