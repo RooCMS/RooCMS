@@ -49,7 +49,7 @@ if(!defined('RooCMS')) {
 /**
  * Class GD_ext
  */
-class GDExtends {
+trait GDExtends {
 
 
 	/**

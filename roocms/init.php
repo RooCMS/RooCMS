@@ -246,8 +246,8 @@ else {
 /**
  * Загружаем класс функций расширений графической обработки
  */
-if(is_file(_CLASS."/class_gdExtends.php")) {
-	require_once(_CLASS."/class_gdExtends.php");
+if(is_file(_CLASS."/trait_gdExtends.php")) {
+	require_once(_CLASS."/trait_gdExtends.php");
 }
 else {
 	die(ROOCMS_NOT_RUNNING);

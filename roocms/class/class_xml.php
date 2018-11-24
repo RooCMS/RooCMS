@@ -39,8 +39,8 @@ class XML {
 	/**
 	 * Parse XML data file
 	 *
-	 * @param bool $file
-	 * @param bool $callback
+	 * @param bool|string $file
+	 * @param bool        $callback
 	 *
 	 * @return SimpleXMLElement|null
 	 */

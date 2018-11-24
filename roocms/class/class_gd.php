@@ -23,7 +23,9 @@ if(!defined('RooCMS')) {
 /**
  * Class GD
  */
-class GD extends GDExtends {
+class GD {
+
+	use GDExtends;
 
 	# vars
 	public $info		= [];					# Информация о GD расширении
