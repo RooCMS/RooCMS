@@ -142,7 +142,7 @@ class Requirement {
 			if($perms != $v['chmod']) {
 				@chmod($v['path'], $v['chmod']);
 				if(@chmod($v['path'], $v['chmod'])) {
-					$this->log[] = array("Директория/Файл ".$roocmspath, $v['chmod'], true, "");
+					$this->log[] = array("Директория/Файл ".$roocmspath, $files->show_fileperms($v['path']), true, "");
 				}
 				else {
 					$this->log[] = array("Директория/Файл ".$roocmspath, $perms, false, "Неверные права доступа к директории/файлу. Рекомендуемые права ".$v['chmod'].". Для повышения безопастности установите права вручную через ваш FTP доступ");

@@ -137,13 +137,21 @@ class Install extends IU_Extends {
 			if($this->allowed) {
 				$conffile = _ROOCMS."/config/config.php";
 
+				# set chmod
+				@chmod($conffile, 0755);
+
+				# open
 				$context = file_read($conffile);
 
 				$context = str_ireplace('$site[\'title\'] = "'.$site['title'].'";','$site[\'title\'] = "'.$post->site_title.'";',$context);
 				$context = str_ireplace('$site[\'domain\'] = "'.$site['domain'].'";','$site[\'domain\'] = "'.$post->site_domain.'";',$context);
 				$context = str_ireplace('$site[\'sysemail\'] = "'.$site['sysemail'].'";','$site[\'sysemail\'] = "'.$post->site_sysemail.'";',$context);
 
+				# write
 				$files->write_file($conffile, $context);
+
+				# set chmod
+				@chmod($conffile, 0644);
 
 
 				# запоминаем название сайта для БД
