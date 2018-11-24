@@ -23,7 +23,7 @@ if(!defined('RooCMS')) {
 /**
  * Class ParserXML
  */
-class ParserXML {
+class XML {
 
 	# object output data
 	public $data;

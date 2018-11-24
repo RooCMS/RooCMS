@@ -175,11 +175,10 @@ class GDExtends {
 	/**
 	 * Функция устанавливает параметры размеров миниатюр для изображений
 	 *
-	 * @param array $sizes - array(width,height) - размеры будут изменены согласно параметрам.
-	 *
-	 * @return array|null
+	 * @param array $sizes  - array(width,height) - размеры будут изменены согласно параметрам.
+	 * @param       $target
 	 */
-	protected function set_mod_sizes(array $sizes) {
+	protected function set_mod_sizes(array $sizes, $target="tsize") {
 
 		if(is_array($sizes) && count($sizes) == 2) {
 
@@ -194,7 +193,12 @@ class GDExtends {
 			}
 
 			if(!empty($size)) {
-				return $size;
+				if($target != "tsize") {
+					$this->msize = $size;
+				}
+				else {
+					$this->tsize = $size;
+				}
 			}
 		}
 	}

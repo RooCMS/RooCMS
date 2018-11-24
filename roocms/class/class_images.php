@@ -80,7 +80,7 @@ class Images extends GD {
 
 		# Определяем настройки размеров для будущих миниатюр
 		if(!empty($thumbsize)) {
-			$this->tsize = $this->set_mod_sizes($thumbsize);
+			$this->set_mod_sizes($thumbsize);
 		}
 
 

@@ -216,6 +216,20 @@ else {
 }
 
 /**
+ * Запускаем класс для работы с Тегами
+ */
+if(is_file(_CLASS."/class_tags.php")) {
+	require_once(_CLASS."/class_tags.php");
+	/**
+	 * Инициализируем класс
+	 */
+	$tags = new Tags;
+}
+else {
+	die(ROOCMS_NOT_RUNNING);
+}
+
+/**
 * Запускаем класс работы с файлами
 */
 if(is_file(_CLASS."/class_files.php")) {
@@ -264,6 +278,17 @@ else {
 }
 
 /**
+ * Запускаем класс XML
+ */
+if(is_file(_CLASS."/class_xml.php")) {
+	require_once(_CLASS."/class_xml.php");
+	$xml = new XML;
+}
+else {
+	die(ROOCMS_NOT_RUNNING);
+}
+
+/**
 * Запускаем класс RSS
 */
 if(is_file(_CLASS."/class_rss.php")) {
@@ -296,20 +321,6 @@ if(is_file(_CLASS."/class_template.php")) {
 	 * Запускаем шаблонизатор
 	 */
 	$tpl = new Template;
-}
-else {
-	die(ROOCMS_NOT_RUNNING);
-}
-
-/**
- * Запускаем класс для работы с Тегами
- */
-if(is_file(_CLASS."/class_tags.php")) {
-	require_once(_CLASS."/class_tags.php");
-	/**
-	 * Инициализируем класс
-	 */
-	$tags = new Tags;
 }
 else {
 	die(ROOCMS_NOT_RUNNING);

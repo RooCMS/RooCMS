@@ -67,7 +67,7 @@ class ACP_Pages {
 
 			case 'update':
 				if(isset($post->update_page)) {
-					$this->unit->update($this->engine->page_id);
+					$this->unit->update($this->engine);
 				}
 				else {
 					goback();

@@ -46,12 +46,8 @@ $protect[] = array('path' => _SITEROOT.'/plugin',	'chmod'	=> '0755');
 /**
  * Files
  */
-if(defined('INSTALL')) {
-	$protect[] = array('path' => _ROOCMS.'/config/config.php', 'chmod' => '0755',	'hash'	=> '');
-}
-else {
-	$protect[] = array('path' => _ROOCMS.'/config/config.php', 'chmod' => '0644',	'hash'	=> '');
-}
+
+$protect[] = array('path' => _ROOCMS.'/config/config.php', 		'chmod' => '0644',	'hash'	=> '');
 $protect[] = array('path' => _ROOCMS.'/config/defines.php',		'chmod'	=> '0644',	'hash'	=> '');
 $protect[] = array('path' => _ROOCMS.'/config/set.cfg.php',		'chmod'	=> '0644',	'hash'	=> '');
 $protect[] = array('path' => _CLASS.'/class_debuger.php',		'chmod'	=> '0644',	'hash'	=> '');
@@ -62,11 +58,9 @@ $protect[] = array('path' => _CLASS.'/class_global.php',		'chmod'	=> '0644',	'ha
 $protect[] = array('path' => _CLASS.'/class_images.php',		'chmod'	=> '0644',	'hash'	=> '');
 $protect[] = array('path' => _CLASS.'/class_logger.php',		'chmod'	=> '0644',	'hash'	=> '');
 $protect[] = array('path' => _CLASS.'/class_mysqlidb.php',		'chmod'	=> '0644',	'hash'	=> '');
-$protect[] = array('path' => _CLASS.'/class_mysqlidbExtends.php',	'chmod'	=> '0644',	'hash'	=> '');
 $protect[] = array('path' => _CLASS.'/class_parser.php',		'chmod'	=> '0644',	'hash'	=> '');
 $protect[] = array('path' => _CLASS.'/class_parserDate.php',		'chmod'	=> '0644',	'hash'	=> '');
 $protect[] = array('path' => _CLASS.'/class_parserText.php',		'chmod'	=> '0644',	'hash'	=> '');
-$protect[] = array('path' => _CLASS.'/class_parserXML.php',		'chmod'	=> '0644',	'hash'	=> '');
 $protect[] = array('path' => _CLASS.'/class_rss.php',			'chmod'	=> '0644',	'hash'	=> '');
 $protect[] = array('path' => _CLASS.'/class_security.php',		'chmod'	=> '0644',	'hash'	=> '');
 $protect[] = array('path' => _CLASS.'/class_shteirlitz.php',		'chmod'	=> '0644',	'hash'	=> '');
@@ -74,7 +68,9 @@ $protect[] = array('path' => _CLASS.'/class_structure.php',		'chmod'	=> '0644',	
 $protect[] = array('path' => _CLASS.'/class_tags.php',			'chmod'	=> '0644',	'hash'	=> '');
 $protect[] = array('path' => _CLASS.'/class_template.php',		'chmod'	=> '0644',	'hash'	=> '');
 $protect[] = array('path' => _CLASS.'/class_users.php',			'chmod'	=> '0644',	'hash'	=> '');
+$protect[] = array('path' => _CLASS.'/class_xml.php',			'chmod'	=> '0644',	'hash'	=> '');
 $protect[] = array('path' => _CLASS.'/trait_feedExtends.php',		'chmod'	=> '0644',	'hash'	=> '');
+$protect[] = array('path' => _CLASS.'/trait_mysqlidbExtends.php',	'chmod'	=> '0644',	'hash'	=> '');
 $protect[] = array('path' => _ROOCMS.'/acp/ajax.php',			'chmod'	=> '0644',	'hash'	=> '');
 $protect[] = array('path' => _ROOCMS.'/acp/blocks.php',			'chmod'	=> '0644',	'hash'	=> '');
 $protect[] = array('path' => _ROOCMS.'/acp/blocks_html.php',		'chmod'	=> '0644',	'hash'	=> '');
@@ -96,6 +92,10 @@ $protect[] = array('path' => _ROOCMS.'/acp/pages_php.php',		'chmod'	=> '0644',	'
 $protect[] = array('path' => _ROOCMS.'/acp/security_check.php',		'chmod'	=> '0644',	'hash'	=> '');
 $protect[] = array('path' => _ROOCMS.'/acp/structure.php',		'chmod'	=> '0644',	'hash'	=> '');
 $protect[] = array('path' => _ROOCMS.'/acp/users.php',			'chmod'	=> '0644',	'hash'	=> '');
+$protect[] = array('path' => _MODULE.'/auth.php',			'chmod'	=> '0644',	'hash'	=> '');
+$protect[] = array('path' => _MODULE.'/express_reg.php',		'chmod'	=> '0644',	'hash'	=> '');
+$protect[] = array('path' => _MODULE.'/search.php',			'chmod'	=> '0644',	'hash'	=> '');
+$protect[] = array('path' => _MODULE.'/tagcloud.php',			'chmod'	=> '0644',	'hash'	=> '');
 $protect[] = array('path' => _UI.'/ucp/login.php',			'chmod'	=> '0644',	'hash'	=> '');
 $protect[] = array('path' => _UI.'/ucp/logout.php',			'chmod'	=> '0644',	'hash'	=> '');
 $protect[] = array('path' => _UI.'/ucp/pm.php',				'chmod'	=> '0644',	'hash'	=> '');
@@ -107,10 +107,6 @@ $protect[] = array('path' => _UI.'/repass.php',				'chmod'	=> '0644',	'hash'	=> 
 $protect[] = array('path' => _UI.'/search.php',				'chmod'	=> '0644',	'hash'	=> '');
 $protect[] = array('path' => _UI.'/tags.php',				'chmod'	=> '0644',	'hash'	=> '');
 $protect[] = array('path' => _UI.'/ucp.php',				'chmod'	=> '0644',	'hash'	=> '');
-$protect[] = array('path' => _MODULE.'/auth.php',			'chmod'	=> '0644',	'hash'	=> '');
-$protect[] = array('path' => _MODULE.'/express_reg.php',		'chmod'	=> '0644',	'hash'	=> '');
-$protect[] = array('path' => _MODULE.'/search.php',			'chmod'	=> '0644',	'hash'	=> '');
-$protect[] = array('path' => _MODULE.'/tagcloud.php',			'chmod'	=> '0644',	'hash'	=> '');
 $protect[] = array('path' => _ROOCMS.'/acp.php',			'chmod'	=> '0644',	'hash'	=> '');
 $protect[] = array('path' => _ROOCMS.'/functions.php',			'chmod'	=> '0644',	'hash'	=> '');
 $protect[] = array('path' => _ROOCMS.'/init.php',			'chmod'	=> '0644',	'hash'	=> '');

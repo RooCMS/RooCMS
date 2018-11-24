@@ -71,9 +71,6 @@ class Parser {
 
 		require_once "class_parserDate.php";
 		$this->date = new ParserDate;
-
-		require_once "class_parserXML.php";
-		$this->xml = new ParserXML;
 	}
 
 

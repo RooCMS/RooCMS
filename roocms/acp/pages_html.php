@@ -75,38 +75,35 @@ class ACP_Pages_HTML {
 	/**
 	 * Обновляем контент страницы
 	 *
-	 * @param int $sid - Structure element id
+	 * @param $data
 	 */
-	public function update($sid) {
+	public function update($data) {
 
 		global $db, $logger, $files, $img, $post;
 
 		#sortable images
-		$img->update_images_info("pagesid", $sid);
+		$img->update_images_info("pagesid", $data->page_id);
 
-		# read thumbnail parametrs
-		$q = $db->query("SELECT thumb_img_width, thumb_img_height FROM ".STRUCTURE_TABLE." WHERE id='".$sid."'");
-		$thumbsize = $db->fetch_assoc($q);
 
 		# attachment images
-		$images = $img->upload_image("images", "", array($thumbsize['thumb_img_width'], $thumbsize['thumb_img_height']));
+		$images = $img->upload_image("images", "", array($data->page_thumb_img_width, $data->page_thumb_img_height));
 		if($images) {
 			foreach($images AS $image) {
-				$img->insert_images($image, "pagesid=".$sid);
+				$img->insert_images($image, "pagesid=".$data->page_id);
 			}
 		}
 
 		# attachment files
-		$files->upload("files", "pagesid=".$sid);
+		$files->upload("files", "pagesid=".$data->page_id);
 
 
 		if(!isset($post->content)) {
 			$post->content = "";
 		}
 
-		$db->query("UPDATE ".PAGES_HTML_TABLE." SET content='".$post->content."', date_modified='".time()."' WHERE sid='".$sid."'");
+		$db->query("UPDATE ".PAGES_HTML_TABLE." SET content='".$post->content."', date_modified='".time()."' WHERE sid='".$data->page_id."'");
 
-		$logger->info("Страница #".$sid." успешно обновлена.");
+		$logger->info("Страница #".$data->page_id." успешно обновлена.");
 
 		goback();
 	}

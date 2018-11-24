@@ -164,12 +164,10 @@ class ACP_Feeds {
 			'rss'              => $this->engine->page_rss,
 			'show_child_feeds' => $this->engine->page_show_child_feeds,
 			'items_per_page'   => $this->engine->page_items_per_page,
-			'items_sorting'    => $this->engine->page_items_sorting
+			'items_sorting'    => $this->engine->page_items_sorting,
+			'thumb_img_width'  => $this->engine->page_thumb_img_width,
+			'thumb_img_height' => $this->engine->page_thumb_img_height
 		);
-
-		$setting['thumb_img_width'] = ($this->engine->page_thumb_img_width > 16) ? $this->engine->page_thumb_img_width : $img->tsize['w'];
-		$setting['thumb_img_height'] = ($this->engine->page_thumb_img_height > 16) ? $this->engine->page_thumb_img_height : $img->tsize['h'];
-
 
 		return $setting;
 	}

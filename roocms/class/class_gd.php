@@ -49,12 +49,12 @@ class GD extends GDExtends {
 
 		# Устанавливаем размеры миниатюр из конфигурации
 		if(isset($config->gd_thumb_image_width, $config->gd_thumb_image_height)) {
-			$this->tsize = $this->set_mod_sizes(array($config->gd_thumb_image_width, $config->gd_thumb_image_height));
+			$this->set_mod_sizes(array($config->gd_thumb_image_width, $config->gd_thumb_image_height));
 		}
 
 		# Устанавливаем максимальные размеры изображений
 		if(isset($config->gd_image_maxwidth, $config->gd_image_maxheight)) {
-			$this->msize = $this->set_mod_sizes(array($config->gd_image_maxwidth, $config->gd_image_maxheight));
+			$this->set_mod_sizes(array($config->gd_image_maxwidth, $config->gd_image_maxheight), "msize");
 		}
 
 		# Тип генерации фона из конфигурации

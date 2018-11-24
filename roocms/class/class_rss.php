@@ -65,7 +65,7 @@ class RSS {
 		$this->set_description($structure->page_meta_desc);
 
 		$this->managingeditor 	=& $site['sysemail'];
-		$this->webmaster 		=& $site['sysemail'];
+		$this->webmaster 	=& $site['sysemail'];
 	}
 
 
