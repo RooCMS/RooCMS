@@ -12,12 +12,16 @@
 
 <div class="row">
 	<div class="col-md-12">
-		<div class="airmail">
-			<small class="pull-right">
-				От: {$message['from_name']}
-				<br />Отправлено: {$message['date_send']}
-			</small>
-			{$message['showmessage']}
+		<div class="panel panel-default pm-message">
+			<div class="panel-body">
+				<div class="airmail">
+					<small class="pull-right text-right">
+						От: {$message['from_name']}
+						<br />Отправлено: {$message['date_send']}
+					</small>
+					{$message['showmessage']}
+				</div>
+			</div>
 		</div>
 	</div>
 </div>

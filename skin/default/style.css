@@ -194,19 +194,20 @@ a:hover>.feed-image-pn, a:hover>.feed-more-preview {border: 2px solid #545c68;op
 
 
 /* Airmail */
+.pm-message {margin-bottom: 0 !important;}
 .airmail {
 	font-family: 'PT Sans';
-	background-color: #fff;
-	margin: 10px; padding: 5px;
-	min-height: 200px;
+	/*background-color: #fff;*/
+	margin: 10px;
+	min-height: 180px;
 }
 .airmail:after {
 	position: absolute;
-	z-index: -999;
+	/*z-index: -1;*/
 	content: '';
-	top: 0;	right: 15px; bottom: 0;	left: 15px;
+	top: 2px; right: 17px; bottom: 2px; left: 17px;
 	border: 10px solid transparent;
-	border-image: 10 repeating-linear-gradient(45deg, #A7CECC, #A7CECC 10px, transparent 10px, transparent 20px, #F8463F 20px, #F8463F 30px,transparent 30px, transparent 40px);
+	border-image: 10 repeating-linear-gradient(45deg, #A7CECC, #A7CFCC 10px, transparent 10px, transparent 20px, #F8463F 20px, #F84F3F 30px,transparent 30px, transparent 40px);
 }
 
 /* Tag Cloud */
@@ -218,7 +219,7 @@ a:hover>.feed-image-pn, a:hover>.feed-more-preview {border: 2px solid #545c68;op
 	margin: 0 2px;
 	border-left: 1px solid #adadad;
 }
-.tag_amount::after, .tag_amount::before {
+.tag_amount:after, .tag_amount:before {
 	content: '';
 	position: absolute;
 	top: 33%;
@@ -226,10 +227,10 @@ a:hover>.feed-image-pn, a:hover>.feed-more-preview {border: 2px solid #545c68;op
 	border-right: 4px solid transparent;
 	border-bottom: 4px solid transparent;
 }
-.tag_amount::before {left: 0;border-left: 4px solid #adadad;}
-.tag_amount::after {left: -1px;	border-left: 4px solid #fff;}
-a.tag:hover .tag_amount::after, a.tag.active .tag_amount::after {left: -1px; border-left: 4px solid #e6e6e6;}
-a.tag.active:hover .tag_amount::after {left: -1px; border-left: 4px solid #d4d4d4;}
+.tag_amount:before {left: 0;border-left: 4px solid #adadad;}
+.tag_amount:after {left: -1px;	border-left: 4px solid #fff;}
+a.tag:hover .tag_amount:after, a.tag.active .tag_amount::after {left: -1px; border-left: 4px solid #e6e6e6;}
+a.tag.active:hover .tag_amount:after {left: -1px; border-left: 4px solid #d4d4d4;}
 
 /*  Input icon */
 .inner-addon {position: relative;}
