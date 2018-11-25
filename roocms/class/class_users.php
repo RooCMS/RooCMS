@@ -461,14 +461,18 @@ class Users extends Security {
 	/**
 	 * Функция загружает вновь созданному пользователю аватар.
 	 *
-	 * @param int $uid - уникальный идентификатор пользователя.
+	 * @param int    $uid    - уникальный идентификатор пользователя.
+	 * @param string $avatar - текущий аватар пользователя
 	 */
-	public function upload_avatar($uid) {
+	public function upload_avatar($uid, $avatar) {
 
 		global $db, $config, $img;
 
 		$av = $img->upload_image("avatar", "", array($config->users_avatar_width, $config->users_avatar_height), false, false, false, "av_".$uid);
 		if(isset($av[0])) {
+			if($avatar != "" && $avatar != $av[0]) {
+				$img->erase_image(_UPLOADIMAGES."/".$avatar);
+			}
 			$db->query("UPDATE ".USERS_TABLE." SET avatar='".$av[0]."' WHERE uid='".$uid."'");
 		}
 	}

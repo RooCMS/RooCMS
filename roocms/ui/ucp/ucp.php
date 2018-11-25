@@ -144,13 +144,8 @@ class UCP_CP {
 			$query .= "avatar='', ";
 		}
 
-		$av = $users->upload_avatar($users->uid);
-		if(isset($av[0])) {
-			if($users->avatar != "" && $users->avatar != $av[0]) {
-				unlink(_UPLOADIMAGES."/".$users->avatar);
-			}
-			$query .= "avatar='".$av[0]."', ";
-		}
+		# upload / update avatar
+		$av = $users->upload_avatar($users->uid, $users->avatar);
 
 		# update
 		if(!isset($_SESSION['error'])) {

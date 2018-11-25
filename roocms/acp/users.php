@@ -431,15 +431,8 @@ class ACP_Users {
 				$logger->error("Не удалось обновить Email (возможные он был некоректно указан, или такой email уже есть в БД)");
 			}
 
-			# avatar
-			$av = $users->upload_avatar($uid);
-			if(isset($av[0])) {
-				if($udata['avatar'] != "" && $udata['avatar'] != $av[0]) {
-					$img->erase_image(_UPLOADIMAGES."/".$udata['avatar']);
-				}
-				$query .= "avatar='".$av[0]."', ";
-			}
-
+			# upload / update avatar
+			$av = $users->upload_avatar($uid, $udata['avatar']);
 
 			# update
 			if(!isset($_SESSION['error'])) {
