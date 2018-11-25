@@ -463,6 +463,8 @@ class Users extends Security {
 	 *
 	 * @param int    $uid    - уникальный идентификатор пользователя.
 	 * @param string $avatar - текущий аватар пользователя
+	 *
+	 * @return string - имя файла аватарки
 	 */
 	public function upload_avatar($uid, $avatar) {
 
@@ -473,8 +475,10 @@ class Users extends Security {
 			if($avatar != "" && $avatar != $av[0]) {
 				$img->erase_image(_UPLOADIMAGES."/".$avatar);
 			}
-			$db->query("UPDATE ".USERS_TABLE." SET avatar='".$av[0]."' WHERE uid='".$uid."'");
+			$avatar = $av[0];
 		}
+
+		return $avatar;
 	}
 
 

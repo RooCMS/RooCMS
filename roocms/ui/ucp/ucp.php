@@ -138,14 +138,16 @@ class UCP_CP {
 		# personal data
 		$users->correct_personal_data();
 
-		# avatar
+		# delete avatar
 		if(isset($post->delete_avatar)) {
 			$users->delete_avatar($users->uid);
 			$query .= "avatar='', ";
 		}
-
-		# upload / update avatar
-		$users->upload_avatar($users->uid, $users->avatar);
+		else {
+			# upload / update avatar
+			$av = $users->upload_avatar($users->uid, $users->avatar);
+			$query .= "avatar='".$av."', ";
+		}
 
 		# update
 		if(!isset($_SESSION['error'])) {

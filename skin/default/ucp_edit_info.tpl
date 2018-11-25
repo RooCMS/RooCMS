@@ -139,7 +139,7 @@
 					Аватар:  <small><span class="fa fa-question-circle fa-fw" rel="tooltip" title="Изображение вашего профиля" data-placement="left"></span></small>
 				</label>
 				<div class="col-lg-8">
-					{if $userdata['avatar'] != ""}<div class="btn-group pull-right" data-toggle="buttons"><label class="btn btn-default btn-xs bda"><input type="checkbox" name="delete_avatar" class="ida" value="1" autocomplete="on"><i class="iconda fa fa-fw fa-trash"></i> Удалить аватар?</label></div>{/if} <input type="file" name="avatar" id="inputAvatar" class="btn btn-default">
+					{if $userdata['avatar'] != ""}<div class="btn-group pull-right" data-toggle="buttons"><label class="btn btn-default btn-xs"><input type="checkbox" name="delete_avatar" class="ida" value="1" autocomplete="on"><i class="iconda fa fa-fw fa-trash"></i> Удалить аватар?</label></div>{/if} <input type="file" name="avatar" id="inputAvatar" class="btn btn-default">
 				</div>
 			</div>
 
