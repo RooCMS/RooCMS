@@ -33,7 +33,7 @@ document.write('<script src="/plugin/bootstrap/js/bootstrap.min.js"></script>');
 document.write('<script src="/plugin/bootstrap/js/bootstrap-select.min.js"></script>');
 document.write('<script src="/plugin/bootstrap/js/i18n/defaults-ru_RU.min.js"></script>');
 document.write('<script src="/plugin/bootstrap/js/bootstrap-datepicker.min.js"></script>');
-document.write('<script src="/plugin/bootstrap/js/locales/bootstrap-datepicker.ru.js"></script>');
+document.write('<script src="/plugin/bootstrap/js/locales/bootstrap-datepicker.ru.min.js"></script>');
 document.write('<script src="/plugin/bootstrap/js/bootstrap-colorpicker.min.js"></script>');
 document.write('<script src="/plugin/bootstrap/js/bootstrap-tagsinput.min.js"></script>');
 
@@ -43,6 +43,6 @@ document.write('<script src="/plugin/bootstrap/js/bootstrap.min.js"></script>');
 document.write('<script src="/plugin/bootstrap/js/bootstrap-select.min.js"></script>');
 document.write('<script src="/plugin/bootstrap/js/i18n/defaults-ru_RU.min.js"></script>');
 document.write('<script src="/plugin/bootstrap/js/bootstrap-datepicker.min.js"></script>');
-document.write('<script src="/plugin/bootstrap/js/locales/bootstrap-datepicker.ru.js"></script>');
+document.write('<script src="/plugin/bootstrap/js/locales/bootstrap-datepicker.ru.min.js"></script>');
 
 <?php } ?>

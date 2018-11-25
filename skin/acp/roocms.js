@@ -29,13 +29,15 @@ $(document).ready(function() {
 	$(".datepicker").datepicker({
 		format: 'dd.mm.yyyy',
 		language: 'ru',
-		todayHighlight: true
+		todayHighlight: true,
+		orientation: "bottom auto"
 	});
 
 	$(".datepicker-0d").datepicker({
 		format: 'dd.mm.yyyy',
 		language: 'ru',
-		startDate: '0'
+		startDate: '0',
+		orientation: "bottom auto"
 	});
 
 	/* Colorpicker */

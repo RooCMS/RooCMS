@@ -22,7 +22,8 @@ $(document).ready(function(){
 	$(".datepicker").datepicker({
 		format: 'dd.mm.yyyy',
 		language: 'ru',
-		todayHighlight: true
+		todayHighlight: true,
+		orientation: "bottom auto"
 	});
 
 	/* Swiper */
