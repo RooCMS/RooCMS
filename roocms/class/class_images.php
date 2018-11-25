@@ -114,7 +114,7 @@ class Images extends GD {
 					}
 
 					# Создаем имя файлу.
-					$filename = $files->create_filename($upfiles[$file]['name'][$key], $prefix);
+					$filename = $files->create_filename($upfiles[$file]['name'][$key], $prefix, "", $path);
 
 					# если разрешено сохранять оригинальное изображение
 					if($modify) {

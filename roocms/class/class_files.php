@@ -50,20 +50,21 @@ class Files {
 	/**
 	 * Создание имени файлов
 	 *
-	 * @param string $filename Имя файла
-	 * @param string $prefix   Префикс имени файла
-	 * @param string $pofix    Пофикс имени файла
+	 * @param string $filename - Имя файла
+	 * @param string $prefix   - Префикс имени файла
+	 * @param string $pofix    - Пофикс имени файла
+	 *
+	 * @param string $path     - путь к папке для загрузки изображений.
 	 *
 	 * @return string Имя файла
 	 */
-	public function create_filename($filename, $prefix="", $pofix="") {
+	public function create_filename($filename, $prefix="", $pofix="", $path=_UPLOADIMAGES) {
 
 		global $parse;
-		static $names = [];
 
 		# убиваем прицепившиейся расширение к имени файла
-		$pi = pathinfo($filename);
-		$filename = str_ireplace(".".$pi['extension'], "", $filename);
+		$ext = $this->get_ext($filename);
+		$filename = str_ireplace(".".$ext, "", $filename);
 
 		# префикс
 		if(trim($prefix) != "")	{
@@ -81,14 +82,9 @@ class Files {
 		$filename = preg_replace(array('(\s\s+)','(\-\-+)','(__+)','([^a-zA-Z0-9\-_])'), array(' ','-','_',''), $filename);
 
 		# Проверяем длину имения файла
-		$length = 5;
-		if($prefix != "") {
-			$length += mb_strlen($prefix) + 1;
-		}
-		if($pofix != "") {
-			$length += mb_strlen($pofix) + 1;
-		}
-		$length += mb_strlen(time());
+		$length = mb_strlen($ext) + 3;
+		$length += mb_strlen($prefix) + 1;
+		$length += mb_strlen($pofix) + 1;
 
 		$filelength = mb_strlen($filename);
 
@@ -99,11 +95,7 @@ class Files {
                         $filename = mb_substr($filename,0,$maxfilelength);
 		}
 
-		# suffix for unduplicated
-		$suffix = (in_array($filename,$names)) ? "_".randcode(3,"RooCMSbestChoiceForYourSite"): "" ;
-		$names[] = $filename;
-
-		$filename = $prefix.$filename.$suffix."_".time().$pofix;
+		$filename = $this->check_uniq_filename($prefix.$filename.$pofix, $ext, $path);
 
 		return $filename;
 	}
@@ -253,11 +245,8 @@ class Files {
 	 * Функция удаления файлов из хранилища
 	 *
 	 * @param int|string $file - указать числовой идентификатор или attachedto
-	 * @param boolean    $clwhere - флаг указывает как считывать параметр $file
-	 * 				положение false указывает, что передается параметр id или attachedto
-	 * 				положение true указывает, что передается полностью выраженное условие
 	 */
-	public function remove_files($file, $clwhere=false) {
+	public function remove_files($file) {
 
 		global $db, $logger;
 
@@ -266,10 +255,6 @@ class Files {
 		}
 		else {
 			$cond = " attachedto='".$file."' ";
-		}
-
-		if($clwhere) {
-			$cond = $file;
 		}
 
 		$q = $db->query("SELECT id, filename, fileext FROM ".FILES_TABLE." WHERE ".$cond);
@@ -367,22 +352,22 @@ class Files {
 
 
 	/**
-	 * Отображение прав доступа в виде восьмеричного числа
+	 * Show file perms
 	 *
-	 * @param string $file название файла с указанием полного пути до него
+	 * @param string $file - full path to file
 	 *
 	 * @return int|string
 	 */
-	public function show_fileperms($file) {
+	public function get_fileperms($file) {
 		return mb_substr(sprintf('%o', fileperms($file)), -4);
 	}
 
 
 	/**
-	 * Записываем файл
+	 * Write file on disk
 	 *
-	 * @param string $file    - полный пукть к файлу
-	 * @param string $context - информация для записи в файл
+	 * @param string $file    - full path to file
+	 * @param string $context - data for write in file
 	 */
 	public function write_file($file, $context) {
 		$f = fopen($file, "w+");
@@ -394,9 +379,9 @@ class Files {
 
 
 	/**
-	 * Стираем файл
+	 * Erase file from disk
 	 *
-	 * @param string $file - путь к файлу
+	 * @param string $file - full path to file
 	 */
 	public function erase_file($file) {
 
@@ -409,5 +394,25 @@ class Files {
 		elseif(!is_file($file)) {
 			$logger->error("Не удалось найти файл ".$file, "error");
 		}
+	}
+
+
+	/**
+	 * Check filename for avoid duplication and mashing
+	 *
+	 * @param string $filename - filename for check
+	 * @param string $ext      - file extension
+	 * @param string $path     - path to file folder
+	 *
+	 * @return string - new filename
+	 */
+	private function check_uniq_filename($filename, $ext, $path=_UPLOADIMAGES) {
+
+		if(is_file($path."/".$filename.".".$ext) || is_file($path."/".$filename."_resize.".$ext)) {
+			$filename .= "_".randcode(3,"RooCMS-BestChoiceForYourSite");
+			$filename = $this->check_uniq_filename($filename, $ext, $path);
+		}
+
+		return $filename;
 	}
 }

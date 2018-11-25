@@ -136,13 +136,13 @@ class Requirement {
 		require_once _LIB."/files_protected.php";
 
 		foreach($protect AS $v) {
-			$perms = $files->show_fileperms($v['path']);
+			$perms = $files->get_fileperms($v['path']);
 
 			$roocmspath = str_replace(_SITEROOT, "", $v['path']);
 			if($perms != $v['chmod']) {
 				@chmod($v['path'], $v['chmod']);
 				if(@chmod($v['path'], $v['chmod'])) {
-					$this->log[] = array("Директория/Файл ".$roocmspath, $files->show_fileperms($v['path']), true, "");
+					$this->log[] = array("Директория/Файл ".$roocmspath, $files->get_fileperms($v['path']), true, "");
 				}
 				else {
 					$this->log[] = array("Директория/Файл ".$roocmspath, $perms, false, "Неверные права доступа к директории/файлу. Рекомендуемые права ".$v['chmod'].". Для повышения безопастности установите права вручную через ваш FTP доступ");
