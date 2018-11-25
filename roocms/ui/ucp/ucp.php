@@ -145,7 +145,7 @@ class UCP_CP {
 		}
 
 		# upload / update avatar
-		$av = $users->upload_avatar($users->uid, $users->avatar);
+		$users->upload_avatar($users->uid, $users->avatar);
 
 		# update
 		if(!isset($_SESSION['error'])) {

@@ -95,7 +95,7 @@ class Images extends GD {
 		else {
 			$upfiles[$file] = $_FILES[$file];
 		}
-		$x = [];
+
 		# приступаем к обработке
 		foreach($upfiles[$file]['tmp_name'] AS $key=>$value) {
 			if(isset($upfiles[$file]['tmp_name'][$key]) && $upfiles[$file]['error'][$key] == 0) {

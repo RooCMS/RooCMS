@@ -432,7 +432,7 @@ class ACP_Users {
 			}
 
 			# upload / update avatar
-			$av = $users->upload_avatar($uid, $udata['avatar']);
+			$users->upload_avatar($uid, $udata['avatar']);
 
 			# update
 			if(!isset($_SESSION['error'])) {
