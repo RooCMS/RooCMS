@@ -166,7 +166,8 @@ class ACP_Feeds {
 			'items_per_page'   => $this->engine->page_items_per_page,
 			'items_sorting'    => $this->engine->page_items_sorting,
 			'thumb_img_width'  => $this->engine->page_thumb_img_width,
-			'thumb_img_height' => $this->engine->page_thumb_img_height
+			'thumb_img_height' => $this->engine->page_thumb_img_height,
+			'subfeeds'         => $this->engine->load_tree($this->engine->page_id)
 		);
 
 		return $setting;

@@ -78,6 +78,7 @@ class ACP_Feeds_Feed {
 		$feedlist = $tags->collect_tags($feedlist, $taglinks);
 
 		# smarty
+		$smarty->assign("subfeeds",$this->feed['subfeeds']);
 		$smarty->assign("feedlist",$feedlist);
 
 		$content = $tpl->load_template("feeds_control_feed", true);

@@ -43,7 +43,7 @@
 			<td class="text-right">
 				<div class="btn-group">
 					{if $page['page_type'] == "feed"}
-						<a href="{$SCRIPT_NAME}?act=feeds&part=settings&page={$page['id']}" class="btn btn-xs btn-default"><i class="fa fa-fw fa-cog" rel="tooltip" data-toggle="tooltip" data-placement="top" title="Настройки ленты"></i></a>
+						<a href="{$SCRIPT_NAME}?act=feeds&part=settings&page={$page['id']}" class="btn btn-xs btn-default"><i class="fa fa-fw fa-cog" rel="tooltip" data-toggle="tooltip" data-placement="left" data-container="body" title="Настройки ленты"></i></a>
 					{/if}
 					<a href="{$SCRIPT_NAME}?act=structure&part=edit&id={$page['id']}" class="btn btn-xs btn-default"><i class="fa fa-pencil-square-o fa-fw"></i><span class="hidden-sm">Редактировать</span></a>
 					{if $page['id'] != 1}<a href="{$SCRIPT_NAME}?act=structure&part=delete&id={$page['id']}" class="btn btn-xs btn-danger"><i class="fa fa-trash-o fa-fw"></i><span class="hidden-sm">Удалить</span></a>{/if}
