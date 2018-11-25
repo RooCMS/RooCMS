@@ -10,12 +10,6 @@
  * along with this program.  If not, see http://www.gnu.org/licenses/
  */
 
-
-$mode = "";
-if(isset($_GET['mode']) && trim($_GET['mode']) != "") {
-	$mode = $_GET['mode'];
-}
-
 # OUTPUT
 header('HTTP/1.1 200 OK');
 header("Content-type: application/x-javascript; charset=utf-8");
