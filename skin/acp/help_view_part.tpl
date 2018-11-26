@@ -46,7 +46,7 @@
 					{/if}
 					<ul class="nav nav-pills nav-stacked col-lg-3 col-md-4 col-sm-4 col-xs-12">
 				{/if}
-				<li class="small"><a href="{$SCRIPT_NAME}?act=help&u={$subpart['uname']}">{section name=level loop=$subpart['level']}&bull;{/section}&bull; {$subpart['title']}</a></li>
+				<li class="small"><a href="{$SCRIPT_NAME}?act=help&u={$subpart['uname']}" {if $subpart['level'] == 0}class="text-bold"{/if}>{section name=level loop=$subpart['level']}&bull;{/section}&bull; {$subpart['title']}</a></li>
 				{if $smarty.foreach.helptrees.last}</ul>{/if}
 			{/foreach}
 		</div>

@@ -151,7 +151,7 @@ class ACP_Feeds {
 	/**
 	 * Получаем массив с настройками фида
 	 *
-	 * @return array<string, array, integer|string|boolean|array>
+	 * @return array<integer|string|boolean|array>
 	 */
 	private function get_settings() {
 

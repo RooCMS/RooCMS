@@ -261,7 +261,7 @@ class Images extends GD {
 	 */
 	public function remove_images($image, $clwhere=false) {
 
-                global $db, $logger;
+                global $db;
 
 		if(is_numeric($image) || is_integer($image)) {
 			$cond = " id='".$image."' ";
@@ -282,7 +282,7 @@ class Images extends GD {
                 		$thumb = $row['filename']."_thumb.".$row['fileext'];
 
 				# delete unique name
-				$this->erase_image(_UPLOADIMAGES."/".$row['filename'].".".$row['fileext']);
+				//$this->erase_image(_UPLOADIMAGES."/".$row['filename'].".".$row['fileext']);
 
                 		# delete original
 				$this->erase_image(_UPLOADIMAGES."/".$original);
