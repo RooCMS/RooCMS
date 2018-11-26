@@ -9,7 +9,7 @@
 			<tr class="active">
 				<th width="11%">Дата</th>
 				<th width="9%" class="text-center">Тип события </th>
-				<th width="10%">Пользователь</th>
+				<th width="10%" class="text-center">Пользователь</th>
 				<th width="72%">Запись</th>
 			</tr>
 		</thead>
@@ -18,7 +18,13 @@
 			<tr>
 				<td class="small">{$r['date_log']}</td>
 				<td class="text-center"><span class="label label-{if $r['type_log'] == "error"}danger{elseif $r['type_log'] == "info"}info{else}default{/if}">{$r['type_log']}</span></td>
-				<td><a href="{$SCRIPT_NAME}?act=users&part=edit_user&uid={$r['uid']}" class="btn btn-sm btn-link">{$r['nickname']}</a></td>
+				<td class="text-center">
+					{if $r['uid'] != 0}
+						<a href="{$SCRIPT_NAME}?act=users&part=edit_user&uid={$r['uid']}" class="btn btn-xs btn-default">{$r['nickname']}</a>
+					{else}
+						<span class="label label-default">Гость</span>
+					{/if}
+				</td>
 				<td>
 					<mark>{$r['message']}</mark>
 				</td>

@@ -90,7 +90,7 @@ class ACP_Logs {
 		$db->query("TRUNCATE ".LOG_TABLE);
 
 		# log
-		$logger->info("Лог очищен");
+		$logger->info("Лог действий очищен");
 
 		# go
 		go(CP."?act=logs&part=logaction");

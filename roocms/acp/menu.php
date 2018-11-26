@@ -45,7 +45,7 @@ if(is_file(_ROOCMS."/acp/users.php")) {
  * Logs
  */
 if(is_file(_ROOCMS."/acp/logs.php")) {
-	$menu_items_left[] = array('role'=>'navlink', 'link'=>CP.'?act=logs', 'act'=>'config', 'icon'=>'fa fa-fw fa-list', 'text'=>'Логи', 'window'=>'_self');
+	$menu_items_left[] = array('role'=>'navlink', 'link'=>CP.'?act=logs', 'act'=>'logs', 'icon'=>'fa fa-fw fa-list', 'text'=>'Логи', 'window'=>'_self');
 }
 
 /**

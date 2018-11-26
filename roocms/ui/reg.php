@@ -122,7 +122,8 @@ class UI_Reg {
 
 
 			# avatar
-			$users->upload_avatar($uid);
+			$av = $users->upload_avatar($uid);
+			$db->query("UPDATE ".USERS_TABLE." SET avatar='".$av."' WHERE uid='".$uid."'");
 
 
 			# activation link

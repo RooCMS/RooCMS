@@ -52,7 +52,7 @@ class ACP_Login {
 					$_SESSION['token'] 	= $security->hashing_token($data['login'], $dbpass, $data['salt']);
 
 					# log
-					$logger->log("Успешная авторизация под логином: ".$post->login);
+					$logger->log("Пользователь успешно авторизовался в Панели управления");
 
 					# go
 					goback();
@@ -80,7 +80,7 @@ class ACP_Login {
 		global $smarty, $logger;
 
 		# log
-		$logger->log("Попытка авторизации - логин: ".$login." пароль: *".$password." символов*");
+		$logger->log("Неудачная попытка авторизации - логин: ".$login." пароль: *".$password." символов*");
 
 		session_destroy();
 

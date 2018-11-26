@@ -77,7 +77,9 @@
 			</ul>
 		{/if}
 	</div>
-	<div class="col-sm-3" style="padding-top:60px;">
+	<div class="col-sm-3 text-center" style="padding-top:60px;">
 		{$module->load('tagcloud')}
+		<h5>QR Code</h5>
+		<img src="qrcode.php?url={$smarty.server.REQUEST_URI}" class="img-thumbnail" alt="QR ссылка на эту страницу">
 	</div>
 </div>

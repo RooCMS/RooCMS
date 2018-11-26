@@ -44,7 +44,7 @@ class UCP_Login {
 	 */
 	private function entering() {
 
-		global $db, $post, $security;
+		global $db, $post, $security, $logger;
 
 		if(isset($post->login, $post->password) && $db->check_id($post->login, USERS_TABLE, "login", "status='1'")) {
 
@@ -62,6 +62,9 @@ class UCP_Login {
 				$_SESSION['nickname'] 	= $data['nickname'];
 				$_SESSION['title'] 	= $data['title'];
 				$_SESSION['token'] 	= $security->hashing_token($data['login'], $dbpass, $data['salt']);
+
+				# log
+				$logger->log("Пользователь успешно авторизовался на сайте");
 			}
 			else {
 				# неверный логин или пароль

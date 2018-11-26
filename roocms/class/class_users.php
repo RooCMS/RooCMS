@@ -466,7 +466,7 @@ class Users extends Security {
 	 *
 	 * @return string - имя файла аватарки
 	 */
-	public function upload_avatar($uid, $avatar) {
+	public function upload_avatar($uid, $avatar="") {
 
 		global $db, $config, $img;
 

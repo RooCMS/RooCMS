@@ -4,7 +4,7 @@
 		<h1>Регистрация</h1>
 	</div>
 	<div class="col-sm-12">
-		<form method="post" action="{$SCRIPT_NAME}?part=reg&act=join" role="form" class="form-horizontal">
+		<form method="post" action="{$SCRIPT_NAME}?part=reg&act=join" role="form" class="form-horizontal" enctype="multipart/form-data">
 			<hr />
 			<h3>Персональные данные</h3>
 			<div class="form-group">
