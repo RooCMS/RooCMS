@@ -124,7 +124,7 @@ class ParserText {
 	 *
 	 * @param string $text - Текстовый буфер, который надлежит отпарсить
 	 *
-	 * @return string|text
+	 * @return string
 	 */
 	public function br($text) {
 		$text = nl2br($text);
@@ -184,7 +184,8 @@ class ParserText {
 
 		if (preg_match_all($pattern, $text, $matches)) {
 
-			for($i=0;$i<sizeof($matches['0']);$i++) {
+			$cmatch = sizeof($matches['0']);
+			for($i=0; $i < $cmatch ;$i++) {
 
 				$period = '';
 

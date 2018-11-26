@@ -204,7 +204,7 @@ class RooCMS_Global {
 				$ifmodsince = strtotime(mb_substr($_SERVER['HTTP_IF_MODIFIED_SINCE'], 5));
 			}
 
-			if ($ifmodsince && $ifmodsince >= $lastmodifed) {
+			if ($ifmodsince !== false && $ifmodsince >= $lastmodifed) {
 				header($_SERVER['SERVER_PROTOCOL']." 304 Not Modified");
 				exit;
 			}

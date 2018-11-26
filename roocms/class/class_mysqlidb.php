@@ -274,7 +274,7 @@ class MySQLiDB {
 	/**
 	 * Преобразует результаты запроса в простой массив
 	 *
-	 * @param mixed $q - Результат произведенного в БД запроса.
+	 * @param resource $q - Результат произведенного в БД запроса.
 	 * @return array  - Возвращает данные из БД в ввиде нумерованного массива
 	 */
 	public function fetch_row($q) {
@@ -289,7 +289,8 @@ class MySQLiDB {
 	/**
 	 * Преобразует результаты запроса в ассоциативный массив
 	 *
-	 * @param data $q - Результат произведенного в БД запроса.
+	 * @param resource $q - Результат произведенного в БД запроса.
+	 *
 	 * @return array|null  - Возвращает данные из БД в ввиде ассоциативного массива
 	 */
 	public function fetch_assoc($q) {
@@ -304,7 +305,8 @@ class MySQLiDB {
 	/**
 	 * Преобразует результаты запроса в объект
 	 *
-	 * @param  data     $q - Результат произведенного в БД запроса.
+	 * @param resource $q - Результат произведенного в БД запроса.
+	 *
 	 * @return object|null - Возвращает данные из БД в ввиде объекта
 	 */
 	public function fetch_object($q) {
@@ -318,6 +320,7 @@ class MySQLiDB {
 
 	/**
 	 * Have a index query
+	 *
 	 * @return int Возвращает идентификатор
 	 */
 	public function insert_id() {
