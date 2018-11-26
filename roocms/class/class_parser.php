@@ -1,7 +1,7 @@
 <?php
 /**
  * RooCMS - Open Source Free Content Managment System
- * @copyright © 2010-2018 alexandr Belov aka alex Roosso. All rights reserved.
+ * @copyright © 2010-2019 alexandr Belov aka alex Roosso. All rights reserved.
  * @author    alex Roosso <info@roocms.com>
  * @link      http://www.roocms.com
  * @license   http://www.gnu.org/licenses/gpl-3.0.html
@@ -29,7 +29,6 @@ class Parser {
 	# included classes
 	public 	$text;				# [obj]		for parsing texts
 	public 	$date;				# [obj]		for parsing date format
-	public	$xml;				# [obj]		for parsing xml data
 
 	# objects
 	public 	$post;				# [obj]		$_POST data

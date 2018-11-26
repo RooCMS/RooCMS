@@ -1,4 +1,4 @@
-{* Шаблон прикрепленных файлов *}
+{* Attached Files template *}
 
 <p class="attached_files">
 {foreach from=$attachfile item=file}

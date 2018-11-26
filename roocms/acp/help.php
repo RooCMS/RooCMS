@@ -1,7 +1,7 @@
 <?php
 /**
  * RooCMS - Open Source Free Content Managment System
- * @copyright © 2010-2018 alexandr Belov aka alex Roosso. All rights reserved.
+ * @copyright © 2010-2019 alexandr Belov aka alex Roosso. All rights reserved.
  * @author    alex Roosso <info@roocms.com>
  * @link      http://www.roocms.com
  * @license   http://www.gnu.org/licenses/gpl-3.0.html
@@ -30,7 +30,7 @@ class ACP_Help {
 	private $part_id	= 0;
 	private $part_parent	= 0;
 
-	private $part_data	= []; # Информация по текущему разделу
+	private $part_data	= []; # info active part
 
 	private $helptree 	= [];
 	private $breadcumb	= [];
@@ -38,7 +38,7 @@ class ACP_Help {
 
 
 	/**
-	* Инициализация раздела помощи
+	* Construct
 	*
 	*/
 	public function __construct() {
@@ -58,7 +58,7 @@ class ACP_Help {
 
 		$smarty->assign('helpmites', $this->breadcumb);
 
-		# действия
+		# action
 		if(DEVMODE) {
 			switch($roocms->part) {
 
@@ -97,14 +97,14 @@ class ACP_Help {
 			$content = $this->show_help();
 		}
 
-		# отрисовываем шаблон
+		# tpl
 		$smarty->assign('content', $content);
 		$tpl->load_template("help");
 	}
 
 
 	/**
-	 * Отображаем помошь...
+	 * Show help part
 	 *
 	 * @return string|null tpl
 	 */
@@ -117,7 +117,7 @@ class ACP_Help {
 		$data['date_modified'] = $parse->date->unix_to_rus($data['date_modified'], false, false, true);
 		$data['content'] = $parse->text->html($data['content']);
 
-		# отрисовываем шаблон
+		# tpl
 		$smarty->assign("subtree", $this->load_tree($data['id']));
 		$smarty->assign("data", $data);
 		$content = $tpl->load_template('help_view_part', true);
@@ -235,7 +235,7 @@ class ACP_Help {
 				$this->count_childs($post->now_parent_id);
 			}
 
-			# уведомление
+			# logger
 			$logger->info("Раздел #".$id." успешно обновлен!");
 
 			# go
@@ -267,7 +267,7 @@ class ACP_Help {
 
             		$db->query("DELETE FROM ".HELP_TABLE." WHERE id='".$id."'");
 
-			# уведомление
+			# logger
 			$logger->info("Раздел #".$id." удален");
 
 			# пересчитываем детишек
@@ -395,6 +395,7 @@ class ACP_Help {
 	private function load_data() {
 
 		global $db, $get;
+
 		# default: load root
 		$cond = "id='1'";
 
@@ -465,7 +466,7 @@ class ACP_Help {
 
 		$db->query("UPDATE ".HELP_TABLE." SET childs='".$c."' WHERE id='".$id."'");
 
-		# уведомление
+		# logger
 		$logger->info("Информация о подразделах для раздела #".$id." обновлена.");
 	}
 

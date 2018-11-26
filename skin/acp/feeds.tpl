@@ -22,7 +22,7 @@
 				</div>
 				<div class="list-group">
 					{foreach from=$subfeeds item=subfeed}
-						<a href="{$SCRIPT_NAME}?act=feeds&part=control&page={$subfeed['id']}" class="list-group-item"><i class="fa fa-fw fa-newspaper-o"></i> {$subfeed['title']}</a>
+						<a href="{$SCRIPT_NAME}?act=feeds&part=control&page={$subfeed['id']}" class="list-group-item"><i class="fa fa-fw fa-th-list"></i> {$subfeed['title']}</a>
 					{/foreach}
 				</div>
 			{/if}

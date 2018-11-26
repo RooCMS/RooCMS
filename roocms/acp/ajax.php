@@ -1,7 +1,7 @@
 <?php
 /**
  * RooCMS - Open Source Free Content Managment System
- * @copyright © 2010-2018 alexandr Belov aka alex Roosso. All rights reserved.
+ * @copyright © 2010-2019 alexandr Belov aka alex Roosso. All rights reserved.
  * @author    alex Roosso <info@roocms.com>
  * @link      http://www.roocms.com
  * @license   http://www.gnu.org/licenses/gpl-3.0.html
@@ -57,7 +57,7 @@ class ACP_Ajax {
 
 
 	/**
-	* Удаление картинок посредством AJAX
+	* Remove attached images
 	*
 	*/
 	private function delete_attached_image() {
@@ -75,7 +75,7 @@ class ACP_Ajax {
 
 
 	/**
-	 * Удаление файлов посредством AJAX
+	 * Remove attached files
 	 *
 	 */
 	private function delete_attached_file() {
@@ -93,7 +93,7 @@ class ACP_Ajax {
 
 
 	/**
-	 * Удаление пользовательского аватара посредством AJAX
+	 * Remove user avatar
 	 *
 	 */
 	private function delete_user_avatar() {
@@ -109,19 +109,19 @@ class ACP_Ajax {
 	}
 
 	/**
-	 * Удаление изображения из настроек сайта посредством AJAX
+	 * Remove images from site configuration
 	 *
 	 */
 	private function delete_config_image() {
 
-		global $db, $get;
+		global $db, $get, $img;
 
 		if(isset($get->_option) && $db->check_id($get->_option, CONFIG_TABLE, "option_name", "value!=''")) {
 
 			$q = $db->query("SELECT value FROM ".CONFIG_TABLE." WHERE option_name='".$get->_option."'");
 			$data = $db->fetch_assoc($q);
 
-			unlink(_UPLOADIMAGES."/".$data['value']);
+			$img->erase_image(_UPLOADIMAGES."/".$data['value']);
 			$db->query("UPDATE ".CONFIG_TABLE." SET value='' WHERE option_name='".$get->_option."'");
 
 			echo "<small class=\"text-success btn btn-xs\"><span class=\"fa fa-trash-o\"></span> Удалено!</small>";

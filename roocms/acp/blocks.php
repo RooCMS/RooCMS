@@ -1,7 +1,7 @@
 <?php
 /**
  * RooCMS - Open Source Free Content Managment System
- * @copyright © 2010-2018 alexandr Belov aka alex Roosso. All rights reserved.
+ * @copyright © 2010-2019 alexandr Belov aka alex Roosso. All rights reserved.
  * @author    alex Roosso <info@roocms.com>
  * @link      http://www.roocms.com
  * @license   http://www.gnu.org/licenses/gpl-3.0.html
@@ -30,8 +30,8 @@ class ACP_Blocks {
 
 
 	/**
-	* Поехали
-	*     (с) Гагарин
+	* Let's go
+	*     (c) Y.Gagarin
 	*/
 	public function __construct() {
 
@@ -40,18 +40,19 @@ class ACP_Blocks {
 		$this->init();
 		$this->action();
 
-		# выводим
+		# tpl
 		$tpl->load_template("blocks");
 	}
 
 
 	/**
-	* Инициализация установки
+	* Block type initialisation and activate component for block used
 	*/
 	private function init() {
 
 		global $db, $get;
 
+		# get data
 		if(isset($get->_block) && $db->check_id($get->_block, BLOCKS_TABLE)) {
 			$this->block = $get->_block;
 			$q = $db->query("SELECT block_type FROM ".BLOCKS_TABLE." WHERE id='".$this->block."'");
@@ -59,6 +60,7 @@ class ACP_Blocks {
 			$get->_type = $t['block_type'];
 		}
 
+		# init
 		if(isset($get->_type) && array_key_exists($get->_type, $this->types) && $this->types[$get->_type]) {
 			switch($get->_type) {
 				case 'html':
@@ -76,7 +78,7 @@ class ACP_Blocks {
 
 
 	/**
-	* Определяем задачи для каждой цели
+	* Action initialisation and activation
 	*/
 	private function action() {
 
@@ -107,18 +109,20 @@ class ACP_Blocks {
 
 
 	/**
-	* Видим все блоки
+	* Show all blocks
 	*/
 	private function view_all_blocks() {
 
 		global $db, $tpl, $smarty;
 
+		# get data
 		$data = [];
 		$q = $db->query("SELECT id, alias, block_type, title FROM ".BLOCKS_TABLE." ORDER BY id ASC");
 		while($row = $db->fetch_assoc($q)) {
 			$data[] = $row;
 		}
 
+		# tpl
 		$smarty->assign("data", $data);
 		$content = $tpl->load_template("blocks_view_list", true);
 		$smarty->assign("content", $content);

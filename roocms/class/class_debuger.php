@@ -1,7 +1,7 @@
 <?php
 /**
  * RooCMS - Open Source Free Content Managment System
- * @copyright © 2010-2018 alexandr Belov aka alex Roosso. All rights reserved.
+ * @copyright © 2010-2019 alexandr Belov aka alex Roosso. All rights reserved.
  * @author    alex Roosso <info@roocms.com>
  * @link      http://www.roocms.com
  * @license   http://www.gnu.org/licenses/gpl-3.0.html
@@ -30,7 +30,7 @@ class Debuger {
 
 	# debug info
 	public  $debug_info          = ""; # buffer for debug info text
-	private $debug_dump          = []; # Дамп с данными отладки, для разработчика.
+	private $debug_dump          = []; # data dump for developers
 
 	# Timer
 	private $starttime           = 0;
@@ -48,16 +48,16 @@ class Debuger {
 	private $reqphpext		= array("Core", "standard", "mysqli", "session", "mbstring",
 						"calendar", "date", "pcre", "xml", "SimpleXML", "gd");
 
-	public  $phpextensions       = []; # Список установленных PHP расширений
-	public  $nophpextensions     = []; # Список отсуствующих PHP приложений, требуемых для RooCMS
+	public  $phpextensions       = []; # list installed php extends
+	public  $nophpextensions     = []; # list non installed php extends required for RooCMS
 
 
 	/**
-	* Запускаем класс
+	* Construct
 	*/
 	public function __construct() {
 
-		# устанавливаем перехватчик ошибок
+		# set error handler
 		set_error_handler(array($this,'debug_critical_error'));
 
 		# check developer constants
@@ -66,12 +66,12 @@ class Debuger {
 		# default : error hide
 		$this->error_report(false);
 
-        	# Для админа всегда показываем ошибки и замеряем время выполнения RooCMS
+        	# for admins all time measure productivity
 		if(DEBUGMODE || defined('ACP') || defined('INSTALL')) {
 			# start Debug timer
 			$this->start_productivity();
 
-			# Проверяем наличие требуемых PHP расширений
+			# check required php extends
 			$this->check_phpextensions();
 
 			# try show error
@@ -89,7 +89,7 @@ class Debuger {
 
 
 	/**
-	* Запускаем таймер подсчета времени выполнения скрипта
+	* Start productivity timer measure script working
 	*/
         private function start_productivity() {
 
@@ -102,7 +102,7 @@ class Debuger {
 
 
 	/**
-	* Останавливаем таймер подсчета времени выполнения скрипта
+	* Stop productivity timer measure script working
 	*/
         public function end_productivity() {
 

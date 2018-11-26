@@ -1,7 +1,7 @@
 <?php
 /**
  * RooCMS - Open Source Free Content Managment System
- * @copyright © 2010-2018 alexandr Belov aka alex Roosso. All rights reserved.
+ * @copyright © 2010-2019 alexandr Belov aka alex Roosso. All rights reserved.
  * @author    alex Roosso <info@roocms.com>
  * @link      http://www.roocms.com
  * @license   http://www.gnu.org/licenses/gpl-3.0.html
@@ -248,8 +248,13 @@ class PageFeed {
 		$order = $this->feed_order($structure->page_items_sorting);
 
 		# query
-		$i = 0; $previndex = -1; $nextindex = -1;
-		$data = []; $res = [];
+		$i = 0;
+		$previndex = -1;
+		$nextindex = -1;
+
+		$data = [];
+		$res = [];
+
 		$q = $db->query("SELECT id, title, date_publications FROM ".PAGES_FEED_TABLE." WHERE ".$cond." ORDER BY ".$order."");
 		while($row = $db->fetch_assoc($q)) {
 

@@ -1,7 +1,7 @@
 <?php
 /**
  * RooCMS - Open Source Free Content Managment System
- * @copyright © 2010-2018 alexandr Belov aka alex Roosso. All rights reserved.
+ * @copyright © 2010-2019 alexandr Belov aka alex Roosso. All rights reserved.
  * @author    alex Roosso <info@roocms.com>
  * @link      http://www.roocms.com
  * @license   http://www.gnu.org/licenses/gpl-3.0.html
@@ -30,6 +30,11 @@ class ACP_Logs {
 		global $roocms, $tpl;
 
 		switch($roocms->part) {
+
+			case 'clear_logaction':
+				$this->clear_logaction();
+				break;
+
 			case 'lowerrors':
 				$this->lowerrors();
 				break;
@@ -38,15 +43,58 @@ class ACP_Logs {
 				$this->clear_lowerrors();
 				break;
 
-			default:
-				$this->lowerrors();
+			default: #logaction
+				$this->logaction();
 				break;
 		}
 
-		# отрисовываем шаблон
+		# tpl
 		$tpl->load_template("logs");
 	}
 
+
+	/**
+	 * Show log action
+	 */
+	private function logaction() {
+
+		global $db, $parse, $tpl, $smarty;
+
+		# get data log
+		$datalog = [];
+		$q = $db->query("SELECT l.id, l.uid, u.nickname, l.message, l.type_log, l.date_log FROM ".LOG_TABLE." AS l 
+							LEFT JOIN ".USERS_TABLE." AS u ON (u.uid = l.uid)
+						ORDER BY l.date_log ASC");
+		while($data = $db->fetch_assoc($q)) {
+
+			$data['date_log'] = $parse->date->unix_to_rus($data['date_log'], false, true, true);
+
+			$datalog[] = $data;
+		}
+
+		#tpl
+		$smarty->assign("datalog", $datalog);
+		$content = $tpl->load_template("logs_logaction", true);
+		$smarty->assign('content', $content);
+	}
+
+
+	/**
+	 * Clear action log
+	 */
+	private function clear_logaction() {
+
+		global $db, $logger;
+
+		# empty files
+		$db->query("TRUNCATE ".LOG_TABLE);
+
+		# log
+		$logger->info("Лог очищен");
+
+		# go
+		go(CP."?act=logs&part=logaction");
+	}
 
 	/**
 	 * Show lowerrors
@@ -72,7 +120,7 @@ class ACP_Logs {
 
 
 	/**
-	 * Очищаем лог некритических ошибок
+	 * Clear php error log
 	 */
 	private function clear_lowerrors() {
 

@@ -1,7 +1,7 @@
 <?php
 /**
  * RooCMS - Open Source Free Content Managment System
- * @copyright © 2010-2018 alexandr Belov aka alex Roosso. All rights reserved.
+ * @copyright © 2010-2019 alexandr Belov aka alex Roosso. All rights reserved.
  * @author    alex Roosso <info@roocms.com>
  * @link      http://www.roocms.com
  * @license   http://www.gnu.org/licenses/gpl-3.0.html
@@ -280,6 +280,9 @@ class Images extends GD {
                 		$original = $row['filename']."_original.".$row['fileext'];
                 		$resize = $row['filename']."_resize.".$row['fileext'];
                 		$thumb = $row['filename']."_thumb.".$row['fileext'];
+
+				# delete unique name
+				$this->erase_image(_UPLOADIMAGES."/".$row['filename'].".".$row['fileext']);
 
                 		# delete original
 				$this->erase_image(_UPLOADIMAGES."/".$original);

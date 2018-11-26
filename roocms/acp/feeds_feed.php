@@ -1,7 +1,7 @@
 <?php
 /**
  * RooCMS - Open Source Free Content Managment System
- * @copyright © 2010-2018 alexandr Belov aka alex Roosso. All rights reserved.
+ * @copyright © 2010-2019 alexandr Belov aka alex Roosso. All rights reserved.
  * @author    alex Roosso <info@roocms.com>
  * @link      http://www.roocms.com
  * @license   http://www.gnu.org/licenses/gpl-3.0.html
@@ -138,7 +138,7 @@ class ACP_Feeds_Feed {
 				$this->count_items($this->feed['id']);
 
 				# notice
-				$logger->info("Элемент #".$fiid." <".$post->title."> успешно создан.");
+				$logger->info("Запись #".$fiid." <".$post->title."> успешно создана.");
 
 				// TODO: Переделать!
 				# mailling
@@ -288,7 +288,7 @@ class ACP_Feeds_Feed {
 			$tags->save_tags($post->tags, "feeditemid=".$id);
 
 			# notice
-			$logger->info("Элемент ".$post->title." (#".$id.") успешно отредактирован.");
+			$logger->info("Запись #".$id." <".$post->title."> успешна отредактирована.");
 
 			# update images
 			$img->update_images_info("feeditemid", $id);

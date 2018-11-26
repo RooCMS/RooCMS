@@ -1,4 +1,4 @@
-{* Шаблон просмотра ошибок *}
+{* PHP Log Template *}
 
 <div class="panel-heading">
 	Некртические ошибки PHP

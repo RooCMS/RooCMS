@@ -1,4 +1,4 @@
-{* Форма загрузки изображений *}
+{* Images Upload Form *}
 <p>
 	Загрузить изображение: <small><span class="fa fa-question-circle fa-fw" rel="tooltip" title="Можно загружать изображения форматов: {foreach from=$allow_images_type item=type name=itype}{$type['ext']}{if !$smarty.foreach.itype.last}, {/if}{/foreach}" data-placement="right"></span></small>
 	<span class="btn btn-info btn-xs" id="addimg"><span class="fa fa-fw fa-upload"></span> добавить поле для загрузки изображений</span>

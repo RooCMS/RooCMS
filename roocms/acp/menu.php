@@ -1,7 +1,7 @@
 <?php
 /**
  * RooCMS - Open Source Free Content Managment System
- * @copyright © 2010-2018 alexandr Belov aka alex Roosso. All rights reserved.
+ * @copyright © 2010-2019 alexandr Belov aka alex Roosso. All rights reserved.
  * @author    alex Roosso <info@roocms.com>
  * @link      http://www.roocms.com
  * @license   http://www.gnu.org/licenses/gpl-3.0.html
@@ -39,6 +39,13 @@ if(is_file(_ROOCMS."/acp/blocks.php")) {
  */
 if(is_file(_ROOCMS."/acp/users.php")) {
 	$menu_items_left[] = array('role'=>'navlink', 'link'=>CP.'?act=users', 'act'=>'users', 'icon'=>'fa fa-fw fa-users', 'text'=>'Пользователи', 'window'=>'_self');
+}
+
+/**
+ * Logs
+ */
+if(is_file(_ROOCMS."/acp/logs.php")) {
+	$menu_items_left[] = array('role'=>'navlink', 'link'=>CP.'?act=logs', 'act'=>'config', 'icon'=>'fa fa-fw fa-list', 'text'=>'Логи', 'window'=>'_self');
 }
 
 /**
