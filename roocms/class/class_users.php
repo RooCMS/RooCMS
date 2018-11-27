@@ -134,8 +134,8 @@ class Users extends Security {
 				'user_name'		=> $data['user_name'],
 				'user_surname'		=> $data['user_surname'],
 				'user_last_name'	=> $data['user_last_name'],
-				'user_birthdate'	=> $parse->date->unix_to_rus($data['user_birthdate']),
-				'user_birthdaten'	=> date("d.m.Y", $data['user_birthdate']),
+				'user_birthdate'	=> $parse->date->jd_to_rus($data['user_birthdate']),
+				'user_birthdaten'	=> $parse->date->jd_to_rusint($data['user_birthdate']),
 				'user_sex'		=> $data['user_sex'],
 				'user_slogan'		=> $parse->text->br($data['user_slogan']),
 				'ban'			=> $data['ban'],
@@ -382,7 +382,7 @@ class Users extends Security {
 
 		# user birthdate
 		if(isset($post->user_birthdate) && $post->user_birthdate != "") {
-			$post->user_birthdate = $parse->date->rusint_to_unix($post->user_birthdate);
+			$post->user_birthdate = $parse->date->rusint_to_jd($post->user_birthdate);
 		}
 		else {
 			$post->user_birthdate = 0;

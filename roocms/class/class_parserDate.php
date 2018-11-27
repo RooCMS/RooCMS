@@ -19,6 +19,9 @@ if(!defined('RooCMS')) {
 }
 //#########################################################
 
+# ATENTION!!!
+# this class not corrected for international format
+# and can be reformatted in next version
 
 /**
  * Class ParserDate
@@ -273,12 +276,7 @@ class ParserDate {
 		$month 	= (int) round($time[0]);
 		$year 	= (int) round($time[2]);
 
-		if(checkdate($month, $day, $year)) {
-			$unix 	= mktime(0,0,0,$month,$day,$year);
-		}
-		else {
-			$unix	= 1;
-		}
+		$unix = $this->get_unixtimestamp($month, $day, $year);
 
 		return $unix;
 	}
@@ -299,11 +297,74 @@ class ParserDate {
 		$month 	= (int) round(mb_substr($time[1],0,2));
 		$year 	= (int) round(mb_substr($time[2],0,4));
 
+		$unix = $this->get_unixtimestamp($month, $day, $year);
+
+		return $unix;
+	}
+
+
+	/**
+	 * Conver rus format (dd.mm.YYYY) to julianday
+	 *
+	 * @param $date
+	 *
+	 * @return int - julian day
+	 */
+	public function rusint_to_jd($date) {
+
+		$time = explode(".", $date);
+
+		$day 	= (int) round(mb_substr($time[0],0,2));
+		$month 	= (int) round(mb_substr($time[1],0,2));
+		$year 	= (int) round(mb_substr($time[2],0,4));
+
 		if(checkdate($month, $day, $year)) {
-			$unix 	= mktime(0,0,0,$month,$day,$year);
+			$jd = GregorianToJD($month, $day, $year);
 		}
 		else {
-			$unix	= 1;
+			$jd = 1;
+		}
+
+		return $jd;
+	}
+
+
+	/**
+	 * Convert JD to Russian Format day
+	 *
+	 * @param $jd
+	 *
+	 * @return string
+	 */
+	public function jd_to_rusint($jd) {
+
+		$gdate = explode("/", JDToGregorian($jd));
+
+		$day   = (int) round($gdate[1]);	# day
+		$mon   = (int) round($gdate[0]);	# month
+		$year  = (int) round($gdate[2]);	# year
+
+		$date  = $day.".".$mon.".".$year;
+
+		return $date;
+	}
+
+
+	/**
+	 * Get unixtimestamp format
+	 *
+	 * @param $month
+	 * @param $dat
+	 * @param $year
+	 *
+	 * @return int - unixtimestamp
+	 */
+	public function get_unixtimestamp($month, $dat, $year) {
+
+		$unix = 1;
+
+		if(checkdate($month, $day, $year)) {
+			$unix = mktime(0,0,0,$month,$day,$year);
 		}
 
 		return $unix;

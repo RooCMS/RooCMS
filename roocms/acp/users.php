@@ -315,7 +315,7 @@ class ACP_Users {
 	 */
 	private function edit_user($uid) {
 
-		global $db, $users, $logger, $smarty, $tpl;
+		global $db, $users, $parse, $logger, $smarty, $tpl;
 
 		# security superamin
 		if($uid == 1 && $users->uid != 1) {
@@ -328,7 +328,7 @@ class ACP_Users {
 
 			# user personal data birth date
 			if($user['user_birthdate'] != 0) {
-				$user['user_birthdate'] = date("d.m.Y", $user['user_birthdate']);
+				$user['user_birthdate'] = $parse->date->jd_to_rusint($user['user_birthdate']);
 			}
 
 
