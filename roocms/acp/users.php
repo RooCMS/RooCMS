@@ -330,9 +330,7 @@ class ACP_Users {
 			if($user['user_birthdate'] != 0) {
 				$user['user_birthdate'] = date("d.m.Y", $user['user_birthdate']);
 			}
-			else {
-				$user['user_birthdate'] = "";
-			}
+
 
 			# i am groot
 			$i_am_groot = false;
@@ -404,14 +402,14 @@ class ACP_Users {
 				$post->login = mb_strtolower($parse->text->transliterate($post->login));
 
 				if(!$users->check_field("login", $post->login, $udata['login'])) {
-					$logger->error("Логин не должен совпадать с логином другого пользователя!");
+					$logger->error("Логин пользователя #".$uid." не должен совпадать с логином другого пользователя!");
 				}
 				else {
 					$query .= "login='".$post->login."', ";
 				}
 			}
 			else {
-				$logger->error("У пользователя должен быть логин.");
+				$logger->error("У пользователя #".$uid." должен быть логин.");
 			}
 
 			# nickname
@@ -419,7 +417,7 @@ class ACP_Users {
 				$query .= "nickname='".$post->nickname."', ";
 			}
 			else {
-				$logger->error("Не удалось обновить Никнейм пользователя (возможные он был некоректно указан, или такой никнейм уже есть в БД)", false);
+				$logger->error("Не удалось обновить Никнейм пользователя #".$uid." (возможные он был некоректно указан, или такой никнейм уже есть в БД)", false);
 			}
 
 
@@ -428,7 +426,7 @@ class ACP_Users {
 				$query .= "email='".$post->email."', ";
 			}
 			else {
-				$logger->error("Не удалось обновить Email (возможные он был некоректно указан, или такой email уже есть в БД)");
+				$logger->error("Не удалось обновить Email пользователя #".$uid." (возможные он был некоректно указан, или такой email уже есть в БД)");
 			}
 
 			# upload / update avatar
@@ -475,7 +473,7 @@ class ACP_Users {
 				# notice
 				$logger->info("Данные пользователя #".$uid." успешно обновлены.");
 
-				# Уведомление пользователю на электропочту
+				# notice to email
 				$smarty->assign("login", $post->login);
 				$smarty->assign("nickname", $post->nickname);
 				$smarty->assign("email", $post->email);
@@ -485,7 +483,7 @@ class ACP_Users {
 
 				sendmail($post->email, "Ваши данные на \"".$site['title']."\" были обновлены администрацией", $message);
 
-				# переход
+				# go
 				if(isset($post->update_user['ae'])) {
 					go(CP."?act=users");
 				}
@@ -604,7 +602,7 @@ class ACP_Users {
 		$db->query("UPDATE ".USERS_TABLE." SET gid='0' WHERE gid='".$gid."'");
 
 		$db->query("DELETE FROM ".USERS_GROUP_TABLE." WHERE gid='".$gid."'");
-		$logger->info("Группа #".$gid." был успешна удалена из Базы Данных.");
+		$logger->info("Группа #".$gid." была удалена из Базы Данных.");
 
 		# go
 		goback();

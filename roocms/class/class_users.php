@@ -175,15 +175,16 @@ class Users extends Security {
 
 		global $db, $parse;
 
+		# default
+		$row = array(
+			'uid' => 0,
+		);
+
+		# check and get data
 		if($db->check_id($uid, USERS_TABLE, "uid")) {
 			$q = $db->query("SELECT uid, nickname, user_slogan, avatar, user_sex FROM ".USERS_TABLE." WHERE uid='".$uid."'");
 			$row = $db->fetch_assoc($q);
 			$row['slogan'] = $parse->text->br($row['user_slogan']);
-		}
-		else {
-			$row = array(
-				'uid' => 0,
-			);
 		}
 
 		return $row;
@@ -311,10 +312,6 @@ class Users extends Security {
 
 		global $db, $logger, $parse;
 
-		if(!isset($email) || trim($email) == "") {
-			$logger->error("Электронная почта обязательная для каждого пользователя", false);
-		}
-
 		if(isset($email) && trim($email) != "") {
 			if(!$parse->valid_email($email)) {
 				$logger->error("Некорректный адрес электронной почты", false);
@@ -323,6 +320,9 @@ class Users extends Security {
 			if($db->check_id($email, USERS_TABLE, "email")) {
 				$logger->error("Пользователь с таким адресом почты уже есть в нашей базе данных", false);
 			}
+		}
+		else {
+			$logger->error("Электронная почта обязательная для каждого пользователя", false);
 		}
 	}
 

@@ -404,11 +404,6 @@ class ACP_Help {
 			$cond = "uname='".$get->_u."'";
 		}
 
-		# Запрашиваем техническую информацию о разделе по идентификатору
-		if(isset($get->_id) && $db->check_id($get->_id, HELP_TABLE)) {
-			$cond = "id='".$get->_id."'";
-		}
-
 		# query data
 		$q = $db->query("SELECT id, parent_id, uname, title, content, date_modified FROM ".HELP_TABLE." WHERE ".$cond);
 		$row = $db->fetch_assoc($q);

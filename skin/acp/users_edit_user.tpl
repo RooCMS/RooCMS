@@ -108,7 +108,7 @@
 				Дата рождения:
 			</label>
 			<div class="col-lg-9">
-				<input type="text" name="user_birthdate" id="inputUserBirthdate" value="{$user['user_birthdate']}" class="form-control datepicker form-date">
+				<input type="text" name="user_birthdate" id="inputUserBirthdate" value="{if $user['user_birthdate'] != 0}{$user['user_birthdate']}{/if}" class="form-control datepicker form-date">
 			</div>
 		</div>
 

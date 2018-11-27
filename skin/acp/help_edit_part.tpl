@@ -5,7 +5,7 @@
 	Редактируем раздел помощи "{$data['title']}"
 </div>
 <div class="panel-body">
-	<form method="post" action="{$SCRIPT_NAME}?act=help&part=edit_part&id={$data['id']}" enctype="multipart/form-data" role="form" class="form-horizontal">
+	<form method="post" action="{$SCRIPT_NAME}?act=help&part=edit_part&u={$data['uname']}" enctype="multipart/form-data" role="form" class="form-horizontal">
 		<div class="form-group">
 			<label for="inputUname" class="col-md-3 control-label">
 				uname:
