@@ -293,9 +293,9 @@ class ParserDate {
 
 		$time = explode(".", $date);
 
-		$day 	= (int) round(mb_substr($time[0],0,2));
-		$month 	= (int) round(mb_substr($time[1],0,2));
-		$year 	= (int) round(mb_substr($time[2],0,4));
+		$day 	= round(mb_substr($time[0],0,2));
+		$month 	= round(mb_substr($time[1],0,2));
+		$year 	= round(mb_substr($time[2],0,4));
 
 		$unix = $this->get_unixtimestamp($month, $day, $year);
 
@@ -340,9 +340,9 @@ class ParserDate {
 
 		$gdate = explode("/", JDToGregorian($jd));
 
-		$day   = (int) round($gdate[1]);	# day
-		$mon   = (int) round($gdate[0]);	# month
-		$year  = (int) round($gdate[2]);	# year
+		$day   = round($gdate[1]);	# day
+		$mon   = round($gdate[0]);	# month
+		$year  = round($gdate[2]);	# year
 
 		$date  = $day.".".$mon.".".$year;
 
@@ -354,12 +354,12 @@ class ParserDate {
 	 * Get unixtimestamp format
 	 *
 	 * @param $month
-	 * @param $dat
+	 * @param $day
 	 * @param $year
 	 *
 	 * @return int - unixtimestamp
 	 */
-	public function get_unixtimestamp($month, $dat, $year) {
+	public function get_unixtimestamp($month, $day, $year) {
 
 		$unix = 1;
 
