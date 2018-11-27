@@ -170,7 +170,7 @@ class Files {
 
 				# ext
 				$ffn = explode(".", $upfiles[$file]['name'][$key]);
-				$upfiles[$file]['ext'][$key] = array_pop($ffn);
+				$ext = array_pop($ffn);
 
 				# исключение для tar.gz (в будущем оформим нормальным образом)
 				if($upfiles[$file]['ext'][$key] == "gz") {
@@ -178,11 +178,11 @@ class Files {
 				}
 
 				# Грузим апельсины бочками
-				if(array_key_exists($upfiles[$file]['ext'][$key], $allow_exts)) {
+				if(array_key_exists($ext, $allow_exts)) {
 
 					# Создаем имя файлу.
 					$filename  = $this->create_filename($upfiles[$file]['name'][$key], $prefix);
-					$ext       = $allow_exts[$upfiles[$file]['ext'][$key]];
+					$ext       = $allow_exts[$ext];
 
 					# Создаем титул файлу
 					$filetitle = preg_replace(array('(\s\s+)','(\-\-+)','(__+)','([^a-zA-Z0-9а-яА-Я\-\._]+/msi)'), array(' ','-','_',''), $upfiles[$file]['name'][$key]);
@@ -279,6 +279,7 @@ class Files {
 	 * @return mixed Возвращает массив с допустимыми расширениями изображения для загрузки на сервер
 	 */
 	public function get_allow_exts($allowtypes="") {
+		$filetype = [];
 		require _LIB."/mimetype.php";
 
 		$allow_exts = [];

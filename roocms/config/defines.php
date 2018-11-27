@@ -89,7 +89,8 @@ define('INIT_SITE',    _ROOCMS.'/site.php');
 /**
  * Logs
  */
-define('ERRORSLOG', 	_LOGS."/errors.log");
+define('ERRORSLOG', 	_LOGS."/lowerrors.log");
+define('SYSERRLOG', 	_LOGS."/syserrors.log");
 
 
 /**

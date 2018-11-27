@@ -81,7 +81,7 @@ class ParserDate {
 	/**
 	 * Переводим дату иг Грегорианского формата в русское представление.
 	 *
-	 * @param string $gdate  - дата в грегорианском формате
+	 * @param mixed  $gdate  - дата в грегорианском формате
 	 * @param bool   $full   - флаг указывает на вывод даты в полном или сокращенном формате
 	 * @param bool   $short  - флаг указывает на использование сокращений в названии дней
 	 * @param string $time   - переменная содержит часы и минуты.
@@ -100,9 +100,9 @@ class ParserDate {
 
 		$edate = explode("/", $gdate);
 
-		$day	= (int) round($edate[1]);	# day
-		$mon	= (int) round($edate[0]);	# month
-		$year	= (int) round($edate[2]);	# year
+		$day	= round($edate[1]);	# day
+		$mon	= round($edate[0]);	# month
+		$year	= round($edate[2]);	# year
 
 		if(checkdate($mon, $day, $year)) {
 			# num day of week
@@ -128,7 +128,7 @@ class ParserDate {
 	/**
 	 * Функция преобразования даты из Юлианского Календаря в русский формат
 	 *
-	 * @param string $jddate - дата в формате юлианского календаря
+	 * @param mixed  $jddate - дата в формате юлианского календаря
 	 * @param bool   $full   - флаг формата вывода даты
 	 * @param bool   $short  - флаг формата вывода даты
 	 *                    	if $full == true and $short=false
@@ -272,9 +272,9 @@ class ParserDate {
 
 		$time = explode("/", $gdate);
 
-		$day 	= (int) round($time[1]);
-		$month 	= (int) round($time[0]);
-		$year 	= (int) round($time[2]);
+		$day 	= round($time[1]);
+		$month 	= round($time[0]);
+		$year 	= round($time[2]);
 
 		$unix = $this->get_unixtimestamp($month, $day, $year);
 

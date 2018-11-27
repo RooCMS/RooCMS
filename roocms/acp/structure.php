@@ -67,8 +67,8 @@ class ACP_Structure {
 
 
 		# default thumb size
-		$default_thumb_size = array('width'	=> $config->gd_thumb_image_width,
-					    'height'	=> $config->gd_thumb_image_height);
+		$default_thumb_size = array('width'  => $config->gd_thumb_image_width,
+					    'height' => $config->gd_thumb_image_height);
 		$smarty->assign("default_thumb_size", $default_thumb_size);
 
 

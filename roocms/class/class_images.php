@@ -350,6 +350,7 @@ class Images extends GD {
 	 * @return mixed Возвращает массив с допустимыми расширениями изображения для загрузки на сервер
 	 */
 	public function get_allow_images() {
+		$imagetype = [];
 		require _LIB."/mimetype.php";
 
 		foreach($imagetype AS $itype) {

@@ -157,6 +157,10 @@ class Debuger {
 		if(is_file(ERRORSLOG) && filesize(ERRORSLOG) != 0) {
 			$this->exist_errors = true;
 		}
+
+		if(is_file(SYSERRLOG) && filesize(SYSERRLOG) != 0) {
+			$this->exist_errors = true;
+		}
 	}
 
 
@@ -257,7 +261,7 @@ class Debuger {
         */
 	private static function error_report($show = false) {
 
-		ini_set("error_log", _LOGS."/php_error.log");
+		ini_set("error_log", SYSERRLOG);
 
 		if($show) {
 			error_reporting(E_ALL);			#8191
