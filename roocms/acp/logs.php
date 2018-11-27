@@ -155,7 +155,7 @@ class ACP_Logs {
 	/**
 	 * Clear log file
 	 *
-	 * @param $logfile - log file
+	 * @param mixed $logfile - log file
 	 */
 	private function clear_logerrors($logfile) {
 

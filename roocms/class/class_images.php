@@ -77,12 +77,8 @@ class Images extends GD {
 			$allow_exts = $this->get_allow_images();
 		}
 
-
 		# Определяем настройки размеров для будущих миниатюр
-		if(!empty($thumbsize)) {
-			$this->set_mod_sizes($thumbsize);
-		}
-
+		$this->set_mod_sizes($thumbsize);
 
 		# Если $_FILES не является массивом конвертнем в массив
 		# Я кстати в курсе, что сам по себе $_FILES уже массив. Тут в другом смысл.
@@ -353,6 +349,7 @@ class Images extends GD {
 		$imagetype = [];
 		require _LIB."/mimetype.php";
 
+		$allow_exts = [];
 		foreach($imagetype AS $itype) {
 			$allow_exts[$itype['mime_type']] = $itype['ext'];
 		}
