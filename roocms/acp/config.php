@@ -57,7 +57,7 @@ class ACP_Config extends ACP_ConfigAction {
 
 
 	/**
-	* Показать настройки
+	* Show settings
 	*
 	*/
 	private function view_config() {
@@ -71,11 +71,11 @@ class ACP_Config extends ACP_ConfigAction {
 		}
 		//elseif(isset($get->_part) && $get->_part == "all") $this->part = "all";
 
-		# запрос разделов конфигурации из БД
+		# get data config
 		$q_1 = $db->query("SELECT name, title, type, ico FROM ".CONFIG_PARTS_TABLE." ORDER BY type ASC, sort ASC");
 		while($part = $db->fetch_assoc($q_1)) {
 
-			# запрашиваем из БД опции
+			# get option
 			if($this->part == $part['name']) {
 
 				$this_part = $part;
@@ -194,7 +194,7 @@ class ACP_Config extends ACP_ConfigAction {
 
 
 	/**
-	 * Функция обновления настроек
+	 * Update configuration
 	 */
 	private function update_config() {
 

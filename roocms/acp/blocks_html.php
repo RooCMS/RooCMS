@@ -23,7 +23,7 @@ if(!defined('RooCMS') || !defined('ACP')) {
 class ACP_Blocks_HTML {
 
 	/**
-	 * Создаем HTML блок
+	 * Create block HTML
 	 */
 	public function create() {
 
@@ -83,9 +83,9 @@ class ACP_Blocks_HTML {
 
 
 	/**
-	 * Редактируем HTML блок
+	 * Edit block HTML
 	 *
-	 * @param int $id - идентификатор блока
+	 * @param int $id
 	 */
 	public function edit($id) {
 
@@ -129,9 +129,9 @@ class ACP_Blocks_HTML {
 
 
 	/**
-	 * Обновляем HTML блок
+	 * Update block HTML
 	 *
-	 * @param int $id - идентификатор
+	 * @param int $id
 	 */
 	public function update($id) {
 
@@ -191,9 +191,9 @@ class ACP_Blocks_HTML {
 
 
 	/**
-	 * Удаление блока
+	 * Remove block
 	 *
-	 * @param int $id - идентификатор блока
+	 * @param int $id
 	 */
 	public function delete($id) {
 
@@ -207,7 +207,7 @@ class ACP_Blocks_HTML {
 		# log
 		$logger->info("Блок #".$id." успешно удален!");
 
-		#go
+		# go
 		go(CP."?act=blocks");
 	}
 

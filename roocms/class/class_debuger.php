@@ -172,7 +172,7 @@ class Debuger {
 	 *
 	 * @return null|boolean
 	 */
-	public static function debug_critical_error($errno, $msg, $file, $line, $context) {
+	public static function debug_critical_error($errno, $msg, $file, $line) {
 
                 # Записываем ошибку в файл
 		$subj = file_read(ERRORSLOG);

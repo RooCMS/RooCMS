@@ -131,7 +131,7 @@ class MySQLiDB {
 	private function error($q = "") {
 
 		# режим отладки
-		if(DEBUGMODE && $q!="") {
+		if(DEBUGMODE && $q != "") {
 			$query = "<div style='padding: 5px;text-align: left;'><span style='font-family: Verdana, Tahoma; font-size: 12px;text-align: left;'>
 			Ошибка БД [MySQL Error]: <b>".$this->sql->errno."</b>
 			<br /> &bull; ".$this->sql->error."
@@ -150,7 +150,7 @@ class MySQLiDB {
 		}
 		# рабочий режим выводим заглушку
 		else {
-			echo file_read(_SKIN."/db_error.tpl");
+			return file_read(_SKIN."/db_error.tpl");
 		}
 	}
 
@@ -161,7 +161,7 @@ class MySQLiDB {
 	* @param string $q - Строка запроса в БД
 	* @return resource - результат запроса.
 	*/
-	public function query($q = "") {
+	public function query($q) {
 
 		global $debug;
 
@@ -274,7 +274,7 @@ class MySQLiDB {
 	/**
 	 * Преобразует результаты запроса в простой массив
 	 *
-	 * @param resource $q - Результат произведенного в БД запроса.
+	 * @param mixed $q - Результат произведенного в БД запроса.
 	 * @return array  - Возвращает данные из БД в ввиде нумерованного массива
 	 */
 	public function fetch_row($q) {
@@ -289,7 +289,7 @@ class MySQLiDB {
 	/**
 	 * Преобразует результаты запроса в ассоциативный массив
 	 *
-	 * @param resource $q - Результат произведенного в БД запроса.
+	 * @param mixed $q - Результат произведенного в БД запроса.
 	 *
 	 * @return array|null  - Возвращает данные из БД в ввиде ассоциативного массива
 	 */
@@ -305,7 +305,7 @@ class MySQLiDB {
 	/**
 	 * Преобразует результаты запроса в объект
 	 *
-	 * @param resource $q - Результат произведенного в БД запроса.
+	 * @param mixed $q - Результат произведенного в БД запроса.
 	 *
 	 * @return object|null - Возвращает данные из БД в ввиде объекта
 	 */

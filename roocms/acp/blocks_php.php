@@ -23,7 +23,7 @@ if(!defined('RooCMS') || !defined('ACP')) {
 class ACP_Blocks_PHP {
 
 	/**
-	 * Создаем PHP блок
+	 * Create block PHP
 	 */
 	public function create() {
 
@@ -57,9 +57,9 @@ class ACP_Blocks_PHP {
 
 
 	/**
-	 * Редактируем PHP блок
+	 * Edit block PHP
 	 *
-	 * @param int $id - идентификатор блока
+	 * @param int $id
 	 */
 	public function edit($id) {
 
@@ -68,6 +68,7 @@ class ACP_Blocks_PHP {
 		$q = $db->query("SELECT id, title, alias, content FROM ".BLOCKS_TABLE." WHERE id='".$id."'");
 		$data = $db->fetch_assoc($q);
 
+		# tpl
 		$smarty->assign("data",$data);
 		$content = $tpl->load_template("blocks_edit_php", true);
 		$smarty->assign("content", $content);
@@ -75,9 +76,9 @@ class ACP_Blocks_PHP {
 
 
 	/**
-	 * Обновляем PHP блок
+	 * Update block PHP
 	 *
-	 * @param int $id - идентификатор блока
+	 * @param int $id
 	 */
 	public function update($id) {
 
@@ -116,9 +117,9 @@ class ACP_Blocks_PHP {
 
 
 	/**
-	 * Удаляем PHP блок
+	 * Remove block PHP
 	 *
-	 * @param int $id - идентификатор блока
+	 * @param int $id
 	 */
 	public function delete($id) {
 
