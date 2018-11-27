@@ -286,7 +286,8 @@ class Users extends Security {
 
 		if(trim($without) != trim($name)) {
 
-			$w = (trim($without) != "") ? $field."!='".$without."'" : "" ;
+			$without = trim($without);
+			$w = $field."!='".$without."'";
 
 			if(!$db->check_id($name, $table, $field, $w)) {
 				$res = true;

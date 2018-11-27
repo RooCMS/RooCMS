@@ -422,10 +422,10 @@ class ACP_Help {
 
 
 	/**
-	 * Проверяем на уникальность
+	 * Check alias name on unique
 	 *
-	 * @param string $name    - Проверяемое имя
-	 * @param string $without - Исключения для проверяемого уникального имени
+	 * @param string $name    - uname
+	 * @param string $without - exclude uname
 	 *
 	 * @return bool
 	 */
@@ -436,10 +436,9 @@ class ACP_Help {
 		$res = false;
 
 		if(trim($without) != trim($name)) {
-			$w = "";
-			if(trim($without) != "") {
-				$w = "uname!='".$without."'";
-			}
+
+			$without = trim($without);
+			$w = "uname!='".$without."'";
 
 			if(!$db->check_id($name, HELP_TABLE, "uname", $w)) {
 				$res = true;

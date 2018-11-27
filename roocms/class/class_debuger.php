@@ -168,8 +168,6 @@ class Debuger {
 	 * @param mixed $file  - Имя файла с ошбкой
 	 * @param mixed $line  - Номер строки с ошибкой
 	 *
-	 * @param       $context
-	 *
 	 * @return null|boolean
 	 */
 	public static function debug_critical_error($errno, $msg, $file, $line) {

@@ -421,7 +421,8 @@ class ACP_Structure {
 
 		if(trim($without) != trim($name)) {
 
-			$w = (trim($without) != "") ? "alias!='".$without."'" : "" ;
+			$without = trim($without);
+			$w = "alias!='".$without."'";
 
 			if(!$db->check_id($name, STRUCTURE_TABLE, "alias", $w)) {
 				$res = true;
