@@ -39,8 +39,16 @@ class ACP_Logs {
 				$this->lowerrors();
 				break;
 
+			case 'syserrors':
+				$this->syserrors();
+				break;
+
 			case 'clear_lowerrors':
-				$this->clear_lowerrors();
+				$this->clear_logerrors(ERRORSLOG);
+				break;
+
+			case 'clear_syserrors':
+				$this->clear_logerrors(SYSERRLOG);
 				break;
 
 			default: #logaction
@@ -72,7 +80,7 @@ class ACP_Logs {
 			$datalog[] = $data;
 		}
 
-		#tpl
+		# tpl
 		$smarty->assign("datalog", $datalog);
 		$content = $tpl->load_template("logs_logaction", true);
 		$smarty->assign('content', $content);
@@ -97,7 +105,7 @@ class ACP_Logs {
 	}
 
 	/**
-	 * Show lowerrors
+	 * Show low errors file log
 	 */
 	private function lowerrors() {
 
@@ -113,6 +121,7 @@ class ACP_Logs {
 			}
 		}
 
+		# tpl
 		$smarty->assign('error', $error);
 		$content = $tpl->load_template("logs_lowerrors", true);
 		$smarty->assign('content', $content);
@@ -120,17 +129,43 @@ class ACP_Logs {
 
 
 	/**
-	 * Clear php error log
+	 * Show sys errors file log
 	 */
-	private function clear_lowerrors() {
+	private function syserrors() {
+
+		global $tpl, $smarty;
+
+		$data = file_read(SYSERRLOG);
+
+		$error = [];
+		$errors = explode("\r", $data);
+		foreach($errors as $e) {
+			if(trim($e) != "") {
+				$error[] = $e;
+			}
+		}
+
+		# tpl
+		$smarty->assign('error', $error);
+		$content = $tpl->load_template("logs_syserrors", true);
+		$smarty->assign('content', $content);
+	}
+
+
+	/**
+	 * Clear log file
+	 *
+	 * @param $logfile - log file
+	 */
+	private function clear_logerrors($logfile) {
 
 		global $files, $logger;
 
 		# empty files
-		$files->write_file(ERRORSLOG, "");
+		$files->write_file($logfile, "");
 
 		# log
-		$logger->info("Лог некритических ошибок очищен");
+		$logger->info("Лог ".basename($logfile)." очищен");
 
 		# go
 		go(CP."?act=logs&part=lowerrors");

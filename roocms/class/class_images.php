@@ -210,7 +210,7 @@ class Images extends GD {
 						    VALUES ('".$attached."', '".$image['filename']."', '".$image['extension']."', '".$alt."')");
 
 		# msg
-		$logger->log("Изображение ".$filename." успешно загружено на сервер");
+		$logger->log("Изображение ".basename($filename)." успешно загружено на сервер");
 	}
 
 
@@ -310,10 +310,10 @@ class Images extends GD {
 
 		if(is_file($image)) {
 			unlink($image);
-			$logger->log("Изображение ".$image." удалено");
+			$logger->log("Изображение ".basename($image)." удалено");
 		}
 		else {
-			$logger->log("Не удалось найти изображение ".$image, "error");
+			$logger->log("Не удалось найти изображение ".basename($image), "error");
 		}
 	}
 

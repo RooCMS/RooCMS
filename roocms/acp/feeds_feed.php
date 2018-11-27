@@ -127,7 +127,7 @@ class ACP_Feeds_Feed {
 				$images = $img->upload_image("images", "", array($this->feed['thumb_img_width'], $this->feed['thumb_img_height']));
 				if($images) {
 					foreach($images AS $image) {
-						$img->insert_images($image, "feeditemid=".$fiid);
+						$img->insert_images($image, "feeditemid=".$fiid, $post->title);
 					}
 				}
 
@@ -297,7 +297,7 @@ class ACP_Feeds_Feed {
 			$images = $img->upload_image("images", "", array($this->feed['thumb_img_width'], $this->feed['thumb_img_height']));
 			if($images) {
 				foreach($images AS $image) {
-					$img->insert_images($image, "feeditemid=".$id);
+					$img->insert_images($image, "feeditemid=".$id, $post->title);
 				}
 			}
 

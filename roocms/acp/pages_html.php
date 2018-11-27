@@ -89,7 +89,7 @@ class ACP_Pages_HTML {
 		$images = $img->upload_image("images", "", array($data->page_thumb_img_width, $data->page_thumb_img_height));
 		if($images) {
 			foreach($images AS $image) {
-				$img->insert_images($image, "pagesid=".$data->page_id);
+				$img->insert_images($image, "pagesid=".$data->page_id, $data->page_title);
 			}
 		}
 

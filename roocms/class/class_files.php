@@ -237,7 +237,7 @@ class Files {
 						VALUES ('".$attached."', '".$fileinfo['filename']."', '".$fileinfo['extension']."', '".$filetitle."')");
 
 		# msg
-		$logger->log("Файл ".$filename." успешно загружен на сервер");
+		$logger->log("Файл ".basename($filename)." успешно загружен на сервер");
 	}
 
 
@@ -390,10 +390,10 @@ class Files {
 
 		if(is_file($file)) {
 			unlink($file);
-			$logger->log("Удален файл: ".$file);
+			$logger->log("Удален файл: ".basename($file));
 		}
 		elseif(!is_file($file)) {
-			$logger->error("Не удалось найти файл ".$file, "error");
+			$logger->error("Не удалось найти файл ".basename($file), "error");
 		}
 	}
 
