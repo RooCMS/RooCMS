@@ -198,11 +198,10 @@ class Users extends Security {
 	 * @param int   $ban     - Текущий бан пользователя: 0 без бана, 1 с баном, -1 все
 	 * @param int   $mailing - Является пользователь подписчиком рассылки: 0 нет, 1 да, -1 все
 	 * @param array $users   - массив с идентификаторами запрашиваемых пользователей.
-	 * @param bool  $email   - Флаг запрашивать ли почтовые адреса пользователей
 	 *
 	 * @return array
 	 */
-	public function get_userlist($status=-1, $ban=-1, $mailing=-1, $users=[], $email=false) {
+	public function get_userlist($status=-1, $ban=-1, $mailing=-1, $users=[]) {
 
 		global $db;
 
@@ -250,15 +249,9 @@ class Users extends Security {
 			$cond = "WHERE".$cond;
 		}
 
-		# email
-		$query = "";
-		if($email) {
-			$query = ", email";
-		}
-
 		# получаем список пользователей
 		$userlist = [];
-		$q = $db->query("SELECT uid, nickname, user_slogan, avatar, user_sex".$query." FROM ".USERS_TABLE." ".$cond." ORDER BY nickname ASC");
+		$q = $db->query("SELECT uid, nickname, user_slogan, avatar, user_sex, email FROM ".USERS_TABLE." ".$cond." ORDER BY nickname ASC");
 		while($row = $db->fetch_assoc($q)) {
 			$userlist[$row['uid']] = $row;
 		}
