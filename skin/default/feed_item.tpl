@@ -68,7 +68,7 @@
 		{if $item['author_id'] != 0}
 			<h4>Автор:</h4>
 			{if file_exists("upload/images/{$item['author']['avatar']}")}
-				<img src="/upload/images/{$item['author']['avatar']}" class="img-circle pull-left mauth-avatar" height="55">
+				<img src="/upload/images/{$item['author']['avatar']}" class="img-circle pull-left mauth-avatar" height="55" alt="{$item['author']['nickname']}">
 			{else}
 				<i class="fa fa-fw fa-user-circle-o fa-4x pull-left" title="Автор"></i>
 			{/if}
@@ -84,7 +84,7 @@
 		{if isset($item['prev'])}
 			<small>Ранее {$item['prev']['datepub']}</small>
 			<a href="{$SCRIPT_NAME}?page={$feed['alias']}{if isset($smarty.get.pg)}&pg={$smarty.get.pg}{/if}&id={$item['prev']['id']}" class="text-uppercase" title="{$item['prev']['title']}"><i class="fa fa-angle-left fa-3x pull-left"></i>
-				{if isset($item['prev']['image'][0])}<img src="/upload/images/{$item['prev']['image'][0]['thumb']}" class="img-rounded pull-left feed-image-pn">{/if}
+				{if isset($item['prev']['image'][0])}<img src="/upload/images/{$item['prev']['image'][0]['thumb']}" class="img-rounded pull-left feed-image-pn" alt="{$item['prev']['title']}">{/if}
 				<br /><span class="hidden-xs">{$item['prev']['title']}</span></a>
 		{/if}
 	</div>
@@ -95,7 +95,7 @@
 		{if isset($item['next'])}
 			<small>Далее {$item['next']['datepub']}</small>
 			<a href="{$SCRIPT_NAME}?page={$feed['alias']}{if isset($smarty.get.pg)}&pg={$smarty.get.pg}{/if}&id={$item['next']['id']}" class="text-uppercase" title="{$item['next']['title']}"><i class="fa fa-angle-right fa-3x pull-right"></i>
-				{if isset($item['next']['image'][0])}<img src="/upload/images/{$item['next']['image'][0]['thumb']}" class="img-rounded pull-right feed-image-pn">{/if}
+				{if isset($item['next']['image'][0])}<img src="/upload/images/{$item['next']['image'][0]['thumb']}" class="img-rounded pull-right feed-image-pn" alt="{$item['next']['title']}">{/if}
 				<br /><span class="hidden-xs">{$item['next']['title']}</span></a>
 		{/if}
 	</div>

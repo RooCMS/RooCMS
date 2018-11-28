@@ -58,10 +58,6 @@
 			</div>
 		{/foreach}
 
-		{if trim($feed['append_info_after']) != ""}
-			{$feed['append_info_after']}
-		{/if}
-
 		{* Pagination *}
 		{if isset($pages) && !empty($pages)}
 			<ul class="pagination">
@@ -90,4 +86,9 @@
 		<h5>QR Code</h5>
 		<img src="qrcode.php?url={$smarty.server.REQUEST_URI}" class="img-thumbnail" alt="QR ссылка на эту страницу">
 	</div>
+	{if trim($feed['append_info_after']) != ""}
+	<div class="col-sm-12">
+		{$feed['append_info_after']}
+	</div>
+	{/if}
 </div>
