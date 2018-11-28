@@ -24,8 +24,8 @@ class ACP_ConfigAction {
 
 
 	/**
-	 * Данная функция предназначена для инициализации особых функций,
-	 * которые используются для некоторых разделов.
+	 * This function is intended to initialize specific functions
+	 * that are used for some sections.
 	 */
 	protected function init_for_special_part() {
 
@@ -41,22 +41,22 @@ class ACP_ConfigAction {
 
 
 	/**
-	 * Функция изменения адреса входной страницы в Панель Администратора
+	 * This function to change script name for acp.
 	 *
-	 * @param string $newcp  - новый путь скрипта панели администратора
+	 * @param string $newcp  - new path for acp script
 	 *
-	 * @return string        - новый или действующий путь к скрипту панели администратора
+	 * @return string        - actual path to script acp
 	 */
 	private function change_cp_script($newcp) {
 
 		global $files, $logger;
 
-		# Собираем лут из старого файла
+		# read data
 		$context = file_read(_SITEROOT."/".CP);
 
-		# Создаем и записываем
+		# create and write
 		if(!file_exists(_SITEROOT."/".$newcp)) {
-			# крафтим новый файл
+			# craft new file
 			$files->write_file($newcp, $context);
 
 			if(file_exists(_SITEROOT."/".$newcp)) {

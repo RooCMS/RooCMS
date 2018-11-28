@@ -69,7 +69,6 @@ class Users extends Security {
 		# init user
 		$this->init_user();
 
-
 		if($this->uid != 0) {
 			# control user data for security
 			$this->control_userdata();

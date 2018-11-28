@@ -43,7 +43,7 @@ class ACP_Config extends ACP_ConfigAction {
 		# include config class
 		$this->config = $config;
 
-		# Если есть запрос на обновление тогда обновляем
+		# choice action
 		if(isset($post->update_config))	{
 			$this->update_config();
 		}
@@ -104,16 +104,16 @@ class ACP_Config extends ACP_ConfigAction {
 
 
 	/**
-	 * функция парсера опции для буфера
+	 * initialisation
 	 *
-	 * @param string $option_name - имя поля
-	 * @param string $option_type - тип поля
-	 * @param string $value       - значение
-	 * @param string $variants    - варианты (для селектов)
+	 * @param string $option_name - field name
+	 * @param string $option_type - field type
+	 * @param string $value       - field value
+	 * @param string $variants    - field variants (for selectable  fields)
 	 *
-	 * @param int    $maxlength   - максимально допустимое количество символов в поле.
+	 * @param int    $maxlength
 	 *
-	 * @return string - подстановка в шаблон конфигуратора
+	 * @return string
 	 */
 	private function init_field($option_name, $option_type, $value, $variants, $maxlength=0) {
 
@@ -200,16 +200,16 @@ class ACP_Config extends ACP_ConfigAction {
 
 		global $parse, $logger, $post, $img;
 
-		# запрашиваем из БД типы опций и ограничений
+		# get type options from db
 		$cfg_vars = $this->get_cfg_vars();
 
 		# if use special part
 		$this->init_for_special_part();
 
-		# Удаляем тех батоны "Сохранить настроки" итд
+		# remove updater
 		unset($post->update_config);
 
-		# Обновляем опции
+		# update option
 		foreach($post AS $key=>$value) {
 
 			$check = false;
@@ -297,7 +297,7 @@ class ACP_Config extends ACP_ConfigAction {
 	/**
 	 * Update config in database
 	 *
-	 * @param bool   $check  - флаг проверки
+	 * @param bool   $check  - check status
 	 * @param string $option - option name
 	 * @param string $value  - option value
 	 */
@@ -315,10 +315,10 @@ class ACP_Config extends ACP_ConfigAction {
 
 
 	/**
-	 * Функция обработки строковых данных конфигуратора сайта
+	 * String type value parsing
 	 *
-	 * @param string $value 	- Значение
-	 * @param int    $maxleight	- Максимальная длина строки
+	 * @param string $value
+	 * @param int    $maxleight
 	 *
 	 * @return string
 	 */
@@ -333,7 +333,7 @@ class ACP_Config extends ACP_ConfigAction {
 
 
 	/**
-	 * Функция запрашивает из БД типы опций и ограничений и возвращает их в массиве
+	 * Request data types and values from db
 	 *
 	 * @return array
 	 */

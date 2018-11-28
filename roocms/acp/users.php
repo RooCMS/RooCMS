@@ -215,17 +215,16 @@ class ACP_Users {
 								 	 '".$post->user_name."', '".$post->user_surname."', '".$post->user_last_name."', '".$post->user_birthdate."', '".$post->user_sex."', '".$post->user_slogan."')");
 				$uid = $db->insert_id();
 
-
 				# avatar
 				$users->upload_avatar($uid);
 
 				# Если мы переназначаем группу пользователя
 				if(isset($post->gid)) {
-					# пересчитываем пользователей
+					# recount users
 					$this->count_users($post->gid);
 				}
 
-				# Уведомление пользователю на электропочту
+				# notice user to email
 				$smarty->assign("login", $post->login);
 				$smarty->assign("nickname", $post->nickname);
 				$smarty->assign("email", $post->email);
@@ -235,11 +234,10 @@ class ACP_Users {
 
 				sendmail($post->email, "Вас зарегистрировали на сайте ".$site['title'], $message);
 
-
-				# уведомление
+				# notice
 				$logger->info("Пользователь #".$uid." был успешно добавлен. Уведомление об учетной записи отправлено на его электронную почту.");
 
-				# переход
+				# go
 				if(isset($post->create_user_ae['ae'])) {
 					go(CP."?act=users");
 				}
@@ -257,7 +255,7 @@ class ACP_Users {
 			$groups[] = $row;
 		}
 
-		# отрисовываем шаблон
+		# tpl
 		$smarty->assign("groups", $groups);
 		$content = $tpl->load_template("users_create_new_user", true);
 		$smarty->assign("content", $content);
@@ -287,10 +285,10 @@ class ACP_Users {
 								       VALUES ('".$post->title."', '".time()."', '".time()."')");
 				$gid = $db->insert_id();
 
-				# уведомление
+				# notice
 				$logger->info("Группа #".$gid." была успешно создана.");
 
-				# переход
+				# go
 				if(isset($post->create_group['ae'])) {
 					go(CP."?act=users&part=group_list");
 				}
@@ -302,7 +300,7 @@ class ACP_Users {
 		}
 
 
-		# отрисовываем шаблон
+		# tpl
 		$content = $tpl->load_template("users_create_new_group", true);
 		$smarty->assign("content", $content);
 	}
@@ -345,7 +343,7 @@ class ACP_Users {
 				$groups[] = $row;
 			}
 
-			# отрисовываем шаблон
+			# tpl
 			$smarty->assign("i_am_groot", $i_am_groot);
 			$smarty->assign("groups", $groups);
 			$smarty->assign("user", $user);
@@ -373,7 +371,7 @@ class ACP_Users {
 			$guser[$row['uid']] = $row;
 		}
 
-		# отрисовываем шаблон
+		# tpl
 		$smarty->assign("group", $group);
 		$smarty->assign("users", $guser);
 		$content = $tpl->load_template("users_edit_group", true);
@@ -464,7 +462,7 @@ class ACP_Users {
 
 				# Если мы переназначаем группу пользователя
 				if(isset($post->gid, $post->now_gid) && $post->gid != $post->now_gid) {
-					# пересчитываем пользователей
+					# recount users
 					$this->count_users($post->gid);
 					$this->count_users($post->now_gid);
 				}
