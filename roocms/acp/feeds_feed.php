@@ -473,14 +473,13 @@ class ACP_Feeds_Feed {
 			# глобальное значение количества элементов на страницу
 			$feed['global_items_per_page'] =& $config->feed_items_per_page;
 
-			$smarty->assign("feed",$feed);
-
-
 			# default thumb size
 			$default_thumb_size = array('width'	=> $config->gd_thumb_image_width,
 						    'height'	=> $config->gd_thumb_image_height);
-			$smarty->assign("default_thumb_size", $default_thumb_size);
 
+			# tpl
+			$smarty->assign("feed",$feed);
+			$smarty->assign("default_thumb_size", $default_thumb_size);
 
 			$content = $tpl->load_template("feeds_settings_feed", true);
 			$smarty->assign("content", $content);
@@ -560,6 +559,8 @@ class ACP_Feeds_Feed {
 						show_child_feeds='".$show_child_feeds."',
 						thumb_img_width='".$post->thumb_img_width."',
 						thumb_img_height='".$post->thumb_img_height."',
+						append_info_before='".$post->append_info_before."',
+						append_info_after='".$post->append_info_after."',
 						date_modified='".time()."'
 					WHERE
 						id='".$this->feed['id']."'");

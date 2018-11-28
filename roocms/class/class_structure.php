@@ -60,6 +60,8 @@ class Structure {
 	public $page_items		= 0;				# show amount items on feed
 	public $page_thumb_img_width	= 0;				# in pixels
 	public $page_thumb_img_height	= 0;				# in pixels
+	public $page_append_info_before	= "";				# info
+	public $page_append_info_after	= "";				# info
 
 
 
@@ -107,7 +109,8 @@ class Structure {
 						id, page_id, alias, parent_id,  
 						title, meta_description, meta_keywords, noindex, rss,
 						page_type, sort, childs, items, show_child_feeds, group_access, 
-						items_per_page, items_sorting, thumb_img_width, thumb_img_height 
+						items_per_page, items_sorting, thumb_img_width, thumb_img_height,
+						append_info_before, append_info_after
 					FROM ".STRUCTURE_TABLE." ORDER BY sort ASC");
 			while($row = $db->fetch_assoc($q)) {
 
@@ -254,6 +257,8 @@ class Structure {
 		$this->page_items 		= $data['items'];
 		$this->page_thumb_img_width 	= $data['thumb_img_width'];
 		$this->page_thumb_img_height 	= $data['thumb_img_height'];
+		$this->page_append_info_before 	= $data['append_info_before'];
+		$this->page_append_info_after 	= $data['append_info_after'];
 
 		# access
 		$this->access = $data['access'];

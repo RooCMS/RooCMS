@@ -126,6 +126,8 @@ $sql['CREATE'.STRUCTURE_TABLE] = "CREATE TABLE IF NOT EXISTS `".STRUCTURE_TABLE.
 					  `items` int(10) unsigned NOT NULL DEFAULT '0',
 					  `thumb_img_width` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Thumbnail image width [in pixels]',
 					  `thumb_img_height` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Thumbnail image height [in pixels]',
+					  `append_info_before` text NOT NULL COMMENT 'append information before content',
+					  `append_info_after` text NOT NULL COMMENT 'append information after content',
 					  PRIMARY KEY (`id`),
 					  UNIQUE KEY (`id`),
 					  UNIQUE KEY `alias` (`alias`),
@@ -134,8 +136,8 @@ $sql['CREATE'.STRUCTURE_TABLE] = "CREATE TABLE IF NOT EXISTS `".STRUCTURE_TABLE.
 					) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1";
 
 $id = 1;
-$sql['INSERT '.STRUCTURE_TABLE." ID #".$id] = "INSERT INTO `".STRUCTURE_TABLE."` (`id`, `alias`, `parent_id`, `sort`, `title`, `meta_description`, `meta_keywords`, `noindex`, `page_type`, `childs`, `page_id`, `group_access`, `date_create`, `date_modified`, `rss`, `show_child_feeds`, `items_per_page`, `items_sorting`, `items`, `thumb_img_width`, `thumb_img_height`)
-									  VALUES (1, 'index', 0, 0, 'Главная страница', '', 'index', '0', 'html', 0, 1, 0, ".time().", ".time().", '1', 'none', 0, 'datepublication', 0, 0, 0)";
+$sql['INSERT '.STRUCTURE_TABLE." ID #".$id] = "INSERT INTO `".STRUCTURE_TABLE."` (`id`, `alias`, `parent_id`, `sort`, `title`, `meta_description`, `meta_keywords`, `noindex`, `page_type`, `childs`, `page_id`, `group_access`, `date_create`, `date_modified`, `rss`, `show_child_feeds`, `items_per_page`, `items_sorting`, `items`, `thumb_img_width`, `thumb_img_height`, `append_info_before`, `append_info_after`)
+									  VALUES (1, 'index', 0, 0, 'Главная страница', '', 'index', '0', 'html', 0, 1, 0, ".time().", ".time().", '1', 'none', 0, 'datepublication', 0, 0, 0, '', '')";
 
 /**
 * HTML страницы

@@ -1,4 +1,4 @@
-{* Шаблон параметров ленты *}
+{* Feed settings template *}
 
 <div class="panel-heading">
 	Параметры ленты
@@ -61,7 +61,7 @@
 			</div>
 		</div>
 
-		{* Миниаютры *}
+		{* Thumbnail options *}
 		<div class="form-group">
 			<label for="inputThumbWidth" class="col-lg-3 control-label">
 				Ширина миниатюр картинок у ленты:
@@ -80,6 +80,28 @@
 			<div class="col-lg-9">
 				<input type="text" name="thumb_img_height" id="inputThumbHeight" class="form-control" pattern="^[ 0-9]+$" value="{$feed['thumb_img_height']}">
 				<small{if $feed['thumb_img_height'] == 0} class="text-primary"{/if}>По умолчанию: {$default_thumb_size['height']}px</small>
+			</div>
+		</div>
+
+		<script type="text/javascript" src="plugin/ckeditor.php"></script>
+
+		{* Миниаютры *}
+		<div class="form-group">
+			<label for="inputAppendInfoBefore" class="col-lg-3 control-label">
+				Информационный блок (верх ленты):
+				<small><i class="fa fa-question-circle fa-fw" rel="tooltip" title="Содержимое блока будет распологаться сразу под заголовком ленты, над выводом элементов." data-placement="left"></i></small>
+			</label>
+			<div class="col-lg-9">
+				<textarea id="inputAppendInfoBefore" class="form-control ckeditor" name="append_info_before" required>{$feed['append_info_before']}</textarea>
+			</div>
+		</div>
+		<div class="form-group">
+			<label for="inputAppendInfoAfter" class="col-lg-3 control-label">
+				Информационный блок (низ ленты):
+				<small><i class="fa fa-question-circle fa-fw" rel="tooltip" title="Содержимое блока будет распологатьсяпосле вывода элементов ленты." data-placement="left"></i></small>
+			</label>
+			<div class="col-lg-9">
+				<textarea id="inputAppendInfoAfter" class="form-control ckeditor" name="append_info_after" required>{$feed['append_info_after']}</textarea>
 			</div>
 		</div>
 

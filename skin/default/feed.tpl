@@ -8,6 +8,10 @@
 			{/if}
 		</h1>
 
+		{if trim($feed['append_info_before']) != ""}
+			{$feed['append_info_before']}
+		{/if}
+
 		{foreach from=$feeds item=item}
 			<div class="panel panel-default">
 				<div class="panel-body">
@@ -53,6 +57,10 @@
 				</div>
 			</div>
 		{/foreach}
+
+		{if trim($feed['append_info_after']) != ""}
+			{$feed['append_info_after']}
+		{/if}
 
 		{* Pagination *}
 		{if isset($pages) && !empty($pages)}

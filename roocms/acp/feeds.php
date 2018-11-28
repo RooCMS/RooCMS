@@ -158,16 +158,18 @@ class ACP_Feeds {
 		global $img;
 
 		$setting = array(
-			'id'               => $this->engine->page_id,
-			'alias'            => $this->engine->page_alias,
-			'title'            => $this->engine->page_title,
-			'rss'              => $this->engine->page_rss,
-			'show_child_feeds' => $this->engine->page_show_child_feeds,
-			'items_per_page'   => $this->engine->page_items_per_page,
-			'items_sorting'    => $this->engine->page_items_sorting,
-			'thumb_img_width'  => $this->engine->page_thumb_img_width,
-			'thumb_img_height' => $this->engine->page_thumb_img_height,
-			'subfeeds'         => $this->engine->load_tree($this->engine->page_id)
+			'id'                 => $this->engine->page_id,
+			'alias'              => $this->engine->page_alias,
+			'title'              => $this->engine->page_title,
+			'rss'                => $this->engine->page_rss,
+			'show_child_feeds'   => $this->engine->page_show_child_feeds,
+			'items_per_page'     => $this->engine->page_items_per_page,
+			'items_sorting'      => $this->engine->page_items_sorting,
+			'thumb_img_width'    => $this->engine->page_thumb_img_width,
+			'thumb_img_height'   => $this->engine->page_thumb_img_height,
+			'append_info_before' => $this->engine->page_append_info_before,
+			'append_info_after'  => $this->engine->page_append_info_after,
+			'subfeeds'           => $this->engine->load_tree($this->engine->page_id)
 		);
 
 		return $setting;

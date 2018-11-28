@@ -38,12 +38,16 @@ class PageFeed {
 	 */
 	public function __construct() {
 
-		global $get, $db, $structure, $smarty;
+		global $get, $db, $structure, $parse, $smarty;
 
 		$feed           = [];
 		$feed['title'] 	= $structure->page_title;
 		$feed['alias'] 	= $structure->page_alias;
 		$feed['id'] 	= $structure->page_id;
+
+		# append information
+		$feed['append_info_before'] = $parse->text->html($structure->page_append_info_before);
+		$feed['append_info_after'] = $parse->text->html($structure->page_append_info_after);
 
 		$smarty->assign("feed", $feed);
 
@@ -86,7 +90,6 @@ class PageFeed {
 		# RSS
 		$rss->set_header_link();
 
-
 		# Feed list
 		$taglinks = [];
 		$authors  = [];
@@ -96,6 +99,8 @@ class PageFeed {
 			$row['datepub']    = $parse->date->unix_to_rus($row['date_publications'],true);
 			$row['date']       = $parse->date->unix_to_rus_array($row['date_publications']);
 			$row['brief_item'] = $parse->text->html($row['brief_item']);
+
+
 
 			$row['image']      = $img->load_images("feeditemid=".$row['id']."", 0, 1);
 
