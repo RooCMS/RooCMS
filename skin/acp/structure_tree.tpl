@@ -33,11 +33,10 @@
 				<small class="tralias">{$page['alias']}</small>
 			</td>
 			<td class="text-left">
-				<span class="label label-default">{$content_types[$page['page_type']]}</span>
+				<span class="label label-default">{$content_types[$page['page_type']]}{if $page['rss']} <i class="fa fa-fw fa-rss"></i>{/if}</span>
 
 				{if $page['page_type'] == "feed"}
 					<span class="label label-info">{$page['items']} эл.</span>
-					{if $page['rss']}<span class="label label-warning"><i class="fa fa-fw fa-rss"></i></span>{/if}
 				{/if}
 			</td>
 			<td class="text-right">

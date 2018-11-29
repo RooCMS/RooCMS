@@ -4,7 +4,7 @@
 <div class="panel-heading">
 	<q>{$data['title']}</q>
 
-	<p class="pull-right"><a href="{$SCRIPT_NAME}?act=structure&part=edit&id={$data['sid']}" class="btn btn-default btn-xs"><span class="fa fa-pencil-square-o fa-fw"></span> Редактировать теги</a></p>
+	<p class="pull-right"><a href="{$SCRIPT_NAME}?act=structure&part=edit&id={$data['sid']}" class="btn btn-primary btn-xs"><span class="fa fa-pencil-square-o fa-fw"></span> Редактировать информацию</a></p>
 </div>
 <form method="post" action="{$SCRIPT_NAME}?act=pages&part=update&page={$data['sid']}" enctype="multipart/form-data" role="form" class="form-horizontal">
 	<div class="panel-body">

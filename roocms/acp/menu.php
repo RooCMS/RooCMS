@@ -24,7 +24,7 @@ if(!defined('RooCMS') || !defined('ACP')) {
 * Structure
 */
 if(is_file(_ROOCMS."/acp/structure.php")) {
-	$menu_items_left[] = array('role'=>'navlink', 'link'=>CP.'?act=structure', 'act'=>'structure', 'icon'=>'fa fa-fw fa-sitemap', 'text'=>'Структура', 'window'=>'_self');
+	$menu_items_left[] = array('role'=>'navlink', 'link'=>CP.'?act=structure', 'act'=>'structure', 'icon'=>'fa fa-fw fa-sitemap', 'text'=>'Структура сайта', 'window'=>'_self');
 }
 
 /**
