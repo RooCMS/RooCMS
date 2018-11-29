@@ -136,9 +136,8 @@ class ACP_Help {
 		global $db, $parse, $logger, $post;
 
 		# предупреждаем возможные ошибки с уникальным именем структурной еденицы
-		if(isset($post->uname)) {
-			$post->uname = $parse->text->correct_aliases($post->uname);
-		}
+		$post->uname = $parse->text->correct_aliases($post->uname);
+
 
 		# проверяем введенный данные
 		$this->check_post_data("create");
@@ -180,9 +179,8 @@ class ACP_Help {
 		}
 
 		# предупреждаем возможные ошибки с уникальным именем структурной еденицы
-		if(isset($post->uname)) {
-			$post->uname = $parse->text->correct_aliases($post->uname);
-		}
+		$post->uname = $parse->text->correct_aliases($post->uname);
+
 
 		# проверяем введенный данные
 		$this->check_post_data("update");
@@ -488,10 +486,6 @@ class ACP_Help {
 		}
 		elseif(!$this->check_uname($post->uname, $post->old_uname)) {
 			$logger->error("uname раздела не уникален.");
-		}
-
-		if(!isset($post->content)) {
-			$post->content = "";
 		}
 	}
 }

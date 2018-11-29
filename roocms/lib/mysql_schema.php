@@ -110,8 +110,9 @@ $sql['CREATE'.STRUCTURE_TABLE] = "CREATE TABLE IF NOT EXISTS `".STRUCTURE_TABLE.
 					  `parent_id` int(10) unsigned NOT NULL DEFAULT '1' COMMENT 'Identifaction parent structure unit',
 					  `sort` int(10) unsigned NOT NULL DEFAULT '0',
 					  `title` varchar(255) NOT NULL,
-					  `meta_description` varchar(512) NOT NULL,
-					  `meta_keywords` varchar(512) NOT NULL,
+					  `meta_title` varchar(255) NOT NULL,
+					  `meta_description` varchar(255) NOT NULL,
+					  `meta_keywords` varchar(255) NOT NULL,
 					  `noindex` enum('0','1') NOT NULL DEFAULT '0' COMMENT 'meta tag robots flag',
 					  `page_type` enum('html','php','feed') NOT NULL DEFAULT 'html',
 					  `childs` int(10) unsigned NOT NULL DEFAULT '0',
@@ -136,8 +137,8 @@ $sql['CREATE'.STRUCTURE_TABLE] = "CREATE TABLE IF NOT EXISTS `".STRUCTURE_TABLE.
 					) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1";
 
 $id = 1;
-$sql['INSERT '.STRUCTURE_TABLE." ID #".$id] = "INSERT INTO `".STRUCTURE_TABLE."` (`id`, `alias`, `parent_id`, `sort`, `title`, `meta_description`, `meta_keywords`, `noindex`, `page_type`, `childs`, `page_id`, `group_access`, `date_create`, `date_modified`, `rss`, `show_child_feeds`, `items_per_page`, `items_sorting`, `items`, `thumb_img_width`, `thumb_img_height`, `append_info_before`, `append_info_after`)
-									  VALUES (1, 'index', 0, 0, 'Главная страница', '', 'index', '0', 'html', 0, 1, 0, ".time().", ".time().", '1', 'none', 0, 'datepublication', 0, 0, 0, '', '')";
+$sql['INSERT '.STRUCTURE_TABLE." ID #".$id] = "INSERT INTO `".STRUCTURE_TABLE."` (`id`, `alias`, `parent_id`, `sort`, `title`, `meta_title`, `meta_description`, `meta_keywords`, `noindex`, `page_type`, `childs`, `page_id`, `group_access`, `date_create`, `date_modified`, `rss`, `show_child_feeds`, `items_per_page`, `items_sorting`, `items`, `thumb_img_width`, `thumb_img_height`, `append_info_before`, `append_info_after`)
+									  VALUES (1, 'index', 0, 0, 'Главная страница', '".$site['title']."', '', 'index', '0', 'html', 0, 1, 0, ".time().", ".time().", '1', 'none', 0, 'datepublication', 0, 0, 0, '', '')";
 
 /**
 * HTML страницы
@@ -181,17 +182,18 @@ $sql['CREATE'.PAGES_FEED_TABLE] = "CREATE TABLE IF NOT EXISTS `".PAGES_FEED_TABL
 					  `sid` int(10) unsigned NOT NULL,
 					  `status` enum('0','1') NOT NULL DEFAULT '1',
 					  `sort` int(10) unsigned NOT NULL DEFAULT '0',
-					  `date_create` int(20) unsigned NOT NULL DEFAULT '0',
-					  `date_update` int(20) unsigned NOT NULL DEFAULT '0',
-					  `date_publications` int(20) unsigned NOT NULL DEFAULT '0',
-					  `date_end_publications` int(20) unsigned NOT NULL DEFAULT '0',
 					  `title` varchar(512) NOT NULL,
-					  `meta_description` varchar(512) NOT NULL,
-					  `meta_keywords` varchar(512) NOT NULL,
+					  `meta_title` varchar(255) NOT NULL,
+					  `meta_description` varchar(255) NOT NULL,
+					  `meta_keywords` varchar(255) NOT NULL,
 					  `brief_item` text NOT NULL,
 					  `full_item` longtext NOT NULL,
 					  `author_id` int(10) unsigned NOT NULL DEFAULT '0',
 					  `views` int(10) unsigned NOT NULL DEFAULT '0',
+					  `date_publications` int(20) unsigned NOT NULL DEFAULT '0',
+					  `date_end_publications` int(20) unsigned NOT NULL DEFAULT '0',
+					  `date_create` int(20) unsigned NOT NULL DEFAULT '0',
+					  `date_update` int(20) unsigned NOT NULL DEFAULT '0',
 					  PRIMARY KEY (`id`),
 					  UNIQUE KEY (`id`),
 					  KEY `sid` (`sid`),

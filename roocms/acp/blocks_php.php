@@ -89,7 +89,7 @@ class ACP_Blocks_PHP {
 			# check data post
 			$this->check_block_parametrs();
 
-			if(!isset($post->id) || $post->id != $get->_block) {
+			if($post->id != $get->_block) {
 				$logger->error("Системная ошибка...");
 			}
 

@@ -48,6 +48,7 @@ class Structure {
 	public $page_parent		= 0;				# Parent id
 	public $page_alias		= "index";			# unique alias name
 	public $page_title		= "Добро пожаловать [RooCMS]";	# title page
+	public $page_meta_title		= "";				# Meta Title
 	public $page_meta_desc		= "";				# Meta description
 	public $page_meta_keys		= "";				# Meta keywords
 	public $page_noindex		= false;			# Meta noindex
@@ -107,7 +108,7 @@ class Structure {
 		if(!$use) {
 			$q = $db->query("SELECT 
 						id, page_id, alias, parent_id,  
-						title, meta_description, meta_keywords, noindex, rss,
+						title, meta_title, meta_description, meta_keywords, noindex, rss,
 						page_type, sort, childs, items, show_child_feeds, group_access, 
 						items_per_page, items_sorting, thumb_img_width, thumb_img_height,
 						append_info_before, append_info_after
@@ -241,6 +242,7 @@ class Structure {
 		$this->page_parent             = $data['parent_id'];
 		$this->page_alias              = $data['alias'];
 		$this->page_title              = $data['title'];
+		$this->page_meta_title         = (trim($data['meta_title']) != "") ? $data['meta_title'] : $data['title'];
 		$this->page_meta_desc          = (trim($data['meta_description']) != "") ? $data['meta_description'] : $config->meta_description;
 		$this->page_meta_keys          = (trim($data['meta_keywords']) != "") ? $data['meta_keywords'] : $config->meta_keywords;
 		$this->page_noindex            = (bool) $data['noindex'];

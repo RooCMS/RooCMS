@@ -17,6 +17,14 @@
 		</div>
 
 		<div class="form-group">
+			<label for="inputMetaTitle" class="col-lg-3 control-label">
+				Мета Заголовок:
+			</label>
+			<div class="col-lg-9">
+				<input type="text" name="meta_title" id="inputMetaTitle" class="form-control" spellcheck>
+			</div>
+		</div>
+		<div class="form-group">
 			<label for="inputMetaDescription" class="col-lg-3 control-label">
 				Мета описание:
 			</label>

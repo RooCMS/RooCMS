@@ -20,16 +20,24 @@
 				Заголовок:
 			</label>
 			<div class="col-lg-9">
-				<input type="text" name="title" id="inputTitle" class="form-control" value="{$item['title']}" required>
+				<input type="text" name="title" id="inputTitle" class="form-control" value="{$item['title']}" spellcheck required>
 			</div>
 		</div>
 
+		<div class="form-group">
+			<label for="inputMetaTitle" class="col-lg-3 control-label">
+				Мета Заголовок:
+			</label>
+			<div class="col-lg-9">
+				<input type="text" name="meta_title" id="inputMetaTitle" class="form-control" value="{$item['meta_title']}" spellcheck>
+			</div>
+		</div>
 		<div class="form-group">
 			<label for="inputMetaDescription" class="col-lg-3 control-label">
 				Мета описание:
 			</label>
 			<div class="col-lg-9">
-				<input type="text" name="meta_description" id="inputMetaDescription" class="form-control" value="{$item['meta_description']}">
+				<input type="text" name="meta_description" id="inputMetaDescription" class="form-control" value="{$item['meta_description']}" spellcheck>
 			</div>
 		</div>
 		<div class="form-group">
@@ -37,7 +45,7 @@
 				Мета ключевые слова:
 			</label>
 			<div class="col-lg-9">
-				<input type="text" name="meta_keywords" id="inputMetaKeywords" class="form-control" value="{$item['meta_keywords']}">
+				<input type="text" name="meta_keywords" id="inputMetaKeywords" class="form-control" value="{$item['meta_keywords']}" spellcheck>
 			</div>
 		</div>
 

@@ -6,7 +6,7 @@
 <div class="panel-body">
 	<div class="form-group">
 		<label for="inputTitle" class="col-lg-3 control-label">
-			Название страницы: <small><span class="fa fa-question-circle fa-fw" rel="tooltip" title="Будет использовано в мета теге title." data-placement="left"></span></small>
+			Название страницы: <small><span class="fa fa-question-circle fa-fw" rel="tooltip" title="Будет использовано в меню и хлебных крошках." data-placement="left"></span></small>
 		</label>
 		<div class="col-lg-9">
 			<input type="text" name="title" id="inputTitle" class="form-control" spellcheck required>
@@ -23,8 +23,17 @@
 	</div>
 
 	<div class="form-group">
+		<label for="inputMetaTitle" class="col-lg-3 control-label">
+			Мета заголовок: <small><span class="fa fa-question-circle fa-fw" rel="tooltip" title="Meta Title" data-placement="left"></span></small>
+		</label>
+		<div class="col-lg-9">
+			<input type="text" name="meta_title" id="inputMetaTitle" class="form-control" spellcheck>
+		</div>
+	</div>
+
+	<div class="form-group">
 		<label for="inputMetaDesc" class="col-lg-3 control-label">
-			Мета описание страницы:
+			Мета описание страницы: <small><span class="fa fa-question-circle fa-fw" rel="tooltip" title="Meta Description" data-placement="left"></span></small>
 		</label>
 		<div class="col-lg-9">
 			<input type="text" name="meta_description" id="inputMetaDesc" class="form-control" spellcheck>
@@ -33,7 +42,7 @@
 
 	<div class="form-group">
 		<label for="inputMetaKeys" class="col-lg-3 control-label">
-			Ключевые слова страницы:
+			Ключевые слова страницы: <small><span class="fa fa-question-circle fa-fw" rel="tooltip" title="Meta Keywords" data-placement="left"></span></small>
 		</label>
 		<div class="col-lg-9">
 			<input type="text" name="meta_keywords" id="inputMetaKeys" class="form-control" spellcheck>

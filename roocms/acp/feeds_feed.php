@@ -99,7 +99,6 @@ class ACP_Feeds_Feed {
 			# Проверяем вводимые поля на ошибки
 			$this->check_post_data_fields();
 			$this->control_post_data_date();
-			$this->control_post_data_meta();
 
 			if(!isset($_SESSION['error'])) {
 
@@ -107,11 +106,11 @@ class ACP_Feeds_Feed {
 				$this->correct_post_fields();
 
 				# insert
-				$db->query("INSERT INTO ".PAGES_FEED_TABLE." (title, meta_description, meta_keywords,
+				$db->query("INSERT INTO ".PAGES_FEED_TABLE." (title, meta_title, meta_description, meta_keywords,
 									      brief_item, full_item, author_id,
 									      date_create, date_update, date_publications, date_end_publications,
 									      sort, sid)
-								      VALUES ('".$post->title."', '".$post->meta_description."', '".$post->meta_keywords."',
+								      VALUES ('".$post->title."', '".$post->meta_title."', '".$post->meta_description."', '".$post->meta_keywords."',
 									      '".$post->brief_item."', '".$post->full_item."', '".$post->author_id."',
 									      '".time()."', '".time()."', '".$post->date_publications."', '".$post->date_end_publications."',
 									      '".$post->itemsort."', '".$this->feed['id']."')");
@@ -188,7 +187,7 @@ class ACP_Feeds_Feed {
 		$this->userlist = $users->get_userlist();
 
 		# get data
-		$q = $db->query("SELECT id, sid, status, sort, title, meta_description, meta_keywords, brief_item, full_item, author_id, date_publications, date_end_publications FROM ".PAGES_FEED_TABLE." WHERE id='".$id."'");
+		$q = $db->query("SELECT id, sid, status, sort, title, meta_title, meta_description, meta_keywords, brief_item, full_item, author_id, date_publications, date_end_publications FROM ".PAGES_FEED_TABLE." WHERE id='".$id."'");
 		$item = $db->fetch_assoc($q);
 
 
@@ -259,7 +258,6 @@ class ACP_Feeds_Feed {
 		# Проверяем вводимые поля на ошибки
 		$this->check_post_data_fields();
 		$this->control_post_data_date();
-		$this->control_post_data_meta();
 
 		# update
 		if(!isset($_SESSION['error'])) {
@@ -273,6 +271,7 @@ class ACP_Feeds_Feed {
 		        			status = '".$post->status."',
 		        			sort = '".$post->itemsort."',
 						title = '".$post->title."',
+						meta_title = '".$post->meta_title."',
 						meta_description = '".$post->meta_description."',
 						meta_keywords = '".$post->meta_keywords."',
 						brief_item = '".$post->brief_item."',
@@ -322,7 +321,7 @@ class ACP_Feeds_Feed {
 		global $db, $logger, $tpl, $smarty, $post;
 
 		# Migrate
-		if(isset($post->migrate_item) && isset($post->from) && isset($post->to) && $db->check_id($post->from, STRUCTURE_TABLE, "id", "page_type='feed'") && $db->check_id($post->to, STRUCTURE_TABLE, "id", "page_type='feed'")) {
+		if(isset($post->from) && isset($post->to) && $db->check_id($post->from, STRUCTURE_TABLE, "id", "page_type='feed'") && $db->check_id($post->to, STRUCTURE_TABLE, "id", "page_type='feed'")) {
 
 			$db->query("UPDATE ".PAGES_FEED_TABLE."
 		        		SET
@@ -602,11 +601,6 @@ class ACP_Feeds_Feed {
 			$logger->error("Не заполнен заголовок элемента", false);
 		}
 
-		# brief item
-		if(!isset($post->brief_item)) {
-			$post->brief_item = "";
-		}
-
 		# full desc item
 		if(!isset($post->full_item)) {
 			$logger->error("Не заполнен подробный текст элемента", false);
@@ -646,25 +640,6 @@ class ACP_Feeds_Feed {
 
 		if($post->date_end_publications <= $post->date_publications) {
 			$post->date_end_publications = 0;
-		}
-	}
-
-
-	/**
-	 *  Функция првоеряет вводимые мета данные элеметна ленты на ошибки.
-	 */
-	private function control_post_data_meta() {
-
-		global $post;
-
-		# meta description
-		if(!isset($post->meta_description)){
-			$post->meta_description	= "";
-		}
-
-		# meta keywords
-		if(!isset($post->meta_keywords)) {
-			$post->meta_keywords = "";
 		}
 	}
 

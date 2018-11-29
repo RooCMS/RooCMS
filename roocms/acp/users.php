@@ -666,13 +666,13 @@ class ACP_Users {
 		global $db, $post, $users;
 
 		# group
-		$post->gid = (isset($post->gid) && $db->check_id($post->gid, USERS_GROUP_TABLE, "gid")) ? $post->gid : 0 ;
+		$post->gid = ($db->check_id($post->gid, USERS_GROUP_TABLE, "gid")) ? $post->gid : 0 ;
 
 		# status
-		$post->status = ((isset($post->status) && $post->status == 1)) ? 1 : 0 ;
+		$post->status = ($post->status == 1) ? 1 : 0 ;
 
 		# title
-		$post->title = ((isset($post->title) && $post->title == "a")) ? "a" : "u" ;
+		$post->title = ($post->title == "a") ? "a" : "u" ;
 
 		# correct for ID=1
 		if($uid == 1) {

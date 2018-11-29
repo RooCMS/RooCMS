@@ -96,15 +96,13 @@ class ACP_Pages_HTML {
 		# attachment files
 		$files->upload("files", "pagesid=".$data->page_id);
 
-
-		if(!isset($post->content)) {
-			$post->content = "";
-		}
-
+		# db
 		$db->query("UPDATE ".PAGES_HTML_TABLE." SET content='".$post->content."', date_modified='".time()."' WHERE sid='".$data->page_id."'");
 
+		# notice
 		$logger->info("Страница #".$data->page_id." успешно обновлена.");
 
+		# go
 		goback();
 	}
 

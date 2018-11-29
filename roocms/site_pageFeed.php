@@ -139,7 +139,7 @@ class PageFeed {
 		global $db, $structure, $users, $parse, $tags, $files, $img, $tpl, $smarty, $site;
 
 		# query data
-		$q = $db->query("SELECT id, title, meta_description, meta_keywords, author_id, full_item, views, date_publications, sort FROM ".PAGES_FEED_TABLE." WHERE id='".$id."'");
+		$q = $db->query("SELECT id, title, meta_title, meta_description, meta_keywords, author_id, full_item, views, date_publications, sort FROM ".PAGES_FEED_TABLE." WHERE id='".$id."'");
 		$item = $db->fetch_assoc($q);
 		$item['datepub'] 	= $parse->date->unix_to_rus($item['date_publications'],true);
 		$item['date']		= $parse->date->unix_to_rus_array($item['date_publications']);
@@ -168,7 +168,12 @@ class PageFeed {
 		$more = $this->rand_items($item);
 
 		# meta
-		$site['title'] .= " - ".$item['title'];
+		if(trim($item['meta_title']) != "") {
+			$site['title'] = $item['meta_title']." - ".$site['title'];
+		}
+		else {
+			$site['title'] = $item['title']." - ".$site['title'];
+		}
 		if(trim($item['meta_description']) != "") {
 			$site['description']	= $item['meta_description'];
 		}

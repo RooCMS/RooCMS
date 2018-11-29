@@ -24,7 +24,7 @@ if(!defined('RooCMS')) {
 * Meta SEO
 *
 */
-$site['title']		= $structure->page_title;
+$site['title']		= $structure->page_meta_title;
 $site['description']	= $structure->page_meta_desc;
 if(!empty($site)) {
 	$site['keywords']	= $structure->page_meta_keys;

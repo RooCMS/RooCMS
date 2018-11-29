@@ -142,7 +142,7 @@ class ACP_Blocks_HTML {
 			# check parametrs
 			$this->check_block_parametrs();
 
-			if(!isset($post->id) || $post->id != $get->_block) {
+			if($post->id != $get->_block) {
 				$logger->error("Системная ошибка...");
 			}
 
@@ -240,9 +240,6 @@ class ACP_Blocks_HTML {
 
 		// Упраздняем временно...
 		// if(!isset($post->content)) $parse->msg("Пустое тело блока!", false);
-		if(!isset($post->content)) {
-			$post->content = "";
-		}
 
 		# check thumb size
 		if(!isset($post->thumb_img_width)) {

@@ -153,8 +153,8 @@ class ACP_Structure {
 			}
 
 			# добавляем структурную еденицу
-			$db->query("INSERT INTO ".STRUCTURE_TABLE."    (alias, title, parent_id, group_access, page_type, meta_description, meta_keywords, noindex, sort, date_create, date_modified, thumb_img_width, thumb_img_height)
-								VALUES ('".$post->alias."', '".$post->title."', '".$post->parent_id."', '".$post->gids."', '".$post->page_type."', '".$post->meta_description."', '".$post->meta_keywords."', '".$post->noindex."', '".$post->sort."', '".time()."', '".time()."', '".$post->thumb_img_width."', '".$post->thumb_img_height."')");
+			$db->query("INSERT INTO ".STRUCTURE_TABLE."    (alias, title, parent_id, group_access, page_type, meta_title, meta_description, meta_keywords, noindex, sort, date_create, date_modified, thumb_img_width, thumb_img_height)
+								VALUES ('".$post->alias."', '".$post->title."', '".$post->parent_id."', '".$post->gids."', '".$post->page_type."', '".$post->meta_title."', ''".$post->meta_description."', '".$post->meta_keywords."', '".$post->noindex."', '".$post->sort."', '".time()."', '".time()."', '".$post->thumb_img_width."', '".$post->thumb_img_height."')");
 			$sid = $db->insert_id();
 
 			# create body unit for html & php pages
@@ -208,7 +208,7 @@ class ACP_Structure {
 
 		global $db, $smarty, $tpl;
 
-		$q = $db->query("SELECT id, parent_id, group_access, alias, title, meta_description, meta_keywords, noindex, sort, page_type, thumb_img_width, thumb_img_height FROM ".STRUCTURE_TABLE." WHERE id='".$sid."'");
+		$q = $db->query("SELECT id, parent_id, group_access, alias, title, meta_title, meta_description, meta_keywords, noindex, sort, page_type, thumb_img_width, thumb_img_height FROM ".STRUCTURE_TABLE." WHERE id='".$sid."'");
 		$data = $db->fetch_assoc($q);
 
 		# check group access
@@ -301,6 +301,7 @@ class ACP_Structure {
 						title='".$post->title."',
 						parent_id='".$post->parent_id."',
 						group_access='".$post->gids."',
+						meta_title='".$post->meta_title."',
 						meta_description='".$post->meta_description."',
 						meta_keywords='".$post->meta_keywords."',
 						noindex='".$post->noindex."',
@@ -459,29 +460,22 @@ class ACP_Structure {
 		global $parse, $logger, $post;
 
 
-		if(!isset($post->alias)) {
-			if(isset($post->title)) {
-				$post->alias = $post->title;
-			}
-			else {
-				$logger->error("Не указан alias для структурной еденицы.");
-			}
+		if(trim($post->alias) == "") {
+			$post->alias = $post->title;
 		}
 
 		# предупреждаем возможные ошибки с алиасом структурной единицы
-		if(isset($post->alias)) {
+		$post->alias = $parse->text->transliterate($post->alias,"lower");
 
-			$post->alias = $parse->text->transliterate($post->alias,"lower");
+		# избавляем URI от возможных конвульсий
+		$post->alias = strtr($post->alias, array(' '=>'_', '-'=>'_', '='=>'_'));
 
-			# избавляем URI от возможных конвульсий
-			$post->alias = strtr($post->alias, array(' '=>'_', '-'=>'_', '='=>'_'));
+		# Чистим alias
+		$post->alias = preg_replace(array('(\s\s+)','(\-\-+)','(__+)','([^a-zA-Z0-9\-_])'), array('_','_','_',''), $post->alias);
 
-			# Чистим alias
-			$post->alias = preg_replace(array('(\s\s+)','(\-\-+)','(__+)','([^a-zA-Z0-9\-_])'), array('_','_','_',''), $post->alias);
+		# а так же проверяем что бы алиас не оказался числом
+		$post->alias = $parse->text->correct_aliases($post->alias);
 
-			# а так же проверяем что бы алиас не оказался числом
-			$post->alias = $parse->text->correct_aliases($post->alias);
-		}
 	}
 
 
