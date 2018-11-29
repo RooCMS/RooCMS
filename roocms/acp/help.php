@@ -59,7 +59,7 @@ class ACP_Help {
 		$smarty->assign('helpmites', $this->breadcumb);
 
 		# action
-		if(DEVMODE) {
+		if(DEBUGMODE) {
 			switch($roocms->part) {
 
 				case 'create_part':

@@ -89,11 +89,12 @@ class Template {
 		# set other options
                 $smarty->caching 	= 0;
                 $smarty->cache_lifetime = 60;
-		if(isset($config->tpl_recompile_force))	{
-			$smarty->force_compile 		= $config->tpl_recompile_force;
+
+		if($config->tpl_recompile_force || DEBUGMODE) {
+			$smarty->force_compile 	      = $config->tpl_recompile_force;
 		}
-		if(isset($config->if_modified_since)) {
-			$smarty->cache_modified_check 	= $config->if_modified_since;
+		if($config->if_modified_since) {
+			$smarty->cache_modified_check = $config->if_modified_since;
 		}
 
 		# filters
@@ -289,12 +290,12 @@ class Template {
 		$this->info_popup();
 
 		# global site title
-		if(!defined('INSTALL') && isset($config->global_site_title)) {
+		if(!defined('INSTALL') && $config->global_site_title) {
 			$site['title'] .= " &bull; ".$config->site_title;
 		}
 
 		# get actual version included js and styles in templates (only Developer or Debug mode)
-		$build = (DEBUGMODE || DEVMODE) ? "?v=".str_ireplace(".","",ROOCMS_VERSION)."-".time() : "" ;
+		$build = (DEBUGMODE) ? "?v=".str_ireplace(".","",ROOCMS_VERSION)."-".time() : "" ;
 
 		# assign tpl vars
 		$smarty->assign("site",	   $site);

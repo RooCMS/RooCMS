@@ -236,29 +236,25 @@ class Structure {
 		global $config, $smarty;
 
         	# set vars
-		$this->page_id 			= $data['id'];
-		$this->page_pid 		= $data['page_id'];
-		$this->page_parent 		= $data['parent_id'];
-		$this->page_alias 		= $data['alias'];
-		$this->page_title 		= $data['title'];
-		if(isset($config->meta_description)) {
-			$this->page_meta_desc 	= (trim($data['meta_description']) != "") ? $data['meta_description'] : $config->meta_description;
-		}
-		if(isset($config->meta_keywords)) {
-			$this->page_meta_keys 	= (trim($data['meta_keywords']) != "") ? $data['meta_keywords'] : $config->meta_keywords;
-		}
-        	$this->page_noindex		= (bool) $data['noindex'];
-		$this->page_type 		= $data['page_type'];
-		$this->page_group_access 	= $data['group_access'];
-		$this->page_rss 		= (bool) $data['rss'];
-		$this->page_show_child_feeds  	= $data['show_child_feeds'];
-		$this->page_items_per_page 	= $data['items_per_page'];
-		$this->page_items_sorting 	= $data['items_sorting'];
-		$this->page_items 		= $data['items'];
-		$this->page_thumb_img_width 	= $data['thumb_img_width'];
-		$this->page_thumb_img_height 	= $data['thumb_img_height'];
-		$this->page_append_info_before 	= $data['append_info_before'];
-		$this->page_append_info_after 	= $data['append_info_after'];
+		$this->page_id                 = $data['id'];
+		$this->page_pid                = $data['page_id'];
+		$this->page_parent             = $data['parent_id'];
+		$this->page_alias              = $data['alias'];
+		$this->page_title              = $data['title'];
+		$this->page_meta_desc          = (trim($data['meta_description']) != "") ? $data['meta_description'] : $config->meta_description;
+		$this->page_meta_keys          = (trim($data['meta_keywords']) != "") ? $data['meta_keywords'] : $config->meta_keywords;
+		$this->page_noindex            = (bool) $data['noindex'];
+		$this->page_type               = $data['page_type'];
+		$this->page_group_access       = $data['group_access'];
+		$this->page_rss                = (bool) $data['rss'];
+		$this->page_show_child_feeds   = $data['show_child_feeds'];
+		$this->page_items_per_page     = $data['items_per_page'];
+		$this->page_items_sorting      = $data['items_sorting'];
+		$this->page_items              = $data['items'];
+		$this->page_thumb_img_width    = $data['thumb_img_width'];
+		$this->page_thumb_img_height   = $data['thumb_img_height'];
+		$this->page_append_info_before = $data['append_info_before'];
+		$this->page_append_info_after  = $data['append_info_after'];
 
 		# access
 		$this->access = $data['access'];

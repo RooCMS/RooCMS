@@ -4,9 +4,7 @@
 			{if $exist_errors}
 				<a href="{$SCRIPT_NAME}?act=logs&part=lowerrors" class="btn btn-xs btn-danger"><i class='fa fa-exclamation-triangle fa-fw'></i> Обнаружены ошибки</a>
 			{else}
-				{if $smarty.const.DEBUGMODE}<nobr><b class="text-warning t10"><i class="fa fa-exclamation-triangle"></i> Включен режим отладки!</b></nobr><br />{/if}
-				{if !$smarty.const.DEBUGMODE && $smarty.const.DEVMODE}<nobr><b class="text-error t10"><i class="fa fa-exclamation-triangle"></i> ТРЕБУЕТСЯ ВКЛЮЧИТЬ РЕЖИМ ОТЛАДКИ !!!</b></nobr><br />{/if}
-				{if $smarty.const.DEVMODE}<nobr><b class="text-warning t10"><i class="fa fa-exclamation-triangle"></i> Включен режим разработчика!</b></nobr>{/if}
+				{if $smarty.const.DEBUGMODE}<nobr><b class="text-warning t10"><i class="fa fa-exclamation-triangle"></i> Включен режим разработки!</b></nobr><br />{/if}
 			{/if}
 		</div>
 
@@ -35,12 +33,9 @@
 	<div class="container visible-xs visible-sm">
 		<div class="row">
 			<div class="col-xs-12" style="padding-top: 20px;margin-bottom: -40px;">
-				{if $smarty.const.DEBUGMODE}<nobr><b class="text-warning"><span class="fa fa-exclamation-triangle"></span> Включен режим отладки!</b></nobr><br />{/if}
-				{if !$smarty.const.DEBUGMODE && $smarty.const.DEVMODE}<nobr><b class="text-error"><span class="fa fa-exclamation-triangle"></span> ТРЕБУЕТСЯ ВКЛЮЧИТЬ РЕЖИМ ОТЛАДКИ !!!</b></nobr><br />{/if}
-				{if $smarty.const.DEVMODE}<nobr><b class="text-warning"><span class="fa fa-exclamation-triangle"></span> Включен режим разработчика!</b></nobr>{/if}
+				{if $smarty.const.DEBUGMODE}<nobr><b class="text-warning"><span class="fa fa-exclamation-triangle"></span> Включен режим разработки!</b></nobr><br />{/if}
 
 				{if $exist_errors}
-					<br />
 					<br /> <a href="{$SCRIPT_NAME}?act=logs&part=lowerrors" class="btn btn-xs btn-danger"><i class='fa fa-exclamation-triangle fa-fw'></i> Ошибки</a>
 				{/if}
 

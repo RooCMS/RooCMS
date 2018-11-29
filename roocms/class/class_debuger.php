@@ -142,10 +142,6 @@ class Debuger {
 		if(!defined('DEBUGMODE')) {
 			define('DEBUGMODE', true);
 		}
-		# check developer mode flag
-		if(!defined('DEVMODE'))  {
-			define('DEVMODE', true);
-		}
 	}
 
 

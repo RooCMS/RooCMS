@@ -1,5 +1,5 @@
 {* Шаблон управления помощью сайта *}
-{if $smarty.const.DEVMODE}
+{if $smarty.const.DEBUGMODE}
 <div class="col-sm-3 col-md-2">
 	<div class="row hidden-xs">
 		<div class="panel panel-default">
@@ -16,7 +16,7 @@
 	</div>
 </div>
 {/if}
-<div class="col-sm-{if $smarty.const.DEVMODE}9 col-md-10{else} col-sm-12{/if}">
+<div class="col-sm-{if $smarty.const.DEBUGMODE}9 col-md-10{else} col-sm-12{/if}">
 	<div class=" panel panel-default">
 		{$content}
 	</div>

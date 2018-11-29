@@ -153,7 +153,7 @@ class RooCMS_Global {
 		}
 
 		# Устанавливаем title
-		if(isset($this->config->site_title) && trim($this->config->site_title) != "" && trim($site['title']) == "") {
+		if(trim($this->config->site_title) != "" && trim($site['title']) == "") {
 			$site['title'] =& $this->config->site_title;
 		}
 

@@ -56,22 +56,22 @@ class GD {
 		$this->set_mod_sizes(array($config->gd_image_maxwidth, $config->gd_image_maxheight), "msize");
 
 		# Тип генерации фона из конфигурации
-		if(isset($config->gd_thumb_type_gen) && $config->gd_thumb_type_gen == "contain") {
+		if($config->gd_thumb_type_gen == "contain") {
 			$this->thumbtg = "contain";
 		}
 
 		# Фоновый цвет  из конфигурации
-		if(isset($config->gd_thumb_bgcolor) && mb_strlen($config->gd_thumb_bgcolor) == 7) {
+		if(mb_strlen($config->gd_thumb_bgcolor) == 7) {
 			$this->thumbbgcol = $parse->cvrt_color_h2d($config->gd_thumb_bgcolor);
 		}
 
 		# Качество миниатюр  из конфигурации
-		if(isset($config->gd_thumb_jpg_quality) && $config->gd_thumb_jpg_quality >= 10 && $config->gd_thumb_jpg_quality <= 100) {
+		if($config->gd_thumb_jpg_quality >= 10 && $config->gd_thumb_jpg_quality <= 100) {
 			$this->th_quality = $config->gd_thumb_jpg_quality;
 		}
 
 		# Если используем watermark
-		if(isset($config->gd_use_watermark) && $config->gd_use_watermark == "text") {
+		if($config->gd_use_watermark == "text") {
 
 			# watermark text string one
 			$this->copyright = $parse->text->html($site['title']);

@@ -30,7 +30,7 @@
 {if !empty($data)}
 	<div class="panel-footer text-right">
 		<small>Последняя редакция: {$data['date_modified']}</small>
-		{if $smarty.const.DEVMODE}
+		{if $smarty.const.DEBUGMODE}
 		    <br />
 		    <a href="{$SCRIPT_NAME}?act=help&part=edit_part&u={$data['uname']}" class="btn btn-xs btn-default"><i class="fa fa-pencil-square-o fa-fw"></i>Редактировать</a>
 		    <a href="{$SCRIPT_NAME}?act=help&part=delete_part&u={$data['uname']}" class="btn btn-xs btn-danger"><i class="fa fa-trash-o fa-fw"></i>Удалить</a>

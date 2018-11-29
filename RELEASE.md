@@ -35,5 +35,5 @@ Release information:
 	
 	[fix] исправлены ошибки и погрешности кода
 	
-	[del]
+	[del] Константа DEVMODE упразднена
 	
