@@ -502,14 +502,14 @@ class ACP_Feeds_Feed {
 
 			# RSS flag
 			$rss = 0;
-			if(isset($post->rss) && $post->rss == "1") {
+			if($post->rss == "1") {
 				$rss = 1;
 			}
 			$update .= " rss='".$rss."', ";
 
 			# items per page
 			$items_per_page = 0;
-			if((isset($post->items_per_page) && round($post->items_per_page) >= 0)) {
+			if(round($post->items_per_page) >= 0) {
 				$items_per_page = round($post->items_per_page);
 			}
 			$update .= " items_per_page='".$items_per_page."', " ;

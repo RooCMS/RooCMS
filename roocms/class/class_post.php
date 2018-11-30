@@ -23,11 +23,19 @@ if(!defined('RooCMS')) {
 class Post {
 
 	/**
+	 * needed fields
+	 * @var array
+	 */
+	public $needed = [];
+
+
+
+	/**
 	 * Wow! This is magic...
 	 *
 	 * @param $name
 	 *
-	 * @return mixed
+	 * @return null
 	 */
 	public function __get($name) {
 
@@ -36,11 +44,39 @@ class Post {
 		# debug log
 		if(DEBUGMODE) {
 			$trace = debug_backtrace();
-			$logger->log("Попытка получить неопределенное свойство :".$name."; Источник: ".$trace[0]['file']." строка ".$trace[0]['line']);
+			$pi = pathinfo($trace[0]['file']);
+
+			$logger->log("Попытка получить неопределенное свойство : ".$name." ; Источник: ".$pi['filename']." строка ".$trace[0]['line']);
 		}
 
-		return $null;
+		return null;
 	}
+
+
+	// TODO: Это закладка на обработку входящих запросов и проверку целостности данных.
+	// Что будет полезно при проверке вводимых данных. Во избежание подлогов.
+	/**
+	 * Magic outside hogwarts is ALLOWED
+	 *
+	 * @param $name
+	 * @param $value
+	 *
+	 * @return null
+	 */
+	/*public function __set($name, $value) {
+
+		global $logger;
+
+		# debug log
+		if(DEBUGMODE) {
+			$trace = debug_backtrace();
+			$pi = pathinfo($trace[0]['file']);
+
+			$logger->log("Попытка получить неопределенное свойство : ".$name." = ".$value." ; Источник: ".$pi['filename']." строка ".$trace[0]['line']);
+		}
+
+		return null;
+	}*/
 }
 
 ?>
