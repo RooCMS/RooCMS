@@ -154,7 +154,7 @@ class ACP_Help {
 			$this->count_childs($post->parent_id);
 
 			# уведомление
-			$logger->info("Раздел #".$id." успешно добавлен!");
+			$logger->info("Раздел помощи #".$id." <".$post->title."> успешно добавлен!");
 
 			# go
 			go(CP."?act=help");
@@ -234,7 +234,7 @@ class ACP_Help {
 			}
 
 			# logger
-			$logger->info("Раздел #".$id." успешно обновлен!");
+			$logger->info("Раздел помощи #".$id." <".$post->title."> успешно обновлен!");
 
 			# go
 			go(CP."?act=help&u=".$post->uname);
@@ -258,7 +258,7 @@ class ACP_Help {
 			goback();
 		}
 
-		$q = $db->query("SELECT id, parent_id, childs FROM ".HELP_TABLE." WHERE id='".$id."'");
+		$q = $db->query("SELECT id, title, parent_id, childs FROM ".HELP_TABLE." WHERE id='".$id."'");
 		$row = $db->fetch_assoc($q);
 
 		if($row['childs'] == 0) {
@@ -266,7 +266,7 @@ class ACP_Help {
             		$db->query("DELETE FROM ".HELP_TABLE." WHERE id='".$id."'");
 
 			# logger
-			$logger->info("Раздел #".$id." удален");
+			$logger->info("Раздел помощи #".$id." <".$row['title']."> удален");
 
 			# пересчитываем детишек
 			$this->count_childs($row['parent_id']);
@@ -459,7 +459,7 @@ class ACP_Help {
 		$db->query("UPDATE ".HELP_TABLE." SET childs='".$c."' WHERE id='".$id."'");
 
 		# logger
-		$logger->info("Информация о подразделах для раздела #".$id." обновлена.");
+		$logger->info("Информация о подразделах для раздела помощи #".$id." обновлена.");
 	}
 
 
@@ -482,10 +482,10 @@ class ACP_Help {
 			$logger->error("Не указано название раздела.");
 		}
 		if(!isset($post->uname) && round($post->uname) != 0) {
-			$logger->error("Не указан uname раздела.");
+			$logger->error("Не указан uname раздела помощи.");
 		}
 		elseif(!$this->check_uname($post->uname, $post->old_uname)) {
-			$logger->error("uname раздела не уникален.");
+			$logger->error("uname раздела помощи не уникален.");
 		}
 	}
 }

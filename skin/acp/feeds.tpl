@@ -9,7 +9,7 @@
 			</div>
 			<div class="list-group">
 				{if isset($smarty.get.part) && ($smarty.get.part == 'control' || $smarty.get.part == 'edit_item' || $smarty.get.part == 'settings' || $smarty.get.part == 'create_item')}
-					<a href="{$SCRIPT_NAME}?act=feeds&part=create_item&page={$smarty.get.page}" class="list-group-item{if isset($smarty.get.part) && $smarty.get.part == "create_item"} active{/if}"><i class="fa fa-fw fa-volume-up"></i> Добавить запись</a>
+					<a href="{$SCRIPT_NAME}?act=feeds&part=create_item&page={$smarty.get.page}" class="list-group-item{if isset($smarty.get.part) && $smarty.get.part == "create_item"} active{/if}"><i class="fa fa-fw fa-pencil"></i> Добавить запись</a>
 					<a href="{$SCRIPT_NAME}?act=feeds&part=settings&page={$smarty.get.page}" class="list-group-item{if isset($smarty.get.part) && $smarty.get.part == "settings"} active{/if}"><i class="fa fa-fw fa-cog"></i> Настройки ленты</a>
 				{else}
 					<a href="{$SCRIPT_NAME}?act=structure&part=create&type=feed" class="list-group-item{if isset($smarty.get.part) && $smarty.get.part == "create"} active{/if}"><i class="fa fa-fw fa-plus-circle"></i> Создать ленту</a>
@@ -44,7 +44,7 @@
 		{/if}
 
 		{if isset($smarty.get.part) && ($smarty.get.part == 'control' || $smarty.get.part == 'edit_item' || $smarty.get.part == 'settings' || $smarty.get.part == 'create_item')}
-			<a href="{$SCRIPT_NAME}?act=feeds&part=create_item&page={$smarty.get.page}" class="btn btn-default{if isset($smarty.get.part) && $smarty.get.part == "create_item"} active{/if}"><i class="fa fa-fw fa-volume-up"></i> Добавить запись</a>
+			<a href="{$SCRIPT_NAME}?act=feeds&part=create_item&page={$smarty.get.page}" class="btn btn-default{if isset($smarty.get.part) && $smarty.get.part == "create_item"} active{/if}"><i class="fa fa-fw fa-pencil"></i> Добавить запись</a>
 			<a href="{$SCRIPT_NAME}?act=feeds&part=settings&page={$smarty.get.page}" class="btn btn-default{if isset($smarty.get.part) && $smarty.get.part == "settings"} active{/if}"><i class="fa fa-fw fa-cog"></i> Настройки ленты</a>
 		{else}
 			<a href="{$SCRIPT_NAME}?act=structure&part=create&type=feed" class="btn btn-default{if isset($smarty.get.part) && $smarty.get.part == "create"} active{/if}"><i class="fa fa-fw fa-plus-circle"></i> Создать ленту</a>

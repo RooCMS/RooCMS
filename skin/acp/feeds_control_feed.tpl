@@ -8,7 +8,7 @@
 
 {if empty($feedlist)}
 	<div class="panel-body">
-		<p class="lead">В данной ленте нет элементов<br />Нажмите на ссылку &quot;Добавить элемент&quot;, что бы внести в ленту первый элемент</p>
+		<p class="lead">В данной ленте нет записей<br />Нажмите на ссылку &quot;Добавить запись&quot;, что бы создать Вашу первую публикацию</p>
 	</div>
 {else}
 
@@ -36,9 +36,9 @@
 				<td class="small">{$item['date_update']}</td>
 				<td class="text-right">
 					<div class="btn-group">
-						<a href="{$SCRIPT_NAME}?act=feeds&part=edit_item&page={$feed['id']}&item={$item['id']}" class="btn btn-xs btn-default"><span class="fa fa-pencil-square-o fa-fw"></span>Редактировать</a>
-						<a href="{$SCRIPT_NAME}?act=feeds&part=migrate_item&page={$feed['id']}&item={$item['id']}" class="btn btn-xs btn-default"><span class="fa fa-random fa-fw" rel="tooltip" data-toggle="tooltip" data-placement="top" title="Переместить публикацию"></span></a>
-						<a href="{$SCRIPT_NAME}?act=feeds&part=delete_item&page={$feed['id']}&item={$item['id']}" class="btn btn-xs btn-danger"><span class="fa fa-trash-o fa-fw"></span>Удалить</a>
+						<a href="{$SCRIPT_NAME}?act=feeds&part=edit_item&page={$feed['id']}&item={$item['id']}" class="btn btn-xs btn-default"><i class="fa fa-pencil-square-o fa-fw"></i>Редактировать</a>
+						<a href="{$SCRIPT_NAME}?act=feeds&part=migrate_item&page={$feed['id']}&item={$item['id']}" class="btn btn-xs btn-default"><i class="fa fa-random fa-fw" rel="tooltip" data-toggle="tooltip" data-placement="top" title="Переместить публикацию"></i></a>
+						<a href="{$SCRIPT_NAME}?act=feeds&part=delete_item&page={$feed['id']}&item={$item['id']}" class="btn btn-xs btn-danger"><i class="fa fa-trash-o fa-fw"></i>Удалить</a>
 					</div>
 				</td>
 			</tr>
@@ -54,9 +54,9 @@
 
 				<div class="pull-right">
 					<div class="btn-group">
-						<a href="{$SCRIPT_NAME}?act=feeds&part=edit_item&page={$feed['id']}&item={$item['id']}" class="btn btn-xs btn-default"><span class="fa fa-pencil-square-o fa-fw"></span></a>
-						<a href="{$SCRIPT_NAME}?act=feeds&part=migrate_item&page={$feed['id']}&item={$item['id']}" class="btn btn-xs btn-default"><span class="fa fa-random fa-fw" rel="tooltip" data-toggle="tooltip" data-placement="top" title="Переместить публикацию"></span></a>
-						<a href="{$SCRIPT_NAME}?act=feeds&part=delete_item&page={$feed['id']}&item={$item['id']}" class="btn btn-xs btn-danger"><span class="fa fa-trash-o fa-fw"></span></a>
+						<a href="{$SCRIPT_NAME}?act=feeds&part=edit_item&page={$feed['id']}&item={$item['id']}" class="btn btn-xs btn-default"><i class="fa fa-pencil-square-o fa-fw"></i></a>
+						<a href="{$SCRIPT_NAME}?act=feeds&part=migrate_item&page={$feed['id']}&item={$item['id']}" class="btn btn-xs btn-default"><i class="fa fa-random fa-fw" rel="tooltip" data-toggle="tooltip" data-placement="top" title="Переместить публикацию"></i></a>
+						<a href="{$SCRIPT_NAME}?act=feeds&part=delete_item&page={$feed['id']}&item={$item['id']}" class="btn btn-xs btn-danger"><i class="fa fa-trash-o fa-fw"></i></a>
 					</div>
 				</div>
 			</li>

@@ -9,7 +9,7 @@
 	{if !empty($helpmites)}
 		<ul class="breadcrumb small">
 			<li>
-				<a href="{$SCRIPT_NAME}?act=help" rel="tooltip" title="Нажмите, что бы перейти в оглавление раздела &quot;Помощь&quot;" data-placement="top"><i class="fa fa-support fa-fw"></i></a>
+				<a href="{$SCRIPT_NAME}?act=help" rel="tooltip" title="Нажмите, что бы перейти в оглавление раздела &quot;Помощь&quot;" data-placement="top"><i class="fa fa-support fa-fw"></i>Помощь</a>
 			</li>
 			{foreach from=$helpmites item=smites key=i name=mites}
 				<li{if $smarty.foreach.mites.last} class="active"{/if}>
