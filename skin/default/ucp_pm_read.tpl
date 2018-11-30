@@ -27,6 +27,12 @@
 </div>
 
 <div class="row">
+	<div class="col-md-12">
+		<br /><a href="{$SCRIPT_NAME}?part=ucp&act=pm" class="btn btn-md btn-default pull-right"><i class="fa fa-fw fa-long-arrow-left"></i> Вернуться к списку сообщений</a>
+	</div>
+</div>
+
+<div class="row">
 	<div class="col-sm-12">
 		<h2>Ответить</h2>
 	</div>
@@ -69,7 +75,6 @@
 
 			<div class="row">
 				<div class="col-lg-8 col-lg-offset-4">
-					<a href="{$SCRIPT_NAME}?part=ucp&act=pm" class="btn btn-md btn-default"><i class="fa fa-fw fa-long-arrow-left"></i> Вернуться к списку сообщений</a>
 					<button type="submit" name="send" class="btn btn-success pull-right" value="send"><i class="fa fa-fw fa-mail-reply"></i> Ответить {$message['from_name']}</button>
 				</div>
 			</div>

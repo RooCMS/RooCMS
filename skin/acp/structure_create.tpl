@@ -1,6 +1,6 @@
 {* Шаблон создания новой страницы в структуре сайта *}
 <div class="panel-heading">
-	Новая страница сайта
+	Новая страница
 </div>
 <form method="post" action="{$SCRIPT_NAME}?act=structure&part=create" role="form" class="form-horizontal">
 <div class="panel-body">
@@ -33,7 +33,7 @@
 
 	<div class="form-group">
 		<label for="inputMetaDesc" class="col-lg-3 control-label">
-			Мета описание страницы: <small><span class="fa fa-question-circle fa-fw" rel="tooltip" title="Meta Description" data-placement="left"></span></small>
+			Мета описание: <small><span class="fa fa-question-circle fa-fw" rel="tooltip" title="Meta Description" data-placement="left"></span></small>
 		</label>
 		<div class="col-lg-9">
 			<input type="text" name="meta_description" id="inputMetaDesc" class="form-control" spellcheck>
@@ -42,7 +42,7 @@
 
 	<div class="form-group">
 		<label for="inputMetaKeys" class="col-lg-3 control-label">
-			Ключевые слова страницы: <small><span class="fa fa-question-circle fa-fw" rel="tooltip" title="Meta Keywords" data-placement="left"></span></small>
+			Ключевые слова: <small><span class="fa fa-question-circle fa-fw" rel="tooltip" title="Meta Keywords" data-placement="left"></span></small>
 		</label>
 		<div class="col-lg-9">
 			<input type="text" name="meta_keywords" id="inputMetaKeys" class="form-control" spellcheck>

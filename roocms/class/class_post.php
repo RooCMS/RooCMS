@@ -78,5 +78,3 @@ class Post {
 		return null;
 	}*/
 }
-
-?>
