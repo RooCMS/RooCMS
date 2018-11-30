@@ -86,7 +86,6 @@ class Parser {
 		}
 
 		# $_POST
-		settype($this->post, "object");
 		if(!empty($_POST)) {
 			$this->parse_post();
 		}
@@ -104,16 +103,18 @@ class Parser {
 	*/
 	protected function parse_post() {
 
-		$post = $this->check_array($_POST);
+		global $post;
 
-		foreach ($post as $key=>$value) {
+		$datapost = $this->check_array($_POST);
+
+		foreach ($datapost as $key=>$value) {
 
 			if(is_array($value)) {
 				$value = $this->check_array($value);
-				$this->post->{$key} = (array) $value;
+				$post->{$key} = (array) $value;
 			}
 			else {
-				$this->post->{$key} = (trim($value) != "") ? (string) $value : NULL ;
+				$post->{$key} = (trim($value) != "") ? (string) $value : NULL ;
 			}
 		}
 
