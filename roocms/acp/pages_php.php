@@ -52,15 +52,15 @@ class ACP_Pages_PHP {
 	/**
 	* Функция обновления PHP страницы
 	*
-	* @param boolean $sid - структурный идентификатор
+	* @param mixed $data
 	*/
-	public function update($sid) {
+	public function update($data) {
 
 		global $db, $logger, $post;
 
-		$db->query("UPDATE ".PAGES_PHP_TABLE." SET content='".$post->content."', date_modified='".time()."' WHERE sid='".$sid."'");
+		$db->query("UPDATE ".PAGES_PHP_TABLE." SET content='".$post->content."', date_modified='".time()."' WHERE sid='".$data->page_id."'");
 
-		$logger->info("Страница #".$sid." успешно обновлена.");
+		$logger->info("Страница #".$data->page_id." успешно обновлена.");
 
 		goback();
 	}
