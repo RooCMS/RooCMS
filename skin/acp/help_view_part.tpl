@@ -21,6 +21,7 @@
 
 
 	{if !empty($data)}
+		{if $data['id'] != 1}<h2>{$data['title']}</h2>{/if}
 		{$data['content']}
 	{else}
 		<p class="lead">В данном разделе пока что нет информации.</p>
@@ -44,7 +45,7 @@
 					{if $k != 0}
 						</ul>
 					{/if}
-					<ul class="nav nav-pills nav-stacked col-lg-3 col-md-4 col-sm-4 col-xs-12">
+					<ul class="nav nav-pills nav-stacked col-lg-3 col-md-4 col-sm-6 col-xs-12">
 				{/if}
 				<li class="small"><a href="{$SCRIPT_NAME}?act=help&u={$subpart['uname']}" {if $subpart['level'] == 0}class="text-bold"{/if}>{section name=level loop=$subpart['level']}&bull;{/section}&bull; {$subpart['title']}</a></li>
 				{if $smarty.foreach.helptrees.last}</ul>{/if}
