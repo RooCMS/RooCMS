@@ -534,7 +534,7 @@ class ACP_Users {
 				# notice
 				$logger->info("Данные группы #".$gid." успешно обновлены.");
 
-				# переход
+				# go
 				if(isset($post->update_group['ae'])) {
 					go(CP."?act=users&part=group_list");
 				}
@@ -623,7 +623,7 @@ class ACP_Users {
 		if($data['gid'] == $gid) {
 			$db->query("UPDATE ".USERS_TABLE." SET gid='0' WHERE uid='".$uid."'");
 
-			# уведомление
+			# notice
 			$logger->info("Пользователь #".$uid." был успешно исключен из группы #".$gid.".");
 
 			# пересчитываем пользователей в группе.
@@ -650,7 +650,7 @@ class ACP_Users {
 			# update
 			$db->query("UPDATE ".USERS_GROUP_TABLE." SET users='".$c."' WHERE gid='".$gid."'");
 
-			# уведомление
+			# notice
 			$logger->info("Информация о кол-ве пользователей для группы #".$gid." обновлена.");
 		}
 	}

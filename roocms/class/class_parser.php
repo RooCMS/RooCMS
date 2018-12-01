@@ -31,7 +31,6 @@ class Parser {
 	public 	$date;				# [obj]		for parsing date format
 
 	# objects
-	public 	$post;				# [obj]		$_POST data
 	public 	$get;				# [obj]		$_GET data
 
 	# uri params
@@ -39,7 +38,7 @@ class Parser {
 	public	$uri_chpu	= false;	# [bool]	on/off flag for use (как ЧПУ по аглицки будет?)
 	public	$uri_separator	= "/";		# [string]	URI seperator
 
-	# уведомление
+	# notice
 	public	$info		= "";		# [text]	information
 	public	$error		= "";		# [text]	error message
 

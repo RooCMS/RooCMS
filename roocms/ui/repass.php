@@ -130,10 +130,10 @@ class UI_RePass {
 			sendmail($post->email, "Запрос на восстановление пароля для сайта: ".$site['title'], $message);
 
 
-			# уведомление
+			# notice
 			$logger->info("Инструкции для восстановления пароля, отправлены Вам на электронную почту", false);
 
-			# переход
+			# go
 			go(SCRIPT_NAME."?part=repass&act=confirm&email=".$post->email);
 		}
 		else {

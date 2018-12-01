@@ -141,10 +141,10 @@ class UI_Reg {
 
 			sendmail($post->email, "Вы зарегистрировались на сайте ".$site['title'], $message);
 
-			# уведомление
+			# notice
 			$logger->info("Поздравляем с Регистрацией. Вам осталось подтвердить адрес электронной почты для этого пройдите по ссылке отправленной Вам в письме.", false);
 
-			# переход
+			# go
 			go(SCRIPT_NAME."?part=reg&act=activation&email=".$post->email);
 		}
 

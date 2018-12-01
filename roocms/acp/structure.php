@@ -177,10 +177,10 @@ class ACP_Structure {
 			# пересчитываем "детей"
 			$this->count_childs($post->parent_id);
 
-			# уведомление
+			# notice
 			$logger->info("Структурная еденица #".$sid." успешно добавлена.");
 
-			# переход
+			# go
 			if(isset($post->create_unit['ae'])) {
 				go(CP."?act=structure");
 			}
@@ -319,7 +319,7 @@ class ACP_Structure {
 				$this->count_childs($post->now_parent_id);
 			}
 
-			# уведомление
+			# notice
 			$logger->info("Страница #".$sid." успешно обновлена.");
 
 			# go
@@ -389,7 +389,7 @@ class ACP_Structure {
 			$db->query("DELETE FROM ".STRUCTURE_TABLE." WHERE id='".$sid."'");
 
 
-			# уведомление
+			# notice
 			$logger->info("Страница #".$sid." успешно удалена");
 
 			# recount parent childs
@@ -399,7 +399,7 @@ class ACP_Structure {
 			$logger->error("Невозможно удалить страницу, по причине имеющихся у страницы дочерних связей. Сначала перенесите или удалите дочерние страницы.");
 		}
 
-		# переход
+		# go
 		goback();
 	}
 

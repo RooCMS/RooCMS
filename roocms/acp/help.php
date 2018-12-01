@@ -153,7 +153,7 @@ class ACP_Help {
 			# пересчитываем "детей"
 			$this->count_childs($post->parent_id);
 
-			# уведомление
+			# notice
 			$logger->info("Раздел помощи #".$id." <".$post->title."> успешно добавлен!");
 
 			# go

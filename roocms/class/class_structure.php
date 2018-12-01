@@ -275,7 +275,7 @@ class Structure {
 	 */
 	public function construct_breadcumb($sid = 1) {
 		if($sid != 1) {
-			$v = $this->get_structure_info($sid);
+			$v = $this->sitetree[$sid];
 			$this->breadcumb[] = array('id'		=> $v['id'],
 						   'alias'	=> $v['alias'],
 						   'act'	=> "",
@@ -291,35 +291,13 @@ class Structure {
 
 
 	/**
-	 * Функция возвращает путь к структурному элементу.
-	 *
-	 * @param int $sid - идентификатор текущей страницы от которой выстраиваются "крошки"
-	 */
-	/*function get_mites($sid = 1) {
-
-	}*/
-
-
-	/**
 	 * Функция собирает информация о родителе структурного элемента.
 	 */
 	private function update_tree_parent() {
 		foreach($this->sitetree AS $k=>$v) {
 			if($v['parent_id'] != 0) {
-				$this->sitetree[$k]['parent'] = $this->get_structure_info($v['parent_id']);
+				$this->sitetree[$k]['parent'] = $this->sitetree[$v['parent_id']];
 			}
 		}
-	}
-
-
-	/**
-	 * Функция возвращает данные о структурной еденице ввиде массива.
-	 *
-	 * @param int $sid - идентификатор структурной еденицы
-	 *
-	 * @return array - данные о структурной еденице
-	 */
-	public function get_structure_info($sid) {
-		return $this->sitetree[$sid];
 	}
 }

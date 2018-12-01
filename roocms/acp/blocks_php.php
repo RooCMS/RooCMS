@@ -40,10 +40,10 @@ class ACP_Blocks_PHP {
 
 				$bid = $db->insert_id();
 
-				# уведомление
+				# notice
 				$logger->info("Блок #".$bid." успешно добавлен!");
 
-				# переход
+				# go
 				go(CP."?act=blocks");
 			}
 

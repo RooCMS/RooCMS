@@ -49,7 +49,7 @@ class Update extends IU_Extends {
 		# seo
 		$site['title'] = "Обновление RooCMS";
 
-		# переход
+		# go
 		switch($this->step) {
 
 			case 2:

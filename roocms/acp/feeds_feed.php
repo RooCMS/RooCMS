@@ -31,7 +31,7 @@ class ACP_Feeds_Feed {
 
 
 	/**
-	 * "Ключ на старт"
+	 * Key on "start" (c)
 	 *
 	 * @param $structure_data
 	 */
@@ -41,7 +41,7 @@ class ACP_Feeds_Feed {
 
 
 	/**
-	 * Функция вызова ленты для редактирования.
+	 * feed view
 	 */
 	public function control() {
 
@@ -87,7 +87,7 @@ class ACP_Feeds_Feed {
 
 
 	/**
-	 * Функция создает новые эелемент ленты, занося его параметры в БД
+	 * Create new record to feed
 	 */
 	public function create_item() {
 
@@ -96,13 +96,13 @@ class ACP_Feeds_Feed {
 		# insert db
 		if(isset($post->create_item)) {
 
-			# Проверяем вводимые поля на ошибки
+			# Check post data
 			$this->check_post_data_fields();
 			$this->control_post_data_date();
 
 			if(!isset($_SESSION['error'])) {
 
-				# Проверяем "неважные" поля
+				# Check secondary fields
 				$this->correct_post_fields();
 
 				# insert
@@ -144,7 +144,7 @@ class ACP_Feeds_Feed {
 				$this->mailing($fiid, $post->title,$post->brief_item, $post->force);
 			}
 
-			# переход
+			# go
 			go(CP."?act=feeds&part=control&page=".$this->feed['id']);
 		}
 
@@ -175,9 +175,9 @@ class ACP_Feeds_Feed {
 
 
 	/**
-	 * Функция вызова параметров элемента ленты для их редактирвоания
+	 * Edit record from feed
 	 *
-	 * @param int $id - идентификатор элемента ленты
+	 * @param int $id - record identificator from feed
 	 */
 	public function edit_item($id) {
 
@@ -247,9 +247,9 @@ class ACP_Feeds_Feed {
 
 
 	/**
-	 * Обновляем данные элемента ленты
+	 * Update record
 	 *
-	 * @param int $id - item id
+	 * @param int $id - record identificator from feed
 	 */
 	public function update_item($id) {
 
@@ -262,7 +262,7 @@ class ACP_Feeds_Feed {
 		# update
 		if(!isset($_SESSION['error'])) {
 
-                        # Проверяем "неважные" поля
+                        # Check secondary fields
 			$this->correct_post_fields();
 
 			# update
@@ -306,15 +306,17 @@ class ACP_Feeds_Feed {
 			# go
 			go(CP."?act=feeds&part=control&page=".$get->_page);
 		}
-		# back
-		else goback();
+		else {
+			# back
+			goback();
+		}
 	}
 
 
 	/**
-	 * Функция переноса элемента из одной ленты в другую
+	 * Migrate record to another feed
 	 *
-	 * @param int $id - идентификатор элемента ленты
+	 * @param int $id - record identificator from feed
 	 */
 	public function migrate_item($id) {
 
@@ -369,10 +371,10 @@ class ACP_Feeds_Feed {
 
 
 	/**
-	 * Функция изменяет статус элемента ленты
+	 * Change status to record feed
 	 *
-	 * @param int $id - идентификатор элемента ленты
-	 * @param int $status - 1= Видимый , 2=Скрытый
+	 * @param int $id - record id
+	 * @param int $status - 1=show , 2=hide
 	 */
 	public function change_item_status($id, $status = 1) {
 
@@ -383,28 +385,28 @@ class ACP_Feeds_Feed {
 			$status = 1;
 		}
 
-		# обновляем инфу в бд
+		# update data in db
 		$db->query("UPDATE ".PAGES_FEED_TABLE." SET status='".$status."' WHERE id='".$id."'");
 
-		# уведомление
+		# notice
 		$mstatus = ($status == 1) ? "Видимый" : "Скрытый" ;
 		$logger->info("Элемент #".$id." успешно изменил свой статус на <".$mstatus.">.");
 
-		# переход
+		# go
 		goback();
 	}
 
 
 	/**
-	 * Функция удаления отдельного элемента из ленты
+	 * Remove record from feed
 	 *
-	 * @param int $id - идентификатор элемента ленты
+	 * @param int $id - record id
 	 */
 	public function delete_item($id) {
 
 		global $db, $logger, $img, $tags;
 
-		# получаем информацию
+		# get sid
 		$q = $db->query("SELECT sid FROM ".PAGES_FEED_TABLE." WHERE id='".$id."'");
 		$row = $db->fetch_assoc($q);
 
@@ -420,16 +422,16 @@ class ACP_Feeds_Feed {
 		# recount items
 		$this->count_items($row['sid']);
 
-		# уведомление
+		# notice
 		$logger->info("Элемент #".$id." успешно удален.");
 
-		# переход
+		# go
 		goback();
 	}
 
 
 	/**
-	 * Функция удаления ленты
+	 * Remove feed
 	 *
 	 * @param int $sid - structure element id
 	 */
@@ -456,7 +458,7 @@ class ACP_Feeds_Feed {
 
 
 	/**
-	 * Действия для редактирования настроек ленты
+	 * Settings feed
 	 */
 	public function settings() {
 
@@ -490,7 +492,7 @@ class ACP_Feeds_Feed {
 
 
 	/**
-	 * Функция обновления настроек ленты
+	 * Settings update to feed
 	 */
 	public function update_settings() {
 
@@ -567,15 +569,15 @@ class ACP_Feeds_Feed {
 			$logger->info("Настройки ленты #".$this->feed['id']." успешно обновлены.");
 		}
 
-		# переход
+		# go
 		goback();
 	}
 
 
 	/**
-	 * Функция пересчета элементов в фиде
+	 * Recount records in feed
 	 *
-	 * @param int $sid - структурный идентификатор ленты
+	 * @param int $sid - feed id
 	 */
 	public function count_items($sid) {
 
@@ -590,7 +592,7 @@ class ACP_Feeds_Feed {
 
 
 	/**
-	 * Функция првоеряет вводимые поля элеметна ленты на ошибки.
+	 * Check data post
 	 */
 	private function check_post_data_fields() {
 
@@ -614,18 +616,18 @@ class ACP_Feeds_Feed {
 
 
 	/**
-	 *  Функция првоеряет вводимые даты элеметна ленты на ошибки.
+	 *  Check dates from data post
 	 */
 	private function control_post_data_date() {
 
 		global $post, $parse;
 
-		# дата публикации
+		# check isset date publication
 		if(!isset($post->date_publications)) {
 			$post->date_publications = date("d.m.Y",time());
 		}
 
-		# дата завершения публикации
+		# check isset date end publication
 		if(!isset($post->date_end_publications)) {
 			$post->date_end_publications = 0;
 		}
@@ -645,8 +647,7 @@ class ACP_Feeds_Feed {
 
 
 	/**
-	 * Функция предназначена для кореекции необязательных полей,
-	 * что бы не вызывать ошибок про обращении в БД
+	 * Check and correct secondary fields
 	 */
 	private function correct_post_fields() {
 

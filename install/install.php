@@ -45,7 +45,7 @@ class Install extends IU_Extends {
 		# init step
 		$this->init_step();
 
-		# переход
+		# go
 		switch($this->step) {
 
 			case 2:
@@ -150,13 +150,13 @@ class Install extends IU_Extends {
 				# запоминаем название сайта для БД
 				$_SESSION['site_title'] = $parse->text->html($post->site_title);
 
-				# уведомление
+				# notice
 				$logger->info("Данные успешно записаны:", false);
 				$logger->info("Название сайта - ".$parse->text->html($post->site_title, false));
 				$logger->info("Адрес сайта - ".$post->site_domain, false);
 				$logger->info("E-mail администратора - ".$post->site_sysemail, false);
 
-				# переход next step
+				# go next step
 				go(SCRIPT_NAME."?step=5");
 			}
 			else {
@@ -172,7 +172,7 @@ class Install extends IU_Extends {
 		$this->log[] = array('E-Mail Администратора', '<input type="text" class="form-control" name="site_sysemail" placeholder="Ваш@Почтовый.ящик" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,6}$" required>', true, 'Укажите адрес электронной почты администратора сайта.');
 
 
-		# переход next step
+		# go next step
 		if(isset($site) && trim($site['title']) != "" && trim($site['domain']) != "" && trim($site['sysemail']) != "") {
 			go(SCRIPT_NAME."?step=5");
 		}
@@ -228,10 +228,10 @@ class Install extends IU_Extends {
 
 					$files->write_file($conffile, $context);
 
-					# уведомление
+					# notice
 					$logger->info("Данные для соеденения с БД успешно записаны", false);
 
-					# переход next step
+					# go next step
 					go(SCRIPT_NAME."?step=6");
 				}
 				else {
@@ -276,10 +276,10 @@ class Install extends IU_Extends {
 
 			$files->write_file($conffile, $context);
 
-			# уведомление
+			# notice
 			$logger->info("Данные занесены в БД успешно!", false);
 
-			# переход next step
+			# go next step
 			go(SCRIPT_NAME."?step=7");
 		}
 
@@ -337,7 +337,7 @@ class Install extends IU_Extends {
 				$_SESSION['adm_login'] = $parse->text->transliterate($post->adm_login);
 				$_SESSION['adm_passw'] = $post->adm_passw;
 
-				# переход
+				# go
 				go(SCRIPT_NAME."?step=8");
 			}
 			else {

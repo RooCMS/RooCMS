@@ -47,7 +47,7 @@ class ACP_Feeds {
 
 
 	/**
-	 * Инициализируем действие
+	 * init action
 	 */
 	private function init() {
 
@@ -144,12 +144,15 @@ class ACP_Feeds {
 					break;
 			}
 		}
-		else go(CP."?act=structure");
+		else {
+			# go
+			go(CP."?act=structure");
+		}
 	}
 
 
 	/**
-	 * Получаем массив с настройками фида
+	 * get array with feed settings
 	 *
 	 * @return array<integer|string|boolean|array>
 	 */
