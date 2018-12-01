@@ -93,7 +93,7 @@
 				Автор:
 			</label>
 			<div class="col-lg-9">
-				<select name="author_id" id="author_id" class="selectpicker show-tick" required data-size="auto" data-live-search="true" data-width="100%">
+				<select name="author_id" id="author_id" class="selectpicker show-tick" required data-size="auto" data-live-search="true" data-width="auto">
 					<option value="0">Без автора</option>
 					{foreach from=$userlist item=user}
 						<option value="{$user['uid']}" {if $user['uid'] == $item['author_id']} selected{/if}>{$user['nickname']}</option>

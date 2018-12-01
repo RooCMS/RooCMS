@@ -104,15 +104,6 @@
 		</div>
 	</div>
 
-	{*<div class="form-group">
-		<label for="inputType" class="col-lg-3 control-label">
-			Тип страницы:
-		</label>
-		<div class="col-lg-9">
-			<p class="form-control-static text-muted"><span class="label label-default">{$page_types[$data['page_type']]}</span> Невозможно изменить после создания.</p>
-		</div>
-	</div>*}
-
 	<div class="form-group">
 		<label for="inputStructure" class="col-lg-3 control-label">
 			Расположение страницы в структуре:

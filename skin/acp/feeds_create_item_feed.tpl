@@ -84,7 +84,7 @@
 				Автор:
 			</label>
 			<div class="col-lg-9">
-				<select name="author_id" id="author" class="selectpicker show-tick" required data-size="auto" data-live-search="true" data-width="100%">
+				<select name="author_id" id="author" class="selectpicker show-tick" required data-size="auto" data-live-search="true" data-width="auto">
 					<option value="0">Без автора</option>
 					{foreach from=$userlist item=user}
 						<option value="{$user['uid']}" {if $user['uid'] == $userdata['uid']} selected{/if}>{$user['nickname']}</option>
@@ -99,11 +99,11 @@
 			</label>
 			<div class="col-lg-9">
 				<div class="btn-group" data-toggle="buttons">
-					<label class="btn btn-default btn-sm" for="flag_status_ignore">
-						<input type="radio" name="force" value="-1" id="flag_status_ignore"> <span class="text-muted"><i class="fa fa-fw fa-close"></i> Не осуществлять рассылку</span>
+					<label class="btn btn-default btn-sm active" for="flag_status_ignore">
+						<input type="radio" name="force" value="-1" id="flag_status_ignore" checked> <span class="text-muted"><i class="fa fa-fw fa-close"></i> Не осуществлять рассылку</span>
 					</label>
-					<label class="btn btn-default active btn-sm" for="flag_status_false">
-						<input type="radio" name="force" value="0" id="flag_status_false" checked> <span class="text-success"><i class="fa fa-fw fa-envelope"></i> Отправить подписчикам</span>
+					<label class="btn btn-default btn-sm" for="flag_status_false">
+						<input type="radio" name="force" value="0" id="flag_status_false"> <span class="text-success"><i class="fa fa-fw fa-envelope"></i> Отправить подписчикам</span>
 					</label>
 					<label class="btn btn-default btn-sm" for="flag_status_true">
 						<input type="radio" name="force" value="1" id="flag_status_true"> <span class="text-danger"><i class="fa fa-fw fa-envelope-o"></i> Отправить всем</span>

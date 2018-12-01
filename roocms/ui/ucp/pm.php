@@ -97,7 +97,7 @@ class UCP_PM {
 		if(isset($get->_id) && $db->check_id($get->_id, USERS_PM_TABLE, "id", "to_uid='".$users->uid."'")) {
 
 			# get pm
-			$q = $db->query("SELECT title, date_create, message, from_uid FROM ".USERS_PM_TABLE." WHERE id='".$get->_id."'");
+			$q = $db->query("SELECT id, title, date_create, message, from_uid FROM ".USERS_PM_TABLE." WHERE id='".$get->_id."'");
 			$message = $db->fetch_assoc($q);
 			$message['showmessage'] = $parse->text->br($message['message']);
 			$message['date_send'] = $parse->date->unix_to_rus($message['date_create'], true);
@@ -105,6 +105,9 @@ class UCP_PM {
 
 			# breadcumb
 			$structure->breadcumb[] = array('act' => 'pm', 'part'=>'ucp', 'title'=>$message['title']);
+
+			# title
+			$structure->page_title .= ": #".$message['id']." &quot;".$message['title']."&quot;";
 
 			# now you see?
 			$db->query("UPDATE ".USERS_PM_TABLE." SET see='1', date_read='".time()."' WHERE id='".$get->_id."'");

@@ -45,6 +45,7 @@ if(!class_exists("Modules")) {
 if(trim($roocms->part) != "") {
 	if(is_file(_UI."/".$roocms->part.".php")) {
 		require_once _UI."/".$roocms->part.".php";
+		$structure->page_meta_title = $structure->page_title;
 	}
 	else {
 		go("/");
