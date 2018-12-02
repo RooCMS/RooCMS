@@ -457,7 +457,7 @@ class ACP_Structure {
 	 */
 	private function processing_alias() {
 
-		global $parse, $logger, $post;
+		global $parse, $post;
 
 
 		if(trim($post->alias) == "") {

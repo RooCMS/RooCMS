@@ -40,7 +40,7 @@ class Install extends IU_Extends {
 	 */
 	public function __construct() {
 
-		global $site, $parse, $tpl, $smarty;
+		global $parse, $tpl, $smarty;
 
 		# init step
 		$this->init_step();

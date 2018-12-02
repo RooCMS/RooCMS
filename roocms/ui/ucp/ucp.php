@@ -99,7 +99,7 @@ class UCP_CP {
 	 */
 	private function update_info() {
 
-		global $db, $config, $post, $img, $parse, $logger, $users, $site, $tpl, $smarty;
+		global $db, $post, $parse, $logger, $users, $site, $tpl, $smarty;
 
 		$query = "";
 

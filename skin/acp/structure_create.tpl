@@ -51,15 +51,15 @@
 
 	<div class="form-group">
 		<label for="inputNoindex" class="col-lg-3 control-label">
-			SEO NOINDEX: <small><span class="fa fa-question-circle fa-fw" rel="tooltip" title="Запрещает индексировать страницу поисковыми роботами." data-placement="left"></span></small>
+			SEO индексация: <small><span class="fa fa-question-circle fa-fw" rel="tooltip" title="Запрещает индексировать страницу поисковыми роботами." data-placement="left"></span></small>
 		</label>
 		<div class="col-lg-9">
-			<div class="btn-group" data-toggle="buttons">
+			<div class="btn-group boolui-roocms" data-toggle="buttons">
 				<label class="btn btn-default active">
-					<input type="radio" name="noindex" value="0" id="flag_noindex_false" checked><i class="fa fa-fw fa-eye"></i>Разрешить индексацию
+					<input type="radio" name="noindex" value="0" id="flag_noindex_false" checked><span class="text-success"><i class="fa fa-fw fa-check-square-o"></i>Разрешить индексацию</span>
 				</label>
 				<label class="btn btn-default">
-					<input type="radio" name="noindex" value="1" id="flag_noindex_true"><i class="fa fa-fw fa-eye-slash"></i>Запретить индексацию
+					<input type="radio" name="noindex" value="1" id="flag_noindex_true"><span class="text-danger"><i class="fa fa-fw fa-square-o"></i>Запретить индексацию</span>
 				</label>
 			</div>
 		</div>

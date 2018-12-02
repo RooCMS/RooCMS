@@ -73,9 +73,9 @@ class ACP_Pages_HTML {
 
 
 	/**
-	 * Обновляем контент страницы
+	 * Update page content
 	 *
-	 * @param $data
+	 * @param mixed $data - this object data params
 	 */
 	public function update($data) {
 
@@ -114,7 +114,7 @@ class ACP_Pages_HTML {
 	 */
 	public function delete($sid) {
 
-		global $db, $img, $logger;
+		global $db, $img;
 
 		# del attached images
 		$img->remove_images("pagesid=".$sid);

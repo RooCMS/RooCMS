@@ -158,8 +158,6 @@ class ACP_Feeds {
 	 */
 	private function get_settings() {
 
-		global $img;
-
 		$setting = array(
 			'id'                 => $this->engine->page_id,
 			'alias'              => $this->engine->page_alias,

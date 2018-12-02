@@ -99,7 +99,7 @@ class UI_RePass {
 	 */
 	private function reminder() {
 
-		global $db, $roocms, $site, $post, $users, $parse, $logger, $smarty, $tpl;
+		global $db, $roocms, $site, $post, $parse, $logger, $smarty, $tpl;
 
 		# log
 		$logger->log("Запрос на восстановление пароля для почтового ящика: ".$post->email." с IP:".$roocms->userip);

@@ -39,9 +39,9 @@ class Update extends IU_Extends {
 	/**
 	 * Вперед...
 	 */
-	public function Update() {
+	public function __construct() {
 
-		global $get, $post, $site, $parse, $tpl, $smarty;
+		global $site, $parse, $tpl, $smarty;
 
 		# init step
 		$this->init_step();

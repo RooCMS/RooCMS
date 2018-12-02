@@ -108,6 +108,7 @@ $sql['CREATE'.STRUCTURE_TABLE] = "CREATE TABLE IF NOT EXISTS `".STRUCTURE_TABLE.
 					  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
 					  `alias` varchar(255) NOT NULL COMMENT 'Unique name for structure unit',
 					  `parent_id` int(10) unsigned NOT NULL DEFAULT '1' COMMENT 'Identifaction parent structure unit',
+					  `nav` enum('0','1') NOT NULL DEFAULT '0',
 					  `title` varchar(255) NOT NULL,
 					  `meta_title` varchar(255) NOT NULL,
 					  `meta_description` varchar(255) NOT NULL,
@@ -137,8 +138,8 @@ $sql['CREATE'.STRUCTURE_TABLE] = "CREATE TABLE IF NOT EXISTS `".STRUCTURE_TABLE.
 					) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1";
 
 $id = 1;
-$sql['INSERT '.STRUCTURE_TABLE." ID #".$id] = "INSERT INTO `".STRUCTURE_TABLE."` (`id`, `alias`, `parent_id`, `sort`, `title`, `meta_title`, `meta_description`, `meta_keywords`, `noindex`, `page_type`, `childs`, `page_id`, `group_access`, `date_create`, `date_modified`, `rss`, `show_child_feeds`, `items_per_page`, `items_sorting`, `items`, `thumb_img_width`, `thumb_img_height`, `append_info_before`, `append_info_after`)
-									  VALUES (1, 'index', 0, 0, 'Главная страница', '".$site['title']."', '', 'index', '0', 'html', 0, 1, 0, ".time().", ".time().", '1', 'none', 0, 'datepublication', 0, 0, 0, '', '')";
+$sql['INSERT '.STRUCTURE_TABLE." ID #".$id] = "INSERT INTO `".STRUCTURE_TABLE."` (`id`, `alias`, `parent_id`, `nav`, `title`, `meta_title`, `meta_description`, `meta_keywords`, `sort`, `page_type`, `page_id`, `noindex`, `childs`, `group_access`, `date_create`, `date_modified`, `rss`, `show_child_feeds`, `items_per_page`, `items_sorting`, `items`, `thumb_img_width`, `thumb_img_height`, `append_info_before`, `append_info_after`) 
+									VALUES	(1, 'index', 0, '0', 'Главная страница', '".$site['title']."', '', '', 0, 'html', 1, '0', 0, '0', ".time().", ".time().", '0', 'none', 0, 'datepublication', 0, 0, 0, '', '')";
 
 /**
 * HTML страницы
@@ -240,8 +241,6 @@ $sql['CREATE '.BLOCKS_TABLE] = "CREATE TABLE IF NOT EXISTS `".BLOCKS_TABLE."` (
 				  UNIQUE KEY (`id`),
 				  UNIQUE KEY `alias` (`alias`)
                                 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 PACK_KEYS=1 AUTO_INCREMENT=1";
-//$id = 1;
-//$sql['INSERT '.BLOCKS_TABLE." ID #".$id] = "INSERT INTO `".BLOCKS_TABLE."` VALUES('".$id."', 'nav_pages', 'php', 'Меню', 'global &#36;structure;\r\n\r\necho &lt;&lt;&lt;HTML\r\n        &lt;div class=&quot;navbar navbar-default&quot;&gt;\r\n\r\n					  &lt;div class=&quot;navbar-header&quot;&gt;\r\n						&lt;button type=&quot;button&quot; class=&quot;navbar-toggle&quot; data-toggle=&quot;collapse&quot; data-target=&quot;.navbar-exmenu-collapse&quot;&gt;\r\n						  &lt;span class=&quot;sr-only&quot;&gt;Toggle navigation&lt;/span&gt;\r\n						  &lt;span class=&quot;icon-bar&quot;&gt;&lt;/span&gt;\r\n						  &lt;span class=&quot;icon-bar&quot;&gt;&lt;/span&gt;\r\n						  &lt;span class=&quot;icon-bar&quot;&gt;&lt;/span&gt;\r\n						&lt;/button&gt;\r\n					  &lt;/div&gt;\r\n\r\n					&lt;div class=&quot;collapse navbar-collapse navbar-exmenu-collapse&quot;&gt;\r\n						&lt;ul class=&quot;nav navbar-nav&quot;&gt;\r\nHTML;\r\n\r\n&#36;tree = &#36;structure-&gt;sitetree;\r\n\r\n&#36;submenu = false;\r\n\r\nforeach(&#36;tree as &#36;k=&gt;&#36;v) &#123;\r\n	if(&#36;v[&#39;level&#39;] == 0) &#123;\r\n		echo &quot;\r\n			&lt;li&gt;&lt;a href=\\&quot;/\\&quot;&gt;Главная&lt;/a&gt;&lt;/li&gt;\r\n			&lt;li class=\\&quot;divider-vertical\\&quot;&gt;&lt;/li&gt;\r\n		&quot;;\r\n	&#125;\r\n	\r\n	if(&#36;v[&#39;level&#39;] == 1) &#123;\r\n		if(&#36;submenu) &#123;\r\n			&#36;submenu = false;\r\n			echo &quot;&lt;/ul&gt;&lt;/li&gt;&quot;;\r\n		&#125;\r\n		\r\n		echo &quot;\\n&lt;li&gt;&lt;a href=\\&quot;/index.php?page=&#123;&#36;v[&#39;alias&#39;]&#125;\\&quot;&gt;&#123;&#36;v[&#39;title&#39;]&#125;&lt;/a&gt;&lt;/li&gt;&quot;;\r\n		\r\n		if(&#36;v[&#39;childs&#39;] &gt; 0) &#123;\r\n			&#36;submenu = true;\r\n			echo &quot;\r\n				&lt;li class=\\&quot;dropdown\\&quot;&gt;\r\n					&lt;a href=\\&quot;#\\&quot; class=\\&quot;dropdown-toggle\\&quot; data-toggle=\\&quot;dropdown\\&quot;&gt;\r\n						&lt;b class=\\&quot;caret\\&quot;&gt;&lt;/b&gt;\r\n					&lt;/a&gt;\r\n					&lt;ul class=\\&quot;dropdown-menu\\&quot;&gt;\r\n			&quot;;\r\n		&#125;\r\n		else echo &quot;&lt;li class=\\&quot;divider-vertical\\&quot;&gt;&lt;/li&gt;&quot;;\r\n	&#125;\r\n	\r\n	if(&#36;v[&#39;level&#39;] &gt; 1) &#123;\r\n		echo &quot;\\n&lt;li&gt;&lt;a href=\\&quot;/index.php?page=&#123;&#36;v[&#39;alias&#39;]&#125;\\&quot;&gt;&#123;&#36;v[&#39;title&#39;]&#125;&lt;/a&gt;&lt;/li&gt;&quot;;	\r\n	&#125;\r\n&#125;\r\n\r\nif(&#36;submenu) &#123;\r\n	&#36;submenu = false;\r\n	echo &quot;&lt;/ul&gt;&lt;/li&gt;&quot;;\r\n&#125;\r\n\r\necho &lt;&lt;&lt;HTML\r\n				&lt;/ul&gt;\r\n			&lt;/div&gt;\r\n        &lt;/div&gt;\r\nHTML;\r\n', ".time().", ".time().")";
 
 
 /**
@@ -317,7 +316,6 @@ $sql['CREATE '.USERS_TABLE] = "CREATE TABLE `".USERS_TABLE."` (
 				  UNIQUE KEY `nickname` (`nickname`),
 				  UNIQUE KEY `email` (`email`)
 				) ENGINE=MyISAM  DEFAULT CHARSET=utf8;";
-
 
 
 /**

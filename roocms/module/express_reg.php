@@ -37,7 +37,7 @@ class Module_Express_Reg {
 	 */
 	public function __construct() {
 
-		global $db, $users, $tpl, $smarty;
+		global $users, $tpl, $smarty;
 
 		# Флаг сокрытия формы
 		$hide =  false;

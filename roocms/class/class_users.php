@@ -461,7 +461,7 @@ class Users extends Security {
 	 */
 	public function upload_avatar($uid, $avatar="") {
 
-		global $db, $config, $img;
+		global $config, $img;
 
 		$av = $img->upload_image("avatar", "", array($config->users_avatar_width, $config->users_avatar_height), false, false, false, "av_".$uid);
 		if(isset($av[0])) {

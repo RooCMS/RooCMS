@@ -450,8 +450,6 @@ class GD {
 	 */
 	protected function convert_jpgtowebp($filename, $ext, $path=_UPLOADIMAGES) {
 
-		global $config;
-
 		if($this->is_jpg($ext)) {
 
 			if(is_file($path."/".$filename."_original.".$ext)) {

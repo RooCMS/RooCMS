@@ -50,9 +50,9 @@ class ACP_Pages_PHP {
 
 
 	/**
-	* Функция обновления PHP страницы
+	* Update page content
 	*
-	* @param mixed $data
+	* @param mixed $data - this object data params
 	*/
 	public function update($data) {
 
@@ -73,12 +73,9 @@ class ACP_Pages_PHP {
 	*/
 	public function delete($sid) {
 
-		global $db, $logger;
+		global $db;
 
 		# del pageunit
 		$db->query("DELETE FROM ".PAGES_PHP_TABLE." WHERE sid='".$sid."'");
-
-		# notice
-		$logger->info("Страница #".$sid." успешно удалена");
 	}
 }

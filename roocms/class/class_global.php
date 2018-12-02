@@ -114,7 +114,7 @@ class RooCMS_Global {
 	*/
 	protected function init_configuration() {
 
-		global $db, $site, $parse, $debug;
+		global $db, $site, $debug;
 
 		# делаем объектом
 		settype($this->config, "object");

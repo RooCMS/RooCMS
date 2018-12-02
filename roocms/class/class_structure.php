@@ -73,8 +73,6 @@ class Structure {
 	*/
 	public function __construct($ui=true) {
 
-		global $db;
-
 		# load site tree
 		$this->sitetree = $this->load_tree();
 
@@ -107,7 +105,7 @@ class Structure {
 		# Делаем единичный запрос в БД собирая данные по структуре сайта.
 		if(!$use) {
 			$q = $db->query("SELECT 
-						id, page_id, alias, parent_id,  
+						id, nav, page_id, alias, parent_id,  
 						title, meta_title, meta_description, meta_keywords, noindex, rss,
 						page_type, sort, childs, items, show_child_feeds, group_access, 
 						items_per_page, items_sorting, thumb_img_width, thumb_img_height,
@@ -198,7 +196,7 @@ class Structure {
 	 */
 	private function load_ui() {
 
-		global $db, $get, $smarty, $tpl;
+		global $get;
 
 		# const for default structure id
 		if(!defined('PAGEID')) {

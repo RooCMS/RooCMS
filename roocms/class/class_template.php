@@ -284,7 +284,7 @@ class Template {
 	 */
 	private function init_head() {
 
-		global $config, $site, $structure, $parse, $debug, $rss, $smarty;
+		global $config, $site, $structure, $parse, $rss, $smarty;
 
 		# check notice
 		$this->info_popup();

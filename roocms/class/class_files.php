@@ -141,8 +141,6 @@ class Files {
 	 */
 	public function upload($file, $attached, $prefix="", $allowtypes="", $path=_UPLOADFILES) {
 
-    	        global $parse;
-
 		# Объявляем выходной массив
 		$files = [];
 
@@ -248,7 +246,7 @@ class Files {
 	 */
 	public function remove_files($file) {
 
-		global $db, $logger;
+		global $db;
 
 		if(is_numeric($file) || is_integer($file)) {
 			$cond = " id='".$file."' ";
