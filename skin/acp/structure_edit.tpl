@@ -60,7 +60,7 @@
 			SEO индексация: <small><span class="fa fa-question-circle fa-fw" rel="tooltip" title="Запрещает индексировать страницу поисковыми роботами." data-placement="left"></span></small>
 		</label>
 		<div class="col-lg-9">
-			<div class="btn-group boolui-roocms" data-toggle="buttons">
+			<div class="btn-group roocms-boolui" data-toggle="buttons">
 				<label class="btn btn-default{if !$data['noindex']} active{/if}">
 					<input type="radio" name="noindex" value="0" id="flag_noindex_false"{if !$data['noindex']} checked{/if}><span class="text-success"><i class="fa fa-fw fa-check-square-o"></i>Разрешить индексацию</span>
 				</label>

@@ -34,7 +34,7 @@
 <script type="text/javascript" src="plugin/jquery.touchswipe.min.js{$build}"></script>
 <script type="text/javascript" src="plugin/bootstrap.php{$build}"></script>
 <script type="text/javascript" src="{$SKIN}/roocms.min.js{$build}"></script>
-<script type="text/javascript" src="{$SKIN}/jquery.booluiroocms.min.js{$build}"></script>
+<script type="text/javascript" src="{$SKIN}/jquery.roocms.boolui.min.js{$build}"></script>
 
 {$jscript}
 

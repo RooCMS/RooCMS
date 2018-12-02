@@ -20,12 +20,6 @@ $(document).ready(function() {
 	$("[rel='popover']").popover();
 	$(".alert").alert();
 
-	/*$('#LeftMenu').affix({
-		offset: {
-			top: 60,
-			bottom: 60
-		}
-	});*/
 	//$(".collapse").collapse({hide: true});
 
 	/* Select */

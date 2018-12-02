@@ -10,12 +10,12 @@
 				RSS вывод: <small><i class="fa fa-question-circle fa-fw" rel="tooltip" title="Включить/Выключить RSS ленту" data-placement="right"></i></small>
 			</label>
 			<div class="col-lg-9">
-				<div class="btn-group" data-toggle="buttons">
+				<div class="btn-group roocms-boolui" data-toggle="buttons">
 					<label class="btn btn-default{if $feed['rss']} active{/if}">
-						<input type="radio" name="rss" value="1" id="flag_rss_on"{if $feed['rss']} checked{/if}> <span class="text-success"><i class="fa fa-fw fa-power-off"></i> Вкл</span>
+						<input type="radio" name="rss" value="1" id="flag_rss_on"{if $feed['rss']} checked{/if}> <span class="text-success"><i class="fa fa-fw fa-fa-check-square-o"></i> Вкл</span>
 					</label>
 					<label class="btn btn-default{if !$feed['rss']} active{/if}">
-						<input type="radio" name="rss" value="0" id="flag_rss_off"{if !$feed['rss']} checked{/if}> <span class="text-danger"><i class="fa fa-fw fa-power-off"></i> Выкл</span>
+						<input type="radio" name="rss" value="0" id="flag_rss_off"{if !$feed['rss']} checked{/if}> <span class="text-danger"><i class="fa fa-fw fa-square-o"></i> Выкл</span>
 					</label>
 				</div>
 				{if $feed['rss_warn']}<p class="text-warning">Внимание! RSS ленты не будут отображаться, потому что запрещены по всему сайту. Вы можете отменить запрет в <a href="{$SCRIPT_NAME}?act=config&part=rss">настройках сайта</a>.</p>{/if}
