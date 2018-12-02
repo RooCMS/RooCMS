@@ -164,11 +164,11 @@ class Install extends IU_Extends {
 			}
 		}
 
-		$servname = explode(".", $_SERVER['SERVER_NAME']);
-		$server_name = (count($servname) == 2) ? "www.".$_SERVER['SERVER_NAME']: $_SERVER['SERVER_NAME'] ;
+		$servname = explode(".", $_SERVER['HTTP_HOST']);
+		$server_name = (count($servname) == 2) ? "www.".$_SERVER['HTTP_HOST']: $_SERVER['HTTP_HOST'] ;
 
 		$this->log[] = array('Название сайта', '<input type="text" class="form-control" name="site_title" required placeholder="RooCMS">', true, 'Укажите название сайта.');
-		$this->log[] = array('Адрес сайта', '<input type="text" class="form-control" name="site_domain" required value="http://'.$server_name.'">', true, 'Укажите интернет адрес вашего сайта');
+		$this->log[] = array('Адрес сайта', '<input type="text" class="form-control" name="site_domain" required value="'.$server_name.'">', true, 'Укажите интернет адрес вашего сайта');
 		$this->log[] = array('E-Mail Администратора', '<input type="text" class="form-control" name="site_sysemail" placeholder="Ваш@Почтовый.ящик" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,6}$" required>', true, 'Укажите адрес электронной почты администратора сайта.');
 
 

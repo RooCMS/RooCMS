@@ -17,13 +17,13 @@
 define('RooCMS', true);
 //#########################################################
 
-
 /**
 * SEO Rederict
 */
 if($_SERVER['REQUEST_URI'] == "/index.php") {
+	$http = isset($_SERVER["HTTPS"]) ? 'https' : 'http';
 	header($_SERVER['SERVER_PROTOCOL'].' 301 Moved Permanently');
-	header('Location: http://'.$_SERVER['HTTP_HOST'].'');
+	header('Location: '.$http.'://'.$_SERVER['HTTP_HOST'].'');
 	exit;
 }
 

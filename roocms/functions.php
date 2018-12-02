@@ -172,9 +172,9 @@ function nocache() {
 /**
  * Функция получает код ответа от удаленного адреса
  *
- * @param string $url -  удаленный адрес
+ * @param string $url -  remote url
  *
- * @return string - код ответа
+ * @return string - code response
  */
 function get_http_response_code($url) {
 	$headers = get_headers($url);
