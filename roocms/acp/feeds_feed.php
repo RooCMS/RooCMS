@@ -78,11 +78,11 @@ class ACP_Feeds_Feed {
 		$feedlist = $tags->collect_tags($feedlist, $taglinks);
 
 		# smarty
-		$smarty->assign("subfeeds",$this->feed['subfeeds']);
-		$smarty->assign("feedlist",$feedlist);
+		$smarty->assign("subfeeds", $this->feed['subfeeds']);
+		$smarty->assign("feedlist", $feedlist);
 
 		$content = $tpl->load_template("feeds_control_feed", true);
-		$smarty->assign("content", $content);
+		$smarty->assign("content",  $content);
 	}
 
 
@@ -158,19 +158,15 @@ class ACP_Feeds_Feed {
 		$tpl->load_image_upload_tpl("imagesupload");
 		$tpl->load_files_upload_tpl("filesupload");
 
-		# feed data
-		$smarty->assign("feed", $this->feed);
-
-		# tags
-		$smarty->assign("poptags", $poptags);
-
-		# users
-		$smarty->assign("userdata", $users->userdata);
-		$smarty->assign("userlist", $this->userlist);
+		# smarty vars
+		$smarty->assign("feed",     $this->feed);      # feed data
+		$smarty->assign("poptags",  $poptags);         # tags
+		$smarty->assign("userdata", $users->userdata); # users
+		$smarty->assign("userlist", $this->userlist);  # users
 
 		# tpl
 		$content = $tpl->load_template("feeds_create_item_feed", true);
-		$smarty->assign("content", $content);
+		$smarty->assign("content",  $content);
 	}
 
 
@@ -229,16 +225,11 @@ class ACP_Feeds_Feed {
 		$tpl->load_image_upload_tpl("imagesupload");
 		$tpl->load_files_upload_tpl("filesupload");
 
-
-		# feed data
-		$smarty->assign("feed", $this->feed);
-
-		# tags
-		$smarty->assign("poptags", $poptags);
-
-		# users
-		$smarty->assign("userdata", $users->userdata);
-		$smarty->assign("userlist", $this->userlist);
+		# smarty vars
+		$smarty->assign("feed",     $this->feed);      # feed data
+		$smarty->assign("poptags",  $poptags);         # tags
+		$smarty->assign("userdata", $users->userdata); # users
+		$smarty->assign("userlist", $this->userlist);  # users
 
 		# tpl
 		$content = $tpl->load_template("feeds_edit_item_feed", true);
@@ -363,7 +354,6 @@ class ACP_Feeds_Feed {
 		# smarty vars
 		$smarty->assign("feeds", $feeds);
 
-
 		# tpl
 		$content = $tpl->load_template("feeds_migrate_item_feed", true);
 		$smarty->assign("content", $content);
@@ -478,10 +468,11 @@ class ACP_Feeds_Feed {
 			$default_thumb_size = array('width'	=> $config->gd_thumb_image_width,
 						    'height'	=> $config->gd_thumb_image_height);
 
-			# tpl
+			# smarty vars
 			$smarty->assign("feed",$feed);
 			$smarty->assign("default_thumb_size", $default_thumb_size);
 
+			# tpl
 			$content = $tpl->load_template("feeds_settings_feed", true);
 			$smarty->assign("content", $content);
 		}

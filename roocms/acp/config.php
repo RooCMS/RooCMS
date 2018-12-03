@@ -174,9 +174,9 @@ class ACP_Config extends ACP_ConfigAction {
 			case 'image':
 				$image = [];
 				if(is_file(_UPLOADIMAGES."/".$field['value'])) {
-					$image['src'] = $field['value'];
-					$size = getimagesize(_UPLOADIMAGES."/".$image['src']);
-					$image['width'] = $size[0];
+					$image['src']    = $field['value'];
+					$size            = getimagesize(_UPLOADIMAGES."/".$image['src']);
+					$image['width']  = $size[0];
 					$image['height'] = $size[1];
 				}
 
@@ -345,8 +345,8 @@ class ACP_Config extends ACP_ConfigAction {
 		$q = $db->query("SELECT option_name, option_type, variants, field_maxleight FROM ".CONFIG_TABLE);
 		while($row = $db->fetch_assoc($q)) {
 
-			$cfg_vars[$row['option_name']]['type'] 		= $row['option_type'];
-			$cfg_vars[$row['option_name']]['maxleight'] 	= $row['field_maxleight'];
+			$cfg_vars[$row['option_name']]['type']      = $row['option_type'];
+			$cfg_vars[$row['option_name']]['maxleight'] = $row['field_maxleight'];
 
 			if(trim($row['variants']) != "") {
 

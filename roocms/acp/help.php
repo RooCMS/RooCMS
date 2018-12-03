@@ -27,13 +27,13 @@ class ACP_Help {
 
 	# vars
 	private $part		= "help";
-	private $part_id	= 0;
+	private $part_id	= 1;
 	private $part_parent	= 0;
 
 	private $part_data	= []; # info active part
 
 	private $helptree 	= [];
-	private $breadcumb	= [];
+	private $breadcrumb	= [];
 
 
 
@@ -52,11 +52,11 @@ class ACP_Help {
 		# Load data
 		$this->load_data();
 
-		# Construct breadcumb
-		$this->construct_breadcumb($this->part_id);
-		krsort($this->breadcumb);
+		# Construct breadcrumb
+		$this->construct_breadcrumb($this->part_id);
+		krsort($this->breadcrumb);
 
-		$smarty->assign('helpmites', $this->breadcumb);
+		$smarty->assign('helpmites', $this->breadcrumb);
 
 		# action
 		if(DEBUGMODE) {
@@ -75,13 +75,12 @@ class ACP_Help {
 					if(isset($post->update_part)) {
 						$this->update_part($this->part_id);
 					}
-					elseif($this->part_id != 0) {
-						$q = $db->query("SELECT id, parent_id, uname, title, sort, content FROM ".HELP_TABLE." WHERE id='".$this->part_id."'");
-						$data = $db->fetch_assoc($q);
 
-						$smarty->assign("data", $data);
-						$content = $tpl->load_template("help_edit_part", true);
-					}
+					$q = $db->query("SELECT id, parent_id, uname, title, sort, content FROM ".HELP_TABLE." WHERE id='".$this->part_id."'");
+					$data = $db->fetch_assoc($q);
+
+					$smarty->assign("data", $data);
+					$content = $tpl->load_template("help_edit_part", true);
 					break;
 
 				case 'delete_part':
@@ -122,35 +121,31 @@ class ACP_Help {
 		$smarty->assign("data", $data);
 		$content = $tpl->load_template('help_view_part', true);
 
-
 		return $content;
 	}
 
 
 	/**
-	* Функция разработчика для добавления разделов помощи
-	*
+	* Create new part
 	*/
 	private function create_part() {
 
 		global $db, $parse, $logger, $post;
 
-		# предупреждаем возможные ошибки с уникальным именем структурной еденицы
+		# check & correct uname (alias)
 		$post->uname = $parse->text->correct_aliases($post->uname);
 
-
-		# проверяем введенный данные
+		# check data post
 		$this->check_post_data("create");
 
-
-		# если ошибок нет
+		# if all right
 		if(!isset($_SESSION['error'])) {
 
 			$db->query("INSERT INTO ".HELP_TABLE." (title, uname, sort, content, parent_id, date_modified)
 							VALUES ('".$post->title."', '".$post->uname."', '".$post->sort."','".$post->content."', '".$post->parent_id."', '".time()."')");
 			$id = $db->insert_id();
 
-			# пересчитываем "детей"
+			# recount childs
 			$this->count_childs($post->parent_id);
 
 			# notice
@@ -160,51 +155,45 @@ class ACP_Help {
 			go(CP."?act=help");
 		}
 
+		# go
 		go(CP."?act=help&part=create_part");
 	}
 
 
 	/**
-	* Функция разработчика для редактирования раздела
+	* Edit part
 	*
-	* @param int $id
+	* @param int $id - part id
 	*/
 	private function update_part($id) {
 
 		global $db, $parse, $logger, $post;
 
-		# Если идентификатор не прошел проверку
-		if($id == 0) {
-			goback();
-		}
-
-		# предупреждаем возможные ошибки с уникальным именем структурной еденицы
+		# check & correct uname (alias)
 		$post->uname = $parse->text->correct_aliases($post->uname);
 
-
-		# проверяем введенный данные
+		# check data post
 		$this->check_post_data("update");
 
-
-		# если ошибок нет
+		# if all right
 		if(!isset($_SESSION['error'])) {
 
 			$post->sort = round($post->sort);
 
-			# Нельзя менять родителя у главного раздела
+			# dont change parent_id of main part
 			If($id == 1) {
 				$post->parent_id = 0;
 			}
 
-			# Если мы назначаем нового родителя
+			# If we set new parent to part
 			if($post->parent_id != $post->now_parent_id) {
 
-				# Проверим, что не пытаемся быть родителем самим себе
+				# Check that we are not trying to be a parent for ourselves
 				if($post->parent_id == $id) {
 					$post->parent_id = $post->now_parent_id;
 					$logger->error("Не удалось изменить иерархию! Вы не можете изменить иерархию директории назначив её родителем самой себе!");
 				}
-				# ... и что новый родитель это не наш ребенок
+				# ... and check that new parent is not a child
 				else {
 					$childs = $this->load_tree($id);
 
@@ -217,7 +206,7 @@ class ACP_Help {
 				}
 			}
 
-			# Нельзя изменять алиас главной страницы
+			# Dont change alias for main part
 			if($id == 1 && $post->uname != "help") {
 				$post->uname = "help";
 				$logger->error("Нельзя изменять uname главной страницы!");
@@ -226,7 +215,7 @@ class ACP_Help {
 
 			$db->query("UPDATE ".HELP_TABLE." SET title='".$post->title."', uname='".$post->uname."', sort='".$post->sort."', parent_id='".$post->parent_id."', content='".$post->content."', date_modified='".time()."' WHERE id='".$id."'");
 
-			# Если мы назначаем нового родителя
+			# If we set new parent to part
 			if($post->parent_id != $post->now_parent_id) {
 				# пересчитываем "детей"
 				$this->count_childs($post->parent_id);
@@ -246,15 +235,19 @@ class ACP_Help {
 
 
 	/**
-	* Удалить раздел
+	* Delete part
 	*
-	* @param int $id
+	* @param int $id - part id
 	*/
 	private function delete_part($id) {
 
 		global $db, $logger;
 
-		if($id == 0) {
+		if($id == 1) {
+			# log
+			$logger->error("Невозможно удалить корневой раздел помощи. Это приведет к наработоспосности раздела.");
+
+			# go
 			goback();
 		}
 
@@ -268,10 +261,11 @@ class ACP_Help {
 			# logger
 			$logger->info("Раздел помощи #".$id." <".$row['title']."> удален");
 
-			# пересчитываем детишек
+			# recount childs
 			$this->count_childs($row['parent_id']);
 		}
 		else {
+			# logger
 			$logger->error("Невозможно удалить раздел с имеющимися в подчинении подразделами. Сначала перенесите или удалите подразделы.");
 		}
 
@@ -280,11 +274,11 @@ class ACP_Help {
 
 
 	/**
-	 * Собираем дерево "помощи" (шаг 1)
+	 * Construct tree for help part (step 1)
 	 *
-	 * @param int     $parent   - идентификатор родителя от которого расчитываем "дерево". Указываем его только если хотим не все дерево расчитать, а лишь его часть
-	 * @param int     $maxlevel - указываем уровень глубины построения дерева, только если не хотим выводить все дерево.
-	 * @param boolean $child    - укажите false если не хотите расчитывать подуровни.
+	 * @param int     $parent   - id for start construction tree.
+	 * @param int     $maxlevel - set level for get sublevels, if param == 0, return all sublevels
+	 * @param boolean $child    - set false if you dont get sublevels.
 	 *
 	 * @return array|null|false - вернет флаг false если дерево не собрано, или вернет массив с деревом.
 	 */
@@ -322,13 +316,13 @@ class ACP_Help {
 
 
 	/**
-	 * Собираем дерево "помощи" (шаг 2)
+	 * Construct tree for help part (step 2)
 	 *
-	 * @param array   $unit     - массив данных "дерева"
-	 * @param int     $parent   - идентификатор родителя от которого расчитываем "дерево". Указываем его только если хотим не все дерево расчитать, а лишь его часть
-	 * @param int     $maxlevel - указываем уровень глубины построения дерева, только если не хотим выводить все дерево.
-	 * @param boolean $child    - укажите false если не хотите расчитывать подуровни.
-	 * @param int     $level    - текущий обрабатываемый уровень (используется прирасчете подкатегорий)
+	 * @param array   $unit     - fresh data tree
+	 * @param int     $parent   - id for start construction tree.
+	 * @param int     $maxlevel - set level for get sublevels, if param == 0, return all sublevels
+	 * @param boolean $child    - set false if you dont get sublevels.
+	 * @param int     $level    - this param for this handler. Dont use handly.
 	 *
 	 * @return array|null
 	 */
@@ -366,20 +360,20 @@ class ACP_Help {
 
 
 	/**
-	* Собираем хлебные крошки по разделу
+	* Construct breadcrumb
 	*
-	* @param int $id - идентификатор текущего раздела
+	* @param int $id - id start part
 	*/
-	private function construct_breadcumb($id = 1) {
+	private function construct_breadcrumb($id = 1) {
 		if($id != 1) {
 			foreach($this->helptree AS $v) {
 				if($v['id'] == $id) {
-					$this->breadcumb[] = array( 'id'	=> $v['id'],
+					$this->breadcrumb[] = array( 'id'	=> $v['id'],
 								    'uname'	=> $v['uname'],
 								    'title'	=> $v['title']);
 
 					if($v['parent_id'] != 0) {
-						$this->construct_breadcumb($v['parent_id']);
+						$this->construct_breadcrumb($v['parent_id']);
 					}
 				}
 			}
@@ -397,7 +391,7 @@ class ACP_Help {
 		# default: load root
 		$cond = "id='1'";
 
-		# Запрашиваем техническую информацию о разделе по уникальному имени
+		# check alias and create cond for data query
 		if(isset($get->_u) && $db->check_id($get->_u, HELP_TABLE, "uname")) {
 			$cond = "uname='".$get->_u."'";
 		}
@@ -446,9 +440,9 @@ class ACP_Help {
 
 
 	/**
-	* Пересчитываем подразделы указанного раздела
+	* Recount subparts
 	*
-	* @param int $id - Идентификатор раздела, для коготорого произволятся перерасчеты.
+	* @param int $id - id part
 	*/
 	private function count_childs($id) {
 
@@ -464,9 +458,9 @@ class ACP_Help {
 
 
 	/**
-	 * Функция проверяет поступающие в массиве $post данные при создании или обновлении раздела
+	 * Check data post
 	 *
-	 * @param string $operation - Тип операции (create|update)
+	 * @param string $operation - operation type (create|update)
 	 */
 	private function check_post_data($operation="create") {
 

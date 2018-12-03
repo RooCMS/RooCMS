@@ -22,6 +22,7 @@
 		</div>
 	</div>
 
+	{* SEO *}
 	<div class="form-group">
 		<label for="inputMetaTitle" class="col-lg-3 control-label">
 			Мета заголовок: <small><span class="fa fa-question-circle fa-fw" rel="tooltip" title="Meta Title" data-placement="left"></span></small>
@@ -142,6 +143,22 @@
 			</div>
 		</div>
 	{/if}
+
+	<div class="form-group">
+		<label for="inputNoNav" class="col-lg-3 control-label">
+			Навигация: <small><span class="fa fa-question-circle fa-fw" rel="tooltip" title="Данный раздел можно обозначить как часть общей навигации" data-placement="left"></span></small>
+		</label>
+		<div class="col-lg-9">
+			<div class="btn-group roocms-boolui" data-toggle="buttons">
+				<label class="btn btn-default active">
+					<input type="radio" name="nav" value="1" id="flag_nav_false" checked><span class="text-success"><i class="fa fa-fw fa-check-square-o"></i>Отображать</span>
+				</label>
+				<label class="btn btn-default">
+					<input type="radio" name="nav" value="0" id="flag_nav_true"><span class="text-danger"><i class="fa fa-fw fa-square-o"></i>Скрыть</span>
+				</label>
+			</div>
+		</div>
+	</div>
 </div>
 <div class="panel-footer">
 	<div class="row">

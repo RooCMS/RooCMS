@@ -31,8 +31,8 @@ class ACP_ConfigAction {
 
 		global $post;
 
-		# Если изменено имя скрипта Панели Администратора.
-		# Пробуем создать новый файл.
+		# If changed name script acp
+		# Create new file
 		if(isset($post->cp_script) && CP != $post->cp_script) {
 			# change cp script
 			$post->cp_script = $this->change_cp_script($post->cp_script);

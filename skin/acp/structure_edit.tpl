@@ -117,7 +117,6 @@
 				</select>
 			{else}
 				<p class="text-primary form-control-static">Это корневая страница!</p>
-				<input type="hidden" name="parent_id" value="{$data['parent_id']}" readonly>
 			{/if}
 			<input type="hidden" name="now_parent_id" value="{$data['parent_id']}" readonly>
 		</div>
@@ -131,9 +130,6 @@
 		</label>
 		<div class="col-lg-9">
 			<div class="btn-group" data-toggle="buttons" id="inputGroupAccess">
-				{*<label class="btn btn-default {if isset($gids[0])}active{/if}">
-					<input type="checkbox" name="gids[]" value="0" autocomplete="off"{if isset($gids[0])} checked{/if}><i class="fa fa-fw fa-users"></i> Все группы
-				</label>*}
 				{foreach from=$groups item=group}
 					<label class="btn btn-default {if isset($gids[$group['gid']])}active{/if}">
 						<input type="checkbox" name="gids[]" value="{$group['gid']}" autocomplete="off"{if isset($gids[$group['gid']])} checked{/if}><i class="fa fa-fw fa-user"></i> {$group['title']}
@@ -143,6 +139,28 @@
 		</div>
 	</div>
 	{/if}
+
+	<div class="form-group">
+		<label for="inputNoNav" class="col-lg-3 control-label">
+			Навигация: <small><span class="fa fa-question-circle fa-fw" rel="tooltip" title="Данный раздел можно обозначить как часть общей навигации" data-placement="left"></span></small>
+		</label>
+		{if $data['id'] != 1}
+			<div class="col-lg-9">
+				<div class="btn-group roocms-boolui" data-toggle="buttons">
+					<label class="btn btn-default {if $data['nav']} active{/if}">
+						<input type="radio" name="nav" value="1" id="flag_nav_false" {if $data['nav']} checked{/if}><span class="text-success"><i class="fa fa-fw fa-check-square-o"></i>Отображать</span>
+					</label>
+					<label class="btn btn-default {if !$data['nav']} active{/if}">
+						<input type="radio" name="nav" value="0" id="flag_nav_true" {if !$data['nav']} checked{/if}><span class="text-danger"><i class="fa fa-fw fa-square-o"></i>Скрыть</span>
+					</label>
+				</div>
+			</div>
+		{else}
+			<div class="col-lg-9">
+				<p class="text-primary form-control-static">Главная страница всегда будет частью навигации сайта. :)</p>
+			</div>
+		{/if}
+	</div>
 </div>
 <div class="panel-footer">
 	<div class="row">

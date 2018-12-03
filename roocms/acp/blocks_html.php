@@ -31,8 +31,8 @@ class ACP_Blocks_HTML {
 
 
 		# default thumb size
-		$default_thumb_size = array('width'	=> $config->gd_thumb_image_width,
-					    'height'	=> $config->gd_thumb_image_height);
+		$default_thumb_size = array('width'  => $config->gd_thumb_image_width,
+					    'height' => $config->gd_thumb_image_height);
 		$smarty->assign("default_thumb_size", $default_thumb_size);
 
 
@@ -47,8 +47,8 @@ class ACP_Blocks_HTML {
 				$id = $db->insert_id();
 
 				$thumbsize = [];
-				$thumbsize['thumb_img_width'] = ($post->thumb_img_width != 0) ? $post->thumb_img_width : $config->gd_thumb_image_width ;
-				$thumbsize['thumb_img_height'] = ($post->thumb_img_height != 0) ? $post->thumb_img_height : $config->gd_thumb_image_height ;
+				$thumbsize['thumb_img_width'] = ($post->thumb_img_width != 0) ? $post->thumb_img_width : $config->gd_thumb_image_width;
+				$thumbsize['thumb_img_height'] = ($post->thumb_img_height != 0) ? $post->thumb_img_height : $config->gd_thumb_image_height;
 
 
 				# attachment images
@@ -95,8 +95,8 @@ class ACP_Blocks_HTML {
 		$data = $db->fetch_assoc($q);
 
 		# default thumb size
-		$default_thumb_size = array('width'	=> $config->gd_thumb_image_width,
-					    'height'	=> $config->gd_thumb_image_height);
+		$default_thumb_size = array('width'  => $config->gd_thumb_image_width,
+					    'height' => $config->gd_thumb_image_height);
 		$smarty->assign("default_thumb_size", $default_thumb_size);
 
 		# download attached images

@@ -53,7 +53,7 @@ class ACP_Structure {
 
 		global $roocms, $config, $db, $tpl, $smarty, $get, $post;
 
-		# считываем "дерево"
+		# read site tree
 		$smarty->assign('tree', $this->engine->sitetree);
 
 		# Проверяем разрешенные типы страниц для использования
@@ -153,8 +153,8 @@ class ACP_Structure {
 			}
 
 			# добавляем структурную еденицу
-			$db->query("INSERT INTO ".STRUCTURE_TABLE."    (alias, title, parent_id, group_access, page_type, meta_title, meta_description, meta_keywords, noindex, sort, date_create, date_modified, thumb_img_width, thumb_img_height)
-								VALUES ('".$post->alias."', '".$post->title."', '".$post->parent_id."', '".$post->gids."', '".$post->page_type."', '".$post->meta_title."', ''".$post->meta_description."', '".$post->meta_keywords."', '".$post->noindex."', '".$post->sort."', '".time()."', '".time()."', '".$post->thumb_img_width."', '".$post->thumb_img_height."')");
+			$db->query("INSERT INTO ".STRUCTURE_TABLE."    (alias, title, parent_id, nav, group_access, page_type, meta_title, meta_description, meta_keywords, noindex, sort, date_create, date_modified, thumb_img_width, thumb_img_height)
+								VALUES ('".$post->alias."', '".$post->title."', '".$post->parent_id."', '".$post->nav."', '".$post->gids."', '".$post->page_type."', '".$post->meta_title."', ''".$post->meta_description."', '".$post->meta_keywords."', '".$post->noindex."', '".$post->sort."', '".time()."', '".time()."', '".$post->thumb_img_width."', '".$post->thumb_img_height."')");
 			$sid = $db->insert_id();
 
 			# create body unit for html & php pages
@@ -208,7 +208,7 @@ class ACP_Structure {
 
 		global $db, $smarty, $tpl;
 
-		$q = $db->query("SELECT id, parent_id, group_access, alias, title, meta_title, meta_description, meta_keywords, noindex, sort, page_type, thumb_img_width, thumb_img_height FROM ".STRUCTURE_TABLE." WHERE id='".$sid."'");
+		$q = $db->query("SELECT id, parent_id, nav, group_access, alias, title, meta_title, meta_description, meta_keywords, noindex, sort, page_type, thumb_img_width, thumb_img_height FROM ".STRUCTURE_TABLE." WHERE id='".$sid."'");
 		$data = $db->fetch_assoc($q);
 
 		# check group access
@@ -216,7 +216,9 @@ class ACP_Structure {
 			$gids = explode(",", $data['group_access']);
 			$gids = array_flip($gids);
 		}
-		else $gids[0] = 0;
+		else {
+			$gids[0] = 0;
+		}
 
 		# list groups
 		$groups = [];
@@ -255,7 +257,8 @@ class ACP_Structure {
 			# Нельзя менять родителя у главной страницы и алиас
 			If($sid == 1) {
 				$post->parent_id = 0;
-				$post->alias = "index";
+				$post->alias     = "index";
+				$post->nav       = 1;
 			}
 
 			# Если мы назначаем нового родителя
@@ -300,6 +303,7 @@ class ACP_Structure {
 						alias='".$post->alias."',
 						title='".$post->title."',
 						parent_id='".$post->parent_id."',
+						nav='".$post->nav."',
 						group_access='".$post->gids."',
 						meta_title='".$post->meta_title."',
 						meta_description='".$post->meta_description."',
@@ -367,14 +371,9 @@ class ACP_Structure {
 
 				case 'feed': # del content feed
 					$feeds_data = array(
-						'id'			=> $this->engine->page_id,
-						'alias'			=> $this->engine->page_alias,
-						'title'			=> $this->engine->page_title,
-						'rss'			=> $this->engine->page_rss,
-						'items_per_page'	=> $this->engine->page_items_per_page,
-						'items_sorting'		=> $this->engine->page_items_sorting,
-						'thumb_img_width'	=> $this->engine->page_thumb_img_width,
-						'thumb_img_height'	=> $this->engine->page_thumb_img_height
+						'id'               => $this->engine->page_id,
+						'alias'            => $this->engine->page_alias,
+						'title'            => $this->engine->page_title
 					);
 
 					require_once _CLASS."/trait_feedExtends.php";

@@ -15,7 +15,7 @@
 	<tbody>
 	{foreach from=$tree item=page}
 		<tr>
-			<td class="text-muted structure-highlight text-right"><nobr>{$page['id']}<i class="fa fa-fw fa-caret-right"></i></nobr></td>
+			<td class="text-muted structure-highlight text-right"><nobr>{$page['id']}<i class="fa fa-fw fa-{if $page['nav'] == 1}globe{else}caret-right{/if}"></i></nobr></td>
 			<td>
 				<nobr>
 					{section name=foo start=1 loop=$page['level'] step=1}<span class="text-muted structure-highlight">&bull;</span>&emsp;{/section}
