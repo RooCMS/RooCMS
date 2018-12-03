@@ -104,12 +104,8 @@ class ACP_Structure {
 				if(isset($post->update_unit)) {
 					$this->update_unit($this->sid);
 				}
-				elseif($this->sid != 0) {
-					$content = $this->edit_unit($this->sid);
-				}
-				else {
-					go(CP);
-				}
+
+				$content = $this->edit_unit($this->sid);
 				break;
 
 			# delete
@@ -154,7 +150,7 @@ class ACP_Structure {
 
 			# добавляем структурную еденицу
 			$db->query("INSERT INTO ".STRUCTURE_TABLE."    (alias, title, parent_id, nav, group_access, page_type, meta_title, meta_description, meta_keywords, noindex, sort, date_create, date_modified, thumb_img_width, thumb_img_height)
-								VALUES ('".$post->alias."', '".$post->title."', '".$post->parent_id."', '".$post->nav."', '".$post->gids."', '".$post->page_type."', '".$post->meta_title."', ''".$post->meta_description."', '".$post->meta_keywords."', '".$post->noindex."', '".$post->sort."', '".time()."', '".time()."', '".$post->thumb_img_width."', '".$post->thumb_img_height."')");
+								VALUES ('".$post->alias."', '".$post->title."', '".$post->parent_id."', '".$post->nav."', '".$post->gids."', '".$post->page_type."', '".$post->meta_title."', '".$post->meta_description."', '".$post->meta_keywords."', '".$post->noindex."', '".$post->sort."', '".time()."', '".time()."', '".$post->thumb_img_width."', '".$post->thumb_img_height."')");
 			$sid = $db->insert_id();
 
 			# create body unit for html & php pages
@@ -212,6 +208,7 @@ class ACP_Structure {
 		$data = $db->fetch_assoc($q);
 
 		# check group access
+		$gids = [];
 		if(trim($data['group_access']) != "0") {
 			$gids = explode(",", $data['group_access']);
 			$gids = array_flip($gids);
@@ -285,14 +282,14 @@ class ACP_Structure {
 
 			# проверяем тип родителя
 			$q = $db->query("SELECT page_type FROM ".STRUCTURE_TABLE." WHERE id='".$post->parent_id."'");
-			$p = $db->fetch_assoc($q);
+			$d = $db->fetch_assoc($q);
 
 			# проверяем тип текущей страницы
 			$q = $db->query("SELECT page_type FROM ".STRUCTURE_TABLE." WHERE id='".$sid."'");
 			$n = $db->fetch_assoc($q);
 
 			# Нельзя к лентам добавлять другие дочерние элементы, кроме таких же лент.
-			if($p['page_type'] == "feed" && $n['page_type'] != "feed") {
+			if($d['page_type'] == "feed" && $n['page_type'] != "feed") {
 				$logger->error("Вы не можете установить для ленты в качестве дочерней страницы другой структурный элемент, кроме ленты.");
 				$post->parent_id = $post->now_parent_id;
 			}
@@ -370,15 +367,9 @@ class ACP_Structure {
 					break;
 
 				case 'feed': # del content feed
-					$feeds_data = array(
-						'id'               => $this->engine->page_id,
-						'alias'            => $this->engine->page_alias,
-						'title'            => $this->engine->page_title
-					);
-
 					require_once _CLASS."/trait_feedExtends.php";
 					require_once _ROOCMS."/acp/feeds_feed.php";
-					$this->unit = new ACP_FEEDS_FEED($feeds_data);
+					$this->unit = new ACP_FEEDS_FEED();
 					$this->unit->delete_feed($sid);
 					break;
 			}
@@ -433,21 +424,6 @@ class ACP_Structure {
 		}
 
 		return $res;
-	}
-
-
-	/**
-	 * Пересчитываем "детей"
-	 *
-	 * @param int $id
-	 */
-	private function count_childs($id) {
-
-		global $db;
-
-		$c = $db->count(STRUCTURE_TABLE, "parent_id='".$id."'");
-
-		$db->query("UPDATE ".STRUCTURE_TABLE." SET childs='".$c."' WHERE id='".$id."'");
 	}
 
 
@@ -510,6 +486,21 @@ class ACP_Structure {
 
 		# thumbnail check
 		$img->check_post_thumb_parametrs();
+	}
+
+
+	/**
+	 * Пересчитываем "детей"
+	 *
+	 * @param int $id
+	 */
+	private function count_childs($id) {
+
+		global $db;
+
+		$c = $db->count(STRUCTURE_TABLE, "parent_id='".$id."'");
+
+		$db->query("UPDATE ".STRUCTURE_TABLE." SET childs='".$c."' WHERE id='".$id."'");
 	}
 }
 

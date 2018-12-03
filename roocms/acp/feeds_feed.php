@@ -35,7 +35,7 @@ class ACP_Feeds_Feed {
 	 *
 	 * @param $structure_data
 	 */
-	public function __construct($structure_data) {
+	public function __construct($structure_data=[]) {
 		$this->feed =& $structure_data;
 	}
 
@@ -370,17 +370,14 @@ class ACP_Feeds_Feed {
 
 		global $db, $logger;
 
-		$status = round($status);
-		if($status >= 2 || $status < 0) {
-			$status = 1;
-		}
+		$status = filter_var($status, FILTER_VALIDATE_BOOLEAN);
 
 		# update data in db
 		$db->query("UPDATE ".PAGES_FEED_TABLE." SET status='".$status."' WHERE id='".$id."'");
 
 		# notice
-		$mstatus = ($status == 1) ? "Видимый" : "Скрытый" ;
-		$logger->info("Элемент #".$id." успешно изменил свой статус на <".$mstatus.">.");
+		$mstatus = ($status) ? "Видимый" : "Скрытый" ;
+		$logger->info("Запись #".$id." успешно изменила свой статус на <".$mstatus.">.");
 
 		# go
 		goback();
@@ -600,9 +597,7 @@ class ACP_Feeds_Feed {
 		}
 
 		# status
-		if(!isset($post->status) || $post->status >= 2) {
-			$post->status = 1;
-		}
+		$post->status = filter_var($post->status, FILTER_VALIDATE_BOOLEAN);
 	}
 
 

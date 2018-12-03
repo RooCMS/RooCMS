@@ -15,7 +15,7 @@
 	<tbody>
 	{foreach from=$tree item=page}
 		<tr>
-			<td class="text-muted structure-highlight text-right"><nobr>{$page['id']}<i class="fa fa-fw fa-{if $page['nav'] == 1}globe{else}caret-right{/if}"></i></nobr></td>
+			<td class="text-muted structure-highlight text-right"><nobr>{$page['id']}<i class="fa fa-fw fa-caret-right"></i></nobr></td>
 			<td>
 				<nobr>
 					{section name=foo start=1 loop=$page['level'] step=1}<span class="text-muted structure-highlight">&bull;</span>&emsp;{/section}
@@ -29,6 +29,7 @@
 				<small class="trinfo">
 					{if !isset($page['group_access'][0])}<i class="fa fa-fw fa-user-secret" rel="tooltip" data-toggle="tooltip" data-placement="top" title="Есть ограничения доступа"></i>{else}<i class="fa fa-fw"></i>{/if}
 					{if $page['noindex']}<i class="fa fa-fw fa-eye-slash" rel="tooltip" data-toggle="tooltip" data-placement="top" title="Неиндексируется поисковыми системами"></i>{else}<i class="fa fa-fw"></i>{/if}
+					{if $page['nav']}<i class="fa fa-fw fa-globe" rel="tooltip" data-toggle="tooltip" data-placement="top" title="Страница отражается в навигации"></i>{else}<i class="fa fa-fw"></i>{/if}
 				</small>
 				<small class="tralias">{$page['alias']}</small>
 			</td>
