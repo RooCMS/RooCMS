@@ -25,7 +25,7 @@ class UCP_Security {
 	/**
 	 * @var bool
 	 */
-	var $access = false;
+	public $access = false;
 
 
 	/**

@@ -25,7 +25,7 @@ require_once "config_action.php";
 class ACP_Config extends ACP_ConfigAction {
 
 	# classes
-	var $config;
+	private $config;
 
 	private $part = "global";
 
