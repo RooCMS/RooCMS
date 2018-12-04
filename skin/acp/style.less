@@ -25,7 +25,7 @@
 @brand-success:	#72B110; // #5cb85c
 @brand-info:	#3581D5; // #5bc0de
 @brand-warning:	#FB8C00; // #f0ad4e
-@brand-danger:	#C60D14; // #d9534f
+@brand-danger:  #C60D14; // #d9534f
 
 @bq-background:	#fbfbfb;
 
@@ -108,7 +108,7 @@ a {font-family: @ptsans, @ubuntu, @calibri, @tahoma, @trebuchet !important;}
 
 /* OTHER STYLE */
 input:focus:invalid {	/* transition: all 0.15s ease-in-out;-webkit-transition: all 0.15s ease-in-out;-moz-transition: all 0.15s ease-in-out;outline:none; */
-	-moz-box-shadow: 0 0 6px @brand-danger; -webkit-box-shadow: 0 0 6px @brand-danger;box-shadow: 0 0 6px @brand-danger;
+	-moz-box-shadow: 0 0 0 2px fadeout(@brand-danger, 60%); -webkit-box-shadow: 0 0 0 2px fadeout(@brand-danger, 60%);box-shadow: 0 0 0 2px fadeout(@brand-danger, 60%);
 	border: 1px solid @brand-danger;
 	background: @white url(./img/required.png) no-repeat right top !important;
 }
