@@ -47,7 +47,7 @@
 					Порядок расположения в ленте:
 				</label>
 				<div class="col-lg-9">
-					<input type="text" name="itemsort" id="inputSort" class="form-control" value="0" pattern="^[ 0-9]+$">
+					<input type="number" name="itemsort" id="inputSort" class="form-control" value="0" pattern="^[ 0-9]+$">
 				</div>
 			</div>
 		{/if}

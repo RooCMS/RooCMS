@@ -29,7 +29,7 @@
 				Порядок расположения страницы в структуре:
 			</label>
 			<div class="col-md-9">
-				<input type="text" name="sort" id="inputSort" class="form-control" value="{$data['sort']}">
+				<input type="number" name="sort" id="inputSort" class="form-control" value="{$data['sort']}">
 			</div>
 		</div>
 

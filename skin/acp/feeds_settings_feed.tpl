@@ -41,7 +41,7 @@
 				Кол-во новостей на страницу: <small><i class="fa fa-question-circle fa-fw" rel="tooltip" title="Устанавливает кол-во новостей выводимых на странице. По-умолчанию:{$feed['global_items_per_page']}. При значении 0 используется значение по-умолчанию." data-placement="left"></i></small>
 			</label>
 			<div class="col-lg-9">
-				<input type="text" name="items_per_page" id="inputItems" class="form-control" value="{$feed['items_per_page']}">
+				<input type="number" name="items_per_page" id="inputItems" class="form-control" value="{$feed['items_per_page']}">
 				{if $feed['items_per_page'] == 0}<p class="text-primary">Используется значение по-умолчанию: <b>{$feed['global_items_per_page']}</b></p>{/if}
 			</div>
 		</div>
@@ -68,7 +68,7 @@
 				<small><i class="fa fa-question-circle fa-fw" rel="tooltip" title="Значение в пикселях. Оставьте поле пустым или укажите 0 что бы применить глобальные настройки." data-placement="left"></i></small>
 			</label>
 			<div class="col-lg-9">
-				<input type="text" name="thumb_img_width" id="inputThumbWidth" class="form-control" pattern="^[ 0-9]+$" value="{$feed['thumb_img_width']}">
+				<input type="number" name="thumb_img_width" id="inputThumbWidth" class="form-control" pattern="^[ 0-9]+$" value="{$feed['thumb_img_width']}">
 				<small{if $feed['thumb_img_width'] == 0} class="text-primary"{/if}>По умолчанию: {$default_thumb_size['width']}px</small>
 			</div>
 		</div>
@@ -78,7 +78,7 @@
 				<small><i class="fa fa-question-circle fa-fw" rel="tooltip" title="Значение в пикселях. Оставьте поле пустым или укажите 0 что бы применить глобальные настройки." data-placement="left"></i></small>
 			</label>
 			<div class="col-lg-9">
-				<input type="text" name="thumb_img_height" id="inputThumbHeight" class="form-control" pattern="^[ 0-9]+$" value="{$feed['thumb_img_height']}">
+				<input type="number" name="thumb_img_height" id="inputThumbHeight" class="form-control" pattern="^[ 0-9]+$" value="{$feed['thumb_img_height']}">
 				<small{if $feed['thumb_img_height'] == 0} class="text-primary"{/if}>По умолчанию: {$default_thumb_size['height']}px</small>
 			</div>
 		</div>

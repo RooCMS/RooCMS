@@ -28,7 +28,7 @@
 				Порядок расположения страницы в структуре:
 			</label>
 			<div class="col-md-9">
-				<input type="text" name="sort" id="inputSort" class="form-control" value="0">
+				<input type="number" name="sort" id="inputSort" class="form-control" value="0">
 			</div>
 		</div>
 
