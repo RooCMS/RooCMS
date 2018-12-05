@@ -75,12 +75,6 @@
 @media (max-width: 767px) {}*/
 
 
-::-moz-selection,
-::selection {
-	color: @white;
-	background: @brand-primary;
-}
-
 /* СТИЛЬ ПАНЕЛИ АДМИНИСТРАТОРА */
 html, body {
 	font-family: @ptsans, @ubuntu, @calibri, @trebuchet, @tahoma, @verdana !important;
@@ -115,6 +109,12 @@ input:focus:invalid {	/* transition: all 0.15s ease-in-out;-webkit-transition: a
 input:required:empty {background: @white url(./img/required.png) no-repeat right top !important;}
 input.non-bgreq:required:empty,
 input:required:valid {background-image: none !important;}
+
+::-moz-selection,
+::selection {
+	color: @white;
+	background: @brand-primary;
+}
 
 /* logo */
 #logo {margin-top: -11px;}

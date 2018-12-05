@@ -136,7 +136,6 @@ class ACP_Structure {
 
 
 		if(!isset($_SESSION['error'])) {
-			$post->sort = round($post->sort);
 
 			# проверяем тип родителя
 			$q = $db->query("SELECT page_type FROM ".STRUCTURE_TABLE." WHERE id='".$post->parent_id."'");
@@ -225,9 +224,9 @@ class ACP_Structure {
 		}
 
 		# шаблонизируем... (слово то какое...)
-		$smarty->assign("gids", $gids);
+		$smarty->assign("gids",   $gids);
 		$smarty->assign("groups", $groups);
-		$smarty->assign("data", $data);
+		$smarty->assign("data",   $data);
 
 		return $tpl->load_template("structure_edit", true);
 	}
@@ -249,7 +248,6 @@ class ACP_Structure {
 
 
 		if(!isset($_SESSION['error'])) {
-			$post->sort = round($post->sort);
 
 			# Нельзя менять родителя у главной страницы и алиас
 			If($sid == 1) {
@@ -378,7 +376,6 @@ class ACP_Structure {
 			# structure unit
 			$db->query("DELETE FROM ".STRUCTURE_TABLE." WHERE id='".$sid."'");
 
-
 			# notice
 			$logger->info("Страница #".$sid." успешно удалена");
 
@@ -404,7 +401,7 @@ class ACP_Structure {
 	 *
 	 * @return bool $res - true - если алиас не уникален, false - если алиас уникален
 	 */
-	private function check_alias($name, $without="") {
+	private function check_unique_alias($name, $without="") {
 
 		global $db;
 
@@ -428,29 +425,35 @@ class ACP_Structure {
 
 
 	/**
+	 * Check nav bool for use
+	 */
+	private function check_nav() {
+
+		global $post, $logger;
+
+		if($this->engine->sitetree[$post->parent_id]['nav'] == 0) {
+			$post->nav = 0;
+			$logger->info("Прежде чем включить в навигацию эту страницу сайта, вы должны включить в навигацию родительскую", false);
+		}
+	}
+
+
+	/**
 	 * Функция проверяет алиас структурной еденицы и при необходимости корректирует его.
 	 */
-	private function processing_alias() {
+	private function handler_alias() {
 
 		global $parse, $post;
-
 
 		if(trim($post->alias) == "") {
 			$post->alias = $post->title;
 		}
 
-		# предупреждаем возможные ошибки с алиасом структурной единицы
-		$post->alias = $parse->text->transliterate($post->alias,"lower");
-
 		# избавляем URI от возможных конвульсий
 		$post->alias = strtr($post->alias, array(' '=>'_', '-'=>'_', '='=>'_'));
 
-		# Чистим alias
-		$post->alias = preg_replace(array('(\s\s+)','(\-\-+)','(__+)','([^a-zA-Z0-9\-_])'), array('_','_','_',''), $post->alias);
-
 		# а так же проверяем что бы алиас не оказался числом
 		$post->alias = $parse->text->correct_aliases($post->alias);
-
 	}
 
 
@@ -468,11 +471,11 @@ class ACP_Structure {
 		}
 
 		# alias
-		$this->processing_alias();
+		$this->handler_alias();
 		if(!isset($post->old_alias)) {
 			$post->old_alias = "";
 		}
-		if(!$this->check_alias($post->alias, $post->old_alias)) {
+		if(!$this->check_unique_alias($post->alias, $post->old_alias)) {
 			$logger->error("Алиас страницы не уникален.");
 		}
 
@@ -483,6 +486,12 @@ class ACP_Structure {
 		else {
 			$post->gids = 0;
 		}
+
+		# sort
+		$post->sort = round($post->sort);
+
+		# nav
+		$this->check_nav();
 
 		# thumbnail check
 		$img->check_post_thumb_parametrs();

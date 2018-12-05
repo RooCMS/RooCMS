@@ -16,11 +16,6 @@
 @media (min-width: 992px) {}
 @media (min-width: 768px) {}
 @media (max-width: 767px) {}*/
-::-moz-selection,
-::selection {
-  color: #fff;
-  background: #3D4F61;
-}
 /* СТИЛЬ ПАНЕЛИ АДМИНИСТРАТОРА */
 html,
 body {
@@ -68,6 +63,11 @@ input:required:empty {
 input.non-bgreq:required:empty,
 input:required:valid {
   background-image: none !important;
+}
+::-moz-selection,
+::selection {
+  color: #fff;
+  background: #3D4F61;
 }
 /* logo */
 #logo {

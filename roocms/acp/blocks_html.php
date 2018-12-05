@@ -228,7 +228,6 @@ class ACP_Blocks_HTML {
 			$logger->error("Не указан алиас блока!", false);
 		}
 		else {
-			$post->alias = $parse->text->transliterate($post->alias);
 			$post->alias = $parse->text->correct_aliases($post->alias);
 
 			$check_alias = (isset($post->oldalias)) ? "alias!='".$post->oldalias."'" : "" ;

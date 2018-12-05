@@ -255,7 +255,9 @@ class ParserText {
 	 */
 	public function correct_aliases($var) {
 
-		$var  = preg_replace(array('(\s\s+)','(\-\-+)','(__+)','([^a-zA-Z0-9\-_])'), array('-','-','_',''), $var);
+		$var = $this->transliterate($var,"lower");
+
+		$var = preg_replace(array('(\s\s+)','(\-\-+)','(__+)','([^a-zA-Z0-9\-_])'), array('-','-','_',''), $var);
 
 		if(is_numeric($var) || $var == "") {
 			$var .= randcode(3, "abcdefghijklmnopqrstuvwxyz");
