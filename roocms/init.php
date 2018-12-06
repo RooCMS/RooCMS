@@ -282,12 +282,26 @@ if(check_file_core(_CLASS."/class_template.php")) {
 	$tpl = new Template;
 }
 
+
 /**
-* Инициализируем класс управления структурой сайта
-*/
-if(!defined('ACP') && check_file_core(_CLASS."/class_structure.php")) {
-	require_once(_CLASS."/class_structure.php");
-	$structure = new Structure;
+ * Пользовательская секция
+ */
+if(!defined('ACP')) {
+	/**
+	 * Инициализируем класс управления структурой сайта
+	 */
+	if(check_file_core(_CLASS."/class_structure.php")) {
+		require_once(_CLASS."/class_structure.php");
+		$structure = new Structure;
+	}
+
+	/**
+	 * Инициализируем класс навигации по сайта
+	 */
+	if(check_file_core(_CLASS."/class_navigation.php")) {
+		require_once(_CLASS."/class_navigation.php");
+		$nav = new Navigation;
+	}
 }
 
 // $PEAR_PATH_LOCAL = _SITEROOT.'/pear';

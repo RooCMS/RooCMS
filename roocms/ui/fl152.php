@@ -27,13 +27,13 @@ class UI_FL152 {
 
 	public function __construct() {
 
-		global $structure, $config;
+		global $config, $structure, $nav;
 
 		# title
 		$structure->page_title = "Соглашение об условиях передачи информации";
 
-		# breadcumb
-		$structure->breadcumb[] = array('part'=>'fl152', 'title'=>'Соглашение об условиях передачи информации');
+		# breadcrumb
+		$nav->breadcrumb[] = array('part'=>'fl152', 'title'=>'Соглашение об условиях передачи информации');
 
 		# goout
 		if(!$config->fl152_use) {

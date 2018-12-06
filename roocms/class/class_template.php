@@ -46,6 +46,7 @@ class Template {
 
 		global $config, $site, $smarty;
 
+		// TODO: set_skin
 		if(!$skin) {
 			if(defined('ACP')) {
 				$this->skinfolder = "acp";
@@ -284,7 +285,7 @@ class Template {
 	 */
 	private function init_head() {
 
-		global $config, $site, $structure, $parse, $rss, $smarty;
+		global $config, $site, $structure, $nav, $parse, $rss, $smarty;
 
 		# check notice
 		$this->info_popup();
@@ -313,14 +314,14 @@ class Template {
 			# meta noindex
 			$smarty->assign("noindex",	$structure->page_noindex);
 
-			# breadcumb
-			$structure->construct_breadcumb($structure->page_id);
-			krsort($structure->breadcumb);
+			# breadcrumb
+			$nav->construct_breadcrumb($structure->page_id);
+			krsort($nav->breadcrumb);
 
-			$smarty->assign("breadcumb",	$structure->breadcumb);
+			$smarty->assign("breadcrumb",	$nav->breadcrumb);
 
-			$breadcumb = $this->load_template("breadcumb", true);
-			$smarty->assign("breadcumb",	$breadcumb);
+			$breadcrumb = $this->load_template("breadcrumb", true);
+			$smarty->assign("breadcrumb",	$breadcrumb);
 		}
 
 		# head

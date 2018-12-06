@@ -68,7 +68,7 @@ class UI_Tags {
 	 */
 	private function init_tag($tag, $type="id") {
 
-		global $db, $structure, $smarty;
+		global $db, $structure, $nav, $smarty;
 
 		$tag = urldecode($tag);
 
@@ -87,8 +87,8 @@ class UI_Tags {
 			# title
 			$structure->page_title = "Тег : ".$data['title'];
 
-			# breadcumb
-			$structure->breadcumb[] = array('part'=>'tags', 'title'=>'Тег: '.$data['title']);
+			# breadcrumb
+			$nav->breadcrumb[] = array('part'=>'tags', 'title'=>'Тег: '.$data['title']);
 
 			# smarty
 			$smarty->assign("tag", $data);

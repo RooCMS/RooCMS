@@ -60,13 +60,13 @@ class UI_Search {
 	 */
 	private function search($searchstring) {
 
-		global $structure, $db, $tags, $users, $parse, $img, $tpl, $smarty;
+		global $db, $structure, $nav, $tags, $users, $parse, $img, $tpl, $smarty;
 
 		# title
 		$structure->page_title = "Поиск : ".$searchstring;
 
-		# breadcumb
-		$structure->breadcumb[] = array('part'=>'search', 'title'=>'Поиск: '.$searchstring);
+		# breadcrumb
+		$nav->breadcrumb[] = array('part'=>'search', 'title'=>'Поиск: '.$searchstring);
 
 		# search
 		$srch = explode(" ", $searchstring);

@@ -92,10 +92,46 @@
 		</div>
     		<div class="row">
 			<div class="col-sm-12">
-				{$blocks->load("nav_pages")}
+				<div class="btn-group btn-group tmenu" role="menu">
+
+					{assign var="sublevel" value=0}
+
+					{foreach from=$navtree item=nitem key=k name=navigate}
+						{if $nitem['level'] == 0 && $nitem['sublevel'] == 0}
+							{if $sublevel==1}
+								{assign var="sublevel" value=0}
+								</ul>
+								</div>
+							{/if}
+							<a href="/index.php?page={$nitem['alias']}" class="btn btn-default ptsans topmenu">{$nitem['title']}</a>
+						{elseif $nitem['level'] == 0 && $nitem['sublevel'] == 1}
+							{if $sublevel==1}
+								{assign var="sublevel" value=0}
+								</ul>
+								</div>
+							{/if}
+							{assign var="sublevel" value=1}
+								<a href="/index.php?page={$nitem['alias']}" class="btn btn-default ptsans topmenu topmenusm">{$nitem['title']}</a>
+								<div class="btn-group" role="group">
+									<button class="btn btn-default dropdown-toggle topmenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+										<span class="caret"></span>
+									</button>
+								<ul class="dropdown-menu">
+						{else}
+							<li class="topsubmenu"><a href="/index.php?page={$nitem['alias']}" class="ptsans topsubmenu"><i class="fa fa-fw fa-angle-right small"></i> {$nitem['title']}</a></li>
+
+						{/if}
+					{/foreach}
+					{if $sublevel==1}
+						{assign var="sublevel" value=0}
+						</ul>
+						</div>
+					{/if}
+				</div>
+
 			</div>
 			<div class="col-sm-12">
-				{$breadcumb}
+				{$breadcrumb}
 			</div>
 		</div>
 	</div>

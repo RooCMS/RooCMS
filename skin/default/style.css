@@ -48,7 +48,11 @@ mark {
 .tmenu {padding: 5px !important;border-radius: 4px !important;background-color: #fff !important;border: 1px solid #ddd;}
 .topmenu {background-color: transparent !important;text-shadow: none !important;box-shadow: none !important;border: 0 !important;}
 .topmenu:hover, /*{background: #62aeef none !important;}*/
-.topsubmenu:hover {background: #545c68 none !important;	color: #fff !important;}
+.topsubmenu:hover {background: #545c68 none !important; color: #fff !important;}
+.topmenusm:hover + .btn-group {
+	background: rgba(84, 92, 104, 0.5) none !important;
+	transition: all 0.15s ease-in-out;-webkit-transition: all 0.15s ease-in-out;-moz-transition: all 0.15s ease-in-out;outline:none;
+}
 .topsubmenu:hover > .small {color: #545c68 !important;}
 
 /* Move TOP */

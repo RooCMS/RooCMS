@@ -28,7 +28,7 @@ class UCP_CP {
 	 */
 	public function __construct() {
 
-		global $structure, $roocms;
+		global $structure, $nav, $roocms;
 
 		# title
 		$structure->page_title = "Личный кабинет";
@@ -56,8 +56,8 @@ class UCP_CP {
 				break;
 		}
 
-		# breadcumb
-		$structure->breadcumb[] = array('part'=>'ucp', 'act'=>'ucp', 'title'=>'Личный кабинет');
+		# breadcrumb
+		$nav->breadcrumb[] = array('part'=>'ucp', 'act'=>'ucp', 'title'=>'Личный кабинет');
 	}
 
 
@@ -79,13 +79,13 @@ class UCP_CP {
 	 */
 	private function edit_info() {
 
-		global $structure, $users, $parse, $tpl, $smarty;
+		global $structure, $nav, $users, $parse, $tpl, $smarty;
 
 		# title
 		$structure->page_title = "Изменяем личные данные";
 
-		# breadcumb
-		$structure->breadcumb[] = array('part'=>'ucp', 'act' => 'ucp', 'title'=>'Изменяем личные данные');
+		# breadcrumb
+		$nav->breadcrumb[] = array('part'=>'ucp', 'act' => 'ucp', 'title'=>'Изменяем личные данные');
 
 		# tpl
 		$users->userdata['user_slogan_edit'] = $parse->text->clearhtml($users->userdata['user_slogan']);

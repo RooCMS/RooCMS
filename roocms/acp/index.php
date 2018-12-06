@@ -68,7 +68,7 @@ class ACP_Index {
 		}
 
 		if($debug->exist_errors) {
-			$warning_subj[] = "Лог файл PHP ошибок (".$debug->error_log.") содержит несколько записей!";
+			$warning_subj[] = "Лог файл PHP ошибок содержит несколько записей!";
 		}
 
 		# smarty alerts

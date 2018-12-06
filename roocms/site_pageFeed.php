@@ -136,7 +136,7 @@ class PageFeed {
 	 */
 	private function load_item($id) {
 
-		global $db, $structure, $users, $parse, $tags, $files, $img, $tpl, $smarty, $site;
+		global $db, $structure, $nav, $users, $parse, $tags, $files, $img, $tpl, $smarty, $site;
 
 		# query data
 		$q = $db->query("SELECT id, title, meta_title, meta_description, meta_keywords, author_id, full_item, views, date_publications, sort FROM ".PAGES_FEED_TABLE." WHERE id='".$id."'");
@@ -181,8 +181,8 @@ class PageFeed {
 			$site['keywords']	= $item['meta_keywords'];
 		}
 
-		# breadcumb
-		$structure->breadcumb[] = array('alias'=>$structure->page_alias, 'id'=>$item['id'], 'title'=>$item['title']);
+		# breadcrumb
+		$nav->breadcrumb[] = array('alias'=>$structure->page_alias, 'id'=>$item['id'], 'title'=>$item['title']);
 
 		$smarty->assign("more", $more);
 		$smarty->assign("item", $item);

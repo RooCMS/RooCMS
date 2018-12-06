@@ -27,13 +27,13 @@ class UI_Reg {
 
 	public function __construct() {
 
-		global $structure, $roocms, $users, $post;
+		global $roocms, $structure, $nav, $users, $post;
 
 		# title
 		$structure->page_title = "Регистрация";
 
-		# breadcumb
-		$structure->breadcumb[] = array('part'=>'reg', 'title'=>'Регистрация');
+		# breadcrumb
+		$nav->breadcrumb[] = array('part'=>'reg', 'title'=>'Регистрация');
 
 		# if users registred
 		if($users->uid != 0) {

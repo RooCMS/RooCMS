@@ -42,9 +42,9 @@ class Blocks {
 		$buid = str_ireplace("'", "", $buid);
                 if(!array_key_exists($buid, $use_blocks)) {
 
-			$buid = strtr($buid, array('\''		=> '',
-						   '"'		=> '',
-						   '&quot;'	=> ''));
+			$buid = strtr($buid, array('\''	    => '',
+						   '"'	    => '',
+						   '&quot;' => ''));
 
 			$q = $db->query("SELECT id, alias, content, block_type FROM ".BLOCKS_TABLE." WHERE id='".$buid."' OR alias='".$buid."'");
 			$data = $db->fetch_assoc($q);

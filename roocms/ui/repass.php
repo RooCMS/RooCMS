@@ -29,13 +29,13 @@ class UI_RePass {
 
 	public function __construct() {
 
-		global $structure, $roocms, $users, $post;
+		global $structure, $nav, $roocms, $users, $post;
 
 		# title
 		$structure->page_title = "Восстановление пароля";
 
-		# breadcumb
-		$structure->breadcumb[] = array('part'=>'repass', 'title'=>'Восстановление пароля');
+		# breadcrumb
+		$nav->breadcrumb[] = array('part'=>'repass', 'title'=>'Восстановление пароля');
 
 		# if users registred
 		if($users->uid != 0) {

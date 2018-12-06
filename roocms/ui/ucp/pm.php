@@ -31,7 +31,7 @@ class UCP_PM {
 	 */
 	public function __construct() {
 
-		global $structure, $roocms, $users;
+		global $structure, $nav, $roocms, $users;
 
 		# title
 		$structure->page_title = "Личные сообщения";
@@ -58,8 +58,8 @@ class UCP_PM {
 				break;
 		}
 
-		# breadcumb
-		$structure->breadcumb[] = array('part'=>'ucp', 'act'=>'pm', 'title'=>'Личные сообщения');
+		# breadcrumb
+		$nav->breadcrumb[] = array('part'=>'ucp', 'act'=>'pm', 'title'=>'Личные сообщения');
 	}
 
 
@@ -92,7 +92,7 @@ class UCP_PM {
 	 */
 	private function read() {
 
-		global $db, $structure, $get, $users, $parse, $tpl, $smarty;
+		global $db, $structure, $nav, $get, $users, $parse, $tpl, $smarty;
 
 		if(isset($get->_id) && $db->check_id($get->_id, USERS_PM_TABLE, "id", "to_uid='".$users->uid."'")) {
 
@@ -103,8 +103,8 @@ class UCP_PM {
 			$message['date_send'] = $parse->date->unix_to_rus($message['date_create'], true);
 			$message['from_name'] = $this->userlist[$message['from_uid']]['nickname'];
 
-			# breadcumb
-			$structure->breadcumb[] = array('act' => 'pm', 'part'=>'ucp', 'title'=>$message['title']);
+			# breadcrumb
+			$nav->breadcrumb[] = array('act' => 'pm', 'part'=>'ucp', 'title'=>$message['title']);
 
 			# title
 			$structure->page_title .= ": #".$message['id']." &quot;".$message['title']."&quot;";
@@ -127,10 +127,10 @@ class UCP_PM {
 	 */
 	private function write() {
 
-		global $structure, $users, $tpl, $smarty;
+		global $nav, $users, $tpl, $smarty;
 
-		# breadcumb
-		$structure->breadcumb[] = array('part'=>'write', 'act' => 'pm', 'title'=>'Новое сообщение');
+		# breadcrumb
+		$nav->breadcrumb[] = array('part'=>'write', 'act' => 'pm', 'title'=>'Новое сообщение');
 
 		# tpl
 		$smarty->assign("userlist", $this->userlist);

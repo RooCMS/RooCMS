@@ -29,10 +29,6 @@ class Structure {
 	public $content_types		= array('html'	=> array('enable' => true, 'title' => 'Простая страница'),
 						'php'	=> array('enable' => true, 'title' => 'PHP страница'),
 						'feed'	=> array('enable' => true, 'title' => 'Лента'));
-
-	# bread cumb
-	public $breadcumb		= [];
-
 	# site tree
 	public $sitetree		= [];
 
@@ -114,8 +110,8 @@ class Structure {
 			while($row = $db->fetch_assoc($q)) {
 
 				# structure
-				$row['level']	  = 0;
-				$row['parent']	  = 0;
+				$row['level']  = 0;
+				$row['parent'] = 0;
 
 				# group access
 				$row['group_access'] = array_flip(explode(",", $row['group_access']));
@@ -260,31 +256,9 @@ class Structure {
 		$this->access = $data['access'];
 
                 # set smarty vars
-                $smarty->assign("page_id",      $data['id']);
-                $smarty->assign("page_alias",   $data['alias']);
-                $smarty->assign("page_title",   $data['title']);
-	}
-
-
-	/**
-	 * Собираем хлебные крошки
-	 *
-	 * @param int $sid - идентификатор текущей страницы от которой выстраиваются "крошки"
-	 */
-	public function construct_breadcumb($sid = 1) {
-		if($sid != 1) {
-			$v = $this->sitetree[$sid];
-			$this->breadcumb[] = array('id'		=> $v['id'],
-						   'alias'	=> $v['alias'],
-						   'act'	=> "",
-						   'part'	=> "",
-						   'title'	=> $v['title'],
-						   'parent'	=> $v['parent']);
-
-			if($v['parent_id'] != 0) {
-				$this->construct_breadcumb($v['parent_id']);
-			}
-		}
+                $smarty->assign("page_id",    $data['id']);
+                $smarty->assign("page_alias", $data['alias']);
+                $smarty->assign("page_title", $data['title']);
 	}
 
 
