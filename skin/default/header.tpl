@@ -111,12 +111,13 @@
 								</div>
 							{/if}
 							{assign var="sublevel" value=1}
-								<a href="/index.php?page={$nitem['alias']}" class="btn btn-default ptsans topmenu topmenusm">{$nitem['title']}</a>
 								<div class="btn-group" role="group">
 									<button class="btn btn-default dropdown-toggle topmenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-										<span class="caret"></span>
+										{$nitem['title']} <span class="caret"></span>
 									</button>
 								<ul class="dropdown-menu">
+									<li class="topsubmenu"><a href="/index.php?page={$nitem['alias']}" class="ptsans topsubmenu"> {$nitem['title']}</a></li>
+									<li role="separator" class="divider"></li>
 						{else}
 							<li class="topsubmenu"><a href="/index.php?page={$nitem['alias']}" class="ptsans topsubmenu"><i class="fa fa-fw fa-angle-right small"></i> {$nitem['title']}</a></li>
 
