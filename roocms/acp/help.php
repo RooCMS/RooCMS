@@ -213,7 +213,15 @@ class ACP_Help {
 			}
 
 
-			$db->query("UPDATE ".HELP_TABLE." SET title='".$post->title."', uname='".$post->uname."', sort='".$post->sort."', parent_id='".$post->parent_id."', content='".$post->content."', date_modified='".time()."' WHERE id='".$id."'");
+			$db->query("UPDATE ".HELP_TABLE." SET 
+								title='".$post->title."', 
+								uname='".$post->uname."', 
+								sort='".$post->sort."', 
+								parent_id='".$post->parent_id."', 
+								content='".$post->content."', 
+								date_modified='".time()."' 
+							WHERE 
+								id='".$id."'");
 
 			# If we set new parent to part
 			if($post->parent_id != $post->now_parent_id) {
