@@ -8,9 +8,16 @@
 		<footer>
 			<div class="row">
 				<div class="col-sm-9">
-					{foreach from=$navtree item=nitem key=k name=fnavigate}
-						<a href="/index.php?page={$nitem['alias']}" class="btn btn-xs btn-link col-sm-4  col-md-3 ptsans">{$nitem['title']}</a>
-					{/foreach}
+					<div class="row">
+						{foreach from=$navtree item=nitem key=k name=fnavigate}
+							<div class="col-sm-4  col-md-3 text-left">
+								<a href="/index.php?page={$nitem['alias']}" class="btn btn-xs btn-link ptsans">{$nitem['title']}</a>
+								{if $nitem['rss'] == 1}
+									<a href="/index.php?page={$nitem['alias']}&export=RSS" class="btn btn-xs btn-link ptsans" target="_blank" title="{$nitem['title']} RSS"><i class="fa fa-fw fa-rss"></i></a>
+								{/if}
+							</div>
+						{/foreach}
+					</div>
 				</div>
 				<div class="col-sm-3">
 
