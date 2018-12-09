@@ -1,6 +1,6 @@
 Version: 1.3.1 beta
 ========================
-**release date:	08.12.2018**
+**release date:	09.12.2018**
 
 Plugins
 -------

@@ -430,7 +430,7 @@ class ACP_Structure {
 
 		global $post, $logger;
 
-		if($this->engine->sitetree[$post->parent_id]['nav'] == 0) {
+		if(isset($this->engine->sitetree[$post->parent_id]['nav']) && $this->engine->sitetree[$post->parent_id]['nav'] == 0) {
 			$post->nav = 0;
 			$logger->info("Прежде чем включить в навигацию эту страницу сайта, вы должны включить в навигацию родительскую", false);
 		}

@@ -23,7 +23,7 @@ $sql = [];
 
 
 /**
-* Разделы конфигурации
+* Configuration part
 */
 $sql['DROP '.CONFIG_PARTS_TABLE] = "DROP TABLE IF EXISTS `".CONFIG_PARTS_TABLE."`";
 $sql['CREATE '.CONFIG_PARTS_TABLE] = "CREATE TABLE IF NOT EXISTS `".CONFIG_PARTS_TABLE."` (
@@ -50,7 +50,7 @@ $sql['INSERT '.CONFIG_PARTS_TABLE." ID #".$id] = "INSERT INTO `".CONFIG_PARTS_TA
 
 
 /**
-* Параметры конфигурации
+* Configuration settings
 */
 $sql['DROP '.CONFIG_TABLE] = "DROP TABLE IF EXISTS `".CONFIG_TABLE."`";
 $sql['CREATE'.CONFIG_TABLE] = "CREATE TABLE IF NOT EXISTS `".CONFIG_TABLE."` (
@@ -101,7 +101,7 @@ $sql['INSERT '.CONFIG_TABLE." ID #".$id] = "INSERT INTO `".CONFIG_TABLE."` VALUE
 
 
 /**
-* Таблица страктуры сайта
+*  Structure
 */
 $sql['DROP '.STRUCTURE_TABLE] = "DROP TABLE IF EXISTS `".STRUCTURE_TABLE."`";
 $sql['CREATE'.STRUCTURE_TABLE] = "CREATE TABLE IF NOT EXISTS `".STRUCTURE_TABLE."` (
@@ -142,7 +142,7 @@ $sql['INSERT '.STRUCTURE_TABLE." ID #".$id] = "INSERT INTO `".STRUCTURE_TABLE."`
 									VALUES	(1, 'index', 0, '0', 'Главная страница', '".$site['title']."', '', '', 0, 'html', 1, '0', 0, '0', ".time().", ".time().", '0', 'none', 0, 'datepublication', 0, 0, 0, '', '')";
 
 /**
-* HTML страницы
+* HTML page
 */
 $sql['DROP '.PAGES_HTML_TABLE] = "DROP TABLE IF EXISTS `".PAGES_HTML_TABLE."`";
 $sql['CREATE'.PAGES_HTML_TABLE] = "CREATE TABLE IF NOT EXISTS `".PAGES_HTML_TABLE."` (
@@ -160,7 +160,7 @@ $sql['INSERT '.PAGES_HTML_TABLE." ID #".$id] = "INSERT INTO `".PAGES_HTML_TABLE.
 
 
 /**
-* PHP страницы
+* PHP page
 */
 $sql['DROP '.PAGES_PHP_TABLE] = "DROP TABLE IF EXISTS `".PAGES_PHP_TABLE."`";
 $sql['CREATE'.PAGES_PHP_TABLE] = "CREATE TABLE IF NOT EXISTS `".PAGES_PHP_TABLE."` (
@@ -175,7 +175,7 @@ $sql['CREATE'.PAGES_PHP_TABLE] = "CREATE TABLE IF NOT EXISTS `".PAGES_PHP_TABLE.
 
 
 /**
-* Ленты
+*  Feeds
 */
 $sql['DROP '.PAGES_FEED_TABLE] = "DROP TABLE IF EXISTS `".PAGES_FEED_TABLE."`";
 $sql['CREATE'.PAGES_FEED_TABLE] = "CREATE TABLE IF NOT EXISTS `".PAGES_FEED_TABLE."` (
@@ -202,7 +202,7 @@ $sql['CREATE'.PAGES_FEED_TABLE] = "CREATE TABLE IF NOT EXISTS `".PAGES_FEED_TABL
 					) ENGINE=MyISAM  DEFAULT CHARSET=utf8 PACK_KEYS=1 AUTO_INCREMENT=1";
 
 /**
- * Теги
+ *  Tags
  */
 $sql['DROP '.TAGS_TABLE] = "DROP TABLE IF EXISTS `".TAGS_TABLE."`";
 $sql['CREATE'.TAGS_TABLE] = "CREATE TABLE `".TAGS_TABLE."` (
@@ -224,7 +224,7 @@ $sql['CREATE'.TAGS_LINK_TABLE] = "CREATE TABLE `".TAGS_LINK_TABLE."` (
 
 
 /**
-* Блоки
+*  Blocks
 */
 $sql['DROP '.BLOCKS_TABLE] = "DROP TABLE IF EXISTS `".BLOCKS_TABLE."`";
 $sql['CREATE '.BLOCKS_TABLE] = "CREATE TABLE IF NOT EXISTS `".BLOCKS_TABLE."` (
@@ -244,7 +244,7 @@ $sql['CREATE '.BLOCKS_TABLE] = "CREATE TABLE IF NOT EXISTS `".BLOCKS_TABLE."` (
 
 
 /**
-* Изображения
+*  Attached images
 */
 $sql['DROP '.IMAGES_TABLE] = "DROP TABLE IF EXISTS `".IMAGES_TABLE."`";
 $sql['CREATE '.IMAGES_TABLE] = "CREATE TABLE IF NOT EXISTS `".IMAGES_TABLE."` (
@@ -262,7 +262,7 @@ $sql['CREATE '.IMAGES_TABLE] = "CREATE TABLE IF NOT EXISTS `".IMAGES_TABLE."` (
 
 
 /**
- * Файлы
+ *  Attached Files
  */
 $sql['DROP '.FILES_TABLE] = "DROP TABLE IF EXISTS `".FILES_TABLE."`";
 $sql['CREATE '.FILES_TABLE] = "CREATE TABLE IF NOT EXISTS `".FILES_TABLE."` (
@@ -280,7 +280,7 @@ $sql['CREATE '.FILES_TABLE] = "CREATE TABLE IF NOT EXISTS `".FILES_TABLE."` (
 
 
 /**
- * Пользователи
+ *  Users
  */
 $sql['DROP '.USERS_TABLE] = "DROP TABLE IF EXISTS `".USERS_TABLE."`";
 $sql['CREATE '.USERS_TABLE] = "CREATE TABLE `".USERS_TABLE."` (
@@ -319,7 +319,7 @@ $sql['CREATE '.USERS_TABLE] = "CREATE TABLE `".USERS_TABLE."` (
 
 
 /**
- * Группы пользователей
+ *  User groups
  */
 $sql['DROP '.USERS_GROUP_TABLE] = "DROP TABLE IF EXISTS `".USERS_GROUP_TABLE."`";
 $sql['CREATE '.USERS_GROUP_TABLE] = "CREATE TABLE  `".USERS_GROUP_TABLE."` (
@@ -335,7 +335,7 @@ $sql['CREATE '.USERS_GROUP_TABLE] = "CREATE TABLE  `".USERS_GROUP_TABLE."` (
 
 
 /**
- * Личные сообщения
+ *  Personal Messages
  */
 $sql['DROP '.USERS_PM_TABLE] = "DROP TABLE IF EXISTS `".USERS_PM_TABLE."`";
 $sql['CREATE '.USERS_PM_TABLE] = "CREATE TABLE  `".USERS_PM_TABLE."` (
@@ -354,7 +354,23 @@ $sql['CREATE '.USERS_PM_TABLE] = "CREATE TABLE  `".USERS_PM_TABLE."` (
 
 
 /**
- * Помощь администратора
+ *  Logs
+ */
+$sql['DROP '.LOG_TABLE] = "DROP TABLE IF EXISTS `".LOG_TABLE."`";
+$sql['CREATE '.LOG_TABLE] = "CREATE TABLE IF NOT EXISTS `".LOG_TABLE."` (
+				  `id` bigint(30) unsigned NOT NULL AUTO_INCREMENT, 
+				  `uid` int(10) unsigned NOT NULL,
+				  `message` text NOT NULL,
+				  `type_log` enum('info','error','log') NOT NULL DEFAULT 'log',
+				  `date_log` int(20) unsigned NOT NULL DEFAULT '0',
+				  PRIMARY KEY (`id`),
+				  UNIQUE KEY (`id`),
+				  KEY `uid` (`uid`)
+				) ENGINE=MyISAM DEFAULT CHARSET=utf8 PACK_KEYS=1 AUTO_INCREMENT=26";
+
+
+/**
+ *  Help
  */
 $sql['DROP '.HELP_TABLE] = "DROP TABLE IF EXISTS `".HELP_TABLE."`";
 $sql['CREATE '.HELP_TABLE] = "CREATE TABLE IF NOT EXISTS `".HELP_TABLE."` (
@@ -411,18 +427,3 @@ $sql['INSERT '.HELP_TABLE." ID #37"] = "INSERT INTO `".HELP_TABLE."`  VALUES (43
 $sql['INSERT '.HELP_TABLE." ID #38"] = "INSERT INTO `".HELP_TABLE."`  VALUES (45, 'acp_feed_migrate_unit', 40, 4, 0, 'Перенос записей между лентами', 'Описание скоро будет...', 1543616101)";
 $sql['INSERT '.HELP_TABLE." ID #39"] = "INSERT INTO `".HELP_TABLE."`  VALUES (41, 'acp_feed', 40, 0, 0, 'Управление и просмотр ленты', '&lt;blockquote class=&quot;quote quote-info&quot;&gt;\r\n&lt;p&gt;Если Вы только что создали ленту, то перейдя в нее Вы увидите надпись:&lt;br /&gt;\r\n&lt;mark&gt;В данной ленте нет записей.&lt;br /&gt;\r\nНажмите на ссылку &amp;quot;Добавить запись&amp;quot;, что бы создать Вашу первую публикацию&lt;/mark&gt;&lt;/p&gt;\r\n&lt;/blockquote&gt;\r\n\r\n&lt;p&gt;После того, как в Вашей ленте появятся записи, на странице с лентой будет представл их список, с указанием краткой информации: названия записи, даты публикации и кнопками управления.&lt;/p&gt;\r\n\r\n&lt;p&gt;Пример:&lt;/p&gt;\r\n\r\n&lt;table class=&quot;table table-hover table-condensed hidden-xs&quot;&gt;\r\n	&lt;thead&gt;\r\n		&lt;tr class=&quot;active&quot;&gt;\r\n			&lt;th style=&quot;padding-left: 30px;&quot; width=&quot;55%&quot;&gt;Заголовок&lt;/th&gt;\r\n			&lt;th width=&quot;10%&quot;&gt;Дата публикации&lt;/th&gt;\r\n			&lt;th width=&quot;10%&quot;&gt;Дата посл.изменений&lt;/th&gt;\r\n			&lt;th class=&quot;text-right&quot; width=&quot;25%&quot;&gt;Опции&lt;/th&gt;\r\n		&lt;/tr&gt;\r\n	&lt;/thead&gt;\r\n	&lt;tbody&gt;\r\n		&lt;tr&gt;\r\n			&lt;td&gt;&lt;a class=&quot;hide-feed-element&quot;&gt;&lt;i class=&quot;fa fa-fw fa-eye text-primary&quot;&gt;&lt;/i&gt;&lt;/a&gt; &lt;a&gt;Запись в ленте обычная&lt;/a&gt; &lt;span class=&quot;pull-right small&quot;&gt;&lt;i class=&quot;fa fa-fw fa-eye&quot; rel=&quot;tooltip&quot; title=&quot;150&quot; data-placement=&quot;right&quot; data-container=&quot;body&quot;&gt;&lt;/i&gt;&lt;/span&gt; &lt;span class=&quot;pull-right small&quot;&gt;&lt;i class=&quot;fa fa-fw fa-tags&quot; rel=&quot;tooltip&quot; title=&quot;#метка1 #метка2&quot; data-placement=&quot;left&quot; data-container=&quot;body&quot;&gt;&lt;/i&gt;&lt;/span&gt;&lt;/td&gt;\r\n			&lt;td class=&quot;small&quot;&gt;c 1 апреля 2010г&lt;/td&gt;\r\n			&lt;td class=&quot;small&quot;&gt;6 Июня 2015г&lt;/td&gt;\r\n			&lt;td class=&quot;text-right&quot;&gt;\r\n			&lt;div class=&quot;btn-group&quot;&gt;&lt;button class=&quot;btn btn-xs btn-default&quot;&gt;&lt;span class=&quot;fa fa-pencil-square-o fa-fw&quot;&gt;&lt;/span&gt;Редактировать&lt;/button&gt;&lt;button class=&quot;btn btn-xs btn-default&quot;&gt;&lt;span class=&quot;fa fa-random fa-fw&quot; data-placement=&quot;top&quot; data-toggle=&quot;tooltip&quot; rel=&quot;tooltip&quot; title=&quot;Переместить публикацию&quot;&gt;&lt;/span&gt;&lt;/button&gt;&lt;button class=&quot;btn btn-xs btn-danger&quot;&gt;&lt;span class=&quot;fa fa-trash-o fa-fw&quot;&gt;&lt;/span&gt;Удалить&lt;/button&gt;&lt;/div&gt;\r\n			&lt;/td&gt;\r\n		&lt;/tr&gt;\r\n		&lt;tr&gt;\r\n			&lt;td&gt;&lt;a class=&quot;hide-feed-element&quot;&gt;&lt;i class=&quot;fa fa-fw fa-eye text-primary&quot;&gt;&lt;/i&gt;&lt;/a&gt; &lt;a&gt;Запись в ленте со сроком публикации&lt;/a&gt; &lt;span class=&quot;pull-right small&quot;&gt;&lt;i class=&quot;fa fa-fw fa-eye&quot; rel=&quot;tooltip&quot; title=&quot;150&quot; data-placement=&quot;right&quot; data-container=&quot;body&quot;&gt;&lt;/i&gt;&lt;/span&gt; &lt;span class=&quot;pull-right small&quot;&gt;&lt;i class=&quot;fa fa-fw fa-tags&quot; rel=&quot;tooltip&quot; title=&quot;#метка1 #метка2&quot; data-placement=&quot;left&quot; data-container=&quot;body&quot;&gt;&lt;/i&gt;&lt;/span&gt;&lt;/td&gt;\r\n			&lt;td class=&quot;small&quot;&gt;c 1 апреля 2010г&lt;br /&gt;\r\n			по 1 Января 2055г&lt;/td&gt;\r\n			&lt;td class=&quot;small&quot;&gt;6 Июня 2015г&lt;/td&gt;\r\n			&lt;td class=&quot;text-right&quot;&gt;\r\n			&lt;div class=&quot;btn-group&quot;&gt;&lt;button class=&quot;btn btn-xs btn-default&quot;&gt;&lt;span class=&quot;fa fa-pencil-square-o fa-fw&quot;&gt;&lt;/span&gt;Редактировать&lt;/button&gt;&lt;button class=&quot;btn btn-xs btn-default&quot;&gt;&lt;span class=&quot;fa fa-random fa-fw&quot; data-placement=&quot;top&quot; data-toggle=&quot;tooltip&quot; rel=&quot;tooltip&quot; title=&quot;Переместить публикацию&quot;&gt;&lt;/span&gt;&lt;/button&gt;&lt;button class=&quot;btn btn-xs btn-danger&quot;&gt;&lt;span class=&quot;fa fa-trash-o fa-fw&quot;&gt;&lt;/span&gt;Удалить&lt;/button&gt;&lt;/div&gt;\r\n			&lt;/td&gt;\r\n		&lt;/tr&gt;\r\n		&lt;tr&gt;\r\n			&lt;td&gt;&lt;i class=&quot;fa fa-fw fa-eye-slash text-muted&quot;&gt;&lt;/i&gt;&lt;a class=&quot;text-muted&quot;&gt;&lt;s&gt;Запись в ленте с истекшим сроком публикации&lt;/s&gt;&lt;/a&gt; &lt;span class=&quot;pull-right small&quot;&gt;&lt;i class=&quot;fa fa-fw fa-eye&quot; rel=&quot;tooltip&quot; title=&quot;150&quot; data-placement=&quot;right&quot; data-container=&quot;body&quot;&gt;&lt;/i&gt;&lt;/span&gt; &lt;span class=&quot;pull-right small&quot;&gt;&lt;i class=&quot;fa fa-fw fa-tags&quot; rel=&quot;tooltip&quot; title=&quot;#метка1 #метка2&quot; data-placement=&quot;left&quot; data-container=&quot;body&quot;&gt;&lt;/i&gt;&lt;/span&gt;&lt;/td&gt;\r\n			&lt;td class=&quot;small&quot;&gt;c 1 апреля 2010г&lt;br /&gt;\r\n			по 1 Января 2016г&lt;/td&gt;\r\n			&lt;td class=&quot;small&quot;&gt;6 Июня 2015г&lt;/td&gt;\r\n			&lt;td class=&quot;text-right&quot;&gt;\r\n			&lt;div class=&quot;btn-group&quot;&gt;&lt;button class=&quot;btn btn-xs btn-default&quot;&gt;&lt;span class=&quot;fa fa-pencil-square-o fa-fw&quot;&gt;&lt;/span&gt;Редактировать&lt;/button&gt;&lt;button class=&quot;btn btn-xs btn-default&quot;&gt;&lt;span class=&quot;fa fa-random fa-fw&quot; data-placement=&quot;top&quot; data-toggle=&quot;tooltip&quot; rel=&quot;tooltip&quot; title=&quot;Переместить публикацию&quot;&gt;&lt;/span&gt;&lt;/button&gt;&lt;button class=&quot;btn btn-xs btn-danger&quot;&gt;&lt;span class=&quot;fa fa-trash-o fa-fw&quot;&gt;&lt;/span&gt;Удалить&lt;/button&gt;&lt;/div&gt;\r\n			&lt;/td&gt;\r\n		&lt;/tr&gt;\r\n		&lt;tr&gt;\r\n			&lt;td&gt;&lt;a class=&quot;show-feed-element&quot;&gt;&lt;i class=&quot;fa fa-fw fa-eye-slash text-muted&quot;&gt;&lt;/i&gt; &lt;/a&gt; &lt;a class=&quot;text-muted&quot;&gt;&lt;s&gt;Отключенная запись ленты&lt;/s&gt;&lt;/a&gt; &lt;span class=&quot;pull-right small&quot;&gt;&lt;i class=&quot;fa fa-fw fa-eye&quot; rel=&quot;tooltip&quot; title=&quot;150&quot; data-placement=&quot;right&quot; data-container=&quot;body&quot;&gt;&lt;/i&gt;&lt;/span&gt; &lt;span class=&quot;pull-right small&quot;&gt;&lt;i class=&quot;fa fa-fw fa-tags&quot; rel=&quot;tooltip&quot; title=&quot;#метка1 #метка2&quot; data-placement=&quot;left&quot; data-container=&quot;body&quot;&gt;&lt;/i&gt;&lt;/span&gt;&lt;/td&gt;\r\n			&lt;td class=&quot;small&quot;&gt;c 1 апреля 2010г&lt;/td&gt;\r\n			&lt;td class=&quot;small&quot;&gt;6 Июня 2015г&lt;/td&gt;\r\n			&lt;td class=&quot;text-right&quot;&gt;\r\n			&lt;div class=&quot;btn-group&quot;&gt;&lt;button class=&quot;btn btn-xs btn-default&quot;&gt;&lt;span class=&quot;fa fa-pencil-square-o fa-fw&quot;&gt;&lt;/span&gt;Редактировать&lt;/button&gt;&lt;button class=&quot;btn btn-xs btn-default&quot;&gt;&lt;span class=&quot;fa fa-random fa-fw&quot; data-placement=&quot;top&quot; data-toggle=&quot;tooltip&quot; rel=&quot;tooltip&quot; title=&quot;Переместить публикацию&quot;&gt;&lt;/span&gt;&lt;/button&gt;&lt;button class=&quot;btn btn-xs btn-danger&quot;&gt;&lt;span class=&quot;fa fa-trash-o fa-fw&quot;&gt;&lt;/span&gt;Удалить&lt;/button&gt;&lt;/div&gt;\r\n			&lt;/td&gt;\r\n		&lt;/tr&gt;\r\n	&lt;/tbody&gt;\r\n&lt;/table&gt;\r\n\r\n&lt;p&gt;Нажав на кнопку глаза &lt;span class=&quot;fa fa-fw fa-eye&quot;&gt;&amp;nbsp;&lt;/span&gt;рядом с&amp;nbsp; названием записи (слева), вы можете её включить/отключить. Кроме тех случаев, когда истек срок публикации.&lt;/p&gt;\r\n\r\n&lt;p&gt;Справа от названия&amp;nbsp;иконка&amp;nbsp;&lt;span class=&quot;fa fa-fw fa-tag&quot;&gt;&lt;/span&gt;&amp;nbsp;наведя на которую курсор, сможете увидеть список меток. (&lt;span class=&quot;label label-warning&quot;&gt;Внимание!&lt;/span&gt; Иконки может не оказаться, если Вы не указали ни одной метки для записи)&lt;/p&gt;\r\n\r\n&lt;p&gt;Так же справа от названия записи вы можете найти иконку&amp;nbsp;&lt;span class=&quot;fa fa-fw fa-eye&quot;&gt;&lt;/span&gt;&amp;nbsp;наведя на которую курсор, увидите кол-во просмотров записи пользователями.&lt;/p&gt;\r\n\r\n&lt;p&gt;Кнопки в колонке &amp;quot;Опции&amp;quot; позволяет Вам&amp;nbsp;&lt;button class=&quot;btn btn-xs btn-default&quot;&gt;&lt;span class=&quot;fa fa-pencil-square-o fa-fw&quot;&gt;&lt;/span&gt;Редактировать&lt;/button&gt; запись,&lt;button class=&quot;btn btn-xs btn-default&quot;&gt;&lt;span class=&quot;fa fa-random fa-fw&quot; data-placement=&quot;top&quot; data-toggle=&quot;tooltip&quot; rel=&quot;tooltip&quot; title=&quot;Переместить публикацию&quot;&gt;&lt;/span&gt;&lt;/button&gt; перенести её в другую ленту или&amp;nbsp;&lt;button class=&quot;btn btn-xs btn-default&quot;&gt;&lt;span class=&quot;fa fa-trash-o fa-fw&quot;&gt;&lt;/span&gt;Удалить&lt;/button&gt;.&lt;/p&gt;\r\n\r\n&lt;blockquote class=&quot;quote quote-danger&quot;&gt;\r\n&lt;p&gt;&lt;b&gt;Внимание!&lt;/b&gt; Нажимая на кнопку&amp;nbsp;&lt;button class=&quot;btn btn-xs btn-danger&quot;&gt;&lt;span class=&quot;fa fa-trash-o fa-fw&quot;&gt;&lt;/span&gt;Удалить&lt;/button&gt; , вы удаляете запись безвозвратно. Если Вы не уверены, в том, что добиваетесь именного полного удаления, просто отключите запись.&lt;/p&gt;\r\n&lt;/blockquote&gt;\r\n', 1543615909)";
 $sql['INSERT '.HELP_TABLE." ID #40"] = "INSERT INTO `".HELP_TABLE."`  VALUES (46, 'acp_feed_settings', 40, 5, 0, 'Настройки ленты', 'Описание скоро будет...', 1543616110)";
-
-/**
- * Логи
- */
-$sql['DROP '.LOG_TABLE] = "DROP TABLE IF EXISTS `".LOG_TABLE."`";
-$sql['CREATE '.LOG_TABLE] = "CREATE TABLE IF NOT EXISTS `".LOG_TABLE."` (
-				  `id` bigint(30) unsigned NOT NULL AUTO_INCREMENT, 
-				  `uid` int(10) unsigned NOT NULL,
-				  `message` text NOT NULL,
-				  `type_log` enum('info','error','log') NOT NULL DEFAULT 'log',
-				  `date_log` int(20) unsigned NOT NULL DEFAULT '0',
-				  PRIMARY KEY (`id`),
-				  UNIQUE KEY (`id`),
-				  KEY `uid` (`uid`)
-				) ENGINE=MyISAM DEFAULT CHARSET=utf8 PACK_KEYS=1 AUTO_INCREMENT=26";
