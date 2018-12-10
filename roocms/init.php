@@ -188,6 +188,13 @@ if(check_file_core(_CLASS."/class_security.php")) {
 }
 
 /**
+ * User groups trait
+ */
+if(check_file_core(_CLASS."/trait_usergroups.php")) {
+	require_once(_CLASS."/trait_usergroups.php");
+}
+
+/**
  * Запускаем класс определения пользователей
  */
 if(check_file_core(_CLASS."/class_users.php")) {

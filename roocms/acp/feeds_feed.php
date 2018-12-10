@@ -679,11 +679,11 @@ class ACP_Feeds_Feed {
 
 			if($force == 1) {
 				# all
-				$userlist = $users->get_userlist(1, 0, -1, NULL, true);
+				$userlist = $users->get_userlist(1, 0, -1);
 			}
 			else {
 				# только подписчики
-				$userlist = $users->get_userlist(1, 0, 1, NULL, true);
+				$userlist = $users->get_userlist(1, 0, 1);
 			}
 
 			# html

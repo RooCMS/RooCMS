@@ -82,7 +82,7 @@ function sendmail($mail, $theme, $message, $from="robot") {
 	$headers  = "MIME-Version: 1.0\n";
 	$headers .= "From: ".$site['title']." <{$from}>\n".EMAIL_MESSAGE_PARAMETERS."\n";
 	$headers .= "X-Sender: <no-reply@".$domain.">\n";
-	$headers .= "X-Mailer: PHP ".$domain."\n";
+	$headers .= "X-Mailer: RooCMS from ".$domain."\n";
 	$headers .= "Return-Path: <no-replay@".$domain.">";
 
 	# отправляем письмо

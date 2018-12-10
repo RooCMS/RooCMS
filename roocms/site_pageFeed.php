@@ -117,7 +117,7 @@ class PageFeed {
 		$feeds = $tags->collect_tags($feeds, $taglinks);
 
 		# authors
-		$fauthors = $users->get_userlist(-1,-1,$authors);
+		$fauthors = $users->get_userlist(-1,-1,-1,$authors);
 
 		# smarty
 		$smarty->assign("authors", $fauthors);

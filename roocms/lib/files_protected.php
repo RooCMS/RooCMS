@@ -46,21 +46,21 @@ $protect[] = array('path' => _SITEROOT.'/plugin',	'chmod'	=> '0755');
 /**
  * Files
  */
-
 $protect[] = array('path' => _ROOCMS.'/config/config.php', 		'chmod' => '0644',	'hash'	=> '');
 $protect[] = array('path' => _ROOCMS.'/config/defines.php',		'chmod'	=> '0644',	'hash'	=> '');
 $protect[] = array('path' => _ROOCMS.'/config/set.cfg.php',		'chmod'	=> '0644',	'hash'	=> '');
 $protect[] = array('path' => _CLASS.'/class_debuger.php',		'chmod'	=> '0644',	'hash'	=> '');
 $protect[] = array('path' => _CLASS.'/class_files.php',			'chmod'	=> '0644',	'hash'	=> '');
 $protect[] = array('path' => _CLASS.'/class_gd.php',			'chmod'	=> '0644',	'hash'	=> '');
-$protect[] = array('path' => _CLASS.'/class_gdExtends.php',		'chmod'	=> '0644',	'hash'	=> '');
 $protect[] = array('path' => _CLASS.'/class_global.php',		'chmod'	=> '0644',	'hash'	=> '');
 $protect[] = array('path' => _CLASS.'/class_images.php',		'chmod'	=> '0644',	'hash'	=> '');
 $protect[] = array('path' => _CLASS.'/class_logger.php',		'chmod'	=> '0644',	'hash'	=> '');
 $protect[] = array('path' => _CLASS.'/class_mysqlidb.php',		'chmod'	=> '0644',	'hash'	=> '');
+$protect[] = array('path' => _CLASS.'/class_navigation.php',		'chmod'	=> '0644',	'hash'	=> '');
 $protect[] = array('path' => _CLASS.'/class_parser.php',		'chmod'	=> '0644',	'hash'	=> '');
 $protect[] = array('path' => _CLASS.'/class_parserDate.php',		'chmod'	=> '0644',	'hash'	=> '');
 $protect[] = array('path' => _CLASS.'/class_parserText.php',		'chmod'	=> '0644',	'hash'	=> '');
+$protect[] = array('path' => _CLASS.'/class_post.php',			'chmod'	=> '0644',	'hash'	=> '');
 $protect[] = array('path' => _CLASS.'/class_rss.php',			'chmod'	=> '0644',	'hash'	=> '');
 $protect[] = array('path' => _CLASS.'/class_security.php',		'chmod'	=> '0644',	'hash'	=> '');
 $protect[] = array('path' => _CLASS.'/class_shteirlitz.php',		'chmod'	=> '0644',	'hash'	=> '');
@@ -70,7 +70,9 @@ $protect[] = array('path' => _CLASS.'/class_template.php',		'chmod'	=> '0644',	'
 $protect[] = array('path' => _CLASS.'/class_users.php',			'chmod'	=> '0644',	'hash'	=> '');
 $protect[] = array('path' => _CLASS.'/class_xml.php',			'chmod'	=> '0644',	'hash'	=> '');
 $protect[] = array('path' => _CLASS.'/trait_feedExtends.php',		'chmod'	=> '0644',	'hash'	=> '');
+$protect[] = array('path' => _CLASS.'/trait_gdExtends.php',		'chmod'	=> '0644',	'hash'	=> '');
 $protect[] = array('path' => _CLASS.'/trait_mysqlidbExtends.php',	'chmod'	=> '0644',	'hash'	=> '');
+$protect[] = array('path' => _CLASS.'/trait_usergroups.php',		'chmod'	=> '0644',	'hash'	=> '');
 $protect[] = array('path' => _ROOCMS.'/acp/ajax.php',			'chmod'	=> '0644',	'hash'	=> '');
 $protect[] = array('path' => _ROOCMS.'/acp/blocks.php',			'chmod'	=> '0644',	'hash'	=> '');
 $protect[] = array('path' => _ROOCMS.'/acp/blocks_html.php',		'chmod'	=> '0644',	'hash'	=> '');

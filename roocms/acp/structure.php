@@ -51,7 +51,7 @@ class ACP_Structure {
 	 */
 	private function init() {
 
-		global $roocms, $config, $db, $tpl, $smarty, $get, $post;
+		global $roocms, $config, $db, $users, $tpl, $smarty, $get, $post;
 
 		# read site tree
 		$smarty->assign('tree', $this->engine->sitetree);
@@ -86,12 +86,8 @@ class ACP_Structure {
 					$this->create_unit();
 				}
 				else {
-					# groups
-					$groups = [];
-					$q = $db->query("SELECT gid, title, users FROM ".USERS_GROUP_TABLE." ORDER BY gid ASC");
-					while($row = $db->fetch_assoc($q)) {
-						$groups[] = $row;
-					}
+					# list groups
+					$groups = $users->get_usergroups();
 
 					# шаблонизируем... (слово то какое...)
 					$smarty->assign("groups", $groups);
@@ -201,7 +197,7 @@ class ACP_Structure {
 	 */
 	private function edit_unit($sid) {
 
-		global $db, $smarty, $tpl;
+		global $db, $users, $smarty, $tpl;
 
 		$q = $db->query("SELECT id, parent_id, nav, group_access, alias, title, meta_title, meta_description, meta_keywords, noindex, sort, page_type, thumb_img_width, thumb_img_height FROM ".STRUCTURE_TABLE." WHERE id='".$sid."'");
 		$data = $db->fetch_assoc($q);
@@ -217,11 +213,7 @@ class ACP_Structure {
 		}
 
 		# list groups
-		$groups = [];
-		$q = $db->query("SELECT gid, title, users FROM ".USERS_GROUP_TABLE." ORDER BY gid ASC");
-		while($row = $db->fetch_assoc($q)) {
-			$groups[] = $row;
-		}
+		$groups = $users->get_usergroups();
 
 		# шаблонизируем... (слово то какое...)
 		$smarty->assign("gids",   $gids);

@@ -55,8 +55,13 @@ class ACP_Mailing {
 	 */
 	private function message() {
 
-		global $smarty, $tpl;
+		global $users, $users, $smarty, $tpl;
 
+		# list groups
+		$groups = $users->get_usergroups();
+
+		# tpl
+		$smarty->assign("groups", $groups);
 		$content = $tpl->load_template("mailing_message", true);
 		$smarty->assign("content", $content);
 	}
@@ -71,13 +76,21 @@ class ACP_Mailing {
 
 		if(isset($post->title) && isset($post->message)) {
 
+			$userscond = [];
+			if(isset($post->gids)) {
+				$ulist = $users->get_groupuids($post->gids);
+				foreach($ulist AS $u) {
+					$userscond[] = $u['uid'];
+				}
+			}
+
 			if(isset($post->force) && $post->force == 1) {
 				# all
-				$userlist = $users->get_userlist(1,0,-1, NULL, true);
+				$userlist = $users->get_userlist(1,0,-1, $userscond);
 			}
 			else {
 				# только подписчики
-				$userlist = $users->get_userlist(1,0,1, NULL, true);
+				$userlist = $users->get_userlist(1,0,1, $userscond);
 			}
 
 			# html

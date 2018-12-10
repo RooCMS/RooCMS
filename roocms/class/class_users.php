@@ -25,6 +25,8 @@ if(!defined('RooCMS')) {
  */
 class Users extends Security {
 
+	use UserGroups;
+
 	# user uniq data
 	public	$uid		= 0;		# user id
 	public	$login		= "";		# user login
@@ -48,6 +50,9 @@ class Users extends Security {
 	private $userip		= "";		# user ip address
 	private	$useragent	= "";		# user agent string
 	private $referer	= "";		# user referer
+
+	# groups
+	private $grouplist	= [];		# user groups list
 
 
 
@@ -86,7 +91,7 @@ class Users extends Security {
 
 		global $db, $roocms, $parse;
 
-		if(isset($roocms->sess['login']) && trim($roocms->sess['login']) != "" && $db->check_id($roocms->sess['login'], USERS_TABLE, "login", "status='1'") && isset($roocms->sess['token']) && strlen($roocms->sess['token']) == 32) {
+		if(isset($roocms->sess['login']) && $db->check_id($roocms->sess['login'], USERS_TABLE, "login", "status='1'") && isset($roocms->sess['token']) && strlen($roocms->sess['token']) == 32) {
 
 			# get data
 			$q    = $db->query("SELECT u.uid, u.gid, u.login, u.nickname, u.avatar, u.email, u.mailing,
@@ -121,30 +126,30 @@ class Users extends Security {
 
 			# array userdata
 			$this->userdata = array(
-				'uid'			=> $data['uid'],
-				'gid'			=> $data['gid'],
-				'gtitle'		=> $data['gtitle'],
-				'login'			=> $data['login'],
-				'nickname'		=> $data['nickname'],
-				'avatar'		=> $data['avatar'],
-				'email'			=> $data['email'],
-				'mailing'		=> $data['mailing'],
-				'title'			=> $data['title'],
-				'user_name'		=> $data['user_name'],
-				'user_surname'		=> $data['user_surname'],
-				'user_last_name'	=> $data['user_last_name'],
-				'user_birthdate'	=> $parse->date->jd_to_rus($data['user_birthdate']),
-				'user_birthdaten'	=> $parse->date->jd_to_rusint($data['user_birthdate']),
-				'user_sex'		=> $data['user_sex'],
-				'user_slogan'		=> $parse->text->br($data['user_slogan']),
-				'ban'			=> $data['ban'],
-				'ban_reason'		=> $data['ban_reason'],
-				'ban_expiried'		=> $parse->date->unix_to_rus($data['ban_expiried'])
+				'uid'             => $data['uid'],
+				'gid'             => $data['gid'],
+				'gtitle'          => $data['gtitle'],
+				'login'           => $data['login'],
+				'nickname'        => $data['nickname'],
+				'avatar'          => $data['avatar'],
+				'email'           => $data['email'],
+				'mailing'         => $data['mailing'],
+				'title'           => $data['title'],
+				'user_name'       => $data['user_name'],
+				'user_surname'    => $data['user_surname'],
+				'user_last_name'  => $data['user_last_name'],
+				'user_birthdate'  => $parse->date->jd_to_rus($data['user_birthdate']),
+				'user_birthdaten' => $parse->date->jd_to_rusint($data['user_birthdate']),
+				'user_sex'        => $data['user_sex'],
+				'user_slogan'     => $parse->text->br($data['user_slogan']),
+				'ban'             => $data['ban'],
+				'ban_reason'      => $data['ban_reason'],
+				'ban_expiried'    => $parse->date->unix_to_rus($data['ban_expiried'])
 			);
 
 
 			# security token
-			$this->token	= $this->hashing_token($roocms->sess['login'], $data['password'], $data['salt']);
+			$this->token = $this->hashing_token($roocms->sess['login'], $data['password'], $data['salt']);
 		}
 	}
 
@@ -304,7 +309,7 @@ class Users extends Security {
 
 		global $db, $logger, $parse;
 
-		if(isset($email) && trim($email) != "") {
+		if(trim($email) != "") {
 			if(!$parse->valid_email($email)) {
 				$logger->error("Некорректный адрес электронной почты", false);
 			}

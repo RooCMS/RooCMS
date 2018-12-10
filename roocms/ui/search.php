@@ -105,7 +105,7 @@ class UI_Search {
 		$result = $tags->collect_tags($result, $taglinks);
 
 		# authors
-		$fauthors = $users->get_userlist(-1,-1,$authors);
+		$fauthors = $users->get_userlist(-1,-1,-1,$authors);
 
 		# template
 		$smarty->assign("authors", $fauthors);

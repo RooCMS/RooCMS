@@ -248,12 +248,8 @@ class ACP_Users {
 			goback();
 		}
 
-		# groups
-		$groups = [];
-		$q = $db->query("SELECT gid, title, users FROM ".USERS_GROUP_TABLE." ORDER BY gid ASC");
-		while($row = $db->fetch_assoc($q)) {
-			$groups[] = $row;
-		}
+		# list groups
+		$groups = $users->get_usergroups();
 
 		# tpl
 		$smarty->assign("groups", $groups);
@@ -336,12 +332,8 @@ class ACP_Users {
 				$i_am_groot = true;
 			}
 
-			# groups
-			$groups = [];
-			$q = $db->query("SELECT gid, title, users FROM ".USERS_GROUP_TABLE." ORDER BY gid ASC");
-			while($row = $db->fetch_assoc($q)) {
-				$groups[] = $row;
-			}
+			# list groups
+			$groups = $users->get_usergroups();
 
 			# tpl
 			$smarty->assign("i_am_groot", $i_am_groot);
