@@ -25,6 +25,11 @@ if(!defined('RooCMS')) {
  */
 trait UserGroups {
 
+	# groups
+	private $grouplist	= [];		# user groups list
+
+	
+
 	/**
 	 * Get user group list
 	 *

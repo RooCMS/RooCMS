@@ -51,9 +51,6 @@ class Users extends Security {
 	private	$useragent	= "";		# user agent string
 	private $referer	= "";		# user referer
 
-	# groups
-	private $grouplist	= [];		# user groups list
-
 
 
 	/**
