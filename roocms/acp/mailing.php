@@ -32,7 +32,6 @@ class ACP_Mailing {
 
 		global $roocms, $tpl;
 
-		// TODO: Расширить до нормальной службы расслки.
 		# action
 		switch($roocms->part) {
 

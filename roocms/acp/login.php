@@ -23,7 +23,7 @@ if(!defined('RooCMS') || (!defined('ACP') && !defined('INSTALL'))) {
 class ACP_Login {
 
 	/**
-	 * Проверяем введенные данные
+	 * Chec input data
 	 */
 	public function __construct() {
 
@@ -59,7 +59,7 @@ class ACP_Login {
 				}
 			}
 
-			# неверный логин или пароль
+			# wrong login or password
 			$this->incorrect_entering($post->login, mb_strlen($post->password));
 		}
 
@@ -70,7 +70,7 @@ class ACP_Login {
 
 
 	/**
-	 * Функция вывода сообщения о некоректной попытки входа
+	 * Show error message
 	 *
 	 * @param string $login    - введенный логин
 	 * @param string $password - введенный пароль

@@ -126,7 +126,7 @@ class Security extends Shteirlitz {
 			session_destroy();
 
 			# notice and stop
-			$logger->error("Ваши данные изменились! Требуется пройти тоавризацию.");
+			$logger->error("Ваши данные изменились! Требуется пройти авторизацию.");
 			go("/");
 		}
 	}

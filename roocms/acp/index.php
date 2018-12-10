@@ -80,8 +80,8 @@ class ACP_Index {
 
 
 	/**
-	 * Главный экран
-	 * Показывается общая информация
+	 * Main Screen
+	 * Show dashboard information
 	 */
 	private function main() {
 
@@ -107,44 +107,43 @@ class ACP_Index {
 			}
 		}
 
-		# draw
+		# draw tpl
 		$smarty->assign('info',		$info);
-
 		$content = $tpl->load_template("index_main", true);
 		$smarty->assign('content',	$content);
 	}
 
 
 	/**
-	 * Информация о сервере
+	 * Server information
 	 */
 	private function serverinfo() {
 
 		global $db, $debug, $tpl, $smarty;
 
-		# Версия MYSQL
+		# MySQL version
 		$data1 = [];
 		$q = $db->query("SHOW VARIABLES LIKE 'version'");
 		$mysql = $db->fetch_row($q);
 		$data1['mysql']		= $mysql[1];
 
-		$data1['php'] 		= PHP_VERSION;				# Версия php
-		$data1['zend']		= zend_version();			# Версия Zend
-		$data1['ws'] 		= $_SERVER['SERVER_SOFTWARE'];		# Версия сервера  apache_get_version();
-		$data1['os']		= php_uname("s")." (".PHP_OS.")"; 	# ОС
+		$data1['php'] 		= PHP_VERSION;				# php version
+		$data1['zend']		= zend_version();			# Zend version
+		$data1['ws'] 		= $_SERVER['SERVER_SOFTWARE'];		# Server sowfware version apache_get_version();
+		$data1['os']		= php_uname("s")." (".PHP_OS.")"; 	# OS
 		$data1['uname']		= php_uname(); 				# UNAME
 		$data1['roocms']	= ROOCMS_VERSION;			# RooCMS
 
-		$data1['pid']		= PEAR_INSTALL_DIR; 			# Директория установки PEAR расширений
+		$data1['pid']		= PEAR_INSTALL_DIR; 			# PEAR extends dir
 		$data1['dip']		= DEFAULT_INCLUDE_PATH;
-		$data1['ped']		= PHP_EXTENSION_DIR;			# Директория php расширений
+		$data1['ped']		= PHP_EXTENSION_DIR;			# PHP extends dir
 		$data1['pcp']		= PHP_CONFIG_FILE_PATH;
 
-		$data1['sn']		= $_SERVER["SERVER_NAME"]; 		# Имя сервера
-		$data1['sa']		= $_SERVER["SERVER_ADDR"]; 		# Адрес сервера
-		$data1['sp']		= $_SERVER["SERVER_PROTOCOL"]; 		# Протокол сервера
-		$data1['ra']		= $_SERVER["REMOTE_ADDR"]; 		# Адрес клиента
-		$data1['docroot']	= _SITEROOT; 				# Путь к документам на сервере
+		$data1['sn']		= $_SERVER["SERVER_NAME"];
+		$data1['sa']		= $_SERVER["SERVER_ADDR"];
+		$data1['sp']		= $_SERVER["SERVER_PROTOCOL"];
+		$data1['ra']		= $_SERVER["REMOTE_ADDR"];
+		$data1['docroot']	= _SITEROOT;
 
 		$data1['ml']		= ini_get('memory_limit');		# Memory limit
 		$data1['mfs']		= ini_get('upload_max_filesize');	# Maximum file size
@@ -152,7 +151,7 @@ class ACP_Index {
 		$data1['met']		= ini_get('max_execution_time');	# Max execution time
 
 		if(array_search("apache2handler", $debug->phpextensions)) {
-			$data1['apache_mods']	= apache_get_modules();		# Расширения Apache
+			$data1['apache_mods']	= apache_get_modules();		# Apache extends
 		}
 
 
@@ -213,7 +212,7 @@ class ACP_Index {
 			}
 		}
 
-		# draw
+		# draw tpl
 		$smarty->assign('data1',	$data1);
 		$smarty->assign('data2',	$data2);
 
@@ -223,7 +222,7 @@ class ACP_Index {
 
 
 	/**
-	 * Информация о допустимых файлах и расширениях
+	 * Format attached infromation
 	 */
 	private function fileinfo() {
 
@@ -246,7 +245,7 @@ class ACP_Index {
 
 
 	/**
-	 * Проверка и отображение установленных PHP расширений
+	 * Check & show php extends
 	 */
 	private function phpext() {
 
@@ -257,7 +256,7 @@ class ACP_Index {
 			$phpextfunc[$v] = get_extension_funcs($v);
 		}
 
-		# draw
+		# draw tpl
 		$smarty->assign('phpextensions',	$config->phpextensions);
 		$smarty->assign('phpextfunc',		$phpextfunc);
 
@@ -267,7 +266,7 @@ class ACP_Index {
 
 
 	/**
-	 * Показывает phpinfo
+	 * phpinfo
 	 */
 	private function showphpinfo() {
 
@@ -282,7 +281,7 @@ class ACP_Index {
 
 		$phpinfo = $out[2][0];
 
-		# draw
+		# draw tpl
 		$smarty->assign('phpinfo', 	$phpinfo);
 
 		$content = $tpl->load_template("index_phpinfo", true);
@@ -291,7 +290,7 @@ class ACP_Index {
 
 
 	/**
-	 * Значение PHP переменных
+	 * PHP variables
 	 */
 	private function inivars() {
 
@@ -299,7 +298,7 @@ class ACP_Index {
 
 		$inivars = ini_get_all();
 
-        	# draw
+        	# draw tpl
 		$smarty->assign('inivars',	$inivars);
 
 		$content = $tpl->load_template("index_inivars", true);
@@ -309,7 +308,7 @@ class ACP_Index {
 
 
 	/**
-	 * Лицензия
+	 * License text
 	 */
 	private function license() {
 
@@ -317,7 +316,7 @@ class ACP_Index {
 
 		require_once _LIB."/license.php";
 
-		# draw
+		# draw tpl
 		$smarty->assign('license',	$license['ru']);
 
 		$content = $tpl->load_template("index_license", true);
