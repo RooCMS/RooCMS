@@ -178,7 +178,7 @@ function nocache() {
  */
 function get_http_response_code($url) {
 	$headers = get_headers($url);
-	return substr($headers[0], 9, 3);
+	return mb_substr($headers[0], 9, 3);
 }
 
 /**

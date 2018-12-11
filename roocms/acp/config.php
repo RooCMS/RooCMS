@@ -325,7 +325,7 @@ class ACP_Config extends ACP_ConfigAction {
 	private function check_string_value($value, $maxleight=0) {
 
 		if($maxleight > 0) {
-			$value = substr($value, 0, $maxleight);
+			$value = mb_substr($value, 0, $maxleight);
 		}
 
 		return $value;

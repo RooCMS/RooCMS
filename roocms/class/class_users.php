@@ -88,7 +88,7 @@ class Users extends Security {
 
 		global $db, $roocms, $parse;
 
-		if(isset($roocms->sess['login']) && $db->check_id($roocms->sess['login'], USERS_TABLE, "login", "status='1'") && isset($roocms->sess['token']) && strlen($roocms->sess['token']) == 32) {
+		if(isset($roocms->sess['login']) && $db->check_id($roocms->sess['login'], USERS_TABLE, "login", "status='1'") && isset($roocms->sess['token']) && mb_strlen($roocms->sess['token']) == 32) {
 
 			# get data
 			$q    = $db->query("SELECT u.uid, u.gid, u.login, u.nickname, u.avatar, u.email, u.mailing,
