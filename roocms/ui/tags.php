@@ -121,25 +121,21 @@ class UI_Tags {
 		}
 
 		# cond
-		$cond = "(";
+		$cond = "";
 		foreach($links AS $value) {
-			if(trim($cond) != "(") {
-				$cond .= "OR ";
-			}
+			$cond = $db->qcond_or($cond);
 			$cond .= " id='".$value."' ";
 		}
-		$cond .= ")";
+		$cond = "(".$cond.")";
 
-		$scond = "(";
+		$scond = "";
 		foreach($structure->sitetree AS $value) {
 			if($value['access']) {
-				if(trim($scond) != "(") {
-					$scond .= " OR ";
-				}
+				$scond = $db->qcond_or($scond);
 				$scond .= " sid='".$value['id']."' ";
 			}
 		}
-		$scond .= ")";
+		$scond = "(".$scond.")";
 
 		# calculate pages
 		$db->pages_mysql(PAGES_FEED_TABLE, "date_publications <= '".time()."' AND ".$cond." AND ".$scond." AND (date_end_publications = '0' || date_end_publications > '".time()."') AND status='1'");

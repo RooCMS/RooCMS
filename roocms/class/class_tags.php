@@ -81,10 +81,7 @@ class Tags {
 		$cond = "";
 
 		foreach($linkedto AS $value) {
-			if($cond != "") {
-				$cond .= " OR ";
-			}
-
+			$cond = $db->qcond_or($cond);
 			$cond .= " l.linkedto='".$value."' ";
 		}
 
@@ -269,25 +266,21 @@ class Tags {
 			# составляем условие
 			$cond1 = "";
 			foreach($tags AS $value) {
-				if(trim($cond1) != "") {
-					$cond1 .= " OR ";
-				}
+				$cond1 = $db->qcond_or($cond1);
 				$cond1 .= "title='".$value."'";
 			}
 
 			# get tag id for condition unlinks
 			$tr = [];
-			$cond2 = "(";
+			$cond2 = "";
 			$q = $db->query("SELECT id FROM ".TAGS_TABLE." WHERE ".$cond1);
 			while($data = $db->fetch_assoc($q)) {
-				if(trim($cond2) != "(") {
-					$cond2 .= " OR ";
-				}
+				$cond2 = $db->qcond_or($cond2);
 				$cond2 .= "tag_id='".$data['id']."'";
 
 				$tr[] = $data['id'];
 			}
-			$cond2 .= ")";
+			$cond2 = "(".$cond2.")";
 
 			# unlinked
 			$db->query("DELETE FROM ".TAGS_LINK_TABLE." WHERE ".$cond2." AND linkedto='".$linkedto."'");

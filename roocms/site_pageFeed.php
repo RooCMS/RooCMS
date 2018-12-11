@@ -381,7 +381,7 @@ class PageFeed {
 	 */
 	private function feed_condition() {
 
-		global $structure;
+		global $db, $structure;
 
 		# query id's feeds begin
 		$cond = " date_publications <= '".time()."' AND ( sid='".$structure->page_id."' ";
@@ -400,16 +400,15 @@ class PageFeed {
 		$cond .= " ) ";
 
 		# access condition
-		$accesscond = "(";
+		$accesscond = "";
 		foreach($structure->sitetree AS $value) {
 			if($value['access']) {
-				if(trim($accesscond) != "(") {
-					$accesscond .= " OR ";
-				}
+				$accesscond = $db->qcond_or($accesscond);
 				$accesscond .= " sid='".$value['id']."' ";
 			}
 		}
-		$accesscond .= ")";
+		$accesscond = "(".$accesscond.")";
+
 
 		$cond .= " AND ".$accesscond." AND (date_end_publications = '0' || date_end_publications > '".time()."') AND status='1' ";
 

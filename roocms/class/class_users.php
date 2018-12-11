@@ -215,9 +215,7 @@ class Users extends Security {
 
 			if($v == 0 || $v == 1) {
 
-				if($cond != "") {
-					$cond .= " AND ";
-				}
+				$cond = $db->qcond_and($cond);
 
 				$cond .= " ".$k."='".$v."' ";
 			}
@@ -225,9 +223,7 @@ class Users extends Security {
 
 		if(!empty($users)) {
 
-			if($cond != "") {
-				$cond .= " AND ";
-			}
+			$cond = $db->qcond_and($cond);
 
 			$cond .= " ( ";
 

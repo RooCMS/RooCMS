@@ -380,14 +380,12 @@ class MySQLiDB {
 	public function check_array_ids(array $ids, $table, $field="id", $proviso=NULL) {
 
 		# write condition
-		$primcond = "(";
+		$primcond = "";
 		foreach($ids AS $value) {
-			if($primcond != "(") {
-				$primcond .= " OR ";
-			}
+			$primcond = $this->qcond_or($primcond);
 			$primcond .= " ".$field."='".$value."' ";
 		}
-		$primcond .= ")";
+		$primcond = "(".$primcond.")";
 
 		# more proviso
 		if(trim($proviso) != "") {

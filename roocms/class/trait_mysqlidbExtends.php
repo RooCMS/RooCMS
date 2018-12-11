@@ -137,6 +137,38 @@ trait MySQLiDBExtends {
 
 
 	/**
+	 * Check for adding AND rules for condition
+	 *
+	 * @param string $cond - condition
+	 *
+	 * @return string
+	 */
+	public function qcond_and($cond) {
+		if(trim($cond) != "") {
+			$cond .= " AND ";
+		}
+
+		return $cond;
+	}
+
+
+	/**
+	 * Check for adding OR rules for condition
+	 *
+	 * @param string $cond - condition
+	 *
+	 * @return string
+	 */
+	public function qcond_or($cond) {
+		if(trim($cond) != "") {
+			$cond .= " OR ";
+		}
+
+		return $cond;
+	}
+
+
+	/**
 	 * Abstract
 	 *
 	 * @param $from

@@ -63,10 +63,7 @@ trait UserGroups {
 
 		$cond = "";
 		foreach($gids AS $gid) {
-			if(trim($cond) != "") {
-				$cond  .= " OR ";
-			}
-
+			$cond = $db->qcond_or($cond);
 			$cond .= " gid='".$gid."' ";
 		}
 
