@@ -3,7 +3,7 @@
 {if $userdata['uid'] == 0}
 	<div class="row auth">
 		<div class="col-sm-12 text-right">
-			<form method="post" action="?part=ucp&act=login" class="form-inline">
+			<form method="post" action="{$SCRIPT_NAME}?part=ucp&act=login" class="form-inline">
 				<div class="form-group form-group-sm text-left" style="margin-top: 10px;">
 					<div class="inner-addon left-addon">
 						<i class="fa fa-fw fa-user-secret"></i>
