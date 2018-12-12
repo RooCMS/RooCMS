@@ -29,8 +29,7 @@ class ACP_Security {
 
 
 	/**
-	 * Функция проверки текущего доступа пользователя.
-	 * В случае успешной проверки функция изменяет флаг $access на true
+	 * Check user access
 	 */
 	public function __construct() {
 

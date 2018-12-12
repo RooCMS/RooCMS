@@ -56,7 +56,7 @@ class ACP_Structure {
 		# read site tree
 		$smarty->assign('tree', $this->engine->sitetree);
 
-		# Проверяем разрешенные типы страниц для использования
+		# Check enabled page type
 		$content_types = [];
 		foreach($this->engine->content_types AS $key=>$value) {
 			if($value['enable']) {
@@ -72,13 +72,13 @@ class ACP_Structure {
 		$smarty->assign("default_thumb_size", $default_thumb_size);
 
 
-		# Проверяем идентификатор
+		# Check id
 		if(isset($get->_id) && $db->check_id($get->_id, STRUCTURE_TABLE)) {
 			$this->sid = $get->_id;
 		}
 
 
-		# действуем
+		# action
 		switch($roocms->part) {
 			# create
 			case 'create':
@@ -114,14 +114,14 @@ class ACP_Structure {
 				break;
 		}
 
-		# отрисовываем шаблон
+		# tpl
 		$smarty->assign('content', $content);
 		$tpl->load_template("structure");
 	}
 
 
 	/**
-	 * Создаем новый структурный элемент
+	 * Create new structure unit
 	 */
 	private function create_unit() {
 
@@ -133,17 +133,17 @@ class ACP_Structure {
 
 		if(!isset($_SESSION['error'])) {
 
-			# проверяем тип родителя
+			# check parent type
 			$q = $db->query("SELECT page_type FROM ".STRUCTURE_TABLE." WHERE id='".$post->parent_id."'");
 			$d = $db->fetch_assoc($q);
 
-			# Нельзя к лентам добавлять другие дочерние элементы, кроме таких же лент.
+			# not add another page type to feed
 			if($d['page_type'] == "feed" && $post->page_type != "feed") {
 				$logger->error("Вы не можете установить для ленты в качестве дочерней страницы другой структурный элемент, кроме ленты.");
 				goback();
 			}
 
-			# добавляем структурную еденицу
+			# insert structure int data
 			$db->query("INSERT INTO ".STRUCTURE_TABLE."    (alias, title, parent_id, nav, group_access, page_type, meta_title, meta_description, meta_keywords, noindex, sort, date_create, date_modified, thumb_img_width, thumb_img_height)
 								VALUES ('".$post->alias."', '".$post->title."', '".$post->parent_id."', '".$post->nav."', '".$post->gids."', '".$post->page_type."', '".$post->meta_title."', '".$post->meta_description."', '".$post->meta_keywords."', '".$post->noindex."', '".$post->sort."', '".time()."', '".time()."', '".$post->thumb_img_width."', '".$post->thumb_img_height."')");
 			$sid = $db->insert_id();
@@ -165,7 +165,7 @@ class ACP_Structure {
 					break;
 			}
 
-			# пересчитываем "детей"
+			# recount childs
 			$this->count_childs($post->parent_id);
 
 			# notice
@@ -189,9 +189,9 @@ class ACP_Structure {
 
 
 	/**
-	 * Функция редактирования элемента структуры
+	 * Edit structure unit
 	 *
-	 * @param int $sid - уникальный идентификатор структурной едеицы
+	 * @param int $sid - Structure id
 	 *
 	 * @return string
 	 */
@@ -215,7 +215,7 @@ class ACP_Structure {
 		# list groups
 		$groups = $users->get_usergroups();
 
-		# шаблонизируем... (слово то какое...)
+		# tpl
 		$smarty->assign("gids",   $gids);
 		$smarty->assign("groups", $groups);
 		$smarty->assign("data",   $data);
@@ -225,11 +225,9 @@ class ACP_Structure {
 
 
 	/**
-	 * Обновляем элемент структуры
+	 * Update structure unit
 	 *
-	 * @param $sid
-	 *
-	 * @internal param int $id - Идентификатор структурной еденицы
+	 * @param int $sid - structure id
 	 */
 	private function update_unit($sid) {
 
@@ -241,22 +239,22 @@ class ACP_Structure {
 
 		if(!isset($_SESSION['error'])) {
 
-			# Нельзя менять родителя у главной страницы и алиас
+			# dont change parent, alias and nav flag for main page
 			If($sid == 1) {
 				$post->parent_id = 0;
 				$post->alias     = "index";
 				$post->nav       = 1;
 			}
 
-			# Если мы назначаем нового родителя
+			# if set new parent
 			if($post->parent_id != $post->now_parent_id) {
 
-				# Проверим, что не пытаемся быть родителем самим себе
+				# Check that we are not trying to be a parent for ourselves
 				if($post->parent_id == $sid) {
 					$post->parent_id = $post->now_parent_id;
 					$logger->error("Не удалось изменить иерархию! Вы не можете назначить страницу подчиненной самой себе!");
 				}
-				# ... и что новый родитель это не наш ребенок
+				# ... and check that new parent is not a child
 				else {
 					$childs = $this->engine->load_tree($sid);
 
@@ -269,15 +267,15 @@ class ACP_Structure {
 				}
 			}
 
-			# проверяем тип родителя
+			# get parent type
 			$q = $db->query("SELECT page_type FROM ".STRUCTURE_TABLE." WHERE id='".$post->parent_id."'");
 			$d = $db->fetch_assoc($q);
 
-			# проверяем тип текущей страницы
+			# get page type
 			$q = $db->query("SELECT page_type FROM ".STRUCTURE_TABLE." WHERE id='".$sid."'");
 			$n = $db->fetch_assoc($q);
 
-			# Нельзя к лентам добавлять другие дочерние элементы, кроме таких же лент.
+			# not add another page type to feed
 			if($d['page_type'] == "feed" && $n['page_type'] != "feed") {
 				$logger->error("Вы не можете установить для ленты в качестве дочерней страницы другой структурный элемент, кроме ленты.");
 				$post->parent_id = $post->now_parent_id;
@@ -302,9 +300,9 @@ class ACP_Structure {
 					WHERE
 						id='".$sid."'");
 
-			# Если мы назначаем нового родителя
+			# if set new parent
 			if($post->parent_id != $post->now_parent_id) {
-				# пересчитываем "детей"
+				# recount childs
 				$this->count_childs($post->parent_id);
 				$this->count_childs($post->now_parent_id);
 			}
@@ -326,11 +324,9 @@ class ACP_Structure {
 
 
 	/**
-	 * Удаляем структурный элемент
+	 * Remove structure unit
 	 *
-	 * @param $sid
-	 *
-	 * @internal param int $id
+	 * @param int $sid - structure id
 	 */
 	private function delete_unit($sid) {
 
@@ -383,14 +379,12 @@ class ACP_Structure {
 
 
 	/**
-	 * Проверяем "алиас" на уникальность
+	 * Check alias name on unique
 	 *
-	 * ВНИМАНИЕ! Не расчитывайте на эту функцию, она временная.
+	 * @param string $name    - uname
+	 * @param string $without - exclude uname
 	 *
-	 * @param string $name    - алиас
-	 * @param string $without - Выражение исключения для mysql запроса
-	 *
-	 * @return bool $res - true - если алиас не уникален, false - если алиас уникален
+	 * @return bool
 	 */
 	private function check_unique_alias($name, $without="") {
 
@@ -430,7 +424,7 @@ class ACP_Structure {
 
 
 	/**
-	 * Функция проверяет алиас структурной еденицы и при необходимости корректирует его.
+	 * Alias handler
 	 */
 	private function handler_alias() {
 
@@ -440,17 +434,16 @@ class ACP_Structure {
 			$post->alias = $post->title;
 		}
 
-		# избавляем URI от возможных конвульсий
+		# clear alias from trash symbols
 		$post->alias = strtr($post->alias, array(' '=>'_', '-'=>'_', '='=>'_'));
 
-		# а так же проверяем что бы алиас не оказался числом
+		# correct alias
 		$post->alias = $parse->text->correct_aliases($post->alias);
 	}
 
 
 	/**
-	 * Функция проверяет заголовок, алиас, разрешения и иные параметры
-	 * перед размещением или обновлением структурной еденицы.
+	 * Check unit data
 	 */
 	private function check_unit_parametrs() {
 
@@ -490,17 +483,17 @@ class ACP_Structure {
 
 
 	/**
-	 * Пересчитываем "детей"
+	 * Recount subparts
 	 *
-	 * @param int $id
+	 * @param int $sid - structure id
 	 */
-	private function count_childs($id) {
+	private function count_childs($sid) {
 
 		global $db;
 
-		$c = $db->count(STRUCTURE_TABLE, "parent_id='".$id."'");
+		$c = $db->count(STRUCTURE_TABLE, "parent_id='".$sid."'");
 
-		$db->query("UPDATE ".STRUCTURE_TABLE." SET childs='".$c."' WHERE id='".$id."'");
+		$db->query("UPDATE ".STRUCTURE_TABLE." SET childs='".$c."' WHERE id='".$sid."'");
 	}
 }
 

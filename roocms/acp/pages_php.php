@@ -26,9 +26,9 @@ if(!defined('RooCMS') || !defined('ACP')) {
 class ACP_Pages_PHP {
 
 	/**
-	* Редактирование PHP страницы
+	* Edit content
 	*
-	* @param boolean $sid - Структурный идентификатор
+	* @param int $sid - Structure id
 	*/
 	public function edit($sid) {
 
@@ -67,9 +67,9 @@ class ACP_Pages_PHP {
 
 
 	/**
-	* Фнкция удаления PHP страницы
+	* Remove page
 	*
-	* @param boolean $sid - структурная еденица
+	* @param boolean $sid - Structure id
 	*/
 	public function delete($sid) {
 

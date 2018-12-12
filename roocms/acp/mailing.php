@@ -50,7 +50,7 @@ class ACP_Mailing {
 
 
 	/**
-	 * Форма набора сообщения.
+	 * Form message
 	 */
 	private function message() {
 
@@ -88,7 +88,7 @@ class ACP_Mailing {
 				$userlist = $users->get_userlist(1,0,-1, $userscond);
 			}
 			else {
-				# только подписчики
+				# only subscribers
 				$userlist = $users->get_userlist(1,0,1, $userscond);
 			}
 
