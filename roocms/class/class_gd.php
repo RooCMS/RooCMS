@@ -46,7 +46,7 @@ class GD {
 
 		global $config, $site, $parse;
 
-		# Получить GD info
+		# Get GD info
 		$this->info = gd_info();
 
 		# Устанавливаем размеры миниатюр из конфигурации
@@ -70,7 +70,7 @@ class GD {
 			$this->th_quality = $config->gd_thumb_jpg_quality;
 		}
 
-		# Если используем watermark
+		# if use watermark
 		if($config->gd_use_watermark == "text") {
 
 			# watermark text string one
@@ -118,15 +118,15 @@ class GD {
 		}
 
 
-		# Наносим ватермарк
+		# Set watermark on image
 		if($config->gd_use_watermark != "no" && $watermark) {
 
-			# Текстовый watermark
+			# Text watermark
 			if($config->gd_use_watermark == "text" ) {
 				$this->watermark_text($filename, $extension, $path);
 			}
 
-			# Графический watermark
+			# Graphic watermark
 			if($config->gd_use_watermark == "image" ) {
 				$this->watermark_image($filename, $extension, $path);
 			}
@@ -148,7 +148,7 @@ class GD {
 		$fileresize 	= $filename."_resize.".$ext;
 
 
-		# определяем размер картинки
+		# Get image size
 		$size = getimagesize($path."/".$fileoriginal);
 		$w = $size[0];
 		$h = $size[1];
@@ -199,7 +199,7 @@ class GD {
 		# vars
 		$file = $filename.".".$ext;
 
-		# определяем размер картинки
+		# Get image size
 		$size = getimagesize($path."/".$file);
 
 		# пробуем определить ориентацию изображения
@@ -244,7 +244,7 @@ class GD {
 				break;
 		}
 
-		# льем превью
+		# save preview
 		$this->imgsave($resize, $path."/".$file, $ext, $this->th_quality);
 
 		imagedestroy($resize);
@@ -266,7 +266,7 @@ class GD {
         	$fileresize 	= $filename."_resize.".$ext;
         	$filethumb 	= $filename."_thumb.".$ext;
 
-		# определяем размер картинки
+		# Get image size
 		$size 		= getimagesize($path."/".$fileresize);
 
 		# вносим в память пустую превью и оригинальный файл, для дальнейшего издевательства над ними.
@@ -296,7 +296,7 @@ class GD {
 
 		imagecopyresampled($thumb, $src, $ns['new_left'], $ns['new_top'], 0, 0, $ns['new_width'], $ns['new_height'], $size[0], $size[1]);
 
-		# льем превью
+		# save preview
 		$this->imgsave($thumb, $path."/".$filethumb, $ext, $this->th_quality);
 
 		imagedestroy($thumb);
@@ -316,13 +316,13 @@ class GD {
 		# vars
         	$fileresize = $filename."_resize.".$ext;
 
-		# определяем размер картинки
+		# get image size
 		$size = getimagesize($path."/".$fileresize);
 
 		# вводим в память файл для издевательств
 		$src = $this->imgcreate($path."/".$fileresize, $ext);
 
-		# удаляем оригинал
+		# erase original
 		unlink($path."/".$fileresize);
 
 
@@ -343,7 +343,7 @@ class GD {
 		$shadow = imagecolorallocatealpha($src, 0, 0, 0, 20);
 		$color  = imagecolorallocatealpha($src, 255, 255, 255, 20);
 
-		# размер шрифта
+		# font size
 		$fontsize = 10;
 
 		# выбираем шрифт
@@ -365,7 +365,7 @@ class GD {
 			imagettftext($src, $fontsize, $angle, 7, $size[1]-5, $color, $fontfile, $this->domain);
 		}
 
-		# вливаем с ватермарком
+		# save with watermark
 		$this->imgsave($src, $path."/".$fileresize, $ext, $this->rs_quality);
 
         	imagedestroy($src);
@@ -386,7 +386,7 @@ class GD {
 		# vars
 		$fileresize = $filename."_resize.".$ext;
 
-		# определяем размер картинки
+		# get image size
 		$size = getimagesize($path."/".$fileresize);
 		$w = $size[0];
 		$h = $size[1];
@@ -394,7 +394,7 @@ class GD {
 		# вводим в память файл для издевательств
 		$src = $this->imgcreate($path."/".$fileresize, $ext);
 
-		# удаляем оригинал
+		# remove original
 		unlink($path."/".$fileresize);
 
 		# watermark

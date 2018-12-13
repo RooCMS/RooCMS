@@ -30,18 +30,17 @@ class ACP_Users {
 	private $gid = 0;
 
 
-
 	/**
-	 * Вперед и только веперед
+	 * ACP_Users constructor.
 	 */
 	public function __construct() {
 
 		global $roocms, $tpl;
 
 
-		# Проверяем идентификатор юзера
+		# Check user id
 		$this->check_var_uid();
-		# Проверка идентификтора группы
+		# Check group id
 		$this->check_var_gid();
 
 
@@ -126,7 +125,7 @@ class ACP_Users {
 
 
 	/**
-	 * Выводим список пользователей.
+	 * Show users list
 	 */
 	private function view_all_users() {
 
@@ -149,6 +148,7 @@ class ACP_Users {
 			$data[] = $row;
 		}
 
+		# tpl
 		$smarty->assign("data", $data);
 		$content = $tpl->load_template("users_view_users", true);
 		$smarty->assign("content", $content);
@@ -156,7 +156,7 @@ class ACP_Users {
 
 
 	/**
-	 * Выводим список групп.
+	 * Show groups list
 	 */
 	private function view_all_groups() {
 
@@ -172,6 +172,7 @@ class ACP_Users {
 			$data[] = $row;
 		}
 
+		# tpl
 		$smarty->assign("data", $data);
 		$content = $tpl->load_template("users_view_groups", true);
 		$smarty->assign("content", $content);
@@ -179,7 +180,7 @@ class ACP_Users {
 
 
 	/**
-	 * Функция для создания нового пользователя
+	 * Create new user
 	 */
 	private function create_new_user() {
 
@@ -218,7 +219,7 @@ class ACP_Users {
 				# avatar
 				$users->upload_avatar($uid);
 
-				# Если мы переназначаем группу пользователя
+				# If changed user group
 				if(isset($post->gid)) {
 					# recount users
 					$this->count_users($post->gid);
@@ -259,7 +260,7 @@ class ACP_Users {
 
 
 	/**
-	 * Функция для создания новой группы
+	 * Create new group
 	 */
 	private function create_new_group() {
 
@@ -303,9 +304,9 @@ class ACP_Users {
 
 
 	/**
-	 * Функция редактирования пользователя.
+	 * Edit user data.
 	 *
-	 * @param int $uid - уникальный ид пользователя.
+	 * @param int $uid - user identificator.
 	 */
 	private function edit_user($uid) {
 
@@ -346,9 +347,9 @@ class ACP_Users {
 
 
 	/**
-	 * Функция редактирования группы.
+	 * Edit group data
 	 *
-	 * @param int $gid - уникальный ид группы.
+	 * @param int $gid - group identificator.
 	 */
 	private function edit_group($gid) {
 
@@ -372,9 +373,9 @@ class ACP_Users {
 
 
 	/**
-	 * Функция обновляет данные пользователя в БД
+	 * Update user data
 	 *
-	 * @param int $uid - уникальный идентификатор пользователя
+	 * @param int $uid - user identificator
 	 */
 	private function update_user($uid) {
 
@@ -452,7 +453,7 @@ class ACP_Users {
 									date_update='".time()."' 
 								WHERE uid='".$uid."'");
 
-				# Если мы переназначаем группу пользователя
+				# If changed user group
 				if(isset($post->gid, $post->now_gid) && $post->gid != $post->now_gid) {
 					# recount users
 					$this->count_users($post->gid);
@@ -488,9 +489,9 @@ class ACP_Users {
 
 
 	/**
-	 * Функция обновляет данные группы пользователей БД
+	 * Update group data
 	 *
-	 * @param int $gid - уникальный идентификатор группы
+	 * @param int $gid - group identificator
 	 */
 	private function update_group($gid) {
 
@@ -545,15 +546,15 @@ class ACP_Users {
 
 
 	/**
-	 * Функция удаляет выбранного пользователя из БД
+	 * remove user
 	 *
-	 * @param int $uid - уникальный идентификатор пользователя
+	 * @param int $uid - user identificator
 	 */
 	private function delete_user($uid) {
 
 		global $db, $img, $logger;
 
-		# О Боже, только не это...
+		# Oh, my god... damn...
 		if($uid == 1) {
 			$logger->msg("Нельзя удалить учетную запись главного администратора!");
 		}
@@ -561,17 +562,17 @@ class ACP_Users {
 			$q = $db->query("SELECT gid, avatar FROM ".USERS_TABLE." WHERE uid='".$uid."'");
 			$data = $db->fetch_assoc($q);
 
-			# удаляем аватарку.
+			# remove avatat
 			$img->erase_image(_UPLOADIMAGES."/".$data['avatar']);
 
-			# удаляем юзера
+			# remove user data
 			$db->query("DELETE FROM ".USERS_TABLE." WHERE uid='".$uid."'");
 			$logger->info("Пользователь #".$uid." был успешно удален из Базы Данных.");
 
-			# пересчитываем пользователей в группе.
+			# recount user in group
 			$this->count_users($data['gid']);
 
-			# удаляем его переписку
+			# remove user pm
 			$db->query("DELETE FROM ".USERS_PM_TABLE." WHERE to_uid='".$uid."'");
 		}
 
@@ -581,9 +582,9 @@ class ACP_Users {
 
 
 	/**
-	 * Функция удаляет выбранную группу из БД
+	 * Remove group
 	 *
-	 * @param int $gid - уникальный идентификатор группы
+	 * @param int $gid - group identificator
 	 */
 	private function delete_group($gid) {
 
@@ -600,10 +601,10 @@ class ACP_Users {
 
 
 	/**
-	 * Исключаем пользователя из группы
+	 * Exclude user from group
 	 *
-	 * @param int $uid - уникальный идентификатор пользователя.
-	 * @param int $gid - Уникальный идентификатор группы
+	 * @param int $uid - user identificator
+	 * @param int $gid - group identificator
 	 */
 	private function exclude_user_group($uid, $gid) {
 
@@ -618,7 +619,7 @@ class ACP_Users {
 			# notice
 			$logger->info("Пользователь #".$uid." был успешно исключен из группы #".$gid.".");
 
-			# пересчитываем пользователей в группе.
+			# recount user in group
 			$this->count_users($gid);
 		}
 
@@ -627,9 +628,9 @@ class ACP_Users {
 	}
 
 	/**
-	 * Функция проверяет кол-во пользователей состоящих в группе.
+	 * Count user in group
 	 *
-	 * @param int $gid - уникальный идентификатор группы
+	 * @param int $gid - group identificator
 	 */
 	private function count_users($gid) {
 

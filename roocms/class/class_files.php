@@ -66,22 +66,22 @@ class Files {
 		$ext = $this->get_ext($filename);
 		$filename = str_ireplace(".".$ext, "", $filename);
 
-		# префикс
+		# prefix
 		if(trim($prefix) != "")	{
 			$prefix .= "_";
 		}
-		# постфикс
+		# pofix
 		if(trim($pofix)  != "")	{
 			$pofix = "_".$pofix;
 		}
 
-		# транслит
+		# transliterate
 		$filename = $parse->text->transliterate($filename, "lower");
 
 		# Чистим имя файла от "левых" символов.
 		$filename = preg_replace(array('(\s\s+)','(\-\-+)','(__+)','([^a-zA-Z0-9\-_])'), array(' ','-','_',''), $filename);
 
-		# Проверяем длину имения файла
+		# check filename leight
 		$length = mb_strlen($ext) + 3;
 		$length += mb_strlen($prefix) + 1;
 		$length += mb_strlen($pofix) + 1;

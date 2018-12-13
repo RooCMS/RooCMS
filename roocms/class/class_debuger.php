@@ -119,7 +119,7 @@ class Debuger {
 
 
 	/**
-	* Проверяем наличие требуемых PHP расширений
+	* Check required php extensions
 	*
 	*/
 	private function check_phpextensions() {
@@ -135,7 +135,7 @@ class Debuger {
 
 
 	/**
-	 * Проверяем важные для разработчика константы
+	 * Check dev conts
 	 */
 	private function check_dev_constants() {
 		# check debugmode flag
@@ -306,7 +306,7 @@ class Debuger {
 
 		$this->debug_dump[] = $output;
 
-    	        # шагаем
+    	        # step
     	        $use++;
 	}
 
@@ -343,7 +343,7 @@ class Debuger {
 			echo "</div></div></div></div>";
 		}
 
-		# Функции
+		# functions
 		echo "<div class='container'><div class='row'><div class='col-xs-12'><div class='panel-group' id='debug2accordion'>";
 		echo "	<div class='panel panel-default'>
 				<div class='panel-heading'>
