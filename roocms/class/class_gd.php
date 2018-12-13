@@ -92,9 +92,9 @@ class GD {
 	 * Функция проводит стандартные операции над загруженным файлом.
 	 * Изменяет размеры, создает миниатюру, наносит водяной знак.
 	 *
-	 * @param string $filename  - Имя файла (без расширения)
-	 * @param string $extension - расширение файла
-	 * @param string $path      - путь к расположению файла.
+	 * @param string $filename  - file name
+	 * @param string $extension - file extension (without dot)
+	 * @param string $path      - path to file
 	 * @param bool   $watermark - флаг указывает наносить ли водяной знак на рисунок.
 	 * @param bool   $modify    - флаг указывает подвергать ли изображение полной модификации с сохранением оригинального изображения и созданием превью.
 	 * @param bool   $noresize  - флаг указывает подвергать ли изображение изменению размера. Иcпользуется в том случае когда мы не хотим изменять оригинальное изображение.
@@ -137,9 +137,9 @@ class GD {
 	/**
 	 * Изменяем размер изображения, если оно превышает допустимый администратором.
 	 *
-	 * @param string $filename - Имя файла изображения
-	 * @param string $ext      - Расширение файла без точки
-	 * @param string $path     - Путь к папке с файлом. По умолчанию указан путь к папке с изображениями
+	 * @param string $filename - file name
+	 * @param string $ext      - file extension (without dot)
+	 * @param string $path     - path to file
 	 */
 	protected function resize($filename, $ext, $path=_UPLOADIMAGES) {
 
@@ -190,9 +190,9 @@ class GD {
 	/**
 	 * Изменяем размер изображения.
 	 *
-	 * @param string $filename - Имя файла изображения
-	 * @param string $ext      - Расширение файла без точки
-	 * @param string $path     - Путь к папке с файлом. По умолчанию указан путь к папке с изображениями
+	 * @param string $filename - file name
+	 * @param string $ext      - file extension (without dot)
+	 * @param string $path     - path to file
 	 */
 	protected function resized($filename, $ext, $path=_UPLOADIMAGES) {
 
@@ -256,9 +256,9 @@ class GD {
 	/**
 	 * Генерируем миниатюру изображения для предпросмотра.
 	 *
-	 * @param string $filename - Имя файла изображения
-	 * @param string $ext	   - Расширение файла без точки
-	 * @param string $path	   - Путь к папке с файлом. По умолчанию указан путь к папке с изображениями
+	 * @param string $filename - file name
+	 * @param string $ext      - file extension (without dot)
+	 * @param string $path     - path to file
 	 */
 	protected function thumbnail($filename, $ext, $path=_UPLOADIMAGES) {
 
@@ -305,11 +305,11 @@ class GD {
 
 
 	/**
-	 * Функция генерация водяного знака на изображении
+	 * Create and place text watermark
 	 *
-	 * @param string $filename - Имя файла
-	 * @param string $ext - Расширение файла без точки
-	 * @param string $path - Путь к папке с файлом. По умолчанию указан путь к папке с изображениями
+	 * @param string $filename - file name
+	 * @param string $ext      - file extension (without dot)
+	 * @param string $path     - path to file
 	 */
 	protected function watermark_text($filename, $ext, $path=_UPLOADIMAGES) {
 
@@ -336,17 +336,17 @@ class GD {
 		imageconvolution($src, $matrix, 16, 0);	*/
 
 
-		# наклон
+		# angle
 		$angle = 0;
 
-		# Тень следом текст, далее цвет линии подложки
+		# shadow text
 		$shadow = imagecolorallocatealpha($src, 0, 0, 0, 20);
 		$color  = imagecolorallocatealpha($src, 255, 255, 255, 20);
 
 		# font size
 		$fontsize = 10;
 
-		# выбираем шрифт
+		# chose font
 		$fontfile = ""._ROOCMS."/fonts/trebuc.ttf";
 
 		if(trim($this->copyright) != "") {
@@ -373,11 +373,11 @@ class GD {
 
 
 	/**
-	 * Функция генерация водяного знака на изображении
+	 * Create and place image watermark
 	 *
-	 * @param string $filename - Имя файла
-	 * @param string $ext      - Расширение файла без точки
-	 * @param string $path     - Путь к папке с файлом. По умолчанию указан путь к папке с изображениями
+	 * @param string $filename - file name
+	 * @param string $ext      - file extension (without dot)
+	 * @param string $path     - path to file
 	 */
 	protected function watermark_image($filename, $ext, $path=_UPLOADIMAGES) {
 
@@ -391,7 +391,7 @@ class GD {
 		$w = $size[0];
 		$h = $size[1];
 
-		# вводим в память файл для издевательств
+		# get data file for modify
 		$src = $this->imgcreate($path."/".$fileresize, $ext);
 
 		# remove original
@@ -405,7 +405,7 @@ class GD {
 		$watermark = $this->imgcreate($path."/".$config->gd_watermark_image, $wminfo['extension']);
 
 
-		# Расчитываем не будет ли выглядеть большим ватермарк на изображении.
+		# Calculate size watermark for modify
 		$maxwmw = floor($w*0.33); $wp = 0;
 		if($ww >= $maxwmw) {
 			$wp = $parse->percent($maxwmw, $ww);
@@ -431,7 +431,7 @@ class GD {
 		//imagecopyresampled($src, $watermark, $x, $y, 0, 0, $wms['new_width'], $wms['new_height'], $ww, $wh);
 		imagecopyresized($src, $watermark, $x, $y, 0, 0, $wms['new_width'], $wms['new_height'], $ww, $wh);
 
-		# вливаем с ватермарком
+		# save with watermark
 		$this->imgsave($src, $path."/".$fileresize, $ext,  $this->rs_quality);
 
 		imagedestroy($src);
@@ -440,13 +440,13 @@ class GD {
 
 
 	/**
-	 * Фуекция конвертирует изображение jpg в webp
+	 * Convert jpf to webp
 	 *
-	 * @param string $filename - Имя файла
-	 * @param string $ext      - Расширение файла без точки
-	 * @param string $path     - Путь к папке с файлом. По умолчанию указан путь к папке с изображениями
+	 * @param string $filename - file name
+	 * @param string $ext      - file extension (without dot)
+	 * @param string $path     - path to file
 	 *
-	 * @return string          - возвращает новое или неизменное расширение.
+	 * @return string          - return result extension
 	 */
 	protected function convert_jpgtowebp($filename, $ext, $path=_UPLOADIMAGES) {
 

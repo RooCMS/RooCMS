@@ -83,7 +83,7 @@ class RooCMS_Global {
 	*/
 	public function __construct() {
 
-		# Инициируем конфигурацию
+		# init configuration
 		$this->init_configuration();
 
 		# read session id
@@ -103,7 +103,7 @@ class RooCMS_Global {
 		# init useragent
 		$this->useragent = mb_strtolower($_SERVER['HTTP_USER_AGENT']);
 
-		# Обрабатываем useragent для spider bot
+		# check useragent  for detect spider bot
 		$this->check_spider_bot();
 	}
 
@@ -116,10 +116,10 @@ class RooCMS_Global {
 
 		global $db, $site, $debug;
 
-		# делаем объектом
+		# set data type object fot $this->config
 		settype($this->config, "object");
 
-		# заносим опции в объект
+		# get data config options
 		$q = $db->query("SELECT option_name, option_type, value FROM ".CONFIG_TABLE."");
 		while($row = $db->fetch_assoc($q)) {
 
@@ -152,7 +152,7 @@ class RooCMS_Global {
 			}
 		}
 
-		# Устанавливаем title
+		# Set page title
 		if(trim($this->config->site_title) != "" && trim($site['title']) == "") {
 			$site['title'] =& $this->config->site_title;
 		}

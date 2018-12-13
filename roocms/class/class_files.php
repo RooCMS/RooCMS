@@ -178,7 +178,7 @@ class Files {
 				# Грузим апельсины бочками
 				if(array_key_exists($ext, $allow_exts)) {
 
-					# Создаем имя файлу.
+					# create filename
 					$filename  = $this->create_filename($upfiles[$file]['name'][$key], $prefix);
 					$ext       = $allow_exts[$ext];
 
@@ -193,7 +193,7 @@ class Files {
 					$upload = is_file($path."/".$filename.".".$ext);
 				}
 
-				# Если не загрузка удалась
+				# if upload true
 				if(!$upload) {
 					$filename = false;
 				}
@@ -213,7 +213,7 @@ class Files {
 			}
 		}
 
-		# Возвращаем массив имен файлов для внесения в БД
+		# return filename array for insert to db
 		return (count($files) > 0) ? $files : false ;
 	}
 
@@ -240,9 +240,9 @@ class Files {
 
 
 	/**
-	 * Функция удаления файлов из хранилища
+	 * Remove files from data base
 	 *
-	 * @param int|string $file - указать числовой идентификатор или attachedto
+	 * @param int|string $file - file identificator
 	 */
 	public function remove_files($file) {
 
@@ -307,11 +307,11 @@ class Files {
 
 
 	/**
-	 * Проверка размера файла
+	 * Get file size
 	 *
-	 * @param string $file Указывается путь к файлу и имя файла
+	 * @param string $file - path to file and file name
 	 *
-	 * @return string|false Функция возвращает результат вида 10.2Kb или 2.10Mb
+	 * @return string|false - return data file size. Example: 10.2Kb or 1.21 Mb
 	 */
 	public function file_size($file) {
 

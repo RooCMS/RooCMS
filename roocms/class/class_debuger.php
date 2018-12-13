@@ -161,22 +161,22 @@ class Debuger {
 
 
 	/**
-	 * Перехватчик системных ошибок
+	 * System Error Interceptor
 	 *
-	 * @param mixed $errno - Номер ошибки
-	 * @param mixed $msg   - Сообщение об ошибке
-	 * @param mixed $file  - Имя файла с ошбкой
-	 * @param mixed $line  - Номер строки с ошибкой
+	 * @param mixed $errno - error number
+	 * @param mixed $msg   - message od error
+	 * @param mixed $file  - filename with error
+	 * @param mixed $line  - string number with error
 	 *
 	 * @return null|boolean
 	 */
 	public static function debug_critical_error($errno, $msg, $file, $line) {
 
-                # Записываем ошибку в файл
+                # read error in file
 		$subj = file_read(ERRORSLOG);
 		
 
-                switch($errno) {	// Для "умников" - E_CORE_ERROR не вписываем, потому что, до выполнения этого скрипта дело не дойдет. А дойдет, значит не E_CORE_ERROR
+                switch($errno) {
         	        case E_ERROR:			# critical
         		        $erlevel = 0; $ertitle = "Критическая ошибка";
         		        break;
@@ -232,7 +232,7 @@ class Debuger {
 		}
 		fclose($f);
 
-		# Не будем ничего выводить, если нам приказано скрыть ошибки.
+		# hide error if not use debugmode
 		if(error_reporting() == 0 && $erlevel == 0) {
 			die(CRITICAL_STYLESHEETS."<blockquote>Извините, что то пошло не так. Мы уже работаем над устранением причин.<small>".$time."</small></blockquote>");
 		}
@@ -245,15 +245,15 @@ class Debuger {
 	        <br /><b>{$msg}</b>
 	        </div>\n";
 
-		# Убиваем стандартный обработчик, что бы он ничего не выдал шпиёну (:
+		# We kill the standard handler, so that he would not give out anything to the spy (:
 		return true;
 	}
 
 
         /**
-        * Функция включения/отключения протоколирования ошибок
+        * on/off error log
         *
-        * @param boolean $show - флаг включает/выключает ошибки
+        * @param boolean $show
         */
 	private static function error_report($show = false) {
 
@@ -277,16 +277,17 @@ class Debuger {
 	}
 
 
-        /**
-        * Функция отладки
-        *
-        * @param mixed $var     - Переменная для отладки
-        * @return mixed - Функция выводит на экран дамп переменной $var
-        */
+	/**
+	 * Debug function
+	 *
+	 * @param mixed $var - variable/data/object for debugging
+	 *
+	 * @return mixed     - show variable dump for $var
+	 */
 	public function rundebug($var) {
                 static $use = 1;
 
-                # регестрируем шотдаун
+                # shutdown register
     	        if($use == 1) {
 			register_shutdown_function(array($this,'shutdown'));
     	        }
@@ -312,7 +313,7 @@ class Debuger {
 
 
         /**
-        * Шотдаун (выодвим отладку)
+        * Shutdown (show debug information)
         */
 	public static function shutdown() {
 
