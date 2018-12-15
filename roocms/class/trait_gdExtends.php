@@ -64,9 +64,9 @@ trait GDExtends {
 
 
 	/**
-	 * Получаем ориентацию изображения
+	 * Get image orintation
 	 *
-	 * @param string $image - указываем путь к изображению
+	 * @param string $image - path to image
 	 *
 	 * @return int
 	 */
@@ -117,7 +117,7 @@ trait GDExtends {
 
 
 	/**
-	 * Корректируем массив с обновленными размерами.
+	 * Calculate new size
 	 *
 	 * @param array $ns - array new size
 	 *

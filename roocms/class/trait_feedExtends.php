@@ -23,7 +23,7 @@ if(!defined('RooCMS')) {
 trait FeedExtends {
 
 	/**
-	 * Функция возвращает условие для порядка сортировки результата запроса из БД
+	 * Function returns condition for sorting result query from database.
 	 *
 	 * @param string $rule - rule for sorting
 	 *

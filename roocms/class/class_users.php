@@ -166,9 +166,9 @@ class Users extends Security {
 
 
 	/**
-	 * Функция получения данных о пользователе.
+	 * Get user data
 	 *
-	 * @param int $uid идентификатор пользователя
+	 * @param int $uid - user id
 	 *
 	 * @return array user data
 	 */
@@ -246,7 +246,7 @@ class Users extends Security {
 			$cond = "WHERE".$cond;
 		}
 
-		# получаем список пользователей
+		# Get user list
 		$userlist = [];
 		$q = $db->query("SELECT uid, nickname, user_slogan, avatar, user_sex, email FROM ".USERS_TABLE." ".$cond." ORDER BY nickname ASC");
 		while($row = $db->fetch_assoc($q)) {

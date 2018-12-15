@@ -26,12 +26,12 @@ if(!defined('RooCMS')) {
 trait MySQLiDBExtends {
 
 	# pages param
-	public  $pages		= 0;	# [int]	Всего страниц
-	public  $page		= 1;	# [int] Текущая страница
-	public	$prev_page	= 0;	# [int] Предыдущая страница
-	public	$next_page	= 0;	# [int] Следующая страница
-	public 	$limit		= 15;	# [int] Число строк для запроса
-	public  $from		= 0;	# [int] Стартовая позиция для запроса
+	public  $pages		= 0;	# [int]	Number of pages
+	public  $page		= 1;	# [int] Current page
+	public	$prev_page	= 0;	# [int] Prev page
+	public	$next_page	= 0;	# [int] Next page
+	public 	$limit		= 15;	# [int] Number of rows for query
+	public  $from		= 0;	# [int] Starting position for request
 
 
 	/**
@@ -43,22 +43,22 @@ trait MySQLiDBExtends {
 	*/
 	public function pages_mysql($from, $cond="id!=0", $query="") {
 
-		# Считаем
+		# Count
 		$count = $this->count($from, "{$cond} {$query}");
 
 		# Если товаров больше чем на одну страницу...
 		if($count > $this->limit) {
-			# Получаем кол-во страниц
+			# Get number of pages
 			$this->pages = $count / $this->limit;
 			# Проверяем полученное число на "целое" или "десятичное"
 			if(mb_strpos($this->pages,".", 0, "utf8") !== false || mb_strpos($this->pages,",", 0,"utf8") !== false) {
 				$this->pages++;
 			}
-			# Округляем
+			# Round off
 			$this->pages = (int) floor($this->pages);
 		}
 
-		# завершаем расчитывать переменные
+		# Calculate page vars
 		$this->claculate_page_vars();
 	}
 
@@ -78,11 +78,11 @@ trait MySQLiDBExtends {
 			if(mb_strpos($this->pages,".", 0, "utf8") !== false || mb_strpos($this->pages,",", 0, "utf8") !== false) {
 				$this->pages++;
 			}
-			# Округляем
+			# Round off
 			$this->pages = (int) floor($this->pages);
 		}
 
-		# завершаем расчитывать переменные
+		# Calculate page vars
 		$this->claculate_page_vars();
 	}
 
@@ -108,7 +108,7 @@ trait MySQLiDBExtends {
 			$this->page = $this->pages;
 		}
 
-		# Предыдущая и следующая страница
+		# Prev and next page
 		if($this->page > 1) {
 			$this->prev_page = $this->page - 1;
 		}
@@ -119,7 +119,7 @@ trait MySQLiDBExtends {
 
 
 	/**
-	 * check connection pattern
+	 * Check connection pattern
 	 *
 	 * @return bool
 	 */
