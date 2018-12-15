@@ -63,9 +63,9 @@ class Structure {
 
 
 	/**
-	* Запускаем класс
+	* Init class
 	*
-	* @param boolean $ui - использовать true только в клиентском интерфейсе.
+	* @param bool $ui - use true only user interface
 	*/
 	public function __construct($ui=true) {
 
@@ -84,13 +84,13 @@ class Structure {
 
 
 	/**
-	 * Собираем дерево "сайта" (шаг 1)
+	 * Construct tree for site (step 1)
 	 *
-	 * @param int     $parent   - идентификатор родителя от которого расчитываем "дерево". Указываем его только если хотим не все дерево расчитать, а лишь его часть
-	 * @param int     $maxlevel - указываем уровень глубины построения дерева, только если не хотим выводить все дерево.
-	 * @param boolean $child    - укажите false если не хотите расчитывать подуровни.
+	 * @param int     $parent   - id for start construction tree.
+	 * @param int     $maxlevel - set level for get sublevels, if param == 0, return all sublevels
+	 * @param boolean $child    - set false if you dont get sublevels.
 	 *
-	 * @return array|null|false
+	 * @return array|null|false - return false if tree not construct, or return rray tree.
 	 */
 	public function load_tree($parent=0, $maxlevel=0, $child=true) {
 
@@ -143,13 +143,13 @@ class Structure {
 
 
 	/**
-	 * Собираем дерево "сайта" (шаг 2)
+	 * Construct tree for site (step 2)
 	 *
-	 * @param array   $unit     - массив данных "дерева"
-	 * @param int     $parent   - идентификатор родителя от которого расчитываем "дерево". Указываем его только если хотим не все дерево расчитать, а лишь его часть
-	 * @param int     $maxlevel - указываем уровень глубины построения дерева, только если не хотим выводить все дерево.
-	 * @param boolean $child    - укажите false если не хотите расчитывать подуровни.
-	 * @param int     $level    - текущий обрабатываемый уровень (используется прирасчете дочерних страниц)
+	 * @param array   $unit     - fresh data tree
+	 * @param int     $parent   - id for start construction tree.
+	 * @param int     $maxlevel - set level for get sublevels, if param == 0, return all sublevels
+	 * @param boolean $child    - set false if you dont get sublevels.
+	 * @param int     $level    - this param for this handler. Dont use handly.
 	 *
 	 * @return array|null
 	 */
@@ -188,7 +188,7 @@ class Structure {
 
 
 	/**
-	 * Загружаем ui data
+	 * Load ui data
 	 */
 	private function load_ui() {
 

@@ -288,7 +288,7 @@ class ACP_Help {
 	 * @param int     $maxlevel - set level for get sublevels, if param == 0, return all sublevels
 	 * @param boolean $child    - set false if you dont get sublevels.
 	 *
-	 * @return array|null|false - вернет флаг false если дерево не собрано, или вернет массив с деревом.
+	 * @return array|null|false - return false if tree not construct, or return rray tree.
 	 */
 	public function load_tree($parent=0, $maxlevel=0, $child=true) {
 

@@ -209,10 +209,10 @@ class Tags {
 
 
 	/**
-	 * Добавляем новый Тег
+	 * Add new tag in DB
 	 *
-	 * @param string $tag      - Тег
-	 * @param string $linkedto - Указатель к чему прикреплен данный тег
+	 * @param string $tag      - tag
+	 * @param string $linkedto - tag pointer
 	 */
 	private function add_new_tag($tag, $linkedto) {
 
@@ -228,10 +228,10 @@ class Tags {
 
 
 	/**
-	 * Добавляем Тег, который уже используется на сайте.
+	 * Add tag pointer.
 	 *
-	 * @param int    $tag_id   - Идентификатор теша
-	 * @param string $linkedto - Указатель к чему прикреплен данный тег
+	 * @param int    $tag_id   - tag id
+	 * @param string $linkedto - tag pointer
 	 */
 	private function add_instock_tag($tag_id, $linkedto) {
 
@@ -320,10 +320,10 @@ class Tags {
 
 
 	/**
-	 * Пересчитываем кол-во использований тега.
+	 * Recount tag
 	 *
-	 * @param int $tag_id - Идентификатор Тега
-	 * @param int $amount - кол-во на текущий момент, если известно
+	 * @param int $tag_id - tag id
+	 * @param int $amount - now amount tag
 	 */
 	private function recount_tag($tag_id, $amount=-1) {
 
@@ -340,7 +340,7 @@ class Tags {
 
 
 	/**
-	 * Функция для array_map, которая вернет названия тега.
+	 * Function for array_map, to callback title tag
 	 *
 	 * @param $tag
 	 *

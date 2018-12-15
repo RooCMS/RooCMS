@@ -120,10 +120,10 @@ class Template {
 
 
 	/**
-	 * Загружаем шаблон
+	 * Load template
 	 *
-	 * @param string  $tpl    - Имя шаблона.
-	 * @param boolean $return - Включенный флаг возвращает загруженный через return
+	 * @param string  $tpl    - template name
+	 * @param bool    $return - if use $return to true, function return dump data tpl
 	 *
 	 * @return string|null
 	 */
@@ -157,10 +157,10 @@ class Template {
 
 
 	/**
-	 * Функция проверяет наличие шаблона
+	 * If tpl exists
 	 *
 	 * @param string $path - path to folder
-	 * @param string $tpl  template name
+	 * @param string $tpl  - template name
 	 *
 	 * @return bool
 	 */
