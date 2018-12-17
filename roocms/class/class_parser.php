@@ -131,7 +131,7 @@ class Parser {
 
 		foreach ($get as $key=>$value) {
 
-			# чистим ключ объекта от фигни
+			# clear key
 			$key = "_".$key;
 
 			if(is_array($value)) {
@@ -162,7 +162,7 @@ class Parser {
 	 */
 	private function get_uri() {
 
-		# Получаем uri
+		# get uri
 		$this->uri = str_replace($_SERVER['SCRIPT_NAME'], "", $_SERVER['REQUEST_URI']);
 		if(isset($_SERVER['REDIRECT_URL']) && trim($_SERVER['REDIRECT_URL']) != "") {
 			$this->uri = str_replace($_SERVER['REDIRECT_URL'], "", $_SERVER['REQUEST_URI']);
@@ -188,12 +188,12 @@ class Parser {
 		# разбиваем
 		$gets = explode("/",$this->uri);
 
-		# считаем
+		# calculate
 		$c = count($gets);
 		# если у нас чистый ури без левых примесей.
 		if($c > 2 && trim($gets[0]) == "") {
 
-			# Подтверждаем что используем ЧПУ
+			# if detect frendly Url
 			$this->uri_chpu = true;
 
 			# перебираем

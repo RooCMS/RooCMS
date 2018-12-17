@@ -241,45 +241,27 @@ class Template {
 
 
 	/**
-	* Parse OUTPUT for eval blocks
-	*
-	*/
-	private function init_blocks() {
+	 * Parse OUTPUT for user components (blocks, modules, widgets)
+	 *
+	 * @param string $component - block | module
+	 */
+	private function init_component($component="blocks") {
 
-		global $blocks;
+		global $blocks, $module;
 
-		preg_match_all('(\{\$blocks-\>load\(([a-zA-Z0-9_"\';&-]*?)\)\})', $this->out, $block);
+		preg_match_all('(\{\$'.$component.'-\>load\(([a-zA-Z0-9_"\';&-]*?)\)\})', $this->out, $name);
 
-		$b = array_unique($block[1]);
+		$b = array_unique($name[1]);
 		foreach($b as $v) {
 			$v = str_ireplace('"', '', $v);
-			$buf = $blocks->load($v);
-			$this->out = str_ireplace("{\$blocks->load({$v})}", $buf, $this->out);
+			$buf = $$component->load($v);
+			$this->out = str_ireplace("{\${$component}->load({$v})}", $buf, $this->out);
 		}
 	}
 
 
 	/**
-	 * Parse OUTPUT for eval module
-	 *
-	 */
-	private function init_modules() {
-
-		global $module;
-
-		preg_match_all('(\{\$module-\>load\(([a-zA-Z0-9_"\';&-]*?)\)\})', $this->out, $mod);
-
-		$m = array_unique($mod[1]);
-		foreach($m as $v) {
-			$v = str_ireplace('"', '', $v);
-			$buf = $module->load($v);
-			$this->out = str_ireplace("{\$module->load({$v})}", $buf, $this->out);
-		}
-	}
-
-
-	/**
-	 * Функция компилирует вывод параметров в head
+	 * Load head
 	 *
 	 * @return string|null tpl
 	 */
@@ -332,7 +314,7 @@ class Template {
 
 
 	/**
-	 * Функция компилирует вывод параметров в footer
+	 * load footer
 	 *
 	 * @return string|null tpl
 	 */
@@ -357,7 +339,7 @@ class Template {
 
 
 	/**
-	* Выводим скомпилированный HTML на экран
+	* Show HTML data to screen
 	*
 	*/
 	public function out() {
@@ -374,8 +356,8 @@ class Template {
 
 			# blocks & module in UI
 			if(!defined('ACP')) {
-				$this->init_blocks();
-				$this->init_modules();
+				$this->init_component("blocks");
+				$this->init_component("module");
 			}
 
 			# output
