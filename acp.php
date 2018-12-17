@@ -12,7 +12,7 @@
 
 
 /**
-* Инициализируем админ панель
+* Init Administrator Control Paneel
 */
 define('ACP', true);
 define('_SITEROOT', dirname(__FILE__));

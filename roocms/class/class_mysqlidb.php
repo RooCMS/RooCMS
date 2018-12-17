@@ -488,13 +488,10 @@ class MySQLiDB {
 	public function escape_string($q) {
 
 		$q = htmlspecialchars($q);
-		$q = strtr($q, array(
-		        '{' 		=> '&#123;',
-		        '}' 		=> '&#125;',
-		        '$' 		=> '&#36;',
-		        '&amp;gt;' 	=> '&gt;',
-		        "'"		=> "&#39;"
-		));
+		$q = str_ireplace(
+			array('{','}','$','&amp;gt;','\''),
+			array('&#123;','&#125;','&#36;','&gt;','&#39;'),
+			$q);
 
 		if($this->db_connect) {
 			return $this->sql->real_escape_string($q);

@@ -67,9 +67,9 @@ function sendmail($mail, $theme, $message, $from="robot") {
 	settype($theme,   "string");
 	settype($message, "string");
 
-	$message = strtr($message, array('\\r'=>'', '\\n'=>'\n'));
+	$message = str_ireplace(array('\\r','\\n'), array('', '\n'), $message);
 
-	$domain = strtr($site['domain'], array('http://'=>'', 'https://'=>'', 'www.'=>''));
+	$domain = str_ireplace(array('http://','https://','www.'), '', $site['domain']);
 
 	$from = trim($from);
 	$pattern = '/^[\.\-_A-Za-z0-9]+?@[\.\-A-Za-z0-9]+?\.[A-Za-z0-9]{2,6}$/';

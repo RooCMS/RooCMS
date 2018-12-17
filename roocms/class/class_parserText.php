@@ -76,16 +76,11 @@ class ParserText {
 		}
 		else {
 			$text = htmlspecialchars_decode($text);
-			$text = strtr($text, array(
-				'&#123;' => '{',        #	{
-				'&#125;' => '}',        #	}
-				'&#39;'  => '\'',       #	" [quot]
-				'&#36;'  => '$',
-				'&#036;' => '$',
-				'&#33;'  => '!',
-				'&#124;' => '|',
-				'...'    => '&hellip;'
-			));
+			$text = str_ireplace(
+				array('&#123;','&#125;','&#39;','&#36;','&#036;','&#33;','&#124;','...'),
+				array('{','}','\'','$','$','!','|','&hellip;'),
+				$text
+			);
 		}
 
 		return $text;
@@ -103,17 +98,7 @@ class ParserText {
 	public function clearhtml($text) {
 
 		$text = strip_tags($text);
-
- 		$text = strtr($text, array(
-			'&lt;'		=> '', 		#	< [lt]
-			'&gt;'		=> '', 		#	> [rt]
-			'&#123;'	=> '', 		#	{
-			'&#125;'	=> '', 		#	}
-			'&#39;'		=> '', 		#	" [quot]
-			'&quot;'	=> '', 		#	" [quot]
-			'&amp;'		=> '',		#	& [amp]
-			'&#36;'		=> ''
-		));
+ 		$text = str_ireplace(array('&lt;','&gt;','&#123;','&#125;','&#39;','&quot;','&amp;','&#36;'). '', $text);
 
 		return $text;
 	}

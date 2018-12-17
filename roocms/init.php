@@ -28,7 +28,7 @@ if($_SERVER['REQUEST_URI'] == "/index.php") {
 }
 
 /**
- *  Инициализируем константу указывающую путь к корню сайта
+ *  init root cms path
  */
 if(!defined('_SITEROOT')) {
 	define('_SITEROOT', str_ireplace(DIRECTORY_SEPARATOR."roocms", "", dirname(__FILE__)));
@@ -53,21 +53,21 @@ function check_file_core($file) {
 
 
 /**
-* Настраиваем PHP и прочее
+* Sys & PHP Settings
 */
 if(check_file_core(_SITEROOT."/roocms/config/set.cfg.php")) {
 	require_once(_SITEROOT."/roocms/config/set.cfg.php");
 }
 
 /**
-* Загружаем конфигурацию RooCMS
+* Load Config
 */
 if(check_file_core(_SITEROOT."/roocms/config/config.php")) {
 	require_once(_SITEROOT."/roocms/config/config.php");
 }
 
 /**
-* Заружаем основные константы RooCMS
+* Load const
 */
 if(check_file_core(_SITEROOT."/roocms/config/defines.php")) {
 	require_once(_SITEROOT."/roocms/config/defines.php");
@@ -117,9 +117,6 @@ if(check_file_core(_CLASS."/trait_mysqlidbExtends.php")) {
 */
 if(check_file_core(_CLASS."/class_mysqlidb.php")) {
 	require_once(_CLASS."/class_mysqlidb.php");
-	/**
-	 * Инициализируем класс
-	 */
 	$db = new MySQLiDB;
 }
 
@@ -128,9 +125,6 @@ if(check_file_core(_CLASS."/class_mysqlidb.php")) {
 */
 if(check_file_core(_CLASS."/class_global.php")) {
 	require_once(_CLASS."/class_global.php");
-	/**
-	 * Инициализируем класс
-	 */
 	$roocms = new RooCMS_Global;
 	$config =& $roocms->config;
 }
@@ -140,9 +134,6 @@ if(check_file_core(_CLASS."/class_global.php")) {
  */
 if(check_file_core(_CLASS."/class_logger.php")) {
 	require_once(_CLASS."/class_logger.php");
-	/**
-	 * Инициализируем класс
-	 */
 	$logger	= new Logger;
 }
 
@@ -151,9 +142,6 @@ if(check_file_core(_CLASS."/class_logger.php")) {
  */
 if(check_file_core(_CLASS."/class_post.php")) {
 	require_once(_CLASS."/class_post.php");
-	/**
-	 * Инициализируем класс
-	 */
 	$post = new Post;
 }
 
@@ -162,9 +150,6 @@ if(check_file_core(_CLASS."/class_post.php")) {
 */
 if(check_file_core(_CLASS."/class_parser.php")) {
 	require_once(_CLASS."/class_parser.php");
-	/**
-	 * Инициализируем класс
-	 */
 	$parse 	= new Parser;
 	$get	=& $parse->get;
 }
@@ -181,9 +166,6 @@ if(check_file_core(_CLASS."/class_shteirlitz.php")) {
  */
 if(check_file_core(_CLASS."/class_security.php")) {
 	require_once(_CLASS."/class_security.php");
-	/**
-	 * Инициализируем класс
-	 */
 	$security = new Security;
 }
 
@@ -199,9 +181,6 @@ if(check_file_core(_CLASS."/trait_usergroups.php")) {
  */
 if(check_file_core(_CLASS."/class_users.php")) {
 	require_once(_CLASS."/class_users.php");
-	/**
-	 * Инициализируем класс
-	 */
 	$users = new Users;
 }
 
@@ -210,9 +189,6 @@ if(check_file_core(_CLASS."/class_users.php")) {
  */
 if(check_file_core(_CLASS."/class_tags.php")) {
 	require_once(_CLASS."/class_tags.php");
-	/**
-	 * Инициализируем класс
-	 */
 	$tags = new Tags;
 }
 
@@ -221,9 +197,6 @@ if(check_file_core(_CLASS."/class_tags.php")) {
 */
 if(check_file_core(_CLASS."/class_files.php")) {
 	require_once(_CLASS."/class_files.php");
-	/**
-	 * Инициализируем класс
-	 */
 	$files = new Files;
 }
 
@@ -246,14 +219,11 @@ if(check_file_core(_CLASS."/class_gd.php")) {
 */
 if(check_file_core(_CLASS."/class_images.php")) {
 	require_once(_CLASS."/class_images.php");
-	/**
-	 * Инициализируем класс
-	 */
 	$img = new Images;
 }
 
 /**
- * Запускаем класс XML
+ * XML
  */
 if(check_file_core(_CLASS."/class_xml.php")) {
 	require_once(_CLASS."/class_xml.php");
@@ -261,13 +231,10 @@ if(check_file_core(_CLASS."/class_xml.php")) {
 }
 
 /**
-* Запускаем класс RSS
+* RSS
 */
 if(check_file_core(_CLASS."/class_rss.php")) {
 	require_once(_CLASS."/class_rss.php");
-	/**
-	 * Инициализируем класс
-	 */
 	$rss = new RSS;
 }
 
@@ -283,15 +250,12 @@ if(check_file_core(_LIB."/smarty.php")) {
 */
 if(check_file_core(_CLASS."/class_template.php")) {
 	require_once(_CLASS."/class_template.php");
-	/**
-	 * Запускаем шаблонизатор
-	 */
 	$tpl = new Template;
 }
 
 
 /**
- * Пользовательская секция
+ * UI
  */
 if(!defined('ACP')) {
 	/**

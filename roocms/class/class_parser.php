@@ -225,9 +225,7 @@ class Parser {
 	public function transform_uri($url) {
 
 		if($this->uri_chpu) {
-			$url = strtr($url, array('?' => $this->uri_separator,
-						 '&' => $this->uri_separator,
-						 '=' => $this->uri_separator));
+			$url = str_ireplace(array('?','&','='), $this->uri_separator, $url);
 		}
 
 		return $url;
@@ -281,22 +279,7 @@ class Parser {
 	 */
 	public function clear_string($string) {
 
-		$string = trim(strtr($string, array(
-			'?' => '', 	'!' => '',
-			'@' => '', 	'#' => '',
-			'$' => '', 	'%' => '',
-			'^' => '', 	'&' => '',
-			'*' => '', 	'(' => '',
-			')' => '', 	'{' => '',
-			'}' => '', 	'[' => '',
-			']' => '', 	'|' => '',
-			'<' => '', 	'>' => '',
-			'/' => '', 	'\\' => '',
-			'"' => '',	'`' => '',
-			'.' => '', 	',' => '',
-			'~' => '',	'=' => '',
-			';' => ''
-		)));
+		$string = trim(str_ireplace(array('?','!','@','#','$','%','^','&','*','(',')','{','}','[',']','|','<','>','/','\\','"','`','.',',','~','=',';'), '', $string));
 
 		return $string;
 	}

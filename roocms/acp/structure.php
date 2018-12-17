@@ -435,7 +435,7 @@ class ACP_Structure {
 		}
 
 		# clear alias from trash symbols
-		$post->alias = strtr($post->alias, array(' '=>'_', '-'=>'_', '='=>'_'));
+		$post->alias = str_ireplace(array(' ','-','='), '_', $post->alias);
 
 		# correct alias
 		$post->alias = $parse->text->correct_aliases($post->alias);
