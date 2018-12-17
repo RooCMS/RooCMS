@@ -69,7 +69,7 @@ class ACP_Pages_PHP {
 	/**
 	* Remove page
 	*
-	* @param boolean $sid - Structure id
+	* @param int $sid - Structure id
 	*/
 	public function delete($sid) {
 

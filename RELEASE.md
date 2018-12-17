@@ -1,6 +1,6 @@
 Version: 1.3.1 beta
 ========================
-**release date:	16.12.2018**
+**release date:	17.12.2018**
 
 Plugins
 -------
@@ -9,7 +9,7 @@ Plugins
 - jQuery                `v3.3.1`
 - jQuery-Migrate        `v3.0.0`
 - jQuery TouchSwipe     `v1.6.18`
-- Bootstrap             `v3.3.7`
+- Bootstrap             `v3.4`
 - Bootstrap Select      `v1.12.4`
 - Bootstrap Datepicker  `v1.6.4`
 - Bootstrap Colorpicker `v1`
@@ -36,6 +36,7 @@ Release information:
 	[upd] немного дополнен раздел помощи...
 	[upd] начато проектирование самостоятельного обработчика $_POST
 	[upd] расширены опции почтовой рассылки
+	[upd] обновлен Bootstrap до версии 3.4
 	
 	[fix] исправлены ошибки и погрешности кода
 	[fix] вынесли мусор и удалили неиспользуемые переменные
