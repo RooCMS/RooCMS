@@ -98,7 +98,7 @@ class ParserText {
 	public function clearhtml($text) {
 
 		$text = strip_tags($text);
- 		$text = str_ireplace(array('&lt;','&gt;','&#123;','&#125;','&#39;','&quot;','&amp;','&#36;'). '', $text);
+ 		$text = str_ireplace(array('&lt;','&gt;','&#123;','&#125;','&#39;','&quot;','&amp;','&#36;'), '', $text);
 
 		return $text;
 	}
