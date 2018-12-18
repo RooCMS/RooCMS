@@ -89,7 +89,7 @@ class ACP_Structure {
 					# list groups
 					$groups = $users->get_usergroups();
 
-					# шаблонизируем... (слово то какое...)
+					# tpl
 					$smarty->assign("groups", $groups);
 					$content = $tpl->load_template("structure_create", true);
 				}

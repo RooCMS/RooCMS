@@ -449,33 +449,25 @@ class ACP_Feeds_Feed {
 	 */
 	public function settings() {
 
-		global $db, $config, $tpl, $smarty, $get;
+		global $config, $tpl, $smarty;
 
-		if($db->check_id($get->_page, STRUCTURE_TABLE, "id", "page_type='feed'")) {
+		# Уведомление о глобальном отключении RSS лент
+		$this->feed['rss_warn'] = (!$config->rss_power) ? true : false ;
 
-			$feed =& $this->feed;
+		# глобальное значение количества элементов на страницу
+		$this->feed['global_items_per_page'] =& $config->feed_items_per_page;
 
-			# Уведомление о глобальном отключении RSS лент
-			$feed['rss_warn'] = (!$config->rss_power) ? true : false ;
+		# default thumb size
+		$default_thumb_size = array('width'	=> $config->gd_thumb_image_width,
+					    'height'	=> $config->gd_thumb_image_height);
 
-			# глобальное значение количества элементов на страницу
-			$feed['global_items_per_page'] =& $config->feed_items_per_page;
+		# smarty vars
+		$smarty->assign("feed",$this->feed);
+		$smarty->assign("default_thumb_size", $default_thumb_size);
 
-			# default thumb size
-			$default_thumb_size = array('width'	=> $config->gd_thumb_image_width,
-						    'height'	=> $config->gd_thumb_image_height);
-
-			# smarty vars
-			$smarty->assign("feed",$feed);
-			$smarty->assign("default_thumb_size", $default_thumb_size);
-
-			# tpl
-			$content = $tpl->load_template("feeds_settings_feed", true);
-			$smarty->assign("content", $content);
-		}
-		else {
-			goback();
-		}
+		# tpl
+		$content = $tpl->load_template("feeds_settings_feed", true);
+		$smarty->assign("content", $content);
 	}
 
 
