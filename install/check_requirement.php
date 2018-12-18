@@ -44,7 +44,7 @@ class Requirement {
 	private function check_php_version() {
 		$php 	= PHP_VERSION;
 
-		if(version_compare($php, '5.2', "<")) {
+		if(version_compare($php, '5.4', "<")) {
 			$this->log[] = array("Версия PHP", $php, false, "Версия PHP не подходит для использования RooCMS. Оптимальная версия 5.2 или 5.3");
 			$this->allowed = false;
 		}
