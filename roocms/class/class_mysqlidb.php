@@ -532,7 +532,7 @@ class MySQLiDB {
 	 * @return mixed
 	 */
 	public function errno($error=false) {
-		if(defined('INSTALL') || defined('UPDATE')) {
+		if(defined('INSTALL')) {
 			if($error) {
 				return $this->sql->error;
 			}
