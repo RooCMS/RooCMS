@@ -1,4 +1,4 @@
-Version: 1.3.1 beta
+Version: 1.3.1
 ========================
 **release date:	19.12.2018**
 
