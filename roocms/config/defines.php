@@ -51,9 +51,7 @@ define('LOG_TABLE',             DB_PREFIX.'log');
 * RooCMS $Path
 */
 
-if(!defined('_SITEROOT')) {
-	define('_SITEROOT',     str_ireplace(DIRECTORY_SEPARATOR."roocms".DIRECTORY_SEPARATOR."config", "", dirname(__FILE__)));
-}
+defined('_SITEROOT') or define('_SITEROOT', str_ireplace(DIRECTORY_SEPARATOR."roocms".DIRECTORY_SEPARATOR."config", "", dirname(__FILE__)));
 
 define('_ROOCMS',       _SITEROOT.'/roocms');
 define('_CLASS',        _ROOCMS.'/class');

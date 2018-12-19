@@ -23,9 +23,7 @@ if(!defined('RooCMS')) {
 //#########################################################
 // Initialisation Admin CP identification
 //---------------------------------------------------------
-if(!defined('ACP')) {
-	define('ACP', true);
-}
+defined('ACP') or define('ACP', true);
 //#########################################################
 
 

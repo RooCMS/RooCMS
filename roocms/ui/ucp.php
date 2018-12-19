@@ -23,9 +23,7 @@ if(!defined('RooCMS') || !defined('UI')) {
 //#########################################################
 // Initialisation User CP identification
 //---------------------------------------------------------
-if(!defined('UCP')) {
-	define('UCP', true);
-}
+defined('UCP') or define('UCP', true);
 //#########################################################
 
 

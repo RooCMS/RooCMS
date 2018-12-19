@@ -30,9 +30,7 @@ if($_SERVER['REQUEST_URI'] == "/index.php") {
 /**
  *  init root cms path
  */
-if(!defined('_SITEROOT')) {
-	define('_SITEROOT', str_ireplace(DIRECTORY_SEPARATOR."roocms", "", dirname(__FILE__)));
-}
+defined('_SITEROOT') or define('_SITEROOT', str_ireplace(DIRECTORY_SEPARATOR."roocms", "", dirname(__FILE__)));
 
 
 /**
