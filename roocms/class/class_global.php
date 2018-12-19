@@ -109,7 +109,7 @@ class RooCMS_Global {
 
 
 	/**
-	* Инициируем конфигурацию
+	* init configuration
 	*
 	*/
 	protected function init_configuration() {
@@ -119,48 +119,57 @@ class RooCMS_Global {
 		# set data type object fot $this->config
 		settype($this->config, "object");
 
-		# get data config options
-		$q = $db->query("SELECT option_name, option_type, value FROM ".CONFIG_TABLE."");
-		while($row = $db->fetch_assoc($q)) {
+		if($db->db_connect) {
+			# get data config options from data base
+			$q = $db->query("SELECT option_name, option_type, value FROM ".CONFIG_TABLE."");
+			while($row = $db->fetch_assoc($q)) {
 
-			# safe secure name script from cp
-			if($row['option_name'] == "cp_script") {
-				(defined('ACP') || defined('INSTALL')) ? define('CP', $row['value']) : $row['value'] = "access_denied" ;
-			}
+				switch($row['option_type']) {
+					case 'boolean':
+						$this->config->{$row['option_name']} = ($row['value'] === "true");
+						break;
 
-			switch($row['option_type']) {
-				case 'boolean':
-					$this->config->{$row['option_name']} = ($row['value'] === "true");
-					break;
+					case 'int':
+						settype($row['value'], "integer");
+						$this->config->{$row['option_name']} = (int) $row['value'];
+						break;
 
-				case 'int':
-					settype($row['value'], "integer");
-					$this->config->{$row['option_name']} = (int) $row['value'];
-					break;
+					case 'string':
+						$this->config->{$row['option_name']} = (string) $row['value'];
+						break;
 
-				case 'string':
-					$this->config->{$row['option_name']} = (string) $row['value'];
-					break;
+					case 'html':
+						$this->config->{$row['option_name']} = $row['value'];
+						break;
 
-				case 'html':
-					$this->config->{$row['option_name']} = $row['value'];
-					break;
-
-				default:
-					$this->config->{$row['option_name']} = $row['value'];
-					break;
+					default:
+						$this->config->{$row['option_name']} = $row['value'];
+						break;
+				}
 			}
 		}
+		else {
+			$this->get_default_config();
+		}
+
+		# safe secure name script from cp
+		if(defined('ACP') || defined('INSTALL')) {
+			define('CP', $this->config->cp_script);
+		}
+		else {
+			$this->config->cp_script = "access_denied" ;
+		}
+
 
 		# Set page title
 		if(trim($this->config->site_title) != "" && trim($site['title']) == "") {
 			$site['title'] =& $this->config->site_title;
 		}
 
-		# Устанавливаем заголовок ответа на запрос об изменении документа от поисковых машин.
+		# Set header for searchbot
 		$this->modifiedsince =& $this->config->if_modified_since;
 
-		# Добавляем в объект конфигурации список имеющихся php расширений
+		# extend config object- add phpextension
 		$this->config->phpextensions =& $debug->phpextensions;
 	}
 
@@ -209,5 +218,27 @@ class RooCMS_Global {
 				exit;
 			}
 		}
+	}
+
+
+	/**
+	 * Get default config options if not connecting to DB
+	 */
+	private function get_default_config() {
+
+		$this->config->site_title            = "";
+		$this->config->global_site_title     = false;
+		$this->config->gd_thumb_image_width  = 267;
+		$this->config->gd_thumb_image_height = 150;
+		$this->config->gd_image_maxwidth     = 1600;
+		$this->config->gd_image_maxheight    = 1600;
+		$this->config->gd_thumb_type_gen     = "cover";
+		$this->config->gd_thumb_bgcolor      = "#ffffff";
+		$this->config->gd_thumb_jpg_quality  = 90;
+		$this->config->gd_use_watermark      = "no";
+		$this->config->tpl_recompile_force   = false;
+		$this->config->meta_description      = "";
+		$this->config->meta_keywords         = "";
+		$this->config->cp_script             = "acp.php";
 	}
 }

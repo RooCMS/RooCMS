@@ -139,7 +139,7 @@ $sql['CREATE'.STRUCTURE_TABLE] = "CREATE TABLE IF NOT EXISTS `".STRUCTURE_TABLE.
 
 $id = 1;
 $sql['INSERT '.STRUCTURE_TABLE." ID #".$id] = "INSERT INTO `".STRUCTURE_TABLE."` (`id`, `alias`, `parent_id`, `nav`, `title`, `meta_title`, `meta_description`, `meta_keywords`, `sort`, `page_type`, `page_id`, `noindex`, `childs`, `group_access`, `date_create`, `date_modified`, `rss`, `show_child_feeds`, `items_per_page`, `items_sorting`, `items`, `thumb_img_width`, `thumb_img_height`, `append_info_before`, `append_info_after`) 
-									VALUES	(1, 'index', 0, '0', 'Главная страница', '".$site['title']."', '', '', 0, 'html', 1, '0', 0, '0', ".time().", ".time().", '0', 'none', 0, 'datepublication', 0, 0, 0, '', '')";
+									VALUES	(1, 'index', 0, '1', 'Главная страница', '".$site['title']."', '', '', 0, 'html', 1, '0', 0, '0', ".time().", ".time().", '0', 'none', 0, 'datepublication', 0, 0, 0, '', '')";
 
 /**
 * HTML page

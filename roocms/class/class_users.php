@@ -60,13 +60,11 @@ class Users extends Security {
 
 		global $roocms;
 
-
 		# get user data
 		$this->usersession	&= $roocms->usersession;
 		$this->userip		&= $roocms->userip;
 		$this->useragent 	&= $roocms->useragent;
 		$this->referer		&= $roocms->referer;
-
 
 		# init user
 		$this->init_user();

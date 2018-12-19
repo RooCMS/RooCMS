@@ -55,15 +55,17 @@ class Navigation {
 
 		global $structure;
 
-		foreach($structure->load_tree(1) AS $k=>$v) {
-			if($v['nav'] == 1)  {
-				$v['sublevel'] = 0;
+		if(count($structure->sitetree) > 1 ) {
+			foreach($structure->load_tree(1) AS $k=>$v) {
+				if($v['nav'] == 1)  {
+					$v['sublevel'] = 0;
 
-				if($v['parent_id'] != 1) {
-					$this->navtree[$v['parent_id']]['sublevel'] = 1;
+					if($v['parent_id'] != 1) {
+						$this->navtree[$v['parent_id']]['sublevel'] = 1;
+					}
+
+					$this->navtree[$k] = $v;
 				}
-
-				$this->navtree[$k] = $v;
 			}
 		}
 	}

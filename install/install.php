@@ -200,7 +200,7 @@ class Install extends IU_Extends {
 			# Проверяем указан ли пароль от БД
 			$this->check_data_post("db_info_pass", "Не указан пароль пользователя БД");
 
-			# Префикс таблич
+			# prefix table
 			if(!isset($post->db_info_prefix)) {
 				$post->db_info_prefix = "";
 			}
@@ -211,6 +211,8 @@ class Install extends IU_Extends {
 				$post->db_info_pass = $parse->text->html($post->db_info_pass);
 				if(!$db->check_connect($post->db_info_host, $post->db_info_user, $post->db_info_pass, $post->db_info_base)) {
 					$this->allowed = false;
+					$logger->error("Указаны неверные параметры для соеденения с БД", false);
+					goback();
 				}
 
 				if($this->allowed) {
@@ -233,10 +235,6 @@ class Install extends IU_Extends {
 
 					# go next step
 					go(SCRIPT_NAME."?step=6");
-				}
-				else {
-					$logger->error("Указаны неверные параметры для соеденения с БД", false);
-					goback();
 				}
 			}
 		}
