@@ -119,6 +119,8 @@ class RooCMS_Global {
 		# set data type object fot $this->config
 		settype($this->config, "object");
 
+		$this->get_default_config();
+
 		if($db->db_connect) {
 			# get data config options from data base
 			$q = $db->query("SELECT option_name, option_type, value FROM ".CONFIG_TABLE."");
@@ -147,9 +149,6 @@ class RooCMS_Global {
 						break;
 				}
 			}
-		}
-		else {
-			$this->get_default_config();
 		}
 
 		# safe secure name script from cp

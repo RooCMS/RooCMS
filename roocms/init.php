@@ -257,7 +257,7 @@ if(check_file_core(_CLASS."/class_template.php")) {
 /**
  * UI
  */
-if(!defined('ACP')) {
+if(!defined('ACP') && !defined('INSTALL')) {
 	/**
 	 * Инициализируем класс управления структурой сайта
 	 */

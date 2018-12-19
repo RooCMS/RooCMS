@@ -205,37 +205,34 @@ class Install extends IU_Extends {
 				$post->db_info_prefix = "";
 			}
 
+			# check mysql connect
+			$post->db_info_pass = $parse->text->html($post->db_info_pass);
+			if(!$db->check_connect($post->db_info_host, $post->db_info_user, $post->db_info_pass, $post->db_info_base)) {
+				$logger->error("Указаны неверные параметры для соеденения с БД", false);
+				$this->allowed = false;
+				goback();
+			}
+
 			if($this->allowed) {
 
-				# check mysql connect
-				$post->db_info_pass = $parse->text->html($post->db_info_pass);
-				if(!$db->check_connect($post->db_info_host, $post->db_info_user, $post->db_info_pass, $post->db_info_base)) {
-					$this->allowed = false;
-					$logger->error("Указаны неверные параметры для соеденения с БД", false);
-					goback();
-				}
+				$_SESSION['db_info_host'] = $post->db_info_host;
+				$_SESSION['db_info_user'] = $post->db_info_user;
+				$_SESSION['db_info_pass'] = $post->db_info_pass;
+				$_SESSION['db_info_base'] = $post->db_info_base;
 
-				if($this->allowed) {
+				$conffile = _ROOCMS."/config/config.php";
 
-					$_SESSION['db_info_host'] = $post->db_info_host;
-					$_SESSION['db_info_user'] = $post->db_info_user;
-					$_SESSION['db_info_pass'] = $post->db_info_pass;
-					$_SESSION['db_info_base'] = $post->db_info_base;
+				$context = file_read($conffile);
 
-					$conffile = _ROOCMS."/config/config.php";
+				$context = str_ireplace('$db_info[\'prefix\'] = "'.$db_info['prefix'].'";','$db_info[\'prefix\'] = "'.$post->db_info_prefix.'";',$context);
 
-					$context = file_read($conffile);
+				$files->write_file($conffile, $context);
 
-					$context = str_ireplace('$db_info[\'prefix\'] = "'.$db_info['prefix'].'";','$db_info[\'prefix\'] = "'.$post->db_info_prefix.'";',$context);
+				# notice
+				$logger->info("Данные для соеденения с БД успешно записаны", false);
 
-					$files->write_file($conffile, $context);
-
-					# notice
-					$logger->info("Данные для соеденения с БД успешно записаны", false);
-
-					# go next step
-					go(SCRIPT_NAME."?step=6");
-				}
+				# go next step
+				go(SCRIPT_NAME."?step=6");
 			}
 		}
 

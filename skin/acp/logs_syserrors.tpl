@@ -1,7 +1,7 @@
 {* PHP Log Template *}
 
 <div class="panel-heading">
-	Некртические ошибки PHP
+	Ошибки системы
 </div>
 {if !empty($error)}
 	<table class="table table-hover table-condensed hidden-xs">

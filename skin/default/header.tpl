@@ -90,8 +90,8 @@
 				{$module->load("auth")}
 			</div>
 		</div>
+		{if !empty($navtree)}
     		<div class="row">
-			{if !empty($navtree)}
 			<div class="col-sm-12">
 				<div class="btn-group btn-group tmenu" role="menu">
 					{assign var="sublevel" value=0}
@@ -130,10 +130,10 @@
 					{/if}
 				</div>
 			</div>
-			{/if}
 			<div class="col-sm-12">
 				{$breadcrumb}
 			</div>
 		</div>
+		{/if}
 	</div>
 

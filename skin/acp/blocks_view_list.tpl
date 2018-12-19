@@ -8,7 +8,7 @@
 		<p class="lead">Воспользуйтесь ссылкой слева, что бы создать первый блок.</p>
 	</div>
 {else}
-	<table class="table table-hover table-condensed hidden-xs">
+	<table class="table table-hover hidden-xs">
 		<thead>
 		<tr class="active">
 			<th width="3%">ID</th>

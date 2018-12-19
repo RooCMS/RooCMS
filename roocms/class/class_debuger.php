@@ -60,9 +60,6 @@ class Debuger {
 		# set error handler
 		set_error_handler(array($this,'debug_critical_error'));
 
-		# check developer constants
-		$this->check_dev_constants();
-
 		# default : error hide
 		$this->error_report(false);
 
@@ -135,17 +132,6 @@ class Debuger {
 
 
 	/**
-	 * Check dev conts
-	 */
-	private function check_dev_constants() {
-		# check debugmode flag
-		if(!defined('DEBUGMODE')) {
-			define('DEBUGMODE', true);
-		}
-	}
-
-
-	/**
 	 * Check log file for errors
 	 * and set flag 'true' if file not empty
 	 */
@@ -190,7 +176,7 @@ class Debuger {
         		        break;
 
         	        case E_WARNING:			# warning
-        		        $erlevel = 1; $ertitle = "Некритическая ошибка";
+        		        $erlevel = 1; $ertitle = "Критическая ошибка";
         		        break;
 
         	        case E_USER_WARNING:		# warning
@@ -234,18 +220,21 @@ class Debuger {
 
 		# hide error if not use debugmode
 		if(error_reporting() == 0 && $erlevel == 0) {
-			die(CRITICAL_STYLESHEETS."<blockquote>Извините, что то пошло не так. Мы уже работаем над устранением причин.<small>".$time."</small></blockquote>");
+			die(CRITICAL_STYLESHEETS."<blockquote>Извините, что то пошло не так. Мы уже работаем над устранением причин.
+							<small>".$time."</small>
+							<a href='javascript:history.back(1)'>< Вернуться назад</a></blockquote>");
 		}
 
-                echo CRITICAL_STYLESHEETS."
+		// TODO: Срочно исправить
+                /*echo CRITICAL_STYLESHEETS."
                 <div class='alert alert-danger t12 text-left in fade col-md-10 col-md-offset-1' role='alert'>
                 <button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button>
 	        ОШИБКА: <b>#{$errno} - {$ertitle}</b>
 	        <br />Строка: <b>{$line}</b> в файле <b>{$file}</b>
 	        <br /><b>{$msg}</b>
-	        </div>\n";
+	        </div>\n";*/
 
-		# We kill the standard handler, so that he would not give out anything to the spy (:
+		# We kill the standard handler, so that he would not give out anything to spy (:
 		return true;
 	}
 

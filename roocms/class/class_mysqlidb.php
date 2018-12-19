@@ -62,7 +62,7 @@ class MySQLiDB {
 
 		$this->sql = new mysqli($host,$user,$pass, $base);
 
-		if($this->sql->connect_errno == 0) {
+		if(!$this->sql->connect_errno) {
 			$this->db_connect = true;
 
 			# set mysql charset
@@ -90,7 +90,7 @@ class MySQLiDB {
 		$this->sql = new mysqli($host,$user,$pass, $base);
 		error_reporting(E_ALL);
 
-		if($this->sql->connect_errno != 0) {
+		if($this->sql->connect_errno) {
 			return false;
 		}
 		else {

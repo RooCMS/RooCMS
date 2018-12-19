@@ -3,7 +3,7 @@
 	Структура сайта
 </div>
 
-<table class="table table-hover table-condensed hidden-xs">
+<table class="table table-hover hidden-xs">
 	<thead>
 		<tr class="active">
 			<th width="3%">ID</th>

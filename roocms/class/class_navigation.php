@@ -55,7 +55,7 @@ class Navigation {
 
 		global $structure;
 
-		if(count($structure->sitetree) > 1 ) {
+		if(count($structure->sitetree) > 1) {
 			foreach($structure->load_tree(1) AS $k=>$v) {
 				if($v['nav'] == 1)  {
 					$v['sublevel'] = 0;

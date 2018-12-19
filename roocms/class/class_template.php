@@ -289,7 +289,7 @@ class Template {
 		$smarty->assign("error",   $parse->error);
 		$smarty->assign("info",	   $parse->info);
 
-		if(!defined('ACP')) {
+		if(!defined('ACP') && !defined('INSTALL')) {
 			# rss link
 			$smarty->assign("rsslink",	$rss->rss_link);
 
