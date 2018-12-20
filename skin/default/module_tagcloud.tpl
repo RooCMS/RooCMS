@@ -1,7 +1,7 @@
 {* Шаблон для модуля: tagcloud *}
 <div class="row">
 	<div class="col-md-12 text-center">
-		<h4> Популярные Метки </h4>
+		<h4 style="margin-top: 0;"> Популярные Метки </h4>
 
 		{* If you want shuffle tag cloud use next string *}
 		{*{capture}{$tags|@shuffle}{/capture}*}

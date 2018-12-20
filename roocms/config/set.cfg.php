@@ -22,7 +22,7 @@ if(!defined('RooCMS')) {
 /**
 * Системные настройки отладки
 */
-define('DEBUGMODE',	false);				# Режим отладки
+define('DEBUGMODE',	false);	# Режим отладки
 
 
 /**
