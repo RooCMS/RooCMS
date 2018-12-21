@@ -1,17 +1,17 @@
 {* Шаблон ленты *}
 <div class="row">
-	<div class="col-sm-9">
+	<div class="col-sm-12">
 		<h1>
 			{$page_title}
 			{if !empty($rsslink)}
 				<a href="{$rsslink}" class="btn btn-default btn-xs"><span class="fa fa-rss fa-fw"></span></a>
 			{/if}
 		</h1>
-
 		{if trim($feed['append_info_before']) != ""}
-			{$feed['append_info_before']}
+		{$feed['append_info_before']}
 		{/if}
-
+	</div>
+	<div class="col-sm-9">
 		{foreach from=$feeds item=item}
 			<div class="panel panel-default">
 				<div class="panel-body">
@@ -81,7 +81,7 @@
 			</ul>
 		{/if}
 	</div>
-	<div class="col-sm-3 text-center" style="padding-top:69px;">
+	<div class="col-sm-3 text-center">
 		<div class="panel panel-default">
 			<div class="panel-body">
 				{$module->load('tagcloud')}

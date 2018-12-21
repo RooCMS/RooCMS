@@ -14,6 +14,7 @@ img {behavior: url("../iepngfix.htc") !important;}
 }
 .footer {
 	padding-top: 15px;
+	margin-top: 15px;
 }
 
 /* Style fonts */

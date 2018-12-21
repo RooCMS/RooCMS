@@ -21,4 +21,3 @@ function smarty_modifier_highlight(&$text='', $word='')
 	}
 	return($new_text);
 }
-?>
