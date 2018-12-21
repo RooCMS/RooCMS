@@ -21,9 +21,11 @@ if(!defined('RooCMS')) {
 
 
 //#########################################################
-// Initialisation Admin CP identification
+// Anti Hack
 //---------------------------------------------------------
-define('ACP', true);
+if(!defined('RooCMS') || !defined('ACP')) {
+	die('Access Denied');
+}
 //#########################################################
 
 

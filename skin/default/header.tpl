@@ -67,73 +67,76 @@
 <body>
 
 {if trim($error) != ""}
-	<div class="alert alert-danger t12 text-left in fade" role="alert">
+	<div class="alert alert-danger t12 text-left in fade notice" role="alert">
 		<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
 		{$error}
 	</div>
 {/if}
 {if trim($info) != ""}
-	<div class="alert alert-info t12 text-left in fade" role="alert">
+	<div class="alert alert-info t12 text-left in fade notice" role="alert">
 		<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
 		{$info}
 	</div>
 {/if}
 
-<div class="container">
-	<div class="header">
-		<div class="row">
-			<div class="col-md-6">
-				<a href="/"><img src="{$SKIN}/img/logo.png" border="0" id="logo"></a>
-
-			</div>
-			<div class="col-md-6">
-				{$module->load("auth")}
-			</div>
-		</div>
-		{if !empty($navtree)}
-    		<div class="row">
-			<div class="col-sm-12">
-				<div class="btn-group btn-group tmenu" role="menu">
-					{assign var="sublevel" value=0}
-
-					{foreach from=$navtree item=nitem key=k name=navigate}
-						{if $nitem['level'] == 0 && $nitem['sublevel'] == 0}
-							{if $sublevel==1}
-								{assign var="sublevel" value=0}
-								</ul>
-								</div>
-							{/if}
-							<a href="/index.php?page={$nitem['alias']}" class="btn btn-default ptsans topmenu">{$nitem['title']}</a>
-						{elseif $nitem['level'] == 0 && $nitem['sublevel'] == 1}
-							{if $sublevel==1}
-								{assign var="sublevel" value=0}
-								</ul>
-								</div>
-							{/if}
-							{assign var="sublevel" value=1}
-								<div class="btn-group" role="group">
-									<button class="btn btn-default dropdown-toggle topmenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-										{$nitem['title']} <span class="caret"></span>
-									</button>
-								<ul class="dropdown-menu">
-									<li class="topsubmenu"><a href="/index.php?page={$nitem['alias']}" class="ptsans topsubmenu"> {$nitem['title']}</a></li>
-									<li role="separator" class="divider"></li>
-						{else}
-							<li class="topsubmenu"><a href="/index.php?page={$nitem['alias']}" class="ptsans topsubmenu"><i class="fa fa-fw fa-angle-right small"></i> {$nitem['title']}</a></li>
-
-						{/if}
-					{/foreach}
-					{if $sublevel==1}
-						{assign var="sublevel" value=0}
-						</ul>
-						</div>
-					{/if}
+<div class="container-fluid header">
+	<div class="row">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-6">
+					<a href="/"><img src="{$SKIN}/img/logo.png" border="0" id="logo"></a>
+				</div>
+				<div class="col-md-6">
+					{$module->load("auth")}
 				</div>
 			</div>
-			<div class="col-sm-12">
-				{$breadcrumb}
+			{if !empty($navtree)}
+			<div class="row">
+				<div class="col-sm-12">
+					<div class="btn-group btn-group tmenu" role="menu">
+						{assign var="sublevel" value=0}
+
+						{foreach from=$navtree item=nitem key=k name=navigate}
+							{if $nitem['level'] == 0 && $nitem['sublevel'] == 0}
+								{if $sublevel==1}
+									{assign var="sublevel" value=0}
+									</ul>
+									</div>
+								{/if}
+								<a href="/index.php?page={$nitem['alias']}" class="btn btn-default ptsans topmenu">{$nitem['title']}</a>
+							{elseif $nitem['level'] == 0 && $nitem['sublevel'] == 1}
+								{if $sublevel==1}
+									{assign var="sublevel" value=0}
+									</ul>
+									</div>
+								{/if}
+								{assign var="sublevel" value=1}
+									<div class="btn-group" role="group">
+										<button class="btn btn-default dropdown-toggle topmenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+											{$nitem['title']} <span class="caret"></span>
+										</button>
+									<ul class="dropdown-menu">
+										<li class="topsubmenu"><a href="/index.php?page={$nitem['alias']}" class="ptsans topsubmenu"> {$nitem['title']}</a></li>
+										<li role="separator" class="divider"></li>
+							{else}
+								<li class="topsubmenu"><a href="/index.php?page={$nitem['alias']}" class="ptsans topsubmenu"><i class="fa fa-fw fa-angle-right small"></i> {$nitem['title']}</a></li>
+
+							{/if}
+						{/foreach}
+						{if $sublevel==1}
+							{assign var="sublevel" value=0}
+							</ul>
+							</div>
+						{/if}
+					</div>
+				</div>
+				<div class="col-sm-12">
+					{$breadcrumb}
+				</div>
 			</div>
+			{/if}
 		</div>
-		{/if}
 	</div>
+</div>
+<div class="container">
 
