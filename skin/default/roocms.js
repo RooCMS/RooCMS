@@ -38,20 +38,6 @@ $(document).ready(function(){
 	});
 
 	/* Swiper */
-	$(document).bind('cbox_open', function(){
-		$("#colorbox").swipe({
-			//Generic swipe handler for all directions
-			swipeLeft:function(event, direction, distance, duration, fingerCount) {
-				jQuery.colorbox.next();
-			},
-			swipeRight:function(event, direction, distance, duration, fingerCount) {
-				jQuery.colorbox.prev();
-			},
-			//Default is 75px, set to 0 for demo so any distance triggers swipe
-			threshold:0
-		});
-	});
-
 	$(".carousel").swipe({
 		swipe: function(event, direction, distance, duration, fingerCount, fingerData) {
 
@@ -59,6 +45,13 @@ $(document).ready(function(){
 			if (direction === "right") $(this).carousel('prev');
 		},
 		allowPageScroll:"vertical"
+	});
+
+	/* Top navigation */
+	$(".navigation-full, .navigation-submenu").hover(function() {
+		$(".navigation-submenu").show();
+	}, function() {
+		$(".navigation-submenu").hide();
 	});
 
 	/* MOVETOP button */

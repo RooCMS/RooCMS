@@ -95,7 +95,7 @@ class GD {
 	 * @param string $filename  - file name
 	 * @param string $extension - file extension (without dot)
 	 * @param string $path      - path to file
-	 * @param bool   $watermark - флаг указывает наносить ли водяной знак на рисунок.
+	 * @param bool   $watermark - on/off watermark
 	 * @param bool   $modify    - флаг указывает подвергать ли изображение полной модификации с сохранением оригинального изображения и созданием превью.
 	 * @param bool   $noresize  - флаг указывает подвергать ли изображение изменению размера. Иcпользуется в том случае когда мы не хотим изменять оригинальное изображение.
 	 */
@@ -103,12 +103,12 @@ class GD {
 
 		global $config;
 
-		# Модифицируем?
+		# mod
 		if($modify) {
-			# изменяем изображение если, оно превышает допустимые размеры
+			# image size change according to parameter settings
 			$this->resize($filename, $extension, $path);
 
-			# Создаем миниатюру
+			# create thumbnail
 			$this->thumbnail($filename, $extension, $path);
 		}
 		else {
@@ -178,7 +178,7 @@ class GD {
 
             		imagecopyresampled($resize, $src, 0, 0, 0, 0, $ns['new_width'], $ns['new_height'], $w, $h);
 
-			# льем измененное изображение
+			# save image
 			$this->imgsave($resize, $path."/".$fileresize, $ext, $this->rs_quality);
 
 			imagedestroy($resize);
@@ -231,7 +231,7 @@ class GD {
 		imagecopyresampled($resize, $src, $ns['new_left'], $ns['new_top'], 0, 0, $ns['new_width'], $ns['new_height'], $size[0], $size[1]);
 
 
-		# Переворачиваем изображение, если в этом есть необходимость
+		# rotate image
 		switch($orientation) {
 			case 3:
 				$resize = imagerotate($resize, 180, 0);

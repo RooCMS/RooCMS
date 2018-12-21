@@ -192,12 +192,13 @@ class RooCMS_Global {
 
 
 	/**
-	* Устанавливаем заголовок последней модификации для ускорения индексации сайта.
+	* Set date title last modification for search bot.
 	*
-	* @param mixed $lastmodifed - дата последнего редактирования контента.
+	* @param mixed $lastmodifed - date last modify content
 	*/
 	protected function ifmodifedsince($lastmodifed) {
 
+		# set header
 		header("Last-Modified: ".gmdate("D, d M Y H:i:s", $lastmodifed)." GMT");
 
 		if($this->modifiedsince) {

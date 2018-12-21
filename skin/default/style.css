@@ -6,6 +6,7 @@ body {	background: #fefeff;
 	text-rendering: optimizeLegibility;}
 img {behavior: url("../iepngfix.htc") !important;}
 
+/* Head & Foot */
 .header, .footer {
 	background: #fafafa;
 }
@@ -55,12 +56,14 @@ mark {
 
 .mb0 {margin-bottom: 0 !important;}
 
-/* Top Menu */
-.tmenu {padding: 5px !important;border-radius: 4px !important;background-color: #fff !important;border: 1px solid #ddd;}
-.topmenu {background-color: transparent !important;text-shadow: none !important;box-shadow: none !important;border: 0 !important;}
-.topmenu:hover, /*{background: #62aeef none !important;}*/
-.topsubmenu:hover {background: #545c68 none !important; color: #fff !important;}
-.topsubmenu:hover > .small {color: #545c68 !important;}
+/* Top Navigation */
+.navigation {background: #f0f0f0;}
+.navigation-level-0 {margin-left: -28px !important;margin-right: -28px !important;}
+.navigation-title {border-bottom: 2px solid #aaa;margin-bottom: 3px;}
+.navigation-submenu {display: none; position: absolute;z-index: 999;margin-left: -2px !important;}
+.navigation-submenu .row {background: #ddd;padding: 15px 0;margin: 0 !important;border-top: 3px solid #ccc;}
+.topmenu {border: 0 !important;text-align: left !important;border-radius: 0 !important;}
+.topmenu:hover {background: #545c68 none !important; color: #fff !important;text-decoration: none !important;}
 
 /* Move TOP */
 a#move_top {

@@ -90,49 +90,48 @@
 					{$module->load("auth")}
 				</div>
 			</div>
-			{if !empty($navtree)}
-			<div class="row">
-				<div class="col-sm-12">
-					<div class="btn-group btn-group tmenu" role="menu">
-						{assign var="sublevel" value=0}
+		</div>
+	</div>
+</div>
 
-						{foreach from=$navtree item=nitem key=k name=navigate}
-							{if $nitem['level'] == 0 && $nitem['sublevel'] == 0}
-								{if $sublevel==1}
-									{assign var="sublevel" value=0}
-									</ul>
-									</div>
-								{/if}
-								<a href="/index.php?page={$nitem['alias']}" class="btn btn-default ptsans topmenu">{$nitem['title']}</a>
-							{elseif $nitem['level'] == 0 && $nitem['sublevel'] == 1}
-								{if $sublevel==1}
-									{assign var="sublevel" value=0}
-									</ul>
-									</div>
-								{/if}
-								{assign var="sublevel" value=1}
-									<div class="btn-group" role="group">
-										<a href="/index.php?page={$nitem['alias']}" class="btn btn-default ptsans topmenu">{$nitem['title']}</a>
-										<button class="btn btn-default ptsans topmenu dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-											<span class="caret"></span>
-										</button>
-									<ul class="dropdown-menu">
-							{else}
-								<li class="topsubmenu"><a href="/index.php?page={$nitem['alias']}" class="ptsans topsubmenu"><i class="fa fa-fw fa-angle-right small"></i> {$nitem['title']}</a></li>
-							{/if}
-						{/foreach}
-						{if $sublevel==1}
-							{assign var="sublevel" value=0}
-							</ul>
-							</div>
+{if !empty($navtree)}
+<div class="container-fluid navigation">
+	<div class="row">
+		<div class="container">
+			<div class="row navigation-level-0">
+				<div class="col-md-12">
+					{foreach from=$navtree item=nitem key=k name=navigate}
+						{if $nitem['level'] == 0}
+							<a href="/index.php?page={$nitem['alias']}" class="btn btn-link text-uppercase">{$nitem['title']}</a>
 						{/if}
+					{/foreach}
+					<span class="btn btn-link pull-right text-uppercase navigation-full">Все меню</span>
+					<div class="container navigation-submenu">
+						<div class="row">
+							{foreach from=$navtree item=nitem key=k name=navigate}
+								{if $nitem['level'] == 0}
+									{if !$smarty.foreach.navigate.first}</div>{/if}
+									<div class="col-lg-3">
+									<div class="ptsans text-uppercase text-bold navigation-title"><strong>{$nitem['title']}</strong></div>
+								{else}
+									<a href="/index.php?page={$nitem['alias']}" class="btn btn-link btn-sm btn-block ptsans topmenu">{$nitem['title']}</a>
+								{/if}
+								{if $smarty.foreach.navigate.last}
+									</div>
+								{/if}
+							{/foreach}
+						</div>
 					</div>
 				</div>
-				<div class="col-sm-12">
-					{$breadcrumb}
-				</div>
 			</div>
-			{/if}
+		</div>
+	</div>
+</div>
+{/if}
+<div class="container">
+	<div class="row">
+		<div class="col-sm-12">
+			{$breadcrumb}
 		</div>
 	</div>
 </div>

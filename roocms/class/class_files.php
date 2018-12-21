@@ -48,15 +48,15 @@ class Files {
 
 
 	/**
-	 * Создание имени файлов
+	 * Create file name
 	 *
-	 * @param string $filename - Имя файла
-	 * @param string $prefix   - Префикс имени файла
-	 * @param string $pofix    - Пофикс имени файла
+	 * @param string $filename - file name
+	 * @param string $prefix   - prefix file name
+	 * @param string $pofix    - poffix file name
 	 *
-	 * @param string $path     - путь к папке для загрузки изображений.
+	 * @param string $path     - path to upload (default images, use conts _UPLOADFILES for other files)
 	 *
-	 * @return string Имя файла
+	 * @return string - new file name
 	 */
 	public function create_filename($filename, $prefix="", $pofix="", $path=_UPLOADIMAGES) {
 
@@ -129,19 +129,19 @@ class Files {
 
 
 	/**
-	 * Функция загрузки файлов
+	 * Upload Files
 	 *
-	 * @param string       $file        Параметр файла массива $_FILES
-	 * @param string       $attached    Элемент родитель файла
-	 * @param string       $prefix      Префикс имени файла
+	 * @param string       $file        name array $_FILES
+	 * @param string       $attached
+	 * @param string       $prefix      prefix file name
 	 * @param string|array $allowtypes  Допустимые типы файлов (в будущем)
-	 * @param string       $path        путь для загрузки файлов
+	 * @param string       $path        path to upload
 	 *
 	 * @return array|false
 	 */
 	public function upload($file, $attached, $prefix="", $allowtypes="", $path=_UPLOADFILES) {
 
-		# Объявляем выходной массив
+		# create output array data
 		$files = [];
 
 		# Составляем массив для проверки разрешенных типов файлов к загрузке
@@ -186,10 +186,10 @@ class Files {
 					$filetitle = preg_replace(array('(\s\s+)','(\-\-+)','(__+)','([^a-zA-Z0-9а-яА-Я\-\._]+/msi)'), array(' ','-','_',''), $upfiles[$file]['name'][$key]);
 
 
-					# Сохраняем оригинал
+					# save
 					copy($upfiles[$file]['tmp_name'][$key], $path."/".$filename.".".$ext);
 
-					# Если загрузка прошла и файл на месте
+					# check file exists
 					$upload = is_file($path."/".$filename.".".$ext);
 				}
 
@@ -335,11 +335,11 @@ class Files {
 
 
 	/**
-	 * Узнаем расширение файла по его имени
+	 * Get file extension
 	 *
-	 * @param string $filename Полное имя файла, включая расширение
+	 * @param string $filename - full file name with extension
 	 *
-	 * @return string расширение файла без точки
+	 * @return string - file extension without dot
 	 */
 	public function get_ext($filename) {
 
