@@ -54,6 +54,10 @@ $(document).ready(function(){
 		$(".navigation-submenu").hide();
 	});
 
+	$(".navigation-full-xs").click(function() {
+		$(".navigation-submenu").slideToggle();
+	});
+
 	/* MOVETOP button */
 	$(window).scroll(function () {
 		if ($(this).scrollTop() > 100) {

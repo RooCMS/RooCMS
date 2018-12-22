@@ -105,13 +105,14 @@
 							<a href="/index.php?page={$nitem['alias']}" class="btn btn-link text-uppercase">{$nitem['title']}</a>
 						{/if}
 					{/foreach}
-					<span class="btn btn-link pull-right text-uppercase navigation-full">Все меню</span>
+					<span class="btn btn-link pull-right text-uppercase navigation-full visible-lg visible-md">Все меню</span>
+					<span class="btn btn-link pull-right text-uppercase navigation-full-xs visible-sm visible-xs"><span class="glyphicon glyphicon-align-justify"></span></span>
 					<div class="container navigation-submenu">
 						<div class="row">
 							{foreach from=$navtree item=nitem key=k name=navigate}
 								{if $nitem['level'] == 0}
 									{if !$smarty.foreach.navigate.first}</div>{/if}
-									<div class="col-lg-3">
+									<div class="col-lg-3 col-md-4 col-xs-12 text-overflow">
 									<div class="ptsans text-uppercase text-bold navigation-title"><strong>{$nitem['title']}</strong></div>
 								{else}
 									<a href="/index.php?page={$nitem['alias']}" class="btn btn-link btn-sm btn-block ptsans topmenu">{$nitem['title']}</a>
