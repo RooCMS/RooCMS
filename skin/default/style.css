@@ -1,5 +1,5 @@
 @charset "utf-8";
-body {	background: #fefeff;
+body {	background: #fefefe;
 	font-family: 'Open Sans','Ubuntu','Trebuchet MS','Tahoma' !important;
 	padding: 0;margin: 0;
 	behavior: url("../csshover.htc") !important;
@@ -8,12 +8,13 @@ img {behavior: url("../iepngfix.htc") !important;}
 
 /* Head & Foot */
 .header, .footer {
-	background: #fafafa;
+	background: #f9f9f9;
 }
 .header {
 	padding-bottom: 5px;
 }
 .footer {
+	border-top: 2px solid #ddd;
 	padding-top: 15px;
 	margin-top: 15px;
 }
