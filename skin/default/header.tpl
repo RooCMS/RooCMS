@@ -109,9 +109,15 @@
 					<span class="btn btn-link pull-right text-uppercase navigation-full-xs visible-sm visible-xs"><span class="glyphicon glyphicon-align-justify"></span></span>
 					<div class="container navigation-submenu">
 						<div class="row">
+							{assign var=rows value=0}
 							{foreach from=$navtree item=nitem key=k name=navigate}
 								{if $nitem['level'] == 0}
 									{if !$smarty.foreach.navigate.first}</div>{/if}
+									{assign var=rows value=$rows+1}
+									{if $rows == 5}
+										{assign var=rows value=1}
+										</div><div class="row">
+									{/if}
 									<div class="col-lg-3 col-md-4 col-xs-12 text-overflow">
 									<div class="ptsans text-uppercase text-bold navigation-title"><strong>{$nitem['title']}</strong></div>
 								{else}
