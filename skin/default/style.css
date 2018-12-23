@@ -62,8 +62,17 @@ mark {
 .navigation-level-0 {margin-left: -28px !important;margin-right: -28px !important;}
 .navigation-title {border-bottom: 2px solid #aaa;margin-bottom: 3px;}
 .navigation-submenu {display: none; position: absolute;z-index: 999;margin-left: -2px !important;}
-.navigation-submenu .row {background: #ddd;padding: 15px 0;margin: 0 !important;}
-.navigation-submenu .row:first-child {border-top: 3px solid #ccc;}
+.navigation-submenu .row {background: #ddd;padding: 0 0 10px 0 !important;margin: 0 !important;}
+.navigation-submenu .row:first-child {border-top: 3px solid #ccc;padding-top: 10px !important;}
+@media (max-width: 600px) {
+	.navigation-level-0 {margin-right: -15px !important;}
+	.navigation-submenu  {top: 30px !important;}
+	.navigation-submenu .row {padding: 0 !important;margin: 0 !important;}
+	.navigation-submenu .row:first-child {padding-top: 0 !important;}
+	.navigation-submenu .row:last-child {padding-bottom: 0 !important;}
+	.navigation-submenu .row div[class^="col-"] {padding-bottom: 5px !important; }
+	.navigation-submenu .row div[class^="col-"]:first-child {padding-top: 5px !important; }
+}
 .topmenu {border: 0 !important;text-align: left !important;border-radius: 0 !important;}
 .topmenu:hover {background: #545c68 none !important; color: #fff !important;text-decoration: none !important;}
 

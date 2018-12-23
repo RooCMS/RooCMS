@@ -102,7 +102,7 @@
 				<div class="col-md-12">
 					{foreach from=$navtree item=nitem key=k name=navigate}
 						{if $nitem['level'] == 0}
-							<a href="/index.php?page={$nitem['alias']}" class="btn btn-link text-uppercase">{$nitem['title']}</a>
+							<a href="/index.php?page={$nitem['alias']}" class="btn btn-link text-uppercase hidden-xs">{$nitem['title']}</a>
 						{/if}
 					{/foreach}
 					<span class="btn btn-link pull-right text-uppercase navigation-full visible-lg visible-md">Все меню</span>
