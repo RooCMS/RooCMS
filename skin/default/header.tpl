@@ -119,7 +119,7 @@
 										</div><div class="row">
 									{/if}
 									<div class="col-lg-3 col-md-4 col-xs-12 text-overflow">
-									<div class="ptsans text-uppercase text-bold navigation-title"><strong>{$nitem['title']}</strong></div>
+									<a href="/index.php?page={$nitem['alias']}" class="btn btn-link btn-sm btn-block text-uppercase ptsans topmenu topmenu-title">{$nitem['title']}</a>
 								{else}
 									<a href="/index.php?page={$nitem['alias']}" class="btn btn-link btn-sm btn-block ptsans topmenu">{$nitem['title']}</a>
 								{/if}
@@ -135,10 +135,14 @@
 	</div>
 </div>
 {/if}
-<div class="container">
+<div class="container-fluid breadcrumb-line">
 	<div class="row">
-		<div class="col-sm-12">
-			{$breadcrumb}
+		<div class="container">
+			<div class="row">
+				<div class="col-sm-12">
+					{$breadcrumb}
+				</div>
+			</div>
 		</div>
 	</div>
 </div>

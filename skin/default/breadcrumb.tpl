@@ -17,8 +17,6 @@
 			{/if}
 		{/foreach}
 		{$module->load("search")}
-
-
 	</div>
 
 	{*<ul class="breadcrumb small">
