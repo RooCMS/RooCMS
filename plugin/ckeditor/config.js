@@ -50,6 +50,15 @@ CKEDITOR.editorConfig = function( config ) {
 	//config.protectedSource.push( /<%[\s\S]*?%>/g );                                             // ASP code
 	//config.protectedSource.push( /(<asp:[^\>]+>[\s|\S]*?<\/asp:[^\>]+>)|(<asp:[^\>]+\/>)/gi );  // ASP.Net code
 
+	config.youtube_width = '640';
+	config.youtube_height = '480';
+	config.youtube_older = false;
+	config.youtube_responsive = false;
+	config.youtube_related = false;
+	config.youtube_privacy = true;
+	config.youtube_autoplay = false;
+	config.youtube_controls = true;
+
 	// TEMPLATES
 	// STYLES
 	// PARSER
@@ -146,14 +155,14 @@ CKEDITOR.editorConfig = function( config ) {
 			['SelectAll', '-', 'Cut','Copy','Paste','PasteText','PasteFromWord'],
 			['Find','Replace'],
 			['Form', 'Checkbox', 'Radio', 'TextField', 'Textarea', 'Select', 'Button', 'ImageButton', 'HiddenField'],
-			['RemoveFormat'],
+			['CopyFormatting','RemoveFormat'],
 			'/',
 			['Bold','Italic','Underline','Strike','-','Subscript','Superscript'],
 			['JustifyLeft','JustifyCenter','JustifyRight','JustifyBlock'],
 			['NumberedList','BulletedList','-','Outdent','Indent','Blockquote','CreateDiv'],
 			['BidiLtr', 'BidiRtl'],
 			['Link','Unlink','Anchor'],
-			['Image','base64image','Flash','Table','HorizontalRule','SpecialChar','ckawesome','Glyphicons','Iframe'],
+			['Image','base64image','Youtube','Flash','Table','HorizontalRule','SpecialChar','ckawesome','Glyphicons','Iframe'],
 			'/',
 			['Styles','Format','Font','FontSize'],
 			['TextColor','BGColor'],
