@@ -379,7 +379,6 @@ class Install extends IU_Extends {
 
 		$confperms = array('path' => _ROOCMS.'/config/config.php', 'chmod' => '0644');
 
-		@chmod($confperms['path'], $confperms['chmod']);
 		if(!@chmod($confperms['path'], $confperms['chmod'])) {
 			$this->log[] = array("", "Не удалось изменить доступ к файлу ".$confperms['path']." вам потребуется установить доступ вручную через FTP. Установить доступ <b>0644</b>", false, "");
 		}

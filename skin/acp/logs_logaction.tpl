@@ -34,7 +34,7 @@
 	</table>
 
 	<div class="panel-footer">
-		<a href="{$SCRIPT_NAME}?act=logs&part=clear_logaction" class="btn btn-danger"><i class="fa fa-fw fa-trash-o"></i> Очистить весь лог</a>
+		<a href="{$SCRIPT_NAME}?act=logs&part=clear_logaction" class="btn btn-danger"><i class="fa fa-fw fa-trash-o"></i> Очистить лог</a>
 	</div>
 {else}
 	<div class="panel-body">

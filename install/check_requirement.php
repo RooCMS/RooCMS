@@ -28,8 +28,8 @@ class Requirement {
 
 
 	/**
-	* Проверяем настройки хостинга
-	*/
+	 * Проверяем настройки хостинга
+	 */
 	protected function check_requirement() {
 		$this->check_php_version();
 		$this->check_php_sapi();
@@ -39,8 +39,8 @@ class Requirement {
 
 
 	/**
-	* Проверяем версию PHP
-	*/
+	 * Проверяем версию PHP
+	 */
 	private function check_php_version() {
 		$php 	= PHP_VERSION;
 
@@ -62,8 +62,8 @@ class Requirement {
 
 
 	/**
-	* Проверяем что бы PHP не был установлен как CGI
-	*/
+	 * Проверяем что бы PHP не был установлен как CGI
+	 */
 	private function check_php_sapi() {
 
 		$sapi_type = php_sapi_name();
@@ -78,8 +78,8 @@ class Requirement {
 
 
 	/**
-	* Проверяем наличие расширений PHP
-	*/
+	 * Проверяем наличие расширений PHP
+	 */
 	private function check_php_extensions() {
 		$rextensions	= array("Core", "standard", "mysqli", "session", "mbstring", "calendar", "date", "pcre", "xml", "SimpleXML", "gd");
 		$extensions = get_loaded_extensions();
@@ -97,8 +97,8 @@ class Requirement {
 
 
 	/**
-	* Проверяем настройки PHP
-	*/
+	 * Проверяем настройки PHP
+	 */
 	private function check_php_ini() {
 		if(ini_get('register_globals') == '1' || mb_strtolower(ini_get('register_globals')) == 'on') {
 			$this->log[] = array("Режим REGISTR_GLOBALS", "Вкл", false, "У вас включен режим REGISTR_GLOBALS. Это может угрожать безопастности RooCMS.");
@@ -126,8 +126,8 @@ class Requirement {
 
 
 	/**
-	* Устанавливаем права на важные директории и файлы
-	*/
+	 * Устанавливаем права на важные директории и файлы
+	 */
 	protected function check_chmod() {
 
 		global $files;
@@ -136,20 +136,19 @@ class Requirement {
 		require_once _LIB."/files_protected.php";
 
 		foreach($protect AS $v) {
-			$perms = $files->get_fileperms($v['path']);
-
 			$roocmspath = str_replace(_SITEROOT, "", $v['path']);
-			if($perms != $v['chmod']) {
-				@chmod($v['path'], $v['chmod']);
+			if(file_exists($v['path'])) {
 				if(@chmod($v['path'], $v['chmod'])) {
 					$this->log[] = array("Директория/Файл ".$roocmspath, $files->get_fileperms($v['path']), true, "");
 				}
 				else {
-					$this->log[] = array("Директория/Файл ".$roocmspath, $perms, false, "Неверные права доступа к директории/файлу. Рекомендуемые права ".$v['chmod'].". Для повышения безопастности установите права вручную через ваш FTP доступ");
+					$this->log[] = array("Директория/Файл ".$roocmspath, $files->get_fileperms($v['path']), false, "Неверные права доступа к директории/файлу. Рекомендуемые права ".$v['chmod'].". Для повышения безопастности установите права вручную через ваш FTP доступ");
 				}
+
 			}
 			else {
-				$this->log[] = array("Директория/Файл ".$roocmspath, $perms, true, "");
+				$this->log[] = array("Директория/Файл ".$roocmspath, "Ошибка", false, "Файл или директория не найдены");
+				$this->allowed = false;
 			}
 		}
 
