@@ -49,10 +49,10 @@ class GD {
 		# Get GD info
 		$this->info = gd_info();
 
-		# Устанавливаем размеры миниатюр из конфигурации
+		# Set thumbnail sizes from configuration
 		$this->set_mod_sizes(array($config->gd_thumb_image_width, $config->gd_thumb_image_height));
 
-		# Устанавливаем максимальные размеры изображений
+		# Set max size
 		$this->set_mod_sizes(array($config->gd_image_maxwidth, $config->gd_image_maxheight), "msize");
 
 		# Тип генерации фона из конфигурации
@@ -60,12 +60,12 @@ class GD {
 			$this->thumbtg = "contain";
 		}
 
-		# Фоновый цвет  из конфигурации
+		# Background color from cinfiguration
 		if(mb_strlen($config->gd_thumb_bgcolor) == 7) {
 			$this->thumbbgcol = $parse->cvrt_color_h2d($config->gd_thumb_bgcolor);
 		}
 
-		# Качество миниатюр  из конфигурации
+		# Quality thumbnail from configuration
 		if($config->gd_thumb_jpg_quality >= 10 && $config->gd_thumb_jpg_quality <= 100) {
 			$this->th_quality = $config->gd_thumb_jpg_quality;
 		}

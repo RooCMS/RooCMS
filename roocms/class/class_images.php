@@ -63,7 +63,7 @@ class Images extends GD {
 
 		global $config, $files;
 
-		# Если ложный вызов
+		# If lie
 		if(!isset($_FILES[$file])) {
 			return false;
 		}
@@ -101,15 +101,15 @@ class Images extends GD {
 				# Грузим апельсины бочками
 				if(array_key_exists($upfiles[$file]['type'][$key], $allow_exts)) {
 
-					# расширение файла
+					# file extension
 					$ext = $allow_exts[$upfiles[$file]['type'][$key]];
 
-					# подменяем, если необходимо имя файла
+					# Set file name if set handly naming
 					if($fname != "") {
 						$upfiles[$file]['name'][$key] = $fname.".".$ext;
 					}
 
-					# Создаем имя файлу.
+					# Create file name
 					$filename = $files->create_filename($upfiles[$file]['name'][$key], $prefix, "", $path);
 
 					# если разрешено сохранять оригинальное изображение
@@ -296,7 +296,7 @@ class Images extends GD {
 
 
 	/**
-	 * Функция стирает файл с указанным изображением
+	 * Erase image file
 	 *
 	 * @param $image
 	 */

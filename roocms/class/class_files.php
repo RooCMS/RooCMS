@@ -26,7 +26,7 @@ if(!defined('RooCMS')) {
 class Files {
 
 	/**
-	 * Функция проверки Content-type
+	 * Check Content-type
 	 * [не дописана]
 	 *
 	 * @param string $file файл для проверки
@@ -78,7 +78,7 @@ class Files {
 		# transliterate
 		$filename = $parse->text->transliterate($filename, "lower");
 
-		# Чистим имя файла от "левых" символов.
+		# Clear file name from extraneous characters
 		$filename = preg_replace(array('(\s\s+)','(\-\-+)','(__+)','([^a-zA-Z0-9\-_])'), array(' ','-','_',''), $filename);
 
 		# check filename leight
@@ -88,7 +88,7 @@ class Files {
 
 		$filelength = mb_strlen($filename);
 
-		# постараемся не выскочить за длину допустимого пути.
+		# check leight filepath
 		$maxlenght = PHP_MAXPATHLEN - mb_strlen(__DIR__);
 		if($length + $filelength > $maxlenght) {
 			$maxfilelength = $maxlenght - $length;
@@ -108,7 +108,7 @@ class Files {
 	 * @param int    $from  стартовая позиция для загрузки файлов
 	 * @param int    $limit лимит загружаемых файлов
 	 *
-	 * @return array $data  массив с данными о файлах.
+	 * @return array $data  files info
 	 */
 	public function load_files($cond, $from = 0, $limit = 0) {
 
@@ -182,7 +182,7 @@ class Files {
 					$filename  = $this->create_filename($upfiles[$file]['name'][$key], $prefix);
 					$ext       = $allow_exts[$ext];
 
-					# Создаем титул файлу
+					# Create file title
 					$filetitle = preg_replace(array('(\s\s+)','(\-\-+)','(__+)','([^a-zA-Z0-9а-яА-Я\-\._]+/msi)'), array(' ','-','_',''), $upfiles[$file]['name'][$key]);
 
 
@@ -219,11 +219,11 @@ class Files {
 
 
 	/**
-	 * Загружаем информацию о файлах в БД
+	 * Upload file info to db
 	 *
-	 * @param string $filename имя файла без $pofix
-	 * @param string $filetitle название файла
-	 * @param mixed  $attached родитель файла
+	 * @param string $filename  file name withput $pofix
+	 * @param string $filetitle file title
+	 * @param mixed  $attached  site item for attached file
 	 */
 	public function insert_file($filename, $filetitle, $attached) {
 
