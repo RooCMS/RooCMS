@@ -26,20 +26,39 @@
 				$(this).children("label").each(function() {
 
 					var labelstatus = ($(this).hasClass("active")) ? true : false ;
-					var fa = $(this).find(".fa");
+					var buttonicon = $(this).find(".fa");
 
-					if(labelstatus)
-						fa.removeClass(settings.icon_off).addClass(settings.icon_on);
-					else
-						fa.removeClass(settings.icon_on).addClass(settings.icon_off);
+					if(labelstatus) {
+						buttonicon.removeClass(settings.icon_off).addClass(settings.icon_on);
+					}
+					else {
+						buttonicon.removeClass(settings.icon_on).addClass(settings.icon_off);
+					}
 				}).click(function(){
 					$(this).parent().each(function() {
-						var fa = $(this).find(".fa");
-						fa.removeClass(settings.icon_on).addClass(settings.icon_off);
+						var buttonicon = $(this).find(".fa");
+						var inputtype = $(this).find("input");
+						if(inputtype.is(":radio")) {
+							buttonicon.removeClass(settings.icon_on).addClass(settings.icon_off);
+						}
 					});
 
-					var fa = $(this).find(".fa");
-					fa.removeClass(settings.icon_off).addClass(settings.icon_on);
+					var tbuttonicon = $(this).find(".fa");
+					var tinputtype = $(this).find("input");
+
+					if(tinputtype.is(":radio")) {
+						tbuttonicon.removeClass(settings.icon_off).addClass(settings.icon_on);
+					}
+
+					if(tinputtype.is(":checkbox")) {
+						if(!$(this).hasClass("active")) {
+							tbuttonicon.removeClass(settings.icon_off).addClass(settings.icon_on);
+						}
+						else {
+							tbuttonicon.removeClass(settings.icon_on).addClass(settings.icon_off);
+						}
+					}
+
 				});
 			});
 		}
