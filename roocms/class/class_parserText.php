@@ -26,8 +26,8 @@ if(!defined('RooCMS')) {
 class ParserText {
 
 	/**
-	 * Парсим ББКод (BBCode)
-	 * Функция в разработке
+	 * Parse BBCode
+	 *  ... in progress ...
 	 *
 	 * @param $text
 	 *
@@ -60,10 +60,10 @@ class ParserText {
 
 
 	/**
-	 * Парсим хтмл (HTML)
+	 * Parse HTML
 	 * Функция принимает данные обработанный функцией htmlspecialchars() и возвращает им обратное значение.
 	 *
-	 * @param string|array $text  - Текстовый буфер, который надлежит отпарсить
+	 * @param string|array $text  - text for parsing
 	 *
 	 * @return string|array
 	 */

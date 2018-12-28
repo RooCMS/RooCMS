@@ -50,20 +50,20 @@ class Parser {
 	*/
 	public function __construct() {
 
-		# обрабатываем глобальные массивы.
+		# process global arrays
 		$this->parse_global_arrays();
 
-		# обрабатываем URI
+		# process URI
 		$this->get_uri();
 		$this->parse_uri();
 
-		# обрабатываем URL
+		# process URL
 		$this->set_url_vars();
 
-		# обрабатываем уведомления для вывода пользователю
+		# process notice for user
 		$this->parse_notice();
 
-		# расширяем класс
+		# endending this class
 		require_once "class_parserText.php";
 		$this->text = new ParserText;
 
@@ -73,7 +73,7 @@ class Parser {
 
 
 	/**
-	* Parse global array
+	* Process global array
 	*
 	*/
 	private function parse_global_arrays() {

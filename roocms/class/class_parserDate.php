@@ -115,7 +115,7 @@ class ParserDate {
 			$tm = $this->get_title_month($mon);
 			// SEE---> $tm = $this->get_title_month($n_mon, true, $short);
 
-			# форматируем дату
+			# format date
 			$date = $tday.$day." ".$tm." ".$year."г. ".$time;
 		}
 		else {
