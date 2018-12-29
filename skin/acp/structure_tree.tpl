@@ -14,7 +14,7 @@
 	</thead>
 	<tbody>
 	{foreach from=$tree item=page}
-		<tr>
+		<tr class="nav-{if $page['nav']}on{else}off{/if}{if $page['noindex']} noindex{/if}">
 			<td class="text-muted structure-highlight text-right"><nobr>{$page['id']}<i class="fa fa-fw fa-caret-right"></i></nobr></td>
 			<td>
 				<nobr>

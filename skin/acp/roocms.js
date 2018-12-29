@@ -67,7 +67,7 @@ $(document).ready(function() {
 		allowPageScroll:"vertical"
 	});
 
-    	/* Style */
+    	/* Feed eye */
 	$(".show-feed-element").hover(function() {
 		var l = $(this).find(".fa");
 		l.removeClass("text-muted fa-eye-slash").addClass("text-info fa-eye");
@@ -82,6 +82,19 @@ $(document).ready(function() {
 	}, function() {
 		var l = $(this).find(".fa");
 		l.removeClass("text-danger fa-eye-slash").addClass("text-default fa-eye");
+	});
+
+	/* Nav tree */
+	$(".nav-onoff").click(function() {
+		$(".nav-off").toggle();
+
+		/*var shstatus = $(this).find("input");
+		if(shstatus.is(":checked")) {
+			$(".nav-off").show();
+		}
+		else {
+			$(".nav-off").hide();
+		}*/
 	});
 
 	/* Leight */
