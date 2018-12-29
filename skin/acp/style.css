@@ -356,7 +356,7 @@ h6 {
   font-family: 'Ubuntu', 'PT Sans' !important;
 }
 h1 {
-  font-size: 17px;
+  font-size: 18px;
 }
 h2 {
   font-size: 16px;
@@ -368,36 +368,22 @@ h4 {
   font-size: 14px;
 }
 h5 {
-  font-size: 13px;
+  font-size: 13.5px;
 }
 h6 {
-  font-size: 12px;
+  font-size: 12.6px;
 }
 /* Font sizes */
 .t10 {
   font-size: 10px;
 }
-.t11 {
-  font-size: 11px;
-}
 .t12 {
   font-size: 12px;
-}
-.t13 {
-  font-size: 13px;
 }
 .t14 {
   font-size: 14px;
 }
-.t15 {
-  font-size: 15px;
-}
-.t16 {
-  font-size: 16px;
-}
-.t17 {
-  font-size: 17px;
-}
+/* Black or white */
 .black {
   color: #1B1E24;
 }
@@ -418,7 +404,7 @@ h6 {
   -webkit-box-shadow: 0 0 2px #777 inset;
   box-shadow: 0 0 2px #777 inset;
 }
-/* SPECIFICATION */
+/* SPECIFIC STYLE */
 .clear,
 .both {
   clear: both;
@@ -494,15 +480,14 @@ span.CodeMirror-matchhighlight {
 .CodeMirror-focused span.CodeMirror-matchhighlight {
   background: #ccc !important;
 }
-.shy,
 .wbr {
   word-break: break-all;
 }
 /* anti drag */
-*[class^="CodeMirror"] > *,
-*[class^="CodeMirror"],
 body,
 body.modal-open,
+*[class^="CodeMirror"] > *,
+*[class^="CodeMirror"],
 .ckeditor,
 *[class^="cke_"],
 *[class^="cke_"] > *,

@@ -64,6 +64,8 @@
 @kelsonsans:	'Kelson Sans';
 @firasans:	'Fira Sans';
 
+@body-fs:	12px;
+
 // inc
 @csshbehavior: url("../csshover.htc") !important;
 @pngfbehavior: url("../iepngfix.htc") !important;
@@ -78,7 +80,7 @@
 /* СТИЛЬ ПАНЕЛИ АДМИНИСТРАТОРА */
 html, body {
 	font-family: @ptsans, @ubuntu, @calibri, @trebuchet, @tahoma, @verdana !important;
-	.black;	.t12;
+	color: @black; font-size: @body-fs;
 	background: @roocms-bg url('./img/bgcp.jpg') repeat fixed top !important;
 	padding: 0; margin: 0;
 	behavior: @csshbehavior;
@@ -93,10 +95,8 @@ a {font-family: @ptsans, @ubuntu, @calibri, @tahoma, @trebuchet !important;}
 
 
 /* Transition */
-*:not([class^="fancybox"]),
-*:not([class^="fancybox"]):hover,
-.table-hover>tbody>tr:hover>td,
-.table-hover>tbody>tr:hover>th {
+*:not([class^="fancybox"]), *:not([class^="fancybox"]):hover,
+.table-hover>tbody>tr:hover>td, .table-hover>tbody>tr:hover>th {
 	transition: all 0.20s ease-in-out;-webkit-transition: all 0.20s ease-in-out;-moz-transition: all 0.20s ease-in-out;outline:none;
 }
 
@@ -147,9 +147,9 @@ input:required:valid {background-image: none !important;}
 .footer {line-height: 13px !important;padding: 10px 0;}
 
 /* sup styles / restyle */
-.small, small	{line-height: 12px;color: @middle-grey; .t11;}
+.small, small	{line-height: 12px;color: @middle-grey; font-size: @body-fs - 1px;}
 
-blockquote 	{.t14 !important; .ptsans !important;}
+blockquote 	{font-size: @body-fs + 2px !important; .ptsans !important;}
 code		{.ubuntu !important;}
 
 /* Hover */
@@ -234,12 +234,9 @@ blockquote.quote-success	{border-left-color: @brand-success;background-color: @b
 blockquote.quote-warning	{border-left-color: @brand-warning;background-color: @bq-background;}
 blockquote.quote-danger		{border-left-color: @brand-danger;background-color: @bq-background;}
 
-blockquote.quote h1,
-blockquote.quote h2,
-blockquote.quote h3,
-blockquote.quote h4,
-blockquote.quote h5,
-blockquote.quote h6	{margin: 0 0 10px 0;padding: 0;}
+blockquote.quote h1, blockquote.quote h2,
+blockquote.quote h3, blockquote.quote h4,
+blockquote.quote h5, blockquote.quote h6 {margin: 0 0 10px 0;padding: 0;}
 
 blockquote.quote small	{color: @middle-grey;}
 
@@ -276,25 +273,21 @@ blockquote.quote-danger > h5, blockquote.quote-danger > h6	{color: @brand-danger
 
 /* Titles */
 h1, h2, h3, h4, h5, h6 {padding: 0; margin: 0;font-weight: normal !important;font-family: @ubuntu, @ptsans !important;}
-h1 {.t17}
-h2 {.t16}
-h3 {.t15}
-h4 {.t14}
-h5 {.t13}
-h6 {.t12}
+h1 {font-size: @body-fs + (@body-fs/2);}
+h2 {font-size: @body-fs + (@body-fs/3);}
+h3 {font-size: @body-fs + (@body-fs/4);}
+h4 {font-size: @body-fs + (@body-fs/6);}
+h5 {font-size: @body-fs + (@body-fs/8);}
+h6 {font-size: @body-fs + (@body-fs/20);}
 
 /* Font sizes */
-.t10 {font-size: 10px;}
-.t11 {font-size: 11px;}
-.t12 {font-size: 12px;}
-.t13 {font-size: 13px;}
-.t14 {font-size: 14px;}
-.t15 {font-size: 15px;}
-.t16 {font-size: 16px;}
-.t17 {font-size: 17px;}
+.t10 {font-size: @body-fs - 2px;}
+.t12 {font-size: @body-fs;}
+.t14 {font-size: @body-fs + 2px;}
 
-.black		{color: @black;}
-.white 		{color: @white;}
+/* Black or white */
+.black {color: @black;}
+.white {color: @white;}
 
 /* Shadows */
 .shadows (@shadow) {
@@ -306,7 +299,7 @@ h6 {.t12}
 .shadow 	{.shadows(0 0 6px @shadowcolor)}
 .inshadow 	{.shadows(0 0 2px @shadowcolor inset)}
 
-/* SPECIFICATION */
+/* SPECIFIC STYLE */
 .clear, .both	{clear:both;}
 
 .text-strong,
@@ -317,7 +310,7 @@ h6 {.t12}
 .text-strike	{text-decoration:line-through;}
 
 .none		{display:none;}
-.invis		{position:absolute; left:-9999px;}
+.invis		{position:absolute; left: -9999px;}
 
 .vtop 		{vertical-align: top;}
 .vbottom 	{vertical-align: bottom;}
@@ -350,11 +343,11 @@ span.CodeMirror-matchhighlight { background: @grey; }
 .CodeMirror-gutter { background: @cm-shadow !important; color: @middle-grey !important; }
 .CodeMirror-focused span.CodeMirror-matchhighlight { background: @grey !important; }
 
-.shy, .wbr {word-break: break-all;}
+.wbr {word-break: break-all;}
 
 /* anti drag */
-*[class^="CodeMirror"]>*, *[class^="CodeMirror"],
 body, body.modal-open,
+*[class^="CodeMirror"]>*, *[class^="CodeMirror"],
 .ckeditor, *[class^="cke_"], *[class^="cke_"]>*, .cke,
 .collapse, .collapse>*
 	{transition: none !important;-webkit-transition: none !important;-moz-transition: none !important;outline:none;}
@@ -438,7 +431,6 @@ body, body.modal-open,
 @font-face {font-family: 'Fira Sans';font-style: italic;font-weight: 700;src: local('Fira Sans Bold Italic'), local('FiraSans-BoldItalic'), url('fonts/FiraSans-Bold-Italic-Cyr.woff2') format('woff2');unicode-range: U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;}
 @font-face {font-family: 'Fira Sans';font-style: italic;font-weight: 700;src: local('Fira Sans Bold Italic'), local('FiraSans-BoldItalic'), url('fonts/FiraSans-Bold-Italic-Ext.woff2') format('woff2');unicode-range: U+0100-024F, U+1E00-1EFF, U+20A0-20AB, U+20AD-20CF, U+2C60-2C7F, U+A720-A7FF;}
 @font-face {font-family: 'Fira Sans';font-style: italic;font-weight: 700;src: local('Fira Sans Bold Italic'), local('FiraSans-BoldItalic'), url('fonts/FiraSans-Bold-Italic.woff2') format('woff2');unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;}
-
 
 
 /**
