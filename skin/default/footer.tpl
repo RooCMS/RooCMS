@@ -9,14 +9,19 @@
 						<div class="row">
 							<div class="col-sm-8">
 								<div class="row">
-									{foreach from=$navtree item=nitem key=k name=fnavigate}
-										<div class="col-sm-6 col-md-4 col-lg-3 text-left">
+									<div class="col-sm-6 col-md-4 col-lg-3 text-left">
+										{foreach from=$navtree item=nitem key=k name=fnavigate}
+											{if $smarty.foreach.fnavigate.index % ($smarty.foreach.fnavigate.total/4)|ceil == 0 && !$smarty.foreach.fnavigate.first}
+												</div>
+												<div class="col-sm-6 col-md-4 col-lg-3 text-left">
+											{/if}
 											<a href="/index.php?page={$nitem['alias']}" class="btn btn-xs btn-link ptsans">{$nitem['title']}</a>
 											{if $nitem['rss'] == 1}
 												<a href="/index.php?page={$nitem['alias']}&export=RSS" class="btn btn-xs btn-link ptsans" target="_blank" title="{$nitem['title']} RSS"><i class="fa fa-fw fa-rss"></i></a>
 											{/if}
-										</div>
-									{/foreach}
+											<br />
+										{/foreach}
+									</div>
 								</div>
 							</div>
 							<div class="col-sm-4">
