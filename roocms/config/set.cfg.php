@@ -99,7 +99,7 @@ ini_set("default_mimetype",		"text/html");
 ini_set("default_socket_timeout",	60);
 
 ini_set("error_prepend_string",		"<script type='text/javascript' src='/plugin/bootstrap.php?short'></script>
-						<div class='alert alert-danger t12 text-left in fade col-md-10 col-md-offset-1' role='alert'>");
+						<div class='alert alert-danger text-left in fade col-md-12' role='alert'>");
 ini_set("error_append_string",		"</div>");
 
 
