@@ -145,7 +145,8 @@ code {
 }
 /* Outline */
 a:focus,
-.btn:focus {
+a:active,
+.btn {
   outline: none !important;
 }
 /* visible style */
