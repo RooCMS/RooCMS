@@ -23,13 +23,13 @@ if(!defined('RooCMS')) {
 /**
  * Class Module_Search
  */
-class Module_Search {
+class Module_Search extends Modules {
 
 	# Название
 	public $title = "Поиск";
 
 	# buffer out
-	private $out = "";
+	protected $out = "";
 
 
 	/**
@@ -45,13 +45,5 @@ class Module_Search {
 		# template
 		$smarty->assign("minleight", $minleight);
 		$this->out .= $tpl->load_template("module_search", true);
-
-		# finish
-		echo $this->out;
 	}
 }
-
-/**
- * Init class
- */
-$module_search = new Module_Search;

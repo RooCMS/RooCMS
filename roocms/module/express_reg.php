@@ -23,13 +23,13 @@ if(!defined('RooCMS')) {
 /**
  * Class Module_Express_Reg
  */
-class Module_Express_Reg {
+class Module_Express_Reg extends Modules {
 
 	# Название
 	public $title = "Экспресс регистрация";
 
 	# buffer out
-	private $out = "";
+	protected $out = "";
 
 
 	/**
@@ -56,13 +56,5 @@ class Module_Express_Reg {
 		$smarty->assign("hide", $hide);
 		$smarty->assign("userdata", $users->userdata);
 		$this->out .= $tpl->load_template("module_express_reg", true);
-
-		# finish
-		echo $this->out;
 	}
 }
-
-/**
- * Init class
- */
-$module_express_reg = new Module_Express_Reg;

@@ -84,7 +84,7 @@
 	<div class="col-sm-3 text-center">
 		<div class="panel panel-default">
 			<div class="panel-body">
-				{$module->load('tagcloud')}
+				{$module->load('tag_cloud')}
 			</div>
 		</div>
 

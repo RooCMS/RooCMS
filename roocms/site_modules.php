@@ -26,8 +26,11 @@ if(!defined('RooCMS')) {
  */
 class Modules {
 
+	var $mods;
+
+
 	/**
-	 * Загружаем модуль
+	 * Load module
 	 *
 	 * @param  string $modulename - идентификатор модуля
 	 *
@@ -37,22 +40,29 @@ class Modules {
 
 		global $parse, $smarty, $tpl;
 
-                $output = "";
+		$output = "";
 
-		$modulename = preg_replace(array('(\s\s+)','(\-\-+)','(__+)','([^a-zA-Z0-9\-_])'), array('','','',''), $modulename);
+		if(!isset($this->mods->$$modulename)) {
+			$modulename = preg_replace(array('(\s\s+)','(\-\-+)','(__+)','([^a-zA-Z0-9\-_])'), array('','','',''), $modulename);
 
-		if(is_file(_MODULE."/".$modulename.".php")) {
+			if(is_file(_MODULE."/".$modulename.".php")) {
 
-			ob_start();
 				require_once _MODULE."/".$modulename.".php";
-				$output = ob_get_contents();
-			ob_end_clean();
 
+				$ModClassTitle = "Module_".$modulename;
+
+				$this->mods->{$modulename} = new $ModClassTitle;
+
+				$output = $this->mods->{$modulename}->out;
+			}
+			else {
+				if(DEBUGMODE) {
+					$output = "Модуль с названием - \"".$modulename."\" не найден";
+				}
+			}
 		}
 		else {
-			if(DEBUGMODE) {
-				$output = "Модуль с названием - \"".$modulename."\" не найден";
-			}
+			$output = $this->mods->{$modulename}->out;
 		}
 
 

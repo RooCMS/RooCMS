@@ -23,13 +23,13 @@ if(!defined('RooCMS')) {
 /**
  * Class Module_Auth
  */
-class Module_Auth {
+class Module_Auth extends Modules {
 
 	# Название
 	public $title = "Авторизация пользователя";
 
 	# buffer out
-	private $out = "";
+	protected $out = "";
 
 
 	/**
@@ -50,17 +50,4 @@ class Module_Auth {
 		$smarty->assign("userdata", $users->userdata);
 		$this->out .= $tpl->load_template("module_auth", true);
 	}
-
-
-	/**
-	 * Finish
-	 */
-	public function __destruct() {
-		echo $this->out;
-	}
 }
-
-/**
- * Init class
- */
-$module_auth = new Module_Auth;

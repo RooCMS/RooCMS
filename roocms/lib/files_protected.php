@@ -97,7 +97,7 @@ $protect[] = array('path' => _ROOCMS.'/acp/users.php',			'chmod'	=> '0644',	'has
 $protect[] = array('path' => _MODULE.'/auth.php',			'chmod'	=> '0644',	'hash'	=> '');
 $protect[] = array('path' => _MODULE.'/express_reg.php',		'chmod'	=> '0644',	'hash'	=> '');
 $protect[] = array('path' => _MODULE.'/search.php',			'chmod'	=> '0644',	'hash'	=> '');
-$protect[] = array('path' => _MODULE.'/tagcloud.php',			'chmod'	=> '0644',	'hash'	=> '');
+$protect[] = array('path' => _MODULE.'/tag_cloud.php',			'chmod'	=> '0644',	'hash'	=> '');
 $protect[] = array('path' => _UI.'/ucp/login.php',			'chmod'	=> '0644',	'hash'	=> '');
 $protect[] = array('path' => _UI.'/ucp/logout.php',			'chmod'	=> '0644',	'hash'	=> '');
 $protect[] = array('path' => _UI.'/ucp/pm.php',				'chmod'	=> '0644',	'hash'	=> '');

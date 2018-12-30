@@ -23,13 +23,13 @@ if(!defined('RooCMS')) {
 /**
  * Class Module_Auth
  */
-class Module_Tag_Cloud {
+class Module_Tag_Cloud extends Modules {
 
 	# Название
 	public $title = "Облако Тегов";
 
 	# buffer out
-	private $out = "";
+	protected $out = "";
 
 
 	/**
@@ -67,15 +67,6 @@ class Module_Tag_Cloud {
 
 			$smarty->assign("tags", $taglist);
 			$this->out .= $tpl->load_template("module_tagcloud", true);
-
-			# finish
-			echo $this->out;
 		}
 	}
 }
-
-
-/**
- * Init class
- */
-$module_tagcloud = new Module_Tag_Cloud;
