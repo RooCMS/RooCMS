@@ -25,12 +25,12 @@ Release information:
 -------------
 	[add] 
 	
-	[upd] Обновлен Fancybox 3.5.2 -> 3.5.6 
-	[upd] Обновлен Smarty 3.1.30 -> 3.1.33 
-	[upd] Обновлен CKEditor 4.8 -> 4.11.1 
-	[upd] Обновлен пользовательскиё интерфейс 
+	[upd] update Fancybox 3.5.2 -> 3.5.6 
+	[upd] update Smarty 3.1.30 -> 3.1.33 
+	[upd] update CKEditor 4.8 -> 4.11.1 
+	[upd] update user interface
 	
-	[fix] Исправлены мелкие ошибки
-	[fix] Исправлены ошибки в работе компонента Модули. Работы над этим компонентом продолжаться.
+	[fix] fixit errors
+	[fix] fixit bugs in Modules. Works on Modules continue.
 	
 	[del] 
