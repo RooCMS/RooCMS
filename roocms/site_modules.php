@@ -29,6 +29,15 @@ class Modules {
 	var $mods;
 
 
+
+	/**
+	 * Modules constructor.
+	 */
+	public function __construct() {
+		settype($this->mods, "object");
+	}
+
+
 	/**
 	 * Load module
 	 *
@@ -42,17 +51,20 @@ class Modules {
 
 		$output = "";
 
-		if(!isset($this->mods->$$modulename)) {
+		if(!isset($this->mods->{$modulename})) {
 			$modulename = preg_replace(array('(\s\s+)','(\-\-+)','(__+)','([^a-zA-Z0-9\-_])'), array('','','',''), $modulename);
 
 			if(is_file(_MODULE."/".$modulename.".php")) {
 
 				require_once _MODULE."/".$modulename.".php";
 
-				$ModClassTitle = "Module_".$modulename;
+				$moduletitle = "Module_".$modulename;
 
-				$this->mods->{$modulename} = new $ModClassTitle;
+				# Load and use mod
+				$this->mods->{$modulename} = new $moduletitle;
+				$this->mods->{$modulename}->begin();
 
+				# output
 				$output = $this->mods->{$modulename}->out;
 			}
 			else {
@@ -62,6 +74,7 @@ class Modules {
 			}
 		}
 		else {
+			$this->mods->{$modulename}->begin();
 			$output = $this->mods->{$modulename}->out;
 		}
 

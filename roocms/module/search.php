@@ -35,7 +35,7 @@ class Module_Search extends Modules {
 	/**
 	 * Start
 	 */
-	public function __construct() {
+	protected function begin() {
 
 		global $tpl, $smarty;
 

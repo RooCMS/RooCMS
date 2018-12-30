@@ -225,14 +225,15 @@ class Debuger {
 							<a href='javascript:history.back(1)'>< Вернуться назад</a></blockquote>");
 		}
 
-		// TODO: Срочно исправить
-                /*echo CRITICAL_STYLESHEETS."
-                <div class='alert alert-danger t12 text-left in fade col-md-10 col-md-offset-1' role='alert'>
-                <button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button>
-	        ОШИБКА: <b>#{$errno} - {$ertitle}</b>
-	        <br />Строка: <b>{$line}</b> в файле <b>{$file}</b>
-	        <br /><b>{$msg}</b>
-	        </div>\n";*/
+                if(DEBUGMODE) {
+			echo CRITICAL_STYLESHEETS."
+			<div class='alert alert-danger t12 text-left in fade col-md-10 col-md-offset-1' role='alert'>
+			<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button>
+			ОШИБКА: <b>#{$errno} - {$ertitle}</b>
+			<br />Строка: <b>{$line}</b> в файле <b>{$file}</b>
+			<br /><b>{$msg}</b>
+			</div>\n";
+		}
 
 		# We kill the standard handler, so that he would not give out anything to spy (:
 		return true;

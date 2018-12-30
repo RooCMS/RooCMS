@@ -23,7 +23,7 @@ if(!defined('RooCMS')) {
 /**
  * Class Module_Express_Reg
  */
-class Module_Express_Reg extends Modules {
+class Module_express_Reg extends Modules {
 
 	# Название
 	public $title = "Экспресс регистрация";
@@ -35,7 +35,7 @@ class Module_Express_Reg extends Modules {
 	/**
 	 * Start
 	 */
-	public function __construct() {
+	protected function begin() {
 
 		global $users, $tpl, $smarty;
 

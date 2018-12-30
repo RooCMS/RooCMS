@@ -35,7 +35,7 @@ class Module_Auth extends Modules {
 	/**
 	 * Start
 	 */
-	public function __construct() {
+	protected function begin() {
 
 		global $db, $users, $tpl, $smarty;
 

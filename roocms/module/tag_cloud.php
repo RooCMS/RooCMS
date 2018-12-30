@@ -35,7 +35,7 @@ class Module_Tag_Cloud extends Modules {
 	/**
 	 * Start
 	 */
-	public function __construct() {
+	protected function begin() {
 
 		global $tags, $tpl, $smarty;
 
