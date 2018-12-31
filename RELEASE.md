@@ -1,6 +1,6 @@
 Version: 1.3.2 alpha
 ========================
-**release date:	30.12.2018**
+**release date:	31.12.2018**
 
 Plugins
 -------
@@ -23,7 +23,7 @@ Plugins
 
 Release information:
 -------------
-	[add] 
+	[add] switcher "show only nav elements" in structure acp
 	
 	[upd] update Fancybox 3.5.2 -> 3.5.6 
 	[upd] update Smarty 3.1.30 -> 3.1.33 

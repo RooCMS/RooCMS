@@ -40,7 +40,6 @@ $(document).ready(function(){
 	/* Swiper */
 	$(".carousel").swipe({
 		swipe: function(event, direction, distance, duration, fingerCount, fingerData) {
-
 			if (direction === "left") $(this).carousel('next');
 			if (direction === "right") $(this).carousel('prev');
 		},
@@ -60,7 +59,7 @@ $(document).ready(function(){
 
 	/* MOVETOP button */
 	$(window).scroll(function () {
-		if ($(this).scrollTop() > 100) {
+		if ($(this).scrollTop() > 300) {
 			$("a#move_top").fadeIn();
 		}
 		else {

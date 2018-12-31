@@ -168,7 +168,7 @@ a:hover>.feed-image-pn, a:hover>.feed-more-preview {border: 2px solid @brand-pri
 	width: 100%;
 	background-color: @white;
 	border-radius: 4px;
-	border: 1px solid #ddd;
+	border: 1px solid darken(@nv-color, 7.5%);
 	margin-top: 2px;
 }
 .btn-breadcrumb .btn{
@@ -176,7 +176,7 @@ a:hover>.feed-image-pn, a:hover>.feed-more-preview {border: 2px solid @brand-pri
 	border-right: 1px solid transparent !important;
 	font-size: 11px;
 }
-.breadcrumb-default{ background-color: @white;border: 0 solid #ddd; }
+.breadcrumb-default{ background-color: @white;border: 0 solid darken(@nv-color, 7.5%); }
 
 .btn-breadcrumb .btn:last-child {font-weight: bold;}
 .btn-breadcrumb .btn:last-child:after{margin-left: -2px;}
@@ -218,7 +218,7 @@ a:hover>.feed-image-pn, a:hover>.feed-more-preview {border: 2px solid @brand-pri
 	height: 0;
 	border-top: 13px solid transparent;
 	border-bottom: 14px solid transparent;
-	border-left: 10px solid #cecece;
+	border-left: 10px solid darken(@nv-color, 13.25%);
 	position: absolute;
 	top: 50%;
 	margin-top: -14px;
@@ -236,16 +236,16 @@ a:hover>.feed-image-pn, a:hover>.feed-more-preview {border: 2px solid @brand-pri
 
 /** Default button **/
 .btn-breadcrumb .btn.btn-default:after { border-left: 10px solid @white;}
-.btn-breadcrumb .btn.btn-default:hover:after {border-left: 10px solid #e6e6e6;}
-.btn-breadcrumb .btn.btn-default:hover:before, .btn-breadcrumb .btn.btn-default:before {border-left: 10px solid #cecece;}
+.btn-breadcrumb .btn.btn-default:hover:after {border-left: 10px solid darken(@nv-color, 3.75%);}
+.btn-breadcrumb .btn.btn-default:hover:before, .btn-breadcrumb .btn.btn-default:before {border-left: 10px solid darken(@nv-color, 13.25%);}
 .btn-breadcrumb .btn.btn-default:active, .btn-breadcrumb .btn.btn-default.active, .btn-breadcrumb .btn.btn-default:focus {.shadows(none);z-index: auto !important;}
-.btn-breadcrumb .btn.btn-default:active:after, .btn-breadcrumb .btn.btn-default.active:after {border-left: 10px solid #e6e6e6;.shadows(none);}
-.btn-breadcrumb .btn.btn-default:active:before, .btn-breadcrumb .btn.btn-default.active:before {border-left: 10px solid #cecece;}
-.btn-breadcrumb .btn.btn-default:active:hover:after, .btn-breadcrumb .btn.btn-default:focus:after {border-left: 10px solid #d4d4d4;}
-.btn-breadcrumb .btn.btn-default:active:hover:before, .btn-breadcrumb .btn.btn-default:focus:before {border-left: 10px solid #8c8c8c;}
-.btn-breadcrumb .btn.btn-default.active:hover {background-color: #e6e6e6;cursor: default;}
-.btn-breadcrumb .btn.btn-default.active:hover:after {border-left: 10px solid #e6e6e6;}
-.btn-breadcrumb .btn.btn-default.active:hover:before {border-left: 10px solid #cecece;}
+.btn-breadcrumb .btn.btn-default:active:after, .btn-breadcrumb .btn.btn-default.active:after {border-left: 10px solid darken(@nv-color, 3.75%);.shadows(none);}
+.btn-breadcrumb .btn.btn-default:active:before, .btn-breadcrumb .btn.btn-default.active:before {border-left: 10px solid darken(@nv-color, 13.25%);}
+.btn-breadcrumb .btn.btn-default:active:hover:after, .btn-breadcrumb .btn.btn-default:focus:after {border-left: 10px solid darken(@nv-color, 10.75%);}
+.btn-breadcrumb .btn.btn-default:active:hover:before, .btn-breadcrumb .btn.btn-default:focus:before {border-left: 10px solid darken(@nv-color, 40%);}
+.btn-breadcrumb .btn.btn-default.active:hover {background-color: darken(@nv-color, 3.75%);cursor: default;}
+.btn-breadcrumb .btn.btn-default.active:hover:after {border-left: 10px solid darken(@nv-color, 3.75%);}
+.btn-breadcrumb .btn.btn-default.active:hover:before {border-left: 10px solid darken(@nv-color, 13.25%);}
 
 .input-search {max-height: 27px;}
 
@@ -273,7 +273,7 @@ a:hover>.feed-image-pn, a:hover>.feed-more-preview {border: 2px solid @brand-pri
 	position: relative;
 	padding: 1px 0 1px 8px;
 	margin: 0 2px;
-	border-left: 1px solid #adadad;
+	border-left: 1px solid darken(@nv-color, 26%);
 }
 .tag_amount:after, .tag_amount:before {
 	content: '';
@@ -283,10 +283,10 @@ a:hover>.feed-image-pn, a:hover>.feed-more-preview {border: 2px solid @brand-pri
 	border-right: 4px solid transparent;
 	border-bottom: 4px solid transparent;
 }
-.tag_amount:before {left: 0;border-left: 4px solid #adadad;}
+.tag_amount:before {left: 0;border-left: 4px solid darken(@nv-color, 26%);}
 .tag_amount:after {left: -1px; border-left: 4px solid @white;}
-a.tag:hover .tag_amount:after, a.tag.active .tag_amount::after {left: -1px; border-left: 4px solid #e6e6e6;}
-a.tag.active:hover .tag_amount:after {left: -1px; border-left: 4px solid #d4d4d4;}
+a.tag:hover .tag_amount:after, a.tag.active .tag_amount::after {left: -1px; border-left: 4px solid darken(@nv-color, 3.75%);}
+a.tag.active:hover .tag_amount:after {left: -1px; border-left: 4px solid darken(@nv-color, 10.75%);}
 
 
 /*  Input icon */

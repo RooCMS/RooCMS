@@ -263,7 +263,7 @@ a:hover > .feed-more-preview {
   width: 100%;
   background-color: #fff;
   border-radius: 4px;
-  border: 1px solid #ddd;
+  border: 1px solid #dddddd;
   margin-top: 2px;
 }
 .btn-breadcrumb .btn {
@@ -273,7 +273,7 @@ a:hover > .feed-more-preview {
 }
 .breadcrumb-default {
   background-color: #fff;
-  border: 0 solid #ddd;
+  border: 0 solid #dddddd;
 }
 .btn-breadcrumb .btn:last-child {
   font-weight: bold;
@@ -375,7 +375,7 @@ a:hover > .feed-more-preview {
 }
 .btn-breadcrumb .btn.btn-default:active:hover:before,
 .btn-breadcrumb .btn.btn-default:focus:before {
-  border-left: 10px solid #8c8c8c;
+  border-left: 10px solid #8a8a8a;
 }
 .btn-breadcrumb .btn.btn-default.active:hover {
   background-color: #e6e6e6;
