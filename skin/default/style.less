@@ -1,9 +1,9 @@
 @charset "utf-8";
 
 // Less variables
-@bg-color:	#fefefe;
-@hf-color:	darken(@bg-color, 1%);
-@nv-color:	darken(@bg-color, 5.5%);
+@bg-color:	#ffffff;
+@hf-color:	darken(@bg-color, 1.5%);
+@nv-color:	darken(@bg-color, 6%);
 
 @text-color:	#333;
 
@@ -94,8 +94,9 @@ mark {padding: 0 !important;border-bottom: 1px dotted @brand-danger;}
 .navigation-level-0 {margin-left: -28px !important;margin-right: -28px !important;}
 .navigation-title {border-bottom: 2px solid darken(@nv-color, 27.5%);margin-bottom: 3px;}
 .navigation-submenu {display: none; position: absolute;z-index: 999;margin-left: -2px !important;}
-.navigation-submenu .row {background: #ddd;padding: 0 0 10px 0 !important;margin: 0 !important;}
-.navigation-submenu .row:first-child {border-top: 3px solid #ccc;padding-top: 10px !important;}
+.navigation-submenu .row {background: darken(@nv-color, 7.5%);padding: 0 0 10px 0 !important;margin: 0 !important;}
+.navigation-submenu .row:first-child {border-top: 3px solid darken(@nv-color, 14.15%);padding-top: 10px !important;}
+.navigation-submenu .row:last-child {border-bottom: 3px solid darken(@nv-color, 14.15%);;}
 @media (max-width: 600px) {
 	.navigation-level-0 {margin-right: -15px !important;}
 	.navigation-submenu  {top: 30px !important;}

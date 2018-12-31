@@ -1,6 +1,6 @@
 @charset "utf-8";
 body {
-  background: #fefefe;
+  background: #ffffff;
   font-family: 'Open Sans', 'Ubuntu', 'Trebuchet MS', 'Tahoma' !important;
   color: #333 !important;
   padding: 0;
@@ -121,13 +121,16 @@ mark {
   margin-left: -2px !important;
 }
 .navigation-submenu .row {
-  background: #ddd;
+  background: #dddddd;
   padding: 0 0 10px 0 !important;
   margin: 0 !important;
 }
 .navigation-submenu .row:first-child {
-  border-top: 3px solid #ccc;
+  border-top: 3px solid #cccccc;
   padding-top: 10px !important;
+}
+.navigation-submenu .row:last-child {
+  border-bottom: 3px solid #cccccc;
 }
 @media (max-width: 600px) {
   .navigation-level-0 {
