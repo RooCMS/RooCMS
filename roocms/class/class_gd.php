@@ -28,15 +28,15 @@ class GD {
 	use GDExtends;
 
 	# vars
-	public $info		= [];					# Информация о GD расширении
-	public $copyright	= "";					# Текст копирайта ( По умолчанию: $site['title'] )
-	public $domain		= "";					# Адрес домена ( По умолчанию: $site['domain'] )
-	public $msize		= array('w' => 1200,'h' => 1200);	# Максимальные размеры сохраняемого изображения
-	public $tsize		= array('w' => 267, 'h' => 150);	# Размеры миниатюры
-	private $rs_quality	= 90;					# Качество обработанных изображений
-	private $th_quality	= 90;					# Качество генерируемых миниматюр
-	private $thumbtg	= "cover";				# Тип генерируемой миниатюры ( Возможные значения: cover - заливка, contain - по размеру изображения )
-	private $thumbbgcol	= array('r' => 0, 'g' => 0, 'b' => 0);	# Значение фонового цвета, если тип генерируемых миниатюр производится по размеру ( $thumbtg = size )
+	public $info		= [];					# GD infoи
+	public $copyright	= "";					# Copyright text ( Default: $site['title'] )
+	public $domain		= "";					# Site address ( Default: $site['domain'] )
+	public $msize		= array('w' => 1200,'h' => 1200);	# Max sizes saved image
+	public $tsize		= array('w' => 267, 'h' => 150);	# Thumbnail defauly sizes
+	private $rs_quality	= 90;					# Quality saved image
+	private $th_quality	= 90;					# Quality thumbnail
+	private $thumbtg	= "cover";				# Type Thumbnail ( Variables: cover, contain )
+	private $thumbbgcol	= array('r' => 0, 'g' => 0, 'b' => 0);	# Background color for thumbnail "contain" type
 
 
 	/**
@@ -55,7 +55,7 @@ class GD {
 		# Set max size
 		$this->set_mod_sizes(array($config->gd_image_maxwidth, $config->gd_image_maxheight), "msize");
 
-		# Тип генерации фона из конфигурации
+		# Set thumbnail type
 		if($config->gd_thumb_type_gen == "contain") {
 			$this->thumbtg = "contain";
 		}

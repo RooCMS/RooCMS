@@ -62,7 +62,7 @@ class Files {
 
 		global $parse;
 
-		# убиваем прицепившиейся расширение к имени файла
+		# get filename without extension
 		$ext = $this->get_ext($filename);
 		$filename = str_ireplace(".".$ext, "", $filename);
 
@@ -102,11 +102,11 @@ class Files {
 
 
 	/**
-	 * Выгружаем присоедененные файлы
+	 * Load atteched files
 	 *
-	 * @param string $cond  параметр указывающий на элемент к которому прикреплены изображения
-	 * @param int    $from  стартовая позиция для загрузки файлов
-	 * @param int    $limit лимит загружаемых файлов
+	 * @param string $cond  - condition attached
+	 * @param int    $from  - start position for load
+	 * @param int    $limit - limit
 	 *
 	 * @return array $data  files info
 	 */
@@ -134,7 +134,7 @@ class Files {
 	 * @param string       $file        name array $_FILES
 	 * @param string       $attached
 	 * @param string       $prefix      prefix file name
-	 * @param string|array $allowtypes  Допустимые типы файлов (в будущем)
+	 * @param string|array $allowtypes  allowed file types (in future)
 	 * @param string       $path        path to upload
 	 *
 	 * @return array|false
@@ -144,11 +144,10 @@ class Files {
 		# create output array data
 		$files = [];
 
-		# Составляем массив для проверки разрешенных типов файлов к загрузке
+		# Construct array allowed extension
 		$allow_exts = $this->get_allow_exts($allowtypes);
 
-		# Если $_FILES не является массивом конвертнем в массив
-		# Я кстати в курсе, что сам по себе $_FILES уже массив. Тут в другом смысл.
+		# Construct array up files
 		$upfiles = [];
 		if(!is_array($_FILES[$file]['tmp_name'])) {
 			foreach($_FILES[$file] AS $k=>$v) {
@@ -160,7 +159,7 @@ class Files {
 		}
 
 
-		# приступаем к обработке
+		# processing
 		foreach($upfiles[$file]['tmp_name'] AS $key=>$value) {
 			if(isset($upfiles[$file]['tmp_name'][$key]) && $upfiles[$file]['error'][$key] == 0) {
 
@@ -175,7 +174,7 @@ class Files {
 					$upfiles[$file]['ext'][$key] = "tar.gz";
 				}
 
-				# Грузим апельсины бочками
+				# Let's dance
 				if(array_key_exists($ext, $allow_exts)) {
 
 					# create filename
@@ -199,8 +198,8 @@ class Files {
 				}
 			}
 			else {
-				# вписать сообщение об ошибке.
-				# впрочем ещё надо и обработчик ошибок написать.
+				# TODO: вписать сообщение об ошибке.
+				# TODO: впрочем ещё надо и обработчик ошибок написать.
 				$filename = false;
 			}
 
@@ -221,9 +220,9 @@ class Files {
 	/**
 	 * Upload file info to db
 	 *
-	 * @param string $filename  file name withput $pofix
-	 * @param string $filetitle file title
-	 * @param mixed  $attached  site item for attached file
+	 * @param string $filename  - file name withput $pofix
+	 * @param string $filetitle - file title
+	 * @param mixed  $attached  - site item for attached file
 	 */
 	public function insert_file($filename, $filetitle, $attached) {
 
@@ -260,21 +259,22 @@ class Files {
 			if(!empty($row)) {
 				$filename = $row['filename'].".".$row['fileext'];
 
-				# delete
+				# delete file from disk
 				$this->erase_file(_UPLOADFILES."/".$filename);
 			}
 		}
 
+		# delete file from db
 		$db->query("DELETE FROM ".FILES_TABLE." WHERE ".$cond);
 	}
 
 
 	/**
-	 * Функция составляет массив допустимых расширений файлов разрешенных для загрузки на сервер.
+	 * Construct array allowed file types
 	 *
-	 * @param string|array $allowtypes     Допустимые типы файлов (в будущем)
+	 * @param string|array $allowtypes     allowed file types (in future)
 	 *
-	 * @return mixed Возвращает массив с допустимыми расширениями изображения для загрузки на сервер
+	 * @return mixed
 	 */
 	public function get_allow_exts($allowtypes="") {
 		$filetype = [];

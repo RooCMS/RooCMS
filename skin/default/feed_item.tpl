@@ -88,9 +88,7 @@
 				<br /><span class="hidden-xs">{$item['prev']['title']}</span></a>
 		{/if}
 	</div>
-	{*<div class="col-xs-2 text-center">
-		<a href="{$SCRIPT_NAME}?page={$feed['alias']}{if isset($smarty.get.pg)}&pg={$smarty.get.pg}{/if}" class="btn btn-xs btn-default"><span class="fa fa-sort-asc fa-fw"></span><br />Вернуться</a>
-	</div>*}
+
 	<div class="col-xs-6 text-right text-overflow">
 		{if isset($item['next'])}
 			<small>Далее {$item['next']['datepub']}</small>
@@ -111,19 +109,6 @@
 	<div class="row">
 		{foreach from=$more item=an key=i}
 			<div class="col-sm-4 text-center">
-				{*<style>
-					{if isset($an['image'][0])}
-						{literal}
-						.feed-more-preview-{/literal}{$i}{literal} {
-							width: 90%;
-							height: 120px;
-							background: transparent url('/upload/images/{/literal}{$an['image'][0]['thumb']}{literal}') no-repeat local center 50%;
-							background-size: cover;
-						}
-						{/literal}
-					{/if}
-				</style>
-				<div class="feed-more-preview-{$i}"></div>*}
 				<a href="{$SCRIPT_NAME}?page={$feed['alias']}&id={$an['id']}">
 					{if isset($an['image'][0])}<img src="/upload/images/{$an['image'][0]['thumb']}" class="img-rounded feed-more-preview">{/if}<br />{$an['title']}</a>
 				<br /><small>{$an['datepub']}</small>

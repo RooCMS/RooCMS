@@ -26,7 +26,7 @@ class Post {
 	 * needed fields
 	 * @var array
 	 */
-	public $needed = [];
+	//public $needed = [];
 
 
 

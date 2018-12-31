@@ -283,7 +283,7 @@ a:hover>.feed-image-pn, a:hover>.feed-more-preview {border: 2px solid @brand-pri
 	border-bottom: 4px solid transparent;
 }
 .tag_amount:before {left: 0;border-left: 4px solid #adadad;}
-.tag_amount:after {left: -1px;	border-left: 4px solid @white;}
+.tag_amount:after {left: -1px; border-left: 4px solid @white;}
 a.tag:hover .tag_amount:after, a.tag.active .tag_amount::after {left: -1px; border-left: 4px solid #e6e6e6;}
 a.tag.active:hover .tag_amount:after {left: -1px; border-left: 4px solid #d4d4d4;}
 
@@ -348,26 +348,21 @@ a#move_top {
 
 
 /* Blur */
+.blur(@blur: 4px) {
+	-webkit-filter: blur(@blur);
+	-moz-filter: blur(@blur);
+	-o-filter: blur(@blur);
+	-ms-filter: blur(@blur);
+	filter: blur(@blur);
+}
 .blur {
-	-webkit-filter: blur(4px);
-	-moz-filter: blur(4px);
-	-o-filter: blur(4px);
-	-ms-filter: blur(4px);
-	filter: blur(4px);
+	.blur();
 }
 .blured {
-	-webkit-filter: blur(1px);
-	-moz-filter: blur(1px);
-	-o-filter: blur(1px);
-	-ms-filter: blur(1px);
-	filter: blur(1px);
+	.blur(1px);
 }
 .blured:hover {
-	-webkit-filter: blur(0);
-	-moz-filter: blur(0);
-	-o-filter: blur(0);
-	-ms-filter: blur(0);
-	filter: blur(0);
+	.blur(0);
 }
 
 
