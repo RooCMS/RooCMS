@@ -1,9 +1,10 @@
 @charset "utf-8";
 
 // Less variables
-@bg-color:	#ffffff;
-@hf-color:	darken(@bg-color, 1.5%);
-@nv-color:	darken(@bg-color, 6%);
+@bg-color:	#fff;
+@dv-color:	darken(@bg-color, 1%);
+@hf-color:	darken(@dv-color, 5%);
+@nv-color:	darken(@hf-color, 5%);
 
 @text-color:	#333;
 
@@ -64,10 +65,6 @@ small, button, .btn, .label, .badge {font-family: 'PT Sans' !important;}
 p {text-align: justify;}
 p.lead {font-family: "PT Sans" !important;}
 a[class=""], a:not([class]) {font-weight: 600 !important;}
-
-
-/* Padding for BG-* style bootstrap */
-.bg-primary, .bg-success, .bg-info, .bg-warning, .bg-danger {padding: 15px;}
 
 
 /* Other BS fix styles */
@@ -166,10 +163,10 @@ a:hover>.feed-image-pn, a:hover>.feed-more-preview {border: 2px solid @brand-pri
 }
 .btn-breadcrumb{
 	width: 100%;
-	background-color: @white;
 	border-radius: 4px;
 	border: 1px solid darken(@nv-color, 7.5%);
 	margin-top: 2px;
+	background-color: @white;
 }
 .btn-breadcrumb .btn{
 	border: 0 solid transparent;
@@ -196,21 +193,7 @@ a:hover>.feed-image-pn, a:hover>.feed-more-preview {border: 2px solid @brand-pri
 
 .btn-breadcrumb .btn-derecha:after, .btn-breadcrumb .btn-derecha:before{content: none !important;}
 
-.btn-breadcrumb .btn:after {
-	content: " ";
-	display: block;
-	width: 0;
-	height: 0;
-	border-top: 13px solid transparent;
-	border-bottom: 14px solid transparent;
-	border-left: 10px solid @white;
-	position: absolute;
-	top: 50%;
-	margin-top: -14px;
-	margin-left: 0;
-	left: 100%;
-	z-index: 3;
-}
+.btn-breadcrumb .btn:after,
 .btn-breadcrumb .btn:before {
 	content: " ";
 	display: block;
@@ -218,13 +201,20 @@ a:hover>.feed-image-pn, a:hover>.feed-more-preview {border: 2px solid @brand-pri
 	height: 0;
 	border-top: 13px solid transparent;
 	border-bottom: 14px solid transparent;
-	border-left: 10px solid darken(@nv-color, 13.25%);
 	position: absolute;
 	top: 50%;
-	margin-top: -14px;
-	margin-left: 1px;
 	left: 100%;
 	z-index: 3;
+}
+.btn-breadcrumb .btn:after {
+	border-left: 10px solid @white;
+	margin-top: -14px;
+	margin-left: 0;
+}
+.btn-breadcrumb .btn:before {
+	border-left: 10px solid darken(@nv-color, 25%);
+	margin-top: -14px;
+	margin-left: 1px;
 }
 
 
@@ -235,7 +225,9 @@ a:hover>.feed-image-pn, a:hover>.feed-more-preview {border: 2px solid @brand-pri
 
 
 /** Default button **/
+
 .btn-breadcrumb .btn.btn-default:after { border-left: 10px solid @white;}
+.btn-breadcrumb .btn.btn-default:hover {background-color: darken(@nv-color, 3.75%);}
 .btn-breadcrumb .btn.btn-default:hover:after {border-left: 10px solid darken(@nv-color, 3.75%);}
 .btn-breadcrumb .btn.btn-default:hover:before, .btn-breadcrumb .btn.btn-default:before {border-left: 10px solid darken(@nv-color, 25%);}
 .btn-breadcrumb .btn.btn-default:active, .btn-breadcrumb .btn.btn-default.active, .btn-breadcrumb .btn.btn-default:focus {.shadows(none);z-index: auto !important;}
@@ -243,6 +235,7 @@ a:hover>.feed-image-pn, a:hover>.feed-more-preview {border: 2px solid @brand-pri
 .btn-breadcrumb .btn.btn-default:active:before, .btn-breadcrumb .btn.btn-default.active:before {border-left: 10px solid darken(@nv-color, 25%);}
 .btn-breadcrumb .btn.btn-default:active:hover:after, .btn-breadcrumb .btn.btn-default:focus:after {border-left: 10px solid darken(@nv-color, 10.75%);}
 .btn-breadcrumb .btn.btn-default:active:hover:before, .btn-breadcrumb .btn.btn-default:focus:before {border-left: 10px solid darken(@nv-color, 40%);}
+.btn-breadcrumb .btn.btn-default.active {background-color: darken(@nv-color, 3.75%);}
 .btn-breadcrumb .btn.btn-default.active:hover {background-color: darken(@nv-color, 3.75%);cursor: default;}
 .btn-breadcrumb .btn.btn-default.active:hover:after {border-left: 10px solid darken(@nv-color, 3.75%);}
 .btn-breadcrumb .btn.btn-default.active:hover:before {border-left: 10px solid darken(@nv-color, 25%);}

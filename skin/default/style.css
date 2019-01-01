@@ -1,6 +1,6 @@
 @charset "utf-8";
 body {
-  background: #ffffff;
+  background: #fff;
   font-family: 'Open Sans', 'Ubuntu', 'Trebuchet MS', 'Tahoma' !important;
   color: #333 !important;
   padding: 0;
@@ -14,14 +14,14 @@ img {
 /* Head & Foot */
 .header,
 .footer {
-  background: #fbfbfb;
+  background: #f0f0f0;
 }
 .header {
   padding-bottom: 5px;
   min-height: 35px;
 }
 .footer {
-  border-top: 2px solid #dddddd;
+  border-top: 2px solid #d1d1d1;
   padding-top: 15px;
   margin-top: 15px;
 }
@@ -71,14 +71,6 @@ a[class=""],
 a:not([class]) {
   font-weight: 600 !important;
 }
-/* Padding for BG-* style bootstrap */
-.bg-primary,
-.bg-success,
-.bg-info,
-.bg-warning,
-.bg-danger {
-  padding: 15px;
-}
 /* Other BS fix styles */
 .form-control.datepicker {
   padding: 6px 12px !important;
@@ -104,14 +96,14 @@ mark {
 }
 /* Top Navigation */
 .navigation {
-  background: #f0f0f0;
+  background: #e3e3e3;
 }
 .navigation-level-0 {
   margin-left: -28px !important;
   margin-right: -28px !important;
 }
 .navigation-title {
-  border-bottom: 2px solid #aaaaaa;
+  border-bottom: 2px solid #9d9d9d;
   margin-bottom: 3px;
 }
 .navigation-submenu {
@@ -121,16 +113,16 @@ mark {
   margin-left: -2px !important;
 }
 .navigation-submenu .row {
-  background: #dddddd;
+  background: #d0d0d0;
   padding: 0 0 10px 0 !important;
   margin: 0 !important;
 }
 .navigation-submenu .row:first-child {
-  border-top: 3px solid #cccccc;
+  border-top: 3px solid #bfbfbf;
   padding-top: 10px !important;
 }
 .navigation-submenu .row:last-child {
-  border-bottom: 3px solid #cccccc;
+  border-bottom: 3px solid #bfbfbf;
 }
 @media (max-width: 600px) {
   .navigation-level-0 {
@@ -161,7 +153,7 @@ mark {
   border-radius: 0 !important;
 }
 .topmenu-title {
-  border-bottom: 2px solid #aaaaaa !important;
+  border-bottom: 2px solid #9d9d9d !important;
   margin-bottom: 3px !important;
   font-weight: bold !important;
 }
@@ -254,17 +246,17 @@ a:hover > .feed-more-preview {
 }
 /* Breadcrumb */
 .breadcrumb-line {
-  border-top: 5px solid #fbfbfb;
-  border-bottom: 5px solid #fbfbfb;
+  border-top: 5px solid #f0f0f0;
+  border-bottom: 5px solid #f0f0f0;
   min-height: 41px;
   background: #fff;
 }
 .btn-breadcrumb {
   width: 100%;
-  background-color: #fff;
   border-radius: 4px;
-  border: 1px solid #dddddd;
+  border: 1px solid #d0d0d0;
   margin-top: 2px;
+  background-color: #fff;
 }
 .btn-breadcrumb .btn {
   border: 0 solid transparent;
@@ -273,7 +265,7 @@ a:hover > .feed-more-preview {
 }
 .breadcrumb-default {
   background-color: #fff;
-  border: 0 solid #dddddd;
+  border: 0 solid #d0d0d0;
 }
 .btn-breadcrumb .btn:last-child {
   font-weight: bold;
@@ -299,21 +291,7 @@ a:hover > .feed-more-preview {
 .btn-breadcrumb .btn-derecha:before {
   content: none !important;
 }
-.btn-breadcrumb .btn:after {
-  content: " ";
-  display: block;
-  width: 0;
-  height: 0;
-  border-top: 13px solid transparent;
-  border-bottom: 14px solid transparent;
-  border-left: 10px solid #fff;
-  position: absolute;
-  top: 50%;
-  margin-top: -14px;
-  margin-left: 0;
-  left: 100%;
-  z-index: 3;
-}
+.btn-breadcrumb .btn:after,
 .btn-breadcrumb .btn:before {
   content: " ";
   display: block;
@@ -321,13 +299,20 @@ a:hover > .feed-more-preview {
   height: 0;
   border-top: 13px solid transparent;
   border-bottom: 14px solid transparent;
-  border-left: 10px solid #cecece;
   position: absolute;
   top: 50%;
-  margin-top: -14px;
-  margin-left: 1px;
   left: 100%;
   z-index: 3;
+}
+.btn-breadcrumb .btn:after {
+  border-left: 10px solid #fff;
+  margin-top: -14px;
+  margin-left: 0;
+}
+.btn-breadcrumb .btn:before {
+  border-left: 10px solid #a3a3a3;
+  margin-top: -14px;
+  margin-left: 1px;
 }
 /** The Spacing **/
 .btn-breadcrumb .btn {
@@ -343,12 +328,15 @@ a:hover > .feed-more-preview {
 .btn-breadcrumb .btn.btn-default:after {
   border-left: 10px solid #fff;
 }
+.btn-breadcrumb .btn.btn-default:hover {
+  background-color: #d9d9d9;
+}
 .btn-breadcrumb .btn.btn-default:hover:after {
-  border-left: 10px solid #e6e6e6;
+  border-left: 10px solid #d9d9d9;
 }
 .btn-breadcrumb .btn.btn-default:hover:before,
 .btn-breadcrumb .btn.btn-default:before {
-  border-left: 10px solid #b0b0b0;
+  border-left: 10px solid #a3a3a3;
 }
 .btn-breadcrumb .btn.btn-default:active,
 .btn-breadcrumb .btn.btn-default.active,
@@ -360,32 +348,35 @@ a:hover > .feed-more-preview {
 }
 .btn-breadcrumb .btn.btn-default:active:after,
 .btn-breadcrumb .btn.btn-default.active:after {
-  border-left: 10px solid #e6e6e6;
+  border-left: 10px solid #d9d9d9;
   -moz-box-shadow: none !important;
   -webkit-box-shadow: none !important;
   box-shadow: none !important;
 }
 .btn-breadcrumb .btn.btn-default:active:before,
 .btn-breadcrumb .btn.btn-default.active:before {
-  border-left: 10px solid #b0b0b0;
+  border-left: 10px solid #a3a3a3;
 }
 .btn-breadcrumb .btn.btn-default:active:hover:after,
 .btn-breadcrumb .btn.btn-default:focus:after {
-  border-left: 10px solid #d4d4d4;
+  border-left: 10px solid #c8c8c8;
 }
 .btn-breadcrumb .btn.btn-default:active:hover:before,
 .btn-breadcrumb .btn.btn-default:focus:before {
-  border-left: 10px solid #8a8a8a;
+  border-left: 10px solid #7d7d7d;
+}
+.btn-breadcrumb .btn.btn-default.active {
+  background-color: #d9d9d9;
 }
 .btn-breadcrumb .btn.btn-default.active:hover {
-  background-color: #e6e6e6;
+  background-color: #d9d9d9;
   cursor: default;
 }
 .btn-breadcrumb .btn.btn-default.active:hover:after {
-  border-left: 10px solid #e6e6e6;
+  border-left: 10px solid #d9d9d9;
 }
 .btn-breadcrumb .btn.btn-default.active:hover:before {
-  border-left: 10px solid #b0b0b0;
+  border-left: 10px solid #a3a3a3;
 }
 .input-search {
   max-height: 27px;
@@ -418,7 +409,7 @@ a:hover > .feed-more-preview {
   position: relative;
   padding: 1px 0 1px 8px;
   margin: 0 2px;
-  border-left: 1px solid #adadad;
+  border-left: 1px solid #a1a1a1;
 }
 .tag_amount:after,
 .tag_amount:before {
@@ -431,7 +422,7 @@ a:hover > .feed-more-preview {
 }
 .tag_amount:before {
   left: 0;
-  border-left: 4px solid #adadad;
+  border-left: 4px solid #a1a1a1;
 }
 .tag_amount:after {
   left: -1px;
@@ -440,11 +431,11 @@ a:hover > .feed-more-preview {
 a.tag:hover .tag_amount:after,
 a.tag.active .tag_amount::after {
   left: -1px;
-  border-left: 4px solid #e6e6e6;
+  border-left: 4px solid #d9d9d9;
 }
 a.tag.active:hover .tag_amount:after {
   left: -1px;
-  border-left: 4px solid #d4d4d4;
+  border-left: 4px solid #c8c8c8;
 }
 /*  Input icon */
 .inner-addon {
