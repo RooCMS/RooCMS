@@ -156,10 +156,10 @@ class MySQLiDB {
 
 
 	/**
-	* Запрос в БД
+	* Query to DB
 	*
-	* @param string $q - Строка запроса в БД
-	* @return resource - результат запроса.
+	* @param string $q - query string
+	* @return resource - query result
 	*/
 	public function query($q) {
 
@@ -167,22 +167,22 @@ class MySQLiDB {
 
 		if($this->connecting()) {
 
-			# таймер старт
+			# start timer
 			$start = microtime(true);
 
-			# Выполняем запрос
+			# run query
 			$query = $this->sql->query($q) or die ($this->error($q));
 
-			# таймер стоп
+			# stop timer
 			$finish = microtime(true);
 
-			# Считаем запросы
+			# query counter +1
 			$this->cnt_querys++;
 
-			# сохраняем информацию о запросах
+			# save info about query
 			$this->querys[] = $q;
 
-			# Выводим информацию по всем запросам
+			# show info about all querys
 			if($debug->show_debug) {
 
 				# parse debug
@@ -274,13 +274,13 @@ class MySQLiDB {
 	/**
 	 * Преобразует результаты запроса в простой массив
 	 *
-	 * @param mixed $q - Результат произведенного в БД запроса.
+	 * @param resource $q - Результат произведенного в БД запроса.
 	 * @return array  - Возвращает данные из БД в ввиде нумерованного массива
 	 */
 	public function fetch_row($q) {
 
 		if($this->connecting()) {
-			$result = mysqli_fetch_row($q);
+			$result = $q->fetch_row();
 			return $result;
 		}
 	}
@@ -289,14 +289,14 @@ class MySQLiDB {
 	/**
 	 * Преобразует результаты запроса в ассоциативный массив
 	 *
-	 * @param mixed $q - Результат произведенного в БД запроса.
+	 * @param resource $q - Результат произведенного в БД запроса.
 	 *
 	 * @return array|null  - Возвращает данные из БД в ввиде ассоциативного массива
 	 */
 	public function fetch_assoc($q) {
 
 		if($this->connecting()) {
-			$result = mysqli_fetch_assoc($q);
+			$result = $q->fetch_assoc();
 			return $result;
 		}
 	}
@@ -305,14 +305,14 @@ class MySQLiDB {
 	/**
 	 * Преобразует результаты запроса в объект
 	 *
-	 * @param mixed $q - Результат произведенного в БД запроса.
+	 * @param resource $q - Результат произведенного в БД запроса.
 	 *
 	 * @return object|null - Возвращает данные из БД в ввиде объекта
 	 */
 	public function fetch_object($q) {
 
 		if($this->connecting()) {
-			$obj = mysqli_fetch_object($q);
+			$obj = $q->fetch_object();
 			return $obj;
 		}
 	}
@@ -434,7 +434,7 @@ class MySQLiDB {
 
 		$results = [];
 
-		# считаем
+		# calc
 		$query = "SELECT count(*) FROM ".$from." WHERE ".$proviso;
 		$rkey = md5($query);
 
@@ -456,15 +456,16 @@ class MySQLiDB {
 
 
 	/**
-	 * Функция указывает какое кол-во строк вернул запрос
-	 * Работает только с Select и Show
+	 * This function return sum rows in query
+	 * Work only with Select and Show querys
 	 *
-	 * @param string $q - запрос
+	 * @param resource $q - query
 	 *
 	 * @return int
 	 */
 	public function num_rows($q) {
-		return mysqli_num_rows($q);
+		return $q->num_rows;
+		//return mysqli_num_rows($q);
 	}
 
 

@@ -60,4 +60,14 @@ trait TemplateExtends {
 		$smarty_tpl = $this->load_template("{$tpl}", $tplreturn);
 		$smarty->assign("{$smarty_variable}", $smarty_tpl);
 	}
+
+	/**
+	 * Abstract
+	 *
+	 * @param string  $tpl    - template name
+	 * @param bool    $return - if use $return to true, function return dump data tpl
+	 *
+	 * @return string|null
+	 */
+	abstract protected function load_template($tpl, $return=false);
 }
