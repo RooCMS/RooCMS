@@ -22,50 +22,50 @@ if(!defined('RooCMS')) {
 class Shteirlitz {
 
 	/**
-	 * Шифруем
+	 * Encode
 	 *
 	 * @param        $str
-	 * @param string $salt  - соль
-	 * @param string $passw - пароль
+	 * @param string $salt - salt
+	 * @param string $pass - pass
 	 *
 	 * @return string
 	 */
-	public function encode($str, $passw="", $salt="") {
-		return base64_encode($this->code($str, $passw, $salt));
+	public function encode($str, $pass="", $salt="") {
+		return base64_encode($this->code($str, $pass, $salt));
 	}
 
 
 	/**
-	 * Расшифровываем
+	 * Decode
 	 *
 	 * @param        $str
-	 * @param string $salt  - соль
-	 * @param string $passw - пароль
+	 * @param string $salt - salt
+	 * @param string $pass - pass
 	 *
 	 * @return mixed
 	 */
-	public function decode($str, $passw="", $salt="") {
-		return $this->code(base64_decode($str), $passw, $salt);
+	public function decode($str, $pass="", $salt="") {
+		return $this->code(base64_decode($str), $pass, $salt);
 	}
 
 
 	/**
-	 * Кодируем XOP
+	 * Encode XOP
 	 *
 	 * @param        $str
-	 * @param string $salt		- соль
-	 * @param string $passw		- пароль
+	 * @param string $salt - salt
+	 * @param string $pass - password
 	 *
 	 * @return mixed
 	 */
-	private function code($str, $passw="", $salt="") {
+	private function code($str, $pass="", $salt="") {
 
 		$len = strlen($str);
 		$n = $len > 100 ? 8 : 2;
 
 		$gamma = '';
 		while(strlen($gamma) < $len ) {
-			$gamma .= substr(pack('H*', sha1($passw.$gamma.$salt)), 0, $n);
+			$gamma .= substr(pack('H*', sha1($pass.$gamma.$salt)), 0, $n);
 		}
 
 		return $str^$gamma;

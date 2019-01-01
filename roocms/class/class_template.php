@@ -25,6 +25,8 @@ if(!defined('RooCMS')) {
  */
 class Template {
 
+	use TemplateExtends;
+
 	# vars
 	private $skinfolder	= "default";
 
@@ -38,9 +40,9 @@ class Template {
 
 
 	/**
-	 * Инициализируем "шкурку"
+	 * Init
 	 *
-	 * @param mixed $skin - указываем относительный путь к папке с "шкуркой" от папки _SKIN
+	 * @param mixed $skin - set relative path to folder with "skin" from the folder _SKIN
 	 */
 	public function __construct($skin=false) {
 
@@ -179,46 +181,6 @@ class Template {
 
 			return false;
 		}
-	}
-
-
-	/**
-	 * Функция подключения шаблона для загрузки картинок
-	 * Определяет какой из шаблонов требуется подключать и в какую переменную
-	 *
-	 * @param string $smarty_variable - указываем переменную для смарти шаблонов.
-	 * @param string $tpl             - На случай если вам потребуется использовать собственный шаблон
-	 * @param bool   $tplreturn       - Возврат скомпилорованного шаблона в переменную. По-умолчанию включено.
-	 */
-	public function load_image_upload_tpl($smarty_variable, $tpl="attached_images_upload", $tplreturn=true) {
-
-		global $smarty;
-
-		require _LIB."/mimetype.php";
-		$smarty->assign("allow_images_type", $imagetype);
-
-		$smarty_tpl = $this->load_template("{$tpl}", $tplreturn);
-		$smarty->assign("{$smarty_variable}", $smarty_tpl);
-	}
-
-
-	/**
-	 * Функция подключения шаблона для загрузки файлов
-	 * Определяет какой из шаблонов требуется подключать и в какую переменную
-	 *
-	 * @param string $smarty_variable - указываем переменную для смарти шаблонов.
-	 * @param string $tpl             - На случай если вам потребуется использовать собственный шаблон
-	 * @param bool   $tplreturn       - Возврат скомпилорованного шаблона в переменную. По-умолчанию включено.
-	 */
-	public function load_files_upload_tpl($smarty_variable, $tpl="attached_files_upload", $tplreturn=true) {
-
-		global $smarty;
-
-		require _LIB."/mimetype.php";
-		$smarty->assign("allow_files_type", $filetype);
-
-		$smarty_tpl = $this->load_template("{$tpl}", $tplreturn);
-		$smarty->assign("{$smarty_variable}", $smarty_tpl);
 	}
 
 

@@ -25,7 +25,7 @@ if(!defined('RooCMS')) {
  */
 class Module_Search extends Modules {
 
-	# Название
+	# Title
 	public $title = "Поиск";
 
 	# buffer out
@@ -39,11 +39,11 @@ class Module_Search extends Modules {
 
 		global $tpl, $smarty;
 
-		// TODO: В конфиг
+		# min leight searchstring
 		$minleight = 3;
 
 		# template
 		$smarty->assign("minleight", $minleight);
-		$this->out .= $tpl->load_template("module_search", true);
+		$this->out .= $tpl->load_template("module/search", true);
 	}
 }

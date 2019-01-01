@@ -27,29 +27,29 @@ if(!defined('RooCMS')) {
 class RSS {
 
 	# param
-	private		$encoding		= "utf-8";				# [string]
-	private 	$version		= "2.0";				# [string]
+	private		$encoding		= "utf-8";			# [string]
+	private 	$version		= "2.0";			# [string]
 
 	# header link
-	public		$rss_link		= "";					# [string]
+	public		$rss_link		= "";				# [string]
 
-	protected	$title			= "";					# [string]
-	protected	$description		= "";					# [string]
-	protected	$link			= "";					# [string]
-	protected 	$language		= "ru";					# [string]
-	protected 	$copyright		= "";					# [string]
-	protected 	$managingeditor 	= "";					# [string]
-	protected 	$webmaster		= "";					# [string]
-	private 	$generator		= "RooCMS";				# [string]
-	protected 	$ttl			= 240;					# [int]
-	public		$lastbuilddate		= 0;					# [int]
+	protected	$title			= "";				# [string]
+	protected	$description		= "";				# [string]
+	protected	$link			= "";				# [string]
+	protected 	$language		= "ru";				# [string]
+	protected 	$copyright		= "";				# [string]
+	protected 	$managingeditor 	= "";				# [string]
+	protected 	$webmaster		= "";				# [string]
+	private 	$generator		= "RooCMS";			# [string]
+	protected 	$ttl			= 240;				# [int]
+	public		$lastbuilddate		= 0;				# [int]
 	protected	$image			= array("url"	=>	"",
 						        "title"	=>	"",
 							"link"	=>	"");
 
 	# output buffer
-	protected	$items			= [];					# [array]
-	public 		$out			= "";					# [text]
+	protected	$items			= [];				# [array]
+	public 		$out			= "";				# [text]
 
 
 
@@ -70,7 +70,7 @@ class RSS {
 
 
 	/**
-	 * Устанавливаем загаловок
+	 * Set title
 	 *
 	 * @param $title
 	 */
@@ -80,7 +80,7 @@ class RSS {
 
 
 	/**
-	 * Устанавливаем описание
+	 * Set description
 	 *
 	 * @param $text
 	 */
@@ -89,12 +89,17 @@ class RSS {
 	}
 
 
+	/**
+	 * Set link to original
+	 *
+	 * @param string $url
+	 */
 	public function set_link($url = "") {
 
 		global $site, $parse;
 
-		$uri = str_replace("?export=RSS", "", $parse->uri);
-		$uri = str_replace("&export=RSS", "", $uri);
+		$uri = str_ireplace("?export=RSS", "", $parse->uri);
+		$uri = str_ireplace("&export=RSS", "", $uri);
 
 		if(trim($url) == "") {
 			$this->link = $site['domain'] . SCRIPT_NAME . htmlspecialchars($uri);
@@ -105,6 +110,11 @@ class RSS {
 	}
 
 
+	/**
+	 * Set time to live
+	 *
+	 * @param $ttl
+	 */
 	public function set_ttl($ttl) {
 
 		$ttl = round($ttl);
@@ -115,6 +125,11 @@ class RSS {
 	}
 
 
+	/**
+	 * Set last build date
+	 *
+	 * @param $date
+	 */
 	public function set_lastbuilddate($date) {
 
 		$now = time();
@@ -126,7 +141,7 @@ class RSS {
 
 
 	/**
-	 * Генерирует ссылка для мета
+	 * Generated link to head
 	 */
 	public function set_header_link() {
 
@@ -186,8 +201,9 @@ class RSS {
 	}
 
 
-	//#####################################################
-	// draw header doc
+	/**
+	 * Draw header doc
+	 */
 	protected function header() {
 
 		global $config, $site;
@@ -253,7 +269,7 @@ class RSS {
 
 
 	/**
-	 * Выводим результат
+	 * Output result
 	 *
 	 * @return string
 	 */

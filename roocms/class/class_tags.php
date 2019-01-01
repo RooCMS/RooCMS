@@ -128,35 +128,35 @@ class Tags {
 
 
 	/**
-	 * Функция сохраняет теги в БД
+	 * Save tags in bd
 	 *
-	 * @param string $tags     - строка с тегами разделенными запятой
-	 * @param string $linkedto - ссылка на объект
+	 * @param string $tags     - tags (separeted: comma)
+	 * @param string $linkedto - link to element
 	 */
 	public function save_tags($tags, $linkedto) {
 
 		global $db;
 
-		# Получаем текущие теги и разбираем
+		# get element tags
 		$now_tags = array_map(array($this, "get_tag_title"), $this->read_tags($linkedto));
 
-		# Разбираем строку с полученными тегами
+		# handle saved tags
 		$new_tags = $this->parse_tags($tags);
 
-		# Сравниваем старые и новые теги, манипулируем.
+		# Compare old and new tags, manipulate.
 		$tags = $this->diff_tag($now_tags, $new_tags, $linkedto);
 
-		# Если есть теги
+		# if have tags
 		if(!empty($tags)) {
 			$v = $db->check_array_ids($tags, TAGS_TABLE, "title");
 
 			foreach($tags AS $value) {
 				if($v[$value]['check']) {
-					# Добавляем линк к уже имеющимуся тегу
+					# add link to used tag
 					$this->add_instock_tag($v[$value]['id_value'], $linkedto);
 				}
 				else {
-					# Создаем новый тег и линк к нему
+					# create  new tag and linked
 					$this->add_new_tag($v[$value]['value'], $linkedto);
 				}
 			}
@@ -260,7 +260,7 @@ class Tags {
 			$tags = $this->parse_tags($tags);
 		}
 
-		# Если массив не пустой.
+		# if have tags
 		if(!empty($tags)) {
 
 			# составляем условие
@@ -329,10 +329,10 @@ class Tags {
 
 		global $db;
 
-		# считаем
+		# calculate
 		$c = $db->count(TAGS_LINK_TABLE, "tag_id='".$tag_id."'");
 
-		# обновляем если кол-во изменилось
+		# update if quantity changed
 		if(round($amount) != $c) {
 			$db->query("UPDATE ".TAGS_TABLE." SET amount='".$c."' WHERE id='".$tag_id."'");
 		}

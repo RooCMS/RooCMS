@@ -25,7 +25,7 @@ if(!defined('RooCMS')) {
  */
 class Module_express_Reg extends Modules {
 
-	# Название
+	# Title
 	public $title = "Экспресс регистрация";
 
 	# buffer out
@@ -39,22 +39,17 @@ class Module_express_Reg extends Modules {
 
 		global $users, $tpl, $smarty;
 
-		# Флаг сокрытия формы
+		# form show/hide
 		$hide =  false;
 
-		# Если пользователь уже есть в системе
-		if($users->uid != 0 && $users->userdata['mailing'] == 1) {
-			$hide = true;
-		}
-
-		# Если человек уже подписан и есть кукисы подверждающие это.
-		if(isset($_COOKIE['mailing'])) {
+		# if user subscribed
+		if(($users->uid != 0 && $users->userdata['mailing'] == 1) || isset($_COOKIE['mailing'])) {
 			$hide = true;
 		}
 
 		# template
 		$smarty->assign("hide", $hide);
 		$smarty->assign("userdata", $users->userdata);
-		$this->out .= $tpl->load_template("module_express_reg", true);
+		$this->out .= $tpl->load_template("module/express_reg", true);
 	}
 }

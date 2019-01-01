@@ -72,6 +72,7 @@ $protect[] = array('path' => _CLASS.'/class_xml.php',			'chmod'	=> '0644',	'hash
 $protect[] = array('path' => _CLASS.'/trait_feedExtends.php',		'chmod'	=> '0644',	'hash'	=> '');
 $protect[] = array('path' => _CLASS.'/trait_gdExtends.php',		'chmod'	=> '0644',	'hash'	=> '');
 $protect[] = array('path' => _CLASS.'/trait_mysqlidbExtends.php',	'chmod'	=> '0644',	'hash'	=> '');
+$protect[] = array('path' => _CLASS.'/trait_templateExtends.php',	'chmod'	=> '0644',	'hash'	=> '');
 $protect[] = array('path' => _CLASS.'/trait_usergroups.php',		'chmod'	=> '0644',	'hash'	=> '');
 $protect[] = array('path' => _ROOCMS.'/acp/ajax.php',			'chmod'	=> '0644',	'hash'	=> '');
 $protect[] = array('path' => _ROOCMS.'/acp/blocks.php',			'chmod'	=> '0644',	'hash'	=> '');

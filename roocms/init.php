@@ -244,6 +244,13 @@ if(check_file_core(_LIB."/smarty.php")) {
 }
 
 /**
+ * Запускаем класс шаблонизации RooCMS
+ */
+if(check_file_core(_CLASS."/trait_templateExtends.php")) {
+	require_once(_CLASS."/trait_templateExtends.php");
+}
+
+/**
 * Запускаем класс шаблонизации RooCMS
 */
 if(check_file_core(_CLASS."/class_template.php")) {

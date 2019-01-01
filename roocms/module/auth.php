@@ -25,7 +25,7 @@ if(!defined('RooCMS')) {
  */
 class Module_Auth extends Modules {
 
-	# Название
+	# Title
 	public $title = "Авторизация пользователя";
 
 	# buffer out
@@ -48,6 +48,6 @@ class Module_Auth extends Modules {
 			$smarty->assign("pm", $newpm);
 		}
 		$smarty->assign("userdata", $users->userdata);
-		$this->out .= $tpl->load_template("module_auth", true);
+		$this->out .= $tpl->load_template("module/auth", true);
 	}
 }
