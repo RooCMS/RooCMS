@@ -348,7 +348,7 @@ a:hover > .feed-more-preview {
 }
 .btn-breadcrumb .btn.btn-default:hover:before,
 .btn-breadcrumb .btn.btn-default:before {
-  border-left: 10px solid #cecece;
+  border-left: 10px solid #b0b0b0;
 }
 .btn-breadcrumb .btn.btn-default:active,
 .btn-breadcrumb .btn.btn-default.active,
@@ -367,7 +367,7 @@ a:hover > .feed-more-preview {
 }
 .btn-breadcrumb .btn.btn-default:active:before,
 .btn-breadcrumb .btn.btn-default.active:before {
-  border-left: 10px solid #cecece;
+  border-left: 10px solid #b0b0b0;
 }
 .btn-breadcrumb .btn.btn-default:active:hover:after,
 .btn-breadcrumb .btn.btn-default:focus:after {
@@ -385,7 +385,7 @@ a:hover > .feed-more-preview {
   border-left: 10px solid #e6e6e6;
 }
 .btn-breadcrumb .btn.btn-default.active:hover:before {
-  border-left: 10px solid #cecece;
+  border-left: 10px solid #b0b0b0;
 }
 .input-search {
   max-height: 27px;

@@ -1,4 +1,4 @@
-{* Шаблон отображения элемента ленты *}
+{* Feed item *}
 <div class="row">
 	<div class="col-sm-12">
 		<div id="item_{$item['id']}">
@@ -38,7 +38,7 @@
 <div class="row">
 	{if !empty($images) || !empty($attachfile)}
 	<div class="col-sm-3">
-		{* Шаблон отображения картинок в элементах ленты *}
+		{* Attached Images *}
 		{if !empty($images)}
 			<div class="text-center">
 				{assign var=UGID value= 700|rand:999}
@@ -47,6 +47,7 @@
 				{/foreach}
 			</div>
 		{/if}
+		{* Attached Files *}
 		{if !empty($attachfile)}
 			<div class="text-left">
 				<strong>Файлы:</strong>
@@ -57,7 +58,7 @@
 		{/if}
 	</div>
 	{/if}
-	<div class="col-sm-{if !empty($images) || !empty($attachfile)}9{else}12{/if}">
+	<div class="col-sm-{if !empty($images) || !empty($attachfile)}9{else}12{/if} feed-item-content">
 
 		{if isset($smarty.get.search)}
 			{$item['full_item']|highlight:$smarty.get.search}
