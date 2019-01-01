@@ -78,14 +78,14 @@ function sendmail($mail, $theme, $message, $from="robot") {
 		$from = "robot@".$domain;
 	}
 
-	# заголовки
+	# headers
 	$headers  = "MIME-Version: 1.0\n";
 	$headers .= "From: ".$site['title']." <{$from}>\n".EMAIL_MESSAGE_PARAMETERS."\n";
 	$headers .= "X-Sender: <no-reply@".$domain.">\n";
 	$headers .= "X-Mailer: RooCMS from ".$domain."\n";
 	$headers .= "Return-Path: <no-replay@".$domain.">";
 
-	# отправляем письмо
+	# send email message
 	mb_send_mail($mail,$theme,$message,$headers);
 }
 
@@ -146,7 +146,7 @@ function go($address, $code=301) {
 
 
 /**
- * Вернуться назад
+ * Move back
  */
 function goback() {
 	go(getenv("HTTP_REFERER"));
@@ -155,7 +155,7 @@ function goback() {
 
 
 /**
- * Заголовки некеширования
+ * Cache headers
  */
 function nocache() {
 

@@ -20,7 +20,7 @@ require_once _SITEROOT."/roocms/init.php";
 require_once INIT_ACP;
 
 /**
-* Генерим HTML
+* Output
 *
 * @return frontend html
 */

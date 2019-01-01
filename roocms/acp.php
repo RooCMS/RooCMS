@@ -36,7 +36,7 @@ require_once _ROOCMS."/acp/security_check.php";
 
 
 if($acpsecurity->access) {
-	# запускаем меню админа
+	# Load admin menu
 	require_once _ROOCMS."/acp/menu.php";
 
 	if(is_file(_ROOCMS."/acp/".$roocms->act.".php")) {

@@ -15,7 +15,7 @@
 
 
 System requirements
---------------------
+-------------------
  - WebServer:	`Apache 2.2, 2.4` `Nginx 1.11, 1.12`
  - PHP:		`5.4.*` `5.5.*` `5.6.*` `7.*`
  - MySQL:	`5.5` and high
@@ -39,28 +39,34 @@ Recommended software
  - MySQL:	`5.5` and high
 
 Install
----------
-1. Для установки RooCMS скачайте последнию сборку платформы с сайта <http://www.roocms.com>. 
-2. Распакуйте архив на свой хостинг.
-3. Создайте MySQL базу данных
-4. Через ваш браузер зайдите по адресу: `http://www.your_site.ru/install/`
+-------
+1. Download latest release from site <http://www.roocms.com>. 
+2. Unpack archive to folder with your site on  hosting
+3. Create MySQL BD on your hosting
+4. In browser open link: `http://www.your_site.com/install/`
 
-> Вместо `your_site.ru` используйте доменное имя прикрепленное к вашему хостингу.
+> Instead of `your_site.com` use the domain name attached to your hosting.
 
 Wiki
 ----
-Помошь и подсказки по работе с RooCMS, находятся в панели управления. 
-После установки, зайдите в Панель Управления - "Помощь".
+Help and tips on working with RooCMS are in control panel.
+After installation, go to Control Panel - part "Help".
 
-`Если вы используете устанавливаете RooCMS не на Apache сервер, проверьте файл .htaccess что бы избежать конфликтов при воспроизведении ПО.` 
+`If you use installing RooCMS not on an Apache server, check the .htaccess file to avoid conflicts when playing software.`
+
+Translation into different languages
+------------------------------------
+
+- Russian - 100% translation
+- English is in process ...
 
 License
---------
+-------
  - [Лицензии на русском языке](http://www.roocms.com/index.php?page=license)
  - [License](http://gplv3.fsf.org/)
 
 P.S.
------------
+----
 Your ideas, comments and other any help - allow RooCMS to develop in interests of majority.
 
 Ваши идеи, замечания, и любая помощь - помогут развиваться RooCMS в интересах большинства.

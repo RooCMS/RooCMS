@@ -1,6 +1,6 @@
 Version: 1.3.2 alpha
 ========================
-**release date:	31.12.2018**
+**release date:	1.1.2019**
 
 Plugins
 -------
@@ -30,7 +30,7 @@ Release information:
 	[upd] update CKEditor 4.8 -> 4.11.1 
 	[upd] update user interface
 	
-	[fix] fixit errors
+	[fix] fixit error
 	[fix] fixit bugs in Modules. Works on Modules continue.
 	
 	[del] 

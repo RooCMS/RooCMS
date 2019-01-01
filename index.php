@@ -21,7 +21,7 @@ require_once INIT_SITE;
 
 
 /**
- * Генерим HTML
+ * Output
  *
  * @return frontend html
  */

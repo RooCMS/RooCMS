@@ -12,7 +12,7 @@
 
 
 /**
- * Инициализируем RooCMS
+ * Init RooCMS
  */
 define('_SITEROOT', dirname(__FILE__));
 require_once _SITEROOT."/roocms/init.php";
