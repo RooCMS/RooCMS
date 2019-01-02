@@ -1,4 +1,4 @@
-{* Шаблон экспресс регистрации *}
+{* Module template: express_reg *}
 {if !$hide}
 	<div class="row">
 		<div class="col-xs-12 text-center">

@@ -1,4 +1,4 @@
-{* Шаблон ленты *}
+{* Feed template *}
 <div class="row">
 	<div class="col-sm-12">
 		<h1>
@@ -83,13 +83,31 @@
 	</div>
 	<div class="col-sm-3 text-center">
 		<div class="panel panel-default">
+			<div class="panel-heading">
+				Последние публикации
+			</div>
+			<div class="panel-body" style="padding: 0;">
+				{$module->load('last_feed')}
+			</div>
+		</div>
+
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				Метки
+			</div>
 			<div class="panel-body">
 				{$module->load('tag_cloud')}
 			</div>
 		</div>
 
-		<h5>QR Code</h5>
-		<img src="qrcode.php?url={$smarty.server.REQUEST_URI}" class="img-thumbnail" alt="QR ссылка на эту страницу">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				QR Code
+			</div>
+			<div class="panel-body">
+				<img src="qrcode.php?url={$smarty.server.REQUEST_URI}" class="img-thumbnail" alt="QR ссылка на эту страницу">
+			</div>
+		</div>
 	</div>
 	{if trim($feed['append_info_after']) != ""}
 	<div class="col-sm-12">

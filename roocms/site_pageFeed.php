@@ -101,7 +101,6 @@ class PageFeed {
 			$row['brief_item'] = $parse->text->html($row['brief_item']);
 
 
-
 			$row['image']      = $img->load_images("feeditemid=".$row['id']."", 0, 1);
 
 			$row['tags']       = [];

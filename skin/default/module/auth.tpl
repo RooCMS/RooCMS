@@ -1,4 +1,4 @@
-{* Шаблон для модуля: auth *}
+{* Module template: auth *}
 
 {if $userdata['uid'] == 0}
 	<div class="row auth">

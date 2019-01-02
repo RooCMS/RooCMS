@@ -1,8 +1,6 @@
-{* Шаблон для модуля: tagcloud *}
+{* Module template: tag_cloud *}
 <div class="row">
 	<div class="col-md-12 text-center">
-		<h3 style="margin-top: 0;"> Метки </h3>
-
 		{* If you want shuffle tag cloud use next string *}
 		{*{capture}{$tags|@shuffle}{/capture}*}
 		{foreach from=$tags item=tag}

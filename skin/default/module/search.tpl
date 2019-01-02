@@ -1,4 +1,4 @@
-{* Шаблон моделя поиска *}
+{* Modulte template: search *}
 
 <form method="post" action="{$SCRIPT_NAME}?part=search" class="form-inline pull-right" role="form">
 	<input type="search" class="form-control input-sm non-bgreq input-search" id="InputSearch" name="search" placeholder="" minlength="{$minleight}" required>
