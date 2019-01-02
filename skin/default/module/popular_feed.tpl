@@ -19,7 +19,7 @@
 </style>
 <div class="row">
 	<div class="col-md-12">
-		<div id="carousel-popular-feed" class="carousel slide" data-ride="carousel">
+		<div id="carousel-popular-feed" class="carousel slide" data-ride="carousel" data-interval="4500">
 			<div class="carousel-inner" role="listbox">
 				{foreach from=$feeds item=feed name=lastfeed}
 					<div class="item{if $smarty.foreach.lastfeed.first} active{/if}">
