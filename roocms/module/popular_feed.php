@@ -39,10 +39,20 @@ class Module_Popular_feed extends Modules {
 
 		global $db, $img, $parse, $tpl, $smarty;
 
+		# access condition
+		$accesscond = "";
+		foreach($structure->sitetree AS $value) {
+			if($value['access']) {
+				$accesscond = $db->qcond_or($accesscond);
+				$accesscond .= " f.sid='".$value['id']."' ";
+			}
+		}
+
+		# get data query
 		$feeds = [];
 		$q = $db->query("SELECT f.id, s.alias, f.title, f.date_publications FROM ".PAGES_FEED_TABLE." AS f
 					LEFT JOIN ".STRUCTURE_TABLE." AS s ON (s.id = f.sid)
-					WHERE f.date_publications <= '".time()."' AND (f.date_end_publications = '0' || f.date_end_publications > '".time()."') AND f.status='1' 
+					WHERE f.date_publications <= '".time()."' AND (f.date_end_publications = '0' || f.date_end_publications > '".time()."') AND f.status='1' AND (".$accesscond.")
 					ORDER BY f.views DESC LIMIT 0,4");
 		while($row = $db->fetch_assoc($q)) {
 			$row['datepub']    = $parse->date->unix_to_rus($row['date_publications'],true);

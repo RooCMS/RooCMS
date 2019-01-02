@@ -295,9 +295,9 @@ class PageFeed {
 
 
 	/**
-	 * Функция выгружает случайные элементы ленты
+	 * Load random feed items
 	 *
-	 * @param array $i - массив с исключениями.
+	 * @param array $i - array exceptions.
 	 *
 	 * @return array
 	 */
@@ -308,7 +308,7 @@ class PageFeed {
 		# cond request
 		$cond = $this->feed_condition();
 
-		# добавляем к условию исключения
+		# add exceptions to condition
 		$cond .= " AND (id !='".$i['id']."'";
 
 		if(isset($i['prev']['id'])) {
@@ -374,7 +374,7 @@ class PageFeed {
 
 
 	/**
-	 * функция возвращает условие для запроса фида из БД
+	 * Construct condition for query feed from DB
 	 *
 	 * @return string
 	 */

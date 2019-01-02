@@ -84,7 +84,7 @@
 	<div class="col-sm-3 text-center">
 		<div class="panel panel-default">
 			<div class="panel-heading">
-				Последние публикации
+				Свежие публикации
 			</div>
 			<div class="panel-body" style="padding: 0;">
 				{$module->load('last_feed')}
@@ -93,7 +93,7 @@
 
 		<div class="panel panel-default">
 			<div class="panel-heading">
-				Интересные публикации
+				Самое популярное
 			</div>
 			<div class="panel-body" style="padding: 0;">
 				{$module->load('popular_feed')}
