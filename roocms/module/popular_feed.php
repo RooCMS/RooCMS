@@ -37,7 +37,7 @@ class Module_Popular_feed extends Modules {
 	 */
 	protected function begin() {
 
-		global $db, $img, $parse, $tpl, $smarty;
+		global $db, $structure, $img, $parse, $tpl, $smarty;
 
 		# access condition
 		$accesscond = "";
