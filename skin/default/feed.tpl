@@ -93,6 +93,15 @@
 
 		<div class="panel panel-default">
 			<div class="panel-heading">
+				Интересные публикации
+			</div>
+			<div class="panel-body" style="padding: 0;">
+				{$module->load('popular_feed')}
+			</div>
+		</div>
+
+		<div class="panel panel-default">
+			<div class="panel-heading">
 				Метки
 			</div>
 			<div class="panel-body">

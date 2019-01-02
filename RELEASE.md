@@ -25,6 +25,7 @@ Release information:
 -------------
 	[add] switcher "show only nav elements" in structure acp
 	[add] add new module: last Feed
+	[add] add new module: Popular Feed
 	
 	[upd] update Fancybox 3.5.2 -> 3.5.6 
 	[upd] update Smarty 3.1.30 -> 3.1.33 

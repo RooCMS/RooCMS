@@ -1,6 +1,6 @@
 {* Module template: last_feed *}
 <style>
-	#carousel-last-feed .carousel-caption {
+	#carousel-popular-feed .carousel-caption {
 		left: 8% !important;
 		right: 8% !important;
 		bottom: 15px;
@@ -8,18 +8,18 @@
 		background: rgba(0, 0, 0, 0.3);
 	}
 
-	#carousel-last-feed .carousel-control {
+	#carousel-popular-feed .carousel-control {
 		width: 5% !important;
 		font-size: 15px !important;
 	}
 
-	#carousel-last-feed .glyphicon {
+	#carousel-popular-feed .glyphicon {
 		font-size: 15px !important;
 	}
 </style>
 <div class="row">
 	<div class="col-md-12">
-		<div id="carousel-last-feed" class="carousel slide" data-ride="carousel">
+		<div id="carousel-popular-feed" class="carousel slide" data-ride="carousel">
 			<div class="carousel-inner" role="listbox">
 				{foreach from=$feeds item=feed name=lastfeed}
 					<div class="item{if $smarty.foreach.lastfeed.first} active{/if}">
@@ -38,11 +38,11 @@
 			</div>
 
 			<!-- Controls -->
-			<a class="left carousel-control" href="#carousel-last-feed" role="button" data-slide="prev">
+			<a class="left carousel-control" href="#carousel-popular-feed" role="button" data-slide="prev">
 				<span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
 				<span class="sr-only">Prev</span>
 			</a>
-			<a class="right carousel-control" href="#carousel-last-feed" role="button" data-slide="next">
+			<a class="right carousel-control" href="#carousel-popular-feed" role="button" data-slide="next">
 				<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
 				<span class="sr-only">Next</span>
 			</a>
