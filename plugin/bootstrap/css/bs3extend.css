@@ -8,8 +8,6 @@
  * You should have received a copy of the GNU General Public License v3
  * along with this program.  If not, see http://www.gnu.org/licenses/
  */
-
-/* Colheight */
 .colheight-sm-1,
 .colheight-sm-2,
 .colheight-sm-3 {
@@ -145,6 +143,3 @@
     height: 660px;
   }
 }
-
-/* Padding for BG-* style bootstrap */
-.bg-primary, .bg-success, .bg-info, .bg-warning, .bg-danger {padding: 15px;}
