@@ -25,5 +25,3 @@ require_once INIT_ACP;
 * @return frontend html
 */
 $tpl->out();
-
-
