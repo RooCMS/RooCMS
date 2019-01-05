@@ -68,7 +68,7 @@ class Images extends GD {
 			return false;
 		}
 
-		# Объявляем выходной массив
+		# output array
 		$images = [];
 
 		# Составляем массив для проверки разрешенных типов файлов к загрузке
@@ -77,7 +77,7 @@ class Images extends GD {
 			$allow_exts = $this->get_allow_images();
 		}
 
-		# Определяем настройки размеров для будущих миниатюр
+		# Set thumbnail size
 		$this->set_mod_sizes($thumbsize);
 
 		# Если $_FILES не является массивом конвертнем в массив
@@ -112,21 +112,17 @@ class Images extends GD {
 					# Create file name
 					$filename = $files->create_filename($upfiles[$file]['name'][$key], $prefix, "", $path);
 
-					# если разрешено сохранять оригинальное изображение
+					# filename pofix for "modify"/"nomodify" images
+					$filename_pofix = "";
 					if($modify) {
-						# Сохраняем оригинал
-						copy($upfiles[$file]['tmp_name'][$key], $path."/".$filename."_original.".$ext);
-
-						# Если загрузка прошла и файл на месте
-						$upload = is_file($path."/".$filename."_original.".$ext);
+						$filename_pofix = "_original";
 					}
-					else {
-						# Сохраняем оригинал
-						copy($upfiles[$file]['tmp_name'][$key], $path."/".$filename.".".$ext);
 
-						# Если загрузка прошла и файл на месте
-						$upload = is_file($path."/".$filename.".".$ext);
-					}
+					# save image on disk
+					copy($upfiles[$file]['tmp_name'][$key], $path."/".$filename.$filename_pofix.".".$ext);
+
+					# Если загрузка прошла и файл на месте
+					$upload = is_file($path."/".$filename.$filename_pofix.".".$ext);
 				}
 
 				# Если загрузка удалась
@@ -248,12 +244,12 @@ class Images extends GD {
 
 
 	/**
-	 * Функция удаления картинок
+	 * Felete image
 	 *
-	 * @param int|string $image - указать числовой идентификатор или attachedto
-	 * @param boolean    $clwhere - флаг указывает как считывать параметр $image
-	 * 				положение false указывает, что передается параметр id или attachedto
-	 * 				положение true указывает, что передается полностью выраженное условие
+	 * @param int|string $image - id or attachedto
+	 * @param boolean    $clwhere - type $image param
+	 * 				false for id or attachedto
+	 * 				true for another condition
 	 */
 	public function remove_images($image, $clwhere=false) {
 
@@ -315,7 +311,7 @@ class Images extends GD {
 
 
 	/**
-	 * Функция проверяет ввод параметров ширины и высоты для генерации уменьшинных изображений.
+	 * This function checks the input parameters of width and height for generating small images.
 	 */
 	public function check_post_thumb_parametrs() {
 

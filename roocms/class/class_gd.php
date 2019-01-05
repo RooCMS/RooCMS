@@ -89,15 +89,15 @@ class GD {
 
 
 	/**
-	 * Функция проводит стандартные операции над загруженным файлом.
-	 * Изменяет размеры, создает миниатюру, наносит водяной знак.
+	 * Modify images
+	 * Resize, create thumbnail, marked watermark.
 	 *
 	 * @param string $filename  - file name
 	 * @param string $extension - file extension (without dot)
 	 * @param string $path      - path to file
 	 * @param bool   $watermark - on/off watermark
-	 * @param bool   $modify    - флаг указывает подвергать ли изображение полной модификации с сохранением оригинального изображения и созданием превью.
-	 * @param bool   $noresize  - флаг указывает подвергать ли изображение изменению размера. Иcпользуется в том случае когда мы не хотим изменять оригинальное изображение.
+	 * @param bool   $modify    - this parameter indicates whether image is subjected to full modification with preserving the original image and creating thumbnail.
+	 * @param bool   $noresize  - this parameter cancels "nomodify" image resizing, in case we want to keep original size.
 	 */
 	protected function modify_image($filename, $extension, $path, $watermark=true, $modify=true, $noresize=false) {
 
@@ -135,7 +135,7 @@ class GD {
 
 
 	/**
-	 * Изменяем размер изображения, если оно превышает допустимый администратором.
+	 * Resizing image
 	 *
 	 * @param string $filename - file name
 	 * @param string $ext      - file extension (without dot)
@@ -157,10 +157,10 @@ class GD {
 			copy($path."/".$fileoriginal, $path."/".$fileresize);
 		}
 		else {
-			# Проводим расчеты по сжатию и уменьшению в размерах
+			# We carry out calculations for compression and reduction in size
 			$ns = $this->calc_resize($w, $h, $this->msize['w'], $this->msize['h']);
 
-			# вносим в память пустую превью и оригинальный файл, для дальнейшего издевательства над ними.
+			# Bring in memory blank image and original image for further work with them.
 			$resize 	= $this->imgcreatetruecolor($ns['new_width'], $ns['new_height'], $ext);
 
 	        	$alpha 		= ($this->is_gifpng($ext)) ? 127 : 0 ;
@@ -173,7 +173,7 @@ class GD {
 
 			imagefilledrectangle($resize, 0, 0, $ns['new_width']-1, $ns['new_height']-1, $bgcolor);
 
-			# вводим в память файл для издевательств
+			# Bring image in memory
 			$src = $this->imgcreate($path."/".$fileoriginal, $ext);
 
             		imagecopyresampled($resize, $src, 0, 0, 0, 0, $ns['new_width'], $ns['new_height'], $w, $h);
@@ -188,7 +188,7 @@ class GD {
 
 
 	/**
-	 * Изменяем размер изображения.
+	 * Resize "nomodify" image
 	 *
 	 * @param string $filename - file name
 	 * @param string $ext      - file extension (without dot)
@@ -202,10 +202,10 @@ class GD {
 		# Get image size
 		$size = getimagesize($path."/".$file);
 
-		# пробуем определить ориентацию изображения
+		# get orientation image (if possible)
 		$orientation = $this->get_orientation($path."/".$file);
 
-		# вносим в память пустую превью и оригинальный файл, для дальнейшего издевательства над ними.
+		# Bring in memory blank image and original image for further work with them.
 		$resize  = $this->imgcreatetruecolor($this->tsize['w'], $this->tsize['h'], $ext);
 		$alpha   = ($this->is_gifpng($ext)) ? 127 : 0;
 
@@ -218,12 +218,12 @@ class GD {
 
 		imagefilledrectangle($resize, 0, 0, $this->tsize['w']-1, $this->tsize['h']-1, $bgcolor);
 
-		# вводим в память файл для издевательств
+		# Bring image in memory
 		$src = $this->imgcreate($path."/".$file, $ext);
-		# ... и удаляем
+		# ... and remove file
 		unlink($path."/".$file);
 
-		# Проводим расчеты по сжатию превью и уменьшению в размерах
+		# We carry out calculations for compression and reduction in size
 		$ns = $this->calc_resize($size[0], $size[1], $this->tsize['w'], $this->tsize['h'], false);
 		$ns = $this->calc_newsize($ns);
 
@@ -254,7 +254,7 @@ class GD {
 
 
 	/**
-	 * Генерируем миниатюру изображения для предпросмотра.
+	 * Create thumbnail
 	 *
 	 * @param string $filename - file name
 	 * @param string $ext      - file extension (without dot)
@@ -269,7 +269,7 @@ class GD {
 		# Get image size
 		$size 		= getimagesize($path."/".$fileresize);
 
-		# вносим в память пустую превью и оригинальный файл, для дальнейшего издевательства над ними.
+		# Bring in memory blank image and original image for further work with them.
 		$thumb		= $this->imgcreatetruecolor($this->tsize['w'], $this->tsize['h'], $ext);
 
 		$alpha 		= ($this->is_gifpng($ext)) ? 127 : 0 ;
@@ -282,14 +282,14 @@ class GD {
 
 		imagefilledrectangle($thumb, 0, 0, $this->tsize['w']-1, $this->tsize['h']-1, $bgcolor);
 
-		# вводим в память файл для издевательств
+		# Bring image in memory
 		$src = $this->imgcreate($path."/".$fileresize, $ext);
 
-		# Проводим расчеты по сжатию превью и уменьшению в размерах
+		# We carry out calculations thumbnail size
 		$resize = ($this->thumbtg != "cover") ? true : false ;
 		$ns = $this->calc_resize($size[0], $size[1], $this->tsize['w'], $this->tsize['h'], $resize);
 
-		# Перерасчет для заливки превью
+		# Recalculate for "cover" thumbnail
 		if($this->thumbtg == "cover") {
 			$ns = $this->calc_newsize($ns);
 		}
@@ -319,7 +319,7 @@ class GD {
 		# get image size
 		$size = getimagesize($path."/".$fileresize);
 
-		# вводим в память файл для издевательств
+		# Bring image in memory
 		$src = $this->imgcreate($path."/".$fileresize, $ext);
 
 		# erase original
@@ -477,10 +477,10 @@ class GD {
 
 
 	/**
-	 * Функция создает исходник из готового изображения для дальнейшей с ним работы (обработки).
+	 * Get image source from image file
 	 *
-	 * @param string $from	- полный путь и имя файла из которого будем крафтить изображение
-	 * @param string $ext	- расширение файла без точки
+	 * @param string $from	- full path and file name for craft
+	 * @param string $ext	- fileextension without dot
 	 *
 	 * @return resource
 	 */
@@ -513,11 +513,11 @@ class GD {
 
 
 	/**
-	 * Функция создает пустой исходник изображения.
+	 * Create blank image source
 	 *
-	 * @param int $width	- Ширина создаеваемого изображения
-	 * @param int $height	- Высота создаеваемого изображения
-	 * @param str $ext	- Расширение создаеваемого изображения
+	 * @param int $width	- width blank
+	 * @param int $height	- height blank
+	 * @param str $ext	- extension
 	 *
 	 * @return resource	-
 	 */

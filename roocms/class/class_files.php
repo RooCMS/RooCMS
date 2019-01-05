@@ -169,7 +169,7 @@ class Files {
 				$ffn = explode(".", $upfiles[$file]['name'][$key]);
 				$ext = array_pop($ffn);
 
-				# исключение для tar.gz (в будущем оформим нормальным образом)
+				# exception for tar.gz (TODO: !!!)
 				if($upfiles[$file]['ext'][$key] == "gz") {
 					$upfiles[$file]['ext'][$key] = "tar.gz";
 				}

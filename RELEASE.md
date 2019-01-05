@@ -1,6 +1,6 @@
 Version: 1.3.2 alpha
 ========================
-**release date:	3.1.2019**
+**release date:	5.1.2019**
 
 Plugins
 -------
@@ -34,5 +34,6 @@ Release information:
 	
 	[fix] fixit error
 	[fix] fixit bugs in Modules. Works on Modules continue.
+	[fix] translate comments in code to english international
 	
 	[del] 
