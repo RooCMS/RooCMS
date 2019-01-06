@@ -1,4 +1,4 @@
-{* Шаблон редактирования PHP блока *}
+{* Edit PHP block template *}
 <div class="panel-heading">
 	<script type="text/javascript" src="plugin/codemirror.php?mode=php"></script>
 

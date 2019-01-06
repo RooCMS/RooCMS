@@ -1,4 +1,4 @@
-{* Шаблон редактирования HTML блока *}
+{* Edit HTML block template *}
 <div class="panel-heading">
 	<script type="text/javascript" src="plugin/ckeditor.php"></script>
 
@@ -25,7 +25,7 @@
 
 		<hr>
 
-		{* Миниаютры *}
+		{* Thumbnail *}
 		<div class="form-group">
 			<label for="inputThumbWidth" class="col-lg-3 control-label">
 				Ширина миниатюр картинок у этой страницы:

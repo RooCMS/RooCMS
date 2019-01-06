@@ -22,7 +22,7 @@ if(!defined('RooCMS')) {
 
 class Logger {
 
-	# сток
+	# stock
 	private	$log = [];
 
 
@@ -31,15 +31,15 @@ class Logger {
 	 * Logger constructor.
 	 */
 	public function __construct() {
-		# регистрируем обработчик записи логов
+		# register handler for logs
 		register_shutdown_function(array($this,'save'));
 	}
 
 	/**
-	 * Записываем ошибку
+	 * Log error
 	 *
 	 * @param      $subj
-	 * @param bool $save - флаг указывающий записывать ли ошибку в лог
+	 * @param bool $save - on/off write error in db
 	 */
 	public function error($subj, $save=true) {
 		$_SESSION['error'][] = $subj;
@@ -50,10 +50,10 @@ class Logger {
 
 
 	/**
-	 * Записываем информационное сообщение
+	 * Log info
 	 *
 	 * @param      $subj
-	 * @param bool $save - флаг указывающий записывать ли уведомление в лог
+	 * @param bool $save - on/off write notice in db
 	 */
 	public function info($subj, $save=true) {
 		$_SESSION['info'][] = $subj;
@@ -64,14 +64,14 @@ class Logger {
 
 
 	/**
-	 * Добавляем запись в лог
+	 * Add msg to log
 	 *
 	 * @param        $subj
 	 * @param string $type
 	 */
 	public function log($subj, $type="log") {
 
-		# обезопасим на всякий случай
+		# check type msg
 		if($type != "info" && $type != "error") {
 			$type="log";
 		}
@@ -97,6 +97,7 @@ class Logger {
 				$dump .= "('".$uid."', '".$value["subj"]."', '".$value["type"]."', '".time()."')";
 			}
 
+			# insert log msg in to db
 			$db->query("INSERT INTO ".LOG_TABLE." (uid, message, type_log, date_log) VALUES ".$dump);
 		}
 

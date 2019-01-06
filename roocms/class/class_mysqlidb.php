@@ -32,8 +32,8 @@ class MySQLiDB {
 
 	private	$querys = [];
 
-	public	$db_connect 	= false; # [bool]	Флаг состояния подключения к БД
-	public	$cnt_querys 	= 0;	 # [int] 	Счетчик запросов в БД
+	public	$db_connect 	= false; # [bool]	connecting db status
+	public	$cnt_querys 	= 0;	 # [int] 	query db counter
 
 
 	/**
@@ -51,12 +51,12 @@ class MySQLiDB {
 
 
 	/**
-	* Коннектимся к БД
+	* Connect ot DB
 	*
-	* @param string $host - Хост
-	* @param string $user - Пользователь БД
-	* @param string $pass - Пароль для доступа к БД
-	* @param string $base - Название БД
+	* @param string $host - db host
+	* @param string $user - user login
+	* @param string $pass - user password
+	* @param string $base - db name
 	*/
 	private function connect($host, $user, $pass, $base) {
 

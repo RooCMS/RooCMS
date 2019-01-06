@@ -27,18 +27,18 @@ class Images extends GD {
 
 
 	/**
-	 * Раздатчик функции загрузки файлов на сервер и в БД
+	 * Function for upload image
 	 *
-	 * @param string $file      - имя в массиве $_FILES
-	 * @param string $prefix    - префикс для имения файла.
-	 * @param array  $thumbsize - array(width,height) - размеры миниатюры будут изменены согласно параметрам.
-	 * @param bool   $watermark - флаг указывает наносить ли водяной знак на рисунок.
-	 * @param bool   $modify    - флаг указывает подвергать ли изображение полной модификации с сохранением оригинального изображения и созданием превью.
-	 * @param bool   $noresize  - флаг указывает подвергать ли изображение изменению размера. Иcпользуется в том случае когда мы не хотим изменять оригинальное изображение.
-	 * @param string $fname     - устанавливаем имя для файла принудительно
-	 * @param string $path      - путь к папке для загрузки изображений.
+	 * @param string $file      - title vars in array $_FILES
+	 * @param string $prefix    - prefix for filename
+	 * @param array  $thumbsize - array(width,height) - thumbnail size
+	 * @param bool   $watermark - on/off watermark
+	 * @param bool   $modify    - on/off modify for resize and create thumbnail
+	 * @param bool   $noresize  - on/off resize for unmodify image
+	 * @param string $fname     - special filename
+	 * @param string $path      - path for image folder
 	 *
-	 * @return false|array - возвращает массив с именами файлов.
+	 * @return false|array - filenames array or false if images dont upload
 	 */
 	public function upload_image($file, $prefix="", array $thumbsize=[], $watermark=true, $modify=true, $noresize=false, $fname="", $path=_UPLOADIMAGES) {
 		return $this->upload_post_image($file, $prefix, $thumbsize, $watermark, $modify, $noresize, $fname, $path);
@@ -46,20 +46,20 @@ class Images extends GD {
 
 
 	/**
-	 * Загрузка картинок через $_POST
+	 * Upload images with $_POST
 	 *
-	 * @param string $file      - имя в массиве $_FILES
-	 * @param string $prefix    - префикс для имения файла.
-	 * @param array  $thumbsize - array(width,height) - размеры миниатюры будут изменены согласно параметрам.
-	 * @param bool   $watermark - флаг указывает наносить ли водяной знак на рисунок.
-	 * @param bool   $modify    - флаг указывает подвергать ли изображение полной модификации с сохранением оригинального изображения и созданием превью.
-	 * @param bool   $noresize  - флаг указывает подвергать ли изображение изменению размера. Иcпользуется в том случае когда мы не хотим изменять оригинальное изображение.
-	 * @param string $fname     - устанавливаем имя для файла принудительно
-	 * @param string $path      - путь к папке для загрузки изображений.
+	 * @param string $file      - title vars in array $_FILES
+	 * @param string $prefix    - prefix for filename
+	 * @param array  $thumbsize - array(width,height) - thumbnail size
+	 * @param bool   $watermark - on/off watermark
+	 * @param bool   $modify    - on/off modify for resize and create thumbnail
+	 * @param bool   $noresize  - on/off resize for unmodify image
+	 * @param string $fname     - special filename
+	 * @param string $path      - path for image folder
 	 *
-	 * @return false|array - возвращает массив с именами файлов или false в случае неудачи.
+	 * @return false|array - filenames array or false if images dont upload
 	 */
-	public function upload_post_image($file, $prefix="", array $thumbsize=[], $watermark=true, $modify=true, $noresize=false, $fname="", $path=_UPLOADIMAGES) {
+	protected function upload_post_image($file, $prefix="", array $thumbsize=[], $watermark=true, $modify=true, $noresize=false, $fname="", $path=_UPLOADIMAGES) {
 
 		global $config, $files;
 
@@ -71,7 +71,7 @@ class Images extends GD {
 		# output array
 		$images = [];
 
-		# Составляем массив для проверки разрешенных типов файлов к загрузке
+		# array for allowed file extension
 		static $allow_exts = [];
 		if(empty($allow_exts)) {
 			$allow_exts = $this->get_allow_images();
@@ -80,8 +80,7 @@ class Images extends GD {
 		# Set thumbnail size
 		$this->set_mod_sizes($thumbsize);
 
-		# Если $_FILES не является массивом конвертнем в массив
-		# Я кстати в курсе, что сам по себе $_FILES уже массив. Тут в другом смысл.
+		# handle $_FILES
 		$upfiles = [];
 		if(!is_array($_FILES[$file]['tmp_name'])) {
                 	foreach($_FILES[$file] AS $k=>$v) {
@@ -92,13 +91,13 @@ class Images extends GD {
 			$upfiles[$file] = $_FILES[$file];
 		}
 
-		# приступаем к обработке
+		# proceed to processing
 		foreach($upfiles[$file]['tmp_name'] AS $key=>$value) {
 			if(isset($upfiles[$file]['tmp_name'][$key]) && $upfiles[$file]['error'][$key] == 0) {
 
 				$upload = false;
 
-				# Грузим апельсины бочками
+				# lets work
 				if(array_key_exists($upfiles[$file]['type'][$key], $allow_exts)) {
 
 					# file extension
@@ -121,11 +120,11 @@ class Images extends GD {
 					# save image on disk
 					copy($upfiles[$file]['tmp_name'][$key], $path."/".$filename.$filename_pofix.".".$ext);
 
-					# Если загрузка прошла и файл на месте
+					# if uploading was successful and file exists
 					$upload = is_file($path."/".$filename.$filename_pofix.".".$ext);
 				}
 
-				# Если загрузка удалась
+				# if uploading was successful
 				if($upload) {
 					# convert jpgtowebp
 					if($config->gd_convert_jpg_to_webp) {
@@ -135,13 +134,13 @@ class Images extends GD {
 					$this->modify_image($filename, $ext, $path, $watermark, $modify, $noresize);
 				}
 				else {
-					# Обработчик если загрузка не удалась =)
+					# TODO: Обработчик если загрузка не удалась =)
 					$filename = false;
 				}
 			}
 			else {
-				# вписать сообщение об ошибке.
-				# впрочем ещё надо и обработчик ошибок написать.
+				# TODO: вписать сообщение об ошибке.
+				# TODO: впрочем ещё надо и обработчик ошибок написать.
 				$filename = false;
 			}
 
@@ -150,19 +149,19 @@ class Images extends GD {
 			}
 		}
 
-		# Возвращаем массив имен файлов для внесения в БД
+		# return filenames array
 		return (count($images) > 0) ? $images : false ;
 	}
 
 
 	/**
-	 * Выгружаем присоедененные изображения
+	 * Load images
 	 *
-	 * @param string $cond - параметр указывающий на элемент к которому прикреплены изображения
-	 * @param int    $from - стартовая позиция для загрузки изображений
-	 * @param int    $limit - лимит загружаемых изображений
+	 * @param string $cond - image link condition
+	 * @param int    $from - start position for image load
+	 * @param int    $limit - limit for uploading
 	 *
-	 * @return array $data - массив с данными об изображениях.
+	 * @return array $data - data array.
 	 */
 	public function load_images($cond, $from = 0, $limit = 0) {
 
@@ -186,10 +185,10 @@ class Images extends GD {
 
 
 	/**
-	 * Загружаем информацию о изображениях
+	 * Upload image information to DB
 	 *
-	 * @param string $filename - имя файла без $pofix
-	 * @param mixed  $attached - родитель файла
+	 * @param string $filename - filename without $pofix
+	 * @param mixed  $attached - file parent
 	 * @param string $alt - alt-text
 	 */
 	public function insert_images($filename, $attached, $alt="") {
@@ -201,16 +200,16 @@ class Images extends GD {
 		$db->query("INSERT INTO ".IMAGES_TABLE." (attachedto, filename, fileext, alt)
 						    VALUES ('".$attached."', '".$image['filename']."', '".$image['extension']."', '".$alt."')");
 
-		# msg
+		# log
 		$logger->log("Изображение ".basename($filename)." успешно загружено на сервер");
 	}
 
 
 	/**
-	 * Обноялвем информацию об изображениях
+	 * Update image info in DB
 	 *
-	 * @param mixed $attachedto - структурный определитель
-	 * @param int   $id         - идентификатор изображения
+	 * @param mixed $attachedto - attached link image
+	 * @param int   $id         - image id
 	 */
 	public function update_images_info($attachedto, $id) {
 
@@ -236,6 +235,7 @@ class Images extends GD {
 				}
 
 				if($cond != "") {
+					# db query
 					$db->query("UPDATE ".IMAGES_TABLE." SET ".$cond." WHERE id='".$v['id']."'");
 				}
 			}
@@ -337,9 +337,9 @@ class Images extends GD {
 
 
 	/**
-	 * Функция составляет массив допустимых расширений изображений разрешенных для загрузки на сервер.
+	 * This function create an array of valid image extensions allowed for upload to server.
 	 *
-	 * @return mixed Возвращает массив с допустимыми расширениями изображения для загрузки на сервер
+	 * @return mixed
 	 */
 	public function get_allow_images() {
 		$imagetype = [];

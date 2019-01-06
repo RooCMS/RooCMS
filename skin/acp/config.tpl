@@ -1,4 +1,4 @@
-{* Основной шаблон конфигурации *}
+{* Template configuration *}
 <div class="col-sm-3 col-md-2">
 	<div class="row hidden-xs">
 		<div class="panel panel-default">

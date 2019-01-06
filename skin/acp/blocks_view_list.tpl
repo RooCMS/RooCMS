@@ -1,4 +1,4 @@
-{* Шаблон списка блоков *}
+{* View list block template *}
 <div class="panel-heading">
 	Блоки
 </div>

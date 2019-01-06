@@ -1,4 +1,4 @@
-{* Шаблон создания HTML блока *}
+{* Create PHP block template *}
 <div class="panel-heading">
 	<script type="text/javascript" src="plugin/codemirror.php"></script>
 
