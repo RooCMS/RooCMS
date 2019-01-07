@@ -75,14 +75,17 @@ a:not([class]) {
 .form-control.datepicker {
   padding: 6px 12px !important;
 }
+.bg-primary,
+.bg-info,
+.bg-success,
+.bg-warning,
+.bg-danger {
+  padding: 15px;
+}
 /* Mark */
 mark {
   padding: 0 !important;
   border-bottom: 1px dotted #C60D14;
-}
-/* Font Awesome correct */
-.fa-va {
-  vertical-align: middle;
 }
 /* Other Skin style */
 #logo {
@@ -579,6 +582,10 @@ a:focus,
   -webkit-transition: none !important;
   -moz-transition: none !important;
   outline: none;
+}
+/* Font Awesome correct */
+.fa-va {
+  vertical-align: middle;
 }
 /* Fonts */
 @font-face {

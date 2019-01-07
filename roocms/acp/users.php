@@ -574,6 +574,9 @@ class ACP_Users {
 
 			# remove user pm
 			$db->query("DELETE FROM ".USERS_PM_TABLE." WHERE to_uid='".$uid."'");
+
+			# remove author_id in feed items
+			$db->query("UPDATE ".PAGES_FEED_TABLE." SET author_id='0' WHERE author_id='".$uid."'");
 		}
 
 		# go

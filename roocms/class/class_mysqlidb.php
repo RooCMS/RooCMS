@@ -51,7 +51,7 @@ class MySQLiDB {
 
 
 	/**
-	* Connect ot DB
+	* Connect to DB
 	*
 	* @param string $host - db host
 	* @param string $user - user login
@@ -75,15 +75,15 @@ class MySQLiDB {
 
 
 	/**
-	* Проверяем подключение к БД сайта
-	*
-	* @param string $host - Хост
-	* @param string $user - Пользователь БД
-	* @param string $pass - Пароль для доступа к БД
-	* @param string $base - Название БД
-	*
-	* @return boolean
-	*/
+	 * Check connect to DB
+	 *
+	 * @param string $host - db host
+	 * @param string $user - user login
+	 * @param string $pass - user password
+	 * @param string $base - db name
+	 *
+	 * @return boolean
+	 */
 	public function check_connect($host, $user, $pass, $base) {
 
 		error_reporting(0);
