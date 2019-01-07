@@ -76,8 +76,40 @@
 		{/if}
 	</div>
 	<div class="col-sm-3 text-center" style="padding-top:60px;">
-		{$module->load('tagcloud')}
-		<h5>QR Code</h5>
-		<img src="qrcode.php?url={$smarty.server.REQUEST_URI}" class="img-thumbnail" alt="QR ссылка на эту страницу">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				Свежие публикации
+			</div>
+			<div class="panel-body" style="padding: 0;">
+				{$module->load('last_feed')}
+			</div>
+		</div>
+
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				Самое популярное
+			</div>
+			<div class="panel-body" style="padding: 0;">
+				{$module->load('popular_feed')}
+			</div>
+		</div>
+
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				Метки
+			</div>
+			<div class="panel-body">
+				{$module->load('tag_cloud')}
+			</div>
+		</div>
+
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				QR Code
+			</div>
+			<div class="panel-body">
+				<img src="qrcode.php?url={$smarty.server.REQUEST_URI}" class="img-thumbnail" alt="QR ссылка на эту страницу">
+			</div>
+		</div>
 	</div>
 </div>
