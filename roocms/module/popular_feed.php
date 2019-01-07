@@ -63,8 +63,10 @@ class Module_Popular_feed extends Modules {
 			$feeds[$row['id']] = $row;
 		}
 
-		# template
-		$smarty->assign("feeds", $feeds);
-		$this->out .= $tpl->load_template("module/popular_feed", true);
+		if(count($feeds) > 0) {
+			# template
+			$smarty->assign("feeds", $feeds);
+			$this->out .= $tpl->load_template("module/popular_feed", true);
+		}
 	}
 }
