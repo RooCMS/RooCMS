@@ -83,10 +83,13 @@
 	<div class="row">
 		<div class="container">
 			<div class="row">
-				<div class="col-md-6">
+				<div class="col-sm-5 hidden-xs">
 					<a href="/"><img src="{$SKIN}/img/logo.png" border="0" id="logo"></a>
 				</div>
-				<div class="col-md-6">
+				<div class="col-xs-12 text-center visible-xs">
+					<a href="/"><img src="{$SKIN}/img/logo.png" border="0" id="logo"></a>
+				</div>
+				<div class="col-sm-7 col-xs-12">
 					{$module->load("auth")}
 				</div>
 			</div>

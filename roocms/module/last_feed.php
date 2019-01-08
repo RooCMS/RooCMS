@@ -66,7 +66,7 @@ class Module_Last_feed extends Modules {
 		if(count($feeds) > 0) {
 			# template
 			$smarty->assign("feeds", $feeds);
-			$this->out .= $tpl->load_template("module/last_feed", true);
+			$this->out = $tpl->load_template("module/last_feed", true);
 		}
 	}
 }

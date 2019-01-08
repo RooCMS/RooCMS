@@ -48,6 +48,6 @@ class Module_Auth extends Modules {
 			$smarty->assign("pm", $newpm);
 		}
 		$smarty->assign("userdata", $users->userdata);
-		$this->out .= $tpl->load_template("module/auth", true);
+		$this->out = $tpl->load_template("module/auth", true);
 	}
 }

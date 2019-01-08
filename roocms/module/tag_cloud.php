@@ -67,7 +67,7 @@ class Module_Tag_Cloud extends Modules {
 
 			# template
 			$smarty->assign("tags", $taglist);
-			$this->out .= $tpl->load_template("module/tag_cloud", true);
+			$this->out = $tpl->load_template("module/tag_cloud", true);
 		}
 	}
 }

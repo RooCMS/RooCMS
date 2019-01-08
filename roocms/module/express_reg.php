@@ -50,6 +50,6 @@ class Module_express_Reg extends Modules {
 		# template
 		$smarty->assign("hide", $hide);
 		$smarty->assign("userdata", $users->userdata);
-		$this->out .= $tpl->load_template("module/express_reg", true);
+		$this->out = $tpl->load_template("module/express_reg", true);
 	}
 }

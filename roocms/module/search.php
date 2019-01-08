@@ -44,6 +44,6 @@ class Module_Search extends Modules {
 
 		# template
 		$smarty->assign("minleight", $minleight);
-		$this->out .= $tpl->load_template("module/search", true);
+		$this->out = $tpl->load_template("module/search", true);
 	}
 }
