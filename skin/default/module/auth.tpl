@@ -1,47 +1,51 @@
 {* Module template: auth *}
 
 {if $userdata['uid'] == 0}
+
+	{literal}
+	<style>
+	#LoginForm .modal-content {border: 10px solid rgba(220,220,220,0.5);}
+	</style>
+	{/literal}
+
 	<div class="row auth">
 		<div class="col-sm-12 text-right">
-			<form method="post" action="{$SCRIPT_NAME}?part=ucp&act=login" class="form-inline">
-				<div class="form-group form-group-sm text-left" style="margin-top: 10px;">
-					<div class="inner-addon left-addon">
-						<i class="fa fa-fw fa-user-secret"></i>
-						<input type="text" name="login" class="form-control non-bgreq" id="inputLogin" aria-describedby="inputLoginStatus" required="">
-					</div>
-				</div>
-				<div class="form-group form-group-sm text-left" style="margin-top: 10px;">
-					<div class="inner-addon left-addon">
-						<i class="fa fa-fw fa-lock"></i>
-						<input type="password" name="password" class="form-control non-bgreq" id="inputPassword" aria-describedby="inputPasswordStatus" required="">
-					</div>
-				</div>
-				<div class="form-group form-group-sm text-left" style="margin-top: 10px;">
-					<button type="submit" name="userlogin" id="inputAuth" class="btn btn-default btn-sm"  rel="tooltip" title="Войти на сайт" data-placement="auto" data-container="body" value="user"><i class="text-primary fa fa-fw fa-sign-in"></i></button>
-				</div>
-			</form>
-		</div>
-	</div>
-	<div class="row">
-		<div class="col-sm-12 text-right">
-			<a href="{$SCRIPT_NAME}?part=reg" class="btn btn-xs btn-link" style="margin-right: 59px;"><i class="fa fa-fw fa-key"></i>Регистрация</a>
-			<a href="{$SCRIPT_NAME}?part=repass" class="btn btn-xs btn-link" style="margin-right: 35px;"><i class="fa fa-fw fa-question-circle-o"></i>Забыли пароль</a>
+			<button class="btn btn-xs btn-link" data-toggle="modal" data-target="#LoginForm">Войти на сайт<i class="fa fa-fw fa-user-circle-o"></i></button>
+			<a href="{$SCRIPT_NAME}?part=reg" class="btn btn-xs btn-link" style="">Регистрация<i class="fa fa-fw fa-user-plus {*fa-key*}"></i></a>
 		</div>
 	</div>
 
-	{*
-	<div class="row">
-		<form method="post" action="?act=login" class="form-inline">
-			<div class="col-md-8 input-group input-group-sm text-left" style="margin-top: 10px;">
-				<input type="text" name="login" class="form-control mod_auth_form" id="inputLogin" aria-describedby="inputLoginStatus" required="">
-				<input type="password" name="password" class="form-control mod_auth_form" id="inputPassword" aria-describedby="inputPasswordStatus" required="">
+	<!-- Modal Auth -->
+	<div class="modal fade" id="LoginForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+		<div class="modal-dialog modal-sm" role="document">
+			<div class="modal-content">
+				<form method="post" action="{$SCRIPT_NAME}?part=ucp&act=login">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+						<h4 class="modal-title"><i class="fa fa-fw fa-user-circle-o"></i> Войти на сайт</h4>
+					</div>
+					<div class="modal-body">
+						<div class="form-group form-group-sm text-left">
+							<div class="inner-addon left-addon">
+								<i class="fa fa-fw fa-user-secret"></i>
+								<input type="text" name="login" class="form-control non-bgreq" id="inputLogin" aria-describedby="inputLoginStatus" required="">
+							</div>
+						</div>
+						<div class="form-group form-group-sm text-left">
+							<div class="inner-addon left-addon">
+								<i class="fa fa-fw fa-lock"></i>
+								<input type="password" name="password" class="form-control non-bgreq" id="inputPassword" aria-describedby="inputPasswordStatus" required="">
+							</div>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<a href="{$SCRIPT_NAME}?part=repass" class="btn btn-xs btn-default">Забыли пароль<i class="fa fa-fw fa-question-circle-o"></i></a>
+						<button type="submit" name="userlogin" id="inputAuth" class="btn btn-sm btn-primary" value="user">Войти<i class="fa fa-fw fa-sign-in"></i></button>
+					</div>
+				</form>
 			</div>
-			<div class="col-md-4">
-				<button type="submit" name="userlogin" id="inputAuth" class="btn btn-default btn-sm"  rel="tooltip" title="Войти на сайт" data-placement="top" data-container="body" value="user"><i class="text-primary fa fa-fw fa-sign-in"></i></button>
-			</div>
-		</form>
+		</div>
 	</div>
-	*}
 {else}
 	<div class="row auth">
 		<div class="col-sm-12 text-right">

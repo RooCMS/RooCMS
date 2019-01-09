@@ -23,7 +23,7 @@ if(!defined('RooCMS') || !defined('UI') || !defined('UCP')) {
 class UCP_Login {
 
 	/**
-	 * Проверяем введенные данные
+	 * UCP_Login constructor.
 	 */
 	public function __construct() {
 
@@ -31,16 +31,18 @@ class UCP_Login {
 
 
 		/**
-		 * Проверяем запрос
+		 * If auth query
 		 */
 		if(isset($post->userlogin)) {
 			$this->entering();
 		}
+
+		goback();
 	}
 
 
 	/**
-	 * Функция авторизации на сайте в пользовательской части.
+	 * Enter on site
 	 */
 	private function entering() {
 
@@ -67,21 +69,19 @@ class UCP_Login {
 				$logger->log("Пользователь успешно авторизовался на сайте");
 			}
 			else {
-				# неверный логин или пароль
+				# wrong login or password
 				$this->incorrect_entering("Неверный логин или пароль.");
 			}
 		}
 		else {
-			# логин или пароль введены некоректно
+			# incorrect login or password
 			$this->incorrect_entering("Введены неверные данные.");
 		}
-
-		goback();
 	}
 
 
 	/**
-	 * @param string $msg - сообщение об ошибке передаваемое в шаблон
+	 * @param string $msg - error subject for log
 	 */
 	private function incorrect_entering($msg) {
 

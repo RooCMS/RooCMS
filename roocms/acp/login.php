@@ -80,7 +80,7 @@ class ACP_Login {
 		global $smarty, $logger;
 
 		# log
-		$logger->log("Неудачная попытка авторизации - логин: ".$login." пароль: *".$password." символов*");
+		$logger->error("Неудачная попытка авторизации - логин: ".$login." пароль: *".$password." символов*");
 
 		session_destroy();
 
