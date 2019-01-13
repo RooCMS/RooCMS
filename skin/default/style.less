@@ -91,7 +91,7 @@ mark {padding: 0 !important;border-bottom: 1px dotted @brand-danger;}
 .navigation-submenu .row {background: darken(@nv-color, 7.5%);padding: 0 0 10px 0 !important;margin: 0 !important;}
 .navigation-submenu .row:first-child {border-top: 3px solid darken(@nv-color, 14.15%);padding-top: 10px !important;}
 .navigation-submenu .row:last-child {border-bottom: 3px solid darken(@nv-color, 14.15%);;}
-@media (max-width: 600px) {
+@media (max-width: 768px) {
 	.navigation-level-0 {margin-right: -15px !important;}
 	.navigation-submenu  {top: 30px !important;}
 	.navigation-submenu .row {padding: 0 !important;margin: 0 !important;}
@@ -146,6 +146,10 @@ a:hover>.feed-image-pn, a:hover>.feed-more-preview {border: 2px solid @brand-pri
 .mod_auth_form {width: 50% !important;}
 .mauth-avatar {margin-top: 4px;margin-right: 5px;border: 2px solid fadeout(@brand-primary, 50%);}
 .mauth-avatar:hover {border: 2px solid @brand-primary;}
+@media (max-width: 768px) {
+	.mauth-avatar {margin-top: 0;height: 26px;}
+}
+
 
 .ucp-user-nickname {margin-top: 0;}
 .ucp-user-slogan {max-height: 42px;font-size: 13px;font-family: "PT Sans";}

@@ -48,7 +48,7 @@
 	</div>
 {else}
 	<div class="row auth">
-		<div class="col-sm-12 text-right">
+		<div class="col-sm-12 text-right hidden-xs">
 			{if $userdata['avatar'] != ""}<a href="{$SCRIPT_NAME}?part=ucp&act=ucp"><img src="/upload/images/{$userdata['avatar']}" height="70" class="img-circle mauth-avatar" alt="{$userdata['nickname']}"></a>{/if}
 			<div class="pull-right">
 				<h4>Здравствуйте, <a href="{$SCRIPT_NAME}?part=ucp&act=ucp">{if $userdata['user_sex'] != "n"}<i class="fa fa-fw fa-{if $userdata['user_sex'] != "m"}fe{/if}male"></i>{/if}{$userdata['nickname']}</a></h4>
@@ -56,6 +56,14 @@
 				<a href="{$SCRIPT_NAME}?part=ucp&act=pm" class="btn btn-{if $pm == 0}default{else}success{/if} btn-xs"><i class="fa fa-fw fa-envelope-o"></i> У вас {if $pm == 0}нет{else}{$pm}{/if} новых сообщений</a>
 				<a href="{$SCRIPT_NAME}?part=ucp&act=logout" class="btn btn-default btn-xs">Выйти <i class="fa fa-fw fa-sign-out"></i></a>
 			</div>
+		</div>
+		<div class="col-xs-8 col-xs-offset-2 text-center visible-xs">
+			<h5>
+				{if $userdata['avatar'] != ""}<a href="{$SCRIPT_NAME}?part=ucp&act=ucp"><img src="/upload/images/{$userdata['avatar']}" height="70" class="img-circle mauth-avatar" alt="{$userdata['nickname']}"></a>{/if}
+				Здравствуйте, <a href="{$SCRIPT_NAME}?part=ucp&act=ucp">{if $userdata['user_sex'] != "n"}<i class="fa fa-fw fa-{if $userdata['user_sex'] != "m"}fe{/if}male"></i>{/if}{$userdata['nickname']}</a>
+				<a href="{$SCRIPT_NAME}?part=ucp&act=pm" class="btn btn-{if $pm == 0}default{else}success{/if} btn-xs"><i class="fa fa-fw fa-envelope-o"></i></a>
+				<a href="{$SCRIPT_NAME}?part=ucp&act=logout" class="btn btn-default btn-xs"><i class="fa fa-fw fa-sign-out"></i></a>
+			</h5>
 		</div>
 	</div>
 {/if}

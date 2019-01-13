@@ -1,6 +1,6 @@
 Version: 1.3.2 alpha
 ========================
-**release date:	8.1.2019**
+**release date:	14.1.2019**
 
 Plugins
 -------
@@ -30,7 +30,7 @@ Release information:
 	[upd] update Fancybox 3.5.2 -> 3.5.6 
 	[upd] update Smarty 3.1.30 -> 3.1.33 
 	[upd] update CKEditor 4.8 -> 4.11.1 
-	[upd] update user interface
+	[upd] update user interface (fixit bugs, update styles, update layot)
 	
 	[fix] fixit error
 	[fix] fixit bugs in Modules. Works on Modules continue.
