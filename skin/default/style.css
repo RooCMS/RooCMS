@@ -91,9 +91,6 @@ mark {
 #logo {
   margin: 10px 0;
 }
-.auth {
-  margin-top: 10px;
-}
 .mb0 {
   margin-bottom: 0 !important;
 }
@@ -228,6 +225,9 @@ a:hover > .feed-more-preview {
   filter: grayscale(50%);
 }
 /* UCP */
+.auth {
+  margin-top: 10px;
+}
 .mod_auth_form {
   width: 50% !important;
 }
@@ -240,6 +240,9 @@ a:hover > .feed-more-preview {
   border: 2px solid #3D4F61;
 }
 @media (max-width: 768px) {
+  .auth {
+    margin-top: 0;
+  }
   .mauth-avatar {
     margin-top: 0;
     height: 26px;
