@@ -11,13 +11,12 @@
 	return($text);
 }*/
 
-function smarty_modifier_highlight(&$text='', $word='')
-{
-	$new_text = $text;
-	if($word)
-	{
-		$word = ucwords($word);
-		$new_text = str_ireplace($word, "<mark>{$word}</mark>", $text);
+function smarty_modifier_highlight(&$text='', $word='') {
+
+	if($word) {
+		$word = preg_quote($word);
+		$text = preg_replace('/('.$word.')/iu', '<mark>\1</mark>', $text);
 	}
-	return($new_text);
+
+	return($text);
 }

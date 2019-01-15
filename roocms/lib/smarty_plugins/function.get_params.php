@@ -25,8 +25,8 @@
  * @param array                    $params   parameters
  * @return string
  */
-function smarty_function_get_params($params)
-{
+function smarty_function_get_params($params) {
+
 	$prefix = isset($params['prefix']) ? trim($params['prefix']) : "";
 	$suffix = isset($params['suffix']) ? trim($params['suffix']) : "";
 	$excludeParams = isset($params['exclude']) ? trim($params['exclude']) : "";
