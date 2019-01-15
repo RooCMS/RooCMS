@@ -136,7 +136,7 @@
 					</label>*}
 					{foreach from=$groups item=group}
 						<label class="btn btn-default">
-							<input type="checkbox" name="gids[]" value="{$group['gid']}" autocomplete="off"><i class="fa fa-fw fa-user"></i> {$group['title']}
+							<input type="checkbox" name="gids[]" value="{$group['gid']}" autocomplete="off"><i class="fa fa-fw fa-users"></i> {$group['title']}
 						</label>
 					{/foreach}
 				</div>

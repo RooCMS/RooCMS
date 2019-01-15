@@ -1,6 +1,6 @@
 Version: 1.3.2 alpha
 ========================
-**release date:	14.1.2019**
+**release date:	15.1.2019**
 
 Plugins
 -------
@@ -26,6 +26,7 @@ Release information:
 	[add] switcher "show only nav elements" in structure acp
 	[add] add new module: last Feed
 	[add] add new module: Popular Feed
+	[add] add group access for feed item
 	
 	[upd] update Fancybox 3.5.2 -> 3.5.6 
 	[upd] update Smarty 3.1.30 -> 3.1.33 

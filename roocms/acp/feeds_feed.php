@@ -56,7 +56,7 @@ class ACP_Feeds_Feed {
 		# feed items
 		$taglinks = [];
 		$feedlist = [];
-		$q = $db->query("SELECT id, status, title, brief_item, date_publications, date_end_publications, date_update, views FROM ".PAGES_FEED_TABLE." WHERE sid='".$this->feed['id']."' ORDER BY ".$order);
+		$q = $db->query("SELECT id, status, group_access, title, brief_item, date_publications, date_end_publications, date_update, views FROM ".PAGES_FEED_TABLE." WHERE sid='".$this->feed['id']."' ORDER BY ".$order);
 		while($row = $db->fetch_assoc($q)) {
 
 			$row['publication_status'] = ($row['date_end_publications'] < time() && $row['date_end_publications'] != 0) ? "hide" : "show" ;
@@ -109,10 +109,12 @@ class ACP_Feeds_Feed {
 				$db->query("INSERT INTO ".PAGES_FEED_TABLE." (title, meta_title, meta_description, meta_keywords,
 									      brief_item, full_item, author_id,
 									      date_create, date_update, date_publications, date_end_publications,
+									      group_access,
 									      sort, sid)
 								      VALUES ('".$post->title."', '".$post->meta_title."', '".$post->meta_description."', '".$post->meta_keywords."',
 									      '".$post->brief_item."', '".$post->full_item."', '".$post->author_id."',
 									      '".time()."', '".time()."', '".$post->date_publications."', '".$post->date_end_publications."',
+									      '".$post->gids."',
 									      '".$post->itemsort."', '".$this->feed['id']."')");
 
 				# get feed item id
@@ -151,6 +153,9 @@ class ACP_Feeds_Feed {
 		# userlist
 		$this->userlist = $users->get_userlist();
 
+		# grouplist
+		$groups = $users->get_usergroups();
+
 		# popular tags
 		$poptags = $tags->list_tags(true, 20);
 
@@ -163,6 +168,7 @@ class ACP_Feeds_Feed {
 		$smarty->assign("poptags",  $poptags);         # tags
 		$smarty->assign("userdata", $users->userdata); # users
 		$smarty->assign("userlist", $this->userlist);  # users
+		$smarty->assign("groups",   $groups);          # groups
 
 		# tpl
 		$content = $tpl->load_template("feeds_create_item_feed", true);
@@ -182,8 +188,11 @@ class ACP_Feeds_Feed {
 		# userlist
 		$this->userlist = $users->get_userlist();
 
+		# grouplist
+		$groups = $users->get_usergroups();
+
 		# get data
-		$q = $db->query("SELECT id, sid, status, sort, title, meta_title, meta_description, meta_keywords, brief_item, full_item, author_id, date_publications, date_end_publications FROM ".PAGES_FEED_TABLE." WHERE id='".$id."'");
+		$q = $db->query("SELECT id, sid, status, group_access, sort, title, meta_title, meta_description, meta_keywords, brief_item, full_item, author_id, date_publications, date_end_publications FROM ".PAGES_FEED_TABLE." WHERE id='".$id."'");
 		$item = $db->fetch_assoc($q);
 
 
@@ -193,11 +202,11 @@ class ACP_Feeds_Feed {
 			$item['date_end_publications'] = $parse->date->unix_to_rusint($item['date_end_publications']);
 		}
 
+		# check access granted for groups
+		$gids = $users->get_gid_access_granted($item['group_access']);
+
 		# item tags
 		$item['tags'] = implode(", ", array_map(array("Tags", "get_tag_title"), $tags->read_tags("feeditemid=".$id)));
-
-
-		$smarty->assign("item",$item);
 
 		# popular tags
 		$poptags = $tags->list_tags(true, 15);
@@ -225,11 +234,15 @@ class ACP_Feeds_Feed {
 		$tpl->load_image_upload_tpl("imagesupload");
 		$tpl->load_files_upload_tpl("filesupload");
 
+
 		# smarty vars
+		$smarty->assign("item",     $item);            # item data
 		$smarty->assign("feed",     $this->feed);      # feed data
 		$smarty->assign("poptags",  $poptags);         # tags
-		$smarty->assign("userdata", $users->userdata); # users
-		$smarty->assign("userlist", $this->userlist);  # users
+		$smarty->assign("userdata", $users->userdata); # users data
+		$smarty->assign("userlist", $this->userlist);  # users list
+		$smarty->assign("gids",     $gids);            # group id access granted
+		$smarty->assign("groups",   $groups);          # group list
 
 		# tpl
 		$content = $tpl->load_template("feeds_edit_item_feed", true);
@@ -260,6 +273,7 @@ class ACP_Feeds_Feed {
 		        $db->query("UPDATE ".PAGES_FEED_TABLE."
 		        		SET
 		        			status = '".$post->status."',
+		        			group_access = '".$post->gids."',
 		        			sort = '".$post->itemsort."',
 						title = '".$post->title."',
 						meta_title = '".$post->meta_title."',
@@ -642,6 +656,14 @@ class ACP_Feeds_Feed {
 		}
 		else {
 			$post->itemsort = round($post->itemsort);
+		}
+
+		# group ids with access
+		if(isset($post->gids) && is_array($post->gids)) {
+			$post->gids = implode(",", $post->gids);
+		}
+		else {
+			$post->gids = 0;
 		}
 
 		# userlist

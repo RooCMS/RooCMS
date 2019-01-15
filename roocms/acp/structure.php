@@ -202,15 +202,8 @@ class ACP_Structure {
 		$q = $db->query("SELECT id, parent_id, nav, group_access, alias, title, meta_title, meta_description, meta_keywords, noindex, sort, page_type, thumb_img_width, thumb_img_height FROM ".STRUCTURE_TABLE." WHERE id='".$sid."'");
 		$data = $db->fetch_assoc($q);
 
-		# check group access
-		$gids = [];
-		if(trim($data['group_access']) != "0") {
-			$gids = explode(",", $data['group_access']);
-			$gids = array_flip($gids);
-		}
-		else {
-			$gids[0] = 0;
-		}
+		# check access granted for groups
+		$gids = $users->get_gid_access_granted($data['group_access']);
 
 		# list groups
 		$groups = $users->get_usergroups();

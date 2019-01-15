@@ -37,7 +37,7 @@ class Module_Last_feed extends Modules {
 	 */
 	protected function begin() {
 
-		global $db, $structure, $img, $parse, $tpl, $smarty;
+		global $db, $structure, $users, $img, $parse, $tpl, $smarty;
 
 		# access condition
 		$accesscond = "";
@@ -47,13 +47,18 @@ class Module_Last_feed extends Modules {
 				$accesscond .= " f.sid='".$value['id']."' ";
 			}
 		}
+		$accesscond = "(".$accesscond.")";
+		
+		if($users->title != "a") {
+			$accesscond .= " AND (f.group_access='0' OR f.group_access='".$users->gid."' OR f.group_access LIKE '%,".$users->gid.",%' OR f.group_access LIKE '".$users->gid.",%' OR f.group_access LIKE '%,".$users->gid."')";
+		}
 
 		# get data query
 		$feeds = [];
 		$q = $db->query("SELECT f.id, s.alias, f.title, f.date_publications FROM ".PAGES_FEED_TABLE." AS f
 					LEFT JOIN ".STRUCTURE_TABLE." AS s ON (s.id = f.sid)
-					WHERE f.date_publications <= '".time()."' AND (f.date_end_publications = '0' || f.date_end_publications > '".time()."') AND f.status='1' AND (".$accesscond.")
-					ORDER BY f.date_publications DESC LIMIT 0,4");
+					WHERE f.date_publications <= '".time()."' AND (f.date_end_publications = '0' || f.date_end_publications > '".time()."') AND f.status='1' AND ".$accesscond."
+					ORDER BY f.date_publications DESC LIMIT 0,3");
 		while($row = $db->fetch_assoc($q)) {
 			$row['datepub']    = $parse->date->unix_to_rus($row['date_publications'],true);
 			$row['date']       = $parse->date->unix_to_rus_array($row['date_publications']);

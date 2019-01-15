@@ -75,4 +75,21 @@ trait UserGroups {
 
 		return $list;
 	}
+
+
+	/**
+	 * Get array with group ids access granted from data string
+	 *
+	 * @param string $data - group ids separeted by comma
+	 *
+	 * @return array
+	 */
+	public function get_gid_access_granted($data="0") {
+
+		$gids = [];
+
+		$gids = array_flip(explode(",", $data));
+
+		return $gids;
+	}
 }

@@ -132,7 +132,7 @@
 			<div class="btn-group" data-toggle="buttons" id="inputGroupAccess">
 				{foreach from=$groups item=group}
 					<label class="btn btn-default {if isset($gids[$group['gid']])}active{/if}">
-						<input type="checkbox" name="gids[]" value="{$group['gid']}" autocomplete="off"{if isset($gids[$group['gid']])} checked{/if}><i class="fa fa-fw fa-user"></i> {$group['title']}
+						<input type="checkbox" name="gids[]" value="{$group['gid']}" autocomplete="off"{if isset($gids[$group['gid']])} checked{/if}><i class="fa fa-fw fa-users"></i> {$group['title']}
 					</label>
 				{/foreach}
 			</div>

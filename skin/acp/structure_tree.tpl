@@ -27,7 +27,7 @@
 					{/if}
 				</nobr>
 				<small class="trinfo">
-					{if !isset($page['group_access'][0])}<i class="fa fa-fw fa-user-secret" rel="tooltip" data-toggle="tooltip" data-placement="top" title="Есть ограничения доступа"></i>{else}<i class="fa fa-fw"></i>{/if}
+					{if !isset($page['group_access'][0])}<i class="fa fa-fw fa-user-secret" rel="tooltip" data-toggle="tooltip" data-placement="top" title="Есть групповые ограничения"></i>{else}<i class="fa fa-fw"></i>{/if}
 					{if $page['noindex']}<i class="fa fa-fw fa-eye-slash" rel="tooltip" data-toggle="tooltip" data-placement="top" title="Неиндексируется поисковыми системами"></i>{else}<i class="fa fa-fw"></i>{/if}
 					{if $page['nav']}<i class="fa fa-fw fa-globe" rel="tooltip" data-toggle="tooltip" data-placement="top" title="Страница отражается в навигации"></i>{else}<i class="fa fa-fw"></i>{/if}
 				</small>

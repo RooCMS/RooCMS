@@ -102,6 +102,24 @@
 			</div>
 		</div>
 
+		{if !empty($groups)}
+			<div class="form-group">
+				<label for="inputGroupAccess" class="col-lg-3 control-label">
+					Доступ для групп:
+					<small><span class="fa fa-question-circle fa-fw" rel="tooltip" title="Укажите какие группы пользователей смогут просматривать эту страницу" data-placement="left"></span></small>
+				</label>
+				<div class="col-lg-9">
+					<div class="btn-group" data-toggle="buttons" id="inputGroupAccess">
+						{foreach from=$groups item=group}
+							<label class="btn btn-default {if isset($gids[$group['gid']])}active{/if}">
+								<input type="checkbox" name="gids[]" value="{$group['gid']}" autocomplete="off"{if isset($gids[$group['gid']])} checked{/if}><i class="fa fa-fw fa-users"></i> {$group['title']}
+							</label>
+						{/foreach}
+					</div>
+				</div>
+			</div>
+		{/if}
+
 		<div class="form-group">
 			<div class="col-lg-12">
 				<label for="brief_item" class="control-label">

@@ -322,7 +322,7 @@ class PageFeed {
 		$cond .= " )";
 
 		$data = [];
-		$q = $db->query("SELECT id, title, date_publications FROM ".PAGES_FEED_TABLE." WHERE ".$cond." ORDER BY RAND() LIMIT 3");
+		$q = $db->query("SELECT id, title, date_publications FROM ".PAGES_FEED_TABLE." WHERE ".$cond." ORDER BY RAND() LIMIT 3"); // TODO: Избавиться от RAND!!!
 		while($row = $db->fetch_assoc($q)) {
 			$row['datepub'] = $parse->date->unix_to_rus($row['date_publications']);
 			$row['image']   = $img->load_images("feeditemid=".$row['id']."", 0, 1);
@@ -380,7 +380,7 @@ class PageFeed {
 	 */
 	private function feed_condition() {
 
-		global $db, $structure;
+		global $db, $structure, $users;
 
 		# query id's feeds begin
 		$cond = " date_publications <= '".time()."' AND ( sid='".$structure->page_id."' ";
@@ -408,6 +408,9 @@ class PageFeed {
 		}
 		$accesscond = "(".$accesscond.")";
 
+		if($users->title != "a") {
+			$accesscond .= " AND (group_access='0' OR group_access='".$users->gid."' OR group_access LIKE '%,".$users->gid.",%' OR group_access LIKE '".$users->gid.",%' OR group_access LIKE '%,".$users->gid."')";
+		}
 
 		$cond .= " AND ".$accesscond." AND (date_end_publications = '0' || date_end_publications > '".time()."') AND status='1' ";
 

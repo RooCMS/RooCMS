@@ -182,6 +182,7 @@ $sql['CREATE'.PAGES_FEED_TABLE] = "CREATE TABLE IF NOT EXISTS `".PAGES_FEED_TABL
 					  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
 					  `sid` int(10) unsigned NOT NULL,
 					  `status` enum('0','1') NOT NULL DEFAULT '1',
+					  `group_access` varchar(255) NOT NULL DEFAULT '0',
 					  `sort` int(10) unsigned NOT NULL DEFAULT '0',
 					  `title` varchar(512) NOT NULL,
 					  `meta_title` varchar(255) NOT NULL,
@@ -197,8 +198,9 @@ $sql['CREATE'.PAGES_FEED_TABLE] = "CREATE TABLE IF NOT EXISTS `".PAGES_FEED_TABL
 					  `date_update` int(20) unsigned NOT NULL DEFAULT '0',
 					  PRIMARY KEY (`id`),
 					  UNIQUE KEY (`id`),
-					  KEY `sid` (`sid`),
-					  KEY `date_publications` (`date_publications`)
+					  INDEX `sid` (`sid`),
+					  INDEX `date_publications` (`date_publications`),
+					  INDEX `group_access` (`group_access`)
 					) ENGINE=MyISAM  DEFAULT CHARSET=utf8 PACK_KEYS=1 AUTO_INCREMENT=1";
 
 /**

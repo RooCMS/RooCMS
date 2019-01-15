@@ -114,7 +114,7 @@ class Structure {
 				$row['parent'] = 0;
 
 				# group access
-				$row['group_access'] = array_flip(explode(",", $row['group_access']));
+				$row['group_access'] = $users->get_gid_access_granted($row['group_access']);
 
 				# access
 				$row['access'] = ($users->title == "a" || array_key_exists(0, $row['group_access']) || array_key_exists($users->gid, $row['group_access'])) ? true : false ;
