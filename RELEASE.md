@@ -39,3 +39,5 @@ Release information:
 	[fix] translate comments in code to english international
 	
 	[del] 
+	
+	[inf] test completed on MariaDB. Well done.
