@@ -48,7 +48,7 @@ class Module_Last_feed extends Modules {
 			}
 		}
 		$accesscond = "(".$accesscond.")";
-		
+
 		if($users->title != "a") {
 			$accesscond .= " AND (f.group_access='0' OR f.group_access='".$users->gid."' OR f.group_access LIKE '%,".$users->gid.",%' OR f.group_access LIKE '".$users->gid.",%' OR f.group_access LIKE '%,".$users->gid."')";
 		}

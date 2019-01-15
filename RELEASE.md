@@ -32,6 +32,7 @@ Release information:
 	[upd] update Smarty 3.1.30 -> 3.1.33 
 	[upd] update CKEditor 4.8 -> 4.11.1 
 	[upd] update user interface (fixit bugs, update styles, update layot)
+	[upd] some tables in database change type MyISAM to InnoDB 
 	
 	[fix] fixit error
 	[fix] fixit bugs in Modules. Works on Modules continue.
