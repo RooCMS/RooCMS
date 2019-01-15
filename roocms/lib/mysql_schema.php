@@ -36,7 +36,7 @@ $sql['CREATE '.CONFIG_PARTS_TABLE] = "CREATE TABLE IF NOT EXISTS `".CONFIG_PARTS
 				  PRIMARY KEY (`id`),
 				  UNIQUE KEY `id` (`id`),
 				  UNIQUE KEY `name` (`name`)
-				) ENGINE=MyISAM  DEFAULT CHARSET=utf8 PACK_KEYS=1 AUTO_INCREMENT=1";
+				) ENGINE=InnoDB  DEFAULT CHARSET=utf8 PACK_KEYS=1 AUTO_INCREMENT=1";
 
 $id = 1;
 $sql['INSERT '.CONFIG_PARTS_TABLE." ID #".$id] = "INSERT INTO `".CONFIG_PARTS_TABLE."` VALUES (".$id.", 'global', 1, 'global', 'Общие настройки', 'cog')";		$id++;
@@ -69,7 +69,7 @@ $sql['CREATE'.CONFIG_TABLE] = "CREATE TABLE IF NOT EXISTS `".CONFIG_TABLE."` (
 				  UNIQUE KEY `id` (`id`),
 				  UNIQUE KEY `option` (`option_name`),
 				  KEY `part` (`part`)
-				) ENGINE=MyISAM  DEFAULT CHARSET=utf8 PACK_KEYS=1 AUTO_INCREMENT=1";
+				) ENGINE=InnoDB  DEFAULT CHARSET=utf8 PACK_KEYS=1 AUTO_INCREMENT=1";
 $id = 1;
 $sql['INSERT '.CONFIG_TABLE." ID #".$id] = "INSERT INTO `".CONFIG_TABLE."` VALUES (".$id.", 'global', 1, 'Название сайта', 'Глобальный заголовок сайта', 'site_title', 'string', '', '".$site['title']."', '".$site['title']."', 0)"; $id++;
 $sql['INSERT '.CONFIG_TABLE." ID #".$id] = "INSERT INTO `".CONFIG_TABLE."` VALUES (".$id.", 'global', 1, 'Глобальный заголовок', 'Применять название сайта глобально ко всем заголовкам?', 'global_site_title', 'boolean', '', 'true', 'true', 0)"; $id++;
@@ -135,7 +135,7 @@ $sql['CREATE'.STRUCTURE_TABLE] = "CREATE TABLE IF NOT EXISTS `".STRUCTURE_TABLE.
 					  UNIQUE KEY `alias` (`alias`),
 					  KEY `type` (`page_type`),
 					  KEY `page_id` (`page_id`)
-					) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1";
+					) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1";
 
 $id = 1;
 $sql['INSERT '.STRUCTURE_TABLE." ID #".$id] = "INSERT INTO `".STRUCTURE_TABLE."` (`id`, `alias`, `parent_id`, `nav`, `title`, `meta_title`, `meta_description`, `meta_keywords`, `sort`, `page_type`, `page_id`, `noindex`, `childs`, `group_access`, `date_create`, `date_modified`, `rss`, `show_child_feeds`, `items_per_page`, `items_sorting`, `items`, `thumb_img_width`, `thumb_img_height`, `append_info_before`, `append_info_after`) 
@@ -153,7 +153,7 @@ $sql['CREATE'.PAGES_HTML_TABLE] = "CREATE TABLE IF NOT EXISTS `".PAGES_HTML_TABL
 					  PRIMARY KEY (`id`),
 					  UNIQUE KEY `id` (`id`),
 					  UNIQUE KEY `sid` (`sid`)
-					) ENGINE=MyISAM  DEFAULT CHARSET=utf8 PACK_KEYS=1 AUTO_INCREMENT=1";
+					) ENGINE=InnoDB  DEFAULT CHARSET=utf8 PACK_KEYS=1 AUTO_INCREMENT=1";
 
 $sql['INSERT '.PAGES_HTML_TABLE." ID #".$id] = "INSERT INTO `".PAGES_HTML_TABLE."` (`id`, `sid`, `content`, `date_modified`)
 									    VALUES (1, 1, '&lt;h1&gt;\r\n	Добро пожаловать!&lt;/h1&gt;\r\nЭто новый сайт, который был создан с помощью системы управления контентом &lt;a href=&quot;http://www.roocms.com&quot;&gt;RooCMS&lt;/a&gt; &lt;br /&gt;\r\n&lt;br /&gt;\r\nRooCMS - это русская система управления сайтом (контентом). Простая и удобная в использовании как программисту или верстальщику, так и людям, которые совершенно незнакомы с производством сайтов.', ".time().")";
@@ -171,7 +171,7 @@ $sql['CREATE'.PAGES_PHP_TABLE] = "CREATE TABLE IF NOT EXISTS `".PAGES_PHP_TABLE.
 					  PRIMARY KEY (`id`),
 					  UNIQUE KEY `id` (`id`),
 					  UNIQUE KEY `sid` (`sid`)
-					) ENGINE=MyISAM  DEFAULT CHARSET=utf8 PACK_KEYS=1 AUTO_INCREMENT=1";
+					) ENGINE=InnoDB  DEFAULT CHARSET=utf8 PACK_KEYS=1 AUTO_INCREMENT=1";
 
 
 /**
@@ -200,8 +200,9 @@ $sql['CREATE'.PAGES_FEED_TABLE] = "CREATE TABLE IF NOT EXISTS `".PAGES_FEED_TABL
 					  UNIQUE KEY (`id`),
 					  INDEX `sid` (`sid`),
 					  INDEX `date_publications` (`date_publications`),
+					  INDEX `views` (`views`),
 					  INDEX `group_access` (`group_access`)
-					) ENGINE=MyISAM  DEFAULT CHARSET=utf8 PACK_KEYS=1 AUTO_INCREMENT=1";
+					) ENGINE=InnoDB  DEFAULT CHARSET=utf8 PACK_KEYS=1 AUTO_INCREMENT=1";
 
 /**
  *  Tags
@@ -214,7 +215,7 @@ $sql['CREATE'.TAGS_TABLE] = "CREATE TABLE `".TAGS_TABLE."` (
 					PRIMARY KEY (`id`),
 					UNIQUE KEY `id` (`id`),
 					UNIQUE KEY `title` (`title`)
-				) ENGINE=MyISAM  DEFAULT CHARSET=utf8 PACK_KEYS=1 AUTO_INCREMENT=1";
+				) ENGINE=InnoDB  DEFAULT CHARSET=utf8 PACK_KEYS=1 AUTO_INCREMENT=1";
 
 $sql['DROP '.TAGS_LINK_TABLE] = "DROP TABLE IF EXISTS `".TAGS_LINK_TABLE."`";
 $sql['CREATE'.TAGS_LINK_TABLE] = "CREATE TABLE `".TAGS_LINK_TABLE."` (
@@ -222,7 +223,7 @@ $sql['CREATE'.TAGS_LINK_TABLE] = "CREATE TABLE `".TAGS_LINK_TABLE."` (
 					`linkedto` VARCHAR(64) NOT NULL,
 					KEY `tag_id` (`tag_id`),
 					KEY `linkedto` (`linkedto`)
-				) ENGINE=MyISAM  DEFAULT CHARSET=utf8 PACK_KEYS=1 AUTO_INCREMENT=1";
+				) ENGINE=InnoDB  DEFAULT CHARSET=utf8 PACK_KEYS=1 AUTO_INCREMENT=1";
 
 
 /**
@@ -242,7 +243,7 @@ $sql['CREATE '.BLOCKS_TABLE] = "CREATE TABLE IF NOT EXISTS `".BLOCKS_TABLE."` (
 				  PRIMARY KEY (`id`),
 				  UNIQUE KEY (`id`),
 				  UNIQUE KEY `alias` (`alias`)
-                                ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 PACK_KEYS=1 AUTO_INCREMENT=1";
+                                ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 PACK_KEYS=1 AUTO_INCREMENT=1";
 
 
 /**
@@ -260,7 +261,7 @@ $sql['CREATE '.IMAGES_TABLE] = "CREATE TABLE IF NOT EXISTS `".IMAGES_TABLE."` (
 				  UNIQUE KEY  `id` (`id`) ,
 				  KEY `filename` (`filename`),
 				  KEY `attachedto` (`attachedto`)
-				) ENGINE=MyISAM  DEFAULT CHARSET=utf8 PACK_KEYS=1 AUTO_INCREMENT=1";
+				) ENGINE=InnoDB  DEFAULT CHARSET=utf8 PACK_KEYS=1 AUTO_INCREMENT=1";
 
 
 /**
@@ -278,7 +279,7 @@ $sql['CREATE '.FILES_TABLE] = "CREATE TABLE IF NOT EXISTS `".FILES_TABLE."` (
 				  UNIQUE KEY  `id` (`id`) ,
 				  KEY  `filename` (`filename`),
 				  KEY  `attachedto` (`attachedto`)
-				) ENGINE=MyISAM  DEFAULT CHARSET=utf8 PACK_KEYS=1 AUTO_INCREMENT=1";
+				) ENGINE=InnoDB  DEFAULT CHARSET=utf8 PACK_KEYS=1 AUTO_INCREMENT=1";
 
 
 /**
@@ -317,7 +318,7 @@ $sql['CREATE '.USERS_TABLE] = "CREATE TABLE `".USERS_TABLE."` (
 				  UNIQUE KEY `login` (`login`),
 				  UNIQUE KEY `nickname` (`nickname`),
 				  UNIQUE KEY `email` (`email`)
-				) ENGINE=MyISAM  DEFAULT CHARSET=utf8;";
+				) ENGINE=InnoDB  DEFAULT CHARSET=utf8;";
 
 
 /**
@@ -333,7 +334,7 @@ $sql['CREATE '.USERS_GROUP_TABLE] = "CREATE TABLE  `".USERS_GROUP_TABLE."` (
 					PRIMARY KEY (  `gid` ) ,
 					UNIQUE KEY  `gid` (  `gid` ) ,
 					UNIQUE KEY  `title` (  `title` )
-					) ENGINE = MYISAM DEFAULT CHARSET = utf8;";
+					) ENGINE = InnoDB DEFAULT CHARSET = utf8;";
 
 
 /**
@@ -352,7 +353,7 @@ $sql['CREATE '.USERS_PM_TABLE] = "CREATE TABLE  `".USERS_PM_TABLE."` (
 					PRIMARY KEY (  `id` ) ,
 					UNIQUE KEY  `id` (  `id` ) ,
 					KEY  `from_uid` (  `from_uid` ,  `to_uid` )
-					) ENGINE = MYISAM DEFAULT CHARSET = utf8;";
+					) ENGINE = InnoDB DEFAULT CHARSET = utf8;";
 
 
 /**
@@ -387,7 +388,7 @@ $sql['CREATE '.HELP_TABLE] = "CREATE TABLE IF NOT EXISTS `".HELP_TABLE."` (
 				  PRIMARY KEY (`id`),
 				  UNIQUE KEY `id` (`id`),
 				  UNIQUE KEY `uname` (`uname`)
-				) ENGINE=MyISAM  DEFAULT CHARSET=utf8 PACK_KEYS=1 AUTO_INCREMENT=26";
+				) ENGINE=InnoDB  DEFAULT CHARSET=utf8 PACK_KEYS=1 AUTO_INCREMENT=26";
 
 $sql['INSERT '.HELP_TABLE." ID #01"] = "INSERT INTO `".HELP_TABLE."`  VALUES (1, 'help', 0, 0, 5, 'Помощь', '&lt;h2&gt;Вы находитесь в справочном разделе системы управления контентом - RooCMS.&lt;/h2&gt;\r\n\r\n&lt;blockquote class=&quot;quote quote-info&quot;&gt;\r\n&lt;p&gt;Что бы получить информацию о функциях панели управления выберите один из нижеприведенных разделов.&lt;/p&gt;\r\n&lt;/blockquote&gt;\r\n', 1543600366)";
 $sql['INSERT '.HELP_TABLE." ID #02"] = "INSERT INTO `".HELP_TABLE."`  VALUES (2, 'acp_structure', 3, 2, 1, 'Структура сайта', '&lt;p&gt;Данный раздел сайта отвечает за управления структурой сайта и навигацией по нему.&lt;/p&gt;\r\n\r\n&lt;p&gt;Для наглядности структура сайта представлена ввиде иерархического дерева неограниченной вложенности.&lt;/p&gt;\r\n\r\n&lt;p&gt;Что бы добавить новый элемент в структуру нажмите на ссылку справа &amp;quot;&lt;code&gt;Создать&amp;nbsp;страницу&lt;/code&gt;&amp;quot;.&lt;/p&gt;\r\n\r\n&lt;p&gt;Что бы отредактировать технические параметры отдельной страницы или раздела сайта нажмите на ссылку &amp;quot;&lt;code&gt;Редактировать&lt;/code&gt;&amp;quot;.&lt;/p&gt;\r\n\r\n&lt;p&gt;Если хотите удалить какой либо раздел или страницу сайта, нажмите на ссылку &amp;quot;&lt;code&gt;Удалить&lt;/code&gt;&amp;quot;. Вы не сможете удалить структуреый элемент, если у него имеются подчиненный элементы. Предварительно вам необходимо будет перенести их в подчинение другому элементу или удалить.&lt;/p&gt;\r\n\r\n&lt;p&gt;&lt;span class=&quot;label label-danger&quot;&gt;ВНИМАНИЕ!&lt;/span&gt; Вы не должны удалять корневую (главную) страницу сайта, без главной страницы сайт существовать не может. Удаление корневой странице приведет к неработоспособности системы.&lt;/p&gt;\r\n', 1543600958)";
