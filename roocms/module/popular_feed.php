@@ -72,7 +72,7 @@ class Module_Popular_feed extends Modules {
 	 */
 	private function get_accesscond() {
 
-		global $structure, $users;
+		global $db, $structure, $users;
 
 		$accesscond = "";
 		foreach($structure->sitetree AS $value) {
