@@ -37,21 +37,10 @@ class Module_Last_feed extends Modules {
 	 */
 	protected function begin() {
 
-		global $db, $structure, $users, $img, $parse, $tpl, $smarty;
+		global $db, $img, $parse, $tpl, $smarty;
 
 		# access condition
-		$accesscond = "";
-		foreach($structure->sitetree AS $value) {
-			if($value['access']) {
-				$accesscond = $db->qcond_or($accesscond);
-				$accesscond .= " f.sid='".$value['id']."' ";
-			}
-		}
-		$accesscond = "(".$accesscond.")";
-
-		if($users->title != "a") {
-			$accesscond .= " AND (f.group_access='0' OR f.group_access='".$users->gid."' OR f.group_access LIKE '%,".$users->gid.",%' OR f.group_access LIKE '".$users->gid.",%' OR f.group_access LIKE '%,".$users->gid."')";
-		}
+		$accesscond = $this->get_accesscond();
 
 		# get data query
 		$feeds = [];
@@ -73,5 +62,31 @@ class Module_Last_feed extends Modules {
 			$smarty->assign("feeds", $feeds);
 			$this->out = $tpl->load_template("module/last_feed", true);
 		}
+	}
+
+
+	/**
+	 * Get access condition
+	 *
+	 * @return string
+	 */
+	private function get_accesscond() {
+
+		global $structure, $users;
+
+		$accesscond = "";
+		foreach($structure->sitetree AS $value) {
+			if($value['access']) {
+				$accesscond = $db->qcond_or($accesscond);
+				$accesscond .= " f.sid='".$value['id']."' ";
+			}
+		}
+		$accesscond = "(".$accesscond.")";
+
+		if($users->title != "a") {
+			$accesscond .= " AND (f.group_access='0' OR f.group_access='".$users->gid."' OR f.group_access LIKE '%,".$users->gid.",%' OR f.group_access LIKE '".$users->gid.",%' OR f.group_access LIKE '%,".$users->gid."')";
+		}
+
+		return $accesscond;
 	}
 }

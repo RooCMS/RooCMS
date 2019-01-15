@@ -86,8 +86,6 @@ trait UserGroups {
 	 */
 	public function get_gid_access_granted($data="0") {
 
-		$gids = [];
-
 		$gids = array_flip(explode(",", $data));
 
 		return $gids;
