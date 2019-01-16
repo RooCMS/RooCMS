@@ -22,6 +22,6 @@ require_once INIT_ACP;
 /**
 * Output
 *
-* @return frontend html
+* @return mixed frontend html
 */
 $tpl->out();
