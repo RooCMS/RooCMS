@@ -405,7 +405,7 @@ class ACP_Feeds_Feed {
 	 */
 	public function delete_item($id) {
 
-		global $db, $logger, $img, $tags;
+		global $db, $logger, $img, $file, $tags;
 
 		# get sid
 		$q = $db->query("SELECT sid FROM ".PAGES_FEED_TABLE." WHERE id='".$id."'");
@@ -413,6 +413,9 @@ class ACP_Feeds_Feed {
 
 		# del attached images
 		$img->remove_images("feeditemid=".$id);
+
+		# del attached files
+		$file->remove_files("feeditemid=".$id);
 
 		# del tags
 		$tags->save_tags("", "feeditemid=".$id);
@@ -438,7 +441,7 @@ class ACP_Feeds_Feed {
 	 */
 	public function delete_feed($sid) {
 
-		global $db, $img, $tags;
+		global $db, $img, $file, $tags;
 
 		$cond = "";
 		$f = $db->query("SELECT id FROM ".PAGES_FEED_TABLE." WHERE sid='".$sid."'");
@@ -446,12 +449,14 @@ class ACP_Feeds_Feed {
 			# del tags
 			$tags->save_tags("", "feeditemid=".$fid['id']);
 			# cond
-			$cond .= (trim($cond) != "") ? " OR attachedto='feeditemid=".$fid['id']."' " :  " attachedto='feeditemid=".$fid['id']."' " ;
+			$cond = $db->qcond_or($cond);
+			$cond .= " attachedto='feeditemid=".$fid['id']."' " ;
 		}
 
 		# del attached images
 		if(trim($cond) != "") {
                 	$img->remove_images($cond, true);
+                	$file->remove_files($cond, true);
 		}
 
 		$db->query("DELETE FROM ".PAGES_FEED_TABLE." WHERE sid='".$sid."'");

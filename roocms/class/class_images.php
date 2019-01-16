@@ -244,7 +244,7 @@ class Images extends GD {
 
 
 	/**
-	 * Felete image
+	 * Delete image
 	 *
 	 * @param int|string $image - id or attachedto
 	 * @param boolean    $clwhere - type $image param

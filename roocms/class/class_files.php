@@ -241,9 +241,12 @@ class Files {
 	/**
 	 * Remove files from data base
 	 *
-	 * @param int|string $file - file identificator
+	 * @param int|string $file    - file identificator
+	 * @param boolean    $clwhere - type $file param
+	 * 				false for id or attachedto
+	 * 				true for another condition
 	 */
-	public function remove_files($file) {
+	public function remove_files($file, $clwhere=false) {
 
 		global $db;
 
@@ -252,6 +255,10 @@ class Files {
 		}
 		else {
 			$cond = " attachedto='".$file."' ";
+		}
+
+		if($clwhere) {
+			$cond = $image;
 		}
 
 		$q = $db->query("SELECT id, filename, fileext FROM ".FILES_TABLE." WHERE ".$cond);
