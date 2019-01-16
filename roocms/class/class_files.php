@@ -258,7 +258,7 @@ class Files {
 		}
 
 		if($clwhere) {
-			$cond = $image;
+			$cond = $file;
 		}
 
 		$q = $db->query("SELECT id, filename, fileext FROM ".FILES_TABLE." WHERE ".$cond);
