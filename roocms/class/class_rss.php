@@ -147,7 +147,7 @@ class RSS {
 
 		global $config, $structure, $parse;
 
-		if(!$structure->page_rss) {
+		if(!$structure->page_rss || !$config->rss_power) {
 			return;
 		}
 

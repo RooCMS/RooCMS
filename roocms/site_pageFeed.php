@@ -38,7 +38,7 @@ class PageFeed {
 	 */
 	public function __construct() {
 
-		global $get, $db, $structure, $parse, $smarty;
+		global $db, $structure, $config, $get, $parse, $smarty;
 
 		$feed           = [];
 		$feed['title'] 	= $structure->page_title;
@@ -55,7 +55,7 @@ class PageFeed {
 			$this->item_id = round($get->_id);
 			$this->load_item($this->item_id);
 		}
-		elseif(isset($get->_export) && $get->_export == "RSS" && $structure->page_rss) {
+		elseif(isset($get->_export) && $get->_export == "RSS" && $structure->page_rss && $config->rss_power) {
 			$this->load_feed_rss();
 		}
 		else {

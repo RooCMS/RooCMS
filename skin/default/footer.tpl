@@ -16,7 +16,7 @@
 												<div class="col-sm-6 col-md-4 col-lg-3 text-left">
 											{/if}
 											<a href="/index.php?page={$nitem['alias']}" class="btn btn-xs btn-link ptsans">{$nitem['title']}</a>
-											{if $nitem['rss'] == 1}
+											{if $nitem['rss'] == 1 && $config->rss_power}
 												<a href="/index.php?page={$nitem['alias']}&export=RSS" class="btn btn-xs btn-link ptsans" target="_blank" title="{$nitem['title']} RSS"><i class="fa fa-fw fa-rss"></i></a>
 											{/if}
 											<br />
