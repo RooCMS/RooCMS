@@ -60,7 +60,7 @@
 		<div class="col-xs-8 col-xs-offset-2 text-center visible-xs">
 			<h5>
 				{if $userdata['avatar'] != ""}<a href="{$SCRIPT_NAME}?part=ucp&act=ucp"><img src="/upload/images/{$userdata['avatar']}" height="70" class="img-circle mauth-avatar" alt="{$userdata['nickname']}"></a>{/if}
-				Здравствуйте, <a href="{$SCRIPT_NAME}?part=ucp&act=ucp">{if $userdata['user_sex'] != "n"}<i class="fa fa-fw fa-{if $userdata['user_sex'] != "m"}fe{/if}male"></i>{/if}{$userdata['nickname']}</a>
+				<a href="{$SCRIPT_NAME}?part=ucp&act=ucp">{if $userdata['user_sex'] != "n"}<i class="fa fa-fw fa-{if $userdata['user_sex'] != "m"}fe{/if}male"></i>{/if}{$userdata['nickname']}</a>
 				<a href="{$SCRIPT_NAME}?part=ucp&act=pm" class="btn btn-{if $pm == 0}default{else}success{/if} btn-xs"><i class="fa fa-fw fa-envelope-o"></i></a>
 				<a href="{$SCRIPT_NAME}?part=ucp&act=logout" class="btn btn-default btn-xs"><i class="fa fa-fw fa-sign-out"></i></a>
 			</h5>

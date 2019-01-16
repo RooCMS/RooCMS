@@ -240,12 +240,17 @@ a:hover > .feed-more-preview {
   border: 2px solid #3D4F61;
 }
 @media (max-width: 768px) {
-  .auth {
-    margin-top: 0;
+  .mauth-avatar {
+    height: 26px;
   }
+}
+@media (max-width: 512px) {
   .mauth-avatar {
     margin-top: 0;
-    height: 26px;
+    margin-right: 0;
+  }
+  .auth {
+    margin-top: 0;
   }
 }
 .ucp-user-nickname {
