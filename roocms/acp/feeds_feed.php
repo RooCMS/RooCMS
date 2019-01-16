@@ -378,13 +378,13 @@ class ACP_Feeds_Feed {
 	 * Change status to record feed
 	 *
 	 * @param int $id - record id
-	 * @param int $status - 1=show , 2=hide
+	 * @param int $status - 1=show , 0=hide
 	 */
 	public function change_item_status($id, $status = 1) {
 
 		global $db, $logger;
 
-		$status = filter_var($status, FILTER_VALIDATE_BOOLEAN);
+		$status = (int) filter_var($status, FILTER_VALIDATE_BOOLEAN);
 
 		# update data in db
 		$db->query("UPDATE ".PAGES_FEED_TABLE." SET status='".$status."' WHERE id='".$id."'");
@@ -603,7 +603,7 @@ class ACP_Feeds_Feed {
 		}
 
 		# status
-		$post->status = filter_var($post->status, FILTER_VALIDATE_BOOLEAN);
+		$post->status = (int) filter_var($post->status, FILTER_VALIDATE_BOOLEAN);
 	}
 
 

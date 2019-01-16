@@ -170,8 +170,8 @@ class Files {
 				$ext = array_pop($ffn);
 
 				# exception for tar.gz (TODO: !!!)
-				if($upfiles[$file]['ext'][$key] == "gz") {
-					$upfiles[$file]['ext'][$key] = "tar.gz";
+				if($ext == "gz") {
+					$ext = "tar.gz";
 				}
 
 				# Let's dance

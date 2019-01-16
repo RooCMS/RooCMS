@@ -665,7 +665,7 @@ class ACP_Users {
 		$post->gid = ($db->check_id($post->gid, USERS_GROUP_TABLE, "gid")) ? $post->gid : 0 ;
 
 		# status
-		$post->status = ($post->status == 1) ? 1 : 0 ;
+		$post->status = (int) filter_var($post->status, FILTER_VALIDATE_BOOLEAN);
 
 		# title
 		$post->title = ($post->title == "a") ? "a" : "u" ;

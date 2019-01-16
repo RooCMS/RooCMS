@@ -237,7 +237,7 @@ class ACP_Config extends ACP_ConfigAction {
 					break;
 
 				# boolean
-				case 'boolean':
+				case 'boolean': //TODO: $value = (int) filter_var($value, FILTER_VALIDATE_BOOLEAN);
 					if($value == "true" || $value == "false") {
 						$check = true;
 					}
