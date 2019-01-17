@@ -1,16 +1,23 @@
 <?php
 /**
- * Highlights a text by searching a word in it.
+ * Smarty plugin
+ *
+ * @package Smarty
+ * @subpackage PluginsModifier
+ * @author alex Roosso <http://www.roocms.com>
  */
-/*function smarty_modifier_highlight($text='', $word='')
-{
-	if(strlen($text) > 0 && strlen($word) > 0)
-	{
-		return preg_replace('/\b('.preg_quote($word).')\b/', '<mark>${1}</mark>', $text);
-	}
-	return($text);
-}*/
 
+
+/**
+ * Highlights a text by searching a word in it.
+ *
+ * ! add in your css mark object
+ *
+ * @param string $text - text fo handle
+ * @param string $word - highlight word
+ *
+ * @return string|string[]|null
+ */
 function smarty_modifier_highlight(&$text='', $word='') {
 
 	if($word) {

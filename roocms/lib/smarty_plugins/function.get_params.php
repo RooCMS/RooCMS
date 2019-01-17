@@ -22,7 +22,7 @@
  * @author Jambik <> idea and creations
  *         alex Roosso <http://www.roocms.com> - mod: added flag noentitys & modifications
  *
- * @param array                    $params   parameters
+ * @param array   $params   parameters
  * @return string
  */
 function smarty_function_get_params($params) {
