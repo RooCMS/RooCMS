@@ -267,9 +267,6 @@ class PageFeed {
 		$q = $db->query("SELECT id, title, date_publications FROM ".PAGES_FEED_TABLE." WHERE ".$cond." ORDER BY ".$order."");
 		while($row = $db->fetch_assoc($q)) {
 
-			$row['datepub'] = $parse->date->unix_to_rus($row['date_publications']);
-			$row['image']   = $img->load_images("feeditemid=".$row['id']."", 0, 1);
-
 			$res[$i] = $row;
 
 			if($row['id'] == $id) {
@@ -288,6 +285,12 @@ class PageFeed {
 
 			$i++;
 		}
+
+		foreach($data AS $k=>$v) {
+			$data[$k]['datepub'] = $parse->date->unix_to_rus($data[$k]['date_publications']);
+			$data[$k]['image'] = $img->load_images("feeditemid=".$data[$k]['id']."", 0, 1);
+		}
+		debug($data);
 
 		# return
 		return $data;
@@ -370,7 +373,9 @@ class PageFeed {
 			$qfeeds = $this->construct_child_feeds($structure->page_id, $showchilds);
 			foreach($qfeeds as $v) {
 				# query id's feeds collect
-				$cond .= " OR sid='".$v."' ";
+				if($structure->sitetree[$v]['access']) {
+					$cond .= " OR sid='".$v."' ";
+				}
 			}
 		}
 
@@ -379,19 +384,11 @@ class PageFeed {
 
 		# access condition
 		$accesscond = "";
-		foreach($structure->sitetree AS $value) {
-			if($value['access']) {
-				$accesscond = $db->qcond_or($accesscond);
-				$accesscond .= " sid='".$value['id']."' ";
-			}
-		}
-		$accesscond = "(".$accesscond.")";
-
 		if($users->title != "a") {
-			$accesscond .= " AND (group_access='0' OR group_access='".$users->gid."' OR group_access LIKE '%,".$users->gid.",%' OR group_access LIKE '".$users->gid.",%' OR group_access LIKE '%,".$users->gid."')";
+			$accesscond = " AND (group_access='0' OR group_access='".$users->gid."' OR group_access LIKE '%,".$users->gid.",%' OR group_access LIKE '".$users->gid.",%' OR group_access LIKE '%,".$users->gid."')";
 		}
 
-		$cond .= " AND ".$accesscond." AND (date_end_publications = '0' || date_end_publications > '".time()."') AND status='1' ";
+		$cond .= " ".$accesscond." AND (date_end_publications = '0' || date_end_publications > '".time()."') AND status='1' ";
 
 		# return
 		return $cond;
