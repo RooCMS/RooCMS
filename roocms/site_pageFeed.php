@@ -290,7 +290,7 @@ class PageFeed {
 			$data[$k]['datepub'] = $parse->date->unix_to_rus($data[$k]['date_publications']);
 			$data[$k]['image'] = $img->load_images("feeditemid=".$data[$k]['id']."", 0, 1);
 		}
-		debug($data);
+		//debug($data);
 
 		# return
 		return $data;
