@@ -164,7 +164,7 @@ class PageFeed {
 		$smarty->assign("attachfile", $attachfile);
 
 		# more items
-		$more = $this->rand_items($item);
+		$more = $this->rand_items($this->except_id($item));
 
 		# meta
 		if(trim($item['meta_title']) != "") {
@@ -305,21 +305,15 @@ class PageFeed {
 
 		global $db, $img, $parse;
 
-		# cond request
-		$cond = $this->feed_condition();
-
 		# add exceptions to condition
-		$cond .= " AND (id !='".$i['id']."'";
-
-		if(isset($i['prev']['id'])) {
-			$cond .= " AND id !='".$i['prev']['id']."'";
+		$exc = "";
+		foreach($i AS $k=>$v) {
+			$exc = $db->qcond_and($exc);
+			$exc .= " id != ".$v." ";
 		}
 
-		if(isset($i['next']['id'])) {
-			$cond .= " AND id !='".$i['next']['id']."'";
-		}
-
-		$cond .= " )";
+		# cond request
+		$cond = $this->feed_condition()." AND ".$exc." ";
 
 		$data = [];
 		$q = $db->query("SELECT id, title, date_publications FROM ".PAGES_FEED_TABLE." WHERE ".$cond." ORDER BY RAND() LIMIT 3"); // TODO: Избавиться от RAND!!!
@@ -335,41 +329,26 @@ class PageFeed {
 
 
 	/**
-	 * Функция возвращает массив идентификаторов лент, для условий запроса к БД, в случаях когда лента публикует элементы из дочерних лент.
+	 * Get exception ids
 	 *
-	 * @param int    $sid  - structure id
-	 * @param string $type - rule
+	 * @param array $data - info data for handle exception
 	 *
-	 * @return array - id's
+	 * @return array exception ids
 	 */
-	private function construct_child_feeds($sid, $type="default") {
+	private function except_id(array $data) {
 
-		global $structure;
+		$res = [];
+		$res[] = $data['id'];
 
-		$feeds = [];
-
-		$tfeeds = $structure->load_tree($sid, 0, false);
-		foreach((array)$tfeeds AS $v) {
-			if($v['page_type'] == "feed") {
-
-				$feeds[$v['id']] = $v['id'];
-
-				# default rule
-				if($type == "default" && $v['show_child_feeds'] != "none") {
-					$addfeeds = $this->construct_child_feeds($v['id'],$v['show_child_feeds']);
-					$feeds = array_merge($feeds, $addfeeds);
-				}
-
-				# force rule
-				if($type == "forced") {
-					$addfeeds = $this->construct_child_feeds($v['id'],$type);
-					$feeds = array_merge($feeds, $addfeeds);
-				}
-			}
+		if(isset($data['prev']['id'])) {
+			$res[] = $data['prev']['id'];
 		}
 
+		if(isset($data['next']['id'])) {
+			$res[] = $data['next']['id'];
+		}
 
-		return $feeds;
+		return $res;
 	}
 
 
@@ -420,7 +399,46 @@ class PageFeed {
 
 
 	/**
-	 * Функция формирует массив данных для постраничной навигации, который будет использован в шаблонах
+	 * Get feeds IDs for data request condition
+	 *
+	 * @param int    $sid  - structure id
+	 * @param string $type - rule
+	 *
+	 * @return array - id's
+	 */
+	private function construct_child_feeds($sid, $type="default") {
+
+		global $structure;
+
+		$feeds = [];
+
+		$tfeeds = $structure->load_tree($sid, 0, false);
+		foreach((array)$tfeeds AS $v) {
+			if($v['page_type'] == "feed") {
+
+				$feeds[$v['id']] = $v['id'];
+
+				# default rule
+				if($type == "default" && $v['show_child_feeds'] != "none") {
+					$addfeeds = $this->construct_child_feeds($v['id'],$v['show_child_feeds']);
+					$feeds = array_merge($feeds, $addfeeds);
+				}
+
+				# force rule
+				if($type == "forced") {
+					$addfeeds = $this->construct_child_feeds($v['id'],$type);
+					$feeds = array_merge($feeds, $addfeeds);
+				}
+			}
+		}
+
+
+		return $feeds;
+	}
+
+
+	/**
+	 * Array pagination
 	 *
 	 * @return array
 	 */
@@ -442,9 +460,7 @@ class PageFeed {
 			$pages[]['next'] =& $db->next_page;
 		}
 
-		# Указываем в титуле страницу
-		# Это можно было бы оставить на усмотрение верстальщиков. Но использование одинаковых титулов на целом ряде страниц неполезно для SEO
-		# (Есть небольшая вероятность, что этот момент будет исправлен и перенесен на усмотрение верстальщиков в шаблоны)
+		# add "page №" to meta title
 		if($db->page > 1) {
 			$site['title'] .= " (Страница: ".$db->page.")";
 		}

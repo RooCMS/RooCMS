@@ -96,7 +96,6 @@
 		</div>
 	</div>
 </div>
-
 {if !empty($navtree)}
 <div class="container-fluid navigation">
 	<div class="row">
@@ -149,5 +148,8 @@
 		</div>
 	</div>
 </div>
+<!--[if lte IE 9]>
+<p class="alert alert-danger">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/" rel="nofollow">upgrade your browser</a> to improve your experience and security.</p>
+<![endif]-->
 <div class="container">
 

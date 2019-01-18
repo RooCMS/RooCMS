@@ -187,20 +187,20 @@ class MySQLiDB {
 
 				# parse debug
 				$q = strtr($q, array(
-					'SELECT' 	=> '<b>SELECT</b>',
-					'INSERT' 	=> '<b>INSERT</b>',
-					'UPDATE' 	=> '<b>UPDATE</b>',
-					'DELETE' 	=> '<b>DELETE</b>',
-					'INTO' 		=> '<b>INTO</b>',
-					'FROM' 		=> '<b>FROM</b>',
-					'LEFT' 		=> '<b>LEFT</b>',
-					'JOIN' 		=> '<b>JOIN</b>',
-					'AS' 		=> '<b>AS</b>',
-					'ON' 		=> '<b>ON</b>',
-					'WHERE' 	=> '<b>WHERE</b>',
-					'ORDER' 	=> '<b>ORDER</b>',
-					'BY' 		=> '<b>BY</b>',
-					'LIMIT' 	=> '<b>LIMIT</b>'
+					'SELECT' => '<b>SELECT</b>',
+					'INSERT' => '<b>INSERT</b>',
+					'UPDATE' => '<b>UPDATE</b>',
+					'DELETE' => '<b>DELETE</b>',
+					'INTO'   => '<b>INTO</b>',
+					'FROM'   => '<b>FROM</b>',
+					'LEFT'   => '<b>LEFT</b>',
+					'JOIN' 	 => '<b>JOIN</b>',
+					'AS'     => '<b>AS</b>',
+					'ON'     => '<b>ON</b>',
+					'WHERE'  => '<b>WHERE</b>',
+					'ORDER'  => '<b>ORDER</b>',
+					'BY'     => '<b>BY</b>',
+					'LIMIT'  => '<b>LIMIT</b>'
 				));
 
 				$timequery = $finish-$start;
@@ -278,7 +278,6 @@ class MySQLiDB {
 	 * @return array  - Возвращает данные из БД в ввиде нумерованного массива
 	 */
 	public function fetch_row($q) {
-
 		if($this->connecting()) {
 			$result = $q->fetch_row();
 			return $result;
@@ -294,26 +293,9 @@ class MySQLiDB {
 	 * @return array|null  - Возвращает данные из БД в ввиде ассоциативного массива
 	 */
 	public function fetch_assoc($q) {
-
 		if($this->connecting()) {
 			$result = $q->fetch_assoc();
 			return $result;
-		}
-	}
-
-
-	/**
-	 * Преобразует результаты запроса в объект
-	 *
-	 * @param resource $q - Результат произведенного в БД запроса.
-	 *
-	 * @return object|null - Возвращает данные из БД в ввиде объекта
-	 */
-	public function fetch_object($q) {
-
-		if($this->connecting()) {
-			$obj = $q->fetch_object();
-			return $obj;
 		}
 	}
 
@@ -324,7 +306,6 @@ class MySQLiDB {
 	 * @return int Возвращает идентификатор
 	 */
 	public function insert_id() {
-
 		if($this->connecting()) {
 			$id = $this->sql->insert_id;
 			return $id;
@@ -385,7 +366,6 @@ class MySQLiDB {
 			$primcond = $this->qcond_or($primcond);
 			$primcond .= " ".$field."='".$value."' ";
 		}
-		$primcond = "(".$primcond.")";
 
 		# more proviso
 		if(trim($proviso) != "") {
@@ -397,7 +377,7 @@ class MySQLiDB {
 
 		# query
 		$data = [];
-		$q = $this->query("SELECT ".$field.", ".$pkey." FROM ".$table." WHERE ".$primcond.$proviso);
+		$q = $this->query("SELECT ".$field.", ".$pkey." FROM ".$table." WHERE (".$primcond.") ".$proviso);
 		while($row = $this->fetch_assoc($q)) {
 			$data[$row[$pkey]] = $row[$field];
 		}
@@ -465,18 +445,6 @@ class MySQLiDB {
 	 */
 	public function num_rows($q) {
 		return $q->num_rows;
-		//return mysqli_num_rows($q);
-	}
-
-
-	/**
-	 * Функция указывает какое кол-во строк были затронуты последним запросом
-	 * Работает только с Insert и Update
-	 *
-	 * @return int
-	 */
-	public function affected_rows() {
-		return $this->sql->affected_rows;
 	}
 
 
@@ -526,27 +494,7 @@ class MySQLiDB {
 
 
 	/**
-	 * ERRNO
-	 *
-	 * @param bool $error
-	 *
-	 * @return mixed
-	 */
-	public function errno($error=false) {
-		if(defined('INSTALL')) {
-			if($error) {
-				return $this->sql->error;
-			}
-			else {
-				return $this->sql->errno;
-			}
-		}
-
-	}
-
-
-	/**
-	 * Закрываем подключение к БД сайта
+	 * Disconnect DB
 	 *
 	 */
 	public function close() {
