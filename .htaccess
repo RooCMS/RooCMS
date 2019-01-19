@@ -331,6 +331,11 @@ AddCharset utf-8 .atom .css .js .json .rss .vtt .xml
 #	</Files>
 #</LocationMatch>
 
+#<Location "/server-status">
+#    SetHandler server-status
+#    Require host example.com
+#</Location>
+
 
 # Bad Rquest
 ErrorDocument 400 /index.php?page=e400

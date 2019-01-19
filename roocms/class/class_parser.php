@@ -129,7 +129,7 @@ class Parser {
 
 		$get = $this->check_array($_GET);
 
-		foreach ($get as $key=>$value) {
+		foreach($get as $key=>$value) {
 
 			# clear key
 			$key = "_".$key;
@@ -169,7 +169,7 @@ class Parser {
 		}
 
 		/**
-		 * Ex: ЧПУ fix
+		 * Ex: friendly URL fix
 		 */
 		if($this->uri == "" && isset($_SERVER['REDIRECT_QUERY_STRING']) && trim($_SERVER['REDIRECT_QUERY_STRING']) != "") {
 			$this->uri = "?".str_replace($_SERVER['SCRIPT_NAME'], "", $_SERVER['REDIRECT_QUERY_STRING']);
@@ -185,21 +185,19 @@ class Parser {
 	*/
 	private function parse_uri() {
 
-		# разбиваем
+		# explode uri
 		$gets = explode("/",$this->uri);
 
 		# calculate
 		$c = count($gets);
-		# если у нас чистый ури без левых примесей.
+		# if clear uri
 		if($c > 2 && trim($gets[0]) == "") {
 
 			# if detect frendly Url
 			$this->uri_chpu = true;
 
-			# перебираем
+			# handle
 			for($el=1;$el<=$c-1;$el++) {
-
-				# Если элемент строки не пустой
 				if(trim($gets[$el]) != "") {
 
 					$elp = $el + 1;
@@ -216,9 +214,9 @@ class Parser {
 
 
 	/**
-	 * transform uri if CHPU
+	 * transform uri if friendly URL
 	 *
-	 * @param string $url - URI строка
+	 * @param string $url - URI
 	 *
 	 * @return string $uri
 	 */
@@ -240,7 +238,7 @@ class Parser {
 
 		global $roocms, $db;
 
-		# Страницы
+		# pages
 		if(isset($this->get->_pg)) {
 			$db->page = floor($this->get->_pg);
 		}
@@ -271,7 +269,7 @@ class Parser {
 
 
 	/**
-	 * функция чистит ключи глобальных переменных
+	 * Clear keys from global vars
 	 *
 	 * @param string $string - имя ключа
 	 *
@@ -315,8 +313,7 @@ class Parser {
 
 
 	/**
-	 * Функиции проверки массивов на всякую лажу.
-	 * Только её надо развить, а то она ещё маленькая.
+	 * Check array & clear
 	 *
 	 * @param $array
 	 *
@@ -332,11 +329,11 @@ class Parser {
 				$arr[$key] = $subarr;
 			}
 			else {
-				# Чистим ключ
+				# clear key
 				$key	= str_replace("'","",$key);
 				$key 	= $this->escape_string($key);
 
-				# Чистим значение
+				# clear value
 				$value 	= $this->escape_string($value, false);
 
 				$arr[$key] = (trim($value) != "") ? $value : NULL ;
@@ -355,27 +352,27 @@ class Parser {
 
 		global $roocms, $debug;
 
-		# Уведомления
+		# Notice
 		if(isset($roocms->sess['info'])) {
 			foreach($roocms->sess['info'] AS $value) {
 				$this->info .= "<i class='fa fa-info-circle fa-fw'></i> {$value}<br />";
 			}
 
-			# уничтожаем
+			# kill
 			unset($_SESSION['info']);
 		}
 
-		# Ошибки
+		# Errors
 		if(isset($roocms->sess['error'])) {
 			foreach($roocms->sess['error'] AS $value) {
 				$this->error .= "<i class='fa fa-exclamation-triangle fa-fw'></i> {$value}<br />";
 			}
 
-			# уничтожаем
+			# kill
 			unset($_SESSION['error']);
 		}
 
-		# Критические ошибки в PHP
+		# Critical errors in PHP
 		if(!empty($debug->nophpextensions)) {
 			foreach($debug->nophpextensions AS $value) {
 				$this->error .= "<b><span class='fa fa-exclamation-triangle fa-fw'></span> КРИТИЧЕСКАЯ ОШИБКА:</b> Отсутсвует PHP расширение - {$value}. Работа RooCMS нестабильна!";
@@ -385,7 +382,7 @@ class Parser {
 
 
 	/**
-	 * Проверка на email на валидность
+	 * Validate email
 	 *
 	 * @param string $email - email
 	 *
@@ -401,14 +398,20 @@ class Parser {
 
 
 	/**
-	 * Проверка телефонного номера на валидность
-	 * Валидацию пройдут номера:
-	 *        Код страны с плюсом и без, без кода страны
-	 *        Код города от 3 до 5 символов в скобках и без скобок
-	 *        Номер телефона от 5 до 7 цифр
-	 *        Дефисы и пробелы учитываются, но не обязательны
+	 * Validate phone
 	 *
-	 * @param mixed $phone - номер введеного телефона
+	 * will be confirmed:
+	 *      Code country with plus and none
+	 *      Without code country
+	 *      City code from 3 to 5 num with hooks and without hook
+	 *      Phone number from 5 to 7 number
+	 *      special symbols (hyphen, spaces) counted but may be skipped
+	 * Example:
+	 *      +1 (5555) 555-55-55
+	 *      +1 5555 5555555
+	 *      55555555555
+	 *
+	 * @param mixed $phone - phone number
 	 *
 	 * @return bool
 	 */
@@ -422,10 +425,10 @@ class Parser {
 
 
 	/**
-	 * Вычисляем процент от числа
+	 * Get percent from N
 	 *
 	 * @param int $n    - %
-	 * @param int $from - Число из которого вычесляем %
+	 * @param int $from - number from which we calculate %
 	 *
 	 * @return float
 	 */
@@ -439,9 +442,9 @@ class Parser {
 
 
 	/**
-	 * Конвертируем hex color в decimal color
+	 * Convert hex color to decimal color
 	 *
-	 * @param string $hexcolor - Значение цвета в HEX. Example: #A9B7D3
+	 * @param string $hexcolor - color HEX. Example: #A9B7D3
 	 *
 	 * @return array|false
 	 */

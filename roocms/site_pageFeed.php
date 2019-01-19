@@ -240,11 +240,11 @@ class PageFeed {
 
 
 	/**
-	 * Функция собирает данные по предыдущему и следующим элементом
+	 * Get data for prev and next feed item
 	 *
-	 * @param int $id - Идентификатор текущего элемента
+	 * @param int $id - use feed item id
 	 *
-	 * @return array - массив данных с предыдущим и следующим элементами в ленте
+	 * @return array
 	 */
 	private function load_prevnext_item($id) {
 
