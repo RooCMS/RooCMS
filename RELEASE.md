@@ -39,3 +39,6 @@ Release information:
 	[fix] translate comments in code to english international
 	
 	[inf] test completed on MariaDB. Well done.
+	
+	[del] Prev/Next arrow in pagination
+		We sure that these arrows not needed by anyone. With large number of pages, it is enough to leave  person first two or three and last two or three pages, and adjacent ones.

@@ -196,17 +196,10 @@ class UI_Tags {
 		global $db, $structure;
 
 		$pages = [];
-		# prev
-		if($db->prev_page != 0) {
-			$pages[]['prev'] =& $db->prev_page;
-		}
+
 		# pages
 		for($p=1;$p<=$db->pages;$p++) {
 			$pages[]['n'] = $p;
-		}
-		# next
-		if($db->next_page > 1) {
-			$pages[]['next'] =& $db->next_page;
 		}
 
 		# Указываем в титуле страницу

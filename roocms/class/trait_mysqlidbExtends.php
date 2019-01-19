@@ -28,8 +28,6 @@ trait MySQLiDBExtends {
 	# pages param
 	public  $pages		= 0;	# [int]	Number of pages
 	public  $page		= 1;	# [int] Current page
-	public	$prev_page	= 0;	# [int] Prev page
-	public	$next_page	= 0;	# [int] Next page
 	public 	$limit		= 15;	# [int] Number of rows for query
 	public  $from		= 0;	# [int] Starting position for request
 
@@ -106,14 +104,6 @@ trait MySQLiDBExtends {
 		# Если у нас в строке запроса указана страница, больше максимальной...
 		if($this->page > $this->pages) {
 			$this->page = $this->pages;
-		}
-
-		# Prev and next page
-		if($this->page > 1) {
-			$this->prev_page = $this->page - 1;
-		}
-		if($this->page < $this->pages) {
-			$this->next_page = $this->page + 1;
 		}
 	}
 
