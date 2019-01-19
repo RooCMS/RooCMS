@@ -42,6 +42,7 @@ class PageHTML {
 
 		global $db, $structure, $parse, $files, $img, $tpl, $smarty;
 
+		# get data
 		$q = $db->query("SELECT content FROM ".PAGES_HTML_TABLE." WHERE sid='".$structure->page_id."'");
 		$data = $db->fetch_assoc($q);
 
@@ -49,14 +50,14 @@ class PageHTML {
 
 		# load attached images
 		$images = $img->load_images("pagesid=".$structure->page_id);
-		$smarty->assign("images", $images);
 
 		# load attached files
 		$attachfile = $files->load_files("pagesid=".$structure->page_id);
+
+		# tpl
+		$smarty->assign("images", $images);
 		$smarty->assign("attachfile", $attachfile);
-
 		$smarty->assign("content", $data['content']);
-
 		$tpl->load_template("page_html");
 	}
 }

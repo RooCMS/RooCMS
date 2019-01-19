@@ -27,11 +27,12 @@ if(!defined('RooCMS')) {
 class Blocks {
 
 	/**
-	* Загружаем блок
-	*
-	* @param int|string $buid - Алиас или идентификатор блока
-	* @return text $output  - возвращает код блока
-	*/
+	 * Load block
+	 *
+	 * @param int|string $buid - alias or id
+	 *
+	 * @return false|mixed|string $output
+	 */
 	public function load($buid) {
 
 		global $db, $parse, $files, $img, $smarty, $tpl;

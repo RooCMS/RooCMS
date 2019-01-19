@@ -21,13 +21,12 @@ if(!defined('RooCMS')) {
 
 
 /**
- * Генератор псевдослучайного кода.
- * Сколько не мучайся, это скотина все равно на случайность не смахивает.
+ * Generator random code
  *
- * @param int   $ns      - количество символов в коде
- * @param mixed $symbols - Символы из которых будет сгенерирован код
+ * @param int   $ns      - Num of characters in code
+ * @param mixed $symbols - Characters from which code will be generated
  *
- * @return string $Code  - Возвращает сгенерированный код
+ * @return string $Code
  */
 function randcode($ns, $symbols="ABCEFHKLMNPRSTVXYZ123456789") {
 
@@ -90,7 +89,7 @@ function sendmail($mail, $theme, $message, $from="robot") {
 }
 
 /**
- * мультибайтовая функция преобразования первого символа строки
+ * Mb transform first letter in string
  *
  * @param string $string
  *
@@ -101,40 +100,34 @@ function mb_ucfirst($string) {
 }
 
 /**
- * Переадресация
+ * Forwarding
  *
- * @param string $address - URL назначения
- * @param int    $code    - Код переадресации
+ * @param string $address - URL
+ * @param int    $code    - Code forwading
  */
 function go($address, $code=301) {
 
 	switch($code) {
-		# множественный выбор
 		case 300:
 			header($_SERVER['SERVER_PROTOCOL'].' 300 Multiple Choices');
 			break;
 
-		# перемещен временно
 		case 302:
 			header($_SERVER['SERVER_PROTOCOL'].' 302 Found');
 			break;
 
-		# GET на другой адрес
 		case 303:
 			header($_SERVER['SERVER_PROTOCOL'].' 303 See Other');
 			break;
 
-		# не изменялось
 		case 304:
 			header($_SERVER['SERVER_PROTOCOL'].' 304 Not Modified');
 			break;
 
-		# перемещен временно
 		case 307:
 			header($_SERVER['SERVER_PROTOCOL'].' 307 Temporary Redirect');
 			break;
 
-		# по умолчанию 301: перемещен навсегда
 		default:
 			header($_SERVER['SERVER_PROTOCOL'].' 301 Moved Permanently');
 			break;
@@ -170,7 +163,7 @@ function nocache() {
 }
 
 /**
- * Функция получает код ответа от удаленного адреса
+ * Get response code from remote URL
  *
  * @param string $url -  remote url
  *
@@ -182,11 +175,11 @@ function get_http_response_code($url) {
 }
 
 /**
- * Считываем файл
+ * Read data file
  *
- * @param string $file - полный пукть к файлу
+ * @param string $file - full path to file
  *
- * @return string - данные файла
+ * @return string - data from file
  */
 function file_read($file) {
 	$buffer = "";
