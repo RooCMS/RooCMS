@@ -53,15 +53,16 @@ ob_start("ob_gzhandler", 8);
 /**
 * Initialisation session settings
 */
-ini_set("session.use_trand_sid",	true);		#	Активируем сессию
-ini_set("session.gc_maxlifetime",	1440);		#	Устанавливаем время жизни сессии
-ini_set("session.cache_limiter", 	"nocache");	#	нет кешу в сессии
-ini_set("session.cache_expire", 	180);		#	Установим срок годности для сессии
-ini_set("session.name", 		"PHPSESSID");	#	Имя параметра с сессией
-//ini_set("session.save_handler",	"files");	#	Хранить значение сессиий в файлах (разкоментерийте, если испытываете трудности с настройками PHP по-умолчанию)
-//ini_set("session.save_path",		"tmp");		#	Путь сохранения файла сессии (разкоментируйте, если испытываете трудности с настройками PHP по-умолчанию)
+ini_set("session.use_trand_sid",	false);           #	Деактивируем "прозрачную" сессию
+ini_set("session.gc_maxlifetime",	1440);           #	Устанавливаем время жизни сессии
+ini_set("session.cache_limiter", 	"nocache");      #	нет кешу в сессии
+ini_set("session.cache_expire", 	180);            #	Установим срок годности для сессии
+ini_set("session.name", 		"RooCMSSESSID"); #	Имя параметра с сессией
+//ini_set("session.save_handler",	"files");        #	Хранить значение сессиий в файлах (разкоментерийте, если испытываете трудности с настройками PHP по-умолчанию)
+//ini_set("session.save_path",		"tmp");          #	Путь сохранения файла сессии (разкоментируйте, если испытываете трудности с настройками PHP по-умолчанию)
 //session_save_path("tmp");
 if(session_status() == 1) {
+	session_cache_limiter("nocache");
 	session_start();
 }
 
@@ -73,12 +74,12 @@ if(session_status() == 1) {
 *  - Печеньки захвачены, мой генерал!"
 * 				(с) Шутник
 */
-ini_set("session.use_cookie",			true);	#	Активируем "печеньки"
+ini_set("session.use_cookie",			true);   #	Активируем "печеньки"
 if(APACHE) {
-	ini_set("session.cookie_domain",	"");	#	Устанавливаем домен для "печенек"
-	ini_set("session.cookie_path",		"/");	#	Устанавливаем путь к "печенькам"
-	ini_set("session.cookie_secure",	"");	#	Секрет хороших "печенек"
-	ini_set("session.cookie_httponly",	true);	#	Секрет хороших "печенек"
+	ini_set("session.cookie_domain",	"");     #	Устанавливаем домен для "печенек"
+	ini_set("session.cookie_path",		"/");    #	Устанавливаем путь к "печенькам"
+	ini_set("session.cookie_secure",	true);   #	Секрет хороших "печенек"
+	ini_set("session.cookie_httponly",	true);   #	Секрет хороших "печенек"
 }
 //setcookie("", "", time()+3600);
 
