@@ -53,7 +53,7 @@ ob_start("ob_gzhandler", 8);
 /**
 * Initialisation session settings
 */
-ini_set("session.use_trand_sid",	false);           #	Деактивируем "прозрачную" сессию
+ini_set("session.use_trand_sid",	0);              #	Деактивируем "прозрачную" сессию
 ini_set("session.gc_maxlifetime",	1440);           #	Устанавливаем время жизни сессии
 ini_set("session.cache_limiter", 	"nocache");      #	нет кешу в сессии
 ini_set("session.cache_expire", 	180);            #	Установим срок годности для сессии
@@ -74,12 +74,12 @@ if(session_status() == 1) {
 *  - Печеньки захвачены, мой генерал!"
 * 				(с) Шутник
 */
-ini_set("session.use_cookie",			true);   #	Активируем "печеньки"
+ini_set("session.use_cookie",			1);      #	Активируем "печеньки"
 if(APACHE) {
 	ini_set("session.cookie_domain",	"");     #	Устанавливаем домен для "печенек"
 	ini_set("session.cookie_path",		"/");    #	Устанавливаем путь к "печенькам"
-	ini_set("session.cookie_secure",	true);   #	Секрет хороших "печенек"
-	ini_set("session.cookie_httponly",	true);   #	Секрет хороших "печенек"
+	ini_set("session.cookie_secure",	1);      #	Секрет хороших "печенек"
+	ini_set("session.cookie_httponly",	1);      #	Секрет хороших "печенек"
 }
 //setcookie("", "", time()+3600);
 
