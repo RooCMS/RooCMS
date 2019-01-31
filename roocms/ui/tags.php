@@ -137,8 +137,14 @@ class UI_Tags {
 		}
 		$scond = "(".$scond.")";
 
+		# access condition
+		$accesscond = "";
+		if($users->title != "a") {
+			$accesscond = " AND (group_access='0' OR group_access='".$users->gid."' OR group_access LIKE '%,".$users->gid.",%' OR group_access LIKE '".$users->gid.",%' OR group_access LIKE '%,".$users->gid."')";
+		}
+
 		# calculate pages
-		$db->pages_mysql(PAGES_FEED_TABLE, "date_publications <= '".time()."' AND ".$cond." AND ".$scond." AND (date_end_publications = '0' || date_end_publications > '".time()."') AND status='1'");
+		$db->pages_mysql(PAGES_FEED_TABLE, "date_publications <= '".time()."' AND ".$cond." AND ".$scond.$accesscond." AND (date_end_publications = '0' || date_end_publications > '".time()."') AND status='1'");
 
 		# get array pagination template array
 		$pages = $this->construct_pagination();
@@ -149,10 +155,11 @@ class UI_Tags {
 		$feeds    = [];
 		$cond = str_ireplace("id=", "fi.id=", $cond);
 		$scond = str_ireplace("sid=", "fi.sid=", $scond);
+		$accesscond = str_ireplace("group_", "fi.group_", $accesscond);
 		$q = $db->query("SELECT fi.id, fi.sid, fi.author_id, s.alias, s.title AS feed_title, fi.title, fi.brief_item, fi.date_publications, fi.views 
 					FROM ".PAGES_FEED_TABLE." AS fi
 					LEFT JOIN ".STRUCTURE_TABLE." AS s ON (s.id = fi.sid)
-					WHERE fi.date_publications <= '".time()."' AND ".$cond." AND ".$scond." AND (fi.date_end_publications = '0' || fi.date_end_publications > '".time()."') AND fi.status='1'
+					WHERE fi.date_publications <= '".time()."' AND ".$cond." AND ".$scond.$accesscond." AND (fi.date_end_publications = '0' || fi.date_end_publications > '".time()."') AND fi.status='1'
 					ORDER BY fi.date_publications DESC, fi.date_create DESC, fi.date_update DESC 
 					LIMIT ".$db->from.",".$db->limit);
 		while($row = $db->fetch_assoc($q)) {

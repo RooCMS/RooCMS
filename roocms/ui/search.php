@@ -81,10 +81,19 @@ class UI_Search {
 			$cond .= " (f.brief_item LIKE '%".$val."%' OR f.full_item LIKE '%".$val."%') ";
 		}
 
+		# access condition
+		$accesscond = "";
+		if($users->title != "a") {
+			$accesscond = " AND (f.group_access='0' OR f.group_access='".$users->gid."' OR f.group_access LIKE '%,".$users->gid.",%' OR f.group_access LIKE '".$users->gid.",%' OR f.group_access LIKE '%,".$users->gid."')";
+		}
+
 		$taglinks = [];
 		$authors  = [];
 		$result   = [];
-		$q = $db->query("SELECT f.id, f.author_id, f.title, f.brief_item, s.title AS feed_title, s.alias, f.date_publications, f.views FROM ".PAGES_FEED_TABLE." AS f LEFT JOIN ".STRUCTURE_TABLE." AS s ON (s.id = f.sid) WHERE (".$cond.") AND (".$condsid.") AND (f.date_end_publications = '0' || f.date_end_publications > '".time()."') AND f.status='1' AND date_publications <= '".time()."' ORDER BY f.date_publications DESC, f.views DESC");
+		$q = $db->query("SELECT f.id, f.author_id, f.title, f.brief_item, s.title AS feed_title, s.alias, f.date_publications, f.views 
+					FROM ".PAGES_FEED_TABLE." AS f 
+					LEFT JOIN ".STRUCTURE_TABLE." AS s ON (s.id = f.sid) 
+					WHERE (".$cond.") AND (".$condsid.") ".$accesscond." AND (f.date_end_publications = '0' || f.date_end_publications > '".time()."') AND f.status='1' AND date_publications <= '".time()."' ORDER BY f.date_publications DESC, f.views DESC");
 		while($row = $db->fetch_assoc($q)) {
 			$row['datepub']    = $parse->date->unix_to_rus($row['date_publications'],true);
 			$row['date']       = $parse->date->unix_to_rus_array($row['date_publications']);
