@@ -148,7 +148,7 @@ $sql['DROP '.PAGES_HTML_TABLE] = "DROP TABLE IF EXISTS `".PAGES_HTML_TABLE."`";
 $sql['CREATE'.PAGES_HTML_TABLE] = "CREATE TABLE IF NOT EXISTS `".PAGES_HTML_TABLE."` (
 					  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
 					  `sid` int(10) unsigned NOT NULL,
-					  `content` longtext NOT NULL,
+					  `content` longtext NOT NULL DEFAULT '',
 					  `date_modified` int(20) unsigned NOT NULL DEFAULT '0',
 					  PRIMARY KEY (`id`),
 					  UNIQUE KEY `id` (`id`),
@@ -166,7 +166,7 @@ $sql['DROP '.PAGES_PHP_TABLE] = "DROP TABLE IF EXISTS `".PAGES_PHP_TABLE."`";
 $sql['CREATE'.PAGES_PHP_TABLE] = "CREATE TABLE IF NOT EXISTS `".PAGES_PHP_TABLE."` (
 					  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
 					  `sid` int(10) unsigned NOT NULL,
-					  `content` longtext NOT NULL,
+					  `content` longtext NOT NULL DEFAULT '',
 					  `date_modified` int(20) unsigned NOT NULL DEFAULT '0',
 					  PRIMARY KEY (`id`),
 					  UNIQUE KEY `id` (`id`),

@@ -22,7 +22,7 @@ body {
   font-family: 'PT Sans', 'Ubuntu', 'Calibri', 'Trebuchet MS', 'Tahoma', 'Verdana' !important;
   color: #1B1E24;
   font-size: 12px;
-  background: #ede1cb url('./img/bgcp.jpg') repeat fixed top !important;
+  background: #F9F9F9 url('./img/bgcp.jpg') repeat fixed top !important;
   padding: 0;
   margin: 0;
   behavior: url("../csshover.htc") !important;
