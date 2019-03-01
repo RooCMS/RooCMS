@@ -405,7 +405,7 @@ class ACP_Feeds_Feed {
 	 */
 	public function delete_item($id) {
 
-		global $db, $logger, $img, $file, $tags;
+		global $db, $logger, $img, $files, $tags;
 
 		# get sid
 		$q = $db->query("SELECT sid FROM ".PAGES_FEED_TABLE." WHERE id='".$id."'");
@@ -415,7 +415,7 @@ class ACP_Feeds_Feed {
 		$img->remove_images("feeditemid=".$id);
 
 		# del attached files
-		$file->remove_files("feeditemid=".$id);
+		$files->remove_files("feeditemid=".$id);
 
 		# del tags
 		$tags->save_tags("", "feeditemid=".$id);
@@ -441,7 +441,7 @@ class ACP_Feeds_Feed {
 	 */
 	public function delete_feed($sid) {
 
-		global $db, $img, $file, $tags;
+		global $db, $img, $files, $tags;
 
 		$cond = "";
 		$f = $db->query("SELECT id FROM ".PAGES_FEED_TABLE." WHERE sid='".$sid."'");
@@ -456,7 +456,7 @@ class ACP_Feeds_Feed {
 		# del attached images
 		if(trim($cond) != "") {
                 	$img->remove_images($cond, true);
-                	$file->remove_files($cond, true);
+                	$files->remove_files($cond, true);
 		}
 
 		$db->query("DELETE FROM ".PAGES_FEED_TABLE." WHERE sid='".$sid."'");
