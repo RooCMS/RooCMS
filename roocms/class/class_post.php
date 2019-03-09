@@ -46,7 +46,7 @@ class Post {
 			$trace = debug_backtrace();
 			$pi = pathinfo($trace[0]['file']);
 
-			$logger->log("Попытка получить неопределенное свойство : ".$name." ; Источник: ".$pi['filename']." строка ".$trace[0]['line']);
+			$logger->error("Попытка получить неопределенное свойство : ".$name." ; Источник: ".$pi['filename']." строка ".$trace[0]['line']);
 		}
 
 		return null;

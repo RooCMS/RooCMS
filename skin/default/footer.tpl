@@ -9,20 +9,33 @@
 						<div class="row">
 							<div class="col-sm-8">
 								<div class="row">
-									<div class="col-sm-6 col-md-4 col-lg-3 text-left">
-										{foreach from=$navtree item=nitem key=k name=fnavigate}
-											{if $smarty.foreach.fnavigate.index % ($smarty.foreach.fnavigate.total/4)|ceil == 0 && !$smarty.foreach.fnavigate.first}
-												</div>
-												<div class="col-sm-6 col-md-4 col-lg-3 text-left">
+									{assign var=rows value=0}
+									{foreach from=$navtree item=nitem key=k name=navigate}
+										{if $nitem['level'] == 0}
+											{if !$smarty.foreach.navigate.first}</div>{/if}
+											{assign var=rows value=$rows+1}
+											{if $rows == 5}
+												{assign var=rows value=1}
+												</div><div class="row">
 											{/if}
+											<div class="col-md-3 col-xs-12 text-overflow">
 											<a href="/index.php?page={$nitem['alias']}" class="btn btn-xs btn-link ptsans">{$nitem['title']}</a>
-											{if $nitem['rss'] == 1 && $config->rss_power}
-												<a href="/index.php?page={$nitem['alias']}&export=RSS" class="btn btn-xs btn-link ptsans" target="_blank" title="{$nitem['title']} RSS"><i class="fa fa-fw fa-rss"></i></a>
-											{/if}
-											<br />
-										{/foreach}
-									</div>
+										{else}
+											<br /><a href="/index.php?page={$nitem['alias']}" class="btn btn-xs btn-link ptsans">{$nitem['title']}</a>
+										{/if}
+										{if $smarty.foreach.navigate.last}
+											</div>
+										{/if}
+									{/foreach}
 								</div>
+
+
+								{*
+								{if $nitem['rss'] == 1 && $config->rss_power}
+									<a href="/index.php?page={$nitem['alias']}&export=RSS" class="btn btn-xs btn-link ptsans" target="_blank" title="{$nitem['title']} RSS"><i class="fa fa-fw fa-rss"></i></a>
+								{/if}
+								*}
+
 							</div>
 							<div class="col-sm-4">
 								{if !isset($smarty.get.part)}
