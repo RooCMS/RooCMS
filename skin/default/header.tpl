@@ -35,7 +35,7 @@
 <link rel="alternate" type="application/rss+xml" title="{$site['title']}" href="{$rsslink}" />{/if}
 
 <!-- Style -->
-<link rel="stylesheet" type="text/css" href="{$SKIN}/style.min.css{$build}" media="screen" />
+<link rel="stylesheet" type="text/css" href="{$SKIN}/css/style.min.css{$build}" media="screen" />
 <link rel="stylesheet" type="text/css" href="plugin/fancybox/jquery.fancybox.min.css{$build}" media="screen" />
 
 <!-- JS -->
@@ -47,7 +47,7 @@
 <script type="text/javascript" src="plugin/fancybox/jquery.fancybox.min.js{$build}"></script>
 <script type="text/javascript" src="plugin/jquery.touchswipe.min.js{$build}"></script>
 <script type="text/javascript" src="plugin/bootstrap.php{$build}{if trim($build) != ""}&{else}?{/if}short"></script>
-<script type="text/javascript" src="{$SKIN}/roocms.min.js{$build}"></script>
+<script type="text/javascript" src="{$SKIN}/js/roocms.min.js{$build}"></script>
 
 {literal}
 <script type="text/javascript">

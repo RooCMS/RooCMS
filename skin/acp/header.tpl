@@ -21,7 +21,7 @@
 	<base href="{if trim($site['domain']) != ""}http{if isset($smarty.server.HTTPS)}s{/if}://{$site['domain']}{else}http{if isset($smarty.server.HTTPS)}s{/if}://{$smarty.server.SERVER_NAME}{/if}" /><!--[if IE]></base><![endif]-->
 
 <!-- Style -->
-<link rel="stylesheet" type="text/css" href="{$SKIN}/style.min.css{$build}" media="screen" />
+<link rel="stylesheet" type="text/css" href="{$SKIN}/css/style.min.css{$build}" media="screen" />
 <link rel="stylesheet" type="text/css" href="plugin/fancybox/jquery.fancybox.min.css{$build}" media="screen" />
 
 <!-- JS -->
@@ -33,8 +33,8 @@
 <script type="text/javascript" src="plugin/fancybox/jquery.fancybox.min.js{$build}"></script>
 <script type="text/javascript" src="plugin/jquery.touchswipe.min.js{$build}"></script>
 <script type="text/javascript" src="plugin/bootstrap.php{$build}"></script>
-<script type="text/javascript" src="{$SKIN}/roocms.min.js{$build}"></script>
-<script type="text/javascript" src="{$SKIN}/jquery.roocms.boolui.min.js{$build}"></script>
+<script type="text/javascript" src="{$SKIN}/js/roocms.min.js{$build}"></script>
+<script type="text/javascript" src="{$SKIN}/js/jquery.roocms.boolui.min.js{$build}"></script>
 
 {$jscript}
 

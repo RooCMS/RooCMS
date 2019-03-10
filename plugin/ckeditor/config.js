@@ -64,7 +64,7 @@ CKEDITOR.editorConfig = function( config ) {
 	// PARSER
 	// ANOTHER CONFIG
 
-	config.contentsCss = ['/skin/default/style.min.css',
+	config.contentsCss = ['/skin/default/css/style.min.css',
 		'/plugin/bootstrap/css/bootstrap.min.css',
 		'/plugin/bootstrap/css/bootstrap-select.min.css',
 		'/plugin/bootstrap/css/font-awesome.min.css'];

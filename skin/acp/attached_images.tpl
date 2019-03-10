@@ -1,6 +1,6 @@
 {* Attached Images Template *}
-<link rel="stylesheet" type="text/css" href="{$SKIN}/jquery-ui-1.10.3.custom.min.css" media="screen" />
-<script type="text/javascript" src="{$SKIN}/jquery-ui-1.10.3.custom.min.js"></script>
+<link rel="stylesheet" type="text/css" href="{$SKIN}/css/jquery-ui-1.10.3.custom.min.css" media="screen" />
+<script type="text/javascript" src="{$SKIN}/js/jquery-ui-1.10.3.custom.min.js"></script>
 
 <p class="attached-images">
 {foreach from=$attachimg item=img}
