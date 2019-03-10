@@ -1,5 +1,5 @@
-{literal}
 <style>
+	{literal}
 	body {overflow: hidden;background: transparent url('{/literal}{$SKIN}{literal}/img/bgcp_loginlow.jpg') !important;}
 	#bglogin {position: absolute;z-index: 1;top: 0;left: 0;right: 0;bottom: 0;background: transparent url('{/literal}{$SKIN}{literal}/img/bgcp_loginhigh.jpg') no-repeat 50% 50%;background-size: cover;}
 
@@ -8,9 +8,9 @@
 		from {opacity: 0;}
 		to {opacity: 1;}
 	}
-	.login {
+	#LoginForm {
 		animation-name: show;
-		animation-duration: 1s;
+		animation-duration: 1.25s;
 		animation-timing-function: cubic-bezier(0, 0, 0.18, 0.99);
 	}
 	{/literal}{else}{literal}
@@ -21,7 +21,7 @@
 		60% {left: 25px;}
 		80% {left: -25px;}
 	}
-	.login {
+	#LoginForm {
 		animation-name: error;
 		animation-duration: .5s;
 		animation-timing-function: linear;
@@ -29,14 +29,14 @@
 	{/literal}{/if}{literal}
 	.bg_login {background: transparent url('{/literal}{$SKIN}{literal}/img/bg_login.png') repeat 50% 50%;}
 	#LoginForm {border: 10px solid rgba(220,220,220,0.5);}
+	{/literal}
 </style>
-{/literal}
 
 <div id="bglogin">
 	<form method="post" class="form-horizontal" role="form">
 		<div class="modal show" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 			<div class="modal-dialog modal-login">
-        		<div class="modal-content login" id="LoginForm">
+        		<div class="modal-content" id="LoginForm">
 					<div class="modal-header text-center bg_login">
 						<a href="/" class="close" data-dismiss="modal" aria-hidden="true">×</a>
 						<img src="{$SKIN}/img/logo.png" border="0" alt="Добро пожаловать в Панель Администратора RooCMS" title="Добро пожаловать в Панель Администратора RooCMS">
@@ -78,5 +78,3 @@
 		</div>
 	</form>
 </div>
-
-
