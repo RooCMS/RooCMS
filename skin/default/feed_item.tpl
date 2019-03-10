@@ -43,7 +43,7 @@
 			<div class="text-center">
 				{assign var=UGID value= 700|rand:999}
 				{foreach from=$images item=img}
-					<a href="/upload/images/{$img['resize']}" data-fancybox="gallery{$UGID}" data-caption="{$img['alt']}" title="{if $img['alt'] != ""}{$img['alt']}{else}{$item['title']}{/if}"><img src="/upload/images/{$img['thumb']}" class="img-thumbnail" style="margin: 3px 0;" alt="{if $img['alt'] != ""}{$img['alt']}{else}{$item['title']}{/if}"></a>
+					<a href="/upload/images/{$img['resize']}" data-fancybox="gallery{$UGID}" data-animation-duration="300" data-caption="{$img['alt']}" title="{if $img['alt'] != ""}{$img['alt']}{else}{$item['title']}{/if}"><img src="/upload/images/{$img['thumb']}" class="img-thumbnail" style="margin: 3px 0;" alt="{if $img['alt'] != ""}{$img['alt']}{else}{$item['title']}{/if}"></a>
 				{/foreach}
 			</div>
 		{/if}

@@ -161,10 +161,10 @@ class GD {
 			$ns = $this->calc_resize($w, $h, $this->msize['w'], $this->msize['h']);
 
 			# Bring in memory blank image and original image for further work with them.
-			$resize 	= $this->imgcreatetruecolor($ns['new_width'], $ns['new_height'], $ext);
+			$resize  = $this->imgcreatetruecolor($ns['new_width'], $ns['new_height'], $ext);
 
-	        	$alpha 		= ($this->is_gifpng($ext)) ? 127 : 0 ;
-	        	$bgcolor 	= imagecolorallocatealpha($resize, $this->thumbbgcol['r'], $this->thumbbgcol['g'], $this->thumbbgcol['b'], $alpha);
+	        	$alpha   = ($this->is_gifpng($ext)) ? 127 : 0 ;
+	        	$bgcolor = imagecolorallocatealpha($resize, $this->thumbbgcol['r'], $this->thumbbgcol['g'], $this->thumbbgcol['b'], $alpha);
 
 	        	# alpha
 			if($this->is_gifpng($ext)) {

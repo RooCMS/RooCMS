@@ -20,6 +20,9 @@ if(!defined('RooCMS') || (!defined('ACP') && !defined('INSTALL'))) {
 //#########################################################
 
 
+/**
+ * Class ACP_Security
+ */
 class ACP_Security {
 
 	/**

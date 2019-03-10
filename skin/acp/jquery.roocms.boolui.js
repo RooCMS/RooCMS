@@ -10,7 +10,7 @@
  */
 
 (function($) {
-
+	"use strict";
 	var defaults = {
 		icon_on: 'fa-check-square-o',
 		icon_off: 'fa-square-o'
@@ -81,6 +81,6 @@
 /**
  * Lets begin
  */
-$(document).ready(function() {
+(function($) {
 	$(".roocms-boolui").roocmsboolui();
-});
+})(jQuery);

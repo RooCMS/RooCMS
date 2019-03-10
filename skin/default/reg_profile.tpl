@@ -123,7 +123,7 @@
 			<div class="row">
 				<div class="col-lg-8 col-md-offset-4">
 					{if $config->fl152_use}
-						<p class="small">Регистрируясь на сайте Вы соглашаетесь <nobr>с <a href="{$SCRIPT_NAME}?part=fl152&ajax=true" data-fancybox data-type="ajax"><b>условиями передачи информации</b></a></nobr></p>
+						<p class="small">Регистрируясь на сайте Вы соглашаетесь <nobr>с <a href="{$SCRIPT_NAME}?part=fl152&ajax=true" data-fancybox data-animation-duration="300" data-type="ajax"><b>условиями передачи информации</b></a></nobr></p>
 					{/if}
 					<input type="submit" name="join" class="btn btn-success btn-sm" value="Зарегистрироваться">
 				</div>

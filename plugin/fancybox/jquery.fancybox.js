@@ -74,7 +74,7 @@
       "zoom",
       //"share",
       "slideShow",
-      //"fullScreen",
+      "fullScreen",
       //"download",
       "thumbs",
       "close"
@@ -94,7 +94,7 @@
       //   true  - wait for image to load and then display;
       //   false - display thumbnail and load the full-sized image over top,
       //           requires predefined image dimensions (`data-width` and `data-height` attributes)
-      preload: false
+      preload: true
     },
 
     ajax: {

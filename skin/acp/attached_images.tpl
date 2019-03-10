@@ -5,7 +5,7 @@
 <p class="attached-images">
 {foreach from=$attachimg item=img}
 	<span class="thumbnail visible-inline hover-without-underline text-right" width="160" id="imga-{$img['id']}">
-		<a href="/upload/images/{$img['resize']}" data-fancybox="gallery" data-caption="{$img['alt']}"><img src="/upload/images/{$img['thumb']}" class="attach-img" id="aimage-{$img['id']}" alt="{$img['alt']}" rel="tooltip" title="{$img['alt']}" data-placement="top"></a>
+		<a href="/upload/images/{$img['resize']}" data-fancybox="gallery" data-animation-duration="300" data-caption="{$img['alt']}"><img src="/upload/images/{$img['thumb']}" class="attach-img" id="aimage-{$img['id']}" alt="{$img['alt']}" rel="tooltip" title="{$img['alt']}" data-placement="top"></a>
 		<input type="text" class="form-control input-sm input-alt-text" id="altimage-{$img['id']}" name="alt[{$img['id']}]" value="{$img['alt']}" placeholder="---">
 		<span class="btn btn-link btn-xs hover-without-underline op_attached_images pull-left handlesort"><i class="fa fa-fw fa-arrows"></i></span>
 		<span id="imgoption-{$img['id']}">

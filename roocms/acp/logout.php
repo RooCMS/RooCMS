@@ -26,6 +26,5 @@ $logger->log("Пользователь вышел из панели управл
 # logout
 session_destroy();
 
-
 # move
 go("/");

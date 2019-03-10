@@ -10,7 +10,7 @@
 				<form method="post" action="{$SCRIPT_NAME}?part=reg&act=expressreg">
 					<input type="text" class="form-control input-sm" name="email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{literal}{2,6}{/literal}$" required>
 					{if isset($config->fl152_use) && $config->fl152_use}
-						<p class="small text-center">Совершая подписку Вы соглашаетесь <nobr>с <a href="{$SCRIPT_NAME}?part=fl152&ajax=true" data-fancybox data-type="ajax"><b>условиями передачи информации</b></a></nobr></p>
+						<p class="small text-center">Совершая подписку Вы соглашаетесь <nobr>с <a href="{$SCRIPT_NAME}?part=fl152&ajax=true" data-fancybox data-animation-duration="300" data-type="ajax"><b>условиями передачи информации</b></a></nobr></p>
 					{/if}
 					<input type="submit" name="expressreg" class="btn btn-sm btn-default" value="Подписаться">
 				</form>

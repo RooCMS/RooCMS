@@ -1,4 +1,4 @@
-Version: 1.3.2
+Version: 1.4 alpha
 ========================
 **release date:	10.03.2019**
 
@@ -23,22 +23,14 @@ Plugins
 
 Release information:
 -------------
-	[add] switcher "show only nav elements" in structure acp
-	[add] add new module: last Feed
-	[add] add new module: Popular Feed
-	[add] add group access for feed item
+	[add] 
 	
-	[upd] update Fancybox 3.5.2 -> 3.5.6 
-	[upd] update Smarty 3.1.30 -> 3.1.33 
 	[upd] update CKEditor 4.8 -> 4.11.1 
 	[upd] update user interface (fixit bugs, update styles, update layot)
-	[upd] some tables in database change type MyISAM to InnoDB 
 	
 	[fix] fixit error
-	[fix] fixit bugs in Modules. Works on Modules continue.
 	[fix] translate comments in code to english international
 	
-	[inf] test completed on MariaDB. Well done.
+	[inf] 
 	
-	[del] Prev/Next arrow in pagination
-		We sure that these arrows not needed by anyone. With large number of pages, it is enough to leave  person first two or three and last two or three pages, and adjacent ones.
+	[del] 

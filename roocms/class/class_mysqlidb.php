@@ -103,11 +103,9 @@ class MySQLiDB {
 
 
 	/**
-	* Установка кодировок для соединения с БД
-	* Некоторые версии MySQL неправильно работают с кодировками.
-	* Эта функция помогает устранить ошибки в работе.
-	* Стоит помнить, что это все таки 3 запроса к БД на каждую страницу и вызов.
-	* Поэтому если БД работает стабильно, лучше выключить данную функцию.
+	* Set character encoding for DB connect
+	* Some versions of MySQL do not work correctly with encodings. This feature helps to eliminate errors in the work.
+	* It is worth remembering that these are all 3 queries to database. Therefore, if the database is stable, it is better to turn off this function.
 	*/
 	private function charset() {
 		if($this->sql->character_set_name() != "utf8") {
@@ -122,15 +120,15 @@ class MySQLiDB {
 
 
 	/**
-	* Парсер ошибок запросов к БД
-	* Функция используется для отладки запросов
+	* Parser error queries to database
+	* This function use for debugging
 	*
-	* @param string $q - Запрос осуществленный к БД
-	* @return string|null при влключенном режиме отладки вернет ошибку, иначе выведет общее сообщение на экран об ошибке
+	* @param string $q - query to db
+	* @return string|null when debug mode is on, will return an error, otherwise it will display a general error message on screen
 	*/
 	private function error($q = "") {
 
-		# режим отладки
+		# debug mode
 		if(DEBUGMODE && $q != "") {
 			$query = "<div style='padding: 5px;text-align: left;'><span style='font-family: Verdana, Tahoma; font-size: 12px;text-align: left;'>
 			Ошибка БД [MySQL Error]: <b>".$this->sql->errno."</b>
@@ -148,7 +146,7 @@ class MySQLiDB {
 
 			return $query;
 		}
-		# рабочий режим выводим заглушку
+		# stub
 		else {
 			return file_read(_SKIN."/db_error.tpl");
 		}
@@ -218,11 +216,11 @@ class MySQLiDB {
 
 
 	/**
-	* Функция вставляет данные из массива в указанную таблицу.
-	* Не рекомендуется использовать данную функцию в пользовательской части CMS
+	* The function inserts data from array into specified table.
+	* ! It is not recommended to use this function in user part of CMS.
 	*
-	* @param array $array  - Массива данных, где ключ это имя поля в таблице а значение данные этого поля.
-	* @param string $table - Название целевой таблицы.
+	* @param array $array  - Data array, where key is name of field in table and value is data of this field.
+	* @param string $table - Table name.
 	*/
 	public function insert_array(array $array, $table) {
 
@@ -247,12 +245,12 @@ class MySQLiDB {
 
 
 	/**
-	 * Функция обновляет данные из массива в указанную таблицу.
-	 * Не рекомендуется использовать данную функцию в пользовательской части CMS
+	 * The function updates data from array into specified table.
+	 * ! It is not recommended to use this function in user part of CMS.
 	 *
-	 * @param array $array    - Массив данных, где ключ это имя поля в таблице а значение данные этого поля.
-	 * @param string $table   - Название целевой таблицы.
-	 * @param string $proviso - Условие (фильтр) для отборо целевых строк таблицы
+	 * @param array $array    - Data array, where key is name of field in table and value is data of this field.
+	 * @param string $table   - Table name.
+	 * @param string $proviso - Condition (filter) for selecting target rows of table
 	 */
 	public function update_array(array $array, $table, $proviso) {
 
@@ -272,10 +270,10 @@ class MySQLiDB {
 
 
 	/**
-	 * Преобразует результаты запроса в простой массив
+	 * Converts query results to simple array.
 	 *
-	 * @param resource $q - Результат произведенного в БД запроса.
-	 * @return array  - Возвращает данные из БД в ввиде нумерованного массива
+	 * @param resource $q - result resource
+	 * @return array  - Returns data from database as numbered array.
 	 */
 	public function fetch_row($q) {
 		if($this->connecting()) {
@@ -286,11 +284,11 @@ class MySQLiDB {
 
 
 	/**
-	 * Преобразует результаты запроса в ассоциативный массив
+	 * Converts query results to associative array.
 	 *
-	 * @param resource $q - Результат произведенного в БД запроса.
+	 * @param resource $q - result resource
 	 *
-	 * @return array|null  - Возвращает данные из БД в ввиде ассоциативного массива
+	 * @return array|null  - Returns data from database as associative array
 	 */
 	public function fetch_assoc($q) {
 		if($this->connecting()) {
@@ -314,14 +312,14 @@ class MySQLiDB {
 
 
 	/**
-	 * Функция проверяет имеется ли запрашиваймый id.
+	 * The function checks if requested id is available.
 	 *
 	 * @param string      $id
-	 * @param string      $table   - таблица в которой проводится проверка
-	 * @param string      $field   - название поля таблицы содержащий идентификатор
-	 * @param string|null $proviso - Дополнительное условие (фильтр) для проверки
+	 * @param string      $table   - table name
+	 * @param string      $field   - field name
+	 * @param string|null $proviso - Additional condition (filter)
 	 *
-	 * @return int|boolean - Возвращает количество найденных строк, соответсвующих критериям или false в случае неудачи
+	 * @return int|boolean - Returns number of rows found that meet criteria or false in case of failure.
 	 */
 	public function check_id($id, $table, $field="id", $proviso=NULL) {
 
@@ -344,19 +342,18 @@ class MySQLiDB {
 
 
 	/**
-	 * Функция проверяет имеется ли список запрашиваемых id.
-	 * И возвращает ввиде массива список найденых или false
+	 * Function checks if there is list of requested id. And returns in form of array list of found or return false
 	 *
-	 * @param array       $ids     - массив с идентификаторами
-	 * @param string      $table   - таблица в которой проводится проверка
-	 * @param string      $field   - название поля таблицы содержащий идентификатор
-	 * @param string|null $proviso - Дополнительное условие (фильтр) для проверки
+	 * @param array       $ids     - array with ids
+	 * @param string      $table   - table target
+	 * @param string      $field   - name of table field containing identifier
+	 * @param string|null $proviso - Additional condition (filter)
 	 *
-	 * @return array $result  - Возвращает массив с подмассивом данных. Название подмассивая такое же как у проверяемого значения.
-	 *                          Подмассив содержит ключи: check булево с результатом проверки значения.
-	 *                          Ключ value будет содержать название проверяемого значения
-	 *                          Ключ id_title будет содержать название поля главного индекса таблицы с данными, в которой выполнялась проверка
-	 *                          Ключ id_value будет содержать значение главного индекса из строки которая обозначена как найденая.
+	 * @return array $result  - Returns array with data subarray. Name of  subarray is same as value being checked.
+	 *                          Subarray contains keys: "check" boolean with result of checking value.
+	 *                          Key "value" will contain name of value being checked
+	 *                          Key "id_title" will contain name of field of main index of table with  data in which check was performed
+	 *               	    Key "id_value" will contain value of main index from string which is indicated as found.
 	 */
 	public function check_array_ids(array $ids, $table, $field="id", $proviso=NULL) {
 
@@ -372,7 +369,7 @@ class MySQLiDB {
 			$proviso = " AND ".$proviso;
 		}
 
-		# Получаем primary key
+		# Get primary key
 		$pkey = $this->identy_primary_key($table);
 
 		# query
@@ -403,10 +400,10 @@ class MySQLiDB {
 
 
 	/**
-	 * Функция обработчик Count()
+	 * Function handler Count()
 	 *
-	 * @param string $from    - таблица где ведеться подсчет
-	 * @param string $proviso - условие для подсчета
+	 * @param string $from    - table where counting
+	 * @param string $proviso - counting condition
 	 *
 	 * @return int
 	 */
@@ -418,7 +415,7 @@ class MySQLiDB {
 		$query = "SELECT count(*) FROM ".$from." WHERE ".$proviso;
 		$rkey = md5($query);
 
-		# проверяем результат
+		# check result
 		$c = [];
 		if(!array_key_exists($rkey, $results)) {
 			# check in DB
@@ -451,8 +448,8 @@ class MySQLiDB {
 	/**
 	 * Clear system symbols for query
 	 *
-	 * @param string $q - запрос
-	 * @return string - возвращает строку запроса в бд вычещенной
+	 * @param string $q - query
+	 * @return string - returns query string in database cleared of extraneous characters
 	 */
 	public function escape_string($q) {
 
@@ -472,11 +469,11 @@ class MySQLiDB {
 
 
 	/**
-	 * Функция находит название главного ключа таблицы.
+	 * Function finds name of master key of table.
 	 *
-	 * @param string $table - имя таблицы БД
+	 * @param string $table - table name
 	 *
-	 * @return mixed|null - название столбца с главным ключом таблицы.
+	 * @return mixed|null - name of column with master key of table.
 	 */
 	private function identy_primary_key($table) {
 
