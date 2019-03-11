@@ -6,9 +6,9 @@
 		<div class="row align-items-center">
 			<div class="col-sm-3 text-left footer">
 				{if $exist_errors}
-					<a href="{$SCRIPT_NAME}?act=logs&part=lowerrors" class="btn btn-xs btn-danger"><i class='fa fa-exclamation-triangle fa-fw'></i> Обнаружены ошибки</a>
+					<a href="{$SCRIPT_NAME}?act=logs&part=lowerrors" class="btn btn-sm btn-outline-danger"><i class='fas fa-exclamation-triangle fa-fw'></i> Обнаружены ошибки</a>
 				{else}
-					{if $smarty.const.DEBUGMODE}<nobr><b class="text-warning t10"><i class="fa fa-exclamation-triangle"></i> Включен режим разработки!</b></nobr><br />{/if}
+					{if $smarty.const.DEBUGMODE}<span class="badge badge-warning"><i class="fas fa-exclamation-triangle"></i> Включен режим разработки!</span>{/if}
 				{/if}
 			</div>
 
@@ -38,10 +38,10 @@
 	<div class="container-fluid d-block d-md-none">
 		<div class="row">
 			<div class="col-sm-9 offset-sm-3 align-self-end" style="padding-top: 1rem;margin-bottom: -4rem;">
-				{if $smarty.const.DEBUGMODE}<nobr><b class="text-warning"><span class="fa fa-exclamation-triangle"></span> Включен режим разработки!</b></nobr><br />{/if}
+				{if $smarty.const.DEBUGMODE}<span class="badge badge-warning"><span class="fas fa-exclamation-triangle"></span> Включен режим разработки!</span>{/if}
 
 				{if $exist_errors}
-					<br /> <a href="{$SCRIPT_NAME}?act=logs&part=lowerrors" class="btn btn-xs btn-danger"><i class='fa fa-exclamation-triangle fa-fw'></i> Ошибки</a>
+					<br /> <a href="{$SCRIPT_NAME}?act=logs&part=lowerrors" class="btn btn-sm btn-outline-danger"><i class='fas fa-exclamation-triangle fa-fw'></i> Ошибки</a>
 				{/if}
 				<br />
 				<nobr>

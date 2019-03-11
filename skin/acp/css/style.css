@@ -71,15 +71,10 @@ input:required:valid {
 .logo-xs {
   max-width: 100%;
   padding: 10px 0;
+  margin-top: -1rem;
 }
 /* fix navbar collapse on sx screen*/
-.navbar-collapse {
-  max-height: none !important;
-}
-/* Submenu */
-.submenu-xs {
-  margin-bottom: 20px;
-}
+/*.navbar-collapse {max-height: none !important;}*/
 /* notice */
 @keyframes notice {
   from,
@@ -111,10 +106,9 @@ input:required:valid {
 .notice:hover {
   animation-play-state: paused;
 }
-/* footer */
-.footer {
-  line-height: 13px !important;
-  padding: 10px 0;
+/* submenu */
+.submenu.sticky-top {
+  top: 65px;
 }
 /* sup styles / restyle */
 .small,
@@ -396,34 +390,13 @@ h6 {
 .text-strike {
   text-decoration: line-through;
 }
-.none {
-  display: none;
-}
 .invis {
   position: absolute;
   left: -9999px;
 }
-.vtop {
-  vertical-align: top;
-}
-.vbottom {
-  vertical-align: bottom;
-}
-.vmiddle {
-  vertical-align: middle;
-}
 .no-overflow {
   overflow: hidden;
   text-overflow: ellipsis;
-}
-.relative {
-  position: relative;
-}
-.absolute {
-  position: absolute;
-}
-.fixed {
-  position: fixed;
 }
 .nobr {
   white-space: nowrap;
@@ -456,9 +429,6 @@ span.CodeMirror-matchhighlight {
 }
 .CodeMirror-focused span.CodeMirror-matchhighlight {
   background: #ccc !important;
-}
-.wbr {
-  word-break: break-all;
 }
 /* anti drag */
 body,

@@ -97,6 +97,7 @@ a {font-family: @ptsans, @ubuntu, @calibri, @tahoma, @trebuchet !important;}
 	transition: all 0.15s ease-in-out;-webkit-transition: all 0.15s ease-in-out;-moz-transition: all 0.15s ease-in-out;outline:none;
 }
 
+
 /* OTHER STYLE */
 input:focus:invalid {	/* transition: all 0.15s ease-in-out;-webkit-transition: all 0.15s ease-in-out;-moz-transition: all 0.15s ease-in-out;outline:none; */
 	-moz-box-shadow: 0 0 0 2px fadeout(@brand-danger, 60%); -webkit-box-shadow: 0 0 0 2px fadeout(@brand-danger, 60%);box-shadow: 0 0 0 2px fadeout(@brand-danger, 60%);
@@ -115,13 +116,10 @@ input:required:valid {background-image: none !important;}
 
 /* logo */
 #logo {max-height: 37px;margin-top: -8px;margin-bottom: -4px;}
-.logo-xs {max-width: 100%;padding: 10px 0;}
+.logo-xs {max-width: 100%;padding: 10px 0;margin-top: -1rem;}
 
 /* fix navbar collapse on sx screen*/
-.navbar-collapse {max-height: none !important;}
-
-/* Submenu */
-.submenu-xs {margin-bottom: 20px;}
+/*.navbar-collapse {max-height: none !important;}*/
 
 /* notice */
 @keyframes notice {
@@ -140,8 +138,11 @@ input:required:valid {background-image: none !important;}
 }
 .notice:hover {animation-play-state: paused;}
 
-/* footer */
-.footer {line-height: 13px !important;padding: 10px 0;}
+/* submenu */
+.submenu.sticky-top {
+	top: 65px;
+}
+
 
 /* sup styles / restyle */
 .small, small	{line-height: 12px;color: @middle-grey; font-size: 0.8rem;}
@@ -300,18 +301,9 @@ h1, h2, h3, h4, h5, h6 {padding: 0; margin: 0;font-weight: normal !important;fon
 
 .text-strike	{text-decoration:line-through;}
 
-.none		{display:none;}
 .invis		{position:absolute; left: -9999px;}
 
-.vtop 		{vertical-align: top;}
-.vbottom 	{vertical-align: bottom;}
-.vmiddle 	{vertical-align: middle;}
-
 .no-overflow	{overflow: hidden;text-overflow: ellipsis;}
-
-.relative 	{position: relative;}
-.absolute 	{position: absolute;}
-.fixed	  	{position: fixed;}
 
 .nobr		{
 	white-space: nowrap;
@@ -333,8 +325,6 @@ h1, h2, h3, h4, h5, h6 {padding: 0; margin: 0;font-weight: normal !important;fon
 span.CodeMirror-matchhighlight { background: @grey; }
 .CodeMirror-gutter { background: @cm-shadow !important; color: @middle-grey !important; }
 .CodeMirror-focused span.CodeMirror-matchhighlight { background: @grey !important; }
-
-.wbr {word-break: break-all;}
 
 /* anti drag */
 body, body.modal-open,

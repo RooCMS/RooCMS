@@ -1,13 +1,13 @@
 {* Разные предупреждения *}
-<div class="panel panel-default">
+<div class="card">
 
-	<div class="panel-heading">
+	<div class="card-header">
 		Сводка по сайту
 	</div>
 
-	<table class="table table-hover table-condensed">
+	<table class="table table-hover table-condensed mb-0">
 		{*<caption>Общая сводка</caption>*}
-		<thead>
+		<thead class="bg-light">
 		<tr class="active">
 			<th>Параметр</th>
 			<th>Значение</th>

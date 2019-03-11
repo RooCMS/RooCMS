@@ -26,12 +26,12 @@
 		//$(".collapse").collapse({hide: true});
 
 		/* Select */
-		if( /Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent) ) {
+		/*if( /Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent) ) {
 			$('.selectpicker').selectpicker('mobile');
 		}
 		else {
 			$('.selectpicker').selectpicker();
-		}
+		}*/
 
 		/* Datepicker */
 		/*$(".datepicker").datepicker({

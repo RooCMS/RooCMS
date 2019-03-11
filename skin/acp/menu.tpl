@@ -8,12 +8,10 @@
 
 <div class="navbar navbar-expand-sm navbar-dark bg-dark fixed-top" role="navigation">
 
-	<div class="navbar-header text-center">
-		<a class="navbar-brand d-none d-sm-block" href="{$SCRIPT_NAME}"><img src="{$SKIN}/img/logo_acp.png" border="0" id="logo"></a>
-		<button type="button" class="navbar-btn btn btn-primary btn-block d-block d-sm-none" data-toggle="collapse" data-target=".navbar-collapse">
-			Навигация
-		</button>
-	</div>
+	<a class="navbar-brand d-none d-sm-block" href="{$SCRIPT_NAME}"><img src="{$SKIN}/img/logo_acp.png" border="0" id="logo"></a>
+	<button type="button" class="btn btn-outline-light btn-block d-block d-sm-none" data-toggle="collapse" data-target=".navbar-collapse">
+		Навигация
+	</button>
 
 	<div class="collapse navbar-collapse">
 		<ul class="navbar-nav tshadow">

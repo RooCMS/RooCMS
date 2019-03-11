@@ -1,11 +1,11 @@
 {* Файлы и форматы *}
-<div class=" panel panel-default">
-	<div class="panel-heading">
+<div class="card">
+	<div class="card-header">
 		Информация о файлах
 	</div>
 
-	<table class="table table-hover table-condensed">
-		<thead>
+	<table class="table table-hover table-condensed mb-0">
+		<thead class="bg-light">
 		<tr class="active">
 			<th width="40%">Параметр</th>
 			<th width="60%">Значение</th>
@@ -24,7 +24,7 @@
 			<td>Разрешенные к загрузке форматы изображений:</td>
 			<td>
 				{foreach from=$filetypes['images'] item=type}
-					<span class="label label-primary">{if file_exists("skin/acp/img/icon/16/{$type['ico']}")}<img src="skin/acp/img/icon/16/{$type['ico']}" border="0" width="16" height="16" alt="{$type['mime_type']}" title="{$type['mime_type']}" rel="tooltip" title="{$type['mime_type']}" data-placement="top">{else}<span class="fa fa-file-image-o fa-fw" rel="tooltip" title="{$type['mime_type']}" data-placement="top"></span>{/if} {$type['ext']}</span>
+					<span class="badge badge-primary">{if file_exists("skin/acp/img/icon/16/{$type['ico']}")}<img src="skin/acp/img/icon/16/{$type['ico']}" border="0" width="16" height="16" alt="{$type['mime_type']}" title="{$type['mime_type']}" rel="tooltip" data-placement="top">{else}<span class="fas fa-file-image fa-fw fa-lg" rel="tooltip" title="{$type['mime_type']}" data-placement="top"></span>{/if} {$type['ext']}</span>
 				{/foreach}
 			</td>
 		</tr>
@@ -32,7 +32,7 @@
 			<td>Разрешенные к загрузке форматы файлов:</td>
 			<td>
 				{foreach from=$filetypes['files'] item=type}
-					<span class="label label-primary">{if file_exists("skin/acp/img/icon/16/{$type['ico']}")}<img src="skin/acp/img/icon/16/{$type['ico']}" border="0" width="16" height="16" alt="{$type['mime_type']}" title="{$type['mime_type']}" rel="tooltip" title="{$type['mime_type']}" data-placement="top">{else}<span class="fa fa-file-code-o fa-fw" rel="tooltip" title="{$type['mime_type']}" data-placement="top"></span>{/if} {$type['ext']}</span>
+					<span class="badge badge-primary">{if file_exists("skin/acp/img/icon/16/{$type['ico']}")}<img src="skin/acp/img/icon/16/{$type['ico']}" border="0" width="16" height="16" alt="{$type['mime_type']}" title="{$type['mime_type']}" rel="tooltip" data-placement="top">{else}<span class="fas fa-file-code fa-fw fa-lg" rel="tooltip" title="{$type['mime_type']}" data-placement="top"></span>{/if} {$type['ext']}</span>
 				{/foreach}
 			</td>
 		</tr>

@@ -1,18 +1,18 @@
 {* Информация о сервере *}
-<div class="panel panel-default">
-	<div class="panel-heading">
+<div class="card">
+	<div class="card-header">
 		Информация о сервере
 	</div>
 
-	<table class="table table-hover table-condensed">
-		<thead>
+	<table class="table table-hover table-condensed mb-0">
+		<thead class="bg-light">
 		<tr class="active">
 			<th>Параметр</th>
 			<th>Значение</th>
 		</tr>
 		</thead>
 		<tbody>
-		<tr> <td class="col-sm-4">Версия PHP:</td> <td class="col-sm-8">{$data1['php']}</td> </tr>
+		<tr> <td class="w-25">Версия PHP:</td> <td>{$data1['php']}</td> </tr>
 		<tr> <td>Версия Zend:</td> <td>{$data1['zend']}</td> </tr>
 		<tr> <td>Версия MySQL:</td> <td>{$data1['mysql']}</td> </tr>
 		<tr> <td>Версия RooCMS:</td> <td>{$data1['roocms']}</td> </tr>
@@ -28,16 +28,16 @@
 		<tr> <td>Максимально допустимое время исполнения скрипта:</td> <td>{$data1['met']} секунд</td> </tr>
 		<tr> <td>Корневая директория сайта:</td> <td>{$data1['docroot']}</td> </tr>
 		{if !empty($data1['apache_mods'])}
-			<tr> <td>Apache модули:</td> <td>{foreach from=$data1['apache_mods'] item=mods}<span class="badge">{$mods}</span> {/foreach}</td> </tr>
+			<tr> <td>Apache модули:</td> <td>{foreach from=$data1['apache_mods'] item=mods}<span class="badge badge-light">{$mods}</span> {/foreach}</td> </tr>
 		{/if}
 		</tbody>
 	</table>
 </div>
-<div class="panel panel-default">
-	<div class="panel-heading">Предопределённые переменные сервера</div>
-	<table class="table table-hover table-condensed">
-		<thead>
-		<tr class="active hidden-xs hidden-sm">
+<div class="card">
+	<div class="card-header">Предопределённые переменные сервера</div>
+	<table class="table table-hover table-condensed mb-0">
+		<thead class="bg-light">
+		<tr class="active">
 			<th>Параметр</th>
 			<th>Значение</th>
 		</tr>
@@ -45,8 +45,8 @@
 		<tbody>
 		{foreach from=$data2 item=svar}
 			<tr>
-				<td class="col-sm-4 hidden-xs hidden-sm">$_SERVER['{$svar['var']}']</td>
-				<td class="col-sm-8 breakword {if $svar['value'] == "not found"}text-muted{/if}"><span class="text-bold visible-xs visible-sm">$_SERVER['{$svar['var']}']</span>{$svar['value']}</td>
+				<td class="w-25">$_SERVER['{$svar['var']}']</td>
+				<td class="col-sm-8 breakword {if $svar['value'] == "not found"}text-muted{/if}">{$svar['value']}</td>
 			</tr>
 		{/foreach}
 		</tbody>

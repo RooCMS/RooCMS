@@ -1,10 +1,10 @@
 {* PHP Info *}
-<div class="panel panel-default">
-	<div class="panel-heading">
+<div class="card">
+	<div class="card-header">
 		PHP Info
 	</div>
 
-	<div class="panel-body">
+	<div class="card-body">
 		<div id="phpinfo" class="text-center table-responsive">
 			{$phpinfo}
 		</div>
@@ -13,7 +13,7 @@
 {literal}
 	<script>
 		$(document).ready(function() {
-			$("#phpinfo").find("table").removeAttr("width").addClass("table table-condensed text-left table-striped table-bordered table-hover");
+			$("#phpinfo").find("table").removeAttr("width").addClass("table table-condensed text-left table-striped table-bordered table-hover mb-0");
 		});
 	</script>
 {/literal}
