@@ -1,11 +1,6 @@
 @charset "utf-8";
 @media (min-width: 1575px) {
-	.container {min-width: 1575px;}
 	.modal-login {margin-top: 15% !important;}
-}
-
-@media (min-width: 1895px) {
-	.container {min-width: 1895px;}
 }
 
 // LESS Variables
@@ -64,7 +59,7 @@
 @kelsonsans:	'Kelson Sans';
 @firasans:	'Fira Sans';
 
-@body-fs:	12px;
+@body-fs:	15px;
 
 // inc
 @csshbehavior: url("../../csshover.htc") !important;
@@ -78,15 +73,17 @@
 
 
 /* СТИЛЬ ПАНЕЛИ АДМИНИСТРАТОРА */
+html {
+	font-size: @body-fs;
+}
 html, body {
 	font-family: @ptsans, @ubuntu, @calibri, @trebuchet, @tahoma, @verdana !important;
-	color: @black; font-size: @body-fs;
 	background: @roocms-bg url('../img/bgcp.jpg') repeat fixed top !important;
 	padding: 0; margin: 0;
 	behavior: @csshbehavior;
 	text-rendering: optimizeLegibility;
 }
-body {margin: 60px 0 !important;}
+body {margin: 65px 0 75px 0 !important;}
 img {behavior: @pngfbehavior;}
 
 
@@ -97,7 +94,7 @@ a {font-family: @ptsans, @ubuntu, @calibri, @tahoma, @trebuchet !important;}
 /* Transition */
 *:not([class^="fancybox"]), *:not([class^="fancybox"]):hover,
 .table-hover>tbody>tr:hover>td, .table-hover>tbody>tr:hover>th {
-	transition: all 0.20s ease-in-out;-webkit-transition: all 0.20s ease-in-out;-moz-transition: all 0.20s ease-in-out;outline:none;
+	transition: all 0.15s ease-in-out;-webkit-transition: all 0.15s ease-in-out;-moz-transition: all 0.15s ease-in-out;outline:none;
 }
 
 /* OTHER STYLE */
@@ -117,7 +114,7 @@ input:required:valid {background-image: none !important;}
 }
 
 /* logo */
-#logo {margin-top: -11px;}
+#logo {max-height: 37px;margin-top: -8px;margin-bottom: -4px;}
 .logo-xs {max-width: 100%;padding: 10px 0;}
 
 /* fix navbar collapse on sx screen*/
@@ -136,7 +133,7 @@ input:required:valid {background-image: none !important;}
 	70% {margin-right: 15px;opacity: 1;z-index: 100;}
 }
 .notice {
-	margin-top: 5px;position: fixed; z-index: -10;right: 5px; opacity: 0;
+	position: fixed; z-index: -10;right: 0; opacity: 0;
 	animation-name: notice;
 	animation-duration: 3.7s;
 	animation-timing-function: ease-in-out;
@@ -147,9 +144,9 @@ input:required:valid {background-image: none !important;}
 .footer {line-height: 13px !important;padding: 10px 0;}
 
 /* sup styles / restyle */
-.small, small	{line-height: 12px;color: @middle-grey; font-size: @body-fs - 1px;}
+.small, small	{line-height: 12px;color: @middle-grey; font-size: 0.8rem;}
 
-blockquote 	{font-size: @body-fs + 2px !important; .ptsans !important;}
+blockquote 	{font-size: 1.1rem; .ptsans !important;}
 code		{.ubuntu !important;}
 
 /* Hover */
@@ -273,17 +270,11 @@ blockquote.quote-danger > h5, blockquote.quote-danger > h6	{color: @brand-danger
 
 /* Titles */
 h1, h2, h3, h4, h5, h6 {padding: 0; margin: 0;font-weight: normal !important;font-family: @ubuntu, @ptsans !important;}
-h1 {font-size: @body-fs + (@body-fs/2);}
-h2 {font-size: @body-fs + (@body-fs/3);}
-h3 {font-size: @body-fs + (@body-fs/4);}
-h4 {font-size: @body-fs + (@body-fs/6);}
-h5 {font-size: @body-fs + (@body-fs/8);}
-h6 {font-size: @body-fs + (@body-fs/20);}
 
 /* Font sizes */
-.t10 {font-size: @body-fs - 2px;}
-.t12 {font-size: @body-fs;}
-.t14 {font-size: @body-fs + 2px;}
+.t10 {font-size: .7rem;}
+.t12 {font-size: .8rem;}
+.t14 {font-size: .9rem;}
 
 /* Black or white */
 .black {color: @black;}

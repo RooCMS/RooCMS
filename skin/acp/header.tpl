@@ -31,7 +31,7 @@
 <script type="text/javascript" src="plugin/jquery-core.min.js{$build}"></script>
 <script type="text/javascript" src="plugin/jquery-migrate.min.js{$build}"></script>
 <script type="text/javascript" src="plugin/fancybox/jquery.fancybox.min.js{$build}"></script>
-<script type="text/javascript" src="plugin/jquery.touchswipe.min.js{$build}"></script>
+{*<script type="text/javascript" src="plugin/jquery.touchswipe.min.js{$build}"></script>*}
 <script type="text/javascript" src="plugin/bootstrap.php{$build}"></script>
 <script type="text/javascript" src="{$SKIN}/js/roocms.min.js{$build}"></script>
 <script type="text/javascript" src="{$SKIN}/js/jquery.roocms.boolui.min.js{$build}"></script>
@@ -44,15 +44,33 @@
 {if isset($cpmenu)}{$cpmenu}{/if}
 
 {if trim($error) != ""}
-	<div class="alert alert-danger t12 text-left in fade notice" role="alert">
-		<button type="button" class="close" data-dismiss="alert">&times;</button>
-		{$error}
+	<div class="toast fade notice" role="alert" aria-live="assertive" aria-atomic="true">
+		<div class="toast-header">
+			{*<img src="..." class="rounded mr-2" alt="...">*}
+			<strong class="mr-auto">Error</strong>
+			<small>11 mins ago</small>
+			<button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+				<span aria-hidden="true">&times;</span>
+			</button>
+		</div>
+		<div class="toast-body">
+			{$error}
+		</div>
 	</div>
 {/if}
 {if trim($info) != ""}
-	<div class="alert alert-info t12 text-left in fade notice" role="alert">
-		<button type="button" class="close" data-dismiss="alert">&times;</button>
-		{$info}
+	<div class="toast fade notice" role="status" aria-live="polite" aria-atomic="true">
+		<div class="toast-header">
+			{*<img src="..." class="rounded mr-2" alt="...">*}
+			<strong class="mr-auto">Info</strong>
+			<small>11 mins ago</small>
+			<button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+				<span aria-hidden="true">&times;</span>
+			</button>
+		</div>
+		<div class="toast-body">
+			{$info}
+		</div>
 	</div>
 {/if}
 

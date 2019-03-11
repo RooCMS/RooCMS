@@ -20,6 +20,7 @@
 
 		$("[rel='tooltip']").tooltip();
 		$("[rel='popover']").popover();
+		$('.toast').toast();
 		$(".alert").alert();
 
 		//$(".collapse").collapse({hide: true});
@@ -33,41 +34,41 @@
 		}
 
 		/* Datepicker */
-		$(".datepicker").datepicker({
+		/*$(".datepicker").datepicker({
 			format: 'dd.mm.yyyy',
 			language: 'ru',
 			todayHighlight: true,
 			orientation: "bottom auto"
-		});
+		});*/
 
-		$(".datepicker-0d").datepicker({
+		/*$(".datepicker-0d").datepicker({
 			format: 'dd.mm.yyyy',
 			language: 'ru',
 			startDate: '0',
 			orientation: "bottom auto"
-		});
+		});*/
 
 		/* Colorpicker */
-		$(".colorpicker").colorpicker();
+		//$(".colorpicker").colorpicker();
 
 		/* Tags Input */
-		$(".tagsinput").tagsinput({
+		/*$(".tagsinput").tagsinput({
 			maxTags: 10,
 			trimValue: true
-		});
+		});*/
 
-		$(".addtag").click(function() {
+		/*$(".addtag").click(function() {
 			$("#inputTags").tagsinput('add', $(this).attr("value"));
-		});
+		});*/
 
-		$(".carousel").swipe({
+		/*$(".carousel").swipe({
 			swipe: function(event, direction, distance, duration, fingerCount, fingerData) {
 
 				if (direction === "left") $(this).carousel('next');
 				if (direction === "right") $(this).carousel('prev');
 			},
 			allowPageScroll:"vertical"
-		});
+		});*/
 
 		/* Feed eye */
 		$(".show-feed-element").hover(function() {

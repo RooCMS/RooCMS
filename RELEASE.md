@@ -1,6 +1,6 @@
 Version: 1.4 alpha
 ========================
-**release date:	10.03.2019**
+**release date:	11.03.2019**
 
 Plugins
 -------
@@ -25,7 +25,8 @@ Release information:
 -------------
 	[add] 
 	
-	[upd] update CKEditor 4.8 -> 4.11.1 
+	[upd] update Font Bootstrap 3.4 -> 4.3.1 
+	[upd] update Font Awesome 4.7 -> 5.7.2 
 	[upd] update user interface (fixit bugs, update styles, update layot)
 	
 	[fix] fixit error
