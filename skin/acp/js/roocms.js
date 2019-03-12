@@ -14,8 +14,7 @@
  */
 (function($) {
 	"use strict";
-	$(function(){
-
+	$(window).on('load', function() {
 		//$(".corner").corner("round 4px");
 
 		$("[rel='tooltip']").tooltip();
@@ -26,12 +25,12 @@
 		//$(".collapse").collapse({hide: true});
 
 		/* Select */
-		/*if( /Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent) ) {
+		if( /Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent) ) {
 			$('.selectpicker').selectpicker('mobile');
 		}
 		else {
 			$('.selectpicker').selectpicker();
-		}*/
+		}
 
 		/* Datepicker */
 		/*$(".datepicker").datepicker({
@@ -71,24 +70,24 @@
 		});*/
 
 		/* Feed eye */
-		$(".show-feed-element").hover(function() {
+		$(".show-feed-element").hover(function () {
 			var l = $(this).find(".fa");
 			l.removeClass("text-muted fa-eye-slash").addClass("text-info fa-eye");
-		}, function() {
+		}, function () {
 			var l = $(this).find(".fa");
 			l.removeClass("text-info fa-eye").addClass("text-muted fa-eye-slash");
 		});
 
-		$(".hide-feed-element").hover(function() {
+		$(".hide-feed-element").hover(function () {
 			var l = $(this).find(".fa");
 			l.removeClass("text-default fa-eye").addClass("text-danger fa-eye-slash");
-		}, function() {
+		}, function () {
 			var l = $(this).find(".fa");
 			l.removeClass("text-danger fa-eye-slash").addClass("text-default fa-eye");
 		});
 
 		/* Nav tree */
-		$(".nav-onoff").click(function() {
+		$(".nav-onoff").on('click', function () {
 			$(".nav-off").toggle();
 
 			/*var shstatus = $(this).find("input");

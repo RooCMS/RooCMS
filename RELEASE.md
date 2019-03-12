@@ -10,7 +10,7 @@ Plugins
 - jQuery-Migrate        `v3.0.0`
 - jQuery TouchSwipe     `v1.6.18`
 - Bootstrap             `v3.4`
-- Bootstrap Select      `v1.12.4`
+- Bootstrap Select      `v1.13.7`
 - Bootstrap Datepicker  `v1.6.4`
 - Bootstrap Colorpicker `v1`
 - Bootstrap TagsInput   `v0.8.0`
@@ -25,7 +25,8 @@ Release information:
 -------------
 	[add] 
 	
-	[upd] update Font Bootstrap 3.4 -> 4.3.1 
+	[upd] update Bootstrap 3.4 -> 4.3.1 
+	[upd] update Bootstrap Select 1.12.4 -> 1.13.7 
 	[upd] update Font Awesome 4.7 -> 5.7.2 
 	[upd] update user interface (fixit bugs, update styles, update layot)
 	

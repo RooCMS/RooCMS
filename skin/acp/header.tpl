@@ -9,6 +9,7 @@
 <meta name="Author" 			content="alex Roosso @ {$site['domain']}" lang="ru" />
 <meta name="Copyright" 			content="RooCMS @ {$site['domain']}" lang="ru" />
 <meta name="viewport" 			content="width=device-width, initial-scale=1.0">
+<meta name="theme-color"		content="#3D4F61">
 <meta http-equiv="Content-Type" 	content="{$charset}" />
 <meta http-equiv="Content-language"	content="ru" />
 <meta http-equiv="Pragma" 		content="no-cache" />
@@ -22,8 +23,9 @@
 
 <!-- Style -->
 <link rel="stylesheet" type="text/css" href="plugin/fancybox/jquery.fancybox.min.css{$build}" media="screen" />
-<link rel="stylesheet" type="text/css" href="/plugin/bootstrap/css/fa.min.css" media="screen" />
+<link rel="stylesheet" type="text/css" href="/plugin/font-awesome/css/font-awesome.min.css" media="screen" />
 <link rel="stylesheet" type="text/css" href="/plugin/bootstrap/css/bootstrap.min.css" media="screen" />
+<link rel="stylesheet" type="text/css" href="/plugin/bootstrap-select/css/bootstrap-select.min.css" media="screen" />
 <link rel="stylesheet" type="text/css" href="{$SKIN}/css/style.min.css{$build}" media="screen" />
 
 <!-- JS -->
@@ -34,7 +36,10 @@
 <script type="text/javascript" src="plugin/jquery-migrate.min.js{$build}"></script>
 <script type="text/javascript" src="plugin/fancybox/jquery.fancybox.min.js{$build}"></script>
 {*<script type="text/javascript" src="plugin/jquery.touchswipe.min.js{$build}"></script>*}
-<script type="text/javascript" src="plugin/bootstrap.php{$build}"></script>
+{*<script type="text/javascript" src="plugin/bootstrap.php{$build}"></script>*}
+<script type="text/javascript" src="/plugin/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script type="text/javascript" src="/plugin/bootstrap-select/js/bootstrap-select.min.js"></script>
+<script type="text/javascript" src="/plugin/bootstrap-select/js/i18n/defaults-ru_RU.min.js"></script>
 <script type="text/javascript" src="{$SKIN}/js/roocms.min.js{$build}"></script>
 <script type="text/javascript" src="{$SKIN}/js/jquery.roocms.boolui.min.js{$build}"></script>
 

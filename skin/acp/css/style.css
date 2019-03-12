@@ -47,9 +47,9 @@ a[class^="nav"]:hover,
 /* OTHER STYLE */
 input:focus:invalid {
   /* transition: all 0.15s ease-in-out;-webkit-transition: all 0.15s ease-in-out;-moz-transition: all 0.15s ease-in-out;outline:none; */
-  -moz-box-shadow: 0 0 0 2px rgba(198, 13, 20, 0.4);
-  -webkit-box-shadow: 0 0 0 2px rgba(198, 13, 20, 0.4);
-  box-shadow: 0 0 0 2px rgba(198, 13, 20, 0.4);
+  -moz-box-shadow: 0 0 0 0.2rem rgba(198, 13, 20, 0.4);
+  -webkit-box-shadow: 0 0 0 0.2rem rgba(198, 13, 20, 0.4);
+  box-shadow: 0 0 0 0.2rem rgba(198, 13, 20, 0.4);
   border: 1px solid #C60D14;
   background: #fff url(../img/required.png) no-repeat right top !important;
 }
@@ -354,9 +354,7 @@ h6 {
   font-family: 'Ubuntu', 'PT Sans' !important;
 }
 /* Font sizes */
-.t10 {
-  font-size: 0.7rem;
-}
+/*.t10 {font-size: .7rem;}*/
 .t12 {
   font-size: 0.8rem;
 }
@@ -399,10 +397,7 @@ h6 {
 .text-strike {
   text-decoration: line-through;
 }
-.invis {
-  position: absolute;
-  left: -9999px;
-}
+/*.invis	{position:absolute; left: -9999px;}*/
 .no-overflow {
   overflow: hidden;
   text-overflow: ellipsis;

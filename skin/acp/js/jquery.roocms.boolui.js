@@ -12,8 +12,8 @@
 (function($) {
 	"use strict";
 	var defaults = {
-		icon_on: 'fa-check-square-o',
-		icon_off: 'fa-square-o'
+		icon_on: 'fa-check-square',
+		icon_off: 'fa-square'
 	};
 
 	var methods = {
@@ -21,12 +21,14 @@
 
 			// settings
 			var settings = $.extend({}, defaults, options);
+			var findels  = $('.fas, .far, .fal');
 
-			return this.each(function() {
+			return $(this).each(function() {
+
 				$(this).children("label").each(function() {
 
 					var labelstatus = ($(this).hasClass("active")) ? true : false ;
-					var buttonicon = $(this).find(".fa");
+					var buttonicon = $(this).find(findels);
 
 					if(labelstatus) {
 						buttonicon.removeClass(settings.icon_off).addClass(settings.icon_on);
@@ -34,20 +36,22 @@
 					else {
 						buttonicon.removeClass(settings.icon_on).addClass(settings.icon_off);
 					}
-				}).click(function(){
+				}).on('click', function() {
+
 					$(this).parent().each(function() {
-						var buttonicon = $(this).find(".fa");
+						var buttonicon = $(this).find(findels);
 						var inputtype = $(this).find("input");
 						if(inputtype.is(":radio")) {
 							buttonicon.removeClass(settings.icon_on).addClass(settings.icon_off);
 						}
 					});
 
-					var tbuttonicon = $(this).find(".fa");
+					var tbuttonicon = $(this).find(findels);
 					var tinputtype = $(this).find("input");
 
 					if(tinputtype.is(":radio")) {
 						tbuttonicon.removeClass(settings.icon_off).addClass(settings.icon_on);
+
 					}
 
 					if(tinputtype.is(":checkbox")) {
@@ -82,5 +86,7 @@
  * Lets begin
  */
 (function($) {
-	$(".roocms-boolui").roocmsboolui();
+	$(window).on('load', function() {
+		$(".roocms-boolui").roocmsboolui();
+	});
 })(jQuery);
