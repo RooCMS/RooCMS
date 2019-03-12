@@ -71,7 +71,7 @@ class Template {
 		$smarty->assign("config", $config);
 
 		# copyright text
-		$smarty->assign("copyright", "<a href=\"http://www.roocms.com/\">RooCMS</a> &copy; 2010-".date("Y"));
+		$smarty->assign("copyright", "<a href=\"http://www.roocms.com/\" class=\"btn btn-link\">RooCMS</a> &copy; 2010-".date("Y"));
 	}
 
 

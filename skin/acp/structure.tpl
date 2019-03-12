@@ -1,33 +1,32 @@
 {* Шаблон управления структурой сайта *}
 <div class="col-sm-3 col-md-2">
-	<div class="row hidden-xs">
-		<div class="panel panel-default">
-
-			<div class="panel-heading visible-lg">
-				Управление структурой сайта
-			</div>
-			<div class="list-group">
-				<a href="{$SCRIPT_NAME}?act=structure&part=create" class="list-group-item{if isset($smarty.get.part) && $smarty.get.part == "create"} active{/if}"><span class="fa fa-fw fa-plus-circle"></span> Создать страницу</a>
+	<div class="card d-none d-sm-block submenu sticky-top">
+		<div class="card-header d-none d-lg-block">
+			Управление структурой
+		</div>
+		<div class="list-group">
+			<a href="{$SCRIPT_NAME}?act=structure&part=create" class="list-group-item list-group-item-action text-decoration-none{if isset($smarty.get.part) && $smarty.get.part == "create"} active{/if}"><span class="fas fa-fw fa-plus-circle"></span> Создать страницу</a>
+		</div>
+		{if !isset($smarty.get.part)}
+		<div class="card-footer d-none d-md-block text-center">
+			<div class="custom-control custom-switch">
+				<input type="checkbox" name="showoptions" class="custom-control-input nav-onoff" value="0" id="show_onlynav" >
+				<label class="custom-control-label" for="show_onlynav">Показывать только навигацию</label>
 			</div>
 		</div>
+		{/if}
 	</div>
-	{if !isset($smarty.get.part)}
-	<div class="row hidden-xs text-center">
-		<p class="text-primary text-bold">Показать только:</p>
-		<div class="btn-group roocms-boolui nav-onoff" data-toggle="buttons">
-			<label class="btn btn-xs btn-default">
-				<input type="checkbox" name="showoptions" value="0" id="show_onlynav" checked><span class="text-info"><i class="fa fa-fw fa-check-square-o"></i>Навигацию</span>
-			</label>
-		</div>
-	</div>
-	{/if}
 
-	<div class="btn-group btn-group-sm btn-group-justified visible-xs submenu-xs">
-		<a href="{$SCRIPT_NAME}?act=structure&part=create" class="btn btn-default {if isset($smarty.get.part) && $smarty.get.part == "create"} active{/if}"><span class="fa fa-fw fa-plus-circle"></span> Создать страницу</a>
+	<div class="row justify-content-center mb-3">
+		<div class="col-auto">
+			<div class="btn-group btn-group-sm d-block d-sm-none">
+				<a href="{$SCRIPT_NAME}?act=structure&part=create" class="btn btn-outline-primary{if isset($smarty.get.part) && $smarty.get.part == "create"} active{/if}"><span class="fa fa-fw fa-plus-circle"></span> Создать страницу</a>
+			</div>
+		</div>
 	</div>
 </div>
 <div class="col-sm-9 col-md-10">
-	<div class="panel panel-default">
+	<div class="card">
 		{$content}
 	</div>
 </div>

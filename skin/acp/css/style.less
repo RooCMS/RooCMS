@@ -92,9 +92,14 @@ a {font-family: @ptsans, @ubuntu, @calibri, @tahoma, @trebuchet !important;}
 
 
 /* Transition */
-*:not([class^="fancybox"]), *:not([class^="fancybox"]):hover,
-.table-hover>tbody>tr:hover>td, .table-hover>tbody>tr:hover>th {
-	transition: all 0.15s ease-in-out;-webkit-transition: all 0.15s ease-in-out;-moz-transition: all 0.15s ease-in-out;outline:none;
+/**:not([class^="fancybox"]):not([class^="tooltip"]),
+*:not([class^="fancybox"]):hover:not([class^="tooltip"]):hover,*/
+a[class^="nav"],
+a[class^="nav"]:hover,
+.table-hover tbody tr:hover,
+.table-hover tbody tr:hover td,
+.table-hover tbody tr:hover th {
+	transition: all 0.16s ease-in-out;-webkit-transition: all 0.16s ease-in-out;-moz-transition: all 0.16s ease-in-out;outline:none;
 }
 
 
@@ -145,20 +150,20 @@ input:required:valid {background-image: none !important;}
 
 
 /* sup styles / restyle */
-.small, small	{line-height: 12px;color: @middle-grey; font-size: 0.8rem;}
+.small, small	{color: @middle-grey;}
 
 blockquote 	{font-size: 1.1rem; .ptsans !important;}
 code		{.ubuntu !important;}
 
 /* Hover */
-.hover-without-underline:hover	{text-decoration: none !important;}
+/*.hover-without-underline:hover	{text-decoration: none !important;}*/
 .hover-cursor			{cursor: pointer;}
 
 /* Outline */
 a:focus, a:active, .btn {outline: none !important;}
 
 /* visible style */
-.visible-inline {display: inline-block !important;}
+/*.visible-inline {display: inline-block !important;}*/
 
 /* install */
 .progress.pb0 {margin-bottom: 0 !important;}
@@ -220,7 +225,7 @@ p.attach_files {padding: 8px 8px;}
 tr .tralias {display: none; .trinfo;}
 tr:hover .tralias {display: block;}
 
-.table-hover>tbody>tr:hover .structure-highlight {color: @brand-primary}
+.table-hover>tbody>tr:hover .text-muted {color: @brand-primary !important;}
 
 /* ckeditor styles */
 .cked {overflow-x: hidden;}
@@ -257,6 +262,19 @@ blockquote.quote-warning > h5, blockquote.quote-warning > h6	{color: @brand-warn
 blockquote.quote-danger > h1, blockquote.quote-danger > h2,
 blockquote.quote-danger > h3, blockquote.quote-danger > h4,
 blockquote.quote-danger > h5, blockquote.quote-danger > h6	{color: @brand-danger;}
+
+/* Correct BS */
+.card>.list-group>.list-group-item {
+	border-left: 0;
+	border-right: 0;
+}
+.card>.list-group>.list-group-item:first-child {
+	border-radius: 0;
+}
+.custom-control-label::after {
+	top: .25rem;
+	left: -2.1rem;
+}
 
 /*Fonts*/
 .tahoma		{font-family: @tahoma;}

@@ -1,7 +1,7 @@
 {* Шаблон главной страницы Панели Администратора *}
 <div class="col-sm-3 col-md-2">
 	<div class="card d-none d-sm-block submenu sticky-top">
-		<div class="card-header">
+		<div class="card-header d-none d-lg-block">
 			Системная информация
 		</div>
 		<div class="list-group">

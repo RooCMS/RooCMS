@@ -17,8 +17,6 @@ header('Content-transfer-encoding: binary\n');
 header('Accept-Ranges: bytes');
 ob_start("ob_gzhandler", 9);
 ?>
-//document.write('<link href="/plugin/bootstrap/css/fa.min.css" rel="stylesheet">');
-document.write('<link href="/plugin/bootstrap/css/bootstrap.min.css" rel="stylesheet">');
 //document.write('<link href="/plugin/bootstrap/css/bs3extend.min.css" rel="stylesheet">');
 //document.write('<link href="/plugin/bootstrap/css/bootstrap-select.min.css" rel="stylesheet">');
 //document.write('<link href="/plugin/bootstrap/css/bootstrap-datepicker.min.css" rel="stylesheet">');
