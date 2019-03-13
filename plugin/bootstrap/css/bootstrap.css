@@ -208,7 +208,7 @@ table {
 caption {
   padding-top: 0.75rem;
   padding-bottom: 0.75rem;
-  color: #6c757d;
+  color: #ced4da;
   text-align: left;
   caption-side: bottom;
 }
@@ -1959,7 +1959,7 @@ textarea.form-control {
   margin-left: -1.25rem;
 }
 .form-check-input:disabled ~ .form-check-label {
-  color: #6c757d;
+  color: #ced4da;
 }
 
 .form-check-label {
@@ -9521,7 +9521,7 @@ a.text-dark:hover, a.text-dark:focus {
 }
 
 .text-muted {
-  color: #6c757d !important;
+  color: #ced4da !important;
 }
 
 .text-black-50 {

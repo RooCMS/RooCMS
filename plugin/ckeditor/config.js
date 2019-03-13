@@ -88,9 +88,11 @@ CKEDITOR.editorConfig = function( config ) {
 		{ name: 'Context info',		element: 'p', attributes: { class: 'bg-info' } },
 		{ name: 'Context warning',	element: 'p', attributes: { class: 'bg-warning' } },
 		{ name: 'Context danger',	element: 'p', attributes: { class: 'bg-danger' } },
-		{ name: 'Context dark',		element: 'p', attributes: { class: 'bg-dark' } },
+		{ name: 'Context dark',		element: 'p', attributes: { class: 'bg-dark text-light' } },
 		{ name: 'Context light',	element: 'p', attributes: { class: 'bg-light' } },
 		{ name: 'Lead',			element: 'p', attributes: { class: 'lead' } },
+		{ name: 'Jumbotron',		element: 'div', attributes: { class: 'jumbotron' } },
+		{ name: 'Jumbotron Fluid',	element: 'div', attributes: { class: 'jumbotron jumbotron-fluid' } },
 		{ name: 'Alert primary',	element: 'div', attributes: { class: 'alert alert-primary' } },
 		{ name: 'Alert secondary',	element: 'div', attributes: { class: 'alert alert-secondary' } },
 		{ name: 'Alert success',	element: 'div', attributes: { class: 'alert alert-success' } },
@@ -129,7 +131,7 @@ CKEDITOR.editorConfig = function( config ) {
 		{ name: 'text dark',		element: 'span', attributes: { class: 'text-dark' } },
 		{ name: 'text light',		element: 'span', attributes: { class: 'text-light' } },
 		{ name: 'abbr Initialism',	element: 'abbr', attributes: { class: 'initialism', title: 'abbr' } }//,
-		//{ name: 'PHP',			element: 'pre', attributes: { 'data-lang': 'text/x-php' } }
+		//{ name: 'PHP',		element: 'pre', attributes: { 'data-lang': 'text/x-php' } }
 	];
 
 	//config.colorButton_colors = '00923E,F8C100,28166F';

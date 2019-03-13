@@ -71,18 +71,18 @@
 
 		/* Feed eye */
 		$(".show-feed-element").hover(function () {
-			var l = $(this).find(".fa");
+			var l = $(this).find(".fas");
 			l.removeClass("text-muted fa-eye-slash").addClass("text-info fa-eye");
 		}, function () {
-			var l = $(this).find(".fa");
+			var l = $(this).find(".fas");
 			l.removeClass("text-info fa-eye").addClass("text-muted fa-eye-slash");
 		});
 
 		$(".hide-feed-element").hover(function () {
-			var l = $(this).find(".fa");
+			var l = $(this).find(".fas");
 			l.removeClass("text-default fa-eye").addClass("text-danger fa-eye-slash");
 		}, function () {
-			var l = $(this).find(".fa");
+			var l = $(this).find(".fas");
 			l.removeClass("text-danger fa-eye-slash").addClass("text-default fa-eye");
 		});
 

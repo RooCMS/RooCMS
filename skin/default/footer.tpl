@@ -19,9 +19,9 @@
 												</div><div class="row">
 											{/if}
 											<div class="col-md-3 col-xs-12 text-overflow">
-											<a href="/index.php?page={$nitem['alias']}" class="btn btn-xs btn-link ptsans">{$nitem['title']}</a>
+											<a href="/index.php?page={$nitem['alias']}" class="btn btn-sm btn-link ptsans">{$nitem['title']}</a>
 										{else}
-											<br /><a href="/index.php?page={$nitem['alias']}" class="btn btn-xs btn-link ptsans">{$nitem['title']}</a>
+											<br /><a href="/index.php?page={$nitem['alias']}" class="btn btn-sm btn-link ptsans">{$nitem['title']}</a>
 										{/if}
 										{if $smarty.foreach.navigate.last}
 											</div>
@@ -32,7 +32,7 @@
 
 								{*
 								{if $nitem['rss'] == 1 && $config->rss_power}
-									<a href="/index.php?page={$nitem['alias']}&export=RSS" class="btn btn-xs btn-link ptsans" target="_blank" title="{$nitem['title']} RSS"><i class="fa fa-fw fa-rss"></i></a>
+									<a href="/index.php?page={$nitem['alias']}&export=RSS" class="btn btn-sm btn-link ptsans" target="_blank" title="{$nitem['title']} RSS"><i class="fa fa-fw fa-rss"></i></a>
 								{/if}
 								*}
 

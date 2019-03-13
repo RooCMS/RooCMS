@@ -38,7 +38,7 @@
 								{if !empty($item['tags'])}
 									<span class="small">
 										{foreach from=$item['tags'] item=tag}
-											<a href="{$SCRIPT_NAME}?part=tags&tag={$tag['title']}" class="btn btn-default btn-xs"><i class="fa fa-fw fa-tag fa-va"></i>{$tag['title']}</a>
+											<a href="{$SCRIPT_NAME}?part=tags&tag={$tag['title']}" class="btn btn-default btn-sm"><i class="fa fa-fw fa-tag fa-va"></i>{$tag['title']}</a>
 										{/foreach}
 									</span>
 								{/if}

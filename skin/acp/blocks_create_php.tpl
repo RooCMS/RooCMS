@@ -24,12 +24,12 @@
 		</div>
 
 		<div class="row">
-			<div class="col-sm-6 col-md-4 col-lg-2"><span class="btn btn-default btn-xs">Ctrl</span> + <span class="btn btn-default btn-xs">F</span> - поиск</div>
-			<div class="col-sm-6 col-md-4 col-lg-2"><span class="btn btn-default btn-xs">Ctrl</span> + <span class="btn btn-default btn-xs">G</span> - след.результат</div>
-			<div class="col-sm-6 col-md-4 col-lg-2"><span class="btn btn-default btn-xs">Ctrl</span> + <span class="btn btn-default btn-xs">Shift</span> + <span class="btn btn-default btn-xs">G</span> - пред.результат</div>
-			<div class="col-sm-6 col-md-4 col-lg-2"><span class="btn btn-default btn-xs">Ctrl</span> + <span class="btn btn-default btn-xs">Shift</span> + <span class="btn btn-default btn-xs">F</span> - заменить</div>
-			<div class="col-sm-6 col-md-4 col-lg-2"><span class="btn btn-default btn-xs">Ctrl</span> + <span class="btn btn-default btn-xs">Shift</span> + <span class="btn btn-default btn-xs">R</span> - заменить все</div>
-			<div class="col-sm-6 col-md-4 col-lg-2"><span class="btn btn-default btn-xs">F11</span> - во весь экран</div>
+			<div class="col-sm-6 col-md-4 col-lg-2"><span class="btn btn-outline-primary btn-sm">Ctrl</span> + <span class="btn btn-outline-primary btn-sm">F</span> - поиск</div>
+			<div class="col-sm-6 col-md-4 col-lg-2"><span class="btn btn-outline-primary btn-sm">Ctrl</span> + <span class="btn btn-outline-primary btn-sm">G</span> - след.результат</div>
+			<div class="col-sm-6 col-md-4 col-lg-2"><span class="btn btn-outline-primary btn-sm">Ctrl</span> + <span class="btn btn-outline-primary btn-sm">Shift</span> + <span class="btn btn-outline-primary btn-sm">G</span> - пред.результат</div>
+			<div class="col-sm-6 col-md-4 col-lg-2"><span class="btn btn-outline-primary btn-sm">Ctrl</span> + <span class="btn btn-outline-primary btn-sm">Shift</span> + <span class="btn btn-outline-primary btn-sm">F</span> - заменить</div>
+			<div class="col-sm-6 col-md-4 col-lg-2"><span class="btn btn-outline-primary btn-sm">Ctrl</span> + <span class="btn btn-outline-primary btn-sm">Shift</span> + <span class="btn btn-outline-primary btn-sm">R</span> - заменить все</div>
+			<div class="col-sm-6 col-md-4 col-lg-2"><span class="btn btn-outline-primary btn-sm">F11</span> - во весь экран</div>
 		</div>
 		<div class="row">
 			<div class="col-lg-12">

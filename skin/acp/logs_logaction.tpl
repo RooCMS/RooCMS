@@ -20,7 +20,7 @@
 				<td class="text-center"><span class="label label-{if $r['type_log'] == "error"}danger{elseif $r['type_log'] == "info"}info{else}default{/if}">{$r['type_log']}</span></td>
 				<td class="text-center">
 					{if $r['uid'] != 0}
-						<a href="{$SCRIPT_NAME}?act=users&part=edit_user&uid={$r['uid']}" class="btn btn-xs btn-default">{$r['nickname']}</a>
+						<a href="{$SCRIPT_NAME}?act=users&part=edit_user&uid={$r['uid']}" class="btn btn-sm btn-outline-primary">{$r['nickname']}</a>
 					{else}
 						<span class="label label-default">Гость</span>
 					{/if}

@@ -131,7 +131,7 @@
 			</label>
 			<div class="col-lg-8">
 				<div class="btn-group btn-group-toggle roocms-boolui" data-toggle="buttons" id="inputGroupAccess">
-					{*<label class="btn btn-default active">
+					{*<label class="btn btn-outline-primary active">
 						<input type="checkbox" name="gids[]" value="0" autocomplete="off" checked><i class="fa fa-fw fa-users"></i> Все группы
 					</label>*}
 					{foreach from=$groups item=group}

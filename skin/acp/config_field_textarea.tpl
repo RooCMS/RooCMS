@@ -1,7 +1,7 @@
 <textarea name="{$field['name']}" id="input_{$field['name']}" class="form-control" spellcheck>{$field['value']}</textarea>
 
-<span id="p{$field['name']}" class="btn btn-default btn-xs"><i class="fa fa-fw fa-plus"></i> Увеличить</span>
-<span id="m{$field['name']}" class="btn btn-default btn-xs"><i class="fa fa-fw fa-minus"></i> Уменьшить</span>
+<span id="p{$field['name']}" class="btn btn-outline-primary btn-sm"><i class="fa fa-fw fa-plus"></i> Увеличить</span>
+<span id="m{$field['name']}" class="btn btn-outline-primary btn-sm"><i class="fa fa-fw fa-minus"></i> Уменьшить</span>
 
 <script>
 	{literal}

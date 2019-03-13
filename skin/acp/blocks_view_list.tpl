@@ -27,8 +27,8 @@
 				<td><span class="label label-primary text-uppercase">{$block['block_type']}</span></td>
 				<td class="text-right">
 					<div class="btn-group">
-						<a href="{$SCRIPT_NAME}?act=blocks&part=edit&block={$block['id']}" class="btn btn-xs btn-default"><span class="fa fa-pencil-square-o fa-fw"></span><span class="hidden-sm">Редактировать</span></a>
-						<a href="{$SCRIPT_NAME}?act=blocks&part=delete&block={$block['id']}" class="btn btn-xs btn-danger"><span class="fa fa-trash-o fa-fw"></span><span class="hidden-sm">Удалить</span></a>
+						<a href="{$SCRIPT_NAME}?act=blocks&part=edit&block={$block['id']}" class="btn btn-sm btn-outline-primary"><span class="fa fa-pencil-square-o fa-fw"></span><span class="hidden-sm">Редактировать</span></a>
+						<a href="{$SCRIPT_NAME}?act=blocks&part=delete&block={$block['id']}" class="btn btn-sm btn-danger"><span class="fa fa-trash-o fa-fw"></span><span class="hidden-sm">Удалить</span></a>
 					</div>
 				</td>
 			</tr>
@@ -44,8 +44,8 @@
 
 				<div class="pull-right">
 					<div class="btn-group">
-						<a href="{$SCRIPT_NAME}?act=blocks&part=edit&block={$block['id']}" class="btn btn-xs btn-default"><span class="fa fa-pencil-square-o fa-fw"></span></a>
-						<a href="{$SCRIPT_NAME}?act=blocks&part=delete&block={$block['id']}" class="btn btn-xs btn-danger"><span class="fa fa-trash-o fa-fw"></span></a>
+						<a href="{$SCRIPT_NAME}?act=blocks&part=edit&block={$block['id']}" class="btn btn-sm btn-outline-primary"><span class="fa fa-pencil-square-o fa-fw"></span></a>
+						<a href="{$SCRIPT_NAME}?act=blocks&part=delete&block={$block['id']}" class="btn btn-sm btn-danger"><span class="fa fa-trash-o fa-fw"></span></a>
 					</div>
 				</div>
 			</li>

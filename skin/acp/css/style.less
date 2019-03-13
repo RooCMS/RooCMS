@@ -175,7 +175,8 @@ a:focus, a:active, .btn {outline: none !important;}
 .bootstrap-tagsinput {width: 100%;}
 
 /* fix font-awesome underline */
-a:hover [class^="fa-"] {text-decoration: none !important;}
+a:hover [class^="fas-"],
+a:hover [class^="far-"] {text-decoration: none !important;}
 
 /* style for attached files */
 .attach-img {border: 0;width: 160px;border-radius: 3px;}
@@ -221,8 +222,7 @@ a:hover [class^="fa-"] {text-decoration: none !important;}
 .form-control.datepicker	{padding:6px 12px !important;}
 
 /* Structure style */
-.trinfo {float: right;}
-tr .tralias {display: none; .trinfo;}
+tr .tralias {display: none;}
 tr:hover .tralias {display: block;}
 
 .table-hover>tbody>tr:hover .text-muted {color: @brand-primary !important;}

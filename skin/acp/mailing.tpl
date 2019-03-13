@@ -29,11 +29,11 @@
 	</div>
 
 	<div class="btn-group btn-group-sm btn-group-justified visible-xs submenu-xs">
-		<a href="{$SCRIPT_NAME}?act=users" class="btn btn-default{if !isset($smarty.get.part)} active{/if}"><i class="fa fa-fw fa-users"></i></a>
-		<a href="{$SCRIPT_NAME}?act=users&part=create_user" class="btn btn-default{if isset($smarty.get.part) && $smarty.get.part == "create_user"} active{/if}"><i class="fa fa-fw fa-user-plus"></i></a>
-		<a href="{$SCRIPT_NAME}?act=users&part=group_list" class="btn btn-default{if isset($smarty.get.part) && $smarty.get.part == "group_list"} active{/if}"><i class="fa fa-fw fa-file-text"></i></a>
-		<a href="{$SCRIPT_NAME}?act=users&part=create_group" class="btn btn-default{if isset($smarty.get.part) && $smarty.get.part == "create_group"} active{/if}"><i class="fa fa-fw fa-plus"></i></a>
-		<a href="{$SCRIPT_NAME}?act=mailing&part=message" class="btn btn-default{if isset($smarty.get.part) && $smarty.get.part == "message"} active{/if}"><i class="fa fa-fw fa-envelope"></i></a>
+		<a href="{$SCRIPT_NAME}?act=users" class="btn btn-outline-primary{if !isset($smarty.get.part)} active{/if}"><i class="fa fa-fw fa-users"></i></a>
+		<a href="{$SCRIPT_NAME}?act=users&part=create_user" class="btn btn-outline-primary{if isset($smarty.get.part) && $smarty.get.part == "create_user"} active{/if}"><i class="fa fa-fw fa-user-plus"></i></a>
+		<a href="{$SCRIPT_NAME}?act=users&part=group_list" class="btn btn-outline-primary{if isset($smarty.get.part) && $smarty.get.part == "group_list"} active{/if}"><i class="fa fa-fw fa-file-text"></i></a>
+		<a href="{$SCRIPT_NAME}?act=users&part=create_group" class="btn btn-outline-primary{if isset($smarty.get.part) && $smarty.get.part == "create_group"} active{/if}"><i class="fa fa-fw fa-plus"></i></a>
+		<a href="{$SCRIPT_NAME}?act=mailing&part=message" class="btn btn-outline-primary{if isset($smarty.get.part) && $smarty.get.part == "message"} active{/if}"><i class="fa fa-fw fa-envelope"></i></a>
 	</div>
 </div>
 <div class="col-sm-9 col-md-10">

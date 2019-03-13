@@ -1,9 +1,9 @@
 {* Шаблон управления лентой *}
 
-<div class="panel-heading">
+<div class="card-header">
 	Лента "{$feed['title']}"
 
-	<p class="pull-right"><a href="/?page={$feed['alias']}" target="_blank" class="btn btn-default btn-xs">Открыть ленту <span class="fa fa-external-link fa-fw"></span></a></p>
+	<a href="/?page={$feed['alias']}" target="_blank" class="btn btn-outline-primary btn-sm float-right">Открыть ленту <span class="fa fa-external-link-alt fa-fw"></span></a>
 </div>
 
 {if empty($feedlist)}
@@ -12,36 +12,36 @@
 	</div>
 {else}
 
-	<table class="table table-hover hidden-xs">
-		<thead>
-		<tr class="active">
-			<th width="55%" style="padding-left: 30px;">Заголовок</th>
-			<th width="10%">Дата публикации</th>
-			<th width="10%">Дата посл.изменений</th>
-			<th width="25%" class="text-right">Опции</th>
-		</tr>
+	<table class="table table-hover d-none d-sm-table mb-0">
+		<thead class="bg-light">
+			<tr class="active">
+				<th width="55%" class="pl-4">Заголовок</th>
+				<th width="10%">Дата публикации</th>
+				<th width="10%">Дата изменений</th>
+				<th width="25%" class="text-right">Опции</th>
+			</tr>
 		</thead>
 		<tbody>
 		{foreach from=$feedlist item=item}
 			<tr>
-				<td>
+				<td class="align-middle">
 					{if $item['publication_status'] != "hide"}<a href="{$SCRIPT_NAME}?act=feeds&part=status_{if $item['status'] == 0}on{else}off{/if}_item&page={$feed['id']}&item={$item['id']}" class="{if $item['status'] == 0}show{else}hide{/if}-feed-element">{/if}
-					<i class="fa fa-fw fa-eye{if $item['publication_status'] == "hide" || $item['status'] == 0}-slash text-muted{else} text-primary{/if}"></i>{if $item['publication_status'] != "hide"}</a>{/if}
+					<i class="fas fa-fw fa-eye{if $item['publication_status'] == "hide" || $item['status'] == 0}-slash text-muted{else} text-primary{/if}"></i>{if $item['publication_status'] != "hide"}</a>{/if}
 					<a href="{$SCRIPT_NAME}?act=feeds&part=edit_item&page={$feed['id']}&item={$item['id']}" title="{$item['title']}"{if $item['publication_status'] == "hide" || $item['status'] == 0} class="text-muted"{/if}>{if $item['status'] == 0}<s>{/if}{$item['title']}{if $item['status'] == 0}</s>{/if}</a>
-					<span class="pull-right small">
-						{if $item['group_access'] != 0}<i class="fa fa-fw fa-user-secret" rel="tooltip" data-toggle="tooltip" data-placement="top" title="Есть групповые ограничения"></i>{/if}
-						{if isset($item['tags'])}<i class="fa fa-fw fa-tags" rel="tooltip" title="{foreach from=$item['tags'] item=tag} #{$tag['title']} {/foreach}" data-placement="left" data-container="body"></i>{/if}
-						<i class="fa fa-fw fa-eye" rel="tooltip" title="{$item['views']}" data-placement="right" data-container="body"></i>
+					<span class="float-right small">
+						{if $item['group_access'] != 0}<i class="fas fa-fw fa-user-secret" rel="tooltip" data-toggle="tooltip" data-placement="top" title="Есть групповые ограничения"></i>{/if}
+						{if isset($item['tags'])}<i class="fas fa-fw fa-tags" rel="tooltip" title="{foreach from=$item['tags'] item=tag} #{$tag['title']} {/foreach}" data-placement="left" data-container="body"></i>{/if}
+						<i class="fas fa-fw fa-eye" rel="tooltip" title="{$item['views']}" data-placement="right" data-container="body"></i>
 					</span>
-					{if $item['publication_status'] == "hide"}<small class="text-danger trinfo">истек период публикации</small>{/if}
+					{if $item['publication_status'] == "hide"}<small class="text-danger float-right">истек период публикации</small>{/if}
 				</td>
-				<td class="small">c {$item['date_publications']}{if $item['date_end_publications'] != 0}<br />по {$item['date_end_publications']}{/if}</td>
-				<td class="small">{$item['date_update']}</td>
-				<td class="text-right">
+				<td class="small align-middle">c {$item['date_publications']}{if $item['date_end_publications'] != 0}<br />по {$item['date_end_publications']}{/if}</td>
+				<td class="small align-middle">{$item['date_update']}</td>
+				<td class="text-right align-middle">
 					<div class="btn-group">
-						<a href="{$SCRIPT_NAME}?act=feeds&part=edit_item&page={$feed['id']}&item={$item['id']}" class="btn btn-xs btn-default"><i class="fa fa-pencil-square-o fa-fw"></i>Редактировать</a>
-						<a href="{$SCRIPT_NAME}?act=feeds&part=migrate_item&page={$feed['id']}&item={$item['id']}" class="btn btn-xs btn-default"><i class="fa fa-random fa-fw" rel="tooltip" data-toggle="tooltip" data-placement="top" title="Переместить публикацию"></i></a>
-						<a href="{$SCRIPT_NAME}?act=feeds&part=delete_item&page={$feed['id']}&item={$item['id']}" class="btn btn-xs btn-danger"><i class="fa fa-trash-o fa-fw"></i>Удалить</a>
+						<a href="{$SCRIPT_NAME}?act=feeds&part=edit_item&page={$feed['id']}&item={$item['id']}" class="btn btn-sm btn-outline-primary"><i class="far fa-edit fa-fw"></i>Редактировать</a>
+						<a href="{$SCRIPT_NAME}?act=feeds&part=migrate_item&page={$feed['id']}&item={$item['id']}" class="btn btn-sm btn-outline-primary"><i class="fa fa-random fa-fw" rel="tooltip" data-toggle="tooltip" data-placement="top" title="Переместить публикацию"></i></a>
+						<a href="{$SCRIPT_NAME}?act=feeds&part=delete_item&page={$feed['id']}&item={$item['id']}" class="btn btn-sm btn-danger"><i class="far fa-trash-alt fa-fw"></i>Удалить</a>
 					</div>
 				</td>
 			</tr>
@@ -49,20 +49,20 @@
 		</tbody>
 	</table>
 
-	<ul class="list-group visible-xs">
+	<ul class="list-group d-block d-sm-none">
 		{foreach from=$feedlist item=item}
 			<li class="list-group-item">
-
 				<a href="{$SCRIPT_NAME}?act=feeds&part=edit_item&page={$feed['id']}&item={$item['id']}" title="{$item['title']}"{if $item['publication_status'] == "hide" || $item['status'] == 0} class="text-muted"{/if}>{if $item['status'] == 0}<s>{/if}{$item['title']}{if $item['status'] == 0}</s>{/if}</a>
 
-				<div class="pull-right">
+				<div class="float-right">
 					<div class="btn-group">
-						<a href="{$SCRIPT_NAME}?act=feeds&part=edit_item&page={$feed['id']}&item={$item['id']}" class="btn btn-xs btn-default"><i class="fa fa-pencil-square-o fa-fw"></i></a>
-						<a href="{$SCRIPT_NAME}?act=feeds&part=migrate_item&page={$feed['id']}&item={$item['id']}" class="btn btn-xs btn-default"><i class="fa fa-random fa-fw" rel="tooltip" data-toggle="tooltip" data-placement="top" title="Переместить публикацию"></i></a>
-						<a href="{$SCRIPT_NAME}?act=feeds&part=delete_item&page={$feed['id']}&item={$item['id']}" class="btn btn-xs btn-danger"><i class="fa fa-trash-o fa-fw"></i></a>
+						<a href="{$SCRIPT_NAME}?act=feeds&part=edit_item&page={$feed['id']}&item={$item['id']}" class="btn btn-sm btn-outline-primary"><i class="far fa-edit fa-fw"></i></a>
+						<a href="{$SCRIPT_NAME}?act=feeds&part=migrate_item&page={$feed['id']}&item={$item['id']}" class="btn btn-sm btn-outline-primary"><i class="fa fa-random fa-fw" rel="tooltip" data-toggle="tooltip" data-placement="top" title="Переместить публикацию"></i></a>
+						<a href="{$SCRIPT_NAME}?act=feeds&part=delete_item&page={$feed['id']}&item={$item['id']}" class="btn btn-sm btn-danger"><i class="far fa-trash-alt fa-fw"></i></a>
 					</div>
 				</div>
 			</li>
 		{/foreach}
 	</ul>
 {/if}
+

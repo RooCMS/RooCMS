@@ -8,10 +8,10 @@
 <form method="post" action="{$SCRIPT_NAME}?act=feeds&part=update_item&item={$item['id']}&page={$item['sid']}" enctype="multipart/form-data" role="form">
 	<div class="panel-body">
 		<div class="btn-group" data-toggle="buttons">
-			<label class="btn btn-default{if $item['status'] == 1} active{/if} btn-sm" for="flag_status_true" rel="tooltip" title="Публиковать" data-placement="auto" data-container="body">
+			<label class="btn btn-outline-primary{if $item['status'] == 1} active{/if} btn-sm" for="flag_status_true" rel="tooltip" title="Публиковать" data-placement="auto" data-container="body">
 				<input type="radio" name="status" value="1" id="flag_status_true"{if $item['status'] == 1} checked{/if}> <span class="text-success"><i class="fa fa-fw fa-eye"></i></span>
 			</label>
-			<label class="btn btn-default{if $item['status'] == 0} active{/if} btn-sm" for="flag_status_false" rel="tooltip" title="Скрыть" data-placement="auto" data-container="body">
+			<label class="btn btn-outline-primary{if $item['status'] == 0} active{/if} btn-sm" for="flag_status_false" rel="tooltip" title="Скрыть" data-placement="auto" data-container="body">
 				<input type="radio" name="status" value="0" id="flag_status_false"{if $item['status'] == 0} checked{/if}> <span class="text-danger"><i class="fa fa-fw fa-eye-slash"></i></span>
 			</label>
 		</div>
@@ -82,7 +82,7 @@
 				<br />
 				{if !empty($poptags)}
 					{foreach from=$poptags item=tag}
-						<a name="assdag" class="addtag btn btn-xs btn-default" value="{$tag['title']}">{$tag['title']}</a>
+						<a name="assdag" class="addtag btn btn-sm btn-outline-primary" value="{$tag['title']}">{$tag['title']}</a>
 					{/foreach}
 				{/if}
 			</div>
@@ -111,7 +111,7 @@
 				<div class="col-lg-9">
 					<div class="btn-group" data-toggle="buttons" id="inputGroupAccess">
 						{foreach from=$groups item=group}
-							<label class="btn btn-default {if isset($gids[$group['gid']])}active{/if}">
+							<label class="btn btn-outline-primary {if isset($gids[$group['gid']])}active{/if}">
 								<input type="checkbox" name="gids[]" value="{$group['gid']}" autocomplete="off"{if isset($gids[$group['gid']])} checked{/if}><i class="fa fa-fw fa-users"></i> {$group['title']}
 							</label>
 						{/foreach}

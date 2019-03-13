@@ -146,7 +146,8 @@ a:active,
   width: 100%;
 }
 /* fix font-awesome underline */
-a:hover [class^="fa-"] {
+a:hover [class^="fas-"],
+a:hover [class^="far-"] {
   text-decoration: none !important;
 }
 /* style for attached files */
@@ -205,12 +206,8 @@ a:hover [class^="fa-"] {
   padding: 6px 12px !important;
 }
 /* Structure style */
-.trinfo {
-  float: right;
-}
 tr .tralias {
   display: none;
-  float: right;
 }
 tr:hover .tralias {
   display: block;

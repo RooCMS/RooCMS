@@ -7,10 +7,10 @@
 
 		{if $user['uid'] != 1}
 		<div class="btn-group" data-toggle="buttons">
-			<label class="btn btn-default{if $user['status'] == 1} active{/if} btn-sm" for="flag_status_true" rel="tooltip" title="Учетная запись активна" data-placement="auto" data-container="body">
+			<label class="btn btn-outline-primary{if $user['status'] == 1} active{/if} btn-sm" for="flag_status_true" rel="tooltip" title="Учетная запись активна" data-placement="auto" data-container="body">
 				<input type="radio" name="status" value="1" id="flag_status_true"{if $user['status'] == 1} checked{/if}> <span class="text-success"><i class="fa fa-fw fa-eye"></i></span>
 			</label>
-			<label class="btn btn-default{if $user['status'] == 0} active{/if} btn-sm" for="flag_status_false" rel="tooltip" title="Учетная запись отключена" data-placement="auto" data-container="body">
+			<label class="btn btn-outline-primary{if $user['status'] == 0} active{/if} btn-sm" for="flag_status_false" rel="tooltip" title="Учетная запись отключена" data-placement="auto" data-container="body">
 				<input type="radio" name="status" value="0" id="flag_status_false"{if $user['status'] == 0} checked{/if}> <span class="text-danger"><i class="fa fa-fw fa-eye-slash"></i></span>
 			</label>
 		</div>
@@ -62,10 +62,10 @@
 				<div class="input-group">
 					<input type="text" name="email" id="inputEmail" class="form-control"  value="{$user['email']}" pattern="[A-Za-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{literal}{2,6}{/literal}$" required>
 					<div class="input-group-btn" data-toggle="buttons">
-						<label class="btn btn-default{if $user['mailing'] == 1} active{/if}" for="flag_status_true" rel="tooltip" title="Получать рассылку" data-placement="auto" data-container="body">
+						<label class="btn btn-outline-primary{if $user['mailing'] == 1} active{/if}" for="flag_status_true" rel="tooltip" title="Получать рассылку" data-placement="auto" data-container="body">
 							<input type="radio" name="mailing" value="1" id="flag_status_true"{if $user['mailing'] == 1} checked{/if}> <span class="text-success"><i class="fa fa-fw fa-envelope-open"></i></span>
 						</label>
-						<label class="btn btn-default{if $user['mailing'] == 0} active{/if}" for="flag_status_false" rel="tooltip" title="Не получать рассылку" data-placement="auto" data-container="body">
+						<label class="btn btn-outline-primary{if $user['mailing'] == 0} active{/if}" for="flag_status_false" rel="tooltip" title="Не получать рассылку" data-placement="auto" data-container="body">
 							<input type="radio" name="mailing" value="0" id="flag_status_false"{if $user['mailing'] == 0} checked{/if}> <span class="text-danger"><i class="fa fa-fw fa-envelope"></i></span>
 						</label>
 					</div>
@@ -127,13 +127,13 @@
 			</label>
 			<div class="col-lg-9">
 				<div class="btn-group" data-toggle="buttons">
-					<label class="btn btn-default{if $user['user_sex'] == "n"} active{/if}">
+					<label class="btn btn-outline-primary{if $user['user_sex'] == "n"} active{/if}">
 						<input type="radio" name="user_sex" id="inputUserSex" autocomplete="off" value="n"{if $user['user_sex'] == "n"} checked{/if}><i class="fa fa-fw fa-user"></i> Не указан
 					</label>
-					<label class="btn btn-default{if $user['user_sex'] == "m"} active{/if}">
+					<label class="btn btn-outline-primary{if $user['user_sex'] == "m"} active{/if}">
 						<input type="radio" name="user_sex" id="inputUserSexM" autocomplete="off" value="m"{if $user['user_sex'] == "m"} checked{/if}><i class="fa fa-fw fa-male"></i> Мужской
 					</label>
-					<label class="btn btn-default{if $user['user_sex'] == "f"} active{/if}">
+					<label class="btn btn-outline-primary{if $user['user_sex'] == "f"} active{/if}">
 						<input type="radio" name="user_sex" id="inputUserSexF" autocomplete="off" value="f"{if $user['user_sex'] == "f"} checked{/if}><i class="fa fa-fw fa-female"></i> Женский
 					</label>
 				</div>
@@ -145,7 +145,7 @@
 				Аватар:  <small><i class="fa fa-question-circle fa-fw" rel="tooltip" title="{$config->users_avatar_width}x{$config->users_avatar_height} пикселей" data-placement="left"></i></small>
 			</label>
 			<div class="col-lg-9">
-				{if $user['avatar'] != ""}<span id="dua-{$user['uid']}" class="hover-cursor delete_useravatar pull-right"  rel="tooltip" title="Удалить аватар пользователя" data-placement="left"><img src="/upload/images/{$user['avatar']}" height="40" class="img-circle"></span>{/if} <input type="file" name="avatar" id="inputAvatar" class="btn btn-default">
+				{if $user['avatar'] != ""}<span id="dua-{$user['uid']}" class="hover-cursor delete_useravatar pull-right"  rel="tooltip" title="Удалить аватар пользователя" data-placement="left"><img src="/upload/images/{$user['avatar']}" height="40" class="img-circle"></span>{/if} <input type="file" name="avatar" id="inputAvatar" class="btn btn-outline-primary">
 			</div>
 		</div>
 
@@ -186,7 +186,7 @@
 		<div class="row">
 			<div class="col-lg-9 col-md-offset-3">
 				<input type="submit" name="update_user" class="btn btn-success" value="Обновить">
-				<input type="submit" name="update_user['ae']" class="btn btn-default" value="Обновить и выйти">
+				<input type="submit" name="update_user['ae']" class="btn btn-outline-primary" value="Обновить и выйти">
 			</div>
 		</div>
 

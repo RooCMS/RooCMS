@@ -29,12 +29,12 @@
 	<div class="btn-group btn-group-sm btn-group-justified visible-xs submenu-xs">
 		{if !empty($parts['global'])}
 			{foreach from=$parts['global'] item=part}
-				<a href="{$SCRIPT_NAME}?act=config&part={$part['name']}" class="btn btn-default{if $thispart == $part['name']} active{/if}" title="{$part['title']}"><i class="fa fa-fw fa-{$part['ico']}"></i> </a>
+				<a href="{$SCRIPT_NAME}?act=config&part={$part['name']}" class="btn btn-outline-primary{if $thispart == $part['name']} active{/if}" title="{$part['title']}"><i class="fa fa-fw fa-{$part['ico']}"></i> </a>
 			{/foreach}
 		{/if}
 		{if !empty($parts['component'])}
 			{foreach from=$parts['component'] item=part}
-				<a href="{$SCRIPT_NAME}?act=config&part={$part['name']}" class="btn btn-default{if $thispart == $part['name']} active{/if}" title="{$part['title']}"><i class="fa fa-fw fa-{$part['ico']}"></i> </a>
+				<a href="{$SCRIPT_NAME}?act=config&part={$part['name']}" class="btn btn-outline-primary{if $thispart == $part['name']} active{/if}" title="{$part['title']}"><i class="fa fa-fw fa-{$part['ico']}"></i> </a>
 			{/foreach}
 		{/if}
 	</div>
