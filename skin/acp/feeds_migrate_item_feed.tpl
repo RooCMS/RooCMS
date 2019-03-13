@@ -4,7 +4,7 @@
 	Переносим "{$item['title']}"
 </div>
 
-<form method="post" action="{$SCRIPT_NAME}?act=feeds&part=migrate_item&item={$item['id']}&page={$item['sid']}" role="form" class="form-horizontal">
+<form method="post" action="{$SCRIPT_NAME}?act=feeds&part=migrate_item&item={$item['id']}&page={$item['sid']}" role="form">
 	<div class="panel-body">
 		<div class="row">
 			<div class="col-xs-12 lead">

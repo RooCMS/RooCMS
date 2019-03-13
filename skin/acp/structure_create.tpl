@@ -2,7 +2,7 @@
 <div class="card-header">
 	Новая страница
 </div>
-<form method="post" action="{$SCRIPT_NAME}?act=structure&part=create" role="form" class="form-horizontal">
+<form method="post" action="{$SCRIPT_NAME}?act=structure&part=create" role="form">
 <div class="card-body">
 	<div class="form-group row">
 		<label for="inputTitle" class="col-md-4 form-control-plaintext text-right">
@@ -163,8 +163,8 @@
 <div class="card-footer">
 	<div class="row">
 		<div class="col-lg-8 offset-md-4">
-			<input type="submit" name="create_unit" class="btn btn-success" value="Создать">
-			<input type="submit" name="create_unit['ae']" class="btn btn-outline-success" value="Создать и выйти">
+			<input type="submit" name="create_unit" class="btn btn-success btn-lg" value="Создать">
+			<input type="submit" name="create_unit['ae']" class="btn btn-outline-success btn-lg" value="Создать и выйти">
 		</div>
 	</div>
 </div>

@@ -3,7 +3,7 @@
 	Новый пользователь
 </div>
 <div class="panel-body">
-	<form method="post" action="{$SCRIPT_NAME}?act=users&part=create_user" enctype="multipart/form-data" role="form" class="form-horizontal">
+	<form method="post" action="{$SCRIPT_NAME}?act=users&part=create_user" enctype="multipart/form-data" role="form">
 
 		<h5 class="text-info">Персональные данные:</h5>
 

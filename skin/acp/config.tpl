@@ -45,7 +45,7 @@
 			<i class="fa fa-fw fa-{$this_part['ico']}"></i> {$this_part['title']}
 		</div>
 		<div class="panel-body">
-			<form method="post" action="{$SCRIPT_NAME}?act=config" enctype="multipart/form-data" role="form" class="form-horizontal">
+			<form method="post" action="{$SCRIPT_NAME}?act=config" enctype="multipart/form-data" role="form">
 				{foreach from=$this_part['options'] item=option}
 					<div class="form-group" title="$config->{$option['option_name']}">
 						<label for="input_{$option['option_name']}" class="col-lg-3 control-label{if $option['value'] != $option['default_value']} text-primary{/if}">

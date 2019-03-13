@@ -28,7 +28,7 @@
 
 <div class="row">
 	<div class="col-sm-8">
-		<form method="post" action="{$SCRIPT_NAME}?part=ucp&act=ucp&move=update_info" role="form" class="form-horizontal" enctype="multipart/form-data">
+		<form method="post" action="{$SCRIPT_NAME}?part=ucp&act=ucp&move=update_info" role="form" enctype="multipart/form-data">
 			<fieldset>
 				<legend>Персональные данные</legend>
 

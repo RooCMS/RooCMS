@@ -2,11 +2,10 @@
 <script type="text/javascript" src="plugin/ckeditor.php"></script>
 
 <div class="card-header align-middle">
-	<q class="mt-1">{$data['title']}</q>
-
+	<q>{$data['title']}</q>
 	<a href="{$SCRIPT_NAME}?act=structure&part=edit&id={$data['sid']}" class="btn btn-outline-primary btn-sm float-right"><span class="fas fa-edit fa-fw"></span> Редактировать информацию</a>
 </div>
-<form method="post" action="{$SCRIPT_NAME}?act=pages&part=update&page={$data['sid']}" enctype="multipart/form-data" role="form" class="form-horizontal">
+<form method="post" action="{$SCRIPT_NAME}?act=pages&part=update&page={$data['sid']}" enctype="multipart/form-data" role="form">
 	<div class="card-body">
 
 		<dl class="row">
@@ -56,7 +55,7 @@
 	<div class="card-footer">
 		<div class="row">
 			<div class="col-lg-12">
-				<input type="submit" name="update_page" class="btn btn-success" value="Обновить страницу">
+				<input type="submit" name="update_page" class="btn btn-success btn-lg" value="Обновить страницу">
 			</div>
 		</div>
 	</div>

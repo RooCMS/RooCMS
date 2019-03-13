@@ -119,7 +119,6 @@ small {
   color: #999;
 }
 blockquote {
-  font-size: 1.1rem;
   font-family: 'PT Sans' !important;
 }
 code {
@@ -225,35 +224,49 @@ tr:hover .tralias {
 }
 /* Add BS */
 blockquote.quote-primary {
-  border-left-color: #3D4F61;
+  border-left: 0.2rem solid #3D4F61;
   background-color: #fbfbfb;
 }
 blockquote.quote-info {
-  border-left-color: #3581D5;
+  border-left: 0.2rem solid #3581D5;
   background-color: #fbfbfb;
 }
 blockquote.quote-success {
-  border-left-color: #72B110;
+  border-left: 0.2rem solid #72B110;
   background-color: #fbfbfb;
 }
 blockquote.quote-warning {
-  border-left-color: #FB8C00;
+  border-left: 0.2rem solid #FB8C00;
   background-color: #fbfbfb;
 }
 blockquote.quote-danger {
-  border-left-color: #C60D14;
+  border-left: 0.2rem solid #C60D14;
   background-color: #fbfbfb;
 }
-blockquote.quote h1,
-blockquote.quote h2,
-blockquote.quote h3,
-blockquote.quote h4,
-blockquote.quote h5,
-blockquote.quote h6 {
+blockquote.quote-primary,
+blockquote.quote-info,
+blockquote.quote-success,
+blockquote.quote-warning,
+blockquote.quote-danger {
+  padding: 0.5rem;
+}
+blockquote.quote-primary > p:last-child,
+blockquote.quote-info > p:last-child,
+blockquote.quote-success > p:last-child,
+blockquote.quote-warning > p:last-child,
+blockquote.quote-danger > p:last-child {
+  margin-bottom: 0;
+}
+blockquote.blockquote h1,
+blockquote.blockquote h2,
+blockquote.blockquote h3,
+blockquote.blockquote h4,
+blockquote.blockquote h5,
+blockquote.blockquote h6 {
   margin: 0 0 10px 0;
   padding: 0;
 }
-blockquote.quote small {
+blockquote.blockquote small {
   color: #999;
 }
 blockquote.quote-primary > h1,
@@ -338,8 +351,6 @@ h3,
 h4,
 h5,
 h6 {
-  padding: 0;
-  margin: 0;
   font-weight: normal !important;
   font-family: 'Ubuntu', 'PT Sans' !important;
 }

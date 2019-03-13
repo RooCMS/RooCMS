@@ -4,7 +4,7 @@
 
 	Редактируем PHP блок "{$data['title']}"
 </div>
-<form method="post" action="{$SCRIPT_NAME}?act=blocks&part=update&block={$data['id']}" role="form" class="form-horizontal">
+<form method="post" action="{$SCRIPT_NAME}?act=blocks&part=update&block={$data['id']}" role="form">
 	<div class="panel-body">
 		<div class="form-group">
 			<label for="inputAlias" class="col-lg-3 control-label">

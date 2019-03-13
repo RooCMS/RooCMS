@@ -4,7 +4,7 @@
 
 	Новый PHP блок
 </div>
-<form method="post" action="{$SCRIPT_NAME}?act=blocks&part=create&type=php" role="form" class="form-horizontal">
+<form method="post" action="{$SCRIPT_NAME}?act=blocks&part=create&type=php" role="form">
 	<div class="panel-body">
 		<div class="form-group">
 			<label for="inputAlias" class="col-lg-3 control-label">

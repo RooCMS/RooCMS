@@ -5,7 +5,7 @@
 	Составить рассылку
 </div>
 
-<form method="post" action="{$SCRIPT_NAME}?act=mailing&part=send" enctype="multipart/form-data" role="form" class="form-horizontal">
+<form method="post" action="{$SCRIPT_NAME}?act=mailing&part=send" enctype="multipart/form-data" role="form">
 	<div class="panel-body">
 
 		{if !empty($groups)}

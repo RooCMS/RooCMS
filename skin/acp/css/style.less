@@ -155,7 +155,7 @@ input:required:valid {background-image: none !important;}
 /* sup styles / restyle */
 .small, small	{color: @middle-grey;}
 
-blockquote 	{font-size: 1.1rem; .ptsans !important;}
+blockquote 	{.ptsans !important;}
 code		{.ubuntu !important;}
 
 /* Hover */
@@ -231,17 +231,31 @@ tr:hover .tralias {display: block;}
 .cked {overflow-x: hidden;}
 
 /* Add BS */
-blockquote.quote-primary	{border-left-color: @brand-primary;background-color: @bq-background;}
-blockquote.quote-info		{border-left-color: @brand-info;background-color: @bq-background;}
-blockquote.quote-success	{border-left-color: @brand-success;background-color: @bq-background;}
-blockquote.quote-warning	{border-left-color: @brand-warning;background-color: @bq-background;}
-blockquote.quote-danger		{border-left-color: @brand-danger;background-color: @bq-background;}
+blockquote.quote-primary	{border-left: .2rem solid @brand-primary;background-color: @bq-background;}
+blockquote.quote-info		{border-left: .2rem solid @brand-info;background-color: @bq-background;}
+blockquote.quote-success	{border-left: .2rem solid @brand-success;background-color: @bq-background;}
+blockquote.quote-warning	{border-left: .2rem solid @brand-warning;background-color: @bq-background;}
+blockquote.quote-danger		{border-left: .2rem solid @brand-danger;background-color: @bq-background;}
 
-blockquote.quote h1, blockquote.quote h2,
-blockquote.quote h3, blockquote.quote h4,
-blockquote.quote h5, blockquote.quote h6 {margin: 0 0 10px 0;padding: 0;}
+blockquote.quote-primary, blockquote.quote-info,
+blockquote.quote-success, blockquote.quote-warning,
+blockquote.quote-danger	{
+	padding: .5rem;
+}
 
-blockquote.quote small	{color: @middle-grey;}
+blockquote.quote-primary > p:last-child,
+blockquote.quote-info > p:last-child,
+blockquote.quote-success > p:last-child,
+blockquote.quote-warning > p:last-child,
+blockquote.quote-danger > p:last-child	{
+	margin-bottom: 0;
+}
+
+blockquote.blockquote h1, blockquote.blockquote h2,
+blockquote.blockquote h3, blockquote.blockquote h4,
+blockquote.blockquote h5, blockquote.blockquote h6 {margin: 0 0 10px 0;padding: 0;}
+
+blockquote.blockquote small	{color: @middle-grey;}
 
 blockquote.quote-primary > h1, blockquote.quote-primary > h2,
 blockquote.quote-primary > h3, blockquote.quote-primary > h4,
@@ -288,7 +302,7 @@ blockquote.quote-danger > h5, blockquote.quote-danger > h6	{color: @brand-danger
 /*input[type="text"], textarea {-moz-box-shadow: 0px 0px 2px #B8AD9A inset; -webkit-box-shadow: 0px 0px 2px #B8AD9A inset; box-shadow: 0px 0px 2px #B8AD9A inset;}*/
 
 /* Titles */
-h1, h2, h3, h4, h5, h6 {padding: 0; margin: 0;font-weight: normal !important;font-family: @ubuntu, @ptsans !important;}
+h1, h2, h3, h4, h5, h6 {font-weight: normal !important;font-family: @ubuntu, @ptsans !important;}
 
 /* Font sizes */
 /*.t10 {font-size: .7rem;}*/

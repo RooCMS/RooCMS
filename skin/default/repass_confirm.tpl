@@ -4,7 +4,7 @@
 		<h1>Подтверждения запроса на смену пароля</h1>
 	</div>
 	<div class="col-sm-12">
-		<form method="post" action="{$SCRIPT_NAME}?part=repass&act=verification" role="form" class="form-horizontal" enctype="multipart/form-data">
+		<form method="post" action="{$SCRIPT_NAME}?part=repass&act=verification" role="form" enctype="multipart/form-data">
 			<hr />
 			<div class="form-group">
 				<label for="inputEmail" class="col-lg-4 control-label">

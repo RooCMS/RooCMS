@@ -1,5 +1,5 @@
 
-<form method="post" action="{if $step != $steps}{$SCRIPT_NAME}?step={$step}{else}{$smarty.const.CP}{/if}" role="form" class="form-horizontal">
+<form method="post" action="{if $step != $steps}{$SCRIPT_NAME}?step={$step}{else}{$smarty.const.CP}{/if}" role="form">
 <div class="panel panel-default">
 	<div class="panel-heading">
 		<h3 class="panel-title">Этап {$step} : {$page_title}</h3>

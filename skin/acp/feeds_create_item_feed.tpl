@@ -5,7 +5,7 @@
 	Новый запись в ленте
 </div>
 
-<form method="post" action="{$SCRIPT_NAME}?act=feeds&part=create_item&page={$smarty.get.page}" enctype="multipart/form-data" role="form" class="form-horizontal">
+<form method="post" action="{$SCRIPT_NAME}?act=feeds&part=create_item&page={$smarty.get.page}" enctype="multipart/form-data" role="form">
 	<div class="panel-body">
 		<div class="form-group">
 			<label for="inputTitle" class="col-lg-3 control-label">

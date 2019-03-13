@@ -8,7 +8,7 @@
 {/literal}
 
 <div id="bglogin">
-	<form method="post" class="form-horizontal" role="form">
+	<form method="post" role="form">
 		<div class="modal show" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 			<div class="modal-dialog modal-login">
 				<div class="modal-content" id="LoginForm">

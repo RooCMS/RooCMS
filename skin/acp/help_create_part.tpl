@@ -5,7 +5,7 @@
 	Новый раздел помощи
 </div>
 <div class="panel-body">
-	<form method="post" action="{$SCRIPT_NAME}?act=help&part=create_part" enctype="multipart/form-data" role="form" class="form-horizontal">
+	<form method="post" action="{$SCRIPT_NAME}?act=help&part=create_part" enctype="multipart/form-data" role="form">
 		<div class="form-group">
 			<label for="inputUname" class="col-md-3 control-label">
 				uname:

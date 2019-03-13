@@ -1,23 +1,26 @@
 {* Шаблон управления помощью сайта *}
 {if $smarty.const.DEBUGMODE}
-<div class="col-sm-3 col-md-2">
-	<div class="row hidden-xs">
-		<div class="panel panel-default">
-			<div class="panel-heading visible-lg">
+	<div class="col-sm-3 col-md-2">
+		<div class="card d-none d-sm-block submenu sticky-top">
+			<div class="card-header d-none d-lg-block">
 				Разработчику
 			</div>
 			<div class="list-group">
-				<a href="{$SCRIPT_NAME}?act=help&part=create_part" class="list-group-item{if isset($smarty.get.part) && $smarty.get.part == "create_part"} active{/if}"><span class="fa fa-fw fa-plus-circle"></span> Добавить новый раздел</a>
+				<a href="{$SCRIPT_NAME}?act=help&part=create_part" class="list-group-item list-group-item-action text-decoration-none{if isset($smarty.get.part) && $smarty.get.part == "create_part"} active{/if}"><span class="fas fa-fw fa-plus-circle"></span> Добавить раздел</a>
+			</div>
+		</div>
+
+		<div class="row justify-content-center mb-3">
+			<div class="col-auto">
+				<div class="btn-group btn-group-sm d-block d-sm-none">
+					<a href="{$SCRIPT_NAME}?act=help&part=create_part" class="btn btn-outline-primary {if isset($smarty.get.part) && $smarty.get.part == "create_part"} active{/if}"><span class="fas fa-fw fa-plus-circle"></span> Добавить раздел</a>
+				</div>
 			</div>
 		</div>
 	</div>
-	<div class="btn-group btn-group-sm btn-group-justified visible-xs submenu-xs">
-		<a href="{$SCRIPT_NAME}?act=help&part=create_part" class="btn btn-default {if isset($smarty.get.part) && $smarty.get.part == "create_part"} active{/if}"><span class="fa fa-fw fa-plus-circle"></span> Добавить раздел</a>
-	</div>
-</div>
 {/if}
-<div class="col-sm-{if $smarty.const.DEBUGMODE}9 col-md-10{else} col-sm-12{/if}">
-	<div class=" panel panel-default">
+<div class="col-sm-{if $smarty.const.DEBUGMODE}9 col-md-10{else}12{/if}">
+	<div class="card">
 		{$content}
 	</div>
 </div>

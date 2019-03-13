@@ -2,7 +2,7 @@
 <div class="card-header">
 	Редактириуем параметры страницы
 </div>
-<form method="post" action="{$SCRIPT_NAME}?act=structure&part=edit&id={$data['id']}" role="form" class="form-horizontal">
+<form method="post" action="{$SCRIPT_NAME}?act=structure&part=edit&id={$data['id']}" role="form">
 <div class="card-body">
 	<div class="form-group row">
 		<label for="inputTitle" class="col-md-4 form-control-plaintext text-right">
@@ -165,8 +165,8 @@
 <div class="card-footer">
 	<div class="row">
 		<div class="col-lg-8 offset-md-4">
-			<input type="submit" name="update_unit" class="btn btn-success" value="Сохранить">
-			<input type="submit" name="update_unit['ae']" class="btn btn-outline-success" value="Сохранить и выйти">
+			<input type="submit" name="update_unit" class="btn btn-success btn-lg" value="Сохранить">
+			<input type="submit" name="update_unit['ae']" class="btn btn-outline-success btn-lg" value="Сохранить и выйти">
 		</div>
 	</div>
 </div>

@@ -3,7 +3,7 @@
 	Редактируем группу
 </div>
 <div class="panel-body">
-	<form method="post" action="{$SCRIPT_NAME}?act=users&part=update_group&gid={$group['gid']}" role="form" class="form-horizontal">
+	<form method="post" action="{$SCRIPT_NAME}?act=users&part=update_group&gid={$group['gid']}" role="form">
 
 		<div class="form-group">
 			<label for="inputTitle" class="col-lg-3 control-label">

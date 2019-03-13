@@ -3,7 +3,7 @@
 	Новая группа
 </div>
 <div class="panel-body">
-	<form method="post" action="{$SCRIPT_NAME}?act=users&part=create_group" role="form" class="form-horizontal">
+	<form method="post" action="{$SCRIPT_NAME}?act=users&part=create_group" role="form">
 
 		<div class="form-group">
 			<label for="inputTitle" class="col-lg-3 control-label">

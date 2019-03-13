@@ -5,7 +5,7 @@
 	Редактируем "{$item['title']}"
 </div>
 
-<form method="post" action="{$SCRIPT_NAME}?act=feeds&part=update_item&item={$item['id']}&page={$item['sid']}" enctype="multipart/form-data" role="form" class="form-horizontal">
+<form method="post" action="{$SCRIPT_NAME}?act=feeds&part=update_item&item={$item['id']}&page={$item['sid']}" enctype="multipart/form-data" role="form">
 	<div class="panel-body">
 		<div class="btn-group" data-toggle="buttons">
 			<label class="btn btn-default{if $item['status'] == 1} active{/if} btn-sm" for="flag_status_true" rel="tooltip" title="Публиковать" data-placement="auto" data-container="body">

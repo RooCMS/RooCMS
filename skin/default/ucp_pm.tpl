@@ -41,7 +41,7 @@
 
 <div class="row">
 	<div class="col-sm-12">
-		<form method="post" action="{$SCRIPT_NAME}?part=ucp&act=pm&move=send" class="form-horizontal">
+		<form method="post" action="{$SCRIPT_NAME}?part=ucp&act=pm&move=send">
 
 			<div class="form-group">
 				<label for="inputTo" class="col-lg-4 control-label">Получатель:</label>

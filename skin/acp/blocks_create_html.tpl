@@ -4,7 +4,7 @@
 
 	Новый HTML блок
 </div>
-<form method="post" action="{$SCRIPT_NAME}?act=blocks&part=create&type=html" enctype="multipart/form-data" role="form" class="form-horizontal">
+<form method="post" action="{$SCRIPT_NAME}?act=blocks&part=create&type=html" enctype="multipart/form-data" role="form">
 	<div class="panel-body">
 		<div class="form-group">
 			<label for="inputAlias" class="col-md-3 control-label">

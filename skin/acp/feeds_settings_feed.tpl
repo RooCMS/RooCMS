@@ -4,7 +4,7 @@
 	Параметры ленты
 </div>
 <div class="panel-body">
-	<form method="post" action="{$SCRIPT_NAME}?act=feeds&part=update_settings&page={$feed['id']}" role="form" class="form-horizontal">
+	<form method="post" action="{$SCRIPT_NAME}?act=feeds&part=update_settings&page={$feed['id']}" role="form">
 		<div class="form-group">
 			<label for="inputRss" class="col-lg-3 control-label">
 				RSS вывод: <small><i class="fa fa-question-circle fa-fw" rel="tooltip" title="Включить/Выключить RSS ленту" data-placement="right"></i></small>

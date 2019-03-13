@@ -3,7 +3,7 @@
 	Редактируем пользователя #{$user['uid']} {$user['nickname']}
 </div>
 <div class="panel-body">
-	<form method="post" action="{$SCRIPT_NAME}?act=users&part=update_user&uid={$user['uid']}" enctype="multipart/form-data" role="form" class="form-horizontal">
+	<form method="post" action="{$SCRIPT_NAME}?act=users&part=update_user&uid={$user['uid']}" enctype="multipart/form-data" role="form">
 
 		{if $user['uid'] != 1}
 		<div class="btn-group" data-toggle="buttons">
