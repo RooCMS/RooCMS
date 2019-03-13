@@ -1,25 +1,25 @@
 {* Шаблон редактирования структуры страницы *}
-<div class="panel-heading">
+<div class="card-header">
 	Редактириуем параметры страницы
 </div>
 <form method="post" action="{$SCRIPT_NAME}?act=structure&part=edit&id={$data['id']}" role="form" class="form-horizontal">
-<div class="panel-body">
-	<div class="form-group">
-		<label for="inputTitle" class="col-lg-3 control-label">
+<div class="card-body">
+	<div class="form-group row">
+		<label for="inputTitle" class="col-md-4 form-control-plaintext text-right">
 			Название страницы: <small><span class="fa fa-question-circle fa-fw" rel="tooltip" title="Будет использовано в меню и хлебных крошках." data-placement="left"></span></small>
 		</label>
-		<div class="col-lg-9">
+		<div class="col-md-8">
 			<input type="text" name="title" id="inputTitle" class="form-control" spellcheck required value="{$data['title']}">
 		</div>
 	</div>
 
-	<div class="form-group">
-		<label for="inputAlias" class="col-lg-3 control-label">
+	<div class="form-group row">
+		<label for="inputAlias" class="col-md-4 form-control-plaintext text-right">
 			Alias страницы:  <small><span class="fa fa-question-circle fa-fw" rel="tooltip" title="Значение должно быть уникальным" data-placement="left"></span></small>
 		</label>
-		<div class="col-lg-9">
+		<div class="col-md-8">
 			{if $data['id'] == 1}
-				<p class="text-danger form-control-static">Нельзя изменять алиас главной страницы!</p>
+				<span class="text-danger form-control-plaintext">Нельзя изменять алиас главной страницы!</span>
 				<input type="hidden" name="alias" class="f_input" value="{$data['alias']}" required readonly>
 			{else}
 				<input type="text" name="alias" id="inputAlias" class="form-control" value="{$data['alias']}">
@@ -28,87 +28,87 @@
 		</div>
 	</div>
 
-	<div class="form-group">
-		<label for="inputMetaTitle" class="col-lg-3 control-label">
+	<div class="form-group row">
+		<label for="inputMetaTitle" class="col-md-4 form-control-plaintext text-right">
 			Мета заголовок: <small><span class="fa fa-question-circle fa-fw" rel="tooltip" title="Meta Title" data-placement="left"></span></small>
 		</label>
-		<div class="col-lg-9">
+		<div class="col-md-8">
 			<input type="text" name="meta_title" id="inputMetaTitle" class="form-control" value="{$data['meta_title']}" spellcheck>
 		</div>
 	</div>
 
-	<div class="form-group">
-		<label for="inputMetaDesc" class="col-lg-3 control-label">
+	<div class="form-group row">
+		<label for="inputMetaDesc" class="col-md-4 form-control-plaintext text-right">
 			Мета описание: <small><span class="fa fa-question-circle fa-fw" rel="tooltip" title="Meta Description" data-placement="left"></span></small>
 		</label>
-		<div class="col-lg-9">
+		<div class="col-md-8">
 			<input type="text" name="meta_description" id="inputMetaDesc" class="form-control" value="{$data['meta_description']}" spellcheck>
 		</div>
 	</div>
 
-	<div class="form-group">
-		<label for="inputMetaKeys" class="col-lg-3 control-label">
+	<div class="form-group row">
+		<label for="inputMetaKeys" class="col-md-4 mb-0 mt-2 text-right">
 			Ключевые слова: <small><span class="fa fa-question-circle fa-fw" rel="tooltip" title="Meta Keywords" data-placement="left"></span></small>
 		</label>
-		<div class="col-lg-9">
+		<div class="col-md-8">
 			<input type="text" name="meta_keywords" id="inputMetaKeys" class="form-control" value="{$data['meta_keywords']}" spellcheck>
 		</div>
 	</div>
 
-	<div class="form-group">
-		<label for="inputNoindex" class="col-lg-3 control-label">
+	<div class="form-group row">
+		<label for="inputNoindex" class="col-md-4 form-control-plaintext text-right">
 			SEO индексация: <small><span class="fa fa-question-circle fa-fw" rel="tooltip" title="Запрещает индексировать страницу поисковыми роботами." data-placement="left"></span></small>
 		</label>
-		<div class="col-lg-9">
-			<div class="btn-group roocms-boolui" data-toggle="buttons">
-				<label class="btn btn-default{if !$data['noindex']} active{/if}">
-					<input type="radio" name="noindex" value="0" id="flag_noindex_false"{if !$data['noindex']} checked{/if}><span class="text-success"><i class="fa fa-fw fa-check-square-o"></i>Разрешить индексацию</span>
+		<div class="col-md-8">
+			<div class="btn-group btn-group-toggle roocms-boolui" data-toggle="buttons">
+				<label class="btn btn-light{if !$data['noindex']} active{/if}">
+					<input type="radio" name="noindex" value="0" id="flag_noindex_false"{if !$data['noindex']} checked{/if}><i class="fas fa-fw fa-check-square text-success"></i>Разрешить индексацию
 				</label>
-				<label class="btn btn-default{if $data['noindex']} active{/if}">
-					<input type="radio" name="noindex" value="1" id="flag_noindex_true"{if $data['noindex']} checked{/if}><span class="text-danger"><i class="fa fa-fw fa-square-o"></i>Запретить индексацию</span>
+				<label class="btn btn-light{if $data['noindex']} active{/if}">
+					<input type="radio" name="noindex" value="1" id="flag_noindex_true"{if $data['noindex']} checked{/if}><i class="fas fa-fw fa-square text-danger"></i>Запретить индексацию
 				</label>
 			</div>
 		</div>
 	</div>
 
-	{* Миниаютры *}
+	{* Thumbnails *}
 	{if $data['page_type'] != "php"}
-		<div class="form-group">
-			<label for="inputThumbWidth" class="col-lg-3 control-label">
+		<div class="form-group row">
+			<label for="inputThumbWidth" class="col-md-4 form-control-plaintext text-right">
 				Ширина миниатюр картинок у этой страницы:
 				<small><span class="fa fa-question-circle fa-fw" rel="tooltip" title="Значение в пикселях. Оставьте поле пустым или укажите 0 что бы применить глобальные настройки." data-placement="left"></span></small>
 			</label>
-			<div class="col-lg-9">
+			<div class="col-md-8">
 				<input type="number" name="thumb_img_width" id="inputThumbWidth" class="form-control" pattern="^[ 0-9]+$" value="{$data['thumb_img_width']}">
 				<small{if $data['thumb_img_width'] == 0} class="text-primary"{/if}>По умолчанию: {$default_thumb_size['width']}px</small>
 			</div>
 		</div>
-		<div class="form-group">
-			<label for="inputThumbHeight" class="col-lg-3 control-label">
+		<div class="form-group row">
+			<label for="inputThumbHeight" class="col-md-4 form-control-plaintext text-right">
 				Высота миниатюр картинок у этой страницы:
 				<small><span class="fa fa-question-circle fa-fw" rel="tooltip" title="Значение в пикселях. Оставьте поле пустым или укажите 0 что бы применить глобальные настройки." data-placement="left"></span></small>
 			</label>
-			<div class="col-lg-9">
+			<div class="col-md-8">
 				<input type="number" name="thumb_img_height" id="inputThumbHeight" class="form-control" pattern="^[ 0-9]+$" value="{$data['thumb_img_height']}">
 				<small{if $data['thumb_img_height'] == 0} class="text-primary"{/if}>По умолчанию: {$default_thumb_size['height']}px</small>
 			</div>
 		</div>
 	{/if}
 
-	<div class="form-group">
-		<label for="inputSort" class="col-lg-3 control-label">
+	<div class="form-group row">
+		<label for="inputSort" class="col-md-4 form-control-plaintext text-right">
 			Порядок расположения страницы в структуре:
 		</label>
-		<div class="col-lg-9">
+		<div class="col-md-8">
 			<input type="number" name="sort" id="inputSort" class="form-control" value="{$data['sort']}" pattern="^[ 0-9]+$">
 		</div>
 	</div>
 
-	<div class="form-group">
-		<label for="inputStructure" class="col-lg-3 control-label">
+	<div class="form-group row">
+		<label for="inputStructure" class="col-md-4 form-control-plaintext text-right">
 			Расположение страницы в структуре:
 		</label>
-		<div class="col-lg-9">
+		<div class="col-md-8">
 			{if $data['id'] != 1}
 				<select name="parent_id" id="inputStructure" class="selectpicker show-tick" required data-header="Структура сайта" data-size="auto" data-live-search="true" data-width="50%">
 				{foreach from=$tree item=p}
@@ -116,23 +116,23 @@
 				{/foreach}
 				</select>
 			{else}
-				<p class="text-primary form-control-static">Это корневая страница!</p>
+				<p class="text-primary form-control-plaintext">Это корневая страница!</p>
 			{/if}
 			<input type="hidden" name="now_parent_id" value="{$data['parent_id']}" readonly>
 		</div>
 	</div>
 
 	{if !empty($groups)}
-	<div class="form-group">
-		<label for="inputGroupAccess" class="col-lg-3 control-label">
+	<div class="form-group row">
+		<label for="inputGroupAccess" class="col-md-4 form-control-plaintext text-right">
 			Доступ для групп:
 			<small><span class="fa fa-question-circle fa-fw" rel="tooltip" title="Укажите какие группы пользователей смогут просматривать эту страницу" data-placement="left"></span></small>
 		</label>
-		<div class="col-lg-9">
-			<div class="btn-group" data-toggle="buttons" id="inputGroupAccess">
+		<div class="col-md-8">
+			<div class="btn-group btn-group-toggle roocms-boolui" data-toggle="buttons" id="inputGroupAccess">
 				{foreach from=$groups item=group}
-					<label class="btn btn-default {if isset($gids[$group['gid']])}active{/if}">
-						<input type="checkbox" name="gids[]" value="{$group['gid']}" autocomplete="off"{if isset($gids[$group['gid']])} checked{/if}><i class="fa fa-fw fa-users"></i> {$group['title']}
+					<label class="btn btn-light {if isset($gids[$group['gid']])}active{/if}">
+						<input type="checkbox" name="gids[]" value="{$group['gid']}" autocomplete="off"{if isset($gids[$group['gid']])} checked{/if}><i class="far fa-fw fa-{if isset($gids[$group['gid']])}check-{/if}square"></i> {$group['title']}
 					</label>
 				{/foreach}
 			</div>
@@ -140,33 +140,33 @@
 	</div>
 	{/if}
 
-	<div class="form-group">
-		<label for="inputNoNav" class="col-lg-3 control-label">
+	<div class="form-group row">
+		<label for="inputNoNav" class="col-md-4 form-control-plaintext text-right">
 			Навигация: <small><span class="fa fa-question-circle fa-fw" rel="tooltip" title="Данный раздел можно обозначить как часть общей навигации" data-placement="left"></span></small>
 		</label>
 		{if $data['id'] != 1}
-			<div class="col-lg-9">
-				<div class="btn-group roocms-boolui" data-toggle="buttons">
-					<label class="btn btn-default {if $data['nav']} active{/if}">
-						<input type="radio" name="nav" value="1" id="flag_nav_false" {if $data['nav']} checked{/if}><span class="text-success"><i class="fa fa-fw fa-check-square-o"></i>Отображать</span>
+			<div class="col-md-8">
+				<div class="btn-group btn-group-toggle roocms-boolui" data-toggle="buttons">
+					<label class="btn btn-light {if $data['nav']} active{/if}">
+						<input type="radio" name="nav" value="1" id="flag_nav_false" {if $data['nav']} checked{/if}><i class="fas fa-fw fa-check-square text-success"></i>Отображать
 					</label>
-					<label class="btn btn-default {if !$data['nav']} active{/if}">
-						<input type="radio" name="nav" value="0" id="flag_nav_true" {if !$data['nav']} checked{/if}><span class="text-danger"><i class="fa fa-fw fa-square-o"></i>Скрыть</span>
+					<label class="btn btn-light {if !$data['nav']} active{/if}">
+						<input type="radio" name="nav" value="0" id="flag_nav_true" {if !$data['nav']} checked{/if}><i class="fas fa-fw fa-square text-danger"></i>Скрыть
 					</label>
 				</div>
 			</div>
 		{else}
-			<div class="col-lg-9">
-				<p class="text-primary form-control-static">Главная страница всегда будет частью навигации сайта. :)</p>
+			<div class="col-md-8">
+				<p class="text-primary form-control-plaintext">Главная страница всегда будет частью навигации сайта. :)</p>
 			</div>
 		{/if}
 	</div>
 </div>
-<div class="panel-footer">
+<div class="card-footer">
 	<div class="row">
-		<div class="col-lg-9 col-md-offset-3">
+		<div class="col-lg-8 offset-md-4">
 			<input type="submit" name="update_unit" class="btn btn-success" value="Сохранить">
-			<input type="submit" name="update_unit['ae']" class="btn btn-default" value="Сохранить и выйти">
+			<input type="submit" name="update_unit['ae']" class="btn btn-outline-success" value="Сохранить и выйти">
 		</div>
 	</div>
 </div>

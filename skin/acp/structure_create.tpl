@@ -5,7 +5,7 @@
 <form method="post" action="{$SCRIPT_NAME}?act=structure&part=create" role="form" class="form-horizontal">
 <div class="card-body">
 	<div class="form-group row">
-		<label for="inputTitle" class="col-md-4 col-form-label mb-0 mt-2 text-right">
+		<label for="inputTitle" class="col-md-4 form-control-plaintext text-right">
 			Название страницы: <small><span class="fas fa-question-circle fa-fw" rel="tooltip" title="Будет использовано в меню и хлебных крошках." data-placement="left"></span></small>
 		</label>
 		<div class="col-md-8">
@@ -14,7 +14,7 @@
 	</div>
 
 	<div class="form-group row">
-		<label for="inputAlias" class="col-md-4 col-form-label mb-0 mt-2 text-right">
+		<label for="inputAlias" class="col-md-4 form-control-plaintext text-right">
 			Alias страницы:  <small><span class="fas fa-question-circle fa-fw" rel="tooltip" title="Значение должно быть уникальным" data-placement="left"></span></small>
 		</label>
 		<div class="col-md-8">
@@ -24,7 +24,7 @@
 
 	{* SEO *}
 	<div class="form-group row">
-		<label for="inputMetaTitle" class="col-md-4 col-form-label mb-0 mt-2 text-right">
+		<label for="inputMetaTitle" class="col-md-4 form-control-plaintext text-right">
 			Мета заголовок: <small><span class="fas fa-question-circle fa-fw" rel="tooltip" title="Meta Title" data-placement="left"></span></small>
 		</label>
 		<div class="col-lg-8">
@@ -33,7 +33,7 @@
 	</div>
 
 	<div class="form-group row">
-		<label for="inputMetaDesc" class="col-md-4 col-form-label mb-0 mt-2 text-right">
+		<label for="inputMetaDesc" class="col-md-4 form-control-plaintext text-right">
 			Мета описание: <small><span class="fas fa-question-circle fa-fw" rel="tooltip" title="Meta Description" data-placement="left"></span></small>
 		</label>
 		<div class="col-lg-8">
@@ -42,7 +42,7 @@
 	</div>
 
 	<div class="form-group row">
-		<label for="inputMetaKeys" class="col-md-4 col-form-label mb-0 mt-2 text-right">
+		<label for="inputMetaKeys" class="col-md-4 form-control-plaintext text-right">
 			Ключевые слова: <small><span class="fas fa-question-circle fa-fw" rel="tooltip" title="Meta Keywords" data-placement="left"></span></small>
 		</label>
 		<div class="col-lg-8">
@@ -51,7 +51,7 @@
 	</div>
 
 	<div class="form-group row">
-		<label for="inputNoindex" class="col-md-4 col-form-label mb-0 mt-2 text-right">
+		<label for="inputNoindex" class="col-md-4 form-control-plaintext text-right">
 			SEO индексация: <small><span class="fas fa-question-circle fa-fw" rel="tooltip" title="Запрещает индексировать страницу поисковыми роботами." data-placement="left"></span></small>
 		</label>
 		<div class="col-lg-8">
@@ -66,9 +66,9 @@
 		</div>
 	</div>
 
-	{* Миниаютры *}
+	{* Thumbnails *}
 	<div class="form-group row">
-		<label for="inputThumbWidth" class="col-md-4 col-form-label mb-0 mt-2 text-right">
+		<label for="inputThumbWidth" class="col-md-4 form-control-plaintext text-right">
 			Ширина миниатюр картинок у этой страницы:
 			<small><span class="fas fa-question-circle fa-fw" rel="tooltip" title="Значение в пикселях. Оставьте поле пустым или укажите 0 что бы применить глобальные настройки." data-placement="left"></span></small>
 		</label>
@@ -78,7 +78,7 @@
 		</div>
 	</div>
 	<div class="form-group row">
-		<label for="inputThumbHeight" class="col-md-4 col-form-label mb-0 mt-2 text-right">
+		<label for="inputThumbHeight" class="col-md-4 form-control-plaintext text-right">
 			Высота миниатюр картинок у этой страницы:
 			<small><span class="fas fa-question-circle fa-fw" rel="tooltip" title="Значение в пикселях. Оставьте поле пустым или укажите 0 что бы применить глобальные настройки." data-placement="left"></span></small>
 		</label>
@@ -89,7 +89,7 @@
 	</div>
 
 	<div class="form-group row">
-		<label for="inputSort" class="col-md-4 col-form-label mb-0 mt-2 text-right">
+		<label for="inputSort" class="col-md-4 form-control-plaintext text-right">
 			Порядок расположения страницы в структуре:
 		</label>
 		<div class="col-lg-8">
@@ -98,7 +98,7 @@
 	</div>
 
 	<div class="form-group row">
-		<label for="inputType" class="col-md-4 col-form-label mb-0 mt-2 text-right">
+		<label for="inputType" class="col-md-4 form-control-plaintext text-right">
 			Тип страницы: <small><span class="fas fa-question-circle fa-fw" rel="tooltip" title="Вы не сможете в последствии изменить тип страницы." data-placement="left"></span></small>
 		</label>
 		<div class="col-lg-8">
@@ -111,7 +111,7 @@
 	</div>
 
 	<div class="form-group row">
-		<label for="inputStructure" class="col-md-4 col-form-label mb-0 mt-2 text-right">
+		<label for="inputStructure" class="col-md-4 form-control-plaintext text-right">
 			Расположение страницы в структуре:
 		</label>
 		<div class="col-lg-8">
@@ -125,7 +125,7 @@
 
 	{if !empty($groups)}
 		<div class="form-group row">
-			<label for="inputGroupAccess" class="col-md-4 col-form-label mb-0 mt-2 text-right">
+			<label for="inputGroupAccess" class="col-md-4 form-control-plaintext text-right">
 				Доступ для групп:
 				<small><span class="fas fa-question-circle fa-fw" rel="tooltip" title="Укажите какие группы пользователей смогут просматривать эту страницу" data-placement="left"></span></small>
 			</label>
@@ -145,7 +145,7 @@
 	{/if}
 
 	<div class="form-group row">
-		<label for="inputNoNav" class="col-md-4 col-form-label mb-0 mt-2 text-right">
+		<label for="inputNoNav" class="col-md-4 form-control-plaintext text-right">
 			Навигация: <small><span class="fas fa-question-circle fa-fw" rel="tooltip" title="Данный раздел можно обозначить как часть общей навигации" data-placement="left"></span></small>
 		</label>
 		<div class="col-lg-8">

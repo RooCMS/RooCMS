@@ -45,7 +45,7 @@
 						{/foreach}
 					</select>
 				{else}
-					<p class="text-primary form-control-static">Это корневая страница раздела!</p>
+					<p class="text-primary form-control-plaintext">Это корневая страница раздела!</p>
 					<input type="hidden" name="parent_id" value="{$data['parent_id']}" readonly>
 				{/if}
 				<input type="hidden" name="now_parent_id" value="{$data['parent_id']}" readonly>
