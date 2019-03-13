@@ -1,44 +1,40 @@
 {* Шаблон редактирования HTML страницы *}
 <script type="text/javascript" src="plugin/ckeditor.php"></script>
 
-<div class="panel-heading">
-	<q>{$data['title']}</q>
+<div class="card-header align-middle">
+	<q class="mt-1">{$data['title']}</q>
 
-	<p class="pull-right"><a href="{$SCRIPT_NAME}?act=structure&part=edit&id={$data['sid']}" class="btn btn-primary btn-xs"><span class="fa fa-pencil-square-o fa-fw"></span> Редактировать информацию</a></p>
+	<a href="{$SCRIPT_NAME}?act=structure&part=edit&id={$data['sid']}" class="btn btn-outline-primary btn-sm float-right"><span class="fas fa-edit fa-fw"></span> Редактировать информацию</a>
 </div>
 <form method="post" action="{$SCRIPT_NAME}?act=pages&part=update&page={$data['sid']}" enctype="multipart/form-data" role="form" class="form-horizontal">
-	<div class="panel-body">
-		<div class="row">
-			<div class="col-lg-12">
-				<dl class="dl-horizontal">
-					<dt>ID #:</dt>
-					<dd>{$data['sid']}</dd>
+	<div class="card-body">
 
-					<dt>Название страницы:</dt>
-					<dd><a href="index.php?page={$data['alias']}" target="_blank">{$data['title']}</a></dd>
+		<dl class="row">
+			<dt class="col-sm-4">ID #:</dt>
+			<dd class="col-sm-8">{$data['sid']}</dd>
 
-					<dt>Алиас страницы:</dt>
-					<dd>{$data['alias']}</dd>
+			<dt class="col-sm-4">Название страницы:</dt>
+			<dd class="col-sm-8"><a href="index.php?page={$data['alias']}" target="_blank"><i class="fas fa-external-link-square-alt fa-fw"></i>{$data['title']}</a></dd>
 
-					{if $data['meta_description'] != ""}
-						<dt>Мета описание:</dt>
-						<dd>{$data['meta_description']}</dd>
-					{/if}
+			<dt class="col-sm-4">Алиас страницы:</dt>
+			<dd class="col-sm-8">{$data['alias']}</dd>
 
-					{if $data['meta_keywords'] != ""}
-						<dt>Мета ключевые слова:</dt>
-						<dd>{$data['meta_keywords']}</dd>
-					{/if}
+			{if $data['meta_description'] != ""}
+				<dt class="col-sm-4">Мета описание:</dt>
+				<dd class="col-sm-8">{$data['meta_description']}</dd>
+			{/if}
 
-					<dt>Последнее обновление:</dt>
-					<dd>{$data['lm']}</dd>
-				</dl>
-			</div>
-		</div>
+			{if $data['meta_keywords'] != ""}
+				<dt class="col-sm-4">Мета ключевые слова:</dt>
+				<dd class="col-sm-8">{$data['meta_keywords']}</dd>
+			{/if}
+
+			<dt class="col-sm-4">Последнее обновление:</dt>
+			<dd class="col-sm-8">{$data['lm']}</dd>
+		</dl>
+
 		<div class="form-group">
-			<div class="col-lg-12">
-				<textarea id="content_field" class="form-control ckeditor" name="content" spellcheck>{$data['content']}</textarea>
-			</div>
+			<textarea id="content_field" class="form-control ckeditor" name="content" spellcheck>{$data['content']}</textarea>
 		</div>
 		<div class="row">
 			<div class="col-md-6">
@@ -57,9 +53,9 @@
 			</div>
 		</div>
 	</div>
-	<div class="panel-footer">
+	<div class="card-footer">
 		<div class="row">
-			<div class="col-md-12">
+			<div class="col-lg-12">
 				<input type="submit" name="update_page" class="btn btn-success" value="Обновить страницу">
 			</div>
 		</div>

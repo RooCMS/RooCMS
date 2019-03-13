@@ -1,4 +1,7 @@
 @charset "utf-8";
+html {
+  font-size: 15px;
+}
 body {
   background: #fff;
   font-family: 'Open Sans', 'Ubuntu', 'Trebuchet MS', 'Tahoma' !important;
@@ -76,10 +79,13 @@ a:not([class]) {
   padding: 6px 12px !important;
 }
 .bg-primary,
+.bg-secondary,
 .bg-info,
 .bg-success,
 .bg-warning,
-.bg-danger {
+.bg-danger,
+.bg-dark,
+.bg-light {
   padding: 15px;
 }
 /* Mark */

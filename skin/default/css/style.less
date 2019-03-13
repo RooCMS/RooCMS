@@ -17,12 +17,17 @@
 @brand-warning:	#FB8C00;
 @brand-danger:  #C60D14;
 
+@body-fs:	15px;
+
 .shadows (@shadow) {
 	-moz-box-shadow: @shadow !important;
 	-webkit-box-shadow: @shadow !important;;
 	box-shadow: @shadow !important;;
 }
 
+html {
+	font-size: @body-fs;
+}
 body {	background: @bg-color;
 	font-family: 'Open Sans','Ubuntu','Trebuchet MS','Tahoma' !important;
 	color: @text-color !important;
@@ -69,7 +74,7 @@ a[class=""], a:not([class]) {font-weight: 600 !important;}
 
 /* Other BS fix styles */
 .form-control.datepicker {padding:6px 12px !important;}
-.bg-primary, .bg-info, .bg-success, .bg-warning, .bg-danger {padding: 15px;}
+.bg-primary, .bg-secondary, .bg-info, .bg-success, .bg-warning, .bg-danger, .bg-dark, .bg-light {padding: 15px;}
 
 
 /* Mark */

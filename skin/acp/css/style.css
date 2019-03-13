@@ -151,9 +151,6 @@ a:hover [class^="fa-"] {
   text-decoration: none !important;
 }
 /* style for attached files */
-.attached-images > .thumbnail {
-  margin-bottom: 5px !important;
-}
 .attach-img {
   border: 0;
   width: 160px;
@@ -168,13 +165,6 @@ a:hover [class^="fa-"] {
 .input-alt-text:hover,
 .input-alt-text:focus {
   border: inherit !important;
-}
-.op_attached_images {
-  margin-right: -3px;
-  margin-top: 5px;
-}
-p.attach_files {
-  padding: 8px 8px;
 }
 /* Avatar */
 .avatar {

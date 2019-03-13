@@ -29,7 +29,7 @@ CKEDITOR.editorConfig = function( config ) {
 
 	//config.extraPlugins='codemirror';
 
-	config.fontawesomePath = '/plugin/bootstrap/css/font-awesome.min.css';
+	config.fontawesomePath = '/plugin/font-awesome/css/font-awesome.min.css';
 
 	//config.filebrowserBrowseUrl = '/browser/browse.php';
 	//config.filebrowserUploadUrl = '/uploader/upload.php';
@@ -64,33 +64,41 @@ CKEDITOR.editorConfig = function( config ) {
 	// PARSER
 	// ANOTHER CONFIG
 
-	config.contentsCss = ['/skin/default/css/style.min.css',
+	config.contentsCss = [
 		'/plugin/bootstrap/css/bootstrap.min.css',
-		'/plugin/bootstrap/css/bootstrap-select.min.css',
-		'/plugin/bootstrap/css/font-awesome.min.css'];
+		'/plugin/bootstrap-select/css/bootstrap-select.min.css',
+		'/plugin/font-awesome/css/font-awesome.min.css',
+		'/skin/default/css/style.min.css'
+	];
 	// config.bodyId = 'content_editable';
 
 	config.stylesSet = [
 		{ name: 'block muted',		element: 'p', attributes: { class: 'text-muted' } },
 		{ name: 'block primary',	element: 'p', attributes: { class: 'text-primary' } },
+		{ name: 'block secondary',	element: 'p', attributes: { class: 'text-secondary' } },
 		{ name: 'block success',	element: 'p', attributes: { class: 'text-success' } },
 		{ name: 'block info',		element: 'p', attributes: { class: 'text-info' } },
 		{ name: 'block warning',	element: 'p', attributes: { class: 'text-warning' } },
 		{ name: 'block danger',		element: 'p', attributes: { class: 'text-danger' } },
+		{ name: 'block dark',		element: 'p', attributes: { class: 'text-dark' } },
+		{ name: 'block light',		element: 'p', attributes: { class: 'text-light' } },
 		{ name: 'Context primary',	element: 'p', attributes: { class: 'bg-primary' } },
+		{ name: 'Context secondary',	element: 'p', attributes: { class: 'bg-secondary' } },
 		{ name: 'Context success',	element: 'p', attributes: { class: 'bg-success' } },
 		{ name: 'Context info',		element: 'p', attributes: { class: 'bg-info' } },
 		{ name: 'Context warning',	element: 'p', attributes: { class: 'bg-warning' } },
 		{ name: 'Context danger',	element: 'p', attributes: { class: 'bg-danger' } },
+		{ name: 'Context dark',		element: 'p', attributes: { class: 'bg-dark' } },
+		{ name: 'Context light',	element: 'p', attributes: { class: 'bg-light' } },
 		{ name: 'Lead',			element: 'p', attributes: { class: 'lead' } },
+		{ name: 'Alert primary',	element: 'div', attributes: { class: 'alert alert-primary' } },
+		{ name: 'Alert secondary',	element: 'div', attributes: { class: 'alert alert-secondary' } },
 		{ name: 'Alert success',	element: 'div', attributes: { class: 'alert alert-success' } },
 		{ name: 'Alert info',		element: 'div', attributes: { class: 'alert alert-info' } },
 		{ name: 'Alert warning',	element: 'div', attributes: { class: 'alert alert-warning' } },
 		{ name: 'Alert danger',		element: 'div', attributes: { class: 'alert alert-danger' } },
-		{ name: 'Well',			element: 'div', attributes: { class: 'well' } },
-		{ name: 'Well Large',		element: 'div', attributes: { class: 'well well-lg' } },
-		{ name: 'Well Small',		element: 'div', attributes: { class: 'well well-sm' } },
-		{ name: 'Jumbotron',		element: 'div', attributes: { class: 'jumbotron' } },
+		{ name: 'Alert dark',		element: 'div', attributes: { class: 'alert alert-dark' } },
+		{ name: 'Alert light',		element: 'div', attributes: { class: 'alert alert-light' } },
 		{ name: 'Big',			element: 'big' },
 		{ name: 'Small',		element: 'small' },
 		{ name: 'Typewriter',		element: 'tt' },
@@ -103,19 +111,23 @@ CKEDITOR.editorConfig = function( config ) {
 		{ name: 'Inserted text',	element: 'ins' },
 		{ name: 'Cite',			element: 'cite' },
 		{ name: 'Quoted',		element: 'q' },
-		{ name: 'Label default',	element: 'span', attributes: { class: 'label label-default' } },
-		{ name: 'Label primary',	element: 'span', attributes: { class: 'label label-primary' } },
-		{ name: 'Label info',		element: 'span', attributes: { class: 'label label-info' } },
-		{ name: 'Label success',	element: 'span', attributes: { class: 'label label-success' } },
-		{ name: 'Label warning',	element: 'span', attributes: { class: 'label label-warning' } },
-		{ name: 'Label danger',		element: 'span', attributes: { class: 'label label-danger' } },
-		{ name: 'Badge',		element: 'span', attributes: { class: 'badge' } },
+		{ name: 'Badge primary',	element: 'span', attributes: { class: 'badge badge-primary' } },
+		{ name: 'Badge secondary',	element: 'span', attributes: { class: 'badge badge-secondary' } },
+		{ name: 'Badge info',		element: 'span', attributes: { class: 'badge badge-info' } },
+		{ name: 'Badge success',	element: 'span', attributes: { class: 'badge badge-success' } },
+		{ name: 'Badge warning',	element: 'span', attributes: { class: 'badge badge-warning' } },
+		{ name: 'Badge danger',		element: 'span', attributes: { class: 'badge badge-danger' } },
+		{ name: 'Badge dark',		element: 'span', attributes: { class: 'badge badge-dark' } },
+		{ name: 'Badge light',		element: 'span', attributes: { class: 'badge badge-light' } },
 		{ name: 'text muted',		element: 'span', attributes: { class: 'text-muted' } },
 		{ name: 'text primary',		element: 'span', attributes: { class: 'text-primary' } },
+		{ name: 'text secondary',	element: 'span', attributes: { class: 'text-secondary' } },
 		{ name: 'text success',		element: 'span', attributes: { class: 'text-success' } },
 		{ name: 'text info',		element: 'span', attributes: { class: 'text-info' } },
 		{ name: 'text warning',		element: 'span', attributes: { class: 'text-warning' } },
 		{ name: 'text danger',		element: 'span', attributes: { class: 'text-danger' } },
+		{ name: 'text dark',		element: 'span', attributes: { class: 'text-dark' } },
+		{ name: 'text light',		element: 'span', attributes: { class: 'text-light' } },
 		{ name: 'abbr Initialism',	element: 'abbr', attributes: { class: 'initialism', title: 'abbr' } }//,
 		//{ name: 'PHP',			element: 'pre', attributes: { 'data-lang': 'text/x-php' } }
 	];

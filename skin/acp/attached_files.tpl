@@ -2,11 +2,11 @@
 
 <p class="attached_files">
 {foreach from=$attachfile item=file}
-	<p class="bg-success attach_files"  id="filea-{$file['id']}">
-		<a href="/upload/files/{$file['file']}" id="afile-{$file['id']}" target="_blank">
-			{if file_exists("skin/acp/img/icon/32/{$file['fileext']}.png")}<img src="skin/acp/img/icon/32/{$file['fileext']}.png" border="0" width="32" height="32">{else}<span class="fa fa-file-code-o fa-fw fa-2x"></span>{/if}{$file['filetitle']}
+	<p class="bg-light"  id="filea-{$file['id']}">
+		<a href="/upload/files/{$file['file']}" id="afile-{$file['id']}" target="_blank" class="btn btn-link">
+			{if file_exists("skin/acp/img/icon/32/{$file['fileext']}.png")}<img src="skin/acp/img/icon/32/{$file['fileext']}.png" border="0" width="32" height="32" alt="">{else}<span class="fas fa-file-code fa-fw fa-2x"></span>{/if}{$file['filetitle']}
 		</a>
-		<span id="fileoption-{$file['id']}" class="pull-right"><span class="hover-cursor" id="delfile-{$file['id']}" rel="tooltip" title="Удалить" data-placement="left"><span class="fa fa-trash-o fa-fw"></span></span></span>
+		<span id="fileoption-{$file['id']}" class="float-right"><span class="hover-cursor" id="delfile-{$file['id']}" rel="tooltip" title="Удалить" data-placement="left"><span class="far fa-trash-alt fa-fw"></span></span></span>
 	</p>
 {/foreach}
 
