@@ -14,7 +14,7 @@
 		<div class="row">
 			<div class="col-sm-5 text-right">
 				из ленты
-				<br /><span class="btn btn-outline-primary btn-block">{$feeds[$item['sid']]['title']}</span>
+				<br /><span class="form-control">{$feeds[$item['sid']]['title']}</span>
 			</div>
 			<div class="col-sm-2 text-center">
 				<i class="fas fa-fw fa-angle-double-right fa-4x"></i>

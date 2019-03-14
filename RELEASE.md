@@ -9,7 +9,7 @@ Plugins
 - jQuery                `v3.3.1`
 - jQuery-Migrate        `v3.0.0`
 - jQuery TouchSwipe     `v1.6.18`
-- Bootstrap             `v3.4`
+- Bootstrap             `v4.3.1`
 - Bootstrap Select      `v1.13.7`
 - Bootstrap Datepicker  `v1.6.4`
 - Bootstrap Colorpicker `v1`

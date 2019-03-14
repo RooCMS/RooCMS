@@ -33,32 +33,33 @@
 		}
 
 		/* Datepicker */
-		/*$(".datepicker").datepicker({
+		$(".datepicker").datepicker({
 			format: 'dd.mm.yyyy',
 			language: 'ru',
 			todayHighlight: true,
 			orientation: "bottom auto"
-		});*/
+		});
 
-		/*$(".datepicker-0d").datepicker({
+		$(".datepicker-0d").datepicker({
 			format: 'dd.mm.yyyy',
 			language: 'ru',
 			startDate: '0',
 			orientation: "bottom auto"
-		});*/
+		});
 
 		/* Colorpicker */
 		//$(".colorpicker").colorpicker();
 
 		/* Tags Input */
-		/*$(".tagsinput").tagsinput({
+		$(".tagsinput").tagsinput({
 			maxTags: 10,
 			trimValue: true
-		});*/
+		});
 
-		/*$(".addtag").click(function() {
-			$("#inputTags").tagsinput('add', $(this).attr("value"));
-		});*/
+		$(".addtag").on('click', function(event) {
+			event.preventDefault();
+			$("#inputTags").tagsinput('add', $(this).attr("data-value"));
+		});
 
 		/*$(".carousel").swipe({
 			swipe: function(event, direction, distance, duration, fingerCount, fingerData) {
