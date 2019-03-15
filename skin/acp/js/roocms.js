@@ -15,8 +15,6 @@
 (function($) {
 	"use strict";
 	$(window).on('load', function() {
-		//$(".corner").corner("round 4px");
-
 		$("[rel='tooltip']").tooltip();
 		$("[rel='popover']").popover();
 		$('.toast').toast();
@@ -100,27 +98,7 @@
 			}*/
 		});
 
-		/* Leight */
-		/*$('[maxleight]').keyup(function(){
-			var ml = $(this).attr('maxleight');
-			var fl = $(this).val().length;
-			var c = (fl > ml) ? 'red t10' : 'grey t10';
-			if(fl > ml) {
-				$('#calcbd').text('Введено: ' + $(this).val().length + ' Лишний текст будет обрезан');
-			}
-			else {
-				$('#calcbd').text('Введено: ' + $(this).val().length);
-			}
-			$('#calcbd').attr('class', c);
-		});*/
-
-		/* Alert */
-		/*setTimeout(function() {
-			var ah = $(".alert-info").height();
-			var mm = ah + 100;
-			$(".alert-info").animate({'margin-top': '-='+mm+'px'}, 1200, function() {
-				$(this).hide();
-			});
-		}, 3700);*/
+		/* BS Custom file input */
+		bsCustomFileInput.init();
 	});
 })(jQuery);

@@ -38,6 +38,7 @@
 <script type="text/javascript" src="plugin/jquery-migrate.min.js{$build}"></script>
 <script type="text/javascript" src="plugin/fancybox/jquery.fancybox.min.js{$build}"></script>
 {*<script type="text/javascript" src="plugin/jquery.touchswipe.min.js{$build}"></script>*}
+<script type="text/javascript" src="/plugin/bootstrap-custom-file-input/bs-custom-file-input.min.js{$build}"></script>
 <script type="text/javascript" src="/plugin/bootstrap/js/bootstrap.bundle.min.js{$build}"></script>
 <script type="text/javascript" src="/plugin/bootstrap-select/js/bootstrap-select.min.js{$build}"></script>
 <script type="text/javascript" src="/plugin/bootstrap-select/js/i18n/defaults-ru_RU.min.js{$build}"></script>

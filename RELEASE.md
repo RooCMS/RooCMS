@@ -1,6 +1,6 @@
 Version: 1.4 alpha
 ========================
-**release date:	11.03.2019**
+**release date:	15.03.2019**
 
 Plugins
 -------
@@ -14,6 +14,7 @@ Plugins
 - Bootstrap Datepicker  `v1.6.4`
 - Bootstrap Colorpicker `v1`
 - Bootstrap TagsInput   `v0.8.0`
+- bsCustomFileInput     `v1.3.1`
 - Font Awesome          `v4.7`
 - CKEditor              `v4.11.1`
 - Codemirror            `v5.42`
@@ -23,7 +24,7 @@ Plugins
 
 Release information:
 -------------
-	[add] 
+	[add] add plugin bsCustomFileInput v1.3.1
 	
 	[upd] update Bootstrap 3.4 -> 4.3.1 
 	[upd] update Bootstrap Select 1.12.4 -> 1.13.7 
