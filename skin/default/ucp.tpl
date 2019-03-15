@@ -12,7 +12,7 @@
 			{$userdata['nickname']} {if $userdata['user_sex'] == "m"}<i class="fa fa-fw fa-mars text-info"></i>{elseif $userdata['user_sex'] == "f"}<i class="fa fa-fw fa-venus text-danger"></i>{/if}
 		</h2>
 		<div class="ucp-user-slogan">{$userdata['user_slogan']}</div>
-		<small class="label label-primary">{$userdata['gtitle']}</small>
+		<small class="badge badge-primary">{$userdata['gtitle']}</small>
 	</div>
 	<div class="col-xs-12">
 		<hr />
@@ -41,7 +41,7 @@
 
 					<dt class="text-info">Электронная почта</dt>
 					<dd>
-						{$userdata['email']} <span class="label {if $userdata['mailing'] == 0}label-default">Рыссылка отключена{else}label-success">Рассылка подключена{/if}</span>
+						{$userdata['email']} <span class="badge {if $userdata['mailing'] == 0}label-default">Рыссылка отключена{else}label-success">Рассылка подключена{/if}</span>
 						<br /><small>на этот адрес вы получаете уведомления с сайта</small>
 					</dd>
 				</dl>

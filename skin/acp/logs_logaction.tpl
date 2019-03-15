@@ -17,12 +17,12 @@
 		{foreach from=$datalog item=r}
 			<tr>
 				<td class="small">{$r['date_log']}</td>
-				<td class="text-center"><span class="label label-{if $r['type_log'] == "error"}danger{elseif $r['type_log'] == "info"}info{else}default{/if}">{$r['type_log']}</span></td>
+				<td class="text-center"><span class="badge label-{if $r['type_log'] == "error"}danger{elseif $r['type_log'] == "info"}info{else}default{/if}">{$r['type_log']}</span></td>
 				<td class="text-center">
 					{if $r['uid'] != 0}
 						<a href="{$SCRIPT_NAME}?act=users&part=edit_user&uid={$r['uid']}" class="btn btn-sm btn-outline-primary">{$r['nickname']}</a>
 					{else}
-						<span class="label label-default">Гость</span>
+						<span class="badge label-default">Гость</span>
 					{/if}
 				</td>
 				<td>

@@ -3,7 +3,7 @@
 	Структура сайта
 </div>
 
-<table class="table table-hover d-none d-sm-block mb-0">
+<table class="table table-hover d-none d-sm-table mb-0">
 	<thead class="bg-light">
 		<tr class="active">
 			<th width="3%">ID</th>

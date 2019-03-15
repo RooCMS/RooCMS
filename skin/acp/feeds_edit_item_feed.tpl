@@ -156,8 +156,8 @@
 	</div>
 	<div class="card-footer">
 		<div class="row">
-			<div class="col-lg-8 offset-md-4">
-				<input type="submit" name="update_item" class="btn btn-success" value="Сохранить элемент">
+			<div class="col-lg-12">
+				<input type="submit" name="update_item" class="btn btn-lg btn-success" value="Сохранить элемент">
 			</div>
 		</div>
 	</div>

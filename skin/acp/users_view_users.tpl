@@ -25,18 +25,18 @@
 			<td>
 				<a href="{$SCRIPT_NAME}?act=users&part=edit_user&uid={$user['uid']}">{$user['nickname']}</a>
 				{if $user['user_sex'] == "m"}<i class="fa fa-fw fa-mars text-info"></i>{elseif $user['user_sex'] == "f"}<i class="fa fa-fw fa-venus text-danger"></i>{/if}
-				<span class="label label-info pull-right hidden-sm">{$user['gtitle']}</span>
-				{if $user['status'] == 0 && $user['activation_code'] != ""}<span class="label label-warning pull-right hidden-sm">Не активирован</span>{/if}
-				{if $user['status'] == 0 && $user['activation_code'] == ""}<span class="label label-danger pull-right hidden-sm">Отключен</span>{/if}
+				<span class="badge badge-info pull-right hidden-sm">{$user['gtitle']}</span>
+				{if $user['status'] == 0 && $user['activation_code'] != ""}<span class="badge badge-warning pull-right hidden-sm">Не активирован</span>{/if}
+				{if $user['status'] == 0 && $user['activation_code'] == ""}<span class="badge badge-danger pull-right hidden-sm">Отключен</span>{/if}
 				<br /><small>{$user['login']} ({$user['email']}) <i class="fa fa-fw {if $user['mailing'] == 0}fa-envelope text-muted{else}fa-envelope-open text-success{/if}"></i></small>
 			</td>
 			<td class="text-left">
 				{if $user['title'] == "a" && $user['uid'] == 1}
-					<span class="label label-primary">Супер Администратор</span>
+					<span class="badge badge-primary">Супер Администратор</span>
 				{elseif $user['title'] == "a" && $user['uid'] != 1}
-					<span class="label label-info">Администратор</span>
+					<span class="badge badge-info">Администратор</span>
 				{else}
-					<span class="label label-default">Пользователь</span>
+					<span class="badge label-default">Пользователь</span>
 				{/if}
 			</td>
 			<td class="small">{$user['last_visit']}</td>
@@ -62,11 +62,11 @@
 
 				<br />
 				{if $user['title'] == "a" && $user['uid'] == 1}
-					<span class="label label-primary">Супер Администратор</span>
+					<span class="badge badge-primary">Супер Администратор</span>
 				{elseif $user['title'] == "a" && $user['uid'] != 1}
-					<span class="label label-info">Администратор</span>
+					<span class="badge badge-info">Администратор</span>
 				{else}
-					<span class="label label-default">Пользователь</span>
+					<span class="badge label-default">Пользователь</span>
 				{/if}
 
 			{if $user['status'] == 0}</span>{/if}

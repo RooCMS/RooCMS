@@ -157,8 +157,9 @@
 	</div>
 	<div class="card-footer">
 		<div class="row">
-			<div class="col-lg-8 offset-md-4">
-				<input type="submit" name="create_item" class="btn btn-success" value="Создать элемент">
+			<div class="col-12">
+				<input type="hidden" name="status" value="1">
+				<input type="submit" name="create_item" class="btn btn-lg btn-success" value="Создать элемент">
 			</div>
 		</div>
 	</div>
