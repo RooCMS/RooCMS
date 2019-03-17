@@ -1,35 +1,35 @@
 {* Create PHP block template *}
-<div class="panel-heading">
+<div class="card-header">
 	<script type="text/javascript" src="plugin/codemirror.php"></script>
 
 	Новый PHP блок
 </div>
 <form method="post" action="{$SCRIPT_NAME}?act=blocks&part=create&type=php" role="form">
-	<div class="panel-body">
-		<div class="form-group">
-			<label for="inputAlias" class="col-lg-3 control-label">
+	<div class="card-body">
+		<div class="form-group row">
+			<label for="inputAlias" class="col-md-4 form-control-plaintext text-right">
 				Alias: <small><i class="fa fa-question-circle fa-fw" rel="tooltip" title="Значение должно быть уникальным" data-placement="left"></i></small>
 			</label>
-			<div class="col-lg-9">
+			<div class="col-lg-8">
 				<input type="text" name="alias" id="inputAlias" class="form-control" required>
 			</div>
 		</div>
-		<div class="form-group">
-			<label for="inputTitle" class="col-lg-3 control-label">
+		<div class="form-group row">
+			<label for="inputTitle" class="col-md-4 form-control-plaintext text-right">
 				Заголовок:
 			</label>
-			<div class="col-lg-9">
+			<div class="col-lg-8">
 				<input type="text" name="title" id="inputTitle" class="form-control" required>
 			</div>
 		</div>
 
 		<div class="row">
-			<div class="col-sm-6 col-md-4 col-lg-2"><span class="btn btn-outline-primary btn-sm">Ctrl</span> + <span class="btn btn-outline-primary btn-sm">F</span> - поиск</div>
-			<div class="col-sm-6 col-md-4 col-lg-2"><span class="btn btn-outline-primary btn-sm">Ctrl</span> + <span class="btn btn-outline-primary btn-sm">G</span> - след.результат</div>
-			<div class="col-sm-6 col-md-4 col-lg-2"><span class="btn btn-outline-primary btn-sm">Ctrl</span> + <span class="btn btn-outline-primary btn-sm">Shift</span> + <span class="btn btn-outline-primary btn-sm">G</span> - пред.результат</div>
-			<div class="col-sm-6 col-md-4 col-lg-2"><span class="btn btn-outline-primary btn-sm">Ctrl</span> + <span class="btn btn-outline-primary btn-sm">Shift</span> + <span class="btn btn-outline-primary btn-sm">F</span> - заменить</div>
-			<div class="col-sm-6 col-md-4 col-lg-2"><span class="btn btn-outline-primary btn-sm">Ctrl</span> + <span class="btn btn-outline-primary btn-sm">Shift</span> + <span class="btn btn-outline-primary btn-sm">R</span> - заменить все</div>
-			<div class="col-sm-6 col-md-4 col-lg-2"><span class="btn btn-outline-primary btn-sm">F11</span> - во весь экран</div>
+			<div class="col-sm-6 col-md-4 col-lg-3 col-xl-2 mb-2">Поиск<br /><span class="btn btn-outline-dark btn-sm">Ctrl</span> + <span class="btn btn-outline-dark btn-sm">F</span></div>
+			<div class="col-sm-6 col-md-4 col-lg-3 col-xl-2 mb-2">Cлед.результат<br /><span class="btn btn-outline-dark btn-sm">Ctrl</span> + <span class="btn btn-outline-dark btn-sm">G</span></div>
+			<div class="col-sm-6 col-md-4 col-lg-3 col-xl-2 mb-2">Пред.результат<br /><span class="btn btn-outline-dark btn-sm">Ctrl</span> + <span class="btn btn-outline-dark btn-sm">Shift</span> + <span class="btn btn-outline-dark btn-sm">G</span></div>
+			<div class="col-sm-6 col-md-4 col-lg-3 col-xl-2 mb-2">Заменить<br /><span class="btn btn-outline-dark btn-sm">Ctrl</span> + <span class="btn btn-outline-dark btn-sm">Shift</span> + <span class="btn btn-outline-dark btn-sm">F</span></div>
+			<div class="col-sm-6 col-md-4 col-lg-3 col-xl-2 mb-2">Заменить все<br /><span class="btn btn-outline-dark btn-sm">Ctrl</span> + <span class="btn btn-outline-dark btn-sm">Shift</span> + <span class="btn btn-outline-dark btn-sm">R</span></div>
+			<div class="col-sm-6 col-md-4 col-lg-3 col-xl-2 mb-2">Во весь экран<br /><span class="btn btn-outline-dark btn-sm">F11</span></div>
 		</div>
 		<div class="row">
 			<div class="col-lg-12">
@@ -37,7 +37,7 @@
 			</div>
 		</div>
 	</div>
-	<div class="panel-footer">
+	<div class="card-footer">
 		<div class="row">
 			<div class="col-md-12">
 				<input type="submit" name="create_block" class="btn btn-success" value="Создать блок">

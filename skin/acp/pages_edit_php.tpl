@@ -32,11 +32,11 @@
 		</dl>
 		<div class="row">
 			<div class="col-sm-6 col-md-4 col-lg-3 col-xl-2 mb-2">Поиск<br /><span class="btn btn-outline-dark btn-sm">Ctrl</span> + <span class="btn btn-outline-dark btn-sm">F</span></div>
-			<div class="col-sm-6 col-md-4 col-lg-3  col-xl-2 mb-2">Cлед.результат<br /><span class="btn btn-outline-dark btn-sm">Ctrl</span> + <span class="btn btn-outline-dark btn-sm">G</span></div>
-			<div class="col-sm-6 col-md-4 col-lg-3  col-xl-2 mb-2">Пред.результат<br /><span class="btn btn-outline-dark btn-sm">Ctrl</span> + <span class="btn btn-outline-dark btn-sm">Shift</span> + <span class="btn btn-outline-dark btn-sm">G</span></div>
-			<div class="col-sm-6 col-md-4 col-lg-3  col-xl-2 mb-2">Заменить<br /><span class="btn btn-outline-dark btn-sm">Ctrl</span> + <span class="btn btn-outline-dark btn-sm">Shift</span> + <span class="btn btn-outline-dark btn-sm">F</span></div>
-			<div class="col-sm-6 col-md-4 col-lg-3  col-xl-2 mb-2">Заменить все<br /><span class="btn btn-outline-dark btn-sm">Ctrl</span> + <span class="btn btn-outline-dark btn-sm">Shift</span> + <span class="btn btn-outline-dark btn-sm">R</span></div>
-			<div class="col-sm-6 col-md-4 col-lg-3  col-xl-2 mb-2">Во весь экран<br /><span class="btn btn-outline-dark btn-sm">F11</span></div>
+			<div class="col-sm-6 col-md-4 col-lg-3 col-xl-2 mb-2">Cлед.результат<br /><span class="btn btn-outline-dark btn-sm">Ctrl</span> + <span class="btn btn-outline-dark btn-sm">G</span></div>
+			<div class="col-sm-6 col-md-4 col-lg-3 col-xl-2 mb-2">Пред.результат<br /><span class="btn btn-outline-dark btn-sm">Ctrl</span> + <span class="btn btn-outline-dark btn-sm">Shift</span> + <span class="btn btn-outline-dark btn-sm">G</span></div>
+			<div class="col-sm-6 col-md-4 col-lg-3 col-xl-2 mb-2">Заменить<br /><span class="btn btn-outline-dark btn-sm">Ctrl</span> + <span class="btn btn-outline-dark btn-sm">Shift</span> + <span class="btn btn-outline-dark btn-sm">F</span></div>
+			<div class="col-sm-6 col-md-4 col-lg-3 col-xl-2 mb-2">Заменить все<br /><span class="btn btn-outline-dark btn-sm">Ctrl</span> + <span class="btn btn-outline-dark btn-sm">Shift</span> + <span class="btn btn-outline-dark btn-sm">R</span></div>
+			<div class="col-sm-6 col-md-4 col-lg-3 col-xl-2 mb-2">Во весь экран<br /><span class="btn btn-outline-dark btn-sm">F11</span></div>
 		</div>
 		<div class="form-group">
 			<textarea id="content" class="form-control" name="content" wrap="off">{$data['content']}</textarea>
