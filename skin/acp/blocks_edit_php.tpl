@@ -1,48 +1,48 @@
 {* Edit PHP block template *}
-<div class="panel-heading">
+<div class="card-header">
 	<script type="text/javascript" src="plugin/codemirror.php?mode=php"></script>
 
 	Редактируем PHP блок "{$data['title']}"
 </div>
 <form method="post" action="{$SCRIPT_NAME}?act=blocks&part=update&block={$data['id']}" role="form">
-	<div class="panel-body">
-		<div class="form-group">
-			<label for="inputAlias" class="col-lg-3 control-label">
+	<div class="card-body">
+		<div class="form-group row">
+			<label for="inputAlias" class="col-md-4 form-control-plaintext text-right">
 			Alias: <small><i class="fa fa-question-circle fa-fw" rel="tooltip" title="Значение должно быть уникальным" data-placement="left"></i></small>
 			</label>
-			<div class="col-lg-9">
+			<div class="col-lg-8">
 				<input type="text" name="alias" id="inputAlias" class="form-control" value="{$data['alias']}" required>
 			</div>
 		</div>
-		<div class="form-group">
-			<label for="inputTitle" class="col-lg-3 control-label">
+		<div class="form-group row">
+			<label for="inputTitle" class="col-md-4 form-control-plaintext text-right">
 			Заголовок:
 			</label>
-			<div class="col-lg-9">
+			<div class="col-lg-8">
 				<input type="text" name="title" id="inputTitle" class="form-control" value="{$data['title']}" required>
 			</div>
 		</div>
 
-		<div class="form-group">
-			<div class="col-sm-6 col-md-4 col-lg-2"><span class="btn btn-outline-primary btn-sm">Ctrl</span> + <span class="btn btn-outline-primary btn-sm">F</span> - поиск</div>
-			<div class="col-sm-6 col-md-4 col-lg-2"><span class="btn btn-outline-primary btn-sm">Ctrl</span> + <span class="btn btn-outline-primary btn-sm">G</span> - след.результат</div>
-			<div class="col-sm-6 col-md-4 col-lg-2"><span class="btn btn-outline-primary btn-sm">Ctrl</span> + <span class="btn btn-outline-primary btn-sm">Shift</span> + <span class="btn btn-outline-primary btn-sm">G</span> - пред.результат</div>
-			<div class="col-sm-6 col-md-4 col-lg-2"><span class="btn btn-outline-primary btn-sm">Ctrl</span> + <span class="btn btn-outline-primary btn-sm">Shift</span> + <span class="btn btn-outline-primary btn-sm">F</span> - заменить</div>
-			<div class="col-sm-6 col-md-4 col-lg-2"><span class="btn btn-outline-primary btn-sm">Ctrl</span> + <span class="btn btn-outline-primary btn-sm">Shift</span> + <span class="btn btn-outline-primary btn-sm">R</span> - заменить все</div>
-			<div class="col-sm-6 col-md-4 col-lg-2"><span class="btn btn-outline-primary btn-sm">F11</span> - во весь экран</div>
+		<div class="row">
+			<div class="col-sm-6 col-md-4 col-lg-3 col-xl-2 mb-2">Поиск<br /><span class="btn btn-outline-dark btn-sm">Ctrl</span> + <span class="btn btn-outline-dark btn-sm">F</span></div>
+			<div class="col-sm-6 col-md-4 col-lg-3 col-xl-2 mb-2">Cлед.результат<br /><span class="btn btn-outline-dark btn-sm">Ctrl</span> + <span class="btn btn-outline-dark btn-sm">G</span></div>
+			<div class="col-sm-6 col-md-4 col-lg-3 col-xl-2 mb-2">Пред.результат<br /><span class="btn btn-outline-dark btn-sm">Ctrl</span> + <span class="btn btn-outline-dark btn-sm">Shift</span> + <span class="btn btn-outline-dark btn-sm">G</span></div>
+			<div class="col-sm-6 col-md-4 col-lg-3 col-xl-2 mb-2">Заменить<br /><span class="btn btn-outline-dark btn-sm">Ctrl</span> + <span class="btn btn-outline-dark btn-sm">Shift</span> + <span class="btn btn-outline-dark btn-sm">F</span></div>
+			<div class="col-sm-6 col-md-4 col-lg-3 col-xl-2 mb-2">Заменить все<br /><span class="btn btn-outline-dark btn-sm">Ctrl</span> + <span class="btn btn-outline-dark btn-sm">Shift</span> + <span class="btn btn-outline-dark btn-sm">R</span></div>
+			<div class="col-sm-6 col-md-4 col-lg-3 col-xl-2 mb-2">Во весь экран<br /><span class="btn btn-outline-dark btn-sm">F11</span></div>
 		</div>
-		<div class="form-group">
+		<div class="form-group row">
 			<div class="col-lg-12">
 				<textarea id="content" class="form-control" name="content" wrap="off">{$data['content']}</textarea>
 			</div>
 		</div>
 	</div>
-	<div class="panel-footer">
+	<div class="card-footer">
 		<div class="row">
 			<div class="col-md-12">
 				<input type="hidden" name="id" value="{$data['id']}" readonly>
 				<input type="hidden" name="oldalias" value="{$data['alias']}" readonly>
-				<input type="submit" name="update_block" class="btn btn-success" value="Обновить блок">
+				<input type="submit" name="update_block" class="btn btn-lg btn-success" value="Обновить блок">
 			</div>
 		</div>
 	</div>
