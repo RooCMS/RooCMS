@@ -54,22 +54,24 @@
 	</tbody>
 </table>
 
-<ul class="list-group d-block d-sm-none">
+<table class="table table-hover d-block-table d-sm-none mb-0">
+	<tbody>
 	{foreach from=$tree item=page}
-		<li class="list-group-item no-overflow">
-
-			{if $page['page_type'] == "html" or $page['page_type'] == "php"}
-				<a href="{$SCRIPT_NAME}?act=pages&part=edit&page={$page['id']}">{$page['title']}</a>
-			{else}
-				<a href="{$SCRIPT_NAME}?act=feeds&part=control&page={$page['id']}">{$page['title']}</a>
-			{/if}
-
-			<div class="float-right">
-				<div class="btn-group">
+		<tr>
+			<td class="align-middle">
+				{if $page['page_type'] == "html" or $page['page_type'] == "php"}
+					<a href="{$SCRIPT_NAME}?act=pages&part=edit&page={$page['id']}">{$page['title']}</a>
+				{else}
+					<a href="{$SCRIPT_NAME}?act=feeds&part=control&page={$page['id']}">{$page['title']}</a>
+				{/if}
+			</td>
+			<td class="w25 align-middle text-right">
+				<div class="btn-group btn-group-sm">
 					<a href="{$SCRIPT_NAME}?act=structure&part=edit&id={$page['id']}" class="btn btn-sm btn-outline-primary"><i class="far fa-edit fa-fw"></i></a>
 					{if $page['id'] != 1}<a href="{$SCRIPT_NAME}?act=structure&part=delete&id={$page['id']}" class="btn btn-sm btn-danger"><i class="fas fa-trash-alt fa-fw"></i></a>{/if}
 				</div>
-			</div>
-		</li>
+			</td>
+		</tr>
 	{/foreach}
-</ul>
+	</tbody>
+</table>

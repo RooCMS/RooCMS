@@ -22,7 +22,7 @@
 					{if $r['uid'] != 0}
 						<a href="{$SCRIPT_NAME}?act=users&part=edit_user&uid={$r['uid']}" class="btn btn-sm btn-outline-primary">{$r['nickname']}</a>
 					{else}
-						<span class="badge label-default">Гость</span>
+						<span class="badge badge-light">Гость</span>
 					{/if}
 				</td>
 				<td>

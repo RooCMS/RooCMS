@@ -41,7 +41,7 @@
 
 					<dt class="text-info">Электронная почта</dt>
 					<dd>
-						{$userdata['email']} <span class="badge {if $userdata['mailing'] == 0}label-default">Рыссылка отключена{else}label-success">Рассылка подключена{/if}</span>
+						{$userdata['email']} <span class="badge {if $userdata['mailing'] == 0}badge-light">Рыссылка отключена{else}label-success">Рассылка подключена{/if}</span>
 						<br /><small>на этот адрес вы получаете уведомления с сайта</small>
 					</dd>
 				</dl>

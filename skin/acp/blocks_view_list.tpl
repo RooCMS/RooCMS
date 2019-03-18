@@ -36,20 +36,22 @@
 		</tbody>
 	</table>
 
-	<ul class="list-group d-block d-sm-none">
+	<table class="table table-hover d-block-table d-sm-none mb-0">
+		<tbody>
 		{foreach from=$data item=block}
-			<li class="list-group-item no-overflow">
-
-				<span class="badge badge-primary text-uppercase">{$block['block_type']}</span> <a href="{$SCRIPT_NAME}?act=blocks&part=edit&block={$block['id']}">{$block['title']}</a>
-
-				<div class="float-right">
-					<div class="btn-group">
-						<a href="{$SCRIPT_NAME}?act=blocks&part=edit&block={$block['id']}" class="btn btn-sm btn-outline-primary"><span class="far fa-edit fa-fw"></span></a>
-						<a href="{$SCRIPT_NAME}?act=blocks&part=delete&block={$block['id']}" class="btn btn-sm btn-danger"><span class="far fa-trash-alt fa-fw"></span></a>
+			<tr>
+				<td class="align-middle">
+					<a href="{$SCRIPT_NAME}?act=blocks&part=edit&block={$block['id']}">{$block['title']}</a>
+					<span class="badge badge-primary text-uppercase float-right">{$block['block_type']}</span>
+				</td>
+				<td class="w25 align-middle text-right">
+					<div class="btn-group btn-group-sm">
+						<a href="{$SCRIPT_NAME}?act=blocks&part=edit&block={$block['id']}" class="btn btn-outline-primary"><span class="far fa-edit fa-fw"></span></a>
+						<a href="{$SCRIPT_NAME}?act=blocks&part=delete&block={$block['id']}" class="btn btn-danger"><span class="far fa-trash-alt fa-fw"></span></a>
 					</div>
-				</div>
-			</li>
+				</td>
+			</tr>
 		{/foreach}
-	</ul>
-
+		</tbody>
+	</table>
 {/if}

@@ -49,20 +49,23 @@
 		</tbody>
 	</table>
 
-	<ul class="list-group d-block d-sm-none">
+	<table class="table table-hover d-block-table d-sm-none mb-0">
+		<tbody>
 		{foreach from=$feedlist item=item}
-			<li class="list-group-item">
-				<a href="{$SCRIPT_NAME}?act=feeds&part=edit_item&page={$feed['id']}&item={$item['id']}" title="{$item['title']}"{if $item['publication_status'] == "hide" || $item['status'] == 0} class="text-muted"{/if}>{if $item['status'] == 0}<s>{/if}{$item['title']}{if $item['status'] == 0}</s>{/if}</a>
-
-				<div class="float-right">
-					<div class="btn-group">
+			<tr>
+				<td class="align-middle">
+					<a href="{$SCRIPT_NAME}?act=feeds&part=edit_item&page={$feed['id']}&item={$item['id']}" title="{$item['title']}"{if $item['publication_status'] == "hide" || $item['status'] == 0} class="text-muted"{/if}>{if $item['status'] == 0}<s>{/if}{$item['title']}{if $item['status'] == 0}</s>{/if}</a>
+				</td>
+				<td class="w25 align-middle text-right">
+					<div class="btn-group btn-group-sm">
 						<a href="{$SCRIPT_NAME}?act=feeds&part=edit_item&page={$feed['id']}&item={$item['id']}" class="btn btn-sm btn-outline-primary"><i class="far fa-edit fa-fw"></i></a>
 						<a href="{$SCRIPT_NAME}?act=feeds&part=migrate_item&page={$feed['id']}&item={$item['id']}" class="btn btn-sm btn-outline-primary"><i class="fa fa-random fa-fw" rel="tooltip" data-toggle="tooltip" data-placement="top" title="Переместить публикацию"></i></a>
 						<a href="{$SCRIPT_NAME}?act=feeds&part=delete_item&page={$feed['id']}&item={$item['id']}" class="btn btn-sm btn-danger"><i class="far fa-trash-alt fa-fw"></i></a>
 					</div>
-				</div>
-			</li>
+				</td>
+			</tr>
 		{/foreach}
-	</ul>
+		</tbody>
+	</table>
 {/if}
 
