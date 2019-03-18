@@ -125,7 +125,6 @@ code {
   font-family: 'Ubuntu' !important;
 }
 /* Hover */
-/*.hover-without-underline:hover	{text-decoration: none !important;}*/
 .hover-cursor {
   cursor: pointer;
 }
@@ -135,26 +134,19 @@ a:active,
 .btn {
   outline: none !important;
 }
-/* visible style */
-/*.visible-inline {display: inline-block !important;}*/
 /* install */
 .progress.pb0 {
   margin-bottom: 0 !important;
 }
-/* BS TagsInput */
-.bootstrap-tagsinput {
-  width: 100%;
-}
 /* fix font-awesome underline */
+a:hover [class="fa"],
 a:hover [class^="fas-"],
 a:hover [class^="far-"] {
   text-decoration: none !important;
 }
 /* style for attached files */
 .attach-img {
-  border: 0;
   width: 160px;
-  border-radius: 3px;
 }
 .input-alt-text {
   padding: 1px !important;
@@ -166,44 +158,24 @@ a:hover [class^="far-"] {
 .input-alt-text:focus {
   border: inherit !important;
 }
-/* Avatar */
-.avatar {
-  max-width: 60px;
-  border: 2px solid #3D4F61;
-  margin: 2px;
-  opacity: 0.9;
-  filter: alpha(opacity=90);
+.fa-icon-action {
+  position: absolute;
+  top: -15px;
+  right: 0;
+  border: 2px solid #fff;
+  border-radius: 50%;
 }
-.avatar.ban {
-  border-color: #C60D14;
-}
-.avatar:hover {
-  border-color: #3581D5;
-  opacity: 1;
-  filter: alpha(opacity=100);
-}
-.avatar-xs {
-  margin-right: 15px;
-}
-.avatar-xs > img {
-  max-height: 48px;
+.fa-icon-action:hover {
+  color: #C60D14;
+  cursor: pointer;
 }
 /* style for delete user avatar */
-.delete_useravatar:hover,
 .delete_config_image:hover {
   background-color: #C60D14;
   border-radius: 5px;
 }
-.delete_useravatar:hover > img,
 .delete_config_image:hover > img {
   opacity: 0.5;
-}
-/* style for datepicker*/
-.form-date {
-  width: 50% !important;
-}
-.form-control.datepicker {
-  padding: 6px 12px !important;
 }
 /* Structure style */
 tr .tralias {

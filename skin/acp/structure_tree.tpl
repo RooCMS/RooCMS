@@ -65,7 +65,7 @@
 					<a href="{$SCRIPT_NAME}?act=feeds&part=control&page={$page['id']}">{$page['title']}</a>
 				{/if}
 			</td>
-			<td class="w25 align-middle text-right">
+			<td class="w-25 align-middle text-right">
 				<div class="btn-group btn-group-sm">
 					<a href="{$SCRIPT_NAME}?act=structure&part=edit&id={$page['id']}" class="btn btn-sm btn-outline-primary"><i class="far fa-edit fa-fw"></i></a>
 					{if $page['id'] != 1}<a href="{$SCRIPT_NAME}?act=structure&part=delete&id={$page['id']}" class="btn btn-sm btn-danger"><i class="fas fa-trash-alt fa-fw"></i></a>{/if}

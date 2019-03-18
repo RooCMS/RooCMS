@@ -252,6 +252,10 @@ class ACP_Users {
 		# list groups
 		$groups = $users->get_usergroups();
 
+		# image types
+		require _LIB."/mimetype.php";
+		$smarty->assign("allow_images_type", $imagetype);
+
 		# tpl
 		$smarty->assign("groups", $groups);
 		$content = $tpl->load_template("users_create_new_user", true);
@@ -335,6 +339,10 @@ class ACP_Users {
 
 			# list groups
 			$groups = $users->get_usergroups();
+
+			# image types
+			require _LIB."/mimetype.php";
+			$smarty->assign("allow_images_type", $imagetype);
 
 			# tpl
 			$smarty->assign("i_am_groot", $i_am_groot);

@@ -34,15 +34,11 @@
 		$(".datepicker").datepicker({
 			format: 'dd.mm.yyyy',
 			language: 'ru',
+			todayBtn: 'linked',
 			todayHighlight: true,
-			orientation: "bottom auto"
-		});
-
-		$(".datepicker-0d").datepicker({
-			format: 'dd.mm.yyyy',
-			language: 'ru',
-			startDate: '0',
-			orientation: "bottom auto"
+			daysOfWeekHighlighted: '0,6',
+			orientation: 'bottom auto',
+			autoclose: true
 		});
 
 		/* Colorpicker */

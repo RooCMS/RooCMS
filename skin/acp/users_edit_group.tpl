@@ -18,7 +18,7 @@
 			<div class="col-lg-12">
 				<hr />
 				<h5 class="text-info">Основные участники группы:</h5>
-				{foreach from=$users item=user}<a rel="popover" role="button" data-placement="top" data-toggle="popover" title="{$user['uid']} : {$user['nickname']}" data-html="true" data-content="<a href='{$SCRIPT_NAME}?act=users&part=edit_user&uid={$user['uid']}' class='btn btn-info btn-sm btn-block'><i class='fa fa-fw fa-user-circle-o'></i> Профиль UID:{$user['uid']}</a> <a href='{$SCRIPT_NAME}?act=users&part=exclude_user_group&uid={$user['uid']}&gid={$group['gid']}' class='btn btn-warning btn-sm btn-block'><i class='fa fa-fw fa-user-times'></i> Исключить из группы</a>"><img src="/upload/images/{$user['avatar']}" class="img-circle avatar{if $user['ban'] == 1 || $user['status'] == 0} ban{/if}"></a>{/foreach}
+				{foreach from=$users item=user}<a rel="popover" role="button" data-placement="top" data-toggle="popover" title="{$user['uid']} : {$user['nickname']}" data-html="true" data-content="<a href='{$SCRIPT_NAME}?act=users&part=edit_user&uid={$user['uid']}' class='btn btn-info btn-sm btn-block'><i class='fa fa-fw fa-user-circle-o'></i> Профиль UID:{$user['uid']}</a> <a href='{$SCRIPT_NAME}?act=users&part=exclude_user_group&uid={$user['uid']}&gid={$group['gid']}' class='btn btn-warning btn-sm btn-block'><i class='fa fa-fw fa-user-times'></i> Исключить из группы</a>"><img src="/upload/images/{$user['avatar']}" class="img-circle{if $user['ban'] == 1 || $user['status'] == 0} ban{/if}"></a>{/foreach}
 			</div>
 		</div>
 

@@ -44,7 +44,7 @@
 					<a href="{$SCRIPT_NAME}?act=blocks&part=edit&block={$block['id']}">{$block['title']}</a>
 					<span class="badge badge-primary text-uppercase float-right">{$block['block_type']}</span>
 				</td>
-				<td class="w25 align-middle text-right">
+				<td class="w-25 align-middle text-right">
 					<div class="btn-group btn-group-sm">
 						<a href="{$SCRIPT_NAME}?act=blocks&part=edit&block={$block['id']}" class="btn btn-outline-primary"><span class="far fa-edit fa-fw"></span></a>
 						<a href="{$SCRIPT_NAME}?act=blocks&part=delete&block={$block['id']}" class="btn btn-danger"><span class="far fa-trash-alt fa-fw"></span></a>

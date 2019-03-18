@@ -19,7 +19,7 @@
 		<tr{if $user['status'] == 0 && $user['activation_code'] == ""} class="danger"{elseif $user['status'] == 0 && $user['activation_code'] != ""} class="warning"{/if} title="{$user['user_slogan']}">
 			<td class="align-middle text-muted">{$user['uid']}</td>
 			<td class="align-middle">
-				{if $user['avatar'] != ""}<a href="{$SCRIPT_NAME}?act=users&part=edit_user&uid={$user['uid']}"><img src="/upload/images/{$user['avatar']}" height="40" class="border border-secondary rounded-circle" alt="{$user['nickname']}"></a>{/if}
+				{if $user['avatar'] != ""}<a href="{$SCRIPT_NAME}?act=users&part=edit_user&uid={$user['uid']}"><img src="/upload/images/{$user['avatar']}" height="40" class="border border-{if $user['ban'] == 1 || $user['status'] == 0}danger{else}secondary{/if} rounded-circle" alt="{$user['nickname']}"></a>{/if}
 			</td>
 			<td class="align-middle">
 				<a href="{$SCRIPT_NAME}?act=users&part=edit_user&uid={$user['uid']}">{$user['nickname']}</a>
@@ -35,8 +35,9 @@
 				{else}
 					<span class="badge badge-light">Пользователь</span>
 				{/if}
+				{if $user['ban'] == 1}<span class="badge badge-danger d-none d-md-block">Заблокирован</span>{/if}
 				{if $user['status'] == 0 && $user['activation_code'] != ""}<span class="badge badge-warning d-none d-md-block">Не активирован</span>{/if}
-				{if $user['status'] == 0 && $user['activation_code'] == ""}<span class="badge badge-danger d-none d-md-block">Отключен</span>{/if}
+				{if $user['status'] == 0 && $user['activation_code'] == ""}<span class="badge badge-dark d-none d-md-block">Отключен</span>{/if}
 			</td>
 			<td class="align-middle small">{$user['last_visit']}</td>
 			<td class="align-middle text-right">
@@ -50,15 +51,16 @@
 	</tbody>
 </table>
 
-<ul class="list-group d-block d-sm-none">
+
+<table class="table table-hover d-block-table d-sm-none mb-0">
+	<tbody>
 	{foreach from=$data item=user}
-		<li class="list-group-item{if $user['status'] == 0 && $user['activation_code'] == ""} list-group-item-danger{elseif $user['status'] == 0 && $user['activation_code'] != ""} list-group-item-warning{/if} no-overflow">
-			{if $user['avatar'] != ""}<a href="{$SCRIPT_NAME}?act=users&part=edit_user&uid={$user['uid']}" class="pull-left avatar-xs"><img src="/upload/images/{$user['avatar']}" class="img-circle"></a>{/if}
-
-			{if $user['status'] == 0}<span style="text-decoration: line-through;">{/if}
-
+		<tr{if $user['status'] == 0 && $user['activation_code'] == ""} class="table-danger"{elseif $user['status'] == 0 && $user['activation_code'] != ""} class="table-warning"{/if}>
+			<td class="align-middle">
+				{if $user['avatar'] != ""}<a href="{$SCRIPT_NAME}?act=users&part=edit_user&uid={$user['uid']}"><img src="/upload/images/{$user['avatar']}" height="40" class="border border-{if $user['ban'] == 1 || $user['status'] == 0}danger{else}secondary{/if} rounded-circle" alt="{$user['nickname']}"></a>{/if}
+			</td>
+			<td class="align-middle w-75">
 				<a href="{$SCRIPT_NAME}?act=users&part=edit_user&uid={$user['uid']}"><!-- #{$user['uid']} --> {$user['nickname']}</a>
-
 				<br />
 				{if $user['title'] == "a" && $user['uid'] == 1}
 					<span class="badge badge-primary">Супер Администратор</span>
@@ -67,15 +69,14 @@
 				{else}
 					<span class="badge badge-light">Пользователь</span>
 				{/if}
-
-			{if $user['status'] == 0}</span>{/if}
-
-			<div class="pull-right">
-				<div class="btn-group">
-					<a href="{$SCRIPT_NAME}?act=users&part=edit_user&uid={$user['uid']}" class="btn btn-sm btn-outline-primary"><span class="fa fa-pencil-square-o fa-fw"></span><span class="hidden-sm"></span></a>
-					{if $user['uid'] != 1}<a href="{$SCRIPT_NAME}?act=users&part=delete_user&uid={$user['uid']}" class="btn btn-sm btn-danger"><span class="fa fa-user-times fa-fw"></span><span class="hidden-sm"></span></a>{/if}
+			</td>
+			<td class="w-25 align-middle text-right">
+				<div class="btn-group btn-group-sm">
+					<a href="{$SCRIPT_NAME}?act=users&part=edit_user&uid={$user['uid']}" class="btn btn-outline-primary"><span class="fas fa-user-edit fa-fw"></span></a>
+					{if $user['uid'] != 1}<a href="{$SCRIPT_NAME}?act=users&part=delete_user&uid={$user['uid']}" class="btn btn-danger"><span class="fas fa-user-times fa-fw"></span></a>{/if}
 				</div>
-			</div>
-		</li>
+			</td>
+		</tr>
 	{/foreach}
-</ul>
+	</tbody>
+</table>

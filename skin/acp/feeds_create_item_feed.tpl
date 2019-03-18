@@ -58,8 +58,8 @@
 			</label>
 			<div class="col-md-8">
 				<div class="input-group">
-					<input type="text" name="date_publications" id="inputDateP" class="form-control datepicker form-date" value="{$date}" placeholder="дд.мм.гггг" pattern="{literal}\d{1,2}\.\d{1,2}\.\d{4}{/literal}" required>
-					<input type="text" name="date_end_publications" id="inputDateEP" class="form-control datepicker form-date" value="" placeholder="дд.мм.гггг" pattern="{literal}\d{1,2}\.\d{1,2}\.\d{4}{/literal}">
+					<input type="text" name="date_publications" id="inputDateP" class="form-control datepicker w-50" value="{$date}" placeholder="дд.мм.гггг" pattern="{literal}\d{1,2}\.\d{1,2}\.\d{4}{/literal}" required>
+					<input type="text" name="date_end_publications" id="inputDateEP" class="form-control datepicker w-50" value="" placeholder="дд.мм.гггг" pattern="{literal}\d{1,2}\.\d{1,2}\.\d{4}{/literal}">
 				</div>
 			</div>
 		</div>

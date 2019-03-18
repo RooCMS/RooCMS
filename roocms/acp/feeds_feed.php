@@ -209,7 +209,7 @@ class ACP_Feeds_Feed {
 		$item['tags'] = implode(", ", array_map(array("Tags", "get_tag_title"), $tags->read_tags("feeditemid=".$id)));
 
 		# popular tags
-		$poptags = $tags->list_tags(true, 15);
+		$poptags = $tags->list_tags(true, 20);
 
 
 		# download attached images
