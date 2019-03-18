@@ -3,8 +3,8 @@
 	Пользователи
 </div>
 
-<table class="table table-hover table-condensed d-none d-sm-table">
-	<thead>
+<table class="table table-hover table-condensed d-none d-sm-table mb-0">
+	<thead class="bg-light">
 	<tr class="active">
 		<th width="2%">ID</th>
 		<th width="3%">Аватар</th>
