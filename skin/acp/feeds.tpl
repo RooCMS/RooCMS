@@ -1,4 +1,4 @@
-{* Основной шаблон управления лентами *}
+{* Template Feeds *}
 
 <div class="col-sm-3 col-md-2">
 	<div class="card d-none d-sm-block submenu sticky-top">

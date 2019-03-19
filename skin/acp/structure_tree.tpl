@@ -1,4 +1,4 @@
-{* Шаблон отображения структуры сайта *}
+{* Template Structure Tree *}
 <div class="card-header">
 	Структура сайта
 </div>

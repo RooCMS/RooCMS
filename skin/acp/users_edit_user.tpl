@@ -1,4 +1,4 @@
-{* Шаблон редактирования пользователя *}
+{* Template User Edit *}
 <div class="card-header">
 	Редактируем пользователя #{$user['uid']} {$user['nickname']}
 </div>

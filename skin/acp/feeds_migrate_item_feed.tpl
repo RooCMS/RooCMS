@@ -1,4 +1,4 @@
-{* Шаблон переноса элемента из ленты в ленту *}
+{* Template Migrate Feed Unit *}
 
 <div class="card-header">
 	Переносим "{$item['title']}"

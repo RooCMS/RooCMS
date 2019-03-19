@@ -1,4 +1,4 @@
-{* Шаблон создания новой страницы в структуре сайта *}
+{* Template Structure Create *}
 <div class="card-header">
 	Новая страница
 </div>

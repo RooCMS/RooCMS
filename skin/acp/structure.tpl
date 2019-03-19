@@ -1,4 +1,4 @@
-{* Шаблон управления структурой сайта *}
+{* Template Structure *}
 <div class="col-sm-3 col-md-2">
 	<div class="card d-none d-sm-block submenu sticky-top">
 		<div class="card-header d-none d-lg-block">

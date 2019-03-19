@@ -1,4 +1,4 @@
-{* Шаблон управления лентой *}
+{* Template Feed Control *}
 
 <div class="card-header">
 	Лента "{$feed['title']}"

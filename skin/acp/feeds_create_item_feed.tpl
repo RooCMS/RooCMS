@@ -1,4 +1,4 @@
-{* Шаблон создания элемента страницы *}
+{* Template Create Feed Unit *}
 <script type="text/javascript" src="plugin/ckeditor.php"></script>
 
 <div class="card-header">
