@@ -160,14 +160,14 @@ a:hover [class^="far-"] {
 }
 .fa-icon-action {
   position: absolute;
-  top: -15px;
+  top: -75%;
   right: 0;
   border: 2px solid #fff;
   border-radius: 50%;
-}
-.fa-icon-action:hover {
-  color: #C60D14;
   cursor: pointer;
+}
+.fa-icon-action:hover.del {
+  color: #C60D14;
 }
 /* style for delete user avatar */
 .delete_config_image:hover {

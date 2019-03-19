@@ -158,9 +158,9 @@
 			</label>
 			<div class="col-lg-8">
 				{if $user['avatar'] != ""}
-					<span class="position-relative" id="ua-{$user['uid']}">
+					<span class="d-inline position-relative" id="ua-{$user['uid']}">
 						<img src="/upload/images/{$user['avatar']}" height="50" class="rounded-circle border" alt="{$user['nickname']}">
-						<i id="dua-{$user['uid']}" class="fas fa-fw fa-times-circle fa-icon-action" rel="tooltip" title="Удалить аватар пользователя" data-placement="left"></i>
+						<i id="dua-{$user['uid']}" class="fas fa-fw fa-times-circle fa-icon-action del" rel="tooltip" title="Удалить аватар пользователя" data-placement="top"></i>
 					</span>
 				{/if}
 				<div class="custom-file w-75 ml-2 mb-3">

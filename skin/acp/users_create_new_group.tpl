@@ -1,25 +1,24 @@
 {* Шаблон создания новой группы *}
-<div class="panel-heading">
+<div class="card-header">
 	Новая группа
 </div>
-<div class="panel-body">
-	<form method="post" action="{$SCRIPT_NAME}?act=users&part=create_group" role="form">
-
-		<div class="form-group">
-			<label for="inputTitle" class="col-lg-3 control-label">
+<form method="post" action="{$SCRIPT_NAME}?act=users&part=create_group" role="form">
+	<div class="card-body">
+		<div class="form-group row">
+			<label for="inputTitle" class="col-md-4 form-control-plaintext text-right">
 				Название группы: <small><i class="fa fa-question-circle fa-fw" rel="tooltip" title="Название должно быть уникальным" data-placement="left"></i></small>
 			</label>
-			<div class="col-lg-9">
+			<div class="col-lg-8">
 				<input type="text" name="title" id="inputTitle" class="form-control" spellcheck required>
 			</div>
 		</div>
-
+	</div>
+	<div class="card-footer">
 		<div class="row">
-			<div class="col-lg-9 col-md-offset-3">
-				<input type="submit" name="create_group" class="btn btn-success" value="Создать">
-				<input type="submit" name="create_group['ae']" class="btn btn-outline-primary" value="Создать и выйти">
+			<div class="col-lg-8 offset-md-4">
+				<input type="submit" name="create_group" class="btn btn-lg btn-success" value="Создать">
+				<input type="submit" name="create_group['ae']" class="btn btn-lg btn-outline-success" value="Создать и выйти">
 			</div>
 		</div>
-
-	</form>
-</div>
+	</div>
+</form>

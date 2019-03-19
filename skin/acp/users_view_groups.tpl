@@ -1,32 +1,32 @@
 {* Шаблон отображения списка пользователей *}
-<div class="panel-heading">
+<div class="card-header">
 	Группы пользователей
 </div>
 
 {if !empty($data)}
-	<table class="table table-hover table-condensed hidden-xs">
-		<thead>
+	<table class="table table-hover table-condensed d-none d-sm-table mb-0">
+		<thead class="bg-light">
 			<tr class="active">
 				<th width="3%">ID</th>
 				<th width="56%">Название группы</th>
 				<th width="11%">Кол-во участников</th>
-				<th width="30%">Опции</th>
+				<th width="30%" class="text-right">Опции</th>
 			</tr>
 		</thead>
 		<tbody>
 		{foreach from=$data item=group}
 			<tr>
-				<td class="text-muted">{$group['gid']}</td>
-				<td>
+				<td class="align-middle text-muted">{$group['gid']}</td>
+				<td class="align-middle">
 					<a href="{$SCRIPT_NAME}?act=users&part=edit_group&gid={$group['gid']}">{$group['title']}</a>
 				</td>
-				<td class="text-left">
+				<td class="align-middle text-left">
 					{$group['users']}
 				</td>
-				<td>
-					<div class="btn-group">
-						<a href="{$SCRIPT_NAME}?act=users&part=edit_group&gid={$group['gid']}" class="btn btn-sm btn-outline-primary"><i class="fa fa-pencil-square-o fa-fw"></i><span class="hidden-sm">Редактировать</span></a>
-						<a href="{$SCRIPT_NAME}?act=users&part=delete_group&gid={$group['gid']}" class="btn btn-sm btn-danger"><i class="fa fa-trash fa-fw"></i><span class="hidden-sm">Удалить</span></a>
+				<td class="align-middle text-right">
+					<div class="btn-group btn-group-sm">
+						<a href="{$SCRIPT_NAME}?act=users&part=edit_group&gid={$group['gid']}" class="btn btn-outline-primary"><i class="fas fa-users-cog fa-fw"></i><span class="d-none d-md-inline-block">Редактировать</span></a>
+						<a href="{$SCRIPT_NAME}?act=users&part=delete_group&gid={$group['gid']}" class="btn btn-danger"><i class="far fa-trash-alt fa-fw"></i><span class="d-none d-md-inline-block">Удалить</span></a>
 					</div>
 				</td>
 			</tr>
@@ -34,24 +34,26 @@
 		</tbody>
 	</table>
 
-	<ul class="list-group visible-xs">
+	<table class="table table-hover d-block-table d-sm-none mb-0">
+		<tbody>
 		{foreach from=$data item=group}
-			<li class="list-group-item">
-
-				<a href="{$SCRIPT_NAME}?act=users&part=edit_group&gid={$group['gid']}">{$group['title']}</a>
-
-				<div class="pull-right">
-					<div class="btn-group">
-						<a href="{$SCRIPT_NAME}?act=users&part=edit_group&gid={$group['gid']}" class="btn btn-sm btn-outline-primary"><i class="fa fa-pencil-square-o fa-fw"></i><span class="hidden-sm"></span></a>
-						<a href="{$SCRIPT_NAME}?act=users&part=delete_group&gid={$group['gid']}" class="btn btn-sm btn-danger"><i class="fa fa-trash fa-fw"></i><span class="hidden-sm"></span></a>
+			<tr>
+				<td class="align-middle">
+					<a href="{$SCRIPT_NAME}?act=users&part=edit_group&gid={$group['gid']}">{$group['title']}</a>
+				</td>
+				<td class="w-25 align-middle text-right">
+					<div class="btn-group btn-group-sm">
+						<a href="{$SCRIPT_NAME}?act=users&part=edit_group&gid={$group['gid']}" class="btn btn-outline-primary"><i class="fas fa-users-cog fa-fw"></i></a>
+						<a href="{$SCRIPT_NAME}?act=users&part=delete_group&gid={$group['gid']}" class="btn btn-danger"><i class="far fa-trash-alt fa-fw"></i></a>
 					</div>
-				</div>
-			</li>
+				</td>
+			</tr>
 		{/foreach}
-	</ul>
+		</tbody>
+	</table>
 
 {else}
-	<div class="panel-body">
+	<div class="card-body">
 		На данный момент групп не создано. Вы можете создать первую группу воспользовавшись слева пунктом меню "Создать группу".
 	</div>
 {/if}

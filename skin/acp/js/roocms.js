@@ -16,11 +16,12 @@
 	"use strict";
 	$(window).on('load', function() {
 		$("[rel='tooltip']").tooltip();
-		$("[rel='popover']").popover();
+		$("[rel='popover']").popover().on('click', function () {
+			$("[rel='popover']").not(this).popover('hide');
+		});
 		$('.toast').toast();
 		$(".alert").alert();
-
-		//$(".collapse").collapse({hide: true});
+		$(".collapse").collapse({hide: true});
 
 		/* Select */
 		if( /Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent) ) {

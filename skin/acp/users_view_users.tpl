@@ -41,9 +41,9 @@
 			</td>
 			<td class="align-middle small">{$user['last_visit']}</td>
 			<td class="align-middle text-right">
-				<div class="btn-group">
-					<a href="{$SCRIPT_NAME}?act=users&part=edit_user&uid={$user['uid']}" class="btn btn-sm btn-outline-primary"><i class="fas fa-user-edit fa-fw"></i><span class="d-none d-lg-block">Редактировать</span></a>
-					{if $user['uid'] != 1}<a href="{$SCRIPT_NAME}?act=users&part=delete_user&uid={$user['uid']}" class="btn btn-sm btn-danger"><i class="fas fa-user-times fa-fw"></i><span class="d-none d-lg-block">Удалить</span></a>{/if}
+				<div class="btn-group btn-group-sm">
+					<a href="{$SCRIPT_NAME}?act=users&part=edit_user&uid={$user['uid']}" class="btn btn-outline-primary"><i class="fas fa-user-edit fa-fw"></i><span class="d-none d-lg-block">Редактировать</span></a>
+					{if $user['uid'] != 1}<a href="{$SCRIPT_NAME}?act=users&part=delete_user&uid={$user['uid']}" class="btn btn-danger"><i class="fas fa-user-times fa-fw"></i><span class="d-none d-lg-block">Удалить</span></a>{/if}
 				</div>
 			</td>
 		</tr>
