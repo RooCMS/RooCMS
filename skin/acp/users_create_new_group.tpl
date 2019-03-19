@@ -1,4 +1,4 @@
-{* Шаблон создания новой группы *}
+{* Template Create Group Users *}
 <div class="card-header">
 	Новая группа
 </div>

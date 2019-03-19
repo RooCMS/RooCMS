@@ -1,4 +1,4 @@
-{* Шаблон редактирования группы *}
+{* Template Group Edit *}
 <div class="card-header">
 	Редактируем группу
 </div>
