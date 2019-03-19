@@ -27,9 +27,9 @@
 					{/if}
 				</nobr>
 				<small class="float-right">
-					{if !isset($page['group_access'][0])}<i class="fas fa-fw fa-user-secret" rel="tooltip" data-toggle="tooltip" data-placement="top" title="Есть групповые ограничения"></i>{else}{/if}
-					{if $page['noindex']}<i class="far fa-fw fa-eye-slash" rel="tooltip" data-toggle="tooltip" data-placement="top" title="Неиндексируется поисковыми системами"></i>{else}{/if}
-					{if $page['nav']}<i class="fas fa-fw fa-globe" rel="tooltip" data-toggle="tooltip" data-placement="top" title="Страница отражается в навигации"></i>{else}{/if}
+					{if !isset($page['group_access'][0])}<i class="fas fa-fw fa-user-secret" rel="tooltip" data-toggle="tooltip" data-placement="top" title="Есть групповые ограничения"></i>{else}<i class="fa fa-fw"></i>{/if}
+					{if $page['noindex']}<i class="far fa-fw fa-eye-slash" rel="tooltip" data-toggle="tooltip" data-placement="top" title="Неиндексируется поисковыми системами"></i>{else}<i class="fa fa-fw"></i>{/if}
+					{if $page['nav']}<i class="fas fa-fw fa-globe" rel="tooltip" data-toggle="tooltip" data-placement="top" title="Страница отражается в навигации"></i>{else}<i class="fa fa-fw"></i>{/if}
 				</small>
 				<small class="tralias float-right">{$page['alias']}</small>
 			</td>
