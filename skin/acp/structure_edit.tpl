@@ -60,12 +60,12 @@
 			SEO индексация: <small><span class="fa fa-question-circle fa-fw" rel="tooltip" title="Запрещает индексировать страницу поисковыми роботами." data-placement="left"></span></small>
 		</label>
 		<div class="col-md-8">
-			<div class="btn-group btn-group-toggle roocms-boolui" data-toggle="buttons">
+			<div class="btn-group btn-group-toggle roocms-crui" data-toggle="buttons">
 				<label class="btn btn-light{if !$data['noindex']} active{/if}">
-					<input type="radio" name="noindex" value="0" id="flag_noindex_false"{if !$data['noindex']} checked{/if}><i class="fas fa-fw fa-check-square text-success"></i>Разрешить индексацию
+					<input type="radio" name="noindex" value="0" id="flag_noindex_false"{if !$data['noindex']} checked{/if}><i class="fas fa-fw fa{if !$data['noindex']}-check{/if}-circle text-success"></i>Разрешить индексацию
 				</label>
 				<label class="btn btn-light{if $data['noindex']} active{/if}">
-					<input type="radio" name="noindex" value="1" id="flag_noindex_true"{if $data['noindex']} checked{/if}><i class="fas fa-fw fa-square text-danger"></i>Запретить индексацию
+					<input type="radio" name="noindex" value="1" id="flag_noindex_true"{if $data['noindex']} checked{/if}><i class="fas fa-fw fa{if $data['noindex']}-check{/if}-circle text-danger"></i>Запретить индексацию
 				</label>
 			</div>
 		</div>
@@ -129,7 +129,7 @@
 			<small><span class="fa fa-question-circle fa-fw" rel="tooltip" title="Укажите какие группы пользователей смогут просматривать эту страницу" data-placement="left"></span></small>
 		</label>
 		<div class="col-md-8">
-			<div class="btn-group btn-group-toggle roocms-boolui" data-toggle="buttons" id="inputGroupAccess">
+			<div class="btn-group btn-group-toggle roocms-crui" data-toggle="buttons" id="inputGroupAccess">
 				{foreach from=$groups item=group}
 					<label class="btn btn-light {if isset($gids[$group['gid']])}active{/if}">
 						<input type="checkbox" name="gids[]" value="{$group['gid']}" autocomplete="off"{if isset($gids[$group['gid']])} checked{/if}><i class="far fa-fw fa-{if isset($gids[$group['gid']])}check-{/if}square"></i> {$group['title']}
@@ -146,12 +146,12 @@
 		</label>
 		{if $data['id'] != 1}
 			<div class="col-md-8">
-				<div class="btn-group btn-group-toggle roocms-boolui" data-toggle="buttons">
+				<div class="btn-group btn-group-toggle roocms-crui" data-toggle="buttons">
 					<label class="btn btn-light {if $data['nav']} active{/if}">
-						<input type="radio" name="nav" value="1" id="flag_nav_false" {if $data['nav']} checked{/if}><i class="fas fa-fw fa-check-square text-success"></i>Отображать
+						<input type="radio" name="nav" value="1" id="flag_nav_false" {if $data['nav']} checked{/if}><i class="fas fa-fw fa{if $data['nav']}-check{/if}-circle text-success"></i>Отображать
 					</label>
 					<label class="btn btn-light {if !$data['nav']} active{/if}">
-						<input type="radio" name="nav" value="0" id="flag_nav_true" {if !$data['nav']} checked{/if}><i class="fas fa-fw fa-square text-danger"></i>Скрыть
+						<input type="radio" name="nav" value="0" id="flag_nav_true" {if !$data['nav']} checked{/if}><i class="fas fa-fw fa{if $data['nav']}-check{/if}-circle text-danger"></i>Скрыть
 					</label>
 				</div>
 			</div>

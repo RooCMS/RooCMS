@@ -12,8 +12,10 @@
 (function($) {
 	"use strict";
 	var defaults = {
-		icon_on: 'fa-check-square',
-		icon_off: 'fa-square'
+		radio_icon_on: 'fa-check-circle',
+		radio_icon_off: 'fa-circle',
+		checkbox_icon_on: 'fa-check-square',
+		checkbox_icon_off: 'fa-square'
 	};
 
 	var methods = {
@@ -29,12 +31,26 @@
 
 					var labelstatus = ($(this).hasClass("active")) ? true : false ;
 					var buttonicon = $(this).find(findels);
+					var inputtype = $(this).find("input");
+					if(inputtype.is(":radio")) {
+
+					}
 
 					if(labelstatus) {
-						buttonicon.removeClass(settings.icon_off).addClass(settings.icon_on);
+						if(inputtype.is(":radio")) {
+							buttonicon.removeClass(settings.radio_icon_off).addClass(settings.radio_icon_on);
+						}
+						if(inputtype.is(":checkbox")) {
+							buttonicon.removeClass(settings.checkbox_icon_off).addClass(settings.checkbox_icon_on);
+						}
 					}
 					else {
-						buttonicon.removeClass(settings.icon_on).addClass(settings.icon_off);
+						if(inputtype.is(":radio")) {
+							buttonicon.removeClass(settings.radio_icon_on).addClass(settings.radio_icon_off);
+						}
+						if(inputtype.is(":checkbox")) {
+							buttonicon.removeClass(settings.checkbox_icon_on).addClass(settings.checkbox_icon_off);
+						}
 					}
 				}).on('click', function() {
 
@@ -42,24 +58,24 @@
 						var buttonicon = $(this).find(findels);
 						var inputtype = $(this).find("input");
 						if(inputtype.is(":radio")) {
-							buttonicon.removeClass(settings.icon_on).addClass(settings.icon_off);
+							buttonicon.removeClass(settings.radio_icon_on).addClass(settings.radio_icon_off);
 						}
 					});
 
-					var tbuttonicon = $(this).find(findels);
-					var tinputtype = $(this).find("input");
+					var buttonicon = $(this).find(findels);
+					var inputtype = $(this).find("input");
 
-					if(tinputtype.is(":radio")) {
-						tbuttonicon.removeClass(settings.icon_off).addClass(settings.icon_on);
+					if(inputtype.is(":radio")) {
+						buttonicon.removeClass(settings.radio_icon_off).addClass(settings.radio_icon_on);
 
 					}
 
-					if(tinputtype.is(":checkbox")) {
+					if(inputtype.is(":checkbox")) {
 						if(!$(this).hasClass("active")) {
-							tbuttonicon.removeClass(settings.icon_off).addClass(settings.icon_on);
+							buttonicon.removeClass(settings.checkbox_icon_off).addClass(settings.checkbox_icon_on);
 						}
 						else {
-							tbuttonicon.removeClass(settings.icon_on).addClass(settings.icon_off);
+							buttonicon.removeClass(settings.checkbox_icon_on).addClass(settings.checkbox_icon_off);
 						}
 					}
 
@@ -68,7 +84,7 @@
 		}
 	};
 
-	$.fn.roocmsboolui = function(method) {
+	$.fn.roocmscrui = function(method) {
 		// logic
 		if (methods[method]) {
 			return methods[method].apply( this, Array.prototype.slice.call(arguments, 1));
@@ -87,6 +103,6 @@
  */
 (function($) {
 	$(window).on('load', function() {
-		$(".roocms-boolui").roocmsboolui();
+		$(".roocms-crui").roocmscrui();
 	});
 })(jQuery);

@@ -46,7 +46,7 @@
 <script type="text/javascript" src="/plugin/bs-datepicker/js/locales/bootstrap-datepicker.ru.min.js{$build}"></script>
 <script type="text/javascript" src="/plugin/bs-tagsinput/js/bootstrap-tagsinput.min.js{$build}"></script>
 <script type="text/javascript" src="{$SKIN}/js/roocms.min.js{$build}"></script>
-<script type="text/javascript" src="{$SKIN}/js/jquery.roocms.boolui.min.js{$build}"></script>
+<script type="text/javascript" src="{$SKIN}/js/jquery.roocms.crui.min.js{$build}"></script>
 
 {$jscript}
 

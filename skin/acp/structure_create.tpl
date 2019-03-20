@@ -55,12 +55,12 @@
 			SEO индексация: <small><span class="fas fa-question-circle fa-fw" rel="tooltip" title="Запрещает индексировать страницу поисковыми роботами." data-placement="left"></span></small>
 		</label>
 		<div class="col-lg-8">
-			<div class="btn-group btn-group-toggle roocms-boolui" data-toggle="buttons">
+			<div class="btn-group btn-group-toggle roocms-crui" data-toggle="buttons">
 				<label class="btn btn-light active">
-					<input type="radio" name="noindex" value="0" id="flag_noindex_false" checked><i class="fas fa-fw fa-check-square text-success"></i> Разрешить индексацию
+					<input type="radio" name="noindex" value="0" id="flag_noindex_false" checked><i class="fas fa-fw fa-check-circle text-success"></i> Разрешить индексацию
 				</label>
 				<label class="btn btn-light">
-					<input type="radio" name="noindex" value="1" id="flag_noindex_true"><i class="fas fa-fw fa-square text-danger"></i> Запретить индексацию
+					<input type="radio" name="noindex" value="1" id="flag_noindex_true"><i class="fas fa-fw fa-circle text-danger"></i> Запретить индексацию
 				</label>
 			</div>
 		</div>
@@ -130,7 +130,7 @@
 				<small><span class="fas fa-question-circle fa-fw" rel="tooltip" title="Укажите какие группы пользователей смогут просматривать эту страницу" data-placement="left"></span></small>
 			</label>
 			<div class="col-lg-8">
-				<div class="btn-group btn-group-toggle roocms-boolui" data-toggle="buttons" id="inputGroupAccess">
+				<div class="btn-group btn-group-toggle roocms-crui" data-toggle="buttons" id="inputGroupAccess">
 					{*<label class="btn btn-outline-primary active">
 						<input type="checkbox" name="gids[]" value="0" autocomplete="off" checked><i class="fa fa-fw fa-users"></i> Все группы
 					</label>*}
@@ -149,12 +149,12 @@
 			Навигация: <small><span class="fas fa-question-circle fa-fw" rel="tooltip" title="Данный раздел можно обозначить как часть общей навигации" data-placement="left"></span></small>
 		</label>
 		<div class="col-lg-8">
-			<div class="btn-group btn-group-toggle roocms-boolui" data-toggle="buttons">
+			<div class="btn-group btn-group-toggle roocms-crui" data-toggle="buttons">
 				<label class="btn btn-light active">
-					<input type="radio" name="nav" value="1" id="flag_nav_false" checked><i class="fas fa-fw fa-check-square text-success"></i> Отображать
+					<input type="radio" name="nav" value="1" id="flag_nav_false" checked><i class="fas fa-fw fa-check-circle text-success"></i> Отображать
 				</label>
 				<label class="btn btn-light">
-					<input type="radio" name="nav" value="0" id="flag_nav_true"><i class="fas fa-fw fa-square text-danger"></i> Скрыть
+					<input type="radio" name="nav" value="0" id="flag_nav_true"><i class="fas fa-fw fa-circle text-danger"></i> Скрыть
 				</label>
 			</div>
 		</div>

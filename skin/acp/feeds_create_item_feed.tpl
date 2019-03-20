@@ -97,7 +97,7 @@
 				Рассылка:
 			</label>
 			<div class="col-md-8">
-				<div class="btn-group btn-group-toggle roocms roocms-boolui" data-toggle="buttons">
+				<div class="btn-group btn-group-toggle roocms roocms-crui" data-toggle="buttons">
 					<label class="btn btn-light active" for="flag_status_ignore">
 						<input type="radio" name="force" value="-1" id="flag_status_ignore" checked> <i class="far fa-fw fa-check-square"></i> Не осуществлять рассылку
 					</label>
@@ -118,7 +118,7 @@
 					<small><span class="fa fa-question-circle fa-fw" rel="tooltip" title="Укажите какие группы пользователей смогут просматривать эту публикацию" data-placement="left"></span></small>
 				</label>
 				<div class="col-md-8">
-					<div class="btn-group btn-group-toggle roocms-boolui" data-toggle="buttons" id="inputGroupAccess">
+					<div class="btn-group btn-group-toggle roocms-crui" data-toggle="buttons" id="inputGroupAccess">
 						{foreach from=$groups item=group}
 							<label class="btn btn-light">
 								<input type="checkbox" name="gids[]" value="{$group['gid']}" autocomplete="off"><i class="far fa-fw fa-square"></i> {$group['title']}

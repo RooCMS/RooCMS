@@ -10,7 +10,7 @@
 			RSS вывод: <small><i class="fa fa-question-circle fa-fw" rel="tooltip" title="Включить/Выключить RSS ленту" data-placement="right"></i></small>
 		</label>
 		<div class="col-md-8">
-			<div class="btn-group btn-group-toggle roocms-boolui" data-toggle="buttons">
+			<div class="btn-group btn-group-toggle roocms-crui" data-toggle="buttons">
 				<label class="btn btn-light{if $feed['rss']} active{/if}">
 					<input type="radio" name="rss" value="1" id="flag_rss_on"{if $feed['rss']} checked{/if}> <i class="far fa-fw fa-check-square text-success"></i> Вкл
 				</label>

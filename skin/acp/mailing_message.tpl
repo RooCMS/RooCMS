@@ -14,7 +14,7 @@
 					Группа получателей:
 				</label>
 				<div class="col-md-8">
-					<div class="btn-group btn-group-toggle roocms-boolui" data-toggle="buttons" id="inputGroupAccess">
+					<div class="btn-group btn-group-toggle roocms-crui" data-toggle="buttons" id="inputGroupAccess">
 						{foreach from=$groups item=group}
 							<label class="btn btn-light">
 								<input type="checkbox" name="gids[]" value="{$group['gid']}" autocomplete="off"><i class="far fa-fw fa-square"></i> {$group['title']}
@@ -30,12 +30,12 @@
 				Условия рассылки:
 			</label>
 			<div class="col-md-8">
-				<div class="btn-group btn-group-toggle roocms-boolui" data-toggle="buttons">
-					<label class="btn btn-light" for="flag_status_false">
-						<input type="radio" name="force" value="0" id="flag_status_false"> <i class="far fa-fw fa-square text-success"></i> Отправить только подписавшимся
+				<div class="btn-group btn-group-toggle roocms-crui" data-toggle="buttons">
+					<label class="btn btn-light active" for="flag_status_false">
+						<input type="radio" name="force" value="0" id="flag_status_false" checked> <i class="far fa-fw fa-check-circle text-success"></i> Отправить только подписавшимся
 					</label>
-					<label class="btn btn-light active" for="flag_status_true">
-						<input type="radio" name="force" value="1" id="flag_status_true" checked> <i class="far fa-fw fa-check-square text-danger"></i> Отправить всем
+					<label class="btn btn-light" for="flag_status_true">
+						<input type="radio" name="force" value="1" id="flag_status_true"> <i class="far fa-fw fa-circle text-danger"></i> Отправить всем
 					</label>
 				</div>
 			</div>
