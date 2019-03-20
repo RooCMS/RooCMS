@@ -118,7 +118,7 @@
 					<small><span class="fa fa-question-circle fa-fw" rel="tooltip" title="Укажите какие группы пользователей смогут просматривать эту публикацию" data-placement="left"></span></small>
 				</label>
 				<div class="col-md-8">
-					<div class="btn-group btn-group-toggle roocms roocms-boolui" data-toggle="buttons" id="inputGroupAccess">
+					<div class="btn-group btn-group-toggle roocms-boolui" data-toggle="buttons" id="inputGroupAccess">
 						{foreach from=$groups item=group}
 							<label class="btn btn-light">
 								<input type="checkbox" name="gids[]" value="{$group['gid']}" autocomplete="off"><i class="far fa-fw fa-square"></i> {$group['title']}
@@ -140,7 +140,7 @@
 		<div class="row mb-2">
 			<div class="col-lg-12">
 				<label for="brief_item" class="control-label">
-					Полный текст: <small><span class="fa fa-warning fa-fw text-danger" rel="tooltip" title="Обазательно заполнить это поле" data-placement="right"></span></small>
+					Полный текст: <small><span class="fas fa-exclamation-triangle fa-fw text-danger" rel="tooltip" title="Обазательно заполнить это поле" data-placement="right"></span></small>
 				</label>
 				<textarea id="full_item" class="form-control ckeditor" name="full_item" spellcheck required></textarea>
 			</div>
