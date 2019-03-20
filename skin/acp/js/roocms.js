@@ -21,7 +21,7 @@
 		});
 		$('.toast').toast();
 		$(".alert").alert();
-		$(".collapse").collapse({hide: true});
+		$(".collapse").collapse({toggle: false});
 
 		/* Select */
 		if( /Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent) ) {

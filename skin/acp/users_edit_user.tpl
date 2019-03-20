@@ -12,10 +12,10 @@
 			<div class="col-lg-8">
 				<div class="btn-group btn-group-toggle roocms-crui" data-toggle="buttons">
 					<label class="btn btn-light{if $user['status'] == 1} active{/if}" for="flag_status_true" rel="tooltip" title="Учетная запись активна" data-placement="auto" data-container="body">
-						<input type="radio" name="status" value="1" id="flag_status_true"{if $user['status'] == 1} checked{/if}> <i class="far fa-fw fa{if $user['status'] == 1}-check{/if}-square"></i> <i class="fa fa-fw fa-eye text-success"></i>
+						<input type="radio" name="status" value="1" id="flag_status_true"{if $user['status'] == 1} checked{/if}> <i class="far fa-fw fa{if $user['status'] == 1}-check{/if}-circle"></i> <i class="fa fa-fw fa-eye text-success"></i>
 					</label>
 					<label class="btn btn-light{if $user['status'] == 0} active{/if}" for="flag_status_false" rel="tooltip" title="Учетная запись отключена" data-placement="auto" data-container="body">
-						<input type="radio" name="status" value="0" id="flag_status_false"{if $user['status'] == 0} checked{/if}> <i class="far fa-fw fa{if $user['status'] == 0}-check{/if}-square"></i> <i class="fa fa-fw fa-eye-slash text-danger"></i>
+						<input type="radio" name="status" value="0" id="flag_status_false"{if $user['status'] == 0} checked{/if}> <i class="far fa-fw fa{if $user['status'] == 0}-check{/if}-circle"></i> <i class="fa fa-fw fa-eye-slash text-danger"></i>
 					</label>
 				</div>
 			</div>
