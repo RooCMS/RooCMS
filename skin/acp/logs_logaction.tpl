@@ -33,6 +33,27 @@
 		</tbody>
 	</table>
 
+
+	{foreach from=$datalog item=r}
+		<div class="card-body border-top border-bottom d-block d-sm-none">
+			<p class="card-text">
+				<span class="badge badge-{if $r['type_log'] == "error"}danger{elseif $r['type_log'] == "info"}info{else}light{/if}">{$r['type_log']}</span>
+				<small class="text-muted">{$r['date_log']}</small>
+			</p>
+			<p class="card-text">
+				<mark>{$r['message']}</mark>
+			</p>
+			<p class="card-text text-center">
+				{if $r['uid'] != 0}
+					<a href="{$SCRIPT_NAME}?act=users&part=edit_user&uid={$r['uid']}" class="btn btn-sm btn-outline-secondary btn-block">{$r['nickname']}</a>
+				{else}
+					<span class="badge badge-light">Гость</span>
+				{/if}
+			</p>
+		</div>
+	{/foreach}
+
+
 	<div class="card-footer">
 		<div class="row">
 			<div class="col-lg-12">
