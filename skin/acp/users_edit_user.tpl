@@ -218,9 +218,9 @@
 	<script>
 		$(document).ready(function(){
 			$('[id^=dua]').on('click', function() {
-				var attrdata = $(this).attr('id');
-				var arrdata = attrdata.split('-');
-				var uid = arrdata[1];
+				let attrdata = $(this).attr('id');
+				let arrdata = attrdata.split('-');
+				let uid = arrdata[1];
 
 				$("#ua-"+uid).load('/acp.php?act=ajax&part=delete_user_avatar&uid='+uid, function() {
 					$("#ua-"+uid).animate({'opacity':'0.2'}, 750, function() {

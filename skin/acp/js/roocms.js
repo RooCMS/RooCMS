@@ -43,7 +43,10 @@
 		});
 
 		/* Colorpicker */
-		//$(".colorpicker").colorpicker();
+		$(".color-picker").colorpicker({
+			format: "hex",
+			horizontal: true
+		});
 
 		/* Tags Input */
 		$(".tagsinput").tagsinput({

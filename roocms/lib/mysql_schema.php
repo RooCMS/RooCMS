@@ -40,9 +40,9 @@ $sql['CREATE '.CONFIG_PARTS_TABLE] = "CREATE TABLE IF NOT EXISTS `".CONFIG_PARTS
 
 $id = 1;
 $sql['INSERT '.CONFIG_PARTS_TABLE." ID #".$id] = "INSERT INTO `".CONFIG_PARTS_TABLE."` VALUES (".$id.", 'global', 1, 'global', 'Общие настройки', 'cog')";		$id++;
-$sql['INSERT '.CONFIG_PARTS_TABLE." ID #".$id] = "INSERT INTO `".CONFIG_PARTS_TABLE."` VALUES (".$id.", 'global', 2, 'gd', 'Обработка изображений', 'picture-o')";	$id++;
+$sql['INSERT '.CONFIG_PARTS_TABLE." ID #".$id] = "INSERT INTO `".CONFIG_PARTS_TABLE."` VALUES (".$id.", 'global', 2, 'gd', 'Обработка изображений', 'image')";		$id++;
 $sql['INSERT '.CONFIG_PARTS_TABLE." ID #".$id] = "INSERT INTO `".CONFIG_PARTS_TABLE."` VALUES (".$id.", 'global', 3, 'users', 'Настройка пользователей', 'users')";	$id++;
-$sql['INSERT '.CONFIG_PARTS_TABLE." ID #".$id] = "INSERT INTO `".CONFIG_PARTS_TABLE."` VALUES (".$id.", 'global', 4, 'cp', 'Панель Администратора', 'shield')";		$id++;
+$sql['INSERT '.CONFIG_PARTS_TABLE." ID #".$id] = "INSERT INTO `".CONFIG_PARTS_TABLE."` VALUES (".$id.", 'global', 4, 'cp', 'Панель Администратора', 'user-astronaut')";	$id++;
 $sql['INSERT '.CONFIG_PARTS_TABLE." ID #".$id] = "INSERT INTO `".CONFIG_PARTS_TABLE."` VALUES (".$id.", 'global', 5, 'tpl', 'Настройки шаблонизации', 'desktop')";	$id++;
 $sql['INSERT '.CONFIG_PARTS_TABLE." ID #".$id] = "INSERT INTO `".CONFIG_PARTS_TABLE."` VALUES (".$id.", 'global', 6, 'rss', 'RSS', 'rss')";				$id++;
 $sql['INSERT '.CONFIG_PARTS_TABLE." ID #".$id] = "INSERT INTO `".CONFIG_PARTS_TABLE."` VALUES (".$id.", 'component', 7, 'feed', 'Ленты', 'th-list')";			$id++;

@@ -27,6 +27,7 @@
 <link rel="stylesheet" type="text/css" href="/plugin/bootstrap/css/bootstrap.min.css{$build}" media="screen" />
 <link rel="stylesheet" type="text/css" href="/plugin/bs-select/css/bootstrap-select.min.css{$build}" media="screen" />
 <link rel="stylesheet" type="text/css" href="/plugin/bs-datepicker/css/bootstrap-datepicker.min.css{$build}" media="screen" />
+<link rel="stylesheet" type="text/css" href="/plugin/bs-colorpicker/colorpicker.min.css{$build}" media="screen" />
 <link rel="stylesheet" type="text/css" href="/plugin/bs-tagsinput/css/bootstrap-tagsinput.min.css{$build}" media="screen" />
 <link rel="stylesheet" type="text/css" href="{$SKIN}/css/style.min.css{$build}" media="screen" />
 
@@ -36,14 +37,15 @@
 <script type="text/javascript" src="plugin/iepngfix_tilebg.min.js{$build}"></script>
 <script type="text/javascript" src="plugin/jquery-core.min.js{$build}"></script>
 <script type="text/javascript" src="plugin/jquery-migrate.min.js{$build}"></script>
-<script type="text/javascript" src="plugin/fancybox/jquery.fancybox.min.js{$build}"></script>
 {*<script type="text/javascript" src="plugin/jquery.touchswipe.min.js{$build}"></script>*}
+<script type="text/javascript" src="plugin/fancybox/jquery.fancybox.min.js{$build}"></script>
 <script type="text/javascript" src="/plugin/bootstrap/js/bootstrap.bundle.min.js{$build}"></script>
 <script type="text/javascript" src="/plugin/bs-custom-file-input/bs-custom-file-input.min.js{$build}"></script>
 <script type="text/javascript" src="/plugin/bs-select/js/bootstrap-select.min.js{$build}"></script>
 <script type="text/javascript" src="/plugin/bs-select/js/i18n/defaults-ru_RU.min.js{$build}"></script>
 <script type="text/javascript" src="/plugin/bs-datepicker/js/bootstrap-datepicker.min.js{$build}"></script>
 <script type="text/javascript" src="/plugin/bs-datepicker/js/locales/bootstrap-datepicker.ru.min.js{$build}"></script>
+<script type="text/javascript" src="/plugin/bs-colorpicker/colorpicker.min.js{$build}"></script>
 <script type="text/javascript" src="/plugin/bs-tagsinput/js/bootstrap-tagsinput.min.js{$build}"></script>
 <script type="text/javascript" src="{$SKIN}/js/roocms.min.js{$build}"></script>
 <script type="text/javascript" src="{$SKIN}/js/jquery.roocms.crui.min.js{$build}"></script>

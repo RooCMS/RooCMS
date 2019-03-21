@@ -180,6 +180,10 @@ class ACP_Config extends ACP_ConfigAction {
 					$image['height'] = $size[1];
 				}
 
+				# image types
+				require _LIB."/mimetype.php";
+				$smarty->assign("allow_images_type", $imagetype);
+
 				$smarty->assign("image", $image);
 				$out = $tpl->load_template("config_field_image", true);
 				break;
