@@ -8,4 +8,4 @@
 	<input type="file" name="image_{$field['name']}" class="custom-file-input" id="input_{$field['name']}" accept="{foreach from=$allow_images_type item=type name=itype}{$type['mime_type']}{if !$smarty.foreach.itype.last},{/if}{/foreach}">
 	<label class="custom-file-label" for="input_{$field['name']}" data-browse="Выбрать">Выберите изображение</label>
 </div>
-<input type="hidden" name="{$field['name']}" value="{$field['value']}">
+<input type="hidden" name="{$field['name']}" value="{$field['value']}" readonly>

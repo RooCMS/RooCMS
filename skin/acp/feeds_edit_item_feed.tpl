@@ -79,11 +79,12 @@
 			</label>
 			<div class="col-md-8">
 				<input type="text" name="tags" id="inputTags" class="form-control tagsinput" value="{$item['tags']}">
-				<br />
 				{if !empty($poptags)}
-					{foreach from=$poptags item=tag}
-						<a href="#" name="assdag" class="addtag btn btn-sm btn-outline-primary" data-value="{$tag['title']}">{$tag['title']}</a>
-					{/foreach}
+					<div class="mt-1">
+						{foreach from=$poptags item=tag}
+							<a href="#" name="assdag" class="addtag btn btn-sm btn-outline-primary" data-value="{$tag['title']}">{$tag['title']}</a>
+						{/foreach}
+					</div>
 				{/if}
 			</div>
 		</div>
@@ -93,12 +94,16 @@
 				Автор:
 			</label>
 			<div class="col-md-8">
-				<select name="author_id" id="author_id" class="selectpicker show-tick" required data-size="auto" data-live-search="true" data-width="auto">
-					<option value="0">Без автора</option>
-					{foreach from=$userlist item=user}
-						<option value="{$user['uid']}" {if $user['uid'] == $item['author_id']} selected{/if}>{$user['nickname']}</option>
-					{/foreach}
-				</select>
+				<div class="row">
+					<div class="col-12 col-lg-6">
+						<select name="author_id" id="author_id" class="selectpicker" required data-size="auto" data-live-search="true" data-width="100%">
+							<option value="0">Без автора</option>
+							{foreach from=$userlist item=user}
+								<option value="{$user['uid']}" {if $user['uid'] == $item['author_id']} selected{/if}>{$user['nickname']}</option>
+							{/foreach}
+						</select>
+					</div>
+				</div>
 			</div>
 		</div>
 
@@ -109,7 +114,7 @@
 					<small><span class="fa fa-question-circle fa-fw" rel="tooltip" title="Укажите какие группы пользователей смогут просматривать эту страницу" data-placement="left"></span></small>
 				</label>
 				<div class="col-md-8">
-					<div class="btn-group btn-group-toggle roocms-crui" data-toggle="buttons" id="inputGroupAccess">
+					<div class="btn-group-vertical btn-group-toggle roocms-crui" data-toggle="buttons" id="inputGroupAccess">
 						{foreach from=$groups item=group}
 							<label class="btn btn-light {if isset($gids[$group['gid']])}active{/if}">
 								<input type="checkbox" name="gids[]" value="{$group['gid']}" autocomplete="off"{if isset($gids[$group['gid']])} checked{/if}><i class="far fa-fw fa-square"></i> {$group['title']}

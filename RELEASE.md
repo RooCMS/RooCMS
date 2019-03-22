@@ -1,6 +1,6 @@
 Version: 1.4 alpha
 ========================
-**release date:	21.03.2019**
+**release date:	22.03.2019**
 
 Plugins
 -------
@@ -37,4 +37,4 @@ Release information:
 	
 	[inf] 
 	
-	[del] 
+	[del] Remove IEPNGFIX (Older browsers will not cope with Bootstrap 4, so there is no need to use PNGFIX for IE in the distribution)

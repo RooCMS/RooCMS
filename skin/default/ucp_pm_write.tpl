@@ -13,7 +13,7 @@
 			<div class="form-group">
 				<label for="inputTo" class="col-lg-4 control-label">Получатель:</label>
 				<div class="col-lg-8">
-					<select name="to_uid" id="inputTo" class="selectpicker show-tick" required data-size="auto" data-live-search="true" data-width="100%">
+					<select name="to_uid" id="inputTo" class="selectpicker" required data-size="auto" data-live-search="true" data-width="100%">
 						<option value="0" disabled>Выберите получателя</option>
 						{foreach from=$userlist item=user}
 							{if $user['uid'] != $userdata['uid']}<option value="{$user['uid']}">{$user['nickname']}</option>{/if}

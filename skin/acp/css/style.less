@@ -1,11 +1,7 @@
 @charset "utf-8";
-@media (min-width: 1575px) {
-	.modal-login {margin-top: 15% !important;}
-}
 
-// LESS Variables
+// Variables
 
-// Color
 @roocms-bg:	  #F9F9F9;
 
 @black: 	  #1B1E24;
@@ -16,13 +12,16 @@
 @grey:		  #ccc;
 @blue:		  #49E;
 
-@brand-primary:	  #3D4F61; // #428bca
+@brand-primary:	  #2f3d60; // #428bca
 @brand-secondary: #335b8e;
 @brand-success:	  #72B110; // #5cb85c
-@brand-info:	  #3581D5; // #5bc0de
+@brand-info:	  #17a2d8; // #5bc0de
+@brand-hot:       #faaa32;
 @brand-warning:	  #FB8C00; // #f0ad4e
 @brand-danger:    #C60D14; // #d9534f
-@brand-dark:      #343a40;
+@brand-moment:    #20c997;
+@brand-extra:     #6610f2;
+@brand-dark:      #212529;
 @brand-light:     #f8f9fa;
 
 @bq-background:	#fbfbfb;
@@ -38,13 +37,11 @@
 @linkedin: 	#007bb6;
 @pinterest: 	#cb2027;
 @quora: 	#a82400;
-@soundcloud: 	#ff3a00;
 @stumbleupon: 	#EB4823;
 @tumblr: 	#32506d;
 @twitter: 	#00aced;
 @vimeo: 	#aad450;
 @vk: 		#45668e;
-@wordpress: 	#21759b;
 @yahoo: 	#7B0099;
 @youtube: 	#bb0000;
 
@@ -64,18 +61,23 @@
 
 @body-fs:	15px;
 
-// inc
-@csshbehavior: url("../../csshover.htc") !important;
-@pngfbehavior: url("../../iepngfix.htc") !important;
+
+@media (max-width: 767px) {
+	body {margin: 65px 0 3rem 0 !important;}
+}
+@media (min-width: 768px) {
+	body {margin: 65px 0 7rem 0 !important;}
+}
+@media (min-width: 992px) {
+	body {margin: 65px 0 5rem 0 !important;}
+}
+@media (min-width: 1200px) {}
+@media (min-width: 1575px) {
+	.modal-login {margin-top: 15% !important;}
+}
 
 
-/*@media (min-width: 1200px) {}
-@media (min-width: 992px) {}
-@media (min-width: 768px) {}
-@media (max-width: 767px) {}*/
-
-
-/* СТИЛЬ ПАНЕЛИ АДМИНИСТРАТОРА */
+/*  Admin Control Panel Style */
 html {
 	font-size: @body-fs;
 }
@@ -83,12 +85,8 @@ html, body {
 	font-family: @ptsans, @opensans, @bloggersans, @calibri, @trebuchet, @tahoma, @verdana !important;
 	background: @roocms-bg url('../img/bgcp.jpg') repeat fixed top !important;
 	padding: 0; margin: 0;
-	behavior: @csshbehavior;
 	text-rendering: optimizeLegibility;
 }
-body {margin: 65px 0 75px 0 !important;}
-img {behavior: @pngfbehavior;}
-
 
 /* LINK STYLE */
 a {font-family: @ptsans, @ubuntu, @calibri, @tahoma, @trebuchet !important;}

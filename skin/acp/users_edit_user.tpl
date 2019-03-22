@@ -179,10 +179,14 @@
 				Титул:  <small><i class="fa fa-question-circle fa-fw" rel="tooltip" title="Администраторы могут получить доступ к Панели Управления" data-placement="left"></i></small>
 			</label>
 			<div class="col-lg-8">
-				<select name="title"  id="inputTitle" class="selectpicker show-tick" data-size="auto" data-width="50%">
-					<option value="a" {if $user['title'] == "a"}selected{/if}>Администратор</option>
-					<option value="u" {if $user['title'] == "u"}selected{/if}>Пользователь</option>
-				</select>
+				<div class="row">
+					<div class="col-12 col-lg-6">
+						<select name="title"  id="inputTitle" class="selectpicker" data-size="auto" data-width="100%">
+							<option value="a" {if $user['title'] == "a"}selected{/if}>Администратор</option>
+							<option value="u" {if $user['title'] == "u"}selected{/if}>Пользователь</option>
+						</select>
+					</div>
+				</div>
 			</div>
 		</div>
 		{/if}
@@ -193,13 +197,17 @@
 				Основная группа пользователя:
 			</label>
 			<div class="col-lg-8">
-				<select name="gid" id="inputGroups" class="selectpicker show-tick" required data-header="Группы пользователей" data-size="auto" data-live-search="true" data-width="50%">
-					<option value="0" {if $user['gid'] == 0}selected{/if}>Не состоит в группе</option>
-					{foreach from=$groups item=group}
-						<option value="{$group['gid']}" data-subtext="В группе {$group['users']} пользователей" {if $group['gid'] == $user['gid']}selected{/if}>{$group['title']}</option>
-					{/foreach}
-				</select>
-				<input type="hidden" name="now_gid" value="{$user['gid']}" readonly>
+				<div class="row">
+					<div class="col-12 col-lg-6">
+						<select name="gid" id="inputGroups" class="selectpicker" required data-header="Группы пользователей" data-size="auto" data-live-search="true" data-width="100%">
+							<option value="0" {if $user['gid'] == 0}selected{/if}>Не состоит в группе</option>
+							{foreach from=$groups item=group}
+								<option value="{$group['gid']}" data-subtext="В группе {$group['users']} пользователей" {if $group['gid'] == $user['gid']}selected{/if}>{$group['title']}</option>
+							{/foreach}
+						</select>
+						<input type="hidden" name="now_gid" value="{$user['gid']}" readonly>
+					</div>
+				</div>
 			</div>
 		</div>
 		{/if}

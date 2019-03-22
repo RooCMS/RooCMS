@@ -1,7 +1,7 @@
 {* Log Main Template *}
-<div class="col-sm-3 col-md-2">
-	<div class="card d-none d-sm-block submenu sticky-top">
-		<div class="card-header d-none d-lg-block">
+<div class="col-lg-2">
+	<div class="card d-none d-lg-block submenu sticky-top">
+		<div class="card-header">
 			Управление структурой
 		</div>
 		<div class="list-group">
@@ -13,7 +13,7 @@
 
 	<div class="row justify-content-center mb-3">
 		<div class="col-auto">
-			<div class="btn-group btn-group-sm d-block d-sm-none">
+			<div class="btn-group btn-group-sm d-block d-lg-none">
 				<a href="{$SCRIPT_NAME}?act=logs&part=logaction" class="btn btn-outline-primary {if !isset($smarty.get.part) || (isset($smarty.get.part) && $smarty.get.part == "logaction")} active{/if}"><span class="far fa-fw fa-list-alt"></span>Лог</a>
 				<a href="{$SCRIPT_NAME}?act=logs&part=lowerrors" class="btn btn-outline-primary {if isset($smarty.get.part) && $smarty.get.part == "lowerrors"} active{/if}"><span class="fas fa-fw fa-list-alt"></span>PHP</a>
 				<a href="{$SCRIPT_NAME}?act=logs&part=syserrors" class="btn btn-outline-primary {if isset($smarty.get.part) && $smarty.get.part == "syserrors"} active{/if}"><span class="fas fa-fw fa-exclamation-triangle"></span>Крит.ошибки</a>
@@ -25,7 +25,7 @@
 
 	</div>
 </div>
-<div class="col-sm-9 col-md-10">
+<div class="col-lg-10">
 	<div class="card">
 		{$content}
 	</div>

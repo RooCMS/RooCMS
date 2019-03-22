@@ -12,7 +12,7 @@
 			</label>
 			<div class="col-md-9">
 				<input type="text" name="uname" id="inputUname" class="form-control" required value="{$data['uname']}">
-				<input type="hidden" name="old_uname" id="inputOldUname" class="form-control" required value="{$data['uname']}">
+				<input type="hidden" name="old_uname" id="inputOldUname" class="form-control" required value="{$data['uname']}" readonly>
 			</div>
 		</div>
 		<div class="form-group">
@@ -39,7 +39,7 @@
 			</label>
 			<div class="col-md-9">
 				{if $data['id'] != 1}
-					<select name="parent_id" id="inputStructure" class="selectpicker show-tick" required data-header="Структура помощи по сайту" data-size="auto" data-live-search="true" data-width="50%">
+					<select name="parent_id" id="inputStructure" class="selectpicker" required data-header="Структура помощи по сайту" data-size="auto" data-live-search="true" data-width="50%">
 						{foreach from=$tree item=p}
 							<option value="{$p['id']}" {if $smarty.const.DEBUGMODE}data-subtext="{$p['uname']}"{/if} {if $p['id'] == $data['parent_id']}selected{/if}>{section name=level loop=$p['level']}&middot; {/section} {$p['title']}</option>
 						{/foreach}

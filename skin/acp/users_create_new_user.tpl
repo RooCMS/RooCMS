@@ -148,10 +148,14 @@
 				Титул:  <small><span class="fa fa-question-circle fa-fw" rel="tooltip" title="Администраторы могут получить доступ к Панели Управления" data-placement="left"></span></small>
 			</label>
 			<div class="col-lg-8">
-				<select name="title" id="inputTitle" class="selectpicker show-tick" data-size="auto" data-width="50%">
-					<option value="a">Администратор</option>
-					<option value="u" selected>Пользователь</option>
-				</select>
+				<div class="row">
+					<div class="col-12 col-lg-6">
+						<select name="title" id="inputTitle" class="selectpicker" data-size="auto" data-width="100%">
+							<option value="a">Администратор</option>
+							<option value="u" selected>Пользователь</option>
+						</select>
+					</div>
+				</div>
 			</div>
 		</div>
 
@@ -161,12 +165,16 @@
 					Основная группа пользователя:
 				</label>
 				<div class="col-lg-8">
-					<select name="gid" id="inputGroups" class="selectpicker show-tick" required data-header="Группы пользователей" data-size="auto" data-live-search="true" data-width="50%">
-						<option value="0" selected>Не состоит в группе</option>
-						{foreach from=$groups item=group}
-							<option value="{$group['gid']}" data-subtext="В группе {$group['users']} пользователей">{$group['title']}</option>
-						{/foreach}
-					</select>
+					<div class="row">
+						<div class="col-12 col-lg-6">
+							<select name="gid" id="inputGroups" class="selectpicker" required data-header="Группы пользователей" data-size="auto" data-live-search="true" data-width="100%">
+								<option value="0" selected>Не состоит в группе</option>
+								{foreach from=$groups item=group}
+									<option value="{$group['gid']}" data-subtext="В группе {$group['users']} пользователей">{$group['title']}</option>
+								{/foreach}
+							</select>
+						</div>
+					</div>
 				</div>
 			</div>
 		{/if}

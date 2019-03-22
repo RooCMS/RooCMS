@@ -8,7 +8,7 @@
 <meta name="Resource-type" 		content="document" />
 <meta name="Author" 			content="alex Roosso @ {$site['domain']}" lang="ru" />
 <meta name="Copyright" 			content="RooCMS @ {$site['domain']}" lang="ru" />
-<meta name="viewport" 			content="width=device-width, initial-scale=1.0">
+<meta name="viewport" 			content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
 <meta name="theme-color"		content="#3D4F61">
 <meta http-equiv="Content-Type" 	content="{$charset}" />
 <meta http-equiv="Content-language"	content="ru" />
@@ -23,8 +23,8 @@
 
 <!-- Style -->
 <link rel="stylesheet" type="text/css" href="plugin/fancybox/jquery.fancybox.min.css{$build}" media="screen" />
-<link rel="stylesheet" type="text/css" href="/plugin/font-awesome/css/font-awesome.min.css{$build}" media="screen" />
 <link rel="stylesheet" type="text/css" href="/plugin/bootstrap/css/bootstrap.min.css{$build}" media="screen" />
+<link rel="stylesheet" type="text/css" href="/plugin/font-awesome/css/font-awesome.min.css{$build}" media="screen" />
 <link rel="stylesheet" type="text/css" href="/plugin/bs-select/css/bootstrap-select.min.css{$build}" media="screen" />
 <link rel="stylesheet" type="text/css" href="/plugin/bs-datepicker/css/bootstrap-datepicker.min.css{$build}" media="screen" />
 <link rel="stylesheet" type="text/css" href="/plugin/bs-colorpicker/colorpicker.min.css{$build}" media="screen" />
@@ -32,9 +32,6 @@
 <link rel="stylesheet" type="text/css" href="{$SKIN}/css/style.min.css{$build}" media="screen" />
 
 <!-- JS -->
-<!--[if lt IE 9]><script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
-<!--[if IE]><script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
-<script type="text/javascript" src="plugin/iepngfix_tilebg.min.js{$build}"></script>
 <script type="text/javascript" src="plugin/jquery-core.min.js{$build}"></script>
 <script type="text/javascript" src="plugin/jquery-migrate.min.js{$build}"></script>
 {*<script type="text/javascript" src="plugin/jquery.touchswipe.min.js{$build}"></script>*}

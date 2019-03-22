@@ -18,15 +18,12 @@
 <link href="favicon.ico" 	rel="icon" 		type="image/x-icon" />
 <link href="favicon.ico" 	rel="shortcut icon"	type="image/x-icon" />
 
-	<base href="{if trim($site['domain']) != ""}http{if isset($smarty.server.HTTPS)}s{/if}://{$site['domain']}{else}http{if isset($smarty.server.HTTPS)}s{/if}://{$smarty.server.SERVER_NAME}{/if}" /><!--[if IE]></base><![endif]-->
+<base href="{if trim($site['domain']) != ""}http{if isset($smarty.server.HTTPS)}s{/if}://{$site['domain']}{else}http{if isset($smarty.server.HTTPS)}s{/if}://{$smarty.server.SERVER_NAME}{/if}" /><!--[if IE]></base><![endif]-->
 
 <!-- Style -->
 <link rel="stylesheet" type="text/css" href="skin/acp/style.min.css{$build}" media="screen" />
 
 <!-- JS -->
-<!--[if lt IE 9]><script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
-<!--[if IE]><script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
-<script type="text/javascript" src="plugin/iepngfix_tilebg.min.js{$build}"></script>
 <script type="text/javascript" src="plugin/jquery-core.min.js{$build}"></script>
 <script type="text/javascript" src="plugin/jquery-migrate.min.js{$build}"></script>
 <script type="text/javascript" src="plugin/jquery.corner.js.php{$build}"></script>

@@ -39,7 +39,7 @@
 						<div class="row">
 							{foreach from=$phpextfunc[$ext] item=extfunc name=func}
 								<div class="col-6 col-sm-6 col-md-4 col-xl-3 border-bottom py-1">
-									{if trim($extfunc) != ""}{$extfunc}(); {if $smarty.const.DEBUGMODE}<a href="http://www.php.net/manual/ru/function.{$extfunc|replace:'_':'-'}.php" target="_blank"><span class="fas fa-fw fa-external-link-alt small"></span></a>{/if}{/if}
+									{if trim($extfunc) != ""}{$extfunc}(); {if $smarty.const.DEBUGMODE}<a href="http://www.php.net/manual/ru/function.{$extfunc|replace:'_':'-'}.php" target="_blank"><i class="fas fa-fw fa-external-link-alt small"></i></a>{/if}{/if}
 								</div>
 							{/foreach}
 						</div>

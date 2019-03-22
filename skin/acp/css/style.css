@@ -1,14 +1,25 @@
 @charset "utf-8";
+@media (max-width: 767px) {
+  body {
+    margin: 65px 0 3rem 0 !important;
+  }
+}
+@media (min-width: 768px) {
+  body {
+    margin: 65px 0 7rem 0 !important;
+  }
+}
+@media (min-width: 992px) {
+  body {
+    margin: 65px 0 5rem 0 !important;
+  }
+}
 @media (min-width: 1575px) {
   .modal-login {
     margin-top: 15% !important;
   }
 }
-/*@media (min-width: 1200px) {}
-@media (min-width: 992px) {}
-@media (min-width: 768px) {}
-@media (max-width: 767px) {}*/
-/* СТИЛЬ ПАНЕЛИ АДМИНИСТРАТОРА */
+/*  Admin Control Panel Style */
 html {
   font-size: 15px;
 }
@@ -18,14 +29,7 @@ body {
   background: #F9F9F9 url('../img/bgcp.jpg') repeat fixed top !important;
   padding: 0;
   margin: 0;
-  behavior: url("../../csshover.htc") !important;
   text-rendering: optimizeLegibility;
-}
-body {
-  margin: 65px 0 75px 0 !important;
-}
-img {
-  behavior: url("../../iepngfix.htc") !important;
 }
 /* LINK STYLE */
 a {
@@ -63,7 +67,7 @@ input:required:valid {
 ::-moz-selection,
 ::selection {
   color: #fff;
-  background: #3D4F61;
+  background: #2f3d60;
 }
 /* logo */
 #logo {
@@ -185,7 +189,7 @@ tr:hover .tralias {
   display: block;
 }
 .table-hover > tbody > tr:hover .text-muted {
-  color: #3D4F61 !important;
+  color: #2f3d60 !important;
 }
 /* ckeditor styles */
 .cked {
@@ -193,11 +197,11 @@ tr:hover .tralias {
 }
 /* Add BS */
 blockquote.quote-primary {
-  border-left: 0.2rem solid #3D4F61;
+  border-left: 0.2rem solid #2f3d60;
   background-color: #fbfbfb;
 }
 blockquote.quote-info {
-  border-left: 0.2rem solid #3581D5;
+  border-left: 0.2rem solid #17a2d8;
   background-color: #fbfbfb;
 }
 blockquote.quote-success {
@@ -244,7 +248,7 @@ blockquote.quote-primary > h3,
 blockquote.quote-primary > h4,
 blockquote.quote-primary > h5,
 blockquote.quote-primary > h6 {
-  color: #3D4F61;
+  color: #2f3d60;
 }
 blockquote.quote-info > h1,
 blockquote.quote-info > h2,
@@ -252,7 +256,7 @@ blockquote.quote-info > h3,
 blockquote.quote-info > h4,
 blockquote.quote-info > h5,
 blockquote.quote-info > h6 {
-  color: #3581D5;
+  color: #17a2d8;
 }
 blockquote.quote-success > h1,
 blockquote.quote-success > h2,

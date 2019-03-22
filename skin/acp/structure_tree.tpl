@@ -7,7 +7,7 @@
 	<thead class="bg-light">
 		<tr class="active">
 			<th width="3%">ID</th>
-			<th width="45%">Название <small>alias</small></th>
+			<th width="55%">Название <small>alias</small></th>
 			<th width="10%" class="text-center">Тип</th>
 			<th class="text-right">Опции</th>
 		</tr>
@@ -17,15 +17,15 @@
 		<tr class="nav-{if $page['nav']}on{else}off{/if}{if $page['noindex']} noindex{/if}">
 			<td class="align-middle text-muted text-right small"><nobr>{$page['id']}<i class="fa fa-fw fa-caret-right"></i></nobr></td>
 			<td class="align-middle">
-				<nobr>
-					{section name=foo start=1 loop=$page['level'] step=1}<span class="text-muted structure-highlight">&bull;</span>&emsp;{/section}
+				<span class="nobr">
+					{section name=foo start=1 loop=$page['level'] step=1}<span class="text-muted d-none d-md-inline-block">&bull;&emsp;</span>{/section}
 
 					{if $page['page_type'] == "html" or $page['page_type'] == "php"}
 						<a href="{$SCRIPT_NAME}?act=pages&part=edit&page={$page['id']}">{$page['title']}</a>
 					{else}
 						<a href="{$SCRIPT_NAME}?act=feeds&part=control&page={$page['id']}">{$page['title']}</a>
 					{/if}
-				</nobr>
+				</span>
 				<small class="float-right">
 					{if !isset($page['group_access'][0])}<i class="fas fa-fw fa-user-secret" rel="tooltip" data-toggle="tooltip" data-placement="top" title="Есть групповые ограничения"></i>{else}<i class="fa fa-fw"></i>{/if}
 					{if $page['noindex']}<i class="far fa-fw fa-eye-slash" rel="tooltip" data-toggle="tooltip" data-placement="top" title="Неиндексируется поисковыми системами"></i>{else}<i class="fa fa-fw"></i>{/if}
@@ -57,7 +57,7 @@
 <table class="table table-hover d-block-table d-sm-none mb-0">
 	<tbody>
 	{foreach from=$tree item=page}
-		<tr>
+		<tr class="nav-{if $page['nav']}on{else}off{/if}{if $page['noindex']} noindex{/if}">
 			<td class="align-middle">
 				{if $page['page_type'] == "html" or $page['page_type'] == "php"}
 					<a href="{$SCRIPT_NAME}?act=pages&part=edit&page={$page['id']}">{$page['title']}</a>

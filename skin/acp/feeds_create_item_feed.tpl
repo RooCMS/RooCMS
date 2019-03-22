@@ -71,9 +71,11 @@
 			<div class="col-md-8">
 				<input type="text" name="tags" id="inputTags" class="form-control tagsinput">
 				{if !empty($poptags)}
-					{foreach from=$poptags item=tag}
-						<a href=#" name="assdag" class="addtag btn btn-sm btn-outline-primary" data-value="{$tag['title']}">{$tag['title']}</a>
-					{/foreach}
+					<div class="mt-1">
+						{foreach from=$poptags item=tag}
+							<a href=#" name="assdag" class="addtag btn btn-sm btn-outline-primary" data-value="{$tag['title']}">{$tag['title']}</a>
+						{/foreach}
+					</div>
 				{/if}
 			</div>
 		</div>
@@ -83,12 +85,16 @@
 				Автор:
 			</label>
 			<div class="col-md-8">
-				<select name="author_id" id="author" class="selectpicker show-tick" required data-size="auto" data-live-search="true" data-width="auto">
-					<option value="0">Без автора</option>
-					{foreach from=$userlist item=user}
-						<option value="{$user['uid']}" {if $user['uid'] == $userdata['uid']} selected{/if}>{$user['nickname']}</option>
-					{/foreach}
-				</select>
+				<div class="row">
+					<div class="col-12 col-lg-6">
+						<select name="author_id" id="author" class="selectpicker" required data-size="auto" data-live-search="true" data-width="100%">
+							<option value="0">Без автора</option>
+							{foreach from=$userlist item=user}
+								<option value="{$user['uid']}" {if $user['uid'] == $userdata['uid']} selected{/if}>{$user['nickname']}</option>
+							{/foreach}
+						</select>
+					</div>
+				</div>
 			</div>
 		</div>
 
@@ -118,7 +124,7 @@
 					<small><span class="fa fa-question-circle fa-fw" rel="tooltip" title="Укажите какие группы пользователей смогут просматривать эту публикацию" data-placement="left"></span></small>
 				</label>
 				<div class="col-md-8">
-					<div class="btn-group btn-group-toggle roocms-crui" data-toggle="buttons" id="inputGroupAccess">
+					<div class="btn-group-vertical btn-group-toggle roocms-crui" data-toggle="buttons" id="inputGroupAccess">
 						{foreach from=$groups item=group}
 							<label class="btn btn-light">
 								<input type="checkbox" name="gids[]" value="{$group['gid']}" autocomplete="off"><i class="far fa-fw fa-square"></i> {$group['title']}
@@ -158,7 +164,7 @@
 	<div class="card-footer">
 		<div class="row">
 			<div class="col-12">
-				<input type="hidden" name="status" value="1">
+				<input type="hidden" name="status" value="1" readonly>
 				<input type="submit" name="create_item" class="btn btn-lg btn-success" value="Создать элемент">
 			</div>
 		</div>

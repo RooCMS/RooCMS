@@ -1,8 +1,8 @@
 {* Template Feeds *}
 
-<div class="col-sm-3 col-md-2">
-	<div class="card d-none d-sm-block submenu sticky-top">
-		<div class="card-header d-none d-lg-block">
+<div class="col-lg-2">
+	<div class="card d-none d-lg-block submenu sticky-top">
+		<div class="card-header">
 			Управление лентами
 		</div>
 		<div class="list-group">
@@ -15,7 +15,7 @@
 		</div>
 
 		{if !empty($subfeeds)}
-			<div class="card-header d-none d-lg-block">
+			<div class="card-header">
 				Вложенные ленты
 			</div>
 			<div class="list-group">
@@ -25,8 +25,8 @@
 			</div>
 		{/if}
 
-		{if isset($smarty.get.part) && ($smarty.get.part == 'edit_item' || $smarty.get.part == 'settings' || $smarty.get.part == 'create_item')}
-			<div class="card-header d-none d-lg-block">
+		{if isset($smarty.get.part) && ($smarty.get.part == 'edit_item' || $smarty.get.part == 'settings' || $smarty.get.part == 'create_item' || $smarty.get.part == 'migrate_item')}
+			<div class="card-header">
 				&bull;&bull;&bull;
 			</div>
 			<div class="list-group">
@@ -37,8 +37,8 @@
 
 	<div class="row justify-content-center mb-3">
 		<div class="col-auto">
-			<div class="btn-group btn-group-sm d-block d-sm-none">
-				{if isset($smarty.get.part) && ($smarty.get.part == 'edit_item' || $smarty.get.part == 'settings' || $smarty.get.part == 'create_item')}
+			<div class="btn-group btn-group-sm d-block d-lg-none">
+				{if isset($smarty.get.part) && ($smarty.get.part == 'edit_item' || $smarty.get.part == 'settings' || $smarty.get.part == 'create_item' || $smarty.get.part == 'migrate_item')}
 					<a href="{$SCRIPT_NAME}?act=feeds&part=control&page={$smarty.get.page}" class="btn btn-outline-primary"><i class="fa fa-fw fa-arrow-left"></i></a>
 				{/if}
 
@@ -52,7 +52,7 @@
 		</div>
 	</div>
 </div>
-<div class="col-sm-9 col-md-10">
+<div class="col-lg-10">
 	<div class="card">
 		{$content}
 	</div>

@@ -1,7 +1,7 @@
 {* Template configuration *}
-<div class="col-sm-3 col-md-2">
-	<div class="card d-none d-sm-block submenu sticky-top">
-		<div class="card-header d-none d-lg-block">
+<div class="col-lg-2">
+	<div class="card d-none d-lg-block submenu sticky-top">
+		<div class="card-header">
 			Сайт
 		</div>
 		<div class="list-group">
@@ -9,7 +9,7 @@
 				<a href="{$SCRIPT_NAME}?act=config&part={$part['name']}" class="list-group-item list-group-item-action text-decoration-none{if $thispart == $part['name']} active{/if}"><i class="fas fa-fw fa-{$part['ico']}"></i> {$part['title']}</a>
 			{/foreach}
 		</div>
-		<div class="card-header d-none d-lg-block">
+		<div class="card-header">
 			Компоненты
 		</div>
 		<div class="list-group">
@@ -21,7 +21,7 @@
 
 	<div class="row justify-content-center mb-3">
 		<div class="col-auto">
-			<div class="btn-group btn-group-sm d-block d-sm-none">
+			<div class="btn-group btn-group-sm d-block d-lg-none">
 				{foreach from=$parts['global'] item=part}
 					<a href="{$SCRIPT_NAME}?act=config&part={$part['name']}" class="btn btn-outline-primary{if $thispart == $part['name']} active{/if}" title="{$part['title']}"><i class="fas fa-fw fa-{$part['ico']}"></i> </a>
 				{/foreach}
@@ -33,7 +33,7 @@
 	</div>
 </div>
 
-<div class="col-sm-9 col-md-10">
+<div class="col-lg-10">
 	<div class="card" id="{$this_part['name']}">
 		<div class="card-header">
 			<i class="fa fa-fw fa-{$this_part['ico']}"></i> {$this_part['title']}

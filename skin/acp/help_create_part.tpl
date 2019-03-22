@@ -37,7 +37,7 @@
 				Расположение раздела в структуре:
 			</label>
 			<div class="col-md-9">
-				<select name="parent_id" id="inputStructure" class="selectpicker show-tick" required data-header="Структура помощи по сайту" data-size="auto" data-live-search="true" data-width="50%">
+				<select name="parent_id" id="inputStructure" class="selectpicker" required data-header="Структура помощи по сайту" data-size="auto" data-live-search="true" data-width="50%">
 					{foreach from=$tree item=p}
 						<option value="{$p['id']}" {if $smarty.const.DEBUGMODE}data-subtext="{$p['uname']}"{/if}>{section name=level loop=$p['level']}&middot; {/section} {$p['title']}</option>
 					{/foreach}

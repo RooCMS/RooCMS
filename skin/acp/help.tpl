@@ -1,8 +1,8 @@
 {* Шаблон управления помощью сайта *}
 {if $smarty.const.DEBUGMODE}
-	<div class="col-sm-3 col-md-2">
-		<div class="card d-none d-sm-block submenu sticky-top">
-			<div class="card-header d-none d-lg-block">
+	<div class="col-lg-2">
+		<div class="card d-none d-lg-block submenu sticky-top">
+			<div class="card-header">
 				Разработчику
 			</div>
 			<div class="list-group">
@@ -12,7 +12,7 @@
 
 		<div class="row justify-content-center mb-3">
 			<div class="col-auto">
-				<div class="btn-group btn-group-sm d-block d-sm-none">
+				<div class="btn-group btn-group-sm d-block d-lg-none">
 					<a href="{$SCRIPT_NAME}?act=help&part=create_part" class="btn btn-outline-primary {if isset($smarty.get.part) && $smarty.get.part == "create_part"} active{/if}"><span class="fas fa-fw fa-plus-circle"></span> Добавить раздел</a>
 				</div>
 			</div>
