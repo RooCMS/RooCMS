@@ -1,4 +1,4 @@
-{* Шаблон отображения списка пользователей *}
+{* Userlist template *}
 <div class="card-header">
 	Пользователи
 </div>
@@ -10,7 +10,7 @@
 		<th width="3%">Аватар</th>
 		<th width="53%">Имя пользователя <small>Логин и E-mail</small></th>
 		<th width="11%">Титул</th>
-		<th width="10%">Последний визит</th>
+		<th width="10%" class="d-none d-md-table-cell">Последний визит</th>
 		<th width="20%" class="text-right">Опции</th>
 	</tr>
 	</thead>
@@ -36,10 +36,10 @@
 					<span class="badge badge-light">Пользователь</span>
 				{/if}
 				{if $user['ban'] == 1}<span class="badge badge-danger d-none d-md-block">Заблокирован</span>{/if}
-				{if $user['status'] == 0 && $user['activation_code'] != ""}<span class="badge badge-warning d-none d-md-block">Не активирован</span>{/if}
-				{if $user['status'] == 0 && $user['activation_code'] == ""}<span class="badge badge-dark d-none d-md-block">Отключен</span>{/if}
+				{if $user['status'] == 0 && $user['activation_code'] != ""}<span class="badge badge-warning d-none d-sm-block">Не активирован</span>{/if}
+				{if $user['status'] == 0 && $user['activation_code'] == ""}<span class="badge badge-dark d-none d-sm-block">Отключен</span>{/if}
 			</td>
-			<td class="align-middle small">{$user['last_visit']}</td>
+			<td class="align-middle small d-none d-md-table-cell">{$user['last_visit']}</td>
 			<td class="align-middle text-right">
 				<div class="btn-group btn-group-sm">
 					<a href="{$SCRIPT_NAME}?act=users&part=edit_user&uid={$user['uid']}" class="btn btn-outline-primary"><i class="fas fa-user-edit fa-fw"></i><span class="d-none d-lg-block">Редактировать</span></a>

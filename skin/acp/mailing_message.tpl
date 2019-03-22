@@ -10,11 +10,11 @@
 
 		{if !empty($groups)}
 			<div class="form-group row">
-				<label for="inputUserGroups" class="col-md-4 form-control-plaintext text-right">
+				<label for="inputUserGroups" class="col-md-5 col-lg-4 form-control-plaintext text-right">
 					Группа получателей:
 				</label>
-				<div class="col-md-8">
-					<div class="btn-group btn-group-toggle roocms-crui" data-toggle="buttons" id="inputGroupAccess">
+				<div class="col-md-7 col-lg-8">
+					<div class="btn-group-vertical btn-group-toggle roocms-crui" data-toggle="buttons" id="inputGroupAccess">
 						{foreach from=$groups item=group}
 							<label class="btn btn-light">
 								<input type="checkbox" name="gids[]" value="{$group['gid']}" autocomplete="off"><i class="far fa-fw fa-square"></i> {$group['title']}
@@ -26,11 +26,11 @@
 		{/if}
 
 		<div class="form-group row">
-			<label for="inputTitle" class="col-md-4 form-control-plaintext text-right">
+			<label for="inputTitle" class="col-md-5 col-lg-4 form-control-plaintext text-right">
 				Условия рассылки:
 			</label>
-			<div class="col-md-8">
-				<div class="btn-group btn-group-toggle roocms-crui" data-toggle="buttons">
+			<div class="col-md-7 col-lg-8">
+				<div class="btn-group-vertical btn-group-toggle roocms-crui" data-toggle="buttons">
 					<label class="btn btn-light active" for="flag_status_false">
 						<input type="radio" name="force" value="0" id="flag_status_false" checked> <i class="far fa-fw fa-check-circle text-success"></i> Отправить только подписавшимся
 					</label>
@@ -44,16 +44,16 @@
 		<hr />
 
 		<div class="form-group row">
-			<label for="inputTitle" class="col-md-4 form-control-plaintext text-right">
+			<label for="inputTitle" class="col-md-5 col-lg-4 form-control-plaintext text-right">
 				Заголовок:
 			</label>
-			<div class="col-md-8">
+			<div class="col-md-7 col-lg-8">
 				<input type="text" name="title" id="inputTitle" class="form-control" value="" required>
 			</div>
 		</div>
 
 		<div class="form-group row">
-			<div class="col-md-12">
+			<div class="col-12">
 				<label for="brief_item" class="control-label">
 					Сообщение: <small><span class="fas fa-exclamation-triangle fa-fw text-danger" rel="tooltip" title="Обазательно заполнить это поле" data-placement="right"></span></small>
 				</label>
@@ -64,7 +64,7 @@
 	</div>
 	<div class="card-footer">
 		<div class="row">
-			<div class="col-lg-12">
+			<div class="col-12">
 				<input type="submit" name="update_item" class="btn btn-lg btn-success" value="Отправить сообщение">
 			</div>
 		</div>

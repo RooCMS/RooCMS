@@ -19,7 +19,7 @@
 		</div>
 	</div>
 {/if}
-<div class="col-sm-{if $smarty.const.DEBUGMODE}9 col-md-10{else}12{/if}">
+<div class="col-lg-{if $smarty.const.DEBUGMODE}10{else}12{/if}">
 	<div class="card">
 		{$content}
 	</div>

@@ -36,7 +36,7 @@
 <div class="col-lg-10">
 	<div class="card" id="{$this_part['name']}">
 		<div class="card-header">
-			<i class="fa fa-fw fa-{$this_part['ico']}"></i> {$this_part['title']}
+			<i class="fa fa-lg fa-fw fa-{$this_part['ico']}"></i> {$this_part['title']}
 		</div>
 		<form method="post" action="{$SCRIPT_NAME}?act=config" enctype="multipart/form-data" role="form">
 			<div class="card-body">
@@ -54,7 +54,7 @@
 			<div class="card-footer">
 				<div class="row">
 					<div class="col-md-8 offset-md-4">
-						<input type="submit" name="update_config" class="btn btn-success" value="Сохранить настройки">
+						<input type="submit" name="update_config" class="btn btn-lg btn-success" value="Сохранить настройки">
 					</div>
 				</div>
 			</div>
@@ -62,9 +62,10 @@
 	</div>
 </div>
 
-{literal}
-	<script>
-		$(document).ready(function(){
+<script>
+	{literal}
+	(function($) {
+		$(window).on('load', function() {
 			$('[id^=dci]').on('click', function() {
 				let attrdata = $(this).attr('id');
 				let arrdata = attrdata.split('-');
@@ -77,5 +78,6 @@
 				});
 			});
 		});
-	</script>
-{/literal}
+	})(jQuery);
+	{/literal}
+</script>
