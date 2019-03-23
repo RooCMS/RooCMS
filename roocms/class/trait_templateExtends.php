@@ -34,6 +34,7 @@ trait TemplateExtends {
 
 		global $smarty;
 
+		$imagetype = [];
 		require _LIB."/mimetype.php";
 		$smarty->assign("allow_images_type", $imagetype);
 
@@ -54,6 +55,7 @@ trait TemplateExtends {
 
 		global $smarty;
 
+		$filetype = [];
 		require _LIB."/mimetype.php";
 		$smarty->assign("allow_files_type", $filetype);
 

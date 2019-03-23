@@ -253,6 +253,7 @@ class ACP_Users {
 		$groups = $users->get_usergroups();
 
 		# image types
+		$imagetype = [];
 		require _LIB."/mimetype.php";
 		$smarty->assign("allow_images_type", $imagetype);
 
@@ -341,6 +342,7 @@ class ACP_Users {
 			$groups = $users->get_usergroups();
 
 			# image types
+			$imagetype = [];
 			require _LIB."/mimetype.php";
 			$smarty->assign("allow_images_type", $imagetype);
 

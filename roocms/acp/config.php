@@ -181,6 +181,7 @@ class ACP_Config extends ACP_ConfigAction {
 				}
 
 				# image types
+				$imagetype = [];
 				require _LIB."/mimetype.php";
 				$smarty->assign("allow_images_type", $imagetype);
 

@@ -228,6 +228,7 @@ class ACP_Index {
 
 		global $tpl, $smarty;
 
+		$imagetype = []; $filetype = [];
 		require_once _LIB."/mimetype.php";
 
 		$filetypes = [];

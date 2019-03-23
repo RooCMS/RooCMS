@@ -22,7 +22,6 @@ if(!defined('RooCMS')) {
 
 $mimetype = [];
 
-
 /**
 * File
 *
