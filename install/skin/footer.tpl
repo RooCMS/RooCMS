@@ -1,62 +1,61 @@
+		</div>
+	</div>
+</div>
+
 {if !isset($no_footer)}
+	<div class="navbar navbar-dark bg-dark fixed-bottom d-none d-md-block" id="footer">
+		<div class="row align-items-center">
+			<div class="col-sm-12 col-lg-3  text-left footer">
+				<div class="progress my-sm-2" rel="tooltip" title="{$progress}% Завершено" data-placement="top">
+					<div class="progress-bar progress-bar-striped bg-warning" role="progressbar" aria-valuenow="{$progress}" aria-valuemin="0" aria-valuemax="100" style="width: {$progress}%">
+						<span class="sr-only">{$progress}% Завершено</span>
+					</div>
+				</div>
+			</div>
 
-<div class="navbar navbar-fixed-bottom navbar-inverse hidden-xs hidden-sm" id="footer">
-	<div class="col-md-3 text-left footer">
-		<div class="progress" rel="tooltip" title="{$progress}% Завершено" data-placement="top" style="margin-top: 5px;">
-			<div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="{$progress}" aria-valuemin="0" aria-valuemax="100" style="width: {$progress}%">
-				<span class="sr-only">{$progress}% Завершено</span>
+			<div class="col-sm-3 col-lg-2  text-left footer">
+				<small>
+					<i class="far fa-chart-bar"></i> Обращений к БД: <b>{$db_querys}</b>
+				</small>
+			</div>
+			<div class="col-sm-3 col-lg-2  text-left footer">
+				<small>
+					<i class="fas fa-tachometer-alt"></i> Использовано памяти : <span style="cursor: help;" title="{round($debug_memusage/1024/1024, 2)} Мб макс" class="nobr"><b>{round($debug_memory/1024/1024, 2)} Мб</b></span>
+				</small>
+			</div>
+			<div class="col-sm-3 col-lg-2 text-left footer">
+				<small>
+					<i class="far fa-clock"></i> Время работы скрипта : <b class="nobr">{$debug_timer} мс</b>
+				</small>
+			</div>
+			<div class="col-sm-3 col-lg-3 text-right footer">
+				<small class="copyright">
+					{$copyright}<br />Версия {$smarty.const.ROOCMS_FULL_VERSION}
+				</small>
 			</div>
 		</div>
 	</div>
 
-	<div class="col-md-2 text-left footer">
-		<small>
-			{if isset($db_querys)}<br /><nobr><span class="fa fa-bar-chart-o"></span> Число обращений к БД: <b>{$db_querys}</b></nobr>{/if}
-		</small>
-	</div>
-	<div class="col-md-2 text-left footer">
-		<small>
-			{if isset($debug_memory) && isset($debug_memusage)}
-				<br /><nobr><span class="fa fa-tachometer"></span> Использовано памяти : <span style="cursor: help;" title="{$debug_memory} байт факт. ({round($debug_memusage/1024/1024, 2)} Мб макс)"><b>{round($debug_memory/1024/1024, 2)} Мб</b></span></nobr>
-			{/if}
-		</small>
-	</div>
-	<div class="col-md-2 text-left footer">
-		<small>
-			{if isset($debug_timer)}<br /><nobr><span class="fa fa-clock-o"></span> Время работы скрипта : <b>{$debug_timer} мс</b></nobr>{/if}
-		</small>
-	</div>
-	<div class="col-md-3 text-right footer">
-		<small>
-			<nobr>{$copyright}</nobr>
-			<br /><nobr>Версия {$smarty.const.ROOCMS_FULL_VERSION}</nobr>
-		</small>
-	</div>
-</div>
+	<div class="container-fluid d-block d-md-none">
+		<div class="row">
+			<div class="col-12 align-self-end pt-2" style="margin-bottom: -4rem;">
+				<div class="progress border border-warning mt-3" rel="tooltip" title="{$progress}% Завершено" data-placement="top" style="height: 2rem;">
+					<div class="progress-bar progress-bar-striped bg-warning" role="progressbar" aria-valuenow="{$progress}" aria-valuemin="0" aria-valuemax="100" style="width: {$progress}%">
+						{$progress}% Завершено
+					</div>
+				</div>
+				<nobr>
+					<br /><i class="far fa-chart-bar fa-fw"></i> Обращений к БД: <b>{$db_querys}</b>
+					<br /><i class="fas fa-tachometer-alt fa-fw"></i> Использовано памяти :
+					<br /><b>{round($debug_memory/1024/1024, 2)} Мб ({round($debug_memusage/1024/1024, 2)} Мб макс)</b>
+					<br /><i class="far fa-clock fa-fw"></i> Время работы скрипта : <b>{$debug_timer} мс</b>
+				</nobr>
 
-<div class="container visible-xs visible-sm">
-	<div class="row">
-    	<div class="col-xs-12" style="padding-top: 20px;margin-bottom: -40px;">
-		<div class="progress pb0" rel="tooltip" title="{$progress}% Завершено" data-placement="top">
-			<div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="{$progress}" aria-valuemin="0" aria-valuemax="100" style="width: {$progress}%">
-				<span class="sr-only">{$progress}% Завершено</span>
+				<br />
+				<br /><nobr>{$copyright}<br />Версия {$smarty.const.ROOCMS_FULL_VERSION}</nobr>
 			</div>
 		</div>
-		<br />
-		{if isset($db_querys)}<br /><nobr><span class="fa fa-bar-chart-o"></span> Число обращений к БД: <b>{$db_querys}</b></nobr>{/if}
-		{if isset($debug_memory) && isset($debug_memusage)}
-		<br /><nobr><span class="fa fa-tachometer"></span> Использовано памяти : <span style="cursor: help;" title="{$debug_memory} байт факт. ({round($debug_memusage/1024/1024, 2)} Мб макс)"><b>{round($debug_memory/1024/1024, 2)} Мб</b></span></nobr>
-		{/if}
-		{if isset($debug_timer)}<br /><nobr><span class="fa fa-clock-o"></span> Время работы скрипта : <b>{$debug_timer} мс</b></nobr>{/if}
-
-		<br />
-		<br /><nobr>{$copyright}</nobr>
-		<br /><nobr>Версия {$smarty.const.ROOCMS_FULL_VERSION}</nobr>
-    	</div>
 	</div>
-</div>
 {/if}
-	</div>
-</div>
 </body>
 </html>

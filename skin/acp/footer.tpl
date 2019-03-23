@@ -28,7 +28,7 @@
 				</small>
 			</div>
 			<div class="col-sm-12 col-lg-3 text-right footer">
-				<small>
+				<small class="copyright">
 					{$copyright}<br />Версия {$smarty.const.ROOCMS_FULL_VERSION}
 				</small>
 			</div>

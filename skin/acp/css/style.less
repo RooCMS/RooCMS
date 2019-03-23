@@ -1,16 +1,14 @@
 @charset "utf-8";
 
-// Variables
+/* VARIABLES */
 
 @roocms-bg:	  #F9F9F9;
 
-@black: 	  #1B1E24;
-@white:		  #fff;
 @winter-light:	  #fefeff;
-@shadowcolor: 	  #777; //#B8AD9A;
+@shadowcolor: 	  #777;
 @middle-grey:	  #999;
-@grey:		  #ccc;
-@blue:		  #49E;
+@grey:		  #ccc; // not use
+@blue:		  #49E; // not use
 
 @brand-primary:	  #2f3d60; // #428bca
 @brand-secondary: #335b8e;
@@ -24,7 +22,22 @@
 @brand-dark:      #212529;
 @brand-light:     #f8f9fa;
 
+@colors: {
+	primary:   @brand-primary;
+	secondary: @brand-secondary;
+	success:   @brand-success;
+	info:      @brand-info;
+	hot:       @brand-hot;
+	warning:   @brand-warning;
+	danger:    @brand-danger;
+	moment:    @brand-moment;
+	extra:     @brand-extra;
+	dark:      @brand-dark;
+	light:     @brand-light;
+}
+
 @bq-background:	#fbfbfb;
+@cm-shadow: 	rgba(0, 0, 0, 0.075);
 
 @blogger: 	#fb8f3d;
 @dribbble: 	#ea4c89;
@@ -61,20 +74,19 @@
 
 @body-fs:	15px;
 
+/* END VARIABLES */
 
 @media (max-width: 767px) {
-	body {margin: 65px 0 3rem 0 !important;}
+	body {margin: 5rem 0 3rem 0;}
 }
 @media (min-width: 768px) {
-	body {margin: 65px 0 7rem 0 !important;}
+	body {margin: 5rem 0 7rem 0;}
 }
 @media (min-width: 992px) {
-	body {margin: 65px 0 5rem 0 !important;}
+	body {margin: 5rem 0 5rem 0;}
 }
 @media (min-width: 1200px) {}
-@media (min-width: 1575px) {
-	.modal-login {margin-top: 15% !important;}
-}
+@media (min-width: 1575px) {}
 
 
 /*  Admin Control Panel Style */
@@ -108,15 +120,15 @@ a[class^="nav"]:hover,
 input:focus:invalid {	/* transition: all 0.15s ease-in-out;-webkit-transition: all 0.15s ease-in-out;-moz-transition: all 0.15s ease-in-out;outline:none; */
 	-moz-box-shadow: 0 0 0 .2rem fadeout(@brand-danger, 60%); -webkit-box-shadow: 0 0 0 .2rem fadeout(@brand-danger, 60%);box-shadow: 0 0 0 .2rem fadeout(@brand-danger, 60%);
 	border: 1px solid @brand-danger;
-	background: @white url(../img/required.png) no-repeat right top !important;
+	background: @brand-light url(../img/required.png) no-repeat right top !important;
 }
-input:required:empty {background: @white url(../img/required.png) no-repeat right top !important;}
+input:required:empty {background: @brand-light url(../img/required.png) no-repeat right top !important;}
 input.non-bgreq:required:empty,
 input:required:valid {background-image: none !important;}
 
 ::-moz-selection,
 ::selection {
-	color: @white;
+	color: @brand-light;
 	background: @brand-primary;
 }
 
@@ -124,10 +136,7 @@ input:required:valid {background-image: none !important;}
 #logo {max-height: 37px;margin-top: -8px;margin-bottom: -4px;}
 .logo-xs {max-width: 100%;padding: 10px 0;margin-top: -1rem;}
 
-/* fix navbar collapse on sx screen*/
-/*.navbar-collapse {max-height: none !important;}*/
-
-/* notice */
+/* Notice */
 @keyframes notice {
 	from,
 	to {margin-right: -400px;opacity: 0;z-index: -10;}
@@ -144,12 +153,12 @@ input:required:valid {background-image: none !important;}
 }
 .notice:hover {animation-play-state: paused;}
 
-/* submenu */
+/* Submenu */
 .submenu.sticky-top {
 	top: 65px;
 }
 
-/* sup styles / restyle */
+/* Sup styles / restyle */
 .small, small	{color: @middle-grey;}
 
 blockquote 	{.ptsans !important;}
@@ -158,11 +167,6 @@ code		{.ubuntu !important;}
 /* Hover */
 .hover-cursor	{cursor: pointer;}
 
-/* Outline */
-a:focus, a:active, .btn {outline: none !important;}
-
-/* install */
-.progress.pb0 {margin-bottom: 0 !important;}
 
 /* fix font-awesome underline */
 a:hover [class="fa"],
@@ -183,65 +187,37 @@ a:hover [class^="far-"] {text-decoration: none !important;}
 .fa-icon-action {position: absolute;top: -75%;right: 0;border: 2px solid #fff;border-radius: 50%;cursor: pointer;}
 .fa-icon-action:hover.del{color: @brand-danger;}
 
-/* style for delete user avatar */
-.delete_config_image:hover {background-color: @brand-danger;border-radius: 5px;}
-.delete_config_image:hover > img {opacity: 0.5;}
-
 /* Structure style */
 tr .tralias {display: none;}
 tr:hover .tralias {display: block;}
 
-.table-hover>tbody>tr:hover .text-muted {color: @brand-primary !important;}
+.table-hover>tbody>tr:hover .text-muted {color: @brand-primary;}
 
-/* ckeditor styles */
+/* Copyright link*/
+.copyright > a {color: @brand-light;}
+.copyright > a:hover {color: @brand-moment;}
+
+/* CKeditor styles */
 .cked {overflow-x: hidden;}
 
-/* Add BS */
-blockquote.quote-primary	{border-left: .2rem solid @brand-primary;background-color: @bq-background;}
-blockquote.quote-info		{border-left: .2rem solid @brand-info;background-color: @bq-background;}
-blockquote.quote-success	{border-left: .2rem solid @brand-success;background-color: @bq-background;}
-blockquote.quote-warning	{border-left: .2rem solid @brand-warning;background-color: @bq-background;}
-blockquote.quote-danger		{border-left: .2rem solid @brand-danger;background-color: @bq-background;}
+/* Add BS Blockquote style */
+each(@colors, {
+	blockquote.quote-@{key}	{border-left: .2rem solid @value;background-color: @bq-background;padding: .5rem;}
+});
 
-blockquote.quote-primary, blockquote.quote-info,
-blockquote.quote-success, blockquote.quote-warning,
-blockquote.quote-danger	{
-	padding: .5rem;
-}
+each(@colors, {
+	blockquote.quote-@{key} > h1, blockquote.quote-@{key} > h2,
+	blockquote.quote-@{key} > h3, blockquote.quote-@{key} > h4,
+	blockquote.quote-@{key} > h5, blockquote.quote-@{key} > h6	{color: @value;}
+});
 
-blockquote.quote-primary > p:last-child,
-blockquote.quote-info > p:last-child,
-blockquote.quote-success > p:last-child,
-blockquote.quote-warning > p:last-child,
-blockquote.quote-danger > p:last-child	{
+/*blockquote.blockquote h1, blockquote.blockquote h2,
+blockquote.blockquote h3, blockquote.blockquote h4,
+blockquote.blockquote h5, blockquote.blockquote h6 {margin: 0 0 10px 0;padding: 0;}*/
+
+blockquote[class^="quote-"] > p:last-child {
 	margin-bottom: 0;
 }
-
-blockquote.blockquote h1, blockquote.blockquote h2,
-blockquote.blockquote h3, blockquote.blockquote h4,
-blockquote.blockquote h5, blockquote.blockquote h6 {margin: 0 0 10px 0;padding: 0;}
-
-blockquote.blockquote small	{color: @middle-grey;}
-
-blockquote.quote-primary > h1, blockquote.quote-primary > h2,
-blockquote.quote-primary > h3, blockquote.quote-primary > h4,
-blockquote.quote-primary > h5, blockquote.quote-primary > h6	{color: @brand-primary;}
-
-blockquote.quote-info > h1, blockquote.quote-info > h2,
-blockquote.quote-info > h3, blockquote.quote-info > h4,
-blockquote.quote-info > h5, blockquote.quote-info > h6		{color: @brand-info;}
-
-blockquote.quote-success > h1, blockquote.quote-success > h2,
-blockquote.quote-success > h3, blockquote.quote-success > h4,
-blockquote.quote-success > h5, blockquote.quote-success > h6	{color: @brand-success;}
-
-blockquote.quote-warning > h1, blockquote.quote-warning > h2,
-blockquote.quote-warning > h3, blockquote.quote-warning > h4,
-blockquote.quote-warning > h5, blockquote.quote-warning > h6	{color: @brand-warning;}
-
-blockquote.quote-danger > h1, blockquote.quote-danger > h2,
-blockquote.quote-danger > h3, blockquote.quote-danger > h4,
-blockquote.quote-danger > h5, blockquote.quote-danger > h6	{color: @brand-danger;}
 
 /* Correct BS */
 .card>.list-group>.list-group-item {
@@ -256,6 +232,9 @@ blockquote.quote-danger > h5, blockquote.quote-danger > h6	{color: @brand-danger
 	left: -2.1rem;
 }
 
+/* Outline */
+a:focus, a:active, .btn {outline: none !important;}
+
 /*Fonts*/
 .tahoma		{font-family: @tahoma;}
 .verdana	{font-family: @verdana;}
@@ -268,16 +247,7 @@ blockquote.quote-danger > h5, blockquote.quote-danger > h6	{color: @brand-danger
 /*input[type="text"], textarea {-moz-box-shadow: 0px 0px 2px #B8AD9A inset; -webkit-box-shadow: 0px 0px 2px #B8AD9A inset; box-shadow: 0px 0px 2px #B8AD9A inset;}*/
 
 /* Titles */
-h1, h2, h3, h4, h5, h6 {font-weight: normal !important;font-family: @kelsonsans, @firasans, @ubuntu, @ptsans !important;}
-
-/* Font sizes */
-/*.t10 {font-size: .7rem;}*/
-.t12 {font-size: .8rem;}
-.t14 {font-size: .9rem;}
-
-/* Black or white */
-.black {color: @black;}
-.white {color: @white;}
+h1, h2, h3, h4, h5, h6 {font-weight: normal !important;font-family: @kelsonsans, @firasans, @ubuntu, @ptsans;}
 
 /* Shadows */
 .shadows (@shadow) {
@@ -285,7 +255,7 @@ h1, h2, h3, h4, h5, h6 {font-weight: normal !important;font-family: @kelsonsans,
 	-webkit-box-shadow: @shadow;
 	box-shadow: @shadow;
 }
-.tshadow 	{text-shadow: 1px 1px 1px @black;}
+.tshadow 	{text-shadow: 1px 1px 1px @brand-dark;}
 .shadow 	{.shadows(0 0 6px @shadowcolor)}
 .inshadow 	{.shadows(0 0 2px @shadowcolor inset)}
 
@@ -312,10 +282,9 @@ h1, h2, h3, h4, h5, h6 {font-weight: normal !important;font-family: @kelsonsans,
 	word-break: break-all;
 }
 
-/* For CodeMirror */
-@cm-shadow: rgba(0, 0, 0, 0.075);
+/* CodeMirror */
 .CodeMirror {
-	overflow: auto; font-family: @consolas; .t14; height: auto; margin: 5px 0; border: 1px solid @grey;
+	overflow: auto; font-family: @consolas; height: auto; margin: 5px 0; border: 1px solid @grey;
 	.shadows(0 0 2px @cm-shadow inset);
 	border-radius: 4px;
 }
@@ -323,7 +292,7 @@ span.CodeMirror-matchhighlight { background: @grey; }
 .CodeMirror-gutter { background: @cm-shadow !important; color: @middle-grey !important; }
 .CodeMirror-focused span.CodeMirror-matchhighlight { background: @grey !important; }
 
-/* anti drag */
+/* Anti Drag for transition */
 body, body.modal-open,
 *[class^="CodeMirror"]>*, *[class^="CodeMirror"],
 .ckeditor, *[class^="cke_"], *[class^="cke_"]>*, .cke,

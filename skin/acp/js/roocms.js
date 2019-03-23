@@ -100,5 +100,7 @@
 
 		/* BS Custom file input */
 		bsCustomFileInput.init();
+
+		//$('#exampleModalCenter').modal('show');
 	});
 })(jQuery);
