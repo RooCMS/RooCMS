@@ -3,17 +3,21 @@
 /* END VARIABLES */
 @media (max-width: 767px) {
   body {
-    margin: 5rem 0 3rem 0;
+    margin: 4.4rem 0 3rem 0;
   }
 }
 @media (min-width: 768px) {
   body {
-    margin: 5rem 0 7rem 0;
+    margin: 5.2rem 0 7rem 0;
   }
 }
 @media (min-width: 992px) {
   body {
-    margin: 5rem 0 5rem 0;
+    margin: 4.5rem 0 5rem 0;
+  }
+  /* Submenu */
+  .submenu.sticky-top {
+    top: 4.5rem;
   }
 }
 /*  Admin Control Panel Style */
@@ -24,8 +28,6 @@ html,
 body {
   font-family: 'PT Sans', 'Open Sans', 'Blogger Sans', 'Calibri', 'Trebuchet MS', 'Tahoma', 'Verdana' !important;
   background: #F9F9F9 url('../img/bgcp.jpg') repeat fixed top !important;
-  padding: 0;
-  margin: 0;
   text-rendering: optimizeLegibility;
 }
 /* LINK STYLE */
@@ -107,10 +109,6 @@ input:required:valid {
 }
 .notice:hover {
   animation-play-state: paused;
-}
-/* Submenu */
-.submenu.sticky-top {
-  top: 65px;
 }
 /* Sup styles / restyle */
 .small,
