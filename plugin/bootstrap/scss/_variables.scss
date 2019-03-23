@@ -75,7 +75,8 @@ $warning:       $yellow !default;
 $danger:        $red !default;
 $moment:        $teal !default;
 $extra:         $indigo !default;
-$light:         $gray-100 !default;
+$light:         $gray-200 !default;
+$gray:          $gray-600 !default;
 $dark:          $gray-900 !default;
 
 $theme-colors: () !default;
@@ -92,6 +93,7 @@ $theme-colors: map-merge(
     "moment":     $moment,
     "extra":      $extra,
     "light":      $light,
+    "gray":       $gray,
     "dark":       $dark
   ),
   $theme-colors
@@ -122,7 +124,7 @@ $enable-hover-media-query:                    false !default; // Deprecated, no 
 $enable-grid-classes:                         true !default;
 $enable-pointer-cursor-for-buttons:           true !default;
 $enable-print-styles:                         true !default;
-$enable-responsive-font-sizes:                false !default;
+$enable-responsive-font-sizes:                true !default;
 $enable-validation-icons:                     true !default;
 $enable-deprecation-messages:                 true !default;
 

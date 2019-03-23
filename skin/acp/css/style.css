@@ -54,10 +54,10 @@ input:focus:invalid {
   -webkit-box-shadow: 0 0 0 0.2rem rgba(198, 13, 20, 0.4);
   box-shadow: 0 0 0 0.2rem rgba(198, 13, 20, 0.4);
   border: 1px solid #C60D14;
-  background: #f8f9fa url(../img/required.png) no-repeat right top !important;
+  background: #fff url(../img/required.png) no-repeat right top !important;
 }
 input:required:empty {
-  background: #f8f9fa url(../img/required.png) no-repeat right top !important;
+  background: #fff url(../img/required.png) no-repeat right top !important;
 }
 input.non-bgreq:required:empty,
 input:required:valid {
@@ -65,7 +65,7 @@ input:required:valid {
 }
 ::-moz-selection,
 ::selection {
-  color: #f8f9fa;
+  color: #e9ecef;
   background: #2f3d60;
 }
 /* logo */
@@ -113,7 +113,7 @@ input:required:valid {
 /* Sup styles / restyle */
 .small,
 small {
-  color: #999;
+  color: #adb5bd;
 }
 blockquote {
   font-family: 'PT Sans' !important;
@@ -168,7 +168,7 @@ tr:hover .tralias {
 }
 /* Copyright link*/
 .copyright > a {
-  color: #f8f9fa;
+  color: #e9ecef;
 }
 .copyright > a:hover {
   color: #20c997;
@@ -228,8 +228,13 @@ blockquote.quote-dark {
   background-color: #fbfbfb;
   padding: 0.5rem;
 }
+blockquote.quote-gray {
+  border-left: 0.2rem solid #6c757d;
+  background-color: #fbfbfb;
+  padding: 0.5rem;
+}
 blockquote.quote-light {
-  border-left: 0.2rem solid #f8f9fa;
+  border-left: 0.2rem solid #e9ecef;
   background-color: #fbfbfb;
   padding: 0.5rem;
 }
@@ -313,13 +318,21 @@ blockquote.quote-dark > h5,
 blockquote.quote-dark > h6 {
   color: #212529;
 }
+blockquote.quote-gray > h1,
+blockquote.quote-gray > h2,
+blockquote.quote-gray > h3,
+blockquote.quote-gray > h4,
+blockquote.quote-gray > h5,
+blockquote.quote-gray > h6 {
+  color: #6c757d;
+}
 blockquote.quote-light > h1,
 blockquote.quote-light > h2,
 blockquote.quote-light > h3,
 blockquote.quote-light > h4,
 blockquote.quote-light > h5,
 blockquote.quote-light > h6 {
-  color: #f8f9fa;
+  color: #e9ecef;
 }
 /*blockquote.blockquote h1, blockquote.blockquote h2,
 blockquote.blockquote h3, blockquote.blockquote h4,
@@ -383,14 +396,14 @@ h6 {
   text-shadow: 1px 1px 1px #212529;
 }
 .shadow {
-  -moz-box-shadow: 0 0 6px #777;
-  -webkit-box-shadow: 0 0 6px #777;
-  box-shadow: 0 0 6px #777;
+  -moz-box-shadow: 0 0 6px #adb5bd;
+  -webkit-box-shadow: 0 0 6px #adb5bd;
+  box-shadow: 0 0 6px #adb5bd;
 }
 .inshadow {
-  -moz-box-shadow: 0 0 2px #777 inset;
-  -webkit-box-shadow: 0 0 2px #777 inset;
-  box-shadow: 0 0 2px #777 inset;
+  -moz-box-shadow: 0 0 2px #adb5bd inset;
+  -webkit-box-shadow: 0 0 2px #adb5bd inset;
+  box-shadow: 0 0 2px #adb5bd inset;
 }
 /* SPECIFIC STYLE */
 .clear,
@@ -427,21 +440,21 @@ h6 {
   font-family: 'Consolas';
   height: auto;
   margin: 5px 0;
-  border: 1px solid #ccc;
+  border: 1px solid #6c757d;
   -moz-box-shadow: 0 0 2px rgba(0, 0, 0, 0.075) inset;
   -webkit-box-shadow: 0 0 2px rgba(0, 0, 0, 0.075) inset;
   box-shadow: 0 0 2px rgba(0, 0, 0, 0.075) inset;
   border-radius: 4px;
 }
 span.CodeMirror-matchhighlight {
-  background: #ccc;
+  background: #6c757d;
 }
 .CodeMirror-gutter {
   background: rgba(0, 0, 0, 0.075) !important;
-  color: #999 !important;
+  color: #adb5bd !important;
 }
 .CodeMirror-focused span.CodeMirror-matchhighlight {
-  background: #ccc !important;
+  background: #6c757d !important;
 }
 /* Anti Drag for transition */
 body,

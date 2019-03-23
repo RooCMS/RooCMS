@@ -4,23 +4,21 @@
 
 @roocms-bg:	  #F9F9F9;
 
-@winter-light:	  #fefeff;
-@shadowcolor: 	  #777;
-@middle-grey:	  #999;
-@grey:		  #ccc; // not use
-@blue:		  #49E; // not use
+@white:	          #fff;
+@middle-grey:	  #adb5bd;
 
 @brand-primary:	  #2f3d60; // #428bca
 @brand-secondary: #335b8e;
 @brand-success:	  #72B110; // #5cb85c
-@brand-info:	  #17a2d8; // #5bc0de
+@brand-info:	  #17a2d8; // #5bc0de #49E
 @brand-hot:       #faaa32;
 @brand-warning:	  #FB8C00; // #f0ad4e
 @brand-danger:    #C60D14; // #d9534f
 @brand-moment:    #20c997;
 @brand-extra:     #6610f2;
 @brand-dark:      #212529;
-@brand-light:     #f8f9fa;
+@brand-gray:      #6c757d;
+@brand-light:     #e9ecef;
 
 @colors: {
 	primary:   @brand-primary;
@@ -33,6 +31,7 @@
 	moment:    @brand-moment;
 	extra:     @brand-extra;
 	dark:      @brand-dark;
+	gray:      @brand-gray;
 	light:     @brand-light;
 }
 
@@ -123,9 +122,9 @@ a[class^="nav"]:hover,
 input:focus:invalid {	/* transition: all 0.15s ease-in-out;-webkit-transition: all 0.15s ease-in-out;-moz-transition: all 0.15s ease-in-out;outline:none; */
 	-moz-box-shadow: 0 0 0 .2rem fadeout(@brand-danger, 60%); -webkit-box-shadow: 0 0 0 .2rem fadeout(@brand-danger, 60%);box-shadow: 0 0 0 .2rem fadeout(@brand-danger, 60%);
 	border: 1px solid @brand-danger;
-	background: @brand-light url(../img/required.png) no-repeat right top !important;
+	background: @white url(../img/required.png) no-repeat right top !important;
 }
-input:required:empty {background: @brand-light url(../img/required.png) no-repeat right top !important;}
+input:required:empty {background: @white url(../img/required.png) no-repeat right top !important;}
 input.non-bgreq:required:empty,
 input:required:valid {background-image: none !important;}
 
@@ -254,8 +253,8 @@ h1, h2, h3, h4, h5, h6 {font-weight: normal !important;font-family: @kelsonsans,
 	box-shadow: @shadow;
 }
 .tshadow 	{text-shadow: 1px 1px 1px @brand-dark;}
-.shadow 	{.shadows(0 0 6px @shadowcolor)}
-.inshadow 	{.shadows(0 0 2px @shadowcolor inset)}
+.shadow 	{.shadows(0 0 6px @middle-grey)}
+.inshadow 	{.shadows(0 0 2px @middle-grey inset)}
 
 /* SPECIFIC STYLE */
 .clear, .both	{clear:both;}
@@ -282,13 +281,13 @@ h1, h2, h3, h4, h5, h6 {font-weight: normal !important;font-family: @kelsonsans,
 
 /* CodeMirror */
 .CodeMirror {
-	overflow: auto; font-family: @consolas; height: auto; margin: 5px 0; border: 1px solid @grey;
+	overflow: auto; font-family: @consolas; height: auto; margin: 5px 0; border: 1px solid @brand-gray;
 	.shadows(0 0 2px @cm-shadow inset);
 	border-radius: 4px;
 }
-span.CodeMirror-matchhighlight { background: @grey; }
+span.CodeMirror-matchhighlight { background: @brand-gray; }
 .CodeMirror-gutter { background: @cm-shadow !important; color: @middle-grey !important; }
-.CodeMirror-focused span.CodeMirror-matchhighlight { background: @grey !important; }
+.CodeMirror-focused span.CodeMirror-matchhighlight { background: @brand-gray !important; }
 
 /* Anti Drag for transition */
 body, body.modal-open,
