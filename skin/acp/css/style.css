@@ -358,7 +358,7 @@ a:hover [class^="far-"] {
   text-decoration: none !important;
 }
 /* Shadows */
-.tshadow {
+.text-shadow {
   text-shadow: 1px 1px 1px #212529;
 }
 .shadow {

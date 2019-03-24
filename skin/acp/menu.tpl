@@ -14,7 +14,7 @@
 	</button>
 
 	<div class="collapse navbar-collapse">
-		<ul class="navbar-nav tshadow">
+		<ul class="navbar-nav text-shadow">
 			{foreach from=$menu_items_left item=menu_item}
 				<li class="d-block d-sm-none d-lg-block{if isset($smarty.get.act) && $smarty.get.act == $menu_item['act']} active{/if}">
 					<a href="{$menu_item['link']}" target="{$menu_item['window']}" class="nav-link">
