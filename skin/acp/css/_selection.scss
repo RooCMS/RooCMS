@@ -1,0 +1,6 @@
+/* Selection */
+::-moz-selection,
+::selection {
+	color: $brand-light;
+	background: $brand-primary;
+}

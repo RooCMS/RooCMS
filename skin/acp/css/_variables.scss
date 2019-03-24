@@ -1,0 +1,71 @@
+$roocms-bg:	  #F9F9F9;
+
+$white:	          #fff;
+$middle-grey:	  #adb5bd;
+
+$brand-primary:	  #2f3d60; // #428bca
+$brand-secondary: #335b8e;
+$brand-success:	  #72B110; // #5cb85c
+$brand-info:	  #17a2d8; // #5bc0de #49E
+$brand-hot:       #faaa32;
+$brand-warning:	  #FB8C00; // #f0ad4e
+$brand-danger:    #C60D14; // #d9534f
+$brand-moment:    #20c997;
+$brand-extra:     #6610f2;
+$brand-dark:      #212529;
+$brand-gray:      #6c757d;
+$brand-light:     #e9ecef;
+
+
+$colors:(
+	"primary":   $brand-primary,
+	"secondary": $brand-secondary,
+	"success":   $brand-success,
+	"info":      $brand-info,
+	"hot":       $brand-hot,
+	"warning":   $brand-warning,
+	"danger":    $brand-danger,
+	"moment":    $brand-moment,
+	"extra":     $brand-extra,
+	"dark":      $brand-dark,
+	"gray":      $brand-gray,
+	"light":     $brand-light
+);
+
+$bq-background:	#fbfbfb;
+
+$blogger: 	#fb8f3d;
+$dribbble: 	#ea4c89;
+$facebook:	#3b5998;
+$flickr: 	#ff0084;
+$forrst: 	#5B9A68;
+$foursquare: 	#0072b1;
+$googleplus: 	#dd4b39;
+$instagram: 	#517fa4;
+$linkedin: 	#007bb6;
+$pinterest: 	#cb2027;
+$quora: 	#a82400;
+$stumbleupon: 	#EB4823;
+$tumblr: 	#32506d;
+$twitter: 	#00aced;
+$vimeo: 	#aad450;
+$vk: 		#45668e;
+$yahoo: 	#7B0099;
+$youtube: 	#bb0000;
+
+// Fonts
+$arial:		'Arial', 'Helvetica', 'sans-serif';
+$tahoma:	'Tahoma';
+$verdana:	'Verdana';
+$calibri:	'Calibri';
+$trebuchet:	'Trebuchet MS';
+$consolas:	'Consolas';
+$ubuntu:	'Ubuntu';
+$ptsans:	'PT Sans';
+$opensans:	'Open Sans';
+$bloggersans:	'Blogger Sans';
+$kelsonsans:	'Kelson Sans';
+$firasans:	'Fira Sans';
+
+// Main size
+$body-fs:	15px;

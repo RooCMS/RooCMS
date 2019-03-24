@@ -1,0 +1,49 @@
+/* Correct BS */
+.card>.list-group>.list-group-item {
+	border-left: 0;
+	border-right: 0;
+}
+.card>.list-group>.list-group-item:first-child {
+	border-radius: 0;
+}
+.custom-control-label::after {
+	top: .25rem;
+	left: -2.1rem;
+}
+
+/* fix font-awesome underline */
+a:hover [class="fa"],
+a:hover [class^="fas-"],
+a:hover [class^="far-"] {text-decoration: none !important;}
+
+/* Outline */
+a:focus, a:active, .btn {outline: none !important;}
+
+/* CKeditor styles */
+.cked {overflow-x: hidden;}
+[data-cke-saved-href] {font-weight: 600 !important;}
+
+/* CodeMirror */
+.CodeMirror {
+	overflow: auto; font-family: $consolas; height: auto; margin: 5px 0; border: 1px solid $brand-gray;
+	@include shadows(0 0 2px $middle-grey inset);
+	border-radius: 4px;
+}
+span.CodeMirror-matchhighlight { background: $brand-gray; }
+.CodeMirror-gutter { background: $brand-light !important; color: $middle-grey !important; }
+.CodeMirror-focused span.CodeMirror-matchhighlight { background: $brand-gray !important; }
+
+/**
+ * Correct `block` display not defined in IE 8/9.
+ */
+article, aside, details, figcaption, figure, footer, header, hgroup, main, mark, menu, nav, time, section, summary {display: block;}
+
+/**
+ * Correct `inline-block` display not defined in IE 8/9.
+ */
+audio, canvas, video {display: inline-block;}
+
+/**
+ * Correct hidden elements
+ */
+[hidden] {display: none;}

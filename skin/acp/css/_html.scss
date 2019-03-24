@@ -1,0 +1,40 @@
+@media (max-width: 767px) {
+	body {margin: 4.4rem 0 3rem 0;}
+}
+@media (min-width: 768px) {
+	body {margin: 5.2rem 0 7rem 0;}
+}
+@media (min-width: 992px) {
+	body {margin: 4.5rem 0 5rem 0;}
+	/* Submenu */
+	.submenu.sticky-top {
+		top: 4.5rem;
+	}
+}
+@media (min-width: 1200px) {}
+@media (min-width: 1575px) {}
+
+
+/*  Admin Control Panel Style */
+html {
+	font-size: $body-fs;
+}
+html, body {
+	font-family: $ptsans, $opensans, $bloggersans, $calibri, $trebuchet, $tahoma, $verdana !important;
+	background: $roocms-bg url('../img/bgcp.jpg') repeat fixed top !important;
+	text-rendering: optimizeLegibility;
+}
+
+/* Titles */
+h1, h2, h3, h4, h5, h6 {font-weight: normal !important;font-family: $kelsonsans, $firasans, $ubuntu, $ptsans;}
+
+/* Link style */
+a {font-family: $ptsans, $ubuntu, $calibri, $tahoma, $trebuchet !important;}
+
+/* Sup styles / restyle */
+.small, small	{color: $brand-gray;}
+
+code		{@extend .ubuntu;}
+
+/* Hover */
+.hover-cursor	{cursor: pointer;}
