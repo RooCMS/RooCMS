@@ -1,6 +1,6 @@
 @charset "utf-8";
 /* VARIABLES */
-/* END VARIABLES */
+/* CSS */
 @media (max-width: 767px) {
   body {
     margin: 4.4rem 0 3rem 0;
@@ -34,40 +34,6 @@ body {
 a {
   font-family: 'PT Sans', 'Ubuntu', 'Calibri', 'Tahoma', 'Trebuchet MS' !important;
 }
-/* Transition */
-/**:not([class^="fancybox"]):not([class^="tooltip"]),
-*:not([class^="fancybox"]):hover:not([class^="tooltip"]):hover,*/
-a[class^="nav"],
-a[class^="nav"]:hover,
-.table-hover tbody tr:hover,
-.table-hover tbody tr:hover td,
-.table-hover tbody tr:hover th {
-  transition: all 0.16s ease-in-out;
-  -webkit-transition: all 0.16s ease-in-out;
-  -moz-transition: all 0.16s ease-in-out;
-  outline: none;
-}
-/* OTHER STYLE */
-input:focus:invalid {
-  /* transition: all 0.15s ease-in-out;-webkit-transition: all 0.15s ease-in-out;-moz-transition: all 0.15s ease-in-out;outline:none; */
-  -moz-box-shadow: 0 0 0 0.2rem rgba(198, 13, 20, 0.4);
-  -webkit-box-shadow: 0 0 0 0.2rem rgba(198, 13, 20, 0.4);
-  box-shadow: 0 0 0 0.2rem rgba(198, 13, 20, 0.4);
-  border: 1px solid #C60D14;
-  background: #fff url(../img/required.png) no-repeat right top !important;
-}
-input:required:empty {
-  background: #fff url(../img/required.png) no-repeat right top !important;
-}
-input.non-bgreq:required:empty,
-input:required:valid {
-  background-image: none !important;
-}
-::-moz-selection,
-::selection {
-  color: #e9ecef;
-  background: #2f3d60;
-}
 /* logo */
 #logo {
   max-height: 37px;
@@ -89,11 +55,11 @@ input:required:valid {
   }
   15%,
   85% {
-    margin-right: 60px;
+    margin-right: 4rem;
   }
   30%,
   70% {
-    margin-right: 15px;
+    margin-right: 1rem;
     opacity: 1;
     z-index: 100;
   }
@@ -110,34 +76,13 @@ input:required:valid {
 .notice:hover {
   animation-play-state: paused;
 }
-/* Sup styles / restyle */
-.small,
-small {
-  color: #6c757d;
-}
-blockquote {
-  font-family: 'PT Sans' !important;
-}
-code {
-  font-family: 'Ubuntu' !important;
-}
-/* Hover */
-.hover-cursor {
-  cursor: pointer;
-}
-/* fix font-awesome underline */
-a:hover [class="fa"],
-a:hover [class^="fas-"],
-a:hover [class^="far-"] {
-  text-decoration: none !important;
-}
 /* style for attached files */
 .attach-img {
   width: 160px;
 }
 .input-alt-text {
   padding: 1px !important;
-  height: 22px !important;
+  height: 1.6rem !important;
   margin-top: 3px !important;
   border: 1px solid #fff !important;
 }
@@ -391,6 +336,27 @@ h6 {
   font-weight: normal !important;
   font-family: 'Kelson Sans', 'Fira Sans', 'Ubuntu', 'PT Sans';
 }
+/* Sup styles / restyle */
+.small,
+small {
+  color: #6c757d;
+}
+blockquote {
+  font-family: 'PT Sans' !important;
+}
+code {
+  font-family: 'Ubuntu' !important;
+}
+/* Hover */
+.hover-cursor {
+  cursor: pointer;
+}
+/* fix font-awesome underline */
+a:hover [class="fa"],
+a:hover [class^="fas-"],
+a:hover [class^="far-"] {
+  text-decoration: none !important;
+}
 /* Shadows */
 .tshadow {
   text-shadow: 1px 1px 1px #212529;
@@ -405,22 +371,33 @@ h6 {
   -webkit-box-shadow: 0 0 2px #adb5bd inset;
   box-shadow: 0 0 2px #adb5bd inset;
 }
-/* SPECIFIC STYLE */
-.clear,
-.both {
-  clear: both;
+/* Blur */
+.blur {
+  -webkit-filter: blur(4px);
+  -moz-filter: blur(4px);
+  -o-filter: blur(4px);
+  -ms-filter: blur(4px);
+  filter: blur(4px);
 }
+.blured {
+  -webkit-filter: blur(1px);
+  -moz-filter: blur(1px);
+  -o-filter: blur(1px);
+  -ms-filter: blur(1px);
+  filter: blur(1px);
+}
+.blured:hover {
+  -webkit-filter: blur(0);
+  -moz-filter: blur(0);
+  -o-filter: blur(0);
+  -ms-filter: blur(0);
+  filter: blur(0);
+}
+/* SPECIFIC STYLE */
 .text-strong,
 .text-bold {
   font-weight: bold;
 }
-.text-italic {
-  font-style: italic;
-}
-.text-strike {
-  text-decoration: line-through;
-}
-/*.invis	{position:absolute; left: -9999px;}*/
 .no-overflow {
   overflow: hidden;
   text-overflow: ellipsis;
@@ -434,6 +411,28 @@ h6 {
   word-wrap: break-word !important;
   word-break: break-all;
 }
+/* Inputs glowing */
+input:focus:invalid {
+  /* transition: all 0.15s ease-in-out;-webkit-transition: all 0.15s ease-in-out;-moz-transition: all 0.15s ease-in-out;outline:none; */
+  -moz-box-shadow: 0 0 0 0.2rem rgba(198, 13, 20, 0.4);
+  -webkit-box-shadow: 0 0 0 0.2rem rgba(198, 13, 20, 0.4);
+  box-shadow: 0 0 0 0.2rem rgba(198, 13, 20, 0.4);
+  border: 1px solid #C60D14;
+  background: #fff url(../img/required.png) no-repeat right top !important;
+}
+input:required:empty {
+  background: #fff url(../img/required.png) no-repeat right top !important;
+}
+input.non-bgreq:required:empty,
+input:required:valid {
+  background-image: none !important;
+}
+/* Selection */
+::-moz-selection,
+::selection {
+  color: #e9ecef;
+  background: #2f3d60;
+}
 /* CodeMirror */
 .CodeMirror {
   overflow: auto;
@@ -441,20 +440,33 @@ h6 {
   height: auto;
   margin: 5px 0;
   border: 1px solid #6c757d;
-  -moz-box-shadow: 0 0 2px rgba(0, 0, 0, 0.075) inset;
-  -webkit-box-shadow: 0 0 2px rgba(0, 0, 0, 0.075) inset;
-  box-shadow: 0 0 2px rgba(0, 0, 0, 0.075) inset;
+  -moz-box-shadow: 0 0 2px #adb5bd inset;
+  -webkit-box-shadow: 0 0 2px #adb5bd inset;
+  box-shadow: 0 0 2px #adb5bd inset;
   border-radius: 4px;
 }
 span.CodeMirror-matchhighlight {
   background: #6c757d;
 }
 .CodeMirror-gutter {
-  background: rgba(0, 0, 0, 0.075) !important;
+  background: #e9ecef !important;
   color: #adb5bd !important;
 }
 .CodeMirror-focused span.CodeMirror-matchhighlight {
   background: #6c757d !important;
+}
+/* Transition */
+/**:not([class^="fancybox"]):not([class^="tooltip"]),
+*:not([class^="fancybox"]):hover:not([class^="tooltip"]):hover,*/
+a[class^="nav"],
+a[class^="nav"]:hover,
+.table-hover tbody tr:hover,
+.table-hover tbody tr:hover td,
+.table-hover tbody tr:hover th {
+  transition: all 0.16s ease-in-out;
+  -webkit-transition: all 0.16s ease-in-out;
+  -moz-transition: all 0.16s ease-in-out;
+  outline: none;
 }
 /* Anti Drag for transition */
 body,

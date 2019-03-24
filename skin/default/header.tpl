@@ -14,7 +14,7 @@
 <meta name="Copyright" 			content="RooCMS @ {$site['domain']}" lang="ru" />
 <meta name="url" 			content="{$site['domain']}" />
 <meta name="Subject"			content="{$site['description']}" />
-<meta name="viewport" 			content="width=device-width, initial-scale=1.0">
+<meta name="viewport" 			content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
 <meta http-equiv="Content-Type" 	content="{$charset}" />
 <meta http-equiv="Content-language"	content="ru" />
 <meta http-equiv="Pragma" 		content="no-cache" />
@@ -35,46 +35,71 @@
 <link rel="alternate" type="application/rss+xml" title="{$site['title']}" href="{$rsslink}" />{/if}
 
 <!-- Style -->
-<link rel="stylesheet" type="text/css" href="plugin/fancybox/jquery.fancybox.min.css{$build}" media="screen" />
-<link rel="stylesheet" type="text/css" href="/plugin/bootstrap/css/fa.min.css" media="screen" />
-<link rel="stylesheet" type="text/css" href="/plugin/bootstrap/css/bootstrap.min.css" media="screen" />
+<link rel="stylesheet" type="text/css" href="/plugin/fancybox/jquery.fancybox.min.css{$build}" media="screen" />
+<link rel="stylesheet" type="text/css" href="/plugin/bootstrap/css/bootstrap.min.css{$build}" media="screen" />
+<link rel="stylesheet" type="text/css" href="/plugin/font-awesome/css/font-awesome.min.css{$build}" media="screen" />
+<link rel="stylesheet" type="text/css" href="/plugin/bs-select/css/bootstrap-select.min.css{$build}" media="screen" />
+<link rel="stylesheet" type="text/css" href="/plugin/bs-datepicker/css/bootstrap-datepicker.min.css{$build}" media="screen" />
 <link rel="stylesheet" type="text/css" href="{$SKIN}/css/style.min.css{$build}" media="screen" />
 
 <!-- JS -->
-<script type="text/javascript" src="plugin/jquery-core.min.js{$build}"></script>
-<script type="text/javascript" src="plugin/jquery-migrate.min.js{$build}"></script>
-<script type="text/javascript" src="plugin/fancybox/jquery.fancybox.min.js{$build}"></script>
-<script type="text/javascript" src="plugin/jquery.touchswipe.min.js{$build}"></script>
-<script type="text/javascript" src="plugin/bootstrap.php{$build}{if trim($build) != ""}&{else}?{/if}short"></script>
+<script type="text/javascript" src="/plugin/jquery-core.min.js{$build}"></script>
+<script type="text/javascript" src="/plugin/jquery-migrate.min.js{$build}"></script>
+{*<script type="text/javascript" src="/plugin/jquery.touchswipe.min.js{$build}"></script>*}
+<script type="text/javascript" src="/plugin/fancybox/jquery.fancybox.min.js{$build}"></script>
+<script type="text/javascript" src="/plugin/bootstrap/js/bootstrap.bundle.min.js{$build}"></script>
+<script type="text/javascript" src="/plugin/bs-select/js/bootstrap-select.min.js{$build}"></script>
+<script type="text/javascript" src="/plugin/bs-select/js/i18n/defaults-ru_RU.min.js{$build}"></script>
+<script type="text/javascript" src="/plugin/bs-datepicker/js/bootstrap-datepicker.min.js{$build}"></script>
+<script type="text/javascript" src="/plugin/bs-datepicker/js/locales/bootstrap-datepicker.ru.min.js{$build}"></script>
 <script type="text/javascript" src="{$SKIN}/js/roocms.min.js{$build}"></script>
+<script type="text/javascript" src="{$SKIN}/js/jquery.roocms.crui.min.js{$build}"></script>
 
-{literal}
+
 <script type="text/javascript">
-  var _gaq = _gaq || [];
-  _gaq.push(['_setAccount', 'UA-21055124-4']);
-  _gaq.push(['_setDomainName', '.roocms.com']);
-  _gaq.push(['_trackPageview']);
+	{literal}
+	var _gaq = _gaq || [];
+	_gaq.push(['_setAccount', 'UA-21055124-4']);
+	_gaq.push(['_setDomainName', '.roocms.com']);
+	_gaq.push(['_trackPageview']);
 
-  (function() {
-    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-  })();
+	(function() {
+		var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+		ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+		var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+	})();
+	{/literal}
 </script>
-{/literal}
+
+{$jscript}
+
 </head>
 <body>
 
 {if trim($error) != ""}
-	<div class="alert alert-danger t12 text-left in fade notice" role="alert">
-		<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-		{$error}
+	<div class="toast fade notice" role="alert" aria-live="assertive" aria-atomic="true">
+		<div class="toast-header">
+			<strong class="mr-auto">Ошибка</strong>
+			<button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+				<span aria-hidden="true">&times;</span>
+			</button>
+		</div>
+		<div class="toast-body">
+			{$error}
+		</div>
 	</div>
 {/if}
 {if trim($info) != ""}
-	<div class="alert alert-info t12 text-left in fade notice" role="alert">
-		<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-		{$info}
+	<div class="toast fade notice" role="status" aria-live="polite" aria-atomic="true">
+		<div class="toast-header">
+			<strong class="mr-auto">Сообщение</strong>
+			<button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+				<span aria-hidden="true">&times;</span>
+			</button>
+		</div>
+		<div class="toast-body">
+			{$info}
+		</div>
 	</div>
 {/if}
 
@@ -151,4 +176,5 @@
 <p class="alert alert-danger">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/" rel="nofollow">upgrade your browser</a> to improve your experience and security.</p>
 <![endif]-->
 <div class="container">
+	<div class="row">
 
