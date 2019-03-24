@@ -113,7 +113,7 @@ input:required:valid {
 /* Sup styles / restyle */
 .small,
 small {
-  color: #adb5bd;
+  color: #6c757d;
 }
 blockquote {
   font-family: 'PT Sans' !important;
@@ -164,7 +164,7 @@ tr:hover .tralias {
   display: block;
 }
 .table-hover > tbody > tr:hover .text-muted {
-  color: #2f3d60;
+  color: #2f3d60 !important;
 }
 /* Copyright link*/
 .copyright > a {
