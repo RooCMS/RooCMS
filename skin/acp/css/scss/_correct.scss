@@ -25,7 +25,11 @@ a:focus, a:active, .btn {outline: none !important;}
 
 /* CodeMirror */
 .CodeMirror {
-	overflow: auto; font-family: $consolas; height: auto; margin: 5px 0; border: 1px solid $brand-gray;
+	overflow: auto;
+	font-family: $consolas;
+	height: auto;
+	margin: 5px 0;
+	border: 1px solid $brand-gray;
 	@include shadows(0 0 2px $middle-grey inset);
 	border-radius: 4px;
 }

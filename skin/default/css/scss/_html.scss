@@ -1,0 +1,22 @@
+html {
+	font-size: $body-fs;
+}
+body {	background: $white;
+	font-family: $opensans, $ubuntu, $trebuchet, $tahoma;
+	padding: 0;
+	margin: 0;
+	text-rendering: optimizeLegibility;
+}
+
+/* Style fonts */
+h1, h2, h3, h4, h5, h6 {font-family: $ubuntu, $ptsans;}
+small, button, .btn, .label, .badge {font-family: $ptsans;}
+
+.small, small {line-height: .7rem;color: $brand-gray; font-size: .7rem;}
+
+/* Paragraph */
+p {text-align: justify;}
+a[class=""], a:not([class]) {font-weight: 600;}
+
+/* Mark */
+mark {padding: 0;border-bottom: 1px dotted $brand-danger;}

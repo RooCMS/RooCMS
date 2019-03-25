@@ -1,0 +1,18 @@
+/* Text style */
+.text-strong,
+.text-bold	{font-weight:bold;}
+
+.text-shadow 	{text-shadow: 1px 1px 1px $brand-dark;}
+
+.text-overflow	{@extend .no-overflow;white-space: nowrap;}
+.no-overflow	{overflow: hidden;text-overflow: ellipsis;}
+
+.nobr		{
+	white-space: nowrap;
+	word-wrap: normal;
+	word-break: normal;
+}
+.breakword	{
+	word-wrap: break-word !important;
+	word-break: break-all;
+}

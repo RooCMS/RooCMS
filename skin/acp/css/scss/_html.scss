@@ -21,12 +21,15 @@ html {
 }
 html, body {
 	font-family: $ptsans, $opensans, $bloggersans, $calibri, $trebuchet, $tahoma, $verdana !important;
-	background: $roocms-bg url('../img/bgcp.jpg') repeat fixed top !important;
+	background: $bgc-roocms url('../img/bgcp.jpg') repeat fixed top !important;
 	text-rendering: optimizeLegibility;
 }
 
 /* Titles */
-h1, h2, h3, h4, h5, h6 {font-weight: normal !important;font-family: $kelsonsans, $firasans, $ubuntu, $ptsans;}
+h1, h2, h3, h4, h5, h6 {
+	font-weight: normal !important;
+	font-family: $kelsonsans, $firasans, $ubuntu, $ptsans;
+}
 
 /* Link style */
 a {font-family: $ptsans, $ubuntu, $calibri, $tahoma, $trebuchet !important;}

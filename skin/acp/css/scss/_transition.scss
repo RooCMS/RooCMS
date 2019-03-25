@@ -6,7 +6,12 @@ a[class^="nav"]:hover,
 .table-hover tbody tr:hover,
 .table-hover tbody tr:hover td,
 .table-hover tbody tr:hover th {
-	transition: all 0.16s ease-in-out;-webkit-transition: all 0.16s ease-in-out;-moz-transition: all 0.16s ease-in-out;outline:none;
+	transition: all .16s ease-in-out;
+	-webkit-transition: all .16s ease-in-out;
+	-moz-transition: all .16s ease-in-out;
+	-ms-transition:  all .16s ease-in-out;
+	-o-transition:  all .16s ease-in-out;
+	outline:none;
 }
 
 
@@ -14,5 +19,11 @@ a[class^="nav"]:hover,
 body, body.modal-open,
 *[class^="CodeMirror"]>*, *[class^="CodeMirror"],
 .ckeditor, *[class^="cke_"], *[class^="cke_"]>*, .cke,
-.collapse, .collapse>*
-{transition: none !important;-webkit-transition: none !important;-moz-transition: none !important;outline:none;}
+.collapse, .collapse>* {
+	transition: none !important;
+	-webkit-transition: none !important;
+	-moz-transition: none !important;
+	-ms-transition:  none !important;
+	-o-transition:  none !important;
+	outline:none;
+}

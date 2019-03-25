@@ -1,0 +1,18 @@
+/* Outline */
+a:focus, a:active, .btn {outline: none !important;}
+
+/* Font Awesome correct */
+a:hover [class="fa"],
+a:hover [class^="fas-"],
+a:hover [class^="far-"] {text-decoration: none !important;}
+
+.fa-va {vertical-align: middle;}
+
+/*Correct `block` display not defined in IE 8/9. */
+article, aside, details, figcaption, figure, footer, header, hgroup, main, mark, menu, nav, time, section, summary {display: inline-block;}
+
+/* Correct `inline-block` display not defined in IE 8/9. */
+audio, canvas, video {display: inline-block;}
+
+/* Correct hidden elements */
+[hidden] {display: none;}
