@@ -17,6 +17,9 @@ small, button, .btn, .label, .badge {font-family: $ptsans;}
 
 /* Paragraph */
 p {text-align: justify;}
+
+/* Link */
+a {font-family: $ptsans;}
 a[class=""], a:not([class]) {font-weight: 600;}
 
 /* Mark */

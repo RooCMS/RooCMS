@@ -172,7 +172,6 @@ tr:hover .tralias {
   animation-duration: 3.7s;
   animation-timing-function: ease-in-out;
 }
-
 .notice:hover {
   animation-play-state: paused;
 }
@@ -438,6 +437,7 @@ audio, canvas, video {
 *:not([class^="fancybox"]):hover:not([class^="tooltip"]):hover,*/
 a[class^=nav],
 a[class^=nav]:hover,
+.table-hover tbody tr,
 .table-hover tbody tr:hover,
 .table-hover tbody tr:hover td,
 .table-hover tbody tr:hover th {

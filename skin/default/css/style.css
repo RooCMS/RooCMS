@@ -38,6 +38,11 @@ p {
   text-align: justify;
 }
 
+/* Link */
+a {
+  font-family: "PT Sans";
+}
+
 a[class=""], a:not([class]) {
   font-weight: 600;
 }
@@ -78,6 +83,25 @@ mark {
   word-break: break-all;
 }
 
+/* Top Navigate */
+.roocms-topnav-link {
+  font-family: "Open Sans";
+  padding-left: 0.6rem;
+  padding-right: 0.6rem;
+}
+
+.roocms-topnav-sublink, .roocms-topnav-sublink-first {
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+}
+.roocms-topnav-sublink:hover, .roocms-topnav-sublink-first:hover {
+  background: #e9ecef;
+}
+
+.roocms-topnav-sublink-first {
+  font-weight: bold;
+}
+
 /* Move TOP */
 a#move_top {
   position: fixed;
@@ -113,7 +137,6 @@ a#move_top {
   animation-duration: 3.7s;
   animation-timing-function: ease-in-out;
 }
-
 .notice:hover {
   animation-play-state: paused;
 }
@@ -206,6 +229,7 @@ audio, canvas, video {
 }
 
 /* Transition */
+*:not([class^=fancybox]),
 *:not([class^=fancybox]):hover,
 .table-hover > tbody > tr:hover > td,
 .table-hover > tbody > tr:hover > th {

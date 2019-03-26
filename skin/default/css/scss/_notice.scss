@@ -15,5 +15,7 @@
 	animation-name: notice;
 	animation-duration: 3.7s;
 	animation-timing-function: ease-in-out;
+	&:hover {
+		animation-play-state: paused;
+	}
 }
-.notice:hover {animation-play-state: paused;}

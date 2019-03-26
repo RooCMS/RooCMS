@@ -112,23 +112,42 @@
 			<a href="/" title="{$config->site_title}"><img src="{$SKIN}/img/logo.png" border="0" id="logo" alt="{$config->site_title}"></a>
 		</div>
 		<div class="col-sm-7 col-lg-8 align-middle">
+			{if !empty($navtree)}
 			<nav class="nav flex-column flex-sm-row mt-4">
 				{foreach from=$navtree item=navitem key=k name=navigate}
 					{if $navitem['level'] == 0}
-						<a class="flex-sm-fill nav-link {if isset($smarty.get.page) && $smarty.get.page == $navitem['alias']} active{/if}" href="/index.php?page={$navitem['alias']}">{$navitem['title']}</a>
+						<a class="{*flex-sm-fill*} nav-link text-gray roocms-topnav-link{if isset($smarty.get.page) && $smarty.get.page == $navitem['alias']} active{/if}" href="/index.php?page={$navitem['alias']}">{$navitem['title']}</a>
 					{/if}
 				{/foreach}
 
-				<a class="flex-sm-fill nav-link" data-toggle="collapse" href="#collapseAllMenu" role="button" aria-expanded="false" aria-controls="collapseAllMenu">
+				<a class="{*flex-sm-fill*} nav-link text-gray roocms-nav-top-link" data-toggle="collapse" href="#collapseAllMenu" role="button" aria-expanded="false" aria-controls="collapseAllMenu">
 					Все меню<i class="fas fa-fw fa-caret-down"></i>
 				</a>
 
-				<div class="collapse" id="collapseAllMenu">
+				<div class="collapse w-100" id="collapseAllMenu">
 					<div class="card card-body">
-						Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident.
+						<div class="d-flex flex-row flex-wrap">
+						{foreach from=$navtree item=navitem key=k name=navigate}
+							{if $smarty.foreach.navigate.first}
+								<div class="d-flex flex-column w-50 my-1">
+							{/if}
+
+							{if $navitem['level'] == 0 && !$smarty.foreach.navigate.first}
+								</div>
+								<div class="d-flex flex-column w-50 my-1">
+							{/if}
+
+								<a href="/index.php?page={$navitem['alias']}" class="text-secondary rounded py-1 roocms-topnav-sublink{if $navitem['level'] == 0}-first{/if}">{$navitem['title']}</a>
+
+							{if $smarty.foreach.navigate.last}
+								</div>
+							{/if}
+						{/foreach}
+						</div>
 					</div>
 				</div>
 			</nav>
+			{/if}
 		</div>
 	</div>
 </div>
@@ -144,42 +163,7 @@
 		</div>
 	</div>
 </div>
-{if !empty($navtree)}
-<div class="container-fluid navigation">
-	<div class="row">
-		<div class="container">
-			<div class="row navigation-level-0">
-				<div class="col-md-12">
-					<span class="btn btn-link pull-right text-uppercase navigation-full visible-lg visible-md">Все меню</span>
-					<span class="btn btn-link pull-right text-uppercase navigation-full-xs visible-sm visible-xs"><span class="glyphicon glyphicon-align-justify"></span></span>
-					<div class="container navigation-submenu">
-						<div class="row">
-							{assign var=rows value=0}
-							{foreach from=$navtree item=nitem key=k name=navigate}
-								{if $nitem['level'] == 0}
-									{if !$smarty.foreach.navigate.first}</div>{/if}
-									{assign var=rows value=$rows+1}
-									{if $rows == 5}
-										{assign var=rows value=1}
-										</div><div class="row">
-									{/if}
-									<div class="col-lg-3 col-md-4 col-xs-12 text-overflow">
-									<a href="/index.php?page={$nitem['alias']}" class="btn btn-link btn-sm btn-block text-uppercase ptsans topmenu topmenu-title">{$nitem['title']}</a>
-								{else}
-									<a href="/index.php?page={$nitem['alias']}" class="btn btn-link btn-sm btn-block ptsans topmenu">{$nitem['title']}</a>
-								{/if}
-								{if $smarty.foreach.navigate.last}
-									</div>
-								{/if}
-							{/foreach}
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-</div>
-{/if}
+
 <div class="container-fluid breadcrumb-line">
 	<div class="row">
 		<div class="container">
