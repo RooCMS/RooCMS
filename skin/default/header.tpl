@@ -104,8 +104,8 @@
 
 <div class="container-fluid login my-0 collapse bg-primary text-light" id="LoginForm">
 	<div class="container">
-		<div class="row py-3">
-			<div class="col-lg-8 offset-lg-4">
+		<div class="row py-3 justify-content-center">
+			<div class="col-lg-8 col-xl-7">
 				<h4>Войти на сайт</h4>
 				<form method="post" action="{$SCRIPT_NAME}?part=ucp&act=login" class="form-inline">
 					<div class="input-group mr-1 mb-2">
