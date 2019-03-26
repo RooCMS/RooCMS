@@ -53,7 +53,6 @@
 <script type="text/javascript" src="/plugin/bs-datepicker/js/bootstrap-datepicker.min.js{$build}"></script>
 <script type="text/javascript" src="/plugin/bs-datepicker/js/locales/bootstrap-datepicker.ru.min.js{$build}"></script>
 <script type="text/javascript" src="{$SKIN}/js/roocms.min.js{$build}"></script>
-<script type="text/javascript" src="{$SKIN}/js/jquery.roocms.crui.min.js{$build}"></script>
 
 
 <script type="text/javascript">
@@ -103,16 +102,41 @@
 	</div>
 {/if}
 
+<!--[if lte IE 9]>
+<p class="alert alert-danger">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/" class="alert-link" rel="nofollow">upgrade your browser</a> to improve your experience and security.</p>
+<![endif]-->
+
+<div class="container header mt-3">
+	<div class="row">
+		<div class="col-sm-5 col-lg-4 align-middle mt-n1">
+			<a href="/" title="{$config->site_title}"><img src="{$SKIN}/img/logo.png" border="0" id="logo" alt="{$config->site_title}"></a>
+		</div>
+		<div class="col-sm-7 col-lg-8 align-middle">
+			<nav class="nav flex-column flex-sm-row mt-4">
+				{foreach from=$navtree item=navitem key=k name=navigate}
+					{if $navitem['level'] == 0}
+						<a class="flex-sm-fill nav-link {if isset($smarty.get.page) && $smarty.get.page == $navitem['alias']} active{/if}" href="/index.php?page={$navitem['alias']}">{$navitem['title']}</a>
+					{/if}
+				{/foreach}
+
+				<a class="flex-sm-fill nav-link" data-toggle="collapse" href="#collapseAllMenu" role="button" aria-expanded="false" aria-controls="collapseAllMenu">
+					Все меню<i class="fas fa-fw fa-caret-down"></i>
+				</a>
+
+				<div class="collapse" id="collapseAllMenu">
+					<div class="card card-body">
+						Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident.
+					</div>
+				</div>
+			</nav>
+		</div>
+	</div>
+</div>
+
 <div class="container-fluid header">
 	<div class="row">
 		<div class="container">
 			<div class="row">
-				<div class="col-sm-5 hidden-xs">
-					<a href="/" title="{$config->site_title}"><img src="{$SKIN}/img/logo.png" border="0" id="logo" alt="{$config->site_title}"></a>
-				</div>
-				<div class="col-xs-12 text-center visible-xs">
-					<a href="/" title="{$config->site_title}"><img src="{$SKIN}/img/logo.png" border="0" id="logo" alt="{$config->site_title}"></a>
-				</div>
 				<div class="col-sm-7 col-xs-12">
 					{$module->load("auth")}
 				</div>
@@ -126,11 +150,6 @@
 		<div class="container">
 			<div class="row navigation-level-0">
 				<div class="col-md-12">
-					{foreach from=$navtree item=nitem key=k name=navigate}
-						{if $nitem['level'] == 0}
-							<a href="/index.php?page={$nitem['alias']}" class="btn btn-link text-uppercase hidden-xs">{$nitem['title']}</a>
-						{/if}
-					{/foreach}
 					<span class="btn btn-link pull-right text-uppercase navigation-full visible-lg visible-md">Все меню</span>
 					<span class="btn btn-link pull-right text-uppercase navigation-full-xs visible-sm visible-xs"><span class="glyphicon glyphicon-align-justify"></span></span>
 					<div class="container navigation-submenu">
@@ -172,9 +191,5 @@
 		</div>
 	</div>
 </div>
-<!--[if lte IE 9]>
-<p class="alert alert-danger">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/" rel="nofollow">upgrade your browser</a> to improve your experience and security.</p>
-<![endif]-->
-<div class="container">
-	<div class="row">
+
 

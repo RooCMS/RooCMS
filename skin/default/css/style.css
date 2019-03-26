@@ -10,7 +10,8 @@ html {
 }
 
 body {
-  background: #fff;
+  background: #f8f9f9;
+  background-image: -webkit-linear-gradient(top, rgba(33, 37, 41, 0.05), rgba(33, 37, 41, 0)), url("../img/bg.png");
   font-family: "Open Sans", "Ubuntu", "Trebuchet MS", "Tahoma";
   padding: 0;
   margin: 0;

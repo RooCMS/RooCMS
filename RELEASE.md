@@ -1,6 +1,6 @@
 Version: 1.4 alpha
 ========================
-**release date:	24.03.2019**
+**release date:	26.03.2019**
 
 Plugins
 -------
@@ -31,6 +31,7 @@ Release information:
 	[upd] update Font Awesome 4.7 -> 5.7.2 
 	[upd] change Bootstrap Colorpicker plugin
 	[upd] update user interface (fixit bugs, update styles, update layot)
+	[upd] css migrate from less to scss
 	
 	[fix] fixit error
 	[fix] translate comments in code to english international

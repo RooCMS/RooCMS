@@ -1,5 +1,5 @@
 {* Шаблон "ног" *}
-</div>
+
 <div class="container-fluid footer">
 	<div class="row">
 		<div class="container">

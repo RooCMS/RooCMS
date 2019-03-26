@@ -36,5 +36,8 @@ $ubuntu:    'Ubuntu';
 $ptsans:    'PT Sans';
 $opensans:  'Open Sans';
 
+// Main color
+$bgc-roocms: lighten($brand-dark, 83%);
+
 // Main size
 $body-fs: 15px;
