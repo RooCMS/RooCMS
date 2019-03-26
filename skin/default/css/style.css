@@ -83,7 +83,45 @@ mark {
   word-break: break-all;
 }
 
-/* Top Navigate */
+/* Shadows */
+.shadow {
+  -moz-box-shadow: 0 0 6px #adb5bd;
+  -webkit-box-shadow: 0 0 6px #adb5bd;
+  box-shadow: 0 0 6px #adb5bd;
+}
+
+.inshadow {
+  -moz-box-shadow: 0 0 2px #adb5bd inset;
+  -webkit-box-shadow: 0 0 2px #adb5bd inset;
+  box-shadow: 0 0 2px #adb5bd inset;
+}
+
+/* Blur */
+.blur {
+  -webkit-filter: blur(4px);
+  -moz-filter: blur(4px);
+  -o-filter: blur(4px);
+  -ms-filter: blur(4px);
+  filter: blur(4px);
+}
+
+.blured {
+  -webkit-filter: blur(1px);
+  -moz-filter: blur(1px);
+  -o-filter: blur(1px);
+  -ms-filter: blur(1px);
+  filter: blur(1px);
+}
+
+.blured:hover {
+  -webkit-filter: blur(0);
+  -moz-filter: blur(0);
+  -o-filter: blur(0);
+  -ms-filter: blur(0);
+  filter: blur(0);
+}
+
+/* Top Navigation */
 .roocms-topnav-link {
   font-family: "Open Sans";
   padding-left: 0.6rem;
@@ -93,6 +131,12 @@ mark {
 .roocms-topnav-sublink, .roocms-topnav-sublink-first {
   padding-left: 0.5rem;
   padding-right: 0.5rem;
+  transition: all 0.2s ease-in-out;
+  -webkit-transition: all 0.2s ease-in-out;
+  -moz-transition: all 0.2s ease-in-out;
+  -ms-transition: all 0.2s ease-in-out;
+  -o-transition: all 0.2s ease-in-out;
+  outline: none;
 }
 .roocms-topnav-sublink:hover, .roocms-topnav-sublink-first:hover {
   background: #e9ecef;
@@ -139,44 +183,6 @@ a#move_top {
 }
 .notice:hover {
   animation-play-state: paused;
-}
-
-/* Shadows */
-.shadow {
-  -moz-box-shadow: 0 0 6px #adb5bd;
-  -webkit-box-shadow: 0 0 6px #adb5bd;
-  box-shadow: 0 0 6px #adb5bd;
-}
-
-.inshadow {
-  -moz-box-shadow: 0 0 2px #adb5bd inset;
-  -webkit-box-shadow: 0 0 2px #adb5bd inset;
-  box-shadow: 0 0 2px #adb5bd inset;
-}
-
-/* Blur */
-.blur {
-  -webkit-filter: blur(4px);
-  -moz-filter: blur(4px);
-  -o-filter: blur(4px);
-  -ms-filter: blur(4px);
-  filter: blur(4px);
-}
-
-.blured {
-  -webkit-filter: blur(1px);
-  -moz-filter: blur(1px);
-  -o-filter: blur(1px);
-  -ms-filter: blur(1px);
-  filter: blur(1px);
-}
-
-.blured:hover {
-  -webkit-filter: blur(0);
-  -moz-filter: blur(0);
-  -o-filter: blur(0);
-  -ms-filter: blur(0);
-  filter: blur(0);
 }
 
 /* Inputs invalid and error glowing */
@@ -229,7 +235,6 @@ audio, canvas, video {
 }
 
 /* Transition */
-*:not([class^=fancybox]),
 *:not([class^=fancybox]):hover,
 .table-hover > tbody > tr:hover > td,
 .table-hover > tbody > tr:hover > th {

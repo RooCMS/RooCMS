@@ -1,12 +1,12 @@
 /* Shadows */
-@mixin shadows($shadow) {
+@mixin shadow($shadow) {
 	-moz-box-shadow: $shadow;
 	-webkit-box-shadow: $shadow;
 	box-shadow: $shadow;
 }
 
-.shadow 	{@include shadows(0 0 6px $middle-grey)}
-.inshadow 	{@include shadows(0 0 2px $middle-grey inset)}
+.shadow 	{@include shadow(0 0 6px $middle-grey)}
+.inshadow 	{@include shadow(0 0 2px $middle-grey inset)}
 
 /* Blur */
 @mixin blur($blur: 4px) {
@@ -25,4 +25,14 @@
 }
 .blured:hover {
 	@include blur(0);
+}
+
+// Transition
+@mixin transition($time: .2) {
+	transition: all #{$time}s ease-in-out;
+	-webkit-transition: all #{$time}s ease-in-out;
+	-moz-transition: all #{$time}s ease-in-out;
+	-ms-transition:  all #{$time}s ease-in-out;
+	-o-transition:  all #{$time}s ease-in-out;
+	outline:none;
 }

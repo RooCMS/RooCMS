@@ -112,15 +112,18 @@
 			<a href="/" title="{$config->site_title}"><img src="{$SKIN}/img/logo.png" border="0" id="logo" alt="{$config->site_title}"></a>
 		</div>
 		<div class="col-sm-7 col-lg-8 align-middle">
+
+			{$module->load("auth")}
+
 			{if !empty($navtree)}
-			<nav class="nav flex-column flex-sm-row mt-4">
+			<nav class="nav flex-column flex-sm-row mt-3">
 				{foreach from=$navtree item=navitem key=k name=navigate}
 					{if $navitem['level'] == 0}
 						<a class="{*flex-sm-fill*} nav-link text-gray roocms-topnav-link{if isset($smarty.get.page) && $smarty.get.page == $navitem['alias']} active{/if}" href="/index.php?page={$navitem['alias']}">{$navitem['title']}</a>
 					{/if}
 				{/foreach}
 
-				<a class="{*flex-sm-fill*} nav-link text-gray roocms-nav-top-link" data-toggle="collapse" href="#collapseAllMenu" role="button" aria-expanded="false" aria-controls="collapseAllMenu">
+				<a class="{*flex-sm-fill*} nav-link text-gray roocms-topnav-link" data-toggle="collapse" href="#collapseAllMenu" role="button" aria-expanded="false" aria-controls="collapseAllMenu">
 					Все меню<i class="fas fa-fw fa-caret-down"></i>
 				</a>
 
@@ -148,18 +151,6 @@
 				</div>
 			</nav>
 			{/if}
-		</div>
-	</div>
-</div>
-
-<div class="container-fluid header">
-	<div class="row">
-		<div class="container">
-			<div class="row">
-				<div class="col-sm-7 col-xs-12">
-					{$module->load("auth")}
-				</div>
-			</div>
 		</div>
 	</div>
 </div>

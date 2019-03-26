@@ -4,16 +4,20 @@
 
 	{literal}
 	<style>
-	#LoginForm .modal-content {border: 10px solid rgba(220,220,220,0.5);}
+		#LoginForm .modal-content {border: 10px solid rgba(220,220,220,0.5);}
 	</style>
 	{/literal}
+	<div class="text-right mt-n3">
+		<a href="#" class="btn btn-sm btn-outline-gray border-top-0 rounded-0">Войти <i class="fas fa-fw fa-sign-in-alt"></i></a>
+		<a href="{$SCRIPT_NAME}?part=reg" class="btn btn-sm btn-outline-gray border-top-0 rounded-0">Регистрация <i class="fas fa-fw fa-user-plus"></i></i></a>
+	</div>
 
-	<div class="row auth">
+	{*<div class="row auth">
 		<div class="col-sm-12 text-right">
 			<button class="btn btn-sm btn-link" data-toggle="modal" data-target="#LoginForm">Войти на сайт<i class="fa fa-fw fa-user-circle-o"></i></button>
-			<a href="{$SCRIPT_NAME}?part=reg" class="btn btn-sm btn-link" style="">Регистрация<i class="fa fa-fw fa-user-plus {*fa-key*}"></i></a>
+			<a href="{$SCRIPT_NAME}?part=reg" class="btn btn-sm btn-link" style="">Регистрация<i class="fa fa-fw fa-user-plus"></i></a>
 		</div>
-	</div>
+	</div>*}
 
 	<!-- Modal Auth -->
 	<div class="modal fade" id="LoginForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">

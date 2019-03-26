@@ -1,18 +1,20 @@
-/* Top Navigate */
+/* Top Navigation */
 .roocms-topnav-link {
 	font-family: $opensans;
 	padding-left: .6rem;
 	padding-right: .6rem;
 }
 .roocms-topnav-sublink {
-	//border-left: 1px solid transparent;
 	padding-left: .5rem;
 	padding-right: .5rem;
+
 	&:hover {
 		//border-left: 1px solid $middle-grey;
 		//padding-left: 0.6rem !important;
 		background: $brand-light;
 	}
+
+	@include transition(.2);
 }
 
 .roocms-topnav-sublink-first {
