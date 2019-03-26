@@ -5,8 +5,8 @@
 	box-shadow: $shadow;
 }
 
-.shadow 	{@include shadow(0 0 6px $middle-grey)}
-.inshadow 	{@include shadow(0 0 2px $middle-grey inset)}
+.shadow 	{@include shadow(0 0 6px $brand-dark)}
+.inshadow 	{@include shadow(0 0 2px $brand-dark inset)}
 
 /* Blur */
 @mixin blur($blur: 4px) {
