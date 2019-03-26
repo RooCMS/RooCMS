@@ -8,8 +8,8 @@
 	</style>
 	{/literal}
 	<div class="text-right mt-n3">
-		<a href="#" class="btn btn-sm btn-outline-gray border-top-0 rounded-0">Войти <i class="fas fa-fw fa-sign-in-alt"></i></a>
-		<a href="{$SCRIPT_NAME}?part=reg" class="btn btn-sm btn-outline-gray border-top-0 rounded-0">Регистрация <i class="fas fa-fw fa-user-plus"></i></i></a>
+		<a class="btn btn-sm btn-primary border-top-0 rounded-0" data-toggle="collapse" href="#LoginForm" role="button" aria-expanded="false" aria-controls="LoginForm">Войти <i class="fas fa-fw fa-sign-in-alt"></i></a>
+		<a href="{$SCRIPT_NAME}?part=reg" class="btn btn-sm btn-secondary border-top-0 rounded-0">Регистрация <i class="fas fa-fw fa-user-plus"></i></i></a>
 	</div>
 
 	{*<div class="row auth">

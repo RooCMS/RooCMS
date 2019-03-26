@@ -102,10 +102,33 @@
 	</div>
 {/if}
 
-<!--[if lte IE 9]>
-<p class="alert alert-danger">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/" class="alert-link" rel="nofollow">upgrade your browser</a> to improve your experience and security.</p>
-<![endif]-->
-
+<div class="container-fluid login my-0 collapse bg-primary text-light" id="LoginForm">
+	<div class="container">
+		<div class="row py-3">
+			<div class="col-lg-8 offset-lg-4">
+				<h4>Войти на сайт</h4>
+				<form method="post" action="{$SCRIPT_NAME}?part=ucp&act=login" class="form-inline">
+					<div class="input-group mr-1 mb-2">
+						<div class="input-group-prepend">
+							<span class="input-group-text" id="inLogin"><i class="fas fa-fw fa-user-secret"></i></span>
+						</div>
+						<input type="text" name="login" class="form-control non-bgreq" placeholder="Логин" aria-label="Username" aria-describedby="inLogin" required>
+					</div>
+					<div class="input-group mr-1 mb-2">
+						<div class="input-group-prepend">
+							<span class="input-group-text" id="inPassword"><i class="fas fa-fw fa-key"></i></span>
+						</div>
+						<input type="password" name="password" class="form-control non-bgreq" placeholder="Пароль" aria-label="Password" aria-describedby="inPassword" required>
+					</div>
+					<div class="input-group mb-2">
+						<button type="submit" name="userlogin" id="inputAuth" class="btn btn-outline-light" value="user">Войти <i class="fas fa-fw fa-sign-in-alt"></i></button>
+					</div>
+				</form>
+				<a href="{$SCRIPT_NAME}?part=repass" class="text-light">Забыли пароль<i class="fas fa-fw fa-question-circle"></i></a>
+			</div>
+		</div>
+	</div>
+</div>
 <div class="container header mt-3">
 	<div class="row">
 		<div class="col-sm-5 col-lg-4 align-middle mt-n1">
@@ -154,6 +177,10 @@
 		</div>
 	</div>
 </div>
+
+<!--[if lte IE 9]>
+<p class="alert alert-danger">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/" class="alert-link" rel="nofollow">upgrade your browser</a> to improve your experience and security.</p>
+<![endif]-->
 
 <div class="container-fluid breadcrumb-line">
 	<div class="row">

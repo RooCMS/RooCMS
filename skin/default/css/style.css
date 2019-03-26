@@ -85,15 +85,15 @@ mark {
 
 /* Shadows */
 .shadow {
-  -moz-box-shadow: 0 0 6px #adb5bd;
-  -webkit-box-shadow: 0 0 6px #adb5bd;
-  box-shadow: 0 0 6px #adb5bd;
+  -moz-box-shadow: 0 0 6px #212529;
+  -webkit-box-shadow: 0 0 6px #212529;
+  box-shadow: 0 0 6px #212529;
 }
 
 .inshadow {
-  -moz-box-shadow: 0 0 2px #adb5bd inset;
-  -webkit-box-shadow: 0 0 2px #adb5bd inset;
-  box-shadow: 0 0 2px #adb5bd inset;
+  -moz-box-shadow: 0 0 2px #212529 inset;
+  -webkit-box-shadow: 0 0 2px #212529 inset;
+  box-shadow: 0 0 2px #212529 inset;
 }
 
 /* Blur */
