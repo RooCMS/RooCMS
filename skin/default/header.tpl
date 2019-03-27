@@ -149,31 +149,34 @@
 				<a class="{*flex-sm-fill*} nav-link text-gray roocms-topnav-link" data-toggle="collapse" href="#collapseAllMenu" role="button" aria-expanded="false" aria-controls="collapseAllMenu">
 					Все меню<i class="fas fa-fw fa-caret-down"></i>
 				</a>
-
-				<div class="collapse w-100" id="collapseAllMenu">
-					<div class="card card-body">
-						<div class="d-flex flex-row flex-wrap">
+			</nav>
+			{/if}
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-12 mt-3">
+			<div class="collapse w-100" id="collapseAllMenu">
+				<div class="card card-body">
+					<div class="d-flex flex-row flex-wrap">
 						{foreach from=$navtree item=navitem key=k name=navigate}
 							{if $smarty.foreach.navigate.first}
-								<div class="d-flex flex-column w-50 my-1">
+								<div class="d-flex flex-column col-lg-3 col-md-4 col-sm-6 my-1 px-0">
 							{/if}
 
 							{if $navitem['level'] == 0 && !$smarty.foreach.navigate.first}
 								</div>
-								<div class="d-flex flex-column w-50 my-1">
+								<div class="d-flex flex-column col-lg-3 col-md-4 col-sm-6 my-1 px-0">
 							{/if}
 
-								<a href="/index.php?page={$navitem['alias']}" class="text-secondary rounded py-1 roocms-topnav-sublink{if $navitem['level'] == 0}-first{/if}">{$navitem['title']}</a>
+							<a href="/index.php?page={$navitem['alias']}" class="text-secondary rounded py-1 roocms-topnav-sublink{if $navitem['level'] == 0}-first{/if}">{$navitem['title']}</a>
 
 							{if $smarty.foreach.navigate.last}
 								</div>
 							{/if}
 						{/foreach}
-						</div>
 					</div>
 				</div>
-			</nav>
-			{/if}
+			</div>
 		</div>
 	</div>
 </div>
@@ -182,16 +185,11 @@
 <p class="alert alert-danger">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/" class="alert-link" rel="nofollow">upgrade your browser</a> to improve your experience and security.</p>
 <![endif]-->
 
-<div class="container-fluid breadcrumb-line">
+<div class="container">
 	<div class="row">
-		<div class="container">
-			<div class="row">
-				<div class="col-sm-12">
-					{$breadcrumb}
-				</div>
-			</div>
+		<div class="col-12">
+			{$breadcrumb}
 		</div>
 	</div>
 </div>
-
 

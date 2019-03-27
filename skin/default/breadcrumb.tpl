@@ -1,34 +1,20 @@
 {* Хлебные крошки *}
 {if !empty($breadcrumb)}
 
-	<div class="btn-group btn-breadcrumb breadcrumb-default">
-		<a href="{$SCRIPT_NAME}" class="btn btn-default"><i class="glyphicon glyphicon-home"></i></a>
-		{*<div class="visible-lg-block">
-			<div class="btn btn-warning btn-derecha"><i class="glyphicon glyphicon-star"></i><i class="glyphicon glyphicon-star"></i><i class="glyphicon glyphicon-star"></i></div>
-			<div class="btn btn-danger btn-derecha">*</div>
-		</div>*}
-		{foreach from=$breadcrumb item=bc key=i name=breadcrumb}
-			{if !$smarty.foreach.breadcrumb.last}
-				<a href="{$SCRIPT_NAME}?{if isset($bc['alias']) && trim($bc['alias']) != ""}page={$bc['alias']}{/if}{if isset($bc['part']) && trim($bc['part']) != ""}{if (isset($bc['alias']) && trim($bc['alias']) != "")}&{/if}part={$bc['part']}{/if}{if isset($bc['act']) && trim($bc['act']) != ""}{if (isset($bc['alias']) && trim($bc['alias']) != "") || (isset($bc['part']) && trim($bc['part']) != "")}&{/if}act={$bc['act']}{/if}" class="btn btn-default visible-lg-block visible-md-block">{$bc['title']}</a>
-			{/if}
-			{if $smarty.foreach.breadcrumb.last} {*&& !isset($smarty.get.id)*}
-				{*<div class="btn btn-default visible-xs-block hidden-xs visible-sm-block ">...</div>*}
-				<div class="btn btn-default active"><b>{$bc['title']}</b></div>
-			{/if}
-		{/foreach}
-		{$module->load("search")}
-	</div>
+	<nav aria-label="breadcrumb">
+		<ol class="breadcrumb bg-transparent border w-100 mt-1">
+			<li class="breadcrumb-item"><a href="{$SCRIPT_NAME}"><i class="fas fa-fw fa-home"></i></a></li>
+			{foreach from=$breadcrumb item=bc key=i name=breadcrumb}
+				<li class="breadcrumb-item{if $smarty.foreach.breadcrumb.last} active{/if}">
+					{if !$smarty.foreach.breadcrumb.last || isset($smarty.get.id)}
+						<a href="{$SCRIPT_NAME}?{if isset($bc['alias']) && trim($bc['alias']) != ""}page={$bc['alias']}{/if}{if isset($bc['part']) && trim($bc['part']) != ""}{if (isset($bc['alias']) && trim($bc['alias']) != "")}&{/if}part={$bc['part']}{/if}{if isset($bc['act']) && trim($bc['act']) != ""}{if (isset($bc['alias']) && trim($bc['alias']) != "") || (isset($bc['part']) && trim($bc['part']) != "")}&{/if}act={$bc['act']}{/if}">{$bc['title']}</a>
+					{else}
+						{$bc['title']}
+					{/if}
+				</li>
+			{/foreach}
+		</ol>
+	</nav>
 
-	{*<ul class="breadcrumb small">
-		<li>
-			<a href="{$SCRIPT_NAME}"><span class="glyphicon glyphicon-home"></span></a>
-		</li>
-		{foreach from=$breadcrumb item=bc key=i name=breadcrumb}
-			<li{if $smarty.foreach.breadcrumb.last} class="active"{/if}>
-				{if !$smarty.foreach.breadcrumb.last || isset($smarty.get.id)}
-					<a href="{$SCRIPT_NAME}?{if isset($bc['alias']) && trim($bc['alias']) != ""}page={$bc['alias']}{/if}{if isset($bc['part']) && trim($bc['part']) != ""}{if (isset($bc['alias']) && trim($bc['alias']) != "")}&{/if}part={$bc['part']}{/if}{if isset($bc['act']) && trim($bc['act']) != ""}{if (isset($bc['alias']) && trim($bc['alias']) != "") || (isset($bc['part']) && trim($bc['part']) != "")}&{/if}act={$bc['act']}{/if}">{$bc['title']}</a>{else}{$bc['title']}
-				{/if}
-			</li>
-		{/foreach}
-	</ul>*}
+	{* {$module->load("search")} *}
 {/if}
