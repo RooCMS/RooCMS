@@ -39,7 +39,7 @@
 			<div class="modal-dialog modal-dialog-centered">
         			<div class="modal-content" id="LoginForm">
 					<div class="modal-header bg_login">
-						<img src="{$SKIN}/img/logo.png" border="0" alt="Добро пожаловать в Панель Администратора RooCMS" title="Добро пожаловать в Панель Администратора RooCMS">
+						<img src="{$SKIN}/img/logo.png" border="0" class="mx-auto" alt="Добро пожаловать в Панель Администратора RooCMS" title="Добро пожаловать в Панель Администратора RooCMS">
 						<a href="/" class="close" data-dismiss="modal" aria-label="Close">
 							<span aria-hidden="true">&times;</span>
 						</a>
@@ -53,30 +53,28 @@
 							<br />{$error_login}
 		    				</div>
 		    			{/if}
-						<div class="col-12">
-							<div class="form-group row">
-								<label class="col-md-2 form-control-plaintext d-none d-md-block" for="Login">Логин</label>
-								<div class="input-group col-md-10">
-									<span class="input-group-prepend">
-										<span class="input-group-text" id="fLogin">
-											<i class="fas fa-fw fa-user" rel="tooltip" title="Введите ваш логин в это поле" data-placement="right"></i>
-										</span>
+						<div class="form-group row mt-1">
+							{*<label class="col-md-2 form-control-plaintext d-none d-md-block" for="Login">Логин</label>*}
+							<div class="input-group col-12">
+								<span class="input-group-prepend">
+									<span class="input-group-text" id="fLogin">
+										<i class="fas fa-fw fa-user" rel="tooltip" title="Введите ваш логин в это поле" data-placement="right"></i>
 									</span>
-									<input class="form-control non-bgreq" id="Login" type="text" name="login" placeholder="Логин" required autocomplete="off" aria-describedby="fLogin">
-								</div>
+								</span>
+								<input class="form-control non-bgreq" id="Login" type="text" name="login" placeholder="Логин" required autocomplete="off" aria-describedby="fLogin">
 							</div>
-							<div class="form-group row">
-								<label class="col-md-2 form-control-plaintext d-none d-md-block" for="Password">Пароль</label>
-								<div class="input-group col-md-10">
-									<span class="input-group-prepend">
-										<span class="input-group-text" id="fPassword">
-											<span class="input-group-addon">
-												<i class="fas fa-fw fa-key" rel="tooltip" title="Введите ваш пароль в это поле" data-placement="right"></i>
-											</span>
+						</div>
+						<div class="form-group row mb-1">
+							{*<label class="col-md-2 form-control-plaintext d-none d-md-block" for="Password">Пароль</label>*}
+							<div class="input-group col-12">
+								<span class="input-group-prepend">
+									<span class="input-group-text" id="fPassword">
+										<span class="input-group-addon">
+											<i class="fas fa-fw fa-key" rel="tooltip" title="Введите ваш пароль в это поле" data-placement="right"></i>
 										</span>
 									</span>
-									<input class="form-control non-bgreq" id="Password" type="password" name="password" placeholder="Пароль" required autocomplete="off" aria-describedby="fPassword">
-								</div>
+								</span>
+								<input class="form-control non-bgreq" id="Password" type="password" name="password" placeholder="Пароль" required autocomplete="off" aria-describedby="fPassword">
 							</div>
 						</div>
 					</div>

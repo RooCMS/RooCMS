@@ -47,6 +47,9 @@ Install
 
 > Instead of `your_site.com` use the domain name attached to your hosting.
 
+> Attention
+> For security purposes, RooCMS does not support the ability to work with a database without a login and password. When trying to use an empty password for the database, the system will show an error.
+
 Wiki
 ----
 Help and tips on working with RooCMS are in control panel.
