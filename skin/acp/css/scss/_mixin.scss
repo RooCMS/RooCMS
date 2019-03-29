@@ -1,28 +1,15 @@
-/* Shadows */
+// Shadows
 @mixin shadows($shadow) {
 	-moz-box-shadow: $shadow;
 	-webkit-box-shadow: $shadow;
 	box-shadow: $shadow;
 }
 
-.shadow 	{@include shadows(0 0 6px $middle-grey)}
-.inshadow 	{@include shadows(0 0 2px $middle-grey inset)}
-
-/* Blur */
+// Blur
 @mixin blur($blur: 4px) {
 	-webkit-filter: blur($blur);
 	-moz-filter: blur($blur);
 	-o-filter: blur($blur);
 	-ms-filter: blur($blur);
 	filter: blur($blur);
-}
-
-.blur {
-	@include blur();
-}
-.blured {
-	@include blur(1px);
-}
-.blured:hover {
-	@include blur(0);
 }

@@ -36,6 +36,12 @@ small, button, .btn, .label, .badge {
   font-size: 0.7rem;
 }
 
+/* Blockquote */
+blockquote {
+  background-color: rgba(33, 37, 41, 0.05);
+  padding: 0.5rem;
+}
+
 /* Paragraph */
 p {
   text-align: justify;
@@ -86,44 +92,6 @@ mark {
   word-break: break-all;
 }
 
-/* Shadows */
-.shadow {
-  -moz-box-shadow: 0 0 6px #212529;
-  -webkit-box-shadow: 0 0 6px #212529;
-  box-shadow: 0 0 6px #212529;
-}
-
-.inshadow {
-  -moz-box-shadow: 0 0 2px #212529 inset;
-  -webkit-box-shadow: 0 0 2px #212529 inset;
-  box-shadow: 0 0 2px #212529 inset;
-}
-
-/* Blur */
-.blur {
-  -webkit-filter: blur(4px);
-  -moz-filter: blur(4px);
-  -o-filter: blur(4px);
-  -ms-filter: blur(4px);
-  filter: blur(4px);
-}
-
-.blured {
-  -webkit-filter: blur(1px);
-  -moz-filter: blur(1px);
-  -o-filter: blur(1px);
-  -ms-filter: blur(1px);
-  filter: blur(1px);
-}
-
-.blured:hover {
-  -webkit-filter: blur(0);
-  -moz-filter: blur(0);
-  -o-filter: blur(0);
-  -ms-filter: blur(0);
-  filter: blur(0);
-}
-
 /* Top Navigation */
 .roocms-topnav-link {
   font-family: "Open Sans";
@@ -157,11 +125,48 @@ mark {
 /* Move TOP */
 a#move_top {
   position: fixed;
-  right: 10px;
-  bottom: 10px;
+  right: 1rem;
+  bottom: 1rem;
   display: none;
   opacity: 0.9;
   filter: alpha(opacity=90);
+}
+
+/* Effects */
+.shadow {
+  -moz-box-shadow: 0 0 6px #212529;
+  -webkit-box-shadow: 0 0 6px #212529;
+  box-shadow: 0 0 6px #212529;
+}
+
+.inshadow {
+  -moz-box-shadow: 0 0 2px #212529 inset;
+  -webkit-box-shadow: 0 0 2px #212529 inset;
+  box-shadow: 0 0 2px #212529 inset;
+}
+
+.blur {
+  -webkit-filter: blur(4px);
+  -moz-filter: blur(4px);
+  -o-filter: blur(4px);
+  -ms-filter: blur(4px);
+  filter: blur(4px);
+}
+
+.blured {
+  -webkit-filter: blur(1px);
+  -moz-filter: blur(1px);
+  -o-filter: blur(1px);
+  -ms-filter: blur(1px);
+  filter: blur(1px);
+}
+
+.blured:hover {
+  -webkit-filter: blur(0);
+  -moz-filter: blur(0);
+  -o-filter: blur(0);
+  -ms-filter: blur(0);
+  filter: blur(0);
 }
 
 /* Notice */
@@ -227,6 +232,112 @@ a:hover [class^=far-] {
   vertical-align: middle;
 }
 
+/* Addon and correct BS */
+.bg-white, .bg-light, .bg-gray, .bg-dark, .bg-extra, .bg-moment, .bg-danger, .bg-warning, .bg-hot, .bg-info, .bg-success, .bg-secondary, .bg-primary {
+  padding: 1rem;
+}
+
+/* Add BS Blockquote style */
+blockquote.quote-primary {
+  border-left: 0.2rem solid #2f3d60;
+  background-color: rgba(33, 37, 41, 0.05);
+}
+blockquote.quote-primary > h1, blockquote.quote-primary > h2, blockquote.quote-primary > h3, blockquote.quote-primary > h4, blockquote.quote-primary > h5, blockquote.quote-primary > h6 {
+  color: #2f3d60;
+}
+
+blockquote.quote-secondary {
+  border-left: 0.2rem solid #335b8e;
+  background-color: rgba(33, 37, 41, 0.05);
+}
+blockquote.quote-secondary > h1, blockquote.quote-secondary > h2, blockquote.quote-secondary > h3, blockquote.quote-secondary > h4, blockquote.quote-secondary > h5, blockquote.quote-secondary > h6 {
+  color: #335b8e;
+}
+
+blockquote.quote-success {
+  border-left: 0.2rem solid #72B110;
+  background-color: rgba(33, 37, 41, 0.05);
+}
+blockquote.quote-success > h1, blockquote.quote-success > h2, blockquote.quote-success > h3, blockquote.quote-success > h4, blockquote.quote-success > h5, blockquote.quote-success > h6 {
+  color: #72B110;
+}
+
+blockquote.quote-info {
+  border-left: 0.2rem solid #17a2d8;
+  background-color: rgba(33, 37, 41, 0.05);
+}
+blockquote.quote-info > h1, blockquote.quote-info > h2, blockquote.quote-info > h3, blockquote.quote-info > h4, blockquote.quote-info > h5, blockquote.quote-info > h6 {
+  color: #17a2d8;
+}
+
+blockquote.quote-hot {
+  border-left: 0.2rem solid #faaa32;
+  background-color: rgba(33, 37, 41, 0.05);
+}
+blockquote.quote-hot > h1, blockquote.quote-hot > h2, blockquote.quote-hot > h3, blockquote.quote-hot > h4, blockquote.quote-hot > h5, blockquote.quote-hot > h6 {
+  color: #faaa32;
+}
+
+blockquote.quote-warning {
+  border-left: 0.2rem solid #FB8C00;
+  background-color: rgba(33, 37, 41, 0.05);
+}
+blockquote.quote-warning > h1, blockquote.quote-warning > h2, blockquote.quote-warning > h3, blockquote.quote-warning > h4, blockquote.quote-warning > h5, blockquote.quote-warning > h6 {
+  color: #FB8C00;
+}
+
+blockquote.quote-danger {
+  border-left: 0.2rem solid #C60D14;
+  background-color: rgba(33, 37, 41, 0.05);
+}
+blockquote.quote-danger > h1, blockquote.quote-danger > h2, blockquote.quote-danger > h3, blockquote.quote-danger > h4, blockquote.quote-danger > h5, blockquote.quote-danger > h6 {
+  color: #C60D14;
+}
+
+blockquote.quote-moment {
+  border-left: 0.2rem solid #20c997;
+  background-color: rgba(33, 37, 41, 0.05);
+}
+blockquote.quote-moment > h1, blockquote.quote-moment > h2, blockquote.quote-moment > h3, blockquote.quote-moment > h4, blockquote.quote-moment > h5, blockquote.quote-moment > h6 {
+  color: #20c997;
+}
+
+blockquote.quote-extra {
+  border-left: 0.2rem solid #6610f2;
+  background-color: rgba(33, 37, 41, 0.05);
+}
+blockquote.quote-extra > h1, blockquote.quote-extra > h2, blockquote.quote-extra > h3, blockquote.quote-extra > h4, blockquote.quote-extra > h5, blockquote.quote-extra > h6 {
+  color: #6610f2;
+}
+
+blockquote.quote-dark {
+  border-left: 0.2rem solid #212529;
+  background-color: rgba(33, 37, 41, 0.05);
+}
+blockquote.quote-dark > h1, blockquote.quote-dark > h2, blockquote.quote-dark > h3, blockquote.quote-dark > h4, blockquote.quote-dark > h5, blockquote.quote-dark > h6 {
+  color: #212529;
+}
+
+blockquote.quote-gray {
+  border-left: 0.2rem solid #6c757d;
+  background-color: rgba(33, 37, 41, 0.05);
+}
+blockquote.quote-gray > h1, blockquote.quote-gray > h2, blockquote.quote-gray > h3, blockquote.quote-gray > h4, blockquote.quote-gray > h5, blockquote.quote-gray > h6 {
+  color: #6c757d;
+}
+
+blockquote.quote-light {
+  border-left: 0.2rem solid #e9ecef;
+  background-color: rgba(33, 37, 41, 0.05);
+}
+blockquote.quote-light > h1, blockquote.quote-light > h2, blockquote.quote-light > h3, blockquote.quote-light > h4, blockquote.quote-light > h5, blockquote.quote-light > h6 {
+  color: #e9ecef;
+}
+
+blockquote[class^=quote-] > p:last-child {
+  margin-bottom: 0;
+}
+
 /*Correct `block` display not defined in IE 8/9. */
 article, aside, details, figcaption, figure, footer, header, hgroup, main, mark, menu, nav, time, section, summary {
   display: inline-block;
@@ -263,7 +374,7 @@ audio, canvas, video {
 }
 
 /* Fonts */
-.ptsans {
+.ptsans, blockquote {
   font-family: "PT Sans";
 }
 

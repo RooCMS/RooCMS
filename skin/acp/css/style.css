@@ -147,6 +147,45 @@ tr:hover .tralias {
   color: #20c997;
 }
 
+/* Effect */
+/* Shadows */
+.shadow {
+  -moz-box-shadow: 0 0 6px #adb5bd;
+  -webkit-box-shadow: 0 0 6px #adb5bd;
+  box-shadow: 0 0 6px #adb5bd;
+}
+
+.inshadow {
+  -moz-box-shadow: 0 0 2px #adb5bd inset;
+  -webkit-box-shadow: 0 0 2px #adb5bd inset;
+  box-shadow: 0 0 2px #adb5bd inset;
+}
+
+/* Blur */
+.blur {
+  -webkit-filter: blur(4px);
+  -moz-filter: blur(4px);
+  -o-filter: blur(4px);
+  -ms-filter: blur(4px);
+  filter: blur(4px);
+}
+
+.blured {
+  -webkit-filter: blur(1px);
+  -moz-filter: blur(1px);
+  -o-filter: blur(1px);
+  -ms-filter: blur(1px);
+  filter: blur(1px);
+}
+
+.blured:hover {
+  -webkit-filter: blur(0);
+  -moz-filter: blur(0);
+  -o-filter: blur(0);
+  -ms-filter: blur(0);
+  filter: blur(0);
+}
+
 /* Notice */
 @keyframes notice {
   from, to {
@@ -176,6 +215,41 @@ tr:hover .tralias {
   animation-play-state: paused;
 }
 
+/* Inputs invalid and error glowing */
+input:focus:invalid {
+  /* transition: all 0.15s ease-in-out;-webkit-transition: all 0.15s ease-in-out;-moz-transition: all 0.15s ease-in-out;outline:none; */
+  -moz-box-shadow: 0 0 0 0.2rem rgba(198, 13, 20, 0.4);
+  -webkit-box-shadow: 0 0 0 0.2rem rgba(198, 13, 20, 0.4);
+  box-shadow: 0 0 0 0.2rem rgba(198, 13, 20, 0.4);
+  border: 1px solid #C60D14;
+  background: #fff url(../img/required.png) no-repeat right top !important;
+}
+
+input:required:empty {
+  background: #fff url(../img/required.png) no-repeat right top !important;
+}
+
+input.non-bgreq:required:empty,
+input:required:valid {
+  background-image: none !important;
+}
+
+/* Correct BS */
+.card > .list-group > .list-group-item {
+  border-left: 0;
+  border-right: 0;
+}
+
+.card > .list-group > .list-group-item:first-child {
+  border-radius: 0;
+}
+
+.custom-control-label::after {
+  top: 0.25rem;
+  left: -2.1rem;
+}
+
+/* Addon BS */
 /* Add BS Blockquote style */
 blockquote.quote-primary {
   border-left: 0.2rem solid #2f3d60;
@@ -290,78 +364,6 @@ blockquote.blockquote h3, blockquote.blockquote h4,
 blockquote.blockquote h5, blockquote.blockquote h6 {margin: 0 0 10px 0;padding: 0;}*/
 blockquote[class^=quote-] > p:last-child {
   margin-bottom: 0;
-}
-
-/* Shadows */
-.shadow {
-  -moz-box-shadow: 0 0 6px #adb5bd;
-  -webkit-box-shadow: 0 0 6px #adb5bd;
-  box-shadow: 0 0 6px #adb5bd;
-}
-
-.inshadow {
-  -moz-box-shadow: 0 0 2px #adb5bd inset;
-  -webkit-box-shadow: 0 0 2px #adb5bd inset;
-  box-shadow: 0 0 2px #adb5bd inset;
-}
-
-/* Blur */
-.blur {
-  -webkit-filter: blur(4px);
-  -moz-filter: blur(4px);
-  -o-filter: blur(4px);
-  -ms-filter: blur(4px);
-  filter: blur(4px);
-}
-
-.blured {
-  -webkit-filter: blur(1px);
-  -moz-filter: blur(1px);
-  -o-filter: blur(1px);
-  -ms-filter: blur(1px);
-  filter: blur(1px);
-}
-
-.blured:hover {
-  -webkit-filter: blur(0);
-  -moz-filter: blur(0);
-  -o-filter: blur(0);
-  -ms-filter: blur(0);
-  filter: blur(0);
-}
-
-/* Inputs invalid and error glowing */
-input:focus:invalid {
-  /* transition: all 0.15s ease-in-out;-webkit-transition: all 0.15s ease-in-out;-moz-transition: all 0.15s ease-in-out;outline:none; */
-  -moz-box-shadow: 0 0 0 0.2rem rgba(198, 13, 20, 0.4);
-  -webkit-box-shadow: 0 0 0 0.2rem rgba(198, 13, 20, 0.4);
-  box-shadow: 0 0 0 0.2rem rgba(198, 13, 20, 0.4);
-  border: 1px solid #C60D14;
-  background: #fff url(../img/required.png) no-repeat right top !important;
-}
-
-input:required:empty {
-  background: #fff url(../img/required.png) no-repeat right top !important;
-}
-
-input.non-bgreq:required:empty,
-input:required:valid {
-  background-image: none !important;
-}
-
-/* Correct BS */
-.card > .list-group > .list-group-item {
-  border-left: 0;
-  border-right: 0;
-}
-
-.card > .list-group > .list-group-item:first-child {
-  border-radius: 0;
-}
-
-.custom-control-label::after {
-  top: 0.25rem;
-  left: -2.1rem;
 }
 
 /* fix font-awesome underline */

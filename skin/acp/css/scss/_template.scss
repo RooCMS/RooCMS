@@ -25,3 +25,19 @@ tr:hover .tralias {display: block;}
 /* Copyright link*/
 .copyright > a {color: $brand-light;}
 .copyright > a:hover {color: $brand-moment;}
+
+/* Effect */
+/* Shadows */
+.shadow 	{@include shadows(0 0 6px $middle-grey)}
+.inshadow 	{@include shadows(0 0 2px $middle-grey inset)}
+
+/* Blur */
+.blur {
+	@include blur();
+}
+.blured {
+	@include blur(1px);
+}
+.blured:hover {
+	@include blur(0);
+}
