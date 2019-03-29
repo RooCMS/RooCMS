@@ -4,7 +4,7 @@
 	<div class="d-flex flex-column flex-sm-row align-content-stretch justify-content-center flex-nowrap">
 		{assign var=UGID value= 1|rand:399}
 		{foreach from=$images item=img}
-			<a href="/upload/images/{$img['resize']}" data-fancybox="gallery{$UGID}" data-animation-duration="300" data-caption="{$img['alt']}" title="{$img['alt']}" class=" px-1"><img src="/upload/images/{$img['thumb']}" class="img-fluid border my-1" alt="{$img['alt']}" style="margin: 3px 0px;"></a>
+			<a href="/upload/images/{$img['resize']}" data-fancybox="gallery{$UGID}" data-animation-duration="300" data-caption="{$img['alt']}" title="{$img['alt']}" class="px-1"><img src="/upload/images/{$img['thumb']}" class="img-fluid border my-1" alt="{$img['alt']}" style="margin: 3px 0px;"></a>
 		{/foreach}
 	</div>
 {/if}
