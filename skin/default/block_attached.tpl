@@ -12,7 +12,7 @@
 
 {if !empty($attachfile)}
 	<strong>Файлы:</strong>
-	<div class="d-flex flex-column flex-sm-row align-content-stretch {*justify-content-center*} flex-wrap">
+	<div class="d-flex flex-column flex-sm-row align-content-stretch {*justify-content-center*} flex-wrap mb-3">
 		{foreach from=$attachfile item=file}
 			<br /><a href="/upload/files/{$file['file']}" class="btn btn-sm btn-outline-gray flex-fill"><i class="fas fa-fw fa-download"></i> {$file['filetitle']}</a>
 		{/foreach}
