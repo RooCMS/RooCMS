@@ -22,6 +22,11 @@
 	@extend .roocms-topnav-sublink;
 }
 
+/* Breadcrumb */
+.breadcrumb li:last-child a {
+	pointer-events: none;
+}
+
 /* Move TOP */
 a#move_top {
 	position: fixed;

@@ -182,13 +182,14 @@
 </div>
 
 <!--[if lte IE 9]>
-<p class="alert alert-danger">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/" class="alert-link" rel="nofollow">upgrade your browser</a> to improve your experience and security.</p>
+<p class="alert alert-danger">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/" class="alert-link" rel="nofollow" target="_blank">upgrade your browser</a> to improve your experience and security.</p>
 <![endif]-->
 
 <div class="container">
 	<div class="row">
 		<div class="col-12">
 			{$breadcrumb}
+			{* {$module->load("search")} *}
 		</div>
 	</div>
 </div>

@@ -146,6 +146,11 @@ mark {
   font-weight: bold;
 }
 
+/* Breadcrumb */
+.breadcrumb li:last-child a {
+  pointer-events: none;
+}
+
 /* Move TOP */
 a#move_top {
   position: fixed;
