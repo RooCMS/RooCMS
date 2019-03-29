@@ -1,8 +1,11 @@
 html {
 	font-size: $body-fs;
 }
-body {	background: $bgc-roocms;
+body {	background-color: $bgc-roocms;
 	background-image: -webkit-linear-gradient(top, fade-out($brand-dark, .95), fade-out($brand-dark, 1)), url("../img/bg.png");
+	background-image: -moz-linear-gradient(top, fade-out($brand-dark, .95), fade-out($brand-dark, 1)), url("../img/bg.png");
+	background-image: -ms-linear-gradient(top, fade-out($brand-dark, .95), fade-out($brand-dark, 1)), url("../img/bg.png");
+	background-image: linear-gradient(top, fade-out($brand-dark, .95), fade-out($brand-dark, 1)), url("../img/bg.png");
 	font-family: $opensans, $ubuntu, $trebuchet, $tahoma;
 	padding: 0;
 	margin: 0;
