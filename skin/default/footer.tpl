@@ -1,10 +1,30 @@
 {* Шаблон "ног" *}
 
 
-<div class="container">
+<div class="container mb-3">
 	<div class="row">
 		<div class="col-md-6">
 			<div class="text-uppercase border-bottom pb-1 mb-2">Навигация</div>
+			{if !empty($navtree)}
+				<div class="d-flex flex-row flex-wrap">
+					{foreach from=$navtree item=navitem key=k name=navigate}
+						{if $smarty.foreach.navigate.first}
+							<div class="d-flex flex-column col-sm-6 my-1 px-0">
+						{/if}
+
+						{if $navitem['level'] == 0 && !$smarty.foreach.navigate.first}
+							</div>
+							<div class="d-flex flex-column col-sm-6 my-1 px-0 mx-0">
+						{/if}
+
+						<a href="/index.php?page={$navitem['alias']}" class="text-secondary py-1 roocms-topnav-sublink{if $navitem['level'] == 0}-first{/if}">{$navitem['title']}</a>
+
+						{if $smarty.foreach.navigate.last}
+							</div>
+						{/if}
+					{/foreach}
+				</div>
+			{/if}
 		</div>
 		<div class="col-md-2 text-gray ptsans">
 			<div class="text-uppercase border-bottom pb-1 mb-2">Информация</div>
