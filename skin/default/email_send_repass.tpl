@@ -8,13 +8,13 @@
 </head>
 <body bgcolor="#fff" marginwidth="0" marginheight="0"  leftmargin="0" topmargin="0" bottommargin="0" rightmargin="0">
 
-<h2> Здравствуйте, {$userdata['nickname']} </h2>
+<h2> Здравствуйте, {$udata['nickname']} </h2>
 
 <br />По Вашей заявке был создан новый пароль для доступа на сайт <a href="{$site['domain']}" target="_blank">{$site['title']}</a>.
 <br />Вы можете изменить его в настройках Вашего профиля, после авторизации на сайте.
 <br />
 <h4>Данные Вашей учетной записи для авторизации:</h4>
-Логин: {$userdata['login']}
+Логин: {$udata['login']}
 <br />Пароль: {$pass}
 <br />
 <br /><span style="font-weight: bold;">*</span> Пароль сгенерирован автоматически и известен только вам, никому его не сообщайте.

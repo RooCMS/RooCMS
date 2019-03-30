@@ -33,8 +33,33 @@ a#move_top {
 	right: 1rem;
 	bottom: 1rem;
 	display: none;
-	opacity:0.9;
+	opacity: .9;
 	filter: alpha(opacity=90);
+}
+
+@media (min-width: 576px) {
+	a#move_top {
+		right: 2rem;
+	}
+}
+
+/* Foot Navigation */
+.roocms-foot-link {
+	//padding-left: .1rem;
+	//padding-right: .1rem;
+
+	&:hover {
+		//border-left: 1px solid $middle-grey;
+		//padding-left: 0.6rem !important;
+		//background: $brand-light;
+	}
+
+	@include transition(.2);
+}
+
+.roocms-foot-link-first {
+	font-weight: bold;
+	@extend .roocms-foot-link;
 }
 
 /* Effects */

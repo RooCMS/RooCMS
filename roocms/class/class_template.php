@@ -46,7 +46,7 @@ class Template {
 	 */
 	public function __construct($skin=false) {
 
-		global $config, $site, $smarty;
+		global $config, $site, $users, $smarty;
 
 		// TODO: set_skin
 		if(!$skin) {
@@ -69,6 +69,9 @@ class Template {
 
 		# config vars
 		$smarty->assign("config", $config);
+
+		# init userdata to tpl
+		$smarty->assign("userdata", $users->userdata);
 
 		# copyright text
 		$smarty->assign("copyright", "<a href=\"http://www.roocms.com/\">RooCMS</a> &copy; 2010-".date("Y"));

@@ -26,14 +26,14 @@ h1, h2, h3, h4, h5, h6 {
   font-family: "Ubuntu", "PT Sans";
 }
 
-small, button, .btn, .label, .badge {
+button, .small, small, .btn, .label, .badge {
   font-family: "PT Sans";
 }
 
 .small, small {
-  line-height: 0.7rem;
   color: #6c757d;
   font-size: 0.7rem;
+  line-height: 0.8rem;
 }
 
 /* Blockquote */
@@ -130,6 +130,24 @@ a#move_top {
   display: none;
   opacity: 0.9;
   filter: alpha(opacity=90);
+}
+
+@media (min-width: 576px) {
+  a#move_top {
+    right: 2rem;
+  }
+}
+/* Foot Navigation */
+.roocms-foot-link, .roocms-foot-link-first {
+  transition: all 0.2s ease-in-out;
+  -webkit-transition: all 0.2s ease-in-out;
+  -moz-transition: all 0.2s ease-in-out;
+  -ms-transition: all 0.2s ease-in-out;
+  -o-transition: all 0.2s ease-in-out;
+  outline: none;
+}
+.roocms-foot-link-first {
+  font-weight: bold;
 }
 
 /* Effects */
@@ -338,7 +356,12 @@ blockquote[class^=quote-] > p:last-child {
   margin-bottom: 0;
 }
 
-/*Correct `block` display not defined in IE 8/9. */
+/* Fancybox correct */
+.fancybox-content {
+  padding-bottom: 0.3rem;
+}
+
+/* Correct `block` display not defined in IE 8/9. */
 article, aside, details, figcaption, figure, footer, header, hgroup, main, mark, menu, nav, time, section, summary {
   display: inline-block;
 }

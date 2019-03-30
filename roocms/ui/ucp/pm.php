@@ -70,7 +70,7 @@ class UCP_PM {
 
 		global $db, $users, $parse,  $tpl, $smarty;
 
-		# список сообщений
+		# pm list
 		$pm = [];
 		$q = $db->query("SELECT id, from_uid, title, see, date_create FROM ".USERS_PM_TABLE." WHERE to_uid='".$users->uid."' ORDER BY date_create DESC");
 		while($row = $db->fetch_assoc($q)) {
@@ -82,7 +82,6 @@ class UCP_PM {
 		# tpl
 		$smarty->assign("pm", $pm);
 		$smarty->assign("userlist", $this->userlist);
-		$smarty->assign("userdata", $users->userdata);
 		$tpl->load_template("ucp_pm");
 	}
 
@@ -115,7 +114,6 @@ class UCP_PM {
 			# tpl
 			$smarty->assign("message", $message);
 			$smarty->assign("userlist", $this->userlist);
-			$smarty->assign("userdata", $users->userdata);
 			$tpl->load_template("ucp_pm_read");
 		}
 		else go(SCRIPT_NAME."?part=ucp&act=pm");
@@ -127,14 +125,13 @@ class UCP_PM {
 	 */
 	private function write() {
 
-		global $nav, $users, $tpl, $smarty;
+		global $nav, $tpl, $smarty;
 
 		# breadcrumb
 		$nav->breadcrumb[] = array('part'=>'write', 'act' => 'pm', 'title'=>'Новое сообщение');
 
 		# tpl
 		$smarty->assign("userlist", $this->userlist);
-		$smarty->assign("userdata", $users->userdata);
 		$tpl->load_template("ucp_pm_write");
 	}
 

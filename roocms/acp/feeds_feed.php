@@ -166,7 +166,6 @@ class ACP_Feeds_Feed {
 		# smarty vars
 		$smarty->assign("feed",     $this->feed);      # feed data
 		$smarty->assign("poptags",  $poptags);         # tags
-		$smarty->assign("userdata", $users->userdata); # users
 		$smarty->assign("userlist", $this->userlist);  # users
 		$smarty->assign("groups",   $groups);          # groups
 
@@ -239,7 +238,6 @@ class ACP_Feeds_Feed {
 		$smarty->assign("item",     $item);            # item data
 		$smarty->assign("feed",     $this->feed);      # feed data
 		$smarty->assign("poptags",  $poptags);         # tags
-		$smarty->assign("userdata", $users->userdata); # users data
 		$smarty->assign("userlist", $this->userlist);  # users list
 		$smarty->assign("gids",     $gids);            # group id access granted
 		$smarty->assign("groups",   $groups);          # group list

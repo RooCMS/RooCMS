@@ -11,7 +11,8 @@
 
 		<div class="dropdown-menu dropdown-menu-right" aria-labelledby="UserMenu">
 			<h6 class="dropdown-header">Личные сообщения</h6>
-			<a class="dropdown-item" href="{$SCRIPT_NAME}?part=ucp&act=pm"><i class="far fa-fw fa-envelope{if $pm == 0}-open{/if}"></i> Новых: {if $pm == 0}0{else}{$pm}{/if}</a>
+			<a class="dropdown-item" href="{$SCRIPT_NAME}?part=ucp&act=ucp"><i class="far fa-fw fa-user"></i> Личный кабинет</a>
+			<a class="dropdown-item" href="{$SCRIPT_NAME}?part=ucp&act=pm"><i class="far fa-fw fa-envelope{if $pm == 0}-open{/if}"></i> Новых: {$pm}</a>
 			<div class="dropdown-divider"></div>
 			<a class="dropdown-item" href="{$SCRIPT_NAME}?part=ucp&act=logout"><i class="fas fa-fw fa-sign-out-alt"></i> Выйти</a>
 		</div>

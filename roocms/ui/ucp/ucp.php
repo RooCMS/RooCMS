@@ -66,10 +66,9 @@ class UCP_CP {
 	 */
 	private function cp() {
 
-		global $users, $tpl, $smarty;
+		global $tpl;
 
 		# tpl
-		$smarty->assign("userdata", $users->userdata);
 		$tpl->load_template("ucp");
 	}
 
@@ -89,7 +88,6 @@ class UCP_CP {
 
 		# tpl
 		$users->userdata['user_slogan_edit'] = $parse->text->clearhtml($users->userdata['user_slogan']);
-		$smarty->assign("userdata", $users->userdata);
 		$tpl->load_template("ucp_edit_info");
 	}
 

@@ -168,7 +168,7 @@ class UI_RePass {
 
 
 			# Уведомление пользователю на электропочту
-			$smarty->assign("userdata", $userdata);
+			$smarty->assign("udata", $udata);
 			$smarty->assign("pass", $pass);
 			$smarty->assign("site", $site);
 			$message = $tpl->load_template("email_send_repass", true);

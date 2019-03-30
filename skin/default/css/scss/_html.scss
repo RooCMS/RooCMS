@@ -14,9 +14,15 @@ body {	background-color: $bgc-roocms;
 
 /* Style fonts */
 h1, h2, h3, h4, h5, h6 {font-family: $ubuntu, $ptsans;}
-small, button, .btn, .label, .badge {font-family: $ptsans;}
+button, .btn, .label, .badge {font-family: $ptsans;}
 
-.small, small {line-height: .7rem;color: $brand-gray; font-size: .7rem;}
+.small, small {
+	color: $brand-gray;
+	font-size: .7rem;
+	line-height: .8rem;
+
+	@extend button;
+}
 
 /* Blockquote */
 blockquote {

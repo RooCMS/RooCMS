@@ -41,13 +41,10 @@ class Module_Auth extends Modules {
 
 		if($users->uid != 0) {
 			$newpm = $db->count(USERS_PM_TABLE, "to_uid='".$users->uid."' AND see='0'");
+			$smarty->assign("pm", $newpm);
 		}
 
 		# draw
-		if(isset($newpm)) {
-			$smarty->assign("pm", $newpm);
-		}
-		$smarty->assign("userdata", $users->userdata);
 		$this->out = $tpl->load_template("module/auth", true);
 	}
 }

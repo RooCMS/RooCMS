@@ -37,7 +37,12 @@ blockquote[class^="quote-"] > p:last-child {
 	margin-bottom: 0;
 }
 
-/*Correct `block` display not defined in IE 8/9. */
+/* Fancybox correct */
+.fancybox-content {
+	padding-bottom: .3rem;
+}
+
+/* Correct `block` display not defined in IE 8/9. */
 article, aside, details, figcaption, figure, footer, header, hgroup, main, mark, menu, nav, time, section, summary {display: inline-block;}
 
 /* Correct `inline-block` display not defined in IE 8/9. */
