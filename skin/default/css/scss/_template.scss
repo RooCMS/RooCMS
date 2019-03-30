@@ -11,7 +11,7 @@
 	&:hover {
 		//border-left: 1px solid $middle-grey;
 		//padding-left: 0.6rem !important;
-		background: $brand-light;
+		background: darken($brand-light, 5%);
 	}
 
 	@include transition(.2);
