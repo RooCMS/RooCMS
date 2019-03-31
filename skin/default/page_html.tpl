@@ -30,7 +30,9 @@
 		</div>
 		{if $page_alias == "index"}
 		<div class="col-lg-3 col-md-4">
-			<div class="card">
+			<h5 class="text-gray">Последние новости</h5>
+			{$module->load('last_feed')}
+			<div class="card mt-3">
 				<div class="card-header">
 					Метки
 				</div>
