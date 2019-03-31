@@ -83,7 +83,7 @@
 					<div class="modal-footer bg_login">
 						<div class="row">
 							<div class="col-12">
-								<small>Панель управления сайтом <nobr><a href="/">{$site['title']}</a></nobr></small>
+								<small>Панель управления сайтом <span class="text-nowrap"><a href="/">{$site['title']}</a></span></small>
 								<button type="submit" class="btn btn-success" name="go" value="go">Войти <i class="fas fa-fw fa-sign-in-alt"></i></button>
 							</div>
 						</div>

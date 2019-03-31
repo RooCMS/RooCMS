@@ -15,9 +15,9 @@
 	<tbody>
 	{foreach from=$tree item=page}
 		<tr class="nav-{if $page['nav']}on{else}off{/if}{if $page['noindex']} noindex{/if}">
-			<td class="align-middle text-muted text-right small"><nobr>{$page['id']}<i class="fa fa-fw fa-caret-right"></i></nobr></td>
+			<td class="align-middle text-muted text-right small text-nowrap">{$page['id']}<i class="fa fa-fw fa-caret-right"></i></td>
 			<td class="align-middle">
-				<span class="nobr">
+				<span class="text-nowrap">
 					{section name=foo start=1 loop=$page['level'] step=1}<span class="text-muted d-none d-md-inline-block">&bull;&emsp;</span>{/section}
 
 					{if $page['page_type'] == "html" or $page['page_type'] == "php"}

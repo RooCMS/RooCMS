@@ -47,7 +47,7 @@
 					{/if}
 					<ul class="list-group d-inline-flex col-xl-3 col-lg-4 col-md-6 col-sm-12 mb-3 mr-n2 ml-1">
 				{/if}
-				<a href="{$SCRIPT_NAME}?act=help&u={$subpart['uname']}" class="list-group-item list-group-item-action{if $subpart['level'] == 0} text-bold{/if}">{section name=level loop=$subpart['level']}&bull;{/section} {$subpart['title']}</a>
+				<a href="{$SCRIPT_NAME}?act=help&u={$subpart['uname']}" class="list-group-item list-group-item-action{if $subpart['level'] == 0} font-weight-bold{/if}">{section name=level loop=$subpart['level']}&bull;{/section} {$subpart['title']}</a>
 				{if $smarty.foreach.helptrees.last}</ul>{/if}
 			{/foreach}
 		</div>

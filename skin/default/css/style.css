@@ -62,36 +62,6 @@ mark {
   border-bottom: 1px dotted #C60D14;
 }
 
-/* Text style */
-.text-strong,
-.text-bold {
-  font-weight: bold;
-}
-
-.text-shadow {
-  text-shadow: 1px 1px 1px #212529;
-}
-
-.text-overflow {
-  white-space: nowrap;
-}
-
-.no-overflow, .text-overflow {
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.nobr {
-  white-space: nowrap;
-  word-wrap: normal;
-  word-break: normal;
-}
-
-.breakword {
-  word-wrap: break-word !important;
-  word-break: break-all;
-}
-
 /* Top Navigation */
 .roocms-topnav-link {
   font-family: "Open Sans";
@@ -120,6 +90,48 @@ mark {
 /* Breadcrumb */
 .breadcrumb li:last-child a {
   pointer-events: none;
+}
+
+/* Tag Cloud */
+.tag_amount {
+  display: inline-block;
+  position: relative;
+  padding: 1px 0 1px 8px;
+  border-left: 1px solid #212529;
+}
+
+.tag_amount:after, .tag_amount:before {
+  content: "";
+  position: absolute;
+  top: 0.3rem;
+  border-top: 4px solid transparent;
+  border-right: 4px solid transparent;
+  border-bottom: 4px solid transparent;
+}
+
+.tag_amount:before {
+  left: 0;
+  border-left: 4px solid #212529;
+}
+
+.tag_amount:after {
+  left: -1px;
+  border-left: 4px solid #fff;
+}
+
+a.tag:hover .tag_amount:after, a.tag.active .tag_amount::after {
+  left: -1px;
+  border-left: 4px solid #212529;
+}
+
+a.tag:hover .tag_amount:before {
+  left: 0;
+  border-left: 4px solid #fff;
+}
+
+a.tag.active:hover .tag_amount:after {
+  left: -1px;
+  border-left: 4px solid #212529;
 }
 
 /* Move TOP */
@@ -185,6 +197,11 @@ a#move_top {
   -o-filter: blur(0);
   -ms-filter: blur(0);
   filter: blur(0);
+}
+
+/* Text Shadow */
+.text-shadow {
+  text-shadow: 1px 1px 1px #212529;
 }
 
 /* Notice */

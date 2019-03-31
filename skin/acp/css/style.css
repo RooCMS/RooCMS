@@ -57,32 +57,6 @@ a {
   cursor: pointer;
 }
 
-/* Text style */
-.text-strong,
-.text-bold {
-  font-weight: bold;
-}
-
-.text-shadow {
-  text-shadow: 1px 1px 1px #212529;
-}
-
-.no-overflow {
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.nobr {
-  white-space: nowrap;
-  word-wrap: normal;
-  word-break: normal;
-}
-
-.breakword {
-  word-wrap: break-word !important;
-  word-break: break-all;
-}
-
 /* logo */
 #logo {
   max-height: 37px;
@@ -184,6 +158,11 @@ tr:hover .tralias {
   -o-filter: blur(0);
   -ms-filter: blur(0);
   filter: blur(0);
+}
+
+/* Text Shadow */
+.text-shadow {
+  text-shadow: 1px 1px 1px #212529;
 }
 
 /* Notice */

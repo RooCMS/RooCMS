@@ -41,3 +41,6 @@ tr:hover .tralias {display: block;}
 .blured:hover {
 	@include blur(0);
 }
+
+/* Text Shadow */
+.text-shadow 	{text-shadow: 1px 1px 1px $brand-dark;}

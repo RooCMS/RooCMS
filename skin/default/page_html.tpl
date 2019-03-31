@@ -2,7 +2,7 @@
 
 <div class="container mb-4 py-3">
 	<div class="row">
-		<div class="col-12">
+		<div class="{if $page_alias == "index"}col-lg-9 col-md-8{else}col-12{/if}">
 			<div class="card">
 				<div class="card-body pb-0">
 					{$content}
@@ -28,6 +28,18 @@
 				</div>
 			{/if}
 		</div>
+		{if $page_alias == "index"}
+		<div class="col-lg-3 col-md-4">
+			<div class="card">
+				<div class="card-header">
+					Метки
+				</div>
+				<div class="card-body">
+					{$module->load('tag_cloud')}
+				</div>
+			</div>
+		</div>
+		{/if}
 	</div>
 </div>
 

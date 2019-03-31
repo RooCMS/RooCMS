@@ -46,7 +46,7 @@
 		{foreach from=$data2 item=svar}
 			<tr>
 				<td class="w-25">$_SERVER['{$svar['var']}']</td>
-				<td class="col-sm-8 breakword {if $svar['value'] == "not found"}text-muted{/if}">{$svar['value']}</td>
+				<td class="col-sm-8 text-break {if $svar['value'] == "not found"}text-muted{/if}">{$svar['value']}</td>
 			</tr>
 		{/foreach}
 		</tbody>

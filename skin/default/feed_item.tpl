@@ -81,7 +81,7 @@
 
 <hr />
 <div class="row">
-	<div class="col-xs-6 text-left text-overflow">
+	<div class="col-xs-6 text-left text-truncate">
 		{if isset($item['prev'])}
 			<small>Ранее {$item['prev']['datepub']}</small>
 			<a href="{$SCRIPT_NAME}?page={$feed['alias']}{if isset($smarty.get.pg)}&pg={$smarty.get.pg}{/if}&id={$item['prev']['id']}" class="text-uppercase" title="{$item['prev']['title']}"><i class="fa fa-angle-left fa-3x pull-left"></i>
@@ -90,7 +90,7 @@
 		{/if}
 	</div>
 
-	<div class="col-xs-6 text-right text-overflow">
+	<div class="col-xs-6 text-right text-truncate">
 		{if isset($item['next'])}
 			<small>Далее {$item['next']['datepub']}</small>
 			<a href="{$SCRIPT_NAME}?page={$feed['alias']}{if isset($smarty.get.pg)}&pg={$smarty.get.pg}{/if}&id={$item['next']['id']}" class="text-uppercase" title="{$item['next']['title']}"><i class="fa fa-angle-right fa-3x pull-right"></i>

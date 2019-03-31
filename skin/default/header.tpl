@@ -170,7 +170,7 @@
 								<div class="d-flex flex-column col-lg-3 col-md-4 col-sm-6 my-1 px-0">
 							{/if}
 
-							<a href="/index.php?page={$navitem['alias']}" class="text-secondary rounded py-1 roocms-topnav-sublink{if $navitem['level'] == 0}-first{/if}">{$navitem['title']}</a>
+							<a href="/index.php?page={$navitem['alias']}" class="text-dark rounded py-1 roocms-topnav-sublink{if $navitem['level'] == 0}-first{/if}">{$navitem['title']}</a>
 
 							{if $smarty.foreach.navigate.last}
 								</div>

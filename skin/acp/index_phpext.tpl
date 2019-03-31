@@ -19,11 +19,11 @@
 						 || $ext == "mbstring"
 						 || $ext == "SimpleXML"
 						 || $ext == "mysqli"}
-						 text-success text-bold
+						 text-success font-weight-bold
 						{elseif $ext == "xdebug"
 						     || $ext == "apache2handler"
 						     || $ext == "exif"}
-						 text-warning text-bold
+						 text-warning font-weight-bold
 						{/if}" id="{$ext}-tab">
 						{$ext}
 					</a>

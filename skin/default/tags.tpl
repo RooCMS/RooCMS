@@ -24,7 +24,7 @@
 							</div>
 						</div>
 						<div class="row">
-							<div class="col-sm-12 colheight-md-1 no-overflow">
+							<div class="col-sm-12 colheight-md-1 text-truncate overflow-hidden">
 								{if isset($item['image'][0])}
 									{foreach from=$item['image'] item=image}
 										<a href="{$SCRIPT_NAME}?page={$item['alias']}&id={$item['id']}"><img src="upload/images/{$image['thumb']}" border="0" alt="{$image['alt']}" class="img-thumbnail feed-image-prev"></a>

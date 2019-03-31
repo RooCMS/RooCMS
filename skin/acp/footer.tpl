@@ -19,12 +19,12 @@
 			</div>
 			<div class="col-sm-3 col-lg-2  text-left footer">
 				<small>
-					<i class="fas fa-tachometer-alt"></i> Использовано памяти : <span style="cursor: help;" title="{round($debug_memusage/1024/1024, 2)} Мб макс" class="nobr"><b>{round($debug_memory/1024/1024, 2)} Мб</b></span>
+					<span class="text-nowrap"><i class="fas fa-tachometer-alt"></i> Использовано памяти:</span> <span style="cursor: help;" title="{round($debug_memusage/1024/1024, 2)} Мб макс" class="text-nowrap font-weight-bold">{round($debug_memory/1024/1024, 2)} Мб</span>
 				</small>
 			</div>
 			<div class="col-sm-3 col-lg-2 text-left footer">
 				<small>
-					<i class="far fa-clock"></i> Время работы скрипта : <b class="nobr">{$debug_timer} мс</b>
+					<span class="text-nowrap"><i class="far fa-clock"></i> Время работы скрипта:</span> <b class="text-nowrap">{$debug_timer} мс</b>
 				</small>
 			</div>
 			<div class="col-sm-12 col-lg-3 text-right footer">
@@ -44,15 +44,15 @@
 					<br /> <a href="{$SCRIPT_NAME}?act=logs&part=lowerrors" class="btn btn-sm btn-outline-danger"><i class='fas fa-exclamation-triangle fa-fw'></i> Ошибки</a>
 				{/if}
 				<br />
-				<nobr>
+				<span class="text-nowrap">
 				<br /><i class="far fa-chart-bar fa-fw"></i> Обращений к БД: <b>{$db_querys}</b>
 				<br /><i class="fas fa-tachometer-alt fa-fw"></i> Использовано памяти :
 					<br /><b>{round($debug_memory/1024/1024, 2)} Мб ({round($debug_memusage/1024/1024, 2)} Мб макс)</b>
 				<br /><i class="far fa-clock fa-fw"></i> Время работы скрипта : <b>{$debug_timer} мс</b>
-				</nobr>
+				</span>
 
 				<br />
-				<br /><nobr>{$copyright}<br />Версия {$smarty.const.ROOCMS_FULL_VERSION}</nobr>
+				<br /><span class="text-nowrap">{$copyright}<br />Версия {$smarty.const.ROOCMS_FULL_VERSION}</span>
 			</div>
 		</div>
 	</div>

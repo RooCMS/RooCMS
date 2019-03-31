@@ -42,7 +42,7 @@
 			{/if}
 			{$module->load("express_reg")}
 
-			<a id="move_top" href="{$smarty.server.REQUEST_URI}#" class="btn btn-info"><i class="fas fa-fw fa-chevron-circle-up"></i> Наверх</a>
+			<a id="move_top" href="{$smarty.server.REQUEST_URI}#" class="btn btn-secondary"><i class="fas fa-fw fa-chevron-circle-up"></i> Наверх</a>
 		</div>
 	</div>
 	<div class="row">
@@ -58,8 +58,6 @@
 {if $nitem['rss'] == 1 && $config->rss_power}
 	<a href="/index.php?page={$nitem['alias']}&export=RSS" class="btn btn-sm btn-link ptsans" target="_blank" title="{$nitem['title']} RSS"><i class="fa fa-fw fa-rss"></i></a>
 {/if}
-
-<a id="move_top" href="{$smarty.server.REQUEST_URI}#" class="btn btn-info"><i class="fa fa-fw fa-chevron-circle-up"></i> Наверх</a>
 *}
 
 </body>
