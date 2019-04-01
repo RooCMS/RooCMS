@@ -29,8 +29,10 @@ $mimetype = [];
 */
 $filetype	= [];
 $filetype[]	= array('ext'	=> '7z',	'mime_type'	=> 'application/octet-stream',		'ico'	=> '7z.png');
+//$filetype[]	= array('ext'	=> 'ace',	'mime_type'	=> '',		'ico'	=> 'ace.png');
 $filetype[]	= array('ext'	=> 'm3u',	'mime_type'	=> 'audio/mpegurl',			'ico'	=> 'mp3.png');
 $filetype[]	= array('ext'	=> 'ttf',	'mime_type'	=> 'application/octet-stream',		'ico'	=> 'ttf.png');
+$filetype[]	= array('ext'	=> 'cab',	'mime_type'	=> 'application/vnd.ms-cab-compressed',	'ico'	=> 'cab.png');
 //$filetype[]	= array('ext'	=> 'zip',	'mime_type'	=> 'application/x-zip-compressed',	'ico'	=> 'zip.png');
 //$filetype[]	= array('ext'	=> 'zip',	'mime_type'	=> 'application/zip',			'ico'	=> 'zip.png');
 $filetype[]	= array('ext'	=> 'zip',	'mime_type'	=> 'application/octet-stream',		'ico'	=> 'zip.png');
@@ -45,14 +47,22 @@ $filetype[]	= array('ext'	=> 'xml',	'mime_type'	=> 'text/xml',				'ico'	=> 'xml.
 $filetype[]	= array('ext'	=> 'ini',	'mime_type'	=> 'application/octet-stream',		'ico'	=> 'ini.png');
 $filetype[]	= array('ext'	=> 'swf',	'mime_type'	=> 'application/x-shockwave-flash',	'ico'	=> 'swf.png');
 $filetype[]	= array('ext'	=> 'fla',	'mime_type'	=> 'application/octet-stream',		'ico'	=> 'fla.png');
+$filetype[]	= array('ext'	=> 'ai',	'mime_type'	=> 'application/postscript',		'ico'	=> 'ai.png');
+$filetype[]	= array('ext'	=> 'eps',	'mime_type'	=> 'application/postscript',		'ico'	=> 'eps.png');
 $filetype[]	= array('ext'	=> 'psd',	'mime_type'	=> 'application/octet-stream',		'ico'	=> 'psd.png');
 $filetype[]	= array('ext'	=> 'pdf',	'mime_type'	=> 'application/pdf',			'ico'	=> 'pdf.png');
 $filetype[]	= array('ext'	=> 'cdr',	'mime_type'	=> 'application/octet-stream',		'ico'	=> 'cdr.png');
 $filetype[]	= array('ext'	=> 'csv',	'mime_type'	=> 'application/vnd.ms-excel',		'ico'	=> 'csv.png');
+$filetype[]	= array('ext'	=> 'rtf',	'mime_type'	=> 'application/rtf',			'ico'	=> 'rtf.png');
 $filetype[]	= array('ext'	=> 'doc',	'mime_type'	=> 'application/msword',		'ico'	=> 'doc.png');
 $filetype[]	= array('ext'	=> 'xls',	'mime_type'	=> 'application/vnd.ms-excel',		'ico'	=> 'xls.png');
+$filetype[]	= array('ext'	=> 'ppt',	'mime_type'	=> 'application/vnd.ms-powerpoint',	'ico'	=> 'ppt.png');
 $filetype[]	= array('ext'	=> 'docx',	'mime_type'	=> 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',	'ico'	=> 'docx.png');
 $filetype[]	= array('ext'	=> 'xlsx',	'mime_type'	=> 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',		'ico'	=> 'xlsx.png');
+//$filetype[]	= array('ext'	=> 'pptx',	'mime_type'	=> '',		'ico'	=> 'pptx.png');
+//$filetype[]	= array('ext'	=> 'chm',	'mime_type'	=> '',		'ico'	=> 'chm.png');
+$filetype[]	= array('ext'	=> 'odt',	'mime_type'	=> 'application/vnd.oasis.opendocument.text',					'ico'	=> 'odt.png');
+$filetype[]	= array('ext'	=> 'ods',	'mime_type'	=> 'application/vnd.oasis.opendocument.spreadsheet',				'ico'	=> 'ods.png');
 $filetype[]	= array('ext'	=> 'torrent',	'mime_type'	=> 'application/x-bittorrent',		'ico'	=> 'torrent.png');
 
 
