@@ -44,7 +44,7 @@
 }
 .tag_amount:before {left: 0;border-left: 4px solid $brand-dark;}
 .tag_amount:after {left: -1px; border-left: 4px solid $white;}
-a.tag:hover .tag_amount:after, a.tag.active .tag_amount::after {left: -1px; border-left: 4px solid $brand-dark;}
+a.tag:hover .tag_amount:after, a.tag.active .tag_amount::after {left: -1px; border-left: 4px solid $brand-light;}
 a.tag:hover .tag_amount:before {left: 0; border-left: 4px solid $white;}
 a.tag.active:hover .tag_amount:after {left: -1px; border-left: 4px solid $brand-dark;}
 

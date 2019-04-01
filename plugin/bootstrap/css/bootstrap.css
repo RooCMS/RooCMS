@@ -4842,9 +4842,23 @@ input[type=button].btn-block {
 .card-columns .card {
   margin-bottom: 0.75rem;
 }
-@media (min-width: 576px) {
+@media (min-width: 576px) and (max-width: 767.98px) {
+  .card-columns {
+    column-count: 2;
+  }
+}
+@media (min-width: 768px) and (max-width: 991.98px) {
+  .card-columns {
+    column-count: 2;
+  }
+}
+@media (min-width: 992px) {
   .card-columns {
     column-count: 3;
+  }
+}
+@media (min-width: 576px) {
+  .card-columns {
     column-gap: 1.25rem;
     orphans: 1;
     widows: 1;

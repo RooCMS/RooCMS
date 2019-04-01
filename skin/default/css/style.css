@@ -121,7 +121,7 @@ mark {
 
 a.tag:hover .tag_amount:after, a.tag.active .tag_amount::after {
   left: -1px;
-  border-left: 4px solid #212529;
+  border-left: 4px solid #e9ecef;
 }
 
 a.tag:hover .tag_amount:before {

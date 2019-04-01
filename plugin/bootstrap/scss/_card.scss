@@ -240,8 +240,17 @@
     margin-bottom: $card-columns-margin;
   }
 
-  @include media-breakpoint-up(sm) {
+  @include media-breakpoint-only(sm) {
+    column-count: 2;
+  }
+  @include media-breakpoint-only(md) {
+    column-count: 2;
+  }
+  @include media-breakpoint-up(lg) {
     column-count: $card-columns-count;
+  }
+
+  @include media-breakpoint-up(sm) {
     column-gap: $card-columns-gap;
     orphans: 1;
     widows: 1;
@@ -252,6 +261,8 @@
     }
   }
 }
+
+
 
 
 //

@@ -27,6 +27,10 @@
 					{/foreach}
 				</div>
 			{/if}
+			{if $page_alias == "index"}
+				<h5 class="text-gray my-3">Популярные новости</h5>
+				{$module->load('popular_feed')}
+			{/if}
 		</div>
 		{if $page_alias == "index"}
 		<div class="col-lg-3 col-md-4">
