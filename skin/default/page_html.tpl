@@ -28,7 +28,7 @@
 				</div>
 			{/if}
 			{if $page_alias == "index"}
-				<h5 class="text-gray my-3">Популярные новости</h5>
+				<h5 class="text-gray text-center my-3">Популярные новости</h5>
 				{$module->load('popular_feed')}
 			{/if}
 		</div>
