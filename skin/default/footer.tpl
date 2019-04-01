@@ -26,13 +26,13 @@
 				</div>
 			{/if}
 		</div>
-		<div class="col-md-2 text-gray ptsans">
+		<div class="col-md-{if $userdata['uid'] != 0}4{else}2{/if} text-gray ptsans">
 			<div class="text-uppercase border-bottom pb-1 mb-2">Информация</div>
 			<a href="{$SCRIPT_NAME}?part=fl152&ajax=true" data-fancybox data-animation-duration="300" data-type="ajax" class="text-gray roocms-foot-link">Соглашение о передачи персональной информации</a>
 
 			{include file='counters.tpl'}
 		</div>
-		<div class="col-md-4 text-gray ptsans">
+		<div class="col-md-{if $userdata['uid'] != 0}2{else}4{/if} text-gray ptsans">
 			<div class="text-uppercase border-bottom pb-1 mb-2">{if $userdata['uid'] != 0}Личный кабинет{else}Рассылка{/if}</div>
 			{if $userdata['uid'] != 0}
 				<a class="text-gray" href="{$SCRIPT_NAME}?part=ucp&act=ucp"><i class="far fa-fw fa-user mr-1"></i>Личный кабинет</a>

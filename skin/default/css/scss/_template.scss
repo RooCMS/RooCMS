@@ -48,6 +48,19 @@ a.tag:hover .tag_amount:after, a.tag.active .tag_amount::after {left: -1px; bord
 a.tag:hover .tag_amount:before {left: 0; border-left: 4px solid $white;}
 a.tag.active:hover .tag_amount:after {left: -1px; border-left: 4px solid $brand-dark;}
 
+/* Feed */
+@media (min-width: map-get($grid-breakpoints, md)) {
+	.roocms-feedbrief-mh {
+		max-height: 191px;
+	}
+}
+@media (min-width: map-get($grid-breakpoints, xl)) {
+	.roocms-feedbrief-mh {
+		max-height: 222.219px;
+	}
+}
+
+
 /* Move TOP */
 a#move_top {
 	position: fixed;

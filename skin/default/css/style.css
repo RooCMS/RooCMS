@@ -134,6 +134,17 @@ a.tag.active:hover .tag_amount:after {
   border-left: 4px solid #212529;
 }
 
+/* Feed */
+@media (min-width: 768px) {
+  .roocms-feedbrief-mh {
+    max-height: 191px;
+  }
+}
+@media (min-width: 1200px) {
+  .roocms-feedbrief-mh {
+    max-height: 222.219px;
+  }
+}
 /* Move TOP */
 a#move_top {
   position: fixed;
@@ -397,11 +408,11 @@ audio, canvas, video {
 *:not([class^=fancybox]):hover,
 .table-hover > tbody > tr:hover > td,
 .table-hover > tbody > tr:hover > th {
-  transition: all 0.2s ease-in-out;
-  -webkit-transition: all 0.2s ease-in-out;
-  -moz-transition: all 0.2s ease-in-out;
-  -ms-transition: all 0.2s ease-in-out;
-  -o-transition: all 0.2s ease-in-out;
+  transition: all 0.1s ease-in-out;
+  -webkit-transition: all 0.1s ease-in-out;
+  -moz-transition: all 0.1s ease-in-out;
+  -ms-transition: all 0.1s ease-in-out;
+  -o-transition: all 0.1s ease-in-out;
   outline: none;
 }
 

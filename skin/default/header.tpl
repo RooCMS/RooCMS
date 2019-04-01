@@ -184,7 +184,7 @@
 </div>
 
 <!--[if lte IE 9]>
-<p class="alert alert-danger">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/" class="alert-link" rel="nofollow" target="_blank">upgrade your browser</a> to improve your experience and security.</p>
+<p class="bg-danger text-light">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/" class="text-warning" rel="nofollow" target="_blank">upgrade your browser</a> to improve your experience and security.</p>
 <![endif]-->
 
 <div class="container">
