@@ -464,12 +464,6 @@ audio, canvas, video {
   src: local("PT Sans Bold Italic"), local("PTSans-BoldItalic"), url("../PT_Sans_Bold_Italic.woff") format("woff");
 }
 @font-face {
-  font-family: "Neucha";
-  font-style: normal;
-  font-weight: 400;
-  src: local("Neucha"), url("../Neucha.woff") format("woff");
-}
-@font-face {
   font-family: "Open Sans";
   font-style: normal;
   font-weight: 700;
