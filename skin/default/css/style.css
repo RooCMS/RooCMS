@@ -145,6 +145,18 @@ a.tag.active:hover .tag_amount:after {
     max-height: 222.219px;
   }
 }
+.roocms-feedbrief-layer {
+  background-image: -webkit-linear-gradient(top, rgba(255, 255, 255, 0) 0%, #fff 100%);
+  background-image: -moz-linear-gradient(top, rgba(255, 255, 255, 0) 0%, #fff 100%);
+  background-image: -ms-linear-gradient(top, rgba(255, 255, 255, 0) 0%, #fff 100%);
+  background-image: linear-gradient(top, rgba(255, 255, 255, 0) 0%, #fff 100%);
+  position: absolute;
+  height: 2rem;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
 /* Move TOP */
 a#move_top {
   position: fixed;

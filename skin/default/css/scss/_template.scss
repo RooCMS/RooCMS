@@ -60,6 +60,18 @@ a.tag.active:hover .tag_amount:after {left: -1px; border-left: 4px solid $brand-
 	}
 }
 
+.roocms-feedbrief-layer {
+	background-image: -webkit-linear-gradient(top, transparentize($white, 1) 0%, $white 100%);
+	background-image: -moz-linear-gradient(top, transparentize($white, 1) 0%, $white 100%);
+	background-image: -ms-linear-gradient(top, transparentize($white, 1) 0%, $white 100%);
+	background-image: linear-gradient(top, transparentize($white, 1) 0%, $white 100%);
+	position: absolute;
+	height: 2rem;
+	bottom: 0;
+	left: 0;
+	right: 0;
+}
+
 
 /* Move TOP */
 a#move_top {

@@ -30,8 +30,9 @@
 						<div class="col-md-{if isset($item['image'][0])}7{else}12{/if} col-xl-{if isset($item['image'][0])}8{else}12{/if}{if isset($item['image'][0])} roocms-feedbrief-mh{/if}">
 							<div class="card-body d-flex flex-column mh-100 h-100">
 								<h5 class="card-title"><a href="{$SCRIPT_NAME}?page={$feed['alias']}{if isset($smarty.get.pg)}&pg={$smarty.get.pg}{/if}&id={$item['id']}">{$item['title']}</a></h5>
-								<div class="card-text flex-shrink-1 overflow-hidden">
+								<div class="card-text flex-shrink-1 position-relative overflow-hidden">
 									{$item['brief_item']}
+									{if isset($item['image'][0])}<div class="roocms-feedbrief-layer"></div>{/if}
 								</div>
 								<div class="card-text small mt-auto">
 									{if !empty($item['tags'])}
