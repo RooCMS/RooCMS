@@ -70,20 +70,20 @@
 		<div class="col-lg-3">
 			<div class="card">
 				<div class="card-header">
-					Последние новости
-				</div>
-			</div>
-			{$module->load('last_feed')}
-			<div class="card mt-3">
-				<div class="card-header">
 					Метки
 				</div>
 			</div>
-			<div class="card">
+			<div class="card mb-3">
 				<div class="card-body">
 					{$module->load('tag_cloud')}
 				</div>
 			</div>
+			<div class="card">
+				<div class="card-header">
+					Последние новости
+				</div>
+			</div>
+			{$module->load('last_feed')}
 			<div class="card mt-3">
 				<div class="card-header">
 					QR

@@ -1,7 +1,7 @@
 {* Шаблон "ног" *}
 
 
-<div class="container mb-3">
+<div class="container my-3">
 	<div class="row">
 		<div class="col-md-6 text-gray ptsans">
 			<div class="text-uppercase border-bottom pb-1 mb-2">Навигация</div>
