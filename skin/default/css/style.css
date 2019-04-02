@@ -157,6 +157,22 @@ a.tag.active:hover .tag_amount:after {
   right: 0;
 }
 
+/* Feed item */
+.feed-item-header {
+  position: relative;
+}
+
+.feed-item-header::after {
+  content: "";
+  opacity: 0.4;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  position: absolute;
+  z-index: -1;
+}
+
 /* Move TOP */
 a#move_top {
   position: fixed;

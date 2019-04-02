@@ -1,40 +1,56 @@
 {* Feed item *}
-<div class="row">
-	<div class="col-sm-12">
-		<div id="item_{$item['id']}">
-			{if isset($images[0]['resize'])}
-			<style>
-				.feed-item-head::after {
-					background: transparent url('/upload/images/{$images[0]['resize']}') no-repeat center 50%;
-					background-size: cover;
-				}
-			</style>
+{if isset($images[0]['resize'])}
+<style>
+	.feed-item-header::after {
+		background: transparent url('/upload/images/{$images[0]['resize']}') no-repeat center 50%;
+		background-size: cover;
+	}
+</style>
+{/if}
 
-			<div class="feed-item-head">
-			{/if}
-				<h1>{$item['title']}</h1>
-				<div class="pull-right">
+<div class="container">
+	<div class="row" id="item_{$item['id']}">
+		<div class="col-12">
+			<div class="card mb-3">
+				<div class="card-header feed-item-header">
+					<h1 class="card-title mb-0">{$item['title']}</h1>
+					<span class="small">
+						<i class="fas fa-fw fa-calendar" title="Дата публикации"></i> {$item['datepub']}
+						{if $item['views'] != 0} <i class="fas fa-fw fa-eye" title="Просмотрено раз"></i> {$item['views']}{/if}
+					</span>
+
 					{if !empty($item['tags'])}
-						<span class="small">
-							{foreach from=$item['tags'] item=tag}
-								<a href="{$SCRIPT_NAME}?part=tags&tag={$tag['title']}" class="btn btn-default btn-sm"><i class="fa fa-fw fa-tag fa-va"></i>{$tag['title']}</a>
-							{/foreach}
-						</span>
+					<div class="float-right small mt-n2">
+						{foreach from=$item['tags'] item=tag}
+							<a href="{$SCRIPT_NAME}?part=tags&tag={$tag['title']}" class="btn btn-outline-gray btn-sm">#{$tag['title']}</a>
+						{/foreach}
+					</div>
 					{/if}
 				</div>
-				<small>
-					<i class="fa fa-fw fa-calendar" title="Дата публикации"></i> {$item['datepub']}
-					{if $item['views'] != 0} <i class="fa fa-fw fa-eye" title="Просмотрено раз"></i> {$item['views']}{/if}
-					{*{if $item['author_id'] != 0}<br /> <i class="fa fa-fw fa-user-circle-o" title="Автор"></i> {$item['author']['nickname']}{/if}*}
-				</small>
+				<div class="card-body">
+					{if isset($smarty.get.search)}
+						{$item['full_item']|highlight:$smarty.get.search}
+					{else}
+						{$item['full_item']}
+					{/if}
 
-			{if isset($images[0]['resize'])}
+					<div class="card-text small text-right">
+						{if $item['author_id'] != 0}
+							{if file_exists("upload/images/{$item['author']['avatar']}")}
+								<img src="/upload/images/{$item['author']['avatar']}" class="rounded-circle border float-right ml-2" height="45" alt="{$item['author']['nickname']}">
+							{else}
+								<i class="far fa-fw fa-user-circle fa-4x pull-left" title="Автор"></i>
+							{/if}
+							<div class="pt-1">Автор: <b class="ubuntu">{$item['author']['nickname']}</b></div>
+							<div class="ubuntu font-italic mt-1">{$item['author']['slogan']}</div>
+						{/if}
+					</div>
+				</div>
 			</div>
-			{else}
-			<hr />{/if}
 		</div>
 	</div>
 </div>
+
 <div class="row">
 	{if !empty($images) || !empty($attachfile)}
 	<div class="col-sm-3">
@@ -60,22 +76,7 @@
 	{/if}
 	<div class="col-sm-{if !empty($images) || !empty($attachfile)}9{else}12{/if} feed-item-content">
 
-		{if isset($smarty.get.search)}
-			{$item['full_item']|highlight:$smarty.get.search}
-		{else}
-			{$item['full_item']}
-		{/if}
 
-		{if $item['author_id'] != 0}
-			<h4>Автор:</h4>
-			{if file_exists("upload/images/{$item['author']['avatar']}")}
-				<img src="/upload/images/{$item['author']['avatar']}" class="img-circle pull-left mauth-avatar" height="55" alt="{$item['author']['nickname']}">
-			{else}
-				<i class="fa fa-fw fa-user-circle-o fa-4x pull-left" title="Автор"></i>
-			{/if}
-			<b class="ubuntu">{$item['author']['nickname']}</b>
-			<p style="min-height: 30px;"><i class="ubuntu">{$item['author']['slogan']}</i></p>
-		{/if}
 	</div>
 </div>
 
