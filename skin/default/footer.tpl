@@ -1,7 +1,7 @@
 {* Шаблон "ног" *}
 
 
-<div class="container my-3">
+<div class="container footer mt-3 py-3">
 	<div class="row">
 		<div class="col-md-6 text-gray ptsans">
 			<div class="text-uppercase border-bottom pb-1 mb-2">Навигация</div>
@@ -35,10 +35,10 @@
 		<div class="col-md-{if $userdata['uid'] != 0}2{else}4{/if} text-gray ptsans">
 			<div class="text-uppercase border-bottom pb-1 mb-2">{if $userdata['uid'] != 0}Личный кабинет{else}Рассылка{/if}</div>
 			{if $userdata['uid'] != 0}
-				<a class="text-gray" href="{$SCRIPT_NAME}?part=ucp&act=ucp"><i class="far fa-fw fa-user mr-1"></i>Личный кабинет</a>
-				<br /><a class="text-gray" href="{$SCRIPT_NAME}?part=ucp&act=pm"><i class="far fa-fw fa-envelope mr-1"></i>Личные сообщения</a>
+				<a class="text-gray roocms-foot-link" href="{$SCRIPT_NAME}?part=ucp&act=ucp"><i class="far fa-fw fa-user mr-1"></i>Личный кабинет</a>
+				<br /><a class="text-gray roocms-foot-link" href="{$SCRIPT_NAME}?part=ucp&act=pm"><i class="far fa-fw fa-envelope mr-1"></i>Личные сообщения</a>
 				<br />
-				<br /><a class="text-gray" href="{$SCRIPT_NAME}?part=ucp&act=logout"><i class="fas fa-fw fa-sign-out-alt mr-1"></i>Выйти из аккаунта</a>
+				<br /><a class="text-gray roocms-foot-link" href="{$SCRIPT_NAME}?part=ucp&act=logout"><i class="fas fa-fw fa-sign-out-alt mr-1"></i>Выйти из аккаунта</a>
 			{/if}
 			{$module->load("express_reg")}
 

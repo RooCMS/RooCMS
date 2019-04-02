@@ -17,7 +17,7 @@
 	</div>
 	<div class="row">
 		<div class="col-lg-9">
-			{foreach from=$feeds item=item}
+			{foreach from=$feeds item=item name=feed}
 				<div class="card" id="item-id-{$item['id']}">
 					<div class="row no-gutters">
 						{if isset($item['image'][0])}
@@ -69,6 +69,11 @@
 						{/if}
 					{/foreach}
 				</ul>
+			{/if}
+
+			{if $smarty.foreach.feed.total <= 4}
+				<h5 class="text-gray text-center my-3">Еще...</h5>
+				{$module->load('popular_feed')}
 			{/if}
 		</div>
 		<div class="col-lg-3">

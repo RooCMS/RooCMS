@@ -14,7 +14,7 @@
 			</a>
 			<div class="card-body">
 				<h5 class="card-title">{$feed['title']}</h5>
-				<p class="card-text"><small class="text-muted">{$feed['datepub']}</small><a href="{$SCRIPT_NAME}?page={$feed['alias']}&id={$feed['id']}" class="btn btn-sm btn-light mt-n1 float-right">Читать</a></p>
+				<p class="card-text"><small class="text-muted">{$feed['datepub']} <i class="fas fa-fw fa-eye" title="Просмотрено раз"></i> {$feed['views']}</small><a href="{$SCRIPT_NAME}?page={$feed['alias']}&id={$feed['id']}" class="btn btn-sm btn-light mt-n1 float-right">Читать</a></p>
 			</div>
 		</div>
 	{/foreach}

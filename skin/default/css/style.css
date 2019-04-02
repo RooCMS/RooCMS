@@ -11,10 +11,10 @@ html {
 
 body {
   background-color: #fefefe;
-  background-image: -webkit-linear-gradient(top, rgba(33, 37, 41, 0.05), rgba(33, 37, 41, 0)), url("../img/bg.png");
-  background-image: -moz-linear-gradient(top, rgba(33, 37, 41, 0.05), rgba(33, 37, 41, 0)), url("../img/bg.png");
-  background-image: -ms-linear-gradient(top, rgba(33, 37, 41, 0.05), rgba(33, 37, 41, 0)), url("../img/bg.png");
-  background-image: linear-gradient(top, rgba(33, 37, 41, 0.05), rgba(33, 37, 41, 0)), url("../img/bg.png");
+  background-image: -webkit-linear-gradient(top, rgba(33, 37, 41, 0.05), rgba(33, 37, 41, 0.15)), url("../img/bg.png");
+  background-image: -moz-linear-gradient(top, rgba(33, 37, 41, 0.05), rgba(33, 37, 41, 0.15)), url("../img/bg.png");
+  background-image: -ms-linear-gradient(top, rgba(33, 37, 41, 0.05), rgba(33, 37, 41, 0.15)), url("../img/bg.png");
+  background-image: linear-gradient(top, rgba(33, 37, 41, 0.05), rgba(33, 37, 41, 0.15)), url("../img/bg.png");
   font-family: "Open Sans", "Ubuntu", "Trebuchet MS", "Tahoma";
   padding: 0;
   margin: 0;
@@ -214,6 +214,7 @@ a#move_top {
 }
 /* Foot Navigation */
 .roocms-foot-link, .roocms-foot-link-first {
+  font-size: 0.9rem;
   transition: all 0.2s ease-in-out;
   -webkit-transition: all 0.2s ease-in-out;
   -moz-transition: all 0.2s ease-in-out;
