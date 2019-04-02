@@ -73,11 +73,11 @@ a.tag.active:hover .tag_amount:after {left: -1px; border-left: 4px solid $brand-
 }
 
 /* Feed item */
-.feed-item-header {
+.roocms-feeditem-header {
 	position: relative;
 	//background-color: transparentize($brand-dark, .2);
 }
-.feed-item-header::after {
+.roocms-feeditem-header::after {
 	content: "";
 	opacity: .4;
 	top: 0;
@@ -88,6 +88,20 @@ a.tag.active:hover .tag_amount:after {left: -1px; border-left: 4px solid $brand-
 	z-index: -1;
 }
 
+@media (min-width: map-get($grid-breakpoints, lg)) {
+	.roocms-feeditem-images {
+		width: 50%;
+	}
+}
+@media (min-width: map-get($grid-breakpoints, xxl)) {
+	.roocms-feeditem-images {
+		width: 33%;
+	}
+}
+
+.roocms-feeditem-pn {border: 1px solid darken($brand-primary, 50%); max-height: 46px;opacity: 0.9;filter: grayscale(75%);}
+a#NextFeedItem:hover > .roocms-feeditem-pn,
+a#PrevFeedItem:hover > .roocms-feeditem-pn {border: 1px solid $brand-primary;opacity: 1;filter: grayscale(0%);}
 
 /* Move TOP */
 a#move_top {
