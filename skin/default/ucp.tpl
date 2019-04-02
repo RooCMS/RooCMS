@@ -1,21 +1,27 @@
-{* Шаблон личного кабинета пользователя *}
-<div class="row">
-	<div class="col-sm-12">
-		<h1>Личный кабинет</h1>
-		<hr>
+{* Template: user control panel *}
+<div class="container mb-4">
+	<div class="row">
+		<div class="col-12">
+			<h1>Личный кабинет</h1>
+		</div>
 	</div>
-</div>
-<div class="row">
-	{if $userdata['avatar'] != ""}<div class="col-xs-3 col-sm-2 col-md-2 text-center"><img src="/upload/images/{$userdata['avatar']}"  class="img-thumbnail"></div>{/if}
-	<div class="{if $userdata['avatar'] != ""}col-xs-9 col-sm-10 col-md-10{else}col-xs-12{/if}">
-		<h2 class="ucp-user-nickname">
-			{$userdata['nickname']} {if $userdata['user_sex'] == "m"}<i class="fa fa-fw fa-mars text-info"></i>{elseif $userdata['user_sex'] == "f"}<i class="fa fa-fw fa-venus text-danger"></i>{/if}
-		</h2>
-		<div class="ucp-user-slogan">{$userdata['user_slogan']}</div>
-		<small class="badge badge-primary">{$userdata['gtitle']}</small>
-	</div>
-	<div class="col-xs-12">
-		<hr />
+	<div class="row">
+		<div class="col-12">
+			<div class="card">
+				<div class="card-body text-center text-md-left">
+					{if $userdata['avatar'] != ""}
+						<img src="/upload/images/{$userdata['avatar']}" class="rounded-circle border" alt="{$userdata['nickname']}">
+					{/if}
+					<span class="display-4 p-3 align-middle text-nowrap">{$userdata['nickname']} {*{if $userdata['user_sex'] == "m"}<i class="fas fa-fw fa-mars text-info"></i>{elseif $userdata['user_sex'] == "f"}<i class="fas fa-fw fa-venus text-danger"></i>{/if}*}</span>
+					{if $userdata['user_slogan'] != ""}
+						<div class="float-md-right text-md-right text-gray ubuntu">
+							<span class="badge badge-extra mb-1">{$userdata['gtitle']}</span>
+							<br />{$userdata['user_slogan']}
+						</div>
+					{/if}
+				</div>
+			</div>
+		</div>
 	</div>
 </div>
 
