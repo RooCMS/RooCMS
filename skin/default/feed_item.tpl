@@ -1,18 +1,10 @@
 {* Feed item *}
-{if isset($images[0]['resize'])}
-<style>
-	.roocms-feeditem-header::after {
-		background: transparent url('/upload/images/{$images[0]['resize']}') no-repeat center 50%;
-		background-size: cover;
-	}
-</style>
-{/if}
 
 <div class="container">
 	<div class="row" id="item_{$item['id']}">
 		<div class="col-12">
 			<div class="card mb-3">
-				<div class="card-header roocms-feeditem-header">
+				<div class="card-header">
 					<h1 class="card-title mb-0">{$item['title']}</h1>
 					<span class="small">
 						<i class="fas fa-fw fa-calendar" title="Дата публикации"></i> {$item['datepub']}

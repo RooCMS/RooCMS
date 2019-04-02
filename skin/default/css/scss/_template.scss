@@ -73,21 +73,6 @@ a.tag.active:hover .tag_amount:after {left: -1px; border-left: 4px solid $brand-
 }
 
 /* Feed item */
-.roocms-feeditem-header {
-	position: relative;
-	//background-color: transparentize($brand-dark, .2);
-}
-.roocms-feeditem-header::after {
-	content: "";
-	opacity: .4;
-	top: 0;
-	left: 0;
-	bottom: 0;
-	right: 0;
-	position: absolute;
-	z-index: -1;
-}
-
 @media (min-width: map-get($grid-breakpoints, lg)) {
 	.roocms-feeditem-images {
 		width: 50%;

@@ -158,21 +158,6 @@ a.tag.active:hover .tag_amount:after {
 }
 
 /* Feed item */
-.roocms-feeditem-header {
-  position: relative;
-}
-
-.roocms-feeditem-header::after {
-  content: "";
-  opacity: 0.4;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  right: 0;
-  position: absolute;
-  z-index: -1;
-}
-
 @media (min-width: 992px) {
   .roocms-feeditem-images {
     width: 50%;
