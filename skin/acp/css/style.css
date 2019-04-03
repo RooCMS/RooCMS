@@ -917,7 +917,7 @@ body, body.modal-open,
 ::-moz-selection,
 ::selection {
   color: #e9ecef;
-  background: #2f3d60;
+  background-color: #2f3d60;
 }
 
 /*# sourceMappingURL=style.css.map */

@@ -34,7 +34,7 @@
 									{$item['brief_item']}
 									{if isset($item['image'][0])}<div class="roocms-feedbrief-layer"></div>{/if}
 								</div>
-								<div class="card-text small mt-auto">
+								<div class="card-text small text-gray mt-auto">
 									{if !empty($item['tags'])}
 										{foreach from=$item['tags'] item=tag}
 											<a href="{$SCRIPT_NAME}?part=tags&tag={$tag['title']}" class="text-extra">#{$tag['title']}</a>

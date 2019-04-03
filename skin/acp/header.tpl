@@ -44,7 +44,7 @@
 <script type="text/javascript" src="/plugin/bs-colorpicker/colorpicker.min.js{$build}"></script>
 <script type="text/javascript" src="/plugin/bs-tagsinput/js/bootstrap-tagsinput.min.js{$build}"></script>
 <script type="text/javascript" src="{$SKIN}/js/roocms.min.js{$build}"></script>
-<script type="text/javascript" src="{$SKIN}/js/jquery.roocms.crui.min.js{$build}"></script>
+<script type="text/javascript" src="/plugin/jquery.roocms.crui.min.js{$build}"></script>
 
 {$jscript}
 

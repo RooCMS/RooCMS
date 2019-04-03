@@ -105,7 +105,7 @@
 								{/if}
 								<div class="card-body d-flex flex-column">
 									<h5 class="card-title text-center"><a href="{$SCRIPT_NAME}?page={$feed['alias']}&id={$an['id']}">{$an['title']}</a></h5>
-									<div class="card-text text-center small mt-auto">{$an['datepub']}</div>
+									<div class="card-text text-center small text-gray mt-auto">{$an['datepub']}</div>
 								</div>
 							</div>
 						{/foreach}

@@ -155,10 +155,6 @@ class RooCMS_Global {
 		if(defined('ACP') || defined('INSTALL')) {
 			define('CP', $this->config->cp_script);
 		}
-		else {
-			$this->config->cp_script = "access_denied" ;
-		}
-
 
 		# Set page title
 		if(trim($this->config->site_title) != "" && trim($site['title']) == "") {

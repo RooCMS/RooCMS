@@ -116,13 +116,13 @@
 			<div class="col-md-7 col-lg-8">
 				<div class="btn-group btn-group-toggle roocms-crui" data-toggle="buttons">
 					<label class="btn btn-light active">
-						<input type="radio" name="user_sex" id="inputUserSex" autocomplete="off" value="n" checked><i class="far fa-fw fa-check-square"></i><i class="fa fa-fw fa-user"></i> Не указан
+						<input type="radio" name="user_sex" id="inputUserSex" autocomplete="off" value="n" checked><i class="far fa-fw fa-check-circle"></i><i class="fa fa-fw fa-user"></i> Не указан
 					</label>
 					<label class="btn btn-light">
-						<input type="radio" name="user_sex" id="inputUserSexM" autocomplete="off" value="m"><i class="far fa-fw fa-square"></i><i class="fa fa-fw fa-male"></i> Мужской
+						<input type="radio" name="user_sex" id="inputUserSexM" autocomplete="off" value="m"><i class="far fa-fw fa-circle"></i><i class="fa fa-fw fa-male"></i> Мужской
 					</label>
 					<label class="btn btn-light">
-						<input type="radio" name="user_sex" id="inputUserSexF" autocomplete="off" value="f"><i class="far fa-fw fa-square"></i><i class="fa fa-fw fa-female"></i> Женский
+						<input type="radio" name="user_sex" id="inputUserSexF" autocomplete="off" value="f"><i class="far fa-fw fa-circle"></i><i class="fa fa-fw fa-female"></i> Женский
 					</label>
 				</div>
 			</div>

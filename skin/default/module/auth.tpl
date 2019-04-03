@@ -14,6 +14,10 @@
 			<a class="dropdown-item" href="{$SCRIPT_NAME}?part=ucp&act=ucp"><i class="far fa-fw fa-user"></i> Личный кабинет</a>
 			<a class="dropdown-item" href="{$SCRIPT_NAME}?part=ucp&act=pm"><i class="far fa-fw fa-envelope{if $pm == 0}-open{/if}"></i> Новых: {$pm}</a>
 			<div class="dropdown-divider"></div>
+			{if $userdata['title'] == "a"}
+				<a class="dropdown-item" href="{$config->cp_script}"><i class="fas fa-fw fa-skull-crossbones"></i> Admin CP</a>
+				<div class="dropdown-divider"></div>
+			{/if}
 			<a class="dropdown-item" href="{$SCRIPT_NAME}?part=ucp&act=logout"><i class="fas fa-fw fa-sign-out-alt"></i> Выйти</a>
 		</div>
 	</div>

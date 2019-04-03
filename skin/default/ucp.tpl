@@ -7,7 +7,7 @@
 	</div>
 	<div class="row">
 		<div class="col-12">
-			<div class="card">
+			<div class="card mb-3">
 				<div class="card-body text-center text-md-left">
 					{if $userdata['avatar'] != ""}
 						<img src="/upload/images/{$userdata['avatar']}" class="rounded-circle border" alt="{$userdata['nickname']}">
@@ -23,77 +23,102 @@
 			</div>
 		</div>
 	</div>
+	<div class="row">
+		<div class="col-xxl-6 col-xl-7 col-lg-8">
+			<div class="card card-body">
+				<h4 class="card-title pb-2 border-bottom">Персональные данные</h4>
+				<dl class="row">
+					<dt class="col-md-5">Ваш логин</dt>
+					<dd class="col-md-7">
+						{$userdata['login']}
+						<br /><small>используется для входа на сайт</small>
+					</dd>
+
+					<dt class="col-md-5">Ваш псевдоним</dt>
+					<dd class="col-md-7">
+						{$userdata['nickname']}
+						<br /><small>под этим именем вас знают на сайте</small>
+					</dd>
+
+					<dt class="col-md-5">Электронная почта</dt>
+					<dd class="col-md-7">
+						{$userdata['email']} <span class="badge {if $userdata['mailing'] == 0}badge-warning">Рыссылка отключена{else}badge-success">Рассылка подключена{/if}</span>
+						<br /><small>на этот адрес вы получаете уведомления с сайта</small>
+					</dd>
+				</dl>
+				<div class="alert alert-warning small mb0" role="alert">
+					<i class="fas fa-fw fa-exclamation-triangle mr-3 text-danger"></i> Не передавайте свои персональные данные третьим лицам!
+					<br /><i class="fas fa-fw fa-exclamation-triangle mr-3 text-danger"></i> Администрация сайта никогда не будет просить ваш пароль.
+				</div>
+				<h4 class="card-title pb-2 border-bottom">Анкетные данные</h4>
+				<dl class="row">
+					<dt class="col-md-5">Имя</dt>
+					<dd class="col-md-7">
+						{if $userdata['user_name'] != ""}
+							{$userdata['user_name']}
+						{else}
+							<span class="text-muted">-</span>
+						{/if}
+					</dd>
+
+					<dt class="col-md-5">Фамилия</dt>
+					<dd class="col-md-7">
+						{if $userdata['user_surname'] != ""}
+							{$userdata['user_surname']}
+						{else}
+							<span class="text-muted">-</span>
+						{/if}
+					</dd>
+
+					<dt class="col-md-5">Отчество</dt>
+					<dd class="col-md-7">
+						{if $userdata['user_last_name'] != ""}
+							{$userdata['user_last_name']}
+						{else}
+							<span class="text-muted">-</span>
+						{/if}
+					</dd>
+
+					<dt class="col-md-5">Дата Рождения</dt>
+					<dd class="col-md-7">
+						{if $userdata['user_birthdate'] != ""}
+							{$userdata['user_birthdate']}
+						{else}
+							<span class="text-muted">-</span>
+						{/if}
+					</dd>
+
+					<dt class="col-md-5">Пол</dt>
+					<dd class="col-md-7">
+						{if $userdata['user_sex'] == "m"}
+							<i class="fas fa-fw fa-mars text-info"></i> Мужчина
+						{elseif $userdata['user_sex'] == "f"}
+							<i class="fas fa-fw fa-venus text-danger"></i> Женщина
+						{elseif $userdata['user_sex'] == "n"}
+							<i class="fas fa-fw fa-genderless"></i> Не указан
+						{/if}
+					</dd>
+
+					<dt class="col-md-5">Девиз</dt>
+					<dd class="col-md-7">
+						{if $userdata['user_slogan'] != ""}
+							{$userdata['user_slogan']}
+						{else}
+							<span class="text-muted">-</span>
+						{/if}
+					</dd>
+				</dl>
+				<a href="{$SCRIPT_NAME}?part=ucp&act=ucp&move=edit_info" class="btn btn-light"><i class="fas fa-fw fa-edit"></i> Редактировать</a>
+			</div>
+		</div>
+	</div>
 </div>
 
 <div class="row">
 	<div class="col-sm-8">
 		<div class="panel panel-default">
-			<div class="panel-heading">
-				<h3 class="panel-title">Персональные данные</h3>
-			</div>
-			<div class="panel-body">
-				<dl class="dl-horizontal">
-					<dt class="text-info">Ваш логин</dt>
-					<dd>
-						{$userdata['login']}
-						<br /><small>используется для входа на сайт</small>
-					</dd>
-
-					<dt class="text-info">Ваш псевдоним</dt>
-					<dd>
-						{$userdata['nickname']}
-						<br /><small>под этим именем вас знают на сайте</small>
-					</dd>
-
-					<dt class="text-info">Электронная почта</dt>
-					<dd>
-						{$userdata['email']} <span class="badge {if $userdata['mailing'] == 0}badge-light">Рыссылка отключена{else}label-success">Рассылка подключена{/if}</span>
-						<br /><small>на этот адрес вы получаете уведомления с сайта</small>
-					</dd>
-				</dl>
-				<div class="alert alert-warning small mb0" role="alert">
-					<i class="fa fa-fw fa-warning"></i> Не передавайте свои персональные данные третьим лицам!
-					<br /><i class="fa fa-fw fa-warning"></i> Администрация сайта никогда не будет просить ваш пароль.
-				</div>
-			</div>
-		</div>
-		<div class="panel panel-default">
-			<div class="panel-heading">
-				<h3 class="panel-title">Анкетные данные</h3>
-			</div>
-			<div class="panel-body">
-				<dl class="dl-horizontal mb0">
-					<dt class="text-info">Имя</dt>
-					<dd>{$userdata['user_name']}</dd>
-
-					<dt class="text-info">Фамилия</dt>
-					<dd>{$userdata['user_surname']}</dd>
-
-					<dt class="text-info">Отчество</dt>
-					<dd>{$userdata['user_last_name']}</dd>
-
-					<dt class="text-info">Дата Рождения</dt>
-					<dd>{$userdata['user_birthdate']}</dd>
-
-					<dt class="text-info">Пол</dt>
-					<dd>
-						{if $userdata['user_sex'] == "m"}
-							<i class="fa fa-fw fa-mars text-info"></i> Мужчина
-						{elseif $userdata['user_sex'] == "f"}
-							<i class="fa fa-fw fa-venus text-danger"></i> Женщина
-						{elseif $userdata['user_sex'] == "n"}
-							<i class="fa fa-fw fa-genderless"></i> Не указан
-						{/if}
-					</dd>
-
-					<dt class="text-info">Девиз</dt>
-					<dd>{$userdata['user_slogan']}</dd>
-				</dl>
-			</div>
-		</div>
-		<div class="panel panel-default">
 			<div class="panel-footer text-center">
-				<a href="{$SCRIPT_NAME}?part=ucp&act=ucp&move=edit_info" class="btn btn-default"><i class="fa fa-fw fa-pencil"></i> Редактировать</a>
+
 			</div>
 		</div>
 

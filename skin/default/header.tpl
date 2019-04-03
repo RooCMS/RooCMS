@@ -54,22 +54,6 @@
 <script type="text/javascript" src="/plugin/bs-datepicker/js/locales/bootstrap-datepicker.ru.min.js{$build}"></script>
 <script type="text/javascript" src="{$SKIN}/js/roocms.min.js{$build}"></script>
 
-
-<script type="text/javascript">
-	{literal}
-	var _gaq = _gaq || [];
-	_gaq.push(['_setAccount', 'UA-21055124-4']);
-	_gaq.push(['_setDomainName', '.roocms.com']);
-	_gaq.push(['_trackPageview']);
-
-	(function() {
-		var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-		ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-		var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-	})();
-	{/literal}
-</script>
-
 {$jscript}
 
 </head>
@@ -141,15 +125,15 @@
 			{$module->load("auth")}
 
 			{if !empty($navtree)}
-			<nav class="nav flex-column flex-sm-row mt-3">
+			<nav class="nav align-items-end align-items-lg-start mt-3">
 				{foreach from=$navtree item=navitem key=k name=navigate}
 					{if $navitem['level'] == 0}
-						<a class="{*flex-sm-fill*} nav-link text-gray roocms-topnav-link{if isset($smarty.get.page) && $smarty.get.page == $navitem['alias']} active{/if}" href="/index.php?page={$navitem['alias']}">{$navitem['title']}</a>
+						<a class="{*flex-sm-fill*} d-none d-lg-inline nav-link text-gray roocms-topnav-link{if isset($smarty.get.page) && $smarty.get.page == $navitem['alias']} active{/if}" href="/index.php?page={$navitem['alias']}">{$navitem['title']}</a>
 					{/if}
 				{/foreach}
 
-				<a class="{*flex-sm-fill*} nav-link text-gray roocms-topnav-link" data-toggle="collapse" href="#collapseAllMenu" role="button" aria-expanded="false" aria-controls="collapseAllMenu">
-					Все меню<i class="fas fa-fw fa-caret-down"></i>
+				<a class="flex-sm-fill nav-link text-gray text-right roocms-topnav-link" data-toggle="collapse" href="#collapseAllMenu" role="button" aria-expanded="false" aria-controls="collapseAllMenu">
+					<span class="d-inline d-lg-none">Меню</span> <i class="fas fa-fw fa-bars"></i>
 				</a>
 			</nav>
 			{/if}

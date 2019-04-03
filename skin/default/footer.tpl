@@ -30,7 +30,7 @@
 			<div class="text-uppercase border-bottom pb-1 mb-2">Информация</div>
 			<a href="{$SCRIPT_NAME}?part=fl152&ajax=true" data-fancybox data-animation-duration="300" data-type="ajax" class="text-gray roocms-foot-link">Соглашение о передачи персональной информации</a>
 
-			{include file='counters.tpl'}
+			<br />{include file='counters.tpl'}
 		</div>
 		<div class="col-md-{if $userdata['uid'] != 0}2{else}4{/if} text-gray ptsans">
 			<div class="text-uppercase border-bottom pb-1 mb-2">{if $userdata['uid'] != 0}Личный кабинет{else}Рассылка{/if}</div>
@@ -38,6 +38,10 @@
 				<a class="text-gray roocms-foot-link" href="{$SCRIPT_NAME}?part=ucp&act=ucp"><i class="far fa-fw fa-user mr-1"></i>Личный кабинет</a>
 				<br /><a class="text-gray roocms-foot-link" href="{$SCRIPT_NAME}?part=ucp&act=pm"><i class="far fa-fw fa-envelope mr-1"></i>Личные сообщения</a>
 				<br />
+				{if $userdata['title'] == "a"}
+					<br /><a class="text-gray roocms-foot-link" href="{$config->cp_script}"><i class="fas fa-fw fa-skull-crossbones mr-1"></i>Admin CP</a>
+					<br />
+				{/if}
 				<br /><a class="text-gray roocms-foot-link" href="{$SCRIPT_NAME}?part=ucp&act=logout"><i class="fas fa-fw fa-sign-out-alt mr-1"></i>Выйти из аккаунта</a>
 			{/if}
 			{$module->load("express_reg")}

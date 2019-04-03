@@ -42,4 +42,13 @@ style="width:88px; height:31px; border:0;" alt="Яндекс.Метрика" tit
 <noscript><div><img src="//mc.yandex.ru/watch/10076272" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
 <!-- /Yandex.Metrika counter -->
 
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-21055124-4"></script>
+<script type="text/javascript">
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'UA-21055124-4');
+</script>
+
 {/literal}

@@ -70,16 +70,16 @@
 		</div>
 
 		<div class="form-group row">
-			<label for="inputEmail" class="col-md-5 col-lg-4 form-control-plaintext text-right">
-				Почтовая рассылка:  <small><span class="fa fa-question-circle fa-fw" rel="tooltip" title="Подписан ли пользователь на почтовую рассылку" data-placement="left"></span></small>
+			<label for="inputEmailL" class="col-md-5 col-lg-4 form-control-plaintext text-right">
+				Почтовая рассылка:  <small><i class="fa fa-question-circle fa-fw" rel="tooltip" title="Подписан ли пользователь на почтовую рассылку" data-placement="left"></i></small>
 			</label>
 			<div class="col-md-7 col-lg-8">
 				<div class="btn-group btn-group-toggle roocms-crui" data-toggle="buttons">
 					<label class="btn btn-light{if $user['mailing'] == 1} active{/if}" for="flag_status_true" rel="tooltip" title="Получать рассылку" data-placement="auto" data-container="body">
-						<input type="radio" name="mailing" value="1" id="flag_status_true"{if $user['mailing'] == 1} checked{/if}> <i class="far fa-fw fa-{if $user['mailing'] == 1}-check{/if}circle"></i> <i class="fa fa-fw fa-envelope-open text-success"></i> Получать уведомления
+						<input type="radio" name="mailing" value="1" id="flag_status_true"{if $user['mailing'] == 1} checked{/if}> <i class="far fa-fw fa-{if $user['mailing'] == 1}check-{/if}circle"></i> <i class="fa fa-fw fa-envelope-open text-success"></i> Получать уведомления
 					</label>
 					<label class="btn btn-light{if $user['mailing'] == 0} active{/if}" for="flag_status_false" rel="tooltip" title="Не получать рассылку" data-placement="auto" data-container="body">
-						<input type="radio" name="mailing" value="0" id="flag_status_false"{if $user['mailing'] == 0} checked{/if}> <i class="far fa-fw fa-{if $user['mailing'] == 0}-check{/if}circle"></i> <i class="fa fa-fw fa-envelope text-danger"></i> Не получать уведомления
+						<input type="radio" name="mailing" value="0" id="flag_status_false"{if $user['mailing'] == 0} checked{/if}> <i class="far fa-fw fa-{if $user['mailing'] == 0}check-{/if}circle"></i> <i class="fa fa-fw fa-envelope text-danger"></i> Не получать уведомления
 					</label>
 				</div>
 			</div>
@@ -140,13 +140,13 @@
 			<div class="col-md-7 col-lg-8">
 				<div class="btn-group btn-group-toggle roocms-crui" data-toggle="buttons">
 					<label class="btn btn-light{if $user['user_sex'] == "n"} active{/if}">
-						<input type="radio" name="user_sex" id="inputUserSex" autocomplete="off" value="n"{if $user['user_sex'] == "n"} checked{/if}><i class="far fa-fw fa{if $user['user_sex'] == "n"}-check{/if}-square"></i><i class="fa fa-fw fa-user"></i> Не указан
+						<input type="radio" name="user_sex" id="inputUserSex" autocomplete="off" value="n"{if $user['user_sex'] == "n"} checked{/if}><i class="far fa-fw fa{if $user['user_sex'] == "n"}-check{/if}-circle"></i><i class="fa fa-fw fa-user"></i> Не указан
 					</label>
 					<label class="btn btn-light{if $user['user_sex'] == "m"} active{/if}">
-						<input type="radio" name="user_sex" id="inputUserSexM" autocomplete="off" value="m"{if $user['user_sex'] == "m"} checked{/if}><i class="far fa-fw fa{if $user['user_sex'] == "m"}-check{/if}-square"></i><i class="fa fa-fw fa-male"></i> Мужской
+						<input type="radio" name="user_sex" id="inputUserSexM" autocomplete="off" value="m"{if $user['user_sex'] == "m"} checked{/if}><i class="far fa-fw fa{if $user['user_sex'] == "m"}-check{/if}-circle"></i><i class="fa fa-fw fa-male"></i> Мужской
 					</label>
 					<label class="btn btn-light{if $user['user_sex'] == "f"} active{/if}">
-						<input type="radio" name="user_sex" id="inputUserSexF" autocomplete="off" value="f"{if $user['user_sex'] == "f"} checked{/if}><i class="far fa-fw fa{if $user['user_sex'] == "f"}-check{/if}-square"></i><i class="fa fa-fw fa-female"></i> Женский
+						<input type="radio" name="user_sex" id="inputUserSexF" autocomplete="off" value="f"{if $user['user_sex'] == "f"} checked{/if}><i class="far fa-fw fa{if $user['user_sex'] == "f"}-check{/if}-circle"></i><i class="fa fa-fw fa-female"></i> Женский
 					</label>
 				</div>
 			</div>
@@ -223,23 +223,23 @@
 </form>
 
 
-	<script>
-		{literal}
-		(function($) {
-			$(window).on('load', function() {
-				$('[id^=dua]').on('click', function() {
-					let attrdata = $(this).attr('id');
-					let arrdata = attrdata.split('-');
-					let uid = arrdata[1];
+<script>
+	{literal}
+	(function($) {
+		$(window).on('load', function() {
+			$('[id^=dua]').on('click', function() {
+				let attrdata = $(this).attr('id');
+				let arrdata = attrdata.split('-');
+				let uid = arrdata[1];
 
-					$("#ua-"+uid).load('/acp.php?act=ajax&part=delete_user_avatar&uid='+uid, function() {
-						$("#ua-"+uid).animate({'opacity':'0.2'}, 750, function() {
-							$("#ua-"+uid).hide(600).delay(900).remove();
-						});
+				$("#ua-"+uid).load('/acp.php?act=ajax&part=delete_user_avatar&uid='+uid, function() {
+					$("#ua-"+uid).animate({'opacity':'0.2'}, 750, function() {
+						$("#ua-"+uid).hide(600).delay(900).remove();
 					});
-
 				});
+
 			});
-		})(jQuery);
-		{/literal}
-	</script>
+		});
+	})(jQuery);
+	{/literal}
+</script>

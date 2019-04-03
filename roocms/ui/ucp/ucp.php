@@ -88,6 +88,7 @@ class UCP_CP {
 
 		# tpl
 		$users->userdata['user_slogan_edit'] = $parse->text->clearhtml($users->userdata['user_slogan']);
+		$smarty->assign("userdata", $users->userdata);
 		$tpl->load_template("ucp_edit_info");
 	}
 
