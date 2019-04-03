@@ -36,17 +36,11 @@ class UCP_Security {
 
 		global $users;
 
-		if($users->uid != 0) {
-			# check access
-			if($users->token != "")  {
-				$this->access = true;	# access granted
-			}
-			else {
-				$this->access = false;	# access denied
-			}
-		}
-		else {
-			$this->access = false;		# access denied
+		$this->access = false;	# access denied
+
+		if($users->uid != 0 && $users->token != "") {
+			$this->access = true;	# access granted
+
 		}
 	}
 }
