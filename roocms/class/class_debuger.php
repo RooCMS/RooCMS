@@ -227,7 +227,7 @@ class Debuger {
 
                 if(DEBUGMODE) {
 			echo CRITICAL_STYLESHEETS."
-			<div class='alert alert-danger text-left in fade col-md-12' role='alert'>
+			<div class='alert alert-danger col-12 font-weight-light' role='alert'>
 			<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button>
 			ОШИБКА: <b>#{$errno} - {$ertitle}</b>
 			<br />Строка: <b>{$line}</b> в файле <b>{$file}</b>
@@ -365,9 +365,9 @@ class Debuger {
 		echo "</div></div></div></div>";
 
                 echo "  <div class='container'>
-				<nobr><span class='fa fa-bar-chart-o fa-fw'></span> Число обращений к БД: <b>{$db->cnt_querys}</b></nobr>
-				&nbsp;&nbsp; <nobr><span class='fa fa-tachometer fa-fw'></span> Использовано памяти : <span style='cursor: help;' title='".round($debug->memory_peak_usage/1024/1024, 2)." байт макс'><b>".round($debug->productivity_memory/1024/1024, 2)." Мб</b></span></nobr>
-				&nbsp;&nbsp; <nobr><span class='fa fa-clock-o fa-fw'></span> Время работы скрипта : <b>{$debug->productivity_time} мс</b></nobr>
+				<span class='fa fa-bar-chart-o fa-fw text-nowrap'></span> Обращений к БД: <b>{$db->cnt_querys}</b>
+				&nbsp;&nbsp; <span class='fa fa-tachometer fa-fw text-nowrap'></span> Использовано памяти : <span style='cursor: help;' title='".round($debug->memory_peak_usage/1024/1024, 2)." байт макс'><b>".round($debug->productivity_memory/1024/1024, 2)." Мб</b></span>
+				&nbsp;&nbsp; <span class='fa fa-clock-o fa-fw text-nowrap'></span> Время работы скрипта : <b>{$debug->productivity_time} мс</b>
 			</div>";
 
                 exit;

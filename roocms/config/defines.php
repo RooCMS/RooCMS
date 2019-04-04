@@ -97,7 +97,9 @@ define('SYSERRLOG', 	_LOGS."/syserrors.log");
 define('EMAIL_MESSAGE_PARAMETERS',	'content-Type: text/html; charset="utf-8"');
 define('SCRIPT_NAME',			$_SERVER['SCRIPT_NAME']);
 define('CHARSET',			'text/html; charset=utf-8');
-define('CRITICAL_STYLESHEETS',		'<script type="text/javascript" src="/plugin/bootstrap.php?short"></script>');
+define('CRITICAL_STYLESHEETS',		'<script type="text/javascript" src="/plugin/jquery-core.min.js"></script>
+					 <link rel="stylesheet" type="text/css" href="/plugin/bootstrap/css/bootstrap.min.css" media="screen" />
+					 <script type="text/javascript" src="/plugin/bootstrap/js/bootstrap.bundle.min.js"></script>');
 define('ROOCMS_MAJOR_VERSION',		'1');
 define('ROOCMS_MINOR_VERSION',		'4');
 define('ROOCMS_RELEASE_VERSION',	'0');

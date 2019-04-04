@@ -99,9 +99,12 @@ ini_set("default_charset",		"utf-8");
 ini_set("default_mimetype",		"text/html");
 ini_set("default_socket_timeout",	60);
 
-ini_set("error_prepend_string",		"<script type='text/javascript' src='/plugin/bootstrap.php?short'></script>
-						<div class='alert alert-danger text-left in fade col-md-12' role='alert'>");
-ini_set("error_append_string",		"</div>");
+ini_set("error_prepend_string",		"<script type='text/javascript' src='/plugin/jquery-core.min.js'></script>
+					 <link rel='stylesheet' type='text/css' href='/plugin/bootstrap/css/bootstrap.min.css' media='screen' />
+					 <script type='text/javascript' src='/plugin/bootstrap/js/bootstrap.bundle.min.js'></script>
+						<div class='alert alert-danger' role='alert'>Critical Error
+						<pre class='bg-danger'>");
+ini_set("error_append_string",		"</pre></div>");
 
 
 /**
