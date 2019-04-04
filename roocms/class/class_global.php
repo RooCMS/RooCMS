@@ -70,7 +70,6 @@ class RooCMS_Global {
 	# userdata
 	public	$usersession	= "";	 # [string]	user ssession
 	public  $userip		= "";	 # [string]	user ip address
-	public	$useragent	= "";	 # [string]	user agent string
 	public  $referer	= "";	 # [string]	user referer
 
 	public	$spiderbot	= false; # [bool]	if this search spider bot
@@ -99,12 +98,6 @@ class RooCMS_Global {
 		else {
 			$this->userip = getenv('REMOTE_ADDR');
 		}
-
-		# init useragent
-		$this->useragent = mb_strtolower($_SERVER['HTTP_USER_AGENT']);
-
-		# check useragent  for detect spider bot
-		$this->check_spider_bot();
 	}
 
 

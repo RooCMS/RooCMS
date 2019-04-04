@@ -61,10 +61,15 @@ class Users extends Security {
 		global $roocms;
 
 		# get user data
-		$this->usersession	&= $roocms->usersession;
-		$this->userip		&= $roocms->userip;
-		$this->useragent 	&= $roocms->useragent;
-		$this->referer		&= $roocms->referer;
+		$this->usersession &= $roocms->usersession;
+		$this->userip      &= $roocms->userip;
+		$this->referer     &= $roocms->referer;
+
+		# init useragent
+		$this->useragent    = $this->get_useragent();
+
+		# check useragent  for detect spider bot
+		$roocms->check_spider_bot();
 
 		# init user
 		$this->init_user();
@@ -472,9 +477,9 @@ class Users extends Security {
 
 
 	/**
-	 * Функция удаляет пользовательский аватар.
+	 * Remove user avatar
 	 *
-	 * @param int $uid - Уникальный идентификатор пользователя
+	 * @param int $uid - unique user id
 	 */
 	public function delete_avatar($uid) {
 
@@ -489,6 +494,17 @@ class Users extends Security {
 				unlink(_UPLOADIMAGES."/".$data['avatar']);
 				$db->query("UPDATE ".USERS_TABLE." SET avatar='' WHERE uid='".$uid."'");
 			}
+		}
+	}
+
+
+	/**
+	 * Get useragent string from user
+	 */
+	public function  get_useragent() {
+
+		if(!empty($_SERVER['HTTP_USER_AGENT'])) {
+			$this->useragent = mb_strtolower($_SERVER['HTTP_USER_AGENT']);
 		}
 	}
 }
