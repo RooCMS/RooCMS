@@ -544,9 +544,6 @@ class ACP_Users {
 
 				go(CP."?act=users&part=edit_group&gid=".$gid);
 			}
-
-			# goback
-			goback();
 		}
 
 		# goback
@@ -566,7 +563,7 @@ class ACP_Users {
 
 		# Oh, my god... damn...
 		if($uid == 1) {
-			$logger->msg("Нельзя удалить учетную запись главного администратора!");
+			$logger->error("Нельзя удалить учетную запись главного администратора!");
 		}
 		else {
 			$q = $db->query("SELECT gid, avatar FROM ".USERS_TABLE." WHERE uid='".$uid."'");
@@ -590,7 +587,7 @@ class ACP_Users {
 		}
 
 		# go
-		goback();
+		go(CP."?act=users");
 	}
 
 
