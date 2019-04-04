@@ -93,7 +93,7 @@
 							Имя:
 						</label>
 
-						<input type="text" name="user_name" id="inputUserName" class="form-control"  value="{$userdata['user_name']}">
+						<input type="text" name="user_name" id="inputUserName" class="form-control" value="{$userdata['user_name']}">
 					</div>
 
 					<div class="form-group">
@@ -101,7 +101,7 @@
 							Фамилия:
 						</label>
 
-						<input type="text" name="user_surname" id="inputUserSurName" class="form-control"  value="{$userdata['user_surname']}">
+						<input type="text" name="user_surname" id="inputUserSurName" class="form-control" value="{$userdata['user_surname']}">
 					</div>
 
 					<div class="form-group">
@@ -109,7 +109,7 @@
 							Отчество:
 						</label>
 
-						<input type="text" name="user_last_name" id="inputUserLastName" class="form-control"  value="{$userdata['user_last_name']}">
+						<input type="text" name="user_last_name" id="inputUserLastName" class="form-control" value="{$userdata['user_last_name']}">
 					</div>
 
 					<div class="form-group">
