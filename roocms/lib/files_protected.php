@@ -106,7 +106,7 @@ $protect[] = array('path' => _UI.'/ucp/logout.php',			'chmod'	=> '0644',	'hash'	
 $protect[] = array('path' => _UI.'/ucp/pm.php',				'chmod'	=> '0644',	'hash'	=> '');
 $protect[] = array('path' => _UI.'/ucp/security_check.php',		'chmod'	=> '0644',	'hash'	=> '');
 $protect[] = array('path' => _UI.'/ucp/ucp.php',			'chmod'	=> '0644',	'hash'	=> '');
-$protect[] = array('path' => _UI.'/fl152.php',				'chmod'	=> '0644',	'hash'	=> '');
+$protect[] = array('path' => _UI.'/uagreement.php',			'chmod'	=> '0644',	'hash'	=> '');
 $protect[] = array('path' => _UI.'/reg.php',				'chmod'	=> '0644',	'hash'	=> '');
 $protect[] = array('path' => _UI.'/repass.php',				'chmod'	=> '0644',	'hash'	=> '');
 $protect[] = array('path' => _UI.'/search.php',				'chmod'	=> '0644',	'hash'	=> '');

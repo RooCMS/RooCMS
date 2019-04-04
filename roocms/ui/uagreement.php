@@ -21,9 +21,9 @@ if(!defined('RooCMS') || !defined('UI')) {
 
 
 /**
- * Class UI_FL152
+ * Class UI_User_Agreement
  */
-class UI_FL152 {
+class UI_User_Agreement {
 
 	public function __construct() {
 
@@ -33,35 +33,35 @@ class UI_FL152 {
 		$structure->page_title = "Соглашение об условиях передачи информации";
 
 		# breadcrumb
-		$nav->breadcrumb[] = array('part'=>'fl152', 'title'=>'Соглашение об условиях передачи информации');
+		$nav->breadcrumb[] = array('part'=>'uagreement', 'title'=>'Соглашение об условиях передачи информации');
 
 		# goout
-		if(!$config->fl152_use) {
+		if(!$config->uagreement_use) {
 			go(SCRIPT_NAME."?part=ucp&act=ucp");
 		}
 
-		# show agreement fl 152
-		$this->fl152();
+		# show agreement
+		$this->show();
 	}
 
 
 	/**
-	 * Функция выводит пользовательское соглашение о передачи информации согласно ФЗ РФ 152
+	 * Show user agreement
 	 */
-	public function fl152() {
+	public function show() {
 
 		global $config, $parse, $smarty, $tpl;
 
 		# parse
-		$agreement = $parse->text->html($config->fl152_agreement);
+		$agreement = $parse->text->html($config->uagreement_text);
 
 		# tpl
 		$smarty->assign("agreement", $agreement);
-		$tpl->load_template("fl152");
+		$tpl->load_template("user_agreement");
 	}
 }
 
 /**
  * Init Class
  */
-$uifl152 = new UI_FL152;
+$uiuagreement = new UI_User_Agreement;

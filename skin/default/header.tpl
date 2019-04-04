@@ -128,7 +128,7 @@
 			<nav class="nav align-items-end align-items-lg-start mt-3">
 				{foreach from=$navtree item=navitem key=k name=navigate}
 					{if $navitem['level'] == 0}
-						<a class="{*flex-sm-fill*} d-none d-lg-inline nav-link text-gray roocms-topnav-link{if isset($smarty.get.page) && $smarty.get.page == $navitem['alias']} active{/if}" href="/index.php?page={$navitem['alias']}">{$navitem['title']}</a>
+						<a class="{*flex-sm-fill*} d-none d-lg-inline nav-link text-primary roocms-topnav-link{if isset($smarty.get.page) && $smarty.get.page == $navitem['alias']} active{/if}" href="/index.php?page={$navitem['alias']}">{$navitem['title']}</a>
 					{/if}
 				{/foreach}
 

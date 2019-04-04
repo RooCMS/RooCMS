@@ -3,7 +3,7 @@
 
 <div class="container footer mt-3 py-3">
 	<div class="row">
-		<div class="col-md-6 text-gray ptsans">
+		<div class="col-md-6 text-dark ptsans">
 			<div class="text-uppercase border-bottom pb-1 mb-2">Навигация</div>
 			{if !empty($navtree)}
 				<div class="d-flex flex-row flex-wrap">
@@ -17,7 +17,7 @@
 							<div class="d-flex flex-column col-sm-6 px-0 mx-0">
 						{/if}
 
-						<a href="/index.php?page={$navitem['alias']}" class="text-gray roocms-foot-link{if $navitem['level'] == 0}-first{/if}">{$navitem['title']}</a>
+						<a href="/index.php?page={$navitem['alias']}" class="text-secondary roocms-foot-link{if $navitem['level'] == 0}-first{/if}">{$navitem['title']}</a>
 
 						{if $smarty.foreach.navigate.last}
 							</div>
@@ -26,23 +26,25 @@
 				</div>
 			{/if}
 		</div>
-		<div class="col-md-{if $userdata['uid'] != 0}4{else}2{/if} text-gray ptsans">
+		<div class="col-md-{if $userdata['uid'] != 0}4{else}2{/if} text-dark ptsans">
 			<div class="text-uppercase border-bottom pb-1 mb-2">Информация</div>
-			<a href="{$SCRIPT_NAME}?part=fl152&ajax=true" data-fancybox data-animation-duration="300" data-type="ajax" class="text-gray roocms-foot-link">Соглашение о передачи персональной информации</a>
+			{if $config->uagreement_use}
+				<a href="{$SCRIPT_NAME}?part=uagreement&ajax=true" data-fancybox data-animation-duration="300" data-type="ajax" class="text-secondary roocms-foot-link">Соглашение о передачи персональной информации</a>
+			{/if}
 
 			<br />{include file='counters.tpl'}
 		</div>
-		<div class="col-md-{if $userdata['uid'] != 0}2{else}4{/if} text-gray ptsans">
+		<div class="col-md-{if $userdata['uid'] != 0}2{else}4{/if} text-dark ptsans">
 			<div class="text-uppercase border-bottom pb-1 mb-2">{if $userdata['uid'] != 0}Личный кабинет{else}Рассылка{/if}</div>
 			{if $userdata['uid'] != 0}
-				<a class="text-gray roocms-foot-link" href="{$SCRIPT_NAME}?part=ucp&act=ucp"><i class="far fa-fw fa-user mr-1"></i>Личный кабинет</a>
-				<br /><a class="text-gray roocms-foot-link" href="{$SCRIPT_NAME}?part=ucp&act=pm"><i class="far fa-fw fa-envelope mr-1"></i>Личные сообщения</a>
+				<a class="text-secondary roocms-foot-link" href="{$SCRIPT_NAME}?part=ucp&act=ucp"><i class="far fa-fw fa-user mr-1"></i>Личный кабинет</a>
+				<br /><a class="text-secondary roocms-foot-link" href="{$SCRIPT_NAME}?part=ucp&act=pm"><i class="far fa-fw fa-envelope mr-1"></i>Личные сообщения</a>
 				<br />
 				{if $userdata['title'] == "a"}
-					<br /><a class="text-gray roocms-foot-link" href="{$config->cp_script}"><i class="fas fa-fw fa-skull-crossbones mr-1"></i>Admin CP</a>
+					<br /><a class="text-secondary roocms-foot-link" href="{$config->cp_script}"><i class="fas fa-fw fa-skull-crossbones mr-1"></i>Admin CP</a>
 					<br />
 				{/if}
-				<br /><a class="text-gray roocms-foot-link" href="{$SCRIPT_NAME}?part=ucp&act=logout"><i class="fas fa-fw fa-sign-out-alt mr-1"></i>Выйти из аккаунта</a>
+				<br /><a class="text-secondary roocms-foot-link" href="{$SCRIPT_NAME}?part=ucp&act=logout"><i class="fas fa-fw fa-sign-out-alt mr-1"></i>Выйти из аккаунта</a>
 			{/if}
 			{$module->load("express_reg")}
 

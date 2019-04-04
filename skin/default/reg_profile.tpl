@@ -147,8 +147,8 @@
 			<div class="col-md-6 offset-md-3">
 				<div class="card mt-4">
 					<div class="card-body text-center">
-						{if $config->fl152_use}
-							<p class="text-center small">Регистрируясь на сайте Вы соглашаетесь <span class="text-nowrap">с <a href="{$SCRIPT_NAME}?part=fl152&ajax=true" data-fancybox data-animation-duration="300" data-type="ajax"><b>условиями передачи информации</b></a></span></p>
+						{if $config->uagreement_use}
+							<p class="text-center small">Регистрируясь на сайте Вы соглашаетесь <span class="text-nowrap">с <a href="{$SCRIPT_NAME}?part=uagreement&ajax=true" data-fancybox data-animation-duration="300" data-type="ajax"><b>условиями передачи информации</b></a></span></p>
 						{/if}
 						<input type="submit" name="join" class="btn btn-lg btn-success btn-block" value="Зарегистрироваться">
 					</div>

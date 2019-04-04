@@ -3,10 +3,10 @@ html {
 }
 body {	background-color: $bgc-roocms;
 	//background: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI1IiBoZWlnaHQ9IjUiPgo8cmVjdCB3aWR0aD0iNSIgaGVpZ2h0PSI1IiBmaWxsPSIjZmZmIj48L3JlY3Q+CjxyZWN0IHdpZHRoPSIxIiBoZWlnaHQ9IjEiIGZpbGw9IiNjY2MiPjwvcmVjdD4KPC9zdmc+");
-	background-image: -webkit-linear-gradient(top, fade-out($brand-dark, .95), fade-out($brand-dark, .85)), url("../img/bg.png");
-	background-image: -moz-linear-gradient(top, fade-out($brand-dark, .95), fade-out($brand-dark, .85)), url("../img/bg.png");
-	background-image: -ms-linear-gradient(top, fade-out($brand-dark, .95), fade-out($brand-dark, .85)), url("../img/bg.png");
-	background-image: linear-gradient(top, fade-out($brand-dark, .95), fade-out($brand-dark, .85)), url("../img/bg.png");
+	background-image: -webkit-linear-gradient(top, fade-out($brand-dark, .95), fade-out($brand-dark, .9)), url("../img/bg.png");
+	background-image: -moz-linear-gradient(top, fade-out($brand-dark, .95), fade-out($brand-dark, .9)), url("../img/bg.png");
+	background-image: -ms-linear-gradient(top, fade-out($brand-dark, .95), fade-out($brand-dark, .9)), url("../img/bg.png");
+	background-image: linear-gradient(top, fade-out($brand-dark, .95), fade-out($brand-dark, .9)), url("../img/bg.png");
 	font-family: $opensans, $ubuntu, $trebuchet, $tahoma;
 	padding: 0;
 	margin: 0;
