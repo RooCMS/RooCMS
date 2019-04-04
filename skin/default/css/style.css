@@ -176,7 +176,7 @@ a.tag.active:hover .tag_amount:after {
 
 a#NextFeedItem:hover > .roocms-feeditem-pn,
 a#PrevFeedItem:hover > .roocms-feeditem-pn {
-  border: 1px solid #2f3d60;
+  border: 1px solid #2C3E50;
   opacity: 1;
   filter: grayscale(0%);
 }
@@ -322,11 +322,11 @@ a:hover [class^=far-] {
 
 /* Add BS Blockquote style */
 blockquote.quote-primary {
-  border-left: 0.2rem solid #2f3d60;
+  border-left: 0.2rem solid #2C3E50;
   background-color: rgba(33, 37, 41, 0.05);
 }
 blockquote.quote-primary > h1, blockquote.quote-primary > h2, blockquote.quote-primary > h3, blockquote.quote-primary > h4, blockquote.quote-primary > h5, blockquote.quote-primary > h6 {
-  color: #2f3d60;
+  color: #2C3E50;
 }
 
 blockquote.quote-secondary {
@@ -346,11 +346,11 @@ blockquote.quote-success > h1, blockquote.quote-success > h2, blockquote.quote-s
 }
 
 blockquote.quote-info {
-  border-left: 0.2rem solid #17a2d8;
+  border-left: 0.2rem solid #3498DB;
   background-color: rgba(33, 37, 41, 0.05);
 }
 blockquote.quote-info > h1, blockquote.quote-info > h2, blockquote.quote-info > h3, blockquote.quote-info > h4, blockquote.quote-info > h5, blockquote.quote-info > h6 {
-  color: #17a2d8;
+  color: #3498DB;
 }
 
 blockquote.quote-hot {
@@ -378,11 +378,11 @@ blockquote.quote-danger > h1, blockquote.quote-danger > h2, blockquote.quote-dan
 }
 
 blockquote.quote-moment {
-  border-left: 0.2rem solid #20c997;
+  border-left: 0.2rem solid #772953;
   background-color: rgba(33, 37, 41, 0.05);
 }
 blockquote.quote-moment > h1, blockquote.quote-moment > h2, blockquote.quote-moment > h3, blockquote.quote-moment > h4, blockquote.quote-moment > h5, blockquote.quote-moment > h6 {
-  color: #20c997;
+  color: #772953;
 }
 
 blockquote.quote-extra {
@@ -402,11 +402,11 @@ blockquote.quote-dark > h1, blockquote.quote-dark > h2, blockquote.quote-dark > 
 }
 
 blockquote.quote-gray {
-  border-left: 0.2rem solid #6c757d;
+  border-left: 0.2rem solid #95a5a6;
   background-color: rgba(33, 37, 41, 0.05);
 }
 blockquote.quote-gray > h1, blockquote.quote-gray > h2, blockquote.quote-gray > h3, blockquote.quote-gray > h4, blockquote.quote-gray > h5, blockquote.quote-gray > h6 {
-  color: #6c757d;
+  color: #95a5a6;
 }
 
 blockquote.quote-light {

@@ -49,7 +49,7 @@ a {
 
 /* Sup styles / restyle */
 .small, small {
-  color: #6c757d;
+  color: #95a5a6;
 }
 
 /* Hover */
@@ -109,7 +109,7 @@ tr:hover .tralias {
 }
 
 .table-hover > tbody > tr:hover .text-muted {
-  color: #2f3d60 !important;
+  color: #2C3E50 !important;
 }
 
 /* Copyright link*/
@@ -118,7 +118,7 @@ tr:hover .tralias {
 }
 
 .copyright > a:hover {
-  color: #20c997;
+  color: #772953;
 }
 
 /* Effect */
@@ -231,12 +231,12 @@ input:required:valid {
 /* Addon BS */
 /* Add BS Blockquote style */
 blockquote.quote-primary {
-  border-left: 0.2rem solid #2f3d60;
+  border-left: 0.2rem solid #2C3E50;
   background-color: #fbfbfb;
   padding: 0.5rem;
 }
 blockquote.quote-primary > h1, blockquote.quote-primary > h2, blockquote.quote-primary > h3, blockquote.quote-primary > h4, blockquote.quote-primary > h5, blockquote.quote-primary > h6 {
-  color: #2f3d60;
+  color: #2C3E50;
 }
 
 blockquote.quote-secondary {
@@ -258,12 +258,12 @@ blockquote.quote-success > h1, blockquote.quote-success > h2, blockquote.quote-s
 }
 
 blockquote.quote-info {
-  border-left: 0.2rem solid #17a2d8;
+  border-left: 0.2rem solid #3498DB;
   background-color: #fbfbfb;
   padding: 0.5rem;
 }
 blockquote.quote-info > h1, blockquote.quote-info > h2, blockquote.quote-info > h3, blockquote.quote-info > h4, blockquote.quote-info > h5, blockquote.quote-info > h6 {
-  color: #17a2d8;
+  color: #3498DB;
 }
 
 blockquote.quote-hot {
@@ -294,12 +294,12 @@ blockquote.quote-danger > h1, blockquote.quote-danger > h2, blockquote.quote-dan
 }
 
 blockquote.quote-moment {
-  border-left: 0.2rem solid #20c997;
+  border-left: 0.2rem solid #772953;
   background-color: #fbfbfb;
   padding: 0.5rem;
 }
 blockquote.quote-moment > h1, blockquote.quote-moment > h2, blockquote.quote-moment > h3, blockquote.quote-moment > h4, blockquote.quote-moment > h5, blockquote.quote-moment > h6 {
-  color: #20c997;
+  color: #772953;
 }
 
 blockquote.quote-extra {
@@ -321,12 +321,12 @@ blockquote.quote-dark > h1, blockquote.quote-dark > h2, blockquote.quote-dark > 
 }
 
 blockquote.quote-gray {
-  border-left: 0.2rem solid #6c757d;
+  border-left: 0.2rem solid #95a5a6;
   background-color: #fbfbfb;
   padding: 0.5rem;
 }
 blockquote.quote-gray > h1, blockquote.quote-gray > h2, blockquote.quote-gray > h3, blockquote.quote-gray > h4, blockquote.quote-gray > h5, blockquote.quote-gray > h6 {
-  color: #6c757d;
+  color: #95a5a6;
 }
 
 blockquote.quote-light {
@@ -372,7 +372,7 @@ a:focus, a:active, .btn {
   font-family: "Consolas";
   height: auto;
   margin: 5px 0;
-  border: 1px solid #6c757d;
+  border: 1px solid #95a5a6;
   -moz-box-shadow: 0 0 2px #adb5bd inset;
   -webkit-box-shadow: 0 0 2px #adb5bd inset;
   box-shadow: 0 0 2px #adb5bd inset;
@@ -380,7 +380,7 @@ a:focus, a:active, .btn {
 }
 
 span.CodeMirror-matchhighlight {
-  background: #6c757d;
+  background: #95a5a6;
 }
 
 .CodeMirror-gutter {
@@ -389,7 +389,7 @@ span.CodeMirror-matchhighlight {
 }
 
 .CodeMirror-focused span.CodeMirror-matchhighlight {
-  background: #6c757d !important;
+  background: #95a5a6 !important;
 }
 
 /**
@@ -917,7 +917,7 @@ body, body.modal-open,
 ::-moz-selection,
 ::selection {
   color: #e9ecef;
-  background-color: #2f3d60;
+  background-color: #2C3E50;
 }
 
 /*# sourceMappingURL=style.css.map */
