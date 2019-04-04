@@ -163,15 +163,16 @@ class RooCMS_Global {
 
 
 	/**
-	* Check useragent for search spider bot machine
-	*
-	*/
-	protected function check_spider_bot() {
+	 * Check useragent for search spider bot machine
+	 *
+	 * @param $useragent
+	 */
+	public function check_spider_bot($useragent) {
 
 		require_once _LIB."/spiders.php";
 
 		foreach($spider AS $value) {
-			$check = mb_strpos($this->useragent, $value, 0, 'utf8');
+			$check = mb_strpos($useragent, $value, 0, 'utf8');
 
 			if($check !== false) {
 				$this->spiderbot = true;

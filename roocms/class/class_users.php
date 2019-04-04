@@ -69,7 +69,7 @@ class Users extends Security {
 		$this->useragent    = $this->get_useragent();
 
 		# check useragent  for detect spider bot
-		$roocms->check_spider_bot();
+		$roocms->check_spider_bot($this->useragent);
 
 		# init user
 		$this->init_user();
