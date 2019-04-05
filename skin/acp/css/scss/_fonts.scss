@@ -6,7 +6,11 @@
 
 .ubuntu		{font-family: $ubuntu;}
 .ptsans		{font-family: $ptsans;}
+.ptsanscap	{font-family: $ptsanscap;}
 .opensans	{font-family: $opensans;}
+.bloggersans	{font-family: $bloggersans;}
+.kelsonsans	{font-family: $kelsonsans;}
+.firasans	{font-family: $firasans;}
 
 /* include Fonts */
 @font-face {font-family: 'Ubuntu';font-style: normal;font-weight: 300;src: local('Ubuntu Light'), local('Ubuntu-Light'), url('../fonts/Ubuntu-Light.woff') format('woff');}
@@ -25,8 +29,6 @@
 
 @font-face {font-family: 'PT Sans Caption';font-style: normal;font-weight: 400;src: local('PT Sans Caption'), local('PTSans-Caption'), url('../fonts/PTSans-Caption.woff') format('woff');}
 @font-face {font-family: 'PT Sans Caption';font-style: normal;font-weight: 700;src: local('PT Sans Caption Bold'), local('PTSans-CaptionBold'), url('../fonts/PTSans-CaptionBold.woff') format('woff');}
-
-@font-face {font-family: 'Neucha';font-style: normal;font-weight: 400;src: local('Neucha'), url('../fonts/Neucha.woff') format('woff');}
 
 @font-face {font-family: 'Open Sans';font-style: normal;font-weight: 300;src: local('Open Sans Light'), local('OpenSans-Light'), url('../fonts/OpenSans-Light.woff') format('woff');}
 @font-face {font-family: 'Open Sans';font-style: normal;font-weight: 400;src: local('Open Sans'), local('OpenSans'), url('../fonts/OpenSans.woff') format('woff');}

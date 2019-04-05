@@ -31,7 +31,7 @@ html {
 }
 
 html, body {
-  font-family: "PT Sans", "Open Sans", "Blogger Sans", "Calibri", "Trebuchet MS", "Tahoma", "Verdana" !important;
+  font-family: "PT Sans", "Open Sans", "Fira Sans", "Blogger Sans", "Calibri", "Trebuchet MS", "Tahoma", "Verdana" !important;
   background: #F9F9F9 url("../img/bgcp.jpg") repeat fixed top !important;
   text-rendering: optimizeLegibility;
 }
@@ -42,6 +42,10 @@ h1, h2, h3, h4, h5, h6 {
   font-family: "Kelson Sans", "Fira Sans", "Ubuntu", "PT Sans";
 }
 
+.badge {
+  font-family: "PT Sans Caption";
+}
+
 /* Link style */
 a {
   font-family: "PT Sans", "Ubuntu", "Calibri", "Tahoma", "Trebuchet MS" !important;
@@ -49,6 +53,7 @@ a {
 
 /* Sup styles / restyle */
 .small, small {
+  font-family: "Fira Sans";
   color: #95a5a6;
 }
 
@@ -468,8 +473,24 @@ body, body.modal-open,
   font-family: "PT Sans";
 }
 
+.ptsanscap {
+  font-family: "PT Sans Caption";
+}
+
 .opensans {
   font-family: "Open Sans";
+}
+
+.bloggersans {
+  font-family: "Blogger Sans";
+}
+
+.kelsonsans {
+  font-family: "Kelson Sans";
+}
+
+.firasans {
+  font-family: "Fira Sans";
 }
 
 /* include Fonts */
@@ -556,12 +577,6 @@ body, body.modal-open,
   font-style: normal;
   font-weight: 700;
   src: local("PT Sans Caption Bold"), local("PTSans-CaptionBold"), url("../fonts/PTSans-CaptionBold.woff") format("woff");
-}
-@font-face {
-  font-family: "Neucha";
-  font-style: normal;
-  font-weight: 400;
-  src: local("Neucha"), url("../fonts/Neucha.woff") format("woff");
 }
 @font-face {
   font-family: "Open Sans";

@@ -20,7 +20,7 @@ html {
 	font-size: $body-fs;
 }
 html, body {
-	font-family: $ptsans, $opensans, $bloggersans, $calibri, $trebuchet, $tahoma, $verdana !important;
+	font-family: $ptsans, $opensans, $firasans, $bloggersans, $calibri, $trebuchet, $tahoma, $verdana !important;
 	background: $bgc-roocms url('../img/bgcp.jpg') repeat fixed top !important;
 	text-rendering: optimizeLegibility;
 }
@@ -31,11 +31,18 @@ h1, h2, h3, h4, h5, h6 {
 	font-family: $kelsonsans, $firasans, $ubuntu, $ptsans;
 }
 
+.badge {
+	font-family: $ptsanscap;
+}
+
 /* Link style */
 a {font-family: $ptsans, $ubuntu, $calibri, $tahoma, $trebuchet !important;}
 
 /* Sup styles / restyle */
-.small, small	{color: $brand-gray;}
+.small, small	{
+	font-family: $firasans;
+	color: $brand-gray;
+}
 
 code		{@extend .ubuntu;}
 

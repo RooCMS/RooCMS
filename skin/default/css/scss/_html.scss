@@ -24,6 +24,10 @@ button, .btn, .label, .badge {font-family: $ptsans;}
 	@extend button;
 }
 
+.badge, .alert {
+	font-family: $ptsanscap;
+}
+
 /* Blockquote */
 blockquote {
 	@extend .ptsans;

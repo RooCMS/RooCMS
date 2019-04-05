@@ -144,7 +144,7 @@
 						</label>
 
 						{if $userdata['avatar'] != ""}
-							<br /><span class="text-secondary">У вас есть <a href="/upload/images/{$userdata['avatar']}" data-fancybox="avatar" data-animation-duration="300" data-caption="Ваш аватар">аватар</a>!</span>
+							<br /><span class="text-success">У вас есть <a href="/upload/images/{$userdata['avatar']}" class="text-success font-weight-bold" data-fancybox="avatar" data-animation-duration="300" data-caption="Ваш аватар">аватар</a>!</span>
 							Желаете удалить?
 							<div class="d-md-inline ml-1 custom-control custom-switch">
 								<input type="checkbox" name="delete_avatar" value="1" class="custom-control-input" id="DeleteAvatar" autocomplete="on">
@@ -152,13 +152,18 @@
 							</div>
 						{/if}
 
-						<div class="custom-file {if $userdata['avatar'] != ""}mt-2{/if}" id="upload-new-avatar">
-							<input type="file" name="avatar" class="custom-file-input" id="inputAvatar" accept="image/*">
+						<div class="custom-file {if $userdata['avatar'] != ""}mt-2{/if}" id="upload-avatar">
+							<input type="file" name="avatar" class="custom-file-input" id="inputAvatar" accept="image/*" aria-describedby="inputAvatarHelp">
 							<label class="custom-file-label" for="inputAvatar" data-browse="Выбрать{if $userdata['avatar'] != ""} новый {/if} аватар">Выберите изображение</label>
+							{if $userdata['avatar'] != ""}
+								<small id="inputAvatarHelp" class="form-text text-gray">
+									Если вы загрузите новый аватар, Ваш предыдущий будет автоматически заменен!
+								</small>
+							{/if}
 						</div>
 					</div>
 
-					<div class="form-group">
+					<div class="form-group mb-0">
 						<label for="inputUserSlogan">
 							Девиз:
 						</label>
@@ -186,10 +191,10 @@
 		$(document).ready(function(){
 			$("#DeleteAvatar").on('click', function () {
 				if($(this).is(":checked")) {
-					$("#upload-new-avatar").hide();
+					$("#upload-avatar").hide();
 				}
 				else {
-					$("#upload-new-avatar").show();
+					$("#upload-avatar").show();
 				}
 			});
 
