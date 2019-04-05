@@ -15,7 +15,7 @@ Plugins
 - Bootstrap Colorpicker `v3.0.3`
 - Bootstrap TagsInput   `v0.8.0`
 - bsCustomFileInput     `v1.3.1`
-- Font Awesome          `v4.7`
+- Font Awesome          `v5.8.1`
 - CKEditor              `v4.11.1`
 - Codemirror            `v5.42`
 - Fancybox	        `v3.5.6`
