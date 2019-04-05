@@ -234,10 +234,22 @@ input:required:valid {
 }
 
 /* Addon BS */
+[class^=bg-] {
+  padding: 1rem;
+}
+
+.border-2 {
+  border-width: 2px;
+}
+
+.border-3 {
+  border-width: 3px;
+}
+
 /* Add BS Blockquote style */
 blockquote.quote-primary {
   border-left: 0.2rem solid #2C3E50;
-  background-color: #fbfbfb;
+  background-color: rgba(233, 236, 239, 0.95);
   padding: 0.5rem;
 }
 blockquote.quote-primary > h1, blockquote.quote-primary > h2, blockquote.quote-primary > h3, blockquote.quote-primary > h4, blockquote.quote-primary > h5, blockquote.quote-primary > h6 {
@@ -246,7 +258,7 @@ blockquote.quote-primary > h1, blockquote.quote-primary > h2, blockquote.quote-p
 
 blockquote.quote-secondary {
   border-left: 0.2rem solid #335b8e;
-  background-color: #fbfbfb;
+  background-color: rgba(233, 236, 239, 0.95);
   padding: 0.5rem;
 }
 blockquote.quote-secondary > h1, blockquote.quote-secondary > h2, blockquote.quote-secondary > h3, blockquote.quote-secondary > h4, blockquote.quote-secondary > h5, blockquote.quote-secondary > h6 {
@@ -255,7 +267,7 @@ blockquote.quote-secondary > h1, blockquote.quote-secondary > h2, blockquote.quo
 
 blockquote.quote-success {
   border-left: 0.2rem solid #72B110;
-  background-color: #fbfbfb;
+  background-color: rgba(233, 236, 239, 0.95);
   padding: 0.5rem;
 }
 blockquote.quote-success > h1, blockquote.quote-success > h2, blockquote.quote-success > h3, blockquote.quote-success > h4, blockquote.quote-success > h5, blockquote.quote-success > h6 {
@@ -264,7 +276,7 @@ blockquote.quote-success > h1, blockquote.quote-success > h2, blockquote.quote-s
 
 blockquote.quote-info {
   border-left: 0.2rem solid #3498DB;
-  background-color: #fbfbfb;
+  background-color: rgba(233, 236, 239, 0.95);
   padding: 0.5rem;
 }
 blockquote.quote-info > h1, blockquote.quote-info > h2, blockquote.quote-info > h3, blockquote.quote-info > h4, blockquote.quote-info > h5, blockquote.quote-info > h6 {
@@ -273,7 +285,7 @@ blockquote.quote-info > h1, blockquote.quote-info > h2, blockquote.quote-info > 
 
 blockquote.quote-hot {
   border-left: 0.2rem solid #faaa32;
-  background-color: #fbfbfb;
+  background-color: rgba(233, 236, 239, 0.95);
   padding: 0.5rem;
 }
 blockquote.quote-hot > h1, blockquote.quote-hot > h2, blockquote.quote-hot > h3, blockquote.quote-hot > h4, blockquote.quote-hot > h5, blockquote.quote-hot > h6 {
@@ -282,7 +294,7 @@ blockquote.quote-hot > h1, blockquote.quote-hot > h2, blockquote.quote-hot > h3,
 
 blockquote.quote-warning {
   border-left: 0.2rem solid #FB8C00;
-  background-color: #fbfbfb;
+  background-color: rgba(233, 236, 239, 0.95);
   padding: 0.5rem;
 }
 blockquote.quote-warning > h1, blockquote.quote-warning > h2, blockquote.quote-warning > h3, blockquote.quote-warning > h4, blockquote.quote-warning > h5, blockquote.quote-warning > h6 {
@@ -291,7 +303,7 @@ blockquote.quote-warning > h1, blockquote.quote-warning > h2, blockquote.quote-w
 
 blockquote.quote-danger {
   border-left: 0.2rem solid #C60D14;
-  background-color: #fbfbfb;
+  background-color: rgba(233, 236, 239, 0.95);
   padding: 0.5rem;
 }
 blockquote.quote-danger > h1, blockquote.quote-danger > h2, blockquote.quote-danger > h3, blockquote.quote-danger > h4, blockquote.quote-danger > h5, blockquote.quote-danger > h6 {
@@ -300,7 +312,7 @@ blockquote.quote-danger > h1, blockquote.quote-danger > h2, blockquote.quote-dan
 
 blockquote.quote-moment {
   border-left: 0.2rem solid #772953;
-  background-color: #fbfbfb;
+  background-color: rgba(233, 236, 239, 0.95);
   padding: 0.5rem;
 }
 blockquote.quote-moment > h1, blockquote.quote-moment > h2, blockquote.quote-moment > h3, blockquote.quote-moment > h4, blockquote.quote-moment > h5, blockquote.quote-moment > h6 {
@@ -309,7 +321,7 @@ blockquote.quote-moment > h1, blockquote.quote-moment > h2, blockquote.quote-mom
 
 blockquote.quote-extra {
   border-left: 0.2rem solid #6610f2;
-  background-color: #fbfbfb;
+  background-color: rgba(233, 236, 239, 0.95);
   padding: 0.5rem;
 }
 blockquote.quote-extra > h1, blockquote.quote-extra > h2, blockquote.quote-extra > h3, blockquote.quote-extra > h4, blockquote.quote-extra > h5, blockquote.quote-extra > h6 {
@@ -318,7 +330,7 @@ blockquote.quote-extra > h1, blockquote.quote-extra > h2, blockquote.quote-extra
 
 blockquote.quote-dark {
   border-left: 0.2rem solid #212529;
-  background-color: #fbfbfb;
+  background-color: rgba(233, 236, 239, 0.95);
   padding: 0.5rem;
 }
 blockquote.quote-dark > h1, blockquote.quote-dark > h2, blockquote.quote-dark > h3, blockquote.quote-dark > h4, blockquote.quote-dark > h5, blockquote.quote-dark > h6 {
@@ -327,7 +339,7 @@ blockquote.quote-dark > h1, blockquote.quote-dark > h2, blockquote.quote-dark > 
 
 blockquote.quote-gray {
   border-left: 0.2rem solid #95a5a6;
-  background-color: #fbfbfb;
+  background-color: rgba(233, 236, 239, 0.95);
   padding: 0.5rem;
 }
 blockquote.quote-gray > h1, blockquote.quote-gray > h2, blockquote.quote-gray > h3, blockquote.quote-gray > h4, blockquote.quote-gray > h5, blockquote.quote-gray > h6 {
@@ -336,16 +348,13 @@ blockquote.quote-gray > h1, blockquote.quote-gray > h2, blockquote.quote-gray > 
 
 blockquote.quote-light {
   border-left: 0.2rem solid #e9ecef;
-  background-color: #fbfbfb;
+  background-color: rgba(233, 236, 239, 0.95);
   padding: 0.5rem;
 }
 blockquote.quote-light > h1, blockquote.quote-light > h2, blockquote.quote-light > h3, blockquote.quote-light > h4, blockquote.quote-light > h5, blockquote.quote-light > h6 {
   color: #e9ecef;
 }
 
-/*blockquote.blockquote h1, blockquote.blockquote h2,
-blockquote.blockquote h3, blockquote.blockquote h4,
-blockquote.blockquote h5, blockquote.blockquote h6 {margin: 0 0 10px 0;padding: 0;}*/
 blockquote[class^=quote-] > p:last-child {
   margin-bottom: 0;
 }

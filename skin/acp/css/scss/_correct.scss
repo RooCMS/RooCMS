@@ -12,13 +12,19 @@
 }
 
 /* Addon BS */
-blockquote {@extend .ptsans;}
+[class^="bg-"] {
+	padding: 1rem;
+}
+
+@for $i from 2 through 3 {
+	.border-#{$i} { border-width: #{$i}px; }
+}
 
 /* Add BS Blockquote style */
 @each $title, $color in $colors {
 	blockquote.quote-#{$title} {
 		border-left: .2rem solid #{$color};
-		background-color: $bgc-blockquote;
+		background-color: fade-out($brand-light, .05);
 		padding: .5rem;
 
 		& > h1,	> h2, > h3, > h4, > h5, > h6 {
@@ -27,9 +33,7 @@ blockquote {@extend .ptsans;}
 	}
 }
 
-/*blockquote.blockquote h1, blockquote.blockquote h2,
-blockquote.blockquote h3, blockquote.blockquote h4,
-blockquote.blockquote h5, blockquote.blockquote h6 {margin: 0 0 10px 0;padding: 0;}*/
+blockquote {@extend .ptsans;}
 
 blockquote[class^="quote-"] > p:last-child {
 	margin-bottom: 0;

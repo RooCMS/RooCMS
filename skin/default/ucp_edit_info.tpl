@@ -78,7 +78,7 @@
 						<input type="text" name="password" id="inputPassword" class="form-control" minlength="5" pattern="^[\d\D]{literal}{5,}{/literal}">
 					</div>
 
-					<div class="alert alert-warning border-warning text-center d-flex flex-column align-items-center h-100 mb-0" role="alert">
+					<div class="alert alert-warning border-warning border-2 text-center d-flex flex-column align-items-center h-100 mb-0" role="alert">
 						<i class="fas fa-fw fa-lg mb-1 fa-exclamation-triangle mt-auto"></i>
 						<span class="mb-auto">После смены данных аккаунта, сайт попросить Вас повторно авторизоваться.</span>
 					</div>
