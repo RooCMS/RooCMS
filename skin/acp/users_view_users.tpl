@@ -37,7 +37,7 @@
 				{/if}
 				{if $user['ban'] == 1}<span class="badge badge-danger d-none d-md-block">Заблокирован</span>{/if}
 				{if $user['status'] == 0 && $user['activation_code'] != ""}<span class="badge badge-warning d-none d-sm-block">Не активирован</span>{/if}
-				{if $user['status'] == 0 && $user['activation_code'] == ""}<span class="badge badge-dark d-none d-sm-block">Отключен</span>{/if}
+				{if $user['status'] == 0 && $user['activation_code'] == ""}<span class="badge badge-gray d-none d-sm-block">Отключен</span>{/if}
 			</td>
 			<td class="align-middle small d-none d-md-table-cell">{$user['last_visit']}</td>
 			<td class="align-middle text-right">
