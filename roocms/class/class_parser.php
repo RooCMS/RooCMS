@@ -60,15 +60,15 @@ class Parser {
 		# process URL
 		$this->set_url_vars();
 
-		# process notice for user
-		$this->parse_notice();
-
 		# endending this class
 		require_once "class_parserText.php";
 		$this->text = new ParserText;
 
 		require_once "class_parserDate.php";
 		$this->date = new ParserDate;
+
+		# process notice for user
+		$this->parse_notice();
 	}
 
 
@@ -299,9 +299,9 @@ class Parser {
 			if($key) {
 				$string = str_replace('\\','',$string);
 			}
-			else {
-				$string = addslashes($string);
-			}
+			//else {
+				//$string = addslashes($string);
+			//}
 
 			$string = $db->escape_string($string);
 			$string = str_ireplace('\&','&',$string);
@@ -355,7 +355,8 @@ class Parser {
 		# Notice
 		if(isset($roocms->sess['info'])) {
 			foreach($roocms->sess['info'] AS $value) {
-				$this->info .= "<i class='fa fa-info-circle fa-fw'></i> {$value}<br />";
+				$value = stripslashes($this->text->html($value));
+				$this->info .= "<i class='fas fa-info-circle fa-fw'></i> {$value}<br />";
 			}
 
 			# kill
@@ -365,7 +366,8 @@ class Parser {
 		# Errors
 		if(isset($roocms->sess['error'])) {
 			foreach($roocms->sess['error'] AS $value) {
-				$this->error .= "<i class='fa fa-exclamation-triangle fa-fw'></i> {$value}<br />";
+				$value = stripslashes($this->text->html($value));
+				$this->error .= "<i class='fas fa-exclamation-triangle fa-fw'></i> {$value}<br />";
 			}
 
 			# kill
@@ -375,7 +377,7 @@ class Parser {
 		# Critical errors in PHP
 		if(!empty($debug->nophpextensions)) {
 			foreach($debug->nophpextensions AS $value) {
-				$this->error .= "<b><span class='fa fa-exclamation-triangle fa-fw'></span> КРИТИЧЕСКАЯ ОШИБКА:</b> Отсутсвует PHP расширение - {$value}. Работа RooCMS нестабильна!";
+				$this->error .= "<b><span class='fas fa-exclamation-triangle fa-fw'></span> КРИТИЧЕСКАЯ ОШИБКА:</b> Отсутсвует PHP расширение - {$value}. Работа RooCMS нестабильна!";
 			}
 		}
 	}
