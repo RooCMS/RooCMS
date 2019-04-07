@@ -14,7 +14,7 @@ a:hover [class^="far-"] {text-decoration: none !important;}
 }
 
 @for $i from 2 through 3 {
-	.border-#{$i} { border-width: #{$i}px; }
+	.border-#{$i} { border-width: #{$i}px !important; }
 }
 
 /* Add BS Blockquote style */

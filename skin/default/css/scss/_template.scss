@@ -88,6 +88,13 @@ a.tag.active:hover .tag_amount:after {left: -1px; border-left: 4px solid $brand-
 a#NextFeedItem:hover > .roocms-feeditem-pn,
 a#PrevFeedItem:hover > .roocms-feeditem-pn {border: 1px solid $brand-primary;opacity: 1;filter: grayscale(0%);}
 
+/* PM */
+.airmail {
+	font-family: 'PT Sans';
+	border-width: .5rem;
+	border-image: 10 repeating-linear-gradient(45deg, lighten($brand-info, 30%), lighten($brand-info, 30%) 10px, transparent 10px, transparent 20px, lighten($brand-danger, 30%) 20px, lighten($brand-danger, 30%) 30px,transparent 30px, transparent 40px);
+}
+
 /* Move TOP */
 a#move_top {
 	position: fixed;

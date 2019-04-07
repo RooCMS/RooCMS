@@ -1,18 +1,16 @@
-{* Шаблон создания личного сообщения пользователю *}
-<div class="row">
-	<div class="col-sm-12">
-		<h1>Новое сообщение</h1>
-		<hr />
+{* Template PM Write *}
+<div class="container">
+	<div class="row">
+		<div class="col-12">
+			<h1>Новое сообщение</h1>
+		</div>
 	</div>
-</div>
-
-<div class="row">
-	<div class="col-sm-12">
-		<form method="post" action="{$SCRIPT_NAME}?part=ucp&act=pm&move=send">
-
-			<div class="form-group">
-				<label for="inputTo" class="col-lg-4 control-label">Получатель:</label>
-				<div class="col-lg-8">
+	<form method="post" action="{$SCRIPT_NAME}?part=ucp&act=pm&move=send">
+		<div class="card">
+			<div class="card-body">
+				<h4 class="card-title pb-2 border-bottom">Новое сообщение</h4>
+				<div class="form-group">
+					<label for="inputTo">Получатель:</label>
 					<select name="to_uid" id="inputTo" class="selectpicker" required data-size="auto" data-live-search="true" data-width="100%">
 						<option value="0" disabled>Выберите получателя</option>
 						{foreach from=$userlist item=user}
@@ -20,41 +18,21 @@
 						{/foreach}
 					</select>
 				</div>
-			</div>
-
-			<div class="form-group">
-				<label for="inputTitle" class="col-lg-4 control-label">Тема сообщения:</label>
-				<div class="col-lg-8">
+				<div class="form-group">
+					<label for="inputTitle">Тема сообщения:</label>
 					<input type="text" name="title" id="inputTitle" class="form-control">
 				</div>
-			</div>
+				<div class="form-group">
+					<label for="inputText">Сообщение:</label>
+					<textarea class="form-control" name="message" id="inputText" rows="7" required></textarea>
+				</div>
+				<button type="submit" name="send" class="btn btn-success" value="send"><i class="fas fa-fw fa-envelope"></i> Отправить сообщение</button>
 
-			<div class="form-group">
-				<label for="inputText" class="col-lg-4 control-label">
-					Сообщение:
-				</label>
-				<div class="col-lg-8">
-					<textarea class="form-control" name="message" id="inputText" rows="7" required=""></textarea>
+				<div class="alert alert-warning mt-3" role="alert">
+					Не передавайте свои персональные данные третьим лицам!
+					<br />Администрация сайта никогда не будет просить ваш пароль.
 				</div>
 			</div>
-
-			<div class="row">
-				<div class="col-lg-8 col-lg-offset-4">
-					<a href="{$SCRIPT_NAME}?part=ucp&act=pm" class="btn btn-md btn-default"><i class="fa fa-fw fa-long-arrow-left"></i> Вернуться к списку сообщений</a>
-
-					<button type="submit" name="send" class="btn btn-success pull-right" value="send"><i class="fa fa-fw fa-envelope"></i> Отправить сообщение</button>
-				</div>
-			</div>
-
-		</form>
-	</div>
-</div>
-
-<div class="row">
-	<div class="col-sm-12">
-		<div class="alert alert-warning" role="alert" style="margin-top: 15px;">
-			Не передавайте свои персональные данные третьим лицам!
-			<br />Администрация сайта никогда не будет просить ваш пароль.
 		</div>
-	</div>
+	</form>
 </div>

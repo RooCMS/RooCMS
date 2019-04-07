@@ -185,6 +185,13 @@ a#PrevFeedItem:hover > .roocms-feeditem-pn {
   filter: grayscale(0%);
 }
 
+/* PM */
+.airmail {
+  font-family: "PT Sans";
+  border-width: 0.5rem;
+  border-image: 10 repeating-linear-gradient(45deg, #b6daf2, #b6daf2 10px, transparent 10px, transparent 20px, #f6767b 20px, #f6767b 30px, transparent 30px, transparent 40px);
+}
+
 /* Move TOP */
 a#move_top {
   position: fixed;
@@ -325,11 +332,11 @@ a:hover [class^=far-] {
 }
 
 .border-2 {
-  border-width: 2px;
+  border-width: 2px !important;
 }
 
 .border-3 {
-  border-width: 3px;
+  border-width: 3px !important;
 }
 
 /* Add BS Blockquote style */

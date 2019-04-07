@@ -39,3 +39,4 @@ Release information:
 	[inf] 
 	
 	[del] Remove IEPNGFIX (Older browsers will not cope with Bootstrap 4, so there is no need to use PNGFIX for IE in the distribution)
+	[del] Removed Step checking files permission from install script
