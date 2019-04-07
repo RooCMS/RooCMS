@@ -84,10 +84,6 @@ if(check_file_core(_ROOCMS."/functions.php")) {
 if(check_file_core(_CLASS."/class_debuger.php")) {
 
 	require_once(_CLASS."/class_debuger.php");
-
-	/**
-	 * Инициализируем класс
-	 */
 	$debug = new Debuger;
 
 	/**
@@ -111,7 +107,7 @@ if(check_file_core(_CLASS."/trait_mysqlidbExtends.php")) {
 }
 
 /**
-* Запускаем класс БД MySQL
+* Init BD class
 */
 if(check_file_core(_CLASS."/class_mysqlidb.php")) {
 	require_once(_CLASS."/class_mysqlidb.php");
@@ -160,7 +156,7 @@ if(check_file_core(_CLASS."/class_shteirlitz.php")) {
 }
 
 /**
- * Запускаем класс безопастности
+ * Init Security class
  */
 if(check_file_core(_CLASS."/class_security.php")) {
 	require_once(_CLASS."/class_security.php");
@@ -175,7 +171,14 @@ if(check_file_core(_CLASS."/trait_usergroups.php")) {
 }
 
 /**
- * Запускаем класс определения пользователей
+ * User Avatar trait
+ */
+if(check_file_core(_CLASS."/trait_useravatar.php")) {
+	require_once(_CLASS."/trait_useravatar.php");
+}
+
+/**
+ * Init User class
  */
 if(check_file_core(_CLASS."/class_users.php")) {
 	require_once(_CLASS."/class_users.php");
@@ -183,7 +186,7 @@ if(check_file_core(_CLASS."/class_users.php")) {
 }
 
 /**
- * Запускаем класс для работы с Тегами
+ * Init Tags class
  */
 if(check_file_core(_CLASS."/class_tags.php")) {
 	require_once(_CLASS."/class_tags.php");

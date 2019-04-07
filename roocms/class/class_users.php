@@ -26,6 +26,7 @@ if(!defined('RooCMS')) {
 class Users extends Security {
 
 	use UserGroups;
+	use UserAvatar;
 
 	# user uniq data
 	public	$uid		= 0;		# user id
@@ -448,52 +449,6 @@ class Users extends Security {
 
 		if(isset($post->login) && $db->check_id($post->login, USERS_TABLE, "login")) {
 			$logger->error("Логин ".$post->login." недоступен.", false);
-		}
-	}
-
-
-	/**
-	 * Функция загружает вновь созданному пользователю аватар.
-	 *
-	 * @param int    $uid    - уникальный идентификатор пользователя.
-	 * @param string $avatar - текущий аватар пользователя
-	 *
-	 * @return string - имя файла аватарки
-	 */
-	public function upload_avatar($uid, $avatar="") {
-
-		global $config, $img;
-
-		$av = $img->upload_image("avatar", "", array($config->users_avatar_width, $config->users_avatar_height), false, false, false, "av_".$uid);
-		if(isset($av[0])) {
-			if($avatar != "" && $avatar != $av[0]) {
-				$img->erase_image(_UPLOADIMAGES."/".$avatar);
-			}
-			$avatar = $av[0];
-		}
-
-		return $avatar;
-	}
-
-
-	/**
-	 * Remove user avatar
-	 *
-	 * @param int $uid - unique user id
-	 */
-	public function delete_avatar($uid) {
-
-		global $db;
-
-		if($db->check_id($uid, USERS_TABLE, "uid", "avatar!=''") && ($this->uid == $uid || $this->title == "a")) {
-
-			$q = $db->query("SELECT avatar FROM ".USERS_TABLE." WHERE uid='".$uid."'");
-			$data = $db->fetch_assoc($q);
-
-			if(is_file(_UPLOADIMAGES."/".$data['avatar'])) {
-				unlink(_UPLOADIMAGES."/".$data['avatar']);
-				$db->query("UPDATE ".USERS_TABLE." SET avatar='' WHERE uid='".$uid."'");
-			}
 		}
 	}
 
