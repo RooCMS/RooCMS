@@ -76,27 +76,6 @@ class IU_Extends extends Requirement {
 
 
 	/**
-	 * Step 3 : Check chmod
-	 */
-	protected function step_3() {
-
-		$this->page_title = "Проверка и установка доступов к файлам RooCMS";
-		$this->status = "Проверяем доступы и разрешения к важным файлам RooCMS<br />Установка доступов и разрешений для важных файлов RooCMS";
-
-		$this->check_chmod();
-
-		if($this->check_submit()) {
-			if($this->check_step(3)) {
-				go(SCRIPT_NAME."?step=4");
-			}
-			else {
-				goback();
-			}
-		}
-	}
-
-
-	/**
 	 * Init var $this->>step
 	 */
 	protected function init_step() {

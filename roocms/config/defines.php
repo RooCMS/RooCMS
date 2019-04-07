@@ -101,8 +101,8 @@ define('CRITICAL_STYLESHEETS',		'<script type="text/javascript" src="/plugin/jqu
 					 <link rel="stylesheet" type="text/css" href="/plugin/bootstrap/css/bootstrap.min.css" media="screen" />
 					 <script type="text/javascript" src="/plugin/bootstrap/js/bootstrap.bundle.min.js"></script>');
 define('ROOCMS_MAJOR_VERSION',		'1');
-define('ROOCMS_MINOR_VERSION',		'4');
-define('ROOCMS_RELEASE_VERSION',	'0');
+define('ROOCMS_MINOR_VERSION',		'3');
+define('ROOCMS_RELEASE_VERSION',	'3');
 define('ROOCMS_BUILD_VERSION',		'alpha');
 define('ROOCMS_VERSION',		ROOCMS_MAJOR_VERSION.".".ROOCMS_MINOR_VERSION.".".ROOCMS_RELEASE_VERSION);
 define('ROOCMS_FULL_VERSION',		ROOCMS_MAJOR_VERSION.".".ROOCMS_MINOR_VERSION.".".ROOCMS_RELEASE_VERSION." ".ROOCMS_BUILD_VERSION);

@@ -53,37 +53,33 @@ class Install extends IU_Extends {
 				break;
 
 			case 3:
+				$this->page_title = "Настройка простых параметров сайта";
+				$this->status = "Устанвливаем домен и название сайта<br />Указываем электронную почту администратора сайта";
 				$this->step_3();
 				break;
 
 			case 4:
-				$this->page_title = "Настройка простых параметров сайта";
-				$this->status = "Устанвливаем домен и название сайта<br />Указываем электронную почту администратора сайта";
+				$this->page_title = "Настройка соеденения с БД";
+				$this->status = "Устанвливаем соедение с базой данных<br />Записываем данные для соеденения с БД";
 				$this->step_4();
 				break;
 
 			case 5:
-				$this->page_title = "Настройка соеденения с БД";
-				$this->status = "Устанвливаем соедение с базой данных<br />Записываем данные для соеденения с БД";
+				$this->page_title = "Установка БД";
+				$this->status = "Устанавливаем схему БД<br />Импортируем таблицы и записи БД";
 				$this->step_5();
 				break;
 
 			case 6:
-				$this->page_title = "Установка БД";
-				$this->status = "Устанавливаем схему БД<br />Импортируем таблицы и записи БД";
+				$this->page_title = "Установка логина и пароля администратора";
+				$this->status = "Устанавливаем логин и пароль администратора<br />После установки логина и пароля вас переадресует в Панель Управления сайтом.";
 				$this->step_6();
 				break;
 
 			case 7:
-				$this->page_title = "Установка логина и пароля администратора";
-				$this->status = "Устанавливаем логин и пароль администратора<br />После установки логина и пароля вас переадресует в Панель Управления сайтом.";
-				$this->step_7();
-				break;
-
-			case 8:
 				$this->page_title = "Завешаем установку";
 				$this->status = "Установка RooCMS успешно завершена<br />Спасибо, что выбрали RooCMS для своего проекта.";
-				$this->step_8();
+				$this->step_7();
 				break;
 
 			default:
@@ -116,11 +112,11 @@ class Install extends IU_Extends {
 	/**
 	 * Простые настройки
 	 */
-	private function step_4() {
+	private function step_3() {
 
 		global $post, $parse, $logger, $files, $site;
 
-		if($this->check_submit() && $this->check_step(4)) {
+		if($this->check_submit() && $this->check_step(3)) {
 
 			# Проверяем введен ли заголовок сайта
 			$this->check_data_post("site_title", "Неверно указано название сайта");
@@ -157,7 +153,7 @@ class Install extends IU_Extends {
 				$logger->info("E-mail администратора - ".$post->site_sysemail, false);
 
 				# go next step
-				go(SCRIPT_NAME."?step=5");
+				go(SCRIPT_NAME."?step=4");
 			}
 			else {
 				goback();
@@ -174,7 +170,7 @@ class Install extends IU_Extends {
 
 		# go next step
 		if(isset($site) && trim($site['title']) != "" && trim($site['domain']) != "" && trim($site['sysemail']) != "") {
-			go(SCRIPT_NAME."?step=5");
+			go(SCRIPT_NAME."?step=4");
 		}
 	}
 
@@ -182,11 +178,11 @@ class Install extends IU_Extends {
 	/**
 	 * Настраиваем соеденение с БД
 	 */
-	private function step_5() {
+	private function step_4() {
 
 		global $db, $db_info, $post, $parse, $logger, $files;
 
-		if($this->check_submit() && $this->check_step(5)) {
+		if($this->check_submit() && $this->check_step(4)) {
 
 			# Проверяем указан ли хост БД
 			$this->check_data_post("db_info_host", "Не указано соеденение с сервером БД");
@@ -232,7 +228,7 @@ class Install extends IU_Extends {
 				$logger->info("Данные для соеденения с БД успешно записаны", false);
 
 				# go next step
-				go(SCRIPT_NAME."?step=6");
+				go(SCRIPT_NAME."?step=5");
 			}
 		}
 
@@ -244,7 +240,7 @@ class Install extends IU_Extends {
 			$this->log[] = array('Префикс таблиц БД', '<input type="text" class="form-control" name="db_info_prefix" required placeholder="roocms_" value="roocms_">', true, 'Укажите префикс для таблиц БД.');
 		}
 		else {
-			go(SCRIPT_NAME."?step=6");
+			go(SCRIPT_NAME."?step=5");
 		}
 	}
 
@@ -252,13 +248,13 @@ class Install extends IU_Extends {
 	/**
 	 * Импортируем данные в БД
 	 */
-	private function step_6() {
+	private function step_5() {
 
 		global $db, $db_info, $roocms, $post, $parse, $logger, $files, $site;
 
 		$roocms->sess['db_info_pass'] = $parse->text->html($roocms->sess['db_info_pass']);
 
-		if($this->check_submit() && $this->check_step(6)) {
+		if($this->check_submit() && $this->check_step(5)) {
 
 			$conffile = _ROOCMS."/config/config.php";
 
@@ -275,7 +271,7 @@ class Install extends IU_Extends {
 			$logger->info("Данные занесены в БД успешно!", false);
 
 			# go next step
-			go(SCRIPT_NAME."?step=7");
+			go(SCRIPT_NAME."?step=6");
 		}
 
 
@@ -307,7 +303,7 @@ class Install extends IU_Extends {
 	/**
 	 * Установка логина и пароля администратора
 	 */
-	private function step_7() {
+	private function step_6() {
 
 		global $db, $parse, $logger, $post;
 
@@ -333,7 +329,7 @@ class Install extends IU_Extends {
 				$_SESSION['adm_passw'] = $post->adm_passw;
 
 				# go
-				go(SCRIPT_NAME."?step=8");
+				go(SCRIPT_NAME."?step=7");
 			}
 			else {
 				goback();
@@ -348,7 +344,7 @@ class Install extends IU_Extends {
 	/**
 	 * Завершение установки RooCMS
 	 */
-	private function step_8() {
+	private function step_7() {
 
 		global $db, $security, $roocms, $logger, $site;
 
@@ -376,12 +372,6 @@ class Install extends IU_Extends {
 		# CONGRULATIONS
 		$this->log[] = array('', '<div class="text-center">Поздравляем.<br />Вы успешно завершили установку RooCMS.<br />Текущая версия: '.ROOCMS_VERSION.'</div>', true, '');
 		$this->log[] = array('', '<div class="text-center">Не забудьте удалить папку /install/ в целях повышения безопастности вашего сайта.</div>', false, '');
-
-		$confperms = array('path' => _ROOCMS.'/config/config.php', 'chmod' => '0644');
-
-		if(!@chmod($confperms['path'], $confperms['chmod'])) {
-			$this->log[] = array("", "Не удалось изменить доступ к файлу ".$confperms['path']." вам потребуется установить доступ вручную через FTP. Установить доступ <b>0644</b>", false, "");
-		}
 
 		$servname = explode(".", $_SERVER['SERVER_NAME']);
 		$server_name = (count($servname) == 2) ? "www.".$_SERVER['SERVER_NAME']: $_SERVER['SERVER_NAME'] ;

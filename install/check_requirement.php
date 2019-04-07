@@ -123,36 +123,4 @@ class Requirement {
 			$this->log[] = array("Поддержка PCRE UTF-8", "Вкл", true, "");
 		}
 	}
-
-
-	/**
-	 * Устанавливаем права на важные директории и файлы
-	 */
-	protected function check_chmod() {
-
-		global $files;
-
-		$protect = [];
-		require_once _LIB."/files_protected.php";
-
-		foreach($protect AS $v) {
-			$roocmspath = str_replace(_SITEROOT, "", $v['path']);
-			if(file_exists($v['path'])) {
-				if(@chmod($v['path'], $v['chmod'])) {
-					$this->log[] = array("Директория/Файл ".$roocmspath, $files->get_fileperms($v['path']), true, "");
-				}
-				else {
-					$this->log[] = array("Директория/Файл ".$roocmspath, $files->get_fileperms($v['path']), false, "Неверные права доступа к директории/файлу. Рекомендуемые права ".$v['chmod'].". Для повышения безопастности установите права вручную через ваш FTP доступ");
-				}
-
-			}
-			else {
-				$this->log[] = array("Директория/Файл ".$roocmspath, "Ошибка", false, "Файл или директория не найдены");
-				$this->allowed = false;
-			}
-		}
-
-		clearstatcache();
-	}
-
 }

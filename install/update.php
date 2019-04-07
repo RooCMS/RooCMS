@@ -57,13 +57,9 @@ class Update extends IU_Extends {
 				break;
 
 			case 3:
-				$this->step_3();
-				break;
-
-			case 4:
 				$this->page_title = "Обновление RooCMS";
 				$this->status = "Обновление RooCMS<br />...";
-				$this->step_4();
+				$this->step_3();
 				break;
 
 			default:
@@ -96,7 +92,7 @@ class Update extends IU_Extends {
 	/**
 	 * Sorry
 	 */
-	private function step_4() {
+	private function step_3() {
 		$this->log[] = array('', 'Извините.<br />Сегодня автоматические обновление невозможно.<br />В ближайшем будущем мы неприменно его реализуем, но сейчас, любое обновление придется делать вручную.', false, '');
 		$this->log[] = array('', 'Ваша версия RooCMS: '.ROOCMS_VERSION.'', true, '');
 
