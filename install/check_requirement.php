@@ -28,18 +28,18 @@ class Requirement {
 
 
 	/**
-	 * Проверяем настройки хостинга
+	 * Check hosting settings
 	 */
 	protected function check_requirement() {
 		$this->check_php_version();
-		$this->check_php_sapi();
+		//$this->check_php_sapi();
 		$this->check_php_extensions();
 		$this->check_php_ini();
 	}
 
 
 	/**
-	 * Проверяем версию PHP
+	 * Checl PHP Version
 	 */
 	private function check_php_version() {
 		$php 	= PHP_VERSION;
@@ -62,9 +62,9 @@ class Requirement {
 
 
 	/**
-	 * Проверяем что бы PHP не был установлен как CGI
+	 * Check PHP Mode
 	 */
-	private function check_php_sapi() {
+	/*private function check_php_sapi() {
 
 		$sapi_type = php_sapi_name();
 
@@ -74,11 +74,11 @@ class Requirement {
 		else {
 			$this->log[] = array("PHP инсталирован на сервере", "как модуль", true, "");
 		}
-	}
+	}*/
 
 
 	/**
-	 * Проверяем наличие расширений PHP
+	 * Check PHP Ext
 	 */
 	private function check_php_extensions() {
 		$rextensions	= array("Core", "standard", "mysqli", "session", "mbstring", "calendar", "date", "pcre", "xml", "SimpleXML", "gd");
@@ -97,7 +97,7 @@ class Requirement {
 
 
 	/**
-	 * Проверяем настройки PHP
+	 * Check setting...
 	 */
 	private function check_php_ini() {
 		if(ini_get('register_globals') == '1' || mb_strtolower(ini_get('register_globals')) == 'on') {

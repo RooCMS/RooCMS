@@ -26,6 +26,28 @@ h1, h2, h3, h4, h5, h6 {
   font-family: "Ubuntu", "PT Sans";
 }
 
+/*@media (max-width: map-get($grid-breakpoints, sm)) {
+
+}
+@media (min-width: map-get($grid-breakpoints, sm)) {
+
+}
+@media (min-width: map-get($grid-breakpoints, md)) {
+
+}
+@media (min-width: map-get($grid-breakpoints, lg)) {
+
+}
+@media (min-width: map-get($grid-breakpoints, xl)) {
+
+}
+@media (min-width: map-get($grid-breakpoints, xxl)) {
+	h1, .h1 {font-size: 1rem * 2.5;}
+	h2, .h2 {font-size: 1rem * 2;}
+	h3, .h3 {font-size: 1rem * 1.75;}
+	h4, .h4 {font-size: 1rem * 1.5;}
+	h5, .h5 {font-size: 1rem * 1.25;}
+}*/
 button, .small, small, .btn, .label, .badge {
   font-family: "PT Sans";
 }
