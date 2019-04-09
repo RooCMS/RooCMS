@@ -107,9 +107,7 @@ class ACP_Feeds {
 								if(isset($post->update_item)) {
 									$this->unit->update_item($get->_item);
 								}
-								else {
-									goback();
-								}
+								goback();
 								break;
 
 							# migrate item in feeds

@@ -210,7 +210,7 @@ class Debuger {
 
         	$time = date("d.m.Y H:i:s");
 
-		$subj .= $time." | ".$ertitle." | ".$errno." | ".$msg." | ".$line." | ".$file."\r\n";
+		$subj .= $time." | ".getenv('REMOTE_ADDR')." | ".$_SERVER['REQUEST_URI']." | ".$ertitle." | ".$errno." | ".$msg." | ".$line." | ".$file."\r\n";
 
 		$f = fopen(ERRORSLOG, "w+");
 		if(is_writable(ERRORSLOG)) {
@@ -220,15 +220,15 @@ class Debuger {
 
 		# hide error if not use debugmode
 		if(error_reporting() == 0 && $erlevel == 0) {
-			die(CRITICAL_STYLESHEETS."<blockquote>Извините, что то пошло не так. Мы уже работаем над устранением причин.
+			die("<blockquote style='padding: 1rem; margin: .2rem .4rem;border: 1px solid moccasin;background-color: lemonchiffon;color: #1e1e1e;font-size: .85rem;'>
+							Извините, что то пошло не так. Мы уже работаем над устранением причин.
 							<small>".$time."</small>
 							<a href='javascript:history.back(1)'>< Вернуться назад</a></blockquote>");
 		}
 
                 if(DEBUGMODE) {
-			echo CRITICAL_STYLESHEETS."
-			<div class='alert alert-danger col-12 font-weight-light' role='alert'>
-			<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button>
+			echo "
+			<div style='padding: 1rem; margin: .2rem .4rem;border: 1px solid red;background-color: moccasin;color: #1e1e1e;font-size: .85rem;'>
 			ОШИБКА: <b>#{$errno} - {$ertitle}</b>
 			<br />Строка: <b>{$line}</b> в файле <b>{$file}</b>
 			<br /><b>{$msg}</b>
@@ -309,7 +309,7 @@ class Debuger {
 
 		global $debug, $db;
 
-                echo "<div class='container'><div class='row'><div class='col-xs-12'><h3>Отладка</h3>";
+                echo "<div class='container'><div class='row'><div class='col-12'><h3>Отладка</h3>";
 
                 foreach($debug->debug_dump AS $k=>$v) {
         	        echo "<code>debug <b>#".$k."</b></code><pre class='small' style='overflow: auto;max-height: 300px;'>".htmlspecialchars($v)."</pre>";
@@ -318,7 +318,7 @@ class Debuger {
                 echo "</div></div></div>";
 
 		if($debug->show_debug) {
-			echo "<div class='container'><div class='row'><div class='col-xs-12'><div class='panel-group' id='debugaccordion'>";
+			echo "<div class='container'><div class='row'><div class='col-12'><div class='panel-group' id='debugaccordion'>";
 
 			echo "	<div class='panel panel-primary'>
 					<div class='panel-heading'>

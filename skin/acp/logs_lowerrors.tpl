@@ -8,20 +8,21 @@
 		<thead class="bg-light">
 			<tr class="active">
 				<th width="10%">Дата</th>
-				<th width="15%">Тип ошибки </th>
+				<th width="12%">Тип ошибки </th>
 				<th width="3%" class="text-center">№</th>
-				<th width="72%">Ошибка</th>
+				<th width="75%">Ошибка</th>
 			</tr>
 		</thead>
 		<tbody>
 		{foreach from=$error item=e}
 			<tr>
 				<td class="small align-middle">{$e[0]}</td>
-				<td class="align-middle">{$e[1]}</td>
-				<td class="text-center align-middle">{$e[2]}</td>
+				<td class="align-middle">{$e[3]}</td>
+				<td class="text-center align-middle">{$e[4]}</td>
 				<td class="align-middle">
-					<b class="small">Файл:</b> {$e[5]} <b class="small">Строка:</b> {$e[4]}
-					<br /><mark>{$e[3]}</mark>
+					<b class="small">Файл:</b> {$e[7]} <b class="small">Строка:</b> {$e[6]}
+					<br /><mark class="my-1">{$e[5]}</mark>
+					<b class="small">IP:</b> {$e[1]} <b class="small">URI:</b> {$e[2]}
 				</td>
 			</tr>
 		{/foreach}
@@ -31,11 +32,12 @@
 	{foreach from=$error item=e}
 		<div class="card-body border-top border-bottom d-block d-sm-none">
 			<p class="card-text">
-				<small class="text-muted">{$e[1]} - {$e[2]}</small>
+				<small class="text-muted">{$e[3]} - {$e[4]}</small>
 			</p>
 			<p class="card-text">
-				<b class="small">Файл:</b> {$e[5]} <b class="small">Строка:</b> {$e[4]}
-				<mark>{$e[3]}</mark>
+				<b class="small">Файл:</b> {$e[7]} <b class="small">Строка:</b> {$e[6]}
+				<mark class="my-2">{$e[5]}</mark>
+				<b class="small">IP:</b> {$e[1]} <b class="small">URI:</b> {$e[2]}
 			</p>
 		</div>
 	{/foreach}

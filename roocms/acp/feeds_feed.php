@@ -56,7 +56,7 @@ class ACP_Feeds_Feed {
 		# feed items
 		$taglinks = [];
 		$feedlist = [];
-		$q = $db->query("SELECT id, status, group_access, title, brief_item, date_publications, date_end_publications, date_update, views FROM ".PAGES_FEED_TABLE." WHERE sid='".$this->feed['id']."' ORDER BY ".$order);
+		$q = $db->query("SELECT id, status, group_access, title, date_publications, date_end_publications, date_update, views FROM ".PAGES_FEED_TABLE." WHERE sid='".$this->feed['id']."' ORDER BY ".$order);
 		while($row = $db->fetch_assoc($q)) {
 
 			$row['publication_status'] = ($row['date_end_publications'] < time() && $row['date_end_publications'] != 0) ? "hide" : "show" ;
