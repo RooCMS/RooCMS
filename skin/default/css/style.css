@@ -167,6 +167,11 @@ a.tag.active:hover .tag_amount:after {
 }
 @media (min-width: 1200px) {
   .roocms-feedbrief-mh {
+    max-height: 182.344px;
+  }
+}
+@media (min-width: 1440px) {
+  .roocms-feedbrief-mh {
     max-height: 222.219px;
   }
 }

@@ -4,15 +4,16 @@
 	<div class="row" id="item_{$item['id']}">
 		<div class="col-12">
 			<div class="card mb-3">
-				<div class="card-header">
-					<h1 class="card-title mb-0">{$item['title']}</h1>
-					<span class="small">
+				<div class="card-header d-flex flex-column flex-md-row flex-wrap">
+					<h1 class="card-title w-100 mb-0">{$item['title']}</h1>
+					<span class="small mt-2 mb-3 mb-md-0">
 						<i class="fas fa-fw fa-calendar" title="Дата публикации"></i> {$item['datepub']}
 						{if $item['views'] != 0} <i class="fas fa-fw fa-eye" title="Просмотрено раз"></i> {$item['views']}{/if}
 					</span>
 
+					{* Tags *}
 					{if !empty($item['tags'])}
-					<div class="float-right small mt-n2">
+					<div class="ml-md-auto small text-center">
 						{foreach from=$item['tags'] item=tag}
 							<a href="{$SCRIPT_NAME}?part=tags&tag={$tag['title']}" class="btn btn-outline-gray btn-sm">#{$tag['title']}</a>
 						{/foreach}
@@ -68,27 +69,31 @@
 				</div>
 			</div>
 
+			{* Prev / Next item *}
 			{if isset($item['prev']) || isset($item['next'])}
 				<div class="row mb-3">
 					<div class="col-6 text-left text-truncate">
 						{if isset($item['prev'])}
 							<small>Ранее {$item['prev']['datepub']}</small>
-							<a href="{$SCRIPT_NAME}?page={$feed['alias']}{if isset($smarty.get.pg)}&pg={$smarty.get.pg}{/if}&id={$item['prev']['id']}" class="text-uppercase" id="PrevFeedItem" title="{$item['prev']['title']}"><i class="fas fa-angle-left fa-3x float-left"></i>
-								{if isset($item['prev']['image'][0])}<img src="/upload/images/{$item['prev']['image'][0]['thumb']}" class="rounded float-left mx-2 roocms-feeditem-pn" alt="{$item['prev']['title']}">{/if}
+							<a href="{$SCRIPT_NAME}?page={$feed['alias']}{if isset($smarty.get.pg)}&pg={$smarty.get.pg}{/if}&id={$item['prev']['id']}" class="text-uppercase" id="PrevFeedItem" title="{$item['prev']['title']}">
+								<i class="fas fa-angle-left fa-3x float-left mr-1"></i>
+								{if isset($item['prev']['image'][0])}<img src="/upload/images/{$item['prev']['image'][0]['thumb']}" class="rounded float-left mr-2 roocms-feeditem-pn d-none d-md-block" alt="{$item['prev']['title']}">{/if}
 								<br />{$item['prev']['title']}</a>
 						{/if}
 					</div>
 					<div class="col-6 text-right text-truncate">
 						{if isset($item['next'])}
 							<small>Далее {$item['next']['datepub']}</small>
-							<a href="{$SCRIPT_NAME}?page={$feed['alias']}{if isset($smarty.get.pg)}&pg={$smarty.get.pg}{/if}&id={$item['next']['id']}" class="text-uppercase" id="NextFeedItem" title="{$item['next']['title']}"><i class="fas fa-angle-right fa-3x float-right"></i>
-								{if isset($item['next']['image'][0])}<img src="/upload/images/{$item['next']['image'][0]['thumb']}" class="rounded float-right mx-2 roocms-feeditem-pn" alt="{$item['next']['title']}">{/if}
+							<a href="{$SCRIPT_NAME}?page={$feed['alias']}{if isset($smarty.get.pg)}&pg={$smarty.get.pg}{/if}&id={$item['next']['id']}" class="text-uppercase" id="NextFeedItem" title="{$item['next']['title']}">
+								<i class="fas fa-angle-right fa-3x float-right ml-1"></i>
+								{if isset($item['next']['image'][0])}<img src="/upload/images/{$item['next']['image'][0]['thumb']}" class="rounded float-right ml-2 roocms-feeditem-pn d-none d-md-block" alt="{$item['next']['title']}">{/if}
 								<br />{$item['next']['title']}</a>
 						{/if}
 					</div>
 				</div>
 			{/if}
 
+			{* More *}
 			{if !empty($more)}
 				<div class="row mt-5">
 					<div class="col-12 text-center">

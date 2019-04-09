@@ -11,8 +11,12 @@
 		{/if}
 		</a>
 		<div class="card-body">
-			<h5 class="card-title">{$feed['title']}</h5>
-			<p class="card-text"><small class="text-muted">{$feed['datepub']}</small><a href="{$SCRIPT_NAME}?page={$feed['alias']}&id={$feed['id']}" class="btn btn-sm btn-light mt-n1 float-right">Читать</a></p>
+			<h5 class="card-title d-none d-xl-block">{$feed['title']}</h5>
+			<h6 class="card-title d-block d-xl-none">{$feed['title']}</h6>
+			<div class="card-text d-flex flex-column flex-xl-row">
+				<small class="text-muted py-1 text-center text-xl-left">{$feed['datepub']}</small>
+				<a href="{$SCRIPT_NAME}?page={$feed['alias']}&id={$feed['id']}" class="btn btn-sm btn-light ml-xl-auto">Читать</a>
+			</div>
 		</div>
 	</div>
 {/foreach}

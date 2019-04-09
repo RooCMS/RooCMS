@@ -56,6 +56,11 @@ a.tag.active:hover .tag_amount:after {left: -1px; border-left: 4px solid $brand-
 }
 @media (min-width: map-get($grid-breakpoints, xl)) {
 	.roocms-feedbrief-mh {
+		max-height: 182.344px;
+	}
+}
+@media (min-width: map-get($grid-breakpoints, xxl)) {
+	.roocms-feedbrief-mh {
 		max-height: 222.219px;
 	}
 }

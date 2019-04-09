@@ -117,7 +117,7 @@
 </div>
 <div class="container header my-3">
 	<div class="row">
-		<div class="col-sm-5 col-lg-4 align-middle mt-n1">
+		<div class="col-sm-5 col-lg-4 align-middle text-center text-sm-left mt-n1">
 			<a href="/" title="{$config->site_title}"><img src="{$SKIN}/img/logo.png" border="0" id="logo" alt="{$config->site_title}"></a>
 		</div>
 		<div class="col-sm-7 col-lg-8 align-middle">
@@ -125,14 +125,14 @@
 			{$module->load("auth")}
 
 			{if !empty($navtree)}
-			<nav class="nav align-items-end align-items-lg-start mt-3">
+			<nav class="nav d-flex align-items-end align-items-lg-start mt-3">
 				{foreach from=$navtree item=navitem key=k name=navigate}
 					{if $navitem['level'] == 0}
 						<a class="{*flex-sm-fill*} d-none d-lg-inline nav-link text-primary roocms-topnav-link{if isset($smarty.get.page) && $smarty.get.page == $navitem['alias']} active{/if}" href="/index.php?page={$navitem['alias']}">{$navitem['title']}</a>
 					{/if}
 				{/foreach}
 
-				<a class="flex-sm-fill nav-link text-gray text-right roocms-topnav-link" data-toggle="collapse" href="#collapseAllMenu" role="button" aria-expanded="false" aria-controls="collapseAllMenu">
+				<a class="flex-fill nav-link text-gray text-center text-sm-right roocms-topnav-link" data-toggle="collapse" href="#collapseAllMenu" role="button" aria-expanded="false" aria-controls="collapseAllMenu">
 					<span class="d-inline d-lg-none">Меню</span> <i class="fas fa-fw fa-bars"></i>
 				</a>
 			</nav>
