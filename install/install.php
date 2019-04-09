@@ -36,7 +36,7 @@ class Install extends IU_Extends {
 
 
 	/**
-	 * Доктор, начнем операцию...
+	 * Start
 	 */
 	public function __construct() {
 
@@ -110,7 +110,7 @@ class Install extends IU_Extends {
 
 
 	/**
-	 * Простые настройки
+	 * Easy Settings
 	 */
 	private function step_3() {
 
@@ -118,13 +118,13 @@ class Install extends IU_Extends {
 
 		if($this->check_submit() && $this->check_step(3)) {
 
-			# Проверяем введен ли заголовок сайта
+			# Make sure Site Title is indicated.
 			$this->check_data_post("site_title", "Неверно указано название сайта");
 
-			# Проверяем указан ли домен сайта
+			# Check if domain is specified
 			$this->check_data_post("site_domain", "Неверно указан адрес сайта");
 
-			# Проверяем указан ли почтовый ящик администратора сайта
+			# Check that admin email is specified.
 			if(!isset($post->site_sysemail) || !$parse->valid_email($post->site_sysemail)) {
 				$this->allowed = false;
 				$logger->error("Неверно указан адрес электронной почты администратора");
@@ -143,7 +143,7 @@ class Install extends IU_Extends {
 				# write
 				$files->write_file($conffile, $context);
 
-				# запоминаем название сайта для БД
+				# Remember site title for database
 				$_SESSION['site_title'] = $parse->text->html($post->site_title);
 
 				# notice
@@ -176,7 +176,7 @@ class Install extends IU_Extends {
 
 
 	/**
-	 * Настраиваем соеденение с БД
+	 * Setting up database connection
 	 */
 	private function step_4() {
 
@@ -184,16 +184,16 @@ class Install extends IU_Extends {
 
 		if($this->check_submit() && $this->check_step(4)) {
 
-			# Проверяем указан ли хост БД
+			# Check that host has been specified for database
 			$this->check_data_post("db_info_host", "Не указано соеденение с сервером БД");
 
-			# Проверяем указано ли название БД
+			# Check that name of database is specified
 			$this->check_data_post("db_info_base", "Не указано название БД");
 
-			# Проверяем указан ли пользователь для соеденения с БД
+			# Make sure that database user is specified.
 			$this->check_data_post("db_info_user", "Не указан пользователь БД");
 
-			# Проверяем указан ли пароль от БД
+			# Make sure that database password is specified.
 			$this->check_data_post("db_info_pass", "Не указан пароль пользователя БД");
 
 			# prefix table
@@ -201,7 +201,7 @@ class Install extends IU_Extends {
 				$post->db_info_prefix = "";
 			}
 
-			# check mysql connect
+			# Check mysql connect
 			$post->db_info_pass = $parse->text->html($post->db_info_pass);
 			if(!$db->check_connect($post->db_info_host, $post->db_info_user, $post->db_info_pass, $post->db_info_base)) {
 				$logger->error("Указаны неверные параметры для соеденения с БД", false);
@@ -246,7 +246,7 @@ class Install extends IU_Extends {
 
 
 	/**
-	 * Импортируем данные в БД
+	 * Import schema and data to DB
 	 */
 	private function step_5() {
 
@@ -301,7 +301,7 @@ class Install extends IU_Extends {
 
 
 	/**
-	 * Установка логина и пароля администратора
+	 * Set up administrator login and password
 	 */
 	private function step_6() {
 
@@ -342,7 +342,7 @@ class Install extends IU_Extends {
 
 
 	/**
-	 * Завершение установки RooCMS
+	 * End of installation
 	 */
 	private function step_7() {
 
@@ -399,10 +399,10 @@ class Install extends IU_Extends {
 
 
 	/**
-	 * Проверяем вводимые данные в прцоессе установки
+	 * Check data
 	 *
-	 * @param string $field - проверяемое поле
-	 * @param string $ermsg - сообщение об ошибке
+	 * @param string $field - check field
+	 * @param string $ermsg - error message
 	 */
 	private function check_data_post($field, $ermsg) {
 

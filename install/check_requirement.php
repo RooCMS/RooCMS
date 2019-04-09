@@ -45,7 +45,7 @@ class Requirement {
 		$php 	= PHP_VERSION;
 
 		if(version_compare($php, '5.4', "<")) {
-			$this->log[] = array("Версия PHP", $php, false, "Версия PHP не подходит для использования RooCMS. Оптимальная версия 5.2 или 5.3");
+			$this->log[] = array("Версия PHP", $php, false, "Версия PHP не подходит для использования RooCMS. Оптимальная версия 5.4 и выше.");
 			$this->allowed = false;
 		}
 		else {
@@ -53,7 +53,7 @@ class Requirement {
 		}
 
 		if(ini_get('safe_mode') == '1' || mb_strtolower(ini_get('safe_mode')) == 'on') {
-			$this->log[] = array("Безопасный режим PHP", "Вкл", false, "Ваш PHP включен в безопасном режиме. Это может повлечь за собой некорректную работу некоторых алгоритмов.");
+			$this->log[] = array("Безопасный режим PHP", "Вкл", false, "Ваш PHP включен в безопасном режиме.");
 		}
 		else {
 			$this->log[] = array("Безопасный режим PHP", "Выкл", true, "");
