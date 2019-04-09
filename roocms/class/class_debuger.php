@@ -309,7 +309,7 @@ class Debuger {
 
 		global $debug, $db;
 
-                echo "<div class='container'><div class='row'><div class='col-12'><h3>Отладка</h3>";
+                echo "<div class='container'><div class='row'><div class='col-12'><h4>Отладка</h4>";
 
                 foreach($debug->debug_dump AS $k=>$v) {
         	        echo "<code>debug <b>#".$k."</b></code><pre class='small' style='overflow: auto;max-height: 300px;'>".htmlspecialchars($v)."</pre>";
@@ -318,14 +318,14 @@ class Debuger {
                 echo "</div></div></div>";
 
 		if($debug->show_debug) {
-			echo "<div class='container'><div class='row'><div class='col-12'><div class='panel-group' id='debugaccordion'>";
 
-			echo "	<div class='panel panel-primary'>
-					<div class='panel-heading'>
-						<h4 class='panel-title'><a class='accordion-toggle' data-toggle='collapse' data-parent='#debugaccordion' href='#collapseQuerys'>Запросы к БД</a></h4>
+			echo "	<div class='container'><div class='row'><div class='col-12'><div id='debugaccordion'>
+				<div class='card'>
+					<div class='card-header'>
+						<h5 class='card-title mb-0'><a class='accordion-toggle' data-toggle='collapse' data-parent='#debugaccordion' href='#collapseQuerys'>Запросы к БД<i class='fas fa-fw fa-caret-down'></i></a></h5>
 					</div>
-					<div id='collapseQuerys' class='panel-collapse collapse'>
-						<div class='panel-body'>
+					<div id='collapseQuerys' class='collapse'>
+						<div class='card-body'>
 							{$debug->debug_info}
 						</div>
 					</div>
@@ -335,12 +335,12 @@ class Debuger {
 		}
 
 		# functions
-		echo "<div class='container'><div class='row'><div class='col-xs-12'><div class='panel-group' id='debug2accordion'>";
-		echo "	<div class='panel panel-default'>
-				<div class='panel-heading'>
-					<h4 class='panel-title'><a class='accordion-toggle' data-toggle='collapse' data-parent='#debug2accordion' href='#collapseFCC'>Defined Functions/Classes/Constants</a></h4>
+		echo "	<div class='container'><div class='row'><div class='col-12'><div id='debug2accordion'>
+			<div class='card'>
+				<div class='card-header'>
+					<h5 class='card-title mb-0'><a class='accordion-toggle' data-toggle='collapse' data-parent='#debug2accordion' href='#collapseFCC'>Defined Functions/Classes/Constants<i class='fas fa-fw fa-caret-down'></i></a></h5>
 				</div>
-			<ul id='collapseFCC' class='list-group panel-collapse collapse'>";
+			<ul id='collapseFCC' class='list-group collapse'>";
 
 
 		$func_array = get_defined_functions();
@@ -360,15 +360,14 @@ class Debuger {
 			echo "\n<li class='list-group-item'><b>{$k}</b> - ".htmlspecialchars($v)."</li>";
 		}
 
-		echo "	</ul></div>";
+		echo "	</ul></div>
+			</div></div></div></div>";
 
-		echo "</div></div></div></div>";
-
-                echo "  <div class='container'>
+                echo "  <div class='container my-2'><div class='row'><div class='col-12'>
 				<span class='fa fa-bar-chart-o fa-fw text-nowrap'></span> Обращений к БД: <b>{$db->cnt_querys}</b>
 				&nbsp;&nbsp; <span class='fa fa-tachometer fa-fw text-nowrap'></span> Использовано памяти : <span style='cursor: help;' title='".round($debug->memory_peak_usage/1024/1024, 2)." байт макс'><b>".round($debug->productivity_memory/1024/1024, 2)." Мб</b></span>
 				&nbsp;&nbsp; <span class='fa fa-clock-o fa-fw text-nowrap'></span> Время работы скрипта : <b>{$debug->productivity_time} мс</b>
-			</div>";
+			</div></div></div>";
 
                 exit;
 	}

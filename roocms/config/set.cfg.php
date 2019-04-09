@@ -1,7 +1,7 @@
 <?php
 /**
  * RooCMS - Open Source Free Content Managment System
- * @copyright © 2010-2020 alexandr Belov aka alex Roosso. All rights reserved.
+ * @copyright © 2010-2020 alexandr Belov aka alex Roosso.
  * @author    alex Roosso <info@roocms.com>
  * @link      http://www.roocms.com
  * @license   http://www.gnu.org/licenses/gpl-3.0.html
@@ -20,7 +20,7 @@ if(!defined('RooCMS')) {
 //#########################################################
 
 /**
-* Системные настройки отладки
+* Debug mode switcher
 */
 define('DEBUGMODE',	false);	# Режим отладки
 
@@ -33,7 +33,7 @@ define('MEMORYUSAGE', 	memory_get_usage());
 
 
 /**
- * Проверяем работает ли Apache
+ * Check software Apache
  */
 if(stristr(strtolower($_SERVER['SERVER_SOFTWARE']), 'apache') === FALSE) {
 	define('APACHE', false);
@@ -68,24 +68,24 @@ if(session_status() == 1) {
 
 
 /**
-* Настройка "печенек"
+* Set up Cookie
 *
 * "- Будешь на кухне, захвати печеньки.
 *  - Печеньки захвачены, мой генерал!"
 * 				(с) Шутник
 */
-ini_set("session.use_cookie",			1);      #	Активируем "печеньки"
+ini_set("session.use_cookie",			1);      #	activate cookie
 if(APACHE) {
-	ini_set("session.cookie_domain",	"");     #	Устанавливаем домен для "печенек"
-	ini_set("session.cookie_path",		"/");    #	Устанавливаем путь к "печенькам"
-	ini_set("session.cookie_secure",	1);      #	Секрет хороших "печенек"
+	ini_set("session.cookie_domain",	"");     #	Set domain for cookie
+	ini_set("session.cookie_path",		"/");    #	Set path for cookie
+	ini_set("session.cookie_secure",	1);      #	Set secury for cookie
 	ini_set("session.cookie_httponly",	1);      #	Секрет хороших "печенек"
 }
 //setcookie("", "", time()+3600);
 
 
 /**
-* Настройки PHP
+* Set up PHP
 */
 //setlocale(LC_ALL, 'ru_RU.UTF8', 'ru.UTF8', 'ru_RU.UTF-8', 'ru.UTF-8', 'ru_RU', 'ru');
 ini_set("max_execution_time",		30);
@@ -108,7 +108,7 @@ ini_set("error_append_string",		"</pre></div>");
 
 
 /**
-* Настройки Multibyte String
+* Set up Multibyte String
 */
 ini_set("mbstring.internal_encoding",		"UTF-8");
 ini_set("mbstring.http_input",			"auto");
@@ -117,13 +117,13 @@ ini_set("mbstring.substitute_character",	"none");
 
 
 /**
-* Устанавливаем заголовок кодировки
+* Set header encoding
 */
 header("Content-type: text/html; charset=utf-8");
 
 
 /**
-* Устанавливаем подпись в заголовке
+* Signature in header
 */
 header("X-Engine: RooCMS");
 header("X-Engine-Copyright: 2010-".date("Y")." (c) RooCMS");

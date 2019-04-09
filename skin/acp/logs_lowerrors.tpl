@@ -22,7 +22,7 @@
 				<td class="align-middle">
 					<b class="small">Файл:</b> {$e[7]} <b class="small">Строка:</b> {$e[6]}
 					<br /><mark class="my-1">{$e[5]}</mark>
-					<b class="small">IP:</b> {$e[1]} <b class="small">URI:</b> {$e[2]}
+					<span class="small text-gray">IP: <b class="text-info">{$e[1]}</b> URI: <b>{$e[2]}</b></span>
 				</td>
 			</tr>
 		{/foreach}
@@ -37,7 +37,7 @@
 			<p class="card-text">
 				<b class="small">Файл:</b> {$e[7]} <b class="small">Строка:</b> {$e[6]}
 				<mark class="my-2">{$e[5]}</mark>
-				<b class="small">IP:</b> {$e[1]} <b class="small">URI:</b> {$e[2]}
+				<span class="small">IP: <b>{$e[1]}</b> URI: <b>{$e[2]}</b></span>
 			</p>
 		</div>
 	{/foreach}
