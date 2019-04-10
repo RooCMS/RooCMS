@@ -105,9 +105,9 @@ class Users extends Security {
 			$data = $db->fetch_assoc($q);
 
 			# uid
-			$this->uid	= $data['uid'];
+			$this->uid	= (int) $data['uid'];
 			# gid
-			$this->gid	= $data['gid'];
+			$this->gid	= (int) $data['gid'];
 			# gtitle
 			$this->gtitle	= $data['gtitle'];
 			# login
@@ -127,8 +127,8 @@ class Users extends Security {
 
 			# array userdata
 			$this->userdata = array(
-				'uid'             => $data['uid'],
-				'gid'             => $data['gid'],
+				'uid'             => (int) $data['uid'],
+				'gid'             => (int) $data['gid'],
 				'gtitle'          => $data['gtitle'],
 				'login'           => $data['login'],
 				'nickname'        => $data['nickname'],

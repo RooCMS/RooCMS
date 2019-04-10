@@ -317,11 +317,11 @@ class Parser {
 	/**
 	 * Check array & clear
 	 *
-	 * @param $array
+	 * @param array $array
 	 *
 	 * @return array
 	 */
-	public function check_array($array) {
+	public function check_array(array $array) {
 
 		$arr = [];
 

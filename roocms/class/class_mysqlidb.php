@@ -305,7 +305,7 @@ class MySQLiDB {
 	/**
 	 * The function checks if requested id is available.
 	 *
-	 * @param string      $id
+	 * @param int         $id
 	 * @param string      $table   - table name
 	 * @param string      $field   - field name
 	 * @param string|null $proviso - Additional condition (filter)

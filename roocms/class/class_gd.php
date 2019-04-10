@@ -31,8 +31,6 @@ class GD {
 	public $info		= [];					# GD infoи
 	public $copyright	= "";					# Copyright text ( Default: $site['title'] )
 	public $domain		= "";					# Site address ( Default: $site['domain'] )
-	public $msize		= array('w' => 1200,'h' => 1200);	# Max sizes saved image
-	public $tsize		= array('w' => 267, 'h' => 150);	# Thumbnail defauly sizes
 	private $rs_quality	= 90;					# Quality saved image
 	private $th_quality	= 90;					# Quality thumbnail
 	private $thumbtg	= "cover";				# Type Thumbnail ( Variables: cover, contain )

@@ -52,7 +52,7 @@ class PageFeed {
 		$smarty->assign("feed", $feed);
 
 		if(isset($get->_id) && $db->check_id(round($get->_id), PAGES_FEED_TABLE, "id", "(date_end_publications = '0' || date_end_publications > '".time()."') AND status='1'")) {
-			$this->item_id = round($get->_id);
+			$this->item_id = (int) round($get->_id);
 			$this->load_item($this->item_id);
 		}
 		elseif(isset($get->_export) && $get->_export == "RSS" && $structure->page_rss && $config->rss_power) {
