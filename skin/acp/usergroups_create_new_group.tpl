@@ -2,7 +2,7 @@
 <div class="card-header">
 	Новая группа
 </div>
-<form method="post" action="{$SCRIPT_NAME}?act=users&part=create_group" role="form">
+<form method="post" action="{$SCRIPT_NAME}?act=usergroups&part=create_group" role="form">
 	<div class="card-body">
 		<div class="form-group row">
 			<label for="inputTitle" class="col-md-5 col-lg-4 form-control-plaintext text-right">

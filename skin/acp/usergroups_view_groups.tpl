@@ -18,15 +18,15 @@
 			<tr>
 				<td class="align-middle text-muted">{$group['gid']}</td>
 				<td class="align-middle">
-					<a href="{$SCRIPT_NAME}?act=users&part=edit_group&gid={$group['gid']}">{$group['title']}</a>
+					<a href="{$SCRIPT_NAME}?act=usergroups&part=edit_group&gid={$group['gid']}">{$group['title']}</a>
 				</td>
 				<td class="align-middle text-left">
 					{$group['users']}
 				</td>
 				<td class="align-middle text-right">
 					<div class="btn-group btn-group-sm">
-						<a href="{$SCRIPT_NAME}?act=users&part=edit_group&gid={$group['gid']}" class="btn btn-outline-primary"><i class="fas fa-users-cog fa-fw"></i><span class="d-none d-md-inline-block">Редактировать</span></a>
-						<a href="{$SCRIPT_NAME}?act=users&part=delete_group&gid={$group['gid']}" class="btn btn-danger"><i class="far fa-trash-alt fa-fw"></i><span class="d-none d-md-inline-block">Удалить</span></a>
+						<a href="{$SCRIPT_NAME}?act=usergroups&part=edit_group&gid={$group['gid']}" class="btn btn-outline-primary"><i class="fas fa-users-cog fa-fw"></i><span class="d-none d-md-inline-block">Редактировать</span></a>
+						<a href="{$SCRIPT_NAME}?act=usergroups&part=delete_group&gid={$group['gid']}" class="btn btn-danger"><i class="far fa-trash-alt fa-fw"></i><span class="d-none d-md-inline-block">Удалить</span></a>
 					</div>
 				</td>
 			</tr>
@@ -39,12 +39,12 @@
 		{foreach from=$data item=group}
 			<tr>
 				<td class="align-middle">
-					<a href="{$SCRIPT_NAME}?act=users&part=edit_group&gid={$group['gid']}">{$group['title']}</a>
+					<a href="{$SCRIPT_NAME}?act=usergroups&part=edit_group&gid={$group['gid']}">{$group['title']}</a>
 				</td>
 				<td class="w-25 align-middle text-right">
 					<div class="btn-group btn-group-sm">
-						<a href="{$SCRIPT_NAME}?act=users&part=edit_group&gid={$group['gid']}" class="btn btn-outline-primary"><i class="fas fa-users-cog fa-fw"></i></a>
-						<a href="{$SCRIPT_NAME}?act=users&part=delete_group&gid={$group['gid']}" class="btn btn-danger"><i class="far fa-trash-alt fa-fw"></i></a>
+						<a href="{$SCRIPT_NAME}?act=usergroups&part=edit_group&gid={$group['gid']}" class="btn btn-outline-primary"><i class="fas fa-users-cog fa-fw"></i></a>
+						<a href="{$SCRIPT_NAME}?act=usergroups&part=delete_group&gid={$group['gid']}" class="btn btn-danger"><i class="far fa-trash-alt fa-fw"></i></a>
 					</div>
 				</td>
 			</tr>

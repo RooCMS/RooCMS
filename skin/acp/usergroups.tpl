@@ -1,4 +1,4 @@
-{* Template Mailing *}
+{* Template Users *}
 
 <div class="col-lg-2">
 	<div class="card d-none d-lg-block submenu sticky-top">
@@ -14,15 +14,15 @@
 			Управление группами
 		</div>
 		<div class="list-group">
-			<a href="{$SCRIPT_NAME}?act=users&part=group_list" class="list-group-item list-group-item-action text-decoration-none"><i class="fas fa-fw fa-user-tag"></i> Группы</a>
-			<a href="{$SCRIPT_NAME}?act=users&part=create_group" class="list-group-item list-group-item-action text-decoration-none"><i class="fas fa-fw fa-plus"></i> Создать группу</a>
+			<a href="{$SCRIPT_NAME}?act=usergroups&part=group_list" class="list-group-item list-group-item-action text-decoration-none{if isset($smarty.get.part) && $smarty.get.part == "group_list"} active{/if}"><i class="fas fa-fw fa-user-tag"></i> Группы</a>
+			<a href="{$SCRIPT_NAME}?act=usergroups&part=create_group" class="list-group-item list-group-item-action text-decoration-none{if isset($smarty.get.part) && $smarty.get.part == "create_group"} active{/if}"><i class="fas fa-fw fa-plus"></i> Создать группу</a>
 		</div>
 
 		<div class="card-header">
 			Рассылка
 		</div>
 		<div class="list-group">
-			<a href="{$SCRIPT_NAME}?act=mailing&part=message" class="list-group-item list-group-item-action text-decoration-none{if isset($smarty.get.part) && $smarty.get.part == "message"} active{/if}"><i class="fas fa-fw fa-envelope"></i> Отправить письмо</a>
+			<a href="{$SCRIPT_NAME}?act=mailing&part=message" class="list-group-item list-group-item-action text-decoration-none"><i class="fas fa-fw fa-envelope"></i> Отправить письмо</a>
 		</div>
 	</div>
 
@@ -31,9 +31,9 @@
 			<div class="btn-group btn-group-sm d-block d-lg-none">
 				<a href="{$SCRIPT_NAME}?act=users" class="btn btn-outline-primary"><i class="fa fa-fw fa-users"></i></a>
 				<a href="{$SCRIPT_NAME}?act=users&part=create_user" class="btn btn-outline-primary"><i class="fas fa-fw fa-user-plus"></i></a>
-				<a href="{$SCRIPT_NAME}?act=users&part=group_list" class="btn btn-outline-primary"><i class="fas fa-fw fa-user-tag"></i></a>
-				<a href="{$SCRIPT_NAME}?act=users&part=create_group" class="btn btn-outline-primary"><i class="fas fa-fw fa-plus"></i></a>
-				<a href="{$SCRIPT_NAME}?act=mailing&part=message" class="btn btn-outline-primary{if isset($smarty.get.part) && $smarty.get.part == "message"} active{/if}"><i class="fas fa-fw fa-envelope"></i></a>
+				<a href="{$SCRIPT_NAME}?act=usergroups&part=group_list" class="btn btn-outline-primary{if isset($smarty.get.part) && $smarty.get.part == "group_list"} active{/if}"><i class="fas fa-fw fa-user-tag"></i></a>
+				<a href="{$SCRIPT_NAME}?act=usergroups&part=create_group" class="btn btn-outline-primary{if isset($smarty.get.part) && $smarty.get.part == "create_group"} active{/if}"><i class="fas fa-fw fa-plus"></i></a>
+				<a href="{$SCRIPT_NAME}?act=mailing&part=message" class="btn btn-outline-primary"><i class="fas fa-fw fa-envelope"></i></a>
 			</div>
 		</div>
 	</div>
