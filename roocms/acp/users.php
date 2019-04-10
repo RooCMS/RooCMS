@@ -31,10 +31,6 @@ class ACP_Users {
 
 	use ACP_UserOperation;
 
-	# vars
-	private $uid = 0;
-	private $gid = 0;
-
 
 	/**
 	 * ACP_Users constructor.
