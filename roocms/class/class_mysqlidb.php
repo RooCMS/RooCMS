@@ -224,21 +224,16 @@ class MySQLiDB {
 	*/
 	public function insert_array(array $array, $table) {
 
-		global $parse;
-
-		$fields	= "";
-		$values	= "";
+		$fields	= [];
+		$values	= [];
 
 		foreach($array AS $key=>$value) {
 
-			$fields = $parse->text->comma($fields);
-			$fields .= $key;
-
-			$values = $parse->text->comma($values);
-			$values .= "'".$value."'";
+			$fields[] = $key;
+			$values[] = "'".$value."'";
 		}
 
-		$q = "INSERT INTO {$table} ({$fields}) VALUES ({$values})";
+		$q = "INSERT INTO {$table} (".implode(", ", $fields).") VALUES (".implode(", ", $values).")";
 
 		$this->query($q);
 	}
@@ -254,16 +249,12 @@ class MySQLiDB {
 	 */
 	public function update_array(array $array, $table, $proviso) {
 
-		global $parse;
-
-		$update = "";
+		$update = [];
 		foreach($array AS $key=>$value) {
-
-			$update = $parse->text->comma($update);
-			$update .= $key."='".$value."'";
+			$update[] = $key."='".$value."'";
 		}
 
-		$q = "UPDATE {$table} SET {$update} WHERE {$proviso}";
+		$q = "UPDATE {$table} SET ".implode(", ", $update)." WHERE {$proviso}";
 
 		$this->query($q);
 	}

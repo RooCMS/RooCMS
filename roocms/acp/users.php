@@ -219,11 +219,8 @@ class ACP_Users {
 				# avatar
 				$users->upload_avatar($uid);
 
-				# If changed user group
-				if(isset($post->gid)) {
-					# recount users
-					$this->count_users($post->gid);
-				}
+				# recount users in group
+				$this->count_users($post->gid);
 
 				# notice user to email
 				$smarty->assign("login", $post->login);
@@ -464,7 +461,7 @@ class ACP_Users {
 								WHERE uid='".$uid."'");
 
 				# If changed user group
-				if(isset($post->gid, $post->now_gid) && $post->gid != $post->now_gid) {
+				if($post->gid != $post->now_gid) {
 					# recount users
 					$this->count_users($post->gid);
 					$this->count_users($post->now_gid);

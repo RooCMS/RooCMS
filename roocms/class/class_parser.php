@@ -26,6 +26,8 @@ if(!defined('RooCMS')) {
  */
 class Parser {
 
+	use ParserValidData;
+
 	# included classes
 	public 	$text;				# [obj]		for parsing texts
 	public 	$date;				# [obj]		for parsing date format
@@ -97,6 +99,30 @@ class Parser {
 
 
 	/**
+	 * parse $_GET array
+	 *
+	 */
+	protected function parse_get() {
+
+		$get = $this->check_array($_GET);
+
+		foreach($get as $key=>$value) {
+
+			# clear key
+			$key = "_".$key;
+
+			if(is_array($value)) {
+				$value = $this->check_array($value);
+				$this->get->{$key} = (array) $value;
+			}
+			else {
+				$this->get->{$key} = (trim($value) != "") ? (string) $this->escape_string($value) : NULL ;
+			}
+		}
+	}
+
+
+	/**
 	* parse $_POST array
 	*
 	*/
@@ -118,30 +144,6 @@ class Parser {
 		}
 
 		unset($_POST);
-	}
-
-
-	/**
-	* parse $_GET array
-	*
-	*/
-	protected function parse_get() {
-
-		$get = $this->check_array($_GET);
-
-		foreach($get as $key=>$value) {
-
-			# clear key
-			$key = "_".$key;
-
-			if(is_array($value)) {
-				$value = $this->check_array($value);
-				$this->get->{$key} = (array) $value;
-			}
-			else {
-				$this->get->{$key} = (trim($value) != "") ? (string) $this->escape_string($value) : NULL ;
-			}
-		}
 	}
 
 
@@ -380,49 +382,6 @@ class Parser {
 				$this->error .= "<b><span class='fas fa-exclamation-triangle fa-fw'></span> КРИТИЧЕСКАЯ ОШИБКА:</b> Отсутсвует PHP расширение - {$value}. Работа RooCMS нестабильна!";
 			}
 		}
-	}
-
-
-	/**
-	 * Validate email
-	 *
-	 * @param string $email - email
-	 *
-	 * @return bool
-	 */
-	public function valid_email($email) {
-
-		$pattern = '/^[\.\-_A-Za-z0-9]+?@[\.\-A-Za-z0-9]+?\.[A-Za-z0-9]{2,6}$/';
-
-		return (bool) preg_match($pattern, trim($email));
-
-	}
-
-
-	/**
-	 * Validate phone
-	 *
-	 * will be confirmed:
-	 *      Code country with plus and none
-	 *      Without code country
-	 *      City code from 3 to 5 num with hooks and without hook
-	 *      Phone number from 5 to 7 number
-	 *      special symbols (hyphen, spaces) counted but may be skipped
-	 * Example:
-	 *      +1 (5555) 555-55-55
-	 *      +1 5555 5555555
-	 *      55555555555
-	 *
-	 * @param mixed $phone - phone number
-	 *
-	 * @return bool
-	 */
-	public function valid_phone($phone){
-
-		$pattern = "/^[\+]?[0-9]?(\s)?(\-)?(\s)?(\()?[0-9]{3,5}(\))?(\s)?(\-)?(\s)?[0-9]{1,3}(\s)?(\-)?(\s)?[0-9]{2}(\s)?(\-)?(\s)?[0-9]{2}\Z/";
-
-		return (bool) preg_match($pattern, trim($phone));
-
 	}
 
 

@@ -89,16 +89,15 @@ class Logger {
 
 		if(!empty($this->log)) {
 
-			$dump = "";
+			$dump = [];
 			$uid = (isset($_SESSION['uid'])) ? $_SESSION['uid'] : 0 ;
 
 			foreach($this->log AS $value) {
-				$dump = $parse->text->comma($dump);
-				$dump .= "('".$uid."', '".$value["subj"]."', '".$value["type"]."', '".time()."')";
+				$dump[] = "('".$uid."', '".$value["subj"]."', '".$value["type"]."', '".time()."')";
 			}
 
 			# insert log msg in to db
-			$db->query("INSERT INTO ".LOG_TABLE." (uid, message, type_log, date_log) VALUES ".$dump);
+			$db->query("INSERT INTO ".LOG_TABLE." (uid, message, type_log, date_log) VALUES ".implode(", ", $dump));
 		}
 
 		# Close connection to DB (recommended)

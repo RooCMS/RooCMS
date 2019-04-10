@@ -219,10 +219,10 @@ class Images extends GD {
 			$sortimg = $img->load_images($attachedto."=".$id);
 			foreach($sortimg AS $v) {
 
-				$cond = "";
+				$cond = [];
 
 				if(isset($post->sort[$v['id']]) && $post->sort[$v['id']] != $v['sort']) {
-					$cond .= "sort='".$post->sort[$v['id']]."'";
+					$cond[] = "sort='".$post->sort[$v['id']]."'";
 				}
 
 				if(!isset($post->alt[$v['id']])) {
@@ -230,13 +230,12 @@ class Images extends GD {
 				}
 
 				if($post->alt[$v['id']] != $v['alt']) {
-					$cond = $parse->text->comma($cond);
-					$cond .= "alt='".$post->alt[$v['id']]."'";
+					$cond[] = "alt='".$post->alt[$v['id']]."'";
 				}
 
-				if($cond != "") {
+				if(!empty($cond)) {
 					# db query
-					$db->query("UPDATE ".IMAGES_TABLE." SET ".$cond." WHERE id='".$v['id']."'");
+					$db->query("UPDATE ".IMAGES_TABLE." SET ".implode(", ", $cond)." WHERE id='".$v['id']."'");
 				}
 			}
 		}

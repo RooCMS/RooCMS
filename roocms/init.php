@@ -140,7 +140,14 @@ if(check_file_core(_CLASS."/class_post.php")) {
 }
 
 /**
-* Запускаем класс парсинга
+ * Parser Valid Data trait
+ */
+if(check_file_core(_CLASS."/trait_parserValidData.php")) {
+	require_once(_CLASS."/trait_parserValidData.php");
+}
+
+/**
+* Init Parser Engine
 */
 if(check_file_core(_CLASS."/class_parser.php")) {
 	require_once(_CLASS."/class_parser.php");
@@ -166,15 +173,15 @@ if(check_file_core(_CLASS."/class_security.php")) {
 /**
  * User groups trait
  */
-if(check_file_core(_CLASS."/trait_usergroups.php")) {
-	require_once(_CLASS."/trait_usergroups.php");
+if(check_file_core(_CLASS."/trait_userGroups.php")) {
+	require_once(_CLASS."/trait_userGroups.php");
 }
 
 /**
  * User Avatar trait
  */
-if(check_file_core(_CLASS."/trait_useravatar.php")) {
-	require_once(_CLASS."/trait_useravatar.php");
+if(check_file_core(_CLASS."/trait_userAvatar.php")) {
+	require_once(_CLASS."/trait_userAvatar.php");
 }
 
 /**
