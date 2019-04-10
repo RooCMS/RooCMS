@@ -105,9 +105,7 @@ class ACP_Users {
 				if($this->uid != 0 && $this->gid != 0) {
 					$this->exclude_user_group($this->uid, $this->gid);
 				}
-				else {
-					goback();
-				}
+				goback();
 				break;
 
 			case 'group_list':
@@ -236,7 +234,7 @@ class ACP_Users {
 				$logger->info("Пользователь #".$uid." был успешно добавлен. Уведомление об учетной записи отправлено на его электронную почту.");
 
 				# go
-				if(isset($post->create_user_ae['ae'])) {
+				if(isset($post->create_user['ae'])) {
 					go(CP."?act=users");
 				}
 
@@ -328,7 +326,6 @@ class ACP_Users {
 				$user['user_birthdate'] = $parse->date->jd_to_rusint($user['user_birthdate']);
 			}
 
-
 			# i am groot
 			$i_am_groot = false;
 			if($users->uid == $uid) {
@@ -418,7 +415,6 @@ class ACP_Users {
 				$logger->error("Не удалось обновить Никнейм пользователя #".$uid." (возможные он был некоректно указан, или такой никнейм уже есть в БД)", false);
 			}
 
-
 			# email
 			if(isset($post->email) && $parse->valid_email($post->email) && $users->check_field("email", $post->email, $udata['email'])) {
 				$query .= "email='".$post->email."', ";
@@ -466,7 +462,6 @@ class ACP_Users {
 					$this->count_users($post->gid);
 					$this->count_users($post->now_gid);
 				}
-
 
 				# notice
 				$logger->info("Данные пользователя #".$uid." успешно обновлены.");

@@ -194,7 +194,6 @@ class ACP_Feeds_Feed {
 		$q = $db->query("SELECT id, sid, status, group_access, sort, title, meta_title, meta_description, meta_keywords, brief_item, full_item, author_id, date_publications, date_end_publications FROM ".PAGES_FEED_TABLE." WHERE id='".$id."'");
 		$item = $db->fetch_assoc($q);
 
-
 		$item['date_publications'] = $parse->date->unix_to_rusint($item['date_publications']);
 
 		if($item['date_end_publications'] != 0) {
@@ -309,10 +308,9 @@ class ACP_Feeds_Feed {
 			# go
 			go(CP."?act=feeds&part=control&page=".$get->_page);
 		}
-		else {
-			# back
-			goback();
-		}
+
+		# back
+		goback();
 	}
 
 
@@ -329,11 +327,9 @@ class ACP_Feeds_Feed {
 		if(isset($post->from) && isset($post->to) && $db->check_id($post->from, STRUCTURE_TABLE, "id", "page_type='feed'") && $db->check_id($post->to, STRUCTURE_TABLE, "id", "page_type='feed'")) {
 
 			$db->query("UPDATE ".PAGES_FEED_TABLE."
-		        		SET
-		        			sid = '".$post->to."',
+		        		SET	sid = '".$post->to."',
 						date_update = '".time()."'
-					WHERE
-						id = '".$id."'");
+					WHERE	id = '".$id."'");
 
 			# recount items
 			$this->count_items($post->from);
