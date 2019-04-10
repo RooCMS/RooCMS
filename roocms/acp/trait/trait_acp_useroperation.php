@@ -28,7 +28,7 @@ trait ACP_UserOperation {
 	# vars
 	protected $uid = 0;
 	protected $gid = 0;
-	
+
 
 	/**
 	 * Count user in group

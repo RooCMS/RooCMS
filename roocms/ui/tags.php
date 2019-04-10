@@ -78,7 +78,7 @@ class UI_Tags {
 			$data = $db->fetch_assoc($q);
 
 			# init
-			$this->id  = $data['id'];
+			$this->id  = (int) $data['id'];
 			$this->tag = $data['title'];
 
 			# settings
