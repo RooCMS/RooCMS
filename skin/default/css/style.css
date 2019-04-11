@@ -212,6 +212,31 @@ a#PrevFeedItem:hover > .roocms-feeditem-pn {
   filter: grayscale(0%);
 }
 
+/* Blocks */
+.block-images {
+  width: 50%;
+}
+
+@media (min-width: 576px) {
+  .block-images {
+    width: 33%;
+  }
+}
+@media (min-width: 768px) {
+  .block-images {
+    width: 25%;
+  }
+}
+@media (min-width: 1200px) {
+  .block-images {
+    width: 20%;
+  }
+}
+@media (min-width: 1440px) {
+  .block-images {
+    width: 14.28%;
+  }
+}
 /* PM */
 .airmail {
   font-family: "PT Sans";
