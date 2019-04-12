@@ -39,6 +39,7 @@
 			todayHighlight: true,
 			daysOfWeekHighlighted: '0,6',
 			orientation: 'bottom auto',
+			endDate: "18/01/2038",
 			autoclose: true
 		});
 

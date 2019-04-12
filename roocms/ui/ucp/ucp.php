@@ -182,7 +182,7 @@ class UCP_CP {
 			$smarty->assign("email", $post->email);
 			$smarty->assign("password", $post->password);
 			$smarty->assign("site", $site);
-			$message = $tpl->load_template("email_update_userinfo", true);
+			$message = $tpl->load_template("mail/update_userinfo", true);
 
 			sendmail($post->email, "Ваши данные на \"".$site['title']."\" были обновлены", $message);
 

@@ -124,7 +124,7 @@ class UI_RePass {
 			$smarty->assign("nickname", $userdata['nickname']);
 			$smarty->assign("confirm", $confirm);
 			$smarty->assign("site", $site);
-			$message = $tpl->load_template("email_confirm_repass", true);
+			$message = $tpl->load_template("mail/confirm_repass", true);
 
 			sendmail($post->email, "Запрос на восстановление пароля для сайта: ".$site['title'], $message);
 
@@ -170,7 +170,7 @@ class UI_RePass {
 			$smarty->assign("udata", $userdata);
 			$smarty->assign("pass", $pass);
 			$smarty->assign("site", $site);
-			$message = $tpl->load_template("email_send_repass", true);
+			$message = $tpl->load_template("mail/send_repass", true);
 
 			sendmail($post->email, "Ваш новый пароль для сайта: ".$site['title'], $message);
 

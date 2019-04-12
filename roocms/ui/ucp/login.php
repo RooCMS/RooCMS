@@ -54,16 +54,16 @@ class UCP_Login {
 			$data = $db->fetch_assoc($q);
 
 			# hash
-			$dbpass = $security->hash_password($post->password, $data['salt']);
+			$pass = $security->hash_password($post->password, $data['salt']);
 
-			if($dbpass == $data['password']) {
+			if($pass == $data['password']) {
 
 				# include session security_check hash
 				$_SESSION['uid'] 	= $data['uid'];
 				$_SESSION['login'] 	= $data['login'];
 				$_SESSION['nickname'] 	= $data['nickname'];
 				$_SESSION['title'] 	= $data['title'];
-				$_SESSION['token'] 	= $security->hash_token($data['login'], $dbpass, $data['salt']);
+				$_SESSION['token'] 	= $security->hash_token($data['login'], $pass, $data['salt']);
 
 				# log
 				$logger->log("Пользователь успешно авторизовался на сайте");

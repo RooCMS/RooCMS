@@ -44,6 +44,7 @@ class Users extends Security {
 	public  $ban_reason	= "";		# ban reason
 	public  $ban_expiried	= 0;		# ban date expiried (unixtimestamp)
 
+	# user data array
 	public	$userdata	= array('uid'=>0);
 
 	# user global data
@@ -97,7 +98,7 @@ class Users extends Security {
 			# get data
 			$q    = $db->query("SELECT u.uid, u.gid, u.login, u.nickname, u.avatar, u.email, u.mailing,
  							u.user_name, u.user_surname, u.user_last_name, u.user_birthdate, u.user_sex, u.user_slogan,
-							u.title, u.password, u.salt, u.ban, u.ban_reason, u.ban_expiried,
+							u.title, u.password, u.salt, u.ban, u.ban_reason, u.ban_expiried, u.date_create,
 							g.title as gtitle
 						FROM ".USERS_TABLE." AS u
 						LEFT JOIN ".USERS_GROUP_TABLE." AS g ON (g.gid = u.gid)
@@ -145,7 +146,8 @@ class Users extends Security {
 				'user_slogan'     => $parse->text->br($data['user_slogan']),
 				'ban'             => $data['ban'],
 				'ban_reason'      => $data['ban_reason'],
-				'ban_expiried'    => $parse->date->unix_to_rus($data['ban_expiried'])
+				'ban_expiried'    => $parse->date->unix_to_rus($data['ban_expiried']),
+				'date_create'     => $parse->date->unix_to_rus($data['date_create'])
 			);
 
 
@@ -187,9 +189,11 @@ class Users extends Security {
 
 		# check and get data
 		if($db->check_id($uid, USERS_TABLE, "uid")) {
-			$q = $db->query("SELECT uid, nickname, user_slogan, avatar, user_sex FROM ".USERS_TABLE." WHERE uid='".$uid."'");
+			$q = $db->query("SELECT uid, nickname, email, user_sex, user_slogan, avatar, user_birthdate, status, ban, ban_expiried, ban_reason FROM ".USERS_TABLE." WHERE uid='".$uid."'");
 			$row = $db->fetch_assoc($q);
+
 			$row['slogan'] = $parse->text->br($row['user_slogan']);
+			$row['user_birthdate'] = $parse->date->jd_to_rus($row['user_birthdate']);
 		}
 
 		return $row;
@@ -197,18 +201,18 @@ class Users extends Security {
 
 
 	/**
-	 * Функция получения списка пользователей.
+	 * Get users list
 	 *
-	 * @param int   $status  - Текущий статус пользователя: 1 включенные, 0 отключенные, -1 все
-	 * @param int   $ban     - Текущий бан пользователя: 0 без бана, 1 с баном, -1 все
-	 * @param int   $mailing - Является пользователь подписчиком рассылки: 0 нет, 1 да, -1 все
-	 * @param array $users   - массив с идентификаторами запрашиваемых пользователей.
+	 * @param int   $status  - current user status: 1 active user, 0 unactive user, -1 all user
+	 * @param int   $ban     - ban status: 0 without ban, 1 with ban, -1 all
+	 * @param int   $mailing - subscrib status: 0 no, 1 yes, -1 all
+	 * @param array $users   - array id's users
 	 *
 	 * @return array
 	 */
 	public function get_userlist($status=-1, $ban=-1, $mailing=-1, $users=[]) {
 
-		global $db;
+		global $db, $parse;
 
 		# condition
 		$cond = "";
@@ -218,9 +222,7 @@ class Users extends Security {
 		foreach($arcond AS $k=>$v) {
 
 			if($v == 0 || $v == 1) {
-
 				$cond = $db->qcond_and($cond);
-
 				$cond .= " ".$k."='".$v."' ";
 			}
 		}
@@ -229,20 +231,12 @@ class Users extends Security {
 
 			$cond = $db->qcond_and($cond);
 
-			$cond .= " ( ";
-
-			$i = 0;
+			$uids = [];
 			foreach($users AS $k=>$v) {
-				if($i != 0) {
-					$cond .= " OR ";
-				}
-
-				$cond .= " uid='".$v."'";
-
-				$i++;
+				$uids[] = " uid='".$v."' ";
 			}
 
-			$cond .= " ) ";
+			$cond .= " ( ".implode(" OR ", $uids)." ) ";
 		}
 
 		# condition formating
@@ -252,8 +246,10 @@ class Users extends Security {
 
 		# Get user list
 		$userlist = [];
-		$q = $db->query("SELECT uid, nickname, user_slogan, avatar, user_sex, email FROM ".USERS_TABLE." ".$cond." ORDER BY nickname ASC");
+		$q = $db->query("SELECT uid, nickname, email, user_sex, user_slogan, avatar, user_birthdate, status, ban, ban_expiried, ban_reason FROM ".USERS_TABLE." ".$cond." ORDER BY nickname ASC");
 		while($row = $db->fetch_assoc($q)) {
+			$row['slogan'] = $parse->text->br($row['user_slogan']);
+
 			$userlist[$row['uid']] = $row;
 		}
 
@@ -280,9 +276,7 @@ class Users extends Security {
 		$res = false;
 
 		if(trim($without) != trim($name)) {
-
-			$without = trim($without);
-			$w = $field."!='".$without."'";
+			$w = $field."!='".trim($without)."'";
 
 			if(!$db->check_id($name, $table, $field, $w)) {
 				$res = true;

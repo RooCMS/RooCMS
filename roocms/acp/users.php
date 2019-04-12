@@ -164,7 +164,7 @@ class ACP_Users {
 				$smarty->assign("email", $post->email);
 				$smarty->assign("password", $post->password);
 				$smarty->assign("site", $site);
-				$message = $tpl->load_template("email_new_registration", true);
+				$message = $tpl->load_template("mail/new_registration", true);
 
 				sendmail($post->email, "Вас зарегистрировали на сайте ".$site['title'], $message);
 
@@ -340,7 +340,7 @@ class ACP_Users {
 				$smarty->assign("email", $post->email);
 				$smarty->assign("password", $post->password);
 				$smarty->assign("site", $site);
-				$message = $tpl->load_template("email_update_userdata", true);
+				$message = $tpl->load_template("mail/update_userdata", true);
 
 				sendmail($post->email, "Ваши данные на \"".$site['title']."\" были обновлены администрацией", $message);
 

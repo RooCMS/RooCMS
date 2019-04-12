@@ -161,7 +161,7 @@ class UCP_PM {
 			$smarty->assign("nickname", $u['nickname']);
 			$smarty->assign("from", $users->nickname);
 			$smarty->assign("site", $site);
-			$message = $tpl->load_template("email_new_message", true);
+			$message = $tpl->load_template("mail/new_message", true);
 
 			sendmail($u['email'], "Вы получили новое сообщение", $message);
 

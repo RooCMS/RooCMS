@@ -39,7 +39,7 @@ class Security extends Shteirlitz {
 	 * @return string - hash
 	 */
 	public function hash_password($password, $salt) {
-		$hash = md5(md5($password).md5($salt));
+		$hash = md5($this->encode(md5($password).md5($salt), $password, $salt));
 		return $hash;
 	}
 
@@ -66,13 +66,16 @@ class Security extends Shteirlitz {
 	/**
 	 * Function generates hash key to check user api express operations.
 	 *
-	 * @param int $uid - unique user id
+	 * @param $id    - user id
+	 * @param $data  - user data (Example: user email)
+	 * @param $key   - secret key
+	 * @param $salt  - secret salt
+	 *
+	 * @return string - hash
 	 */
-	public function hash_uapi($uid) {
-
-		//global $users;
-
-		$hash = md5($uid);
+	public function hash_uapi($id, $data, $key, $salt) {
+		$hash = $this->encode(md5($id).md5($data), $key, $salt);
+		return $hash;
 	}
 
 

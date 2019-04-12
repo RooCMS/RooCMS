@@ -60,7 +60,7 @@ function randcode($ns, $symbols="ABCEFHKLMNPRSTVXYZ123456789") {
  */
 function sendmail($mail, $theme, $message, $from="robot") {
 
-	global $site;
+	global $site, $parse;
 
 	settype($mail,    "string");
 	settype($theme,   "string");
@@ -70,10 +70,7 @@ function sendmail($mail, $theme, $message, $from="robot") {
 
 	$domain = str_ireplace(array('http://','https://','www.'), '', $site['domain']);
 
-	$from = trim($from);
-	$pattern = '/^[\.\-_A-Za-z0-9]+?@[\.\-A-Za-z0-9]+?\.[A-Za-z0-9]{2,6}$/';
-
-	if($from == "robot" || !preg_match($pattern, $from)) {
+	if(!$parse->valid_email($from)) {
 		$from = "robot@".$domain;
 	}
 

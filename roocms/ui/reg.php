@@ -140,7 +140,7 @@ class UI_Reg {
 			$smarty->assign("password", $post->password);
 			$smarty->assign("activation", $activation);
 			$smarty->assign("site", $site);
-			$message = $tpl->load_template("email_new_registration", true);
+			$message = $tpl->load_template("mail/new_registration", true);
 
 			sendmail($post->email, "Вы зарегистрировались на сайте ".$site['title'], $message);
 

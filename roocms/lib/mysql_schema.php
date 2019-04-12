@@ -119,8 +119,8 @@ $sql['CREATE'.STRUCTURE_TABLE] = "CREATE TABLE IF NOT EXISTS `".STRUCTURE_TABLE.
 					  `noindex` enum('0','1') NOT NULL DEFAULT '0' COMMENT 'meta tag robots flag',
 					  `childs` int(10) unsigned NOT NULL DEFAULT '0',
 					  `group_access` varchar(255) NOT NULL DEFAULT '0',
-					  `date_create` int(20) unsigned NOT NULL DEFAULT '0' COMMENT 'format: unixtimestamp',
-					  `date_modified` int(20) unsigned NOT NULL DEFAULT '0' COMMENT 'format: unixtimestamp',
+					  `date_create` bigint(20) unsigned NOT NULL DEFAULT '0' COMMENT 'format: unixtimestamp',
+					  `date_modified` bigint(20) unsigned NOT NULL DEFAULT '0' COMMENT 'format: unixtimestamp',
 					  `rss` enum('0','1') NOT NULL DEFAULT '1',
 					  `show_child_feeds` enum('none','default','forced') NOT NULL DEFAULT 'none',
 					  `items_per_page` int(10) unsigned NOT NULL DEFAULT '0',
@@ -149,7 +149,7 @@ $sql['CREATE'.PAGES_HTML_TABLE] = "CREATE TABLE IF NOT EXISTS `".PAGES_HTML_TABL
 					  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
 					  `sid` int(10) unsigned NOT NULL,
 					  `content` longtext NOT NULL DEFAULT '',
-					  `date_modified` int(20) unsigned NOT NULL DEFAULT '0',
+					  `date_modified` bigint(20) unsigned NOT NULL DEFAULT '0',
 					  PRIMARY KEY (`id`),
 					  UNIQUE KEY `id` (`id`),
 					  UNIQUE KEY `sid` (`sid`)
@@ -167,7 +167,7 @@ $sql['CREATE'.PAGES_PHP_TABLE] = "CREATE TABLE IF NOT EXISTS `".PAGES_PHP_TABLE.
 					  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
 					  `sid` int(10) unsigned NOT NULL,
 					  `content` longtext NOT NULL DEFAULT '',
-					  `date_modified` int(20) unsigned NOT NULL DEFAULT '0',
+					  `date_modified` bigint(20) unsigned NOT NULL DEFAULT '0',
 					  PRIMARY KEY (`id`),
 					  UNIQUE KEY `id` (`id`),
 					  UNIQUE KEY `sid` (`sid`)
@@ -192,10 +192,10 @@ $sql['CREATE'.PAGES_FEED_TABLE] = "CREATE TABLE IF NOT EXISTS `".PAGES_FEED_TABL
 					  `full_item` longtext NOT NULL,
 					  `author_id` int(10) unsigned NOT NULL DEFAULT '0',
 					  `views` int(10) unsigned NOT NULL DEFAULT '0',
-					  `date_publications` int(20) unsigned NOT NULL DEFAULT '0',
-					  `date_end_publications` int(20) unsigned NOT NULL DEFAULT '0',
-					  `date_create` int(20) unsigned NOT NULL DEFAULT '0',
-					  `date_update` int(20) unsigned NOT NULL DEFAULT '0',
+					  `date_publications` bigint(20) unsigned NOT NULL DEFAULT '0',
+					  `date_end_publications` bigint(20) unsigned NOT NULL DEFAULT '0',
+					  `date_create` bigint(20) unsigned NOT NULL DEFAULT '0',
+					  `date_update` bigint(20) unsigned NOT NULL DEFAULT '0',
 					  PRIMARY KEY (`id`),
 					  UNIQUE KEY (`id`),
 					  INDEX `sid` (`sid`),
@@ -238,8 +238,8 @@ $sql['CREATE '.BLOCKS_TABLE] = "CREATE TABLE IF NOT EXISTS `".BLOCKS_TABLE."` (
 				  `content` longtext NOT NULL COMMENT 'html or php code',
 				  `thumb_img_width` INT( 10 ) UNSIGNED NOT NULL DEFAULT '0',
 				  `thumb_img_height` INT( 10 ) UNSIGNED NOT NULL DEFAULT '0',
-				  `date_create` int(20) unsigned NOT NULL DEFAULT '0' COMMENT 'format: unixtimestamp',
-				  `date_modified` int(20) unsigned NOT NULL DEFAULT '0' COMMENT 'last modified date',
+				  `date_create` bigint(20) unsigned NOT NULL DEFAULT '0' COMMENT 'format: unixtimestamp',
+				  `date_modified` bigint(20) unsigned NOT NULL DEFAULT '0' COMMENT 'last modified date',
 				  PRIMARY KEY (`id`),
 				  UNIQUE KEY (`id`),
 				  UNIQUE KEY `alias` (`alias`)
@@ -256,7 +256,7 @@ $sql['CREATE '.IMAGES_TABLE] = "CREATE TABLE IF NOT EXISTS `".IMAGES_TABLE."` (
 				  `filename` varchar(255) NOT NULL,
 				  `fileext` varchar(10) NOT NULL COMMENT 'extension file',
 				  `alt` VARCHAR(255) NOT NULL COMMENT 'alternative text for hover or unuse image',
-				  `sort` int(10) unsigned NOT NULL DEFAULT '0',
+				  `sort` bigint(20) unsigned NOT NULL DEFAULT '0',
 				  PRIMARY KEY (`id`),
 				  UNIQUE KEY  `id` (`id`) ,
 				  KEY `filename` (`filename`),
@@ -298,7 +298,7 @@ $sql['CREATE '.USERS_TABLE] = "CREATE TABLE `".USERS_TABLE."` (
 				  `user_name` varchar(255) NOT NULL DEFAULT '',
 				  `user_surname` varchar(255) NOT NULL DEFAULT '',
 				  `user_last_name` varchar(255) NOT NULL DEFAULT '',
-				  `user_birthdate` int(20) unsigned NOT NULL DEFAULT '0',
+				  `user_birthdate` bigint(20) unsigned NOT NULL DEFAULT '0',
 				  `user_sex` enum('n','m','f') NOT NULL DEFAULT 'n',
 				  `user_slogan` text NOT NULL DEFAULT '',
 				  `title` enum('a','u') NOT NULL DEFAULT 'u',
@@ -307,9 +307,9 @@ $sql['CREATE '.USERS_TABLE] = "CREATE TABLE `".USERS_TABLE."` (
 				  `ban` enum('0','1') NOT NULL DEFAULT '0',
 				  `ban_expiried` int(20) unsigned NOT NULL DEFAULT '0',
 				  `ban_reason` varchar(512) NOT NULL DEFAULT '',
-				  `date_create` int(20) unsigned NOT NULL DEFAULT '0' COMMENT 'format: unixtimestamp',
-				  `date_update` int(20) unsigned NOT NULL DEFAULT '0' COMMENT 'format: unixtimestamp',
-				  `last_visit` int(20) unsigned NOT NULL DEFAULT '0' COMMENT 'format: unixtimestamp',
+				  `date_create` bigint(20) unsigned NOT NULL DEFAULT '0' COMMENT 'format: unixtimestamp',
+				  `date_update` bigint(20) unsigned NOT NULL DEFAULT '0' COMMENT 'format: unixtimestamp',
+				  `last_visit` bigint(20) unsigned NOT NULL DEFAULT '0' COMMENT 'format: unixtimestamp',
 				  `user_ip` varchar(15) NOT NULL DEFAULT '0.0.0.0',
 				  `activation_code` varchar(10) NOT NULL DEFAULT '',
 				  `secret_key` varchar(10) NOT NULL DEFAULT '',
@@ -317,7 +317,11 @@ $sql['CREATE '.USERS_TABLE] = "CREATE TABLE `".USERS_TABLE."` (
 				  UNIQUE KEY `id` (`uid`),
 				  UNIQUE KEY `login` (`login`),
 				  UNIQUE KEY `nickname` (`nickname`),
-				  UNIQUE KEY `email` (`email`)
+				  UNIQUE KEY `email` (`email`),
+				  KEY  `gid` (`gid`),
+				  KEY  `status` (`status`),
+				  KEY  `mailing` (`mailing`),
+				  KEY  `ban` (`ban`)
 				) ENGINE=InnoDB  DEFAULT CHARSET=utf8;";
 
 
@@ -329,8 +333,8 @@ $sql['CREATE '.USERS_GROUP_TABLE] = "CREATE TABLE  `".USERS_GROUP_TABLE."` (
 					 `gid` INT( 10 ) UNSIGNED NOT NULL AUTO_INCREMENT ,
 					 `title` VARCHAR( 255 ) NOT NULL ,
 					 `users` INT( 10 ) UNSIGNED NOT NULL DEFAULT  '0',
-					 `date_create` INT( 20 ) UNSIGNED NOT NULL DEFAULT  '0' COMMENT  'format: unixtimestamp',
-					 `date_update` INT( 20 ) UNSIGNED NOT NULL DEFAULT  '0' COMMENT  'format: unixtimestamp',
+					 `date_create` bigint( 20 ) UNSIGNED NOT NULL DEFAULT  '0' COMMENT  'format: unixtimestamp',
+					 `date_update` bigint( 20 ) UNSIGNED NOT NULL DEFAULT  '0' COMMENT  'format: unixtimestamp',
 					PRIMARY KEY (  `gid` ) ,
 					UNIQUE KEY  `gid` (  `gid` ) ,
 					UNIQUE KEY  `title` (  `title` )
@@ -348,8 +352,8 @@ $sql['CREATE '.USERS_PM_TABLE] = "CREATE TABLE  `".USERS_PM_TABLE."` (
 						`title` VARCHAR( 255 ) NOT NULL ,
 						`message` TEXT NOT NULL ,
 						`see` ENUM(  '0',  '1' ) NOT NULL DEFAULT  '0',
-						`date_create` INT( 20 ) UNSIGNED NOT NULL DEFAULT  '0',
-						`date_read` INT( 20 ) UNSIGNED NOT NULL DEFAULT  '0',
+						`date_create` bigint( 20 ) UNSIGNED NOT NULL DEFAULT  '0',
+						`date_read` bigint( 20 ) UNSIGNED NOT NULL DEFAULT  '0',
 					PRIMARY KEY (  `id` ) ,
 					UNIQUE KEY  `id` (  `id` ) ,
 					KEY  `from_uid` (  `from_uid` ,  `to_uid` )
@@ -361,11 +365,11 @@ $sql['CREATE '.USERS_PM_TABLE] = "CREATE TABLE  `".USERS_PM_TABLE."` (
  */
 $sql['DROP '.LOG_TABLE] = "DROP TABLE IF EXISTS `".LOG_TABLE."`";
 $sql['CREATE '.LOG_TABLE] = "CREATE TABLE IF NOT EXISTS `".LOG_TABLE."` (
-				  `id` bigint(30) unsigned NOT NULL AUTO_INCREMENT, 
+				  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT, 
 				  `uid` int(10) unsigned NOT NULL,
 				  `message` text NOT NULL,
 				  `type_log` enum('info','error','log') NOT NULL DEFAULT 'log',
-				  `date_log` int(20) unsigned NOT NULL DEFAULT '0',
+				  `date_log` bigint(20) unsigned NOT NULL DEFAULT '0',
 				  PRIMARY KEY (`id`),
 				  UNIQUE KEY (`id`),
 				  KEY `uid` (`uid`)
@@ -384,7 +388,7 @@ $sql['CREATE '.HELP_TABLE] = "CREATE TABLE IF NOT EXISTS `".HELP_TABLE."` (
 				  `childs` int(10) unsigned NOT NULL DEFAULT '0',
 				  `title` varchar(255) NOT NULL,
 				  `content` longtext NOT NULL,
-				  `date_modified` int(20) unsigned NOT NULL DEFAULT '0',
+				  `date_modified` bigint(20) unsigned NOT NULL DEFAULT '0',
 				  PRIMARY KEY (`id`),
 				  UNIQUE KEY `id` (`id`),
 				  UNIQUE KEY `uname` (`uname`)

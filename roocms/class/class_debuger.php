@@ -229,7 +229,7 @@ class Debuger {
                 if(DEBUGMODE) {
 			echo "
 			<div style='padding: 1rem; margin: .2rem .4rem;border: 1px solid red;background-color: moccasin;color: #1e1e1e;font-size: .85rem;'>
-			ОШИБКА: <b>#{$errno} - {$ertitle}</b>
+			Error: <b>#{$errno} - {$ertitle}</b>
 			<br />Строка: <b>{$line}</b> в файле <b>{$file}</b>
 			<br /><b>{$msg}</b>
 			</div>\n";

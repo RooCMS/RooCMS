@@ -34,6 +34,7 @@
 			format: 'dd.mm.yyyy',
 			language: 'ru',
 			todayHighlight: true,
+			endDate: "18/01/2038",
 			orientation: "bottom auto"
 		});
 

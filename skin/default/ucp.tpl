@@ -8,15 +8,18 @@
 	<div class="row">
 		<div class="col-12">
 			<div class="card mb-3">
-				<div class="card-body text-center text-md-left">
+				<div class="card-body d-flex flex-column flex-md-row text-center text-md-left">
 					{if $userdata['avatar'] != ""}
-						<img src="/upload/images/{$userdata['avatar']}" class="rounded-circle border" alt="{$userdata['nickname']}">
+						<div>
+							<img src="/upload/images/{$userdata['avatar']}" class="rounded-circle border" alt="{$userdata['nickname']}">
+						</div>
 					{/if}
-					<span class="display-4 p-3 align-middle text-nowrap">{$userdata['nickname']} {*{if $userdata['user_sex'] == "m"}<i class="fas fa-fw fa-mars text-info"></i>{elseif $userdata['user_sex'] == "f"}<i class="fas fa-fw fa-venus text-danger"></i>{/if}*}</span>
+					<div class="display-4 p-3 align-middle text-nowrap">{$userdata['nickname']} {*{if $userdata['user_sex'] == "m"}<i class="fas fa-fw fa-mars text-info"></i>{elseif $userdata['user_sex'] == "f"}<i class="fas fa-fw fa-venus text-danger"></i>{/if}*}</div>
 					{if $userdata['user_slogan'] != ""}
-						<div class="float-md-right text-md-right text-gray ubuntu">
+						<div class="d-flex ml-md-auto flex-column align-items-center align-items-md-end text-gray ubuntu">
 							<span class="badge badge-extra mb-1">{$userdata['gtitle']}</span>
-							<br />{$userdata['user_slogan']}
+							<div>{$userdata['user_slogan']}</div>
+							<div class="small mt-auto">На сайте с: {$userdata['date_create']}</div>
 						</div>
 					{/if}
 				</div>

@@ -79,7 +79,7 @@ if(check_file_core(_ROOCMS."/functions.php")) {
 }
 
 /**
-* Запускаем класс отладки
+* Load Debug Class
 */
 if(check_file_core(_CLASS."/class_debuger.php")) {
 
@@ -87,7 +87,7 @@ if(check_file_core(_CLASS."/class_debuger.php")) {
 	$debug = new Debuger;
 
 	/**
-	 * Debug функция
+	 * init debug function
 	 *
 	 * @param mixed $obj
 	 *
@@ -132,14 +132,6 @@ if(check_file_core(_CLASS."/class_logger.php")) {
 }
 
 /**
- * Запускаем класс обработчик $_POST
- */
-if(check_file_core(_CLASS."/class_post.php")) {
-	require_once(_CLASS."/class_post.php");
-	$post = new Post;
-}
-
-/**
  * Parser Valid Data trait
  */
 if(check_file_core(_CLASS."/trait_parserValidData.php")) {
@@ -153,6 +145,14 @@ if(check_file_core(_CLASS."/class_parser.php")) {
 	require_once(_CLASS."/class_parser.php");
 	$parse 	= new Parser;
 	$get	=& $parse->get;
+}
+
+/**
+ * Class handler $_POST
+ */
+if(check_file_core(_CLASS."/class_post.php")) {
+	require_once(_CLASS."/class_post.php");
+	$post = new Post;
 }
 
 /**

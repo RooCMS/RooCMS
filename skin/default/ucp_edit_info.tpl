@@ -117,7 +117,7 @@
 							Дата рождения:
 						</label>
 
-						<input type="text" name="user_birthdate" id="inputUserBirthdate" value="{$userdata['user_birthdaten']}" class="form-control datepicker">
+						<input type="text" name="user_birthdate" id="inputUserBirthdate" value="{$userdata['user_birthdaten']}" class="form-control datepicker" data-date-end-date="-1y">
 					</div>
 
 					<div class="form-group">

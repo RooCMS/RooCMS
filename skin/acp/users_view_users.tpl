@@ -39,7 +39,9 @@
 				{if $user['status'] == 0 && $user['activation_code'] != ""}<span class="badge badge-warning d-none d-sm-block">Не активирован</span>{/if}
 				{if $user['status'] == 0 && $user['activation_code'] == ""}<span class="badge badge-gray d-none d-sm-block">Отключен</span>{/if}
 			</td>
-			<td class="align-middle small d-none d-md-table-cell">{$user['last_visit']}</td>
+			<td class="align-middle small d-none d-md-table-cell" title="Зарегестрирован: {$user['date_create']}">
+				{$user['last_visit']}
+			</td>
 			<td class="align-middle text-right">
 				<div class="btn-group btn-group-sm">
 					<a href="{$SCRIPT_NAME}?act=users&part=edit_user&uid={$user['uid']}" class="btn btn-outline-primary"><i class="fas fa-user-edit fa-fw"></i><span class="d-none d-lg-block">Редактировать</span></a>

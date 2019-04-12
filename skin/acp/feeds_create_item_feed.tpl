@@ -110,9 +110,6 @@
 					<label class="btn btn-light" for="flag_status_false">
 						<input type="radio" name="force" value="0" id="flag_status_false"> <i class="far fa-fw fa-square"></i> Отправить подписчикам
 					</label>
-					<label class="btn btn-light" for="flag_status_true">
-						<input type="radio" name="force" value="1" id="flag_status_true"> <i class="far fa-fw fa-square"></i> Отправить всем
-					</label>
 				</div>
 			</div>
 		</div>
