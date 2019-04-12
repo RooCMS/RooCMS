@@ -1,12 +1,11 @@
 {* Шаблон "ног" *}
 
-
 <div class="container footer mt-3 py-3">
 	<div class="row">
 		<div class="col-md-6 text-dark ptsans">
 			<div class="text-uppercase border-bottom pb-1 mb-2">Навигация</div>
 			{if !empty($navtree)}
-				<div class="d-flex flex-row flex-wrap">
+				<div class="d-flex flex-row flex-wrap" role="navigation">
 					{foreach from=$navtree item=navitem key=k name=navigate}
 						{if $smarty.foreach.navigate.first}
 							<div class="d-flex flex-column col-sm-6 px-0">

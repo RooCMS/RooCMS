@@ -54,7 +54,7 @@ class UCP_Login {
 			$data = $db->fetch_assoc($q);
 
 			# hash
-			$dbpass = $security->hashing_password($post->password, $data['salt']);
+			$dbpass = $security->hash_password($post->password, $data['salt']);
 
 			if($dbpass == $data['password']) {
 
@@ -63,7 +63,7 @@ class UCP_Login {
 				$_SESSION['login'] 	= $data['login'];
 				$_SESSION['nickname'] 	= $data['nickname'];
 				$_SESSION['title'] 	= $data['title'];
-				$_SESSION['token'] 	= $security->hashing_token($data['login'], $dbpass, $data['salt']);
+				$_SESSION['token'] 	= $security->hash_token($data['login'], $dbpass, $data['salt']);
 
 				# log
 				$logger->log("Пользователь успешно авторизовался на сайте");

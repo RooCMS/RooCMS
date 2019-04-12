@@ -1,6 +1,6 @@
-Version: 1.3.3 alpha
+Version: 1.3.3 beta
 ========================
-**release date:	11.04.2019**
+**release date:	12.04.2019**
 
 Plugins
 -------
@@ -24,19 +24,20 @@ Plugins
 
 Release information:
 -------------
-	[add] add plugin bsCustomFileInput v1.3.1
+	[add] added plugin bsCustomFileInput v1.3.1
+	[add] added unsubscribe function in one click for registered users
 	
-	[upd] update Bootstrap 3.4 -> 4.3.1 
-	[upd] update Bootstrap Select 1.12.4 -> 1.13.7 
-	[upd] update Font Awesome 4.7 -> 5.7.2 
-	[upd] change Bootstrap Colorpicker plugin
-	[upd] update user interface (fixit bugs, update styles, update layot)
-	[upd] css migrate from less to scss
+	[upd] updated Bootstrap 3.4 -> 4.3.1 
+	[upd] updated Bootstrap Select 1.12.4 -> 1.13.7 
+	[upd] updated Font Awesome 4.7 -> 5.7.2 
+	[upd] changed Bootstrap Colorpicker plugin
+	[upd] updated user interface (fixit bugs, update styles, update layot)
+	[upd] css migrated from less to scss
 	
 	[fix] fixit error
 	[fix] translate comments in code to english international
 	
 	[inf] 
 	
-	[del] Remove IEPNGFIX (Older browsers will not cope with Bootstrap 4, so there is no need to use PNGFIX for IE in the distribution)
+	[del] Removed IEPNGFIX (Older browsers will not cope with Bootstrap 4, so there is no need to use PNGFIX for IE in the distribution)
 	[del] Removed Step checking files permission from install script

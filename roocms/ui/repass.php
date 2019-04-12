@@ -66,12 +66,11 @@ class UI_RePass {
 
 
 	/**
-	 * Функция с формой восстановления пароля
+	 * load repass form
 	 */
 	private function form() {
 
 		global $tpl;
-
 
 		$tpl->load_template("repass_form");
 	}
@@ -95,7 +94,7 @@ class UI_RePass {
 
 
 	/**
-	 * Функция восстановления пароля
+	 * Reminder password
 	 */
 	private function reminder() {
 
@@ -121,7 +120,7 @@ class UI_RePass {
 			$confirm['link'] = $site['domain'].SCRIPT_NAME."?part=repass&act=confirm&email=".$post->email."&code=".$confirm['code'];
 
 
-			# Уведомление пользователю на электропочту
+			# user notice on email
 			$smarty->assign("nickname", $userdata['nickname']);
 			$smarty->assign("confirm", $confirm);
 			$smarty->assign("site", $site);
@@ -155,9 +154,9 @@ class UI_RePass {
 		if(isset($post->email, $post->code) && $parse->valid_email($post->email) && $db->check_id($post->email, USERS_TABLE, "email", "secret_key='".$post->code."'")) {
 
 			# new password
-			$salt = $security->create_new_salt();
+			$salt = $security->generate_salt();
 			$pass = randcode(10);
-			$password = $security->hashing_password($pass, $salt);
+			$password = $security->hash_password($pass, $salt);
 
 			# userdata
 			$q = $db->query("SELECT login, nickname FROM ".USERS_TABLE." WHERE email='".$post->email."'");
@@ -167,7 +166,7 @@ class UI_RePass {
 			$db->query("UPDATE ".USERS_TABLE." SET salt='".$salt."', password='".$password."', secret_key='', last_visit='".time()."' WHERE email='".$post->email."'");
 
 
-			# Уведомление пользователю на электропочту
+			# user notice on email
 			$smarty->assign("udata", $userdata);
 			$smarty->assign("pass", $pass);
 			$smarty->assign("site", $site);

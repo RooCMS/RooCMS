@@ -27,16 +27,19 @@
 
 		<div class="form-group row">
 			<label for="inputTitle" class="col-md-5 col-lg-4 form-control-plaintext text-right">
-				Условия рассылки:
+				Получатели:
 			</label>
 			<div class="col-md-7 col-lg-8">
 				<div class="btn-group-vertical btn-group-toggle roocms-crui" data-toggle="buttons">
 					<label class="btn btn-light active" for="flag_status_false">
-						<input type="radio" name="force" value="0" id="flag_status_false" checked> <i class="far fa-fw fa-check-circle text-success"></i> Отправить только подписавшимся
+						<input type="radio" name="force" value="0" id="flag_status_false" checked> <i class="far fa-fw fa-check-circle text-success"></i> Только подписавшиеся на рассылку
 					</label>
 					<label class="btn btn-light" for="flag_status_true">
-						<input type="radio" name="force" value="1" id="flag_status_true"> <i class="far fa-fw fa-circle text-danger"></i> Отправить всем
+						<input type="radio" name="force" value="1" id="flag_status_true"> <i class="far fa-fw fa-circle text-danger" aria-describedby="forecAllSupport"></i> Экстренная рассылка для всех
 					</label>
+					<small id="forecAllSupport" class="form-text text-gray">
+						Используйте экстренную рассылку только в крайнем случае
+					</small>
 				</div>
 			</div>
 		</div>

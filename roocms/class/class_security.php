@@ -25,36 +25,36 @@ if(!defined('RooCMS')) {
  */
 class Security extends Shteirlitz {
 
-	private $pass_leight = 7;
+	private $pass_leight = 8;
 	private $salt_leight = 5;
 
 
 
 	/**
-	 * Функция хешерования пароля пользователя
+	 * Hash user password
 	 *
-	 * @param string $password	- нехешированный пароль пользователя
-	 * @param string $salt		- сальт паользователя
+	 * @param string $password - unhash pass
+	 * @param string $salt	   - user salt
 	 *
-	 * @return string	- хешированный пароль пользователя
+	 * @return string - hash
 	 */
-	public function hashing_password($password, $salt) {
+	public function hash_password($password, $salt) {
 		$hash = md5(md5($password).md5($salt));
 		return $hash;
 	}
 
 
 	/**
-	 * Функция генерирует хешобразный ключ для проверки текущего доступа
-	 * Временный ключ генерируется на основе текущей сессии пользователя.
+	 * Function generates hash key to check current access.
+	 * Temporary key is generated based on current user session.
 	 *
-	 * @param string $login		- логин пользователя
-	 * @param string $password	- хеш пароля пользователя
-	 * @param string $salt		- сальт пользователя
+	 * @param string $login		- user login
+	 * @param string $password	- hash user password
+	 * @param string $salt		- user salt
 	 *
-	 * @return string - токен
+	 * @return string - security token
 	 */
-	public function hashing_token($login, $password, $salt) {
+	public function hash_token($login, $password, $salt) {
 
 		global $roocms;
 
@@ -64,30 +64,42 @@ class Security extends Shteirlitz {
 
 
 	/**
-	 * Функция генерирует новый пароль
+	 * Function generates hash key to check user api express operations.
+	 *
+	 * @param int $uid - unique user id
+	 */
+	public function hash_uapi($uid) {
+
+		//global $users;
+
+		$hash = md5($uid);
+	}
+
+
+	/**
+	 * Generate new paaword for user
 	 *
 	 * @return string - new password
 	 */
-	public function create_new_password() {
+	public function generate_password() {
 		$password = randcode($this->pass_leight, "ABCDEFGHJKLMNPQRSTUVWXYZabcdefhjkmnprstvwxyz123456789");
 		return $password;
 	}
 
 
 	/**
-	 * Функция генерирует новый сальт
+	 * Generate new salt for user
 	 *
 	 * @return string
 	 */
-	public function create_new_salt() {
+	public function generate_salt() {
 		$salt = randcode($this->salt_leight, "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!@#$%^&*(-)+{=}:?>~<,./[|]");
 		return $salt;
 	}
 
 
 	/**
-	 * Паранои много не бывает.
-	 * Проверяем данные авторизации, не было ли попыток совершения подмены данных
+	 * Checks user data to make attempts to substitute
 	 */
 	protected function control_userdata() {
 

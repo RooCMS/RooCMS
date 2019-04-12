@@ -295,7 +295,3 @@ if(!defined('ACP') && !defined('INSTALL')) {
 //set_include_path(
 //    get_include_path() . PATH_SEPARATOR . $PEAR_PATH_LOCAL
 //);
-
-// function __autoload($class_name) {
-     // include_once($class_name . "php");
-// }

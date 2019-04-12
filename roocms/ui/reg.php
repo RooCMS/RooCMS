@@ -25,6 +25,9 @@ if(!defined('RooCMS') || !defined('UI')) {
  */
 class UI_Reg {
 
+	/**
+	 * UI_Reg constructor.
+	 */
 	public function __construct() {
 
 		global $roocms, $structure, $nav, $users, $post;
@@ -70,7 +73,7 @@ class UI_Reg {
 
 
 	/**
-	 * Функция запроса анкеты будущего пользователя (формы регистрации)
+	 * load template "registration form"
 	 */
 	private function profile() {
 
@@ -98,13 +101,13 @@ class UI_Reg {
 
 		if(!isset($_SESSION['error'])) {
 
-			#password
+			# password
 			if(!isset($post->password)) {
-				$post->password = $security->create_new_password();
+				$post->password = $security->generate_password();
 			}
 
-			$salt = $security->create_new_salt();
-			$password = $security->hashing_password($post->password, $salt);
+			$salt = $security->generate_salt();
+			$password = $security->hash_password($post->password, $salt);
 
 			# check personal data
 			$users->correct_personal_data();
@@ -130,7 +133,7 @@ class UI_Reg {
 			$activation['link'] = $site['domain'].SCRIPT_NAME."?part=reg&act=activation&email=".$post->email."&code=".$activation['code'];
 
 
-			# Уведомление пользователю на электропочту
+			# notice user on email
 			$smarty->assign("login", $post->login);
 			$smarty->assign("nickname", $post->nickname);
 			$smarty->assign("email", $post->email);
@@ -153,7 +156,7 @@ class UI_Reg {
 
 
 	/**
-	 * Функция экспресс регистрации
+	 * Express registration and subscribed
 	 */
 	private function expressreg() {
 

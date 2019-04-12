@@ -42,7 +42,7 @@
 
 					<dt class="col-md-5">Электронная почта</dt>
 					<dd class="col-md-7">
-						{$userdata['email']} <span class="badge {if $userdata['mailing'] == 0}badge-warning">Рыссылка отключена{else}badge-success">Рассылка подключена{/if}</span>
+						{$userdata['email']} <a href="{$SCRIPT_NAME}?part=ucp&act=ucp&move={if $userdata['mailing'] == 1}un{/if}mailing" class="badge badge-{if $userdata['mailing'] == 0}warning{else}success{/if}">Рыссылка {if $userdata['mailing'] == 0}отключена{else}подключена{/if}</a>
 						<br /><small>на этот адрес вы получаете уведомления с сайта</small>
 					</dd>
 				</dl>

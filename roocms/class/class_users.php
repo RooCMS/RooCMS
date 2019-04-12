@@ -150,7 +150,7 @@ class Users extends Security {
 
 
 			# security token
-			$this->token = $this->hashing_token($roocms->sess['login'], $data['password'], $data['salt']);
+			$this->token = $this->hash_token($roocms->sess['login'], $data['password'], $data['salt']);
 		}
 	}
 

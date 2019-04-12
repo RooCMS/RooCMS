@@ -143,7 +143,7 @@
 		<div class="col-12 mt-3">
 			<div class="collapse w-100" id="collapseAllMenu">
 				<div class="card card-body bg-light">
-					<div class="d-flex flex-row flex-wrap">
+					<div class="d-flex flex-row flex-wrap" role="navigation">
 						{foreach from=$navtree item=navitem key=k name=navigate}
 							{if $smarty.foreach.navigate.first}
 								<div class="d-flex flex-column col-lg-3 col-md-4 col-sm-6 my-1 px-0">

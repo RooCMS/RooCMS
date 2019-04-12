@@ -6,6 +6,10 @@ a:hover [class="fa"],
 a:hover [class^="fas-"],
 a:hover [class^="far-"] {text-decoration: none !important;}
 
+.fa, .fas, .far {
+	font-family: 'Font Awesome 5 Free' !important;
+}
+
 .fa-va {vertical-align: middle;}
 
 /* Addon and correct BS */

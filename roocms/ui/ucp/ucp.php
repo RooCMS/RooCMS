@@ -47,9 +47,9 @@ class UCP_CP {
 				$this->mailing();
 				break;
 
-			//case 'ummailing':
-			//	$this->unmailing();
-			//	break;
+			case 'unmailing':
+				$this->unmailing();
+				break;
 
 			default:
 				$this->cp();
@@ -62,7 +62,7 @@ class UCP_CP {
 
 
 	/**
-	 * Функция главной страницы личного кабинета пользователя
+	 * Main UCP
 	 */
 	private function cp() {
 
@@ -152,8 +152,8 @@ class UCP_CP {
 		if(!isset($_SESSION['error'])) {
 			# password
 			if(isset($post->password)) {
-				$salt = $users->create_new_salt();
-				$password = $users->hashing_password($post->password, $salt);
+				$salt = $users->generate_salt();
+				$password = $users->hash_password($post->password, $salt);
 
 				$query .= "password='".$password."', salt='".$salt."', ";
 			}
@@ -176,7 +176,7 @@ class UCP_CP {
 			# notice
 			$logger->info("Ваши данные успешно обновлены.", false);
 
-			# Уведомление пользователю на электропочту
+			# notice user on email
 			$smarty->assign("login", $post->login);
 			$smarty->assign("nickname", $post->nickname);
 			$smarty->assign("email", $post->email);
@@ -196,17 +196,35 @@ class UCP_CP {
 
 
 	/**
-	 * Быстрая подписка на рассылку
+	 * Express subscribe on mailing
 	 */
 	private function mailing() {
 
 		global $db, $users, $logger;
 
 		# update
-		$db->query("UPDATE ".USERS_TABLE." SET mailing = '1', date_update='".time()."' WHERE uid='".$users->userdata['uid']."'");
+		$db->query("UPDATE ".USERS_TABLE." SET mailing='1', date_update='".time()."' WHERE uid='".$users->uid."'");
 
 		# notice
 		$logger->info("Спасибо, что подписались на рассылку.", false);
+
+		# go
+		goback();
+	}
+
+
+	/**
+	 * Express unsubscribe on mailing
+	 */
+	private function unmailing() {
+
+		global $db, $users, $logger;
+
+		# update
+		$db->query("UPDATE ".USERS_TABLE." SET mailing='0', date_update='".time()."' WHERE uid='".$users->uid."'");
+
+		# notice
+		$logger->info("Вы были успешно отписаны от получения рассылки", false);
 
 		# go
 		goback();

@@ -138,10 +138,10 @@ class ACP_Users {
 
 				#password
 				if(!isset($post->password)) {
-					$post->password = $security->create_new_password();
+					$post->password = $security->generate_password();
 				}
-				$salt = $security->create_new_salt();
-				$password = $security->hashing_password($post->password, $salt);
+				$salt = $security->generate_salt();
+				$password = $security->hash_password($post->password, $salt);
 
 				# check_user data
 				$this->check_users_data();
@@ -303,8 +303,8 @@ class ACP_Users {
 
 				# password
 				if(isset($post->password)) {
-					$salt = $security->create_new_salt();
-					$password = $security->hashing_password($post->password, $salt);
+					$salt = $security->generate_salt();
+					$password = $security->hash_password($post->password, $salt);
 
 					$query .= "password='".$password."', salt='".$salt."', ";
 				}

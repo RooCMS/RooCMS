@@ -359,11 +359,15 @@ blockquote[class^=quote-] > p:last-child {
   margin-bottom: 0;
 }
 
-/* fix font-awesome underline */
+/* fix font-awesome */
 a:hover [class=fa],
 a:hover [class^=fas-],
 a:hover [class^=far-] {
   text-decoration: none !important;
+}
+
+.fa, .fas, .far {
+  font-family: "Font Awesome 5 Free" !important;
 }
 
 /* Outline */

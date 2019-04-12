@@ -356,8 +356,8 @@ class Install extends IU_Extends {
 
 
 		# write admin acc
-		$salt = $security->create_new_salt();
-		$upass = $security->hashing_password($roocms->sess['adm_passw'], $salt);
+		$salt = $security->generate_salt();
+		$upass = $security->hash_password($roocms->sess['adm_passw'], $salt);
 
 		$db->query("INSERT INTO ".USERS_TABLE." (login, nickname, email, title, password, salt, date_create, date_update, last_visit, status)
 						 VALUES ('".$roocms->sess['adm_login']."', '".$roocms->sess['adm_login']."', '".$site['sysemail']."', 'a', '".$upass."', '".$salt."', '".time()."', '".time()."', '".time()."', '1')");
@@ -367,7 +367,7 @@ class Install extends IU_Extends {
 		$_SESSION['login'] 	= $roocms->sess['adm_login'];
 		$_SESSION['title'] 	= "a";
 		$_SESSION['nickname'] 	= $roocms->sess['adm_login'];
-		$_SESSION['token'] 	= $security->hashing_token($roocms->sess['adm_login'], $upass, $salt);
+		$_SESSION['token'] 	= $security->hash_token($roocms->sess['adm_login'], $upass, $salt);
 
 
 		# CONGRULATIONS
