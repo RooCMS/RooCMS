@@ -51,41 +51,6 @@ function randcode($ns, $symbols="ABCEFHKLMNPRSTVXYZ123456789") {
 }
 
 /**
- * Send mail
- *
- * @param string $mail		- Адрес направления
- * @param string $theme		- Заголовок письма
- * @param string $message	- Тело письма
- * @param string $from		- Обратный адрес
- */
-function sendmail($mail, $theme, $message, $from="robot") {
-
-	global $site, $parse;
-
-	settype($mail,    "string");
-	settype($theme,   "string");
-	settype($message, "string");
-
-	$message = str_ireplace(array('\\r','\\n'), array('', '\n'), $message);
-
-	$domain = str_ireplace(array('http://','https://','www.'), '', $site['domain']);
-
-	if(!$parse->valid_email($from)) {
-		$from = "robot@".$domain;
-	}
-
-	# headers
-	$headers  = "MIME-Version: 1.0\n";
-	$headers .= "From: ".$site['title']." <{$from}>\n".EMAIL_MESSAGE_PARAMETERS."\n";
-	$headers .= "X-Sender: <no-reply@".$domain.">\n";
-	$headers .= "X-Mailer: RooCMS from ".$domain."\n";
-	$headers .= "Return-Path: <no-replay@".$domain.">";
-
-	# send email message
-	mb_send_mail($mail,$theme,$message,$headers);
-}
-
-/**
  * Mb transform first letter in string
  *
  * @param string $string

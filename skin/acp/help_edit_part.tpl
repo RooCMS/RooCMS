@@ -4,7 +4,7 @@
 <div class="card-header">
 	Редактируем раздел помощи "{$data['title']}"
 </div>
-<form method="post" action="{$SCRIPT_NAME}?act=help&part=edit_part&u={$data['uname']}" enctype="multipart/form-data" role="form">
+<form method="post" action="{$SCRIPT_NAME}?act=help&part=edit_part&u={$data['uname']}">
 	<div class="card-body">
 		<div class="form-group row">
 			<label for="inputUname" class="col-md-5 col-lg-4 form-control-plaintext text-right">

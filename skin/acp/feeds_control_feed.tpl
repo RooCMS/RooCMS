@@ -25,9 +25,13 @@
 		{foreach from=$feedlist item=item}
 			<tr>
 				<td class="align-middle">
-					{if $item['publication_status'] != "hide"}<a href="{$SCRIPT_NAME}?act=feeds&part=status_{if $item['status'] == 0}on{else}off{/if}_item&page={$feed['id']}&item={$item['id']}" class="{if $item['status'] == 0}show{else}hide{/if}-feed-element">{/if}
-					<i class="fas fa-fw fa-eye{if $item['publication_status'] == "hide" || $item['status'] == 0}-slash text-muted{else} text-primary{/if}"></i>{if $item['publication_status'] != "hide"}</a>{/if}
-					<a href="{$SCRIPT_NAME}?act=feeds&part=edit_item&page={$feed['id']}&item={$item['id']}" title="{$item['title']}"{if $item['publication_status'] == "hide" || $item['status'] == 0} class="text-muted"{/if}>{if $item['status'] == 0}<s>{/if}{$item['title']}{if $item['status'] == 0}</s>{/if}</a>
+					{if $item['publication_future']}
+						<i class="fas fa-fw fa-clock text-gray"></i>
+					{else}
+						{if $item['publication_status'] != "hide"}<a href="{$SCRIPT_NAME}?act=feeds&part=status_{if $item['status'] == 0}on{else}off{/if}_item&page={$feed['id']}&item={$item['id']}" class="{if $item['status'] == 0}show{else}hide{/if}-feed-element">{/if}
+						<i class="fas fa-fw fa-eye{if $item['publication_status'] == "hide" || $item['status'] == 0}-slash text-muted{else} text-primary{/if}"></i>{if $item['publication_status'] != "hide"}</a>{/if}
+					{/if}
+					<a href="{$SCRIPT_NAME}?act=feeds&part=edit_item&page={$feed['id']}&item={$item['id']}" title="{$item['title']}"{if $item['publication_status'] == "hide" || $item['status'] == 0} class="text-muted"{/if}{if $item['publication_future']} class="text-gray"{/if}>{if $item['status'] == 0}<s>{/if}{$item['title']}{if $item['status'] == 0}</s>{/if}</a>
 					<span class="float-right small">
 						{if $item['group_access'] != 0}<i class="fas fa-fw fa-user-secret" rel="tooltip" data-toggle="tooltip" data-placement="top" title="Есть групповые ограничения"></i>{/if}
 						{if isset($item['tags'])}<i class="fas fa-fw fa-tags" rel="tooltip" title="{foreach from=$item['tags'] item=tag} #{$tag['title']} {/foreach}" data-placement="left" data-container="body"></i>{/if}

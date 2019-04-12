@@ -699,7 +699,7 @@ class ACP_Feeds_Feed {
 	 */
 	private function mailing($id, $title, $subject, $force=-1) {
 
-		global $users, $logger, $parse, $site;
+		global $parse, $logger, $users, $mailer, $site;
 
 		if($force != -1) {
 
@@ -722,7 +722,7 @@ class ACP_Feeds_Feed {
 			foreach($userlist AS $val) {
 
 				# send
-				sendmail($val['email'], $title, $subject);
+				$mailer->send($val['email'], $title, $subject);
 
 				# log
 				$log .= " ".$val['email'];

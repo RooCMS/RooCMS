@@ -120,7 +120,7 @@ class ACP_Users {
 	 */
 	private function create_new_user() {
 
-		global $db, $smarty, $users, $tpl, $post, $logger, $security, $site;
+		global $db, $security, $post, $logger, $users, $mailer, $site, $tpl, $smarty;
 
 		if(isset($post->create_user)) {
 
@@ -166,7 +166,7 @@ class ACP_Users {
 				$smarty->assign("site", $site);
 				$message = $tpl->load_template("mail/new_registration", true);
 
-				sendmail($post->email, "Вас зарегистрировали на сайте ".$site['title'], $message);
+				$mailer->send($post->email, "Вас зарегистрировали на сайте ".$site['title'], $message);
 
 				# notice
 				$logger->info("Пользователь #".$uid." был успешно добавлен. Уведомление об учетной записи отправлено на его электронную почту.");
@@ -251,7 +251,7 @@ class ACP_Users {
 	 */
 	private function update_user($uid) {
 
-		global $db, $post, $site, $users, $security, $logger, $parse, $smarty, $tpl;
+		global $db, $security, $parse, $post, $logger, $users, $mailer, $site, $smarty, $tpl;
 
 		if(isset($post->update_user)) {
 
@@ -342,7 +342,7 @@ class ACP_Users {
 				$smarty->assign("site", $site);
 				$message = $tpl->load_template("mail/update_userdata", true);
 
-				sendmail($post->email, "Ваши данные на \"".$site['title']."\" были обновлены администрацией", $message);
+				$mailer->send($post->email, "Ваши данные на \"".$site['title']."\" были обновлены администрацией", $message);
 
 				# go
 				if(isset($post->update_user['ae'])) {

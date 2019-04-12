@@ -6,7 +6,7 @@
 	<meta http-equiv="Content-Type" 	content="text/html; charset=utf-8" />
 
 </head>
-<body bgcolor="#fff" marginwidth="0" marginheight="0"  leftmargin="0" topmargin="0" bottommargin="0" rightmargin="0">
+<body bgcolor="#ffffff" marginwidth="0" marginheight="0"  leftmargin="0" topmargin="0" bottommargin="0" rightmargin="0">
 
 <h2> Здравствуйте, {$nickname} </h2>
 

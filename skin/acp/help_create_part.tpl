@@ -4,7 +4,7 @@
 <div class="card-header">
 	Новый раздел помощи
 </div>
-<form method="post" action="{$SCRIPT_NAME}?act=help&part=create_part" enctype="multipart/form-data" role="form">
+<form method="post" action="{$SCRIPT_NAME}?act=help&part=create_part">
 	<div class="card-body">
 		<div class="form-group row">
 			<label for="inputUname" class="col-md-5 col-lg-4 form-control-plaintext text-right">

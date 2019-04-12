@@ -82,7 +82,6 @@ if(check_file_core(_ROOCMS."/functions.php")) {
 * Load Debug Class
 */
 if(check_file_core(_CLASS."/class_debuger.php")) {
-
 	require_once(_CLASS."/class_debuger.php");
 	$debug = new Debuger;
 
@@ -100,16 +99,13 @@ if(check_file_core(_CLASS."/class_debuger.php")) {
 }
 
 /**
-* Запускаем расширение класса БД MySQL
-*/
-if(check_file_core(_CLASS."/trait_mysqlidbExtends.php")) {
-	require_once(_CLASS."/trait_mysqlidbExtends.php");
-}
-
-/**
 * Init BD class
 */
 if(check_file_core(_CLASS."/class_mysqlidb.php")) {
+	if(check_file_core(_CLASS."/trait_mysqlidbExtends.php")) {
+		require_once(_CLASS."/trait_mysqlidbExtends.php");
+	}
+
 	require_once(_CLASS."/class_mysqlidb.php");
 	$db = new MySQLiDB;
 }
@@ -132,22 +128,6 @@ if(check_file_core(_CLASS."/class_logger.php")) {
 }
 
 /**
- * Parser Valid Data trait
- */
-if(check_file_core(_CLASS."/trait_parserValidData.php")) {
-	require_once(_CLASS."/trait_parserValidData.php");
-}
-
-/**
-* Init Parser Engine
-*/
-if(check_file_core(_CLASS."/class_parser.php")) {
-	require_once(_CLASS."/class_parser.php");
-	$parse 	= new Parser;
-	$get	=& $parse->get;
-}
-
-/**
  * Class handler $_POST
  */
 if(check_file_core(_CLASS."/class_post.php")) {
@@ -156,38 +136,49 @@ if(check_file_core(_CLASS."/class_post.php")) {
 }
 
 /**
- * Запускаем расширение класса Security
- */
-if(check_file_core(_CLASS."/class_shteirlitz.php")) {
-	require_once(_CLASS."/class_shteirlitz.php");
+* Init Parser Engine
+*/
+if(check_file_core(_CLASS."/class_parser.php")) {
+	if(check_file_core(_CLASS."/trait_parserValidData.php")) {
+		require_once(_CLASS."/trait_parserValidData.php");
+	}
+
+	require_once(_CLASS."/class_parser.php");
+	$parse 	= new Parser;
+	$get	=& $parse->get;
 }
 
 /**
  * Init Security class
  */
 if(check_file_core(_CLASS."/class_security.php")) {
+	if(check_file_core(_CLASS."/class_shteirlitz.php")) {
+		require_once(_CLASS."/class_shteirlitz.php");
+	}
+
 	require_once(_CLASS."/class_security.php");
 	$security = new Security;
 }
 
 /**
- * User groups trait
+ * Mailing class
  */
-if(check_file_core(_CLASS."/trait_userGroups.php")) {
-	require_once(_CLASS."/trait_userGroups.php");
-}
-
-/**
- * User Avatar trait
- */
-if(check_file_core(_CLASS."/trait_userAvatar.php")) {
-	require_once(_CLASS."/trait_userAvatar.php");
+if(check_file_core(_CLASS."/class_mailing.php")) {
+	require_once(_CLASS."/class_mailing.php");
+	$mailer = new Mailing;
 }
 
 /**
  * Init User class
  */
 if(check_file_core(_CLASS."/class_users.php")) {
+	if(check_file_core(_CLASS."/trait_userGroups.php")) {
+		require_once(_CLASS."/trait_userGroups.php");
+	}
+	if(check_file_core(_CLASS."/trait_userAvatar.php")) {
+		require_once(_CLASS."/trait_userAvatar.php");
+	}
+
 	require_once(_CLASS."/class_users.php");
 	$users = new Users;
 }
@@ -201,30 +192,27 @@ if(check_file_core(_CLASS."/class_tags.php")) {
 }
 
 /**
-* Запускаем класс работы с файлами
-*/
+ * Запускаем класс работы с файлами
+ */
 if(check_file_core(_CLASS."/class_files.php")) {
 	require_once(_CLASS."/class_files.php");
 	$files = new Files;
 }
 
 /**
- * Загружаем класс функций расширений графической обработки
+ * Graphic class load
  */
-if(check_file_core(_CLASS."/trait_gdExtends.php")) {
-	require_once(_CLASS."/trait_gdExtends.php");
-}
-
-/**
-* Загружаем класс графической обработки
-*/
 if(check_file_core(_CLASS."/class_gd.php")) {
+	if(check_file_core(_CLASS."/trait_gdExtends.php")) {
+		require_once(_CLASS."/trait_gdExtends.php");
+	}
+
 	require_once(_CLASS."/class_gd.php");
 }
 
 /**
-* Запускаем класс работы с изображениями
-*/
+ * Запускаем класс работы с изображениями
+ */
 if(check_file_core(_CLASS."/class_images.php")) {
 	require_once(_CLASS."/class_images.php");
 	$img = new Images;
@@ -239,31 +227,28 @@ if(check_file_core(_CLASS."/class_xml.php")) {
 }
 
 /**
-* RSS
-*/
+ * RSS
+ */
 if(check_file_core(_CLASS."/class_rss.php")) {
 	require_once(_CLASS."/class_rss.php");
 	$rss = new RSS;
 }
 
 /**
-* Запускаем библиотеку шаблонизации Smarty
-*/
+ * Запускаем библиотеку шаблонизации Smarty
+ */
 if(check_file_core(_LIB."/smarty.php")) {
 	require_once(_LIB."/smarty.php");
 }
 
 /**
- * Запускаем класс шаблонизации RooCMS
+ * Template class
  */
-if(check_file_core(_CLASS."/trait_templateExtends.php")) {
-	require_once(_CLASS."/trait_templateExtends.php");
-}
-
-/**
-* Запускаем класс шаблонизации RooCMS
-*/
 if(check_file_core(_CLASS."/class_template.php")) {
+	if(check_file_core(_CLASS."/trait_templateExtends.php")) {
+		require_once(_CLASS."/trait_templateExtends.php");
+	}
+
 	require_once(_CLASS."/class_template.php");
 	$tpl = new Template;
 }

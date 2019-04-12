@@ -141,7 +141,7 @@ class UCP_PM {
 	 */
 	private function send() {
 
-		global $db, $users, $post, $logger, $site, $smarty, $tpl;
+		global $db, $post, $logger, $users, $mailer, $site, $smarty, $tpl;
 
 		if(isset($post->send, $post->message) && $post->to_uid != 0 && $db->check_id($post->to_uid, USERS_TABLE, "uid", "status='1'") && $post->to_uid != $users->uid) {
 
@@ -163,7 +163,7 @@ class UCP_PM {
 			$smarty->assign("site", $site);
 			$message = $tpl->load_template("mail/new_message", true);
 
-			sendmail($u['email'], "Вы получили новое сообщение", $message);
+			$mailer->send($u['email'], "Вы получили новое сообщение", $message);
 
 
 			# notice

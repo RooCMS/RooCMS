@@ -98,7 +98,7 @@ class UCP_CP {
 	 */
 	private function update_info() {
 
-		global $db, $post, $parse, $logger, $users, $site, $tpl, $smarty;
+		global $db, $post, $parse, $logger, $mailer, $users, $site, $tpl, $smarty;
 
 		$query = "";
 
@@ -184,7 +184,7 @@ class UCP_CP {
 			$smarty->assign("site", $site);
 			$message = $tpl->load_template("mail/update_userinfo", true);
 
-			sendmail($post->email, "Ваши данные на \"".$site['title']."\" были обновлены", $message);
+			$mailer->send($post->email, "Ваши данные на \"".$site['title']."\" были обновлены", $message);
 
 			# go out
 			go(SCRIPT_NAME."?part=ucp&act=ucp");

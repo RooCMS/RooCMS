@@ -98,7 +98,7 @@ class UI_RePass {
 	 */
 	private function reminder() {
 
-		global $db, $roocms, $site, $post, $parse, $logger, $smarty, $tpl;
+		global $db, $roocms, $site, $post, $logger, $parse, $mailer, $smarty, $tpl;
 
 		# log
 		$logger->log("Запрос на восстановление пароля для почтового ящика: ".$post->email." с IP:".$roocms->userip);
@@ -126,7 +126,7 @@ class UI_RePass {
 			$smarty->assign("site", $site);
 			$message = $tpl->load_template("mail/confirm_repass", true);
 
-			sendmail($post->email, "Запрос на восстановление пароля для сайта: ".$site['title'], $message);
+			$mailer->send($post->email, "Запрос на восстановление пароля для сайта: ".$site['title'], $message);
 
 
 			# notice
@@ -149,7 +149,7 @@ class UI_RePass {
 	 */
 	private function verification() {
 
-		global $db, $parse, $logger, $post, $site, $security, $smarty, $tpl;
+		global $db, $security, $parse, $logger, $post, $mailer, $site, $smarty, $tpl;
 
 		if(isset($post->email, $post->code) && $parse->valid_email($post->email) && $db->check_id($post->email, USERS_TABLE, "email", "secret_key='".$post->code."'")) {
 
@@ -172,7 +172,7 @@ class UI_RePass {
 			$smarty->assign("site", $site);
 			$message = $tpl->load_template("mail/send_repass", true);
 
-			sendmail($post->email, "Ваш новый пароль для сайта: ".$site['title'], $message);
+			$mailer->send($post->email, "Ваш новый пароль для сайта: ".$site['title'], $message);
 
 
 			# log

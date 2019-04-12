@@ -1,6 +1,6 @@
 Version: 1.3.3 beta
 ========================
-**release date:	12.04.2019**
+**release date:	13.04.2019**
 
 Plugins
 -------
@@ -26,6 +26,7 @@ Release information:
 -------------
 	[add] added plugin bsCustomFileInput v1.3.1
 	[add] added unsubscribe function in one click for registered users
+	[add] created Mailing class
 	
 	[upd] updated Bootstrap 3.4 -> 4.3.1 
 	[upd] updated Bootstrap Select 1.12.4 -> 1.13.7 

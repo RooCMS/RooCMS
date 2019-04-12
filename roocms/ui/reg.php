@@ -88,7 +88,7 @@ class UI_Reg {
 	 */
 	private function join() {
 
-		global $db, $smarty, $users, $tpl, $post, $logger, $security, $site;
+		global $db, $security, $post, $logger, $mailer, $users, $site, $smarty, $tpl;
 
 		# nickname
 		$users->check_create_nickname();
@@ -142,7 +142,7 @@ class UI_Reg {
 			$smarty->assign("site", $site);
 			$message = $tpl->load_template("mail/new_registration", true);
 
-			sendmail($post->email, "Вы зарегистрировались на сайте ".$site['title'], $message);
+			$mailer->send($post->email, "Вы зарегистрировались на сайте ".$site['title'], $message);
 
 			# notice
 			$logger->info("Поздравляем с Регистрацией. Вам осталось подтвердить адрес электронной почты для этого пройдите по ссылке отправленной Вам в письме.", false);

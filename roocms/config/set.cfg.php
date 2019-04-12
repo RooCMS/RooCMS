@@ -103,7 +103,7 @@ ini_set("error_prepend_string",		"<script type='text/javascript' src='/plugin/jq
 					 <link rel='stylesheet' type='text/css' href='/plugin/bootstrap/css/bootstrap.min.css' media='screen' />
 					 <script type='text/javascript' src='/plugin/bootstrap/js/bootstrap.bundle.min.js'></script>
 						<div class='alert alert-danger' role='alert'>Critical Error
-						<pre class='bg-danger'>");
+						<pre class='bg-light'>");
 ini_set("error_append_string",		"</pre></div>");
 
 
