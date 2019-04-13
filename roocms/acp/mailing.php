@@ -71,7 +71,7 @@ class ACP_Mailing {
 	 */
 	private function send() {
 
-		global $post, $parse, $users, $logger;
+		global $post, $parse, $logger, $users, $mailer;
 
 		if(isset($post->title) && isset($post->message)) {
 
@@ -99,7 +99,7 @@ class ACP_Mailing {
 			foreach($userlist AS $val) {
 
 				# send
-				sendmail($val['email'], $post->title, $post->message);
+				$mailer->send($val['email'], $post->title, $post->message);
 
 				# log
 				$log .= " ".$val['email'];

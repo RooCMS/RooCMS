@@ -66,10 +66,10 @@ class Security extends Shteirlitz {
 	/**
 	 * Function generates hash key to check user api express operations.
 	 *
-	 * @param $id    - user id
-	 * @param $data  - user data (Example: user email)
-	 * @param $key   - secret key
-	 * @param $salt  - secret salt
+	 * @param int    $id         - user id
+	 * @param mixed  $data       - user data (Example: user email)
+	 * @param string $key        - secret key
+	 * @param string $salt       - secret salt
 	 *
 	 * @return string - hash
 	 */
