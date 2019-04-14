@@ -21,7 +21,7 @@ if(!defined('RooCMS') || !defined('ACP')) {
 
 
 # require trait
-require_once "trait/trait_acp_useroperation.php";
+require_once "extends/trait_acp_useroperation.php";
 
 
 /**
