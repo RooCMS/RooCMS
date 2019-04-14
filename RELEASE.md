@@ -34,6 +34,7 @@ Release information:
 	[upd] changed Bootstrap Colorpicker plugin
 	[upd] updated user interface (fixit bugs, update styles, update layot)
 	[upd] css migrated from less to scss
+	[upd] increased strength of password hashes
 	
 	[fix] fixit error
 	[fix] translate comments in code to english international

@@ -41,15 +41,16 @@ class ACP_Login {
 				$q = $db->query("SELECT uid, login, nickname, title, password, salt FROM ".USERS_TABLE." WHERE login='".$post->login."' AND status='1' AND title='a'");
 				$data = $db->fetch_assoc($q);
 
-				$dbpass = $security->hash_password($post->password, $data['salt']);
+				# hash
+				$phash = $security->hash_password($post->password, $data['salt']);
 
-				if($dbpass == $data['password']) {
+				if($phash == $data['password']) {
 
 					$_SESSION['uid'] 	= $data['uid'];
 					$_SESSION['login'] 	= $data['login'];
 					$_SESSION['title'] 	= $data['title'];
 					$_SESSION['nickname'] 	= $data['nickname'];
-					$_SESSION['token'] 	= $security->hash_token($data['login'], $dbpass, $data['salt']);
+					$_SESSION['token'] 	= $security->get_token($data['login'], $phash, $data['salt']);
 
 					# log
 					$logger->log("Пользователь успешно авторизовался в Панели управления");

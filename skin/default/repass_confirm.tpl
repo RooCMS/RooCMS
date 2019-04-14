@@ -22,7 +22,7 @@
 					</div>
 
 					<div class="form-group position-relative">
-						<label for="inputEmail">
+						<label for="inputConfirmationCode">
 							Код подтверждения:
 						</label>
 

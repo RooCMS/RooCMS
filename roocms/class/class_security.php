@@ -49,16 +49,16 @@ class Security extends Shteirlitz {
 	 * Temporary key is generated based on current user session.
 	 *
 	 * @param string $login		- user login
-	 * @param string $password	- hash user password
+	 * @param string $hash		- hash user password
 	 * @param string $salt		- user salt
 	 *
 	 * @return string - security token
 	 */
-	public function hash_token($login, $password, $salt) {
+	public function get_token($login, $hash, $salt) {
 
 		global $roocms;
 
-		$token = md5(md5($roocms->usersession).md5($login).md5($password).md5($salt));
+		$token = md5(md5($roocms->usersession).md5($login).md5($hash).md5($salt));
 		return $token;
 	}
 
@@ -66,15 +66,14 @@ class Security extends Shteirlitz {
 	/**
 	 * Function generates hash key to check user api express operations.
 	 *
-	 * @param int    $id         - user id
 	 * @param mixed  $data       - user data (Example: user email)
 	 * @param string $key        - secret key
 	 * @param string $salt       - secret salt
 	 *
 	 * @return string - hash
 	 */
-	public function hash_uapi($id, $data, $key, $salt) {
-		$hash = $this->encode(md5($id).md5($data), $key, $salt);
+	public function hash_uapi($data, $key, $salt) {
+		$hash = md5($this->encode(md5($data), $key, $salt));
 		return $hash;
 	}
 
