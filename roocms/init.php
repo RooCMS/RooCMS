@@ -27,6 +27,7 @@ if($_SERVER['REQUEST_URI'] == "/index.php") {
 	exit;
 }
 
+
 /**
  *  init root cms path
  */
@@ -34,224 +35,145 @@ defined('_SITEROOT') or define('_SITEROOT', str_ireplace(DIRECTORY_SEPARATOR."ro
 
 
 /**
- * Smart function for check core files
- *
- * @param $file
- *
- * @return bool
- */
-function check_file_core($file) {
-	if(is_file($file)) {
-		return true;
-	}
-	else {
-		die("Запуск RooCMS невозможен. Нарушена целостность системы.");
-	}
-}
-
-
-/**
 * Sys & PHP Settings
 */
-if(check_file_core(_SITEROOT."/roocms/config/set.cfg.php")) {
-	require_once(_SITEROOT."/roocms/config/set.cfg.php");
-}
+require_once(_SITEROOT."/roocms/config/set.cfg.php");
 
 /**
 * Load Config
 */
-if(check_file_core(_SITEROOT."/roocms/config/config.php")) {
-	require_once(_SITEROOT."/roocms/config/config.php");
-}
+require_once(_SITEROOT."/roocms/config/config.php");
 
 /**
 * Load const
 */
-if(check_file_core(_SITEROOT."/roocms/config/defines.php")) {
-	require_once(_SITEROOT."/roocms/config/defines.php");
-}
+require_once(_SITEROOT."/roocms/config/defines.php");
 
 /**
  * Загружаем примитивные функции
  */
-if(check_file_core(_ROOCMS."/functions.php")) {
-	require_once(_ROOCMS."/functions.php");
-}
+require_once(_ROOCMS."/functions.php");
 
 /**
 * Load Debug Class
 */
-if(check_file_core(_CLASS."/class_debuger.php")) {
-	require_once(_CLASS."/class_debuger.php");
-	$debug = new Debuger;
+require_once(_CLASS."/class_debuger.php");
+$debug = new Debuger;
 
-	/**
-	 * init debug function
-	 *
-	 * @param mixed $obj
-	 *
-	 * @example debug($var);
-	 */
-	function debug($obj) {
-		global $debug;
-		$debug->rundebug($obj);
-	}
+/**
+ * init debug function
+ *
+ * @param mixed $obj
+ *
+ * @example debug($var);
+ */
+function debug($obj) {
+	global $debug;
+	$debug->rundebug($obj);
 }
 
 /**
 * Init BD class
 */
-if(check_file_core(_CLASS."/class_mysqlidb.php")) {
-	if(check_file_core(_CLASS."/trait_mysqlidbExtends.php")) {
-		require_once(_CLASS."/trait_mysqlidbExtends.php");
-	}
-
-	require_once(_CLASS."/class_mysqlidb.php");
-	$db = new MySQLiDB;
-}
+require_once(_CLASS."/trait_mysqlidbExtends.php");
+require_once(_CLASS."/class_mysqlidb.php");
+$db = new MySQLiDB;
 
 /**
-* Запускаем глобальный класс
+* Load global class
 */
-if(check_file_core(_CLASS."/class_global.php")) {
-	require_once(_CLASS."/class_global.php");
-	$roocms = new RooCMS_Global;
-	$config =& $roocms->config;
-}
+require_once(_CLASS."/class_global.php");
+$roocms = new RooCMS_Global;
+$config =& $roocms->config;
 
 /**
- * Запускаем класс логгера
+ * Load logger class
  */
-if(check_file_core(_CLASS."/class_logger.php")) {
-	require_once(_CLASS."/class_logger.php");
-	$logger	= new Logger;
-}
+require_once(_CLASS."/class_logger.php");
+$logger	= new Logger;
 
 /**
  * Class handler $_POST
  */
-if(check_file_core(_CLASS."/class_post.php")) {
-	require_once(_CLASS."/class_post.php");
-	$post = new Post;
-}
+require_once(_CLASS."/class_post.php");
+$post = new Post;
 
 /**
 * Init Parser Engine
 */
-if(check_file_core(_CLASS."/class_parser.php")) {
-	if(check_file_core(_CLASS."/trait_parserValidData.php")) {
-		require_once(_CLASS."/trait_parserValidData.php");
-	}
-
-	require_once(_CLASS."/class_parser.php");
-	$parse 	= new Parser;
-	$get	=& $parse->get;
-}
+require_once(_CLASS."/trait_parserValidData.php");
+require_once(_CLASS."/class_parser.php");
+$parse 	= new Parser;
+$get	=& $parse->get;
 
 /**
  * Init Security class
  */
-if(check_file_core(_CLASS."/class_security.php")) {
-	if(check_file_core(_CLASS."/class_shteirlitz.php")) {
-		require_once(_CLASS."/class_shteirlitz.php");
-	}
-
-	require_once(_CLASS."/class_security.php");
-	$security = new Security;
-}
+require_once(_CLASS."/class_shteirlitz.php");
+require_once(_CLASS."/class_security.php");
+$security = new Security;
 
 /**
  * Mailing class
  */
-if(check_file_core(_CLASS."/class_mailing.php")) {
-	require_once(_CLASS."/class_mailing.php");
-	$mailer = new Mailing;
-}
+require_once(_CLASS."/class_mailing.php");
+$mailer = new Mailing;
 
 /**
  * Init User class
  */
-if(check_file_core(_CLASS."/class_users.php")) {
-	if(check_file_core(_CLASS."/trait_userGroups.php")) {
-		require_once(_CLASS."/trait_userGroups.php");
-	}
-	if(check_file_core(_CLASS."/trait_userAvatar.php")) {
-		require_once(_CLASS."/trait_userAvatar.php");
-	}
-
-	require_once(_CLASS."/class_users.php");
-	$users = new Users;
-}
+require_once(_CLASS."/trait_userGroups.php");
+require_once(_CLASS."/trait_userAvatar.php");
+require_once(_CLASS."/class_users.php");
+$users = new Users;
 
 /**
  * Init Tags class
  */
-if(check_file_core(_CLASS."/class_tags.php")) {
-	require_once(_CLASS."/class_tags.php");
-	$tags = new Tags;
-}
+require_once(_CLASS."/class_tags.php");
+$tags = new Tags;
 
 /**
- * Запускаем класс работы с файлами
+ * Load handler Files
  */
-if(check_file_core(_CLASS."/class_files.php")) {
-	require_once(_CLASS."/class_files.php");
-	$files = new Files;
-}
+require_once(_CLASS."/class_files.php");
+$files = new Files;
 
 /**
  * Graphic class load
  */
-if(check_file_core(_CLASS."/class_gd.php")) {
-	if(check_file_core(_CLASS."/trait_gdExtends.php")) {
-		require_once(_CLASS."/trait_gdExtends.php");
-	}
-
-	require_once(_CLASS."/class_gd.php");
-}
+require_once(_CLASS."/trait_gdExtends.php");
+require_once(_CLASS."/class_gd.php");
 
 /**
- * Запускаем класс работы с изображениями
+ * Load handler Images
  */
-if(check_file_core(_CLASS."/class_images.php")) {
-	require_once(_CLASS."/class_images.php");
-	$img = new Images;
-}
+require_once(_CLASS."/class_images.php");
+$img = new Images;
 
 /**
  * XML
  */
-if(check_file_core(_CLASS."/class_xml.php")) {
-	require_once(_CLASS."/class_xml.php");
-	$xml = new XML;
-}
+require_once(_CLASS."/class_xml.php");
+$xml = new XML;
 
 /**
  * RSS
  */
-if(check_file_core(_CLASS."/class_rss.php")) {
-	require_once(_CLASS."/class_rss.php");
-	$rss = new RSS;
-}
+require_once(_CLASS."/class_rss.php");
+$rss = new RSS;
 
 /**
- * Запускаем библиотеку шаблонизации Smarty
+ * Load Smarty
  */
-if(check_file_core(_LIB."/smarty.php")) {
-	require_once(_LIB."/smarty.php");
-}
+require_once(_LIB."/smarty.php");
 
 /**
  * Template class
  */
-if(check_file_core(_CLASS."/class_template.php")) {
-	if(check_file_core(_CLASS."/trait_templateExtends.php")) {
-		require_once(_CLASS."/trait_templateExtends.php");
-	}
-
-	require_once(_CLASS."/class_template.php");
-	$tpl = new Template;
-}
+require_once(_CLASS."/trait_templateExtends.php");
+require_once(_CLASS."/class_template.php");
+$tpl = new Template;
 
 
 /**
@@ -259,20 +181,16 @@ if(check_file_core(_CLASS."/class_template.php")) {
  */
 if(!defined('ACP') && !defined('INSTALL')) {
 	/**
-	 * Инициализируем класс управления структурой сайта
+	 * Init site structure
 	 */
-	if(check_file_core(_CLASS."/class_structure.php")) {
-		require_once(_CLASS."/class_structure.php");
-		$structure = new Structure;
-	}
+	require_once(_CLASS."/class_structure.php");
+	$structure = new Structure;
 
 	/**
-	 * Инициализируем класс навигации по сайта
+	 * init navigation
 	 */
-	if(check_file_core(_CLASS."/class_navigation.php")) {
-		require_once(_CLASS."/class_navigation.php");
-		$nav = new Navigation;
-	}
+	require_once(_CLASS."/class_navigation.php");
+	$nav = new Navigation;
 }
 
 // $PEAR_PATH_LOCAL = _SITEROOT.'/pear';

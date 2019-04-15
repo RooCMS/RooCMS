@@ -1,4 +1,4 @@
-{* Уведомления на электронную почту пользователя о созданние ему учетной записи *}
+{* Email notice : create account *}
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <html>
 <head>

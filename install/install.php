@@ -148,7 +148,7 @@ class Install extends IU_Extends {
 
 				# notice
 				$logger->info("Данные успешно записаны:", false);
-				$logger->info("Название сайта - ".$parse->text->html($post->site_title, false));
+				$logger->info("Название сайта - ".$parse->text->html($post->site_title));
 				$logger->info("Адрес сайта - ".$post->site_domain, false);
 				$logger->info("E-mail администратора - ".$post->site_sysemail, false);
 
