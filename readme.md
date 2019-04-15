@@ -17,7 +17,7 @@
 System requirements
 -------------------
  - WebServer:	`Apache 2.2, 2.4` `Nginx 1.11, 1.12`
- - PHP:		`5.4.*` `5.5.*` `5.6.*` `7.*`
+ - PHP:		`5.6.*` `7.*`
  - DB:		`MySQL 5.5` and high or `MariaDB: 10` and high
  - PHP Extension: 
 	`Core`
@@ -35,7 +35,7 @@ System requirements
 Recommended software
 --------------------
  - WebServer:	`Apache 2.4`
- - PHP:		`7.1` and high
+ - PHP:		`7.2` and high
  - DB:		`MySQL 5.7` and high or `MariaDB: 10.2` and high
 
 Install
