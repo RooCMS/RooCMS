@@ -19,7 +19,7 @@
 					{foreach from=$pm item=m}
 						<a href="{$SCRIPT_NAME}?part=ucp&act=pm&move=read&id={$m['id']}" class="list-group-item list-group-item-action{if $m['see'] != 0} list-group-item-light{/if}">
 							<div class="d-inline-flex w-100 justify-content-between">
-								<h5 class="mb-1"><i class="far fa-envelope{if $m['see'] != 0}-open{else} text-secondary{/if} mr-3"></i>{$m['title']}</h5>
+								<h5 class="mb-1"><i class="fas fa-envelope{if $m['see'] != 0}-open-text{else} text-secondary{/if} mr-3"></i>{$m['title']}</h5>
 								<small class="text-right text-gray">{$m['date_send']}<br />{$m['from_name']}</small>
 							</div>
 						</a>

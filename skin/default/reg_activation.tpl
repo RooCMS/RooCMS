@@ -26,7 +26,7 @@
 							Код активации:
 						</label>
 
-						<input type="text" name="code" id="inputActivationCode" class="form-control" pattern="^[\d\D]{literal}{5,}{/literal}" aria-describedby="ACHelp" required value="{$code}">
+						<input type="text" name="code" id="inputActivationCode" class="form-control" pattern="^[\d\D]{literal}{10}{/literal}" aria-describedby="ACHelp" required value="{$code}">
 						<div class="invalid-tooltip">
 							Вы должные ввести код активации, который был выслан на Вашу почту.
 						</div>

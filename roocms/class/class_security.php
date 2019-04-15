@@ -64,21 +64,6 @@ class Security extends Shteirlitz {
 
 
 	/**
-	 * Function generates hash key to check user api express operations.
-	 *
-	 * @param mixed  $data       - user data (Example: user email)
-	 * @param string $key        - secret key
-	 * @param string $salt       - secret salt
-	 *
-	 * @return string - hash
-	 */
-	public function hash_uapi($data, $key, $salt) {
-		$hash = md5($this->encode(md5($data), $key, $salt));
-		return $hash;
-	}
-
-
-	/**
 	 * Generate new paaword for user
 	 *
 	 * @return string - new password

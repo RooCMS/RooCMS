@@ -117,9 +117,9 @@ class UI_Reg {
 			$activation['code'] = randcode(7);
 
 
-			$db->query("INSERT INTO ".USERS_TABLE." (login, nickname, email, mailing, password, salt, date_create, date_update, last_visit, activation_code,
+			$db->query("INSERT INTO ".USERS_TABLE." (login, nickname, email, mailing, password, salt, date_create, date_update, last_visit, secret_key, activation_code,
 								 user_name, user_surname, user_last_name, user_birthdate, user_sex)
-							 VALUES ('".$post->login."', '".$post->nickname."', '".$post->email."', '".$post->mailing."', '".$password."', '".$salt."', '".time()."', '".time()."', '".time()."', '".$activation['code']."',
+							 VALUES ('".$post->login."', '".$post->nickname."', '".$post->email."', '".$post->mailing."', '".$password."', '".$salt."', '".time()."', '".time()."', '".time()."', '".randcode(16)."', '".$activation['code']."',
 								 '".$post->user_name."', '".$post->user_surname."', '".$post->user_last_name."', '".$post->user_birthdate."', '".$post->user_sex."')");
 			$uid = $db->insert_id();
 

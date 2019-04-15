@@ -26,7 +26,7 @@ $sql = [];
 * Configuration part
 */
 $sql['DROP '.CONFIG_PARTS_TABLE] = "DROP TABLE IF EXISTS `".CONFIG_PARTS_TABLE."`";
-$sql['CREATE '.CONFIG_PARTS_TABLE] = "CREATE TABLE IF NOT EXISTS `".CONFIG_PARTS_TABLE."` (
+$sql['CREATE '.CONFIG_PARTS_TABLE] = "CREATE TABLE `".CONFIG_PARTS_TABLE."` (
 				  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
 				  `type` enum('global', 'component') NOT NULL DEFAULT 'component',
 				  `sort` int(10) unsigned NOT NULL DEFAULT '1',
@@ -53,7 +53,7 @@ $sql['INSERT '.CONFIG_PARTS_TABLE." ID #".$id] = "INSERT INTO `".CONFIG_PARTS_TA
 * Configuration settings
 */
 $sql['DROP '.CONFIG_TABLE] = "DROP TABLE IF EXISTS `".CONFIG_TABLE."`";
-$sql['CREATE'.CONFIG_TABLE] = "CREATE TABLE IF NOT EXISTS `".CONFIG_TABLE."` (
+$sql['CREATE'.CONFIG_TABLE] = "CREATE TABLE `".CONFIG_TABLE."` (
 				  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
 				  `part` varchar(255) NOT NULL DEFAULT 'global',
 				  `sort` int(10) unsigned NOT NULL DEFAULT '1',
@@ -104,7 +104,7 @@ $sql['INSERT '.CONFIG_TABLE." ID #".$id] = "INSERT INTO `".CONFIG_TABLE."` VALUE
 *  Structure
 */
 $sql['DROP '.STRUCTURE_TABLE] = "DROP TABLE IF EXISTS `".STRUCTURE_TABLE."`";
-$sql['CREATE'.STRUCTURE_TABLE] = "CREATE TABLE IF NOT EXISTS `".STRUCTURE_TABLE."` (
+$sql['CREATE'.STRUCTURE_TABLE] = "CREATE TABLE `".STRUCTURE_TABLE."` (
 					  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
 					  `alias` varchar(255) NOT NULL COMMENT 'Unique name for structure unit',
 					  `parent_id` int(10) unsigned NOT NULL DEFAULT '1' COMMENT 'Identifaction parent structure unit',
@@ -145,7 +145,7 @@ $sql['INSERT '.STRUCTURE_TABLE." ID #".$id] = "INSERT INTO `".STRUCTURE_TABLE."`
 * HTML page
 */
 $sql['DROP '.PAGES_HTML_TABLE] = "DROP TABLE IF EXISTS `".PAGES_HTML_TABLE."`";
-$sql['CREATE'.PAGES_HTML_TABLE] = "CREATE TABLE IF NOT EXISTS `".PAGES_HTML_TABLE."` (
+$sql['CREATE'.PAGES_HTML_TABLE] = "CREATE TABLE `".PAGES_HTML_TABLE."` (
 					  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
 					  `sid` int(10) unsigned NOT NULL,
 					  `content` longtext NOT NULL DEFAULT '',
@@ -163,7 +163,7 @@ $sql['INSERT '.PAGES_HTML_TABLE." ID #".$id] = "INSERT INTO `".PAGES_HTML_TABLE.
 * PHP page
 */
 $sql['DROP '.PAGES_PHP_TABLE] = "DROP TABLE IF EXISTS `".PAGES_PHP_TABLE."`";
-$sql['CREATE'.PAGES_PHP_TABLE] = "CREATE TABLE IF NOT EXISTS `".PAGES_PHP_TABLE."` (
+$sql['CREATE'.PAGES_PHP_TABLE] = "CREATE TABLE `".PAGES_PHP_TABLE."` (
 					  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
 					  `sid` int(10) unsigned NOT NULL,
 					  `content` longtext NOT NULL DEFAULT '',
@@ -178,7 +178,7 @@ $sql['CREATE'.PAGES_PHP_TABLE] = "CREATE TABLE IF NOT EXISTS `".PAGES_PHP_TABLE.
 *  Feeds
 */
 $sql['DROP '.PAGES_FEED_TABLE] = "DROP TABLE IF EXISTS `".PAGES_FEED_TABLE."`";
-$sql['CREATE'.PAGES_FEED_TABLE] = "CREATE TABLE IF NOT EXISTS `".PAGES_FEED_TABLE."` (
+$sql['CREATE'.PAGES_FEED_TABLE] = "CREATE TABLE `".PAGES_FEED_TABLE."` (
 					  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
 					  `sid` int(10) unsigned NOT NULL,
 					  `status` enum('0','1') NOT NULL DEFAULT '1',
@@ -230,7 +230,7 @@ $sql['CREATE'.TAGS_LINK_TABLE] = "CREATE TABLE `".TAGS_LINK_TABLE."` (
 *  Blocks
 */
 $sql['DROP '.BLOCKS_TABLE] = "DROP TABLE IF EXISTS `".BLOCKS_TABLE."`";
-$sql['CREATE '.BLOCKS_TABLE] = "CREATE TABLE IF NOT EXISTS `".BLOCKS_TABLE."` (
+$sql['CREATE '.BLOCKS_TABLE] = "CREATE TABLE `".BLOCKS_TABLE."` (
 				  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
 				  `alias` varchar(255) NOT NULL COMMENT 'unique name for block',
 				  `block_type` enum('html','php') NOT NULL DEFAULT 'html',
@@ -250,7 +250,7 @@ $sql['CREATE '.BLOCKS_TABLE] = "CREATE TABLE IF NOT EXISTS `".BLOCKS_TABLE."` (
 *  Attached images
 */
 $sql['DROP '.IMAGES_TABLE] = "DROP TABLE IF EXISTS `".IMAGES_TABLE."`";
-$sql['CREATE '.IMAGES_TABLE] = "CREATE TABLE IF NOT EXISTS `".IMAGES_TABLE."` (
+$sql['CREATE '.IMAGES_TABLE] = "CREATE TABLE `".IMAGES_TABLE."` (
 				  `id` int(10) NOT NULL AUTO_INCREMENT,
 				  `attachedto` varchar(64) NOT NULL COMMENT 'site partition and identificator',
 				  `filename` varchar(255) NOT NULL,
@@ -268,7 +268,7 @@ $sql['CREATE '.IMAGES_TABLE] = "CREATE TABLE IF NOT EXISTS `".IMAGES_TABLE."` (
  *  Attached Files
  */
 $sql['DROP '.FILES_TABLE] = "DROP TABLE IF EXISTS `".FILES_TABLE."`";
-$sql['CREATE '.FILES_TABLE] = "CREATE TABLE IF NOT EXISTS `".FILES_TABLE."` (
+$sql['CREATE '.FILES_TABLE] = "CREATE TABLE `".FILES_TABLE."` (
 				  `id` int(10) NOT NULL AUTO_INCREMENT,
 				  `attachedto` varchar(64) NOT NULL COMMENT 'site partition and identificator',
 				  `filename` varchar(255) NOT NULL,
@@ -311,8 +311,8 @@ $sql['CREATE '.USERS_TABLE] = "CREATE TABLE `".USERS_TABLE."` (
 				  `date_update` bigint(20) unsigned NOT NULL DEFAULT '0' COMMENT 'format: unixtimestamp',
 				  `last_visit` bigint(20) unsigned NOT NULL DEFAULT '0' COMMENT 'format: unixtimestamp',
 				  `user_ip` varchar(15) NOT NULL DEFAULT '0.0.0.0',
+				  `secret_key` varchar(16) NOT NULL DEFAULT '',
 				  `activation_code` varchar(10) NOT NULL DEFAULT '',
-				  `secret_key` varchar(10) NOT NULL DEFAULT '',
 				  PRIMARY KEY (`uid`),
 				  UNIQUE KEY `id` (`uid`),
 				  UNIQUE KEY `login` (`login`),
@@ -357,14 +357,14 @@ $sql['CREATE '.USERS_PM_TABLE] = "CREATE TABLE  `".USERS_PM_TABLE."` (
 					PRIMARY KEY (  `id` ) ,
 					UNIQUE KEY  `id` (  `id` ) ,
 					KEY  `from_uid` (  `from_uid` ,  `to_uid` )
-					) ENGINE = InnoDB DEFAULT CHARSET = utf8;";
+				      ) ENGINE = InnoDB DEFAULT CHARSET = utf8;";
 
 
 /**
  *  Logs
  */
 $sql['DROP '.LOG_TABLE] = "DROP TABLE IF EXISTS `".LOG_TABLE."`";
-$sql['CREATE '.LOG_TABLE] = "CREATE TABLE IF NOT EXISTS `".LOG_TABLE."` (
+$sql['CREATE '.LOG_TABLE] = "CREATE TABLE `".LOG_TABLE."` (
 				  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT, 
 				  `uid` int(10) unsigned NOT NULL,
 				  `message` text NOT NULL,
@@ -380,7 +380,7 @@ $sql['CREATE '.LOG_TABLE] = "CREATE TABLE IF NOT EXISTS `".LOG_TABLE."` (
  *  Help
  */
 $sql['DROP '.HELP_TABLE] = "DROP TABLE IF EXISTS `".HELP_TABLE."`";
-$sql['CREATE '.HELP_TABLE] = "CREATE TABLE IF NOT EXISTS `".HELP_TABLE."` (
+$sql['CREATE '.HELP_TABLE] = "CREATE TABLE `".HELP_TABLE."` (
 				  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
 				  `uname` varchar(255) NOT NULL,
 				  `parent_id` int(10) unsigned NOT NULL DEFAULT '0',

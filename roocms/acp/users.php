@@ -146,9 +146,9 @@ class ACP_Users {
 				# check_user data
 				$this->check_users_data();
 
-				$db->query("INSERT INTO ".USERS_TABLE." (login, nickname, email, mailing, title, password, salt, date_create, date_update, last_visit, status, gid,
+				$db->query("INSERT INTO ".USERS_TABLE." (login, nickname, email, mailing, title, password, salt, date_create, date_update, last_visit, status, gid, secret_key,
 									 user_name, user_surname, user_last_name, user_birthdate, user_sex, user_slogan)
-								 VALUES ('".$post->login."', '".$post->nickname."', '".$post->email."', '".$post->mailing."', '".$post->title."', '".$password."', '".$salt."', '".time()."', '".time()."', '".time()."', '1', '".$post->gid."',
+								 VALUES ('".$post->login."', '".$post->nickname."', '".$post->email."', '".$post->mailing."', '".$post->title."', '".$password."', '".$salt."', '".time()."', '".time()."', '".time()."', '1', '".$post->gid."', '".randcode(16)."',
 								 	 '".$post->user_name."', '".$post->user_surname."', '".$post->user_last_name."', '".$post->user_birthdate."', '".$post->user_sex."', '".$post->user_slogan."')");
 				$uid = $db->insert_id();
 

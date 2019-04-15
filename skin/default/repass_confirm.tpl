@@ -26,7 +26,7 @@
 							Код подтверждения:
 						</label>
 
-						<input type="text" name="code" id="inputConfirmationCode" class="form-control" pattern="^[\d\D]{literal}{5,}{/literal}" aria-describedby="CCHelp" required value="{$code}">
+						<input type="text" name="code" id="inputConfirmationCode" class="form-control" pattern="^[\d\D]{literal}{16}{/literal}" aria-describedby="CCHelp" required value="{$code}">
 						<div class="invalid-tooltip">
 							Вы должные ввести проверочный код, который был выслан на Вашу почту.
 						</div>

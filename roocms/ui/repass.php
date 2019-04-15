@@ -106,23 +106,17 @@ class UI_RePass {
 		# check
 		if(isset($post->email) && $parse->valid_email($post->email) && $db->check_id($post->email, USERS_TABLE, "email")) {
 
-			$confirm = [];
-			$confirm['code'] = randcode(10);
-
-			# set secret key
-			$db->query("UPDATE ".USERS_TABLE." SET secret_key='".$confirm['code']."' WHERE email='".$post->email."'");
-
 			# userdata
-			$q = $db->query("SELECT nickname FROM ".USERS_TABLE." WHERE email='".$post->email."'");
+			$q = $db->query("SELECT nickname, secret_key FROM ".USERS_TABLE." WHERE email='".$post->email."'");
 			$userdata = $db->fetch_assoc($q);
 
 			# confirm link
-			$confirm['link'] = $site['domain'].SCRIPT_NAME."?part=repass&act=confirm&email=".$post->email."&code=".$confirm['code'];
+			$confirmlink = $site['domain'].SCRIPT_NAME."?part=repass&act=confirm&email=".$post->email."&code=".$userdata['secret_key'];
 
 
 			# user notice on email
-			$smarty->assign("nickname", $userdata['nickname']);
-			$smarty->assign("confirm", $confirm);
+			$smarty->assign("userdata", $userdata);
+			$smarty->assign("confirmlink", $confirmlink);
 			$smarty->assign("site", $site);
 			$message = $tpl->load_template("mail/confirm_repass", true);
 
@@ -163,7 +157,7 @@ class UI_RePass {
 			$userdata = $db->fetch_assoc($q);
 
 			# update
-			$db->query("UPDATE ".USERS_TABLE." SET salt='".$salt."', password='".$password."', secret_key='', last_visit='".time()."' WHERE email='".$post->email."'");
+			$db->query("UPDATE ".USERS_TABLE." SET salt='".$salt."', password='".$password."', secret_key='".randcode(16)."', last_visit='".time()."' WHERE email='".$post->email."'");
 
 
 			# user notice on email

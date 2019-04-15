@@ -98,7 +98,7 @@ class Users extends Security {
 			# get data
 			$q    = $db->query("SELECT u.uid, u.gid, u.login, u.nickname, u.avatar, u.email, u.mailing,
  							u.user_name, u.user_surname, u.user_last_name, u.user_birthdate, u.user_sex, u.user_slogan,
-							u.title, u.password, u.salt, u.ban, u.ban_reason, u.ban_expiried, u.date_create,
+							u.title, u.password, u.salt, u.ban, u.ban_reason, u.ban_expiried, u.date_create, u.secret_key,
 							g.title as gtitle
 						FROM ".USERS_TABLE." AS u
 						LEFT JOIN ".USERS_GROUP_TABLE." AS g ON (g.gid = u.gid)
@@ -147,6 +147,7 @@ class Users extends Security {
 				'ban'             => $data['ban'],
 				'ban_reason'      => $data['ban_reason'],
 				'ban_expiried'    => $parse->date->unix_to_rus($data['ban_expiried']),
+				'secret_key'      => $data['secret_key'],
 				'date_create'     => $parse->date->unix_to_rus($data['date_create'])
 			);
 
@@ -189,7 +190,7 @@ class Users extends Security {
 
 		# check and get data
 		if($db->check_id($uid, USERS_TABLE, "uid")) {
-			$q = $db->query("SELECT uid, nickname, email, user_sex, user_slogan, avatar, user_birthdate, status, ban, ban_expiried, ban_reason FROM ".USERS_TABLE." WHERE uid='".$uid."'");
+			$q = $db->query("SELECT uid, nickname, email, user_sex, user_slogan, avatar, user_birthdate, status, ban, ban_expiried, ban_reason, secret_key FROM ".USERS_TABLE." WHERE uid='".$uid."'");
 			$row = $db->fetch_assoc($q);
 
 			$row['slogan'] = $parse->text->br($row['user_slogan']);
@@ -246,7 +247,7 @@ class Users extends Security {
 
 		# Get user list
 		$userlist = [];
-		$q = $db->query("SELECT uid, nickname, email, user_sex, user_slogan, avatar, user_birthdate, status, ban, ban_expiried, ban_reason FROM ".USERS_TABLE." ".$cond." ORDER BY nickname ASC");
+		$q = $db->query("SELECT uid, nickname, email, user_sex, user_slogan, avatar, user_birthdate, status, ban, ban_expiried, ban_reason, secret_key FROM ".USERS_TABLE." ".$cond." ORDER BY nickname ASC");
 		while($row = $db->fetch_assoc($q)) {
 			$row['slogan'] = $parse->text->br($row['user_slogan']);
 
