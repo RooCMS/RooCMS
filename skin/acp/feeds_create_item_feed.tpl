@@ -105,10 +105,10 @@
 			<div class="col-md-7 col-lg-8">
 				<div class="btn-group btn-group-toggle roocms roocms-crui" data-toggle="buttons">
 					<label class="btn btn-light active" for="flag_status_ignore">
-						<input type="radio" name="force" value="-1" id="flag_status_ignore" checked> <i class="far fa-fw fa-check-square"></i> Не осуществлять рассылку
+						<input type="radio" name="mailing" value="0" id="flag_status_ignore" checked> <i class="far fa-fw fa-check-circle"></i> Не осуществлять рассылку
 					</label>
 					<label class="btn btn-light" for="flag_status_false">
-						<input type="radio" name="force" value="0" id="flag_status_false"> <i class="far fa-fw fa-square"></i> Отправить подписчикам
+						<input type="radio" name="mailing" value="1" id="flag_status_false"> <i class="far fa-fw fa-circle"></i> Отправить подписчикам
 					</label>
 				</div>
 			</div>

@@ -154,8 +154,8 @@ class ACP_Feeds_Feed {
 
 				// TODO: Переделать!
 				# mailling
-				if($post->date_publications <= time()) {
-					$this->mailing($fiid, $post->title,$post->brief_item, $post->force);
+				if($post->date_publications <= time() && $post->mailing == 1) {
+					$this->mailing($fiid, $post->title, $post->brief_item);
 				}
 			}
 
@@ -688,47 +688,32 @@ class ACP_Feeds_Feed {
 	}
 
 
-	// TODO: Переделать!
 	/**
 	 * Это временная функция
 	 *
 	 * @param int    $id
 	 * @param string $title
 	 * @param string $subject
-	 * @param int    $force
 	 */
-	private function mailing($id, $title, $subject, $force=-1) {
+	private function mailing($id, $title, $subject) {
 
-		global $parse, $logger, $users, $mailer, $site;
+		global $parse, $mailer, $logger, $users, $mailer, $site;
 
-		if($force != -1) {
+		# get userlist
+		$userlist = $users->get_userlist(1, 0, 1);
 
-			if($force == 1) {
-				# all
-				$userlist = $users->get_userlist(1, 0, -1);
-			}
-			else {
-				# только подписчики
-				$userlist = $users->get_userlist(1, 0, 1);
-			}
+		# html
+		$subject = $parse->text->html($subject);
+		$subject = "<h1>".$title."</h1>
+				".$subject."
+				<br /><br /><a href=\"http://".$site['domain']."/index.php?page=".$this->feed['alias']."&id=".$id."\">Читать полностью</a>";
 
-			# html
-			$subject = $parse->text->html($subject);
-			$subject = "<h1>".$title."</h1>
-					".$subject."
-					<br /><br /><a href='".$site['domain']."/index.php?page=".$this->feed['alias']."&id=".$id."'>Читать полностью</a>";
-
-			$log = "";
-			foreach($userlist AS $val) {
-
-				# send
-				$mailer->send($val['email'], $title, $subject);
-
-				# log
-				$log .= " ".$val['email'];
-			}
-
-			$logger->info("Новость отправлена по адресам: ".$log);
+		# send to email
+		if(count($userlist) != 0) {
+			$mailer->spread($userlist, $title, $subject);
+		}
+		else {
+			$logger->error("Сообщение не отправлено! Не обнаружены подписчики подходящие под заданные критерии.", false);
 		}
 	}
 }

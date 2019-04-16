@@ -119,7 +119,7 @@ class ParserDate {
 			$date = $tday.$day." ".$tm." ".$year."г. ".$time;
 		}
 		else {
-			$date = "Некорректная дата";
+			$date = 0;
 		}
 
 		return $date;
@@ -251,9 +251,9 @@ class ParserDate {
 	 */
 	public function unix_to_gregorian($udate) {
 
-		$day 	= date("d", $udate);
-		$month 	= date("m", $udate);
-		$year 	= date("Y", $udate);
+		$day 	= (int) date("d", $udate);
+		$month 	= (int) date("m", $udate);
+		$year 	= (int) date("Y", $udate);
 
 		$gregorian = $month."/".$day."/".$year;
 
@@ -272,9 +272,9 @@ class ParserDate {
 
 		$time = explode("/", $gdate);
 
-		$day 	= round($time[1]);
-		$month 	= round($time[0]);
-		$year 	= round($time[2]);
+		$day 	= (int) round($time[1]);
+		$month 	= (int) round($time[0]);
+		$year 	= (int) round($time[2]);
 
 		$unix = $this->get_unixtimestamp($month, $day, $year);
 
