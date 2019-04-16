@@ -61,6 +61,7 @@ blockquote {
 
 /* Paragraph */
 p {text-align: justify;}
+p > i {font-family: $ptsans;}
 
 /* Link */
 a {font-family: $ptsans;}

@@ -72,6 +72,10 @@ p {
   text-align: justify;
 }
 
+p > i {
+  font-family: "PT Sans";
+}
+
 /* Link */
 a {
   font-family: "PT Sans";
