@@ -354,12 +354,12 @@ ErrorDocument 409 /index.php?page=e409
 # Request URI Too Long
 ErrorDocument 414 /index.php?page=e414
 # Internal Server Erro
-ErrorDocument 500 /stub_page/500.html
+ErrorDocument 500 /sod/500.html
 # Not Implemented
-ErrorDocument 501 /stub_page/501.html
+ErrorDocument 501 /sod/501.html
 # Bad Gateway
-ErrorDocument 502 /stub_page/502.html
+ErrorDocument 502 /sod/502.html
 # Service Unavailable
-ErrorDocument 503 /stub_page/503.html
+ErrorDocument 503 /sod/503.html
 # Gateway Timeout
-ErrorDocument 504 /stub_page/504.html
+ErrorDocument 504 /sod/504.html
