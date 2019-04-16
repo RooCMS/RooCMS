@@ -29,6 +29,7 @@ Release information:
 	[add] added plugin bsCustomFileInput v1.3.1
 	[add] added unsubscribe function in one click for registered users
 	[add] created Mailing class
+	[add] added config option "global email"
 	[add] added smarty modifier "top secret" (this is fun)
 	
 	[upd] updated Bootstrap 3.4 -> 4.3.1 
