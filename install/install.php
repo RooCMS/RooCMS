@@ -29,7 +29,7 @@ class Install extends IU_Extends {
 	private $action		= "install";	# [string]	alias for identy process
 	protected $step		= 1;		# [int]		now use step
 	protected $nextstep	= 2;		# [int]		next use step
-	protected $steps	= 8;		# [int]		all step in operations
+	protected $steps	= 7;		# [int]		all step in operations
 	protected $page_title	= "";
 	protected $status	= "";
 	protected $noticetext	= "";		# [string]	attention text in head form
@@ -310,10 +310,10 @@ class Install extends IU_Extends {
 
 		# check superadmin data in db
 		if($db->check_id(1, USERS_TABLE, "uid")) {
-			go(SCRIPT_NAME."?step=8");
+			go(SCRIPT_NAME."?step=7");
 		}
 
-		if($this->check_submit() && $this->check_step(7)) {
+		if($this->check_submit() && $this->check_step(6)) {
 
 			if(!isset($post->adm_login)) {
 				$this->allowed = false;
@@ -351,16 +351,17 @@ class Install extends IU_Extends {
 
 		if(!isset($roocms->sess['adm_login']) || trim($roocms->sess['adm_login']) == "" || !isset($roocms->sess['adm_passw']) || trim($roocms->sess['adm_passw']) == "") {
 			$logger->error("Сбой при записи логина и пароля администратора сайта");
-			go(SCRIPT_NAME."?step=7");
+			go(SCRIPT_NAME."?step=6");
 		}
 
 
 		# write admin acc
 		$salt = $security->generate_salt();
+		$sk   = randcode(16);
 		$upass = $security->hash_password($roocms->sess['adm_passw'], $salt);
 
-		$db->query("INSERT INTO ".USERS_TABLE." (login, nickname, email, title, password, salt, date_create, date_update, last_visit, status)
-						 VALUES ('".$roocms->sess['adm_login']."', '".$roocms->sess['adm_login']."', '".$site['sysemail']."', 'a', '".$upass."', '".$salt."', '".time()."', '".time()."', '".time()."', '1')");
+		$db->query("INSERT INTO ".USERS_TABLE." (login, nickname, email, title, password, salt, date_create, date_update, last_visit, status, secret_key)
+						 VALUES ('".$roocms->sess['adm_login']."', '".$roocms->sess['adm_login']."', '".$site['sysemail']."', 'a', '".$upass."', '".$salt."', '".time()."', '".time()."', '".time()."', '1', '".$sk."')");
 
 		# auto auth
 		$_SESSION['uid'] 	= 1;

@@ -53,7 +53,7 @@ class Mailing {
 		$this->site_domain = str_ireplace(array('http://','https://','www.'), '', $site['domain']);
 
 		# set sender backmail
-		$this->from = ($config->global_email != "") ? $config->global_email : "roocms@".$this->site_domain;
+		$this->from = (isset($config->global_email) && $config->global_email != "") ? $config->global_email : "roocms@".$this->site_domain;
 	}
 
 

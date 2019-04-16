@@ -7,7 +7,7 @@
 </div>
 
 {if empty($feedlist)}
-	<div class="panel-body">
+	<div class="card-body">
 		<p class="lead">В данной ленте нет записей<br />Нажмите на ссылку &quot;Добавить запись&quot;, что бы создать Вашу первую публикацию</p>
 	</div>
 {else}
