@@ -85,7 +85,7 @@ class PageFeed {
 		$db->pages_mysql(PAGES_FEED_TABLE, $cond);
 
 		# get array pagination template array
-		$pages = $this->construct_pagination();
+		$pages = $db->construct_pagination();
 
 		# RSS
 		$rss->set_header_link();
@@ -430,30 +430,5 @@ class PageFeed {
 
 
 		return $feeds;
-	}
-
-
-	/**
-	 * Array pagination
-	 *
-	 * @return array
-	 */
-	private function construct_pagination() {
-
-		global $db, $site;
-
-		$pages = [];
-
-		# pages
-		for($p=1;$p<=$db->pages;$p++) {
-			$pages[]['n'] = $p;
-		}
-
-		# add "page №" to meta title
-		if($db->page > 1) {
-			$site['title'] .= " (Страница: ".$db->page.")";
-		}
-
-		return $pages;
 	}
 }

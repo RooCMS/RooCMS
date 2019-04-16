@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en" id="roocms">
 <head>
-<title>{$site['title']}</title>
+<title>{$site['title']}{if $site['pagination']['page'] != 1} (Страница: {$site['pagination']['page']}){/if}{if $config->global_site_title} &bull; {$config->site_title}{/if}</title>
 <meta name="description" 		content="{$site['description']}" />
 <meta name="keywords" 			content="{$site['keywords']}" />
 <meta name="robots"			content="{if $noindex == 1}no-index,no-follow,all{else}index, follow, all{/if}" />

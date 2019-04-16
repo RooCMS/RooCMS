@@ -68,7 +68,7 @@ class UI_Tags {
 	 */
 	private function init_tag($tag, $type="id") {
 
-		global $db, $structure, $nav, $smarty;
+		global $db, $structure, $nav, $site, $smarty;
 
 		$tag = urldecode($tag);
 
@@ -147,7 +147,7 @@ class UI_Tags {
 		$db->pages_mysql(PAGES_FEED_TABLE, "date_publications <= '".time()."' AND ".$cond." AND ".$scond.$accesscond." AND (date_end_publications = '0' || date_end_publications > '".time()."') AND status='1'");
 
 		# get array pagination template array
-		$pages = $this->construct_pagination();
+		$pages = $db->construct_pagination();
 
 		# Feed list
 		$taglinks = [];
@@ -190,33 +190,6 @@ class UI_Tags {
 		$smarty->assign("pages", $pages);
 
 		$tpl->load_template("tags");
-	}
-
-
-	/**
-	 * Функция формирует массив данных для постраничной навигации, который будет использован в шаблонах
-	 *
-	 * @return array
-	 */
-	private function construct_pagination() {
-
-		global $db, $structure;
-
-		$pages = [];
-
-		# pages
-		for($p=1;$p<=$db->pages;$p++) {
-			$pages[]['n'] = $p;
-		}
-
-		# Указываем в титуле страницу
-		# Это можно было бы оставить на усмотрение верстальщиков. Но использование одинаковых титулов на целом ряде страниц неполезно для SEO
-		# (Есть небольшая вероятность, что этот момент будет исправлен и перенесен на усмотрение верстальщиков в шаблоны)
-		if($db->page > 1) {
-			$structure->page_title .= " (Страница: ".$db->page.")";
-		}
-
-		return $pages;
 	}
 }
 

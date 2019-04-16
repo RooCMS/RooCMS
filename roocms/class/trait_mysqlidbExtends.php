@@ -32,6 +32,25 @@ trait MySQLiDBExtends {
 	public  $from		= 0;	# [int] Starting position for request
 
 
+
+	/**
+	 * Check connection pattern
+	 *
+	 * @return bool
+	 */
+	protected function connecting() {
+
+		if($this->db_connect || DEBUGMODE) {
+			$res = true;
+		}
+		else {
+			$res = false;
+		}
+
+		return $res;
+	}
+
+
 	/**
 	* Функция подсчета страниц
 	*
@@ -109,20 +128,22 @@ trait MySQLiDBExtends {
 
 
 	/**
-	 * Check connection pattern
+	 * Array pagination
 	 *
-	 * @return bool
+	 * @return array
 	 */
-	protected function connecting() {
+	public function construct_pagination() {
 
-		if($this->db_connect || DEBUGMODE) {
-			$res = true;
-		}
-		else {
-			$res = false;
+		global $db, $site;
+
+		$pages = [];
+
+		# pages
+		for($p=1;$p<=$this->pages;$p++) {
+			$pages[]['n'] = $p;
 		}
 
-		return $res;
+		return $pages;
 	}
 
 

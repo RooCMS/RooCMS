@@ -42,9 +42,12 @@ Release information:
 	[upd] updated user interface (fixit bugs, update styles, update layot)
 	[upd] css migrated from less to scss
 	[upd] increased strength of password hashes
+	[upd] more control over meta title (use new options in tpl: $site['pageination']['page'] and $site['pageination']['pages'])
 	
 	[fix] fixit error
 	[fix] translate comments in code to english international
+	[fix] restructure tpl files
+	[fix] optimisation code
 	
 	[inf] 
 	

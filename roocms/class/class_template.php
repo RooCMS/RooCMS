@@ -232,27 +232,34 @@ class Template {
 	 */
 	private function init_head() {
 
-		global $config, $site, $structure, $nav, $parse, $rss, $smarty;
+		global $db, $config, $site, $structure, $nav, $parse, $rss, $smarty;
 
 		# check notice
 		$this->info_popup();
 
 		# global site title
-		if(!defined('INSTALL') && $config->global_site_title) {
+		/*if(!defined('INSTALL') && $config->global_site_title) {
 			$site['title'] .= " &bull; ".$config->site_title;
-		}
+		}*/
+
+		$site['pagination'] = [];
+		$site['pagination'] = array(
+			'page'  => $db->page,
+			'pages' => $db->pages
+		);
+
 
 		# get actual version included js and styles in templates (only Developer or Debug mode)
 		$build = (DEBUGMODE) ? "?v=".str_ireplace(".","",ROOCMS_VERSION)."-".time() : "" ;
 
 		# assign tpl vars
-		$smarty->assign("site",	   $site);
-		$smarty->assign("charset", CHARSET);
-		$smarty->assign("build",   $build);
-		$smarty->assign("css",     $this->css);
-		$smarty->assign("jscript", $this->js);
-		$smarty->assign("error",   $parse->error);
-		$smarty->assign("info",	   $parse->info);
+		$smarty->assign("site",	      $site);
+		$smarty->assign("charset",    CHARSET);
+		$smarty->assign("build",      $build);
+		$smarty->assign("css",        $this->css);
+		$smarty->assign("jscript",    $this->js);
+		$smarty->assign("error",      $parse->error);
+		$smarty->assign("info",	      $parse->info);
 
 		if(!defined('ACP') && !defined('INSTALL')) {
 			# rss link
