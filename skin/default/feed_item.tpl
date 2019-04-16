@@ -106,7 +106,7 @@
 						{foreach from=$more item=an key=i}
 							<div class="card">
 								{if isset($an['image'][0])}
-									<a href="{$SCRIPT_NAME}?page={$feed['alias']}&id={$an['id']}"><img src="/upload/images/{$an['image'][0]['thumb']}" class="card-img-top" alt="{$an['image'][0]['alt']}"></a>
+									<a href="{$SCRIPT_NAME}?page={$feed['alias']}&id={$an['id']}"><img src="/upload/images/{$an['image'][0]['thumb']}" class="card-img-top roocms-grayscale" alt="{$an['image'][0]['alt']}"></a>
 								{/if}
 								<div class="card-body d-flex flex-column">
 									<h5 class="card-title text-center"><a href="{$SCRIPT_NAME}?page={$feed['alias']}&id={$an['id']}">{$an['title']}</a></h5>

@@ -93,6 +93,9 @@ a.tag.active:hover .tag_amount:after {left: -1px; border-left: 4px solid $brand-
 a#NextFeedItem:hover > .roocms-feeditem-pn,
 a#PrevFeedItem:hover > .roocms-feeditem-pn {border: 1px solid $brand-primary;opacity: 1;filter: grayscale(0%);}
 
+.roocms-grayscale {filter: grayscale(50%);@include transition(.25)}
+.card:hover > a > .roocms-grayscale {filter: grayscale(0%);@include transition(.25)}
+
 /* Blocks */
 .block-images {
 	width: 50%;

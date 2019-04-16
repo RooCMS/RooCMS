@@ -125,7 +125,7 @@
 			{$module->load("auth")}
 
 			{if !empty($navtree)}
-			<nav class="nav d-flex align-items-end align-items-lg-start mt-3">
+			<nav class="nav d-flex flex-column flex-sm-row align-items-center align-items-lg-start mt-3">
 				{foreach from=$navtree item=navitem key=k name=navigate}
 					{if $navitem['level'] == 0}
 						<a class="{*flex-sm-fill*} d-none d-lg-inline nav-link text-primary roocms-topnav-link{if isset($smarty.get.page) && $smarty.get.page == $navitem['alias']} active{/if}" href="/index.php?page={$navitem['alias']}">{$navitem['title']}</a>
@@ -135,12 +135,18 @@
 				<a class="flex-fill nav-link text-gray text-center text-sm-right roocms-topnav-link" data-toggle="collapse" href="#collapseAllMenu" role="button" aria-expanded="false" aria-controls="collapseAllMenu">
 					<span class="d-inline d-lg-none">Меню</span> <i class="fas fa-fw fa-bars"></i>
 				</a>
+				<a class="nav-link text-gray text-center text-sm-right roocms-topnav-link" data-toggle="collapse" href="#collapseSearch" role="button" aria-expanded="false" aria-controls="collapseSearch">
+					<span class="d-inline d-sm-none">Поиск</span> <i class="fas fa-fw fa-search"></i>
+				</a>
 			</nav>
 			{/if}
 		</div>
 	</div>
 	<div class="row">
 		<div class="col-12 mt-3">
+			<div class="collapse w-100" id="collapseSearch">
+				{$module->load("search")}
+			</div>
 			<div class="collapse w-100" id="collapseAllMenu">
 				<div class="card card-body bg-light">
 					<div class="d-flex flex-row flex-wrap" role="navigation">
@@ -175,7 +181,6 @@
 	<div class="row">
 		<div class="col-12">
 			{$breadcrumb}
-			{* {$module->load("search")} *}
 		</div>
 	</div>
 </div>

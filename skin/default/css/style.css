@@ -212,6 +212,26 @@ a#PrevFeedItem:hover > .roocms-feeditem-pn {
   filter: grayscale(0%);
 }
 
+.roocms-grayscale {
+  filter: grayscale(50%);
+  transition: all 0.25s ease-in-out;
+  -webkit-transition: all 0.25s ease-in-out;
+  -moz-transition: all 0.25s ease-in-out;
+  -ms-transition: all 0.25s ease-in-out;
+  -o-transition: all 0.25s ease-in-out;
+  outline: none;
+}
+
+.card:hover > a > .roocms-grayscale {
+  filter: grayscale(0%);
+  transition: all 0.25s ease-in-out;
+  -webkit-transition: all 0.25s ease-in-out;
+  -moz-transition: all 0.25s ease-in-out;
+  -ms-transition: all 0.25s ease-in-out;
+  -o-transition: all 0.25s ease-in-out;
+  outline: none;
+}
+
 /* Blocks */
 .block-images {
   width: 50%;

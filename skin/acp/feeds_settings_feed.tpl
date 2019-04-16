@@ -12,10 +12,10 @@
 		<div class="col-md-7 col-lg-8">
 			<div class="btn-group btn-group-toggle roocms-crui" data-toggle="buttons">
 				<label class="btn btn-light{if $feed['rss']} active{/if}">
-					<input type="radio" name="rss" value="1" id="flag_rss_on"{if $feed['rss']} checked{/if}> <i class="far fa-fw fa-check-square text-success"></i> Вкл
+					<input type="radio" name="rss" value="1" id="flag_rss_on"{if $feed['rss']} checked{/if}> <i class="far fa-fw fa{if $feed['rss']}-check{/if}-circle text-success"></i> Вкл
 				</label>
 				<label class="btn btn-light{if !$feed['rss']} active{/if}">
-					<input type="radio" name="rss" value="0" id="flag_rss_off"{if !$feed['rss']} checked{/if}> <i class="far fa-fw fa-square text-danger"></i> Выкл
+					<input type="radio" name="rss" value="0" id="flag_rss_off"{if !$feed['rss']} checked{/if}> <i class="far fa-fw fa{if !$feed['rss']}-check{/if}-circle text-danger"></i> Выкл
 				</label>
 			</div>
 			{if $feed['rss_warn']}<p class="text-warning">Внимание! RSS ленты не будут отображаться, потому что запрещены по всему сайту. Вы можете отменить запрет в <a href="{$SCRIPT_NAME}?act=config&part=rss">настройках сайта</a>.</p>{/if}
