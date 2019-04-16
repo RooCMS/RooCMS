@@ -117,7 +117,7 @@ class Mailing {
 			$smarty->assign("site",       $site);
 			$smarty->assign("userdata",   $val);
 
-			$spread_footer = $tpl->load_template("mail/spread_header", true);
+			$spread_header = $tpl->load_template("mail/spread_header", true);
 			$spread_footer = $tpl->load_template("mail/spread_footer", true);
 
 			$letter = $spread_header.$message.$spread_footer;
