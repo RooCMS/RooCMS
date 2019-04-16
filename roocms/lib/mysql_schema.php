@@ -339,7 +339,40 @@ $sql['CREATE '.USERS_GROUP_TABLE] = "CREATE TABLE  `".USERS_GROUP_TABLE."` (
 					PRIMARY KEY (  `gid` ) ,
 					UNIQUE KEY  `gid` (  `gid` ) ,
 					UNIQUE KEY  `title` (  `title` )
-					) ENGINE = InnoDB DEFAULT CHARSET = utf8;";
+				      ) ENGINE = InnoDB DEFAULT CHARSET = utf8;";
+
+
+/**
+ * Mailing messages
+ */
+$sql['DROP '.MAILING_TABLE] = "DROP TABLE IF EXISTS `".MAILING_TABLE."`";
+$sql['CREATE '.MAILING_TABLE] = "CREATE TABLE `".MAILING_TABLE."` (
+					  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+					  `author_id` int(10) unsigned NOT NULL DEFAULT 0,
+					  `title` varchar(255) NOT NULL DEFAULT '',
+					  `message` longtext NOT NULL DEFAULT '',
+					  `date_create` bigint(20) unsigned NOT NULL DEFAULT 0,
+					  PRIMARY KEY (`id`),
+					  UNIQUE KEY `id` (`id`)
+					) ENGINE=InnoDB DEFAULT CHARSET=utf8;";
+
+
+/**
+ * Mailing links
+ */
+$sql['DROP '.MAILING_LINK_TABLE] = "DROP TABLE IF EXISTS `".MAILING_LINK_TABLE."`";
+$sql['CREATE '.MAILING_LINK_TABLE] = "CREATE TABLE `".MAILING_LINK_TABLE."` (
+						   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+						   `message_id` int(10) unsigned NOT NULL DEFAULT 0,
+						   `uid` int(10) unsigned NOT NULL DEFAULT 0,
+						   `email` varchar(255) NOT NULL DEFAULT '',
+						   `secret_key` varchar(16) NOT NULL DEFAULT '',
+						  PRIMARY KEY (`id`),
+						  UNIQUE KEY `id` (`id`),
+						  KEY `secret_key` (`secret_key`),
+						  KEY `message_id` (`message_id`),
+						  KEY `uid` (`uid`)
+						) ENGINE=InnoDB DEFAULT CHARSET=utf8;";
 
 
 /**

@@ -7,7 +7,6 @@
 
 <form method="post" action="{$SCRIPT_NAME}?act=mailing&part=send" enctype="multipart/form-data" role="form">
 	<div class="card-body">
-
 		{if !empty($groups)}
 			<div class="form-group row">
 				<label for="inputUserGroups" class="col-md-5 col-lg-4 form-control-plaintext text-right">
@@ -46,12 +45,18 @@
 
 		<hr />
 
+		{if $config->global_email == ""}
+			<div class="alert alert-danger">
+				<i class="fa fa-fw fa-exclamation-triangle"></i> Пожалуйста, укажите <a href="{$SCRIPT_NAME}?act=config&part=global" class="alert-link">в настройках</a> E-Mail для администрации сайта
+			</div>
+		{/if}
+
 		<div class="form-group row">
 			<label for="inputTitle" class="col-md-5 col-lg-4 form-control-plaintext text-right">
 				Заголовок:
 			</label>
 			<div class="col-md-7 col-lg-8">
-				<input type="text" name="title" id="inputTitle" class="form-control" value="" required>
+				<input type="text" name="title" id="inputTitle" class="form-control" value="" required{if $config->global_email == ""} disabled{/if}>
 			</div>
 		</div>
 
@@ -60,11 +65,17 @@
 				<label for="brief_item" class="control-label">
 					Сообщение: <small><span class="fas fa-exclamation-triangle fa-fw text-danger" rel="tooltip" title="Обазательно заполнить это поле" data-placement="right"></span></small>
 				</label>
-				<textarea id="message" class="form-control ckeditor-mail" name="message" required></textarea>
+				<textarea id="message" class="form-control ckeditor-mail" name="message" required{if $config->global_email == ""} disabled{/if}></textarea>
 			</div>
 		</div>
 
+		<div class="alert alert-warning mb-0">
+			<i class="fa fa-fw fa-exclamation-triangle"></i>
+			<b>Внимание!</b> Пожалуйста, тщательно проверьте свое сообщение перед отправкой получателям. У вас не будет возможности внести исправления после того, как Вы его отправите.
+		</div>
+
 	</div>
+	{if $config->global_email != ""}
 	<div class="card-footer">
 		<div class="row">
 			<div class="col-12">
@@ -72,4 +83,5 @@
 			</div>
 		</div>
 	</div>
+	{/if}
 </form>

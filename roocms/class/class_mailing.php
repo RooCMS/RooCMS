@@ -44,7 +44,7 @@ class Mailing {
 	 */
 	public function __construct() {
 
-		global $site;
+		global $config, $site;
 
 		# set site title
 		$this->site_title = $site['title'];
@@ -52,8 +52,8 @@ class Mailing {
 		# set site domain
 		$this->site_domain = str_ireplace(array('http://','https://','www.'), '', $site['domain']);
 
-		# set sender title
-		$this->from = "roocms@".$this->site_domain;
+		# set sender backmail
+		$this->from = ($config->global_email != "") ? $config->global_email : "roocms@".$this->site_domain;
 	}
 
 
@@ -65,14 +65,9 @@ class Mailing {
 	 * @param string $message  - message
 	 * @param string $from     - sender's return email
 	 */
-	public function send($mailto, $theme, $message, $from="roocms") {
+	public function send($mailto, $theme, $message, $from="") {
 
 		global $parse;
-
-		# set type for variables
-		settype($mail,    "string");
-		settype($theme,   "string");
-		settype($message, "string");
 
 		# valid back address
 		if($parse->valid_email($from)) {
@@ -89,6 +84,49 @@ class Mailing {
 		if($parse->valid_email($mailto)) {
 			mb_send_mail($mailto, $theme, $message, $this->headers);
 		}
+	}
+
+
+	/**
+	 * Spread mail to users
+	 *
+	 * @param array  $usersdata	- data users array from get_userlist
+	 * @param string $theme		- subject message
+	 * @param string $message	- message
+	 */
+	public function spread(array $usersdata, $theme, $message) {
+
+		global $db, $users, $security, $logger, $site, $smarty, $tpl;
+
+		# write message
+		$db->query("INSERT INTO ".MAILING_TABLE." (author_id, title, message, date_create) VALUES ('".$users->uid."', '".$theme."', '".$message."', '".time()."')");
+		$message_id = $db->insert_id();
+
+		foreach($usersdata as $val) {
+
+			# generated keys
+			$secret_key = randcode(16);
+
+			# save into db
+			$db->query("INSERT INTO ".MAILING_LINK_TABLE." (message_id, uid, email, secret_key) VALUES ('".$message_id."', '".$val['uid']."', '".$val['email']."', '".$secret_key."')");
+
+			# added spread footer
+			$smarty->assign("theme",      $theme);
+			$smarty->assign("message_id", $message_id);
+			$smarty->assign("secret_key", $secret_key);
+			$smarty->assign("site",       $site);
+			$smarty->assign("userdata",   $val);
+
+			$spread_footer = $tpl->load_template("mail/spread_header", true);
+			$spread_footer = $tpl->load_template("mail/spread_footer", true);
+
+			$letter = $spread_header.$message.$spread_footer;
+
+			# send to mail
+			$this->send($val['email'], $theme, $letter);
+		}
+
+		$logger->info("Почтовая рассылка #".$message_id." отправлена пользователям");
 	}
 
 

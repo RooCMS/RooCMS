@@ -29,6 +29,9 @@ Release information:
 	[add] added plugin bsCustomFileInput v1.3.1
 	[add] added unsubscribe function in one click for registered users
 	[add] created Mailing class
+	[add] created mailing archive
+	[add] added web-viewer mailing messages for user
+	[add] added urgent unsubscribe
 	[add] added config option "global email"
 	[add] added smarty modifier "top secret" (this is fun)
 	

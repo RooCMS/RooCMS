@@ -43,6 +43,8 @@ define('FILES_TABLE',           DB_PREFIX.'files');
 define('USERS_TABLE',           DB_PREFIX.'users');
 define('USERS_GROUP_TABLE',     DB_PREFIX.'users_group');
 define('USERS_PM_TABLE',        DB_PREFIX.'users_pm');
+define('MAILING_TABLE',         DB_PREFIX.'mailing');
+define('MAILING_LINK_TABLE',    DB_PREFIX.'mailing_links');
 define('HELP_TABLE',            DB_PREFIX.'help');
 define('LOG_TABLE',             DB_PREFIX.'log');
 
