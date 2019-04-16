@@ -54,12 +54,12 @@
 				<ul class="pagination justify-content-center my-3">
 					{foreach from=$pages item=page}
 						{if isset($smarty.get.pg) && $smarty.get.pg == $page['n']}
-							<li class="page-item active"><a href="{$SCRIPT_NAME}?part=tags&pg={$page['n']}{get_params exclude='part,pg'}" class="page-link">{$page['n']}</a></li>
+							<li class="page-item active"><a href="{$SCRIPT_NAME}?part=search{get_params exclude='part,pg'}&pg={$page['n']}" class="page-link">{$page['n']}</a></li>
 						{else}
 							{if !isset($smarty.get.pg) && $page['n'] == "1"}
-								<li class="page-item active"><a href="{$SCRIPT_NAME}?part=tags&pg={$page['n']}{get_params exclude='part,pg'}" class="page-link">{$page['n']}</a></li>
+								<li class="page-item active"><a href="{$SCRIPT_NAME}?part=search{get_params exclude='part,pg'}&pg={$page['n']}" class="page-link">{$page['n']}</a></li>
 							{else}
-								<li class="page-item"><a href="{$SCRIPT_NAME}?part=tags&pg={$page['n']}{get_params exclude='part,pg'}" class="page-link">{$page['n']}</a></li>
+								<li class="page-item"><a href="{$SCRIPT_NAME}?part=search{get_params exclude='part,pg'}&pg={$page['n']}" class="page-link">{$page['n']}</a></li>
 							{/if}
 						{/if}
 					{/foreach}

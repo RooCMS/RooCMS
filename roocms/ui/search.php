@@ -29,6 +29,9 @@ class UI_Search {
 	# vars
 	private $minleight = 3; // TODO: В конфиг
 
+	# settings
+	private $result_per_page = 10;
+
 
 
 	/**
@@ -36,7 +39,10 @@ class UI_Search {
 	 */
 	public function __construct() {
 
-		global $post, $get;
+		global $db, $post, $get;
+
+		# settings
+		$db->limit =& $this->result_per_page;
 
 		# POST
 		if(isset($post->search) && mb_strlen($post->search) >= $this->minleight) {
@@ -87,14 +93,21 @@ class UI_Search {
 			$accesscond = " AND (f.group_access='0' OR f.group_access='".$users->gid."' OR f.group_access LIKE '%,".$users->gid.",%' OR f.group_access LIKE '".$users->gid.",%' OR f.group_access LIKE '%,".$users->gid."')";
 		}
 
+		# calculate pages
+		$db->pages_mysql(PAGES_FEED_TABLE, str_ireplace("f.", "", "f.date_publications <= '".time()."' AND ".$cond." AND (".$condsid.") ".$accesscond." AND (f.date_end_publications = '0' || f.date_end_publications > '".time()."') AND f.status='1'"));
+
+		# get array pagination template array
+		$pages = $db->construct_pagination();
+
 		$taglinks = [];
 		$authors  = [];
 		$result   = [];
 		$q = $db->query("SELECT f.id, f.author_id, f.title, f.brief_item, s.title AS feed_title, s.alias, f.date_publications, f.views 
 					FROM ".PAGES_FEED_TABLE." AS f 
 					LEFT JOIN ".STRUCTURE_TABLE." AS s ON (s.id = f.sid) 
-					WHERE (".$cond.") AND (".$condsid.") ".$accesscond." AND (f.date_end_publications = '0' || f.date_end_publications > '".time()."') AND f.status='1' AND date_publications <= '".time()."' 
-					ORDER BY f.date_publications DESC, f.views DESC");
+					WHERE (".$cond.") AND (".$condsid.") ".$accesscond." AND (f.date_end_publications = '0' || f.date_end_publications > '".time()."') AND f.status='1' AND f.date_publications <= '".time()."' 
+					ORDER BY f.date_publications DESC, f.views DESC
+					LIMIT ".$db->from.",".$db->limit);
 		while($row = $db->fetch_assoc($q)) {
 			$row['datepub']    = $parse->date->unix_to_rus($row['date_publications'],true);
 			$row['date']       = $parse->date->unix_to_rus_array($row['date_publications']);
@@ -121,6 +134,8 @@ class UI_Search {
 		$smarty->assign("authors", $fauthors);
 		$smarty->assign("searchstring", $searchstring);
 		$smarty->assign("result", $result);
+		$smarty->assign("pages", $pages);
+
 		$tpl->load_template("search");
 	}
 
@@ -138,7 +153,7 @@ class UI_Search {
 		foreach($structure->sitetree AS $i=>$val) {
 			if($val['access']) {
 				if(trim($cond) != "") $cond .= " OR ";
-				$cond .= " s.id='".$val['id']."' ";
+				$cond .= " f.sid='".$val['id']."' ";
 			}
 		}
 
