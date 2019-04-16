@@ -72,6 +72,7 @@ class RooCMS_Global {
 	public  $userip		= "";	 # [string]	user ip address
 	public  $referer	= "";	 # [string]	user referer
 
+	# spiderbot
 	public	$spiderbot	= false; # [bool]	if this search spider bot
 
 

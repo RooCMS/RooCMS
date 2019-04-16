@@ -1,11 +1,13 @@
 Version: 1.3.3 beta
 ========================
-**release date:	15.04.2019**
+**release date:	16.04.2019**
 
 Plugins
 -------
 - Smarty                `v3.1.33`
 - Smarty plugins:       `get_params`
+- Smarty modifiers:     `highlight`, `topsecret`
+- Smarty postfilter:    `correct4pu`
 - jQuery                `v3.3.1`
 - jQuery-Migrate        `v3.0.0`
 - jQuery TouchSwipe     `v1.6.18`
@@ -27,6 +29,7 @@ Release information:
 	[add] added plugin bsCustomFileInput v1.3.1
 	[add] added unsubscribe function in one click for registered users
 	[add] created Mailing class
+	[add] added smarty modifier "top secret" (this is fun)
 	
 	[upd] updated Bootstrap 3.4 -> 4.3.1 
 	[upd] updated Bootstrap Select 1.12.4 -> 1.13.7 

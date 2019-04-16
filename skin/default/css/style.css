@@ -553,6 +553,14 @@ audio, canvas, video {
 }
 
 /* Fonts */
+.arial {
+  font-family: "Arial";
+}
+
+.tahoma {
+  font-family: "Tahoma";
+}
+
 .ptsans, blockquote {
   font-family: "PT Sans";
 }
