@@ -1,6 +1,6 @@
 Version: 1.3.3 beta
 ========================
-**release date:	16.04.2019**
+**release date:	17.04.2019**
 
 Plugins
 -------
@@ -18,7 +18,7 @@ Plugins
 - Bootstrap TagsInput   `v0.8.0`
 - bsCustomFileInput     `v1.3.1`
 - Font Awesome          `v5.8.1`
-- CKEditor              `v4.11.1`
+- CKEditor              `v4.11.4`
 - Codemirror            `v5.42`
 - Fancybox	        `v3.5.6`
 - PHP QR Code           `v1.1.4`
@@ -38,6 +38,7 @@ Release information:
 	[upd] updated Bootstrap 3.4 -> 4.3.1 
 	[upd] updated Bootstrap Select 1.12.4 -> 1.13.7 
 	[upd] updated Font Awesome 4.7 -> 5.7.2 
+	[upd] updated CKEditor 4.11.1 -> 4.11.4 
 	[upd] changed Bootstrap Colorpicker plugin
 	[upd] updated user interface (fixit bugs, update styles, update layot)
 	[upd] css migrated from less to scss
