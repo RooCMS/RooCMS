@@ -152,8 +152,8 @@ class ACP_Index {
 
 		if(array_search("apache2handler", $debug->phpextensions)) {
 			$data1['apache_mods']	= apache_get_modules();		# Apache extends
+			$data1['apache_ver']	= apache_get_version();		# Apache version
 		}
-
 
 		$server_vars = array(
 			'PHP_SELF',

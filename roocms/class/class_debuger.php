@@ -309,17 +309,17 @@ class Debuger {
 
 		global $debug, $db;
 
-                echo "<div class='container'><div class='row'><div class='col-12'><h4>Отладка</h4>";
+                echo "<div class='container-fluid'><div class='row mx-1'><div class='col-12 bg-white p-3 rounded-sm'><h4>Отладка</h4>";
 
                 foreach($debug->debug_dump AS $k=>$v) {
-        	        echo "<code>debug <b>#".$k."</b></code><pre class='small' style='overflow: auto;max-height: 300px;'>".htmlspecialchars($v)."</pre>";
+        	        echo "<code>DEBUG <b>#".$k."</b></code><pre class='small border p-2 rounded-sm' style='overflow: auto;max-height: 300px;'>".htmlspecialchars($v)."</pre>";
                 }
 
-                echo "</div></div></div>";
+
 
 		if($debug->show_debug) {
 
-			echo "	<div class='container'><div class='row'><div class='col-12'><div id='debugaccordion'>
+			echo "	<div id='debugaccordion'>
 				<div class='card'>
 					<div class='card-header'>
 						<h5 class='card-title mb-0'><a class='accordion-toggle' data-toggle='collapse' data-parent='#debugaccordion' href='#collapseQuerys'>Запросы к БД<i class='fas fa-fw fa-caret-down'></i></a></h5>
@@ -331,11 +331,11 @@ class Debuger {
 					</div>
 				</div>";
 
-			echo "</div></div></div></div>";
+			echo "</div>";
 		}
 
 		# functions
-		echo "	<div class='container'><div class='row'><div class='col-12'><div id='debug2accordion'>
+		echo "	<div id='debug2accordion'>
 			<div class='card'>
 				<div class='card-header'>
 					<h5 class='card-title mb-0'><a class='accordion-toggle' data-toggle='collapse' data-parent='#debug2accordion' href='#collapseFCC'>Defined Functions/Classes/Constants<i class='fas fa-fw fa-caret-down'></i></a></h5>
@@ -361,13 +361,17 @@ class Debuger {
 		}
 
 		echo "	</ul></div>
-			</div></div></div></div>";
+			</div>";
 
-                echo "  <div class='container my-2'><div class='row'><div class='col-12'>
-				<span class='fa fa-bar-chart-o fa-fw text-nowrap'></span> Обращений к БД: <b>{$db->cnt_querys}</b>
-				&nbsp;&nbsp; <span class='fa fa-tachometer fa-fw text-nowrap'></span> Использовано памяти : <span style='cursor: help;' title='".round($debug->memory_peak_usage/1024/1024, 2)." байт макс'><b>".round($debug->productivity_memory/1024/1024, 2)." Мб</b></span>
-				&nbsp;&nbsp; <span class='fa fa-clock-o fa-fw text-nowrap'></span> Время работы скрипта : <b>{$debug->productivity_time} мс</b>
-			</div></div></div>";
+
+
+                echo "  <div class='row'><div class='col-12 mt-3 py-1 bg-light'>
+				<i class='fas fa-chart-bar fa-fw text-nowrap'></i> Обращений к БД: <b>{$db->cnt_querys}</b>
+				&nbsp;&nbsp; <i class='fas fa-tachometer-alt fa-fw text-nowrap'></i> Использовано памяти : <span style='cursor: help;' title='".round($debug->memory_peak_usage/1024/1024, 2)." байт макс'><b>".round($debug->productivity_memory/1024/1024, 2)." Мб</b></span>
+				&nbsp;&nbsp; <i class='fas fa-clock fa-fw text-nowrap'></i> Время работы скрипта : <b>{$debug->productivity_time} мс</b>
+			</div></div>";
+
+		echo "</div></div></div>";
 
                 exit;
 	}

@@ -27,6 +27,9 @@
 		<tr> <td>Максимальный размер постинга:</td> <td>{$data1['mps']}</td> </tr>
 		<tr> <td>Максимально допустимое время исполнения скрипта:</td> <td>{$data1['met']} секунд</td> </tr>
 		<tr> <td>Корневая директория сайта:</td> <td>{$data1['docroot']}</td> </tr>
+		{if !empty($data1['apache_ver'])}
+			<tr> <td>Apache версия:</td> <td>{$data1['apache_ver']}</td> </tr>
+		{/if}
 		{if !empty($data1['apache_mods'])}
 			<tr> <td>Apache модули:</td> <td>{foreach from=$data1['apache_mods'] item=mods}<span class="badge badge-light">{$mods}</span> {/foreach}</td> </tr>
 		{/if}
