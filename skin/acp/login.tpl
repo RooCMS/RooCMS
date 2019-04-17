@@ -38,7 +38,7 @@
 		<div class="modal show" id="RooCMSACPLogin" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 			<div class="modal-dialog modal-dialog-centered">
         			<div class="modal-content" id="LoginForm">
-					<div class="modal-header bg_login">
+					<div class="modal-header bg_login px-4">
 						<img src="{$SKIN}/img/logo.png" border="0" class="mx-auto" alt="Добро пожаловать в Панель Администратора RooCMS" title="Добро пожаловать в Панель Администратора RooCMS">
 						<a href="/" class="close" data-dismiss="modal" aria-label="Close">
 							<span aria-hidden="true">&times;</span>
@@ -53,7 +53,7 @@
 							<br />{$error_login}
 		    				</div>
 		    			{/if}
-						<div class="form-group row mt-1">
+						<div class="form-group row mt-1 px-2">
 							{*<label class="col-md-2 form-control-plaintext d-none d-md-block" for="Login">Логин</label>*}
 							<div class="input-group col-12">
 								<span class="input-group-prepend">
@@ -64,7 +64,7 @@
 								<input class="form-control non-bgreq" id="Login" type="text" name="login" placeholder="Логин" required autocomplete="off" aria-describedby="fLogin">
 							</div>
 						</div>
-						<div class="form-group row mb-1">
+						<div class="form-group row mb-1 px-2">
 							{*<label class="col-md-2 form-control-plaintext d-none d-md-block" for="Password">Пароль</label>*}
 							<div class="input-group col-12">
 								<span class="input-group-prepend">
@@ -78,12 +78,10 @@
 							</div>
 						</div>
 					</div>
-					<div class="modal-footer bg_login">
-						<div class="row">
-							<div class="col-12">
-								<small>Панель управления сайтом <span class="text-nowrap"><a href="/">{$site['title']}</a></span></small>
-								<button type="submit" class="btn btn-success" name="go" value="go">Войти <i class="fas fa-fw fa-sign-in-alt"></i></button>
-							</div>
+					<div class="modal-footer bg_login px-4 d-flex flex-column flex-sm-row">
+						<div class="small flex-fill text-center text-sm-left mb-2 mb-sm-0">Панель управления сайтом <span class="text-nowrap"><a href="/">{$site['title']}</a></span></div>
+						<div class="text-center ml-sm-auto flex-grow-1 flex-sm-grow-0">
+							<button type="submit" class="btn btn-success" name="go" value="go">Войти <i class="fas fa-fw fa-sign-in-alt"></i></button>
 						</div>
 					</div>
 				</div>
