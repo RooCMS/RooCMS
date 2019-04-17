@@ -70,14 +70,15 @@ $primary:       $blue !default;
 $secondary:     $purple !default; //$gray-600 !default;
 $success:       $green !default;
 $info:          $cyan !default;
-$hot:           $orange !default;
 $warning:       $yellow !default;
 $danger:        $red !default;
+$light:         $gray-100 !default;
+$dark:          $gray-800 !default;
+
+$hot:           $orange !default;
 $moment:        $teal !default;
 $extra:         $indigo !default;
-$light:         $gray-200 !default;
 $gray:          $gray-600 !default;
-$dark:          $gray-900 !default;
 
 $theme-colors: () !default;
 // stylelint-disable-next-line scss/dollar-variable-default
@@ -87,14 +88,15 @@ $theme-colors: map-merge(
     "secondary":  $secondary,
     "success":    $success,
     "info":       $info,
-    "hot":        $hot,
     "warning":    $warning,
     "danger":     $danger,
+    "light":      $light,
+    "dark":       $dark,
+
+    "hot":        $hot,
     "moment":     $moment,
     "extra":      $extra,
-    "light":      $light,
-    "gray":       $gray,
-    "dark":       $dark
+    "gray":       $gray
   ),
   $theme-colors
 );
