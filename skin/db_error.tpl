@@ -15,7 +15,7 @@
 <meta http-equiv="Expires" 		content="-1" />
 <meta http-equiv="Cache-Control" 	content="max-age=3600, must-revalidate" />
 
-<link href="favicon.ico" 	rel="icon" 			type="image/x-icon" />
+<link href="favicon.ico" 	rel="icon"          type="image/x-icon" />
 <link href="favicon.ico" 	rel="shortcut icon" type="image/x-icon" />
 
 <link rel="stylesheet" type="text/css" href="/plugin/bootstrap/css/bootstrap.min.css" media="screen" />

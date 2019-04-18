@@ -145,6 +145,9 @@ class RooCMS_Global {
 			}
 		}
 
+		# http(s) protocol
+		$this->handler_https();
+
 		# safe secure name script from cp
 		if(defined('ACP') || defined('INSTALL')) {
 			define('CP', $this->config->cp_script);
@@ -179,6 +182,17 @@ class RooCMS_Global {
 				$this->spiderbot = true;
 			}
 		}
+	}
+
+
+	/**
+	 * Set secure protocol (if active)
+	 */
+	protected function handler_https() {
+
+		global $site;
+
+		$site['protocol'] = (isset($_SERVER["HTTPS"]) || $this->config->global_https) ? "https" : "http" ;
 	}
 
 
@@ -219,6 +233,7 @@ class RooCMS_Global {
 
 		$this->config->site_title            = "";
 		$this->config->global_site_title     = false;
+		$this->config->global_https          = false;
 		$this->config->gd_thumb_image_width  = 267;
 		$this->config->gd_thumb_image_height = 150;
 		$this->config->gd_image_maxwidth     = 1600;

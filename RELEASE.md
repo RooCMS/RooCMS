@@ -1,6 +1,6 @@
 Version: 1.3.4 alpha
 ========================
-**release date:	18.04.2019**
+**release date:	19.04.2019**
 
 Plugins
 -------
@@ -26,7 +26,7 @@ Plugins
 
 Release information:
 -------------
-	[add] 
+	[add] added option $config->global_https (and $site['protocol']) for secure view of site
 	
 	[upd] 
 	
