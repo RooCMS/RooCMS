@@ -20,16 +20,12 @@ CKEDITOR.editorConfig = function( config ) {
 	//config.toolbarLocation = 'bottom';
 
 	config.allowedContent = true;
-	config.ProtectedTags = 'i' ;
-	config.protectedSource.push( /<i[\s\S]*?\>/g ); //allows beginning <i> tag
-	config.protectedSource.push( /<\/i[\s\S]*?\>/g ); //allows ending </i> tag
+	config.protectedSource.push( /<i class[\s\S]*?\><\/i>/g ); // Font Awesome fix
 	//config.fillEmptyBlocks = true
 	//config.entities_processNumerical = true;
 	//config.forceSimpleAmpersand = true;
 
 	//config.extraPlugins='codemirror';
-
-	config.fontawesomePath = '/plugin/font-awesome/css/font-awesome.min.css';
 
 	//config.filebrowserBrowseUrl = '/browser/browse.php';
 	//config.filebrowserUploadUrl = '/uploader/upload.php';
@@ -144,21 +140,20 @@ CKEDITOR.editorConfig = function( config ) {
 
 	config.toolbar_Full =
 		[
-			['Source','-','Save','NewPage','Preview','-','Templates'],
-			['Cut','Copy','Paste','PasteText','PasteFromWord','-','Print', 'SpellChecker', 'Scayt'],
-			['Undo','Redo','-','Find','Replace','-','SelectAll','RemoveFormat'],
-			['Form', 'Checkbox', 'Radio', 'TextField', 'Textarea', 'Select', 'Button', 'ImageButton', 'HiddenField'],
+			{ name: 'document', items: [ 'Source', '-', 'Save', 'NewPage', 'Preview', 'Print', '-', 'Templates' ] },
+			{ name: 'clipboard', items: [ 'Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord', '-', 'Undo', 'Redo' ] },
+			{ name: 'editing', items: [ 'Find', 'Replace', '-', 'SelectAll', '-', 'Scayt' ] },
+			{ name: 'forms', items: [ 'Form', 'Checkbox', 'Radio', 'TextField', 'Textarea', 'Select', 'Button', 'ImageButton', 'HiddenField' ] },
 			'/',
-			['Bold','Italic','Underline','Strike','-','Subscript','Superscript'],
-			['NumberedList','BulletedList','-','Outdent','Indent','Blockquote','CreateDiv'],
-			['JustifyLeft','JustifyCenter','JustifyRight','JustifyBlock'],
-			['BidiLtr', 'BidiRtl'],
-			['Link','Unlink','Anchor'],
-			['Image','Flash','Table','HorizontalRule','SpecialChar','PageBreak','Iframe'],
+			{ name: 'basicstyles', items: [ 'Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript', '-', 'CopyFormatting', 'RemoveFormat' ] },
+			{ name: 'paragraph', items: [ 'NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'Blockquote', 'CreateDiv', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', '-', 'BidiLtr', 'BidiRtl', 'Language' ] },
+			{ name: 'links', items: [ 'Link', 'Unlink', 'Anchor' ] },
+			{ name: 'insert', items: [ 'Image', 'Flash', 'Table', 'HorizontalRule', 'Smiley', 'SpecialChar', 'PageBreak', 'Iframe' ] },
 			'/',
-			['Styles','Format','Font','FontSize'],
-			['TextColor','BGColor'],
-			['Maximize', 'ShowBlocks','-','About']
+			{ name: 'styles', items: [ 'Styles', 'Format', 'Font', 'FontSize' ] },
+			{ name: 'colors', items: [ 'TextColor', 'BGColor' ] },
+			{ name: 'tools', items: [ 'Maximize', 'ShowBlocks' ] },
+			{ name: 'about', items: [ 'About' ] }
 		];
 
 	config.toolbar_RooCMS =
@@ -166,9 +161,9 @@ CKEDITOR.editorConfig = function( config ) {
 			['Source','-','Preview','-','Templates'],
 			['Undo','Redo'],
 			['SelectAll', '-', 'Cut','Copy','Paste','PasteText','PasteFromWord'],
-			['Find','Replace'],
+			['Find', 'Replace'],
 			['Form', 'Checkbox', 'Radio', 'TextField', 'Textarea', 'Select', 'Button', 'ImageButton', 'HiddenField'],
-			['CopyFormatting','RemoveFormat'],
+			['CopyFormatting', 'RemoveFormat'],
 			'/',
 			['Bold','Italic','Underline','Strike','-','Subscript','Superscript'],
 			['JustifyLeft','JustifyCenter','JustifyRight','JustifyBlock'],

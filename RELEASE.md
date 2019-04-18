@@ -1,4 +1,4 @@
-Version: 1.3.3
+Version: 1.3.4 alpha
 ========================
 **release date:	18.04.2019**
 
@@ -26,29 +26,14 @@ Plugins
 
 Release information:
 -------------
-	[add] added plugin bsCustomFileInput v1.3.1
-	[add] added unsubscribe function in one click for registered users
-	[add] created Mailing class
-	[add] created mailing archive
-	[add] added web-viewer mailing messages for user
-	[add] added urgent unsubscribe
-	[add] added config option "global email"
-	[add] added smarty modifier "top secret" (this is fun)
+	[add] 
 	
-	[upd] updated Bootstrap 3.4 -> 4.3.1
-	[upd] updated Bootstrap Select 1.12.4 -> 1.13.7
-	[upd] updated Font Awesome 4.7 -> 5.7.2
-	[upd] updated CKEditor 4.11.1 -> 4.11.4
-	[upd] changed Bootstrap Colorpicker plugin
-	[upd] updated user interface (fixit bugs, update styles, update layot)
-	[upd] css migrated from less to scss
-	[upd] increased strength of password hashes
-	[upd] more control over meta title (use new options in tpl: $site['pageination']['page'] and $site['pageination']['pages'])
+	[upd] 
 	
-	[fix] fixit error
+	[fix] fixit bugs
 	[fix] translate comments in code to english international
-	[fix] restructure tpl files
 	[fix] optimisation code
 	
-	[del] Removed IEPNGFIX (Older browsers will not cope with Bootstrap 4, so there is no need to use PNGFIX for IE in the distribution)
-	[del] Removed Step checking files permission from install script
+	[inf]
+	
+	[del] 

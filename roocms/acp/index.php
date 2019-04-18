@@ -64,7 +64,7 @@ class ACP_Index {
 		# warning alerts
 		$warning_subj = [];
 		if(is_file(_SITEROOT."/install/index.php")) {
-			$warning_subj[] = "Инсталятор RooCMS находится в корне сайта. В целях безопастности следует удалить инсталятор!";
+			$warning_subj[] = "Установщик RooCMS находится в корне сайта. Не волнуйтесь. Вход в него надежно защищен паролем. Но в целях безопастности, мы рекомендуем удалить папку /install/ с хостинга.";
 		}
 
 		if($debug->exist_errors) {
