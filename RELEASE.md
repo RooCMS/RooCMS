@@ -1,6 +1,6 @@
-Version: 1.3.3 beta
+Version: 1.3.3
 ========================
-**release date:	17.04.2019**
+**release date:	18.04.2019**
 
 Plugins
 -------
@@ -35,10 +35,10 @@ Release information:
 	[add] added config option "global email"
 	[add] added smarty modifier "top secret" (this is fun)
 	
-	[upd] updated Bootstrap 3.4 -> 4.3.1 
-	[upd] updated Bootstrap Select 1.12.4 -> 1.13.7 
-	[upd] updated Font Awesome 4.7 -> 5.7.2 
-	[upd] updated CKEditor 4.11.1 -> 4.11.4 
+	[upd] updated Bootstrap 3.4 -> 4.3.1
+	[upd] updated Bootstrap Select 1.12.4 -> 1.13.7
+	[upd] updated Font Awesome 4.7 -> 5.7.2
+	[upd] updated CKEditor 4.11.1 -> 4.11.4
 	[upd] changed Bootstrap Colorpicker plugin
 	[upd] updated user interface (fixit bugs, update styles, update layot)
 	[upd] css migrated from less to scss
@@ -49,8 +49,6 @@ Release information:
 	[fix] translate comments in code to english international
 	[fix] restructure tpl files
 	[fix] optimisation code
-	
-	[inf] 
 	
 	[del] Removed IEPNGFIX (Older browsers will not cope with Bootstrap 4, so there is no need to use PNGFIX for IE in the distribution)
 	[del] Removed Step checking files permission from install script
