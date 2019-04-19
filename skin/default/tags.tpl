@@ -90,8 +90,8 @@
 				</div>
 			</div>
 			<div class="card mb-3">
-				<div class="card-body">
-					<img src="qrcode.php?url={$smarty.server.REQUEST_URI}" class="img-thumbnail" alt="QR ссылка на эту страницу">
+				<div class="card-body text-center">
+					<img src="qrcode.php?url={$smarty.server.REQUEST_URI}" class="img-thumbnail border-0" alt="QR ссылка на эту страницу">
 				</div>
 			</div>
 		</div>
