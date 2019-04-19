@@ -282,7 +282,7 @@ class Install extends IU_Extends {
 
 		if($this->allowed) {
 			$sql = [];
-			require_once _LIB."/mysql_schema.php";
+			require_once "db_mysql_schema.php";
 
 			$mysqli = new mysqli($roocms->sess['db_info_host'], $roocms->sess['db_info_user'], $roocms->sess['db_info_pass'], $roocms->sess['db_info_base']);
 
