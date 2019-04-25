@@ -91,7 +91,7 @@ class aRCaptcha {
 	/**
 	 * Set code string on image
 	 *
-	 * @param $captcha - resource image
+	 * @param resource $captcha 	- resource image
 	 *
 	 * @return mixed
 	 */
@@ -153,8 +153,7 @@ class aRCaptcha {
 	 * @return mixed
 	 */
 	private static function circles($captcha) {
-
-		$min = min(self::$width, self::$height);
+		
 		$max = max(self::$width, self::$height);
 
 		$scream = mt_rand(1,mb_strlen(self::$code));
