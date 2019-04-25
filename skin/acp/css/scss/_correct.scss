@@ -35,7 +35,7 @@
 
 blockquote {@extend .ptsans;}
 
-blockquote[class^="quote-"] > p:last-child {
+blockquote > p:last-child {
 	margin-bottom: 0;
 }
 
