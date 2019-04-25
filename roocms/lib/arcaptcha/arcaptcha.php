@@ -71,11 +71,11 @@ class aRCaptcha {
 
 
 		# NOISE
-		if(self::$use_polygons) {
+		if(self::$use_polygons && is_resource($captcha)) {
 			$captcha = self::polygons($captcha);
 		}
 
-		if(self::$use_circles) {
+		if(self::$use_circles && is_resource($captcha)) {
 			$captcha = self::circles($captcha);
 		}
 
@@ -93,7 +93,7 @@ class aRCaptcha {
 	 *
 	 * @param resource $captcha 	- resource image
 	 *
-	 * @return mixed
+	 * @return resource|false
 	 */
 	private static function eletters($captcha) {
 
@@ -148,12 +148,12 @@ class aRCaptcha {
 	/**
 	 * Draw circles on captcha background
 	 *
-	 * @param $captcha
+	 * @param resource $captcha
 	 *
-	 * @return mixed
+	 * @return resource|false
 	 */
 	private static function circles($captcha) {
-		
+
 		$max = max(self::$width, self::$height);
 
 		$scream = mt_rand(1,mb_strlen(self::$code));
@@ -178,9 +178,9 @@ class aRCaptcha {
 	/**
 	 * Draw lines on captcha background
 	 *
-	 * @param $captcha
+	 * @param resource $captcha
 	 *
-	 * @return mixed
+	 * @return resource|false
 	 */
 	private static function polygons($captcha) {
 
@@ -212,7 +212,7 @@ class aRCaptcha {
 	/**
 	 * Valid and set code string
 	 *
-	 * @param $code
+	 * @param string $code
 	 */
 	private static function set_code($code) {
 
