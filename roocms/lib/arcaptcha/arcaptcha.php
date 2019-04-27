@@ -113,8 +113,8 @@ class aRCaptcha {
 
 			$angle = mt_rand(-15,15);
 
-			$y = mt_rand(self::$height/1.5, self::$height);
-			$size = mt_rand(self::$height/2.5, self::$height/1.25);
+			$y = mt_rand(round(self::$height/1.5), self::$height);
+			$size = mt_rand(floor(self::$height/2.5), ceil(self::$height/1.25));
 
 			$letter = mb_substr(self::$code, $l, 1);
 			imagettftext($captcha, $size, $angle, $shift, $y, $color, $font['file'], $letter);
@@ -261,7 +261,6 @@ class aRCaptcha {
 	private static function get_font() {
 
 		# Select random fonts
-		$fonts = array();
 		$fonts = glob(dirname(__FILE__)."/".self::$font_path."/*.ttf", GLOB_BRACE);
 
 		# choice font
@@ -278,8 +277,6 @@ class aRCaptcha {
 	 * @return array
 	 */
 	private static function get_random_rgb() {
-
-		$color = array();
 
 		$hash = md5(self::$palette . mt_rand(0,20));
 		return array(
