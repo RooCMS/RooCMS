@@ -43,12 +43,15 @@ class aRCaptcha {
 
 	# palette
 	private static $palette = "aRCaptcha";
+	private static $randoms = array(3,20);
 
 	# fonts path
 	private static $font_path = "fonts";
 
 
 	/**
+	 * Show
+	 *
 	 * @param string $code
 	 */
 	public static function show($code="000000") {
@@ -106,7 +109,7 @@ class aRCaptcha {
 		# get font
 		$font = self::get_font();
 
-		$shift = 2;
+		$shift = 4;
 		for($l=0;$l<=self::$code_length-1;$l++) {
 			list($r,$g,$b) = self::get_random_rgb();
 			$color  = imagecolorallocatealpha($captcha, $r, $g, $b, mt_rand(0,25));
@@ -117,7 +120,7 @@ class aRCaptcha {
 			$size = mt_rand(floor(self::$height/2.5), ceil(self::$height/1.25));
 
 			$letter = mb_substr(self::$code, $l, 1);
-			imagettftext($captcha, $size, $angle, $shift, $y, $color, $font['file'], $letter);
+			imagettftext($captcha, $size, $angle, mt_rand($shift + round(self::$letter_width * .15), $shift + round(self::$letter_width * .75)), $y, $color, $font['file'], $letter);
 
 			$shift += self::$letter_width;
 		}
@@ -135,7 +138,7 @@ class aRCaptcha {
 	 */
 	private static function eletters($captcha) {
 
-		$shift = 2;
+		$shift = 4;
 		for($l=0;$l<=self::$code_length-1;$l++) {
 			$letter_img = imagecreate(self::$letter_width, self::$height);
 
@@ -249,7 +252,7 @@ class aRCaptcha {
 
 		self::$code = $code;
 		self::$code_length = mb_strlen(self::$code);
-		self::$letter_width = (self::$width / self::$code_length > self::$height) ? self::$height : (self::$width / self::$code_length) - 2 ;
+		self::$letter_width = (self::$width / self::$code_length >= self::$height) ? self::$height : (self::$width / self::$code_length) - 4 ;
 	}
 
 
@@ -278,7 +281,7 @@ class aRCaptcha {
 	 */
 	private static function get_random_rgb() {
 
-		$hash = md5(self::$palette . mt_rand(0,20));
+		$hash = md5(self::$palette . mt_rand(self::$randoms[0], self::$randoms[1]));
 		return array(
 			hexdec(substr($hash, 0, 2)),
 			hexdec(substr($hash, 2, 2)),
