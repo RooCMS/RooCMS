@@ -18,8 +18,8 @@
 class aRCaptcha {
 
 	# code
-	private static $code = "000000";
-	private static $code_length = 6;
+	private static $code = "00000";
+	private static $code_length = 5;
 	private static $letter_width = 0;
 
 	# options for string
@@ -40,6 +40,7 @@ class aRCaptcha {
 	private static $use_circles  = false;
 	private static $use_polygons = true;
 	private static $use_ttf      = true;
+	private static $shuffle_font = false;
 
 	# palette
 	private static $palette = "aRCaptcha";
@@ -120,7 +121,11 @@ class aRCaptcha {
 			$size = mt_rand(floor(self::$height/2.5), ceil(self::$height/1.25));
 
 			$letter = mb_substr(self::$code, $l, 1);
-			imagettftext($captcha, $size, $angle, mt_rand($shift + round(self::$letter_width * .15), $shift + round(self::$letter_width * .75)), $y, $color, $font['file'], $letter);
+			imagettftext($captcha, $size, $angle, mt_rand($shift - round(self::$letter_width * .25), $shift + round(self::$letter_width * .5)), $y, $color, $font['file'], $letter);
+
+			if(self::$shuffle_font) {
+				$font = self::get_font();
+			}
 
 			$shift += self::$letter_width;
 		}
