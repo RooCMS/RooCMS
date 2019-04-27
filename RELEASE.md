@@ -1,6 +1,6 @@
 Version: 1.3.4 alpha
 ========================
-**release date:	20.04.2019**
+**release date:	27.04.2019**
 
 Plugins
 -------
@@ -22,11 +22,13 @@ Plugins
 - Codemirror            `v5.42`
 - Fancybox	        `v3.5.6`
 - PHP QR Code           `v1.1.4`
+- aRCaptcha             `v3.1`
 
 
 Release information:
 -------------
 	[add] added option $config->global_https (and $site['protocol']) for secure view of site
+	[add] added aRCaptcha v3.1 to lib for protect form
 	
 	[upd] 
 	

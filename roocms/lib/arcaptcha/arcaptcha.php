@@ -1,6 +1,6 @@
 <?php
 /**
-* aR Captcha - Protect Form v3
+* aR Captcha - Protect Form v3.1
 * @copyright © 2007-2019 alexandr Belov aka alex Roosso.
 * @author    alex Roosso <info@roocms.com>
 * @link      http://www.roocms.com
@@ -19,6 +19,8 @@ class aRCaptcha {
 
 	# code
 	private static $code = "000000";
+	private static $code_length = 6;
+	private static $letter_width = 0;
 
 	# options for string
 	private static $use_number       = true;
@@ -31,19 +33,24 @@ class aRCaptcha {
 	private static $bgcolor = array(254, 254, 254);
 
 	# sizes
-	private static $width   = 180;
-	private static $height  = 60;
+	private static $width   = 200;
+	private static $height  = 80;
 
 	# allows
-	private static $use_circles  = true;
+	private static $use_circles  = false;
 	private static $use_polygons = true;
+	private static $use_ttf      = true;
 
+	# palette
+	private static $palette = "aRCaptcha";
 
 	# fonts path
 	private static $font_path = "fonts";
 
 
-
+	/**
+	 * @param string $code
+	 */
 	public static function show($code="000000") {
 
 		self::set_code($code);
@@ -80,16 +87,47 @@ class aRCaptcha {
 		}
 
 
-		# letters (use system font)
-		$captcha = self::eletters($captcha);
-
+		# letters
+		$captcha = (self::$use_ttf) ? self::letters($captcha) : self::eletters($captcha) ;
 
 		return $captcha;
 	}
 
 
 	/**
-	 * Set code string on image
+	 * Set code string on image (use ttf font)
+	 *
+	 * @param resource $captcha 	- resource image
+	 *
+	 * @return resource|false
+	 */
+	private static function letters($captcha) {
+
+		# get font
+		$font = self::get_font();
+
+		$shift = 2;
+		for($l=0;$l<=self::$code_length-1;$l++) {
+			list($r,$g,$b) = self::get_random_rgb();
+			$color  = imagecolorallocatealpha($captcha, $r, $g, $b, mt_rand(0,25));
+
+			$angle = mt_rand(-15,15);
+
+			$y = mt_rand(self::$height/1.5, self::$height);
+			$size = mt_rand(self::$height/2.5, self::$height/1.25);
+
+			$letter = mb_substr(self::$code, $l, 1);
+			imagettftext($captcha, $size, $angle, $shift, $y, $color, $font['file'], $letter);
+
+			$shift += self::$letter_width;
+		}
+
+		return $captcha;
+	}
+
+
+	/**
+	 * Set code string on image (use default font)
 	 *
 	 * @param resource $captcha 	- resource image
 	 *
@@ -97,47 +135,38 @@ class aRCaptcha {
 	 */
 	private static function eletters($captcha) {
 
-		$n = mb_strlen(self::$code);
-		$letter_width = (self::$width / $n > self::$height) ? self::$height : self::$width / $n ;
+		$shift = 2;
+		for($l=0;$l<=self::$code_length-1;$l++) {
+			$letter_img = imagecreate(self::$letter_width, self::$height);
 
-		$xs = 2;
-		for($l=0;$l<=$n-1;$l++) {
-			$letter_img = imagecreate($letter_width, self::$height);
-			$color = imagecolorallocate($letter_img, 255, 255, 255);
-			imagefilledrectangle($letter_img, 0, 0, $letter_width, self::$height, $color);
-			imagecolortransparent($letter_img, $color);
-			$r = mt_rand(0,120);
-			$g = mt_rand(0,120);
-			$b = mt_rand(0,120);
-			$color2 = imagecolorallocatealpha($letter_img, $r, $g, $b, mt_rand(50,65));
+			$bg = imagecolorallocate($letter_img, 255, 255, 255);
+			imagefilledrectangle($letter_img, 0, 0, self::$letter_width, self::$height, $bg);
+			imagecolortransparent($letter_img, $bg);
 
-			# craft scream
-			$radius = mt_rand(2,4);
-			$x = mt_rand(1,10);
-			$y = mt_rand(1,20);
-			imagefilledellipse($letter_img, $x, $y, $radius, $radius, $color2);
+			list($r,$g,$b) = self::get_random_rgb();
+			$color = imagecolorallocatealpha($letter_img, $r, $g, $b, mt_rand(0,50));
 
 			# craft letter
-			$letter = substr(self::$code, $l, 1);
-			imagestring($letter_img, 5, 0, 0, $letter, $color2);
+			$letter = mb_substr(self::$code, $l, 1);
+			imagestring($letter_img, 5, 0, 0, $letter, $color);
 
 			# get font size
 			$f_w = imagefontwidth(5);
 			$f_h = imagefontheight(5);
 
 			# set coords
-			$dst_x = mt_rand($xs-3, $xs+3);
+			$dst_x = mt_rand($shift-3, $shift+3);
 			$dst_y = mt_rand(0-$f_h, $f_h);
 			$src_x = 0;
 			$src_y = 0;
-			$dst_w = $letter_width * ($letter_width / $f_w);
+			$dst_w = self::$letter_width * (self::$letter_width / $f_w);
 			$dst_h = self::$height * (self::$height / $f_h);
-			$src_w = $letter_width;
+			$src_w = self::$letter_width;
 			$src_h = self::$height;
 
 			imagecopyresized($captcha, $letter_img, $dst_x, $dst_y, $src_x, $src_y, $dst_w, $dst_h, $src_w, $src_h);
 
-			$xs += $letter_width;
+			$shift += self::$letter_width;
 			imagedestroy($letter_img);
 		}
 
@@ -156,13 +185,12 @@ class aRCaptcha {
 
 		$max = max(self::$width, self::$height);
 
-		$scream = mt_rand(1,mb_strlen(self::$code));
+		$scream = mt_rand(1,ceil(mb_strlen(self::$code)/2));
 
 		for($i=0;$i<=mt_rand(1,$scream);$i++) {
-			$r = mt_rand(100,255);
-			$g = mt_rand(100,255);
-			$b = mt_rand(100,255);
-			$color = imagecolorallocatealpha($captcha, $r, $g, $b, mt_rand(55,75));
+			mt_srand();
+			list($r,$g,$b) = self::get_random_rgb();
+			$color = imagecolorallocatealpha($captcha, $r, $g, $b, mt_rand(60,90));
 
 			$radius = mt_rand($max/5,$max/1.25);
 			$x = mt_rand(1,self::$width-1); mt_srand();
@@ -191,10 +219,8 @@ class aRCaptcha {
 
 		for($i=0;$i<=$scream;$i++) {
 			mt_srand();
-			$r = mt_rand(0,150);
-			$g = mt_rand(0,150);
-			$b = mt_rand(0,150);
-			$color = imagecolorallocatealpha($captcha, $r, $g, $b, mt_rand(20,70));
+			list($r,$g,$b) = self::get_random_rgb();
+			$color = imagecolorallocatealpha($captcha, $r, $g, $b, mt_rand(25,50));
 
 			$points = array();
 			$p = mt_rand(3,9);
@@ -202,6 +228,7 @@ class aRCaptcha {
 				$points[] = mt_rand(-50,self::$width+50); mt_srand();
 				$points[] = mt_rand(-50,self::$height+50); mt_srand();
 			}
+			imagesetthickness($captcha, mt_rand(1,2));
 			imagepolygon($captcha, $points, $p, $color);
 		}
 
@@ -221,6 +248,45 @@ class aRCaptcha {
 		$code = preg_replace(array('(\W+)','([^'.$condition.'])'), array('',''), $code);
 
 		self::$code = $code;
+		self::$code_length = mb_strlen(self::$code);
+		self::$letter_width = (self::$width / self::$code_length > self::$height) ? self::$height : (self::$width / self::$code_length) - 2 ;
+	}
+
+
+	/**
+	 * Get random ttf font
+	 *
+	 * @return array
+	 */
+	private static function get_font() {
+
+		# Select random fonts
+		$fonts = array();
+		$fonts = glob(dirname(__FILE__)."/".self::$font_path."/*.ttf", GLOB_BRACE);
+
+		# choice font
+		$font = array();
+		$font['file'] = $fonts[mt_rand(0,count($fonts)-1)];
+
+		return $font;
+	}
+
+
+	/**
+	 * Get random HEX RGB color
+	 *
+	 * @return array
+	 */
+	private static function get_random_rgb() {
+
+		$color = array();
+
+		$hash = md5(self::$palette . mt_rand(0,20));
+		return array(
+			hexdec(substr($hash, 0, 2)),
+			hexdec(substr($hash, 2, 2)),
+			hexdec(substr($hash, 4, 2))
+		);
 	}
 
 
