@@ -144,6 +144,12 @@ class UI_Reg {
 
 			$mailer->send($post->email, "Вы зарегистрировались на сайте ".$site['title'], $message);
 
+			# Mailing cookie
+			if($post->mailing == 1) {
+				$exp = time()+(60*60*24*7);
+				setcookie("mailing", true, $exp);
+			}
+
 			# notice
 			$logger->info("Поздравляем с Регистрацией. Вам осталось подтвердить адрес электронной почты для этого пройдите по ссылке отправленной Вам в письме.", false);
 
@@ -165,10 +171,6 @@ class UI_Reg {
 		$var = explode("@", $post->email);
 		$post->nickname = $var[0];
 		$post->mailing = 1;
-
-		// TODO: Не уверен что тут то самое место. Надо обдумать этот момент.
-		$exp = time()+(60*60*24*7);
-		setcookie("mailing", true, $exp);
 
 		$this->join();
 	}

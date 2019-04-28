@@ -72,6 +72,10 @@
 			return false;
 		});
 
+		$("#ExpressMailing").on('focus', function() {
+			$("#captchaMailing").collapse('show');
+		});
+
 		/* From validation */
 		window.addEventListener('load', function() {
 			// Fetch all the forms we want to apply custom Bootstrap validation styles to

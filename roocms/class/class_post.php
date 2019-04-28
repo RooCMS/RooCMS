@@ -46,7 +46,8 @@ class Post {
 			$trace = debug_backtrace();
 			$pi = pathinfo($trace[0]['file']);
 
-			$logger->error("Попытка получить неопределенное свойство : ".$name." ; Источник: ".$pi['filename']." строка ".$trace[0]['line']);
+			# save log
+			$logger->log("Попытка получить неопределенное свойство : ".$name." ; Источник: ".$pi['filename']." строка ".$trace[0]['line'], "error");
 		}
 
 		return null;
@@ -55,6 +56,8 @@ class Post {
 
 	/**
 	 * Validate captcha code in form
+	 *
+	 * @property string $captcha
 	 *
 	 * @return bool
 	 */
