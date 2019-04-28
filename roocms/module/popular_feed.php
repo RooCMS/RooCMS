@@ -44,7 +44,7 @@ class Module_Popular_feed extends Modules {
 
 		# get data query
 		$feeds = [];
-		$q = $db->query("SELECT f.id, s.alias, f.title, f.date_publications, f.views FROM ".PAGES_FEED_TABLE." AS f
+		$q = $db->query("SELECT f.id, s.alias, f.title, f.date_publications, f.views, s.title as ftitle FROM ".PAGES_FEED_TABLE." AS f
 					LEFT JOIN ".STRUCTURE_TABLE." AS s ON (s.id = f.sid)
 					WHERE f.date_publications <= '".time()."' AND (f.date_end_publications = '0' || f.date_end_publications > '".time()."') AND f.status='1' AND ".$accesscond."
 					ORDER BY f.views DESC LIMIT 0,6");

@@ -236,6 +236,12 @@ a#PrevFeedItem:hover > .roocms-feeditem-pn {
   outline: none;
 }
 
+/* Modules */
+.roocms-ftitle-label {
+  top: 1rem;
+  left: 1rem;
+}
+
 /* Blocks */
 .block-images {
   width: 50%;

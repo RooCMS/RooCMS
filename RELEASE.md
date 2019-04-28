@@ -31,7 +31,7 @@ Release information:
 	[add] added aRCaptcha v3.1 to lib for protect form
 	[add] added spam protection with aRCaptcha
 	
-	[upd] 
+	[upd] updated module popular_feed & last_feed (added category label)
 	
 	[fix] fixit bugs
 	[fix] translate comments in code to english international

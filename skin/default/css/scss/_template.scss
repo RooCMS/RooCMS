@@ -96,6 +96,12 @@ a#PrevFeedItem:hover > .roocms-feeditem-pn {border: 1px solid $brand-primary;opa
 .roocms-grayscale {filter: grayscale(50%);@include transition(.25)}
 .card:hover > a > .roocms-grayscale {filter: grayscale(0%);@include transition(.25)}
 
+/* Modules */
+.roocms-ftitle-label {
+	top: 1rem;
+	left: 1rem;
+}
+
 /* Blocks */
 .block-images {
 	width: 50%;
