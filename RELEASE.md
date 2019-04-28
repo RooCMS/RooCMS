@@ -1,6 +1,6 @@
 Version: 1.3.4 alpha
 ========================
-**release date:	27.04.2019**
+**release date:	28.04.2019**
 
 Plugins
 -------
@@ -29,6 +29,7 @@ Release information:
 -------------
 	[add] added option $config->global_https (and $site['protocol']) for secure view of site
 	[add] added aRCaptcha v3.1 to lib for protect form
+	[add] added spam protection with aRCaptcha
 	
 	[upd] 
 	

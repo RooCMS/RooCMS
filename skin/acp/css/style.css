@@ -54,7 +54,7 @@ a {
 /* Sup styles / restyle */
 .small, small {
   font-family: "Fira Sans";
-  /*color: $brand-gray;*/
+  color: #95a5a6;
 }
 
 /* Hover */

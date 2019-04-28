@@ -302,7 +302,7 @@ class ACP_Feeds_Feed {
 			$tags->save_tags($post->tags, "feeditemid=".$id);
 
 			# notice
-			$logger->info("Запись #".$id." <".$post->title."> успешна отредактирована.");
+			$logger->info("Запись #".$id." <".$post->title."> успешно отредактирована.");
 
 			# update images
 			$img->update_images_info("feeditemid", $id);

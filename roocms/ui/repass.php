@@ -104,7 +104,7 @@ class UI_RePass {
 		$logger->log("Запрос на восстановление пароля для почтового ящика: ".$post->email." с IP:".$roocms->userip);
 
 		# check
-		if(isset($post->email) && $parse->valid_email($post->email) && $db->check_id($post->email, USERS_TABLE, "email")) {
+		if(isset($post->email) && $parse->valid_email($post->email) && $db->check_id($post->email, USERS_TABLE, "email") && $post->valid_captcha()) {
 
 			# userdata
 			$q = $db->query("SELECT nickname, secret_key FROM ".USERS_TABLE." WHERE email='".$post->email."'");
@@ -145,7 +145,7 @@ class UI_RePass {
 
 		global $db, $security, $parse, $logger, $post, $mailer, $site, $smarty, $tpl;
 
-		if(isset($post->email, $post->code) && $parse->valid_email($post->email) && $db->check_id($post->email, USERS_TABLE, "email", "secret_key='".$post->code."'")) {
+		if(isset($post->email, $post->code) && $parse->valid_email($post->email) && $db->check_id($post->email, USERS_TABLE, "email", "secret_key='".$post->code."'") && $post->valid_captcha()) {
 
 			# new password
 			$salt = $security->generate_salt();

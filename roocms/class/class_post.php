@@ -53,6 +53,36 @@ class Post {
 	}
 
 
+	/**
+	 * Validate captcha code in form
+	 *
+	 * @return bool
+	 */
+	public function valid_captcha() {
+
+		global $roocms, $config, $logger;
+
+		# if admin not use captcha
+		if(!$config->captcha_power) {
+			return true;
+		}
+
+		# if captcha uncorrect
+		if(!isset($roocms->sess['captcha'],$this->captcha) || strcmp($roocms->sess['captcha'], $this->captcha) !== 0) {
+
+			$logger->error("Ошибка ввода Captcha! Введенный код не совпадает с кодом на картинке.", false);
+			$logger->log("Ошибка ввода Captcha: code [".$roocms->sess['captcha']."] post [".$this->captcha."]", "error"); // This is timed code for debug captcha
+
+			unset($_SESSION['captcha']);
+			return false;
+		}
+
+		unset($_SESSION['captcha']);
+
+		return true;
+	}
+
+
 	// TODO: Это закладка на обработку входящих запросов и проверку целостности данных.
 	// Что будет полезно при проверке вводимых данных. Во избежание подлогов.
 	/**

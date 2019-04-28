@@ -33,8 +33,8 @@ class aRCaptcha {
 	private static $bgcolor = array(254, 254, 254);
 
 	# sizes
-	private static $width   = 200;
-	private static $height  = 80;
+	private static $width   = 180;
+	private static $height  = 85;
 
 	# allows
 	private static $use_circles  = false;
@@ -43,8 +43,8 @@ class aRCaptcha {
 	private static $shuffle_font = false;
 
 	# palette
-	private static $palette = "aRCaptcha";
-	private static $randoms = array(3,20);
+	private static $palette = "aR-Captcha";
+	private static $randoms = array(0,20);
 
 	# fonts path
 	private static $font_path = "fonts";
@@ -117,11 +117,26 @@ class aRCaptcha {
 
 			$angle = mt_rand(-15,15);
 
-			$y = mt_rand(round(self::$height/1.5), self::$height);
-			$size = mt_rand(floor(self::$height/2.5), ceil(self::$height/1.25));
+			$y = mt_rand(round(self::$height/1.4), self::$height);
+			$size = mt_rand(floor(self::$height/2.25), ceil(self::$height/1.25));
 
 			$letter = mb_substr(self::$code, $l, 1);
-			imagettftext($captcha, $size, $angle, mt_rand($shift - round(self::$letter_width * .25), $shift + round(self::$letter_width * .5)), $y, $color, $font['file'], $letter);
+
+			switch($l) {
+				case 0:
+					$position = mt_rand($shift - round(self::$letter_width * .05), $shift + round(self::$letter_width * .25));
+					break;
+
+				case self::$code_length-1:
+					$position = mt_rand($shift - round(self::$letter_width * .25), $shift + round(self::$letter_width * .05));
+					break;
+
+				default:
+					$position = mt_rand($shift - round(self::$letter_width * .25), $shift + round(self::$letter_width * .25));
+					break;
+			}
+
+			imagettftext($captcha, $size, $angle, $position, $y, $color, $font['file'], $letter);
 
 			if(self::$shuffle_font) {
 				$font = self::get_font();
@@ -286,11 +301,13 @@ class aRCaptcha {
 	 */
 	private static function get_random_rgb() {
 
-		$hash = md5(self::$palette . mt_rand(self::$randoms[0], self::$randoms[1]));
+		mt_srand();
+		$colorvariator = md5(self::$palette . mt_rand(self::$randoms[0], self::$randoms[1]));
+
 		return array(
-			hexdec(substr($hash, 0, 2)),
-			hexdec(substr($hash, 2, 2)),
-			hexdec(substr($hash, 4, 2))
+			hexdec(substr($colorvariator, 0, 2)),
+			hexdec(substr($colorvariator, 2, 2)),
+			hexdec(substr($colorvariator, 4, 2))
 		);
 	}
 
@@ -315,5 +332,36 @@ class aRCaptcha {
 		}
 
 		return $condition;
+	}
+
+
+	/**
+	 * Debug function for view palette
+	 */
+	public static function palette() {
+
+		$nums = range(self::$randoms[0], self::$randoms[1]);
+
+		$scale = 30;
+
+		$im = imagecreatetruecolor($scale * count($nums), $scale);
+
+		$shift = 0;
+		foreach ($nums as $num) {
+
+			$color = md5(self::$palette . $num);
+
+			$r = hexdec(substr($color, 0, 2));
+			$g = hexdec(substr($color, 2, 2));
+			$b = hexdec(substr($color, 4, 2));
+
+			$c = imagecolorallocate($im, $r, $g, $b);
+			imagefilledrectangle($im, $scale * $shift, 0, $scale * ($shift + 1), $scale, $c);
+			$shift++;
+		}
+
+		header('Content-Type: image/png');
+		imagepng($im);
+		imagedestroy($im);
 	}
 }

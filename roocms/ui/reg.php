@@ -99,7 +99,7 @@ class UI_Reg {
 		# email
 		$users->valid_user_email($post->email);
 
-		if(!isset($_SESSION['error'])) {
+		if(!isset($_SESSION['error']) && $post->valid_captcha()) {
 
 			# password
 			if(!isset($post->password)) {

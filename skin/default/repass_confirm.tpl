@@ -26,7 +26,7 @@
 							Код подтверждения:
 						</label>
 
-						<input type="text" name="code" id="inputConfirmationCode" class="form-control" pattern="^[\d\D]{literal}{16}{/literal}" aria-describedby="CCHelp" required value="{$code}">
+						<input type="text" name="code" id="inputConfirmationCode" class="form-control" pattern="^[\d\D]{literal}{6,16}{/literal}" aria-describedby="CCHelp" required value="{$code}">
 						<div class="invalid-tooltip">
 							Вы должные ввести проверочный код, который был выслан на Вашу почту.
 						</div>
@@ -39,6 +39,20 @@
 			<div class="col-md-6 offset-md-3">
 				<div class="card mt-4">
 					<div class="card-body text-center">
+						{if $config->captcha_power}
+							<div class="row mb-3">
+								<div class="col-sm-6 text-center"><img src="/captcha.php" alt="Код для защиты от СПАМа"></div>
+								<div class="col-sm-6">
+									<div class="form-group">
+										<label for="inputCaptcha">
+											Защитный код: <i class="fas fa-question-circle fa-fw" rel="tooltip" title="Из-за множества программ для СПАМа и другого вредоносного софта, мы просим Вас пройти простую проверку, доказывающую, что за компьютером сидит человек..." data-placement="top"></i></small>
+										</label>
+										<input type="text" name="captcha" id="inputCaptcha" class="form-control" aria-describedby="captchaHelp" placeholder="" required>
+										<small id="captchaHelp" class="form-text text-muted">Введите код с картинки (буквы и цифры), что бы помочь нам защититься от СПАМа</small>
+									</div>
+								</div>
+							</div>
+						{/if}
 						<input type="submit" name="confirm" class="btn btn-lg btn-success btn-block" value="Сгенерировать новый пароль">
 					</div>
 				</div>

@@ -41,7 +41,7 @@ a {font-family: $ptsans, $ubuntu, $calibri, $tahoma, $trebuchet !important;}
 /* Sup styles / restyle */
 .small, small {
 	font-family: $firasans;
-	/*color: $brand-gray;*/
+	color: $brand-gray;
 }
 
 code		{@extend .ubuntu;}
