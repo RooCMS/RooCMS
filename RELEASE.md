@@ -1,6 +1,6 @@
 Version: 1.3.4 alpha
 ========================
-**release date:	28.04.2019**
+**release date:	29.04.2019**
 
 Plugins
 -------
@@ -32,6 +32,7 @@ Release information:
 	[add] added spam protection with aRCaptcha
 	
 	[upd] updated module popular_feed & last_feed (added category label)
+	[upd] in Mailing messages added additional headers for quick unsubscribe
 	
 	[fix] fixit bugs
 	[fix] translate comments in code to english international

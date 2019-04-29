@@ -34,6 +34,7 @@ class Mailing {
 
 	# headers
 	private $headers     = "";
+	private $unsubscribe = "";
 
 
 
@@ -54,6 +55,9 @@ class Mailing {
 
 		# set sender backmail
 		$this->from = (isset($config->global_email) && $config->global_email != "") ? $config->global_email : "roocms@".$this->site_domain;
+
+		# set headers
+		$this->set_headers();
 	}
 
 
@@ -77,12 +81,9 @@ class Mailing {
 		# parse message
 		$message = str_ireplace(array('\\r','\\n'), array('', '\n'), $message);
 
-		# set headers
-		$this->set_headers();
-
 		# send email message
 		if($parse->valid_email($mailto)) {
-			mb_send_mail($mailto, $theme, $message, $this->headers);
+			mb_send_mail($mailto, $theme, $message, $this->headers.$this->unsubscribe);
 		}
 	}
 
@@ -101,6 +102,9 @@ class Mailing {
 		# write message
 		$db->query("INSERT INTO ".MAILING_TABLE." (author_id, title, message, date_create) VALUES ('".$users->uid."', '".$theme."', '".$message."', '".time()."')");
 		$message_id = $db->insert_id();
+
+		# add headers unsubscribe link
+
 
 		foreach($usersdata as $val) {
 
@@ -122,8 +126,14 @@ class Mailing {
 
 			$letter = $spread_header.$message.$spread_footer;
 
+			# create unsubscribe link
+			$this->unsubscribe = "\r\nList-Unsubscribe: <{$site['protocol']}://{$site['domain']}/?part=unsubscribe&uid={$val['uid']}&code={$val['secret_key']}>";
+
 			# send to mail
 			$this->send($val['email'], $theme, $letter);
+
+			# remove unsubscribe link
+			$this->unsubscribe = "";
 		}
 
 		$logger->info("Почтовая рассылка #".$message_id." отправлена пользователям");
@@ -136,10 +146,10 @@ class Mailing {
 	private function set_headers() {
 
 		# headers
-		$this->headers  = "MIME-Version: 1.0\n";
-		$this->headers .= "From: ".$this->site_title." <{$this->from}>\n".EMAIL_MESSAGE_PARAMETERS."\n";
-		$this->headers .= "X-Sender: <no-reply@".$this->site_domain.">\n";
-		$this->headers .= "X-Mailer: RooCMS from ".$this->site_domain."\n";
+		$this->headers  = "MIME-Version: 1.0\r\n";
+		$this->headers .= "From: ".$this->site_title." <{$this->from}>\r\n".EMAIL_MESSAGE_PARAMETERS."\r\n";
+		$this->headers .= "X-Sender: <no-reply@".$this->site_domain.">\r\n";
+		$this->headers .= "X-Mailer: RooCMS from ".$this->site_domain."\r\n";
 		$this->headers .= "Return-Path: <no-replay@".$this->site_domain.">";
 	}
 }
