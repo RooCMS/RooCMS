@@ -12,8 +12,8 @@
 		</a>
 		<a href="{$SCRIPT_NAME}?page={$feed['alias']}" class="badge badge-primary position-absolute roocms-ftitle-label">{$feed['ftitle']}</a>
 		<div class="card-body">
-			<h5 class="card-title d-none d-xl-block">{$feed['title']}</h5>
-			<h6 class="card-title d-block d-xl-none">{$feed['title']}</h6>
+			<a href="{$SCRIPT_NAME}?page={$feed['alias']}&id={$feed['id']}" class="card-title d-none d-xl-block h5">{$feed['title']}</a>
+			<a href="{$SCRIPT_NAME}?page={$feed['alias']}&id={$feed['id']}" class="card-title d-block d-xl-none h6">{$feed['title']}</a>
 			<div class="card-text d-flex flex-column flex-xl-row">
 				<small class="text-muted py-2 text-center text-xl-left">{$feed['datepub']}</small>
 				<a href="{$SCRIPT_NAME}?page={$feed['alias']}&id={$feed['id']}" class="btn btn-sm btn-light ml-xl-auto">Читать</a>
