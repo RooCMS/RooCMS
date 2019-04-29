@@ -83,15 +83,15 @@ class aRCaptcha {
 
 
 		# NOISE
-		if(self::$use_polygons) {
+		if(self::$use_polygons && is_resource($captcha)) {
 			$captcha = self::polygons($captcha);
 		}
 
-		if(self::$use_circles) {
+		if(self::$use_circles && is_resource($captcha)) {
 			$captcha = self::circles($captcha);
 		}
 
-		if(self::$use_fontsnoise) {
+		if(self::$use_fontsnoise && is_resource($captcha)) {
 			$captcha = self::fontsnoise($captcha);
 		}
 
