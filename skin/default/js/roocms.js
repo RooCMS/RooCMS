@@ -76,6 +76,19 @@
 			$("#captchaMailing").collapse('show');
 		});
 
+		/* Captcha */
+		$(".refresh-CaptchaCode").on('click', function () {
+			var d = new Date();
+			$(".CaptchaCode").attr("src", "/captcha.php?"+d.getTime());
+			return false;
+		});
+
+		$(".recycle-CaptchaCode").on('click', function () {
+			var d = new Date();
+			$(".CaptchaCode").attr("src", "/captcha.php?I_have_bad_sight=true&"+d.getTime());
+			return false;
+		});
+
 		/* From validation */
 		window.addEventListener('load', function() {
 			// Fetch all the forms we want to apply custom Bootstrap validation styles to

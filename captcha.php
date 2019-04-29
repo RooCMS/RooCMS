@@ -26,6 +26,12 @@ else {
 	$_SESSION['captcha'] = $captcha_code;
 }
 
+#renew code
+if(isset($get->_I_have_bad_sight)) {
+	$captcha_code  = randcode(5,"123456789ABCEFHJKLMNPRSTVUWXZ");
+	$_SESSION['captcha'] = $captcha_code;
+}
+
 # load aRCaptcha
 require_once(_LIB."/captcha.php");
 

@@ -37,10 +37,11 @@ class aRCaptcha {
 	private static $height  = 85;
 
 	# allows
-	private static $use_circles  = false;
-	private static $use_polygons = true;
-	private static $use_ttf      = true;
-	private static $shuffle_font = false;
+	private static $use_circles    = false;
+	private static $use_polygons   = true;
+	private static $use_fontsnoise = false;
+	private static $use_ttf        = true;
+	private static $shuffle_font   = false;
 
 	# palette
 	private static $palette = "aR-Captcha";
@@ -82,12 +83,16 @@ class aRCaptcha {
 
 
 		# NOISE
-		if(self::$use_polygons && is_resource($captcha)) {
+		if(self::$use_polygons) {
 			$captcha = self::polygons($captcha);
 		}
 
-		if(self::$use_circles && is_resource($captcha)) {
+		if(self::$use_circles) {
 			$captcha = self::circles($captcha);
+		}
+
+		if(self::$use_fontsnoise) {
+			$captcha = self::fontsnoise($captcha);
 		}
 
 
@@ -114,6 +119,7 @@ class aRCaptcha {
 		for($l=0;$l<=self::$code_length-1;$l++) {
 			list($r,$g,$b) = self::get_random_rgb();
 			$color  = imagecolorallocatealpha($captcha, $r, $g, $b, mt_rand(0,25));
+			//$colorsh  = imagecolorallocatealpha($captcha, $r/2, $g/2, $b/2, mt_rand(25,50));
 
 			$angle = mt_rand(-15,15);
 
@@ -136,6 +142,7 @@ class aRCaptcha {
 					break;
 			}
 
+			//imagettftext($captcha, $size, $angle, $position, $y-1, $colorsh, $font['file'], $letter);
 			imagettftext($captcha, $size, $angle, $position, $y, $color, $font['file'], $letter);
 
 			if(self::$shuffle_font) {
@@ -253,6 +260,45 @@ class aRCaptcha {
 			}
 			imagesetthickness($captcha, mt_rand(1,2));
 			imagepolygon($captcha, $points, $p, $color);
+		}
+
+		return $captcha;
+	}
+
+
+	/**
+	 * Draw letters on BG Captcha
+	 *
+	 * @param resource $captcha
+	 *
+	 * @return resource
+	 */
+	private static function fontsnoise($captcha) {
+
+		# get font
+		$font = self::get_font();
+
+		$shift = 4;
+		for($l=0;$l<=self::$code_length-1;$l++) {
+			list($r,$g,$b) = self::get_random_rgb();
+			$color  = imagecolorallocatealpha($captcha, $r, $g, $b, mt_rand(85,95));
+
+			$angle = mt_rand(-5,5);
+
+			$y = mt_rand(round(self::$height/1.5), ceil(self::$height*2));
+			$size = mt_rand(floor(self::$height), ceil(self::$height*2));
+
+			$letter = mb_substr(self::$code, mt_rand(0,self::$code_length-1), 1);
+
+			$position = mt_rand($shift - round(self::$letter_width * .5), $shift + round(self::$letter_width * .5));
+
+			imagettftext($captcha, $size, $angle, $position, $y, $color, $font['file'], $letter);
+
+			if(self::$shuffle_font) {
+				$font = self::get_font();
+			}
+
+			$shift += self::$letter_width;
 		}
 
 		return $captcha;
