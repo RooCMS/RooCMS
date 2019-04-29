@@ -4,7 +4,7 @@
 	<div class="d-flex flex-row align-content-stretch justify-content-center flex-wrap">
 		{assign var=UGID value= 1|rand:399}
 		{foreach from=$images item=img name=bimgs}
-			<a href="/upload/images/{$img['resize']}" data-fancybox="gallery{$UGID}" data-animation-duration="300" data-caption="{$img['alt']}" title="{$img['alt']}" class="px-1 mb-1 {if $smarty.foreach.bimgs.total <= 6}flex-fill{/if} block-images"><img src="/upload/images/{$img['thumb']}" class="w-100 img-fluid border my-1" alt="{$img['alt']}"></a>
+			<a href="/upload/images/{$img['resize']}" data-fancybox="gallery{$UGID}" data-animation-duration="300" data-caption="{$img['alt']}" title="{$img['alt']}" class="mb-1 {if $smarty.foreach.bimgs.total <= 6}flex-fill{/if} block-images"><img src="/upload/images/{$img['thumb']}" class="w-100 img-fluid border my-1" alt="{$img['alt']}"></a>
 		{/foreach}
 	</div>
 {/if}
