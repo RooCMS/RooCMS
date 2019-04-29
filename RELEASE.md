@@ -1,6 +1,6 @@
 Version: 1.3.4 alpha
 ========================
-**release date:	29.04.2019**
+**release date:	30.04.2019**
 
 Plugins
 -------
@@ -38,6 +38,6 @@ Release information:
 	[fix] translate comments in code to english international
 	[fix] optimisation code
 	
-	[inf]
+	[inf] extended help system in ACP
 	
-	[del] 
+	[del] deleted SOD folder
