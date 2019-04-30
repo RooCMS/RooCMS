@@ -45,7 +45,7 @@ class Users extends Security {
 	public  $ban_expiried	= 0;		# ban date expiried (unixtimestamp)
 
 	# user data array
-	public	$userdata	= array('uid'=>0);
+	public	$userdata	= array('uid'=>0, 'gid'=>0, 'title'=>'u');
 
 	# user global data
 	private	$usersession	= "";		# user session

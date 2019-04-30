@@ -16,7 +16,7 @@
 							<div class="d-flex flex-column col-sm-6 px-0 mx-0">
 						{/if}
 
-						<a href="/index.php?page={$navitem['alias']}" class="text-secondary roocms-foot-link{if $navitem['level'] == 0}-first{/if}">{$navitem['title']}</a>
+						<a href="/index.php?page={$navitem['alias']}" class="text-secondary roocms-foot-link{if $navitem['level'] == 0}-first{/if}">{$navitem['title']}{if !array_key_exists($userdata['gid'], $navitem['group_access']) && $userdata['title'] == "u"}<i class="fas fa-fw fa-lock small" rel="tooltip" data-placement="left" title="Для просмотра страницы нужны расширенные права доступа"></i>{/if}</a>
 
 						{if $smarty.foreach.navigate.last}
 							</div>
