@@ -33,6 +33,7 @@ Release information:
 	
 	[upd] updated module popular_feed & last_feed (added category label)
 	[upd] in Mailing messages added additional headers for quick unsubscribe
+	[upd] added lock icon in navigation for pages to which user does not have access
 	
 	[fix] fixit bugs
 	[fix] translate comments in code to english international

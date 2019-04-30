@@ -160,7 +160,7 @@
 								<div class="d-flex flex-column col-lg-3 col-md-4 col-sm-6 my-1 px-0">
 							{/if}
 
-							<a href="/index.php?page={$navitem['alias']}" class="text-dark rounded py-1 roocms-topnav-sublink{if $navitem['level'] == 0}-first{/if}">{$navitem['title']}{if !array_key_exists($userdata['gid'], $navitem['group_access']) && $userdata['title'] == "u"}<i class="fas fa-fw fa-lock small" rel="tooltip" data-placement="left" title="Для просмотра страницы нужны расширенные права доступа"></i>{/if}</a>
+							<a href="/index.php?page={$navitem['alias']}" class="text-dark rounded py-1 roocms-topnav-sublink{if $navitem['level'] == 0}-first{/if}">{$navitem['title']}{if !array_key_exists($userdata['gid'], $navitem['group_access']) && $userdata['title'] == "u" && !array_key_exists(0, $navitem['group_access'])}<i class="fas fa-fw fa-lock small" rel="tooltip" data-placement="left" title="Для просмотра страницы нужны расширенные права доступа"></i>{/if}</a>
 
 							{if $smarty.foreach.navigate.last}
 								</div>
