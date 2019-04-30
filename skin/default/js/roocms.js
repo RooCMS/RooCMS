@@ -80,13 +80,20 @@
 		$(".refresh-CaptchaCode").on('click', function () {
 			var d = new Date();
 			$(".CaptchaCode").attr("src", "/captcha.php?"+d.getTime());
+			$(".zoom-CaptchaCode").attr("href", "/captcha.php?"+d.getTime());
 			return false;
 		});
 
 		$(".recycle-CaptchaCode").on('click', function () {
 			var d = new Date();
 			$(".CaptchaCode").attr("src", "/captcha.php?I_have_bad_sight=true&"+d.getTime());
+			$(".zoom-CaptchaCode").attr("href", "/captcha.php?"+d.getTime());
 			return false;
+		});
+
+		$(".zoom-CaptchaCode").on('click', function () {
+			var d = new Date();
+			$(this).attr("href", "/captcha.php?"+d.getTime());
 		});
 
 		/* From validation */

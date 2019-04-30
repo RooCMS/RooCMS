@@ -19,7 +19,7 @@
 								<div class="d-flex flex-column">
 									<a href="#" class="badge badge-light ml-1 refresh-CaptchaCode" tabindex="-1"><i class="fas fa-fw fa-redo-alt"></i></a>
 									<a href="#" class="badge badge-light ml-1 mt-1 recycle-CaptchaCode" tabindex="-1"><i class="fas fa-fw fa-recycle"></i></a>
-									<a href="/captcha.php" class="badge badge-light ml-1 mt-1" tabindex="-1" data-fancybox="gallery_captcha" data-width="360" data-height="170"><i class="fas fa-fw fa-search-plus"></i></a>
+									<a href="/captcha.php" class="badge badge-light ml-1 mt-1 zoom-CaptchaCode" tabindex="-1" data-fancybox="gallery_captcha" data-width="360" data-height="170"><i class="fas fa-fw fa-search-plus"></i></a>
 								</div>
 							</div>
 							<div class="col-xl-6">
