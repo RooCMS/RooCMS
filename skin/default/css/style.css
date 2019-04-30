@@ -374,6 +374,19 @@ a#move_top {
   animation-play-state: paused;
 }
 
+/* Blink */
+@keyframes blinker {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+.blink {
+  animation: blinker 0.5s cubic-bezier(0.5, 0, 1, 1) infinite alternate;
+}
+
 /* Inputs invalid and error glowing */
 input:focus:invalid {
   -moz-box-shadow: 0 0 0 0.2rem rgba(198, 13, 20, 0.4);
