@@ -1,6 +1,6 @@
 <?php
 /**
-* aR Captcha - Protect Form v3.1
+* aR Captcha - Protect Form v3.2
 * @copyright © 2007-2019 alexandr Belov aka alex Roosso.
 * @author    alex Roosso <info@roocms.com>
 * @link      http://www.roocms.com
@@ -36,11 +36,9 @@ class aRCaptcha {
 	private static $width   = 180;
 	private static $height  = 85;
 
-	# allows
-	private static $use_circles    = false;
-	private static $use_polygons   = true;
-	private static $use_fontsnoise = false;
-	private static $use_ttf        = true;
+	# user settings
+	private static $use_polygons   = false;
+	private static $use_fontsnoise = true;
 	private static $shuffle_font   = false;
 
 	# palette
@@ -87,17 +85,13 @@ class aRCaptcha {
 			$captcha = self::polygons($captcha);
 		}
 
-		if(self::$use_circles && is_resource($captcha)) {
-			$captcha = self::circles($captcha);
-		}
-
 		if(self::$use_fontsnoise && is_resource($captcha)) {
 			$captcha = self::fontsnoise($captcha);
 		}
 
 
 		# letters
-		$captcha = (self::$use_ttf) ? self::letters($captcha) : self::eletters($captcha) ;
+		$captcha = self::letters($captcha);
 
 		return $captcha;
 	}
@@ -124,7 +118,7 @@ class aRCaptcha {
 			$angle = mt_rand(-15,15);
 
 			$y = mt_rand(round(self::$height/1.4), self::$height);
-			$size = mt_rand(floor(self::$height/2.25), ceil(self::$height/1.25));
+			$size = mt_rand(floor(self::$height/2.25), ceil(self::$height/1.20));
 
 			$letter = mb_substr(self::$code, $l, 1);
 
@@ -157,83 +151,6 @@ class aRCaptcha {
 
 
 	/**
-	 * Set code string on image (use default font)
-	 *
-	 * @param resource $captcha 	- resource image
-	 *
-	 * @return resource|false
-	 */
-	private static function eletters($captcha) {
-
-		$shift = 4;
-		for($l=0;$l<=self::$code_length-1;$l++) {
-			$letter_img = imagecreate(self::$letter_width, self::$height);
-
-			$bg = imagecolorallocate($letter_img, 255, 255, 255);
-			imagefilledrectangle($letter_img, 0, 0, self::$letter_width, self::$height, $bg);
-			imagecolortransparent($letter_img, $bg);
-
-			list($r,$g,$b) = self::get_random_rgb();
-			$color = imagecolorallocatealpha($letter_img, $r, $g, $b, mt_rand(0,50));
-
-			# craft letter
-			$letter = mb_substr(self::$code, $l, 1);
-			imagestring($letter_img, 5, 0, 0, $letter, $color);
-
-			# get font size
-			$f_w = imagefontwidth(5);
-			$f_h = imagefontheight(5);
-
-			# set coords
-			$dst_x = mt_rand($shift-3, $shift+3);
-			$dst_y = mt_rand(0-$f_h, $f_h);
-			$src_x = 0;
-			$src_y = 0;
-			$dst_w = self::$letter_width * (self::$letter_width / $f_w);
-			$dst_h = self::$height * (self::$height / $f_h);
-			$src_w = self::$letter_width;
-			$src_h = self::$height;
-
-			imagecopyresized($captcha, $letter_img, $dst_x, $dst_y, $src_x, $src_y, $dst_w, $dst_h, $src_w, $src_h);
-
-			$shift += self::$letter_width;
-			imagedestroy($letter_img);
-		}
-
-		return $captcha;
-	}
-
-
-	/**
-	 * Draw circles on captcha background
-	 *
-	 * @param resource $captcha
-	 *
-	 * @return resource|false
-	 */
-	private static function circles($captcha) {
-
-		$max = max(self::$width, self::$height);
-
-		$scream = mt_rand(1,ceil(mb_strlen(self::$code)/2));
-
-		for($i=0;$i<=mt_rand(1,$scream);$i++) {
-			mt_srand();
-			list($r,$g,$b) = self::get_random_rgb();
-			$color = imagecolorallocatealpha($captcha, $r, $g, $b, mt_rand(60,90));
-
-			$radius = mt_rand($max/5,$max/1.25);
-			$x = mt_rand(1,self::$width-1); mt_srand();
-			$y = mt_rand(1,self::$height-1); mt_srand();
-
-			imagefilledellipse($captcha, $x, $y, $radius, $radius, $color);
-		}
-
-		return $captcha;
-	}
-
-
-	/**
 	 * Draw lines on captcha background
 	 *
 	 * @param resource $captcha
@@ -245,21 +162,33 @@ class aRCaptcha {
 		$min = min(self::$width, self::$height);
 		$max = max(self::$width, self::$height);
 
-		$scream = mt_rand(0,round($max/$min));
+		$scream = mt_rand(1,self::$code_length);
 
-		for($i=0;$i<=$scream;$i++) {
-			mt_srand();
+		/*for($i=0;$i<=$scream;$i++) {
 			list($r,$g,$b) = self::get_random_rgb();
-			$color = imagecolorallocatealpha($captcha, $r, $g, $b, mt_rand(25,50));
+			$color = imagecolorallocatealpha($captcha, $r, $g, $b, 10);
 
 			$points = array();
-			$p = mt_rand(3,9);
+			$p = mt_rand(3,4);
 			for($s=0;$s<=$p;$s++) {
 				$points[] = mt_rand(-50,self::$width+50); mt_srand();
 				$points[] = mt_rand(-50,self::$height+50); mt_srand();
 			}
 			imagesetthickness($captcha, mt_rand(1,2));
 			imagepolygon($captcha, $points, $p, $color);
+		}*/
+
+		for($i=0;$i<=$scream;$i++) {
+			list($r,$g,$b) = self::get_random_rgb();
+			$color = imagecolorallocatealpha($captcha, $r, $g, $b, 10);
+
+			$points = array();
+			for($s=0;$s<=2;$s++) {
+				$points[] = mt_rand(0,self::$width); mt_srand();
+				$points[] = mt_rand(0,self::$height); mt_srand();
+			}
+			imagesetthickness($captcha, mt_rand(3,5));
+			imagepolygon($captcha, $points, 2, $color);
 		}
 
 		return $captcha;
@@ -286,7 +215,7 @@ class aRCaptcha {
 			$angle = mt_rand(-5,5);
 
 			$y = mt_rand(round(self::$height/1.5), ceil(self::$height*2));
-			$size = mt_rand(floor(self::$height), ceil(self::$height*2));
+			$size = mt_rand(floor(self::$height/1.1), ceil(self::$height*1.5));
 
 			$letter = mb_substr(self::$code, mt_rand(0,self::$code_length-1), 1);
 

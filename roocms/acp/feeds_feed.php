@@ -170,7 +170,7 @@ class ACP_Feeds_Feed {
 		$groups = $users->get_usergroups();
 
 		# popular tags
-		$poptags = $tags->list_tags(true, 20);
+		$poptags = $tags->list_tags(true);
 
 		# show upload files & images form
 		$tpl->load_image_upload_tpl("imagesupload");
@@ -220,7 +220,7 @@ class ACP_Feeds_Feed {
 		$item['tags'] = implode(", ", array_map(array("Tags", "get_tag_title"), $tags->read_tags("feeditemid=".$id)));
 
 		# popular tags
-		$poptags = $tags->list_tags(true, 20);
+		$poptags = $tags->list_tags(true);
 
 
 		# download attached images

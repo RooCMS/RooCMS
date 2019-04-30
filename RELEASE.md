@@ -22,7 +22,7 @@ Plugins
 - Codemirror            `v5.42`
 - Fancybox	        `v3.5.6`
 - PHP QR Code           `v1.1.4`
-- aRCaptcha             `v3.1`
+- aRCaptcha             `v3.2`
 
 
 Release information:
@@ -33,7 +33,9 @@ Release information:
 	
 	[upd] updated module popular_feed & last_feed (added category label)
 	[upd] in Mailing messages added additional headers for quick unsubscribe
-	[upd] added lock icon in navigation for pages to which user does not have access
+	[upd] update usability/skin/style
+		- added lock icon in navigation for pages to which user does not have access
+		- added blinked icon for pm on userbar
 	
 	[fix] fixit bugs
 	[fix] translate comments in code to english international
