@@ -140,7 +140,7 @@ class aRCaptcha {
 			$angle = mt_rand(-15,15);
 
 			$y = mt_rand(round(self::$height/1.4), self::$height);
-			$size = mt_rand(floor(self::$height/2.25), ceil(self::$height/1.20));
+			$size = mt_rand(floor(self::$height/1.75), ceil(self::$height/1.20));
 
 			$letter = mb_substr(self::$code, $l, 1);
 
