@@ -79,6 +79,10 @@ class aRCaptcha {
 		$bg = imagecolorallocate($captcha, self::$bgcolor[0], self::$bgcolor[1], self::$bgcolor[2]);
 		imagefill($captcha, 0, 0, $bg);
 
+		# anti alias
+		if(function_exists('imageantialias')) {
+			imageantialias($captcha, true);
+		}
 
 		# NOISE
 		if(self::$use_polygons && is_resource($captcha)) {
@@ -159,24 +163,7 @@ class aRCaptcha {
 	 */
 	private static function polygons($captcha) {
 
-		$min = min(self::$width, self::$height);
-		$max = max(self::$width, self::$height);
-
 		$scream = mt_rand(1,self::$code_length);
-
-		/*for($i=0;$i<=$scream;$i++) {
-			list($r,$g,$b) = self::get_random_rgb();
-			$color = imagecolorallocatealpha($captcha, $r, $g, $b, 10);
-
-			$points = array();
-			$p = mt_rand(3,4);
-			for($s=0;$s<=$p;$s++) {
-				$points[] = mt_rand(-50,self::$width+50); mt_srand();
-				$points[] = mt_rand(-50,self::$height+50); mt_srand();
-			}
-			imagesetthickness($captcha, mt_rand(1,2));
-			imagepolygon($captcha, $points, $p, $color);
-		}*/
 
 		for($i=0;$i<=$scream;$i++) {
 			list($r,$g,$b) = self::get_random_rgb();
@@ -187,8 +174,11 @@ class aRCaptcha {
 				$points[] = mt_rand(0,self::$width); mt_srand();
 				$points[] = mt_rand(0,self::$height); mt_srand();
 			}
+
 			imagesetthickness($captcha, mt_rand(3,5));
+
 			imagepolygon($captcha, $points, 2, $color);
+			imagearc($captcha, mt_rand(0,self::$width), mt_rand(0,self::$height), mt_rand(0,self::$width), mt_rand(0,self::$height), mt_rand(0,360), mt_rand(0,360), $color);
 		}
 
 		return $captcha;
