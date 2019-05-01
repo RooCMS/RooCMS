@@ -59,9 +59,7 @@ class ACP_Structure {
 		# Check enabled page type
 		$content_types = [];
 		foreach($this->engine->content_types AS $key=>$value) {
-			if($value['enable']) {
-				$content_types[$key] = $value['title'];
-			}
+			$content_types[$key] = $value['title'];
 		}
 		$smarty->assign('content_types', $content_types);
 

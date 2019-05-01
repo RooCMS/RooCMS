@@ -54,7 +54,7 @@ class ACP_Feeds {
 		global $roocms, $get, $post, $db;
 
 		# set object for works content
-		if(isset($get->_page) && array_key_exists($this->engine->page_type, $this->engine->content_types) && $this->engine->content_types[$this->engine->page_type]['enable']) {
+		if(isset($get->_page) && array_key_exists($this->engine->page_type, $this->engine->content_types)) {
 
 			# init codeengine
 			switch($this->engine->page_type) {
