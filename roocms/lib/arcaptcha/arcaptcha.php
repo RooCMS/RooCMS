@@ -65,6 +65,7 @@ class aRCaptcha {
 
 		# draw
 		header("Content-type: image/jpeg");
+		//imagejpeg($captcha, _ROOCMS."/../_".$code."_".time().".jpg"); // debug
 		imagejpeg($captcha);
 		imagedestroy($captcha);
 	}
