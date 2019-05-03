@@ -101,6 +101,11 @@ class aRCaptcha {
 		# letters
 		$captcha = self::letters($captcha);
 
+		# wave effect
+		if(self::$wave_effect) {
+			$captcha = self::waveeffect($captcha);
+		}
+
 		# effects
 		$captcha = self::effects($captcha);
 
@@ -117,25 +122,14 @@ class aRCaptcha {
 	 */
 	private static function letters($captcha) {
 
-		$letters = imagecreatetruecolor(self::$width, self::$height);
-		//imagealphablending($letters, false);
-		imagesavealpha($letters,true);
-		$bg = imagecolorallocatealpha($letters, 0, 0, 0, 127);
-		imagefill($letters, 0, 0, $bg);
-
-		//imagefilter($letters, IMG_FILTER_SMOOTH, 5);
-
 		# get font
 		$font = self::get_font();
 
 		$shift = 4;
 		for($l=0;$l<=self::$code_length-1;$l++) {
 			list($r,$g,$b) = self::get_random_rgb();
-			$color  = imagecolorallocatealpha($letters, $r, $g, $b, mt_rand(0,25));
+			$color  = imagecolorallocatealpha($captcha, $r, $g, $b, mt_rand(0,25));
 			//$colorsh  = imagecolorallocatealpha($captcha, $r/2, $g/2, $b/2, mt_rand(25,50));
-
-			//$cos = cos(deg2rad($l*20)+180);
-			//$angle = (-25*$cos);
 
 			$angle = mt_rand(-15,15);
 
@@ -159,7 +153,7 @@ class aRCaptcha {
 			}
 
 			//imagettftext($captcha, $size, $angle, $position, $y-1, $colorsh, $font['file'], $letter);
-			imagettftext($letters, $size, $angle, $position, $y, $color, $font['file'], $letter);
+			imagettftext($captcha, $size, $angle, $position, $y, $color, $font['file'], $letter);
 
 			if(self::$shuffle_font) {
 				$font = self::get_font();
@@ -168,12 +162,7 @@ class aRCaptcha {
 			$shift += self::$letter_width;
 		}
 
-		# wave effect (ex)
-		if(self::$wave_effect) {
-			$letters = self::waveeffect($letters);
-		}
-
-		imagecopy($captcha, $letters, 0, 0, 0, 0, self::$width, self::$height);
+		//imagecopy($captcha, $captcha, 0, 0, 0, 0, self::$width, self::$height);
 
 		return $captcha;
 	}
@@ -257,29 +246,30 @@ class aRCaptcha {
 	 * @return resource
 	 */
 	private static function waveeffect($captcha) {
+
 		# wave difficulty
-		$Yper = 25;
-		$Yamp = 10;
-		$Xper = 5;
-		$Xamp = 3;
+		$Xper = 2;
+		$Xamp = 2;
+		$Yper = 2;
+		$Yamp = 2;
 
 		# X-axis wave generation
-		$k = rand(1, 1);
-		$xp = $Xper * rand(1,1);
+		$xa = rand(0, 2);
+		$xp = $Xper * rand(1,5);
 		for ($i = 0; $i < self::$width; $i++) {
 			imagecopy($captcha, $captcha,
-				  $i-1, sin($k + $i / $xp) * $Xamp,
+				  $i-1, sin($xa + $i / $xp) * $Xamp,
 				  $i,
 				  0,
 				  1,
 				  self::$height);
 		}
 		# Y-axis wave generation
-		$k = rand(0, 1);
-		$yp = ($Yper) * rand(1,1);
+		$ya = rand(0, 2);
+		$yp = ($Yper) * rand(1,3);
 		for ($i = 0; $i < self::$height; $i++) {
 			imagecopy($captcha, $captcha,
-				  sin($k + $i / $yp) * $Yamp, $i-1,
+				  sin($ya + $i / $yp) * $Yamp, $i-1,
 				  0,
 				  $i,
 				  self::$width,
