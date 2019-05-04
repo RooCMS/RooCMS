@@ -70,7 +70,7 @@ class ACP_Logs {
 
 		# get data log
 		$datalog = [];
-		$q = $db->query("SELECT l.id, l.uid, u.nickname, l.message, l.type_log, l.date_log FROM ".LOG_TABLE." AS l 
+		$q = $db->query("SELECT l.id, l.uid, u.nickname, l.message, l.type_log, l.date_log, l.user_ip FROM ".LOG_TABLE." AS l 
 							LEFT JOIN ".USERS_TABLE." AS u ON (u.uid = l.uid)
 						ORDER BY l.date_log ASC");
 		while($data = $db->fetch_assoc($q)) {

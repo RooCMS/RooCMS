@@ -16,7 +16,7 @@
 		<tbody>
 		{foreach from=$datalog item=r}
 			<tr>
-				<td class="small align-middle">{$r['date_log']}</td>
+				<td class="small align-middle">{$r['date_log']}<div class="small text-info">{$r['user_ip']}</div></td>
 				<td class="text-center align-middle"><span class="badge badge-{if $r['type_log'] == "error"}danger{elseif $r['type_log'] == "info"}info{else}light{/if}">{$r['type_log']}</span></td>
 				<td class="text-center align-middle">
 					{if $r['uid'] != 0}

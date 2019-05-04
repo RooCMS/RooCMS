@@ -1,6 +1,6 @@
 Version: 1.3.4 alpha
 ========================
-**release date:	30.04.2019**
+**release date:	05.05.2019**
 
 Plugins
 -------
@@ -36,6 +36,7 @@ Release information:
 	[upd] update usability/skin/style
 		- added lock icon in navigation for pages to which user does not have access
 		- added blinked icon for pm on userbar
+	[upd] added user ip in logs
 	
 	[fix] fixit bugs
 	[fix] translate comments in code to english international

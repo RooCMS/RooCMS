@@ -314,7 +314,7 @@ $sql['CREATE '.USERS_TABLE] = "CREATE TABLE `".USERS_TABLE."` (
 				  `date_create` bigint(20) unsigned NOT NULL DEFAULT '0' COMMENT 'format: unixtimestamp',
 				  `date_update` bigint(20) unsigned NOT NULL DEFAULT '0' COMMENT 'format: unixtimestamp',
 				  `last_visit` bigint(20) unsigned NOT NULL DEFAULT '0' COMMENT 'format: unixtimestamp',
-				  `user_ip` varchar(15) NOT NULL DEFAULT '0.0.0.0',
+				  `user_ip` varchar(18) NOT NULL DEFAULT '0.0.0.0',
 				  `secret_key` varchar(16) NOT NULL DEFAULT '',
 				  `activation_code` varchar(10) NOT NULL DEFAULT '',
 				  PRIMARY KEY (`uid`),
@@ -407,6 +407,7 @@ $sql['CREATE '.LOG_TABLE] = "CREATE TABLE `".LOG_TABLE."` (
 				  `message` text NOT NULL,
 				  `type_log` enum('info','error','log') NOT NULL DEFAULT 'log',
 				  `date_log` bigint(20) unsigned NOT NULL DEFAULT '0',
+				  `user_ip` varchar(18) NOT NULL DEFAULT '0.0.0.0'
 				  PRIMARY KEY (`id`),
 				  UNIQUE KEY (`id`),
 				  KEY `uid` (`uid`)
