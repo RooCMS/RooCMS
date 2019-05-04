@@ -219,10 +219,10 @@ class aRCaptcha {
 
 			$angle = mt_rand(-5,5);
 
-			$y = mt_rand(round(self::$height/1.5), ceil(self::$height*2));
-			$size = mt_rand(floor(self::$height/1.1), ceil(self::$height*1.5));
+			$y = mt_rand(round(self::$height/1.5), self::$height);
+			$size = mt_rand(floor(self::$height/1.5), ceil(self::$height/1.5));
 
-			$letter = mb_substr(self::$code, mt_rand(0,self::$code_length-1), 1);
+			$letter = randcode(1, "0123456789ABCDEFGHIJKLMNOPQRSTUVWXZ");
 
 			$position = mt_rand($shift - round(self::$letter_width * .5), $shift + round(self::$letter_width * .5));
 
