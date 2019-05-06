@@ -213,14 +213,14 @@ class aRCaptcha {
 		$font = self::get_font();
 
 		$shift = 4;
-		for($l=0;$l<=self::$code_length-1;$l++) {
+		for($l=0;$l<=self::$code_length;$l++) {
 			list($r,$g,$b) = self::get_random_rgb();
 			$color  = imagecolorallocatealpha($captcha, $r, $g, $b, mt_rand(85,95));
 
 			$angle = mt_rand(-5,5);
 
 			$y = mt_rand(round(self::$height/1.5), self::$height);
-			$size = mt_rand(floor(self::$height/1.5), ceil(self::$height/1.5));
+			$size = mt_rand(floor(self::$height/1.75), ceil(self::$height/1.5));
 
 			$letter = randcode(1, "0123456789ABCDEFGHIJKLMNOPQRSTUVWXZ");
 
