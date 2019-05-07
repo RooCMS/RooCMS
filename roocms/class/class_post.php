@@ -74,12 +74,13 @@ class Post {
 		if(!isset($roocms->sess['captcha'],$this->captcha) || strcmp($roocms->sess['captcha'], mb_strtoupper($this->captcha)) !== 0) {
 
 			$logger->error("Ошибка ввода Captcha! Введенный код не совпадает с кодом на картинке.", false);
-			$logger->log("Ошибка ввода Captcha: code [".$roocms->sess['captcha']."] post [".$this->captcha."]", "error"); // This is timed code for debug captcha
+			//$logger->log("Ошибка ввода Captcha: code [".$roocms->sess['captcha']."] post [".$this->captcha."]", "error"); // This is timed code for debug captcha
 
 			unset($_SESSION['captcha']);
 			return false;
 		}
 
+		//$logger->log("Введена Captcha: code [".$roocms->sess['captcha']."] post [".$this->captcha."]", "error"); // This is timed code for debug captcha
 		unset($_SESSION['captcha']);
 
 		return true;

@@ -91,10 +91,6 @@ class aRCaptcha {
 		imageinterlace($captcha, true);
 
 		# NOISE
-		if(self::$use_polygons && is_resource($captcha)) {
-			$captcha = self::polygons($captcha);
-		}
-
 		if(self::$use_fontsnoise && is_resource($captcha)) {
 			$captcha = self::fontsnoise($captcha);
 		}
@@ -105,6 +101,11 @@ class aRCaptcha {
 		# wave effect
 		if(self::$wave_effect) {
 			$captcha = self::waveeffect($captcha);
+		}
+
+		# NOISE
+		if(self::$use_polygons && is_resource($captcha)) {
+			$captcha = self::polygons($captcha);
 		}
 
 		# effects
@@ -181,19 +182,18 @@ class aRCaptcha {
 		$scream = mt_rand(1,self::$code_length);
 
 		for($i=0;$i<=$scream;$i++) {
-			list($r,$g,$b) = self::get_random_rgb();
-			$color = imagecolorallocatealpha($captcha, $r, $g, $b, 10);
+			list($r,$g,$b) = self::$bgcolor;
+			$color = imagecolorallocatealpha($captcha, $r, $g, $b, 0);
 
 			$points = array();
-			for($s=0;$s<=2;$s++) {
+			for($s=0;$s<=3;$s++) {
 				$points[] = mt_rand(0,self::$width); mt_srand();
 				$points[] = mt_rand(0,self::$height); mt_srand();
 			}
 
-			imagesetthickness($captcha, mt_rand(3,5));
-
-			imagepolygon($captcha, $points, 2, $color);
-			imagearc($captcha, mt_rand(0,self::$width), mt_rand(0,self::$height), mt_rand(0,self::$width), mt_rand(0,self::$height), mt_rand(0,360), mt_rand(0,360), $color);
+			imageSetThickness($captcha, mt_rand(3,5));
+			imagepolygon($captcha, $points, 3, $color);
+			//imageLine($captcha, mt_rand(0,self::$width), mt_rand(0,self::$height), mt_rand(0,self::$width), mt_rand(0,self::$height), $color);
 		}
 
 		return $captcha;
