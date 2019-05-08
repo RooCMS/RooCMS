@@ -22,13 +22,13 @@ if(isset($roocms->sess['captcha']) && mb_strlen($roocms->sess['captcha']) == 5) 
 	$captcha_code = $roocms->sess['captcha'];
 }
 else {
-	$captcha_code  = randcode(5,"123456789ABCEFHJKLMNPRSTVUWXZ");
+	$captcha_code  = randcode(5,"123456789ABCEFHKLMNPRSTQVUWXZ");
 	$_SESSION['captcha'] = $captcha_code;
 }
 
 #renew code
 if(isset($get->_I_have_bad_sight)) {
-	$captcha_code  = randcode(5,"123456789ABCEFHJKLMNPRSTVUWXZ");
+	$captcha_code  = randcode(5,"123456789ABCEFHKLMNPRSTQVUWXZ");
 	$_SESSION['captcha'] = $captcha_code;
 }
 

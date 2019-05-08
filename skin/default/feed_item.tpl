@@ -22,13 +22,19 @@
 				</div>
 				<div class="card-body">
 					<div class="row">
-						<div class="{if !empty($images) || !empty($attachfile)}col-md-8{else}col-12{/if}">
+						<div class="{if (!empty($images) && $images|@count > 2) || !empty($attachfile)}col-md-8{else}col-12{/if}">
+							{if (!empty($images) && $images|@count <= 2)}
+								{assign var=UGID value= 400|rand:699}
+								<a href="/upload/images/{$images[0]['resize']}" data-fancybox="gallery{$UGID}" data-animation-duration="300" data-caption="{$images[0]['alt']}" title="{$images[0]['alt']}" class="flex-fill mb-3 roocms-feeditem-images"><img src="/upload/images/{$images[0]['resize']}" alt="{$images[0]['alt']}" class="w-100 img-fluid mb-3"></a>
+							{/if}
 							{if isset($smarty.get.search)}
 								{$item['full_item']|highlight:$smarty.get.search}
 							{else}
 								{$item['full_item']}
 							{/if}
-
+							{if (!empty($images) && $images|@count == 2)}
+								<a href="/upload/images/{$images[1]['resize']}" data-fancybox="gallery{$UGID}" data-animation-duration="300" data-caption="{$images[1]['alt']}" title="{$images[1]['alt']}" class="flex-fill mb-3 roocms-feeditem-images"><img src="/upload/images/{$images[1]['resize']}" alt="{$images[1]['alt']}" class="w-100 img-fluid mb-3"></a>
+							{/if}
 							<div class="card-text small text-right">
 								{if $item['author_id'] != 0}
 									{if file_exists("upload/images/{$item['author']['avatar']}")}
@@ -41,7 +47,7 @@
 								{/if}
 							</div>
 						</div>
-						{if !empty($images) || !empty($attachfile)}
+						{if (!empty($images) && $images|@count > 2) || !empty($attachfile)}
 						<div class="col-md-4">
 							{* Attached Images *}
 							{if !empty($images)}
