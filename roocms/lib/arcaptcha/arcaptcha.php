@@ -37,11 +37,12 @@ class aRCaptcha {
 	private static $height  = 85;
 
 	# user settings
-	private static $use_polygons   = false;
-	private static $use_fontsnoise = true;
-	private static $wave_effect    = false;
-	private static $shuffle_font   = false;
-	private static $effect_sketch  = false;
+	private static $use_polygons    = false;
+	private static $use_fontsnoise  = true;
+	private static $wave_effect     = false;
+	private static $shuffle_font    = false;
+	private static $effect_sketch   = false;
+	private static $effect_pixelate = false;
 
 	# palette
 	private static $palette = "aR-Captcha";
@@ -249,14 +250,14 @@ class aRCaptcha {
 	private static function waveeffect($captcha) {
 
 		# wave difficulty
-		$Xper = 2;
-		$Xamp = 2;
-		$Yper = 2;
-		$Yamp = 2;
+		$Xper = 3;
+		$Xamp = 3;
+		$Yper = 3;
+		$Yamp = 3;
 
 		# X-axis wave generation
-		$xa = rand(0, 2);
-		$xp = $Xper * rand(1,5);
+		$xa = mt_rand(0, 2);
+		$xp = $Xper * mt_rand(2,3);
 		for ($i = 0; $i < self::$width; $i++) {
 			imagecopy($captcha, $captcha,
 				  $i-1, sin($xa + $i / $xp) * $Xamp,
@@ -266,8 +267,8 @@ class aRCaptcha {
 				  self::$height);
 		}
 		# Y-axis wave generation
-		$ya = rand(0, 2);
-		$yp = ($Yper) * rand(1,3);
+		$ya = mt_rand(0, 2);
+		$yp = ($Yper) * mt_rand(2,3);
 		for ($i = 0; $i < self::$height; $i++) {
 			imagecopy($captcha, $captcha,
 				  sin($ya + $i / $yp) * $Yamp, $i-1,
@@ -276,6 +277,8 @@ class aRCaptcha {
 				  self::$width,
 				  1);
 		}
+
+		imagefilter($captcha, IMG_FILTER_SMOOTH, 1);
 
 		return $captcha;
 	}
@@ -293,6 +296,10 @@ class aRCaptcha {
 		# Cool Sketch Effect
 		if(self::$effect_sketch) {
 			imagefilter($captcha, IMG_FILTER_MEAN_REMOVAL);
+		}
+
+		if(self::$effect_pixelate) {
+			imagefilter($captcha, IMG_FILTER_PIXELATE, ceil(max(self::$height, self::$width) / min(self::$height, self::$width)), true);
 		}
 
 		return $captcha;
