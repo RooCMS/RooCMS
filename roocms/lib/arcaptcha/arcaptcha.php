@@ -45,7 +45,7 @@ class aRCaptcha {
 
 	# palette
 	private static $palette = "aR-Captcha";
-	private static $randoms = array(0,20);
+	private static $randoms = array(0,24);
 
 	# fonts path
 	private static $font_path = "fonts";

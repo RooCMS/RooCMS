@@ -1,6 +1,6 @@
 Version: 1.3.4 alpha
 ========================
-**release date:	05.05.2019**
+**release date:	10.05.2019**
 
 Plugins
 -------

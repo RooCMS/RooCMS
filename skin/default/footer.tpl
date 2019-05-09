@@ -31,7 +31,7 @@
 				<a href="{$SCRIPT_NAME}?part=uagreement&ajax=true" data-fancybox data-animation-duration="300" data-type="ajax" class="text-secondary roocms-foot-link">Соглашение о передачи персональной информации</a>
 			{/if}
 
-			<br />{include file='counters.tpl'}
+			<div class="mt-3">{include file='counters.tpl'}</div>
 		</div>
 		<div class="col-md-{if $userdata['uid'] != 0}3{else}4{/if} col-xl-{if $userdata['uid'] != 0}2{else}4{/if} mt-3 mt-md-0 text-dark ptsans">
 			<div class="text-uppercase border-bottom pb-1 mb-2">{if $userdata['uid'] != 0}Личный кабинет{else}Рассылка{/if}</div>
