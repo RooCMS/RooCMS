@@ -57,7 +57,9 @@
 		</div>
 	</div>
 </div>
-
+{*{if $smarty.const.DEBUGMODE}
+	{debug}
+{/if}*}
 
 {*
 {if $nitem['rss'] == 1 && $config->rss_power}

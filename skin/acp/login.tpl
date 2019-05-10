@@ -55,7 +55,7 @@
 		    			{/if}
 						<div class="form-group row mt-1 px-2">
 							{*<label class="col-md-2 form-control-plaintext d-none d-md-block" for="Login">Логин</label>*}
-							<div class="input-group col-12">
+							<div class="input-group input-group-lg col-12">
 								<span class="input-group-prepend">
 									<span class="input-group-text" id="fLogin">
 										<i class="fas fa-fw fa-user" rel="tooltip" title="Введите ваш логин в это поле" data-placement="right"></i>
@@ -66,7 +66,7 @@
 						</div>
 						<div class="form-group row mb-1 px-2">
 							{*<label class="col-md-2 form-control-plaintext d-none d-md-block" for="Password">Пароль</label>*}
-							<div class="input-group col-12">
+							<div class="input-group input-group-lg col-12">
 								<span class="input-group-prepend">
 									<span class="input-group-text" id="fPassword">
 										<span class="input-group-addon">
