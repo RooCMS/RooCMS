@@ -33,12 +33,18 @@
 		</div>
 		{if $page_alias == "index"}
 		<div class="col-lg-3 col-md-4">
-			<h5 class="text-gray">Последние новости</h5>
+			<div class="card">
+				<div class="card-header">
+					Последние новости
+				</div>
+			</div>
 			{$module->load('last_feed')}
 			<div class="card mt-3">
 				<div class="card-header">
 					Метки
 				</div>
+			</div>
+			<div class="card">
 				<div class="card-body">
 					{$module->load('tag_cloud')}
 				</div>

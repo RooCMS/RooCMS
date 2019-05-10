@@ -131,7 +131,7 @@ class aRCaptcha {
 		$shift = 4;
 		for($l=0;$l<=self::$code_length-1;$l++) {
 			list($r,$g,$b) = self::get_random_rgb();
-			$color  = imagecolorallocatealpha($captcha, $r, $g, $b, mt_rand(0,25));
+			$color  = imagecolorallocatealpha($captcha, $r, $g, $b, mt_rand(0,20));
 			//$colorsh  = imagecolorallocatealpha($captcha, $r/2, $g/2, $b/2, mt_rand(25,50));
 
 			$angle = mt_rand(-15,15);
