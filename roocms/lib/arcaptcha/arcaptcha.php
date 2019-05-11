@@ -278,7 +278,7 @@ class aRCaptcha {
 				  1);
 		}
 
-		imagefilter($captcha, IMG_FILTER_SMOOTH, 1);
+		//imagefilter($captcha, IMG_FILTER_SMOOTH, 1);
 
 		return $captcha;
 	}
