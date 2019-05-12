@@ -37,9 +37,9 @@ class aRCaptcha {
 	private static $height  = 85;
 
 	# user settings
-	private static $use_polygons    = false;
-	private static $use_fontsnoise  = true;
-	private static $wave_effect     = false;
+	private static $use_polygons    = false;  // no stable
+	private static $use_fontsnoise  = true;   // in test
+	private static $wave_effect     = false;  // in process development
 	private static $shuffle_font    = false;
 	private static $effect_sketch   = false;
 	private static $effect_pixelate = false;
@@ -249,38 +249,62 @@ class aRCaptcha {
 	 */
 	private static function waveeffect($captcha) {
 
-		# wave difficulty
-		$Xper = 3;
-		$Xamp = 3;
-		$Yper = 3;
-		$Yamp = 3;
+		$ncaptcha=imagecreatetruecolor(self::$width, self::$height);
 
-		# X-axis wave generation
-		$xa = mt_rand(0, 2);
-		$xp = $Xper * mt_rand(2,3);
-		for ($i = 0; $i < self::$width; $i++) {
-			imagecopy($captcha, $captcha,
-				  $i-1, sin($xa + $i / $xp) * $Xamp,
-				  $i,
-				  0,
-				  1,
-				  self::$height);
+		$rand1 = mt_rand(70000, 100000) / 1500000;
+		$rand2 = mt_rand(70000, 100000) / 1500000;
+		$rand3 = mt_rand(70000, 100000) / 1500000;
+		$rand4 = mt_rand(70000, 100000) / 1500000;
+		# phase
+		$rand5 = mt_rand(0, 3141592) / 1000000;
+		$rand6 = mt_rand(0, 3141592) / 1000000;
+		$rand7 = mt_rand(0, 3141592) / 1000000;
+		$rand8 = mt_rand(0, 3141592) / 1000000;
+		# amp
+		$rand9 = mt_rand(400, 600) / 100;
+		$rand10 = mt_rand(400, 600) / 100;
+
+		for($x = 0; $x < self::$width; $x++){
+			for($y = 0; $y < self::$height; $y++){
+				// coords source
+				$sx = $x + ( sin($x * $rand1 + $rand5) + sin($y * $rand3 + $rand6) ) * $rand9;
+				$sy = $y + ( sin($x * $rand2 + $rand7) + sin($y * $rand4 + $rand8) ) * $rand10;
+
+				// back
+				if($sx < 0 || $sy < 0 || $sx > self::$width || $sy > self::$height){
+					$color = 255;
+					$color_x = 255;
+					$color_y = 255;
+					$color_xy = 255;
+				}else{ // antialias
+					$color = (imagecolorat($captcha, $sx, $sy) >> 16) & 0xFF;
+					$color_x = (imagecolorat($captcha, $sx + 1, $sy) >> 16) & 0xFF;
+					$color_y = (imagecolorat($captcha, $sx, $sy + 1) >> 16) & 0xFF;
+					$color_xy = (imagecolorat($captcha, $sx + 1, $sy + 1) >> 16) & 0xFF;
+				}
+
+
+
+				// сглаживаем только точки, цвета соседей которых отличается
+				if($color == $color_x && $color == $color_y && $color == $color_xy){
+					$newcolor = $color;
+				}else{
+					$frsx = $sx - floor($sx); //отклонение координат первообраза от целого
+					$frsy = $sy - floor($sy);
+					$frsx1 = 1 - $frsx;
+					$frsy1 = 1 - $frsy;
+
+					// вычисление цвета нового пикселя как пропорции от цвета основного пикселя и его соседей
+					$newcolor = floor( $color    * $frsx1 * $frsy1 +
+							   $color_x  * $frsx  * $frsy1 +
+							   $color_y  * $frsx1 * $frsy  +
+							   $color_xy * $frsx  * $frsy );
+				}
+				imagesetpixel($ncaptcha, $x, $y, imagecolorallocate($ncaptcha, $newcolor, $newcolor, $newcolor));
+			}
 		}
-		# Y-axis wave generation
-		$ya = mt_rand(0, 2);
-		$yp = ($Yper) * mt_rand(2,3);
-		for ($i = 0; $i < self::$height; $i++) {
-			imagecopy($captcha, $captcha,
-				  sin($ya + $i / $yp) * $Yamp, $i-1,
-				  0,
-				  $i,
-				  self::$width,
-				  1);
-		}
 
-		//imagefilter($captcha, IMG_FILTER_SMOOTH, 1);
-
-		return $captcha;
+		return $ncaptcha;
 	}
 
 

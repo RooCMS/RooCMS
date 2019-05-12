@@ -32,9 +32,9 @@
 								<div class="col-sm-6 text-center d-flex flex-row justify-content-center align-items-center">
 									<img src="/captcha.php" alt="Код для защиты от СПАМа" class="CaptchaCode">
 									<div class="d-flex flex-column">
-										<a href="#" class="badge badge-light ml-1 refresh-CaptchaCode" tabindex="-1" rel="tooltip" title="Обновить изображение"><i class="fas fa-fw fa-redo-alt"></i></a>
-										<a href="#" class="badge badge-light ml-1 mt-1 recycle-CaptchaCode" tabindex="-1" rel="tooltip" title="Сменить код"><i class="fas fa-fw fa-recycle"></i></a>
-										<a href="/captcha.php" class="badge badge-light ml-1 mt-1 zoom-CaptchaCode" tabindex="-1" data-fancybox="gallery_captcha" data-width="360" data-height="170" rel="tooltip" title="Увеличить изображение"><i class="fas fa-fw fa-search-plus"></i></a>
+										<a href="#" class="badge badge-light ml-1 refresh-CaptchaCode" tabindex="-1" title="Обновить изображение"><i class="fas fa-fw fa-redo-alt"></i></a>
+										<a href="#" class="badge badge-light ml-1 mt-1 recycle-CaptchaCode" tabindex="-1" title="Сменить код"><i class="fas fa-fw fa-recycle"></i></a>
+										<a href="/captcha.php" class="badge badge-light ml-1 mt-1 zoom-CaptchaCode" tabindex="-1" data-fancybox="gallery_captcha" data-width="360" data-height="170" title="Увеличить изображение"><i class="fas fa-fw fa-search-plus"></i></a>
 									</div>
 								</div>
 								<div class="col-sm-6">
