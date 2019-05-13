@@ -55,7 +55,7 @@ class ACP_Blocks_HTML {
 				$images = $img->upload_image("images", "", array($thumbsize['thumb_img_width'], $thumbsize['thumb_img_height']));
 				if($images) {
 					foreach($images AS $image) {
-                                                $img->insert_images($image, "blockid=".$id, $post->title);
+                                                $img->insert_images($image, "blockid=".$id);
 					}
 				}
 
@@ -170,7 +170,7 @@ class ACP_Blocks_HTML {
 				$images = $img->upload_image("images", "", array($thumbsize['thumb_img_width'], $thumbsize['thumb_img_height']));
 				if($images) {
 					foreach($images AS $image) {
-						$img->insert_images($image, "blockid=".$id, $post->title);
+						$img->insert_images($image, "blockid=".$id);
 					}
 				}
 

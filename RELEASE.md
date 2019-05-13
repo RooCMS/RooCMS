@@ -1,6 +1,6 @@
 Version: 1.3.4 alpha
 ========================
-**release date:	12.05.2019**
+**release date:	13.05.2019**
 
 Plugins
 -------
@@ -37,11 +37,13 @@ Release information:
 		- added lock icon in navigation for pages to which user does not have access
 		- added blinked icon for pm on userbar
 	[upd] added user ip in logs
+	[upd] restructured code in acp feed
 	
 	[fix] fixit bugs
 	[fix] translate comments in code to english international
 	[fix] optimisation code
 	
 	[inf] extended help system in ACP
+	[inf] remove default title for uploaded images
 	
 	[del] deleted SOD folder
