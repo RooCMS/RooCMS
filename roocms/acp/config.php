@@ -32,7 +32,7 @@ class ACP_Config extends ACP_ConfigAction {
 
 
 	/**
-	* Start
+	* Key on "start" (c)
 	*
 	*/
 	public function __construct() {
