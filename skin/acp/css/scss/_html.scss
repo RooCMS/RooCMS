@@ -1,16 +1,17 @@
-@media (max-width: 767px) {
+@media (max-width: map-get($grid-breakpoints, md)) {
 	body {margin: 4.4rem 0 3rem 0;}
 }
-@media (min-width: 768px) {
-	body {margin: 5.2rem 0 7rem 0;}
+@media (min-width: map-get($grid-breakpoints, md)) {
+	body {margin: 4.4rem 0 7rem 0;}
 }
-@media (min-width: 992px) {
+@media (min-width: map-get($grid-breakpoints, lg)) {
 	body {margin: 4.5rem 0 5rem 0;}
 	/* Submenu */
 	.submenu.sticky-top {
 		top: 4.5rem;
 	}
 }
+
 @media (min-width: 1200px) {}
 @media (min-width: 1575px) {}
 

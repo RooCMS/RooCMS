@@ -5,14 +5,14 @@
  * copyright © 2010-2020 alexandr Belov aka alex Roosso. All rights reserved.
  * license http://www.gnu.org/licenses/gpl-3.0.html
  */
-@media (max-width: 767px) {
+@media (max-width: 768px) {
   body {
     margin: 4.4rem 0 3rem 0;
   }
 }
 @media (min-width: 768px) {
   body {
-    margin: 5.2rem 0 7rem 0;
+    margin: 4.4rem 0 7rem 0;
   }
 }
 @media (min-width: 992px) {
@@ -359,6 +359,12 @@ blockquote > p:last-child {
   margin-bottom: 0;
 }
 
+/* Toast */
+@media (min-width: 992px) {
+  .toast {
+    width: 350px;
+  }
+}
 /* fix font-awesome */
 a:hover [class=fa],
 a:hover [class^=fas-],

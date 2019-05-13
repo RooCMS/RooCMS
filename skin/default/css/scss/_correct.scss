@@ -39,6 +39,13 @@ blockquote > p:last-child {
 	margin-bottom: 0;
 }
 
+/* Toast */
+@media (min-width: map-get($grid-breakpoints, lg)) {
+	.toast {
+		width: 350px;
+	}
+}
+
 /* Fancybox correct */
 .fancybox-content {
 	padding-bottom: .3rem;

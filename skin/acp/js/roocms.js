@@ -19,7 +19,7 @@
 		$("[rel='popover']").popover().on('click', function () {
 			$("[rel='popover']").not(this).popover('hide');
 		});
-		$('.toast').toast();
+		$(".toast").toast('show');
 		$(".alert").alert();
 		$(".collapse").collapse({toggle: false});
 

@@ -555,6 +555,12 @@ blockquote > p:last-child {
   margin-bottom: 0;
 }
 
+/* Toast */
+@media (min-width: 992px) {
+  .toast {
+    width: 350px;
+  }
+}
 /* Fancybox correct */
 .fancybox-content {
   padding-bottom: 0.3rem;

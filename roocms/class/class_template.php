@@ -177,31 +177,12 @@ class Template {
 			return true;
 		}
 		else {
-			if(DEBUGMODE) {
-				# show message in debugmode
+			if(DEBUGMODE) { # show message in debugmode
 				$debug->debug_info .= "Не удалось найти шаблон: <br /><b>".$path."/".$tpl.".tpl</b><br />";
 			}
 
 			return false;
 		}
-	}
-
-
-	/**
-	* Parse error & info
-	*
-	*/
-	private function info_popup() {
-
-		global $parse;
-
-		if(trim($parse->info) != "") {
-			if(trim($parse->error) != "") {
-				$parse->info .= $parse->error;
-				$parse->error = "";
-			}
-		}
-
 	}
 
 
@@ -233,9 +214,6 @@ class Template {
 	private function init_head() {
 
 		global $db, $config, $site, $structure, $nav, $parse, $rss, $smarty;
-
-		# check notice
-		$this->info_popup();
 
 		# global site title
 		/*if(!defined('INSTALL') && $config->global_site_title) {

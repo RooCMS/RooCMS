@@ -19,6 +19,7 @@
 
 		$("[rel='tooltip']").tooltip();
 		$("[rel='popover']").popover();
+		$(".toast").toast('show');
 		$(".alert").alert();
 
 		/* Select */

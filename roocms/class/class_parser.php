@@ -41,8 +41,8 @@ class Parser {
 	public	$uri_separator	= "/";		# [string]	URI seperator
 
 	# notice
-	public	$info		= "";		# [text]	information
-	public	$error		= "";		# [text]	error message
+	public	$info		= [];		# [text]	information
+	public	$error		= [];		# [text]	error message
 
 
 
@@ -358,7 +358,7 @@ class Parser {
 		if(isset($roocms->sess['info'])) {
 			foreach($roocms->sess['info'] AS $value) {
 				$value = stripslashes($this->text->html($value));
-				$this->info .= "<i class='fas fa-info-circle fa-fw'></i> {$value}<br />";
+				$this->info[] = "{$value}";
 			}
 
 			# kill
@@ -369,7 +369,7 @@ class Parser {
 		if(isset($roocms->sess['error'])) {
 			foreach($roocms->sess['error'] AS $value) {
 				$value = stripslashes($this->text->html($value));
-				$this->error .= "<i class='fas fa-exclamation-triangle fa-fw'></i> {$value}<br />";
+				$this->error[] = "{$value}";
 			}
 
 			# kill
@@ -379,7 +379,7 @@ class Parser {
 		# Critical errors in PHP
 		if(!empty($debug->nophpextensions)) {
 			foreach($debug->nophpextensions AS $value) {
-				$this->error .= "<b><span class='fas fa-exclamation-triangle fa-fw'></span> КРИТИЧЕСКАЯ ОШИБКА:</b> Отсутсвует PHP расширение - {$value}. Работа RooCMS нестабильна!";
+				$this->error[] = "<b>КРИТИЧЕСКАЯ ОШИБКА:</b> Отсутсвует PHP расширение - {$value}. Работа RooCMS нестабильна!";
 			}
 		}
 	}
