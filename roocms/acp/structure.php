@@ -343,7 +343,6 @@ class ACP_Structure {
 					break;
 
 				case 'feed': # del content feed
-					require_once _CLASS."/trait_feedExtends.php";
 					require_once _ROOCMS."/acp/feeds_feed.php";
 					$this->unit = new ACP_FEEDS_FEED();
 					$this->unit->delete_feed($sid);

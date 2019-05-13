@@ -106,7 +106,7 @@
 	<div class="form-group row">
 		<label for="inputAppendInfoAfter" class="col-12 col-xl-4 form-control-plaintext text-right">
 			Информационный блок (низ ленты):
-			<small><i class="fas fa-question-circle fa-fw" rel="tooltip" title="Содержимое блока будет распологаться после вывода элементов ленты." data-placement="left"></i></small>
+			<small><i class="fas fa-question-circle fa-fw" rel="tooltip" title="Содержимое блока будет распологатьсяпосле вывода элементов ленты." data-placement="left"></i></small>
 		</label>
 		<div class="col-12 col-xl-8">
 			<textarea id="inputAppendInfoAfter" class="form-control ckeditor" name="append_info_after" required>{$feed['append_info_after']}</textarea>

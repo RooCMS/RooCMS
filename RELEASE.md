@@ -37,7 +37,6 @@ Release information:
 		- added lock icon in navigation for pages to which user does not have access
 		- added blinked icon for pm on userbar
 	[upd] added user ip in logs
-	[upd] restructured code in acp feed
 	
 	[fix] fixit bugs
 	[fix] translate comments in code to english international
