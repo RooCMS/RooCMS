@@ -70,12 +70,12 @@ class UCP_Login {
 			}
 			else {
 				# wrong login or password
-				$this->incorrect_entering("Неверный логин или пароль.");
+				$this->incorrect_entering("Авторизация не удалась: Неверный логин или пароль.");
 			}
 		}
 		else {
 			# incorrect login or password
-			$this->incorrect_entering("Введены неверные данные.");
+			$this->incorrect_entering("Авторизация не удалась: Введены неверные данные.");
 		}
 	}
 
