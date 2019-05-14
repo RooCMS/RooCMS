@@ -57,9 +57,9 @@
 	<div class="position-absolute w-100 d-flex flex-column px-3" style="z-index: 999;">
 		{if !empty($error)}
 			{foreach from=$error item=e name=noterror}
-				<div class="toast ml-auto border border-warning" role="alert" data-delay="2500" data-autohide="false" aria-live="assertive" aria-atomic="true">
+				<div class="toast ml-auto border border-warning" role="alert" data-autohide="false" aria-live="assertive" aria-atomic="true">
 					<div class="toast-header">
-						<strong class="mr-auto"><i class="fas fa-exclamation-triangle fa-fw text-danger"></i> Ошибка</strong>
+						<strong class="mr-auto text-danger"><i class="fas fa-exclamation-triangle fa-fw"></i> Ошибка</strong>
 						{*<small>11 mins ago</small>*}
 						<button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
 							<span aria-hidden="true">&times;</span>
@@ -73,10 +73,10 @@
 		{/if}
 		{if !empty($info)}
 			{foreach from=$info item=i name=notinfo}
-				{$delay = 2200 * $smarty.foreach.notinfo.iteration}
+				{$delay = 2500 * $smarty.foreach.notinfo.iteration}
 				<div class="toast ml-auto border border-info" role="alert" data-delay="{$delay}" data-autohide="true" aria-live="assertive" aria-atomic="true">
 					<div class="toast-header">
-						<strong class="mr-auto"><i class="fas fa-info-circle fa-fw text-info"></i> Уведомление</strong>
+						<strong class="mr-auto text-info"><i class="fas fa-info-circle fa-fw"></i> Уведомление</strong>
 						{*<small>11 mins ago</small>*}
 						<button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
 							<span aria-hidden="true">&times;</span>

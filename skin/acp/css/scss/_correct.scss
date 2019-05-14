@@ -40,6 +40,11 @@ blockquote > p:last-child {
 }
 
 /* Toast */
+@media (min-width: map-get($grid-breakpoints, md)) {
+	.toast {
+		width: 300px;
+	}
+}
 @media (min-width: map-get($grid-breakpoints, lg)) {
 	.toast {
 		width: 350px;

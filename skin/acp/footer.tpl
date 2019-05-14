@@ -57,5 +57,8 @@
 		</div>
 	</div>
 {/if}
+{*{if $smarty.const.DEBUGMODE}
+	{debug}
+{/if}*}
 </body>
 </html>
