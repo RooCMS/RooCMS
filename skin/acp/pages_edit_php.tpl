@@ -1,4 +1,4 @@
-{* Шаблон редактирования PHP страницы *}
+{* Edit PHP Page *}
 <script type="text/javascript" src="plugin/codemirror.php"></script>
 
 <div class="card-header align-middle">
