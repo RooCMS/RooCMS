@@ -20,10 +20,10 @@
 				<span class="text-nowrap">
 					{section name=foo start=1 loop=$page['level'] step=1}<span class="text-muted d-none d-md-inline-block">&bull;&emsp;</span>{/section}
 
-					{if $page['page_type'] == "html" or $page['page_type'] == "php"}
-						<a href="{$SCRIPT_NAME}?act=pages&part=edit&page={$page['id']}">{$page['title']}</a>
-					{else}
+					{if $page['page_type'] == "feed"}
 						<a href="{$SCRIPT_NAME}?act=feeds&part=control&page={$page['id']}">{$page['title']}</a>
+					{else}
+						<a href="{$SCRIPT_NAME}?act=pages&part=edit&page={$page['id']}">{$page['title']}</a>
 					{/if}
 				</span>
 				<small class="float-right">
