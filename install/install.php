@@ -160,8 +160,17 @@ class Install extends IU_Extends {
 			}
 		}
 
+
 		$servname = explode(".", $_SERVER['HTTP_HOST']);
-		$server_name = (count($servname) == 2) ? "www.".$_SERVER['HTTP_HOST']: $_SERVER['HTTP_HOST'] ;
+		$server_name = (count($servname) == 2) ? "www.".$_SERVER['HTTP_HOST'] : $_SERVER['HTTP_HOST'] ;
+
+		$path = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+		$path = '/'.implode('/', explode('/', ltrim($path, '/'), -1));
+
+		if($path != "/") {
+			$server_name .= $path."/";
+		}
+
 
 		$this->log[] = array('Название сайта', '<input type="text" class="form-control" name="site_title" required placeholder="RooCMS">', true, 'Укажите название сайта.');
 		$this->log[] = array('Адрес сайта', '<input type="text" class="form-control" name="site_domain" required value="'.$server_name.'">', true, 'Укажите интернет адрес вашего сайта');

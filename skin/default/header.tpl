@@ -29,7 +29,7 @@
 <meta name='yandex-verification' 	content='60ea4e7aaa8b83ec' />
 <!-- /seo -->
 
-<base href="{if trim($site['domain']) != ""}{$site['protocol']}://{$site['domain']}{else}http{if isset($smarty.server.HTTPS)}s{/if}://{$smarty.server.SERVER_NAME}{/if}" /><!--[if IE]></base><![endif]-->
+<base href="{if trim($site['domain']) != ""}{$site['protocol']}://{$site['domain']}{else}http{if isset($smarty.server.HTTPS)}s{/if}://{$smarty.server.SERVER_NAME}{$smarty.server.SCRIPT_NAME|replace:'index.php':''}{/if}" /><!--[if IE]></base><![endif]-->
 
 {if !empty($rsslink)}<!-- RSS 2.0 -->
 <link rel="alternate" type="application/rss+xml" title="{$site['title']}" href="{$rsslink}" />{/if}
