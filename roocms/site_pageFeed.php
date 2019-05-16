@@ -228,13 +228,13 @@ class PageFeed {
 
 		global $db;
 
-		if(!isset($_COOKIE[$id])) {
+		if(!isset($_COOKIE["roocms-fid-".$id])) {
 
 			$db->query("UPDATE ".PAGES_FEED_TABLE." SET views=views+1 WHERE id='".$id."'");
 
 			// TODO: В дальнейшем время жизни будет опционально устанавливаться.
 			$exp = time()+(60*60*24);
-			setcookie($id, true, $exp);
+			setcookie("roocms-fid-".$id, true, $exp);
 		}
 	}
 
