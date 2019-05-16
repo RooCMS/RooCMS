@@ -1,6 +1,6 @@
 Version: 1.3.4 alpha
 ========================
-**release date:	15.05.2019**
+**release date:	16.05.2019**
 
 Plugins
 -------
@@ -41,6 +41,7 @@ Release information:
 	[fix] fixit bugs
 	[fix] translate comments in code to english international
 	[fix] optimisation code
+	[fix] fix trouble path in tpls header
 	
 	[inf] extended help system in ACP
 	[inf] remove default title for uploaded images

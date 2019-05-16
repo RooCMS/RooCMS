@@ -117,7 +117,7 @@ class Template {
 		//$smarty->debugging = DEBUGMODE;
 
 		# set skin variable
-        	$this->skin =  str_replace(_SITEROOT, "", _SKIN)."/".$this->skinfolder;
+        	$this->skin =  str_replace(_SITEROOT."/", "", _SKIN)."/".$this->skinfolder;
 
 		# assign skin folders templates
 		$smarty->assign("SKIN", $this->skin);

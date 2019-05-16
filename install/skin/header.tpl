@@ -21,16 +21,16 @@
 <base href="{if trim($site['domain']) != ""}http{if isset($smarty.server.HTTPS)}s{/if}://{$site['domain']}{else}http{if isset($smarty.server.HTTPS)}s{/if}://{$smarty.server.SERVER_NAME}{/if}" /><!--[if IE]></base><![endif]-->
 
 <!-- Style -->
-<link rel="stylesheet" type="text/css" href="/plugin/bootstrap/css/bootstrap.min.css{$build}" media="screen" />
-<link rel="stylesheet" type="text/css" href="/plugin/font-awesome/css/font-awesome.min.css{$build}" media="screen" />
-<link rel="stylesheet" type="text/css" href="/skin/acp/css/style.min.css{$build}" media="screen" />
+<link rel="stylesheet" type="text/css" href="../plugin/bootstrap/css/bootstrap.min.css{$build}" media="screen" />
+<link rel="stylesheet" type="text/css" href="../plugin/font-awesome/css/font-awesome.min.css{$build}" media="screen" />
+<link rel="stylesheet" type="text/css" href="../skin/acp/css/style.min.css{$build}" media="screen" />
 
 <!-- JS -->
-<script type="text/javascript" src="/plugin/jquery-core.min.js{$build}"></script>
-<script type="text/javascript" src="/plugin/jquery-migrate.min.js{$build}"></script>
-<script type="text/javascript" src="/plugin/bootstrap/js/bootstrap.bundle.min.js{$build}"></script>
-<script type="text/javascript" src="/skin/acp/js/roocms.min.js{$build}"></script>
-<script type="text/javascript" src="/skin/acp/js/jquery.roocms.crui.min.js{$build}"></script>
+<script type="text/javascript" src="../plugin/jquery-core.min.js{$build}"></script>
+<script type="text/javascript" src="../plugin/jquery-migrate.min.js{$build}"></script>
+<script type="text/javascript" src="../plugin/bootstrap/js/bootstrap.bundle.min.js{$build}"></script>
+<script type="text/javascript" src="../skin/acp/js/roocms.min.js{$build}"></script>
+<script type="text/javascript" src="../skin/acp/js/jquery.roocms.crui.min.js{$build}"></script>
 
 </head>
 <body>
