@@ -407,7 +407,7 @@ $sql['CREATE '.LOG_TABLE] = "CREATE TABLE `".LOG_TABLE."` (
 				  `message` text NOT NULL,
 				  `type_log` enum('info','error','log') NOT NULL DEFAULT 'log',
 				  `date_log` bigint(20) unsigned NOT NULL DEFAULT '0',
-				  `user_ip` varchar(18) NOT NULL DEFAULT '0.0.0.0'
+				  `user_ip` varchar(18) NOT NULL DEFAULT '0.0.0.0',
 				  PRIMARY KEY (`id`),
 				  UNIQUE KEY (`id`),
 				  KEY `uid` (`uid`)

@@ -167,8 +167,8 @@ class Install extends IU_Extends {
 		$path = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 		$path = '/'.implode('/', explode('/', ltrim($path, '/'), -1));
 
-		if($path != "/") {
-			$server_name .= $path."/";
+		if($path != "/install") {
+			$server_name .= str_ireplace("/install", "", $path)."/";
 		}
 
 
