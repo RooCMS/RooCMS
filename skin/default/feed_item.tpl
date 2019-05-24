@@ -24,8 +24,7 @@
 					<div class="row">
 						<div class="{if (!empty($images) && $images|@count > 2) || !empty($attachfile)}col-md-8{else}col-12{/if}">
 							{if (!empty($images) && $images|@count <= 2)}
-								{assign var=UGID value= 400|rand:699}
-								<a href="/upload/images/{$images[0]['resize']}" data-fancybox="gallery{$UGID}" data-animation-duration="300" data-caption="{$images[0]['alt']}" title="{if $images[0]['alt'] != ""}{$images[0]['alt']}{else}{$item['title']|escape}{/if}" class="flex-fill mb-3 roocms-feeditem-images"><img src="/upload/images/{$images[0]['resize']}" alt="{if $images[0]['alt'] != ""}{$images[0]['alt']}{else}{$item['title']|escape}{/if}" class="w-100 img-fluid mb-3"></a>
+								<a href="/upload/images/{$images[0]['resize']}" data-fancybox="gallery-{$page_alias}{$item['id']}" data-animation-duration="300" data-caption="{$images[0]['alt']}" title="{if $images[0]['alt'] != ""}{$images[0]['alt']}{else}{$item['title']|escape}{/if}" class="flex-fill mb-3 roocms-feeditem-images"><img src="/upload/images/{$images[0]['resize']}" alt="{if $images[0]['alt'] != ""}{$images[0]['alt']}{else}{$item['title']|escape}{/if}" class="w-100 img-fluid mb-3"></a>
 							{/if}
 							{if isset($smarty.get.search)}
 								{$item['full_item']|highlight:$smarty.get.search}
@@ -33,7 +32,7 @@
 								{$item['full_item']}
 							{/if}
 							{if (!empty($images) && $images|@count == 2)}
-								<a href="/upload/images/{$images[1]['resize']}" data-fancybox="gallery{$UGID}" data-animation-duration="300" data-caption="{$images[1]['alt']}" title="{if $images[1]['alt'] != ""}{$images[1]['alt']}{else}{$item['title']|escape}{/if}" class="flex-fill mb-3 roocms-feeditem-images"><img src="/upload/images/{$images[1]['resize']}" alt="{if $images[1]['alt'] != ""}{$images[1]['alt']}{else}{$item['title']|escape}{/if}" class="w-100 img-fluid mb-3"></a>
+								<a href="/upload/images/{$images[1]['resize']}" data-fancybox="gallery-{$page_alias}{$item['id']}" data-animation-duration="300" data-caption="{$images[1]['alt']}" title="{if $images[1]['alt'] != ""}{$images[1]['alt']}{else}{$item['title']|escape}{/if}" class="flex-fill mb-3 roocms-feeditem-images"><img src="/upload/images/{$images[1]['resize']}" alt="{if $images[1]['alt'] != ""}{$images[1]['alt']}{else}{$item['title']|escape}{/if}" class="w-100 img-fluid mb-3"></a>
 							{/if}
 							<div class="card-text small text-right">
 								{if $item['author_id'] != 0}
@@ -52,10 +51,9 @@
 							{* Attached Images *}
 							{if !empty($images)}
 								<div class="d-flex flex-column flex-sm-row align-content-stretch justify-content-center flex-wrap mt-1">
-									{assign var=UGID value= 400|rand:699}
 									{foreach from=$images item=img name=aimgs}
 										{*|| $smarty.foreach.aimgs.iteration is div by 3*}
-										<a href="/upload/images/{$img['resize']}" data-fancybox="gallery{$UGID}" data-animation-duration="300" data-caption="{$img['alt']}" title="{if $img['alt'] != ""}{$img['alt']}{else}{$item['title']|escape}{/if}" class="flex-fill px-1 mb-1 {if $smarty.foreach.aimgs.total >= 4 && (!$smarty.foreach.aimgs.first && !$smarty.foreach.aimgs.last)}roocms-feeditem-images{/if}"><img src="/upload/images/{$img['thumb']}" alt="{if $img['alt'] != ""}{$img['alt']}{else}{$item['title']|escape}{/if}" class="w-100 img-fluid mb-1"></a>
+										<a href="/upload/images/{$img['resize']}" data-fancybox="gallery-{$page_alias}{$item['id']}" data-animation-duration="300" data-caption="{$img['alt']}" title="{if $img['alt'] != ""}{$img['alt']}{else}{$item['title']|escape}{/if}" class="flex-fill px-1 mb-1 {if $smarty.foreach.aimgs.total >= 4 && (!$smarty.foreach.aimgs.first && !$smarty.foreach.aimgs.last)}roocms-feeditem-images{/if}"><img src="/upload/images/{$img['thumb']}" alt="{if $img['alt'] != ""}{$img['alt']}{else}{$item['title']|escape}{/if}" class="w-100 img-fluid mb-1"></a>
 									{/foreach}
 								</div>
 							{/if}
