@@ -12,8 +12,6 @@
 <meta name="theme-color"		content="#3D4F61">
 <meta http-equiv="Content-Type" 	content="{$charset}" />
 <meta http-equiv="Content-language"	content="ru" />
-<meta http-equiv="Pragma" 		content="no-cache" />
-<meta http-equiv="Expires" 		content="-1" />
 <meta http-equiv="Cache-Control" 	content="no-cache" />
 
 <link href="favicon.ico" rel="icon" 		type="image/x-icon" />
