@@ -121,6 +121,11 @@ ini_set("mbstring.substitute_character",	"none");
 */
 header("Content-type: text/html; charset=utf-8");
 
+/**
+ * Security headers
+ */
+header("X-Frame-Options: DENY"); 			# Deny IFrame use
+header("X-XSS-Protection: 1; mode=block"); 		# XSS Block
 
 /**
 * Signature in header
