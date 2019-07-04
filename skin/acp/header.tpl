@@ -17,7 +17,7 @@
 <link href="favicon.ico" rel="icon" 		type="image/x-icon" />
 <link href="favicon.ico" rel="shortcut icon" 	type="image/x-icon" />
 
-<base href="{if trim($site['domain']) != ""}{$site['protocol']}://{$site['domain']}{else}http{if isset($smarty.server.HTTPS)}s{/if}://{$smarty.server.SERVER_NAME}{/if}" /><!--[if IE]></base><![endif]-->
+<base href="{if trim($site['domain']) != ""}{$site['protocol']}://{$site['domain']}{else}http{if isset($smarty.server.HTTPS)}s{/if}://{$smarty.server.SERVER_NAME}{$smarty.server.SCRIPT_NAME|replace:'index.php':''}{/if}" /><!--[if IE]></base><![endif]-->
 
 <!-- Style -->
 <link rel="stylesheet" type="text/css" href="plugin/fancybox/jquery.fancybox.min.css{$build}" media="screen" />
