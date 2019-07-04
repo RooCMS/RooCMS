@@ -234,7 +234,7 @@ class PageFeed {
 
 			// TODO: В дальнейшем время жизни будет опционально устанавливаться.
 			$exp = time()+(60*60*24);
-			setcookie("roocms-fid-".$id, true, $exp);
+			setcookie("roocms-fid-".$id, "true", $exp);
 		}
 	}
 
