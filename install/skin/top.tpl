@@ -16,14 +16,14 @@
 <div class="container-fluid d-sm-none" id="logo-xs">
 	<div class="row">
 		<div class="col-md-12 text-center">
-			<a href="{$SCRIPT_NAME}"><img src="/skin/acp/img/logo.png" border="0" class="logo-xs" alt="RooCMS"></a>
+			<a href="{$SCRIPT_NAME}"><img src="../skin/acp/img/logo.png" border="0" class="logo-xs" alt="RooCMS"></a>
 		</div>
 	</div>
 </div>
 
 <div class="navbar navbar-expand-sm navbar-dark bg-dark fixed-top d-none d-sm-block" role="navigation">
 
-	<a class="navbar-brand d-none d-sm-block" href="{$SCRIPT_NAME}"><img src="skin/acp/img/logo_acp.png" border="0" id="logo" alt="RooCMS"></a>
+	<a class="navbar-brand d-none d-sm-block" href="{$SCRIPT_NAME}"><img src="../skin/acp/img/logo_acp.png" border="0" id="logo" alt="RooCMS"></a>
 
 	<div class="collapse navbar-collapse">
 		<span class="navbar-text col-3">{if $action == "install"}Установка{elseif $action == "update"}Обновление{/if} RooCMS</span>
