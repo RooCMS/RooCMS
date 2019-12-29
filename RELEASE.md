@@ -20,7 +20,7 @@ Plugins
 - Font Awesome          `v5.8.1`
 - CKEditor              `v4.11.4`
 - Codemirror            `v5.42`
-- Fancybox	        `v3.5.6`
+- Fancybox	            `v3.5.6`
 - PHP QR Code           `v1.1.4`
 - aRCaptcha             `v3.2`
 
