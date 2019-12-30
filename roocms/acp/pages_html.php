@@ -32,7 +32,7 @@ class ACP_Pages_HTML {
 	 */
 	public function edit($sid) {
 
-		global $db, $files, $img, $tpl, $smarty, $parse;
+		global $db, $files, $img, $parse, $tpl, $smarty;
 
 		# download data
 		$q = $db->query("SELECT h.id, h.sid, h.content, s.title, s.alias, s.meta_description, s.meta_keywords, h.date_modified
