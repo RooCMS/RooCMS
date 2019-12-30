@@ -33,8 +33,8 @@ class aRCaptcha {
 	private static $bgcolor = array(254, 254, 254);
 
 	# sizes
-	private static $width   = 180;
-	private static $height  = 85;
+	private static $width   = 200;
+	private static $height  = 90;
 
 	# user settings
 	private static $use_polygons    = false;  // no stable
