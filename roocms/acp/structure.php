@@ -167,7 +167,7 @@ class ACP_Structure {
 			$this->count_childs($post->parent_id);
 
 			# notice
-			$logger->info("Структурная еденица #".$sid." успешно добавлена.");
+			$logger->info("Элемент структуры #".$sid." успешно добавлена.");
 
 			# go
 			if(isset($post->create_unit['ae'])) {
