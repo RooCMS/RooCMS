@@ -6,7 +6,7 @@
 	</div>
 </div>
 
-<div class="navbar navbar-expand-sm navbar-dark bg-dark fixed-top" role="navigation">
+<div class="navbar navbar-expand-sm navbar-dark bg-deepdark fixed-top" role="navigation">
 
 	<a class="navbar-brand d-none d-sm-block" href="{$SCRIPT_NAME}"><img src="{$SKIN}/img/logo_acp.png" border="0" id="logo"></a>
 	<button type="button" class="btn btn-outline-light btn-block d-block d-sm-none" data-toggle="collapse" data-target=".navbar-collapse">

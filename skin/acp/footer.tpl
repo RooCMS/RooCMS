@@ -2,7 +2,7 @@
 </div>
 
 {if !isset($no_footer)}
-	<div class="navbar navbar-dark bg-dark fixed-bottom d-none d-md-block" id="footer">
+	<div class="navbar navbar-dark bg-deepdark fixed-bottom d-none d-md-block" id="footer">
 		<div class="row align-items-center">
 			<div class="col-sm-3 col-lg-3  text-left footer">
 				{if $exist_errors}
