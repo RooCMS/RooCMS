@@ -11,7 +11,7 @@ Plugins
 - jQuery                `v3.3.1`
 - jQuery-Migrate        `v3.0.0`
 - jQuery TouchSwipe     `v1.6.18`
-- Bootstrap             `v4.3.1`
+- Bootstrap             `v4.5`
 - Bootstrap Select      `v1.13.7`
 - Bootstrap Datepicker  `v1.6.4`
 - Bootstrap Colorpicker `v3.0.3`
@@ -37,6 +37,7 @@ Release information:
 		- added lock icon in navigation for pages to which user does not have access
 		- added blinked icon for pm on userbar
 	[upd] added user ip in logs
+	[upd] Bootstrap to 4.5
 	
 	[fix] fixit bugs
 	[fix] translate comments in code to english international
