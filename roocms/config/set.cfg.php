@@ -124,8 +124,10 @@ header("Content-type: text/html; charset=utf-8");
 /**
  * Security headers
  */
-header("X-Frame-Options: DENY"); 			# Deny IFrame use
+header("X-Frame-Options: sameorigin"); 			# rule to use Iframe only within the site. Protect for "Clickjacking" / Use "deny" to ban iframes completely
+header("X-Content-Type-Options: nosniff"); 		# Check mimetype
 header("X-XSS-Protection: 1; mode=block"); 		# XSS Block
+#header("X-XSS-Protection: 1; report=/?part=report&act=XSS"); 	# XSS Block and report (future)
 
 /**
 * Signature in header

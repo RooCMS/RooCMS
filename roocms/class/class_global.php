@@ -193,6 +193,14 @@ class RooCMS_Global {
 		global $site;
 
 		$site['protocol'] = (isset($_SERVER["HTTPS"]) || $this->config->global_https) ? "https" : "http" ;
+
+		# Set headers for security protocols
+		if($this->config->global_https) {
+			header("Strict-Transport-Security: max-age=15552000; preload");
+		}
+		else {
+			header("Strict-Transport-Security: max-age=0; preload");
+		}
 	}
 
 

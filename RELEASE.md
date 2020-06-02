@@ -1,6 +1,6 @@
 Version: 1.3.4 alpha
 ========================
-**release date:	19.05.2020**
+**release date:	02.06.2020**
 
 Plugins
 -------
@@ -30,7 +30,7 @@ Release information:
 	[add] added option $config->global_https (and $site['protocol']) for secure view of site
 	[add] added aRCaptcha v3.1 to lib for protect form
 	[add] added spam protection with aRCaptcha
-	[add] added new page type - Story (Article)
+
 	
 	[upd] updated module popular_feed & last_feed (added category label)
 	[upd] in Mailing messages added additional headers for quick unsubscribe

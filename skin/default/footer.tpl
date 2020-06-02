@@ -53,7 +53,7 @@
 	<div class="row">
 		<div class="col-12 text-center small">
 			<hr />
-			Создано на <br />{$copyright}
+			Создано на {$copyright}
 		</div>
 	</div>
 </div>
