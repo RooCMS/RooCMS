@@ -25,6 +25,8 @@ if(!defined('RooCMS')) {
  */
 class Debuger {
 
+	use DebugLog;
+
 	# hand flag show full debug text
 	public  $show_debug          = false;
 

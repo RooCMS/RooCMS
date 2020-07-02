@@ -29,31 +29,6 @@ class Post {
 	//public $needed = [];
 
 
-
-	/**
-	 * Wow! This is magic...
-	 *
-	 * @param $name
-	 *
-	 * @return null
-	 */
-	public function __get($name) {
-
-		global $logger;
-
-		# debug log
-		if(DEBUGMODE) {
-			$trace = debug_backtrace();
-			$pi = pathinfo($trace[0]['file']);
-
-			# save log
-			$logger->log("Попытка получить неопределенное свойство : ".$name." ; Источник: ".$pi['filename']." строка ".$trace[0]['line'], "error");
-		}
-
-		return null;
-	}
-
-
 	/**
 	 * Validate captcha code in form
 	 *

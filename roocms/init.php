@@ -57,6 +57,7 @@ require_once(_ROOCMS."/functions.php");
 /**
 * Load Debug Class
 */
+require_once(_CLASS."/trait_debugLog.php");
 require_once(_CLASS."/class_debuger.php");
 $debug = new Debuger;
 
