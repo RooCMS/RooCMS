@@ -25,7 +25,7 @@ if(!defined('RooCMS')) {
  */
 class MySQLiDB {
 
-	use MySQLiDBExtends;
+	use MySQLiDBExtends, DebugLog;
 
 	# obj
 	private $sql;

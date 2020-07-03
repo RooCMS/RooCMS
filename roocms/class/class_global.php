@@ -51,6 +51,8 @@ if(!defined('RooCMS')) {
  */
 class RooCMS_Global {
 
+	use DebugLog;
+
 	# clasess
 	public	$config;		 # [obj]	object global configuration
 
