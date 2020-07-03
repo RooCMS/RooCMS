@@ -257,9 +257,7 @@ class Template {
 		}
 
 		# head
-		$output = $this->load_template("header", true);
-
-		return $output;
+		return $this->load_template("header", true);
 	}
 
 
@@ -282,9 +280,7 @@ class Template {
 		$smarty->assign("exist_errors",		$debug->exist_errors);
 
 		# foot
-		$output = $this->load_template("footer", true);
-
-		return $output;
+		return $this->load_template("footer", true);
 	}
 
 

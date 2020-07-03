@@ -39,8 +39,7 @@ class Security extends Shteirlitz {
 	 * @return string - hash
 	 */
 	public function hash_password($password, $salt) {
-		$hash = md5($this->encode(md5($password).md5($salt), $password, $salt));
-		return $hash;
+		return md5($this->encode(md5($password).md5($salt), $password, $salt));
 	}
 
 
@@ -58,8 +57,7 @@ class Security extends Shteirlitz {
 
 		global $roocms;
 
-		$token = md5(md5($roocms->usersession).md5($login).md5($hash).md5($salt));
-		return $token;
+		return md5(md5($roocms->usersession).md5($login).md5($hash).md5($salt));
 	}
 
 
@@ -69,8 +67,7 @@ class Security extends Shteirlitz {
 	 * @return string - new password
 	 */
 	public function generate_password() {
-		$password = randcode($this->pass_leight, "ABCDEFGHJKLMNPQRSTUVWXYZabcdefhjkmnprstvwxyz123456789");
-		return $password;
+		return randcode($this->pass_leight, "ABCDEFGHJKLMNPQRSTUVWXYZabcdefhjkmnprstvwxyz123456789");
 	}
 
 
@@ -80,8 +77,7 @@ class Security extends Shteirlitz {
 	 * @return string
 	 */
 	public function generate_salt() {
-		$salt = randcode($this->salt_leight, "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!@#$%^&*(-)+{=}:?>~<,./[|]");
-		return $salt;
+		return randcode($this->salt_leight, "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!@#$%^&*(-)+{=}:?>~<,./[|]");
 	}
 
 

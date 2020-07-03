@@ -268,8 +268,7 @@ class MySQLiDB {
 	 */
 	public function fetch_row($q) {
 		if($this->connecting()) {
-			$result = $q->fetch_row();
-			return $result;
+			return $q->fetch_row();
 		}
 	}
 
@@ -283,8 +282,7 @@ class MySQLiDB {
 	 */
 	public function fetch_assoc($q) {
 		if($this->connecting()) {
-			$result = $q->fetch_assoc();
-			return $result;
+			return $q->fetch_assoc();
 		}
 	}
 
@@ -296,8 +294,7 @@ class MySQLiDB {
 	 */
 	public function insert_id() {
 		if($this->connecting()) {
-			$id = $this->sql->insert_id;
-			return $id;
+			return $this->sql->insert_id;
 		}
 	}
 

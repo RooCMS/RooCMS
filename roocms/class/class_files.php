@@ -351,9 +351,8 @@ class Files {
 	public function get_ext($filename) {
 
 		$pi = pathinfo($filename);
-		$ext = $pi['extension'];
 
-		return $ext;
+		return $pi['extension'];
 	}
 
 

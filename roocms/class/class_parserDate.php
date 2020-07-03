@@ -145,9 +145,7 @@ class ParserDate {
 
 		$gregorian = JDToGregorian($jddate);
 
-		$rus = $this->gregorian_to_rus($gregorian, $full, $short);
-
-		return $rus;
+		return $this->gregorian_to_rus($gregorian, $full, $short);
 	}
 
 	/**
@@ -184,10 +182,7 @@ class ParserDate {
 
 		$gregorian = $month."/".$day."/".$year;
 
-
-		$rus = $this->gregorian_to_rus($gregorian, $full, $short, $time);
-
-		return $rus;
+		return $this->gregorian_to_rus($gregorian, $full, $short, $time);
 	}
 
 
@@ -236,9 +231,7 @@ class ParserDate {
 	 */
 	public function unix_to_rusint($udate) {
 
-		$date = date("d.m.Y", $udate);
-
-		return $date;
+		return date("d.m.Y", $udate);
 	}
 
 
@@ -255,9 +248,7 @@ class ParserDate {
 		$month 	= (int) date("m", $udate);
 		$year 	= (int) date("Y", $udate);
 
-		$gregorian = $month."/".$day."/".$year;
-
-		return $gregorian;
+		return $month."/".$day."/".$year;
 	}
 
 
@@ -276,9 +267,7 @@ class ParserDate {
 		$month 	= (int) round($time[0]);
 		$year 	= (int) round($time[2]);
 
-		$unix = $this->get_unixtimestamp($month, $day, $year);
-
-		return $unix;
+		return $this->get_unixtimestamp($month, $day, $year);
 	}
 
 
@@ -297,9 +286,7 @@ class ParserDate {
 		$month 	= round(mb_substr($time[1],0,2));
 		$year 	= round(mb_substr($time[2],0,4));
 
-		$unix = $this->get_unixtimestamp($month, $day, $year);
-
-		return $unix;
+		return $this->get_unixtimestamp($month, $day, $year);
 	}
 
 
@@ -344,9 +331,7 @@ class ParserDate {
 		$mon   = round($gdate[0]);	# month
 		$year  = round($gdate[2]);	# year
 
-		$date  = $day.".".$mon.".".$year;
-
-		return $date;
+		return $day.".".$mon.".".$year;
 	}
 
 
@@ -413,9 +398,7 @@ class ParserDate {
 		$lday[5] = 'Пятница';		$sday[5] = 'Пт';
 		$lday[6] = 'Суббота';		$sday[6] = 'Сб';
 
-		$day = ($short) ? $sday[$nw] : $lday[$nw] ;
-
-		return $day;
+		return ($short) ? $sday[$nw] : $lday[$nw];
 	}
 
 
@@ -461,15 +444,12 @@ class ParserDate {
 		else {
 			switch($nm) {
 				case 3:
+				case 8:
 					$f = "";
 					break;
 				case 5:
 					$f = "й";
 					break;
-				case 8:
-					$f = "";
-					break;
-
 				default:
 					$f = (!$short) ? "ь" : "";
 					break;
