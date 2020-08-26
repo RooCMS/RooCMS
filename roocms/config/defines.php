@@ -33,6 +33,7 @@ define('CONFIG_PARTS_TABLE',    DB_PREFIX.'config__parts');
 define('CONFIG_TABLE',          DB_PREFIX.'config__settings');
 define('STRUCTURE_TABLE',       DB_PREFIX.'structure');
 define('PAGES_HTML_TABLE',      DB_PREFIX.'pages__html');
+define('PAGES_STORY_TABLE',     DB_PREFIX.'pages__story');
 define('PAGES_PHP_TABLE',       DB_PREFIX.'pages__php');
 define('PAGES_FEED_TABLE',      DB_PREFIX.'pages__feed');
 define('TAGS_TABLE',            DB_PREFIX.'tags');
