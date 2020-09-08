@@ -224,18 +224,18 @@ class ACP_Structure {
 
 		global $db, $logger, $post;
 
+		# dont change parent, alias and nav flag for main page
+		If($sid == 1) {
+			$post->parent_id = 0;
+			$post->alias     = "index";
+			$post->nav       = 1;
+		}
+
 		# check unit parametrs
 		$this->check_unit_parametrs();
 
 
 		if(!isset($_SESSION['error'])) {
-
-			# dont change parent, alias and nav flag for main page
-			If($sid == 1) {
-				$post->parent_id = 0;
-				$post->alias     = "index";
-				$post->nav       = 1;
-			}
 
 			# if set new parent
 			if($post->parent_id != $post->now_parent_id) {

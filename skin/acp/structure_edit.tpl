@@ -119,7 +119,6 @@
 						</select>
 					{else}
 						<p class="text-primary form-control-plaintext">Это корневая страница!</p>
-						<input type="hidden" name="parent_id" value="{$data['parent_id']}" readonly>
 					{/if}
 					<input type="hidden" name="now_parent_id" value="{$data['parent_id']}" readonly>
 				</div>

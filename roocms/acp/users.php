@@ -431,16 +431,17 @@ class ACP_Users {
 		# group
 		$post->gid = ($db->check_id($post->gid, USERS_GROUP_TABLE, "gid")) ? $post->gid : 0 ;
 
-		# status
-		$post->status = (int) filter_var($post->status, FILTER_VALIDATE_BOOLEAN);
-
-		# title
-		$post->title = ($post->title == "a") ? "a" : "u" ;
-
 		# correct for ID=1
 		if($uid == 1) {
 			$post->status = 1;
 			$post->title = "a";
+		}
+		else {
+			# status
+			$post->status = (int) filter_var($post->status, FILTER_VALIDATE_BOOLEAN);
+
+			# title
+			$post->title = ($post->title == "a") ? "a" : "u" ;
 		}
 
 		# correct personal data
