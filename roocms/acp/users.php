@@ -438,7 +438,9 @@ class ACP_Users {
 		}
 		else {
 			# status
-			$post->status = (int) filter_var($post->status, FILTER_VALIDATE_BOOLEAN);
+			if(isset($post->status)) {
+				$post->status = (int) filter_var($post->status, FILTER_VALIDATE_BOOLEAN);
+			}
 
 			# title
 			$post->title = ($post->title == "a") ? "a" : "u" ;
