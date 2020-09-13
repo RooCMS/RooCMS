@@ -149,6 +149,7 @@ class ACP_Config extends ACP_ConfigAction {
 			# date
 			case 'date':
 				$field['value'] = $parse->date->unix_to_rusint($field['value']);
+				$smarty->assign('field', $field);
 				$out = $tpl->load_template("config_field_date",true);
 				break;
 
