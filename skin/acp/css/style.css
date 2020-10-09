@@ -378,6 +378,10 @@ a:focus, a:active, .btn {
   outline: none !important;
 }
 
+.btn:focus, .btn.focus {
+  box-shadow: none !important;
+}
+
 /* CKeditor styles */
 .cked {
   overflow-x: hidden;

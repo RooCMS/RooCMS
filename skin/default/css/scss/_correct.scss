@@ -1,5 +1,6 @@
 /* Outline */
 a:focus, a:active, .btn {outline: none !important;}
+.btn:focus, .btn.focus {box-shadow: none !important;}
 
 /* Font Awesome correct */
 a:hover [class="fa"],

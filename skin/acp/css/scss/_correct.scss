@@ -63,6 +63,8 @@ a:hover [class^="far-"] {text-decoration: none !important;}
 /* Outline */
 a:focus, a:active, .btn {outline: none !important;}
 
+.btn:focus, .btn.focus {box-shadow: none !important;}
+
 /* CKeditor styles */
 .cked {overflow-x: hidden;}
 [data-cke-saved-href] {font-weight: 600 !important;}
