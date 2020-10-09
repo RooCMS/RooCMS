@@ -6,14 +6,14 @@
 .ptsanscap {font-family: $ptsanscap;}
 .ubuntu {font-family: $ubuntu;}
 
-@font-face { font-family: 'Ubuntu'; font-style: normal; font-weight: 400; src: local('Ubuntu'), url('../fonts/Ubuntu.woff') format('woff'); }
-@font-face { font-family: 'PT Sans'; font-style: normal; font-weight: 400; src: local('PT Sans'), local('PTSans-Regular'), url('../fonts/PT_Sans.woff') format('woff'); }
-@font-face { font-family: 'PT Sans'; font-style: normal; font-weight: 700; src: local('PT Sans Bold'), local('PTSans-Bold'), url('../fonts/PT_Sans_Bold.woff') format('woff');}
-@font-face { font-family: 'PT Sans'; font-style: italic; font-weight: 400; src: local('PT Sans Italic'), local('PTSans-Italic'), url('../fonts/PT_Sans_Italic.woff') format('woff');}
-@font-face { font-family: 'PT Sans'; font-style: italic; font-weight: 700; src: local('PT Sans Bold Italic'), local('PTSans-BoldItalic'), url('../fonts/PT_Sans_Bold_Italic.woff') format('woff');}
-@font-face { font-family: 'PT Sans Caption'; font-style: normal; font-weight: 400; src: local('PT Sans Caption'), local('PTSans-Caption'), url('../fonts/PTSans-Caption.woff') format('woff');}
-@font-face { font-family: 'PT Sans Caption'; font-style: normal; font-weight: 700; src: local('PT Sans Caption Bold'), local('PTSans-CaptionBold'), url('../fonts/PTSans-CaptionBold.woff') format('woff');}
-@font-face { font-family: 'Open Sans'; font-style: normal; font-weight: 700; src: local('Open Sans Bold'), local('OpenSans-Bold'), url('../fonts/Open_Sans_Bold.woff') format('woff'); }
-@font-face { font-family: 'Open Sans'; font-style: normal; font-weight: 300; src: local('Open Sans Light'), local('OpenSans-Light'), url('../fonts/Open_Sans_Light.woff') format('woff'); }
-@font-face { font-family: 'Open Sans'; font-style: normal; font-weight: 600; src: local('Open Sans Semibold'), local('OpenSans-Semibold'), url('../fonts/Open_Sans_Semibold.woff') format('woff'); }
-@font-face { font-family: 'Open Sans'; font-style: normal; font-weight: 400; src: local('Open Sans'), local('OpenSans'), url('../fonts/Open_Sans_Normal.woff') format('woff'); }
+@font-face { font-family: 'Ubuntu'; font-style: normal; font-weight: 400; src: local('Ubuntu'), url('../fonts/Ubuntu.woff') format('woff');font-display: swap; }
+@font-face { font-family: 'PT Sans'; font-style: normal; font-weight: 400; src: local('PT Sans'), local('PTSans-Regular'), url('../fonts/PT_Sans.woff') format('woff');font-display: swap; }
+@font-face { font-family: 'PT Sans'; font-style: normal; font-weight: 700; src: local('PT Sans Bold'), local('PTSans-Bold'), url('../fonts/PT_Sans_Bold.woff') format('woff');font-display: swap;}
+@font-face { font-family: 'PT Sans'; font-style: italic; font-weight: 400; src: local('PT Sans Italic'), local('PTSans-Italic'), url('../fonts/PT_Sans_Italic.woff') format('woff');font-display: swap;}
+@font-face { font-family: 'PT Sans'; font-style: italic; font-weight: 700; src: local('PT Sans Bold Italic'), local('PTSans-BoldItalic'), url('../fonts/PT_Sans_Bold_Italic.woff') format('woff');font-display: swap;}
+@font-face { font-family: 'PT Sans Caption'; font-style: normal; font-weight: 400; src: local('PT Sans Caption'), local('PTSans-Caption'), url('../fonts/PTSans-Caption.woff') format('woff');font-display: swap;}
+@font-face { font-family: 'PT Sans Caption'; font-style: normal; font-weight: 700; src: local('PT Sans Caption Bold'), local('PTSans-CaptionBold'), url('../fonts/PTSans-CaptionBold.woff') format('woff');font-display: swap;}
+@font-face { font-family: 'Open Sans'; font-style: normal; font-weight: 700; src: local('Open Sans Bold'), local('OpenSans-Bold'), url('../fonts/Open_Sans_Bold.woff') format('woff');font-display: swap; }
+@font-face { font-family: 'Open Sans'; font-style: normal; font-weight: 300; src: local('Open Sans Light'), local('OpenSans-Light'), url('../fonts/Open_Sans_Light.woff') format('woff');font-display: swap; }
+@font-face { font-family: 'Open Sans'; font-style: normal; font-weight: 600; src: local('Open Sans Semibold'), local('OpenSans-Semibold'), url('../fonts/Open_Sans_Semibold.woff') format('woff');font-display: swap; }
+@font-face { font-family: 'Open Sans'; font-style: normal; font-weight: 400; src: local('Open Sans'), local('OpenSans'), url('../fonts/Open_Sans_Normal.woff') format('woff');font-display: swap; }
