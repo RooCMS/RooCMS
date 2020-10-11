@@ -30,8 +30,8 @@
 <link rel="stylesheet" type="text/css" href="{$SKIN}/css/style.min.css{$build}" media="screen" />
 
 <!-- JS -->
-<script type="text/javascript" src="plugin/jquery-core.min.js{$build}" defer></script>
-<script type="text/javascript" src="plugin/jquery-migrate.min.js{$build}" defer></script>
+<script type="text/javascript" src="plugin/jquery-core.min.js{$build}"></script>
+<script type="text/javascript" src="plugin/jquery-migrate.min.js{$build}"></script>
 <script type="text/javascript" src="plugin/fancybox/jquery.fancybox.min.js{$build}" defer></script>
 <script type="text/javascript" src="plugin/bootstrap/js/bootstrap.bundle.min.js{$build}" defer></script>
 <script type="text/javascript" src="plugin/bs-custom-file-input/bs-custom-file-input.min.js{$build}" defer></script>

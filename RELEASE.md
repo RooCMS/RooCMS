@@ -1,6 +1,6 @@
 Version: 1.3.4 alpha
 ========================
-**release date:	10.10.2020**
+**release date:	11.10.2020**
 
 Plugins
 -------
@@ -11,7 +11,7 @@ Plugins
 - jQuery                `v3.3.1`
 - jQuery-Migrate        `v3.0.0`
 - jQuery TouchSwipe     `v1.6.18`
-- Bootstrap             `v4.5`
+- Bootstrap             `v4.5.2`
 - Bootstrap Select      `v1.13.7`
 - Bootstrap Datepicker  `v1.6.4`
 - Bootstrap Colorpicker `v3.0.3`
@@ -38,7 +38,7 @@ Release information:
 		- added lock icon in navigation for pages to which user does not have access
 		- added blinked icon for pm on userbar
 	[upd] added user ip in logs
-	[upd] Bootstrap to 4.5
+	[upd] Bootstrap to 4.5.2
 	
 	[fix] fixit bugs
 	[fix] translate comments in code to english international
