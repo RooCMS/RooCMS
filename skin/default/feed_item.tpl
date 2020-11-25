@@ -50,7 +50,7 @@
 						<div class="col-md-4">
 							{* Attached Images *}
 							{if !empty($images)}
-								<div class="d-flex flex-column flex-sm-row align-content-stretch justify-content-center flex-wrap mt-1">
+								<div class="d-flex flex-column flex-sm-row align-content-stretch justify-content-center flex-wrap mt-1 roocms-feedimg">
 									{foreach from=$images item=img name=aimgs}
 										{*|| $smarty.foreach.aimgs.iteration is div by 3*}
 										<a href="/upload/images/{$img['resize']}" data-fancybox="gallery-{$page_alias}{$item['id']}" data-animation-duration="300" data-caption="{$img['alt']}" title="{if $img['alt'] != ""}{$img['alt']}{else}{$item['title']|escape}{/if}" class="flex-fill px-1 mb-1 {if $smarty.foreach.aimgs.total >= 4 && (!$smarty.foreach.aimgs.first && !$smarty.foreach.aimgs.last)}roocms-feeditem-images{/if}"><img src="/upload/images/{$img['thumb']}" alt="{if $img['alt'] != ""}{$img['alt']}{else}{$item['title']|escape}{/if}" class="w-100 img-fluid mb-1"></a>

@@ -91,6 +91,11 @@ mark {
   border-bottom: 1px dotted #C60D14;
 }
 
+/* Common Styles Roocms */
+.img-border-r {
+  border-radius: calc(.25rem - 1px);
+}
+
 /* Top Navigation */
 .roocms-topnav-link {
   font-family: "Open Sans";
@@ -192,6 +197,16 @@ a.tag.active:hover .tag_amount:after {
 }
 
 /* Feed item */
+.roocms-feedimg :first-child img {
+  border-top-left-radius: calc(.25rem - 1px);
+  border-top-right-radius: calc(.25rem - 1px);
+}
+
+.roocms-feedimg :last-child img {
+  border-bottom-left-radius: calc(.25rem - 1px);
+  border-bottom-right-radius: calc(.25rem - 1px);
+}
+
 @media (min-width: 992px) {
   .roocms-feeditem-images {
     width: 50%;
@@ -245,6 +260,9 @@ a#PrevFeedItem:hover > .roocms-feeditem-pn {
 /* Blocks */
 .block-images {
   width: 50%;
+  /*img {
+  	border-radius: $img-border-radius;
+  }*/
 }
 
 @media (min-width: 576px) {
@@ -255,16 +273,19 @@ a#PrevFeedItem:hover > .roocms-feeditem-pn {
 @media (min-width: 768px) {
   .block-images {
     width: 25%;
+    border-radius: calc(.25rem - 1px);
   }
 }
 @media (min-width: 1200px) {
   .block-images {
     width: 20%;
+    border-radius: calc(.25rem - 1px);
   }
 }
 @media (min-width: 1440px) {
   .block-images {
     width: 14.28%;
+    border-radius: calc(.25rem - 1px);
   }
 }
 /* PM */

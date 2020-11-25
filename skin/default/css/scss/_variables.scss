@@ -32,6 +32,9 @@ $colors:(
 	"black":     $black
 );
 
+// Main color
+$bgc-roocms: lighten($brand-dark, 85%);
+
 // Fonts
 $arial:     'Arial';
 $tahoma:    'Tahoma';
@@ -42,9 +45,6 @@ $ubuntu:    'Ubuntu';
 $ptsans:    'PT Sans';
 $ptsanscap: 'PT Sans Caption';
 $opensans:  'Open Sans';
-
-// Main color
-$bgc-roocms: lighten($brand-dark, 85%);
 
 // Main size
 $body-fs: 15px;
@@ -58,3 +58,6 @@ $grid-breakpoints: (
 	xl: 1200px,
 	xxl: 1440px
 );
+
+// image attache border-radius
+$img-border-radius: calc(.25rem - 1px);
