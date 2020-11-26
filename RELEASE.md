@@ -4,7 +4,7 @@ Version: 1.3.4 alpha
 
 Plugins
 -------
-- Smarty                `v3.1.33`
+- Smarty                `v3.1.35`
 - Smarty plugins:       `get_params`
 - Smarty modifiers:     `highlight`, `topsecret`
 - Smarty postfilter:    `correct4pu`
