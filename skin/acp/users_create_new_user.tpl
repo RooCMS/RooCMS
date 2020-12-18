@@ -49,11 +49,11 @@
 			</label>
 			<div class="col-md-7 col-lg-8">
 				<div class="btn-group btn-group-toggle roocms-crui" data-toggle="buttons">
-					<label class="btn btn-light active" for="flag_status_true" rel="tooltip" title="Получать рассылку" data-placement="auto" data-container="body">
-						<input type="radio" name="mailing" value="1" id="flag_status_true" checked> <i class="far fa-fw fa-check-circle"></i> <i class="fa fa-fw fa-envelope-open text-success"></i> Получать уведомления
+					<label class="btn btn-light active" for="flag_status_true_email" rel="tooltip" title="Получать рассылку" data-placement="auto" data-container="body">
+						<input type="radio" name="mailing" value="1" id="flag_status_true_email" checked> <i class="far fa-fw fa-check-circle"></i> <i class="fa fa-fw fa-envelope-open text-success"></i> Получать уведомления
 					</label>
-					<label class="btn btn-light" for="flag_status_false" rel="tooltip" title="Не получать рассылку" data-placement="auto" data-container="body">
-						<input type="radio" name="mailing" value="0" id="flag_status_false"> <i class="far fa-fw fa-circle"></i> <i class="fa fa-fw fa-envelope text-danger"></i> Не получать уведомления
+					<label class="btn btn-light" for="flag_status_false_email" rel="tooltip" title="Не получать рассылку" data-placement="auto" data-container="body">
+						<input type="radio" name="mailing" value="0" id="flag_status_false_email"> <i class="far fa-fw fa-circle"></i> <i class="fa fa-fw fa-envelope text-danger"></i> Не получать уведомления
 					</label>
 				</div>
 			</div>

@@ -398,28 +398,6 @@ class ACP_Users {
 
 
 	/**
-	 * Count user in group
-	 *
-	 * @param int $gid - group identificator
-	 */
-	private function count_users($gid) {
-
-		global $db, $logger;
-
-		if($gid != 0 && $db->check_id($gid, USERS_GROUP_TABLE, "gid")) {
-			# count
-			$c = $db->count(USERS_TABLE, "gid='".$gid."'");
-
-			# update
-			$db->query("UPDATE ".USERS_GROUP_TABLE." SET users='".$c."' WHERE gid='".$gid."'");
-
-			# notice
-			$logger->info("Информация о кол-ве пользователей для группы #".$gid." обновлена.");
-		}
-	}
-
-
-	/**
 	 * Check user data for insert/update
 	 *
 	 * @param int $uid - user id

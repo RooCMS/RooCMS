@@ -75,11 +75,11 @@
 			</label>
 			<div class="col-md-7 col-lg-8">
 				<div class="btn-group btn-group-toggle roocms-crui" data-toggle="buttons">
-					<label class="btn btn-light{if $user['mailing'] == 1} active{/if}" for="flag_status_true" rel="tooltip" title="Получать рассылку" data-placement="auto" data-container="body">
-						<input type="radio" name="mailing" value="1" id="flag_status_true"{if $user['mailing'] == 1} checked{/if}> <i class="far fa-fw fa-{if $user['mailing'] == 1}check-{/if}circle"></i> <i class="fa fa-fw fa-envelope-open text-success"></i> Получать уведомления
+					<label class="btn btn-light{if $user['mailing'] == 1} active{/if}" for="flag_status_true_email" rel="tooltip" title="Получать рассылку" data-placement="auto" data-container="body">
+						<input type="radio" name="mailing" value="1" id="flag_status_true_email"{if $user['mailing'] == 1} checked{/if}> <i class="far fa-fw fa-{if $user['mailing'] == 1}check-{/if}circle"></i> <i class="fa fa-fw fa-envelope-open text-success"></i> Получать уведомления
 					</label>
-					<label class="btn btn-light{if $user['mailing'] == 0} active{/if}" for="flag_status_false" rel="tooltip" title="Не получать рассылку" data-placement="auto" data-container="body">
-						<input type="radio" name="mailing" value="0" id="flag_status_false"{if $user['mailing'] == 0} checked{/if}> <i class="far fa-fw fa-{if $user['mailing'] == 0}check-{/if}circle"></i> <i class="fa fa-fw fa-envelope text-danger"></i> Не получать уведомления
+					<label class="btn btn-light{if $user['mailing'] == 0} active{/if}" for="flag_status_false_email" rel="tooltip" title="Не получать рассылку" data-placement="auto" data-container="body">
+						<input type="radio" name="mailing" value="0" id="flag_status_false_email"{if $user['mailing'] == 0} checked{/if}> <i class="far fa-fw fa-{if $user['mailing'] == 0}check-{/if}circle"></i> <i class="fa fa-fw fa-envelope text-danger"></i> Не получать уведомления
 					</label>
 				</div>
 			</div>
@@ -226,6 +226,7 @@
 <script>
 	{literal}
 	(function($) {
+		"use strict";
 		$(window).on('load', function() {
 			$('[id^=dua]').on('click', function() {
 				let attrdata = $(this).attr('id');

@@ -136,9 +136,9 @@ class RooCMS_Global {
 						$this->config->{$row['option_name']} = (string) $row['value'];
 						break;
 
-					case 'html':
+					/*case 'html': #default
 						$this->config->{$row['option_name']} = $row['value'];
-						break;
+						break;*/
 
 					default:
 						$this->config->{$row['option_name']} = $row['value'];

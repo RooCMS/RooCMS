@@ -193,7 +193,7 @@ class ACP_Structure {
 	 *
 	 * @return string
 	 */
-	private function edit_unit($sid) {
+	private function edit_unit(int $sid) {
 
 		global $db, $users, $smarty, $tpl;
 
@@ -220,7 +220,7 @@ class ACP_Structure {
 	 *
 	 * @param int $sid - structure id
 	 */
-	private function update_unit($sid) {
+	private function update_unit(int $sid) {
 
 		global $db, $logger, $post;
 
@@ -319,7 +319,7 @@ class ACP_Structure {
 	 *
 	 * @param int $sid - structure id
 	 */
-	private function delete_unit($sid) {
+	private function delete_unit(int $sid) {
 
 		global $db, $logger;
 
@@ -376,7 +376,7 @@ class ACP_Structure {
 	 *
 	 * @return bool
 	 */
-	private function check_unique_alias($name, $without="") {
+	private function check_unique_alias(string $name, $without="") {
 
 		global $db;
 
@@ -477,7 +477,7 @@ class ACP_Structure {
 	 *
 	 * @param int $sid - structure id
 	 */
-	private function count_childs($sid) {
+	private function count_childs(int $sid) {
 
 		global $db;
 
