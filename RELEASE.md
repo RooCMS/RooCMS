@@ -1,6 +1,6 @@
-Version: 1.3.4 alpha
+Version: 1.3.5
 ========================
-**release date:	14.07.2021**
+**release date:	16.07.2021**
 
 Plugins
 -------
@@ -27,25 +27,12 @@ Plugins
 
 Release information:
 -------------
-	[add] added option $config->global_https (and $site['protocol']) for secure view of site
-	[add] added aRCaptcha v3.1 to lib for protect form
-	[add] added spam protection with aRCaptcha
-
+	[add] 
 	
-	[upd] updated module popular_feed & last_feed (added category label)
-	[upd] in Mailing messages added additional headers for quick unsubscribe
-	[upd] update usability/skin/style
-		- added lock icon in navigation for pages to which user does not have access
-		- added blinked icon for pm on userbar
-	[upd] added user ip in logs
-	[upd] Bootstrap to 4.5.2
+	[upd] 
 	
-	[fix] fixit bugs
-	[fix] translate comments in code to english international
-	[fix] optimisation code
-	[fix] fix trouble path in tpls header
+	[fix] 
 	
-	[inf] extended help system in ACP
-	[inf] remove default title for uploaded images
+	[inf] From the current version, we refuse to support the PHP below version 7
 	
-	[del] deleted SOD folder
+	[del] 

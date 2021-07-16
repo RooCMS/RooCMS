@@ -17,8 +17,8 @@
 System requirements
 -------------------
  - WebServer:	`Apache 2.2, 2.4` `Nginx 1.11, 1.12`
- - PHP:		`5.6.*` `7.*`
- - DB:		`MySQL 5.5` and high or `MariaDB: 10` and high
+ - PHP:		`7.*` or higher
+ - DB:		`MySQL 5.5` and higher or `MariaDB: 10` and higher
  - PHP Extension: 
 	`Core`
 	`calendar`

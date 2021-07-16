@@ -29,7 +29,7 @@
 			</div>
 			<div class="col-sm-12 col-lg-3 text-right footer">
 				<small class="copyright">
-					{$copyright}<br />Версия {$smarty.const.ROOCMS_FULL_VERSION}
+				    {$copyright}<br />Версия <b title="{$smarty.const.ROOCMS_VERSION_ID}">{$smarty.const.ROOCMS_FULL_VERSION}</b>
 				</small>
 			</div>
 		</div>
@@ -52,7 +52,7 @@
 				</span>
 
 				<br />
-				<br /><span class="text-nowrap">{$copyright}<br />Версия {$smarty.const.ROOCMS_FULL_VERSION}</span>
+				<br /><span class="text-nowrap">{$copyright}<br />Версия <b title="{$smarty.const.ROOCMS_VERSION_ID}">{$smarty.const.ROOCMS_FULL_VERSION}</b></span>
 			</div>
 		</div>
 	</div>
