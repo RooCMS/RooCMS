@@ -8,8 +8,8 @@ Plugins
 - Smarty plugins:       `get_params`
 - Smarty modifiers:     `highlight`, `topsecret`
 - Smarty postfilter:    `correct4pu`
-- jQuery                `v3.3.1`
-- jQuery-Migrate        `v3.0.0`
+- jQuery                `v3.6.0`
+- jQuery-Migrate        `v3.3.2`
 - jQuery TouchSwipe     `v1.6.18`
 - Bootstrap             `v4.5.2`
 - Bootstrap Select      `v1.13.7`
@@ -29,7 +29,8 @@ Release information:
 -------------
 	[add] 
 	
-	[upd] 
+	[upd] Upgrade jQuery to version 3.6.0
+	[upd] Upgrade jQuery Migrate to version 3.3.2
 	
 	[fix] 
 	

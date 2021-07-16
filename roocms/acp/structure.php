@@ -150,16 +150,17 @@ class ACP_Structure {
 			switch($post->page_type) {
 				case 'html':
 					$db->query("INSERT INTO ".PAGES_HTML_TABLE." (sid, date_modified) VALUE ('".$sid."', '".time()."')");
-					# get body unit id
-					$page_id = $db->insert_id();
-					$db->query("UPDATE ".STRUCTURE_TABLE." SET page_id='".$page_id."', rss='0' WHERE id='".$sid."'");
+					break;
+
+				case 'story':
 					break;
 
 				case 'php':
 					$db->query("INSERT INTO ".PAGES_PHP_TABLE." (sid, date_modified) VALUE ('".$sid."', '".time()."')");
-					# get body unit id
-					$page_id = $db->insert_id();
-					$db->query("UPDATE ".STRUCTURE_TABLE." SET page_id='".$page_id."', rss='0' WHERE id='".$sid."'");
+					break;
+
+				case 'feed':
+					$db->query("UPDATE ".STRUCTURE_TABLE." SET rss='1' WHERE sid='".$sid."'");
 					break;
 			}
 
@@ -189,11 +190,11 @@ class ACP_Structure {
 	/**
 	 * Edit structure unit
 	 *
-	 * @param int $sid - Structure id
+	 * @param $sid - Structure id
 	 *
 	 * @return string
 	 */
-	private function edit_unit(int $sid) {
+	private function edit_unit($sid) {
 
 		global $db, $users, $smarty, $tpl;
 
@@ -218,9 +219,9 @@ class ACP_Structure {
 	/**
 	 * Update structure unit
 	 *
-	 * @param int $sid - structure id
+	 * @param $sid - structure id
 	 */
-	private function update_unit(int $sid) {
+	private function update_unit($sid) {
 
 		global $db, $logger, $post;
 
@@ -317,13 +318,13 @@ class ACP_Structure {
 	/**
 	 * Remove structure unit
 	 *
-	 * @param int $sid - structure id
+	 * @param $sid - structure id
 	 */
-	private function delete_unit(int $sid) {
+	private function delete_unit($sid) {
 
 		global $db, $logger;
 
-		$q = $db->query("SELECT childs, parent_id, page_id, page_type FROM ".STRUCTURE_TABLE." WHERE id='".$sid."'");
+		$q = $db->query("SELECT childs, parent_id, page_type FROM ".STRUCTURE_TABLE." WHERE id='".$sid."'");
 		$c = $db->fetch_assoc($q);
 
 		if($c['childs'] == 0) {
@@ -332,19 +333,19 @@ class ACP_Structure {
 
 				case 'html': # del content html
 					require_once _ROOCMS."/acp/pages_html.php";
-					$this->unit = new ACP_PAGES_HTML;
+					$this->unit = new ACP_Pages_HTML;
 					$this->unit->delete($sid);
 					break;
 
 				case 'php': # del content php
 					require_once _ROOCMS."/acp/pages_php.php";
-					$this->unit = new ACP_PAGES_PHP;
+					$this->unit = new ACP_Pages_PHP;
 					$this->unit->delete($sid);
 					break;
 
 				case 'feed': # del content feed
 					require_once _ROOCMS."/acp/feeds_feed.php";
-					$this->unit = new ACP_FEEDS_FEED();
+					$this->unit = new ACP_Feeds_Feed();
 					$this->unit->delete_feed($sid);
 					break;
 			}
