@@ -118,14 +118,14 @@ $sql['CREATE'.STRUCTURE_TABLE] = "CREATE TABLE `".STRUCTURE_TABLE."` (
 					  `meta_description` varchar(255) NOT NULL,
 					  `meta_keywords` varchar(255) NOT NULL,
 					  `sort` int(10) unsigned NOT NULL DEFAULT '0',
-					  `page_type` enum('html','php','feed') NOT NULL DEFAULT 'html',
+					  `page_type` enum('html','story','php','feed') NOT NULL DEFAULT 'html',
 					  `page_id` int(10) unsigned NOT NULL DEFAULT '0',
 					  `noindex` enum('0','1') NOT NULL DEFAULT '0' COMMENT 'meta tag robots flag',
 					  `childs` int(10) unsigned NOT NULL DEFAULT '0',
 					  `group_access` varchar(255) NOT NULL DEFAULT '0',
 					  `date_create` bigint(20) unsigned NOT NULL DEFAULT '0' COMMENT 'format: unixtimestamp',
 					  `date_modified` bigint(20) unsigned NOT NULL DEFAULT '0' COMMENT 'format: unixtimestamp',
-					  `rss` enum('0','1') NOT NULL DEFAULT '1',
+					  `rss` enum('0','1') NOT NULL DEFAULT '0',
 					  `show_child_feeds` enum('none','default','forced') NOT NULL DEFAULT 'none',
 					  `items_per_page` int(10) unsigned NOT NULL DEFAULT '0',
 					  `items_sorting` enum('datepublication','title_asc','title_desc','manual_sorting') NOT NULL DEFAULT 'datepublication',
@@ -170,6 +170,21 @@ $sql['DROP '.PAGES_PHP_TABLE] = "DROP TABLE IF EXISTS `".PAGES_PHP_TABLE."`";
 $sql['CREATE'.PAGES_PHP_TABLE] = "CREATE TABLE `".PAGES_PHP_TABLE."` (
 					  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
 					  `sid` int(10) unsigned NOT NULL,
+					  `content` longtext NOT NULL DEFAULT '',
+					  `date_modified` bigint(20) unsigned NOT NULL DEFAULT '0',
+					  PRIMARY KEY (`id`),
+					  UNIQUE KEY `id` (`id`),
+					  UNIQUE KEY `sid` (`sid`)
+					) ENGINE=InnoDB  DEFAULT CHARSET=utf8 PACK_KEYS=1 AUTO_INCREMENT=1";
+
+/**
+ * Story page
+ */
+$sql['DROP '.PAGES_STORY_TABLE] = "DROP TABLE IF EXISTS `".PAGES_STORY_TABLE."`";
+$sql['CREATE'.PAGES_STORY_TABLE] = "CREATE TABLE `".PAGES_STORY_TABLE."` (
+					  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+					  `sid` int(10) unsigned NOT NULL,
+					  `sort` int(10) unsigned NOT NULL DEFAULT '0',
 					  `content` longtext NOT NULL DEFAULT '',
 					  `date_modified` bigint(20) unsigned NOT NULL DEFAULT '0',
 					  PRIMARY KEY (`id`),

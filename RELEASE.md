@@ -1,6 +1,6 @@
 Version: 1.3.5
 ========================
-**release date:	16.07.2021**
+**release date:	18.07.2021**
 
 Plugins
 -------
