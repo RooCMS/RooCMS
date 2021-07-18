@@ -23,7 +23,7 @@ if(!defined('RooCMS')) {
 /**
 * DataBase prefix
 */
-define('DB_PREFIX',		$db_info['prefix']);
+define('DB_PREFIX', $db_info['prefix']);
 
 
 /**

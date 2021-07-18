@@ -190,7 +190,7 @@ class ACP_Structure {
 	/**
 	 * Edit structure unit
 	 *
-	 * @param $sid - Structure id
+	 * @param mixed $sid - Structure id
 	 *
 	 * @return string
 	 */
@@ -219,7 +219,7 @@ class ACP_Structure {
 	/**
 	 * Update structure unit
 	 *
-	 * @param $sid - structure id
+	 * @param mixed $sid - structure id
 	 */
 	private function update_unit($sid) {
 
@@ -318,7 +318,7 @@ class ACP_Structure {
 	/**
 	 * Remove structure unit
 	 *
-	 * @param $sid - structure id
+	 * @param mixed $sid - structure id
 	 */
 	private function delete_unit($sid) {
 
