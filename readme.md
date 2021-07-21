@@ -35,8 +35,8 @@ System requirements
 Recommended software
 --------------------
  - WebServer:	`Apache 2.4`
- - PHP:		`7.2` and high
- - DB:		`MySQL 5.7` and high or `MariaDB: 10.2` and high
+ - PHP:		`7.2` and higher
+ - DB:		`MySQL 5.7` and higher or `MariaDB: 10.2` and higher
 
 Install
 -------
