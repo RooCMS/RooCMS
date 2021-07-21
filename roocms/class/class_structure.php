@@ -39,8 +39,7 @@ class Structure {
 	private $aliases 		= [];
 
 	# page vars
-	public $page_id			= 1;				# page sid
-	public $page_pid		= 1;				# id content
+	public $page_sid		= 1;				# page sid
 	public $page_parent		= 0;				# Parent id
 	public $page_alias		= "index";			# unique alias name
 	public $page_title		= "Добро пожаловать [RooCMS]";	# title page
@@ -101,7 +100,7 @@ class Structure {
 		# Делаем единичный запрос в БД собирая данные по структуре сайта.
 		if(!$use) {
 			$q = $db->query("SELECT 
-						id, nav, page_id, alias, parent_id,  
+						id, nav, alias, parent_id,  
 						title, meta_title, meta_description, meta_keywords, noindex, rss,
 						page_type, sort, childs, items, show_child_feeds, group_access, 
 						items_per_page, items_sorting, thumb_img_width, thumb_img_height,
@@ -231,8 +230,7 @@ class Structure {
 		global $config, $smarty;
 
         	# set vars
-		$this->page_id                 = $data['id'];
-		$this->page_pid                = $data['page_id'];
+		$this->page_sid                = $data['id'];
 		$this->page_parent             = $data['parent_id'];
 		$this->page_alias              = $data['alias'];
 		$this->page_title              = $data['title'];
@@ -256,7 +254,7 @@ class Structure {
 		$this->access = $data['access'];
 
                 # set smarty vars
-                $smarty->assign("page_id",    $data['id']);
+                $smarty->assign("page_sid",   $data['id']);
                 $smarty->assign("page_alias", $data['alias']);
                 $smarty->assign("page_title", $data['title']);
 	}

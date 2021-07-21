@@ -62,7 +62,7 @@ class ACP_Pages {
 		switch($roocms->part) {
 
 			case 'edit':
-				$this->unit->edit($this->engine->page_id);
+				$this->unit->edit($this->engine->page_sid);
 				break;
 
 			case 'update':

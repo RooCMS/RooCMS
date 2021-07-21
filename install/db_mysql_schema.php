@@ -119,7 +119,6 @@ $sql['CREATE'.STRUCTURE_TABLE] = "CREATE TABLE `".STRUCTURE_TABLE."` (
 					  `meta_keywords` varchar(255) NOT NULL,
 					  `sort` int(10) unsigned NOT NULL DEFAULT '0',
 					  `page_type` enum('html','story','php','feed') NOT NULL DEFAULT 'html',
-					  `page_id` int(10) unsigned NOT NULL DEFAULT '0',
 					  `noindex` enum('0','1') NOT NULL DEFAULT '0' COMMENT 'meta tag robots flag',
 					  `childs` int(10) unsigned NOT NULL DEFAULT '0',
 					  `group_access` varchar(255) NOT NULL DEFAULT '0',
@@ -137,13 +136,12 @@ $sql['CREATE'.STRUCTURE_TABLE] = "CREATE TABLE `".STRUCTURE_TABLE."` (
 					  PRIMARY KEY (`id`),
 					  UNIQUE KEY (`id`),
 					  UNIQUE KEY `alias` (`alias`),
-					  KEY `type` (`page_type`),
-					  KEY `page_id` (`page_id`)
+					  KEY `type` (`page_type`)
 					) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1";
 
 $id = 1;
-$sql['INSERT '.STRUCTURE_TABLE." ID #".$id] = "INSERT INTO `".STRUCTURE_TABLE."` (`id`, `alias`, `parent_id`, `nav`, `title`, `meta_title`, `meta_description`, `meta_keywords`, `sort`, `page_type`, `page_id`, `noindex`, `childs`, `group_access`, `date_create`, `date_modified`, `rss`, `show_child_feeds`, `items_per_page`, `items_sorting`, `items`, `thumb_img_width`, `thumb_img_height`, `append_info_before`, `append_info_after`) 
-									  VALUES (1, 'index', 0, '1', 'Главная страница', '".$site['title']."', '', '', 0, 'html', 1, '0', 0, '0', ".time().", ".time().", '0', 'none', 0, 'datepublication', 0, 0, 0, '', '')";
+$sql['INSERT '.STRUCTURE_TABLE." ID #".$id] = "INSERT INTO `".STRUCTURE_TABLE."` (`id`, `alias`, `parent_id`, `nav`, `title`, `meta_title`, `meta_description`, `meta_keywords`, `sort`, `page_type`, `noindex`, `childs`, `group_access`, `date_create`, `date_modified`, `rss`, `show_child_feeds`, `items_per_page`, `items_sorting`, `items`, `thumb_img_width`, `thumb_img_height`, `append_info_before`, `append_info_after`) 
+									  VALUES (1, 'index', 0, '1', 'Главная страница', '".$site['title']."', '', '', 0, 'html', '0', 0, '0', ".time().", ".time().", '0', 'none', 0, 'datepublication', 0, 0, 0, '', '')";
 
 /**
 * HTML page

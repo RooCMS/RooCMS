@@ -156,7 +156,7 @@ class ACP_Feeds {
 	private function get_settings() {
 
 		$setting = array(
-			'id'                 => $this->engine->page_id,
+			'id'                 => $this->engine->page_sid,
 			'alias'              => $this->engine->page_alias,
 			'title'              => $this->engine->page_title,
 			'rss'                => $this->engine->page_rss,
@@ -167,7 +167,7 @@ class ACP_Feeds {
 			'thumb_img_height'   => $this->engine->page_thumb_img_height,
 			'append_info_before' => $this->engine->page_append_info_before,
 			'append_info_after'  => $this->engine->page_append_info_after,
-			'subfeeds'           => $this->engine->load_tree($this->engine->page_id)
+			'subfeeds'           => $this->engine->load_tree($this->engine->page_sid)
 		);
 
 		return $setting;

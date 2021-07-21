@@ -82,25 +82,25 @@ class ACP_Pages_HTML {
 		global $db, $logger, $files, $img, $post;
 
 		#sortable images
-		$img->update_images_info("pagesid", $data->page_id);
+		$img->update_images_info("pagesid", $data->page_sid);
 
 
 		# attachment images
 		$images = $img->upload_image("images", "", array($data->page_thumb_img_width, $data->page_thumb_img_height));
 		if($images) {
 			foreach($images AS $image) {
-				$img->insert_images($image, "pagesid=".$data->page_id);
+				$img->insert_images($image, "pagesid=".$data->page_sid);
 			}
 		}
 
 		# attachment files
-		$files->upload("files", "pagesid=".$data->page_id);
+		$files->upload("files", "pagesid=".$data->page_sid);
 
 		# db
-		$db->query("UPDATE ".PAGES_HTML_TABLE." SET content='".$post->content."', date_modified='".time()."' WHERE sid='".$data->page_id."'");
+		$db->query("UPDATE ".PAGES_HTML_TABLE." SET content='".$post->content."', date_modified='".time()."' WHERE sid='".$data->page_sid."'");
 
 		# notice
-		$logger->info("Страница #".$data->page_id." успешно обновлена.");
+		$logger->info("Страница #".$data->page_sid." успешно обновлена.");
 
 		# go
 		goback();

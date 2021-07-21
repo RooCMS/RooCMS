@@ -43,7 +43,7 @@ class PageFeed {
 		$feed           = [];
 		$feed['title'] 	= $structure->page_title;
 		$feed['alias'] 	= $structure->page_alias;
-		$feed['id'] 	= $structure->page_id;
+		$feed['id'] 	= $structure->page_sid;
 
 		# append information
 		$feed['append_info_before'] = $parse->text->html($structure->page_append_info_before);
@@ -364,12 +364,12 @@ class PageFeed {
 		global $db, $structure, $users;
 
 		# query id's feeds begin
-		$cond = " date_publications <= '".time()."' AND ( sid='".$structure->page_id."' ";
+		$cond = " date_publications <= '".time()."' AND ( sid='".$structure->page_sid."' ";
 
 		$showchilds =& $structure->page_show_child_feeds;
 
 		if($showchilds != "none") {
-			$qfeeds = $this->construct_child_feeds($structure->page_id, $showchilds);
+			$qfeeds = $this->construct_child_feeds($structure->page_sid, $showchilds);
 			foreach($qfeeds as $v) {
 				# query id's feeds collect
 				if($structure->sitetree[$v]['access']) {

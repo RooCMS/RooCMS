@@ -247,7 +247,7 @@ class Template {
 			$smarty->assign("noindex",	$structure->page_noindex);
 
 			# breadcrumb
-			$nav->construct_breadcrumb($structure->page_id);
+			$nav->construct_breadcrumb($structure->page_sid);
 			krsort($nav->breadcrumb);
 
 			$smarty->assign("breadcrumb",	$nav->breadcrumb);

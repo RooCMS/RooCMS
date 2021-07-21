@@ -58,9 +58,9 @@ class ACP_Pages_PHP {
 
 		global $db, $logger, $post;
 
-		$db->query("UPDATE ".PAGES_PHP_TABLE." SET content='".$post->content."', date_modified='".time()."' WHERE sid='".$data->page_id."'");
+		$db->query("UPDATE ".PAGES_PHP_TABLE." SET content='".$post->content."', date_modified='".time()."' WHERE sid='".$data->page_sid."'");
 
-		$logger->info("Страница #".$data->page_id." успешно обновлена.");
+		$logger->info("Страница #".$data->page_sid." успешно обновлена.");
 
 		goback();
 	}

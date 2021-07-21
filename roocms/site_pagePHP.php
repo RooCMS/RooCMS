@@ -42,7 +42,7 @@ class PagePHP {
 
 		global $db, $structure, $parse, $tpl, $smarty;
 
-		$q = $db->query("SELECT content FROM ".PAGES_PHP_TABLE." WHERE sid='".$structure->page_id."'");
+		$q = $db->query("SELECT content FROM ".PAGES_PHP_TABLE." WHERE sid='".$structure->page_sid."'");
 		$data = $db->fetch_assoc($q);
 
 		ob_start();
