@@ -153,6 +153,7 @@ class ACP_Structure {
 					break;
 
 				case 'story':
+					$db->query("INSERT INTO ".PAGES_STORY_TABLE." (sid, date_modified) VALUE ('".$sid."', '".time()."')");
 					break;
 
 				case 'php':
@@ -334,6 +335,12 @@ class ACP_Structure {
 				case 'html': # del content html
 					require_once _ROOCMS."/acp/pages_html.php";
 					$this->unit = new ACP_Pages_HTML;
+					$this->unit->delete($sid);
+					break;
+
+				case 'story': # del content story
+					require_once _ROOCMS."/acp/pages_story.php";
+					$this->unit = new ACP_Pages_Story;
 					$this->unit->delete($sid);
 					break;
 

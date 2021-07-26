@@ -51,6 +51,11 @@ class ACP_Pages {
 					$this->unit = new ACP_Pages_HTML;
 					break;
 
+				case 'story':
+					require_once _ROOCMS."/acp/pages_story.php";
+					$this->unit = new ACP_Pages_Story;
+					break;
+
 				case 'php':
 					require_once _ROOCMS."/acp/pages_php.php";
 					$this->unit = new ACP_Pages_PHP;

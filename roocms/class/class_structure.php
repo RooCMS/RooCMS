@@ -26,9 +26,10 @@ if(!defined('RooCMS')) {
 class Structure {
 
 	# vars
-	public $content_types		= array('html'	=> array('title' => 'HTML'),
-						'php'	=> array('title' => 'PHP'),
-						'feed'	=> array('title' => 'Лента'));
+	public $content_types 		= array('html'  => array('title' => 'HTML'),
+					        'story' => array('title' => 'История'),
+					        'php'   => array('title' => 'PHP'),
+					        'feed'  => array('title' => 'Лента'));
 	# site tree
 	public $sitetree		= [];
 
