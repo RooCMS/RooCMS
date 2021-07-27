@@ -42,9 +42,9 @@ class ACP_Feeds_Feed {
 	/**
 	 * Key on "start" (c)
 	 *
-	 * @param $structure_data
+	 * @param array $structure_data
 	 */
-	public function __construct($structure_data=[]) {
+	public function __construct(array $structure_data=[]) {
 		$this->feed =& $structure_data;
 	}
 
@@ -415,6 +415,35 @@ class ACP_Feeds_Feed {
 
 
 	/**
+	 * Remove feed
+	 *
+	 * @param int $sid - structure element id
+	 */
+	public function delete($sid) {
+
+		global $db, $img, $files, $tags;
+
+		$cond = "";
+		$f = $db->query("SELECT id FROM ".PAGES_FEED_TABLE." WHERE sid='".$sid."'");
+		while($fid = $db->fetch_assoc($f)) {
+			# del tags
+			$tags->save_tags("", "feeditemid=".$fid['id']);
+			# cond
+			$cond = $db->qcond_or($cond);
+			$cond .= " attachedto='feeditemid=".$fid['id']."' " ;
+		}
+
+		# del attached images
+		if(trim($cond) != "") {
+			$img->remove_images($cond, true);
+			$files->remove_files($cond, true);
+		}
+
+		$db->query("DELETE FROM ".PAGES_FEED_TABLE." WHERE sid='".$sid."'");
+	}
+
+
+	/**
 	 * Remove record from feed
 	 *
 	 * @param int $id - record id
@@ -447,35 +476,6 @@ class ACP_Feeds_Feed {
 
 		# go
 		goback();
-	}
-
-
-	/**
-	 * Remove feed
-	 *
-	 * @param int $sid - structure element id
-	 */
-	public function delete_feed($sid) {
-
-		global $db, $img, $files, $tags;
-
-		$cond = "";
-		$f = $db->query("SELECT id FROM ".PAGES_FEED_TABLE." WHERE sid='".$sid."'");
-		while($fid = $db->fetch_assoc($f)) {
-			# del tags
-			$tags->save_tags("", "feeditemid=".$fid['id']);
-			# cond
-			$cond = $db->qcond_or($cond);
-			$cond .= " attachedto='feeditemid=".$fid['id']."' " ;
-		}
-
-		# del attached images
-		if(trim($cond) != "") {
-                	$img->remove_images($cond, true);
-                	$files->remove_files($cond, true);
-		}
-
-		$db->query("DELETE FROM ".PAGES_FEED_TABLE." WHERE sid='".$sid."'");
 	}
 
 

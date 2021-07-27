@@ -133,8 +133,7 @@ class Structure {
 
 		# construct tree
 		if(!empty($tree)) {
-			$tree = $this->construct_tree($tree, $parent, $maxlevel, $child);
-			return $tree;
+			return $this->construct_tree($tree, $parent, $maxlevel, $child);
 		}
 		else {
 			return false;
@@ -226,7 +225,7 @@ class Structure {
         *
         * @param array $data - параметры вызванной страницы
         */
-	private function set_page_vars($data) {
+	private function set_page_vars(array $data) {
 
 		global $config, $smarty;
 

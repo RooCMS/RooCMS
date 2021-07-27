@@ -335,28 +335,26 @@ class ACP_Structure {
 				case 'html': # del content html
 					require_once _ROOCMS."/acp/pages_html.php";
 					$this->unit = new ACP_Pages_HTML;
-					$this->unit->delete($sid);
 					break;
 
 				case 'story': # del content story
 					require_once _ROOCMS."/acp/pages_story.php";
 					$this->unit = new ACP_Pages_Story;
-					$this->unit->delete($sid);
 					break;
 
 				case 'php': # del content php
 					require_once _ROOCMS."/acp/pages_php.php";
 					$this->unit = new ACP_Pages_PHP;
-					$this->unit->delete($sid);
 					break;
 
 				case 'feed': # del content feed
 					require_once _ROOCMS."/acp/feeds_feed.php";
 					$this->unit = new ACP_Feeds_Feed();
-					$this->unit->delete_feed($sid);
 					break;
 			}
 
+			# remove
+			$this->unit->delete($sid);
 
 			# structure unit
 			$db->query("DELETE FROM ".STRUCTURE_TABLE." WHERE id='".$sid."'");
