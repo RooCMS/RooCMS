@@ -96,8 +96,8 @@ class ACP_Index {
 
 		$warning_subj = [];
 
-		if(get_http_response_code("http://version.roocms.com/index.php") == "200") {
-			$f = file("http://version.roocms.com/index.php");
+		if(get_http_response_code("https://version.roocms.com/index.php") == "200") {
+			$f = file("https://version.roocms.com/index.php");
 
 			if(!empty($f) && version_compare(ROOCMS_VERSION, $f[0], "<")) {
 				$warning_subj[] = "Внимание! Вышла новая версия <b>RooCMS {$f[0]}</b>. Рекомендуем обновить ваш сайт до последней версии.

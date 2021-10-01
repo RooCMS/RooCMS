@@ -2,15 +2,15 @@ html {
 	font-size: $body-fs;
 }
 body {	background-color: $bgc-roocms;
-	//background: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI1IiBoZWlnaHQ9IjUiPgo8cmVjdCB3aWR0aD0iNSIgaGVpZ2h0PSI1IiBmaWxsPSIjZmZmIj48L3JlY3Q+CjxyZWN0IHdpZHRoPSIxIiBoZWlnaHQ9IjEiIGZpbGw9IiNjY2MiPjwvcmVjdD4KPC9zdmc+");
 	background-image: -webkit-linear-gradient(top, fade-out($brand-dark, .95), fade-out($brand-dark, .9)), url("../img/bg.png");
 	background-image: -moz-linear-gradient(top, fade-out($brand-dark, .95), fade-out($brand-dark, .9)), url("../img/bg.png");
 	background-image: -ms-linear-gradient(top, fade-out($brand-dark, .95), fade-out($brand-dark, .9)), url("../img/bg.png");
 	background-image: linear-gradient(top, fade-out($brand-dark, .95), fade-out($brand-dark, .9)), url("../img/bg.png");
-	font-family: $opensans, $ubuntu, $trebuchet, $tahoma;
+	font-family: $ptsans, $opensans, $ubuntu, $trebuchet, $tahoma;
 	padding: 0;
 	margin: 0;
 	text-rendering: optimizeLegibility;
+	//@extend .bgdots
 }
 
 /* Style fonts */
@@ -49,6 +49,15 @@ button, .btn, .label, .badge {font-family: $ptsans;}
 
 .badge, .alert {
 	font-family: $ptsanscap;
+}
+
+/* Background "dots" */
+.bgdots {
+	background:
+		linear-gradient(90deg, $bgc-roocms ($dot-space - $dot-size), transparent 1%) center,
+		linear-gradient($bgc-roocms ($dot-space - $dot-size), transparent 1%) center,
+		$white;
+	background-size: $dot-space $dot-space;
 }
 
 /* Blockquote */

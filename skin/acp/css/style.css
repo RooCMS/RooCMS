@@ -62,6 +62,12 @@ a {
   cursor: pointer;
 }
 
+/* Background "dots" */
+.bgdots {
+  background: linear-gradient(90deg, #F9F9F9 20px, transparent 1%) center, linear-gradient(#F9F9F9 20px, transparent 1%) center, #fff;
+  background-size: 22px 22px;
+}
+
 /* logo */
 #logo {
   max-height: 37px;

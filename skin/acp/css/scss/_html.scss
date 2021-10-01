@@ -49,3 +49,12 @@ code		{@extend .ubuntu;}
 
 /* Hover */
 .hover-cursor	{cursor: pointer;}
+
+/* Background "dots" */
+.bgdots {
+	background:
+		linear-gradient(90deg, $bgc-roocms ($dot-space - $dot-size), transparent 1%) center,
+		linear-gradient($bgc-roocms ($dot-space - $dot-size), transparent 1%) center,
+		$white;
+	background-size: $dot-space $dot-space;
+}

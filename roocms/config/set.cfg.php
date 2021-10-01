@@ -22,7 +22,7 @@ if(!defined('RooCMS')) {
 /**
 * Debug mode switcher
 */
-define('DEBUGMODE',	false);	# Режим отладки
+const DEBUGMODE = false;        # Режим отладки
 
 
 /**

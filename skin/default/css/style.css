@@ -10,12 +10,12 @@ html {
 }
 
 body {
-  background-color: #fefefe;
+  background-color: #f8f9f9;
   background-image: -webkit-linear-gradient(top, rgba(33, 37, 41, 0.05), rgba(33, 37, 41, 0.1)), url("../img/bg.png");
   background-image: -moz-linear-gradient(top, rgba(33, 37, 41, 0.05), rgba(33, 37, 41, 0.1)), url("../img/bg.png");
   background-image: -ms-linear-gradient(top, rgba(33, 37, 41, 0.05), rgba(33, 37, 41, 0.1)), url("../img/bg.png");
   background-image: linear-gradient(top, rgba(33, 37, 41, 0.05), rgba(33, 37, 41, 0.1)), url("../img/bg.png");
-  font-family: "Open Sans", "Ubuntu", "Trebuchet MS", "Tahoma";
+  font-family: "PT Sans", "Open Sans", "Ubuntu", "Trebuchet MS", "Tahoma";
   padding: 0;
   margin: 0;
   text-rendering: optimizeLegibility;
@@ -61,6 +61,12 @@ button, .small, small, .btn, .label, .badge {
   font-family: "PT Sans Caption";
 }
 
+/* Background "dots" */
+.bgdots {
+  background: linear-gradient(90deg, #f8f9f9 4px, transparent 1%) center, linear-gradient(#f8f9f9 4px, transparent 1%) center, #fff;
+  background-size: 5px 5px;
+}
+
 /* Blockquote */
 blockquote {
   background-color: rgba(33, 37, 41, 0.05);
@@ -93,7 +99,7 @@ mark {
 
 /* Common Styles Roocms */
 .img-border-r {
-  border-radius: calc(.25rem - 1px);
+  border-radius: calc(0.25rem - 1px);
 }
 
 /* Top Navigation */
@@ -198,13 +204,13 @@ a.tag.active:hover .tag_amount:after {
 
 /* Feed item */
 .roocms-feedimg :first-child img {
-  border-top-left-radius: calc(.25rem - 1px);
-  border-top-right-radius: calc(.25rem - 1px);
+  border-top-left-radius: calc(0.25rem - 1px);
+  border-top-right-radius: calc(0.25rem - 1px);
 }
 
 .roocms-feedimg :last-child img {
-  border-bottom-left-radius: calc(.25rem - 1px);
-  border-bottom-right-radius: calc(.25rem - 1px);
+  border-bottom-left-radius: calc(0.25rem - 1px);
+  border-bottom-right-radius: calc(0.25rem - 1px);
 }
 
 @media (min-width: 992px) {
@@ -273,19 +279,19 @@ a#PrevFeedItem:hover > .roocms-feeditem-pn {
 @media (min-width: 768px) {
   .block-images {
     width: 25%;
-    border-radius: calc(.25rem - 1px);
+    border-radius: calc(0.25rem - 1px);
   }
 }
 @media (min-width: 1200px) {
   .block-images {
     width: 20%;
-    border-radius: calc(.25rem - 1px);
+    border-radius: calc(0.25rem - 1px);
   }
 }
 @media (min-width: 1440px) {
   .block-images {
     width: 14.28%;
-    border-radius: calc(.25rem - 1px);
+    border-radius: calc(0.25rem - 1px);
   }
 }
 /* PM */

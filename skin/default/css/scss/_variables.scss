@@ -33,7 +33,7 @@ $colors:(
 );
 
 // Main color
-$bgc-roocms: lighten($brand-dark, 85%);
+$bgc-roocms: lighten($brand-dark, 83%);
 
 // Fonts
 $arial:     'Arial';
@@ -45,6 +45,10 @@ $ubuntu:    'Ubuntu';
 $ptsans:    'PT Sans';
 $ptsanscap: 'PT Sans Caption';
 $opensans:  'Open Sans';
+
+// Background pattern
+$dot-size: 1px;
+$dot-space: 5px;
 
 // Main size
 $body-fs: 15px;
