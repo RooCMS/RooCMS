@@ -73,9 +73,3 @@ P.S.
 Your ideas, comments and other any help - allow RooCMS to develop in interests of majority.
 
 Ваши идеи, замечания, и любая помощь - помогут развиваться RooCMS в интересах большинства.
-
-Donate
-----
-[PayPal](https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=7HT97KCAB63SL&item_name=RooCMS+development&currency_code=USD&source=url)  |
-[Yandex RUB](https://yasobe.ru/na/roocms) |
-[PayPal Alternative](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=LD48VFB5XZTL2&source=url)
