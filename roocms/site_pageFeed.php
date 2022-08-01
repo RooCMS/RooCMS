@@ -131,9 +131,9 @@ class PageFeed {
 	/**
 	 * Load Feed Item
 	 *
-	 * @param int $id  - идентификатор элемента
+	 * @param int $id - идентификатор элемента
 	 */
-	private function load_item($id) {
+	private function load_item(int $id) {
 
 		global $db, $structure, $nav, $users, $parse, $tags, $files, $img, $tpl, $smarty, $site;
 
@@ -224,7 +224,7 @@ class PageFeed {
 	 *
 	 * @param int $id - идентификатор элемента
 	 */
-	private function count_views($id) {
+	private function count_views(int $id) {
 
 		global $db;
 
@@ -246,7 +246,7 @@ class PageFeed {
 	 *
 	 * @return array
 	 */
-	private function load_prevnext_item($id) {
+	private function load_prevnext_item(int $id) {
 
 		global $db, $structure, $img, $parse;
 
@@ -402,7 +402,7 @@ class PageFeed {
 	 *
 	 * @return array - id's
 	 */
-	private function construct_child_feeds($sid, $type="default") {
+	private function construct_child_feeds(int $sid, string $type="default") {
 
 		global $structure;
 

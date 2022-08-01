@@ -382,7 +382,7 @@ class ACP_Structure {
 	 *
 	 * @return bool
 	 */
-	private function check_unique_alias(string $name, $without="") {
+	private function check_unique_alias(string $name, string $without="") {
 
 		global $db;
 

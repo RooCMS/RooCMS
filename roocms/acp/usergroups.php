@@ -165,7 +165,7 @@ class ACP_UserGroups {
 	 *
 	 * @param int $gid - group identificator.
 	 */
-	private function edit_group($gid) {
+	private function edit_group(int $gid) {
 
 		global $db, $smarty, $tpl;
 
@@ -191,7 +191,7 @@ class ACP_UserGroups {
 	 *
 	 * @param int $gid - group identificator
 	 */
-	private function update_group($gid) {
+	private function update_group(int $gid) {
 
 		global $db, $post, $users, $logger;
 
@@ -245,7 +245,7 @@ class ACP_UserGroups {
 	 *
 	 * @param int $gid - group identificator
 	 */
-	private function delete_group($gid) {
+	private function delete_group(int $gid) {
 
 		global $db, $logger;
 
@@ -265,7 +265,7 @@ class ACP_UserGroups {
 	 * @param int $uid - user identificator
 	 * @param int $gid - group identificator
 	 */
-	private function exclude_user_group($uid, $gid) {
+	private function exclude_user_group(int $uid, int $gid) {
 
 		global $db, $logger;
 

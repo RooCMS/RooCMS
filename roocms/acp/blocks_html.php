@@ -87,7 +87,7 @@ class ACP_Blocks_HTML {
 	 *
 	 * @param int $id
 	 */
-	public function edit($id) {
+	public function edit(int $id) {
 
 		global $config, $db, $files, $img, $tpl, $smarty;
 
@@ -133,7 +133,7 @@ class ACP_Blocks_HTML {
 	 *
 	 * @param int $id
 	 */
-	public function update($id) {
+	public function update(int $id) {
 
 		global $config, $db, $files, $img, $post, $get, $logger;
 
@@ -195,7 +195,7 @@ class ACP_Blocks_HTML {
 	 *
 	 * @param int $id
 	 */
-	public function delete($id) {
+	public function delete(int $id) {
 
 		global $db, $img, $logger;
 

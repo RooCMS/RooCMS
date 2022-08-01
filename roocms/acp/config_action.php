@@ -43,11 +43,11 @@ class ACP_ConfigAction {
 	/**
 	 * This function to change script name for acp.
 	 *
-	 * @param string $newcp  - new path for acp script
+	 * @param string $newcp - new path for acp script
 	 *
 	 * @return string        - actual path to script acp
 	 */
-	private function change_cp_script($newcp) {
+	private function change_cp_script(string $newcp) {
 
 		global $files, $logger;
 

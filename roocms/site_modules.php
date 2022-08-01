@@ -41,11 +41,11 @@ class Modules {
 	/**
 	 * Load module
 	 *
-	 * @param  string $modulename - идентификатор модуля
+	 * @param string $modulename - идентификатор модуля
 	 *
 	 * @return string $output     - Возвращает код модуля
 	 */
-	public function load($modulename) {
+	public function load(string $modulename) {
 
 		global $parse, $smarty, $tpl;
 

@@ -1,6 +1,6 @@
 Version: 1.4.0
 ========================
-**release date:	01.10.2021**
+**release date:	01.08.2022**
 
 Plugins
 -------
@@ -33,6 +33,7 @@ Release information:
 	[upd] Upgrade jQuery Migrate to version 3.3.2
 	
 	[fix] optimisation global vars and reconfiguring
+    [fix] add types in methods
 	
 	[inf] From the current version, we refuse to support the PHP below version 7
 	

@@ -28,7 +28,7 @@ if(!defined('RooCMS')) {
  *
  * @return string $Code
  */
-function randcode($ns, $symbols="ABCEFHKLMNPRSTVXYZ123456789") {
+function randcode(int $ns, $symbols="ABCEFHKLMNPRSTVXYZ123456789") {
 
 	if(trim($symbols) == "") {
 		$symbols = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
@@ -57,7 +57,7 @@ function randcode($ns, $symbols="ABCEFHKLMNPRSTVXYZ123456789") {
  *
  * @return string
  */
-function mb_ucfirst($string) {
+function mb_ucfirst(string $string) {
 	return mb_strtoupper(mb_substr($string, 0, 1)).mb_strtolower(mb_substr($string, 1));
 }
 
@@ -67,7 +67,7 @@ function mb_ucfirst($string) {
  * @param string $address - URL
  * @param int    $code    - Code forwading
  */
-function go($address, $code=301) {
+function go(string $address, int $code=301) {
 
 	switch($code) {
 		case 300:
@@ -130,7 +130,7 @@ function nocache() {
  *
  * @return string - code response
  */
-function get_http_response_code($url) {
+function get_http_response_code(string $url) {
 	$headers = get_headers($url);
 	return mb_substr($headers[0], 9, 3);
 }

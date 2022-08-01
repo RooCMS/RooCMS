@@ -100,7 +100,7 @@ class ACP_Index {
 			$f = file("https://version.roocms.com/index.php");
 
 			if(!empty($f) && version_compare(ROOCMS_VERSION, $f[0], "<")) {
-				$warning_subj[] = "Внимание! Вышла новая версия <b>RooCMS {$f[0]}</b>. Рекомендуем обновить ваш сайт до последней версии.
+				$warning_subj[] = "Внимание! Вышла новая версия <b>RooCMS ".$f[0]."</b>. Рекомендуем обновить ваш сайт до последней версии.
 				<br />Что бы скачать дистрибутив последней версии перейдите по <a href='http://www.roocms.com/index.php?page=download' target='_blank'>ссылке</a>";
 
 				$info['last_stable'] = $f[0];

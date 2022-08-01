@@ -202,7 +202,7 @@ class ACP_Users {
 	 *
 	 * @param int $uid - user identificator.
 	 */
-	private function edit_user($uid) {
+	private function edit_user(int $uid) {
 
 		global $db, $users, $parse, $logger, $smarty, $tpl;
 
@@ -249,7 +249,7 @@ class ACP_Users {
 	 *
 	 * @param int $uid - user identificator
 	 */
-	private function update_user($uid) {
+	private function update_user(int $uid) {
 
 		global $db, $security, $parse, $post, $logger, $users, $mailer, $site, $smarty, $tpl;
 
@@ -363,7 +363,7 @@ class ACP_Users {
 	 *
 	 * @param int $uid - user identificator
 	 */
-	private function delete_user($uid) {
+	private function delete_user(int $uid) {
 
 		global $db, $img, $logger;
 
@@ -402,7 +402,7 @@ class ACP_Users {
 	 *
 	 * @param int $uid - user id
 	 */
-	private function check_users_data($uid = 0) {
+	private function check_users_data(int $uid = 0) {
 
 		global $db, $post, $users;
 

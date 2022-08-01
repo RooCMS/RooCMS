@@ -202,7 +202,7 @@ class ACP_Feeds_Feed {
 	 *
 	 * @param int $id - record identificator from feed
 	 */
-	public function edit_item($id) {
+	public function edit_item(int $id) {
 
 		global $db, $users, $tags, $files, $img, $tpl, $smarty, $parse;
 
@@ -274,7 +274,7 @@ class ACP_Feeds_Feed {
 	 *
 	 * @param int $id - record identificator from feed
 	 */
-	public function update_item($id) {
+	public function update_item(int $id) {
 
 		global $db, $logger, $tags, $files, $img, $post, $get;
 
@@ -341,7 +341,7 @@ class ACP_Feeds_Feed {
 	 *
 	 * @param int $id - record identificator from feed
 	 */
-	public function migrate_item($id) {
+	public function migrate_item(int $id) {
 
 		global $db, $logger, $tpl, $smarty, $post;
 
@@ -393,10 +393,10 @@ class ACP_Feeds_Feed {
 	/**
 	 * Change status to record feed
 	 *
-	 * @param int $id - record id
+	 * @param int $id     - record id
 	 * @param int $status - 1=show , 0=hide
 	 */
-	public function change_item_status($id, $status = 1) {
+	public function change_item_status(int $id, int $status = 1) {
 
 		global $db, $logger;
 
@@ -419,7 +419,7 @@ class ACP_Feeds_Feed {
 	 *
 	 * @param int $sid - structure element id
 	 */
-	public function delete($sid) {
+	public function delete(int $sid) {
 
 		global $db, $img, $files, $tags;
 
@@ -448,7 +448,7 @@ class ACP_Feeds_Feed {
 	 *
 	 * @param int $id - record id
 	 */
-	public function delete_item($id) {
+	public function delete_item(int $id) {
 
 		global $db, $logger, $img, $files, $tags;
 
@@ -594,7 +594,7 @@ class ACP_Feeds_Feed {
 	 *
 	 * @param int $sid - feed id
 	 */
-	public function count_items($sid) {
+	public function count_items(int $sid) {
 
 		global $db;
 
@@ -704,7 +704,7 @@ class ACP_Feeds_Feed {
 	 * @param string $title
 	 * @param string $subject
 	 */
-	private function mailing($id, $title, $subject) {
+	private function mailing(int $id, string $title, string $subject) {
 
 		global $parse, $mailer, $logger, $users, $mailer, $site;
 

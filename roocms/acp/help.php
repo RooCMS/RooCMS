@@ -165,7 +165,7 @@ class ACP_Help {
 	*
 	* @param int $id - part id
 	*/
-	private function update_part($id) {
+	private function update_part(int $id) {
 
 		global $db, $parse, $logger, $post;
 
@@ -247,7 +247,7 @@ class ACP_Help {
 	*
 	* @param int $id - part id
 	*/
-	private function delete_part($id) {
+	private function delete_part(int $id) {
 
 		global $db, $logger;
 
@@ -290,7 +290,7 @@ class ACP_Help {
 	 *
 	 * @return array|null|false - return false if tree not construct, or return rray tree.
 	 */
-	public function load_tree($parent=0, $maxlevel=0, $child=true) {
+	public function load_tree(int $parent=0, int $maxlevel=0, bool $child=true) {
 
 		global $db;
 		static $use = false;
@@ -372,7 +372,7 @@ class ACP_Help {
 	*
 	* @param int $id - id start part
 	*/
-	private function construct_breadcrumb($id = 1) {
+	private function construct_breadcrumb(int $id = 1) {
 		if($id != 1) {
 			foreach($this->helptree AS $v) {
 				if($v['id'] == $id) {
@@ -424,7 +424,7 @@ class ACP_Help {
 	 *
 	 * @return bool
 	 */
-	private function check_uname($name, $without="") {
+	private function check_uname(string $name, string $without="") {
 
 		global $db;
 
@@ -452,7 +452,7 @@ class ACP_Help {
 	*
 	* @param int $id - id part
 	*/
-	private function count_childs($id) {
+	private function count_childs(int $id) {
 
 		global $db, $logger;
 
@@ -470,7 +470,7 @@ class ACP_Help {
 	 *
 	 * @param string $operation - operation type (create|update)
 	 */
-	private function check_post_data($operation="create") {
+	private function check_post_data(string $operation="create") {
 
 		global $post, $logger;
 

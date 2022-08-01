@@ -30,7 +30,7 @@ class ACP_Pages_PHP {
 	*
 	* @param int $sid - Structure id
 	*/
-	public function edit($sid) {
+	public function edit(int $sid) {
 
 		global $db, $tpl, $smarty, $parse;
 
@@ -71,7 +71,7 @@ class ACP_Pages_PHP {
 	*
 	* @param int $sid - Structure id
 	*/
-	public function delete($sid) {
+	public function delete(int $sid) {
 
 		global $db;
 

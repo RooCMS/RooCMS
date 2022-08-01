@@ -76,7 +76,7 @@ class ACP_Login {
 	 * @param string $login    - введенный логин
 	 * @param string $password - введенный пароль
 	 */
-	private function incorrect_entering($login, $password) {
+	private function incorrect_entering(string $login, string $password) {
 
 		global $smarty, $logger;
 

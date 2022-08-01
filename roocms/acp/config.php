@@ -115,7 +115,7 @@ class ACP_Config extends ACP_ConfigAction {
 	 *
 	 * @return string
 	 */
-	private function init_field($option_name, $option_type, $value, $variants, $maxlength=0) {
+	private function init_field(string $option_name, string $option_type, string $value, string $variants, int $maxlength=0) {
 
 		global $tpl, $smarty, $parse;
 
@@ -307,7 +307,7 @@ class ACP_Config extends ACP_ConfigAction {
 	 * @param string $option - option name
 	 * @param string $value  - option value
 	 */
-	private function update_db_config($check, $option, $value) {
+	private function update_db_config(bool $check, string $option, string $value) {
 
 		global $db, $logger;
 
@@ -328,7 +328,7 @@ class ACP_Config extends ACP_ConfigAction {
 	 *
 	 * @return string
 	 */
-	private function check_string_value($value, $maxleight=0) {
+	private function check_string_value(string $value, int $maxleight=0) {
 
 		if($maxleight > 0) {
 			$value = mb_substr($value, 0, $maxleight);

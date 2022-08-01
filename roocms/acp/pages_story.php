@@ -30,7 +30,7 @@ class ACP_Pages_Story {
 	 *
 	 * @param int $sid - Structure id
 	 */
-	public function edit($sid) {
+	public function edit(int $sid) {
 
 		global $db, $files, $img, $parse, $tpl, $smarty;
 
@@ -95,7 +95,7 @@ class ACP_Pages_Story {
 	 *
 	 * @param int $sid - Structure id
 	 */
-	public function delete($sid) {
+	public function delete(int $sid) {
 
 
 	}

@@ -35,7 +35,7 @@ trait ACP_UserOperation {
 	 *
 	 * @param int $gid - group identificator
 	 */
-	private function count_users($gid) {
+	private function count_users(int $gid) {
 
 		global $db, $logger;
 
