@@ -222,7 +222,7 @@ class Parser {
 	 *
 	 * @return string $uri
 	 */
-	public function transform_uri($url) {
+	public function transform_uri(string $url) {
 
 		if($this->uri_chpu) {
 			$url = str_ireplace(array('?','&','='), $this->uri_separator, $url);
@@ -277,7 +277,7 @@ class Parser {
 	 *
 	 * @return string clear $key
 	 */
-	public function clear_string($string) {
+	public function clear_string(string $string) {
 
 		$string = trim(str_ireplace(array('?','!','@','#','$','%','^','&','*','(',')','{','}','[',']','|','<','>','/','\\','"','`','.',',','~','=',';'), '', $string));
 
@@ -293,7 +293,7 @@ class Parser {
 	 *
 	 * @return string|array
 	 */
-	public function escape_string($string, $key=true) {
+	public function escape_string($string, bool $key=true) {
 		global $db;
 
 		if(!is_array($string)) {
@@ -393,7 +393,7 @@ class Parser {
 	 *
 	 * @return float
 	 */
- 	public function percent($n,$from) {
+ 	public function percent(int $n, int $from) {
 
 		$percent = ($n / $from) * 100;
 		$percent = round($percent);
@@ -409,7 +409,7 @@ class Parser {
 	 *
 	 * @return array|false
 	 */
-	public function cvrt_color_h2d($hexcolor) {
+	public function cvrt_color_h2d(string $hexcolor) {
 		if(mb_strlen($hexcolor) != 7 || mb_strpos($hexcolor, "#") === false) {
 			return false;
 		}

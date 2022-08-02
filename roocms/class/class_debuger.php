@@ -247,7 +247,7 @@ class Debuger {
         *
         * @param boolean $show
         */
-	private static function error_report($show = false) {
+	private static function error_report(bool $show = false) {
 
 		ini_set("error_log", SYSERRLOG);
 
@@ -274,7 +274,7 @@ class Debuger {
 	 *
 	 * @param mixed $var - variable/data/object for debugging
 	 *
-	 * @return mixed     - show variable dump for $var
+	 * @return void     - show variable dump for $var
 	 */
 	public function rundebug($var) {
                 static $use = 1;

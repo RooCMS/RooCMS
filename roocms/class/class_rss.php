@@ -94,7 +94,7 @@ class RSS {
 	 *
 	 * @param string $url
 	 */
-	public function set_link($url = "") {
+	public function set_link(string $url = "") {
 
 		global $site, $parse;
 
@@ -164,14 +164,14 @@ class RSS {
 	 * draw item
 	 *
 	 * @param        $guid
-	 * @param        $title
-	 * @param        $description
+	 * @param string $title
+	 * @param string $description
 	 * @param        $link
 	 * @param        $pubdate
 	 * @param string $author
 	 * @param string $category
 	 */
-	public function create_item($guid, $title, $description, $link, $pubdate, $author = "", $category = "") {
+	public function create_item($guid, string $title, string $description, $link, $pubdate, string $author = "", string $category = "") {
 
 		global $site, $parse;
 

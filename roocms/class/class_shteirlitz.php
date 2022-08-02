@@ -30,7 +30,7 @@ class Shteirlitz {
 	 *
 	 * @return string
 	 */
-	public function encode($str, $pass="", $salt="") {
+	public function encode($str, string $pass="", string $salt="") {
 		return base64_encode($this->code($str, $pass, $salt));
 	}
 
@@ -44,7 +44,7 @@ class Shteirlitz {
 	 *
 	 * @return mixed
 	 */
-	public function decode($str, $pass="", $salt="") {
+	public function decode($str, string $pass="", string $salt="") {
 		return $this->code(base64_decode($str), $pass, $salt);
 	}
 
@@ -58,7 +58,7 @@ class Shteirlitz {
 	 *
 	 * @return mixed
 	 */
-	private function code($str, $pass="", $salt="") {
+	private function code($str, string $pass="", string $salt="") {
 
 		$len = strlen($str);
 		$n = $len > 100 ? 8 : 2;

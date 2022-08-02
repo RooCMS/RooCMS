@@ -30,12 +30,12 @@ class Tags {
 	/**
 	 * Функция возвращает ввиде массива полный список тегов
 	 *
-	 * @param bool   $with_zero - Если флаг true, то вернет список тегов включая, нулевые значения. Иначе вернет только используемые теги.
-	 * @param int    $limit     - Кол-во тегов (срез) которые вернет запрос
+	 * @param bool $with_zero - Если флаг true, то вернет список тегов включая, нулевые значения. Иначе вернет только используемые теги.
+	 * @param int  $limit     - Кол-во тегов (срез) которые вернет запрос
 	 *
 	 * @return array
 	 */
-	public function list_tags($with_zero=false, $limit=0) {
+	public function list_tags(bool $with_zero=false, int $limit=0) {
 
 		global $db;
 
@@ -133,7 +133,7 @@ class Tags {
 	 * @param string $tags     - tags (separeted: comma)
 	 * @param string $linkedto - link to element
 	 */
-	public function save_tags($tags, $linkedto) {
+	public function save_tags(string $tags, string $linkedto) {
 
 		global $db;
 
@@ -173,7 +173,7 @@ class Tags {
 	 *
 	 * @return array
 	 */
-	public function diff_tag(array $now, array $new, $linkedto) {
+	public function diff_tag(array $now, array $new, string $linkedto) {
 
 		$tags = [];
 
@@ -214,7 +214,7 @@ class Tags {
 	 * @param string $tag      - tag
 	 * @param string $linkedto - tag pointer
 	 */
-	private function add_new_tag($tag, $linkedto) {
+	private function add_new_tag(string $tag, string $linkedto) {
 
 		global $db;
 
@@ -233,7 +233,7 @@ class Tags {
 	 * @param int    $tag_id   - tag id
 	 * @param string $linkedto - tag pointer
 	 */
-	private function add_instock_tag($tag_id, $linkedto) {
+	private function add_instock_tag(int $tag_id, string $linkedto) {
 
 		global $db;
 
@@ -251,7 +251,7 @@ class Tags {
 	 * @param array|string $tags     - массив или строка с тегами
 	 * @param string       $linkedto - ссылка на объект
 	 */
-	private function remove_tags($tags, $linkedto) {
+	private function remove_tags($tags, string $linkedto) {
 
 		global $db;
 
@@ -296,11 +296,11 @@ class Tags {
 	/**
 	 * Функция парсит и форматирует строку с тегами разделенными запятыми и преобразует её в массив.
 	 *
-	 * @param string $tags     - строка с тегами разделенными запятой
+	 * @param string $tags - строка с тегами разделенными запятой
 	 *
 	 * @return array возврашает массив с тегами
 	 */
-	private function parse_tags($tags) {
+	private function parse_tags(string $tags) {
 
 		global $parse;
 
@@ -325,7 +325,7 @@ class Tags {
 	 * @param int $tag_id - tag id
 	 * @param int $amount - now amount tag
 	 */
-	private function recount_tag($tag_id, $amount=-1) {
+	private function recount_tag(int $tag_id, int $amount=-1) {
 
 		global $db;
 

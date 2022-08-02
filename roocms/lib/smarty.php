@@ -23,7 +23,7 @@ if(!defined('RooCMS')) {
 /**
 * Set const smarty folder
 */
-define('SMARTY_DIR', _SMARTY.'/');
+const SMARTY_DIR = _SMARTY.'/';
 
 /**
 * Require Smarty

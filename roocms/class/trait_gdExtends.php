@@ -36,7 +36,7 @@ trait GDExtends {
 	 *
 	 * @return bool
 	 */
-	protected function is_gifpng($ext) {
+	protected function is_gifpng(string $ext) {
 
 		$check = false;
 
@@ -55,7 +55,7 @@ trait GDExtends {
 	 *
 	 * @return bool
 	 */
-	protected function is_jpg($ext) {
+	protected function is_jpg(string $ext) {
 
 		$check = false;
 
@@ -74,7 +74,7 @@ trait GDExtends {
 	 *
 	 * @return int
 	 */
-	protected function get_orientation($image) {
+	protected function get_orientation(string $image) {
 
 		$orientation = 1;
 
@@ -100,7 +100,7 @@ trait GDExtends {
 	 *
 	 * @return array<int> - Функция возвращает массив с ключами ['new_width'] - новая ширина, ['new_height'] - новая высота, ['new_left'] - значение позиции слева, ['new_top'] - значение позиции сверху
 	 */
-	protected function calc_resize($width, $height, $towidth, $toheight, $resize = true) {
+	protected function calc_resize(int $width, int $height, int $towidth, int $toheight, bool $resize = true) {
 
 		$x_ratio 	= $towidth / $width;
 		$y_ratio 	= $toheight / $height;
@@ -153,7 +153,7 @@ trait GDExtends {
 	 * Функция устанавливает параметры размеров миниатюр для изображений
 	 *
 	 * @param array $sizes  - array(width,height) - размеры будут изменены согласно параметрам.
-	 * @param       $target
+	 * @param mixed $target
 	 */
 	protected function set_mod_sizes(array $sizes, $target="tsize") {
 

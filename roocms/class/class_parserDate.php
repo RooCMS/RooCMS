@@ -38,12 +38,12 @@ class ParserDate {
 	/**
 	 * Функция генерирует выходной массив данных, для создания календаря на указанный месяц.
 	 *
-	 * @param int $year - год
+	 * @param int $year  - год
 	 * @param int $month - месяц
 	 *
 	 * @return array
 	 */
-	public function makeCal($year, $month) {
+	public function makeCal(int $year, int $month) {
 
 		$wday = $this->get_num_day_of_week(1, $month, $year);
 		if($wday == 0) {
@@ -81,10 +81,10 @@ class ParserDate {
 	/**
 	 * Переводим дату иг Грегорианского формата в русское представление.
 	 *
-	 * @param mixed  $gdate  - дата в грегорианском формате
-	 * @param bool   $full   - флаг указывает на вывод даты в полном или сокращенном формате
-	 * @param bool   $short  - флаг указывает на использование сокращений в названии дней
-	 * @param string $time   - переменная содержит часы и минуты.
+	 * @param mixed  $gdate - дата в грегорианском формате
+	 * @param bool   $full  - флаг указывает на вывод даты в полном или сокращенном формате
+	 * @param bool   $short - флаг указывает на использование сокращений в названии дней
+	 * @param string $time  - переменная содержит часы и минуты.
 	 *
 	 *	if $full == true and $short=false
 	 *		date = Четверг, 22 апреля 2010г.
@@ -96,7 +96,7 @@ class ParserDate {
 	 *
 	 * @return string
 	 */
-	public function gregorian_to_rus($gdate, $full=false, $short=true, $time="") {
+	public function gregorian_to_rus($gdate, bool $full=false, bool $short=true, string $time="") {
 
 		$edate = explode("/", $gdate);
 
@@ -128,9 +128,9 @@ class ParserDate {
 	/**
 	 * Функция преобразования даты из Юлианского Календаря в русский формат
 	 *
-	 * @param mixed  $jddate - дата в формате юлианского календаря
-	 * @param bool   $full   - флаг формата вывода даты
-	 * @param bool   $short  - флаг формата вывода даты
+	 * @param mixed $jddate           - дата в формате юлианского календаря
+	 * @param bool  $full             - флаг формата вывода даты
+	 * @param bool  $short            - флаг формата вывода даты
 	 *                    	if $full == true and $short=false
 	 *				date = Четверг, 22 апреля 2010г.
 	 *			else if $full == true and $short=true
@@ -141,7 +141,7 @@ class ParserDate {
 	 *
 	 * @return string - вовзвращает дату в заданном формате.
 	 */
-	public function jd_to_rus($jddate, $full=false, $short=true) {
+	public function jd_to_rus($jddate, bool $full=false, bool $short=true) {
 
 		$gregorian = JDToGregorian($jddate);
 
@@ -168,7 +168,7 @@ class ParserDate {
 	 *
 	 * @return string
 	 */
-	public function unix_to_rus($udate, $full=false, $short=true, $showtime=false) {
+	public function unix_to_rus(int $udate, bool $full=false, bool $short=true, bool $showtime=false) {
 
 		$day 	= date("d", $udate);
 		$month 	= date("m", $udate);
@@ -229,7 +229,7 @@ class ParserDate {
 	 *
 	 * @return string
 	 */
-	public function unix_to_rusint($udate) {
+	public function unix_to_rusint(int $udate) {
 
 		return date("d.m.Y", $udate);
 	}
@@ -242,7 +242,7 @@ class ParserDate {
 	 *
 	 * @return string - дата в грегорианском представлении
 	 */
-	public function unix_to_gregorian($udate) {
+	public function unix_to_gregorian(int $udate) {
 
 		$day 	= (int) date("d", $udate);
 		$month 	= (int) date("m", $udate);
@@ -259,7 +259,7 @@ class ParserDate {
 	 *
 	 * @return int - date formated in unix timestamp
 	 */
-	public function gregorian_to_unix($gdate) {
+	public function gregorian_to_unix(string $gdate) {
 
 		$time = explode("/", $gdate);
 
@@ -278,7 +278,7 @@ class ParserDate {
 	 *
 	 * @return int - unixtimestamp
 	 */
-	public function rusint_to_unix($date) {
+	public function rusint_to_unix(string $date) {
 
 		$time = explode(".", $date);
 
@@ -366,7 +366,7 @@ class ParserDate {
 	 *
 	 * @return int
 	 */
-	public function get_num_day_of_week($day, $month, $year) {
+	public function get_num_day_of_week(int $day, int $month, int $year) {
 
 		$jd = GregorianToJD($month, $day, $year);
 
@@ -384,7 +384,7 @@ class ParserDate {
 	 *
 	 * @return string
 	 */
-	public function get_title_day($nw, $short=true) {
+	public function get_title_day(int $nw, bool $short=true) {
 
 		$nw = round($nw);
 
@@ -411,7 +411,7 @@ class ParserDate {
 	 *
 	 * @return string
 	 */
-	public function get_title_month($nm, $ft = true, $short = false) {
+	public function get_title_month(int $nm, bool $ft = true, bool $short = false) {
 
 		$nm = round($nm);
 

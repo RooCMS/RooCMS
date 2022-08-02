@@ -41,7 +41,7 @@ class Logger {
 	 * @param      $subj
 	 * @param bool $save - on/off write error in db
 	 */
-	public function error($subj, $save=true) {
+	public function error($subj, bool $save=true) {
 		$_SESSION['error'][] = $subj;
 		if($save) {
 			$this->log($subj, "error");
@@ -55,7 +55,7 @@ class Logger {
 	 * @param      $subj
 	 * @param bool $save - on/off write notice in db
 	 */
-	public function info($subj, $save=true) {
+	public function info($subj, bool $save=true) {
 		$_SESSION['info'][] = $subj;
 		if($save) {
 			$this->log($subj, "info");
@@ -69,7 +69,7 @@ class Logger {
 	 * @param        $subj
 	 * @param string $type
 	 */
-	public function log($subj, $type="log") {
+	public function log($subj, string $type="log") {
 
 		# check type msg
 		if($type != "info" && $type != "error") {

@@ -44,7 +44,7 @@ class XML {
 	 *
 	 * @return SimpleXMLElement|null
 	 */
-	public function parse($file = false, $callback = false) {
+	public function parse($file = false, bool $callback = false) {
 
 		if(!$file) {
 			$file = $this->file;

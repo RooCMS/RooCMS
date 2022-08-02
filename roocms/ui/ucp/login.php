@@ -83,7 +83,7 @@ class UCP_Login {
 	/**
 	 * @param string $msg - error subject for log
 	 */
-	private function incorrect_entering($msg) {
+	private function incorrect_entering(string $msg) {
 
 		global $logger;
 

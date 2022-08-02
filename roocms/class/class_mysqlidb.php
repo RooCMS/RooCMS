@@ -58,7 +58,7 @@ class MySQLiDB {
 	* @param string $pass - user password
 	* @param string $base - db name
 	*/
-	private function connect($host, $user, $pass, $base) {
+	private function connect(string $host, string $user, string $pass, string $base) {
 
 		$this->sql = new mysqli($host,$user,$pass, $base);
 
@@ -84,7 +84,7 @@ class MySQLiDB {
 	 *
 	 * @return boolean
 	 */
-	public function check_connect($host, $user, $pass, $base) {
+	public function check_connect(string $host, string $user, string $pass, string $base) {
 
 		error_reporting(0);
 		$this->sql = new mysqli($host,$user,$pass, $base);
@@ -124,9 +124,10 @@ class MySQLiDB {
 	* This function use for debugging
 	*
 	* @param string $q - query to db
+	*
 	* @return string|null when debug mode is on, will return an error, otherwise it will display a general error message on screen
 	*/
-	private function error($q = "") {
+	private function error(string $q = "") {
 
 		# debug mode
 		if(DEBUGMODE && $q != "") {
@@ -157,9 +158,10 @@ class MySQLiDB {
 	* Query to DB
 	*
 	* @param string $q - query string
+	*
 	* @return resource - query result
 	*/
-	public function query($q) {
+	public function query(string $q) {
 
 		global $debug;
 
@@ -219,10 +221,10 @@ class MySQLiDB {
 	* The function inserts data from array into specified table.
 	* ! It is not recommended to use this function in user part of CMS.
 	*
-	* @param array $array  - Data array, where key is name of field in table and value is data of this field.
+	* @param array  $array - Data array, where key is name of field in table and value is data of this field.
 	* @param string $table - Table name.
 	*/
-	public function insert_array(array $array, $table) {
+	public function insert_array(array $array, string $table) {
 
 		$fields	= [];
 		$values	= [];
@@ -243,11 +245,11 @@ class MySQLiDB {
 	 * The function updates data from array into specified table.
 	 * ! It is not recommended to use this function in user part of CMS.
 	 *
-	 * @param array $array    - Data array, where key is name of field in table and value is data of this field.
+	 * @param array  $array   - Data array, where key is name of field in table and value is data of this field.
 	 * @param string $table   - Table name.
 	 * @param string $proviso - Condition (filter) for selecting target rows of table
 	 */
-	public function update_array(array $array, $table, $proviso) {
+	public function update_array(array $array, string $table, string $proviso) {
 
 		$update = [];
 		foreach($array AS $key=>$value) {
@@ -309,7 +311,7 @@ class MySQLiDB {
 	 *
 	 * @return int|boolean - Returns number of rows found that meet criteria or false in case of failure.
 	 */
-	public function check_id($id, $table, $field="id", $proviso=NULL) {
+	public function check_id(int $id, string $table, string $field="id", string $proviso=NULL) {
 
 		static $results = [];
 
@@ -343,7 +345,7 @@ class MySQLiDB {
 	 *                          Key "id_title" will contain name of field of main index of table with  data in which check was performed
 	 *               	    Key "id_value" will contain value of main index from string which is indicated as found.
 	 */
-	public function check_array_ids(array $ids, $table, $field="id", $proviso=NULL) {
+	public function check_array_ids(array $ids, string $table, string $field="id", string $proviso=NULL) {
 
 		# write condition
 		$primcond = "";
@@ -437,9 +439,10 @@ class MySQLiDB {
 	 * Clear system symbols for query
 	 *
 	 * @param string $q - query
+	 *
 	 * @return string - returns query string in database cleared of extraneous characters
 	 */
-	public function escape_string($q) {
+	public function escape_string(string $q) {
 
 		$q = htmlspecialchars($q);
 		$q = str_ireplace(
@@ -463,7 +466,7 @@ class MySQLiDB {
 	 *
 	 * @return mixed|null - name of column with master key of table.
 	 */
-	private function identy_primary_key($table) {
+	private function identy_primary_key(string $table) {
 
 		$index = NULL;
 		$q = $this->query("SHOW INDEX FROM ".$table);

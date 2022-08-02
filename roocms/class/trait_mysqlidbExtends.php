@@ -85,7 +85,7 @@ trait MySQLiDBExtends {
 	*
 	* @param int $items - общее число элементов
 	*/
-	public function pages_non_mysql($items) {
+	public function pages_non_mysql(int $items) {
 
 		# Если товаров больше чем на одну страницу...
 		if($items > $this->limit) {
@@ -154,7 +154,7 @@ trait MySQLiDBExtends {
 	 *
 	 * @return string
 	 */
-	public function qcond_and($cond) {
+	public function qcond_and(string $cond) {
 		if(trim($cond) != "") {
 			$cond .= " AND ";
 		}
@@ -170,7 +170,7 @@ trait MySQLiDBExtends {
 	 *
 	 * @return string
 	 */
-	public function qcond_or($cond) {
+	public function qcond_or(string $cond) {
 		if(trim($cond) != "") {
 			$cond .= " OR ";
 		}

@@ -34,11 +34,11 @@ class Security extends Shteirlitz {
 	 * Hash user password
 	 *
 	 * @param string $password - unhash pass
-	 * @param string $salt	   - user salt
+	 * @param string $salt     - user salt
 	 *
 	 * @return string - hash
 	 */
-	public function hash_password($password, $salt) {
+	public function hash_password(string $password, string $salt) {
 		return md5($this->encode(md5($password).md5($salt), $password, $salt));
 	}
 
@@ -53,7 +53,7 @@ class Security extends Shteirlitz {
 	 *
 	 * @return string - security token
 	 */
-	public function get_token($login, $hash, $salt) {
+	public function get_token(string $login, string $hash, string $salt) {
 
 		global $roocms;
 

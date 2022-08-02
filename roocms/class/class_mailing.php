@@ -64,12 +64,12 @@ class Mailing {
 	/**
 	 * Send mail message
 	 *
-	 * @param string $mailto   - recipient's email
-	 * @param string $theme    - title message
-	 * @param string $message  - message
-	 * @param string $from     - sender's return email
+	 * @param string $mailto  - recipient's email
+	 * @param string $theme   - title message
+	 * @param string $message - message
+	 * @param string $from    - sender's return email
 	 */
-	public function send($mailto, $theme, $message, $from="") {
+	public function send(string $mailto, string $theme, string $message, string $from="") {
 
 		global $parse;
 
@@ -91,11 +91,11 @@ class Mailing {
 	/**
 	 * Spread mail to users
 	 *
-	 * @param array  $usersdata	- data users array from get_userlist
-	 * @param string $theme		- subject message
-	 * @param string $message	- message
+	 * @param array  $usersdata - data users array from get_userlist
+	 * @param string $theme     - subject message
+	 * @param string $message   - message
 	 */
-	public function spread(array $usersdata, $theme, $message) {
+	public function spread(array $usersdata, string $theme, string $message) {
 
 		global $db, $users, $security, $logger, $site, $smarty, $tpl;
 

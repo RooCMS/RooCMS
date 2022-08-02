@@ -13,14 +13,14 @@
  * Name:     correct_4pu
  * Purpose:  correct href
  *
- * @author Jambik <> idea and creations
- *         alex Roosso <http://www.roocms.com> - mod: added flag noentitys & modifications
- *
  * @param array                    $tpl_source
  *
  * @return array
+ *@author Jambik <> idea and creations
+ *         alex Roosso <http://www.roocms.com> - mod: added flag noentitys & modifications
+ *
  */
-function smarty_outputfilter_correct4pu($tpl_source) {
+function smarty_outputfilter_correct4pu(array $tpl_source) {
 
 	global $parse;
 

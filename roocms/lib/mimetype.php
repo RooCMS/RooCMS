@@ -25,8 +25,8 @@ $mimetype = [];
 /**
 * File
 *
-* @var array
-*/
+* @var array $filetype
+ */
 $filetype	= [];
 $filetype[]	= array('ext'	=> '7z',	'mime_type'	=> 'application/octet-stream',		'ico'	=> '7z.png');
 //$filetype[]	= array('ext'	=> 'ace',	'mime_type'	=> '',		'ico'	=> 'ace.png');
@@ -69,8 +69,8 @@ $filetype[]	= array('ext'	=> 'torrent',	'mime_type'	=> 'application/x-bittorrent
 /**
 * Image
 *
-* @var array
-*/
+* @var array $imagetype
+ */
 $imagetype	= [];
 $imagetype[]	= array('ext'	=> 'png',	'mime_type'	=> 'image/png',		'ico'	=> 'png.png');
 $imagetype[]	= array('ext'	=> 'gif',	'mime_type'	=> 'image/gif',		'ico'	=> 'gif.png');

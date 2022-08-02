@@ -415,7 +415,7 @@ class Install extends IU_Extends {
 	 * @param string $field - check field
 	 * @param string $ermsg - error message
 	 */
-	private function check_data_post($field, $ermsg) {
+	private function check_data_post(string $field, string $ermsg) {
 
 		global $post, $logger;
 

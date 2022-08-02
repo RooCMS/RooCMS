@@ -75,7 +75,7 @@ class Navigation {
 	 *
 	 * @param int $sid - current page id
 	 */
-	public function construct_breadcrumb($sid = 1) {
+	public function construct_breadcrumb(int $sid = 1) {
 
 		global $structure;
 

@@ -67,7 +67,7 @@ class Structure {
 	*
 	* @param bool $ui - use true only user interface
 	*/
-	public function __construct($ui=true) {
+	public function __construct(bool $ui=true) {
 
 		# load site tree
 		$this->sitetree = $this->load_tree();
@@ -92,7 +92,7 @@ class Structure {
 	 *
 	 * @return array|null|false - return false if tree not construct, or return rray tree.
 	 */
-	public function load_tree($parent=0, $maxlevel=0, $child=true) {
+	public function load_tree(int $parent=0, int $maxlevel=0, bool $child=true) {
 
 		global $db, $users;
 		static $use = false;
@@ -152,7 +152,7 @@ class Structure {
 	 *
 	 * @return array|null
 	 */
-	private function construct_tree(array $unit, $parent=0, $maxlevel=0, $child=true, $level=0) {
+	private function construct_tree(array $unit, int $parent=0, int $maxlevel=0, bool $child=true, int $level=0) {
 
 		# create array
 		if($level == 0) {

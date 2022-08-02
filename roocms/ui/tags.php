@@ -66,7 +66,7 @@ class UI_Tags {
 	 * @param        $tag
 	 * @param string $type
 	 */
-	private function init_tag($tag, $type="id") {
+	private function init_tag($tag, string $type="id") {
 
 		global $db, $structure, $nav, $site, $smarty;
 

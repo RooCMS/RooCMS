@@ -33,7 +33,7 @@ trait UserAvatar {
 	 *
 	 * @return string - filename avatar image
 	 */
-	public function upload_avatar($uid, $avatar="") {
+	public function upload_avatar(int $uid, string $avatar="") {
 
 		global $config, $img;
 
@@ -54,7 +54,7 @@ trait UserAvatar {
 	 *
 	 * @param int $uid - unique user id
 	 */
-	public function delete_avatar($uid) {
+	public function delete_avatar(int $uid) {
 
 		global $db;
 

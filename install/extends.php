@@ -105,7 +105,7 @@ class IU_Extends extends Requirement {
 	 *
 	 * @return bool
 	 */
-	protected function check_step($n) {
+	protected function check_step(int $n) {
 
 		global $post;
 

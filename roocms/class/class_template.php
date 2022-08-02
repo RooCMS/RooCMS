@@ -127,12 +127,12 @@ class Template {
 	/**
 	 * Load template
 	 *
-	 * @param string  $tpl    - template name
-	 * @param bool    $return - if use $return to true, function return dump data tpl
+	 * @param string $tpl    - template name
+	 * @param bool   $return - if use $return to true, function return dump data tpl
 	 *
 	 * @return string|null
 	 */
-	public function load_template($tpl, $return=false) {
+	public function load_template(string $tpl, bool $return=false) {
 
 		global $smarty;
 
@@ -169,7 +169,7 @@ class Template {
 	 *
 	 * @return bool
 	 */
-	private function tpl_exists($path, $tpl) {
+	private function tpl_exists(string $path, string $tpl) {
 
 		global $debug;
 
@@ -191,7 +191,7 @@ class Template {
 	 *
 	 * @param string $component - block | module
 	 */
-	private function init_component($component="blocks") {
+	private function init_component(string $component="blocks") {
 
 		global $blocks, $module;
 

@@ -64,7 +64,7 @@ class UI_Search {
 	 *
 	 * @param string $searchstring - Searchstring
 	 */
-	private function search($searchstring) {
+	private function search(string $searchstring) {
 
 		global $db, $structure, $nav, $tags, $users, $parse, $img, $tpl, $smarty;
 

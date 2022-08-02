@@ -29,7 +29,7 @@ trait ParserValidData {
 	 *
 	 * @return bool
 	 */
-	public function valid_email($email) {
+	public function valid_email(string $email) {
 
 		$pattern = '/^[\.\-_A-Za-z0-9]+?@[\.\-A-Za-z0-9]+?\.[A-Za-z0-9]{2,6}$/';
 

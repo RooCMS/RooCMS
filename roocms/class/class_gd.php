@@ -97,7 +97,7 @@ class GD {
 	 * @param bool   $modify    - this parameter indicates whether image is subjected to full modification with preserving the original image and creating thumbnail.
 	 * @param bool   $noresize  - this parameter cancels "nomodify" image resizing, in case we want to keep original size.
 	 */
-	protected function modify_image($filename, $extension, $path, $watermark=true, $modify=true, $noresize=false) {
+	protected function modify_image(string $filename, string $extension, string $path, bool $watermark=true, bool $modify=true, bool $noresize=false) {
 
 		global $config;
 
@@ -139,7 +139,7 @@ class GD {
 	 * @param string $ext      - file extension (without dot)
 	 * @param string $path     - path to file
 	 */
-	protected function resize($filename, $ext, $path=_UPLOADIMAGES) {
+	protected function resize(string $filename, string $ext, string $path=_UPLOADIMAGES) {
 
 		# vars
 		$fileoriginal 	= $filename."_original.".$ext;
@@ -192,7 +192,7 @@ class GD {
 	 * @param string $ext      - file extension (without dot)
 	 * @param string $path     - path to file
 	 */
-	protected function resized($filename, $ext, $path=_UPLOADIMAGES) {
+	protected function resized(string $filename, string $ext, string $path=_UPLOADIMAGES) {
 
 		# vars
 		$file = $filename.".".$ext;
@@ -258,7 +258,7 @@ class GD {
 	 * @param string $ext      - file extension (without dot)
 	 * @param string $path     - path to file
 	 */
-	protected function thumbnail($filename, $ext, $path=_UPLOADIMAGES) {
+	protected function thumbnail(string $filename, string $ext, string $path=_UPLOADIMAGES) {
 
 		# vars
         	$fileresize 	= $filename."_resize.".$ext;
@@ -309,7 +309,7 @@ class GD {
 	 * @param string $ext      - file extension (without dot)
 	 * @param string $path     - path to file
 	 */
-	protected function watermark_text($filename, $ext, $path=_UPLOADIMAGES) {
+	protected function watermark_text(string $filename, string $ext, string $path=_UPLOADIMAGES) {
 
 		# vars
         	$fileresize = $filename."_resize.".$ext;
@@ -377,7 +377,7 @@ class GD {
 	 * @param string $ext      - file extension (without dot)
 	 * @param string $path     - path to file
 	 */
-	protected function watermark_image($filename, $ext, $path=_UPLOADIMAGES) {
+	protected function watermark_image(string $filename, string $ext, string $path=_UPLOADIMAGES) {
 
 		global $config, $parse;
 
@@ -446,7 +446,7 @@ class GD {
 	 *
 	 * @return string          - return result extension
 	 */
-	protected function convert_jpgtowebp($filename, $ext, $path=_UPLOADIMAGES) {
+	protected function convert_jpgtowebp(string $filename, string $ext, string $path=_UPLOADIMAGES) {
 
 		if($this->is_jpg($ext)) {
 
@@ -477,12 +477,12 @@ class GD {
 	/**
 	 * Get image source from image file
 	 *
-	 * @param string $from	- full path and file name for craft
-	 * @param string $ext	- fileextension without dot
+	 * @param string $from - full path and file name for craft
+	 * @param string $ext  - fileextension without dot
 	 *
 	 * @return resource
 	 */
-	private function imgcreate($from, $ext) {
+	private function imgcreate(string $from, string $ext) {
 
 		switch($ext) {
 			case 'webp':
@@ -513,13 +513,13 @@ class GD {
 	/**
 	 * Create blank image source
 	 *
-	 * @param int $width	- width blank
-	 * @param int $height	- height blank
-	 * @param str $ext	- extension
+	 * @param int $width  - width blank
+	 * @param int $height - height blank
+	 * @param str $ext    - extension
 	 *
 	 * @return resource	-
 	 */
-	private function imgcreatetruecolor($width, $height, $ext) {
+	private function imgcreatetruecolor(int $width, int $height, str $ext) {
 
                 $src = imagecreatetruecolor($width, $height);
 
@@ -540,7 +540,7 @@ class GD {
 	 * @param string   $ext     - extension
 	 * @param int      $quality - качество
 	 */
-	private function imgsave($res, $path, $ext, $quality=0) {
+	private function imgsave($res, string $path, string $ext, int $quality=0) {
 		switch($ext) {
 			case 'webp':
 				imagewebp($res, $path, $quality);

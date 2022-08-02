@@ -163,7 +163,7 @@ class Users extends Security {
 	 *
 	 * @param int $uid - уникальные идентификатор пользователя
 	 */
-	private function update_user_time_last_visit($uid) {
+	private function update_user_time_last_visit(int $uid) {
 
 		global $db, $roocms;
 
@@ -179,7 +179,7 @@ class Users extends Security {
 	 *
 	 * @return array user data
 	 */
-	public function get_user_data($uid) {
+	public function get_user_data(int $uid) {
 
 		global $db, $parse;
 
@@ -211,7 +211,7 @@ class Users extends Security {
 	 *
 	 * @return array
 	 */
-	public function get_userlist($status=-1, $ban=-1, $mailing=-1, $users=[]) {
+	public function get_userlist(int $status=-1, int $ban=-1, int $mailing=-1, array $users=[]) {
 
 		global $db, $parse;
 
@@ -266,11 +266,11 @@ class Users extends Security {
 	 * @param string $field   - поле
 	 * @param string $name    - значение поля
 	 * @param string $without - Выражение исключения для mysql запроса
-	 * @param string $table	  - Таблица для проверки
+	 * @param string $table   - Таблица для проверки
 	 *
 	 * @return bool $res - true - если значение не уникально, false - если значение уникально
 	 */
-	public function check_field($field, $name, $without="", $table=USERS_TABLE) {
+	public function check_field(string $field, string $name, string $without="", string $table=USERS_TABLE) {
 
 		global $db;
 
@@ -297,7 +297,7 @@ class Users extends Security {
 	 *
 	 * @param string $email - адрес электронной почты пользователя.
 	 */
-	public function valid_user_email($email) {
+	public function valid_user_email(string $email) {
 
 		global $db, $logger, $parse;
 
@@ -326,7 +326,7 @@ class Users extends Security {
 	 *
 	 * @return string
 	 */
-	public function uniq_nickname($nickname) {
+	public function uniq_nickname(string $nickname) {
 
 		global $db, $logger;
 

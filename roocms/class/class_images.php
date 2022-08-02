@@ -40,7 +40,7 @@ class Images extends GD {
 	 *
 	 * @return false|array - filenames array or false if images dont upload
 	 */
-	public function upload_image($file, $prefix="", array $thumbsize=[], $watermark=true, $modify=true, $noresize=false, $fname="", $path=_UPLOADIMAGES) {
+	public function upload_image(string $file, string $prefix="", array $thumbsize=[], bool $watermark=true, bool $modify=true, bool $noresize=false, string $fname="", string $path=_UPLOADIMAGES) {
 		return $this->upload_post_image($file, $prefix, $thumbsize, $watermark, $modify, $noresize, $fname, $path);
 	}
 
@@ -59,7 +59,7 @@ class Images extends GD {
 	 *
 	 * @return false|array - filenames array or false if images dont upload
 	 */
-	protected function upload_post_image($file, $prefix="", array $thumbsize=[], $watermark=true, $modify=true, $noresize=false, $fname="", $path=_UPLOADIMAGES) {
+	protected function upload_post_image(string $file, string $prefix="", array $thumbsize=[], bool $watermark=true, bool $modify=true, bool $noresize=false, string $fname="", string $path=_UPLOADIMAGES) {
 
 		global $config, $files;
 
@@ -157,13 +157,13 @@ class Images extends GD {
 	/**
 	 * Load images
 	 *
-	 * @param string $cond - image link condition
-	 * @param int    $from - start position for image load
+	 * @param string $cond  - image link condition
+	 * @param int    $from  - start position for image load
 	 * @param int    $limit - limit for uploading
 	 *
 	 * @return array $data - data array.
 	 */
-	public function load_images($cond, $from = 0, $limit = 0) {
+	public function load_images(string $cond, int $from = 0, int $limit = 0) {
 
                 global $db;
 
@@ -189,9 +189,9 @@ class Images extends GD {
 	 *
 	 * @param string $filename - filename without $pofix
 	 * @param mixed  $attached - file parent
-	 * @param string $alt - alt-text
+	 * @param string $alt      - alt-text
 	 */
-	public function insert_images($filename, $attached, $alt="") {
+	public function insert_images(string $filename, $attached, string $alt="") {
 
         	global $db, $logger;
 
@@ -211,7 +211,7 @@ class Images extends GD {
 	 * @param mixed $attachedto - attached link image
 	 * @param int   $id         - image id
 	 */
-	public function update_images_info($attachedto, $id) {
+	public function update_images_info($attachedto, int $id) {
 
 		global $db, $post, $img, $parse;
 
@@ -245,12 +245,12 @@ class Images extends GD {
 	/**
 	 * Delete image
 	 *
-	 * @param int|string $image - id or attachedto
-	 * @param boolean    $clwhere - type $image param
+	 * @param int|string $image       - id or attachedto
+	 * @param boolean    $clwhere     - type $image param
 	 * 				false for id or attachedto
 	 * 				true for another condition
 	 */
-	public function remove_images($image, $clwhere=false) {
+	public function remove_images($image, bool $clwhere=false) {
 
                 global $db;
 
@@ -338,7 +338,7 @@ class Images extends GD {
 	/**
 	 * This function create an array of valid image extensions allowed for upload to server.
 	 *
-	 * @return mixed
+	 * @return array
 	 */
 	public function get_allow_images() {
 		$imagetype = [];

@@ -58,7 +58,7 @@ class Files {
 	 *
 	 * @return string - new file name
 	 */
-	public function create_filename($filename, $prefix="", $pofix="", $path=_UPLOADIMAGES) {
+	public function create_filename(string $filename, string $prefix="", string $pofix="", string $path=_UPLOADIMAGES) {
 
 		global $parse;
 
@@ -110,7 +110,7 @@ class Files {
 	 *
 	 * @return array $data  files info
 	 */
-	public function load_files($cond, $from = 0, $limit = 0) {
+	public function load_files(string $cond, int $from = 0, int $limit = 0) {
 
 		global $db;
 
@@ -131,15 +131,15 @@ class Files {
 	/**
 	 * Upload Files
 	 *
-	 * @param string       $file        name array $_FILES
+	 * @param string       $file       name array $_FILES
 	 * @param string       $attached
-	 * @param string       $prefix      prefix file name
-	 * @param string|array $allowtypes  allowed file types (in future)
-	 * @param string       $path        path to upload
+	 * @param string       $prefix     prefix file name
+	 * @param string|array $allowtypes allowed file types (in future)
+	 * @param string       $path       path to upload
 	 *
 	 * @return array|false
 	 */
-	public function upload($file, $attached, $prefix="", $allowtypes="", $path=_UPLOADFILES) {
+	public function upload(string $file, string $attached, string $prefix="", $allowtypes="", string $path=_UPLOADFILES) {
 
 		# create output array data
 		$files = [];
@@ -224,7 +224,7 @@ class Files {
 	 * @param string $filetitle - file title
 	 * @param mixed  $attached  - site item for attached file
 	 */
-	public function insert_file($filename, $filetitle, $attached) {
+	public function insert_file(string $filename, string $filetitle, $attached) {
 
 		global $db, $logger;
 
@@ -241,12 +241,12 @@ class Files {
 	/**
 	 * Remove files from data base
 	 *
-	 * @param int|string $file    - file identificator
-	 * @param boolean    $clwhere - type $file param
+	 * @param int|string $file        - file identificator
+	 * @param boolean    $clwhere     - type $file param
 	 * 				false for id or attachedto
 	 * 				true for another condition
 	 */
-	public function remove_files($file, $clwhere=false) {
+	public function remove_files($file, bool $clwhere=false) {
 
 		global $db;
 
@@ -320,7 +320,7 @@ class Files {
 	 *
 	 * @return string|false - return data file size. Example: 10.2Kb or 1.21 Mb
 	 */
-	public function file_size($file) {
+	public function file_size(string $file) {
 
 		if(is_file($file)) {
 			$t = "Kb";
@@ -348,7 +348,7 @@ class Files {
 	 *
 	 * @return string - file extension without dot
 	 */
-	public function get_ext($filename) {
+	public function get_ext(string $filename) {
 
 		$pi = pathinfo($filename);
 
@@ -363,7 +363,7 @@ class Files {
 	 *
 	 * @return int|string
 	 */
-	public function get_fileperms($file) {
+	public function get_fileperms(string $file) {
 		return mb_substr(sprintf('%o', fileperms($file)), -4);
 	}
 
@@ -374,7 +374,7 @@ class Files {
 	 * @param string $file    - full path to file
 	 * @param string $context - data for write in file
 	 */
-	public function write_file($file, $context) {
+	public function write_file(string $file, string $context) {
 		$f = fopen($file, "w+");
 		if(is_writable($file) && is_resource($f)) {
 			fwrite($f, $context);
@@ -388,7 +388,7 @@ class Files {
 	 *
 	 * @param string $file - full path to file
 	 */
-	public function erase_file($file) {
+	public function erase_file(string $file) {
 
 		global $logger;
 
@@ -411,7 +411,7 @@ class Files {
 	 *
 	 * @return string - new filename
 	 */
-	private function check_uniq_filename($filename, $ext, $path=_UPLOADIMAGES) {
+	private function check_uniq_filename(string $filename, string $ext, string $path=_UPLOADIMAGES) {
 
 		if(is_file($path."/".$filename.".".$ext) || is_file($path."/".$filename."_resize.".$ext)) {
 			$filename .= "_".randcode(3,"RooCMS-BestChoiceForYourSite");

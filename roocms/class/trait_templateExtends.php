@@ -30,7 +30,7 @@ trait TemplateExtends {
 	 * @param string $tpl             - If you have use specific template
 	 * @param bool   $tplreturn       - Return compiled template to variable. Enabled by default.
 	 */
-	public function load_image_upload_tpl($smarty_variable, $tpl="attached_images_upload", $tplreturn=true) {
+	public function load_image_upload_tpl(string $smarty_variable, string $tpl="attached_images_upload", bool $tplreturn=true) {
 
 		global $smarty;
 
@@ -51,7 +51,7 @@ trait TemplateExtends {
 	 * @param string $tpl             - На случай если вам потребуется использовать собственный шаблон
 	 * @param bool   $tplreturn       - Return compiled template to variable. Enabled by default.
 	 */
-	public function load_files_upload_tpl($smarty_variable, $tpl="attached_files_upload", $tplreturn=true) {
+	public function load_files_upload_tpl(string $smarty_variable, string $tpl="attached_files_upload", bool $tplreturn=true) {
 
 		global $smarty;
 
@@ -66,10 +66,10 @@ trait TemplateExtends {
 	/**
 	 * Abstract
 	 *
-	 * @param string  $tpl    - template name
-	 * @param bool    $return - if use $return to true, function return dump data tpl
+	 * @param string $tpl    - template name
+	 * @param bool   $return - if use $return to true, function return dump data tpl
 	 *
 	 * @return string|null
 	 */
-	abstract protected function load_template($tpl, $return=false);
+	abstract protected function load_template(string $tpl, bool $return=false);
 }

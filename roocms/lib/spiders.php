@@ -23,7 +23,7 @@ if(!defined('RooCMS')) {
 /**
 * Spiders
 *
-* @var array list names spider bots
+* @var array $spider - list names spider bots
 */
 $spider = [];
 $spider[] =	"yandex";

@@ -29,7 +29,7 @@ trait FeedExtends {
 	 *
 	 * @return string
 	 */
-	protected function feed_order($rule) {
+	protected function feed_order(string $rule) {
 
 		switch($rule) {
 			case 'title_asc':

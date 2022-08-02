@@ -15,7 +15,7 @@
  *
  * @return string|string[]|null
  */
-function smarty_modifier_topsecret(&$text='') {
+function smarty_modifier_topsecret(string &$text='') {
 
 	$text = preg_replace('/(\pL)/iu', '&#9618;', $text);
 

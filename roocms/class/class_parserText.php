@@ -95,7 +95,7 @@ class ParserText {
 	 *
 	 * @return string
 	 */
-	public function clearhtml($text) {
+	public function clearhtml(string $text) {
 
 		$text = strip_tags($text);
  		$text = str_ireplace(array('&lt;','&gt;','&#123;','&#125;','&#39;','&quot;','&amp;','&#36;'), '', $text);
@@ -111,7 +111,7 @@ class ParserText {
 	 *
 	 * @return string
 	 */
-	public function br($text) {
+	public function br(string $text) {
 		$text = nl2br($text);
 		return $text;
 	}
@@ -130,7 +130,7 @@ class ParserText {
 	 *
 	 * @return mixed|string вернет транслитированную (?) строку
 	 */
-	public function transliterate($txt, $case=false, $from="rus", $to="eng") {
+	public function transliterate($txt, $case=false, string $from="rus", string $to="eng") {
 
 		# подгружаем алфавиты
 		require _LIB."/abc.php";
@@ -203,7 +203,7 @@ class ParserText {
 	 *
 	 * @return mixed
 	 */
-	public function only_numbers($n) {
+	public function only_numbers(string $n) {
 		return preg_replace("/[^0-9]+/","",$n);
 	}
 
@@ -218,7 +218,7 @@ class ParserText {
 	 *
 	 * @return string
 	 */
-	protected function tounicode($text, $from="w") {
+	protected function tounicode(string $text, string $from="w") {
 		$text = convert_cyr_string($text, $from, "i");
 		$uni  = "";
 		for($i = 0, $len = mb_strlen($text, 'utf8'); $i < $len; $i++) {
