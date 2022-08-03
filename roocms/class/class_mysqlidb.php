@@ -304,14 +304,14 @@ class MySQLiDB {
 	/**
 	 * The function checks if requested id is available.
 	 *
-	 * @param int         $id
+	 * @param mixed       $id
 	 * @param string      $table   - table name
 	 * @param string      $field   - field name
 	 * @param string|null $proviso - Additional condition (filter)
 	 *
 	 * @return int|boolean - Returns number of rows found that meet criteria or false in case of failure.
 	 */
-	public function check_id(int $id, string $table, string $field="id", string $proviso=NULL) {
+	public function check_id($id, string $table, string $field="id", string $proviso=NULL) {
 
 		static $results = [];
 
