@@ -1,7 +1,7 @@
 <?php
 /**
  * RooCMS - Open Source Free Content Managment System
- * @copyright © 2010-2021 alexandr Belov aka alex Roosso. All rights reserved.
+ * @copyright © 2010-2023 alexandr Belov aka alex Roosso. All rights reserved.
  * @author    alex Roosso <info@roocms.com>
  * @link      http://www.roocms.com
  * @license   http://www.gnu.org/licenses/gpl-3.0.html
@@ -117,7 +117,7 @@ class Structure {
 				$row['group_access'] = $users->get_gid_access_granted($row['group_access']);
 
 				# access
-				$row['access'] = ($users->title == "a" || array_key_exists(0, $row['group_access']) || array_key_exists($users->gid, $row['group_access'])) ? true : false ;
+				$row['access'] = $users->title == "a" || array_key_exists(0, $row['group_access']) || array_key_exists($users->gid, $row['group_access']);
 
 
 				$tree[$row['id']] = $row;
@@ -160,7 +160,7 @@ class Structure {
 		}
 
 		foreach($unit AS $i=>$value) {
-			if($unit[$i]['parent_id'] == $parent) {
+			if($value['parent_id'] == $parent) {
 				# update level
 				$value['level'] = $level;
 
@@ -170,7 +170,7 @@ class Structure {
 				# check child
 				if($child && ($maxlevel == 0 || $level+1 <= $maxlevel)) {
 
-					$subtree = $this->construct_tree($unit, $unit[$i]['id'], $maxlevel, $child, $level + 1);
+					$subtree = $this->construct_tree($unit, $value['id'], $maxlevel, $child, $level + 1);
 
 					if(is_array($subtree)) {
 						$tree = $tree + $subtree;

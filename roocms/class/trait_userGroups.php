@@ -1,7 +1,7 @@
 <?php
 /**
  * RooCMS - Open Source Free Content Managment System
- * @copyright © 2010-2021 alexandr Belov aka alex Roosso. All rights reserved.
+ * @copyright © 2010-2023 alexandr Belov aka alex Roosso. All rights reserved.
  * @author    alex Roosso <info@roocms.com>
  * @link      http://www.roocms.com
  * @license   http://www.gnu.org/licenses/gpl-3.0.html
@@ -40,7 +40,7 @@ trait UserGroups {
 		global $db;
 
 		if(empty($this->grouplist)) {
-			$q = $db->query("SELECT gid, title, users FROM ".USERS_GROUP_TABLE." ORDER BY gid ASC");
+			$q = $db->query("SELECT gid, title, users FROM ".USERS_GROUP_TABLE." ORDER BY gid");
 			while($row = $db->fetch_assoc($q)) {
 				$this->grouplist[] = $row;
 			}
@@ -68,7 +68,7 @@ trait UserGroups {
 		}
 
 		$list = [];
-		$q = $db->query("SELECT uid, gid, status, ban, nickname FROM ".USERS_TABLE." WHERE ".$cond."");
+		$q = $db->query("SELECT uid, gid, status, ban, nickname FROM ".USERS_TABLE." WHERE ".$cond);
 		while($data = $db->fetch_assoc($q)) {
 			$list[$data['uid']] = $data;
 		}
@@ -86,8 +86,6 @@ trait UserGroups {
 	 */
 	public function get_gid_access_granted(string $data="0") {
 
-		$gids = array_flip(explode(",", $data));
-
-		return $gids;
+		return array_flip(explode(",", $data));
 	}
 }

@@ -1,7 +1,7 @@
 <?php
 /**
  * RooCMS - Open Source Free Content Managment System
- * @copyright © 2010-2021 alexandr Belov aka alex Roosso. All rights reserved.
+ * @copyright © 2010-2023 alexandr Belov aka alex Roosso. All rights reserved.
  * @author    alex Roosso <info@roocms.com>
  * @link      http://www.roocms.com
  * @license   http://www.gnu.org/licenses/gpl-3.0.html
@@ -131,7 +131,7 @@ class MySQLiDB {
 
 		# debug mode
 		if(DEBUGMODE && $q != "") {
-			$query = "<div style='padding: 5px;text-align: left;'><span style='font-family: Verdana, Tahoma; font-size: 12px;text-align: left;'>
+			return "<div style='padding: 5px;text-align: left;'><span style='font-family: Verdana, Tahoma; font-size: 12px;text-align: left;'>
 			Ошибка БД [MySQL Error]: <b>".$this->sql->errno."</b>
 			<br /> &bull; ".$this->sql->error."
 			<br />
@@ -144,8 +144,6 @@ class MySQLiDB {
 				</tr>
 			</table>
 			</span></div>";
-
-			return $query;
 		}
 		# stub
 		else {
@@ -292,7 +290,7 @@ class MySQLiDB {
 	/**
 	 * Have a index query
 	 *
-	 * @return int Возвращает идентификатор
+	 * @return int return id
 	 */
 	public function insert_id() {
 		if($this->connecting()) {

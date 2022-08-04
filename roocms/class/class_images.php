@@ -1,7 +1,7 @@
 <?php
 /**
  * RooCMS - Open Source Free Content Managment System
- * @copyright © 2010-2021 alexandr Belov aka alex Roosso. All rights reserved.
+ * @copyright © 2010-2023 alexandr Belov aka alex Roosso. All rights reserved.
  * @author    alex Roosso <info@roocms.com>
  * @link      http://www.roocms.com
  * @license   http://www.gnu.org/licenses/gpl-3.0.html
@@ -171,7 +171,7 @@ class Images extends GD {
 
 		$l = ($limit != 0) ? "LIMIT {$from},{$limit}" : "" ;
 
-		$q = $db->query("SELECT id, filename, fileext, sort, alt FROM ".IMAGES_TABLE." WHERE attachedto='{$cond}' ORDER BY sort ASC ".$l);
+		$q = $db->query("SELECT id, filename, fileext, sort, alt FROM ".IMAGES_TABLE." WHERE attachedto='{$cond}' ORDER BY sort ".$l);
 		while($image = $db->fetch_assoc($q)) {
 			$image['original']	= $image['filename']."_original.".$image['fileext'];
 			$image['resize']	= $image['filename']."_resize.".$image['fileext'];

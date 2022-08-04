@@ -1,7 +1,7 @@
 <?php
 /**
  * RooCMS - Open Source Free Content Managment System
- * @copyright © 2010-2021 alexandr Belov aka alex Roosso. All rights reserved.
+ * @copyright © 2010-2023 alexandr Belov aka alex Roosso. All rights reserved.
  * @author    alex Roosso <info@roocms.com>
  * @link      http://www.roocms.com
  * @license   http://www.gnu.org/licenses/gpl-3.0.html
@@ -247,7 +247,7 @@ class Users extends Security {
 
 		# Get user list
 		$userlist = [];
-		$q = $db->query("SELECT uid, nickname, email, user_sex, user_slogan, avatar, user_birthdate, status, ban, ban_expiried, ban_reason, secret_key FROM ".USERS_TABLE." ".$cond." ORDER BY nickname ASC");
+		$q = $db->query("SELECT uid, nickname, email, user_sex, user_slogan, avatar, user_birthdate, status, ban, ban_expiried, ban_reason, secret_key FROM ".USERS_TABLE." ".$cond." ORDER BY nickname");
 		while($row = $db->fetch_assoc($q)) {
 			$row['slogan'] = $parse->text->br($row['user_slogan']);
 

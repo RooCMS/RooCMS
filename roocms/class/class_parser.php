@@ -1,7 +1,7 @@
 <?php
 /**
  * RooCMS - Open Source Free Content Managment System
- * @copyright © 2010-2021 alexandr Belov aka alex Roosso. All rights reserved.
+ * @copyright © 2010-2023 alexandr Belov aka alex Roosso. All rights reserved.
  * @author    alex Roosso <info@roocms.com>
  * @link      http://www.roocms.com
  * @license   http://www.gnu.org/licenses/gpl-3.0.html
@@ -204,7 +204,7 @@ class Parser {
 
 					$elp = $el + 1;
 
-					if(trim($gets[$el]) != "" && isset($gets[$elp]) && trim($gets[$elp]) != "") {
+					if(isset($gets[$elp]) && trim($gets[$elp]) != "") {
 						$gets[$el] = "_".$this->clear_string($gets[$el]);
 						$this->get->{$gets[$el]} = (string) $this->escape_string($gets[$elp]);
 						$el++;
@@ -279,9 +279,7 @@ class Parser {
 	 */
 	public function clear_string(string $string) {
 
-		$string = trim(str_ireplace(array('?','!','@','#','$','%','^','&','*','(',')','{','}','[',']','|','<','>','/','\\','"','`','.',',','~','=',';'), '', $string));
-
-		return $string;
+		return trim(str_ireplace(array('?','!','@','#','$','%','^','&','*','(',')','{','}','[',']','|','<','>','/','\\','"','`','.',',','~','=',';'), '', $string));
 	}
 
 
@@ -395,10 +393,7 @@ class Parser {
 	 */
  	public function percent(int $n, int $from) {
 
-		$percent = ($n / $from) * 100;
-		$percent = round($percent);
-
-		return $percent;
+		return round(($n / $from) * 100);
 	}
 
 

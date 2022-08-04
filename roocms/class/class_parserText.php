@@ -1,7 +1,7 @@
 <?php
 /**
  * RooCMS - Open Source Free Content Managment System
- * @copyright © 2010-2021 alexandr Belov aka alex Roosso. All rights reserved.
+ * @copyright © 2010-2023 alexandr Belov aka alex Roosso. All rights reserved.
  * @author    alex Roosso <info@roocms.com>
  * @link      http://www.roocms.com
  * @license   http://www.gnu.org/licenses/gpl-3.0.html
@@ -52,10 +52,7 @@ class ParserText {
 		#font
 
 		#link
-
-		$text = $this->br($text);
-
-		return $text;
+		return $this->br($text);
 	}
 
 
@@ -112,8 +109,7 @@ class ParserText {
 	 * @return string
 	 */
 	public function br(string $text) {
-		$text = nl2br($text);
-		return $text;
+		return nl2br($text);
 	}
 
 

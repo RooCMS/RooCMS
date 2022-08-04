@@ -1,7 +1,7 @@
 <?php
 /**
  * RooCMS - Open Source Free Content Managment System
- * @copyright © 2010-2021 alexandr Belov aka alex Roosso. All rights reserved.
+ * @copyright © 2010-2023 alexandr Belov aka alex Roosso. All rights reserved.
  * @author    alex Roosso <info@roocms.com>
  * @link      http://www.roocms.com
  * @license   http://www.gnu.org/licenses/gpl-3.0.html
@@ -95,9 +95,7 @@ class Files {
                         $filename = mb_substr($filename,0,$maxfilelength);
 		}
 
-		$filename = $this->check_uniq_filename($prefix.$filename.$pofix, $ext, $path);
-
-		return $filename;
+		return $this->check_uniq_filename($prefix.$filename.$pofix, $ext, $path);
 	}
 
 
@@ -118,7 +116,7 @@ class Files {
 
 		$l = ($limit != 0) ? "LIMIT {$from},{$limit}" : "" ;
 
-		$q = $db->query("SELECT id, filename, fileext, filetitle, sort FROM ".FILES_TABLE." WHERE attachedto='{$cond}' ORDER BY sort ASC ".$l);
+		$q = $db->query("SELECT id, filename, fileext, filetitle, sort FROM ".FILES_TABLE." WHERE attachedto='{$cond}' ORDER BY sort ".$l);
 		while($file = $db->fetch_assoc($q)) {
 			$file['file']	= $file['filename'].".".$file['fileext'];
 			$data[] = $file;
@@ -281,7 +279,7 @@ class Files {
 	 *
 	 * @param string|array $allowtypes     allowed file types (in future)
 	 *
-	 * @return mixed
+	 * @return array
 	 */
 	public function get_allow_exts($allowtypes="") {
 		$filetype = [];

@@ -1,7 +1,7 @@
 <?php
 /**
  * RooCMS - Open Source Free Content Managment System
- * @copyright © 2010-2021 alexandr Belov aka alex Roosso. All rights reserved.
+ * @copyright © 2010-2023 alexandr Belov aka alex Roosso. All rights reserved.
  * @author    alex Roosso <info@roocms.com>
  * @link      http://www.roocms.com
  * @license   http://www.gnu.org/licenses/gpl-3.0.html
@@ -111,12 +111,10 @@ trait GDExtends {
 		$new_left 	= $use_x_ratio 	? 0 : floor(($towidth - $new_width) / 2);
 		$new_top 	= !$use_x_ratio ? 0 : floor(($toheight - $new_height) / 2);
 
-		$return = array('new_width'	=> (int) $new_width,
-				'new_height'	=> (int) $new_height,
-				'new_left'	=> (int) $new_left,
-				'new_top'	=> (int) $new_top);
-
-		return $return;
+		return array('new_width'  => (int) $new_width,
+			     'new_height' => (int) $new_height,
+			     'new_left'   => (int) $new_left,
+			     'new_top'    => (int) $new_top);
 	}
 
 
