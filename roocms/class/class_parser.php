@@ -113,7 +113,7 @@ class Parser {
 
 			if(is_array($value)) {
 				$value = $this->check_array($value);
-				$this->get->{$key} = (array) $value;
+				$this->get->{$key} = $value;
 			}
 			else {
 				$this->get->{$key} = (trim($value) != "") ? (string) $this->escape_string($value) : NULL ;
@@ -136,7 +136,7 @@ class Parser {
 
 			if(is_array($value)) {
 				$value = $this->check_array($value);
-				$post->{$key} = (array) $value;
+				$post->{$key} = $value;
 			}
 			else {
 				$post->{$key} = (trim($value) != "") ? (string) $value : NULL ;

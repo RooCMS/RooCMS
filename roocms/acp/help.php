@@ -1,7 +1,7 @@
 <?php
 /**
  * RooCMS - Open Source Free Content Managment System
- * @copyright © 2010-2021 alexandr Belov aka alex Roosso. All rights reserved.
+ * @copyright © 2010-2023 alexandr Belov aka alex Roosso. All rights reserved.
  * @author    alex Roosso <info@roocms.com>
  * @link      http://www.roocms.com
  * @license   http://www.gnu.org/licenses/gpl-3.0.html
@@ -119,9 +119,8 @@ class ACP_Help {
 		# tpl
 		$smarty->assign("subtree", $this->load_tree($data['id']));
 		$smarty->assign("data", $data);
-		$content = $tpl->load_template('help_view_part', true);
 
-		return $content;
+		return $tpl->load_template('help_view_part', true);
 	}
 
 
@@ -298,7 +297,7 @@ class ACP_Help {
 		$tree = [];
 
 		if(!$use) {
-			$q = $db->query("SELECT id, uname, parent_id, sort, title, childs FROM ".HELP_TABLE." ORDER BY sort ASC, title ASC");
+			$q = $db->query("SELECT id, uname, parent_id, sort, title, childs FROM ".HELP_TABLE." ORDER BY sort, title");
 			while($row = $db->fetch_assoc($q)) {
 				$row['level']	= 0;
 				$tree[] 	= $row;

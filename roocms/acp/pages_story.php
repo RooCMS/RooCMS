@@ -1,7 +1,7 @@
 <?php
 /**
  * RooCMS - Open Source Free Content Managment System
- * @copyright © 2010-2021 alexandr Belov aka alex Roosso. All rights reserved.
+ * @copyright © 2010-2023 alexandr Belov aka alex Roosso. All rights reserved.
  * @author    alex Roosso <info@roocms.com>
  * @link      http://www.roocms.com
  * @license   http://www.gnu.org/licenses/gpl-3.0.html
@@ -41,7 +41,7 @@ class ACP_Pages_Story {
 
 		# download content
 		$datacontent = [];
-		$q = $db->query("SELECT id, sid, sort, content, date_modified FROM ".PAGES_STORY_TABLE." WHERE sid='".$sid."' ORDER BY sort ASC, sid ASC");
+		$q = $db->query("SELECT id, sid, sort, content, date_modified FROM ".PAGES_STORY_TABLE." WHERE sid='".$sid."' ORDER BY sort, sid");
 		while($row = $db->fetch_assoc($q)) {
 			$data['lm'] = $parse->date->unix_to_rus($row['date_modified'], true, true, true);
 			$datacontent[] = $row;

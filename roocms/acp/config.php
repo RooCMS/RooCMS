@@ -1,7 +1,7 @@
 <?php
 /**
  * RooCMS - Open Source Free Content Managment System
- * @copyright © 2010-2021 alexandr Belov aka alex Roosso. All rights reserved.
+ * @copyright © 2010-2023 alexandr Belov aka alex Roosso. All rights reserved.
  * @author    alex Roosso <info@roocms.com>
  * @link      http://www.roocms.com
  * @license   http://www.gnu.org/licenses/gpl-3.0.html
@@ -72,7 +72,7 @@ class ACP_Config extends ACP_ConfigAction {
 		//elseif(isset($get->_part) && $get->_part == "all") $this->part = "all";
 
 		# get data config
-		$q_1 = $db->query("SELECT name, title, type, ico FROM ".CONFIG_PARTS_TABLE." ORDER BY type ASC, sort ASC");
+		$q_1 = $db->query("SELECT name, title, type, ico FROM ".CONFIG_PARTS_TABLE." ORDER BY type, sort");
 		while($part = $db->fetch_assoc($q_1)) {
 
 			# get option
@@ -80,7 +80,7 @@ class ACP_Config extends ACP_ConfigAction {
 
 				$this_part = $part;
 
-				$q_2 = $db->query("SELECT id, title, description, option_name, option_type, variants, value, default_value, field_maxleight FROM ".CONFIG_TABLE." WHERE part='".$part['name']."' ORDER BY sort ASC");
+				$q_2 = $db->query("SELECT id, title, description, option_name, option_type, variants, value, default_value, field_maxleight FROM ".CONFIG_TABLE." WHERE part='".$part['name']."' ORDER BY sort");
 				while($option = $db->fetch_assoc($q_2)) {
 
 					# parse

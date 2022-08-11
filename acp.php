@@ -1,7 +1,7 @@
 <?php
 /**
  * RooCMS - Open Source Free Content Managment System
- * @copyright © 2010-2021 alexandr Belov aka alex Roosso. All rights reserved.
+ * @copyright © 2010-2023 alexandr Belov aka alex Roosso. All rights reserved.
  * @author    alex Roosso <info@roocms.com>
  * @link      http://www.roocms.com
  * @license   http://www.gnu.org/licenses/gpl-3.0.html
@@ -14,7 +14,7 @@
 /**
 * Init Administrator Control Paneel
 */
-define('ACP', true);
+const ACP = true;
 define('_SITEROOT', dirname(__FILE__));
 require_once _SITEROOT."/roocms/init.php";
 require_once INIT_ACP;

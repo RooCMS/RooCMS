@@ -1,7 +1,7 @@
 <?php
 /**
  * RooCMS - Open Source Free Content Managment System
- * @copyright © 2010-2021 alexandr Belov aka alex Roosso.
+ * @copyright © 2010-2023 alexandr Belov aka alex Roosso.
  * @author    alex Roosso <info@roocms.com>
  * @link      http://www.roocms.com
  * @license   http://www.gnu.org/licenses/gpl-3.0.html
@@ -97,7 +97,7 @@ class ACP_Users {
 					g.title AS gtitle
 					FROM ".USERS_TABLE." AS u
 					LEFT JOIN ".USERS_GROUP_TABLE." AS g ON (g.gid = u.gid)
-					ORDER BY u.uid ASC");
+					ORDER BY u.uid");
 		while($row = $db->fetch_assoc($q)) {
 
 			$row['date_create'] = $parse->date->unix_to_rus($row['date_create'], false, true, false);

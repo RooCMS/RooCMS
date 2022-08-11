@@ -1,7 +1,7 @@
 <?php
 /**
  * RooCMS - Open Source Free Content Managment System
- * @copyright © 2010-2021 alexandr Belov aka alex Roosso. All rights reserved.
+ * @copyright © 2010-2023 alexandr Belov aka alex Roosso. All rights reserved.
  * @author    alex Roosso <info@roocms.com>
  * @link      http://www.roocms.com
  * @license   http://www.gnu.org/licenses/gpl-3.0.html
@@ -72,7 +72,7 @@ class ACP_Logs {
 		$datalog = [];
 		$q = $db->query("SELECT l.id, l.uid, u.nickname, l.message, l.type_log, l.date_log, l.user_ip FROM ".LOG_TABLE." AS l 
 							LEFT JOIN ".USERS_TABLE." AS u ON (u.uid = l.uid)
-						ORDER BY l.date_log ASC");
+						ORDER BY l.date_log");
 		while($data = $db->fetch_assoc($q)) {
 
 			$data['date_log'] = $parse->date->unix_to_rus($data['date_log'], false, true, true);

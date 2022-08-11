@@ -106,7 +106,7 @@ class Structure {
 						page_type, sort, childs, items, show_child_feeds, group_access, 
 						items_per_page, items_sorting, thumb_img_width, thumb_img_height,
 						append_info_before, append_info_after
-					FROM ".STRUCTURE_TABLE." ORDER BY sort ASC");
+					FROM ".STRUCTURE_TABLE." ORDER BY sort");
 			while($row = $db->fetch_assoc($q)) {
 
 				# structure

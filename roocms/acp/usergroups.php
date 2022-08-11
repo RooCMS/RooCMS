@@ -1,7 +1,7 @@
 <?php
 /**
  * RooCMS - Open Source Free Content Managment System
- * @copyright © 2010-2021 alexandr Belov aka alex Roosso.
+ * @copyright © 2010-2023 alexandr Belov aka alex Roosso.
  * @author    alex Roosso <info@roocms.com>
  * @link      http://www.roocms.com
  * @license   http://www.gnu.org/licenses/gpl-3.0.html
@@ -100,7 +100,7 @@ class ACP_UserGroups {
 		global $db, $smarty, $tpl, $parse;
 
 		$data = [];
-		$q = $db->query("SELECT gid, title, users, date_create, date_update FROM ".USERS_GROUP_TABLE." ORDER BY gid ASC");
+		$q = $db->query("SELECT gid, title, users, date_create, date_update FROM ".USERS_GROUP_TABLE." ORDER BY gid");
 		while($row = $db->fetch_assoc($q)) {
 
 			$row['date_create'] = $parse->date->unix_to_rus($row['date_create'], false, true, false);
@@ -173,7 +173,7 @@ class ACP_UserGroups {
 		$group = $db->fetch_assoc($q);
 
 		$guser = [];
-		$u = $db->query("SELECT uid, nickname, login, avatar, status, ban FROM ".USERS_TABLE." WHERE gid='".$gid."' ORDER BY uid ASC");
+		$u = $db->query("SELECT uid, nickname, login, avatar, status, ban FROM ".USERS_TABLE." WHERE gid='".$gid."' ORDER BY uid");
 		while($row = $db->fetch_assoc($u)) {
 			$guser[$row['uid']] = $row;
 		}
