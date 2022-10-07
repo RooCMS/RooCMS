@@ -42,7 +42,7 @@ Install
 -------
 1. Download latest release from site <http://www.roocms.com>. 
 2. Unpack archive to folder with your site on  hosting
-3. Create MySQL BD on your hosting
+3. Create MySQL DB on your hosting
 4. In browser open link: `http://www.your_site.com/install/`
 
 > Instead of `your_site.com` use the domain name attached to your hosting.
@@ -72,4 +72,4 @@ P.S.
 ----
 Your ideas, comments and other any help - allow RooCMS to develop in interests of majority.
 
-Ваши идеи, замечания, и любая помощь - помогут развиваться RooCMS в интересах большинства.
+Ваши идеи, замечания и любая другая помощь помогут развиваться RooCMS в интересах большинства.
