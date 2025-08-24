@@ -1,7 +1,7 @@
 <?php
 /**
  * RooCMS - Open Source Free Content Managment System
- * @copyright © 2010-2023 alexandr Belov aka alex Roosso. All rights reserved.
+ * @copyright © 2010-2025 alexandr Belov aka alex Roosso. All rights reserved.
  * @author    alex Roosso <info@roocms.com>
  * @link      http://www.roocms.com
  * @license   http://www.gnu.org/licenses/gpl-3.0.html
@@ -131,8 +131,29 @@ function nocache() {
  * @return string - code response
  */
 function get_http_response_code(string $url) {
-	$headers = get_headers($url);
-	return mb_substr($headers[0], 9, 3);
+	// for debug mode, we need to disable SSL verification
+	if(DEBUGMODE) {
+		$ssl_verify = false;
+	} else {
+		$ssl_verify = true;
+	}
+	
+	// Use cURL for better SSL support and error handling
+	$ch = curl_init();
+	curl_setopt($ch, CURLOPT_URL, $url);
+	curl_setopt($ch, CURLOPT_NOBODY, true);
+	curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+	curl_setopt($ch, CURLOPT_TIMEOUT, 10);
+	curl_setopt($ch, CURLOPT_USERAGENT, 'RooCMS/1.0');
+	curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, $ssl_verify);
+	curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, $ssl_verify);
+	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+	
+	curl_exec($ch);
+	$http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+	curl_close($ch);
+	
+	return (string) $http_code;
 }
 
 /**

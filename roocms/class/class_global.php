@@ -1,7 +1,7 @@
 <?php
 /**
  *   RooCMS - Open Source Free Content Managment System
- *   Copyright © 2010-2020 alexandr Belov aka alex Roosso. All rights reserved.
+ *   Copyright © 2010-2025 alexandr Belov aka alex Roosso. All rights reserved.
  *   Contacts: <info@roocms.com>
  *
  *   This program is free software: you can redistribute it and/or modify
@@ -19,7 +19,7 @@
  *
  *
  *   RooCMS - Бесплатная система управления контентом с открытым исходным кодом
- *   Copyright © 2010-2018 александр Белов (alex Roosso). Все права защищены.
+ *   Copyright © 2010-2025 александр Белов (alex Roosso). Все права защищены.
  *   Для связи: <info@roocms.com>
  *
  *   Это программа является свободным программным обеспечением. Вы можете
@@ -54,7 +54,7 @@ class RooCMS_Global {
 	use DebugLog;
 
 	# clasess
-	public	$config;		 # [obj]	object global configuration
+	public	$config;		 # [obj] object global configuration
 
 	# global vars
 	public	$part		= "";	 # [string]	param $_GET['part'] for init partition
@@ -64,15 +64,15 @@ class RooCMS_Global {
 	public 	$sess		= [];	 # [array]	parsing $_SESSION
 
 	# options
-	public	$ajax		= false; # [bool]	flag ajax output
-	public	$rss		= false; # [bool]	flag rss output
-	public	$modifiedsince	= false; # [bool]	flag for answer IF MODIFIED SINCE
+	public	$ajax		= false; 		# [bool]	flag ajax output
+	public	$rss		= false; 		# [bool]	flag rss output
+	public	$modifiedsince	= false; 	# [bool]	flag for answer IF MODIFIED SINCE
 	//public $noscript	= false; # [bool]	flag noscript identification
 
 	# userdata
-	public	$usersession	= "";	 # [string]	user ssession
-	public  $userip		= "";	 # [string]	user ip address
-	public  $referer	= "";	 # [string]	user referer
+	public	$usersession	= "";	# [string]	user ssession
+	public  $userip		= "";	 	# [string]	user ip address
+	public  $referer	= "";	 	# [string]	user referer
 
 	# spiderbot
 	public	$spiderbot	= false; # [bool]	if this search spider bot
@@ -80,9 +80,9 @@ class RooCMS_Global {
 
 
 	/**
-	* Lets begin
-	*
-	*/
+	 * Lets begin
+	 *
+	 */
 	public function __construct() {
 
 		# init configuration
@@ -105,9 +105,9 @@ class RooCMS_Global {
 
 
 	/**
-	* init configuration
-	*
-	*/
+	 * init configuration
+	 *
+	 */
 	protected function init_configuration() {
 
 		global $db, $site, $debug;
@@ -205,12 +205,12 @@ class RooCMS_Global {
 		}
 	}
 
-
+	
 	/**
-	* Set date title last modification for search bot.
-	*
-	* @param mixed $lastmodifed - date last modify content
-	*/
+	 * Set date title last modification for search bot.
+	 *
+	 * @param mixed $lastmodifed - date last modify content
+	 */
 	protected function ifmodifedsince($lastmodifed) {
 
 		# set header

@@ -1,7 +1,7 @@
 <?php
 /**
  * RooCMS - Open Source Free Content Managment System
- * @copyright © 2010-2023 alexandr Belov aka alex Roosso. All rights reserved.
+ * @copyright © 2010-2025 alexandr Belov aka alex Roosso. All rights reserved.
  * @author    alex Roosso <info@roocms.com>
  * @link      http://www.roocms.com
  * @license   http://www.gnu.org/licenses/gpl-3.0.html
@@ -27,7 +27,6 @@ class Structure {
 
 	# vars
 	public $content_types 		= array('html'  => array('title' => 'HTML'),
-					        'story' => array('title' => 'История'),
 					        'php'   => array('title' => 'PHP'),
 					        'feed'  => array('title' => 'Лента'));
 	# site tree
@@ -40,25 +39,25 @@ class Structure {
 	private $aliases 		= [];
 
 	# page vars
-	public $page_sid		= 1;				# page sid
-	public $page_parent		= 0;				# Parent id
-	public $page_alias		= "index";			# unique alias name
+	public $page_sid		= 1;					# page sid
+	public $page_parent		= 0;					# Parent id
+	public $page_alias		= "index";				# unique alias name
 	public $page_title		= "Добро пожаловать [RooCMS]";	# title page
 	public $page_meta_title		= "";				# Meta Title
 	public $page_meta_desc		= "";				# Meta description
 	public $page_meta_keys		= "";				# Meta keywords
 	public $page_noindex		= false;			# Meta noindex
-	public $page_type		= "html";			# page type
+	public $page_type		= "html";				# page type
 	public $page_group_access	= array(0);			# allowed acces to user group (sep. comma)
-	public $page_rss		= false;			# on/off RSS feed
-	public $page_show_child_feeds	= 'none';			# feed option for show childs feed
+	public $page_rss		= false;				# on/off RSS feed
+	public $page_show_child_feeds	= 'none';		# feed option for show childs feed
 	public $page_items_per_page	= 10;				# show items on per page
 	public $page_items_sorting	= "datepublication";		# type sorting for feed
-	public $page_items		= 0;				# show amount items on feed
-	public $page_thumb_img_width	= 0;				# in pixels
-	public $page_thumb_img_height	= 0;				# in pixels
-	public $page_append_info_before	= "";				# info
-	public $page_append_info_after	= "";				# info
+	public $page_items		= 0;					# show amount items on feed
+	public $page_thumb_img_width	= 0;			# in pixels
+	public $page_thumb_img_height	= 0;			# in pixels
+	public $page_append_info_before	= "";			# info
+	public $page_append_info_after	= "";			# info
 
 
 

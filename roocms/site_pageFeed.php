@@ -82,7 +82,7 @@ class PageFeed {
 		$order = $this->feed_order($structure->page_items_sorting);
 
 		# calculate pages
-		$db->pages_mysql(PAGES_FEED_TABLE, $cond);
+		$db->pages_in_db(PAGES_FEED_TABLE, $cond);
 
 		# get array pagination template array
 		$pages = $db->construct_pagination();

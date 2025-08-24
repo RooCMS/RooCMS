@@ -144,7 +144,7 @@ class UI_Tags {
 		}
 
 		# calculate pages
-		$db->pages_mysql(PAGES_FEED_TABLE, "date_publications <= '".time()."' AND ".$cond." AND ".$scond.$accesscond." AND (date_end_publications = '0' || date_end_publications > '".time()."') AND status='1'");
+		$db->pages_in_db(PAGES_FEED_TABLE, "date_publications <= '".time()."' AND ".$cond." AND ".$scond.$accesscond." AND (date_end_publications = '0' || date_end_publications > '".time()."') AND status='1'");
 
 		# get array pagination template array
 		$pages = $db->construct_pagination();

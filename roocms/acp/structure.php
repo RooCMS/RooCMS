@@ -1,7 +1,7 @@
 <?php
 /**
  * RooCMS - Open Source Free Content Managment System
- * @copyright © 2010-2023 alexandr Belov aka alex Roosso. All rights reserved.
+ * @copyright © 2010-2025 alexandr Belov aka alex Roosso. All rights reserved.
  * @author    alex Roosso <info@roocms.com>
  * @link      http://www.roocms.com
  * @license   http://www.gnu.org/licenses/gpl-3.0.html
@@ -150,10 +150,6 @@ class ACP_Structure {
 			switch($post->page_type) {
 				case 'html':
 					$db->query("INSERT INTO ".PAGES_HTML_TABLE." (sid, date_modified) VALUE ('".$sid."', '".time()."')");
-					break;
-
-				case 'story':
-					$db->query("INSERT INTO ".PAGES_STORY_TABLE." (sid, date_modified) VALUE ('".$sid."', '".time()."')");
 					break;
 
 				case 'php':
@@ -335,11 +331,6 @@ class ACP_Structure {
 				case 'html': # del content html
 					require_once _ROOCMS."/acp/pages_html.php";
 					$this->unit = new ACP_Pages_HTML;
-					break;
-
-				case 'story': # del content story
-					require_once _ROOCMS."/acp/pages_story.php";
-					$this->unit = new ACP_Pages_Story;
 					break;
 
 				case 'php': # del content php

@@ -33,7 +33,6 @@ const CONFIG_PARTS_TABLE = DB_PREFIX.'config__parts';
 const CONFIG_TABLE       = DB_PREFIX.'config__settings';
 const STRUCTURE_TABLE    = DB_PREFIX.'structure';
 const PAGES_HTML_TABLE   = DB_PREFIX.'pages__html';
-const PAGES_STORY_TABLE  = DB_PREFIX.'pages__story';
 const PAGES_PHP_TABLE    = DB_PREFIX.'pages__php';
 const PAGES_FEED_TABLE   = DB_PREFIX.'pages__feed';
 const TAGS_TABLE         = DB_PREFIX.'tags';

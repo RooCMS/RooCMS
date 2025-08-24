@@ -1,0 +1,1316 @@
+{
+	"info": {
+		"_postman_id": "roocms-api-collection",
+		"name": "RooCMS API Collection",
+		"description": "Коллекция API endpoints для RooCMS v1.4.0",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://localhost",
+			"description": "Базовый URL сайта RooCMS"
+		},
+		{
+			"key": "session_token",
+			"value": "",
+			"description": "Токен сессии для авторизованных запросов"
+		}
+	],
+	"item": [
+		{
+			"name": "Аутентификация",
+			"item": [
+				{
+					"name": "Получить капчу",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/captcha.php",
+							"host": ["{{base_url}}"],
+							"path": ["captcha.php"]
+						},
+						"description": "Получение изображения капчи для форм"
+					}
+				},
+				{
+					"name": "Обновить капчу",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/captcha.php?_I_have_bad_sight=1",
+							"host": ["{{base_url}}"],
+							"path": ["captcha.php"],
+							"query": [
+								{
+									"key": "_I_have_bad_sight",
+									"value": "1",
+									"description": "Обновить капчу"
+								}
+							]
+						},
+						"description": "Обновление капчи при плохой видимости"
+					}
+				},
+				{
+					"name": "Авторизация пользователя",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "userlogin",
+									"value": "1",
+									"description": "Флаг авторизации"
+								},
+								{
+									"key": "login",
+									"value": "username",
+									"description": "Логин пользователя"
+								},
+								{
+									"key": "password",
+									"value": "password",
+									"description": "Пароль пользователя"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{base_url}}/index.php?part=ucp&act=login",
+							"host": ["{{base_url}}"],
+							"path": ["index.php"],
+							"query": [
+								{
+									"key": "part",
+									"value": "ucp"
+								},
+								{
+									"key": "act",
+									"value": "login"
+								}
+							]
+						},
+						"description": "Авторизация пользователя в системе"
+					}
+				},
+				{
+					"name": "Выход из системы",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/index.php?part=ucp&act=logout",
+							"host": ["{{base_url}}"],
+							"path": ["index.php"],
+							"query": [
+								{
+									"key": "part",
+									"value": "ucp"
+								},
+								{
+									"key": "act",
+									"value": "logout"
+								}
+							]
+						},
+						"description": "Выход пользователя из системы"
+					}
+				}
+			],
+			"description": "Endpoints для аутентификации пользователей"
+		},
+		{
+			"name": "Регистрация",
+			"item": [
+				{
+					"name": "Форма регистрации",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/index.php?part=reg",
+							"host": ["{{base_url}}"],
+							"path": ["index.php"],
+							"query": [
+								{
+									"key": "part",
+									"value": "reg"
+								}
+							]
+						},
+						"description": "Отображение формы регистрации"
+					}
+				},
+				{
+					"name": "Регистрация пользователя",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "join",
+									"value": "1",
+									"description": "Флаг регистрации"
+								},
+								{
+									"key": "login",
+									"value": "newuser",
+									"description": "Логин"
+								},
+								{
+									"key": "nickname",
+									"value": "New User",
+									"description": "Никнейм"
+								},
+								{
+									"key": "email",
+									"value": "user@example.com",
+									"description": "Email"
+								},
+								{
+									"key": "password",
+									"value": "password123",
+									"description": "Пароль"
+								},
+								{
+									"key": "user_name",
+									"value": "Имя",
+									"description": "Имя пользователя"
+								},
+								{
+									"key": "user_surname",
+									"value": "Фамилия",
+									"description": "Фамилия"
+								},
+								{
+									"key": "user_last_name",
+									"value": "Отчество",
+									"description": "Отчество"
+								},
+								{
+									"key": "user_sex",
+									"value": "1",
+									"description": "Пол (1-мужской, 2-женский)"
+								},
+								{
+									"key": "mailing",
+									"value": "1",
+									"description": "Подписка на рассылку"
+								},
+								{
+									"key": "captcha",
+									"value": "12345",
+									"description": "Код капчи"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{base_url}}/index.php?part=reg&act=join",
+							"host": ["{{base_url}}"],
+							"path": ["index.php"],
+							"query": [
+								{
+									"key": "part",
+									"value": "reg"
+								},
+								{
+									"key": "act",
+									"value": "join"
+								}
+							]
+						},
+						"description": "Регистрация нового пользователя"
+					}
+				},
+				{
+					"name": "Экспресс-регистрация",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "expressreg",
+									"value": "1",
+									"description": "Флаг экспресс-регистрации"
+								},
+								{
+									"key": "email",
+									"value": "user@example.com",
+									"description": "Email"
+								},
+								{
+									"key": "captcha",
+									"value": "12345",
+									"description": "Код капчи"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{base_url}}/index.php?part=reg&act=expressreg",
+							"host": ["{{base_url}}"],
+							"path": ["index.php"],
+							"query": [
+								{
+									"key": "part",
+									"value": "reg"
+								},
+								{
+									"key": "act",
+									"value": "expressreg"
+								}
+							]
+						},
+						"description": "Быстрая регистрация по email"
+					}
+				},
+				{
+					"name": "Активация аккаунта",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/index.php?part=reg&act=activation&email=user@example.com&code=ABC123",
+							"host": ["{{base_url}}"],
+							"path": ["index.php"],
+							"query": [
+								{
+									"key": "part",
+									"value": "reg"
+								},
+								{
+									"key": "act",
+									"value": "activation"
+								},
+								{
+									"key": "email",
+									"value": "user@example.com"
+								},
+								{
+									"key": "code",
+									"value": "ABC123"
+								}
+							]
+						},
+						"description": "Страница активации аккаунта"
+					}
+				},
+				{
+					"name": "Подтверждение активации",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "email",
+									"value": "user@example.com",
+									"description": "Email"
+								},
+								{
+									"key": "code",
+									"value": "ABC123",
+									"description": "Код активации"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{base_url}}/index.php?part=reg&act=verification",
+							"host": ["{{base_url}}"],
+							"path": ["index.php"],
+							"query": [
+								{
+									"key": "part",
+									"value": "reg"
+								},
+								{
+									"key": "act",
+									"value": "verification"
+								}
+							]
+						},
+						"description": "Подтверждение активации аккаунта"
+					}
+				}
+			],
+			"description": "Endpoints для регистрации пользователей"
+		},
+		{
+			"name": "Восстановление пароля",
+			"item": [
+				{
+					"name": "Форма восстановления",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/index.php?part=repass",
+							"host": ["{{base_url}}"],
+							"path": ["index.php"],
+							"query": [
+								{
+									"key": "part",
+									"value": "repass"
+								}
+							]
+						},
+						"description": "Форма восстановления пароля"
+					}
+				},
+				{
+					"name": "Запрос восстановления пароля",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "reminder",
+									"value": "1",
+									"description": "Флаг восстановления"
+								},
+								{
+									"key": "email",
+									"value": "user@example.com",
+									"description": "Email"
+								},
+								{
+									"key": "captcha",
+									"value": "12345",
+									"description": "Код капчи"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{base_url}}/index.php?part=repass&act=reminder",
+							"host": ["{{base_url}}"],
+							"path": ["index.php"],
+							"query": [
+								{
+									"key": "part",
+									"value": "repass"
+								},
+								{
+									"key": "act",
+									"value": "reminder"
+								}
+							]
+						},
+						"description": "Запрос на восстановление пароля"
+					}
+				},
+				{
+					"name": "Подтверждение восстановления",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/index.php?part=repass&act=confirm&email=user@example.com&code=secretkey",
+							"host": ["{{base_url}}"],
+							"path": ["index.php"],
+							"query": [
+								{
+									"key": "part",
+									"value": "repass"
+								},
+								{
+									"key": "act",
+									"value": "confirm"
+								},
+								{
+									"key": "email",
+									"value": "user@example.com"
+								},
+								{
+									"key": "code",
+									"value": "secretkey"
+								}
+							]
+						},
+						"description": "Страница подтверждения восстановления пароля"
+					}
+				},
+				{
+					"name": "Генерация нового пароля",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "email",
+									"value": "user@example.com",
+									"description": "Email"
+								},
+								{
+									"key": "code",
+									"value": "secretkey",
+									"description": "Секретный ключ"
+								},
+								{
+									"key": "captcha",
+									"value": "12345",
+									"description": "Код капчи"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{base_url}}/index.php?part=repass&act=verification",
+							"host": ["{{base_url}}"],
+							"path": ["index.php"],
+							"query": [
+								{
+									"key": "part",
+									"value": "repass"
+								},
+								{
+									"key": "act",
+									"value": "verification"
+								}
+							]
+						},
+						"description": "Подтверждение и генерация нового пароля"
+					}
+				}
+			],
+			"description": "Endpoints для восстановления пароля"
+		},
+		{
+			"name": "Рассылка",
+			"item": [
+				{
+					"name": "Просмотр письма рассылки",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/index.php?part=mailing&id=123&secret=secretkey",
+							"host": ["{{base_url}}"],
+							"path": ["index.php"],
+							"query": [
+								{
+									"key": "part",
+									"value": "mailing"
+								},
+								{
+									"key": "id",
+									"value": "123",
+									"description": "ID письма"
+								},
+								{
+									"key": "secret",
+									"value": "secretkey",
+									"description": "Секретный ключ"
+								}
+							]
+						},
+						"description": "Просмотр письма рассылки по ссылке"
+					}
+				}
+			],
+			"description": "Endpoints для системы рассылки"
+		},
+		{
+			"name": "Административная панель",
+			"item": [
+				{
+					"name": "Вход в ACP",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/acp.php",
+							"host": ["{{base_url}}"],
+							"path": ["acp.php"]
+						},
+						"description": "Главная страница административной панели"
+					}
+				},
+				{
+					"name": "Информация о сервере",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/acp.php?act=serverinfo",
+							"host": ["{{base_url}}"],
+							"path": ["acp.php"],
+							"query": [
+								{
+									"key": "act",
+									"value": "serverinfo"
+								}
+							]
+						},
+						"description": "Информация о сервере"
+					}
+				},
+				{
+					"name": "PHP Info",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/acp.php?act=phpinfo",
+							"host": ["{{base_url}}"],
+							"path": ["acp.php"],
+							"query": [
+								{
+									"key": "act",
+									"value": "phpinfo"
+								}
+							]
+						},
+						"description": "Информация о PHP"
+					}
+				},
+				{
+					"name": "Лицензия",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/acp.php?act=license",
+							"host": ["{{base_url}}"],
+							"path": ["acp.php"],
+							"query": [
+								{
+									"key": "act",
+									"value": "license"
+								}
+							]
+						},
+						"description": "Информация о лицензии"
+					}
+				}
+			],
+			"description": "Endpoints административной панели"
+		},
+		{
+			"name": "ACP AJAX",
+			"item": [
+				{
+					"name": "Удалить прикрепленное изображение",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/acp.php?part=delete_attached_image&id=123",
+							"host": ["{{base_url}}"],
+							"path": ["acp.php"],
+							"query": [
+								{
+									"key": "part",
+									"value": "delete_attached_image"
+								},
+								{
+									"key": "id",
+									"value": "123",
+									"description": "ID изображения"
+								}
+							]
+						},
+						"description": "AJAX удаление прикрепленного изображения"
+					}
+				},
+				{
+					"name": "Удалить прикрепленный файл",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/acp.php?part=delete_attached_file&id=123",
+							"host": ["{{base_url}}"],
+							"path": ["acp.php"],
+							"query": [
+								{
+									"key": "part",
+									"value": "delete_attached_file"
+								},
+								{
+									"key": "id",
+									"value": "123",
+									"description": "ID файла"
+								}
+							]
+						},
+						"description": "AJAX удаление прикрепленного файла"
+					}
+				},
+				{
+					"name": "Удалить аватар пользователя",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/acp.php?part=delete_user_avatar&uid=123",
+							"host": ["{{base_url}}"],
+							"path": ["acp.php"],
+							"query": [
+								{
+									"key": "part",
+									"value": "delete_user_avatar"
+								},
+								{
+									"key": "uid",
+									"value": "123",
+									"description": "ID пользователя"
+								}
+							]
+						},
+						"description": "AJAX удаление аватара пользователя"
+					}
+				},
+				{
+					"name": "Удалить изображение конфигурации",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/acp.php?part=delete_config_image&option=logo",
+							"host": ["{{base_url}}"],
+							"path": ["acp.php"],
+							"query": [
+								{
+									"key": "part",
+									"value": "delete_config_image"
+								},
+								{
+									"key": "option",
+									"value": "logo",
+									"description": "Название опции конфигурации"
+								}
+							]
+						},
+						"description": "AJAX удаление изображения из конфигурации сайта"
+					}
+				}
+			],
+			"description": "AJAX endpoints административной панели"
+		},
+		{
+			"name": "Управление пользователями (ACP)",
+			"item": [
+				{
+					"name": "Список пользователей",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/acp.php?act=users",
+							"host": ["{{base_url}}"],
+							"path": ["acp.php"],
+							"query": [
+								{
+									"key": "act",
+									"value": "users"
+								}
+							]
+						},
+						"description": "Список всех пользователей"
+					}
+				},
+				{
+					"name": "Создание пользователя",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/acp.php?act=users&a=create_user",
+							"host": ["{{base_url}}"],
+							"path": ["acp.php"],
+							"query": [
+								{
+									"key": "act",
+									"value": "users"
+								},
+								{
+									"key": "a",
+									"value": "create_user"
+								}
+							]
+						},
+						"description": "Форма создания нового пользователя"
+					}
+				},
+				{
+					"name": "Редактирование пользователя",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/acp.php?act=users&a=edit_user&uid=123",
+							"host": ["{{base_url}}"],
+							"path": ["acp.php"],
+							"query": [
+								{
+									"key": "act",
+									"value": "users"
+								},
+								{
+									"key": "a",
+									"value": "edit_user"
+								},
+								{
+									"key": "uid",
+									"value": "123",
+									"description": "ID пользователя"
+								}
+							]
+						},
+						"description": "Форма редактирования пользователя"
+					}
+				},
+				{
+					"name": "Удаление пользователя",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/acp.php?act=users&a=delete_user&uid=123",
+							"host": ["{{base_url}}"],
+							"path": ["acp.php"],
+							"query": [
+								{
+									"key": "act",
+									"value": "users"
+								},
+								{
+									"key": "a",
+									"value": "delete_user"
+								},
+								{
+									"key": "uid",
+									"value": "123",
+									"description": "ID пользователя"
+								}
+							]
+						},
+						"description": "Удаление пользователя"
+					}
+				}
+			],
+			"description": "Управление пользователями в административной панели"
+		},
+		{
+			"name": "Управление структурой сайта (ACP)",
+			"item": [
+				{
+					"name": "Структура сайта",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/acp.php?act=structure",
+							"host": ["{{base_url}}"],
+							"path": ["acp.php"],
+							"query": [
+								{
+									"key": "act",
+									"value": "structure"
+								}
+							]
+						},
+						"description": "Управление структурой сайта"
+					}
+				},
+				{
+					"name": "Создание раздела",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "create_unit",
+									"value": "1",
+									"description": "Флаг создания"
+								},
+								{
+									"key": "title",
+									"value": "Новый раздел",
+									"description": "Заголовок раздела"
+								},
+								{
+									"key": "alias",
+									"value": "new-section",
+									"description": "Псевдоним"
+								},
+								{
+									"key": "description",
+									"value": "Описание нового раздела",
+									"description": "Описание"
+								},
+								{
+									"key": "type",
+									"value": "html",
+									"description": "Тип контента (html, php, feed)"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{base_url}}/acp.php?act=structure&a=create",
+							"host": ["{{base_url}}"],
+							"path": ["acp.php"],
+							"query": [
+								{
+									"key": "act",
+									"value": "structure"
+								},
+								{
+									"key": "a",
+									"value": "create"
+								}
+							]
+						},
+						"description": "Создание нового раздела структуры"
+					}
+				},
+				{
+					"name": "Удаление раздела",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/acp.php?act=structure&a=delete&sid=123",
+							"host": ["{{base_url}}"],
+							"path": ["acp.php"],
+							"query": [
+								{
+									"key": "act",
+									"value": "structure"
+								},
+								{
+									"key": "a",
+									"value": "delete"
+								},
+								{
+									"key": "sid",
+									"value": "123",
+									"description": "ID раздела"
+								}
+							]
+						},
+						"description": "Удаление раздела структуры"
+					}
+				}
+			],
+			"description": "Управление структурой сайта"
+		},
+		{
+			"name": "Управление контентом (ACP)",
+			"item": [
+				{
+					"name": "Список страниц",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/acp.php?act=pages&sid=123",
+							"host": ["{{base_url}}"],
+							"path": ["acp.php"],
+							"query": [
+								{
+									"key": "act",
+									"value": "pages"
+								},
+								{
+									"key": "sid",
+									"value": "123",
+									"description": "ID раздела структуры"
+								}
+							]
+						},
+						"description": "Список страниц в разделе"
+					}
+				},
+				{
+					"name": "Редактирование страницы",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/acp.php?act=pages&a=edit&sid=123",
+							"host": ["{{base_url}}"],
+							"path": ["acp.php"],
+							"query": [
+								{
+									"key": "act",
+									"value": "pages"
+								},
+								{
+									"key": "a",
+									"value": "edit"
+								},
+								{
+									"key": "sid",
+									"value": "123",
+									"description": "ID раздела"
+								}
+							]
+						},
+						"description": "Редактирование контента страницы"
+					}
+				}
+			],
+			"description": "Управление контентом страниц"
+		},
+		{
+			"name": "Управление лентами (ACP)",
+			"item": [
+				{
+					"name": "Список лент",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/acp.php?act=feeds&sid=123",
+							"host": ["{{base_url}}"],
+							"path": ["acp.php"],
+							"query": [
+								{
+									"key": "act",
+									"value": "feeds"
+								},
+								{
+									"key": "sid",
+									"value": "123",
+									"description": "ID раздела"
+								}
+							]
+						},
+						"description": "Управление лентами новостей"
+					}
+				},
+				{
+					"name": "Создание записи в ленте",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/acp.php?act=feeds&a=create_item&sid=123",
+							"host": ["{{base_url}}"],
+							"path": ["acp.php"],
+							"query": [
+								{
+									"key": "act",
+									"value": "feeds"
+								},
+								{
+									"key": "a",
+									"value": "create_item"
+								},
+								{
+									"key": "sid",
+									"value": "123",
+									"description": "ID раздела"
+								}
+							]
+						},
+						"description": "Создание новой записи в ленте"
+					}
+				},
+				{
+					"name": "Редактирование записи",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/acp.php?act=feeds&a=edit_item&sid=123&item=456",
+							"host": ["{{base_url}}"],
+							"path": ["acp.php"],
+							"query": [
+								{
+									"key": "act",
+									"value": "feeds"
+								},
+								{
+									"key": "a",
+									"value": "edit_item"
+								},
+								{
+									"key": "sid",
+									"value": "123",
+									"description": "ID раздела"
+								},
+								{
+									"key": "item",
+									"value": "456",
+									"description": "ID записи"
+								}
+							]
+						},
+						"description": "Редактирование записи в ленте"
+					}
+				},
+				{
+					"name": "Удаление записи",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/acp.php?act=feeds&a=delete_item&sid=123&item=456",
+							"host": ["{{base_url}}"],
+							"path": ["acp.php"],
+							"query": [
+								{
+									"key": "act",
+									"value": "feeds"
+								},
+								{
+									"key": "a",
+									"value": "delete_item"
+								},
+								{
+									"key": "sid",
+									"value": "123",
+									"description": "ID раздела"
+								},
+								{
+									"key": "item",
+									"value": "456",
+									"description": "ID записи"
+								}
+							]
+						},
+						"description": "Удаление записи из ленты"
+					}
+				}
+			],
+			"description": "Управление лентами новостей"
+		},
+		{
+			"name": "Рассылка (ACP)",
+			"item": [
+				{
+					"name": "Управление рассылкой",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/acp.php?act=mailing",
+							"host": ["{{base_url}}"],
+							"path": ["acp.php"],
+							"query": [
+								{
+									"key": "act",
+									"value": "mailing"
+								}
+							]
+						},
+						"description": "Главная страница управления рассылкой"
+					}
+				},
+				{
+					"name": "Архив рассылки",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/acp.php?act=mailing&a=archive_list",
+							"host": ["{{base_url}}"],
+							"path": ["acp.php"],
+							"query": [
+								{
+									"key": "act",
+									"value": "mailing"
+								},
+								{
+									"key": "a",
+									"value": "archive_list"
+								}
+							]
+						},
+						"description": "Список архивных рассылок"
+					}
+				},
+				{
+					"name": "Отправка рассылки",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/acp.php?act=mailing&a=send",
+							"host": ["{{base_url}}"],
+							"path": ["acp.php"],
+							"query": [
+								{
+									"key": "act",
+									"value": "mailing"
+								},
+								{
+									"key": "a",
+									"value": "send"
+								}
+							]
+						},
+						"description": "Отправка новой рассылки"
+					}
+				}
+			],
+			"description": "Управление системой рассылки"
+		},
+		{
+			"name": "Логи системы (ACP)",
+			"item": [
+				{
+					"name": "Системные логи",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/acp.php?act=logs",
+							"host": ["{{base_url}}"],
+							"path": ["acp.php"],
+							"query": [
+								{
+									"key": "act",
+									"value": "logs"
+								}
+							]
+						},
+						"description": "Просмотр системных логов"
+					}
+				},
+				{
+					"name": "Очистка логов действий",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/acp.php?act=logs&a=clear_logaction",
+							"host": ["{{base_url}}"],
+							"path": ["acp.php"],
+							"query": [
+								{
+									"key": "act",
+									"value": "logs"
+								},
+								{
+									"key": "a",
+									"value": "clear_logaction"
+								}
+							]
+						},
+						"description": "Очистка логов действий пользователей"
+					}
+				},
+				{
+					"name": "Просмотр ошибок",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/acp.php?act=logs&a=lowerrors",
+							"host": ["{{base_url}}"],
+							"path": ["acp.php"],
+							"query": [
+								{
+									"key": "act",
+									"value": "logs"
+								},
+								{
+									"key": "a",
+									"value": "lowerrors"
+								}
+							]
+						},
+						"description": "Просмотр низкоуровневых ошибок"
+					}
+				}
+			],
+			"description": "Управление системными логами"
+		},
+		{
+			"name": "Конфигурация (ACP)",
+			"item": [
+				{
+					"name": "Настройки сайта",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/acp.php?act=config",
+							"host": ["{{base_url}}"],
+							"path": ["acp.php"],
+							"query": [
+								{
+									"key": "act",
+									"value": "config"
+								}
+							]
+						},
+						"description": "Настройки конфигурации сайта"
+					}
+				}
+			],
+			"description": "Управление конфигурацией сайта"
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					"// Автоматическое добавление куки сессии",
+					"// if (pm.environment.get('session_token')) {",
+					"//     pm.request.headers.add({",
+					"//         key: 'Cookie',",
+					"//         value: 'PHPSESSID=' + pm.environment.get('session_token')",
+					"//     });",
+					"// }"
+				]
+			}
+		}
+	]
+}
+
+
+

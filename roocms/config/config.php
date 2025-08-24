@@ -25,11 +25,13 @@ if(!defined('RooCMS')) {
 //---------------------------------------------------------
 $db_info = [];
 //---------------------------------------------------------
-$db_info['host'] = "";					#	Хост Базы Данных
-$db_info['user'] = "";					#	Имя пользователя Базы Данных
-$db_info['pass'] = "";					#	Пароль пользователя Базы Данных
+$db_info['host'] = "";						#	Хост Базы Данных
+$db_info['user'] = "";							#	Имя пользователя Базы Данных
+$db_info['pass'] = "";							#	Пароль пользователя Базы Данных
 $db_info['base'] = "";				#	Название Базы с данными
-$db_info['prefix'] = "";					#	Префикс таблиц в Базе Данных
+$db_info['port'] = "";							#	Порт для подключения к БД 3306 для mysql, 5432 для postgresql
+$db_info['type'] = "";							#	Тип БД mysql, postgresql
+$db_info['prefix'] = "";						#	Префикс таблиц в Базе Данных
 //#########################################################
 
 
@@ -40,7 +42,7 @@ $site = [];
 //---------------------------------------------------------
 $site['title'] = "";						#	Site title
 $site['domain'] = "";						#	default domain
-$site['protocol'] = "";						#	Site protocol
-$site['sysemail'] = "";						#	Service email
-$site['skin'] = "default";					#	default skin
+$site['protocol'] = "";							#	Site protocol
+$site['sysemail'] = "";					#	Service email
+$site['skin'] = "default";								#	default skin
 //#########################################################

@@ -1,7 +1,7 @@
 <?php
 /**
  * RooCMS - Open Source Free Content Managment System
- * @copyright © 2010-2023 alexandr Belov aka alex Roosso. All rights reserved.
+ * @copyright © 2010-2025 alexandr Belov aka alex Roosso. All rights reserved.
  * @author    alex Roosso <info@roocms.com>
  * @link      http://www.roocms.com
  * @license   http://www.gnu.org/licenses/gpl-3.0.html
@@ -118,7 +118,7 @@ $sql['CREATE'.STRUCTURE_TABLE] = "CREATE TABLE `".STRUCTURE_TABLE."` (
 					  `meta_description` varchar(255) NOT NULL,
 					  `meta_keywords` varchar(255) NOT NULL,
 					  `sort` int(10) unsigned NOT NULL DEFAULT '0',
-					  `page_type` enum('html','story','php','feed') NOT NULL DEFAULT 'html',
+					  `page_type` enum('html','php','feed') NOT NULL DEFAULT 'html',
 					  `noindex` enum('0','1') NOT NULL DEFAULT '0' COMMENT 'meta tag robots flag',
 					  `childs` int(10) unsigned NOT NULL DEFAULT '0',
 					  `group_access` varchar(255) NOT NULL DEFAULT '0',
@@ -174,22 +174,6 @@ $sql['CREATE'.PAGES_PHP_TABLE] = "CREATE TABLE `".PAGES_PHP_TABLE."` (
 					  UNIQUE KEY `id` (`id`),
 					  UNIQUE KEY `sid` (`sid`)
 					) ENGINE=InnoDB  DEFAULT CHARSET=utf8 PACK_KEYS=1 AUTO_INCREMENT=1";
-
-/**
- * Story page
- */
-$sql['DROP '.PAGES_STORY_TABLE] = "DROP TABLE IF EXISTS `".PAGES_STORY_TABLE."`";
-$sql['CREATE'.PAGES_STORY_TABLE] = "CREATE TABLE `".PAGES_STORY_TABLE."` (
-					  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-					  `sid` int(10) unsigned NOT NULL,
-					  `sort` int(10) unsigned NOT NULL DEFAULT '0',
-					  `content` longtext NOT NULL DEFAULT '',
-					  `date_modified` bigint(20) unsigned NOT NULL DEFAULT '0',
-					  PRIMARY KEY (`id`),
-					  UNIQUE KEY `id` (`id`),
-					  UNIQUE KEY `sid` (`sid`)
-					) ENGINE=InnoDB  DEFAULT CHARSET=utf8 PACK_KEYS=1 AUTO_INCREMENT=1";
-
 
 /**
 *  Feeds
