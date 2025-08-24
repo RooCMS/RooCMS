@@ -17,7 +17,7 @@
 define('_SITEROOT', dirname(__FILE__));
 require_once _SITEROOT."/roocms/init.php";
 
-require_once(_LIB."/phpqrcode.php");
+require_once _LIB."/phpqrcode.php";
 
 if(isset($get->_url)) {
 	$get->_url = str_ireplace('%and%', '&', $get->_url);

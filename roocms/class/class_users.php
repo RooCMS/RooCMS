@@ -359,15 +359,9 @@ class Users extends Security {
 		global $post, $parse;
 
 		# user name/surname/last_name
-		if(!isset($post->user_name)) {
-			$post->user_name = "";
-		}
-		if(!isset($post->user_surname)) {
-			$post->user_surname = "";
-		}
-		if(!isset($post->user_last_name)) {
-			$post->user_last_name = "";
-		}
+		$post->user_name = $post->user_name ?? "";
+		$post->user_surname = $post->user_surname ?? "";
+		$post->user_last_name = $post->user_last_name ?? "";
 
 		# user birthdate
 		if(isset($post->user_birthdate) && $post->user_birthdate != "") {
@@ -396,9 +390,7 @@ class Users extends Security {
 		}
 
 		# check slogan
-		if(!isset($post->user_slogan)) {
-			$post->user_slogan = "";
-		}
+		$post->user_slogan = $post->user_slogan ?? "";
 
 		$post->user_slogan = $parse->text->clearhtml($post->user_slogan);
 	}

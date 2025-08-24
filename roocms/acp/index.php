@@ -142,7 +142,7 @@ class ACP_Index {
 
 		$data1['php'] 		= PHP_VERSION;						# php version
 		$data1['zend']		= zend_version();					# Zend version
-		$data1['ws'] 		= $_SERVER['SERVER_SOFTWARE'];		# Server software version
+		$data1['ws'] 		= $_SERVER['SERVER_SOFTWARE'] ?? 'Unknown';		# Server software version
 		$data1['os']		= php_uname("s")." (".PHP_OS.")"; 	# OS
 		$data1['uname']		= php_uname(); 						# UNAME
 		$data1['roocms']	= ROOCMS_VERSION;					# RooCMS
@@ -152,10 +152,10 @@ class ACP_Index {
 		$data1['ped']		= PHP_EXTENSION_DIR;				# PHP extends dir
 		$data1['pcp']		= PHP_CONFIG_FILE_PATH;				# PHP config file path
 
-		$data1['sn']		= $_SERVER["SERVER_NAME"];			# Server name
-		$data1['sa']		= $_SERVER["SERVER_ADDR"];			# Server address
-		$data1['sp']		= $_SERVER["SERVER_PROTOCOL"];		# Server protocol
-		$data1['ra']		= $_SERVER["REMOTE_ADDR"];			# Remote address
+		$data1['sn']		= $_SERVER['SERVER_NAME'] ?? 'unknown';			# Server name
+		$data1['sa']		= $_SERVER['SERVER_ADDR'] ?? 'unknown';			# Server address
+		$data1['sp']		= $_SERVER['SERVER_PROTOCOL'] ?? 'unknown';		# Server protocol
+		$data1['ra']		= get_client_ip();					# Remote address
 		$data1['docroot']	= _SITEROOT;						# Document root
 
 		$data1['ml']		= ini_get('memory_limit');			# Memory limit
@@ -209,7 +209,7 @@ class ACP_Index {
 			'AUTH_TYPE',
 			'PATH_INFO',
 			'ORIG_PATH_INFO'
-		) ;
+		);
 
 
 		$data2 = [];
@@ -246,9 +246,9 @@ class ACP_Index {
 
 		$filetypes = [];
 		$filetypes['mfs']		= ini_get('upload_max_filesize');	# Maximum file size
-		$filetypes['mps']		= ini_get('post_max_size');		# Maximum post size
-		$filetypes['images']		= $imagetype;				# Allow image types
-		$filetypes['files']		= $filetype;				# Allow file types
+		$filetypes['mps']		= ini_get('post_max_size');			# Maximum post size
+		$filetypes['images']	= $imagetype;						# Allow image types
+		$filetypes['files']		= $filetype;						# Allow file types
 
 		# draw
 		$smarty->assign('filetypes',	$filetypes);
@@ -312,7 +312,7 @@ class ACP_Index {
 
 		$inivars = ini_get_all();
 
-        	# draw tpl
+        # draw tpl
 		$smarty->assign('inivars',	$inivars);
 
 		$content = $tpl->load_template("index_inivars", true);

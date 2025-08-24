@@ -90,7 +90,7 @@ class Logger {
 		if(!empty($this->log)) {
 
 			$dump = [];
-			$uid = (isset($_SESSION['uid'])) ? $_SESSION['uid'] : 0 ;
+			$uid = $_SESSION['uid'] ?? 0;
 
 			foreach($this->log AS $value) {
 				$dump[] = "('".$uid."', '".$value["subj"]."', '".$value["type"]."', '".time()."', '".$roocms->userip."')";

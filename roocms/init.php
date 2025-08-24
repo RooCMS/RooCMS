@@ -1,7 +1,7 @@
 <?php
 /**
  * RooCMS - Open Source Free Content Managment System
- * @copyright © 2010-2023 alexandr Belov aka alex Roosso. All rights reserved.
+ * @copyright © 2010-2025 alexandr Belov aka alex Roosso. All rights reserved.
  * @author    alex Roosso <info@roocms.com>
  * @link      http://www.roocms.com
  * @license   http://www.gnu.org/licenses/gpl-3.0.html
@@ -37,28 +37,28 @@ defined('_SITEROOT') or define('_SITEROOT', str_ireplace(DIRECTORY_SEPARATOR."ro
 /**
 * Sys & PHP Settings
 */
-require_once(_SITEROOT."/roocms/config/set.cfg.php");
+require_once _SITEROOT."/roocms/config/set.cfg.php";
 
 /**
 * Load Config
 */
-require_once(_SITEROOT."/roocms/config/config.php");
+require_once _SITEROOT."/roocms/config/config.php";
 
 /**
 * Load const
 */
-require_once(_SITEROOT."/roocms/config/defines.php");
+require_once _SITEROOT."/roocms/config/defines.php";
 
 /**
  * Загружаем примитивные функции
  */
-require_once(_ROOCMS."/functions.php");
+require_once _ROOCMS."/functions.php";
 
 /**
 * Load Debug Class
 */
-require_once(_CLASS."/trait_debugLog.php");
-require_once(_CLASS."/class_debuger.php");
+require_once _CLASS."/trait_debugLog.php";
+require_once _CLASS."/class_debuger.php";
 $debug = new Debuger;
 
 /**
@@ -76,110 +76,110 @@ function debug($obj) {
 /**
 * Init BD class
 */
-require_once(_CLASS."/trait_dbExtends.php");
+require_once _CLASS."/trait_dbExtends.php";
 if($db_info['type'] == "mysql") {
-	require_once(_CLASS."/class_db_mysqli.php");
+	require_once _CLASS."/class_db_mysqli.php";
 	$db = new MySQLiDB;
 }
 else {
-	require_once(_CLASS."/class_db_postgresql.php");
+	require_once _CLASS."/class_db_postgresql.php";
 	$db = new PostgreSQLDB;
 }
 
 /**
 * Load global class
 */
-require_once(_CLASS."/class_global.php");
+require_once _CLASS."/class_global.php";
 $roocms = new RooCMS_Global;
 $config =& $roocms->config;
 
 /**
  * Load logger class
  */
-require_once(_CLASS."/class_logger.php");
+require_once _CLASS."/class_logger.php";
 $logger	= new Logger;
 
 /**
  * Class handler $_POST
  */
-require_once(_CLASS."/class_post.php");
+require_once _CLASS."/class_post.php";
 $post = new Post;
 
 /**
 * Init Parser Engine
 */
-require_once(_CLASS."/trait_parserValidData.php");
-require_once(_CLASS."/class_parser.php");
+require_once _CLASS."/trait_parserValidData.php";
+require_once _CLASS."/class_parser.php";
 $parse 	= new Parser;
 $get	=& $parse->get;
 
 /**
  * Init Security class
  */
-require_once(_CLASS."/class_shteirlitz.php");
-require_once(_CLASS."/class_security.php");
+require_once _CLASS."/class_shteirlitz.php";
+require_once _CLASS."/class_security.php";
 $security = new Security;
 
 /**
  * Mailing class
  */
-require_once(_CLASS."/class_mailing.php");
+require_once _CLASS."/class_mailing.php";
 $mailer = new Mailing;
 
 /**
  * Init User class
  */
-require_once(_CLASS."/trait_userGroups.php");
-require_once(_CLASS."/trait_userAvatar.php");
-require_once(_CLASS."/class_users.php");
+require_once _CLASS."/trait_userGroups.php";
+require_once _CLASS."/trait_userAvatar.php";
+require_once _CLASS."/class_users.php";
 $users = new Users;
 
 /**
  * Init Tags class
  */
-require_once(_CLASS."/class_tags.php");
+require_once _CLASS."/class_tags.php";
 $tags = new Tags;
 
 /**
  * Load handler Files
  */
-require_once(_CLASS."/class_files.php");
+require_once _CLASS."/class_files.php";
 $files = new Files;
 
 /**
  * Graphic class load
  */
-require_once(_CLASS."/trait_gdExtends.php");
-require_once(_CLASS."/class_gd.php");
+require_once _CLASS."/trait_gdExtends.php";
+require_once _CLASS."/class_gd.php";
 
 /**
  * Load handler Images
  */
-require_once(_CLASS."/class_images.php");
+require_once _CLASS."/class_images.php";
 $img = new Images;
 
 /**
  * XML
  */
-require_once(_CLASS."/class_xml.php");
+require_once _CLASS."/class_xml.php";
 $xml = new XML;
 
 /**
  * RSS
  */
-require_once(_CLASS."/class_rss.php");
+require_once _CLASS."/class_rss.php";
 $rss = new RSS;
 
 /**
  * Load Smarty
  */
-require_once(_LIB."/smarty.php");
+require_once _LIB."/smarty.php";
 
 /**
  * Template class
  */
-require_once(_CLASS."/trait_templateExtends.php");
-require_once(_CLASS."/class_template.php");
+require_once _CLASS."/trait_templateExtends.php";
+require_once _CLASS."/class_template.php";
 $tpl = new Template;
 
 
@@ -190,13 +190,13 @@ if(!defined('ACP') && !defined('INSTALL')) {
 	/**
 	 * Init site structure
 	 */
-	require_once(_CLASS."/class_structure.php");
+	require_once _CLASS."/class_structure.php";
 	$structure = new Structure;
 
 	/**
 	 * init navigation
 	 */
-	require_once(_CLASS."/class_navigation.php");
+	require_once _CLASS."/class_navigation.php";
 	$nav = new Navigation;
 }
 

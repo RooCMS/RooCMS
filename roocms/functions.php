@@ -156,6 +156,33 @@ function get_http_response_code(string $url) {
 	return (string) $http_code;
 }
 
+
+/**
+ * Get client IP address
+ *
+ * @return string - client IP address
+ */
+function get_client_ip() {
+    $ip = 'unknown';
+    
+    if (!empty($_SERVER['HTTP_CLIENT_IP'])) {
+        $ip = $_SERVER['HTTP_CLIENT_IP'];
+    } elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+        $ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
+    } elseif (!empty($_SERVER['REMOTE_ADDR'])) {
+        $ip = $_SERVER['REMOTE_ADDR'];
+    }
+    
+    // Защита от множественных IP (последний IP - реальный)
+    if (strpos($ip, ',') !== false) {
+        $ips = explode(',', $ip);
+        $ip = trim(end($ips));
+    }
+    
+    return filter_var($ip, FILTER_VALIDATE_IP) ? $ip : 'unknown';
+}
+
+
 /**
  * Read data file
  *

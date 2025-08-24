@@ -1,7 +1,7 @@
 <?php
 /**
  * RooCMS - Open Source Free Content Managment System
- * @copyright © 2010-2023 alexandr Belov aka alex Roosso. All rights reserved.
+ * @copyright © 2010-2025 alexandr Belov aka alex Roosso. All rights reserved.
  * @author    alex Roosso <info@roocms.com>
  * @link      http://www.roocms.com
  * @license   http://www.gnu.org/licenses/gpl-3.0.html
@@ -92,11 +92,11 @@ class Debuger {
 	 */
 	private function start_productivity() {
 
-			# timer
-			$this->starttime = $_SERVER['REQUEST_TIME'];
+		# timer
+		$this->starttime = $_SERVER['REQUEST_TIME'] ?? time();
 
-			# memory
-			$this->memory_usage = MEMORYUSAGE;
+		# memory
+		$this->memory_usage = MEMORYUSAGE;
 	}
 
 
@@ -105,9 +105,9 @@ class Debuger {
 	 */
 	public function end_productivity() {
 
-			# timer
-			$endtime = microtime(true);
-			$totaltime = round(($endtime - $this->starttime), 4);
+		# timer
+		$endtime = microtime(true);
+		$totaltime = round(($endtime - $this->starttime), 4);
 
 		$this->productivity_time = $totaltime;
 
@@ -160,7 +160,7 @@ class Debuger {
 	 */
 	public static function debug_critical_error($errno, $msg, $file, $line) {
 
-                # read error in file
+        # read error in file
 		$subj = file_read(ERRORSLOG);
 		
 
@@ -181,15 +181,15 @@ class Debuger {
         		        $erlevel = 1; $ertitle = "Критическая ошибка";
         		        break;
 
-        	        case E_USER_WARNING:		# warning
+        	        case E_USER_WARNING:	# warning
         		        $erlevel = 1; $ertitle = "Некритическая пользовательская ошибка";
         		        break;
 
-        	        case E_CORE_WARNING:		# warning
+        	        case E_CORE_WARNING:	# warning
         		        $erlevel = 1; $ertitle = "Некритическая ошибка ядра";
         		        break;
 
-        	        case E_COMPILE_WARNING:		# warning
+        	        case E_COMPILE_WARNING:	# warning
         		        $erlevel = 1; $ertitle = "Некритическая ошибка Zend";
         		        break;
 
@@ -201,7 +201,7 @@ class Debuger {
         		        $erlevel = 2; $ertitle = "Пользователская ошибка";
         		        break;
 
-        	        default:			# unknown
+        	        default:				# unknown
         		        $erlevel = 3; $ertitle = "Неизвестная ошибка";
         		        break;
                 }
@@ -212,7 +212,7 @@ class Debuger {
 
         	$time = date("d.m.Y H:i:s");
 
-		$subj .= $time." | ".getenv('REMOTE_ADDR')." | ".$_SERVER['REQUEST_URI']." | ".$ertitle." | ".$errno." | ".$msg." | ".$line." | ".$file."\r\n";
+		$subj .= $time." | ".get_client_ip()." | ".$_SERVER['REQUEST_URI']." | ".$ertitle." | ".$errno." | ".$msg." | ".$line." | ".$file."\r\n";
 
 		$f = fopen(ERRORSLOG, "w+");
 		if(is_writable(ERRORSLOG)) {
@@ -277,12 +277,12 @@ class Debuger {
 	 * @return void     - show variable dump for $var
 	 */
 	public function rundebug($var) {
-                static $use = 1;
+		static $use = 1;
 
-                # shutdown register
-    	        if($use == 1) {
+		# shutdown register
+		if($use == 1) {
 			register_shutdown_function(array($this,'shutdown'));
-    	        }
+		}
 
 		# print var
 		ob_start();
@@ -299,23 +299,23 @@ class Debuger {
 
 		$this->debug_dump[] = $output;
 
-    	        # step
-    	        $use++;
+		# step
+		$use++;
 	}
 
 
-        /**
-        * Shutdown (show debug information)
-        */
+	/**
+	 * Shutdown (show debug information)
+	 */
 	public static function shutdown() {
 
 		global $debug, $db;
 
-                echo "<div class='container-fluid'><div class='row mx-1'><div class='col-12 bg-white p-3 rounded-sm'><h4>Отладка</h4>";
+		echo "<div class='container-fluid'><div class='row mx-1'><div class='col-12 bg-white p-3 rounded-sm'><h4>Отладка</h4>";
 
-                foreach($debug->debug_dump AS $k=>$v) {
-        	        echo "<code>DEBUG <b>#".$k."</b></code><pre class='small border p-2 rounded-sm' style='overflow: auto;max-height: 300px;'>".htmlspecialchars($v)."</pre>";
-                }
+		foreach($debug->debug_dump AS $k=>$v) {
+			echo "<code>DEBUG <b>#".$k."</b></code><pre class='small border p-2 rounded-sm' style='overflow: auto;max-height: 300px;'>".htmlspecialchars($v)."</pre>";
+		}
 
 
 
@@ -365,8 +365,6 @@ class Debuger {
 		echo "	</ul></div>
 			</div>";
 
-
-
                 echo "  <div class='row'><div class='col-12 mt-3 py-1 bg-light'>
 				<i class='fas fa-chart-bar fa-fw text-nowrap'></i> Обращений к БД: <b>{$db->cnt_querys}</b>
 				&nbsp;&nbsp; <i class='fas fa-tachometer-alt fa-fw text-nowrap'></i> Использовано памяти : <span style='cursor: help;' title='".round($debug->memory_peak_usage/1024/1024, 2)." байт макс'><b>".round($debug->productivity_memory/1024/1024, 2)." Мб</b></span>
@@ -375,6 +373,6 @@ class Debuger {
 
 		echo "</div></div></div>";
 
-                exit;
+		exit;
 	}
 }
