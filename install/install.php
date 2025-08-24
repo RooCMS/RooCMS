@@ -26,13 +26,13 @@ class Install extends IU_Extends {
 	protected $allowed	= true;		# [bool]	flag for allowed to continue process
 	protected $log		= [];		# [array]	array log process actions
 
-	private $action		= "install";	# [string]	alias for identy process
-	protected $step		= 1;		# [int]		now use step
-	protected $nextstep	= 2;		# [int]		next use step
-	protected $steps	= 7;		# [int]		all step in operations
-	protected $page_title	= "";
-	protected $status	= "";
-	protected $noticetext	= "";		# [string]	attention text in head form
+	private $action			= "install";	# [string]	alias for identy process
+	protected $step			= 1;			# [int]		now use step
+	protected $nextstep		= 2;			# [int]		next use step
+	protected $steps		= 7;			# [int]		all step in operations
+	protected $page_title	= "";			# [string]	page title
+	protected $status		= "";			# [string]	status text
+	protected $noticetext	= "";			# [string]	attention text in head form
 
 
 	/**
@@ -91,18 +91,18 @@ class Install extends IU_Extends {
 		$this->set_nextstep();
 
 		# draw
-		$smarty->assign("allowed",	$this->allowed);
-		$smarty->assign("action",	$this->action);
+		$smarty->assign("allowed",		$this->allowed);
+		$smarty->assign("action",		$this->action);
 		$smarty->assign("page_title", 	$this->page_title);
-		$smarty->assign("status", 	$this->status);
-		$smarty->assign("step", 	$this->step);
+		$smarty->assign("status", 		$this->status);
+		$smarty->assign("step", 		$this->step);
 		$smarty->assign("nextstep", 	$this->nextstep);
-		$smarty->assign("steps",	$this->steps);
-		$smarty->assign("progress",	$parse->percent($this->step, $this->steps));
+		$smarty->assign("steps",		$this->steps);
+		$smarty->assign("progress",		$parse->percent($this->step, $this->steps));
 
 		$tpl->load_template("top");
 
-		$smarty->assign("log", 		$this->log);
+		$smarty->assign("log", 			$this->log);
 		$smarty->assign("noticetext", 	$this->noticetext);
 
 		$tpl->load_template("body");
@@ -212,7 +212,7 @@ class Install extends IU_Extends {
 
 			# Check mysql connect
 			$post->db_info_pass = $parse->text->html($post->db_info_pass);
-			if(!$db->check_connect($post->db_info_host, $post->db_info_user, $post->db_info_pass, $post->db_info_base)) {
+			if(!$db->check_connect($post->db_info_host, $post->db_info_user, $post->db_info_pass, $post->db_info_base, $post->db_info_port)) {
 				$logger->error("Указаны неверные параметры для соеденения с БД", false);
 				$this->allowed = false;
 				goback();
@@ -224,6 +224,8 @@ class Install extends IU_Extends {
 				$_SESSION['db_info_user'] = $post->db_info_user;
 				$_SESSION['db_info_pass'] = $post->db_info_pass;
 				$_SESSION['db_info_base'] = $post->db_info_base;
+				$_SESSION['db_info_port'] = $post->db_info_port;
+				$_SESSION['db_info_type'] = $post->db_info_type;
 
 				$conffile = _ROOCMS."/config/config.php";
 
@@ -247,6 +249,8 @@ class Install extends IU_Extends {
 			$this->log[] = array('Имя пользователя БД', '<input type="text" class="form-control" name="db_info_user" required>', true, 'Укажите имя пользователя с правами для подключения к БД.');
 			$this->log[] = array('Пароль пользователя БД', '<input type="text" class="form-control" name="db_info_pass" minlength="3" required>', true, 'Укажите пароль пользователя для соеденения с БД');
 			$this->log[] = array('Префикс таблиц БД', '<input type="text" class="form-control" name="db_info_prefix" required placeholder="roocms_" value="roocms_">', true, 'Укажите префикс для таблиц БД.');
+			$this->log[] = array('Порт БД', '<input type="text" class="form-control" name="db_info_port" required placeholder="3306" value="3306">', true, 'Укажите порт для соеденения с БД.');
+			$this->log[] = array('Тип БД', '<select class="form-control" name="db_info_type" required><option value="mysql">MySQL</option><!-- <option value="postgresql">PostgreSQL</option> --></select>', true, 'Укажите тип БД.');
 		}
 		else {
 			go(SCRIPT_NAME."?step=5");
@@ -273,6 +277,8 @@ class Install extends IU_Extends {
 			$context = str_ireplace('$db_info[\'base\'] = "'.$db_info['base'].'";','$db_info[\'base\'] = "'.$roocms->sess['db_info_base'].'";',$context);
 			$context = str_ireplace('$db_info[\'user\'] = "'.$db_info['user'].'";','$db_info[\'user\'] = "'.$roocms->sess['db_info_user'].'";',$context);
 			$context = str_ireplace('$db_info[\'pass\'] = "'.$db_info['pass'].'";','$db_info[\'pass\'] = "'.$roocms->sess['db_info_pass'].'";',$context);
+			$context = str_ireplace('$db_info[\'port\'] = "'.$db_info['port'].'";','$db_info[\'port\'] = "'.$roocms->sess['db_info_port'].'";',$context);
+			$context = str_ireplace('$db_info[\'type\'] = "'.$db_info['type'].'";','$db_info[\'type\'] = "'.$roocms->sess['db_info_type'].'";',$context);
 
 			$files->write_file($conffile, $context);
 
@@ -285,26 +291,52 @@ class Install extends IU_Extends {
 
 
 		# check mysql connect
-		if(!$db->check_connect($roocms->sess['db_info_host'], $roocms->sess['db_info_user'], $roocms->sess['db_info_pass'], $roocms->sess['db_info_base'])) {
+		if(!$db->check_connect($roocms->sess['db_info_host'], $roocms->sess['db_info_user'], $roocms->sess['db_info_pass'], $roocms->sess['db_info_base'], $roocms->sess['db_info_port'])) {
 			$this->allowed = false;
 		}
 
 		if($this->allowed) {
+
 			$sql = [];
-			require_once "db_mysql_schema.php";
+			if($roocms->sess['db_info_type'] == "mysql") {
+				require_once "db_mysql_schema.php";
 
-			$mysqli = new mysqli($roocms->sess['db_info_host'], $roocms->sess['db_info_user'], $roocms->sess['db_info_pass'], $roocms->sess['db_info_base']);
+				$mysqli = new mysqli($roocms->sess['db_info_host'], $roocms->sess['db_info_user'], $roocms->sess['db_info_pass'], $roocms->sess['db_info_base']);
 
-			foreach($sql AS $k=>$v) {
-				$mysqli->query($v);
-
-				if($mysqli->errno == 0) {
-					$this->log[] = array('Операция', $k, true, '');
+				foreach($sql AS $k=>$v) {
+					$mysqli->query($v);
+	
+					if($mysqli->errno == 0) {
+						$this->log[] = array('Операция', $k, true, '');
+					}
+					else {
+						$this->log[] = array('Операция', $k, false, '# '.$mysqli->errno.'<br />- '.$mysqli->error);
+						$this->allowed = false;
+					}
 				}
-				else {
-					$this->log[] = array('Операция', $k, false, '# '.$mysqli->errno.'<br />- '.$mysqli->error);
-					$this->allowed = false;
+
+				mysqli_close($mysqli);
+			}
+			else {
+				require_once "db_postgresql_schema.php";
+
+				$connection_string = "host={$roocms->sess['db_info_host']} port={$roocms->sess['db_info_port']} dbname={$roocms->sess['db_info_base']} user={$roocms->sess['db_info_user']} password={$roocms->sess['db_info_pass']}";
+				$pgsql = pg_connect($connection_string);
+
+				foreach($sql AS $k=>$v) {
+					$result = pg_query($pgsql, $v);
+					
+					if($result !== false) {
+						$this->log[] = array('Операция', $k, true, '');
+					}
+					else {
+						$error_message = pg_last_error($pgsql);
+						$this->log[] = array('Операция', $k, false, 'PostgreSQL Error:<br />- '.$error_message);
+						$this->allowed = false;
+					}
 				}
+				
+				pg_close($pgsql);
 			}
 		}
 	}

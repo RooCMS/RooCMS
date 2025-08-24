@@ -94,7 +94,7 @@ class UI_Search {
 		}
 
 		# calculate pages
-		$db->pages_mysql(PAGES_FEED_TABLE, str_ireplace("f.", "", "f.date_publications <= '".time()."' AND ".$cond." AND (".$condsid.") ".$accesscond." AND (f.date_end_publications = '0' || f.date_end_publications > '".time()."') AND f.status='1'"));
+		$db->pages_in_db(PAGES_FEED_TABLE, str_ireplace("f.", "", "f.date_publications <= '".time()."' AND ".$cond." AND (".$condsid.") ".$accesscond." AND (f.date_end_publications = '0' || f.date_end_publications > '".time()."') AND f.status='1'"));
 
 		# get array pagination template array
 		$pages = $db->construct_pagination();

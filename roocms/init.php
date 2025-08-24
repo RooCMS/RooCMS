@@ -76,9 +76,15 @@ function debug($obj) {
 /**
 * Init BD class
 */
-require_once(_CLASS."/trait_mysqlidbExtends.php");
-require_once(_CLASS."/class_mysqlidb.php");
-$db = new MySQLiDB;
+require_once(_CLASS."/trait_dbExtends.php");
+if($db_info['type'] == "mysql") {
+	require_once(_CLASS."/class_db_mysqli.php");
+	$db = new MySQLiDB;
+}
+else {
+	require_once(_CLASS."/class_db_postgresql.php");
+	$db = new PostgreSQLDB;
+}
 
 /**
 * Load global class
