@@ -74,9 +74,6 @@ class RooCMS_Global {
 	public  $userip		= "";	 	# [string]	user ip address
 	public  $referer	= "";	 	# [string]	user referer
 
-	# spiderbot
-	public	$spiderbot	= false; # [bool]	if this search spider bot
-
 
 
 	/**
@@ -165,25 +162,6 @@ class RooCMS_Global {
 
 		# extend config object- add phpextension
 		$this->config->phpextensions =& $debug->phpextensions;
-	}
-
-
-	/**
-	 * Check useragent for search spider bot machine
-	 *
-	 * @param $useragent
-	 */
-	public function check_spider_bot($useragent) {
-
-		require_once _LIB."/spiders.php";
-
-		foreach($spider AS $value) {
-			$check = mb_strpos($useragent, $value, 0, 'utf8');
-
-			if($check !== false) {
-				$this->spiderbot = true;
-			}
-		}
 	}
 
 
