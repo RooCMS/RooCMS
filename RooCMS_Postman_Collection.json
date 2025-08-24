@@ -890,7 +890,7 @@
 								{
 									"key": "type",
 									"value": "html",
-									"description": "Тип контента (html, story, php, feed)"
+									"description": "Тип контента (html, php, feed)"
 								}
 							]
 						},
