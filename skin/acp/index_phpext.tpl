@@ -18,7 +18,8 @@
 						 || $ext == "gd"
 						 || $ext == "mbstring"
 						 || $ext == "SimpleXML"
-						 || $ext == "mysqli"}
+						 || $ext == "mysqli"
+						 || $ext == "curl"}
 						 text-success font-weight-bold
 						{elseif $ext == "xdebug"
 						     || $ext == "apache2handler"

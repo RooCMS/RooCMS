@@ -48,15 +48,15 @@ class Debuger {
 
 	# requirement php extension
 	private $reqphpext		= array("Core", "standard", "mysqli", "session", "mbstring",
-						"calendar", "date", "pcre", "xml", "SimpleXML", "gd");
+						"calendar", "date", "pcre", "xml", "SimpleXML", "gd", "curl");
 
 	public  $phpextensions       = []; # list installed php extends
 	public  $nophpextensions     = []; # list non installed php extends required for RooCMS
 
 
 	/**
-	* Construct
-	*/
+	 * Construct
+	 */
 	public function __construct() {
 
 		# set error handler
@@ -88,39 +88,39 @@ class Debuger {
 
 
 	/**
-	* Start productivity timer measure script working
-	*/
-        private function start_productivity() {
+	 * Start productivity timer measure script working
+	 */
+	private function start_productivity() {
 
-    	        # timer
-                $this->starttime = $_SERVER['REQUEST_TIME'];
+			# timer
+			$this->starttime = $_SERVER['REQUEST_TIME'];
 
-                # memory
-                $this->memory_usage = MEMORYUSAGE;
-        }
-
-
-	/**
-	* Stop productivity timer measure script working
-	*/
-        public function end_productivity() {
-
-    	        # timer
-                $endtime = microtime(true);
-                $totaltime = round(($endtime - $this->starttime), 4);
-
-	        $this->productivity_time = $totaltime;
-
-	        # memory
-	        $this->productivity_memory 	= memory_get_usage() - $this->memory_usage;
-	        $this->memory_peak_usage 	= memory_get_peak_usage();
-        }
+			# memory
+			$this->memory_usage = MEMORYUSAGE;
+	}
 
 
 	/**
-	* Check required php extensions
-	*
-	*/
+	 * Stop productivity timer measure script working
+	 */
+	public function end_productivity() {
+
+			# timer
+			$endtime = microtime(true);
+			$totaltime = round(($endtime - $this->starttime), 4);
+
+		$this->productivity_time = $totaltime;
+
+		# memory
+		$this->productivity_memory 	= memory_get_usage() - $this->memory_usage;
+		$this->memory_peak_usage 	= memory_get_peak_usage();
+	}
+
+
+	/**
+	 * Check required php extensions
+	 *
+	 */
 	private function check_phpextensions() {
 
 		$this->phpextensions = get_loaded_extensions();
@@ -242,11 +242,11 @@ class Debuger {
 	}
 
 
-        /**
-        * on/off error log
-        *
-        * @param boolean $show
-        */
+	/**
+	 * on/off error log
+	 *
+	 * @param boolean $show
+	 */
 	private static function error_report(bool $show = false) {
 
 		ini_set("error_log", SYSERRLOG);

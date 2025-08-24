@@ -97,7 +97,20 @@ class ACP_Index {
 		$warning_subj = [];
 
 		if(get_http_response_code("https://version.roocms.com/index.php") == "200") {
-			$f = file("https://version.roocms.com/index.php");
+			$url_ver = "https://version.roocms.com/index.php";
+			$ssl_verify = !DEBUGMODE;
+			$context = stream_context_create(array(
+				"http" => array(
+					"timeout" => 10,
+					"user_agent" => "RooCMS/1.0"
+				),
+				"ssl" => array(
+					"verify_peer" => $ssl_verify,
+					"verify_peer_name" => $ssl_verify,
+					"allow_self_signed" => !$ssl_verify
+				)
+			));
+			$f = @file($url_ver, FILE_IGNORE_NEW_LINES, $context);
 
 			if(!empty($f) && version_compare(ROOCMS_VERSION, $f[0], "<")) {
 				$warning_subj[] = "Внимание! Вышла новая версия <b>RooCMS ".$f[0]."</b>. Рекомендуем обновить ваш сайт до последней версии.
@@ -127,27 +140,27 @@ class ACP_Index {
 		$mysql = $db->fetch_row($q);
 		$data1['mysql']		= $mysql[1];
 
-		$data1['php'] 		= PHP_VERSION;				# php version
-		$data1['zend']		= zend_version();			# Zend version
-		$data1['ws'] 		= $_SERVER['SERVER_SOFTWARE'];		# Server sowfware version apache_get_version();
+		$data1['php'] 		= PHP_VERSION;						# php version
+		$data1['zend']		= zend_version();					# Zend version
+		$data1['ws'] 		= $_SERVER['SERVER_SOFTWARE'];		# Server software version
 		$data1['os']		= php_uname("s")." (".PHP_OS.")"; 	# OS
-		$data1['uname']		= php_uname(); 				# UNAME
-		$data1['roocms']	= ROOCMS_VERSION;			# RooCMS
+		$data1['uname']		= php_uname(); 						# UNAME
+		$data1['roocms']	= ROOCMS_VERSION;					# RooCMS
 
-		$data1['pid']		= PEAR_INSTALL_DIR; 			# PEAR extends dir
-		$data1['dip']		= DEFAULT_INCLUDE_PATH;
-		$data1['ped']		= PHP_EXTENSION_DIR;			# PHP extends dir
-		$data1['pcp']		= PHP_CONFIG_FILE_PATH;
+		$data1['pid']		= PEAR_INSTALL_DIR; 				# PEAR extends dir
+		$data1['dip']		= DEFAULT_INCLUDE_PATH;				# Default include path
+		$data1['ped']		= PHP_EXTENSION_DIR;				# PHP extends dir
+		$data1['pcp']		= PHP_CONFIG_FILE_PATH;				# PHP config file path
 
-		$data1['sn']		= $_SERVER["SERVER_NAME"];
-		$data1['sa']		= $_SERVER["SERVER_ADDR"];
-		$data1['sp']		= $_SERVER["SERVER_PROTOCOL"];
-		$data1['ra']		= $_SERVER["REMOTE_ADDR"];
-		$data1['docroot']	= _SITEROOT;
+		$data1['sn']		= $_SERVER["SERVER_NAME"];			# Server name
+		$data1['sa']		= $_SERVER["SERVER_ADDR"];			# Server address
+		$data1['sp']		= $_SERVER["SERVER_PROTOCOL"];		# Server protocol
+		$data1['ra']		= $_SERVER["REMOTE_ADDR"];			# Remote address
+		$data1['docroot']	= _SITEROOT;						# Document root
 
-		$data1['ml']		= ini_get('memory_limit');		# Memory limit
+		$data1['ml']		= ini_get('memory_limit');			# Memory limit
 		$data1['mfs']		= ini_get('upload_max_filesize');	# Maximum file size
-		$data1['mps']		= ini_get('post_max_size');		# Maximum post size
+		$data1['mps']		= ini_get('post_max_size');			# Maximum post size
 		$data1['met']		= ini_get('max_execution_time');	# Max execution time
 
 		if(array_search("apache2handler", $debug->phpextensions)) {
