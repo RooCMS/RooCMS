@@ -1,5 +1,5 @@
 
-[![RooCMS](http://version.roocms.com/logo.png)](http://www.roocms.com)
+[![RooCMS](https://dev.roocms.com/skin/default/img/logo.png)](http://www.roocms.com)
 ===============================
 ![Build Status](https://scrutinizer-ci.com/g/RooCMS/RooCMS/badges/build.png?b=master) [![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](http://www.gnu.org/licenses/gpl-3.0)
 
@@ -13,8 +13,15 @@
 | License  | GNU GPL v3                                      |
 | CodeRank | [![Codacy Badge](https://app.codacy.com/project/badge/Grade/e9c0df8a7bd5445eb45fc727bf0cd8c4)](https://www.codacy.com/gh/RooCMS/RooCMS/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=RooCMS/RooCMS&amp;utm_campaign=Badge_Grade)  [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/RooCMS/RooCMS/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/RooCMS/RooCMS/?branch=master)                                      |
 
+Notice to our RooCMS Users
+-------------------
+Version 1.4 will be the final update for major version 1.
 
-System requirements
+The web has changed a lot over the years, and so have the needs of our users. Because of this, version 1.4 will be the last in the v1 series, focusing on fixing known issues.
+
+This doesn't mean the end for RooCMS. Development will continue, and a newer, more modern and flexible Version 2.0 is on the horizon.
+
+System requirements 1.3.4 and 1.4
 -------------------
  - WebServer:	`Apache 2.2, 2.4` `Nginx 1.11, 1.12`
  - PHP:		`7.*` or higher
@@ -31,8 +38,9 @@ System requirements
 	`standard`
 	`SimpleXML`
 	`mysqli`
+	`curl`
 	
-Recommended software
+Recommended software 1.3.4 and 1.4
 --------------------
  - WebServer:	`Apache 2.4`
  - PHP:		`7.2` and higher
