@@ -1,7 +1,7 @@
 <?php
 /**
  * RooCMS - Open Source Free Content Managment System
- * @copyright © 2010-2023 alexandr Belov aka alex Roosso. All rights reserved.
+ * @copyright © 2010-2025 alexandr Belov aka alex Roosso. All rights reserved.
  * @author    alex Roosso <info@roocms.com>
  * @link      http://www.roocms.com
  * @license   http://www.gnu.org/licenses/gpl-3.0.html
@@ -51,13 +51,13 @@ class MySQLiDB {
 
 
 	/**
-	* Connect to DB
-	*
-	* @param string $host - db host
-	* @param string $user - user login
-	* @param string $pass - user password
-	* @param string $base - db name
-	*/
+	 * Connect to DB
+	 *
+	 * @param string $host - db host
+	 * @param string $user - user login
+	 * @param string $pass - user password
+	 * @param string $base - db name
+	 */
 	private function connect(string $host, string $user, string $pass, string $base, int $port = 3306) {
 
 		$this->sql = new mysqli($host,$user,$pass, $base, $port);
@@ -103,10 +103,10 @@ class MySQLiDB {
 
 
 	/**
-	* Set character encoding for DB connect
-	* Some versions of MySQL do not work correctly with encodings. This feature helps to eliminate errors in the work.
-	* It is worth remembering that these are all 3 queries to database. Therefore, if the database is stable, it is better to turn off this function.
-	*/
+	 * Set character encoding for DB connect
+	 * Some versions of MySQL do not work correctly with encodings. This feature helps to eliminate errors in the work.
+	 * It is worth remembering that these are all 3 queries to database. Therefore, if the database is stable, it is better to turn off this function.
+	 */
 	private function charset() {
 		if($this->sql->character_set_name() != "utf8") {
 			$this->sql->set_charset("utf8");
@@ -120,13 +120,13 @@ class MySQLiDB {
 
 
 	/**
-	* Parser error queries to database
-	* This function use for debugging
-	*
-	* @param string $q - query to db
-	*
-	* @return string|null when debug mode is on, will return an error, otherwise it will display a general error message on screen
-	*/
+	 * Parser error queries to database
+	 * This function use for debugging
+	 *
+	 * @param string $q - query to db
+	 *
+	 * @return string|null when debug mode is on, will return an error, otherwise it will display a general error message on screen
+	 */
 	private function error(string $q = "") {
 
 		# debug mode
@@ -153,12 +153,12 @@ class MySQLiDB {
 
 
 	/**
-	* Query to DB
-	*
-	* @param string $q - query string
-	*
-	* @return resource - query result
-	*/
+	 * Query to DB
+	 *
+	 * @param string $q - query string
+	 *
+	 * @return resource - query result
+	 */
 	public function query(string $q) {
 
 		global $debug;
@@ -216,12 +216,12 @@ class MySQLiDB {
 
 
 	/**
-	* The function inserts data from array into specified table.
-	* ! It is not recommended to use this function in user part of CMS.
-	*
-	* @param array  $array - Data array, where key is name of field in table and value is data of this field.
-	* @param string $table - Table name.
-	*/
+	 * The function inserts data from array into specified table.
+	 * ! It is not recommended to use this function in user part of CMS.
+	 *
+	 * @param array  $array - Data array, where key is name of field in table and value is data of this field.
+	 * @param string $table - Table name.
+	 */
 	public function insert_array(array $array, string $table) {
 
 		$fields	= [];

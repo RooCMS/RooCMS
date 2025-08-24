@@ -99,7 +99,7 @@ class RooCMS_Global {
 			$this->userip = getenv('HTTP_X_FORWARDED_FOR');
 		}
 		else {
-			$this->userip = getenv('REMOTE_ADDR');
+			$this->userip = get_client_ip();
 		}
 	}
 

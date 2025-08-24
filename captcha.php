@@ -37,7 +37,7 @@ header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
 header("Cache-Control: post-check=0, pre-check=0", false);
 
 # load aRCaptcha
-require_once(_LIB."/captcha.php");
+require_once _LIB."/captcha.php";
 
 # draw captcha
 echo aRCaptcha::show($captcha_code);
