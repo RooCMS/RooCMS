@@ -1,7 +1,7 @@
 <?php
 /**
  * RooCMS - Open Source Free Content Managment System
- * @copyright © 2010-2023 alexandr Belov aka alex Roosso. All rights reserved.
+ * @copyright © 2010-2025 alexandr Belov aka alex Roosso. All rights reserved.
  * @author    alex Roosso <info@roocms.com>
  * @link      http://www.roocms.com
  * @license   http://www.gnu.org/licenses/gpl-3.0.html
@@ -24,36 +24,6 @@ if(!defined('RooCMS')) {
  * Class ParserText
  */
 class ParserText {
-
-	/**
-	 * Parse BBCode
-	 *  ... in progress ...
-	 *
-	 * @param $text
-	 *
-	 * @return mixed
-	 */
-	public function bbcode($text) {
-
-		# [blackquote]
-		$text = str_ireplace("[blockquote]", "<blockquote>", $text, $tag_bq_o);
-		$text = str_ireplace("[/blockquote]", "</blockquote>", $text, $tag_bq_c);
-
-		# [b]
-		$text = str_ireplace("[b]", "<b>", $text, $tag_b_o);
-		$text = str_ireplace("[/b]", "</b>", $text, $tag_b_c);
-		# [i]
-		$text = str_ireplace("[i]", "<i>", $text, $tag_i_o);
-		$text = str_ireplace("[/i]", "</i>", $text, $tag_i_c);
-		# [u]
-		$text = str_ireplace("[u]", "<u>", $text, $tag_u_o);
-		$text = str_ireplace("[/u]", "</u>", $text, $tag_u_c);
-
-		#font
-
-		#link
-		return $this->br($text);
-	}
 
 
 	/**

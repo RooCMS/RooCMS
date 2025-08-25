@@ -213,12 +213,7 @@ class Template {
 	 */
 	private function init_head() {
 
-		global $db, $config, $site, $structure, $nav, $parse, $rss, $smarty;
-
-		# global site title
-		/*if(!defined('INSTALL') && $config->global_site_title) {
-			$site['title'] .= " &bull; ".$config->site_title;
-		}*/
+		global $db, $site, $structure, $nav, $parse, $rss, $smarty;
 
 		$site['pagination'] = [];
 		$site['pagination'] = array(
