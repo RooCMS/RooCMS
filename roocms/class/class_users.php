@@ -42,15 +42,14 @@ class Users extends Security {
 	# user ban status
 	public  $ban		= 0;		# ban status
 	public  $ban_reason	= "";		# ban reason
-	public  $ban_expiried	= 0;		# ban date expiried (unixtimestamp)
+	public  $ban_expiried	= 0;	# ban date expiried (unixtimestamp)
 
 	# user data array
 	public	$userdata	= array('uid'=>0, 'gid'=>0, 'title'=>'u');
 
 	# user global data
-	private	$usersession	= "";		# user session
+	private	$usersession	= "";	# user session
 	private $userip		= "";		# user ip address
-	private	$useragent	= "";		# user agent string
 	private $referer	= "";		# user referer
 
 
@@ -66,12 +65,6 @@ class Users extends Security {
 		$this->usersession &= $roocms->usersession;
 		$this->userip      &= $roocms->userip;
 		$this->referer     &= $roocms->referer;
-
-		# init useragent
-		$this->get_useragent();
-
-		# check useragent  for detect spider bot
-		$roocms->check_spider_bot($this->useragent);
 
 		# init user
 		$this->init_user();
@@ -436,17 +429,6 @@ class Users extends Security {
 
 		if(isset($post->login) && $db->check_id($post->login, USERS_TABLE, "login")) {
 			$logger->error("Логин ".$post->login." недоступен.", false);
-		}
-	}
-
-
-	/**
-	 * Get useragent string from user
-	 */
-	public function  get_useragent() {
-
-		if(!empty($_SERVER['HTTP_USER_AGENT'])) {
-			$this->useragent = mb_strtolower($_SERVER['HTTP_USER_AGENT']);
 		}
 	}
 }

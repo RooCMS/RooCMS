@@ -74,9 +74,6 @@ class RooCMS_Global {
 	public  $userip		= "";	 	# [string]	user ip address
 	public  $referer	= "";	 	# [string]	user referer
 
-	# spiderbot
-	public	$spiderbot	= false; # [bool]	if this search spider bot
-
 
 
 	/**
@@ -92,7 +89,8 @@ class RooCMS_Global {
 		$this->usersession = session_id();
 
 		# init referer
-		$this->referer 	= mb_strtolower(getenv("HTTP_REFERER"));
+		$http_referer = getenv("HTTP_REFERER");
+		$this->referer 	= $http_referer !== false ? mb_strtolower($http_referer) : "";
 
 		# init userip
 		if(getenv('HTTP_X_FORWARDED_FOR')) {
@@ -169,25 +167,6 @@ class RooCMS_Global {
 
 
 	/**
-	 * Check useragent for search spider bot machine
-	 *
-	 * @param $useragent
-	 */
-	public function check_spider_bot($useragent) {
-
-		require_once _LIB."/spiders.php";
-
-		foreach($spider AS $value) {
-			$check = mb_strpos($useragent, $value, 0, 'utf8');
-
-			if($check !== false) {
-				$this->spiderbot = true;
-			}
-		}
-	}
-
-
-	/**
 	 * Set secure protocol (if active)
 	 */
 	protected function handler_https() {
@@ -202,36 +181,6 @@ class RooCMS_Global {
 		}
 		else {
 			header("Strict-Transport-Security: max-age=0; preload");
-		}
-	}
-
-	
-	/**
-	 * Set date title last modification for search bot.
-	 *
-	 * @param mixed $lastmodifed - date last modify content
-	 */
-	protected function ifmodifedsince($lastmodifed) {
-
-		# set header
-		header("Last-Modified: ".gmdate("D, d M Y H:i:s", $lastmodifed)." GMT");
-
-		if($this->modifiedsince) {
-
-			$ifmodsince = false;
-
-			if (isset($_ENV['HTTP_IF_MODIFIED_SINCE'])) {
-				$ifmodsince = strtotime(mb_substr($_ENV['HTTP_IF_MODIFIED_SINCE'], 5));
-			}
-
-			if (isset($_SERVER['HTTP_IF_MODIFIED_SINCE'])) {
-				$ifmodsince = strtotime(mb_substr($_SERVER['HTTP_IF_MODIFIED_SINCE'], 5));
-			}
-
-			if ($ifmodsince !== false && $ifmodsince >= $lastmodifed) {
-				header($_SERVER['SERVER_PROTOCOL']." 304 Not Modified");
-				exit;
-			}
 		}
 	}
 
