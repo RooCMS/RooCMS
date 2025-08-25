@@ -89,7 +89,8 @@ class RooCMS_Global {
 		$this->usersession = session_id();
 
 		# init referer
-		$this->referer 	= mb_strtolower(getenv("HTTP_REFERER"));
+		$http_referer = getenv("HTTP_REFERER");
+		$this->referer 	= $http_referer !== false ? mb_strtolower($http_referer) : "";
 
 		# init userip
 		if(getenv('HTTP_X_FORWARDED_FOR')) {
@@ -180,36 +181,6 @@ class RooCMS_Global {
 		}
 		else {
 			header("Strict-Transport-Security: max-age=0; preload");
-		}
-	}
-
-	
-	/**
-	 * Set date title last modification for search bot.
-	 *
-	 * @param mixed $lastmodifed - date last modify content
-	 */
-	protected function ifmodifedsince($lastmodifed) {
-
-		# set header
-		header("Last-Modified: ".gmdate("D, d M Y H:i:s", $lastmodifed)." GMT");
-
-		if($this->modifiedsince) {
-
-			$ifmodsince = false;
-
-			if (isset($_ENV['HTTP_IF_MODIFIED_SINCE'])) {
-				$ifmodsince = strtotime(mb_substr($_ENV['HTTP_IF_MODIFIED_SINCE'], 5));
-			}
-
-			if (isset($_SERVER['HTTP_IF_MODIFIED_SINCE'])) {
-				$ifmodsince = strtotime(mb_substr($_SERVER['HTTP_IF_MODIFIED_SINCE'], 5));
-			}
-
-			if ($ifmodsince !== false && $ifmodsince >= $lastmodifed) {
-				header($_SERVER['SERVER_PROTOCOL']." 304 Not Modified");
-				exit;
-			}
 		}
 	}
 
