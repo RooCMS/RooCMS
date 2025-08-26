@@ -15,19 +15,20 @@
 
 Notice to our RooCMS Users
 -------------------
-This is dev version
+This is the development branch for version 2.0. All code here is unstable and may not work in your environment. Development is done on an Apache server, but with compatibility for Nginx and a standard PHP build in mind. Full testing will be conducted prior to the release.
 
-System requirements 1.3.4 and 1.4
+**NOTE:** The information below may not reflect the current state of the code.
+
+System requirements
 -------------------
- - WebServer:	`Apache 2.2, 2.4` `Nginx 1.11, 1.12`
- - PHP:		`7.*` or higher
+ - WebServer:	`Apache 2.2, 2.4`
+ - PHP:		`8.*` or higher
  - DB:		`MySQL 5.5` and higher or `MariaDB: 10` and higher
  - PHP Extension: 
 	`Core`
 	`calendar`
 	`date`
 	`pcre`
-	`session`
 	`xml`
 	`gd`
 	`mbstring`
@@ -36,10 +37,10 @@ System requirements 1.3.4 and 1.4
 	`mysqli`
 	`curl`
 	
-Recommended software 1.3.4 and 1.4
+Recommended software
 --------------------
  - WebServer:	`Apache 2.4`
- - PHP:		`7.2` and higher
+ - PHP:		`8.0` and higher
  - DB:		`MySQL 5.7` and higher or `MariaDB: 10.2` and higher
 
 Install
@@ -58,8 +59,4 @@ Install
 
 License
 -------
- - [License](http://gplv3.fsf.org/)
-
-P.S.
-----
-Your ideas, comments and other any help - allow RooCMS to develop in interests of majority.
+[License](http://gplv3.fsf.org/)
