@@ -21,17 +21,17 @@ if(!defined('RooCMS')) {
 
 
 //#########################################################
-//	Настройки подключения к Базе Данных MySQL
+//	MySQL database connection settings
 //---------------------------------------------------------
 $db_info = [];
 //---------------------------------------------------------
-$db_info['host'] = "";						#	Хост Базы Данных
-$db_info['user'] = "";							#	Имя пользователя Базы Данных
-$db_info['pass'] = "";							#	Пароль пользователя Базы Данных
-$db_info['base'] = "";				#	Название Базы с данными
-$db_info['port'] = "";							#	Порт для подключения к БД 3306 для mysql, 5432 для postgresql
-$db_info['type'] = "";							#	Тип БД mysql, postgresql
-$db_info['prefix'] = "";						#	Префикс таблиц в Базе Данных
+$db_info['host'] = "";						#	Database host
+$db_info['user'] = "";							#	Database user
+$db_info['pass'] = "";							#	Database password
+$db_info['base'] = "";				#	Database name
+$db_info['port'] = "";							#	Database port 3306 for mysql, 5432 for postgresql
+$db_info['type'] = "";							#	Database type mysql, postgresql
+$db_info['prefix'] = "";						#	Database prefix
 //#########################################################
 
 

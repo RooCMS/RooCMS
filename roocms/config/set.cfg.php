@@ -20,16 +20,16 @@ if(!defined('RooCMS')) {
 //#########################################################
 
 /**
-* Debug mode switcher
-*/
-const DEBUGMODE = false;        # Режим отладки
+ * Debug mode switcher
+ */
+const DEBUGMODE = false;        # Debug mode
 
 
 /**
- * Получаем количество выделенной памяти в самом начале работы
- * В дальнейшем будет вычеслять продуктивность
+ * Get the amount of memory allocated at the start of the work
+ * In the future, the efficiency will be calculated
  */
-define('MEMORYUSAGE', 	memory_get_usage());
+define('MEMORYUSAGE', memory_get_usage());
 
 
 /**
@@ -44,20 +44,20 @@ else {
 
 
 /**
-* Start GZip
-*/
+ * Start GZip
+ */
 ob_start("ob_gzhandler", 8);
 
 
 
 /**
-* Initialisation session settings
-*/
-ini_set("session.use_trand_sid",	0);               #	Деактивируем "прозрачную" сессию
-ini_set("session.gc_maxlifetime",	1440);            #	Устанавливаем время жизни сессии
-ini_set("session.cache_limiter", 	"nocache");       #	нет кешу в сессии
-ini_set("session.cache_expire", 	180);             #	Установим срок годности для сессии
-ini_set("session.name", 		"RooCMS-SESSID"); #	Имя параметра с сессией
+ * Initialisation session settings
+ */
+ini_set("session.use_trand_sid",	0);               #	Disable "transparent" session
+ini_set("session.gc_maxlifetime",	1440);            #	Set session lifetime
+ini_set("session.cache_limiter", 	"nocache");       #	No cache in session
+ini_set("session.cache_expire", 	180);             #	Set session expiration
+ini_set("session.name", 			"RooCMS-SESSID"); #	Session name
 //ini_set("session.save_handler",	"files");         #	Хранить значение сессиий в файлах (разкоментерийте, если испытываете трудности с настройками PHP по-умолчанию)
 //ini_set("session.save_path",		"tmp");           #	Путь сохранения файла сессии (разкоментируйте, если испытываете трудности с настройками PHP по-умолчанию)
 //session_save_path("tmp");
@@ -68,12 +68,12 @@ if(session_status() !== PHP_SESSION_ACTIVE) {
 
 
 /**
-* Set up Cookie
-*
-* "- Будешь на кухне, захвати печеньки.
-*  - Печеньки захвачены, мой генерал!"
-* 				(с) Шутник
-*/
+ * Set up Cookie
+ *
+ * "- Will you take a cookie?
+ *  - The cookie is taken, my general!"
+ * 				(c) Joker
+ */
 ini_set("session.use_cookie",			1);      #	activate cookie
 if(APACHE) {
 	ini_set("session.cookie_domain",	"");     #	Set domain for cookie
@@ -85,8 +85,8 @@ if(APACHE) {
 
 
 /**
-* Set up PHP
-*/
+ * Set up PHP
+ */
 //setlocale(LC_ALL, 'ru_RU.UTF8', 'ru.UTF8', 'ru_RU.UTF-8', 'ru.UTF-8', 'ru_RU', 'ru');
 ini_set("max_execution_time",		30);
 ini_set("memory_limit", 		"512M");
@@ -108,8 +108,8 @@ ini_set("error_append_string",		"</pre></div>");
 
 
 /**
-* Set up Multibyte String
-*/
+ * Set up Multibyte String
+ */
 ini_set("mbstring.internal_encoding",		"UTF-8");
 ini_set("mbstring.http_input",			"auto");
 ini_set("mbstring.http_output",			"UTF-8");
@@ -117,8 +117,8 @@ ini_set("mbstring.substitute_character",	"none");
 
 
 /**
-* Set header encoding
-*/
+ * Set header encoding
+ */
 header("Content-type: text/html; charset=utf-8");
 
 /**
@@ -130,8 +130,8 @@ header("X-XSS-Protection: 1; mode=block"); 		# XSS Block
 #header("X-XSS-Protection: 1; report=/?part=report&act=XSS"); 	# XSS Block and report (future)
 
 /**
-* Signature in header
-*/
+ * Signature in header
+ */
 header("X-Engine: RooCMS");
 header("X-Engine-Copyright: 2010-".date("Y")." (c) RooCMS");
 header("X-Engine-Site: http://www.roocms.com");

@@ -75,7 +75,7 @@ const _CACHEIMAGE   = _CACHE.'/images';
 /**
  * Web $Path
  */
-define('_DOMAIN',	str_ireplace(array('http://','www.'), '', $_SERVER['HTTP_HOST']));
+define('_DOMAIN',	str_ireplace(array('http://','www.'), '', $site['domain']));
 
 
 /**
