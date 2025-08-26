@@ -25,21 +25,14 @@ if(!defined('RooCMS')) {
  */
 $site['title']		= $structure->page_meta_title;
 $site['description']	= $structure->page_meta_desc;
-if(!empty($site)) {
-	$site['keywords']	= $structure->page_meta_keys;
-}
-
+if(!empty($site)) $site['keywords']	= $structure->page_meta_keys;
 
 
 /**
  * Init Blocks & Modules
  */
-if(!class_exists("Blocks"))  {
-	require_once "site_blocks.php";
-}
-if(!class_exists("Modules")) {
-	require_once "site_modules.php";
-}
+if(!class_exists("Blocks"))  require_once "site_blocks.php";
+if(!class_exists("Modules")) require_once "site_modules.php";
 
 /**
  * Load page

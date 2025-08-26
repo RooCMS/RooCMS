@@ -32,12 +32,8 @@ nocache();
 /**
  * Init Blocks & Modules
  */
-if(!class_exists("Blocks"))  {
-	require_once "site_blocks.php";
-}
-if(!class_exists("Modules")) {
-	require_once "site_modules.php";
-}
+if(!class_exists("Blocks"))  require_once "site_blocks.php";
+if(!class_exists("Modules")) require_once "site_modules.php";
 
 /**
  * Init partition

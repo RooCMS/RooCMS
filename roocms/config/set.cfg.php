@@ -87,23 +87,22 @@ if(APACHE) {
 /**
  * Set up PHP
  */
-//setlocale(LC_ALL, 'ru_RU.UTF8', 'ru.UTF8', 'ru_RU.UTF-8', 'ru.UTF-8', 'ru_RU', 'ru');
 ini_set("max_execution_time",		30);
 ini_set("memory_limit", 		"512M");
 #ini_set("upload_tmp_dir", 		"/tmp");	# временная директория для загружаемых файлов. (разкоментируйте, если испытываете трудности с настройками PHP по-умолчанию)
 
 ini_set("serialize_precision", 		"-1");
 
-ini_set("date.timezone",		"Europe/Moscow");
-ini_set("default_charset",		"utf-8");
-ini_set("default_mimetype",		"text/html");
+ini_set("date.timezone",			"Europe/Moscow");
+ini_set("default_charset",			"utf-8");
+ini_set("default_mimetype",			"text/html");
 ini_set("default_socket_timeout",	60);
 
 ini_set("error_prepend_string",		"<script type='text/javascript' src='/plugin/jquery-core.min.js'></script>
-					 <link rel='stylesheet' type='text/css' href='/plugin/bootstrap/css/bootstrap.min.css' media='screen' />
-					 <script type='text/javascript' src='/plugin/bootstrap/js/bootstrap.bundle.min.js'></script>
-						<div class='alert alert-danger' role='alert'>Critical Error
-						<pre class='bg-light'>");
+					<link rel='stylesheet' type='text/css' href='/plugin/bootstrap/css/bootstrap.min.css' media='screen' />
+					<script type='text/javascript' src='/plugin/bootstrap/js/bootstrap.bundle.min.js'></script>
+					<div class='alert alert-danger' role='alert'>Critical Error
+					<pre class='bg-light'>");
 ini_set("error_append_string",		"</pre></div>");
 
 
@@ -111,9 +110,10 @@ ini_set("error_append_string",		"</pre></div>");
  * Set up Multibyte String
  */
 ini_set("mbstring.internal_encoding",		"UTF-8");
-ini_set("mbstring.http_input",			"auto");
-ini_set("mbstring.http_output",			"UTF-8");
+ini_set("mbstring.http_input",				"auto");
+ini_set("mbstring.http_output",				"UTF-8");
 ini_set("mbstring.substitute_character",	"none");
+ini_set("mbstring.func_overload",			"0");
 
 
 /**
