@@ -1,7 +1,7 @@
 <?php
 /**
 * aR Captcha - Protect Form v3.2
-* @copyright © 2007-2019 alexandr Belov aka alex Roosso.
+* @copyright © 2007-2025 alexandr Belov aka alex Roosso. All rights reserved.
 * @author    alex Roosso <info@roocms.com>
 * @link      http://www.roocms.com
 * @license   MIT

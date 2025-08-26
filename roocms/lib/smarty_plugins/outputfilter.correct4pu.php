@@ -4,8 +4,9 @@
  *
  * @package Smarty
  * @subpackage PluginsFilter
- * @author alex Roosso
+ * @author alex Roosso <http://www.roocms.com>
  */
+
 /**
  * Smarty postfilter
  *
@@ -16,7 +17,7 @@
  * @param array                    $tpl_source
  *
  * @return array
- *@author Jambik <> idea and creations
+ * @author Jambik <> idea and creations
  *         alex Roosso <http://www.roocms.com> - mod: added flag noentitys & modifications
  *
  */
