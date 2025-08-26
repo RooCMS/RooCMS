@@ -1,9 +1,0 @@
-/* Transition */
-*:not([class^="fancybox"]):hover,
-.table-hover>tbody>tr:hover>td,
-.table-hover>tbody>tr:hover>th {
-	@include transition(.1)
-}
-
-/* Anti Drag*/
-.btn-breadcrumb, .btn-breadcrumb > * {transition: none !important;-webkit-transition: none !important;-moz-transition: none !important;outline:none;}

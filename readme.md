@@ -15,11 +15,7 @@
 
 Notice to our RooCMS Users
 -------------------
-Version 1.4 will be the final update for major version 1.
-
-The web has changed a lot over the years, and so have the needs of our users. Because of this, version 1.4 will be the last in the v1 series, focusing on fixing known issues.
-
-This doesn't mean the end for RooCMS. Development will continue, and a newer, more modern and flexible Version 2.0 is on the horizon.
+This is dev version
 
 System requirements 1.3.4 and 1.4
 -------------------
@@ -48,7 +44,7 @@ Recommended software 1.3.4 and 1.4
 
 Install
 -------
-1. Download latest release from site <http://www.roocms.com>. 
+1. Download latest release 
 2. Unpack archive to folder with your site on  hosting
 3. Create MySQL BD on your hosting
 4. In browser open link: `http://www.your_site.com/install/`
@@ -58,20 +54,12 @@ Install
 > Attention
 > For security purposes, RooCMS does not support the ability to work with a database without a login and password. When trying to use an empty password for the database, the system will show an error.
 
-Wiki
-----
-Help and tips on working with RooCMS are in control panel.
-After installation, go to Control Panel - part "Help".
 
-`If you use installing RooCMS not on an Apache server, check the .htaccess file to avoid conflicts when playing software.`
 
 License
 -------
- - [Лицензии на русском языке](http://www.roocms.com/index.php?page=license)
  - [License](http://gplv3.fsf.org/)
 
 P.S.
 ----
 Your ideas, comments and other any help - allow RooCMS to develop in interests of majority.
-
-Ваши идеи, замечания, и любая помощь - помогут развиваться RooCMS в интересах большинства.
