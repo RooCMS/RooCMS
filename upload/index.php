@@ -9,5 +9,6 @@
  * You should have received a copy of the GNU General Public License v3
  * along with this program.  If not, see http://www.gnu.org/licenses/
  */
-header($_SERVER['SERVER_PROTOCOL'].' 301 Moved Permanently');
+$protocol = $_SERVER['SERVER_PROTOCOL'] ?? 'HTTP/1.1';
+header($protocol.' 301 Moved Permanently');
 header("Location: /");

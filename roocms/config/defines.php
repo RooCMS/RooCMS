@@ -15,7 +15,9 @@
 // Anti Hack
 //---------------------------------------------------------
 if(!defined('RooCMS')) {
-	die('Access Denied');
+    http_response_code(403);
+    header('Content-Type: text/plain; charset=utf-8');
+    exit('Access denied');
 }
 //#########################################################
 
@@ -77,8 +79,6 @@ const SYSERRLOG = _LOGS."/syserrors.log";
 /**
  * $Param
  */
-define("SCRIPT_NAME", $_SERVER['SCRIPT_NAME']);
-
 const EMAIL_MESSAGE_PARAMETERS = 'content-Type: text/html; charset="utf-8"';
 const CHARSET                  = 'text/html; charset=utf-8';
 

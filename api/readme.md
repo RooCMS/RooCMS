@@ -1,4 +1,7 @@
-### for apache
+# Setting required for server software
+Here are the necessary configurations for different server software.
+
+**Apache**
 ```
 RewriteEngine On
 RewriteBase /api/
@@ -12,14 +15,14 @@ RewriteRule ^ index.php [QSA,L]
 
 ```
 
-### for ngnix
+**ngnix**
 ```
 location /api {
     try_files $uri /api/index.php;
 }
 ```
 
-### for php build
+**php build**
 ```
 php -S localhost:8000 api/index.php
 ```
