@@ -25,10 +25,10 @@ if(!defined('RooCMS')) {
 //---------------------------------------------------------
 $db_info = [];
 //---------------------------------------------------------
-$db_info['host'] = "";						#	Database host
+$db_info['host'] = "";							#	Database host
 $db_info['user'] = "";							#	Database user
 $db_info['pass'] = "";							#	Database password
-$db_info['base'] = "";				#	Database name
+$db_info['base'] = "";							#	Database name
 $db_info['port'] = "";							#	Database port 3306 for mysql, 5432 for postgresql
 $db_info['type'] = "";							#	Database type mysql, postgresql
 $db_info['prefix'] = "";						#	Database prefix
@@ -40,9 +40,9 @@ $db_info['prefix'] = "";						#	Database prefix
 //---------------------------------------------------------
 $site = [];
 //---------------------------------------------------------
-$site['title'] = "";						#	Site title
-$site['domain'] = "";						#	default domain
+$site['title'] = "";							#	Site title
+$site['domain'] = "";							#	default domain
 $site['protocol'] = "";							#	Site protocol
-$site['sysemail'] = "";					#	Service email
-$site['skin'] = "default";								#	default skin
+$site['sysemail'] = "";							#	Service email
+$site['skin'] = "default";						#	default skin
 //#########################################################

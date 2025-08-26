@@ -73,5 +73,3 @@ License
 P.S.
 ----
 Your ideas, comments and other any help - allow RooCMS to develop in interests of majority.
-
-Ваши идеи, замечания, и любая помощь - помогут развиваться RooCMS в интересах большинства.
