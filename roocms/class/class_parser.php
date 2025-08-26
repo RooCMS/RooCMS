@@ -1,7 +1,7 @@
 <?php
 /**
  * RooCMS - Open Source Free Content Managment System
- * @copyright © 2010-2023 alexandr Belov aka alex Roosso. All rights reserved.
+ * @copyright © 2010-2025 alexandr Belov aka alex Roosso. All rights reserved.
  * @author    alex Roosso <info@roocms.com>
  * @link      http://www.roocms.com
  * @license   http://www.gnu.org/licenses/gpl-3.0.html
@@ -47,9 +47,9 @@ class Parser {
 
 
 	/**
-	* Lets begin
-	*
-	*/
+	 * Lets begin
+	 *
+	 */
 	public function __construct() {
 
 		# process global arrays
@@ -75,9 +75,9 @@ class Parser {
 
 
 	/**
-	* Process global array
-	*
-	*/
+	 * Process global array
+	 *
+	 */
 	private function parse_global_arrays() {
 
 		# $_GET
@@ -123,9 +123,9 @@ class Parser {
 
 
 	/**
-	* parse $_POST array
-	*
-	*/
+	 * parse $_POST array
+	 *
+	 */
 	protected function parse_post() {
 
 		global $post;
@@ -148,9 +148,9 @@ class Parser {
 
 
 	/**
-	* Get session data
-	*
-	*/
+	 * Get session data
+	 *
+	 */
 	private function get_session() {
 
 		global $roocms;
@@ -182,9 +182,9 @@ class Parser {
 
 
 	/**
-	* Parser URI
-	*
-	*/
+	 * Parser URI
+	 *
+	 */
 	private function parse_uri() {
 
 		# explode uri
@@ -233,9 +233,9 @@ class Parser {
 
 
 	/**
-	* Set global vars from url
-	*
-	*/
+	 * Set global vars from url
+	 *
+	 */
 	protected function set_url_vars() {
 
 		global $roocms, $db;

@@ -32,9 +32,8 @@ class ACP_Pages {
 
 
 	/**
-	* Show must go on
-	*
-	*/
+	 * Show must go on
+	 */
 	public function __construct() {
 
 		global $roocms, $get, $post, $tpl;

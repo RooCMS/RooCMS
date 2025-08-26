@@ -1,7 +1,7 @@
 <?php
 /**
  * RooCMS - Open Source Free Content Managment System
- * @copyright © 2010-2023 alexandr Belov aka alex Roosso. All rights reserved.
+ * @copyright © 2010-2025 alexandr Belov aka alex Roosso. All rights reserved.
  * @author    alex Roosso <info@roocms.com>
  * @link      http://www.roocms.com
  * @license   http://www.gnu.org/licenses/gpl-3.0.html
@@ -31,10 +31,7 @@ trait ParserValidData {
 	 */
 	public function valid_email(string $email) {
 
-		$pattern = '/^[\.\-_A-Za-z0-9]+?@[\.\-A-Za-z0-9]+?\.[A-Za-z0-9]{2,6}$/';
-
-		return (bool) preg_match($pattern, trim($email));
-
+		return filter_var($email, FILTER_VALIDATE_EMAIL) !== false;
 	}
 
 
@@ -58,9 +55,8 @@ trait ParserValidData {
 	 */
 	public function valid_phone($phone){
 
-		$pattern = "/^[\+]?[0-9]?(\s)?(\-)?(\s)?(\()?[0-9]{3,5}(\))?(\s)?(\-)?(\s)?[0-9]{1,3}(\s)?(\-)?(\s)?[0-9]{2}(\s)?(\-)?(\s)?[0-9]{2}\Z/";
+		$pattern = "/^[\+]?[0-9]{1,3}?(\s)?(\-)?(\s)?(\()?[0-9]{3,5}(\))?(\s)?(\-)?(\s)?[0-9]{1,3}(\s)?(\-)?(\s)?[0-9]{2,4}(\s)?(\-)?(\s)?[0-9]{2,4}\Z/";
 
 		return (bool) preg_match($pattern, trim($phone));
-
 	}
 }

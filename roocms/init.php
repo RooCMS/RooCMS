@@ -17,55 +17,55 @@
 const RooCMS = true;
 //#########################################################
 
-/**
-* SEO Rederict
-*/
-if($_SERVER['REQUEST_URI'] == "/index.php") {
-	$http = isset($_SERVER["HTTPS"]) ? 'https' : 'http';
-	header($_SERVER['SERVER_PROTOCOL'].' 301 Moved Permanently');
-	header('Location: '.$http.'://'.$_SERVER['HTTP_HOST'].'');
-	exit;
-}
-
 
 /**
- *  init root cms path
+ * Init root cms path
  */
 defined('_SITEROOT') or define('_SITEROOT', str_ireplace(DIRECTORY_SEPARATOR."roocms", "", dirname(__FILE__)));
 
 
 /**
-* Sys & PHP Settings
-*/
+ * Sys & PHP Settings
+ */
 require_once _SITEROOT."/roocms/config/set.cfg.php";
 
 /**
-* Load Config
-*/
+ * Load Config
+ */
 require_once _SITEROOT."/roocms/config/config.php";
 
 /**
-* Load const
-*/
+ * Load const
+ */
 require_once _SITEROOT."/roocms/config/defines.php";
 
 /**
- * Загружаем примитивные функции
+ * SEO Redirect
+ */
+if($_SERVER['REQUEST_URI'] == "/index.php") {
+	$scheme = isset($_SERVER["HTTPS"]) ? 'https' : 'http';
+	header($_SERVER['SERVER_PROTOCOL'].' 301 Moved Permanently');
+	header('Location: '.$scheme.'://'.$site['domain'].'/');
+	exit;
+}
+
+
+/**
+ * Load primitive functions
  */
 require_once _ROOCMS."/functions.php";
 
 /**
-* Load Debug Class
-*/
+ * Load Debug Class
+ */
 require_once _CLASS."/trait_debugLog.php";
 require_once _CLASS."/class_debuger.php";
 $debug = new Debuger;
 
 /**
- * init debug function
+ * Init debug function
  *
  * @param mixed $obj
- *
  * @example debug($var);
  */
 function debug($obj) {
@@ -74,8 +74,8 @@ function debug($obj) {
 }
 
 /**
-* Init BD class
-*/
+ * Init DB class
+ */
 require_once _CLASS."/trait_dbExtends.php";
 if($db_info['type'] == "mysql") {
 	require_once _CLASS."/class_db_mysqli.php";
@@ -87,8 +87,8 @@ else {
 }
 
 /**
-* Load global class
-*/
+ * Load global class
+ */
 require_once _CLASS."/class_global.php";
 $roocms = new RooCMS_Global;
 $config =& $roocms->config;
@@ -106,8 +106,8 @@ require_once _CLASS."/class_post.php";
 $post = new Post;
 
 /**
-* Init Parser Engine
-*/
+ * Init Parser Engine
+ */
 require_once _CLASS."/trait_parserValidData.php";
 require_once _CLASS."/class_parser.php";
 $parse 	= new Parser;
@@ -194,7 +194,7 @@ if(!defined('ACP') && !defined('INSTALL')) {
 	$structure = new Structure;
 
 	/**
-	 * init navigation
+	 * Init navigation
 	 */
 	require_once _CLASS."/class_navigation.php";
 	$nav = new Navigation;

@@ -1,7 +1,7 @@
 <?php
 /**
  * RooCMS - Open Source Free Content Managment System
- * @copyright © 2010-2023 alexandr Belov aka alex Roosso. All rights reserved.
+ * @copyright © 2010-2025 alexandr Belov aka alex Roosso. All rights reserved.
  * @author    alex Roosso <info@roocms.com>
  * @link      http://www.roocms.com
  * @license   http://www.gnu.org/licenses/gpl-3.0.html
@@ -26,10 +26,10 @@ if(!defined('RooCMS') || !defined('ACP')) {
 class ACP_Pages_PHP {
 
 	/**
-	* Edit content
-	*
-	* @param int $sid - Structure id
-	*/
+	 * Edit content
+	 *
+	 * @param int $sid - Structure id
+	 */
 	public function edit(int $sid) {
 
 		global $db, $tpl, $smarty, $parse;
@@ -50,10 +50,10 @@ class ACP_Pages_PHP {
 
 
 	/**
-	* Update page content
-	*
-	* @param mixed $data - this object data params
-	*/
+	 * Update page content
+	 *
+	 * @param mixed $data - this object data params
+	 */
 	public function update($data) {
 
 		global $db, $logger, $post;
@@ -67,10 +67,10 @@ class ACP_Pages_PHP {
 
 
 	/**
-	* Remove page
-	*
-	* @param int $sid - Structure id
-	*/
+	 * Remove page
+	 *
+	 * @param int $sid - Structure id
+	 */
 	public function delete(int $sid) {
 
 		global $db;

@@ -29,6 +29,7 @@ class Logger {
 	
 	/**
 	 * Logger constructor.
+	 * Register handler for logs
 	 */
 	public function __construct() {
 		# register handler for logs

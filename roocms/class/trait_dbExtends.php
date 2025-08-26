@@ -1,7 +1,7 @@
 <?php
 /**
  * RooCMS - Open Source Free Content Managment System
- * @copyright © 2010-2023 alexandr Belov aka alex Roosso. All rights reserved.
+ * @copyright © 2010-2025 alexandr Belov aka alex Roosso. All rights reserved.
  * @author    alex Roosso <info@roocms.com>
  * @link      http://www.roocms.com
  * @license   http://www.gnu.org/licenses/gpl-3.0.html
@@ -52,12 +52,12 @@ trait dbExtends {
 
 
 	/**
-	* Функция подсчета страниц, на случай когда используется БД
-	*
-	* @param mixed $from
-	* @param mixed $cond
-	* @param mixed $query
-	*/
+	 * Функция подсчета страниц, на случай когда используется БД
+	 *
+	 * @param mixed $from
+	 * @param mixed $cond
+	 * @param mixed $query
+	 */
 	public function pages_in_db($from, $cond="id!=0", $query="") {
 
 		# Count
@@ -81,10 +81,10 @@ trait dbExtends {
 
 
 	/**
-	* Функция для расчета страниц, на случай когда не используется БД
-	*
-	* @param int $items - общее число элементов
-	*/
+	 * Функция для расчета страниц, на случай когда не используется БД
+	 *
+	 * @param int $items - общее число элементов
+	 */
 	public function pages_non_db(int $items) {
 
 		# Если товаров больше чем на одну страницу...
@@ -133,9 +133,6 @@ trait dbExtends {
 	 * @return array
 	 */
 	public function construct_pagination() {
-
-		global $db, $site;
-
 		$pages = [];
 
 		# pages

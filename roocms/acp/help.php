@@ -1,7 +1,7 @@
 <?php
 /**
  * RooCMS - Open Source Free Content Managment System
- * @copyright © 2010-2023 alexandr Belov aka alex Roosso. All rights reserved.
+ * @copyright © 2010-2025 alexandr Belov aka alex Roosso. All rights reserved.
  * @author    alex Roosso <info@roocms.com>
  * @link      http://www.roocms.com
  * @license   http://www.gnu.org/licenses/gpl-3.0.html
@@ -38,9 +38,8 @@ class ACP_Help {
 
 
 	/**
-	* Construct
-	*
-	*/
+	 * Construct
+	 */
 	public function __construct() {
 
     		global $roocms, $db, $post, $tpl, $smarty;
@@ -125,8 +124,8 @@ class ACP_Help {
 
 
 	/**
-	* Create new part
-	*/
+	 * Create new part
+	 */
 	private function create_part() {
 
 		global $db, $parse, $logger, $post;
@@ -160,10 +159,10 @@ class ACP_Help {
 
 
 	/**
-	* Edit part
-	*
-	* @param int $id - part id
-	*/
+	 * Edit part
+	 *
+	 * @param int $id - part id
+	 */
 	private function update_part(int $id) {
 
 		global $db, $parse, $logger, $post;
@@ -242,10 +241,10 @@ class ACP_Help {
 
 
 	/**
-	* Delete part
-	*
-	* @param int $id - part id
-	*/
+	 * Delete part
+	 *
+	 * @param int $id - part id
+	 */
 	private function delete_part(int $id) {
 
 		global $db, $logger;
@@ -263,7 +262,7 @@ class ACP_Help {
 
 		if($row['childs'] == 0) {
 
-            		$db->query("DELETE FROM ".HELP_TABLE." WHERE id='".$id."'");
+            $db->query("DELETE FROM ".HELP_TABLE." WHERE id='".$id."'");
 
 			# logger
 			$logger->info("Раздел помощи #".$id." <".$row['title']."> удален");
@@ -367,10 +366,10 @@ class ACP_Help {
 
 
 	/**
-	* Construct breadcrumb
-	*
-	* @param int $id - id start part
-	*/
+	 * Construct breadcrumb
+	 *
+	 * @param int $id - id start part
+	 */
 	private function construct_breadcrumb(int $id = 1) {
 		if($id != 1) {
 			foreach($this->helptree AS $v) {
@@ -447,10 +446,10 @@ class ACP_Help {
 
 
 	/**
-	* Recount subparts
-	*
-	* @param int $id - id part
-	*/
+	 * Recount subparts
+	 *
+	 * @param int $id - id part
+	 */
 	private function count_childs(int $id) {
 
 		global $db, $logger;
