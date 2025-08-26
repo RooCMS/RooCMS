@@ -131,7 +131,7 @@ class ParserText {
 	 */
 	public function anchors($text) {
 
-        	$pattern = "#(^|\s|)((http(s?)://)|(www\.))(\w+[^\s\)\<]+)#i";
+        $pattern = "#(^|\s|)((http(s?)://)|(www\.))(\w+[^\s\)\<]+)#i";
 
 		if (preg_match_all($pattern, $text, $matches)) {
 
