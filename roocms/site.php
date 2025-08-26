@@ -1,7 +1,7 @@
 <?php
 /**
  * RooCMS - Open Source Free Content Managment System
- * @copyright © 2010-2023 alexandr Belov aka alex Roosso. All rights reserved.
+ * @copyright © 2010-2025 alexandr Belov aka alex Roosso. All rights reserved.
  * @author    alex Roosso <info@roocms.com>
  * @link      http://www.roocms.com
  * @license   http://www.gnu.org/licenses/gpl-3.0.html
@@ -21,9 +21,8 @@ if(!defined('RooCMS')) {
 
 
 /**
-* Meta SEO
-*
-*/
+ * Meta SEO
+ */
 $site['title']		= $structure->page_meta_title;
 $site['description']	= $structure->page_meta_desc;
 if(!empty($site)) {
@@ -42,12 +41,14 @@ if(!class_exists("Modules")) {
 	require_once "site_modules.php";
 }
 
-
+/**
+ * Load page
+ */
 if($structure->access) {
 	if(trim($roocms->part) == "") {
 		/**
-		* Load structure unit
-		*/
+		 * Load structure unit
+		 */
 		switch($structure->page_type) {
 			case 'html':
 				require_once "site_pageHTML.php";
