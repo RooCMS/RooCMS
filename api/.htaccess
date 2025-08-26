@@ -1,0 +1,9 @@
+RewriteEngine On
+RewriteBase /api/
+
+# if file or folder exists, send it
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+
+# otherwise, all goes to index.php
+RewriteRule ^ index.php [QSA,L]

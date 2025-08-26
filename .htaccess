@@ -81,7 +81,7 @@ Options All -ExecCGI -Indexes -Includes +FollowSymLinks
 	# то перенаправить запрос на скрипт index.php
 	RewriteRule .* index.php [L]
 
-	RedirectMatch 301 regexp /index.php?page=e410
+	#RedirectMatch 301 regexp /index.php?page=e410
 </IfModule>
 
 
@@ -354,18 +354,18 @@ AddCharset utf-8 .atom .css .js .json .rss .vtt .xml
 
 
 # Bad Rquest
-ErrorDocument 400 /index.php?page=e400
+#ErrorDocument 400 /index.php?page=e400
 # Authorization Required
-ErrorDocument 401 /index.php?page=e401
+#ErrorDocument 401 /index.php?page=e401
 # Forbidden
-ErrorDocument 403 /index.php?page=e403
+#ErrorDocument 403 /index.php?page=e403
 # Not found
-ErrorDocument 404 /index.php?page=e404
+#ErrorDocument 404 /index.php?page=e404
 # Method Not Allowed
-ErrorDocument 405 /index.php?page=e405
+#ErrorDocument 405 /index.php?page=e405
 # Request Timed Out
-ErrorDocument 408 /index.php?page=e408
+#ErrorDocument 408 /index.php?page=e408
 # Conflict
-ErrorDocument 409 /index.php?page=e409
+#ErrorDocument 409 /index.php?page=e409
 # Request URI Too Long
-ErrorDocument 414 /index.php?page=e414
+#ErrorDocument 414 /index.php?page=e414
