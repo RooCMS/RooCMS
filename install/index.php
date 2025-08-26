@@ -35,15 +35,9 @@ if(trim($db_info['user']) != "" && trim($db_info['base']) != "" && $db->check_id
 		require_once "check_requirement.php";
 		require_once "extends.php";
 
-		if(!empty($db_info['user']) && !empty($db_info['pass']) && !empty($db_info['base'])) {
-			require_once "update.php";
-			$update = new Update;
-		}
-		else {
-			$site['title'] = "Установка RooCMS";
-			require_once "install.php";
-			$install = new Install;
-		}
+		$site['title'] = "Установка RooCMS";
+		require_once "install.php";
+		$install = new Install;
 	}
 	else {
 		$smarty->assign("no_footer", true);

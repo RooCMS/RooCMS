@@ -81,7 +81,7 @@ class Requirement {
 	 * Check PHP Ext
 	 */
 	private function check_php_extensions() {
-		$rextensions	= array("Core", "standard", "mysqli", "session", "mbstring", "calendar", "date", "pcre", "xml", "SimpleXML", "gd");
+		$rextensions	= array("Core", "standard", "mysqli", "session", "mbstring", "calendar", "date", "pcre", "xml", "SimpleXML", "gd", "curl");
 		$extensions = get_loaded_extensions();
 
 		foreach($rextensions AS $v) {

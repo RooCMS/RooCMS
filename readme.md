@@ -65,12 +65,6 @@ After installation, go to Control Panel - part "Help".
 
 `If you use installing RooCMS not on an Apache server, check the .htaccess file to avoid conflicts when playing software.`
 
-Translation into different languages
-------------------------------------
-
-- Russian - 100% translation
-- English is in process ...
-
 License
 -------
  - [Лицензии на русском языке](http://www.roocms.com/index.php?page=license)
