@@ -43,7 +43,7 @@ function randcode(int $ns, $symbols="ABCEFHKLMNPRSTVXYZ123456789") {
 		mt_srand(); srand();
 		$code .= ($a == 1)
 			? $symbols[mt_rand(0, mb_strlen($symbols) - 1)]
-			: $symbols[rand(0, mb_strlen($symbols) - 1)]	;
+			: $symbols[rand(0, mb_strlen($symbols) - 1)];
 		$i++;
 	}
 
