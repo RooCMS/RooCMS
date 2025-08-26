@@ -103,9 +103,6 @@ class Mailing {
 		$db->query("INSERT INTO ".MAILING_TABLE." (author_id, title, message, date_create) VALUES ('".$users->uid."', '".$theme."', '".$message."', '".time()."')");
 		$message_id = $db->insert_id();
 
-		# add headers unsubscribe link
-
-
 		foreach($usersdata as $val) {
 
 			# generated keys

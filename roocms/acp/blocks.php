@@ -1,7 +1,7 @@
 <?php
 /**
  * RooCMS - Open Source Free Content Managment System
- * @copyright © 2010-2023 alexandr Belov aka alex Roosso. All rights reserved.
+ * @copyright © 2010-2025 alexandr Belov aka alex Roosso. All rights reserved.
  * @author    alex Roosso <info@roocms.com>
  * @link      http://www.roocms.com
  * @license   http://www.gnu.org/licenses/gpl-3.0.html
@@ -30,9 +30,9 @@ class ACP_Blocks {
 
 
 	/**
-	* Let's go
-	*     (c) Y.Gagarin
-	*/
+	 * Let's go
+	 *     (c) Y.Gagarin
+	 */
 	public function __construct() {
 
 		global $tpl;
@@ -46,8 +46,8 @@ class ACP_Blocks {
 
 
 	/**
-	* Block type initialisation and activate component for block used
-	*/
+	 * Block type initialisation and activate component for block used
+	 */
 	private function init() {
 
 		global $db, $get;
@@ -78,8 +78,8 @@ class ACP_Blocks {
 
 
 	/**
-	* Action initialisation and activation
-	*/
+	 * Action initialisation and activation
+	 */
 	private function action() {
 
 		global $roocms;
@@ -109,8 +109,8 @@ class ACP_Blocks {
 
 
 	/**
-	* Show all blocks
-	*/
+	 * Show all blocks
+	 */
 	private function view_all_blocks() {
 
 		global $db, $tpl, $smarty;

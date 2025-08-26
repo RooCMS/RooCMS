@@ -16,24 +16,6 @@
  *
  *   You should have received a copy of the GNU General Public License
  *   along with this program.  If not, see http://www.gnu.org/licenses/
- *
- *
- *   RooCMS - Бесплатная система управления контентом с открытым исходным кодом
- *   Copyright © 2010-2025 александр Белов (alex Roosso). Все права защищены.
- *   Для связи: <info@roocms.com>
- *
- *   Это программа является свободным программным обеспечением. Вы можете
- *   распространять и/или модифицировать её согласно условиям Стандартной
- *   Общественной Лицензии GNU, опубликованной Фондом Свободного Программного
- *   Обеспечения, версии 3 или, по Вашему желанию, любой более поздней версии.
- *
- *   Эта программа распространяется в надежде, что она будет полезной, но БЕЗ
- *   ВСЯКИХ ГАРАНТИЙ, в том числе подразумеваемых гарантий ТОВАРНОГО СОСТОЯНИЯ ПРИ
- *   ПРОДАЖЕ и ГОДНОСТИ ДЛЯ ОПРЕДЕЛЁННОГО ПРИМЕНЕНИЯ. Смотрите Стандартную
- *   Общественную Лицензию GNU для получения дополнительной информации.
- *
- *   Вы должны были получить копию Стандартной Общественной Лицензии GNU вместе
- *   с программой. В случае её отсутствия, посмотрите http://www.gnu.org/licenses/
  */
 
 
@@ -47,7 +29,7 @@ if(!defined('RooCMS')) {
 
 
 /**
- * Class RooCMS_Globals
+ * Class RooCMS_Global
  */
 class RooCMS_Global {
 
@@ -146,7 +128,7 @@ class RooCMS_Global {
 		}
 
 		# http(s) protocol
-		$this->handler_https();
+		$this->handle_https();
 
 		# safe secure name script from cp
 		if(defined('ACP') || defined('INSTALL')) {
@@ -169,7 +151,7 @@ class RooCMS_Global {
 	/**
 	 * Set secure protocol (if active)
 	 */
-	protected function handler_https() {
+	protected function handle_https() {
 
 		global $site;
 

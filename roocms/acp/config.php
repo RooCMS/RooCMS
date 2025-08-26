@@ -1,7 +1,7 @@
 <?php
 /**
  * RooCMS - Open Source Free Content Managment System
- * @copyright © 2010-2023 alexandr Belov aka alex Roosso. All rights reserved.
+ * @copyright © 2010-2025 alexandr Belov aka alex Roosso. All rights reserved.
  * @author    alex Roosso <info@roocms.com>
  * @link      http://www.roocms.com
  * @license   http://www.gnu.org/licenses/gpl-3.0.html
@@ -32,9 +32,9 @@ class ACP_Config extends ACP_ConfigAction {
 
 
 	/**
-	* Key on "start" (c)
-	*
-	*/
+	 * Key on "start" (c)
+	 *
+	 */
 	public function __construct() {
 
 		global $config, $tpl, $post;
@@ -57,9 +57,9 @@ class ACP_Config extends ACP_ConfigAction {
 
 
 	/**
-	* Show settings
-	*
-	*/
+	 * Show settings
+	 *
+	 */
 	private function view_config() {
 
 		global $db, $smarty, $get;
