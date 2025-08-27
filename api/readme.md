@@ -7,20 +7,32 @@ Here are the necessary configurations for different server software.
 RewriteEngine On
 RewriteBase /api/
 
-# Если файл или папка существует, отдаем его
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteCond %{REQUEST_FILENAME} !-d
+# Block access to all files except index.php
+<Files "*">
+    Require all denied
+</Files>
 
-# Иначе всё идёт в index.php
+# Allow access only to index.php
+<Files "index.php">
+    Require all granted
+</Files>
+
+# All requests are redirected to index.php
 RewriteRule ^ index.php [QSA,L]
-
 ```
 
-## ngnix
+## nginx
 
 ```
 location /api {
-    try_files $uri /api/index.php;
+    # Block access to all files except index.php
+    location ~ ^/api/(?!index\.php$) {
+        deny all;
+        return 403;
+    }
+    
+    # All requests are redirected to index.php
+    try_files $uri /api/index.php$is_args$args;
 }
 ```
 

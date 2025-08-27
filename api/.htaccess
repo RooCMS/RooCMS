@@ -1,9 +1,15 @@
 RewriteEngine On
 RewriteBase /api/
 
-# if file or folder exists, send it
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteCond %{REQUEST_FILENAME} !-d
+# Block access to all files except index.php
+<Files "*">
+    Require all denied
+</Files>
 
-# otherwise, all goes to index.php
+# Allow access only to index.php
+<Files "index.php">
+    Require all granted
+</Files>
+
+# All requests are redirected to index.php
 RewriteRule ^ index.php [QSA,L]
