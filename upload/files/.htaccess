@@ -1,8 +1,21 @@
-Order Allow,Deny
-Deny from all
-<Files ~ "\.(7z|m3u|rar|zip|tar|gz|txt|doc|xls|ttf|psd|cdr|docx|xlsx|htm|html|swf|fla|psd|pdf|csv|torrent|xml)$">
+Require all denied
+
+<FilesMatch "\.(7z|m3u|rar|zip|tar|gz|txt|doc|xls|ttf|psd|cdr|docx|xlsx|htm|html|swf|fla|psd|pdf|csv|torrent|xml)$">
 	ForceType application/octet-stream
 	Header set Content-Disposition "attachment"
-	Allow from all
-</Files>
-php_flag engine  off
+	Require all granted
+</FilesMatch>
+
+<IfModule mod_php.c>
+	php_flag engine off
+</IfModule>
+
+# Disallow executing PHP scripts (works with PHP-FPM)
+<FilesMatch "\.(php|phar|phtml|php[0-9]?)$">
+	Require all denied
+</FilesMatch>
+
+<IfModule mod_mime.c>
+	RemoveHandler .php .phtml .php3 .php4 .php5 .php7 .php8
+	RemoveType .php .phtml .php3 .php4 .php5 .php7 .php8
+</IfModule>

@@ -6,13 +6,13 @@ Options All -ExecCGI -Indexes -Includes +FollowSymLinks
 <IfModule mod_rewrite.c>
 	RewriteEngine on
 	RewriteBase /
-	#RewriteCond %{HTTP_HOST} ^roocms
-	#RewriteRule (.*) http://www.roocms.com/$1 [R=301,L]
-	#RewriteCond %{THE_REQUEST} ^[A-Z]{3,9}\ /index\.php\ HTTP/
-	#RewriteRule ^index\.php$ http://www.roocms.com/ [R=301,L]
-	#RewriteCond %{REQUEST_FILENAME} !-f
-	#RewriteCond %{REQUEST_FILENAME} !-d
-	#RewriteRule ^(.*)$ index.php [L,QSA]
+	# RewriteCond %{HTTP_HOST} ^roocms
+	# RewriteRule (.*) http://www.roocms.com/$1 [R=301,L]
+	# RewriteCond %{THE_REQUEST} ^[A-Z]{3,9}\ /index\.php\ HTTP/
+	# RewriteRule ^index\.php$ http://www.roocms.com/ [R=301,L]
+	# RewriteCond %{REQUEST_FILENAME} !-f
+	# RewriteCond %{REQUEST_FILENAME} !-d
+	# RewriteRule ^(.*)$ index.php [L,QSA]
 </IfModule>
 
 
@@ -57,28 +57,30 @@ Options All -ExecCGI -Indexes -Includes +FollowSymLinks
 	#	Будьте внимательны. Перед использованием данного файла проверьте файлы access.log и error.log сгенерированные вашим Apache сервером.
 	#	Если вы обнуружите ошибки в ваших скриптах, исправьте их перед использованием на "боевом сервере"
 
-	# Блокировать любой запрос, пытающийся испортить base64_encode через URL
+	# Block any request trying to break base64_encode through URL
 	RewriteCond %{QUERY_STRING} base64_encode[^(]*\([^)]*\) [OR]
-	# Блокировать любой запрос, содержащий тег <script> в URL
+	# Block any request containing <script> tag in URL
 	RewriteCond %{QUERY_STRING} (<|%3C)([^s]*s)+cript.*(>|%3E) [NC,OR]
-	# Блокировать любой запрос, содержащий тег <iframe> в URL
+	# Block any request containing <iframe> tag in URL
 	RewriteCond %{QUERY_STRING} (<|%3C).*iframe.*(>|%3E) [NC,OR]
-	# Блокировать любой запрос, содержащий jacascript в URL
+	# Block any request containing jacascript in URL
 	RewriteCond %{QUERY_STRING} (javascript:).*(;).* [NC]
-	# Блокировать любой запрос, содержащий попытку инъекции БД в URL
+	# Block any request containing attempt to inject DB in URL
 	RewriteCond %{QUERY_STRING} (;|'|"|%22).*(union|select|insert|drop|update|md5|benchmark|or|and|if).* [NC]
-	# Блокировать любой запрос, пытающийся установить значение глобальных переменных PHP через URL
+	# Block any request trying to set value of global variables PHP through URL
 	RewriteCond %{QUERY_STRING} GLOBALS(=|\[|\%[0-9A-Z]{0,2}) [OR]
-	# Блокировать любой запрос, пытающийся изменить _REQUEST переменную через URL
+	# Block any request trying to change _REQUEST variable through URL
 	RewriteCond %{QUERY_STRING} _REQUEST(=|\[|\%[0-9A-Z]{0,2})
-	# Перенаправлять заблокированные запросы
+	# Redirect blocked requests
 	# RewriteRule .* index.php [F]
 
-	# и запрошенный путь не соответствует пути к физическому файлу
+	# exclude /api/ from root routing
+	RewriteCond %{REQUEST_URI} !^/api/
+	# if requested path does not correspond to a physical file
 	RewriteCond %{REQUEST_FILENAME} !-f
-	# и запрошенный путь не соответствует пути к физической папке
+	# if requested path does not correspond to a physical folder
 	RewriteCond %{REQUEST_FILENAME} !-d
-	# то перенаправить запрос на скрипт index.php
+	# then redirect request to index.php script
 	RewriteRule .* index.php [L]
 
 	#RedirectMatch 301 regexp /index.php?page=e410
@@ -261,13 +263,6 @@ php_value	docref_ext 0
 </IfModule>
 
 
-# XDEBUG ___________________
-#php_flag	xdebug.profiler_enable On
-#php_flag	xdebug.extended_info On
-#php_flag	xdebug.remote_enable off
-#php_flag	xdebug.auto_trace off
-
-
 # OTHER SETTINGS ____________
 <IfModule mod_setenvif.c>
 	SetEnv TZ Europe/Moscow
@@ -279,19 +274,19 @@ AddCharset utf-8 .atom .css .js .json .rss .vtt .xml
 
 # CACHE AND Headers _________
 <IfModule mod_headers.c>
-	#кэшировать html и htm файлы на один день
+	# cache html and htm files for one day
 	<FilesMatch "\.(html|htm)$">
 		Header set Cache-Control "max-age=43200"
 	</FilesMatch>
-	#кэшировать css, javascript и текстовые файлы на одну неделю
+	# cache css, javascript and text files for one week
 	<FilesMatch "\.(js|css|txt)$">
 		Header set Cache-Control "max-age=604800"
 	</FilesMatch>
-	#кэшировать флэш и изображения на месяц
+	# cache flash and images for one month
 	<FilesMatch "\.(flv|swf|ico|gif|jpg|jpeg|png|jpe?g)$">
 		Header set Cache-Control "max-age=2592000"
 	</FilesMatch>
-	#отключить кэширование
+	# disable caching
 	<FilesMatch "\.(pl|php|cgi|spl|scgi|fcgi)$">
 		#Header unset Cache-Control
 	</FilesMatch>

@@ -11,20 +11,34 @@
  */
 
 //#########################################################
-//	Anti Hack initialization
+//	Anti Hack
 //---------------------------------------------------------
-const RooCMS = true;
+if(!defined('RooCMS')) {
+    http_response_code(403);
+    header('Content-Type: text/plain; charset=utf-8');
+    exit('Access denied');
+}
 //#########################################################
 
 /**
  * define root roocms path
  */
-defined('_SITEROOT') or define('_SITEROOT', str_ireplace(DIRECTORY_SEPARATOR."api", "", dirname(__FILE__)));
+if(!defined('_SITEROOT')) {
+    define('_SITEROOT', str_ireplace(DIRECTORY_SEPARATOR."roocms", "", dirname(__FILE__)));
+}
 
 /**
- * include roocms init file
+ * Include sys & php settings
  */
-require_once _SITEROOT.'/roocms/init.php';
+require_once _SITEROOT."/roocms/config/set.cfg.php";
 
+/**
+ * Include config
+ */
+require_once _SITEROOT."/roocms/config/config.php";
 
+/**
+ * Include const
+ */
+require_once _SITEROOT."/roocms/config/defines.php";
 

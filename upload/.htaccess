@@ -1,4 +1,6 @@
-<Files *>
-	Order Allow,Deny
-	Deny from All
-</Files>
+# Apache 2.4+ compatible: rely on subdirectory rules; disable indexes and PHP
+Options -Indexes
+
+<FilesMatch "\.(php|phar|phtml|php[0-9]?)$">
+	Require all denied
+</FilesMatch>

@@ -51,8 +51,6 @@ const LOG_TABLE          = DB_PREFIX.'log';
 /**
 * RooCMS $Path
 */
-
-const _SITEROOT     = str_ireplace(DIRECTORY_SEPARATOR."roocms".DIRECTORY_SEPARATOR."config", "", dirname(__FILE__));
 const _ROOCMS       = _SITEROOT.'/roocms';
 const _CLASS        = _ROOCMS.'/class';
 const _API          = _SITEROOT.'/api';
