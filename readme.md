@@ -21,26 +21,23 @@ This is the development branch for version 2.0. All code here is unstable and ma
 
 System requirements
 -------------------
- - WebServer:	`Apache 2.2, 2.4`
- - PHP:		`8.*` or higher
+ - WebServer:	`Apache 2.4`
+ - PHP:		`8.1` or higher
  - DB:		`MySQL 5.5` and higher or `MariaDB: 10` and higher
  - PHP Extension: 
 	`Core`
 	`calendar`
 	`date`
 	`pcre`
-	`xml`
 	`gd`
 	`mbstring`
 	`standard`
-	`SimpleXML`
-	`mysqli`
 	`curl`
 	
 Recommended software
 --------------------
  - WebServer:	`Apache 2.4`
- - PHP:		`8.0` and higher
+ - PHP:		`8.1` and higher
  - DB:		`MySQL 5.7` and higher or `MariaDB: 10.2` and higher
 
 Install
