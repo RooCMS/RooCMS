@@ -1,4 +1,4 @@
-Version: 1.4.0
+Version: 2.0 alpha
 ========================
 **release date:	???**
 
