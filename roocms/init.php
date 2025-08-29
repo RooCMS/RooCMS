@@ -47,4 +47,3 @@ require_once _SITEROOT."/roocms/config/defines.php";
  * Include functions
  */
 require_once _ROOCMS."/helpers/functions.php";
-

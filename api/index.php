@@ -26,7 +26,10 @@ defined('_SITEROOT') or define('_SITEROOT', str_ireplace(DIRECTORY_SEPARATOR."ap
  */
 require_once _SITEROOT.'/roocms/init.php';
 
-
+/**
+ * Set cache headers
+ */
+nocache();
 
 /**
  * get uri

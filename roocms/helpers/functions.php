@@ -101,32 +101,6 @@ function get_http_response_code(string $url) : int {
 
 
 /**
- * Get client IP address
- *
- * @return string - client IP address
- */
-function get_client_ip() : string {
-    $ip = 'unknown';
-    
-    if (!empty($_SERVER['HTTP_CLIENT_IP'])) {
-        $ip = $_SERVER['HTTP_CLIENT_IP'];
-    } elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
-        $ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
-    } elseif (!empty($_SERVER['REMOTE_ADDR'])) {
-        $ip = $_SERVER['REMOTE_ADDR'];
-    }
-    
-    // protection from multiple IP (last IP - real)
-    if (strpos($ip, ',') !== false) {
-        $ips = explode(',', $ip);
-        $ip = trim(end($ips));
-    }
-    
-    return filter_var($ip, FILTER_VALIDATE_IP) ? $ip : 'unknown';
-}
-
-
-/**
  * Read data file
  *
  * @param string $file - full path to file
