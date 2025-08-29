@@ -162,47 +162,24 @@ class Debugger {
         # read error in file
 		$subj = file_read(ERRORSLOG);
 		
-		switch($errno) {
-			case E_ERROR:			# critical
-				$erlevel = 0; $ertitle = "Critical error";
-				break;
-
-			case E_USER_ERROR:		# critical
-				$erlevel = 0; $ertitle = "Critical user error";
-				break;
-
-			case E_RECOVERABLE_ERROR :	# warning(?)critical
-				$erlevel = 1; $ertitle = "Critical error in software";
-				break;
-
-			case E_WARNING:			# warning
-				$erlevel = 1; $ertitle = "Critical error";
-				break;
-
-			case E_USER_WARNING:	# warning
-				$erlevel = 1; $ertitle = "Non-critical user error";
-				break;
-
-			case E_CORE_WARNING:	# warning
-				$erlevel = 1; $ertitle = "Non-critical kernel error";
-				break;
-
-			case E_COMPILE_WARNING:	# warning
-				$erlevel = 1; $ertitle = "Non-critical Zend error";
-				break;
-
-			case E_NOTICE:			# notice
-				$erlevel = 2; $ertitle = "Error";
-				break;
-
-			case E_USER_NOTICE:		# notice
-				$erlevel = 2; $ertitle = "User error";
-				break;
-
-			default:				# unknown
-				$erlevel = 3; $ertitle = "Unknown error";
-				break;
-		}
+		[$erlevel, $ertitle] = match($errno) {
+			E_ERROR, E_USER_ERROR => [0, match($errno) {
+				E_ERROR => "Critical error",
+				E_USER_ERROR => "Critical user error"
+			}],
+			E_RECOVERABLE_ERROR, E_WARNING, E_USER_WARNING, E_CORE_WARNING, E_COMPILE_WARNING => [1, match($errno) {
+				E_RECOVERABLE_ERROR => "Critical error in software",
+				E_WARNING => "Critical error", 
+				E_USER_WARNING => "Non-critical user error",
+				E_CORE_WARNING => "Non-critical kernel error",
+				E_COMPILE_WARNING => "Non-critical Zend error"
+			}],
+			E_NOTICE, E_USER_NOTICE => [2, match($errno) {
+				E_NOTICE => "Error",
+				E_USER_NOTICE => "User error"
+			}],
+			default => [3, "Unknown error"]
+		};
 
 		if($erlevel == 0) {
 			register_shutdown_function([$this, 'shutdown']);
