@@ -24,30 +24,185 @@ if(!defined('RooCMS')) {
 trait DebugLog {
 
 	/**
-	 * Wow! This is magic...
+	 * Magic method for undefined property access
 	 *
-	 * @param $name
-	 *
-	 * @return null
+	 * @param string $name
+	 * @return mixed
 	 */
 	public function __get(string $name) : mixed {
-		# debug log
 		if(DEBUGMODE) {
-			$trace = debug_backtrace();
-			$pi = pathinfo($trace[0]['file']);
-
-			# call log 
-			echo 'Attempt to get undefined property: '.$name.' ; Source: '.$pi['filename'].' line '.$trace[0]['line']."\n";
+			$this->log_undefined_property_access($name);
 		}
-
 		return null;
 	}
 
 
+	/**
+	 * Magic method for undefined method calls
+	 *
+	 * @param string $name
+	 * @param array $arguments
+	 * @return void
+	 */
 	public function __call(string $name, array $arguments) : void {
-		# debug log
 		if(DEBUGMODE) {
-			echo 'Method call '.$name.' '.implode(', ', $arguments)."\n";
+			$this->log_undefined_method_call($name, $arguments);
+		}
+	}
+
+
+	/**
+	 * Log undefined property access to debug system
+	 *
+	 * @param string $property_name
+	 * @return void
+	 */
+	private function log_undefined_property_access(string $property_name) : void {
+		$trace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 3);
+		$caller = $trace[1] ?? $trace[0];
+		
+		$debug_info = [
+			'type' => 'undefined_property',
+			'property' => $property_name,
+			'class' => get_class($this),
+			'caller' => [
+				'file' => basename($caller['file'] ?? 'unknown'),
+				'line' => $caller['line'] ?? 0,
+				'function' => $caller['function'] ?? 'global'
+			],
+			'available_properties' => $this->get_available_properties(),
+			'suggestion' => $this->suggest_similar_property($property_name),
+			'timestamp' => microtime(true)
+		];
+
+		$this->send_to_debugger($debug_info, 'Undefined Property Access');
+	}
+
+
+	/**
+	 * Log undefined method call to debug system
+	 *
+	 * @param string $method_name
+	 * @param array $arguments
+	 * @return void
+	 */
+	private function log_undefined_method_call(string $method_name, array $arguments) : void {
+		$trace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 3);
+		$caller = $trace[1] ?? $trace[0];
+		
+		$debug_info = [
+			'type' => 'undefined_method',
+			'method' => $method_name,
+			'arguments' => $arguments,
+			'argument_types' => array_map('get_debug_type', $arguments),
+			'class' => get_class($this),
+			'caller' => [
+				'file' => basename($caller['file'] ?? 'unknown'),
+				'line' => $caller['line'] ?? 0,
+				'function' => $caller['function'] ?? 'global'
+			],
+			'available_methods' => $this->get_available_methods(),
+			'suggestion' => $this->suggest_similar_method($method_name),
+			'timestamp' => microtime(true)
+		];
+
+		$this->send_to_debugger($debug_info, 'Undefined Method Call');
+	}
+
+
+	/**
+	 * Get available properties of the current object
+	 *
+	 * @return array
+	 */
+	private function get_available_properties() : array {
+		$reflection = new ReflectionClass($this);
+		$properties = [];
+		
+		foreach($reflection->getProperties() as $property) {
+			if($property->isPublic()) {
+				$properties[] = $property->getName();
+			}
+		}
+		
+		return $properties;
+	}
+
+
+	/**
+	 * Get available methods of the current object
+	 *
+	 * @return array
+	 */
+	private function get_available_methods() : array {
+		return get_class_methods($this);
+	}
+
+
+	/**
+	 * Suggest similar property name using Levenshtein distance
+	 *
+	 * @param string $property_name
+	 * @return string|null
+	 */
+	private function suggest_similar_property(string $property_name) : ?string {
+		$available = $this->get_available_properties();
+		$closest = null;
+		$shortest = -1;
+
+		foreach($available as $property) {
+			$distance = levenshtein($property_name, $property);
+			if($distance <= 3 && ($distance < $shortest || $shortest < 0)) {
+				$closest = $property;
+				$shortest = $distance;
+			}
+		}
+
+		return $closest;
+	}
+
+
+	/**
+	 * Suggest similar method name using Levenshtein distance
+	 *
+	 * @param string $method_name
+	 * @return string|null
+	 */
+	private function suggest_similar_method(string $method_name) : ?string {
+		$available = $this->get_available_methods();
+		$closest = null;
+		$shortest = -1;
+
+		foreach($available as $method) {
+			$distance = levenshtein($method_name, $method);
+			if($distance <= 3 && ($distance < $shortest || $shortest < 0)) {
+				$closest = $method;
+				$shortest = $distance;
+			}
+		}
+
+		return $closest;
+	}
+
+
+	/**
+	 * Send debug information to debugger if available
+	 *
+	 * @param array $debug_info
+	 * @param string $label
+	 * @return void
+	 */
+	private function send_to_debugger(array $debug_info, string $label) : void {
+		global $debug;
+		
+		if(isset($debug) && method_exists($debug, 'rundebug')) {
+			$debug->rundebug($debug_info, $label, true);
+		} else {
+			// Fallback to error_log if debugger not available
+			error_log(json_encode([
+				'label' => $label,
+				'data' => $debug_info
+			], JSON_UNESCAPED_UNICODE));
 		}
 	}
 }

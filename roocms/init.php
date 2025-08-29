@@ -56,13 +56,7 @@ require_once _CLASS."/class_debugger.php";
 $debug = new Debugger;
 
 /**
- * Debug function
- *
- * @param mixed $obj
- * @example debug($obj);
+ * Load Debugger
  */
-function debug(mixed $obj) : void {
-	global $debug;
-	$debug->rundebug($obj);
-}
+require_once _ROOCMS."/helpers/debug.php";
 

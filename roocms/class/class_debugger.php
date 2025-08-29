@@ -242,13 +242,15 @@ class Debugger {
 
 
 	/**
-	 * Debug function
+	 * Debug function with enhanced variable analysis
 	 *
 	 * @param mixed $var - variable/data/object for debugging
+	 * @param string|null $label - optional label for the debug entry
+	 * @param bool $detailed - include detailed type information
 	 *
-	 * @return void     - show variable dump for $var
+	 * @return void
 	 */
-	public function rundebug(mixed $var) : void {
+	public function rundebug(mixed $var, ?string $label = null, bool $detailed = true) : void {
 		static $use = 1;
 
 		# shutdown register
@@ -256,20 +258,84 @@ class Debugger {
 			register_shutdown_function([$this,'shutdown']);
 		}
 
-		# print var
-		ob_start();
+		# get caller info
+		$trace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 2);
+		$caller = $trace[1] ?? $trace[0];
+		$file = basename($caller['file'] ?? 'unknown');
+		$line = $caller['line'] ?? 0;
+		$function = $caller['function'] ?? 'global';
 
-			if(is_object($var) || is_array($var)) {
-				$var = (array) $var;
-			}
+		# analyze variable
+		$debug_entry = [
+			'id' => $use,
+			'label' => $label ?? "Debug #{$use}",
+			'caller' => [
+				'file' => $file,
+				'line' => $line,
+				'function' => $function
+			],
+			'type' => get_debug_type($var),
+			'timestamp' => microtime(true)
+		];
 
-			print_r(json_encode($var, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
+		# detailed analysis
+		if($detailed) {
+			$debug_entry['analysis'] = match(true) {
+				is_null($var) => ['value' => null, 'info' => 'NULL value'],
+				is_bool($var) => ['value' => $var, 'info' => $var ? 'TRUE' : 'FALSE'],
+				is_int($var) => ['value' => $var, 'info' => "Integer: {$var}"],
+				is_float($var) => ['value' => $var, 'info' => "Float: {$var}"],
+				is_string($var) => [
+					'value' => $var,
+					'info' => 'String length: ' . mb_strlen($var, 'UTF-8'),
+					'encoding' => mb_detect_encoding($var, 'UTF-8, ASCII, ISO-8859-1', true)
+				],
+				is_array($var) => [
+					'value' => $var,
+					'info' => 'Array with ' . count($var) . ' elements',
+					'keys' => array_keys($var),
+					'is_assoc' => array_keys($var) !== range(0, count($var) - 1)
+				],
+				is_object($var) => [
+					'class' => get_class($var),
+					'info' => 'Object of class: ' . get_class($var),
+					'methods' => get_class_methods($var),
+					'properties' => get_object_vars($var),
+					'parent' => get_parent_class($var) ?: null,
+					'interfaces' => class_implements($var),
+					'traits' => class_uses($var)
+				],
+				is_resource($var) => [
+					'type' => get_resource_type($var),
+					'info' => 'Resource of type: ' . get_resource_type($var)
+				],
+				default => ['value' => $var, 'info' => 'Unknown type']
+			};
+		} else {
+			$debug_entry['value'] = $var;
+		}
 
-			$output = ob_get_contents();
-
-		ob_end_clean();
-
-		$this->debug_dump[] = $output;
+		# format output
+		if($detailed) {
+			// Store structured data directly for REST API output
+			$this->debug_dump[] = $debug_entry;
+		} else {
+			// For simple dumps, store raw data for REST API
+			$simple_entry = [
+				'id' => $use,
+				'label' => $label ?? "Dump #{$use}",
+				'caller' => [
+					'file' => $file,
+					'line' => $line,
+					'function' => $function
+				],
+				'type' => get_debug_type($var),
+				'timestamp' => microtime(true),
+				'value' => $var,
+				'simple_dump' => true
+			];
+			$this->debug_dump[] = $simple_entry;
+		}
 
 		# step
 		$use++;
@@ -277,42 +343,107 @@ class Debugger {
 
 
 	/**
-	 * Shutdown (show debug information)
-	 * TODO: exchange this to debug log
+	 * Format SQL query for better readability
+	 *
+	 * @param string $query
+	 * @return string
+	 */
+	private function format_sql_query(string $query): string {
+		$keywords = ['SELECT', 'FROM', 'WHERE', 'JOIN', 'LEFT JOIN', 'RIGHT JOIN', 'INNER JOIN', 
+					'ORDER BY', 'GROUP BY', 'HAVING', 'LIMIT', 'INSERT', 'UPDATE', 'DELETE', 'SET'];
+		
+		$formatted = $query;
+		foreach($keywords as $keyword) {
+			$formatted = preg_replace('/\b' . $keyword . '\b/i', "\n" . $keyword, $formatted);
+		}
+		
+		return trim($formatted);
+	}
+
+
+	/**
+	 * Shutdown (return debug information in REST format)
 	 */
 	public static function shutdown() : void {
 
 		global $debug, $db;
 
-		foreach($debug->debug_dump AS $k=>$v) {
-			echo '<pre style="overflow: auto;max-height: 300px;">'.htmlspecialchars($v).'</pre>';
+		// Prepare debug dumps
+		$debug_dumps = [];
+		foreach($debug->debug_dump AS $k => $v) {
+			if(is_array($v) && isset($v['simple_dump']) && $v['simple_dump'] === true) {
+				// Simple dump format - use structured data
+				unset($v['simple_dump']); // Remove the flag
+				$debug_dumps[] = $v;
+			} elseif(is_array($v)) {
+				// Structured debug data - use as is
+				$debug_dumps[] = $v;
+			} else {
+				// Legacy string format
+				$debug_dumps[] = [
+					'id' => $k,
+					'type' => 'legacy',
+					'content' => $v
+				];
+			}
 		}
 
-
-		if($debug->show_debug) {
-			echo '<pre>'.json_encode($debug->debug_info, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE).'</pre>';
-		}
-
-		# functions
-
+		// Get defined functions, classes, constants
 		$func_array = get_defined_functions();
-		foreach($func_array['user'] AS $v) {
-			echo $v.'();<br>';
-		}
+		$user_functions = $func_array['user'] ?? [];
 
 		$cl_array = get_declared_classes();
-		foreach($cl_array AS $v) {
-			echo $v.'<br>';
-		}
+		$user_classes = array_filter($cl_array, function($class) {
+			$reflection = new ReflectionClass($class);
+			return $reflection->isUserDefined();
+		});
 
 		$const_array = get_defined_constants(true);
-		foreach($const_array['user'] AS $k=>$v) {
-			echo $k.' - '.htmlspecialchars($v).'<br>';
-		}
+		$user_constants = $const_array['user'] ?? [];
 
-		echo 'DB queries: <b>'.$db->cnt_querys.'</b><br>
-		Memory usage: <span style="cursor: help;" title="'.round($debug->memory_peak_usage/1024/1024, 2).' bytes max"><b>'.round($debug->productivity_memory/1024/1024, 2).' MB</b></span><br>
-		Script execution time: <b>'.$debug->productivity_time.' ms</b>';
+		// End productivity measurement
+		$debug->end_productivity();
+
+		// Prepare REST response
+		$response = [
+			'debug' => [
+				'info' => [
+					'performance' => [
+						'execution_time' => $debug->productivity_time,
+						'memory_usage' => round($debug->productivity_memory / 1024 / 1024, 2),
+						'memory_peak' => round($debug->memory_peak_usage / 1024 / 1024, 2),
+						'db_queries' => $db->cnt_querys ?? 0
+					],
+					'dumps' => $debug_dumps,
+					'database' => $debug->show_debug ? $debug->debug_info : null,
+					'environment' => [
+						'php_version' => PHP_VERSION,
+						'extensions' => [
+							'loaded' => $debug->phpextensions,
+							'missing' => $debug->nophpextensions
+						],
+						'user_functions' => $user_functions,
+						'user_classes' => $user_classes,
+						'user_constants' => $user_constants
+					],
+					'errors' => [
+						'exist' => $debug->exist_errors,
+						'log_files' => [
+							'errors' => ERRORSLOG,
+							'system' => SYSERRLOG
+						]
+					]
+				]
+			],
+			'status' => 'debug',
+			'timestamp' => date('c')
+		];
+
+		// Set JSON headers
+		// header('Content-Type: application/json; charset=utf-8');
+		
+		// Output JSON response
+		echo json_encode($response, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
 
 		exit;
 	}
