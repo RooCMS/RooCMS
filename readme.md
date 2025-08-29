@@ -23,7 +23,7 @@ System requirements
 -------------------
  - WebServer:	`Apache 2.4`
  - PHP:		`8.1` or higher
- - DB:		`MySQL 5.5` and higher or `MariaDB: 10` and higher
+ - DB:		`MySQL 5.7` and higher or `MariaDB: 10.10` and higher
  - PHP Extension: 
 	`Core`
 	`calendar`
@@ -37,8 +37,8 @@ System requirements
 Recommended software
 --------------------
  - WebServer:	`Apache 2.4`
- - PHP:		`8.1` and higher
- - DB:		`MySQL 5.7` and higher or `MariaDB: 10.2` and higher
+ - PHP:		`8.4` and higher
+ - DB:		`MySQL 8.4` and higher or `MariaDB: 11.7` and higher
 
 Install
 -------

@@ -29,8 +29,12 @@ require_once _SITEROOT.'/roocms/init.php';
 /**
  * get uri
  */
-$uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
-$uri = explode('/', trim($uri, '/'));
+if(isset($_SERVER['REQUEST_URI'])) {
+    $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+    $uri = explode('/', trim($uri, '/'));
+} else {
+    $uri = [];
+}
 
 /**
  * get version, resource and id from uri
