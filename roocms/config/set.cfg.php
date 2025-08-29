@@ -76,7 +76,8 @@ mb_http_output('UTF-8');
 /**
  * Set header encoding
  */
-header("Content-type: text/html; charset=utf-8");
+#header("Content-type: text/html; charset=utf-8");
+header("Content-type: application/json; charset=utf-8");
 
 /**
  * Security headers

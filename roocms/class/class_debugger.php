@@ -205,7 +205,7 @@ class Debugger {
 		}
 
         if(DEBUGMODE) { // TODO: exchange this to debug log
-			echo '<pre>'.$error.'</pre>';
+			echo $error;
 		}
 
 		# We kill the standard handler, so that he would not give out anything to spy (:
