@@ -22,38 +22,49 @@ $status_code = http_response_code();
 
 switch($status_code) {
     case 400:
-        $error = '400: Bad request.<br />Please check the request and try again.';
+        $error = '400: Bad request.
+                Please check the request and try again.';
         break;
     case 401:
-        $error = '401: Unauthorized.<br />Please check your credentials and try again.';
+        $error = '401: Unauthorized.
+                Please check your credentials and try again.';
         break;
     case 403:
-        $error = '403: Access denied.<br />Please check your credentials and try again.';
+        $error = '403: Access denied.
+                Please check your credentials and try again.';
         break;
     case 404:
-        $error = '404: Page not found.<br />Please check the URL and try again.';
+        $error = '404: Page not found.
+                Please check the URL and try again.';
         break;
     case 405:
-        $error = '405: Method not allowed.<br />Please check the request method and try again.';
+        $error = '405: Method not allowed.
+                Please check the request method and try again.';
         break;
     case 408:
-        $error = '408: Request timeout.<br />Please try again later.';
+        $error = '408: Request timeout.
+                Please try again later.';
         break;
     case 409:
-        $error = '409: Conflict.<br />Please try again later.';
+        $error = '409: Conflict.
+                Please try again later.';
         break;
     case 414:
-        $error = '414: URI too long.<br />Please check the URL and try again.';
+        $error = '414: URI too long.
+                Please check the URL and try again.';
         break;
     case 500:
-        $error = '500: Internal server error.<br />Please try again later.';
+        $error = '500: Internal server error.
+                Please try again later.';
         break;
     default:
-        $error = 'Unknown error.<br />Please try again later.';
+        $error = 'Unknown error.
+                Please try again later.';
         break;
 }
 
 $safe_error = htmlspecialchars($error, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
+$safe_error = str_replace("\n", "<br />", $safe_error);
 
 header('Content-Type: text/html; charset=UTF-8');
 
