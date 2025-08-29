@@ -101,7 +101,7 @@ echo <<<HTML
             padding: 16px;
             position: relative;
             overflow: hidden;
-            background-image: url('logo2.0.png');
+            background-image: url('/logo2.0.png');
             background-repeat: no-repeat;
             background-position: center center;
             background-size: contain;

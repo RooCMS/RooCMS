@@ -44,10 +44,10 @@ Options All -ExecCGI -Indexes -Includes +FollowSymLinks
 	# SSLRequire %{HTTP_HOST} eq "roocms.com"
 </IfModule>
 <IfModule mod_rewrite.c>
-	# RewriteCond %{HTTPS} !on
-	# RewriteRule (.*) https://%{HTTP_HOST}%{REQUEST_URI}
-	# RewriteCond %{SERVER_PORT} !^443
-	# RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
+	RewriteCond %{HTTPS} !on
+	RewriteRule (.*) https://%{HTTP_HOST}%{REQUEST_URI}
+	RewriteCond %{SERVER_PORT} !^443
+	RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
 
 
 	#	Внимание!

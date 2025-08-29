@@ -48,10 +48,18 @@ $id =       $uri[3] ?? null;
  */
 $method = $_SERVER['REQUEST_METHOD'];
 
-/**
- * check version
- */
-if($version != 'v1') {
-    echo json_encode(['error' => 'Invalid version']);
-    exit;
-}
+
+
+// Response for test
+$response = [
+    'api' => 'RooCMS API Test',
+    'version' => $version,
+    'resource' => $resource,
+    'id' => $id,
+    'method' => $method,
+    'uri' => $_SERVER['REQUEST_URI'],
+    'parsed_uri' => $uri,
+    'status' => 'working'
+];
+
+echo json_encode($response, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);

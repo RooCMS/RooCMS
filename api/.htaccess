@@ -4,16 +4,18 @@ RewriteBase /api/
 # Ensure directory access and directory index resolve correctly
 Require all granted
 DirectoryIndex index.php
+Options -MultiViews
 
-# Block access to all files except index.php
-<FilesMatch "^(?!index\.php$).+">
-    Require all denied
-</FilesMatch>
-
-# Allow access only to index.php
+# Allow access to index.php
 <Files "index.php">
     Require all granted
+    Satisfy Any
 </Files>
 
-# All requests are redirected to index.php
-RewriteRule ^ index.php [QSA,L]
+# Always route versioned API prefixes (e.g., /v1, /v1/...) to index.php
+RewriteRule ^v[0-9]+(/.*)?$ index.php [L,QSA]
+
+# Route non-existing paths to index.php (handles nested routes like /api/v1/name)
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^ index.php [L,QSA]
