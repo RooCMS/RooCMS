@@ -247,6 +247,9 @@ class Debugger {
 		 * Set up error log
 		 */
 		ini_set('error_log', SYSERRLOG);
+		error_reporting(0);
+		ini_set('display_errors',			0);
+
 
 		if($show) {
 			error_reporting(E_ALL);			#8191
@@ -254,15 +257,9 @@ class Debugger {
 			ini_set('display_errors',			1);
 			ini_set('html_errors',				1);
 			ini_set('report_memleaks',			1);
-			ini_set('log_errors',				1);
-			ini_set('log_errors_max_len',		2048);
+			ini_set('log_errors_max_len',		4096);
 			ini_set('ignore_repeated_errors',	1);
 			ini_set('ignore_repeated_source',	1);
-		}
-		else {
-			error_reporting(0);
-			ini_set('display_errors',			0);
-			ini_set('log_errors',				1);
 		}
 	}
 

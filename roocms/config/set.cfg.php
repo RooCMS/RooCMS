@@ -55,6 +55,11 @@ ini_set("default_mimetype",			"text/html");
 ini_set("default_socket_timeout",	60);
 
 /**
+ * Set up error log
+ */
+ini_set('log_errors',				1);
+
+/**
  * Set up style for error display
  */
 ini_set("error_prepend_string",		"");
