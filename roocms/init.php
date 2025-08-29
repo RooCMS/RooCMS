@@ -27,9 +27,6 @@ if(!defined('_SITEROOT')) {
     define('_SITEROOT', str_ireplace(DIRECTORY_SEPARATOR."roocms", "", dirname(__FILE__)));
 }
 
-error_reporting(E_ALL);
-ini_set('display_errors', '1');
-ini_set('display_startup_errors', '1');
 
 /**
  * Include sys & php settings
