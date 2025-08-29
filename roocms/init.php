@@ -47,3 +47,22 @@ require_once _SITEROOT."/roocms/config/defines.php";
  * Include functions
  */
 require_once _ROOCMS."/helpers/functions.php";
+
+/**
+ * Load Debugger
+ */
+require_once _CLASS."/trait_debugLog.php";
+require_once _CLASS."/class_debugger.php";
+$debug = new Debugger;
+
+/**
+ * Debug function
+ *
+ * @param mixed $obj
+ * @example debug($obj);
+ */
+function debug(mixed $obj) : void {
+	global $debug;
+	$debug->rundebug($obj);
+}
+

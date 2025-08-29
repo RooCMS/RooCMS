@@ -51,22 +51,6 @@ function randcode(int $ns = 6, string $symbols = "ABCEFHKLMNPRSTVXYZ123456789") 
 
 
 /**
- * Cache headers
- */
-function nocache() : void {
-    if (headers_sent()) {
-		return;
-	}
-
-	header('Expires: Thu, 01 Jan 1970 00:00:01 GMT');
-	header('Cache-Control: no-store, no-cache, must-revalidate, max-age=0');
-	header('Cache-Control: post-check=0, pre-check=0', false);
-	header('Pragma: no-cache');
-    header('Last-Modified: '.gmdate('D, d M Y H:i:s').' GMT');
-}
-
-
-/**
  * Get response code from remote URL
  *
  * @param string $url -  remote url
@@ -115,4 +99,20 @@ function file_read(string $file) : string {
 	}
 
 	return $data;
+}
+
+
+/**
+ * Cache headers
+ */
+function nocache() : void {
+    if (headers_sent()) {
+		return;
+	}
+
+	header('Expires: Thu, 01 Jan 1970 00:00:01 GMT');
+	header('Cache-Control: no-store, no-cache, must-revalidate, max-age=0');
+	header('Cache-Control: post-check=0, pre-check=0', false);
+	header('Pragma: no-cache');
+    header('Last-Modified: '.gmdate('D, d M Y H:i:s').' GMT');
 }

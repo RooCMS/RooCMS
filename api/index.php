@@ -21,6 +21,7 @@ const RooCMS = true;
  */
 defined('_SITEROOT') or define('_SITEROOT', str_ireplace(DIRECTORY_SEPARATOR."api", "", dirname(__FILE__)));
 
+
 /**
  * include roocms init file
  */
@@ -29,7 +30,7 @@ require_once _SITEROOT.'/roocms/init.php';
 /**
  * Set cache headers
  */
-nocache();
+nocache(); 
 
 /**
  * get uri
