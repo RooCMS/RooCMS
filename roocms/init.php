@@ -29,34 +29,54 @@ if(!defined('_SITEROOT')) {
 
 
 /**
- * Include sys & php settings
+ * list of configs
  */
-require_once _SITEROOT."/roocms/config/set.cfg.php";
+$configs = [
+    'set.cfg.php',  // system settings
+    'config.php',   // site settings
+    'defines.php',  // site constants
+];
 
 /**
- * Include config
+ * Include configs
  */
-require_once _SITEROOT."/roocms/config/config.php";
+foreach($configs as $config) {
+    if(file_exists(_SITEROOT."/roocms/config/".$config)) {
+        require_once _SITEROOT."/roocms/config/".$config;
+    }
+}
 
-/**
- * Include const
- */
-require_once _SITEROOT."/roocms/config/defines.php";
 
 /**
  * Include functions
  */
 require_once _ROOCMS."/helpers/functions.php";
 
-/**
- * Load Debugger
- */
-require_once _CLASS."/trait_debugLog.php";
-require_once _CLASS."/class_debugger.php";
-$debug = new Debugger;
 
 /**
- * Load Debugger
+ * RooCMS class loader
+ */
+spl_autoload_register(function(string $class_name) {
+    
+    // allowed classes
+    $allowed_classes = [
+        'Debugger'     => _CLASS . '/class_debugger.php',
+        'DebugLog'     => _CLASS . '/trait_debugLog.php'
+    ];
+    
+    // try to load the class
+    if(isset($allowed_classes[$class_name])) {
+        if(file_exists($allowed_classes[$class_name])) {
+            require_once $allowed_classes[$class_name];            
+            return true;
+        }
+    }
+    
+    return false;
+});
+
+/**
+ * include debug helper functions
  */
 require_once _ROOCMS."/helpers/debug.php";
 

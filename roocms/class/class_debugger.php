@@ -246,7 +246,6 @@ class Debugger {
 		# Create exception log entry
 		$error_data = [
 			'time' => $time,
-			'ip' => get_client_ip(),
 			'uri' => $_SERVER['REQUEST_URI'] ?? 'CLI',
 			'type' => 'exception',
 			'severity' => $severity,

@@ -24,7 +24,6 @@ if(!defined('RooCMS')) {
 /**
  * Load Debugger
  */
-require_once _CLASS."/class_debugger.php";
 $debug = new Debugger;
 
 
