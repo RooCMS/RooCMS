@@ -60,8 +60,11 @@ spl_autoload_register(function(string $class_name) {
     
     // allowed classes
     $allowed_classes = [
-        'Debugger'     => _CLASS . '/class_debugger.php',
-        'DebugLog'     => _CLASS . '/trait_debugLog.php'
+        'Debugger'          => _CLASS . '/class_debugger.php',
+        'DebugLog'          => _CLASS . '/trait_debugLog.php',
+        'Db'                => _CLASS . '/class_db.php',
+        'DbQueryBuilder'    => _CLASS . '/class_dbQueryBuilder.php',
+        'DbExtends'         => _CLASS . '/trait_dbExtends.php'
     ];
     
     // try to load the class
@@ -76,7 +79,11 @@ spl_autoload_register(function(string $class_name) {
 });
 
 /**
- * include debug helper functions
+ * include debug and run debugging project
  */
 require_once _ROOCMS."/helpers/debug.php";
 
+/**
+ * Initialize db
+ */
+$db = new Db();

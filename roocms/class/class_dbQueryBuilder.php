@@ -1,0 +1,466 @@
+<?php
+/**
+ * RooCMS - Open Source Free Content Managment System
+ * © 2010-2025 alexandr Belov aka alex Roosso. All rights reserved.
+ * @author    alex Roosso <info@roocms.com>
+ * @link      https://www.roocms.com
+ * @license   https://www.gnu.org/licenses/gpl-3.0.html
+ *
+ * You should have received a copy of the GNU General Public License v3
+ * along with this program. If not, see https://www.gnu.org/licenses/
+ */
+
+//#########################################################
+//	Anti Hack
+//---------------------------------------------------------
+if(!defined('RooCMS')) {
+	http_response_code(403);
+	header('Content-Type: text/plain; charset=utf-8');
+	exit('403:Access denied');
+}
+//#########################################################
+
+
+/**
+ * Query Builder
+ */
+class DbQueryBuilder {
+
+    use DebugLog;
+	
+	private Db $db;
+	private string $type = '';
+	private array $select = [];
+	private bool $distinct = false;
+	private string $table = '';
+	private array $joins = [];
+	private array $where = [];
+	private array $whereParams = [];
+	private array $groupBy = [];
+	private array $having = [];
+	private array $orderBy = [];
+	private ?int $limit = null;
+	private ?int $offset = null;
+	private array $data = [];
+
+
+	/**
+	 * Constructor
+	 * 
+	 * @param Db $db
+	 */
+	public function __construct(Db $db) {
+		$this->db = $db;
+	}
+
+	/**
+	 * SELECT query
+	 * 
+	 * @param string|array $columns
+	 * @return self
+	 */
+	public function select(string|array $columns = '*'): self {
+		$this->type = 'SELECT';
+		$this->select = is_array($columns) ? $columns : [$columns];
+		return $this;
+	}
+
+    /**
+     * SELECT DISTINCT query
+     * 
+     * @param string|array $columns
+     * @return self
+     */
+    public function select_distinct(string|array $columns = '*'): self {
+        $this->type = 'SELECT';
+        $this->select = is_array($columns) ? $columns : [$columns];
+        $this->distinct = true;
+        return $this;
+    }
+
+	/**
+	 * FROM table
+	 * 
+	 * @param string $table
+	 * @return self
+	 */
+	public function from(string $table): self {
+		$this->table = $table;
+		return $this;
+	}
+
+
+	/**
+	 * INSERT query
+	 * 
+	 * @param string $table
+	 * @return self
+	 */
+	public function insert(string $table): self {
+		$this->type = 'INSERT';
+		$this->table = $table;
+		return $this;
+	}
+
+
+	/**
+	 * UPDATE query
+	 * 
+	 * @param string $table
+	 * @return self
+	 */
+	public function update(string $table): self {
+		$this->type = 'UPDATE';
+		$this->table = $table;
+		return $this;
+	}
+
+
+	/**
+	 * DELETE query
+	 * 
+	 * @param string $table
+	 * @return self
+	 */
+	public function delete(string $table): self {
+		$this->type = 'DELETE';
+		$this->table = $table;
+		return $this;
+	}
+
+
+	/**
+	 * JOIN
+	 * 
+	 * @param string $table
+	 * @param string $condition
+	 * @param string $type
+	 * @return self
+	 */
+	public function join(string $table, string $condition, string $type = 'INNER'): self {
+		$this->joins[] = "$type JOIN $table ON $condition";
+		return $this;
+	}
+
+
+	/**
+	 * LEFT JOIN
+	 * 
+	 * @param string $table
+	 * @param string $condition
+	 * @return self
+	 */
+	public function left_join(string $table, string $condition): self {
+		return $this->join($table, $condition, 'LEFT');
+	}
+
+
+	/**
+	 * RIGHT JOIN
+	 * 
+	 * @param string $table
+	 * @param string $condition
+	 * @return self
+	 */
+	public function right_join(string $table, string $condition): self {
+		return $this->join($table, $condition, 'RIGHT');
+	}
+
+	/**
+	 * WHERE condition
+	 * 
+	 * @param string $column
+	 * @param mixed $value
+	 * @param string $operator
+	 * @return self
+	 */
+	public function where(string $column, mixed $value, string $operator = '='): self {
+		$this->where[] = "$column $operator ?";
+		$this->whereParams[] = $value;
+		return $this;
+	}
+
+
+	/**
+	 * WHERE IN condition
+	 * 
+	 * @param string $column
+	 * @param array $values
+	 * @return self
+	 */
+	public function where_in(string $column, array $values): self {
+		$placeholders = str_repeat('?,', count($values) - 1) . '?';
+		$this->where[] = "$column IN ($placeholders)";
+		$this->whereParams = array_merge($this->whereParams, $values);
+		return $this;
+	}
+
+
+	/**
+	 * WHERE LIKE condition
+	 * 
+	 * @param string $column
+	 * @param string $value
+	 * @return self
+	 */
+	public function where_like(string $column, string $value): self {
+		return $this->where($column, $value, 'LIKE');
+	}
+
+
+	/**
+	 * ORDER BY condition
+	 * 
+	 * @param string $column
+	 * @param string $direction
+	 * @return self
+	 */
+	public function order_by(string $column, string $direction = 'ASC'): self {
+		$this->orderBy[] = "$column " . strtoupper($direction);
+		return $this;
+	}
+
+
+	/**
+	 * GROUP BY condition
+	 * 
+	 * @param string|array $columns
+	 * @return self
+	 */
+	public function group_by(string|array $columns): self {
+		$this->groupBy = array_merge($this->groupBy, is_array($columns) ? $columns : [$columns]);
+		return $this;
+	}
+
+
+	/**
+	 * HAVING condition	
+	 * 
+	 * @param string $condition
+	 * @return self
+	 */
+	public function having(string $condition): self {
+		$this->having[] = $condition;
+		return $this;
+	}
+
+
+	/**
+	 * LIMIT condition
+	 * 
+	 * @param int $limit
+	 * @return self
+	 */
+	public function limit(int $limit): self {
+		$this->limit = $limit;
+		return $this;
+	}
+
+
+	/**
+	 * OFFSET condition
+	 * 
+	 * @param int $offset
+	 * @return self
+	 */
+	public function offset(int $offset): self {
+		$this->offset = $offset;
+		return $this;
+	}
+
+
+	/**
+	 * Data for INSERT/UPDATE
+	 * 
+	 * @param array $data
+	 * @return self
+	 */
+	public function data(array $data): self {
+		$this->data = $data;
+		return $this;
+	}
+
+
+	/**
+	 * Execution of the query
+	 * 
+	 * @return PDOStatement
+	 */
+	public function execute(): PDOStatement {
+		$sql = $this->build_sql();
+		$params = $this->get_all_params();
+		return $this->db->query($sql, $params);
+	}
+
+
+	/**
+	 * Getting one record
+	 * 
+	 * @return array|false
+	 */
+	public function first(): array|false {
+		$result = $this->limit(1)->execute();
+		return $result->fetch(PDO::FETCH_ASSOC);
+	}
+
+
+	/**
+	 * Getting all records
+	 * 
+	 * @return array
+	 */
+	public function get(): array {
+		$result = $this->execute();
+		return $result->fetchAll(PDO::FETCH_ASSOC);
+	}
+
+
+	/**
+	 * Counting records
+	 * 
+	 * @return int
+	 */
+	public function count(): int {
+		$originalSelect = $this->select;
+		$this->select = ['COUNT(*) as count'];
+		
+		$result = $this->execute();
+		$row = $result->fetch(PDO::FETCH_ASSOC);
+		
+		$this->select = $originalSelect;
+		return (int) ($row['count'] ?? 0);
+	}
+
+
+	/**
+	 * Building SQL query
+	 * 
+	 * @return string
+	 * @throws InvalidArgumentException
+	 */
+	private function build_sql(): string {
+		return match($this->type) {
+			'SELECT' => $this->build_select_sql(),
+			'INSERT' => $this->build_insert_sql(),
+			'UPDATE' => $this->build_update_sql(),
+			'DELETE' => $this->build_delete_sql(),
+			default => throw new InvalidArgumentException("Unsupported query type: {$this->type}")
+		};
+	}
+
+
+	/**
+	 * Building SELECT SQL
+	 * 
+	 * @return string
+	 */
+	private function build_select_sql(): string {
+		$sql = 'SELECT ' . implode(', ', $this->select);
+		$sql .= " FROM {$this->table}";
+
+		if(!empty($this->joins)) {
+			$sql .= ' ' . implode(' ', $this->joins);
+		}
+
+		if(!empty($this->where)) {
+			$sql .= ' WHERE ' . implode(' AND ', $this->where);
+		}
+
+		if(!empty($this->groupBy)) {
+			$sql .= ' GROUP BY ' . implode(', ', $this->groupBy);
+		}
+
+		if(!empty($this->having)) {
+			$sql .= ' HAVING ' . implode(' AND ', $this->having);
+		}
+
+		if(!empty($this->orderBy)) {
+			$sql .= ' ORDER BY ' . implode(', ', $this->orderBy);
+		}
+
+		if($this->limit !== null) {
+			$sql .= " LIMIT {$this->limit}";
+		}
+
+		if($this->offset !== null) {
+			$sql .= " OFFSET {$this->offset}";
+		}
+
+		if($this->distinct) {
+			$sql .= ' DISTINCT';
+		}
+
+		return $sql;
+	}
+
+
+	/**
+	 * Building INSERT SQL
+	 * 
+	 * @return string
+	 */
+	private function build_insert_sql(): string {
+		$columns = array_keys($this->data);
+		$placeholders = array_fill(0, count($this->data), '?');
+		
+		return sprintf(
+			"INSERT INTO %s (%s) VALUES (%s)",
+			$this->table,
+			implode(', ', $columns),
+			implode(', ', $placeholders)
+		);
+	}
+
+
+	/**
+	 * Building UPDATE SQL
+	 * 
+	 * @return string
+	 */
+	private function build_update_sql(): string {
+		$setParts = [];
+		foreach(array_keys($this->data) as $column) {
+			$setParts[] = "$column = ?";
+		}
+
+		$sql = "UPDATE {$this->table} SET " . implode(', ', $setParts);
+
+		if(!empty($this->where)) {
+			$sql .= ' WHERE ' . implode(' AND ', $this->where);
+		}
+
+		return $sql;
+	}
+
+
+	/**
+	 * Building DELETE SQL
+	 * 
+	 * @return string
+	 */
+	private function build_delete_sql(): string {
+		$sql = "DELETE FROM {$this->table}";
+
+		if(!empty($this->where)) {
+			$sql .= ' WHERE ' . implode(' AND ', $this->where);
+		}
+
+		return $sql;
+	}
+
+
+	/**
+	 * Getting all parameters for the query
+	 * 
+	 * @return array
+	 */
+	private function get_all_params(): array {
+		$allParams = [];
+
+		if(!empty($this->data)) {
+			$allParams = array_merge($allParams, array_values($this->data));
+		}
+
+		return array_merge($allParams, $this->whereParams);
+	}
+}

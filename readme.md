@@ -3,14 +3,14 @@
 ===============================
 ![Build Status](https://scrutinizer-ci.com/g/RooCMS/RooCMS/badges/build.png?b=master) [![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](http://www.gnu.org/licenses/gpl-3.0)
 
-| RooCMS   | Open Source Free CMS                            |
-|:--------:|:------------------------------------------------|
-| Author   | alex Roosso                                     |
-| Web      | http://www.roocms.com                           |
-| Contact  | info@roocms.com                                 |
-| Download | http://www.roocms.com/index.php?page=download   |
-| Source   | https://github.com/RooCMS/RooCMS                |
-| License  | GNU GPL v3                                      |
+| RooCMS   | Open Source Free CMS                              |
+|:--------:|:--------------------------------------------------|
+| Author   | alex Roosso                                       |
+| Web      | http://www.roocms.com                             |
+| Contact  | info@roocms.com                                   |
+| Download | ❌ http://www.roocms.com/index.php?page=download  |
+| Source   | https://github.com/RooCMS/RooCMS                  |
+| License  | GNU GPL v3                                        |
 | CodeRank | [![Codacy Badge](https://app.codacy.com/project/badge/Grade/e9c0df8a7bd5445eb45fc727bf0cd8c4)](https://www.codacy.com/gh/RooCMS/RooCMS/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=RooCMS/RooCMS&amp;utm_campaign=Badge_Grade)  [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/RooCMS/RooCMS/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/RooCMS/RooCMS/?branch=master)                                      |
 
 Notice to our RooCMS Users
@@ -21,11 +21,12 @@ This is the development branch for version 2.0. All code here is unstable and ma
 
 System requirements
 -------------------
- - WebServer:	`Apache 2.4`
- - PHP:		`8.1` or higher
- - DB:		`MySQL 5.7` and higher or `MariaDB: 10.10` and higher
+ - WebServer:	`Apache 2.2`, `Apache 2.4`
+ - PHP:		`8.1+`
+ - DB:		`MySQL 5.7+`, `MariaDB: 10.10+`, `PostgreSQL 14+`, `SQLite`, `SQL Server` and other Database
  - PHP Extension: 
 	`Core`
+	`pdo`
 	`calendar`
 	`date`
 	`pcre`
@@ -37,8 +38,8 @@ System requirements
 Recommended software
 --------------------
  - WebServer:	`Apache 2.4`
- - PHP:		`8.4` and higher
- - DB:		`MySQL 8.4` and higher or `MariaDB: 11.7` and higher
+ - PHP:		`8.4`
+ - DB:		`MySQL 8.4` or `MariaDB: 11.7` or `PostgreSQL 17`
 
 Install
 -------

@@ -48,7 +48,7 @@ class Debugger {
 	public  $exist_errors			= false;
 
 	# requirement php extension
-	private $reqphpext				= ["Core", "standard", "mysqli", "session", "mbstring", "calendar", "date", "pcre", "xml", "SimpleXML", "gd", "curl"];
+	private $reqphpext				= ["Core", "pdo", "standard", "mbstring", "calendar", "date", "pcre", "xml", "SimpleXML", "gd", "curl"];
 
 	public  $phpextensions			= []; # list installed php extends
 	public  $nophpextensions		= []; # list non installed php extends required for RooCMS
