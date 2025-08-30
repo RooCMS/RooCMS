@@ -35,11 +35,10 @@ nocache();
 /**
  * get uri
  */
+$uri = [];
 if(isset($_SERVER['REQUEST_URI'])) {
     $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
     $uri = explode('/', trim($uri, '/'));
-} else {
-    $uri = [];
 }
 
 /**
@@ -57,15 +56,16 @@ $method = $_SERVER['REQUEST_METHOD'];
 
 // Response for test
 $response = [
-    'api' => 'RooCMS API Test',
-    'version' => $version,
-    'resource' => $resource,
-    'id' => $id,
-    'method' => $method,
-    'uri' => $_SERVER['REQUEST_URI'],
-    'parsed_uri' => $uri,
-    'status' => 'working'
+    'api'           => 'RooCMS API Test',
+    'version'       => $version ?? '',
+    'resource'      => $resource ?? '',
+    'id'            => $id ?? '',
+    'method'        => $method ?? '',
+    'uri'           => $_SERVER['REQUEST_URI'] ?? '',
+    'parsed_uri'    => $uri,
+    'status'        => 'working',
+    'time'          => time(),
+    'timestamp'     => date('Y-m-d H:i:s')
 ];
 
 echo json_encode($response, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
-

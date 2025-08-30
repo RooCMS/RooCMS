@@ -59,8 +59,9 @@ class Debugger {
 	 */
 	public function __construct() {
 
-		# set error handler
+		# set error and exception handlers
 		set_error_handler([$this,'debug_critical_error']);
+		set_exception_handler([$this,'debug_exception_handler']);
 
 		# default : error hide
 		$this->error_report(false);
@@ -214,6 +215,87 @@ class Debugger {
 
 
 	/**
+	 * Exception Handler for uncaught exceptions
+	 *
+	 * @param Throwable $exception
+	 * @return void
+	 */
+	public static function debug_exception_handler(Throwable $exception): void {
+		
+		$time = date('d.m.Y H:i:s');
+		$class = get_class($exception);
+		$message = $exception->getMessage();
+		$file = $exception->getFile();
+		$line = $exception->getLine();
+		$trace = $exception->getTraceAsString();
+		
+		# Determine exception severity
+		$severity = match(true) {
+			$exception instanceof Error => 'Fatal Error',
+			$exception instanceof TypeError => 'Type Error', 
+			$exception instanceof ParseError => 'Parse Error',
+			$exception instanceof ArgumentCountError => 'Argument Error',
+			$exception instanceof ArithmeticError => 'Arithmetic Error',
+			$exception instanceof AssertionError => 'Assertion Error',
+			default => 'Uncaught Exception'
+		};
+
+		# Read existing log
+		$subj = file_read(ERRORSLOG);
+		
+		# Create exception log entry
+		$error_data = [
+			'time' => $time,
+			'ip' => get_client_ip(),
+			'uri' => $_SERVER['REQUEST_URI'] ?? 'CLI',
+			'type' => 'exception',
+			'severity' => $severity,
+			'class' => $class,
+			'message' => $message,
+			'file' => $file,
+			'line' => $line,
+			'trace' => explode("\n", $trace)
+		];
+		
+		$error_json = json_encode($error_data, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+		$subj .= $error_json . ",\r\n";
+
+		# Write to log file
+		$f = fopen(ERRORSLOG, 'w+');
+		if(is_writable(ERRORSLOG)) {
+			fwrite($f, $subj);
+		}
+		fclose($f);
+
+		# Display error if in debug mode
+		if(DEBUGMODE) {
+			$safe_message = htmlspecialchars($message, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
+			$safe_file = htmlspecialchars($file, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
+			
+			echo json_encode([
+				'error' => 'exception',
+				'severity' => $severity,
+				'class' => $class,
+				'message' => $safe_message,
+				'file' => basename($safe_file),
+				'line' => $line,
+				'time' => $time
+			], JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+		} else {
+			# User-friendly error message
+			echo json_encode([
+				'error' => 'internal_error',
+				'message' => 'Something went wrong. We are working on fixing the issue.',
+				'time' => $time,
+				'reference' => substr(md5($time . $message), 0, 8)
+			], JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+		}
+
+		exit(1);
+	}
+
+
+	/**
 	 * on/off error log
 	 *
 	 * @param boolean $show
@@ -348,7 +430,7 @@ class Debugger {
 	 * @param string $query
 	 * @return string
 	 */
-	private function format_sql_query(string $query): string {
+	public function format_sql_query(string $query): string {
 		$keywords = ['SELECT', 'FROM', 'WHERE', 'JOIN', 'LEFT JOIN', 'RIGHT JOIN', 'INNER JOIN', 
 					'ORDER BY', 'GROUP BY', 'HAVING', 'LIMIT', 'INSERT', 'UPDATE', 'DELETE', 'SET'];
 		

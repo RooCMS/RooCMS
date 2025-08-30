@@ -71,7 +71,7 @@ function debugQuery(string $query, array $params = [], float $execution_time = 0
         'query' => $query,
         'params' => $params,
         'execution_time' => $execution_time,
-        'formatted_query' => $debug->formatSqlQuery($query)
+        'formatted_query' => $debug->format_sql_query($query)
     ];
     
     $debug->rundebug($query_info, 'SQL Query', true);
