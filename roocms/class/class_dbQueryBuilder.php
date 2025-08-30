@@ -29,19 +29,19 @@ class DbQueryBuilder {
     use DebugLog;
 	
 	private Db $db;
-	private string $type = '';
-	private array $select = [];
-	private bool $distinct = false;
-	private string $table = '';
-	private array $joins = [];
-	private array $where = [];
-	private array $whereParams = [];
-	private array $groupBy = [];
-	private array $having = [];
-	private array $orderBy = [];
-	private ?int $limit = null;
-	private ?int $offset = null;
-	private array $data = [];
+	private string $type        = '';
+	private array $select       = [];
+	private bool $distinct      = false;
+	private string $table       = '';
+	private array $joins        = [];
+	private array $where        = [];
+	private array $where_params = [];
+	private array $group_by     = [];
+	private array $having       = [];
+	private array $order_by     = [];
+	private ?int $limit         = null;
+	private ?int $offset        = null;
+	private array $data         = [];
 
 
 	/**
@@ -138,7 +138,7 @@ class DbQueryBuilder {
 	 * @return self
 	 */
 	public function join(string $table, string $condition, string $type = 'INNER'): self {
-		$this->joins[] = "$type JOIN $table ON $condition";
+		$this->joins[] = $type . ' JOIN ' . $table . ' ON ' . $condition;
 		return $this;
 	}
 
@@ -175,8 +175,8 @@ class DbQueryBuilder {
 	 * @return self
 	 */
 	public function where(string $column, mixed $value, string $operator = '='): self {
-		$this->where[] = "$column $operator ?";
-		$this->whereParams[] = $value;
+		$this->where[] = $column . ' ' . $operator . ' ?';
+		$this->where_params[] = $value;
 		return $this;
 	}
 
@@ -190,8 +190,8 @@ class DbQueryBuilder {
 	 */
 	public function where_in(string $column, array $values): self {
 		$placeholders = str_repeat('?,', count($values) - 1) . '?';
-		$this->where[] = "$column IN ($placeholders)";
-		$this->whereParams = array_merge($this->whereParams, $values);
+		$this->where[] = $column . ' IN (' . $placeholders . ')';
+		$this->where_params = array_merge($this->where_params, $values);
 		return $this;
 	}
 
@@ -216,7 +216,7 @@ class DbQueryBuilder {
 	 * @return self
 	 */
 	public function order_by(string $column, string $direction = 'ASC'): self {
-		$this->orderBy[] = "$column " . strtoupper($direction);
+		$this->order_by[] = $column . ' ' . strtoupper($direction);
 		return $this;
 	}
 
@@ -228,7 +228,7 @@ class DbQueryBuilder {
 	 * @return self
 	 */
 	public function group_by(string|array $columns): self {
-		$this->groupBy = array_merge($this->groupBy, is_array($columns) ? $columns : [$columns]);
+		$this->group_by = array_merge($this->group_by, is_array($columns) ? $columns : [$columns]);
 		return $this;
 	}
 
@@ -344,7 +344,7 @@ class DbQueryBuilder {
 			'INSERT' => $this->build_insert_sql(),
 			'UPDATE' => $this->build_update_sql(),
 			'DELETE' => $this->build_delete_sql(),
-			default => throw new InvalidArgumentException("Unsupported query type: {$this->type}")
+			default => throw new InvalidArgumentException('Unsupported query type: ' . $this->type)
 		};
 	}
 
@@ -366,16 +366,16 @@ class DbQueryBuilder {
 			$sql .= ' WHERE ' . implode(' AND ', $this->where);
 		}
 
-		if(!empty($this->groupBy)) {
-			$sql .= ' GROUP BY ' . implode(', ', $this->groupBy);
+		if(!empty($this->group_by)) {
+			$sql .= ' GROUP BY ' . implode(', ', $this->group_by);
 		}
 
 		if(!empty($this->having)) {
 			$sql .= ' HAVING ' . implode(' AND ', $this->having);
 		}
 
-		if(!empty($this->orderBy)) {
-			$sql .= ' ORDER BY ' . implode(', ', $this->orderBy);
+		if(!empty($this->order_by)) {
+			$sql .= ' ORDER BY ' . implode(', ', $this->order_by);
 		}
 
 		if($this->limit !== null) {
@@ -420,7 +420,7 @@ class DbQueryBuilder {
 	private function build_update_sql(): string {
 		$setParts = [];
 		foreach(array_keys($this->data) as $column) {
-			$setParts[] = "$column = ?";
+			$setParts[] = $column . ' = ?';
 		}
 
 		$sql = "UPDATE {$this->table} SET " . implode(', ', $setParts);
@@ -455,12 +455,12 @@ class DbQueryBuilder {
 	 * @return array
 	 */
 	private function get_all_params(): array {
-		$allParams = [];
+		$all_params = [];
 
 		if(!empty($this->data)) {
-			$allParams = array_merge($allParams, array_values($this->data));
+			$all_params = array_merge($all_params, array_values($this->data));
 		}
 
-		return array_merge($allParams, $this->whereParams);
+		return array_merge($all_params, $this->where_params);
 	}
 }

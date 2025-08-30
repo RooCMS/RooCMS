@@ -814,26 +814,26 @@ class Db {
 	 */
 	private function handle_error(string $message, string $sql = '', array $params = []): void {
 		if(defined('DEBUGMODE') && DEBUGMODE && !empty($sql)) {
-			$errorInfo = $this->pdo->errorInfo();
+			$error_info = $this->pdo->errorInfo();
 			$params_str = !empty($params) ? json_encode($params, JSON_UNESCAPED_UNICODE) : '';
 			
-			throw new Exception("
-				<div style='padding: 5px; text-align: left;'>
-					<span style='font-family: Verdana, Tahoma; font-size: 12px;'>
-						<b>{$message}</b><br/>
-						PDO Error: {$errorInfo[2]}<br/><br/>
-						<table width='100%' style='border: 1px solid #ffdd00; background-color: #ffffee;'>
+			throw new Exception('
+				<div style="padding: 5px; text-align: left;">
+					<span style="font-family: Verdana, Tahoma; font-size: 12px;">
+						<b>' . $message . '</b><br/>
+						PDO Error: ' . $error_info[2] . '<br/><br/>
+						<table width="100%" style="border: 1px solid #ffdd00; background-color: #ffffee;">
 							<tr>
-								<td style='font-family: Tahoma; font-size: 11px; color: #990000;'>
+								<td style="font-family: Tahoma; font-size: 11px; color: #990000;">
 									<b>SQL Request:</b>
-									<pre>{$sql}</pre>
-									" . ($params_str ? "<b>Параметры:</b><pre>{$params_str}</pre>" : "") . "
+									<pre>' . $sql . '</pre>
+									' . ($params_str ? '<b>Parameters:</b><pre>' . $params_str . '</pre>' : '') . '
 								</td>
 							</tr>
 						</table>
 					</span>
 				</div>
-			");
+			');
 		} else {
 			throw new Exception($message);
 		}
