@@ -98,22 +98,20 @@ class Db {
 		$host = $this->config['host'] ?? 'localhost';
 		$port = $this->config['port'] ?? null;
 		$database = $this->config['base'] ?? '';
-		$charset = $this->config['charset'] ?? 'utf8mb4';
 
 		return match($this->driver) {
 			'mysql', 'mysqli', 'mariadb' => sprintf(
 				'mysql:host=%s;dbname=%s;charset=%s%s',
 				$host,
 				$database,
-				$charset,
-				$port ? ";port=$port" : ''
+				$port ? ";port=$port" : ';port=3306'
 			),
 
 			'pgsql', 'postgres', 'postgresql' => sprintf(
 				'pgsql:host=%s;dbname=%s%s',
 				$host,
 				$database,
-				$port ? ";port=$port" : ''
+				$port ? ";port=$port" : ';port=5432'
 			),
 
 			'sqlite', 'sqlite3' => sprintf(
@@ -125,7 +123,7 @@ class Db {
 				'sqlsrv:Server=%s;Database=%s%s',
 				$host,
 				$database,
-				$port ? ",$port" : ''
+				$port ? ",$port" : '1433'
 			),
 
 			'oci', 'oracle' => sprintf(
@@ -145,7 +143,7 @@ class Db {
 				'ibm:DRIVER={IBM DB2 ODBC DRIVER};DATABASE=%s;HOSTNAME=%s;PROTOCOL=TCPIP%s',
 				$database,
 				$host,
-				$port ? ";PORT=$port" : ''
+				$port ? ";PORT=$port" : ';PORT=1521'
 			),
 
 			default => throw new InvalidArgumentException("Unsupported database driver: {$this->driver}")

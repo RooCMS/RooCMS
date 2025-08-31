@@ -49,10 +49,14 @@ ini_set('memory_limit', 			'512M');
 
 ini_set('serialize_precision', 		'-1');
 
-#ini_set('date.timezone',			'Europe/Moscow');
 ini_set('default_charset',			'utf-8');
 ini_set('default_mimetype',			'text/html');
 ini_set('default_socket_timeout',	60);
+
+/**
+ * Set up timezone
+ */
+date_default_timezone_set('UTC');
 
 /**
  * Set up error log

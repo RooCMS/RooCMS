@@ -31,8 +31,8 @@ $db_info['host'] = "";						#	Database host (default is localhost)
 $db_info['user'] = "";						#	Database user (default is root)
 $db_info['pass'] = "";						#	Database password (default is empty)
 $db_info['base'] = "";						#	Database name (default is empty)
-$db_info['port'] = "3306";					#	Database port 3306 for mysql, 5432 for postgresql (default is 3306)
-$db_info['type'] = "mysql";					#	Database type mysql, postgresql (default is mysql)
+$db_info['port'] = "3306";					#	Database port 3306 for mysql, 5432 for postgresql, 5432 for sqlite, 1433 for sqlsrv, 1521 for oci, oracle, firebird, db2 (default is 3306)
+$db_info['type'] = "mysql";					#	Database type mysql, postgresql, sqlite, sqlsrv, mssql, dblib, oci, oracle, firebird, db2 (default is mysql)
 $db_info['prefix'] = "";					#	Database prefix (default is roocms_)
 //#########################################################
 
