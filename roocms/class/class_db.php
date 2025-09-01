@@ -64,6 +64,9 @@ class Db {
 
 	/**
 	 * Connection to the database through PDO
+	 *
+	 * @return void
+	 * @throws PDOException
 	 */
 	private function connect(): void {
 		try {
@@ -91,8 +94,9 @@ class Db {
 
 	/**
 	 * Building DSN string for different types of databases
-	 * 
-	 * @return string
+	 *
+	 * @return string DSN connection string
+	 * @throws InvalidArgumentException
 	 */
 	private function build_dsn(): string {
 		$host = $this->config['host'] ?? 'localhost';
@@ -127,8 +131,8 @@ class Db {
 
 	/**
 	 * PDO options for security and performance
-	 * 
-	 * @return array
+	 *
+	 * @return array PDO connection options
 	 */
 	private function get_pdo_options(): array {
 		return [
@@ -146,6 +150,8 @@ class Db {
 
 	/**
 	 * Additional configuration for specific databases
+	 *
+	 * @return void
 	 */
 	private function configure_database(): void {
 		match($this->driver) {
@@ -159,6 +165,8 @@ class Db {
 
 	/**
 	 * Configuration MySQL/MariaDB
+	 *
+	 * @return void
 	 */
 	private function configure_mysql(): void {
 		$this->pdo->exec("SET NAMES utf8mb4 COLLATE utf8mb4_unicode_ci");
@@ -169,6 +177,8 @@ class Db {
 
 	/**
 	 * Configuration PostgreSQL
+	 *
+	 * @return void
 	 */
 	private function configure_postgres(): void {
 		$this->pdo->exec("SET NAMES 'UTF8'");
@@ -178,6 +188,8 @@ class Db {
 
 	/**
 	 * Configuration Firebird
+	 *
+	 * @return void
 	 */
 	private function configure_firebird(): void {
 		// Firebird basic settings for working with UTF-8
@@ -223,11 +235,12 @@ class Db {
 
 	/**
 	 * Binding parameters to prepared statement
-	 * 
-	 * @param PDOStatement $stmt
-	 * @param array $params
-	 * 
+	 *
+	 * @param PDOStatement $stmt Prepared statement object
+	 * @param array $params Parameters to bind
+	 *
 	 * @return void
+	 * @throws PDOException
 	 */
 	private function bind_parameters(PDOStatement $stmt, array $params): void {
 		foreach($params as $key => $value) {
@@ -241,10 +254,10 @@ class Db {
 
 	/**
 	 * Determining the type of parameter for PDO
-	 * 
-	 * @param mixed $value
-	 * 
-	 * @return int
+	 *
+	 * @param mixed $value Parameter value
+	 *
+	 * @return int PDO parameter type constant
 	 */
 	private function get_pdo_param_type(mixed $value): int {
 		return match(gettype($value)) {
@@ -751,11 +764,11 @@ class Db {
 
 	/**
 	 * Logging requests
-	 * 
-	 * @param string $sql
-	 * @param array $params
-	 * @param float $execution_time
-	 * 
+	 *
+	 * @param string $sql SQL query string
+	 * @param array $params Query parameters
+	 * @param float $execution_time Query execution time in seconds
+	 *
 	 * @return void
 	 */
 	private function log_query(string $sql, array $params, float $execution_time): void {
@@ -777,12 +790,13 @@ class Db {
 
 	/**
 	 * Error handling
-	 * 
-	 * @param string $message
-	 * @param string $sql
-	 * @param array $params
-	 * 
+	 *
+	 * @param string $message Error message
+	 * @param string $sql SQL query that caused error
+	 * @param array $params Query parameters
+	 *
 	 * @return void
+	 * @throws Exception
 	 */
 	private function handle_error(string $message, string $sql = '', array $params = []): void {
 		if(defined('DEBUGMODE') && DEBUGMODE && !empty($sql)) {
@@ -824,6 +838,77 @@ class Db {
 			'total_time' => array_sum(array_column($this->query_log, 'time')),
 			'average_time' => $this->query_count > 0 ? array_sum(array_column($this->query_log, 'time')) / $this->query_count : 0,
 			'database_info' => $this->get_database_info()
+		];
+	}
+
+
+	/**
+	 * Check current database connection health
+	 *
+	 * @param int $timeout Connection timeout in seconds
+	 * @return bool Connection health status
+	 */
+	public function ping(int $timeout = 5): bool {
+
+		if(!$this->is_connected) {
+			return false;
+		}
+
+		try {
+			$this->pdo->setAttribute(PDO::ATTR_TIMEOUT, $timeout);
+			$stmt = $this->pdo->query('SELECT 1');
+			return $stmt !== false;
+		} catch(PDOException $e) {
+			return false;
+		}
+	}
+
+	
+	/**
+	 * Get total number of tables in database
+	 *
+	 * @return int Number of tables
+	 */
+	protected function get_table_count(): int {
+		try {
+			return match($this->driver) {
+				'mysql', 'mysqli', 'mariadb' => $this->fetch_column(
+					"SELECT COUNT(*) FROM information_schema.tables WHERE table_schema = DATABASE()"
+				),
+				'pgsql', 'postgres', 'postgresql' => $this->fetch_column(
+					"SELECT COUNT(*) FROM information_schema.tables WHERE table_schema = 'public'"
+				),
+				'firebird' => $this->fetch_column(
+					"SELECT COUNT(*) FROM rdb\$database"
+				),
+				default => 0
+			};
+		} catch(PDOException $e) {
+			return 0;
+		}
+	}
+
+
+	/**
+	 * Monitor database health
+	 *
+	 * @return array Health status information
+	 */
+	public function get_health_status(): array {
+		$connection_alive = $this->ping(10);
+
+		return [
+			'status' => $connection_alive ? 'healthy' : 'unhealthy',
+			'connection_alive' => $connection_alive,
+			'database_info' => $this->get_database_info(),
+			'table_count' => $this->get_table_count(),
+			'query_stats' => $this->get_query_stats(),
+			'memory_usage' => memory_get_usage(true),
+			'peak_memory' => memory_get_peak_usage(true),
+			'uptime' => time() - ($_SERVER['REQUEST_TIME'] ?? time()),
+			'php_version' => PHP_VERSION,
+			'pdo_drivers' => PDO::getAvailableDrivers(),
+			'check_time' => time()
 		];
 	}
 

@@ -132,7 +132,7 @@ trait DebugLog {
 	/**
 	 * Get available methods of the current object
 	 *
-	 * @return array
+	 * @return array List of public method names
 	 */
 	private function get_available_methods() : array {
 		return get_class_methods($this);
@@ -142,8 +142,8 @@ trait DebugLog {
 	/**
 	 * Suggest similar property name using Levenshtein distance
 	 *
-	 * @param string $property_name
-	 * @return string|null
+	 * @param string $property_name Property name to find suggestions for
+	 * @return string|null Suggested property name or null
 	 */
 	private function suggest_similar_property(string $property_name) : ?string {
 		$available = $this->get_available_properties();
@@ -165,8 +165,8 @@ trait DebugLog {
 	/**
 	 * Suggest similar method name using Levenshtein distance
 	 *
-	 * @param string $method_name
-	 * @return string|null
+	 * @param string $method_name Method name to find suggestions for
+	 * @return string|null Suggested method name or null
 	 */
 	private function suggest_similar_method(string $method_name) : ?string {
 		$available = $this->get_available_methods();
@@ -188,8 +188,8 @@ trait DebugLog {
 	/**
 	 * Send debug information to debugger if available
 	 *
-	 * @param array $debug_info
-	 * @param string $label
+	 * @param array $debug_info Debug information array
+	 * @param string $label Debug label
 	 * @return void
 	 */
 	private function send_to_debugger(array $debug_info, string $label) : void {

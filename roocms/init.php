@@ -88,3 +88,12 @@ require_once _ROOCMS."/helpers/debug.php";
  * Initialize db
  */
 $db = new Db();
+
+
+// Health check for database connection
+if(DEBUGMODE) {
+    $health = $db->get_health_status();
+    if($health['status'] === 'unhealthy') {
+        error_log('Database health check failed: ' . json_encode($health, JSON_UNESCAPED_UNICODE));
+    }
+}

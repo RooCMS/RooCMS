@@ -33,16 +33,17 @@ trait DbExtends {
 
     /**
 	 * Checking connection to the database
-     * 
+     *
      * @param string $host
      * @param string $user
      * @param string $pass
      * @param string $base
      * @param int|null $port
-     * 
-     * @return bool
+     * @param bool $detailed Return detailed connection info
+     *
+     * @return bool|array Connection status or detailed info
 	 */
-	public function check_connect(string $host, string $user, string $pass, string $base, ?int $port = null): bool {
+	public function check_connect(string $host, string $user, string $pass, string $base, ?int $port = null, bool $detailed = false): bool|array {
 		try {
 			$config = [
 				'host' => $host,
@@ -52,10 +53,36 @@ trait DbExtends {
 				'port' => $port,
 				'type' => $this->driver
 			];
-			
+
 			$testDb = new Db($this->driver, $config);
-			return $testDb->is_connected;
+			$connected = $testDb->is_connected;
+
+			if(!$detailed) {
+				return $connected;
+			}
+
+			if($connected) {
+				return [
+					'connected' => true,
+					'database_info' => $testDb->get_database_info(),
+					'table_count' => $testDb->get_table_count(),
+					'test_time' => time()
+				];
+			}
+
+			return [
+				'connected' => false,
+				'test_time' => time()
+			];
+
 		} catch(Exception $e) {
+			if($detailed) {
+				return [
+					'connected' => false,
+					'error' => $e->getMessage(),
+					'test_time' => time()
+				];
+			}
 			return false;
 		}
 	}

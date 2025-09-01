@@ -54,6 +54,15 @@ $id =       $uri[3] ?? null;
 $method = $_SERVER['REQUEST_METHOD'];
 
 
+// Database health check if requested
+//$db_health = null;
+//if($resource === 'health') {
+//    global $db;
+//    if(isset($db) && $db instanceof Db) {
+//        $db_health = $db->get_health_status();
+//    }
+//}
+
 // Response for test
 $response = [
     'api'           => 'RooCMS API Test',
@@ -67,5 +76,10 @@ $response = [
     'time'          => time(),
     'timestamp'     => date('Y-m-d H:i:s')
 ];
+
+// Add database health info if requested
+//if($db_health) {
+//    $response['database_health'] = $db_health;
+//}
 
 echo json_encode($response, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
