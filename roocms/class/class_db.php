@@ -769,19 +769,8 @@ class Db {
 			'number' => $this->query_count
 		];
 
-		if(defined('DEBUGMODE') && DEBUGMODE) {
-			global $debug;
-			if(isset($debug) && property_exists($debug, 'debug_info')) {
-				$params_str = !empty($params) ? ' [' . implode(', ', array_map(function($p) {
-					return is_string($p) ? "'{$p}'" : (string)$p;
-				}, $params)) . ']' : '';
-				
-				$debug->debug_info .= "<blockquote class='col-xs-12'>
-					<small>PDO Request <b>#{$this->query_count}</b></small>
-					<span class='text-danger'>{$sql}</span>{$params_str}
-					<br /><small><span class='label label-info'>Timer: {$execution_time}s</span></small>
-				</blockquote>";
-			}
+		if(defined('DEBUGMODE') && DEBUGMODE && function_exists('debugQuery')) {
+			debugQuery($sql, $params, $execution_time);
 		}
 	}
 

@@ -24,7 +24,7 @@ if(!defined('RooCMS')) {
  * Universal Database Migration Manager
  * Supports MySQL, PostgreSQL, Firebird
  */
-class DatabaseMigrator {
+class DbMigrator {
 
 	private Db $db;
 	private string $driver;
@@ -40,10 +40,10 @@ class DatabaseMigrator {
 	public function __construct(Db $db) {
 		$this->db = $db;
 		$this->driver = $this->detect_driver();
-		$this->migrations_dir = __DIR__ . '/migrations/';
+		$this->migrations_dir = _MIGRATIONS . '/';
 		
 		$this->migrations_table_schema = [
-			'mysql' => 'CREATE TABLE IF NOT EXISTS `' . MIGRATIONS_TABLE . '` (
+			'mysql' => 'CREATE TABLE IF NOT EXISTS `' . TABLE_MIGRATIONS . '` (
 				`id` INT(11) NOT NULL AUTO_INCREMENT,
 				`migration` VARCHAR(255) NOT NULL,
 				`executed_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -51,13 +51,13 @@ class DatabaseMigrator {
 				UNIQUE KEY `migration` (`migration`)
 			) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci',
 			
-			'postgresql' => 'CREATE TABLE IF NOT EXISTS ' . MIGRATIONS_TABLE . ' (
+			'postgresql' => 'CREATE TABLE IF NOT EXISTS ' . TABLE_MIGRATIONS . ' (
 				id SERIAL PRIMARY KEY,
 				migration VARCHAR(255) NOT NULL UNIQUE,
 				executed_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 			)',
 			
-			'firebird' => 'CREATE TABLE ' . MIGRATIONS_TABLE . ' (
+			'firebird' => 'CREATE TABLE ' . TABLE_MIGRATIONS . ' (
 				id INTEGER NOT NULL,
 				migration VARCHAR(255) NOT NULL,
 				executed_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -166,7 +166,7 @@ class DatabaseMigrator {
 	 * @return array
 	 */
 	private function get_all_migration_files(): array {
-		$files = glob($this->migrations_dir . 'migrate-*.php');
+		$files = glob($this->migrations_dir . 'migrate_*.php');
 		$migrations = [];
 		
 		foreach ($files as $file) {
@@ -183,7 +183,7 @@ class DatabaseMigrator {
 	 * @return array
 	 */
 	private function get_executed_migrations(): array {
-		$result = $this->db->fetch_all('SELECT migration FROM ' . MIGRATIONS_TABLE . ' ORDER BY id');
+		$result = $this->db->fetch_all('SELECT migration FROM ' . TABLE_MIGRATIONS . ' ORDER BY id');
 		return array_column($result, 'migration');
 	}
 
@@ -451,7 +451,7 @@ class DatabaseMigrator {
 		};
 	}
 
-    
+
 	/**
 	 * Building the index definition
 	 */
@@ -600,7 +600,7 @@ class DatabaseMigrator {
 		$this->db->insert_array([
 			'migration' => $migration_name,
 			'executed_at' => date('Y-m-d H:i:s')
-		], MIGRATIONS_TABLE);
+		], TABLE_MIGRATIONS);
 	}
 
 
@@ -608,7 +608,7 @@ class DatabaseMigrator {
 	 * Deleting a record about the migration
 	 */
 	private function remove_migration_record(string $migration_name): void {
-		$this->db->query('DELETE FROM ' . MIGRATIONS_TABLE . ' WHERE migration = ?', [$migration_name]);
+		$this->db->query('DELETE FROM ' . TABLE_MIGRATIONS . ' WHERE migration = ?', [$migration_name]);
 	}
 
 

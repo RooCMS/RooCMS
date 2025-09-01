@@ -31,33 +31,42 @@ define('DB_PREFIX', $db_info['prefix']);
 /**
 * Config $DB Table
 */
-const CONFIG_PARTS_TABLE = DB_PREFIX.'config__parts';
-const CONFIG_TABLE       = DB_PREFIX.'config__settings';
-const MIGRATIONS_TABLE   = DB_PREFIX.'migrations';
+const TABLE_CONFIG_PARTS = DB_PREFIX.'config__parts';
+const TABLE_CONFIG_SETTINGS = DB_PREFIX.'config__settings';
+const TABLE_MIGRATIONS = DB_PREFIX.'migrations';
 
 /**
 * Users Tables
 */
-//const USERS_TABLE           = DB_PREFIX.'users';
-//const USER_PROFILES_TABLE   = DB_PREFIX.'user_profiles';
-//const USER_ACTIVITY_TABLE   = DB_PREFIX.'user_activity_log';
+const TABLE_USERS = DB_PREFIX.'users';
+const TABLE_USER_PROFILES = DB_PREFIX.'user_profiles';
+const TABLE_USER_ACTIVITY_LOG = DB_PREFIX.'user_activity_log';
+
+/**
+* Content Management Tables
+*/
+//const TABLE_CATEGORIES = DB_PREFIX.'categories';
+//const TABLE_CONTENT = DB_PREFIX.'content';
+//const TABLE_TAGS = DB_PREFIX.'tags';
+//const TABLE_CONTENT_TAGS = DB_PREFIX.'content_tags';
+//const TABLE_CONTENT_TRANSLATIONS = DB_PREFIX.'content_translations';
 
 /**
 * Other Tables (commented - activate as needed)
 */
-//const STRUCTURE_TABLE    = DB_PREFIX.'structure';
-//const PAGES_TABLE        = DB_PREFIX.'pages';
-//const TAGS_TABLE         = DB_PREFIX.'tags';
-//const TAGS_LINK_TABLE    = DB_PREFIX.'tags_linked';
-//const BLOCKS_TABLE       = DB_PREFIX.'blocks';
-//const IMAGES_TABLE       = DB_PREFIX.'images';
-//const FILES_TABLE        = DB_PREFIX.'files';
-//const USERS_TABLE        = DB_PREFIX.'users';
-//const USERS_GROUP_TABLE  = DB_PREFIX.'users_group';
-//const USERS_PM_TABLE     = DB_PREFIX.'users_pm';
-//const MAILING_TABLE      = DB_PREFIX.'mailing';
-//const MAILING_LINK_TABLE = DB_PREFIX.'mailing_links';
-//const LOG_TABLE          = DB_PREFIX.'log';
+//const TABLE_STRUCTURE = DB_PREFIX.'structure';
+//const TABLE_PAGES = DB_PREFIX.'pages';
+//const TABLE_TAGS = DB_PREFIX.'tags';
+//const TABLE_TAGS_LINKED = DB_PREFIX.'tags_linked';
+//const TABLE_BLOCKS = DB_PREFIX.'blocks';
+//const TABLE_IMAGES = DB_PREFIX.'images';
+//const TABLE_FILES = DB_PREFIX.'files';
+//const TABLE_USERS = DB_PREFIX.'users';
+//const TABLE_USERS_GROUP = DB_PREFIX.'users_group';
+//const TABLE_USERS_PM = DB_PREFIX.'users_pm';
+//const TABLE_MAILING = DB_PREFIX.'mailing';
+//const TABLE_MAILING_LINKED = DB_PREFIX.'mailing_links';
+//const TABLE_LOG = DB_PREFIX.'log';
 
 
 /**
@@ -69,6 +78,7 @@ const _API          = _SITEROOT.'/api';
 const _UPLOAD       = _SITEROOT.'/upload';
 const _UPLOADIMAGES = _UPLOAD.'/images';
 const _UPLOADFILES  = _UPLOAD.'/files';
+const _MIGRATIONS   = _ROOCMS.'/database/migrations';
 const _STORAGE      = _SITEROOT.'/storage';
 const _ASSETS       = _STORAGE.'/assets';
 const _LOGS         = _STORAGE.'/logs';

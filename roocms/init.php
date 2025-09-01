@@ -64,7 +64,8 @@ spl_autoload_register(function(string $class_name) {
         'DebugLog'          => _CLASS . '/trait_debugLog.php',
         'Db'                => _CLASS . '/class_db.php',
         'DbQueryBuilder'    => _CLASS . '/class_dbQueryBuilder.php',
-        'DbExtends'         => _CLASS . '/trait_dbExtends.php'
+        'DbExtends'         => _CLASS . '/trait_dbExtends.php',
+        'DbMigrator'        => _CLASS . '/class_dbMigrator.php'
     ];
     
     // try to load the class

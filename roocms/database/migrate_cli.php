@@ -10,23 +10,32 @@
  * along with this program. If not, see https://www.gnu.org/licenses/
  */
 
+/**
+ * ATTENTION!
+ * If something... I haven't tested this yet, so there may be errors
+ */
+
 // Set a constant to protect against direct access
 define('RooCMS', true);
 
+// Set the base paths for the CLI
+define('_SITEROOT', dirname(__DIR__, 2));
+
 // Connect the necessary classes
-require_once __DIR__ . '/../class/class_db.php';
-require_once __DIR__ . '/../class/class_dbQueryBuilder.php';
-require_once __DIR__ . '/../class/trait_dbExtends.php';
-require_once __DIR__ . '/../class/trait_debugLog.php';
-require_once __DIR__ . '/../config/config.php';
-require_once __DIR__ . '/migrate.php';
+require_once _SITEROOT . '/roocms/config/config.php';
+require_once _SITEROOT . '/roocms/config/defines.php'; 
+require_once _CLASS . '/roocms/class/class_db.php';
+require_once _CLASS . '/roocms/class/class_dbQueryBuilder.php';
+require_once _CLASS . '/roocms/class/trait_dbExtends.php';
+require_once _CLASS . '/roocms/class/trait_debugLog.php';
+require_once _CLASS . '/roocms/class/class_dbMigrator.php';
 
 /**
  * CLI interface for managing database migrations
  */
 class MigrationCLI {
 
-	private DatabaseMigrator $migrator;
+	private DbMigrator $migrator;
 	private array $commands = [
 		'migrate' => 'Execute all pending migrations',
 		'rollback' => 'Rollback the last migrations (default: 1)',
@@ -37,9 +46,12 @@ class MigrationCLI {
 
 	public function __construct() {
 		try {
+			// Check the presence of necessary constants
+			$this->checkRequiredConstants();
+			
 			// Create a connection to the database
 			$db = new Db();
-			$this->migrator = new DatabaseMigrator($db);
+			$this->migrator = new DbMigrator($db);
 			
 			echo "🚀 RooCMS Database Migration Tool v1.0.0-alpha\n";
 			echo "Connection to the database: ✅\n\n";
@@ -49,6 +61,35 @@ class MigrationCLI {
 			exit(1);
 		}
 	}
+
+
+	/**
+	 * Check the presence of necessary constants
+	 */
+	private function checkRequiredConstants(): void {
+		$required_constants = [
+			'TABLE_MIGRATIONS',
+			'TABLE_CONFIG_PARTS', 
+			'TABLE_CONFIG_SETTINGS'
+		];
+
+		$missing = [];
+		foreach ($required_constants as $constant) {
+			if (!defined($constant)) {
+				$missing[] = $constant;
+			}
+		}
+
+		if (!empty($missing)) {
+			echo "❌ The necessary constants are missing in defines.php:\n";
+			foreach ($missing as $constant) {
+				echo "   • {$constant}\n";
+			}
+			echo "\n💡 Check the file roocms/config/defines.php\n";
+			exit(1);
+		}
+	}
+
 
 	/**
 	 * Main method to run the CLI
@@ -84,6 +125,7 @@ class MigrationCLI {
 		}
 	}
 
+
 	/**
 	 * Executing migrations
 	 */
@@ -116,6 +158,7 @@ class MigrationCLI {
 		}
 	}
 
+
 	/**
 	 * Rollback migrations
 	 */
@@ -144,6 +187,7 @@ class MigrationCLI {
 			$this->showStatus(false);
 		}
 	}
+
 
 	/**
 	 * Show the status of migrations
@@ -177,6 +221,7 @@ class MigrationCLI {
 		}
 	}
 
+
 	/**
 	 * Show the help
 	 */
@@ -200,6 +245,7 @@ class MigrationCLI {
 		echo "💡 Tip: Always create a backup of the database before executing migrations!\n";
 	}
 
+
 	/**
 	 * Show the version
 	 */
@@ -218,6 +264,7 @@ class MigrationCLI {
 		echo "🌐 More: https://www.roocms.com\n";
 	}
 }
+
 
 // Check if the script is being run from the command line
 if (php_sapi_name() !== 'cli') {
