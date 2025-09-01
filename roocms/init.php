@@ -48,9 +48,10 @@ foreach($configs as $config) {
 
 
 /**
- * Include functions
+ * Include helpers
  */
 require_once _ROOCMS."/helpers/functions.php";
+require_once _ROOCMS."/helpers/sanitize.php";
 
 
 /**
@@ -65,7 +66,8 @@ spl_autoload_register(function(string $class_name) {
         'Db'                => _CLASS . '/class_db.php',
         'DbQueryBuilder'    => _CLASS . '/class_dbQueryBuilder.php',
         'DbExtends'         => _CLASS . '/trait_dbExtends.php',
-        'DbMigrator'        => _CLASS . '/class_dbMigrator.php'
+        'DbMigrator'        => _CLASS . '/class_dbMigrator.php',
+        'ApiHandler'        => _CLASS . '/class_apiHandler.php'
     ];
     
     // try to load the class

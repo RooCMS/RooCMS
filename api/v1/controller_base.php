@@ -1,0 +1,252 @@
+<?php
+/**
+ * RooCMS - Open Source Free Content Managment System
+ * © 2010-2025 alexandr Belov aka alex Roosso. All rights reserved.
+ * @author    alex Roosso <info@roocms.com>
+ * @link      https://www.roocms.com
+ * @license   https://www.gnu.org/licenses/gpl-3.0.html
+ *
+ * You should have received a copy of the GNU General Public License v3
+ * along with this program. If not, see https://www.gnu.org/licenses/
+ */
+
+//#########################################################
+//	Anti Hack
+//---------------------------------------------------------
+if(!defined('RooCMS')) {
+    http_response_code(403);
+    header('Content-Type: text/plain; charset=utf-8');
+    exit('403:Access denied');
+}
+//#########################################################
+
+
+
+/**
+ * Base controller class for all API controllers
+ * Provides common functionality for JSON responses, validation, and database access
+ */
+abstract class BaseController {
+    
+    protected Db|null $db = null;
+    
+
+
+    public function __construct() {
+        global $db;
+        $this->db = $db ?? null;
+        
+        // Set JSON content type for all responses
+        header('Content-Type: application/json; charset=utf-8');
+    }
+    
+
+    /**
+     * Send successful JSON response
+     */
+    protected function json_response(mixed $data = null, int $code = 200, string $message = ''): void {
+        http_response_code($code);
+        
+        $response = [
+            'success' => true,
+            'timestamp' => date('Y-m-d H:i:s')
+        ];
+        
+        if ($message !== '') {
+            $response['message'] = $message;
+        }
+        
+        if ($data !== null) {
+            $response['data'] = $data;
+        }
+        
+        echo json_encode($response, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+        exit();
+    }
+    
+
+    /**
+     * Send error JSON response
+     */
+    protected function error_response(string $message, int $code = 400, array $details = []): void {
+        http_response_code($code);
+        
+        $response = [
+            'error' => true,
+            'message' => $message,
+            'status_code' => $code,
+            'timestamp' => date('Y-m-d H:i:s')
+        ];
+        
+        if (!empty($details)) {
+            $response['details'] = $details;
+        }
+        
+        echo json_encode($response, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+        exit();
+    }
+    
+
+    /**
+     * Send created response (201)
+     */
+    protected function created_response(mixed $data, string $message = 'Resource created successfully'): void {
+        $this->json_response($data, 201, $message);
+    }
+    
+
+    /**
+     * Send not found response (404)
+     */
+    protected function not_found_response(string $message = 'Resource not found'): void {
+        $this->error_response($message, 404);
+    }
+    
+
+    /**
+     * Send validation error response (422)
+     */
+    protected function validation_error_response(array $errors, string $message = 'Validation failed'): void {
+        $this->error_response($message, 422, ['validation_errors' => $errors]);
+    }
+    
+
+    /**
+     * Get request input data (JSON or form data)
+     */
+    protected function get_input_data(): array {
+        $contentType = $_SERVER['CONTENT_TYPE'] ?? '';
+        
+        if (strpos($contentType, 'application/json') !== false) {
+            $input = file_get_contents('php://input');
+            $data = json_decode($input, true);
+            return $data ?? [];
+        }
+        
+        // Handle form data
+        return $_POST;
+    }
+    
+
+    /**
+     * Get query parameters
+     */
+    protected function get_query_params(): array {
+        return $_GET;
+    }
+    
+
+    /**
+     * Validate required fields
+     */
+    protected function validate_required(array $data, array $required): array {
+        $errors = [];
+        
+        foreach ($required as $field) {
+            if (!isset($data[$field]) || $data[$field] === '' || $data[$field] === null) {
+                $errors[$field] = "Field '{$field}' is required";
+            }
+        }
+        
+        return $errors;
+    }
+    
+    
+    /**
+     * Get pagination parameters
+     */
+    protected function get_pagination_params(): array {
+        $page = (int)($_GET['page'] ?? 1);
+        $limit = (int)($_GET['limit'] ?? 10);
+        
+        // Ensure minimum values
+        $page = max(1, $page);
+        $limit = max(1, min(100, $limit)); // Max 100 items per page
+        
+        $offset = ($page - 1) * $limit;
+        
+        return [
+            'page' => $page,
+            'limit' => $limit,
+            'offset' => $offset
+        ];
+    }
+    
+    /**
+     * Format pagination meta information
+     */
+    protected function format_pagination_meta(int $total, int $page, int $limit): array {
+        $total_pages = (int)ceil($total / $limit);
+        
+        return [
+            'current_page' => $page,
+            'per_page' => $limit,
+            'total' => $total,
+            'total_pages' => $total_pages,
+            'has_next' => $page < $total_pages,
+            'has_prev' => $page > 1
+        ];
+    }
+    
+    /**
+     * Log API request for debugging
+     */
+    protected function log_request(string $action = '', array $data = []): void {
+        if ($this->db && defined('SYSERRLOG') && DEBUGMODE) {
+            $log_data = [
+                'action' => $action,
+                'method' => $_SERVER['REQUEST_METHOD'] ?? 'UNKNOWN',
+                'uri' => $_SERVER['REQUEST_URI'] ?? '',
+                'ip' => $_SERVER['REMOTE_ADDR'] ?? '',
+                'user_agent' => $_SERVER['HTTP_USER_AGENT'] ?? '',
+                'timestamp' => date('Y-m-d H:i:s'),
+                'data' => $data
+            ];
+            
+            error_log('API Request: ' . json_encode($log_data) . '\r\n', 3, SYSERRLOG);
+        }
+    }
+
+
+    /**
+     * Check if database is available
+     */
+    protected function is_database_available(): bool {
+        return $this->db !== null && $this->db instanceof Db && $this->db->db_connect;
+    }
+    
+
+    /**
+     * Get database health status
+     */
+    protected function get_database_health(): array {
+        if (!$this->is_database_available()) {
+            return [
+                'status' => 'error',
+                'message' => 'Database connection not available'
+            ];
+        }
+        
+        try {
+            // Try to get database health status if method exists
+            if (method_exists($this->db, 'get_health_status')) {
+                return $this->db->get_health_status();
+            }
+            
+            // Fallback: simple connection test
+            $result = $this->db->simple_query("SELECT 1");
+            
+            return [
+                'status' => 'ok',
+                'message' => 'Database connection OK',
+                'queries_count' => $this->db->cnt_queries ?? 0
+            ];
+            
+        } catch (Exception $e) {
+            return [
+                'status' => 'error',
+                'message' => 'Database connection failed: ' . $e->getMessage()
+            ];
+        }
+    }
+}

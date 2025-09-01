@@ -34,6 +34,8 @@ System requirements
 	`mbstring`
 	`standard`
 	`curl`
+	`openssl`
+	`json`
 	
 Recommended software
 --------------------

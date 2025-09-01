@@ -24,7 +24,7 @@ if(!defined('RooCMS')) {
 /**
  * Debug mode switcher
  */
-const DEBUGMODE = true;
+const DEBUGMODE = false;
 
 
 /**

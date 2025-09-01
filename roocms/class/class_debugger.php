@@ -48,10 +48,7 @@ class Debugger {
 	public  $exist_errors			= false;
 
 	# requirement php extension
-	private $reqphpext				= ["Core", "pdo", "standard", "mbstring", "calendar", "date", "pcre", "xml", "SimpleXML", "gd", "curl"];
-
-	public  $phpextensions			= []; # list installed php extends
-	public  $nophpextensions		= []; # list non installed php extends required for RooCMS
+	private $required_extensions	= ['Core', 'pdo', 'standard', 'mbstring', 'calendar', 'date', 'pcre', 'gd', 'curl', 'openssl', 'json'];
 
 
 	/**
@@ -70,9 +67,6 @@ class Debugger {
 		if(DEBUGMODE) {
 			# start Debug timer
 			$this->start_productivity();
-
-			# check required php extends
-			$this->check_phpextensions();
 
 			# try show error
 			$this->error_report(true);
@@ -115,21 +109,6 @@ class Debugger {
 		# memory
 		$this->productivity_memory 	= memory_get_usage() - $this->memory_usage;
 		$this->memory_peak_usage 	= memory_get_peak_usage();
-	}
-
-
-	/**
-	 * Check required php extensions
-	 */
-	private function check_phpextensions() : void {
-
-		$this->phpextensions = get_loaded_extensions();
-
-		foreach($this->reqphpext AS $v) {
-			if(!in_array($v, $this->phpextensions)) {
-				$this->nophpextensions[] = $v;
-			}
-		}
 	}
 
 
@@ -442,6 +421,146 @@ class Debugger {
 	}
 
 
+    /**
+     * Check filesystem health
+     */
+    private function check_filesystem_health(): array {
+        $checks = [];
+        $overall_status = 'ok';
+        
+        // Check important directories
+        $directories = [
+            'uploads' => _UPLOAD ?? _SITEROOT . '/upload',
+			'uploads_writable' => is_writable(_UPLOAD ?? _SITEROOT . '/upload'),
+            'storage' => _STORAGE ?? _SITEROOT . '/storage',
+            'logs' => _LOGS ?? _SITEROOT . '/storage/logs',
+			'logs_writable' => is_writable(_LOGS ?? _SITEROOT . '/storage/logs')
+        ];
+        
+        foreach ($directories as $name => $path) {
+            if (defined('_' . strtoupper($name))) {
+                if (is_dir($path) && is_writable($path)) {
+                    $checks[$name] = [
+                        'status' => 'ok',
+                        'message' => 'Directory exists and writable',
+                        'path' => $path
+                    ];
+                } else {
+                    $checks[$name] = [
+                        'status' => 'error',
+                        'message' => 'Directory not writable or missing',
+                        'path' => $path
+                    ];
+                    $overall_status = 'error';
+                }
+            }
+        }
+        
+        // Check disk space
+        $free_space = disk_free_space(_SITEROOT);
+        $total_space = disk_total_space(_SITEROOT);
+        
+        if ($free_space !== false && $total_space !== false) {
+            $free_percent = ($free_space / $total_space) * 100;
+            
+            $checks['disk_space'] = [
+                'status' => $free_percent > 10 ? 'ok' : 'warning',
+                'message' => sprintf('%.2f%% free space available', $free_percent),
+                'free_bytes' => $free_space,
+                'total_bytes' => $total_space
+            ];
+            
+            if ($free_percent < 5) {
+                $checks['disk_space']['status'] = 'error';
+                $overall_status = 'error';
+            }
+        }
+        
+        return [
+            'status' => $overall_status,
+            'checks' => $checks
+        ];
+    }
+
+
+    /**
+     * Check PHP health and configuration
+     */
+    private function check_php(): array {
+        $checks = [];
+        $overall_status = 'ok';
+        
+        // PHP version check
+        $php_version = phpversion();
+        $checks['version'] = [
+            'status' => version_compare($php_version, '8.1.0', '>=') ? 'ok' : 'error',
+            'message' => 'PHP version: ' . $php_version,
+            'value' => $php_version
+        ];
+        
+        if ($checks['version']['status'] === 'error') {
+            $overall_status = 'error';
+        }
+        
+        // missing extensions
+        $missing_extensions = [];
+        
+        foreach ($this->required_extensions as $extension) {
+            if (!extension_loaded($extension)) {
+                $missing_extensions[] = $extension;
+            }
+        }
+        
+        $checks['extensions'] = [
+            'status' => empty($missing_extensions) ? 'ok' : 'error',
+            'message' => empty($missing_extensions) ? 'All required extensions loaded' : 'Missing extensions: ' . implode(', ', $missing_extensions),
+            'missing' => $missing_extensions
+        ];
+        
+        if (!empty($missing_extensions)) {
+            $overall_status = 'error';
+        }
+        
+        // Memory limit
+        $memory_limit = ini_get('memory_limit');
+        $checks['memory_limit'] = [
+            'status' => 'ok',
+            'message' => 'Memory limit: ' . $memory_limit,
+            'value' => $memory_limit
+        ];
+        
+        // Max execution time
+        $max_execution_time = ini_get('max_execution_time');
+        $checks['max_execution_time'] = [
+            'status' => 'ok',
+            'message' => 'Max execution time: ' . $max_execution_time . ' seconds',
+            'value' => $max_execution_time
+        ];
+        
+        return [
+            'status' => $overall_status,
+            'checks' => $checks
+        ];
+    }
+
+
+	/**
+     * Get server load (Linux/Unix only)
+     */
+    private function get_server_load(): ?array {
+        if (function_exists('sys_getloadavg')) {
+            $load = sys_getloadavg();
+            return [
+                '1min' => $load[0],
+                '5min' => $load[1],
+                '15min' => $load[2]
+            ];
+        }
+        
+        return null;
+    }
+
+
 	/**
 	 * Shutdown (return debug information in REST format)
 	 */
@@ -493,27 +612,29 @@ class Debugger {
 						'execution_time' => $debug->productivity_time,
 						'memory_usage' => round($debug->productivity_memory / 1024 / 1024, 2),
 						'memory_peak' => round($debug->memory_peak_usage / 1024 / 1024, 2),
-						'db_queries' => $db->cnt_querys ?? 0
+						'db_queries' => $db->cnt_queries ?? 0
 					],
 					'dumps' => $debug_dumps,
 					'database' => $debug->show_debug ? $debug->debug_info : null,
 					'environment' => [
-						'php_version' => PHP_VERSION,
-						'extensions' => [
-							'loaded' => $debug->phpextensions,
-							'missing' => $debug->nophpextensions
-						],
-						'user_functions' => $user_functions,
-						'user_classes' => $user_classes,
-						'user_constants' => $user_constants
+						'php' => $debug->check_php(),
+						'user_environment' => [
+							'user_functions' => $user_functions,
+							'user_classes' => $user_classes,
+							'user_constants' => $user_constants
+						]
 					],
+					'filesystem' => $debug->check_filesystem_health(),
 					'errors' => [
 						'exist' => $debug->exist_errors,
 						'log_files' => [
 							'errors' => ERRORSLOG,
 							'system' => SYSERRLOG
 						]
-					]
+					],
+					'server_load' => $debug->get_server_load(),
+					'process_id' => getmypid(),
+					'user' => get_current_user()
 				]
 			],
 			'status' => 'debug',

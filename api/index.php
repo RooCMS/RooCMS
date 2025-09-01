@@ -19,7 +19,7 @@ const RooCMS = true;
 /**
  * define root roocms path
  */
-defined('_SITEROOT') or define('_SITEROOT', str_ireplace(DIRECTORY_SEPARATOR."api", "", dirname(__FILE__)));
+defined('_SITEROOT') or define('_SITEROOT', dirname(__FILE__, 2));
 
 
 /**
@@ -33,53 +33,74 @@ require_once _SITEROOT.'/roocms/init.php';
 nocache(); 
 
 /**
- * get uri
+ * Enable CORS for cross-domain requests
  */
-$uri = [];
-if(isset($_SERVER['REQUEST_URI'])) {
-    $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
-    $uri = explode('/', trim($uri, '/'));
+header("Access-Control-Allow-Origin: *");
+header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS");
+header("Access-Control-Allow-Headers: Content-Type, Authorization");
+
+/**
+ * Handle preflight OPTIONS request
+ */
+if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
+    http_response_code(200);
+    exit();
 }
 
 /**
- * get version, resource and id from uri
+ * get request URI and method
  */
-$version =  $uri[1] ?? '';
-$resource = $uri[2] ?? '';
-$id =       $uri[3] ?? null;
+$requestUri = $_SERVER['REQUEST_URI'] ?? '/';
+$requestMethod = $_SERVER['REQUEST_METHOD'] ?? 'GET';
+
+// Extract path from URI (remove query string and API prefix)
+$path = parse_url($requestUri, PHP_URL_PATH);
+
+// Remove /api prefix if present
+if (strpos($path, '/api') === 0) {
+    $path = substr($path, 4);
+}
+
+// Ensure path starts with /
+if (substr($path, 0, 1) !== '/') {
+    $path = '/' . $path;
+}
 
 /**
- * get method from request
+ * include api router file and routes configuration
  */
-$method = $_SERVER['REQUEST_METHOD'];
+require_once _API.'/router.php';
 
-
-// Database health check if requested
-//$db_health = null;
-//if($resource === 'health') {
-//    global $db;
-//    if(isset($db) && $db instanceof Db) {
-//        $db_health = $db->get_health_status();
-//    }
-//}
-
-// Response for test
-$response = [
-    'api'           => 'RooCMS API Test',
-    'version'       => $version ?? '',
-    'resource'      => $resource ?? '',
-    'id'            => $id ?? '',
-    'method'        => $method ?? '',
-    'uri'           => $_SERVER['REQUEST_URI'] ?? '',
-    'parsed_uri'    => $uri,
-    'status'        => 'working',
-    'time'          => time(),
-    'timestamp'     => date('Y-m-d H:i:s')
-];
-
-// Add database health info if requested
-//if($db_health) {
-//    $response['database_health'] = $db_health;
-//}
-
-echo json_encode($response, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+/**
+ * Dispatch request to appropriate handler
+ */
+try {
+    $api->dispatch($requestMethod, $path);
+} catch (Exception $e) {
+    // Handle any uncaught exceptions
+    http_response_code(500);
+    header('Content-Type: application/json; charset=utf-8');
+    
+    $response = [
+        'error' => true,
+        'message' => 'Internal server error',
+        'status_code' => 500,
+        'timestamp' => date('Y-m-d H:i:s')
+    ];
+    
+    // Log the error if logging is available
+    if (defined('SYSERRLOG')) {
+        error_log('API Error: ' . $e->getMessage() . ' in ' . $e->getFile() . ':' . $e->getLine(), 3, SYSERRLOG);
+    }
+    
+    // Don't expose exception details in production
+    if (defined('ROOCMS_BUILD_VERSION') && ROOCMS_BUILD_VERSION === 'alpha') {
+        $response['debug'] = [
+            'exception' => $e->getMessage(),
+            'file' => $e->getFile(),
+            'line' => $e->getLine()
+        ];
+    }
+    
+    echo json_encode($response, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+}

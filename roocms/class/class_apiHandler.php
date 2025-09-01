@@ -1,0 +1,281 @@
+<?php
+/**
+ * RooCMS - Open Source Free Content Managment System
+ * © 2010-2025 alexandr Belov aka alex Roosso. All rights reserved.
+ * @author    alex Roosso <info@roocms.com>
+ * @link      https://www.roocms.com
+ * @license   https://www.gnu.org/licenses/gpl-3.0.html
+ *
+ * You should have received a copy of the GNU General Public License v3
+ * along with this program. If not, see https://www.gnu.org/licenses/
+ */
+
+//#########################################################
+//	Anti Hack
+//---------------------------------------------------------
+if(!defined('RooCMS')) {
+    http_response_code(403);
+    header('Content-Type: text/plain; charset=utf-8');
+    exit('403:Access denied');
+}
+//#########################################################
+
+
+
+/**
+ * API Handler class for handling HTTP routes
+ * Supports RESTful routing with dynamic parameters
+ */
+class ApiHandler {
+    
+    private array $routes = [];
+    private array $middleware = [];
+
+
+
+    /**
+     * Add GET route
+     */
+    public function get(string $pattern, callable|string $handler, array $middleware = []): void {
+        $this->add_route('GET', $pattern, $handler, $middleware);
+    }
+
+
+    /**
+     * Add POST route
+     */
+    public function post(string $pattern, callable|string $handler, array $middleware = []): void {
+        $this->add_route('POST', $pattern, $handler, $middleware);
+    }
+
+
+    /**
+     * Add PUT route
+     */
+    public function put(string $pattern, callable|string $handler, array $middleware = []): void {
+        $this->add_route('PUT', $pattern, $handler, $middleware);
+    }
+
+
+    /**
+     * Add DELETE route
+     */
+    public function delete(string $pattern, callable|string $handler, array $middleware = []): void {
+        $this->add_route('DELETE', $pattern, $handler, $middleware);
+    }
+
+
+    /**
+     * Add PATCH route
+     */
+    public function patch(string $pattern, callable|string $handler, array $middleware = []): void {
+        $this->add_route('PATCH', $pattern, $handler, $middleware);
+    }
+
+
+    /**
+     * Add route to routing table
+     */
+    private function add_route(string $method, string $pattern, callable|string $handler, array $middleware = []): void {
+        // Convert pattern to regex
+        $regex = $this->convert_pattern_to_regex($pattern);
+        
+        $this->routes[] = [
+            'method' => $method,
+            'pattern' => $pattern,
+            'regex' => $regex,
+            'handler' => $handler,
+            'middleware' => $middleware
+        ];
+    }
+
+
+    /**
+     * Convert URL pattern to regex
+     */
+    private function convert_pattern_to_regex(string $pattern): string {
+        // Escape forward slashes
+        $regex = str_replace('/', '\/', $pattern);
+        
+        // Replace {id} with regex pattern for numeric IDs
+        $regex = preg_replace('/\{id\}/', '(\d+)', $regex);
+        
+        // Replace {param} with regex pattern for alphanumeric parameters
+        $regex = preg_replace('/\{([^}]+)\}/', '([^\/]+)', $regex);
+        
+        return '/^' . $regex . '$/';
+    }
+
+
+    /**
+     * Dispatch request to appropriate handler
+     */
+    public function dispatch(string $method, string $uri): mixed {
+        // Remove query string from URI
+        $uri = strtok($uri, '?');
+        
+        // Remove trailing slash except for root
+        if ($uri !== '/' && substr($uri, -1) === '/') {
+            $uri = rtrim($uri, '/');
+        }
+        
+        foreach ($this->routes as $route) {
+            if ($route['method'] !== $method) {
+                continue;
+            }
+            
+            if (preg_match($route['regex'], $uri, $matches)) {
+                // Remove full match from parameters
+                array_shift($matches);
+                
+                // Execute middleware first
+                foreach ($route['middleware'] as $middlewareClass) {
+                    if (!$this->execute_middleware($middlewareClass)) {
+                        return false;
+                    }
+                }
+                
+                // Execute handler
+                return $this->execute_handler($route['handler'], $matches);
+            }
+        }
+        
+        // No route found
+        $this->handle_not_found();
+        return false;
+    }
+
+
+    /**
+     * Execute middleware
+     */
+    private function execute_middleware(string $middlewareClass): bool {
+        if (class_exists($middlewareClass)) {
+            $middleware = new $middlewareClass();
+            if (method_exists($middleware, 'handle')) {
+                return $middleware->handle();
+            }
+        }
+        return true;
+    }
+
+
+    /**
+     * Execute route handler
+     */
+    private function execute_handler(callable|string $handler, array $params = []): mixed {
+        if (is_string($handler)) {
+            // Handle Controller@method syntax
+            if (strpos($handler, '@') !== false) {
+                list($controllerClass, $method) = explode('@', $handler, 2);
+                
+                if (class_exists($controllerClass)) {
+                    $controller = new $controllerClass();
+                    if (method_exists($controller, $method)) {
+                        return call_user_func_array([$controller, $method], $params);
+                    } else {
+                        $this->handle_error('Method '.$method.' not found in controller '.$controllerClass);
+                        return false;
+                    }
+                } else {
+                    $this->handle_error('Controller '.$controllerClass.' not found');
+                    return false;
+                }
+            }
+        } elseif (is_callable($handler)) {
+            return call_user_func_array($handler, $params);
+        }
+        
+        $this->handle_error('Invalid handler provided');
+        return false;
+    }
+
+
+    /**
+     * Handle 404 Not Found
+     */
+    public function handle_not_found(): void {
+        http_response_code(404);
+        header('Content-Type: application/json; charset=utf-8');
+        
+        $response = [
+            'error' => true,
+            'message' => 'Endpoint not found',
+            'status_code' => 404,
+            'timestamp' => date('Y-m-d H:i:s')
+        ];
+        
+        echo json_encode($response, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+        exit();
+    }
+
+
+    /**
+     * Handle 405 Method Not Allowed
+     */
+    public function handle_method_not_allowed(array $allowedMethods = []): void {
+        http_response_code(405);
+        header('Content-Type: application/json; charset=utf-8');
+        
+        if (!empty($allowedMethods)) {
+            header('Allow: ' . implode(', ', $allowedMethods));
+        }
+        
+        $response = [
+            'error' => true,
+            'message' => 'Method not allowed',
+            'status_code' => 405,
+            'allowed_methods' => $allowedMethods,
+            'timestamp' => date('Y-m-d H:i:s')
+        ];
+        
+        echo json_encode($response, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+        exit();
+    }
+
+
+    /**
+     * Handle general errors
+     */
+    private function handle_error(string $message): void {
+        http_response_code(500);
+        header('Content-Type: application/json; charset=utf-8');
+        
+        $response = [
+            'error' => true,
+            'message' => $message,
+            'status_code' => 500,
+            'timestamp' => date('Y-m-d H:i:s')
+        ];
+        
+        echo json_encode($response, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+        exit();
+    }
+
+
+    /**
+     * Get all registered routes (for debugging)
+     */
+    public function get_routes(): array {
+        return $this->routes;
+    }
+
+
+    /**
+     * Check if route exists for given method and URI
+     */
+    public function route_exists(string $method, string $uri): bool {
+        $uri = strtok($uri, '?');
+        if ($uri !== '/' && substr($uri, -1) === '/') {
+            $uri = rtrim($uri, '/');
+        }
+        
+        foreach ($this->routes as $route) {
+            if ($route['method'] === $method && preg_match($route['regex'], $uri)) {
+                return true;
+            }
+        }
+        
+        return false;
+    }
+}

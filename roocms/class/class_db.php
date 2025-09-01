@@ -827,22 +827,6 @@ class Db {
 
 
 	/**
-	 * Getting request statistics
-	 * 
-	 * @return array
-	 */
-	public function get_query_stats(): array {
-		return [
-			'count' => $this->query_count,
-			'queries' => $this->query_log,
-			'total_time' => array_sum(array_column($this->query_log, 'time')),
-			'average_time' => $this->query_count > 0 ? array_sum(array_column($this->query_log, 'time')) / $this->query_count : 0,
-			'database_info' => $this->get_database_info()
-		];
-	}
-
-
-	/**
 	 * Check current database connection health
 	 *
 	 * @param int $timeout Connection timeout in seconds
@@ -856,39 +840,32 @@ class Db {
 
 		try {
 			$this->pdo->setAttribute(PDO::ATTR_TIMEOUT, $timeout);
-			$stmt = $this->pdo->query('SELECT 1');
+			$stmt = $this->query('SELECT 1');
 			return $stmt !== false;
 		} catch(PDOException $e) {
 			return false;
 		}
 	}
 
-	
+
 	/**
-	 * Get total number of tables in database
+	 * Getting request statistics
 	 *
-	 * @return int Number of tables
+	 * @return array
 	 */
-	protected function get_table_count(): int {
-		try {
-			return match($this->driver) {
-				'mysql', 'mysqli', 'mariadb' => $this->fetch_column(
-					"SELECT COUNT(*) FROM information_schema.tables WHERE table_schema = DATABASE()"
-				),
-				'pgsql', 'postgres', 'postgresql' => $this->fetch_column(
-					"SELECT COUNT(*) FROM information_schema.tables WHERE table_schema = 'public'"
-				),
-				'firebird' => $this->fetch_column(
-					"SELECT COUNT(*) FROM rdb\$database"
-				),
-				default => 0
-			};
-		} catch(PDOException $e) {
-			return 0;
-		}
+	public function get_query_stats(): array {
+		return [
+			'count_queries' => $this->query_count,
+			'queries' => $this->query_log,
+			'total_time' => array_sum(array_column($this->query_log, 'time')),
+			'average_time' => $this->query_count > 0 ? array_sum(array_column($this->query_log, 'time')) / $this->query_count : 0,
+			'memory_usage' => memory_get_usage(true),
+			'peak_memory' => memory_get_peak_usage(true),
+			'check_time' => time()
+		];
 	}
 
-
+	
 	/**
 	 * Monitor database health
 	 *
@@ -899,16 +876,7 @@ class Db {
 
 		return [
 			'status' => $connection_alive ? 'healthy' : 'unhealthy',
-			'connection_alive' => $connection_alive,
-			'database_info' => $this->get_database_info(),
-			'table_count' => $this->get_table_count(),
-			'query_stats' => $this->get_query_stats(),
-			'memory_usage' => memory_get_usage(true),
-			'peak_memory' => memory_get_peak_usage(true),
-			'uptime' => time() - ($_SERVER['REQUEST_TIME'] ?? time()),
-			'php_version' => PHP_VERSION,
-			'pdo_drivers' => PDO::getAvailableDrivers(),
-			'check_time' => time()
+			'connection_alive' => $connection_alive
 		];
 	}
 
