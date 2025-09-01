@@ -23,7 +23,7 @@ if(!defined('RooCMS')) {
 
 /**
  * Universal class for work with databases through PDO
- * Supports MySQL, PostgreSQL, SQLite, SQL Server and other databases
+ * Supports only free and open-source server databases: MySQL/MariaDB, PostgreSQL, Firebird
  * Includes Query Builder, Prepared Statements and transactions
  */
 class Db {
@@ -101,7 +101,7 @@ class Db {
 
 		return match($this->driver) {
 			'mysql', 'mysqli', 'mariadb' => sprintf(
-				'mysql:host=%s;dbname=%s;charset=%s%s',
+				'mysql:host=%s;dbname=%s;charset=utf8mb4%s',
 				$host,
 				$database,
 				$port ? ";port=$port" : ';port=3306'
@@ -114,39 +114,13 @@ class Db {
 				$port ? ";port=$port" : ';port=5432'
 			),
 
-			'sqlite', 'sqlite3' => sprintf(
-				'sqlite:%s',
-				$database
-			),
-
-			'sqlsrv', 'mssql', 'dblib' => sprintf(
-				'sqlsrv:Server=%s;Database=%s%s',
-				$host,
-				$database,
-				$port ? ",$port" : '1433'
-			),
-
-			'oci', 'oracle' => sprintf(
-				'oci:dbname=//%s%s/%s;charset=UTF8',
-				$host,
-				$port ? ":$port" : ':1521',
-				$database
-			),
-
 			'firebird' => sprintf(
 				'firebird:dbname=%s:%s',
 				$host,
 				$database
 			),
 
-			'ibm', 'db2' => sprintf(
-				'ibm:DRIVER={IBM DB2 ODBC DRIVER};DATABASE=%s;HOSTNAME=%s;PROTOCOL=TCPIP%s',
-				$database,
-				$host,
-				$port ? ";PORT=$port" : ';PORT=1521'
-			),
-
-			default => throw new InvalidArgumentException("Unsupported database driver: {$this->driver}")
+			default => throw new InvalidArgumentException("Unsupported database driver: {$this->driver}. Supported only server databases: mysql, mariadb, postgresql, firebird")
 		};
 	}
 
@@ -177,7 +151,7 @@ class Db {
 		match($this->driver) {
 			'mysql', 'mysqli', 'mariadb' => $this->configure_mysql(),
 			'pgsql', 'postgres', 'postgresql' => $this->configure_postgres(),
-			'sqlite', 'sqlite3' => $this->configure_sqlite(),
+			'firebird' => $this->configure_firebird(),
 			default => null
 		};
 	}
@@ -203,14 +177,14 @@ class Db {
 
 
 	/**
-	 * Configuration SQLite
+	 * Configuration Firebird
 	 */
-	private function configure_sqlite(): void {
-		$this->pdo->exec("PRAGMA encoding = 'UTF-8'");
-		$this->pdo->exec("PRAGMA foreign_keys = ON");
-		$this->pdo->exec("PRAGMA journal_mode = WAL");
-		$this->pdo->exec("PRAGMA synchronous = NORMAL");
-		$this->pdo->exec("PRAGMA cache_size = 10000");
+	private function configure_firebird(): void {
+		// Firebird basic settings for working with UTF-8
+		$this->pdo->exec("SET NAMES UTF8");
+		
+		// Setting the date format
+		$this->pdo->exec("SET SQL DIALECT 3");
 	}
 
 
@@ -718,7 +692,7 @@ class Db {
 		return match($this->driver) {
 			'mysql', 'mysqli', 'mariadb' => $this->get_mysql_table_schema($table),
 			'pgsql', 'postgres', 'postgresql' => $this->get_postgres_table_schema($table),
-			'sqlite', 'sqlite3' => $this->get_sqlite_table_schema($table),
+			'firebird' => $this->get_firebird_table_schema($table),
 			default => []
 		};
 	}
@@ -753,14 +727,25 @@ class Db {
 
 
 	/**
-	 * SQLite table schema
+	 * Firebird table schema
 	 * 
 	 * @param string $table
 	 * 
 	 * @return array
 	 */
-	private function get_sqlite_table_schema(string $table): array {
-		return $this->fetch_all("PRAGMA table_info({$table})");
+	private function get_firebird_table_schema(string $table): array {
+		return $this->fetch_all("
+			SELECT 
+				rf.rdb\$field_name as field_name,
+				ft.rdb\$type_name as field_type,
+				rf.rdb\$null_flag as is_nullable,
+				rf.rdb\$default_source as field_default
+			FROM rdb\$relation_fields rf
+			JOIN rdb\$fields f ON f.rdb\$field_name = rf.rdb\$field_source
+			JOIN rdb\$types ft ON ft.rdb\$type = f.rdb\$field_type
+			WHERE rf.rdb\$relation_name = UPPER(?)
+			ORDER BY rf.rdb\$field_position
+		", [$table]);
 	}
 
 

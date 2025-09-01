@@ -23,7 +23,7 @@ System requirements
 -------------------
  - WebServer:	`Apache 2.2`, `Apache 2.4`
  - PHP:		`8.1+`
- - DB:		`MySQL 5.7+`, `MariaDB: 10.10+`, `PostgreSQL 14+`, `SQLite`, `SQL Server` and other Database
+ - DB:		`MySQL 5.7+`, `MariaDB: 10.10+`, `PostgreSQL 14+`, `Firebird`
  - PHP Extension: 
 	`Core`
 	`pdo`
@@ -39,7 +39,7 @@ Recommended software
 --------------------
  - WebServer:	`Apache 2.4`
  - PHP:		`8.4`
- - DB:		`MySQL 8.4` or `MariaDB: 11.7` or `PostgreSQL 17`
+ - DB:		`MariaDB: 11.7`
 
 Install
 -------
