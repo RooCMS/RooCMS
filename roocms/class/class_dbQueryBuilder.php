@@ -53,6 +53,7 @@ class DbQueryBuilder {
 		$this->db = $db;
 	}
 
+
 	/**
 	 * SELECT query
 	 * 
@@ -64,6 +65,7 @@ class DbQueryBuilder {
 		$this->select = is_array($columns) ? $columns : [$columns];
 		return $this;
 	}
+
 
     /**
      * SELECT DISTINCT query
@@ -78,6 +80,7 @@ class DbQueryBuilder {
         return $this;
     }
 
+	
 	/**
 	 * FROM table
 	 * 
@@ -355,7 +358,11 @@ class DbQueryBuilder {
 	 * @return string
 	 */
 	private function build_select_sql(): string {
-		$sql = 'SELECT ' . implode(', ', $this->select);
+		$sql = 'SELECT ';
+		if($this->distinct) {
+			$sql .= 'DISTINCT ';
+		}
+		$sql .= implode(', ', $this->select);
 		$sql .= " FROM {$this->table}";
 
 		if(!empty($this->joins)) {
@@ -384,10 +391,6 @@ class DbQueryBuilder {
 
 		if($this->offset !== null) {
 			$sql .= " OFFSET {$this->offset}";
-		}
-
-		if($this->distinct) {
-			$sql .= ' DISTINCT';
 		}
 
 		return $sql;

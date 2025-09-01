@@ -74,8 +74,8 @@ date_default_timezone_set('UTC');
 /**
  * Set up style for error display
  */
-ini_set('error_prepend_string',		'');
-ini_set('error_append_string',		'');
+#ini_set('error_prepend_string',		'');
+#ini_set('error_append_string',		'');
 
 
 /**
