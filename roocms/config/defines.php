@@ -33,19 +33,31 @@ define('DB_PREFIX', $db_info['prefix']);
 */
 const CONFIG_PARTS_TABLE = DB_PREFIX.'config__parts';
 const CONFIG_TABLE       = DB_PREFIX.'config__settings';
-const STRUCTURE_TABLE    = DB_PREFIX.'structure';
-const PAGES_TABLE        = DB_PREFIX.'pages';
-const TAGS_TABLE         = DB_PREFIX.'tags';
-const TAGS_LINK_TABLE    = DB_PREFIX.'tags_linked';
-const BLOCKS_TABLE       = DB_PREFIX.'blocks';
-const IMAGES_TABLE       = DB_PREFIX.'images';
-const FILES_TABLE        = DB_PREFIX.'files';
-const USERS_TABLE        = DB_PREFIX.'users';
-const USERS_GROUP_TABLE  = DB_PREFIX.'users_group';
-const USERS_PM_TABLE     = DB_PREFIX.'users_pm';
-const MAILING_TABLE      = DB_PREFIX.'mailing';
-const MAILING_LINK_TABLE = DB_PREFIX.'mailing_links';
-const LOG_TABLE          = DB_PREFIX.'log';
+const MIGRATIONS_TABLE   = DB_PREFIX.'migrations';
+
+/**
+* Users Tables
+*/
+//const USERS_TABLE           = DB_PREFIX.'users';
+//const USER_PROFILES_TABLE   = DB_PREFIX.'user_profiles';
+//const USER_ACTIVITY_TABLE   = DB_PREFIX.'user_activity_log';
+
+/**
+* Other Tables (commented - activate as needed)
+*/
+//const STRUCTURE_TABLE    = DB_PREFIX.'structure';
+//const PAGES_TABLE        = DB_PREFIX.'pages';
+//const TAGS_TABLE         = DB_PREFIX.'tags';
+//const TAGS_LINK_TABLE    = DB_PREFIX.'tags_linked';
+//const BLOCKS_TABLE       = DB_PREFIX.'blocks';
+//const IMAGES_TABLE       = DB_PREFIX.'images';
+//const FILES_TABLE        = DB_PREFIX.'files';
+//const USERS_TABLE        = DB_PREFIX.'users';
+//const USERS_GROUP_TABLE  = DB_PREFIX.'users_group';
+//const USERS_PM_TABLE     = DB_PREFIX.'users_pm';
+//const MAILING_TABLE      = DB_PREFIX.'mailing';
+//const MAILING_LINK_TABLE = DB_PREFIX.'mailing_links';
+//const LOG_TABLE          = DB_PREFIX.'log';
 
 
 /**
