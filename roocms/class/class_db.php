@@ -120,7 +120,7 @@ class Db {
 				$database
 			),
 
-			default => throw new InvalidArgumentException("Unsupported database driver: {$this->driver}. Supported only server databases: mysql, mariadb, postgresql, firebird")
+			default => throw new InvalidArgumentException('Unsupported database driver: ' . $this->driver . '. Supported only server databases: mysql, mariadb, postgresql, firebird')
 		};
 	}
 
@@ -198,7 +198,7 @@ class Db {
 	 */
 	public function query(string $sql, array $params = []): PDOStatement {
 		if(!$this->is_connected) {
-			throw new Exception("No connection to the database");
+			throw new Exception('No connection to the database');
 		}
 
 		$start_time = microtime(true);
@@ -216,7 +216,7 @@ class Db {
 			return $stmt;
 
 		} catch(PDOException $e) {
-			$this->handle_error("Error executing the query: " . $e->getMessage(), $sql, $params);
+			$this->handle_error('Error executing the query: ' . $e->getMessage(), $sql, $params);
 		}
 	}
 
@@ -357,7 +357,7 @@ class Db {
 	public function num_rows(PDOStatement|string $stmt, array $params = []): int {
 		if(is_string($stmt)) {
 			// For counting rows we use a wrapper in a subquery
-			$count_sql = "SELECT COUNT(*) FROM ($stmt) as count_query";
+			$count_sql = 'SELECT COUNT(*) FROM (' . $stmt . ') as count_query';
 			return (int) $this->fetch_column($count_sql, $params);
 		}
 		return $stmt->rowCount();
@@ -425,7 +425,7 @@ class Db {
 			$columns = array_keys($data);
 			$placeholders = ':' . implode(', :', $columns);
 			
-			$sql = "INSERT INTO {$table} (" . implode(', ', $columns) . ") VALUES ({$placeholders})";
+			$sql = 'INSERT INTO ' . $table . ' (' . implode(', ', $columns) . ') VALUES (' . $placeholders . ')';
 			
 			$stmt = $this->pdo->prepare($sql);
 			
@@ -438,7 +438,7 @@ class Db {
 			
 			return $result;
 		} catch(PDOException $e) {
-			$this->handle_error("Error inserting data: " . $e->getMessage());
+			$this->handle_error('Error inserting data: ' . $e->getMessage());
 			return false;
 		}
 	}
