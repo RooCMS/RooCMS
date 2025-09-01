@@ -69,8 +69,9 @@ const _API          = _SITEROOT.'/api';
 const _UPLOAD       = _SITEROOT.'/upload';
 const _UPLOADIMAGES = _UPLOAD.'/images';
 const _UPLOADFILES  = _UPLOAD.'/files';
-const _CACHE        = _SITEROOT.'/cache';
-const _LOGS         = _CACHE.'/logs';
+const _STORAGE      = _SITEROOT.'/storage';
+const _ASSETS       = _STORAGE.'/assets';
+const _LOGS         = _STORAGE.'/logs';
 
 
 /**
