@@ -186,7 +186,7 @@ DirectoryIndex index.php
 	php_flag	display_startup_errors off
 	php_flag	display_errors off
 	php_flag	html_errors off
-	php_flag	log_errors off
+	php_flag	log_errors 1
 	php_flag	ignore_repeated_errors on
 	php_flag	ignore_repeated_source on
 	# php_value	log_errors_max_len 1024

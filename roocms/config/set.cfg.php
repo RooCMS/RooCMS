@@ -43,15 +43,22 @@ ob_start('ob_gzhandler', 8);
 /**
  * Set up PHP
  */
-ini_set('max_execution_time',		30);
-ini_set('memory_limit', 			'512M');
+set_time_limit(30);
+#ini_set('memory_limit', 			'512M');
 #ini_set('upload_tmp_dir', 			'/tmp');	# temporary directory for uploaded files. (uncomment if you have difficulties with PHP settings)
 
-ini_set('serialize_precision', 		'-1');
+/**
+ * Set up serialize precision
+ * Uncomment if you need the maximum precision of serialization, but on your server there is a problem with serialization
+ */
+#ini_set('serialize_precision', 		'-1');
 
-ini_set('default_charset',			'utf-8');
-ini_set('default_mimetype',			'text/html');
-ini_set('default_socket_timeout',	60);
+/**
+ * Set up default charset, mimetype and socket timeout
+ * Uncomment if you have difficulties with PHP settings
+ */
+#ini_set('default_charset',			'utf-8');
+#ini_set('default_mimetype',		'text/html');
 
 /**
  * Set up timezone
@@ -60,8 +67,9 @@ date_default_timezone_set('UTC');
 
 /**
  * Set up error log
+ * For the case if PHP does not write errors to a file
  */
-ini_set('log_errors',				1);
+#ini_set('log_errors',				1);
 
 /**
  * Set up style for error display
