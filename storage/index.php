@@ -10,10 +10,4 @@
  * along with this program. If not, see https://www.gnu.org/licenses/
  */
 
-$protocol = 'HTTP/1.1';
-if (isset($_SERVER['SERVER_PROTOCOL']) && 
-    preg_match('/^HTTP\/[12]\.[01]$/', $_SERVER['SERVER_PROTOCOL'])) {
-    $protocol = $_SERVER['SERVER_PROTOCOL'];
-}
-header($protocol . ' 301 Moved Permanently');
-header('Location: /');
+ header("Location: /", true, 301);
