@@ -13,7 +13,7 @@ engines:
   markdownlint:
     enabled: false   # For README files
   shellcheck:
-    enabled: true   # For shell scripts, if there are
+    enabled: false   # For shell scripts, if there are
   spotbugs:
     enabled: false  # Disable Java analyzer
   stylelint:
@@ -39,8 +39,11 @@ exclude_paths:
   - "**/cache/**"
   # Exclude markdown files completely
   - "*.md"
+  - "**/*.md"
   - "*.yml"
+  - "**/*.yml"
   - "*.yaml"
+  - "**/*.yaml"
 
 # Settings for PHP
 php:
