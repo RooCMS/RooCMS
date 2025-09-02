@@ -18,6 +18,17 @@ parameters:
         - */storage/logs/*
         - */upload/*
         - */storage/assets/*
+        # Exclude markdown files
+        - *.md
+        - */*.md
+        - README.md
+        - RELEASE.md
+        - LICENSE.md
+        # Exclude configuration files
+        - *.yml
+        - *.yaml
+        - *.xml
+        - *.json
 
     # Check only PHP files
     fileExtensions:

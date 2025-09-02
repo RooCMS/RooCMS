@@ -55,6 +55,20 @@
     <exclude-pattern>*/storage/assets/*</exclude-pattern>
     <exclude-pattern>*.log</exclude-pattern>
 
+    <!-- Exclude markdown and documentation files -->
+    <exclude-pattern>*.md</exclude-pattern>
+    <exclude-pattern>README.md</exclude-pattern>
+    <exclude-pattern>RELEASE.md</exclude-pattern>
+    <exclude-pattern>LICENSE.md</exclude-pattern>
+    <exclude-pattern>*/README.md</exclude-pattern>
+    <exclude-pattern>*/database/README.md</exclude-pattern>
+
+    <!-- Exclude configuration files -->
+    <exclude-pattern>*.yml</exclude-pattern>
+    <exclude-pattern>*.yaml</exclude-pattern>
+    <exclude-pattern>*.xml</exclude-pattern>
+    <exclude-pattern>*.json</exclude-pattern>
+
     <!-- Analyzed files -->
     <files>
         <include-pattern>roocms/**/*.php</include-pattern>
