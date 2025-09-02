@@ -145,12 +145,58 @@ abstract class BaseController {
     
 
     /**
-     * Get query parameters
+     * Get query parameters with sanitization and optional type casting
      */
-    protected function get_query_params(): array {
-        return $_GET;
+    protected function get_query_params(bool $auto_cast_types = true): array {
+        $params = [];
+
+        foreach ($_GET as $key => $value) {
+            if ($value !== '' && $value !== null) {
+                $sanitized_value = sanitize_input_data($value);
+
+                if ($auto_cast_types) {
+                    $params[$key] = $this->cast_param_type($sanitized_value);
+                } else {
+                    $params[$key] = $sanitized_value;
+                }
+            }
+        }
+
+        return $params;
     }
-    
+
+
+    /**
+     * Cast query parameter to appropriate type
+     */
+    private function cast_param_type(string $value): mixed {
+        // Skip casting if value looks like JSON
+        if (is_json_string($value)) {
+            $decoded = json_decode($value, true);
+            return $decoded !== null ? $decoded : $value;
+        }
+
+        // Cast numeric values
+        if (is_numeric($value)) {
+            return strpos($value, '.') !== false ? (float) $value : (int) $value;
+        }
+
+        // Cast boolean values
+        if (strtolower($value) === 'true') {
+            return true;
+        }
+        if (strtolower($value) === 'false') {
+            return false;
+        }
+
+        // Cast null values
+        if (strtolower($value) === 'null') {
+            return null;
+        }
+
+        return $value;
+    }
+
 
     /**
      * Validate required fields
@@ -215,7 +261,6 @@ abstract class BaseController {
                 'method' => sanitize_log($_SERVER['REQUEST_METHOD'] ?? 'UNKNOWN'),
                 'uri' => sanitize_log($_SERVER['REQUEST_URI'] ?? ''),
                 'ip' => sanitize_log($_SERVER['REMOTE_ADDR'] ?? ''),
-                'user_agent' => sanitize_log($_SERVER['HTTP_USER_AGENT'] ?? ''),
                 'timestamp' => date('Y-m-d H:i:s'),
                 'data' => $data
             ];

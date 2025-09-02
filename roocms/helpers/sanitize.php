@@ -47,6 +47,25 @@ function is_valid_id(mixed $id): bool {
 
 
 /**
+ * Check if string contains valid JSON
+ */
+function is_json_string(string $value): bool {
+    if (!is_string($value) || empty($value)) {
+        return false;
+    }
+
+    // Quick check for JSON structure indicators
+    $firstChar = $value[0] ?? '';
+    if (!in_array($firstChar, ['{', '[', '"'])) {
+        return false;
+    }
+
+    json_decode($value);
+    return json_last_error() === JSON_ERROR_NONE;
+}
+
+
+/**
  * Safely decode JSON input with validation
  *
  * @param string $json_string

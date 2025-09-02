@@ -35,14 +35,15 @@ nocache();
 /**
  * Enable CORS for cross-domain requests
  */
-header("Access-Control-Allow-Origin: *");
-header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS");
-header("Access-Control-Allow-Headers: Content-Type, Authorization");
+header('Allow: GET, POST, PUT, PATCH, DELETE');
+header('Access-Control-Allow-Origin: *');
+header('Access-Control-Allow-Methods: GET, POST, PUT, PATCH, DELETE, OPTIONS');
+header('Access-Control-Allow-Headers: Content-Type, Authorization');
 
 /**
  * Handle preflight OPTIONS request
  */
-if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
+if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     http_response_code(200);
     exit();
 }
@@ -50,11 +51,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
 /**
  * get request URI and method
  */
-$requestUri = $_SERVER['REQUEST_URI'] ?? '/';
-$requestMethod = $_SERVER['REQUEST_METHOD'] ?? 'GET';
+$request_uri = $_SERVER['REQUEST_URI'] ?? '/';
+$request_method = $_SERVER['REQUEST_METHOD'] ?? 'GET';
 
 // Extract path from URI (remove query string and API prefix)
-$path = parse_url($requestUri, PHP_URL_PATH);
+$path = parse_url($request_uri, PHP_URL_PATH);
 
 // Remove /api prefix if present
 if (strpos($path, '/api') === 0) {
@@ -75,7 +76,7 @@ require_once _API.'/router.php';
  * Dispatch request to appropriate handler
  */
 try {
-    $api->dispatch($requestMethod, $path);
+    $api->dispatch($request_method, $path);
 } catch (Exception $e) {
     // Handle any uncaught exceptions
     http_response_code(500);
