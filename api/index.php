@@ -49,15 +49,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 }
 
 /**
- * get request URI and method
+ * get request URI and method with sanitization
  */
-$request_uri = $_SERVER['REQUEST_URI'] ?? '/';
-$request_method = $_SERVER['REQUEST_METHOD'] ?? 'GET';
+$uri = sanitize_log($_SERVER['REQUEST_URI'] ?? '/');
+$method = sanitize_string($_SERVER['REQUEST_METHOD'] ?? 'GET');
 
 /**
  * Extract path from URI (remove query string and API prefix)
  */
-$path = parse_url($request_uri, PHP_URL_PATH);
+$path = parse_url($uri, PHP_URL_PATH);
 
 /**
  * Invalid URL, stop working
@@ -90,7 +90,7 @@ require_once _API.'/router.php';
  * Dispatch request to appropriate handler
  */
 try {
-    $api->dispatch($request_method, $path);
+    $api->dispatch($method, $path);
 } catch (Exception $e) {
     // Handle any uncaught exceptions
     http_response_code(500);

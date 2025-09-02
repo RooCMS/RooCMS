@@ -167,7 +167,15 @@ class Debugger {
 
 		$time = date('d.m.Y H:i:s');
 
-		$error = json_encode(['time' => $time, 'uri' => $_SERVER['REQUEST_URI'], 'title' => $ertitle, 'errno' => $errno, 'msg' => $msg, 'line' => $line, 'file' => $file], JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+		$error = json_encode([
+			'time' => $time,
+			'uri' => sanitize_log($_SERVER['REQUEST_URI'] ?? ''),
+			'title' => $ertitle,
+			'errno' => $errno,
+			'msg' => $msg,
+			'line' => $line,
+			'file' => $file
+		], JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
 		$subj .= $error.",\r\n";
 
 		$f = fopen(ERRORSLOG, 'w+');
@@ -178,7 +186,7 @@ class Debugger {
 
 		# hide error if not use debugmode
 		if(error_reporting() == 0 && $erlevel == 0) {
-			$msg = 'Sorry, something went wrong. We are already working on fixing the cause.<br>'.$time.'<br><a href="javascript:history.back(1)">< Back</a>';
+			$msg = 'Sorry, something went wrong. We are already working on fixing the cause.<br>' . $time . '<br><a href="javascript:history.back(1)">< Back</a>';
 			$messager = file_read(_ASSETS.'/critical.html');
 			$messager = str_replace('{MESSAGE_CRITICAL_ERROR}', $msg, $messager);
 			exit($messager);
@@ -225,7 +233,7 @@ class Debugger {
 		# Create exception log entry
 		$error_data = [
 			'time' => $time,
-			'uri' => $_SERVER['REQUEST_URI'] ?? 'CLI',
+			'uri' => sanitize_log($_SERVER['REQUEST_URI'] ?? 'CLI'),
 			'type' => 'exception',
 			'severity' => $severity,
 			'class' => $class,
@@ -428,7 +436,8 @@ class Debugger {
         $checks = [];
         $overall_status = 'ok';
         
-        // Check important directories
+        // TODO: add check for all directories (or remove this check)
+		// Check important directories
         $directories = [
             'uploads' => _UPLOAD ?? _SITEROOT . '/upload',
 			'uploads_writable' => is_writable(_UPLOAD ?? _SITEROOT . '/upload'),
