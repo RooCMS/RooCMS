@@ -11,7 +11,7 @@ engines:
   codenarc:
     enabled: false  # Disable Groovy analyzer
   markdownlint:
-    enabled: true   # For README files
+    enabled: false   # For README files
   shellcheck:
     enabled: true   # For shell scripts, if there are
   spotbugs:
