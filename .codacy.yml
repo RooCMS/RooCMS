@@ -18,6 +18,9 @@ engines:
     enabled: false  # Disable Java analyzer
   stylelint:
     enabled: false  # Disable CSS analyzer
+  phpcs:
+    enabled: true  # Disable PHP Code Sniffer analyzer
+    php_version: 8.1
 
 # Files for analysis
 files:
@@ -48,7 +51,7 @@ exclude_paths:
 # Settings for PHP
 php:
   # PHP version for analysis - compatible with PHP 8.1+
-  php_version: "8.1"
+  php_version: 8.1
   # Enable all PHP rules
   enabled_rules:
     - php_code_sniffer
