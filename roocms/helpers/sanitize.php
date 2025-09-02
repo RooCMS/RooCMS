@@ -25,6 +25,53 @@ if(!defined('RooCMS')) {
 
 
 /**
+ * Validate email format
+ * 
+ * @param string $email
+ * @return bool
+ */
+function is_valid_email(string $email): bool {
+    return filter_var($email, FILTER_VALIDATE_EMAIL) !== false;
+}
+
+
+/**
+ * Validate integer ID
+ *
+ * @param mixed $id
+ * @return bool
+ */
+function is_valid_id(mixed $id): bool {
+    return is_numeric($id) && (int)$id > 0;
+}
+
+
+/**
+ * Safely decode JSON input with validation
+ *
+ * @param string $json_string
+ * @param int $max_size Maximum allowed size in bytes
+ * @return array|null Returns decoded array or null on error
+ */
+function safe_json_decode(string $json_string, int $max_size = 1048576): ?array {
+    // Check size limit
+    if (strlen($json_string) > $max_size) {
+        return null;
+    }
+
+    // Decode JSON
+    $data = json_decode($json_string, true, 512, JSON_THROW_ON_ERROR);
+
+    // Check for JSON errors
+    if (json_last_error() !== JSON_ERROR_NONE) {
+        return null;
+    }
+
+    return is_array($data) ? $data : null;
+}
+
+
+/**
  * Sanitize string input
  * 
  * @param string $input
@@ -47,22 +94,47 @@ function sanitize_email(string $email): string {
 
 
 /**
- * Validate email format
- * 
- * @param string $email
- * @return bool
+ * Sanitize data for logging (prevents XSS and log injection)
+ *
+ * @param string $input
+ * @return string
  */
-function is_valid_email(string $email): bool {
-    return filter_var($email, FILTER_VALIDATE_EMAIL) !== false;
+function sanitize_log(string $input): string {
+    // Remove HTML tags and encode special characters
+    $sanitized = strip_tags($input);
+
+    // Remove or encode potentially dangerous characters
+    $sanitized = preg_replace('/[<>"\'\\\\]/', '', $sanitized);
+
+    // Limit length to prevent log bombing
+    $sanitized = substr($sanitized, 0, 500);
+
+    return trim($sanitized);
 }
 
 
 /**
- * Validate integer ID
- * 
- * @param mixed $id
- * @return bool
+ * Recursively sanitize input data array
+ *
+ * @param mixed $data
+ * @return mixed
  */
-function is_valid_id(mixed $id): bool {
-    return is_numeric($id) && (int)$id > 0;
+function sanitize_input_data(mixed $data): mixed {
+    if (is_string($data)) {
+        // Basic XSS protection for strings
+        return trim(strip_tags($data));
+    }
+
+    if (is_array($data)) {
+        $sanitized = [];
+        foreach ($data as $key => $value) {
+            // Sanitize keys (prevent XSS in array keys)
+            $sanitized_key = is_string($key) ? trim(strip_tags($key)) : $key;
+            $sanitized[$sanitized_key] = sanitize_input_data($value);
+        }
+        return $sanitized;
+    }
+
+    // Return other types as-is (int, float, bool, null)
+    return $data;
 }

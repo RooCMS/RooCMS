@@ -112,19 +112,35 @@ abstract class BaseController {
     
 
     /**
-     * Get request input data (JSON or form data)
+     * Get request input data (JSON or form data) with security validation
      */
     protected function get_input_data(): array {
         $contentType = $_SERVER['CONTENT_TYPE'] ?? '';
-        
+
         if (strpos($contentType, 'application/json') !== false) {
+            // Safely read and decode JSON input
             $input = file_get_contents('php://input');
-            $data = json_decode($input, true);
-            return $data ?? [];
+
+            if ($input === false) {
+                return [];
+            }
+
+            $data = safe_json_decode($input, 1048576); // 1MB limit
+
+            if ($data === null) {
+                // Log invalid JSON attempt if in debug mode
+                if (DEBUGMODE && $this->db && defined('SYSERRLOG')) {
+                    error_log('Invalid JSON input received: ' . substr($input, 0, 200) . '\r\n', 3, SYSERRLOG);
+                }
+                return [];
+            }
+
+            // Sanitize the decoded data
+            return sanitize_input_data($data);
         }
-        
-        // Handle form data
-        return $_POST;
+
+        // Handle form data with sanitization
+        return sanitize_input_data($_POST);
     }
     
 
@@ -193,16 +209,17 @@ abstract class BaseController {
      */
     protected function log_request(string $action = '', array $data = []): void {
         if ($this->db && defined('SYSERRLOG') && DEBUGMODE) {
+            // Sanitize server data to prevent XSS and log injection
             $log_data = [
                 'action' => $action,
-                'method' => $_SERVER['REQUEST_METHOD'] ?? 'UNKNOWN',
-                'uri' => $_SERVER['REQUEST_URI'] ?? '',
-                'ip' => $_SERVER['REMOTE_ADDR'] ?? '',
-                'user_agent' => $_SERVER['HTTP_USER_AGENT'] ?? '',
+                'method' => sanitize_log($_SERVER['REQUEST_METHOD'] ?? 'UNKNOWN'),
+                'uri' => sanitize_log($_SERVER['REQUEST_URI'] ?? ''),
+                'ip' => sanitize_log($_SERVER['REMOTE_ADDR'] ?? ''),
+                'user_agent' => sanitize_log($_SERVER['HTTP_USER_AGENT'] ?? ''),
                 'timestamp' => date('Y-m-d H:i:s'),
                 'data' => $data
             ];
-            
+
             error_log('API Request: ' . json_encode($log_data) . '\r\n', 3, SYSERRLOG);
         }
     }
