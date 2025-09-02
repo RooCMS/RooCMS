@@ -1,0 +1,164 @@
+---
+engines:
+  # PHP analyzers for pure PHP without frameworks
+  php:
+    enabled: true
+  # Security analysis
+  bandit:
+    enabled: false  # Disable Python analyzer
+  checkstyle:
+    enabled: false  # Disable Java analyzer
+  codenarc:
+    enabled: false  # Disable Groovy analyzer
+  markdownlint:
+    enabled: true   # For README files
+  shellcheck:
+    enabled: true   # For shell scripts, if there are
+  spotbugs:
+    enabled: false  # Disable Java analyzer
+  stylelint:
+    enabled: false  # Disable CSS analyzer
+
+# Files for analysis
+files:
+  # Enable all PHP files
+  - "**/*.php"
+  # Enable configuration files
+  - "**/*.yml"
+  - "**/*.yaml"
+  - "**/*.json"
+  - "**/*.md"
+  # Exclude unwanted files
+exclude_paths:
+  - "storage/logs/**"
+  - "storage/assets/**"
+  - "upload/**"
+  - "**/vendor/**"
+  - "**/node_modules/**"
+  - "**/*.log"
+  - "**/lowerrors.log"
+  - "**/syserrors.log"
+  - "**/.git/**"
+  - "**/cache/**"
+  - "**/temp/**"
+
+# Settings for PHP
+php:
+  # PHP version for analysis - compatible with PHP 8.1+
+  php_version: "8.1"
+  # Enable all PHP rules
+  enabled_rules:
+    - php_code_sniffer
+    - php_mess_detector
+    - phpstan
+  # Disable specific framework rules
+  disabled_rules:
+    - php_code_sniffer_control_structures
+    - php_code_sniffer_filenaming
+    - php_code_sniffer_functions
+    - php_code_sniffer_metrics
+    - php_code_sniffer_naming_conventions
+    - php_code_sniffer_phpdoc
+    - php_code_sniffer_security
+    - php_code_sniffer_standards
+    - php_code_sniffer_whitespace
+    - php_mess_detector_codesize
+    - php_mess_detector_complexity
+    - php_mess_detector_controversial
+    - php_mess_detector_design
+    - php_mess_detector_naming
+    - php_mess_detector_unusedcode
+    - phpstan_architecture
+    - phpstan_dead_code
+    - phpstan_deprecation
+    - phpstan_performance
+    - phpstan_standards
+    - phpstan_type_safety
+
+# Settings for analyzing code
+code_patterns:
+  # Strict code quality control
+  - pattern_id: php_s101
+    parameters:
+      threshold: 10  # Maximum function complexity
+  - pattern_id: php_s103
+    parameters:
+      threshold: 25  # Maximum line length
+  - pattern_id: php_s104
+    parameters:
+      threshold: 1000  # Maximum file length
+  - pattern_id: php_s105
+    parameters:
+      threshold: 50   # Maximum number of methods in a class
+
+# Security rules for PHP
+security:
+  php:
+    enabled: true
+    # Enable important security rules
+    rules:
+      - sql_injection
+      - xss_protection
+      - csrf_protection
+      - insecure_random
+      - command_injection
+      - path_traversal
+      - weak_cryptography
+      - information_disclosure
+      - insecure_configuration
+      - mass_assignment
+
+# Settings for analyzing duplicated code
+duplication:
+  enabled: true
+  languages:
+    - php
+  exclude_paths:
+    - "**/vendor/**"
+    - "**/tests/**"
+  min_lines: 6
+  min_tokens: 50
+
+# Code quality
+code_quality:
+  php:
+    enabled: true
+    # Rules for pure PHP
+    rules:
+      - avoid_creating_functions_in_loops
+      - avoid_superglobals
+      - avoid_unnecessary_concatenation
+      - check_result_used
+      - close_resources
+      - consistent_return
+      - constant_naming
+      - control_structure_continues
+      - cyclomatic_complexity
+      - deep_inheritance
+      - exception_handling
+      - function_length
+      - function_parameter_count
+      - line_length
+      - method_visibility
+      - missing_docblocks
+      - nested_control_structures
+      - parameter_naming
+      - prefer_early_return
+      - return_statements
+      - unnecessary_else
+      - unused_variables
+      - variable_naming
+
+# Coverage analysis (if there are tests)
+coverage:
+  disabled: true  # Disable if there are no tests
+
+# Integration with Git
+commit:
+  message: |
+    [Codacy] Code quality analysis for RooCMS
+
+# Report
+report:
+  format: "html"
+  output: "codacy-report.html"

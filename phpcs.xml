@@ -1,0 +1,61 @@
+<?xml version="1.0"?>
+<ruleset name="RooCMS Coding Standards">
+    <description>RooCMS PHP CodeSniffer configuration for PHP 8.1+ compatibility</description>
+
+    <!-- Use base standards -->
+    <rule ref="PSR12">
+        <!-- Exclude some rules for compatibility with the project -->
+        <exclude name="PSR12.Files.FileHeader"/>
+        <exclude name="PSR12.Operators.OperatorSpacing"/>
+        <exclude name="PSR12.ControlStructures.ControlStructureSpacing"/>
+    </rule>
+
+    <!-- Rules for PHP 8.1+ -->
+    <rule ref="PHPCompatibility"/>
+    <config name="testVersion" value="8.1-"/>
+
+    <!-- Security rules -->
+    <rule ref="Security"/>
+
+    <!-- Exclude some rules, not suitable for pure PHP -->
+    <exclude-pattern>*/vendor/*</exclude-pattern>
+    <exclude-pattern>*/node_modules/*</exclude-pattern>
+    <exclude-pattern>*/storage/logs/*</exclude-pattern>
+    <exclude-pattern>*/upload/*</exclude-pattern>
+
+    <!-- Settings for files -->
+    <file>./roocms</file>
+    <file>./api</file>
+    <file>./storage</file>
+    <exclude-pattern>*/storage/logs/*.log</exclude-pattern>
+    <exclude-pattern>*/storage/assets/*</exclude-pattern>
+
+    <!-- Maximum line length -->
+    <config name="maxLineLength" value="120"/>
+
+    <!-- Settings for arrays -->
+    <rule ref="Generic.Arrays.ArrayIndent"/>
+    <rule ref="Generic.Arrays.DisallowLongArraySyntax"/>
+    <rule ref="Generic.Arrays.DisallowShortArraySyntax">
+        <severity>0</severity>
+    </rule>
+
+    <!-- Rules for functions -->
+    <rule ref="Generic.Functions.FunctionCallArgumentSpacing"/>
+    <rule ref="Generic.Functions.OpeningFunctionBraceKernighanRitchie"/>
+    <rule ref="Squiz.Functions.FunctionDeclarationArgumentSpacing">
+        <properties>
+            <property name="equalsSpacing" value="1"/>
+        </properties>
+    </rule>
+
+    <!-- Rules for classes -->
+    <rule ref="Generic.Classes.DuplicateClassName"/>
+    <rule ref="Squiz.Classes.ValidClassName"/>
+
+    <!-- Rules for comments -->
+    <rule ref="Squiz.Commenting.FunctionComment"/>
+    <rule ref="Squiz.Commenting.VariableComment"/>
+    <rule ref="Squiz.Commenting.ClassComment"/>
+    <rule ref="Squiz.Commenting.FileComment"/>
+</ruleset>

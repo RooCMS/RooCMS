@@ -1,0 +1,92 @@
+parameters:
+    # Analysis level (0-9, where 9 is the strictest)
+    level: 5
+
+    # PHP version
+    phpVersion: 80100
+
+    # Paths for analysis
+    paths:
+        - roocms/
+        - api/
+        - storage/
+
+    # Exclude paths
+    excludePaths:
+        - */vendor/*
+        - */node_modules/*
+        - */storage/logs/*
+        - */upload/*
+        - */storage/assets/*
+
+    # Check only PHP files
+    fileExtensions:
+        - php
+
+    # Analyze only specified file types
+    analyse:
+        - *.php
+
+    # Ignore errors
+    ignoreErrors:
+        # Ignore errors related to global variables
+        - '#Undefined global variable#'
+        - '#Access to undefined constant#'
+        - '#Call to undefined method#'
+        - '#Undefined variable: \$db_info#'
+        - '#Undefined variable: \$site#'
+        - '#Undefined variable: \$db#'
+
+        # Ignore errors related to dynamic file inclusion
+        - '#require_once#'
+        - '#include_once#'
+        - '#file_exists#'
+
+        # Ignore errors related to constants
+        - '#Constant .* not found#'
+
+        # Ignore errors related to HTTP functions
+        - '#http_response_code#'
+        - '#header#'
+
+        # Ignore errors related to debugging
+        - '#error_log#'
+
+    # Type rules
+    checkGenericClassInNonGenericObjectType: false
+    checkMissingIterableValueType: false
+    checkMissingCallableSignature: false
+
+    # Property rules
+    checkUninitializedProperties: false
+    checkPropertyTypeCompatibility: false
+
+    # Function rules
+    checkFunctionNameCase: false
+    checkArgumentsPassedByReference: false
+
+    # Class rules
+    checkClassNameCase: false
+    checkInternalClassCaseSensitivity: false
+
+    # Constant rules
+    checkConstantString: false
+
+    # Variable rules
+    checkMaybeUndefinedVariables: false
+    checkUndefinedVariables: false
+
+    # Array rules
+    checkMissingArrayKeyType: false
+
+    # Exception rules
+    checkExceptionClassHierarchy: false
+
+    # PHP rules
+    checkAlwaysTrueCheckTypeFunctionCall: false
+    checkAlwaysTrueInstanceof: false
+    checkAlwaysTrueStrictComparison: false
+
+# Include extensions for PHP 8.1+
+includes:
+    - vendor/phpstan/phpstan/conf/bleedingEdge.neon
