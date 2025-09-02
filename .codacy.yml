@@ -23,11 +23,8 @@ engines:
 files:
   # Enable all PHP files
   - "**/*.php"
-  # Enable configuration files
-  - "**/*.yml"
-  - "**/*.yaml"
+  # Enable configuration files (excluding markdown)
   - "**/*.json"
-  - "**/*.md"
   # Exclude unwanted files
 exclude_paths:
   - "storage/logs/**"
@@ -41,6 +38,15 @@ exclude_paths:
   - "**/.git/**"
   - "**/cache/**"
   - "**/temp/**"
+  # Exclude markdown files completely
+  - "**/*.md"
+  - "**/*.yml"
+  - "**/*.yaml"
+  # Exclude documentation and release files
+  - "README.md"
+  - "RELEASE.md"
+  - "LICENSE.md"
+  - "CODACY_README.md"
 
 # Settings for PHP
 php:
