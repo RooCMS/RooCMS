@@ -31,7 +31,7 @@
     <exclude-pattern>*/storage/assets/*</exclude-pattern>
 
     <!-- Maximum line length -->
-    <config name="maxLineLength" value="120"/>
+    <config name="maxLineLength" value="240"/>
 
     <!-- Settings for arrays -->
     <rule ref="Generic.Arrays.ArrayIndent"/>

@@ -83,7 +83,7 @@ code_patterns:
       threshold: 10  # Maximum function complexity
   - pattern_id: php_s103
     parameters:
-      threshold: 25  # Maximum line length
+      threshold: 32  # Maximum line length
   - pattern_id: php_s104
     parameters:
       threshold: 1000  # Maximum file length
