@@ -54,15 +54,29 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 $request_uri = $_SERVER['REQUEST_URI'] ?? '/';
 $request_method = $_SERVER['REQUEST_METHOD'] ?? 'GET';
 
-// Extract path from URI (remove query string and API prefix)
+/**
+ * Extract path from URI (remove query string and API prefix)
+ */
 $path = parse_url($request_uri, PHP_URL_PATH);
 
-// Remove /api prefix if present
+/**
+ * Invalid URL, stop working
+ */
+if ($path === false) {
+    throw new InvalidArgumentException('Invalid URL provided');
+}
+
+
+/**
+ * Remove /api prefix if present
+ */
 if (strpos($path, '/api') === 0) {
     $path = substr($path, 4);
 }
 
-// Ensure path starts with /
+/**
+ * Ensure path starts with /
+ */
 if (substr($path, 0, 1) !== '/') {
     $path = '/' . $path;
 }
