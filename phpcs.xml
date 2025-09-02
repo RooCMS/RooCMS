@@ -8,6 +8,8 @@
         <exclude name="PSR12.Files.FileHeader"/>
         <exclude name="PSR12.Operators.OperatorSpacing"/>
         <exclude name="PSR12.ControlStructures.ControlStructureSpacing"/>
+        <exclude name="PSR12.Files.LineLength"/>
+        <exclude name="Generic.Files.LineLength"/>
     </rule>
 
     <!-- Rules for PHP 8.1+ -->
@@ -46,6 +48,12 @@
 
     <!-- Maximum line length -->
     <config name="maxLineLength" value="240"/>
+    <rule ref="Generic.Files.LineLength">
+        <properties>
+            <property name="lineLimit" value="240"/>
+            <property name="absoluteLineLimit" value="240"/>
+        </properties>
+    </rule>
 
     <!-- Settings for arrays -->
     <rule ref="Generic.Arrays.ArrayIndent"/>

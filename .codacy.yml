@@ -39,6 +39,7 @@ exclude_paths:
   - "**/cache/**"
   - "**/temp/**"
   # Exclude markdown files completely
+  - "*.md"
   - "**/*.md"
   - "**/*.yml"
   - "**/*.yaml"
@@ -158,13 +159,3 @@ code_quality:
 # Coverage analysis (if there are tests)
 coverage:
   disabled: true  # Disable if there are no tests
-
-# Integration with Git
-commit:
-  message: |
-    [Codacy] Code quality analysis for RooCMS
-
-# Report
-report:
-  format: "html"
-  output: "codacy-report.html"
