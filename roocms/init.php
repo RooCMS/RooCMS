@@ -67,7 +67,8 @@ spl_autoload_register(function(string $class_name) {
         'DbQueryBuilder'    => _CLASS . '/class_dbQueryBuilder.php',
         'DbExtends'         => _CLASS . '/trait_dbExtends.php',
         'DbMigrator'        => _CLASS . '/class_dbMigrator.php',
-        'ApiHandler'        => _CLASS . '/class_apiHandler.php'
+        'ApiHandler'        => _CLASS . '/class_apiHandler.php',
+        'Shteirlitz'        => _CLASS . '/class_shteirlitz.php'
     ];
     
     // try to load the class
@@ -90,6 +91,7 @@ require_once _ROOCMS."/helpers/debug.php";
  * Initialize db
  */
 $db = new Db();
+
 
 
 // Health check for database connection
