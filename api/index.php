@@ -58,7 +58,7 @@ $method = sanitize_string($_SERVER['REQUEST_METHOD'] ?? 'GET');
 /**
  * Extract path from URI (remove query string and API prefix)
  */
-$path = parse_url($uri, PHP_URL_PATH);
+$path = parse_url($uri, PHP_URL_PATH); 
 
 /**
  * Invalid URL, stop working
@@ -74,6 +74,8 @@ if ($path === false) {
 if (strpos($path, '/api') === 0) {
     $path = substr($path, 4);
 }
+
+
 
 /**
  * Ensure path starts with /

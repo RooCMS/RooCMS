@@ -113,7 +113,7 @@ class ApiHandler {
     public function dispatch(string $method, string $uri): mixed {
         // Remove query string from URI
         $uri = strtok($uri, '?');
-        
+
         // Remove trailing slash except for root
         if ($uri !== '/' && substr($uri, -1) === '/') {
             $uri = rtrim($uri, '/');

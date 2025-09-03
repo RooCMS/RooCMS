@@ -49,6 +49,11 @@ Options All -ExecCGI -Indexes -Includes +FollowSymLinks
 	RewriteCond %{QUERY_STRING} GLOBALS(=|\[|\%[0-9A-Z]{0,2}) [OR]
 	# Block any request trying to change _REQUEST variable through URL
 	RewriteCond %{QUERY_STRING} _REQUEST(=|\[|\%[0-9A-Z]{0,2})
+	# Block dangerous characters in REQUEST_URI (path part)
+	RewriteCond %{THE_REQUEST} (<|>|%3C|%3E|'|") [NC]
+	# Redirect blocked requests to custom error page
+	RewriteRule .* /err.php?code=403 [R=403,L]
+
 	# Redirect blocked requests
 	# RewriteRule .* index.php [F]
 
