@@ -378,20 +378,6 @@ class Db {
 
 
 	/**
-	 * Escaping string (for backward compatibility)
-	 * 
-	 * @param string $string
-	 * 
-	 * @return string
-	 */
-	public function escape_string(string $string): string {
-		// In PDO escaping is done automatically through prepared statements
-		// We leave the basic cleaning for compatibility
-		return htmlspecialchars($string, ENT_QUOTES, 'UTF-8');
-	}
-
-
-	/**
 	 * Query Builder: SELECT
 	 */
 	public function select(string|array $columns = '*'): DbQueryBuilder {

@@ -233,6 +233,7 @@ abstract class BaseController {
             'offset' => $offset
         ];
     }
+
     
     /**
      * Format pagination meta information
@@ -249,6 +250,7 @@ abstract class BaseController {
             'has_prev' => $page > 1
         ];
     }
+    
     
     /**
      * Log API request for debugging

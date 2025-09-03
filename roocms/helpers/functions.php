@@ -50,6 +50,20 @@ function randcode(int $ns = 6, string $symbols = "ABCEFHKLMNPRSTVXYZ123456789") 
 
 
 /**
+ * Calculate percentage
+ *
+ * @param int $n - number
+ * @param int $from - from number
+ *
+ * @return int - percentage
+ */
+function percent(int $n, int $from) : int {
+
+	return round(($n / $from) * 100);
+}
+
+
+/**
  * Get response code from remote URL
  *
  * @param string $url -  remote url
@@ -114,4 +128,24 @@ function nocache() : void {
 	header('Cache-Control: post-check=0, pre-check=0', false);
 	header('Pragma: no-cache');
     header('Last-Modified: '.gmdate('D, d M Y H:i:s').' GMT');
+}
+
+
+/**
+ * Convert hex color to array
+ *
+ * @param string $hexcolor - hex color
+ *
+ * @return array - array of color
+ */
+function cvrt_color_h2d(string $hexcolor) : array {
+	if(mb_strlen($hexcolor) != 7 || mb_strpos($hexcolor, "#") === false) {
+		return [];
+	}
+
+	return [
+		"r" => hexdec(mb_substr($hexcolor, 1, 2)),
+		"g" => hexdec(mb_substr($hexcolor, 3, 2)),
+		"b" => hexdec(mb_substr($hexcolor, 5, 2))
+	];
 }

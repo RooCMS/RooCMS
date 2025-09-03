@@ -112,6 +112,33 @@ function sanitize_email(string $email): string {
 
 
 /**
+ * Clear string from dangerous characters
+ *
+ * @param string $string
+ * @return string
+ */
+function clearing_string(string $string) : string {
+    return trim(str_ireplace(['?','!','@','#','$','%','^','&','*','(',')','{','}','[',']','|','<','>','/','\\','"','`','.',',','~','=',';'], '', $string));
+}
+
+
+/**
+ * Parsing data
+ * This function takes data processed by the htmlspecialchars() function and clears all special characters.
+ *
+ * @param string $text - Text buffer, which needs to be parsed
+ *
+ * @return string
+ */
+function clearing_html(string $text) : string {
+    $text = strip_tags($text);
+    $text = str_ireplace(['&lt;','&gt;','&#123;','&#125;','&#39;','&quot;','&amp;','&#36;'], '', $text);
+
+    return $text;
+}
+
+
+/**
  * Sanitize data for logging (prevents XSS and log injection)
  *
  * @param string $input
