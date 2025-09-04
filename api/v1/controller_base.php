@@ -28,13 +28,15 @@ if(!defined('RooCMS')) {
  */
 abstract class BaseController {
     
-    protected Db|null $db = null;
+    protected Db $db;
     
 
 
-    public function __construct() {
-        global $db;
-        $this->db = $db ?? null;
+    /**
+     * Constructor
+     */
+    public function __construct(Db $db) {
+        $this->db = $db;
         
         // Set JSON content type for all responses
         header('Content-Type: application/json; charset=utf-8');
@@ -250,7 +252,7 @@ abstract class BaseController {
             'has_prev' => $page > 1
         ];
     }
-    
+
     
     /**
      * Log API request for debugging

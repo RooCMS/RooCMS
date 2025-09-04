@@ -31,9 +31,10 @@ define('DB_PREFIX', $db_info['prefix']);
 /**
 * Config $DB Table
 */
-const TABLE_CONFIG_PARTS = DB_PREFIX.'config__parts';
+const TABLE_CONFIG_PARTS    = DB_PREFIX.'config__parts';
 const TABLE_CONFIG_SETTINGS = DB_PREFIX.'config__settings';
-const TABLE_MIGRATIONS = DB_PREFIX.'migrations';
+const TABLE_MIGRATIONS      = DB_PREFIX.'migrations';
+const TABLE_TOKENS          = DB_PREFIX.'tokens';
 
 /**
 * Users Tables
