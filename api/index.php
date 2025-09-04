@@ -97,7 +97,6 @@ try {
 } catch (Exception $e) {
     // Handle any uncaught exceptions
     http_response_code(500);
-    header('Content-Type: application/json; charset=utf-8');
     
     $response = [
         'error' => true,
@@ -120,5 +119,6 @@ try {
         ];
     }
     
-    echo json_encode($response, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+    // output response
+    output_json($response);
 }

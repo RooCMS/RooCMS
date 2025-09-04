@@ -31,15 +31,12 @@ abstract class BaseController {
     protected readonly Db|null $db;
 
 
-    
+
     /**
      * Constructor with dependency injection
      */
     public function __construct(Db|null $db = null) {
         $this->db = $db;
-        
-        // Set JSON content type for all responses
-        header('Content-Type: application/json; charset=utf-8');
     }
     
 
@@ -51,7 +48,7 @@ abstract class BaseController {
         
         $response = [
             'success' => true,
-            'timestamp' => date('Y-m-d H:i:s')
+            'timestamp' => format_timestamp(time())
         ];
         
         if ($message !== '') {
@@ -62,8 +59,8 @@ abstract class BaseController {
             $response['data'] = $data;
         }
         
-        echo json_encode($response, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
-        exit();
+        // output response
+        output_json($response);
     }
     
 
@@ -77,15 +74,15 @@ abstract class BaseController {
             'error' => true,
             'message' => $message,
             'status_code' => $code,
-            'timestamp' => date('Y-m-d H:i:s')
+            'timestamp' => format_timestamp(time())
         ];
         
         if (!empty($details)) {
             $response['details'] = $details;
         }
         
-        echo json_encode($response, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
-        exit();
+        // output response
+        output_json($response);
     }
     
 

@@ -218,8 +218,7 @@ class ApiHandler {
             'timestamp' => date('Y-m-d H:i:s')
         ];
         
-        echo json_encode($response, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
-        exit();
+        output_json($response);
     }
 
 
@@ -242,8 +241,7 @@ class ApiHandler {
             'timestamp' => date('Y-m-d H:i:s')
         ];
         
-        echo json_encode($response, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
-        exit();
+        output_json($response);
     }
 
 
@@ -261,8 +259,7 @@ class ApiHandler {
             'timestamp' => date('Y-m-d H:i:s')
         ];
         
-        echo json_encode($response, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
-        exit();
+        output_json($response);
     }
 
 

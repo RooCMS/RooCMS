@@ -112,9 +112,9 @@ class DbMigrator {
 			try {
 				$this->execute_migration($file, 'up');
 				$executed[] = $file;
-				echo "✓ Migration {$file} completed successfully\n";
+				echo "✓ Migration " . sanitize_log($file) . " completed successfully\n";
 			} catch (Exception $e) {
-				echo "✗ Error executing migration {$file}: " . $e->getMessage() . "\n";
+				echo "✗ Error executing migration " . sanitize_log($file) . ": " . $e->getMessage() . "\n";
 				break;
 			}
 		}

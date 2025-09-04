@@ -149,3 +149,28 @@ function cvrt_color_h2d(string $hexcolor) : array {
 		"b" => hexdec(mb_substr($hexcolor, 5, 2))
 	];
 }
+
+
+/**
+ * Format timestamp
+ *
+ * @param mixed $timestamp - timestamp
+ *
+ * @return string - formatted timestamp
+ */
+function format_timestamp(mixed $timestamp) : string {
+	return date('Y-m-d H:i:s', is_string($timestamp) ? strtotime($timestamp) : $timestamp);
+}
+
+
+/**
+ * Output JSON
+ *
+ * @param mixed $data - data to output
+ *
+ * @return void
+ */
+function output_json(mixed $data) : void {
+	echo json_encode($data, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+	exit();
+}

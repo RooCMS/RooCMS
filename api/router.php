@@ -88,9 +88,7 @@ $api->get('/', function() {
     ];
     
     // output response
-    header('Content-Type: application/json; charset=utf-8');
-    echo json_encode($response, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
-    exit();
+    output_json($response);
 });
 
 // Legacy test route (backwards compatibility)
@@ -103,8 +101,6 @@ $api->get('/test', function() {
     ];
     
     // output response
-    header('Content-Type: application/json; charset=utf-8');
-    echo json_encode($response, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
-    exit();
+    output_json($response);
 });
 
