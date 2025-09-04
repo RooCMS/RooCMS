@@ -28,14 +28,14 @@ if(!defined('RooCMS')) {
  */
 abstract class BaseController {
     
-    protected Db $db;
+    protected readonly Db|null $db;
+
+
     
-
-
     /**
-     * Constructor
+     * Constructor with dependency injection
      */
-    public function __construct(Db $db) {
+    public function __construct(Db|null $db = null) {
         $this->db = $db;
         
         // Set JSON content type for all responses

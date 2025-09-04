@@ -29,8 +29,11 @@ if(!defined('RooCMS')) {
 require_once _API . '/v1/controller_base.php';
 require_once _API . '/v1/controller_health.php';
 
-// Create router instance
-$api = new ApiHandler();
+/**
+ * Create controller factory and router instance
+ */
+$controllerFactory = new DefaultControllerFactory($db);
+$api = new ApiHandler($controllerFactory);
 
 /**
  * API v1 Routes

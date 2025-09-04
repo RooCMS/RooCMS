@@ -61,14 +61,17 @@ spl_autoload_register(function(string $class_name) {
     
     // allowed classes
     $allowed_classes = [
-        'Debugger'          => _CLASS . '/class_debugger.php',
-        'DebugLog'          => _CLASS . '/trait_debugLog.php',
-        'Db'                => _CLASS . '/class_db.php',
-        'DbQueryBuilder'    => _CLASS . '/class_dbQueryBuilder.php',
-        'DbExtends'         => _CLASS . '/trait_dbExtends.php',
-        'DbMigrator'        => _CLASS . '/class_dbMigrator.php',
-        'ApiHandler'        => _CLASS . '/class_apiHandler.php',
-        'Shteirlitz'        => _CLASS . '/class_shteirlitz.php'
+        'Debugger'                  => _CLASS . '/class_debugger.php',
+        'DebugLog'                  => _CLASS . '/trait_debugLog.php',
+        'Db'                        => _CLASS . '/class_db.php',
+        'DbQueryBuilder'            => _CLASS . '/class_dbQueryBuilder.php',
+        'DbExtends'                 => _CLASS . '/trait_dbExtends.php',
+        'DbMigrator'                => _CLASS . '/class_dbMigrator.php',
+        'ControllerFactory'         => _CLASS . '/interface_controllerFactory.php',
+        'DefaultControllerFactory'  => _CLASS . '/class_defaultControllerFactory.php',
+        'ApiHandler'                => _CLASS . '/class_apiHandler.php',
+        'Auth'                      => _CLASS . '/class_auth.php',
+        'Shteirlitz'                => _CLASS . '/class_shteirlitz.php'
     ];
     
     // try to load the class

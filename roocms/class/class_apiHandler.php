@@ -27,10 +27,22 @@ if(!defined('RooCMS')) {
  * Supports RESTful routing with dynamic parameters
  */
 class ApiHandler {
-    
+
     private array $routes = [];
     private array $middleware = [];
+    
+    private ControllerFactory $controllerFactory;
 
+
+
+    /**
+     * Constructor
+     *
+     * @param ControllerFactory $controllerFactory Factory for creating controller instances
+     */
+    public function __construct(ControllerFactory $controllerFactory) {
+        $this->controllerFactory = $controllerFactory;
+    }
 
 
     /**
@@ -168,17 +180,18 @@ class ApiHandler {
             // Handle Controller@method syntax
             if (strpos($handler, '@') !== false) {
                 list($controllerClass, $method) = explode('@', $handler, 2);
-                
-                if (class_exists($controllerClass)) {
-                    $controller = new $controllerClass();
+
+                try {
+                    $controller = $this->controllerFactory->create($controllerClass);
+
                     if (method_exists($controller, $method)) {
                         return call_user_func_array([$controller, $method], $params);
                     } else {
                         $this->handle_error('Method '.$method.' not found in controller '.$controllerClass);
                         return false;
                     }
-                } else {
-                    $this->handle_error('Controller '.$controllerClass.' not found');
+                } catch (Exception $e) {
+                    $this->handle_error('Failed to create controller '.$controllerClass.': '.$e->getMessage());
                     return false;
                 }
             }
