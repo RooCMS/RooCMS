@@ -21,6 +21,11 @@ if(!defined('RooCMS')) {
 //#########################################################
 
 
+
+
+/**
+ * Migration One: Install tokens table
+ */
 return [
     'up' => [
         'tables' => [
