@@ -42,9 +42,9 @@ class CspController extends BaseController {
         $log_entry = json_encode([
             'timestamp' => date('Y-m-d H:i:s'),
             'violation' => $report,
-            'user_agent' => $_SERVER['HTTP_USER_AGENT'] ?? '',
-            'ip' => $_SERVER['REMOTE_ADDR'] ?? '',
-            'uri' => $_SERVER['REQUEST_URI'] ?? ''
+            'user_agent' => sanitize_log($_SERVER['HTTP_USER_AGENT'] ?? ''),
+            'ip' => sanitize_log($_SERVER['REMOTE_ADDR'] ?? ''),
+            'uri' => sanitize_log($_SERVER['REQUEST_URI'] ?? '')
         ], JSON_UNESCAPED_UNICODE);
         
         if (defined('SYSERRLOG')) {
