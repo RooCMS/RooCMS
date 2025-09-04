@@ -25,10 +25,30 @@ if(!defined('RooCMS')) {
  * Define all API routes here
  */
 
-// Include required classes
-require_once _API . '/v1/controller_base.php';
-require_once _API . '/v1/controller_health.php';
-require_once _API . '/v1/controller_csp.php';
+
+/**
+ * api v1 controller loader
+ */
+spl_autoload_register(function(string $controller_name) {
+    
+    // allowed controllers
+    $controllers = [
+        'BaseController'    => _API . '/v1/controller_base.php',
+        'HealthController'  => _API . '/v1/controller_health.php',
+        'CspController'     => _API . '/v1/controller_csp.php'
+    ];
+    
+    // try to load the controller
+    if(isset($controllers[$controller_name])) {
+        if(file_exists($controllers[$controller_name])) {
+            require_once $controllers[$controller_name];            
+            return true;
+        }
+    }
+    
+    return false;
+});
+
 
 /**
  * Create controller factory and router instance
