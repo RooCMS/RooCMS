@@ -28,7 +28,7 @@ return [
                 'columns' => [
                     'id' => [
                         'type' => 'integer',
-                        'length' => 10,
+                        'length' => 11,
                         'auto_increment' => true,
                         'null' => false,
                     ],
@@ -44,7 +44,7 @@ return [
                     ],
                     'user_id' => [
                         'type' => 'integer',
-                        'length' => 10,
+                        'length' => 11,
                         'null' => false,
                     ],
                     'token_expires' => [
@@ -69,10 +69,25 @@ return [
 						'columns' => 'id',
 					],
 					[
-						'type' => 'unique',
-						'name' => 'hash',
-						'columns' => 'hash',
+						'type' => 'key',
+						'name' => 'tokens_hash_idx',
+						'columns' => ['hash', 'user_id', 'token_expires'],
 					],
+					[
+						'type' => 'key',
+						'name' => 'tokens_refresh_idx',
+						'columns' => ['refresh', 'refresh_expires', 'created_at'],
+					],
+					[
+						'type' => 'key',
+						'name' => 'tokens_created_at_idx',
+						'columns' => 'created_at',
+					],
+					[
+						'type' => 'key',
+						'name' => 'tokens_user_id_idx',
+						'columns' => 'user_id',
+					]
 				],
 				'options' => [
 					'engine' => 'InnoDB',
@@ -81,6 +96,12 @@ return [
 					'auto_increment' => 1,
 				],
             ]
+        ]
+    ],
+
+    'down' => [
+        'drop_tables' => [
+            'TABLE_TOKENS'
         ]
     ]
 ]
