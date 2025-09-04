@@ -39,12 +39,15 @@ class CspController extends BaseController {
     }
     
     private function log_csp_violation(array $report): void {
+
+        $ip = filter_var($_SERVER['REMOTE_ADDR'], FILTER_VALIDATE_IP) ?? '';
+        $uri = sanitize_log($_SERVER['REQUEST_URI']) ?? '';
+        
         $log_entry = json_encode([
             'timestamp' => date('Y-m-d H:i:s'),
             'violation' => $report,
-            'user_agent' => sanitize_log($_SERVER['HTTP_USER_AGENT'] ?? ''),
-            'ip' => sanitize_log($_SERVER['REMOTE_ADDR'] ?? ''),
-            'uri' => sanitize_log($_SERVER['REQUEST_URI'] ?? '')
+            'ip' => $ip,
+            'uri' => $uri
         ], JSON_UNESCAPED_UNICODE);
         
         if (defined('SYSERRLOG')) {
