@@ -28,6 +28,7 @@ if(!defined('RooCMS')) {
 // Include required classes
 require_once _API . '/v1/controller_base.php';
 require_once _API . '/v1/controller_health.php';
+require_once _API . '/v1/controller_csp.php';
 
 /**
  * Create controller factory and router instance
@@ -42,6 +43,8 @@ $api = new ApiHandler($controllerFactory);
 // Health check endpoints
 $api->get('/v1/health', 'HealthController@index');
 $api->get('/v1/health/details', 'HealthController@details');
+// CSP report endpoint
+$api->post('/v1/csp-report', 'CspController@report');
 
 // Future routes will be added here
 // Example:

@@ -32,6 +32,7 @@ if(!defined('_SITEROOT')) {
  * list of configs
  */
 $configs = [
+    'csp.cfg.php',  // content security policy
     'set.cfg.php',  // system settings
     'config.php',   // site settings
     'defines.php',  // site constants
