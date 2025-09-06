@@ -297,12 +297,12 @@ abstract class BaseController {
             }
             
             // Fallback: simple connection test
-            $result = $this->db->simple_query("SELECT 1");
+            $result = $this->db->query("SELECT 1");
             
             return [
                 'status' => 'ok',
                 'message' => 'Database connection OK',
-                'queries_count' => $this->db->cnt_queries ?? 0
+                'queries_count' => $this->db->query_count ?? 0
             ];
             
         } catch (Exception $e) {

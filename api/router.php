@@ -78,29 +78,16 @@ $api->post('/v1/csp-report', 'CspController@report');
 $api->get('/', function() {
     $response = [
         'success' => true,
-        'message' => 'RooCMS API v1',
+        'message' => 'RooCMS API',
         'timestamp' => date('Y-m-d H:i:s'),
-        'version' => defined('ROOCMS_FULL_VERSION') ? ROOCMS_FULL_VERSION : '2.0.0 alpha',
+        'version' => defined('ROOCMS_FULL_VERSION') ? ROOCMS_FULL_VERSION : '...',
         'endpoints' => [
-            'health' => '/api/v1/health',
-            'health_details' => '/api/v1/health/details'
+            'health' => 'GET /api/v1/health',
+            'health_details' => 'GET /api/v1/health/details',
+            'csp_report' => 'POST /api/v1/csp-report'
         ]
     ];
     
     // output response
     output_json($response);
 });
-
-// Legacy test route (backwards compatibility)
-$api->get('/test', function() {
-    $response = [
-        'success' => true,
-        'message' => 'API test endpoint (deprecated)',
-        'timestamp' => date('Y-m-d H:i:s'),
-        'redirect' => '/api/v1/health'
-    ];
-    
-    // output response
-    output_json($response);
-});
-

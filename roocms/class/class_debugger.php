@@ -621,7 +621,7 @@ class Debugger {
 						'execution_time' => $debug->productivity_time,
 						'memory_usage' => round($debug->productivity_memory / 1024 / 1024, 2),
 						'memory_peak' => round($debug->memory_peak_usage / 1024 / 1024, 2),
-						'db_queries' => $db->cnt_queries ?? 0
+						'db_queries' => $db->query_count ?? 0
 					],
 					'dumps' => $debug_dumps,
 					'database' => $debug->show_debug ? $debug->debug_info : null,

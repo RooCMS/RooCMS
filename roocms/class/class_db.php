@@ -34,13 +34,12 @@ class Db {
 	private string $driver 				= '';
 	private array $config 				= [];
 	private array $query_log 			= [];
-	private int $query_count 			= 0;
+	public int $query_count 			= 0;
 	private bool $is_connected 			= false;
 	private array $transaction_stack 	= [];
 
 	// Statistics
 	public bool $db_connect 			= false;
-	public int $cnt_queries 			= 0;
 
 
 
@@ -290,13 +289,12 @@ class Db {
 	 * 
 	 * @param string $sql
 	 * @param array $params
-	 * @param int $fetch_mode
 	 * 
 	 * @return array|false
 	 */
-	public function fetch_row(string $sql, array $params = [], int $fetch_mode = PDO::FETCH_ASSOC): array|false {
+	public function fetch_row(string $sql, array $params = []): array|false {
 		$stmt = $this->query($sql, $params);
-		return $stmt->fetch($fetch_mode);
+		return $stmt->fetch(PDO::FETCH_ROW);
 	}
 
 
@@ -318,15 +316,13 @@ class Db {
 	/**
 	 * Getting associative array from result
 	 * 
-	 * @param PDOStatement|string $stmt
+	 * @param string $sql
 	 * @param array $params
 	 * 
 	 * @return array|false
 	 */
-	public function fetch_assoc(PDOStatement|string $stmt, array $params = []): array|false {
-		if(is_string($stmt)) {
-			$stmt = $this->query($stmt, $params);
-		}
+	public function fetch_assoc(string $sql, array $params = []): array|false {
+		$stmt = $this->query($sql, $params);
 		return $stmt->fetch(PDO::FETCH_ASSOC);
 	}
 
@@ -334,15 +330,13 @@ class Db {
 	/**
 	 * Getting numerical array from result
 	 * 
-	 * @param PDOStatement|string $stmt
+	 * @param string $sql
 	 * @param array $params
 	 * 
 	 * @return array|bool
 	 */
-	public function fetch_num(PDOStatement|string $stmt, array $params = []): array|false {
-		if(is_string($stmt)) {
-			$stmt = $this->query($stmt, $params);
-		}
+	public function fetch_num(string $sql, array $params = []): array|false {
+		$stmt = $this->query($sql, $params);
 		return $stmt->fetch(PDO::FETCH_NUM);
 	}
 
@@ -362,18 +356,15 @@ class Db {
 	/**
 	 * Counting the number of rows in the result
 	 * 
-	 * @param PDOStatement|string $stmt
+	 * @param string $sql
 	 * @param array $params
 	 * 
 	 * @return int
 	 */
-	public function num_rows(PDOStatement|string $stmt, array $params = []): int {
-		if(is_string($stmt)) {
-			// For counting rows we use a wrapper in a subquery
-			$count_sql = 'SELECT COUNT(*) FROM (' . $stmt . ') as count_query';
-			return (int) $this->fetch_column($count_sql, $params);
-		}
-		return $stmt->rowCount();
+	public function num_rows(string $sql, array $params = []): int {
+		// For counting rows we use a wrapper in a subquery
+		$count_sql = 'SELECT COUNT(*) FROM (' . $sql . ') as count_query';
+		return (int) $this->fetch_column($count_sql, $params);
 	}
 
 
@@ -759,7 +750,6 @@ class Db {
 	 */
 	private function log_query(string $sql, array $params, float $execution_time): void {
 		$this->query_count++;
-		$this->cnt_queries++;
 		
 		$this->query_log[] = [
 			'sql' => $sql,
