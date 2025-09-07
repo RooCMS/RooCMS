@@ -26,11 +26,12 @@ class Auth {
 
     private Db $db;
 
-    protected int $hash_cost                = 10;
-    protected int $token_length             = 32;
-    protected int $token_expires            = 3600;
-    protected int $refresh_token_expires    = 86400;
-    protected int $password_length          = 9;
+    protected int $hash_cost             = 10;
+    protected int $token_length          = 32;
+    
+    public int $token_expires            = 3600;
+    public int $refresh_token_expires    = 86400;
+    public int $password_length          = 6;
 
 
     /**

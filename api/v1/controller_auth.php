@@ -60,6 +60,9 @@ class AuthController extends BaseController {
     /**
      * User login
      * POST /api/v1/auth/login
+     * 
+     * @param array $data
+     * @return void
      */
     public function login(): void {
         $this->log_request('auth_login');
@@ -161,6 +164,9 @@ class AuthController extends BaseController {
     /**
      * User registration
      * POST /api/v1/auth/register
+     * 
+     * @param array $data
+     * @return void
      */
     public function register(): void {
         $this->log_request('auth_register');
@@ -309,6 +315,9 @@ class AuthController extends BaseController {
     /**
      * Refresh token
      * POST /api/v1/auth/refresh
+     * 
+     * @param array $data
+     * @return void
      */
     public function refresh(): void {
         $this->log_request('auth_refresh');
@@ -390,6 +399,9 @@ class AuthController extends BaseController {
     /**
      * Password recovery request
      * POST /api/v1/auth/password/recovery
+     * 
+     * @param array $data
+     * @return void
      */
     public function recoveryPassword(): void {
         // TODO: Implement password recovery request
@@ -399,6 +411,9 @@ class AuthController extends BaseController {
     /**
      * Reset password with token
      * POST /api/v1/auth/password/reset
+     * 
+     * @param array $data
+     * @return void
      */
     public function resetPassword(): void {
         $this->log_request('password_reset');
@@ -481,6 +496,9 @@ class AuthController extends BaseController {
      * Update password for authenticated user
      * PUT /api/v1/auth/password
      * Requires: AuthMiddleware
+     * 
+     * @param array $data
+     * @return void
      */
     public function updatePassword(): void {
         $this->log_request('password_update');
