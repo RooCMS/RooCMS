@@ -78,11 +78,11 @@ $api->post('/v1/auth/refresh', 'AuthController@refresh');
 $api->post('/v1/auth/logout', 'AuthController@logout', ['AuthMiddleware']);
 
 // Password management endpoints (public)
-$api->post('/v1/auth/password/recovery', 'AuthController@recoveryPassword');
-$api->post('/v1/auth/password/reset', 'AuthController@resetPassword');
+$api->post('/v1/auth/password/recovery', 'AuthController@recovery_password');
+$api->post('/v1/auth/password/reset', 'AuthController@reset_password');
 
 // Password management endpoints (protected)
-$api->put('/v1/auth/password', 'AuthController@updatePassword', ['AuthMiddleware']);
+$api->put('/v1/auth/password', 'AuthController@update_password', ['AuthMiddleware']);
 
 // Future routes will be added here
 // Example:

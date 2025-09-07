@@ -405,7 +405,7 @@ class AuthController extends BaseController {
      * 
      * @return void
      */
-    public function recoveryPassword(): void {
+    public function recovery_password(): void {
         $this->log_request('password_recovery');
         
         $data = $this->get_input_data();
@@ -491,7 +491,7 @@ class AuthController extends BaseController {
      * @param array $data
      * @return void
      */
-    public function resetPassword(): void {
+    public function reset_password(): void {
         $this->log_request('password_reset');
         
         $data = $this->get_input_data();
@@ -620,7 +620,7 @@ class AuthController extends BaseController {
      * @param array $data
      * @return void
      */
-    public function updatePassword(): void {
+    public function update_password(): void {
         $this->log_request('password_update');
         
         $user = $this->require_authentication();
