@@ -24,6 +24,7 @@ if(!defined('RooCMS')) {
 
 /**
  * Validate email format
+ * TODO: Extract to trash
  * 
  * @param string $email
  * @return bool

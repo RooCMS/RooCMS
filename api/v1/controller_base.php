@@ -28,6 +28,7 @@ if(!defined('RooCMS')) {
  */
 abstract class BaseController {
     
+    protected array|null $current_user = null;    
     protected readonly Db|null $db;
 
 
@@ -311,5 +312,45 @@ abstract class BaseController {
                 'message' => 'Database connection failed: ' . $e->getMessage()
             ];
         }
+    }
+
+
+    /**
+     * Get authenticated user from global context (set by AuthMiddleware)
+     */
+    protected function get_authenticated_user(): array|null {
+        return $GLOBALS['authenticated_user'] ?? null;
+    }
+
+
+    /**
+     * Require authenticated user or send error response
+     */
+    protected function require_authentication(): array|null {
+        $user = $this->get_authenticated_user();
+        
+        if (!$user) {
+            $this->error_response('Authentication required', 401);
+            return null;
+        }
+        
+        return $user;
+    }
+
+
+    /**
+     * Check if current user has specific permission
+     * This is a placeholder for future permission system
+     */
+    protected function check_permission(string $permission): bool {
+        $user = $this->get_authenticated_user();
+        
+        if (!$user) {
+            return false;
+        }
+        
+        // TODO: Implement permission checking logic
+        // For now, just return true for authenticated users
+        return true;
     }
 }

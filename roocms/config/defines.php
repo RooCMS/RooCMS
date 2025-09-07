@@ -38,9 +38,9 @@ const TABLE_TOKENS          = DB_PREFIX.'tokens';
 /**
 * Users Tables
 */
-const TABLE_USERS = DB_PREFIX.'users';
-const TABLE_USER_PROFILES = DB_PREFIX.'user_profiles';
-const TABLE_USER_ACTIVITY_LOG = DB_PREFIX.'user_activity_log';
+const TABLE_USERS           = DB_PREFIX.'users';
+//const TABLE_USER_PROFILES = DB_PREFIX.'user_profiles';
+//const TABLE_USER_ACTIVITY_LOG = DB_PREFIX.'user_activity_log';
 
 /**
 * Content Management Tables

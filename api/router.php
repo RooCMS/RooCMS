@@ -35,7 +35,9 @@ spl_autoload_register(function(string $controller_name) {
     $controllers = [
         'BaseController'    => _API . '/v1/controller_base.php',
         'HealthController'  => _API . '/v1/controller_health.php',
-        'CspController'     => _API . '/v1/controller_csp.php'
+        'CspController'     => _API . '/v1/controller_csp.php',
+        'AuthController'    => _API . '/v1/controller_auth.php',
+        'AuthMiddleware'    => _API . '/v1/middleware_auth.php'
     ];
     
     // try to load the controller
@@ -63,8 +65,24 @@ $api = new ApiHandler($controllerFactory);
 // Health check endpoints
 $api->get('/v1/health', 'HealthController@index');
 $api->get('/v1/health/details', 'HealthController@details');
+
 // CSP report endpoint
 $api->post('/v1/csp-report', 'CspController@report');
+
+// Authentication endpoints (public)
+$api->post('/v1/auth/login', 'AuthController@login');
+$api->post('/v1/auth/register', 'AuthController@register');
+$api->post('/v1/auth/refresh', 'AuthController@refresh');
+
+// Authentication endpoints (protected)
+$api->post('/v1/auth/logout', 'AuthController@logout', ['AuthMiddleware']);
+
+// Password management endpoints (public)
+$api->post('/v1/auth/password/recovery', 'AuthController@recoveryPassword');
+$api->post('/v1/auth/password/reset', 'AuthController@resetPassword');
+
+// Password management endpoints (protected)
+$api->put('/v1/auth/password', 'AuthController@updatePassword', ['AuthMiddleware']);
 
 // Future routes will be added here
 // Example:
@@ -84,7 +102,14 @@ $api->get('/', function() {
         'endpoints' => [
             'health' => 'GET /api/v1/health',
             'health_details' => 'GET /api/v1/health/details',
-            'csp_report' => 'POST /api/v1/csp-report'
+            'csp_report' => 'POST /api/v1/csp-report',
+            'auth_login' => 'POST /api/v1/auth/login',
+            'auth_register' => 'POST /api/v1/auth/register',
+            'auth_logout' => 'POST /api/v1/auth/logout',
+            'auth_refresh' => 'POST /api/v1/auth/refresh',
+            'password_update' => 'PUT /api/v1/auth/password',
+            'password_recovery' => 'POST /api/v1/auth/password/recovery',
+            'password_reset' => 'POST /api/v1/auth/password/reset'
         ]
     ];
     

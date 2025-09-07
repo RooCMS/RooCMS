@@ -26,11 +26,11 @@ class Auth {
 
     private Db $db;
 
-    private int $hash_cost          = 10;
-    private int $token_length       = 32;
-    private int $token_expires      = 3600;
-    private int $refresh_expires    = 86400;
-    private int $password_length    = 9;
+    protected int $hash_cost                = 10;
+    protected int $token_length             = 32;
+    protected int $token_expires            = 3600;
+    protected int $refresh_token_expires    = 86400;
+    protected int $password_length          = 9;
 
 
     /**
@@ -114,7 +114,7 @@ class Auth {
     public function store_token(string $token_hash, string $refresh_hash, int $user_id, int $expires = null): void {
         $expires = $expires ?? $this->token_expires;
         $expires = time() + $expires;
-        $refresh_expires = time() + $this->refresh_expires;
+        $refresh_token_expires = time() + $this->refresh_token_expires;
 
         // insert token to database
         $this->db->insert(TABLE_TOKENS)->data([
@@ -122,7 +122,7 @@ class Auth {
             'refresh' => $refresh_hash,
             'user_id' => $user_id,
             'token_expires' => $expires,
-            'refresh_expires' => $refresh_expires,
+            'refresh_expires' => $refresh_token_expires,
             'created_at' => time()
         ])->execute();
     }
