@@ -150,6 +150,7 @@ class AuthController extends BaseController {
                 'expires_in' => 3600, // 1 hour
                 'user' => [
                     'user_id' => $user['user_id'],
+                    'role' => $user['role'],
                     'login' => $user['login'],
                     'email' => $user['email'],
                     'is_verified' => $user['is_verified'] == '1'
@@ -244,6 +245,7 @@ class AuthController extends BaseController {
                 'login' => $data['login'],
                 'email' => $data['email'],
                 'password' => $hashed_password,
+                'role' => 'u',
                 'is_active' => '1',
                 'is_verified' => '0',
                 'is_banned' => '0',
@@ -274,6 +276,7 @@ class AuthController extends BaseController {
                 'expires_in' => 3600,
                 'user' => [
                     'user_id' => $user_id,
+                    'role' => 'u',
                     'login' => $data['login'],
                     'email' => $data['email'],
                     'is_verified' => false

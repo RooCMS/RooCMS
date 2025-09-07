@@ -22,13 +22,17 @@ if(!defined('RooCMS')) {
 
 
 
+/**
+ * Auth Class
+ * Provides utilities for working with authentication
+ */
 class Auth {
 
     private Db $db;
 
     protected int $hash_cost             = 10;
     protected int $token_length          = 32;
-    
+
     public int $token_expires            = 3600;
     public int $refresh_token_expires    = 86400;
     public int $password_length          = 6;

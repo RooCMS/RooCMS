@@ -37,6 +37,7 @@ class AuthMiddleware {
         $this->db = $db;
     }
 
+    
     /**
      * Handle middleware execution
      * Returns true if authentication is successful, false otherwise
@@ -44,14 +45,14 @@ class AuthMiddleware {
     public function handle(): bool {
         try {
             $token = $this->get_bearer_token();
-            
+
             if (!$token) {
                 $this->send_error_response('Authorization token required', 401);
                 return false;
             }
 
             $user = $this->authenticate_token($token);
-            
+
             if (!$user) {
                 return false; // Error response already sent
             }
@@ -59,7 +60,7 @@ class AuthMiddleware {
             // Set authenticated user in global context
             // TODO: Move to global context
             $GLOBALS['authenticated_user'] = $user;
-            
+
             return true;
 
         } catch (Exception $e) {
@@ -67,6 +68,7 @@ class AuthMiddleware {
             return false;
         }
     }
+
 
     /**
      * Get bearer token from Authorization header
@@ -80,6 +82,7 @@ class AuthMiddleware {
 
         return null;
     }
+
 
     /**
      * Authenticate token and return user data

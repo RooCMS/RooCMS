@@ -106,13 +106,19 @@ return [
             ],
             'TABLE_USERS' => [
                 'columns' => [
-                    'user_id' => [
+                    'id' => [
                         'type' => 'integer',
                         'length' => 11,
                         'unsigned' => true,
                         'auto_increment' => true,
                         'null' => false,
                     ],
+                    'role' => [
+						'type' => 'enum',
+						'values' => ['u', 'm', 'a', 'su'],
+						'default' => 'u',
+						'null' => false
+					]
                     'is_active' => [
                         'type' => 'enum',
                         'values' => ['0', '1'],
@@ -173,13 +179,18 @@ return [
                 'indexes' => [
                     [
                         'type' => 'primary',
-                        'columns' => 'user_id',
+                        'columns' => 'id',
                     ],
                     [
                         'type' => 'unique',
                         'name' => 'login',
                         'columns' => 'login',
                     ],
+                    [
+						'type' => 'key',
+						'name' => 'role_idx',
+						'columns' => 'role'
+					]
                 ],
                 'options' => [
                     'engine' => 'InnoDB',
