@@ -275,7 +275,7 @@ abstract class BaseController {
      * Check if database is available
      */
     protected function is_database_available(): bool {
-        return $this->db !== null && $this->db instanceof Db && $this->db->db_connect;
+        return $this->db !== null && $this->db instanceof Db;
     }
     
 

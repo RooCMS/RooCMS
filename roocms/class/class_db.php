@@ -38,9 +38,6 @@ class Db {
 	private bool $is_connected 			= false;
 	private array $transaction_stack 	= [];
 
-	// Statistics
-	public bool $db_connect 			= false;
-
 
 
 	/**
@@ -80,7 +77,6 @@ class Db {
 			);
 
 			$this->is_connected = true;
-			$this->db_connect = true;
 
 			// Additional configuration for specific databases
 			$this->configure_database();
@@ -862,7 +858,6 @@ class Db {
 		if($this->pdo) {
 			$this->pdo = null;
 			$this->is_connected = false;
-			$this->db_connect = false;
 		}
 	}
 
