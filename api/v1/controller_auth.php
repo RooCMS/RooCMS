@@ -31,11 +31,14 @@ class AuthController extends BaseController {
     
     private int $token_expires          = 3600;
     private int $refresh_token_expires  = 604800;
-    private int $recovery_token_expires = 1800;
+    private int $recovery_token_expires = 1800; // 30 minutes
 
     private int $password_min_length    = 6;
     private int $login_min_length       = 3;
     private int $login_max_length       = 50;
+    
+    private int $recovery_code_length   = 6;
+    private int $max_recovery_attempts  = 3;
 
 
 
@@ -400,11 +403,84 @@ class AuthController extends BaseController {
      * Password recovery request
      * POST /api/v1/auth/password/recovery
      * 
-     * @param array $data
      * @return void
      */
     public function recoveryPassword(): void {
-        // TODO: Implement password recovery request
+        $this->log_request('password_recovery');
+        
+        $data = $this->get_input_data();
+        
+        // Validate required fields
+        if (!isset($data['email']) || empty($data['email'])) {
+            $this->error_response('Email is required', 400);
+            return;
+        }
+
+        if (!filter_var($data['email'], FILTER_VALIDATE_EMAIL)) {
+            $this->error_response('Invalid email format', 400);
+            return;
+        }
+
+        try {
+            // Find user by email
+            $user = $this->db->select()
+                ->from(TABLE_USERS)
+                ->where('email', '=', $data['email'])
+                ->where('is_active', '=', '1')
+                ->limit(1)
+                ->fetchOne();
+
+            // Always return success to prevent email enumeration
+            if (!$user) {
+                $this->json_response(null, 200, 'If email exists, recovery code will be sent');
+                return;
+            }
+
+            // Check if user is banned
+            if ($user['is_banned'] == '1' && $user['ban_expired'] > time()) {
+                $this->json_response(null, 200, 'If email exists, recovery code will be sent');
+                return;
+            }
+
+            // Generate recovery code (6-digit numeric)
+            $recovery_code = str_pad((string)random_int(100000, 999999), $this->recovery_code_length, '0', STR_PAD_LEFT);
+            $code_hash = hash('sha256', $recovery_code);
+            $expires_at = time() + $this->recovery_token_expires;
+
+            // Remove any existing recovery codes for this user
+            $this->db->delete(TABLE_VERIFICATION_CODES)
+                ->where('user_id', '=', $user['user_id'])
+                ->where('code_type', '=', 'password_reset')
+                ->execute();
+
+            // Store recovery code
+            $this->db->insert(TABLE_VERIFICATION_CODES)->data([
+                'code_hash' => $code_hash,
+                'user_id' => $user['user_id'],
+                'email' => $user['email'],
+                'code_type' => 'password_reset',
+                'expires_at' => $expires_at,
+                'used_at' => null,
+                'attempts' => 0,
+                'max_attempts' => $this->max_recovery_attempts
+            ])->execute();
+
+            // TODO: Send recovery email with code
+            // For now, return code in response (remove in production!)
+            $response_data = [];
+            if (DEBUGMODE) {
+                $response_data['recovery_code'] = $recovery_code; // Only in debug mode!
+            }
+
+            $this->json_response(
+                $response_data,
+                200, 
+                'Recovery code sent to your email'
+            );
+
+        } catch (Exception $e) {
+            $this->error_response('Password recovery failed', 500);
+        }
     }
 
 
@@ -443,24 +519,51 @@ class AuthController extends BaseController {
         }
 
         try {
-            // Find recovery token
-            // TODO: Implement
+            // Find and validate recovery code
+            $code_hash = hash('sha256', $data['token']);
+            
+            $verification_code = $this->db->select()
+                ->from(TABLE_VERIFICATION_CODES)
+                ->where('code_hash', '=', $code_hash)
+                ->where('code_type', '=', 'password_reset')
+                ->where('expires_at', '>', time())
+                ->where('used_at', 'IS', null)
+                ->limit(1)
+                ->fetchOne();
 
-            if (!$token_data) {
-                $this->error_response('Invalid or expired reset token', 401);
+            if (!$verification_code) {
+                $this->error_response('Invalid or expired reset code', 401);
+                return;
+            }
+
+            // Check attempts limit
+            if ($verification_code['attempts'] >= $verification_code['max_attempts']) {
+                $this->error_response('Maximum attempts exceeded', 429);
                 return;
             }
 
             // Get user
             $user = $this->db->select()
                 ->from(TABLE_USERS)
-                ->where('user_id', '=', $token_data['user_id'])
+                ->where('user_id', '=', $verification_code['user_id'])
                 ->where('is_active', '=', '1')
                 ->limit(1)
                 ->fetchOne();
 
             if (!$user) {
+                // Increment attempts even for invalid user
+                $this->db->update(TABLE_VERIFICATION_CODES)
+                    ->set(['attempts' => $verification_code['attempts'] + 1])
+                    ->where('id', '=', $verification_code['id'])
+                    ->execute();
+                    
                 $this->error_response('User not found', 404);
+                return;
+            }
+
+            // Check if user is banned
+            if ($user['is_banned'] == '1' && $user['ban_expired'] > time()) {
+                $this->error_response('Account is banned', 403);
                 return;
             }
 
@@ -476,17 +579,34 @@ class AuthController extends BaseController {
                 ->where('user_id', '=', $user['user_id'])
                 ->execute();
 
-            // Remove recovery token
-            // TODO: Implement
+            // Mark verification code as used
+            $this->db->update(TABLE_VERIFICATION_CODES)
+                ->set(['used_at' => time()])
+                ->where('id', '=', $verification_code['id'])
+                ->execute();
 
-            // Remove all user tokens (force re-login)
+            // Remove all user tokens (force re-login on all devices)
             $this->db->delete(TABLE_TOKENS)
                 ->where('user_id', '=', $user['user_id'])
+                ->execute();
+
+            // Clean up old/used verification codes for this user
+            $this->db->delete(TABLE_VERIFICATION_CODES)
+                ->where('user_id', '=', $user['user_id'])
+                ->where('code_type', '=', 'password_reset')
                 ->execute();
 
             $this->json_response(null, 200, 'Password reset successfully');
 
         } catch (Exception $e) {
+            // Increment attempts on any error
+            if (isset($verification_code)) {
+                $this->db->update(TABLE_VERIFICATION_CODES)
+                    ->set(['attempts' => $verification_code['attempts'] + 1])
+                    ->where('id', '=', $verification_code['id'])
+                    ->execute();
+            }
+            
             $this->error_response('Password reset failed', 500);
         }
     }

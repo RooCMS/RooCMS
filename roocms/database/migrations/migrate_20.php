@@ -53,18 +53,16 @@ return [
                         'null' => false,
                     ],
                     'token_expires' => [
-                        'type' => 'integer',
-                        'length' => 10,
+                        'type' => 'timestamp',
                         'null' => false,
                     ],
                     'refresh_expires' => [
-                        'type' => 'integer',
-                        'length' => 10,
+                        'type' => 'timestamp',
                         'null' => false,
                     ],
                     'created_at' => [
-                        'type' => 'integer',
-                        'length' => 10,
+                        'type' => 'timestamp',
+                        'default' => 'CURRENT_TIMESTAMP',
                         'null' => false,
                     ],
                 ],
@@ -144,10 +142,7 @@ return [
                         'null' => false,
                     ],
                     'ban_expired' => [
-                        'type' => 'integer',
-                        'length' => 11,
-                        'unsigned' => true,
-                        'default' => 0,
+                        'type' => 'timestamp',
                         'null' => false,
                     ],
                     'ban_reason' => [
@@ -162,24 +157,16 @@ return [
                         'null' => false,
                     ],
                     'created_at' => [
-                        'type' => 'integer',
-                        'length' => 11,
-                        'unsigned' => true,
-                        'default' => 0,
+                        'type' => 'timestamp',
+                        'default' => 'CURRENT_TIMESTAMP',
                         'null' => false,
                     ],
                     'updated_at' => [
-                        'type' => 'integer',
-                        'length' => 11,
-                        'unsigned' => true,
-                        'default' => 0,
+                        'type' => 'timestamp',
                         'null' => false,
                     ],
                     'last_activity' => [
-                        'type' => 'integer',
-                        'length' => 11,
-                        'unsigned' => true,
-                        'default' => 0,
+                        'type' => 'timestamp',
                         'null' => false,
                     ],
                 ],
@@ -196,8 +183,127 @@ return [
                 ],
                 'options' => [
                     'engine' => 'InnoDB',
-                    'charset' => 'utf8mb4'
+                    'charset' => 'utf8mb4',
 					'collate' => 'utf8mb4_unicode_ci',
+                    'auto_increment' => 1,
+                ],
+            ],
+            'TABLE_VERIFICATION_CODES' => [
+                'columns' => [
+                    'id' => [
+                        'type' => 'integer',
+                        'length' => 11,
+                        'unsigned' => true,
+                        'auto_increment' => true,
+                        'null' => false,
+                    ],
+                    'code_hash' => [
+                        'type' => 'string',
+                        'length' => 255,
+                        'null' => false,
+                    ],
+                    'user_id' => [
+                        'type' => 'integer',
+                        'length' => 11,
+                        'unsigned' => true,
+                        'null' => true,
+                    ],
+                    'email' => [
+                        'type' => 'string',
+                        'length' => 255,
+                        'null' => true,
+                    ],
+                    'code_type' => [
+                        'type' => 'enum',
+                        'values' => ['verification', 'otp', 'unsubscribe', 'password_reset'],
+                        'null' => false,
+                    ],
+                    'expires_at' => [
+                        'type' => 'timestamp',
+                        'null' => false,
+                    ],
+                    'used_at' => [
+                        'type' => 'timestamp',
+                        'null' => true,
+                    ],
+                    'attempts' => [
+                        'type' => 'tinyint',
+                        'length' => 3,
+                        'unsigned' => true,
+                        'default' => 0,
+                        'null' => false,
+                    ],
+                    'max_attempts' => [
+                        'type' => 'tinyint',
+                        'length' => 3,
+                        'unsigned' => true,
+                        'default' => 3,
+                        'null' => false,
+                    ],
+                    'created_at' => [
+                        'type' => 'timestamp',
+                        'default' => 'CURRENT_TIMESTAMP',
+                        'null' => false,
+                    ],
+                    'updated_at' => [
+                        'type' => 'timestamp',
+                        'default' => 'CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP',
+                        'null' => false,
+                    ],
+                ],
+                'indexes' => [
+                    [
+                        'type' => 'primary',
+                        'columns' => 'id',
+                    ],
+                    [
+                        'type' => 'key',
+                        'name' => 'type_idx',
+                        'columns' => 'code_type',
+                    ],
+                    [
+                        'type' => 'key',
+                        'name' => 'user_id_idx',
+                        'columns' => 'user_id',
+                    ],
+                    [
+                        'type' => 'key',
+                        'name' => 'email_idx',
+                        'columns' => 'email',
+                    ],
+                    [
+                        'type' => 'key',
+                        'name' => 'expires_at_idx',
+                        'columns' => 'expires_at',
+                    ],
+                    [
+                        'type' => 'key',
+                        'name' => 'used_at_idx',
+                        'columns' => 'used_at',
+                    ],
+                    [
+                        'type' => 'key',
+                        'name' => 'code_hash_idx',
+                        'columns' => 'code_hash',
+                        'length' => 64,
+                    ],
+                ],
+                'constraints' => [
+                    [
+                        'type' => 'check',
+                        'name' => 'chk_expiration',
+                        'expression' => 'expires_at > created_at',
+                    ],
+                    [
+                        'type' => 'check',
+                        'name' => 'chk_attempts',
+                        'expression' => 'attempts <= max_attempts',
+                    ],
+                ],
+                'options' => [
+                    'engine' => 'InnoDB',
+                    'charset' => 'utf8mb4',
+                    'collate' => 'utf8mb4_unicode_ci',
                     'auto_increment' => 1,
                 ],
             ]
@@ -207,7 +313,8 @@ return [
     'down' => [
         'drop_tables' => [
             'TABLE_TOKENS',
-            'TABLE_USERS'
+            'TABLE_USERS',
+            'TABLE_VERIFICATION_CODES'
         ]
     ]
 ]

@@ -72,13 +72,12 @@ class AuthMiddleware {
      * Get bearer token from Authorization header
      */
     private function get_bearer_token(): string|null {
-        $headers = getallheaders();
-        $auth_header = $headers['Authorization'] ?? $headers['authorization'] ?? '';
-        
+        $auth_header = $_SERVER['HTTP_AUTHORIZATION'] ?? $_SERVER['HTTP_Authorization'] ?? '';
+
         if (preg_match('/Bearer\s+(.*)$/i', $auth_header, $matches)) {
             return $matches[1];
         }
-        
+
         return null;
     }
 

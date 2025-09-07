@@ -30,17 +30,18 @@ define('DB_PREFIX', $db_info['prefix']);
 /**
 * Config $DB Table
 */
-const TABLE_CONFIG_PARTS    = DB_PREFIX.'config__parts';
-const TABLE_CONFIG_SETTINGS = DB_PREFIX.'config__settings';
-const TABLE_MIGRATIONS      = DB_PREFIX.'migrations';
-const TABLE_TOKENS          = DB_PREFIX.'tokens';
-
+//const TABLE_CONFIG_PARTS        = DB_PREFIX.'config__parts';
+//const TABLE_CONFIG_SETTINGS     = DB_PREFIX.'config__settings';
+const TABLE_MIGRATIONS          = DB_PREFIX.'migrations';
+const TABLE_TOKENS              = DB_PREFIX.'tokens';
+const TABLE_VERIFICATION_CODES  = DB_PREFIX.'verification_codes';
 /**
 * Users Tables
 */
-const TABLE_USERS           = DB_PREFIX.'users';
-//const TABLE_USER_PROFILES = DB_PREFIX.'user_profiles';
+const TABLE_USERS               = DB_PREFIX.'users';
+//const TABLE_USER_PROFILES     = DB_PREFIX.'user_profiles';
 //const TABLE_USER_ACTIVITY_LOG = DB_PREFIX.'user_activity_log';
+
 
 /**
 * Content Management Tables
