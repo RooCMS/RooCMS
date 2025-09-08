@@ -37,7 +37,8 @@ spl_autoload_register(function(string $controller_name) {
         'HealthController'  => _API . '/v1/controller_health.php',
         'CspController'     => _API . '/v1/controller_csp.php',
         'AuthController'    => _API . '/v1/controller_auth.php',
-        'AuthMiddleware'    => _API . '/v1/middleware_auth.php'
+        'AuthMiddleware'    => _API . '/v1/middleware_auth.php',
+        'RoleMiddleware'    => _API . '/v1/middleware_role.php'
     ];
     
     // try to load the controller
@@ -91,6 +92,16 @@ $api->put('/v1/auth/password', 'AuthController@update_password', ['AuthMiddlewar
 // $api->post('/v1/users', 'UsersController@store');
 // $api->put('/v1/users/{id}', 'UsersController@update');
 // $api->delete('/v1/users/{id}', 'UsersController@destroy');
+
+// Admin endpoints (require authentication + admin role)
+// Attention: RoleMiddleware requires AuthMiddleware, which checks the token and sets $GLOBALS['authenticated_user']
+// Example admin routes with role-based access control:
+// For moderator access or higher (moderator, admin, superuser):
+// $api->get('/v1/admin/dashboard', 'AdminController@dashboard', ['AuthMiddleware', 'RoleMiddleware@require_moderator_access']);
+// For admin access only (admin, superuser):
+// $api->get('/v1/admin/users', 'AdminController@users', ['AuthMiddleware', 'RoleMiddleware@require_admin_access']);
+// For superuser access only:
+// $api->post('/v1/admin/system/config', 'AdminController@updateSystemConfig', ['AuthMiddleware', 'RoleMiddleware@require_superuser_access']);
 
 // Default route for API root
 $api->get('/', function() {

@@ -72,6 +72,7 @@ spl_autoload_register(function(string $class_name) {
         'DefaultControllerFactory'  => _CLASS . '/class_defaultControllerFactory.php',
         'ApiHandler'                => _CLASS . '/class_apiHandler.php',
         'Auth'                      => _CLASS . '/class_auth.php',
+        'Role'                      => _CLASS . '/class_role.php',
         'Shteirlitz'                => _CLASS . '/class_shteirlitz.php'
     ];
     

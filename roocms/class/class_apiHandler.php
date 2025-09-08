@@ -160,14 +160,29 @@ class ApiHandler {
 
     /**
      * Execute middleware
+     * Supports both 'Middleware' and 'Middleware@method' syntax
      */
-    private function execute_middleware(string $middlewareClass): bool {
-        if (class_exists($middlewareClass)) {
-            $middleware = new $middlewareClass();
-            if (method_exists($middleware, 'handle')) {
-                return $middleware->handle();
+    private function execute_middleware(string $middlewareSpec): bool {
+        // Support Middleware@method syntax
+        if (strpos($middlewareSpec, '@') !== false) {
+            list($middlewareClass, $method) = explode('@', $middlewareSpec, 2);
+
+            if (class_exists($middlewareClass)) {
+                $middleware = new $middlewareClass();
+                if (method_exists($middleware, $method)) {
+                    return $middleware->$method();
+                }
+            }
+        } else {
+            // Traditional middleware syntax - look for handle() method
+            if (class_exists($middlewareSpec)) {
+                $middleware = new $middlewareSpec();
+                if (method_exists($middleware, 'handle')) {
+                    return $middleware->handle();
+                }
             }
         }
+
         return true;
     }
 
