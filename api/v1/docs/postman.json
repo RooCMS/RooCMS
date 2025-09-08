@@ -1,0 +1,501 @@
+{
+  "info": {
+    "name": "RooCMS API",
+    "description": "REST API for RooCMS content management system",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_postman_id": "roocms-api-collection",
+    "version": {
+      "major": 2,
+      "minor": 0,
+      "patch": 0
+    }
+  },
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{access_token}}",
+        "type": "string"
+      }
+    ]
+  },
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "https://dev.roocms.com/api",
+      "type": "string"
+    },
+    {
+      "key": "access_token",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "refresh_token",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "user_id",
+      "value": "",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "API Info",
+      "item": [
+        {
+          "name": "Get API Information",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/",
+              "host": ["{{base_url}}"],
+              "path": [""]
+            },
+            "description": "Returns basic information about the API and available endpoints"
+          },
+          "response": []
+        }
+      ],
+      "description": "API information endpoints"
+    },
+    {
+      "name": "Health",
+      "item": [
+        {
+          "name": "Check System Health",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/v1/health",
+              "host": ["{{base_url}}"],
+              "path": ["v1", "health"]
+            },
+            "description": "Returns the health status of the API and system"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Detailed System Information",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/v1/health/details",
+              "host": ["{{base_url}}"],
+              "path": ["v1", "health", "details"]
+            },
+            "description": "Returns detailed information about the system state"
+          },
+          "response": []
+        }
+      ],
+      "description": "System health check endpoints"
+    },
+    {
+      "name": "Security",
+      "item": [
+        {
+          "name": "CSP Violation Report",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"csp-report\": {\n    \"document-uri\": \"https://example.com/page\",\n    \"referrer\": \"https://example.com/\",\n    \"violated-directive\": \"script-src\",\n    \"effective-directive\": \"script-src\",\n    \"original-policy\": \"default-src 'self'; script-src 'self'\",\n    \"blocked-uri\": \"https://malicious.com/script.js\",\n    \"status-code\": 200\n  }\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/v1/csp-report",
+              "host": ["{{base_url}}"],
+              "path": ["v1", "csp-report"]
+            },
+            "description": "Accepts reports of Content Security Policy violations"
+          },
+          "response": []
+        }
+      ],
+      "description": "Security and reports endpoints"
+    },
+    {
+      "name": "Authentication",
+      "item": [
+        {
+          "name": "User Login",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 200) {",
+                  "    const responseJson = pm.response.json();",
+                  "    if (responseJson.data && responseJson.data.access_token) {",
+                  "        pm.collectionVariables.set('access_token', responseJson.data.access_token);",
+                  "        pm.collectionVariables.set('refresh_token', responseJson.data.refresh_token);",
+                  "        if (responseJson.data.user && responseJson.data.user.user_id) {",
+                  "            pm.collectionVariables.set('user_id', responseJson.data.user.user_id);",
+                  "        }",
+                  "        console.log('Tokens saved to collection variables');",
+                  "    }",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"login\": \"user123\",\n  \"password\": \"password123\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/v1/auth/login",
+              "host": ["{{base_url}}"],
+              "path": ["v1", "auth", "login"]
+            },
+            "description": "User authentication by login and password"
+          },
+          "response": []
+        },
+        {
+          "name": "User Registration",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 201) {",
+                  "    const responseJson = pm.response.json();",
+                  "    if (responseJson.data && responseJson.data.access_token) {",
+                  "        pm.collectionVariables.set('access_token', responseJson.data.access_token);",
+                  "        pm.collectionVariables.set('refresh_token', responseJson.data.refresh_token);",
+                  "        if (responseJson.data.user && responseJson.data.user.user_id) {",
+                  "            pm.collectionVariables.set('user_id', responseJson.data.user.user_id);",
+                  "        }",
+                  "        console.log('Tokens saved to collection variables');",
+                  "    }",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"login\": \"newuser\",\n  \"email\": \"user@example.com\",\n  \"password\": \"password123\",\n  \"password_confirmation\": \"password123\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/v1/auth/register",
+              "host": ["{{base_url}}"],
+              "path": ["v1", "auth", "register"]
+            },
+            "description": "Creating a new user account"
+          },
+          "response": []
+        },
+        {
+          "name": "User Logout",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 200) {",
+                  "    pm.collectionVariables.set('access_token', '');",
+                  "    pm.collectionVariables.set('refresh_token', '');",
+                  "    pm.collectionVariables.set('user_id', '');",
+                  "    console.log('Tokens cleared from collection variables');",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/v1/auth/logout",
+              "host": ["{{base_url}}"],
+              "path": ["v1", "auth", "logout"]
+            },
+            "description": "User session termination"
+          },
+          "response": []
+        },
+        {
+          "name": "Refresh Token",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 200) {",
+                  "    const responseJson = pm.response.json();",
+                  "    if (responseJson.data && responseJson.data.access_token) {",
+                  "        pm.collectionVariables.set('access_token', responseJson.data.access_token);",
+                  "        pm.collectionVariables.set('refresh_token', responseJson.data.refresh_token);",
+                  "        console.log('Tokens refreshed and saved to collection variables');",
+                  "    }",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"refresh_token\": \"{{refresh_token}}\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/v1/auth/refresh",
+              "host": ["{{base_url}}"],
+              "path": ["v1", "auth", "refresh"]
+            },
+            "description": "Getting a new access token using a refresh token"
+          },
+          "response": []
+        }
+      ],
+      "description": "Authentication and authorization endpoints"
+    },
+    {
+      "name": "Password Management",
+      "item": [
+        {
+          "name": "Password Recovery Request",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 200) {",
+                  "    const responseJson = pm.response.json();",
+                  "    if (responseJson.data && responseJson.data.recovery_code) {",
+                  "        pm.collectionVariables.set('recovery_code', responseJson.data.recovery_code);",
+                  "        console.log('Recovery code saved: ' + responseJson.data.recovery_code);",
+                  "    }",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"user@example.com\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/v1/auth/password/recovery",
+              "host": ["{{base_url}}"],
+              "path": ["v1", "auth", "password", "recovery"]
+            },
+            "description": "Sending a password recovery code to email"
+          },
+          "response": []
+        },
+        {
+          "name": "Password Reset",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"token\": \"{{recovery_code}}\",\n  \"password\": \"newpassword123\",\n  \"password_confirmation\": \"newpassword123\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/v1/auth/password/reset",
+              "host": ["{{base_url}}"],
+              "path": ["v1", "auth", "password", "reset"]
+            },
+            "description": "Setting a new password using a recovery code"
+          },
+          "response": []
+        },
+        {
+          "name": "Password Change",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"current_password\": \"oldpassword123\",\n  \"new_password\": \"newpassword123\",\n  \"new_password_confirmation\": \"newpassword123\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/v1/auth/password",
+              "host": ["{{base_url}}"],
+              "path": ["v1", "auth", "password"]
+            },
+            "description": "Changing the password of an authorized user"
+          },
+          "response": []
+        }
+      ],
+      "description": "Password management endpoints"
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          "// Auto-refresh token if expired",
+          "const accessToken = pm.collectionVariables.get('access_token');",
+          "const refreshToken = pm.collectionVariables.get('refresh_token');",
+          "",
+          "if (!accessToken && refreshToken && pm.request.url.path.join('/') !== 'v1/auth/refresh') {",
+          "    console.log('Access token missing, attempting to refresh...');",
+          "    ",
+          "    const refreshRequest = {",
+          "        url: pm.collectionVariables.get('base_url') + '/v1/auth/refresh',",
+          "        method: 'POST',",
+          "        header: {",
+          "            'Content-Type': 'application/json'",
+          "        },",
+          "        body: {",
+          "            mode: 'raw',",
+          "            raw: JSON.stringify({",
+          "                refresh_token: refreshToken",
+          "            })",
+          "        }",
+          "    };",
+          "    ",
+          "    pm.sendRequest(refreshRequest, (err, response) => {",
+          "        if (err) {",
+          "            console.log('Token refresh failed:', err);",
+          "        } else if (response.code === 200) {",
+          "            const responseJson = response.json();",
+          "            if (responseJson.data && responseJson.data.access_token) {",
+          "                pm.collectionVariables.set('access_token', responseJson.data.access_token);",
+          "                pm.collectionVariables.set('refresh_token', responseJson.data.refresh_token);",
+          "                console.log('Token refreshed successfully');",
+          "            }",
+          "        } else {",
+          "            console.log('Token refresh failed with status:', response.code);",
+          "        }",
+          "    });",
+          "}"
+        ]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          "// Global test script for all requests",
+          "pm.test('Response time is less than 5000ms', function () {",
+          "    pm.expect(pm.response.responseTime).to.be.below(5000);",
+          "});",
+          "",
+          "pm.test('Response has correct Content-Type', function () {",
+          "    pm.expect(pm.response.headers.get('Content-Type')).to.include('application/json');",
+          "});",
+          "",
+          "// Handle token expiration",
+          "if (pm.response.code === 401) {",
+          "    const responseJson = pm.response.json();",
+          "    if (responseJson.message && responseJson.message.includes('expired')) {",
+          "        console.log('Token expired, clearing stored tokens');",
+          "        pm.collectionVariables.set('access_token', '');",
+          "    }",
+          "}"
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,697 @@
+openapi: 3.0.3
+info:
+  title: RooCMS API
+  description: REST API for RooCMS content management system
+  version: 2.0.0 alpha
+  contact:
+    name: RooCMS Team
+    email: info@roocms.com
+    url: https://www.roocms.com
+  license:
+    name: GNU General Public License v3.0
+    url: https://www.gnu.org/licenses/gpl-3.0.html
+servers:
+  - url: https://dev.roocms.com/api
+    description: Development server
+paths:
+  /:
+    get:
+      summary: Get API information
+      description: Returns basic information about the API and available endpoints
+      tags:
+        - API Info
+      responses:
+        '200':
+          description: Success response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiInfoResponse'
+  /v1/health:
+    get:
+      summary: Check system health
+      description: Returns the health status of the API and system
+      tags:
+        - Health
+      responses:
+        '200':
+          description: System is healthy
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HealthResponse'
+        '503':
+          description: System is unavailable
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HealthResponse'
+  /v1/health/details:
+    get:
+      summary: Detailed system information
+      description: Returns detailed information about the system state
+      tags:
+        - Health
+      responses:
+        '200':
+          description: Success response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HealthDetailsResponse'
+  /v1/csp-report:
+    post:
+      summary: CSP violation report
+      description: Accepts reports of Content Security Policy violations
+      tags:
+        - Security
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CspReportRequest'
+      responses:
+        '200':
+          description: Report accepted
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CspReportResponse'
+        '400':
+          description: Invalid report format
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /v1/auth/login:
+    post:
+      summary: User authentication
+      description: User authentication by login and password
+      tags:
+        - Authentication
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginRequest'
+      responses:
+        '200':
+          description: Successful authentication
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthResponse'
+        '401':
+          description: Invalid credentials
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Account blocked or inactive
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '422':
+          description: Validation error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValidationErrorResponse'
+  /v1/auth/register:
+    post:
+      summary: User registration
+      description: Creating a new user account
+      tags:
+        - Authentication
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RegisterRequest'
+      responses:
+        '201':
+          description: User successfully registered
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthResponse'
+        '409':
+          description: Login or email already exists
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '422':
+          description: Validation error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValidationErrorResponse'
+  /v1/auth/logout:
+    post:
+      summary: Logout from system
+      description: User session termination
+      tags:
+        - Authentication
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Successful logout
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+        '401':
+          description: Authentication required
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /v1/auth/refresh:
+    post:
+      summary: Token refresh
+      description: Getting a new access token using a refresh token
+      tags:
+        - Authentication
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RefreshTokenRequest'
+      responses:
+        '200':
+          description: Token successfully refreshed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RefreshTokenResponse'
+        '401':
+          description: Invalid or expired refresh token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /v1/auth/password/recovery:
+    post:
+      summary: Password recovery request
+      description: Sending a password recovery code to email
+      tags:
+        - Password Management
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PasswordRecoveryRequest'
+      responses:
+        '200':
+          description: Password recovery code sent
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PasswordRecoveryResponse'
+        '400':
+          description: Invalid email format
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /v1/auth/password/reset:
+    post:
+      summary: Password reset
+      description: Setting a new password using a recovery code
+      tags:
+        - Password Management
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PasswordResetRequest'
+      responses:
+        '200':
+          description: Password successfully changed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+        '401':
+          description: Invalid or expired code
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: Maximum number of attempts exceeded
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /v1/auth/password:
+    put:
+      summary: Password change
+      description: Changing the password of an authorized user
+      tags:
+        - Password Management
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PasswordUpdateRequest'
+      responses:
+        '200':
+          description: Password successfully changed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+        '401':
+          description: Invalid current password or authentication required
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '422':
+          description: Validation error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValidationErrorResponse'
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      description: Bearer token authentication
+  schemas:
+    ApiInfoResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: true
+        message:
+          type: string
+          example: RooCMS API
+        timestamp:
+          type: string
+          format: date-time
+          example: '2025-01-15 12:00:00'
+        version:
+          type: string
+          example: 1.0.0
+        endpoints:
+          type: object
+          additionalProperties:
+            type: string
+    HealthResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: true
+        timestamp:
+          type: string
+          format: date-time
+        data:
+          type: object
+          properties:
+            status:
+              type: string
+              enum:
+                - healthy
+                - unhealthy
+              example: healthy
+            checks:
+              type: object
+              properties:
+                api:
+                  type: object
+                  properties:
+                    status:
+                      type: string
+                      enum:
+                        - ok
+                        - error
+                    message:
+                      type: string
+                    response_time:
+                      type: number
+                database:
+                  type: object
+                  properties:
+                    status:
+                      type: string
+                      enum:
+                        - ok
+                        - error
+                    message:
+                      type: string
+            system_info:
+              type: object
+              properties:
+                timestamp:
+                  type: string
+                  format: date-time
+                timezone:
+                  type: string
+    HealthDetailsResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: true
+        timestamp:
+          type: string
+          format: date-time
+        data:
+          type: object
+          properties:
+            api check:
+              type: object
+              properties:
+                status:
+                  type: string
+                message:
+                  type: string
+                response_time:
+                  type: number
+            system_info:
+              type: object
+              properties:
+                timestamp:
+                  type: string
+                timezone:
+                  type: string
+                memory_usage:
+                  type: object
+                  properties:
+                    current:
+                      type: integer
+                    peak:
+                      type: integer
+                    limit:
+                      type: string
+            php_info:
+              type: object
+              properties:
+                configuration:
+                  type: object
+                  additionalProperties:
+                    type: string
+            roocms_info:
+              type: object
+              properties:
+                version:
+                  type: string
+                major_version:
+                  type: string
+                minor_version:
+                  type: string
+                release_version:
+                  type: string
+                build:
+                  type: string
+    CspReportRequest:
+      type: object
+      required:
+        - csp-report
+      properties:
+        csp-report:
+          type: object
+          description: CSP violation report
+    CspReportResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: true
+        timestamp:
+          type: string
+          format: date-time
+        data:
+          type: object
+          properties:
+            status:
+              type: string
+              example: reported
+    LoginRequest:
+      type: object
+      required:
+        - login
+        - password
+      properties:
+        login:
+          type: string
+          minLength: 3
+          example: user123
+        password:
+          type: string
+          minLength: 6
+          example: password123
+    RegisterRequest:
+      type: object
+      required:
+        - login
+        - email
+        - password
+      properties:
+        login:
+          type: string
+          minLength: 3
+          maxLength: 50
+          example: newuser
+        email:
+          type: string
+          format: email
+          example: user@example.com
+        password:
+          type: string
+          minLength: 6
+          example: password123
+        password_confirmation:
+          type: string
+          example: password123
+    AuthResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: true
+        message:
+          type: string
+          example: Login successful
+        timestamp:
+          type: string
+          format: date-time
+        data:
+          type: object
+          properties:
+            access_token:
+              type: string
+              example: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9...
+            refresh_token:
+              type: string
+              example: def50200...
+            token_type:
+              type: string
+              example: Bearer
+            expires_in:
+              type: integer
+              example: 3600
+            user:
+              $ref: '#/components/schemas/User'
+    RefreshTokenRequest:
+      type: object
+      required:
+        - refresh_token
+      properties:
+        refresh_token:
+          type: string
+          example: def50200...
+    RefreshTokenResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: true
+        message:
+          type: string
+          example: Token refreshed successfully
+        timestamp:
+          type: string
+          format: date-time
+        data:
+          type: object
+          properties:
+            access_token:
+              type: string
+            refresh_token:
+              type: string
+            token_type:
+              type: string
+              example: Bearer
+            expires_in:
+              type: integer
+              example: 3600
+    PasswordRecoveryRequest:
+      type: object
+      required:
+        - email
+      properties:
+        email:
+          type: string
+          format: email
+          example: user@example.com
+    PasswordRecoveryResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: true
+        message:
+          type: string
+          example: Recovery code sent to your email
+        timestamp:
+          type: string
+          format: date-time
+        data:
+          type: object
+          properties:
+            recovery_code:
+              type: string
+              description: Recovery code (only in debug mode)
+              example: '123456'
+    PasswordResetRequest:
+      type: object
+      required:
+        - token
+        - password
+      properties:
+        token:
+          type: string
+          description: Password recovery code
+          example: '123456'
+        password:
+          type: string
+          minLength: 6
+          example: newpassword123
+        password_confirmation:
+          type: string
+          example: newpassword123
+    PasswordUpdateRequest:
+      type: object
+      required:
+        - current_password
+        - new_password
+      properties:
+        current_password:
+          type: string
+          example: oldpassword123
+        new_password:
+          type: string
+          minLength: 6
+          example: newpassword123
+        new_password_confirmation:
+          type: string
+          example: newpassword123
+    User:
+      type: object
+      properties:
+        user_id:
+          type: integer
+          example: 1
+        role:
+          type: string
+          enum:
+            - u
+            - m
+            - a
+            - su
+          example: u
+          description: u - user, m - moderator, a - administrator, su - super user
+        login:
+          type: string
+          example: user123
+        email:
+          type: string
+          format: email
+          example: user@example.com
+        is_verified:
+          type: boolean
+          example: false
+    SuccessResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: true
+        message:
+          type: string
+        timestamp:
+          type: string
+          format: date-time
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: boolean
+          example: true
+        message:
+          type: string
+          example: Error message
+        status_code:
+          type: integer
+          example: 400
+        timestamp:
+          type: string
+          format: date-time
+        details:
+          type: object
+          description: Additional error details
+    ValidationErrorResponse:
+      type: object
+      properties:
+        error:
+          type: boolean
+          example: true
+        message:
+          type: string
+          example: Validation failed
+        status_code:
+          type: integer
+          example: 422
+        timestamp:
+          type: string
+          format: date-time
+        details:
+          type: object
+          properties:
+            validation_errors:
+              type: object
+              additionalProperties:
+                type: string
+              example:
+                email: Invalid email format
+                password: Password must be at least 6 characters
+tags:
+  - name: API Info
+    description: API information
+  - name: Health
+    description: System health check
+  - name: Security
+    description: Security and reports
+  - name: Authentication
+    description: Authentication and authorization
+  - name: Password Management
+    description: Password management
