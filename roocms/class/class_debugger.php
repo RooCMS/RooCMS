@@ -28,9 +28,6 @@ class Debugger {
 
 	use DebugLog;
 
-	# hand flag show full debug text
-	public  $show_debug          	= false;
-
 	# debug info
 	public  $debug_info				= []; # buffer for debug info text
 	private $debug_dump				= []; # data dump for developers
@@ -40,7 +37,6 @@ class Debugger {
 	public  $productivity_time		= 0.0;
 
 	# Memory
-	private $memory_usage			= 0;
 	public  $productivity_memory	= 0;
 	public  $memory_peak_usage		= 0;
 
@@ -65,8 +61,8 @@ class Debugger {
 
         	# for admins all time measure productivity
 		if(DEBUGMODE) {
-			# start Debug timer
-			$this->start_productivity();
+			# start productivity timer
+			$this->starttime = env('REQUEST_TIME_FLOAT') ?? microtime(true);
 
 			# try show error
 			$this->error_report(true);
@@ -74,24 +70,6 @@ class Debugger {
 			# check error log
 			$this->check_errorlog();
 		}
-
-		# show debug info
-		if($this->show_debug) {
-			register_shutdown_function([$this,'shutdown'], false);
-		}
-	}
-
-
-	/**
-	 * Start productivity timer measure script working
-	 */
-	private function start_productivity() : void {
-
-		# timer
-		$this->starttime = env('REQUEST_TIME_FLOAT') ?? microtime(true);
-
-		# memory
-		$this->memory_usage = MEMORYUSAGE;
 	}
 
 
@@ -99,7 +77,6 @@ class Debugger {
 	 * Stop productivity timer measure script working
 	 */
 	public function end_productivity() : void {
-
 		# timer
 		$endtime = microtime(true);
 		$totaltime = round(($endtime - $this->starttime), 4);
@@ -107,7 +84,7 @@ class Debugger {
 		$this->productivity_time = $totaltime;
 
 		# memory
-		$this->productivity_memory 	= memory_get_usage() - $this->memory_usage;
+		$this->productivity_memory 	= memory_get_usage() - MEMORYUSAGE;
 		$this->memory_peak_usage 	= memory_get_peak_usage();
 	}
 
@@ -293,7 +270,7 @@ class Debugger {
 		 */
 		ini_set('error_log', SYSERRLOG);
 		error_reporting(0);
-		ini_set('display_errors',			0);
+		ini_set('display_errors', 'off');
 
 
 		if($show) {
@@ -420,12 +397,11 @@ class Debugger {
 		$keywords = ['SELECT', 'FROM', 'WHERE', 'JOIN', 'LEFT JOIN', 'RIGHT JOIN', 'INNER JOIN', 
 					'ORDER BY', 'GROUP BY', 'HAVING', 'LIMIT', 'INSERT', 'UPDATE', 'DELETE', 'SET'];
 		
-		$formatted = $query;
 		foreach($keywords as $keyword) {
-			$formatted = preg_replace('/\b' . $keyword . '\b/i', "\n" . $keyword, $formatted);
+			$query = preg_replace('/\b' . $keyword . '\b/i', "\n" . $keyword, $query);
 		}
 		
-		return trim($formatted);
+		return trim($query);
 	}
 
 

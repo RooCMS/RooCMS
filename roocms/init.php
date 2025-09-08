@@ -24,7 +24,7 @@ if(!defined('RooCMS')) {
  * define root roocms path
  */
 if(!defined('_SITEROOT')) {
-    define('_SITEROOT', substr(__DIR__, 0, -7));
+    define('_SITEROOT', dirname(__DIR__, 2));
 }
 
 
