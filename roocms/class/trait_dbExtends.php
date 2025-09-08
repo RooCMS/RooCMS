@@ -43,19 +43,21 @@ trait DbExtends {
      *
      * @return bool|array Connection status or detailed info
 	 */
-	public function check_connect(string $host, string $user, string $pass, string $base, ?int $port = null, bool $detailed = false): bool|array {
+	public function check_connect(string $host, string $user, string $pass, string $base, ?int $port = null, ?string $driver = null, bool $detailed = false): bool|array {
 		try {
+			$driver = $driver ?? $this->driver;
+			
 			$config = [
 				'host' => $host,
 				'user' => $user,
 				'pass' => $pass,
 				'base' => $base,
 				'port' => $port,
-				'type' => $this->driver
+				'type' => $driver
 			];
 
-			$testDb = new Db($this->driver, $config);
-			$connected = $testDb->is_connected;
+			$testDb = new DbConnect($driver, $config);
+			$connected = $testDb->is_connected();
 
 			if(!$detailed) {
 				return $connected;
@@ -65,7 +67,7 @@ trait DbExtends {
 				return [
 					'connected' => true,
 					'database_info' => $testDb->get_database_info(),
-					'table_count' => $testDb->get_table_count(),
+					'table_count' => $this->get_table_count(),
 					'test_time' => time()
 				];
 			}
@@ -86,7 +88,6 @@ trait DbExtends {
 			return false;
 		}
 	}
-
 
 
     /**
@@ -193,10 +194,31 @@ trait DbExtends {
 		return $cond;
 	}
 
+	
+	/**
+     * Getting the number of tables in the database
+     *
+     * @return int
+     */
+    public function get_table_count(): int {
+        try {
+            $sql = match($this->driver) {
+                'mysql', 'mysqli', 'mariadb' => "SELECT COUNT(*) FROM information_schema.tables WHERE table_schema = DATABASE()",
+                'pgsql', 'postgres', 'postgresql' => "SELECT COUNT(*) FROM information_schema.tables WHERE table_schema = current_schema()",
+                'firebird' => "SELECT COUNT(*) FROM rdb\$relations WHERE rdb\$system_flag = 0",
+                default => "SELECT 0"
+            };
+
+            return (int) $this->fetch_column($sql);
+        } catch(Exception $e) {
+            return 0;
+        }
+    }
+
 
     /**
      * Counting the number of rows in the table
-     * 
+     *
      * @param string $table
      * @param string $where
      * @param array $params

@@ -76,7 +76,6 @@ if (strpos($path, '/api') === 0) {
 }
 
 
-
 /**
  * Ensure path starts with /
  */

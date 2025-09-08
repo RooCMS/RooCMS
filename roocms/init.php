@@ -24,7 +24,7 @@ if(!defined('RooCMS')) {
  * define root roocms path
  */
 if(!defined('_SITEROOT')) {
-    define('_SITEROOT', str_ireplace(DIRECTORY_SEPARATOR."roocms", "", dirname(__FILE__)));
+    define('_SITEROOT', substr(__DIR__, 0, -7));
 }
 
 
@@ -38,12 +38,14 @@ $configs = [
     'defines.php',  // site constants
 ];
 
+
 /**
  * Include configs
  */
 foreach($configs as $config) {
     if(file_exists(_SITEROOT."/roocms/config/".$config)) {
         require_once _SITEROOT."/roocms/config/".$config;
+        
     }
 }
 
@@ -65,6 +67,7 @@ spl_autoload_register(function(string $class_name) {
         'Debugger'                  => _CLASS . '/class_debugger.php',
         'DebugLog'                  => _CLASS . '/trait_debugLog.php',
         'Db'                        => _CLASS . '/class_db.php',
+        'DbConnect'                 => _CLASS . '/class_dbConnect.php',
         'DbQueryBuilder'            => _CLASS . '/class_dbQueryBuilder.php',
         'DbExtends'                 => _CLASS . '/trait_dbExtends.php',
         'DbMigrator'                => _CLASS . '/class_dbMigrator.php',

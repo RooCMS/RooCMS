@@ -22,7 +22,7 @@ if(!defined('RooCMS')) {
 
 
 /**
- * Universal class for work with databases through PDO
+ * Universal classes for work with databases through PDO
  * Supports only free and open-source server databases: MySQL/MariaDB, PostgreSQL, Firebird
  * Includes Query Builder, Prepared Statements and transactions
  */
@@ -30,9 +30,9 @@ class Db {
 
 	use DbExtends, DebugLog;
 
+	private DbConnect|null $db_connect 	= null;
 	private PDO|null $pdo 				= null;
 	private string $driver 				= '';
-	private array $config 				= [];
 	private array $query_log 			= [];
 	public int $query_count 			= 0;
 	private bool $is_connected 			= false;
@@ -47,151 +47,10 @@ class Db {
 	 * @param array|null $config
 	 */
 	public function __construct(?string $driver = null, ?array $config = null) {
-		global $db_info;
-
-		$this->config = $config ?? $db_info;
-		$this->driver = strtolower($driver ?? $this->config['type'] ?? 'mysql');
-
-		if(!empty($this->config['host']) && !empty($this->config['base'])) {
-			$this->connect();
-		}
-	}
-
-
-	/**
-	 * Connection to the database through PDO
-	 *
-	 * @return void
-	 * @throws PDOException
-	 */
-	private function connect(): void {
-		try {
-			$dsn = $this->build_dsn();
-			$options = $this->get_pdo_options();
-
-			$this->pdo = new PDO(
-				$dsn,
-				$this->config['user'] ?? '',
-				$this->config['pass'] ?? '',
-				$options
-			);
-
-			$this->is_connected = true;
-
-			// Additional configuration for specific databases
-			$this->configure_database();
-
-		} catch(PDOException $e) {
-			$this->handle_error("Error connecting to the database: " . $e->getMessage());
-		}
-	}
-
-
-	/**
-	 * Building DSN string for different types of databases
-	 *
-	 * @return string DSN connection string
-	 * @throws InvalidArgumentException
-	 */
-	private function build_dsn(): string {
-		$host = $this->config['host'] ?? 'localhost';
-		$port = $this->config['port'] ?? null;
-		$database = $this->config['base'] ?? '';
-
-		return match($this->driver) {
-			'mysql', 'mysqli', 'mariadb' => sprintf(
-				'mysql:host=%s;dbname=%s;charset=utf8mb4%s',
-				$host,
-				$database,
-				$port ? ";port=$port" : ';port=3306'
-			),
-
-			'pgsql', 'postgres', 'postgresql' => sprintf(
-				'pgsql:host=%s;dbname=%s%s',
-				$host,
-				$database,
-				$port ? ";port=$port" : ';port=5432'
-			),
-
-			'firebird' => sprintf(
-				'firebird:dbname=%s:%s',
-				$host,
-				$database
-			),
-
-			default => throw new InvalidArgumentException('Unsupported database driver: ' . $this->driver . '. Supported only server databases: mysql, mariadb, postgresql, firebird')
-		};
-	}
-
-
-	/**
-	 * PDO options for security and performance
-	 *
-	 * @return array PDO connection options
-	 */
-	private function get_pdo_options(): array {
-		return [
-			PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-			PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-			PDO::ATTR_EMULATE_PREPARES => false,
-			PDO::ATTR_STRINGIFY_FETCHES => false,
-			PDO::ATTR_CASE => PDO::CASE_NATURAL,
-			PDO::ATTR_ORACLE_NULLS => PDO::NULL_NATURAL,
-			PDO::ATTR_PERSISTENT => $this->config['persistent'] ?? false,
-			PDO::ATTR_TIMEOUT => $this->config['timeout'] ?? 10,
-		];
-	}
-
-
-	/**
-	 * Additional configuration for specific databases
-	 *
-	 * @return void
-	 */
-	private function configure_database(): void {
-		match($this->driver) {
-			'mysql', 'mysqli', 'mariadb' => $this->configure_mysql(),
-			'pgsql', 'postgres', 'postgresql' => $this->configure_postgres(),
-			'firebird' => $this->configure_firebird(),
-			default => null
-		};
-	}
-
-
-	/**
-	 * Configuration MySQL/MariaDB
-	 *
-	 * @return void
-	 */
-	private function configure_mysql(): void {
-		$this->pdo->exec("SET NAMES utf8mb4 COLLATE utf8mb4_unicode_ci");
-		$this->pdo->exec("SET sql_mode = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION'");
-		$this->pdo->exec("SET time_zone = '+00:00'");
-	}
-
-
-	/**
-	 * Configuration PostgreSQL
-	 *
-	 * @return void
-	 */
-	private function configure_postgres(): void {
-		$this->pdo->exec("SET NAMES 'UTF8'");
-		$this->pdo->exec("SET timezone = 'UTC'");
-	}
-
-
-	/**
-	 * Configuration Firebird
-	 *
-	 * @return void
-	 */
-	private function configure_firebird(): void {
-		// Firebird basic settings for working with UTF-8
-		$this->pdo->exec("SET NAMES UTF8");
-		
-		// Setting the date format
-		$this->pdo->exec("SET SQL DIALECT 3");
+		$this->db_connect = new DbConnect($driver, $config);
+		$this->pdo = $this->db_connect->get_pdo();
+		$this->driver = $this->db_connect->get_driver();
+		$this->is_connected = $this->db_connect->is_connected();
 	}
 
 
@@ -351,10 +210,10 @@ class Db {
 
 	/**
 	 * Counting the number of rows in the result
-	 * 
+	 *
 	 * @param string $sql
 	 * @param array $params
-	 * 
+	 *
 	 * @return int
 	 */
 	public function num_rows(string $sql, array $params = []): int {
@@ -643,31 +502,6 @@ class Db {
 
 
 	/**
-	 * Checking the activity of a transaction
-	 * 
-	 * @return bool
-	 */
-	public function in_transaction(): bool {
-		return $this->pdo->inTransaction();
-	}
-
-
-	/**
-	 * Getting information about the DB
-	 * 
-	 * @return array
-	 */
-	public function get_database_info(): array {
-		return [
-			'driver' => $this->pdo->getAttribute(PDO::ATTR_DRIVER_NAME),
-			'version' => $this->pdo->getAttribute(PDO::ATTR_SERVER_VERSION),
-			'client_version' => $this->pdo->getAttribute(PDO::ATTR_CLIENT_VERSION),
-			'connection_status' => $this->pdo->getAttribute(PDO::ATTR_CONNECTION_STATUS),
-		];
-	}
-
-
-	/**
 	 * Getting the table schema
 	 * 
 	 * @param string $table
@@ -681,6 +515,16 @@ class Db {
 			'firebird' => $this->get_firebird_table_schema($table),
 			default => []
 		};
+	}
+
+
+	/**
+	 * Checking the activity of a transaction
+	 * 
+	 * @return bool
+	 */
+	public function in_transaction(): bool {
+		return $this->pdo->inTransaction();
 	}
 
 
