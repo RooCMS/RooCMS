@@ -58,7 +58,7 @@ $method = sanitize_string($_SERVER['REQUEST_METHOD'] ?? 'GET');
 /**
  * Extract path from URI (remove query string and API prefix)
  */
-$path = parse_url($uri, PHP_URL_PATH); 
+$path = sanitize_path($uri); 
 
 /**
  * Invalid URL, stop working

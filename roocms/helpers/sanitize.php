@@ -183,3 +183,40 @@ function sanitize_input_data(mixed $data): mixed {
     // Return other types as-is (int, float, bool, null)
     return $data;
 }
+
+
+/**
+ * Sanitize path
+ *
+ * @param string $uri
+ * @return string
+ */
+function sanitize_path(string $uri): string {
+    // Get path from URI
+    $path = parse_url($uri, PHP_URL_PATH);
+    
+    if ($path === false) {
+        return '/';
+    }
+    
+    // Decode URL-encoded symbols
+    $path = urldecode($path);
+    
+    // Remove multiple slashes
+    $path = preg_replace('#/{2,}#', '/', $path);
+    
+    // Remove sequences ../ and ..\
+    $path = str_replace(['../', '..\\'], '', $path);
+    
+    // Make sure the path starts with a slash
+    if (substr($path, 0, 1) !== '/') {
+        $path = '/' . $path;
+    }
+    
+    // Limit the path length
+    if (strlen($path) > 2048) {
+        return '/';
+    }
+    
+    return $path;
+}
