@@ -33,8 +33,8 @@ class RoleMiddleware {
     /**
      * Constructor
      */
-    public function __construct() {
-        $this->role = new Role();
+    public function __construct(Role $role) {
+        $this->role = $role;
     }
 
 

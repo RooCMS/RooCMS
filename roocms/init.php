@@ -73,6 +73,8 @@ spl_autoload_register(function(string $class_name) {
         'DbMigrator'                => _CLASS . '/class_dbMigrator.php',
         'ControllerFactory'         => _CLASS . '/interface_controllerFactory.php',
         'DefaultControllerFactory'  => _CLASS . '/class_defaultControllerFactory.php',
+        'MiddlewareFactory'         => _CLASS . '/interface_middlewareFactory.php',
+        'DefaultMiddlewareFactory'  => _CLASS . '/class_defaultMiddlewareFactory.php',
         'ApiHandler'                => _CLASS . '/class_apiHandler.php',
         'Auth'                      => _CLASS . '/class_auth.php',
         'Role'                      => _CLASS . '/class_role.php',

@@ -57,7 +57,8 @@ spl_autoload_register(function(string $controller_name) {
  * Create controller factory and router instance
  */
 $controllerFactory = new DefaultControllerFactory($db);
-$api = new ApiHandler($controllerFactory);
+$middlewareFactory = new DefaultMiddlewareFactory($db, new Role());
+$api = new ApiHandler($controllerFactory, $middlewareFactory);
 
 /**
  * API v1 Routes

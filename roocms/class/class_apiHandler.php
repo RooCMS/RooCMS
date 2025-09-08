@@ -30,8 +30,9 @@ class ApiHandler {
 
     private array $routes = [];
     private array $middleware = [];
-    
+
     private ControllerFactory $controllerFactory;
+    private MiddlewareFactory $middlewareFactory;
 
 
 
@@ -39,9 +40,11 @@ class ApiHandler {
      * Constructor
      *
      * @param ControllerFactory $controllerFactory Factory for creating controller instances
+     * @param MiddlewareFactory $middlewareFactory Factory for creating middleware instances
      */
-    public function __construct(ControllerFactory $controllerFactory) {
+    public function __construct(ControllerFactory $controllerFactory, MiddlewareFactory $middlewareFactory) {
         $this->controllerFactory = $controllerFactory;
+        $this->middlewareFactory = $middlewareFactory;
     }
 
 
@@ -167,19 +170,25 @@ class ApiHandler {
         if (strpos($middlewareSpec, '@') !== false) {
             list($middlewareClass, $method) = explode('@', $middlewareSpec, 2);
 
-            if (class_exists($middlewareClass)) {
-                $middleware = new $middlewareClass();
+            try {
+                $middleware = $this->middlewareFactory->create($middlewareClass);
                 if (method_exists($middleware, $method)) {
                     return $middleware->$method();
                 }
+            } catch (Exception $e) {
+                $this->handle_error('Failed to create middleware '.$middlewareClass.': '.$e->getMessage());
+                return false;
             }
         } else {
             // Traditional middleware syntax - look for handle() method
-            if (class_exists($middlewareSpec)) {
-                $middleware = new $middlewareSpec();
+            try {
+                $middleware = $this->middlewareFactory->create($middlewareSpec);
                 if (method_exists($middleware, 'handle')) {
                     return $middleware->handle();
                 }
+            } catch (Exception $e) {
+                $this->handle_error('Failed to create middleware '.$middlewareSpec.': '.$e->getMessage());
+                return false;
             }
         }
 

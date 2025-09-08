@@ -32,8 +32,7 @@ class AuthMiddleware {
     /**
      * Constructor
      */
-    public function __construct() {
-        global $db;
+    public function __construct(Db $db) {
         $this->db = $db;
     }
 

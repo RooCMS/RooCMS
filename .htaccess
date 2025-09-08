@@ -105,9 +105,9 @@ DirectoryIndex index.php
 	AddType application/x-font-woff2 .woff2
 	AddType font/opentype .otf
 	AddType font/ttf .ttf
-        AddType font/eot .eot
-        AddType font/woff .woff
-        AddType font/woff2 .woff2
+	AddType font/eot .eot
+	AddType font/woff .woff
+	AddType font/woff2 .woff2
 	# Assorted types
 	AddType image/x-icon .ico
 	AddType image/webp .webp
@@ -319,11 +319,6 @@ AddCharset utf-8 .atom .css .js .json .rss .vtt .xml
 #		Deny from All
 #	</Files>
 #</LocationMatch>
-
-#<Location "/server-status">
-#    SetHandler server-status
-#    Require host example.com
-#</Location>
 
 
 # Bad Rquest
