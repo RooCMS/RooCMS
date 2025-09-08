@@ -55,7 +55,6 @@ php:
   # Enable all PHP rules
   enabled_rules:
     - php_code_sniffer
-    - php_mess_detector
     - phpstan
   # Disable specific framework rules
   disabled_rules:
@@ -68,12 +67,6 @@ php:
     - php_code_sniffer_security
     - php_code_sniffer_standards
     - php_code_sniffer_whitespace
-    - php_mess_detector_codesize
-    - php_mess_detector_complexity
-    - php_mess_detector_controversial
-    - php_mess_detector_design
-    - php_mess_detector_naming
-    - php_mess_detector_unusedcode
     - phpstan_architecture
     - phpstan_dead_code
     - phpstan_deprecation
@@ -124,6 +117,13 @@ duplication:
     - "**/tests/**"
   min_lines: 6
   min_tokens: 50
+  minTokenMatch: 50
+
+metric:
+  enabled: true
+  config:
+    languages:
+      - "php"
 
 # Code quality
 code_quality:
@@ -158,3 +158,6 @@ code_quality:
 # Coverage analysis (if there are tests)
 coverage:
   disabled: true  # Disable if there are no tests
+
+semgrep:
+  enabled: true   # Enable Semgrep for security

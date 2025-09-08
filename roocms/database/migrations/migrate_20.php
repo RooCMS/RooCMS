@@ -328,4 +328,4 @@ return [
             'TABLE_VERIFICATION_CODES'
         ]
     ]
-]
+];
