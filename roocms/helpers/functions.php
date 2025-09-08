@@ -21,6 +21,36 @@ if(!defined('RooCMS')) {
 //#########################################################
 
 
+
+/**
+ * Getting env-variable with type conversion
+ * 
+ * @param string $key - env-variable name
+ * @param mixed $default - default value
+ * 
+ * @return mixed - env-variable value
+ */
+function env(string $key, mixed $default = null): mixed
+{
+    $value = $_ENV[$key] ?? getenv($key) ?? $_SERVER[$key];
+    
+    if ($value === false || $value === null) {
+        return $default;
+    }
+    
+    // Type conversion
+    return match (strtolower($value)) {
+        'true', '(true)' => true,
+        'false', '(false)' => false,
+        'null', '(null)' => null,
+        'empty', '(empty)' => '',
+		'is_numeric($value) && !str_contains($value, ".")' => (int)$value,
+		'is_numeric($value) && str_contains($value, ".")' => (float)$value,
+        default => $value,
+    };
+}
+
+
 /**
  * Generator random code
  *

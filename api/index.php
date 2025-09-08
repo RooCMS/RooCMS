@@ -44,7 +44,7 @@ header('Access-Control-Allow-Headers: Content-Type, Authorization');
 /**
  * Handle preflight OPTIONS request
  */
-if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+if (env('REQUEST_METHOD') === 'OPTIONS') {
     http_response_code(200);
     exit();
 }
@@ -52,8 +52,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 /**
  * get request URI and method with sanitization
  */
-$uri = sanitize_log($_SERVER['REQUEST_URI'] ?? '/');
-$method = sanitize_string($_SERVER['REQUEST_METHOD'] ?? 'GET');
+$uri = sanitize_log(env('REQUEST_URI') ?? '/');
+$method = sanitize_string(env('REQUEST_METHOD') ?? 'GET');
 
 /**
  * Extract path from URI (remove query string and API prefix)

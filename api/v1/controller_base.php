@@ -115,7 +115,7 @@ abstract class BaseController {
      * Get request input data (JSON or form data) with security validation
      */
     protected function get_input_data(): array {
-        $contentType = $_SERVER['CONTENT_TYPE'] ?? '';
+        $contentType = env('CONTENT_TYPE') ?? '';
 
         if (strpos($contentType, 'application/json') !== false) {
             // Safely read and decode JSON input
@@ -260,9 +260,9 @@ abstract class BaseController {
             // Sanitize server data to prevent XSS and log injection
             $log_data = [
                 'action' => $action,
-                'method' => sanitize_log($_SERVER['REQUEST_METHOD'] ?? 'UNKNOWN'),
-                'uri' => sanitize_log($_SERVER['REQUEST_URI'] ?? ''),
-                'ip' => sanitize_log($_SERVER['REMOTE_ADDR'] ?? ''),
+                'method' => sanitize_log(env('REQUEST_METHOD') ?? 'UNKNOWN'),
+                'uri' => sanitize_log(env('REQUEST_URI') ?? ''),
+                'ip' => sanitize_log(env('REMOTE_ADDR') ?? ''),
                 'timestamp' => date('Y-m-d H:i:s'),
                 'data' => $data
             ];

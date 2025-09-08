@@ -45,7 +45,6 @@ $configs = [
 foreach($configs as $config) {
     if(file_exists(_SITEROOT."/roocms/config/".$config)) {
         require_once _SITEROOT."/roocms/config/".$config;
-        
     }
 }
 

@@ -88,7 +88,7 @@ class Debugger {
 	private function start_productivity() : void {
 
 		# timer
-		$this->starttime = $_SERVER['REQUEST_TIME_FLOAT'] ?? microtime(true);
+		$this->starttime = env('REQUEST_TIME_FLOAT') ?? microtime(true);
 
 		# memory
 		$this->memory_usage = MEMORYUSAGE;
@@ -169,7 +169,7 @@ class Debugger {
 
 		$error = json_encode([
 			'time' => $time,
-			'uri' => sanitize_log($_SERVER['REQUEST_URI'] ?? ''),
+			'uri' => sanitize_log(env('REQUEST_URI') ?? ''),
 			'title' => $ertitle,
 			'errno' => $errno,
 			'msg' => $msg,
@@ -233,7 +233,7 @@ class Debugger {
 		# Create exception log entry
 		$error_data = [
 			'time' => $time,
-			'uri' => sanitize_log($_SERVER['REQUEST_URI'] ?? 'CLI'),
+			'uri' => sanitize_log(env('REQUEST_URI') ?? 'CLI'),
 			'type' => 'exception',
 			'severity' => $severity,
 			'class' => $class,
