@@ -129,7 +129,7 @@ trait DbExtends {
      * @param array $params
 	 */
 	public function paginate_from_db(string $table, string $where = '1=1', array $params = []): void {
-		$count = $this->count($table, $where, $params);
+		$count = $this->count_rows($table, $where, $params);
 		$this->calculate_pagination($count);
 	}
 
