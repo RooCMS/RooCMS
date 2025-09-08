@@ -224,5 +224,5 @@ trait DbExtends {
      * @param array $params
      * @return int
      */
-    abstract protected function count(string $table, string $where = '1=1', array $params = []): int;
+    abstract protected function count_rows(string $table, string $where = '1=1', array $params = []): int;
 }

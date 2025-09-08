@@ -295,7 +295,7 @@ class Db {
 	 * @param array $data
 	 * @param string $table
 	 * @param string $where
-	 * @param array $whereParams
+	 * @param array $where_params
 	 * 
 	 * @return bool
 	 */
@@ -342,7 +342,7 @@ class Db {
 	 * 
 	 * @return int
 	 */
-	public function count(string $table, string $where = '1=1', array $params = []): int {
+	public function count_rows(string $table, string $where = '1=1', array $params = []): int {
 		$sql = "SELECT COUNT(*) FROM {$table} WHERE {$where}";
 		return (int) $this->fetch_column($sql, $params);
 	}
@@ -368,7 +368,7 @@ class Db {
 			$where_params = array_merge($where_params, $params);
 		}
 
-		return $this->count($table, $where, $where_params) > 0;
+		return $this->count_rows($table, $where, $where_params) > 0;
 	}
 
 
@@ -643,7 +643,8 @@ class Db {
 	/**
 	 * Check current database connection health
 	 *
-	 * @param int $timeout Connection timeout in seconds
+	 * !But this parameter works not with all database drivers and may not give the expected effect.
+	 * @param int $timeout Connection timeout in seconds (default 5 seconds) 
 	 * @return bool Connection health status
 	 */
 	public function ping(int $timeout = 5): bool {
