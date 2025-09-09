@@ -147,7 +147,7 @@ class AuthController extends BaseController {
                 'access_token' => $access_token,
                 'refresh_token' => $refresh_token,
                 'token_type' => 'Bearer',
-                'expires_in' => 3600, // 1 hour
+                'expires_in' => $this->auth->token_expires,
                 'user' => [
                     'user_id' => $user['user_id'],
                     'role' => $user['role'],
