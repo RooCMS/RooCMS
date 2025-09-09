@@ -317,6 +317,118 @@ return [
                     'collate' => 'utf8mb4_unicode_ci',
                     'auto_increment' => 1,
                 ],
+            ],
+            'TABLE_SETTINGS' => [
+                'columns' => [
+                    'id' => [
+                        'type' => 'integer',
+                        'length' => 10,
+                        'unsigned' => true,
+                        'auto_increment' => true,
+                        'null' => false,
+                    ],
+                    'category' => [
+                        'type' => 'string',
+                        'length' => 255,
+                        'default' => 'general',
+                        'null' => false,
+                    ],
+                    'sort_order' => [
+                        'type' => 'integer',
+                        'length' => 10,
+                        'unsigned' => true,
+                        'default' => 1,
+                        'null' => false,
+                    ],
+                    'title' => [
+                        'type' => 'string',
+                        'length' => 255,
+                        'null' => false,
+                    ],
+                    'description' => [
+                        'type' => 'text',
+                        'null' => true,
+                    ],
+                    'key' => [
+                        'type' => 'string',
+                        'length' => 255,
+                        'null' => false,
+                    ],
+                    'type' => [
+                        'type' => 'enum',
+                        'values' => ['boolean', 'integer', 'string', 'color', 'text', 'html', 'date', 'email', 'select', 'image', 'file'],
+                        'default' => 'string',
+                        'null' => false,
+                    ],
+                    'options' => [
+                        'type' => 'json',
+                        'null' => true,
+                    ],
+                    'value' => [
+                        'type' => 'longtext',
+                        'null' => true,
+                    ],
+                    'default_value' => [
+                        'type' => 'longtext',
+                        'null' => true,
+                    ],
+                    'max_length' => [
+                        'type' => 'smallint',
+                        'length' => 5,
+                        'unsigned' => true,
+                        'null' => true,
+                    ],
+                    'is_required' => [
+                        'type' => 'tinyint',
+                        'length' => 1,
+                        'unsigned' => true,
+                        'default' => 0,
+                        'null' => false,
+                    ],
+                    'is_serialized' => [
+                        'type' => 'tinyint',
+                        'length' => 1,
+                        'unsigned' => true,
+                        'default' => 0,
+                        'null' => false,
+                    ],
+                    'created_at' => [
+                        'type' => 'timestamp',
+                        'default' => 'CURRENT_TIMESTAMP',
+                        'null' => false,
+                    ],
+                    'updated_at' => [
+                        'type' => 'timestamp',
+                        'default' => 'CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP',
+                        'null' => false,
+                    ],
+                ],
+                'indexes' => [
+                    [
+                        'type' => 'primary',
+                        'columns' => 'id',
+                    ],
+                    [
+                        'type' => 'unique',
+                        'name' => 'setting_key_uq',
+                        'columns' => 'key',
+                    ],
+                    [
+                        'type' => 'key',
+                        'name' => 'setting_category_idx',
+                        'columns' => 'category',
+                    ],
+                    [
+                        'type' => 'key',
+                        'name' => 'setting_sort_idx',
+                        'columns' => ['category', 'sort_order'],
+                    ],
+                ],
+                'options' => [
+                    'engine' => 'InnoDB',
+                    'charset' => 'utf8mb4',
+                    'collate' => 'utf8mb4_unicode_ci',
+                ],
             ]
         ]
     ],
@@ -325,7 +437,8 @@ return [
         'drop_tables' => [
             'TABLE_TOKENS',
             'TABLE_USERS',
-            'TABLE_VERIFICATION_CODES'
+            'TABLE_VERIFICATION_CODES',
+            'TABLE_CONFIG_SETTINGS'
         ]
     ]
 ];

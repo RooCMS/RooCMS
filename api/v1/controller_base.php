@@ -259,12 +259,12 @@ abstract class BaseController {
         if ($this->db && defined('SYSERRLOG') && DEBUGMODE) {
             // Sanitize server data to prevent XSS and log injection
             $log_data = [
-                'action' => $action,
+                'action' => sanitize_log($action),
                 'method' => sanitize_log(env('REQUEST_METHOD') ?? 'UNKNOWN'),
                 'uri' => sanitize_log(env('REQUEST_URI') ?? ''),
                 'ip' => sanitize_log(env('REMOTE_ADDR') ?? ''),
                 'timestamp' => date('Y-m-d H:i:s'),
-                'data' => $data
+                'data' => sanitize_log($data)
             ];
 
             error_log('API Request: ' . json_encode($log_data) . '\r\n', 3, SYSERRLOG);

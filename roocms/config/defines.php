@@ -30,11 +30,10 @@ define('DB_PREFIX', $db_info['prefix']);
 /**
 * Config $DB Table
 */
-//const TABLE_CONFIG_PARTS        = DB_PREFIX.'config__parts';
-//const TABLE_CONFIG_SETTINGS     = DB_PREFIX.'config__settings';
 const TABLE_MIGRATIONS          = DB_PREFIX.'migrations';
 const TABLE_TOKENS              = DB_PREFIX.'tokens';
 const TABLE_VERIFICATION_CODES  = DB_PREFIX.'verification_codes';
+const TABLE_SETTINGS            = DB_PREFIX.'settings';
 /**
 * Users Tables
 */
@@ -59,13 +58,10 @@ const TABLE_USERS               = DB_PREFIX.'users';
 */
 //const TABLE_STRUCTURE = DB_PREFIX.'structure';
 //const TABLE_PAGES = DB_PREFIX.'pages';
-//const TABLE_TAGS = DB_PREFIX.'tags';
 //const TABLE_TAGS_LINKED = DB_PREFIX.'tags_linked';
 //const TABLE_BLOCKS = DB_PREFIX.'blocks';
 //const TABLE_IMAGES = DB_PREFIX.'images';
 //const TABLE_FILES = DB_PREFIX.'files';
-//const TABLE_USERS = DB_PREFIX.'users';
-//const TABLE_USERS_GROUP = DB_PREFIX.'users_group';
 //const TABLE_USERS_PM = DB_PREFIX.'users_pm';
 //const TABLE_MAILING = DB_PREFIX.'mailing';
 //const TABLE_MAILING_LINKED = DB_PREFIX.'mailing_links';

@@ -70,6 +70,7 @@ spl_autoload_register(function(string $class_name) {
         'DbQueryBuilder'            => _CLASS . '/class_dbQueryBuilder.php',
         'DbExtends'                 => _CLASS . '/trait_dbExtends.php',
         'DbMigrator'                => _CLASS . '/class_dbMigrator.php',
+        'Settings'                  => _CLASS . '/class_settings.php',
         'ControllerFactory'         => _CLASS . '/interface_controllerFactory.php',
         'DefaultControllerFactory'  => _CLASS . '/class_defaultControllerFactory.php',
         'MiddlewareFactory'         => _CLASS . '/interface_middlewareFactory.php',
