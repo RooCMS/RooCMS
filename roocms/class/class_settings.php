@@ -173,7 +173,7 @@ class Settings {
             // Update value
             $data = [
                 'value' => $serializedValue,
-                'updated_at' => now()
+                'updated_at' => time()
             ];
 
             return $this->db->update_array($data, TABLE_SETTINGS, "`key` = ?", [$key]);
@@ -214,8 +214,8 @@ class Settings {
                 'max_length' => $data['max_length'] ?? null,
                 'is_required' => $data['is_required'] ?? 0,
                 'is_serialized' => $data['is_serialized'] ?? 0,
-                'created_at' => now(),
-                'updated_at' => now()
+                'created_at' => time(),
+                'updated_at' => time()
             ];
 
             $result = $this->db->insert_array($insertData, TABLE_SETTINGS);

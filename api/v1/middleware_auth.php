@@ -94,7 +94,7 @@ class AuthMiddleware {
                 ->where('hash', '=', $token)
                 ->where('token_expires', '>', time())
                 ->limit(1)
-                ->fetchOne();
+                ->first();
 
             if (!$token_data) {
                 $this->send_error_response('Invalid or expired token', 401);
@@ -107,7 +107,7 @@ class AuthMiddleware {
                 ->where('user_id', '=', $token_data['user_id'])
                 ->where('is_active', '=', '1')
                 ->limit(1)
-                ->fetchOne();
+                ->first();
 
             if (!$user) {
                 $this->send_error_response('User not found or inactive', 401);

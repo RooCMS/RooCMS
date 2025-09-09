@@ -189,14 +189,14 @@ function sanitize_input_data(mixed $data): mixed {
  * Sanitize path
  *
  * @param string $uri
- * @return string
+ * @return string|false
  */
-function sanitize_path(string $uri): string {
+function sanitize_path(string $uri): string|false {
     // Get path from URI
     $path = parse_url($uri, PHP_URL_PATH);
-    
+
     if ($path === false) {
-        return '/';
+        return false;
     }
     
     // Decode URL-encoded symbols
@@ -215,7 +215,7 @@ function sanitize_path(string $uri): string {
     
     // Limit the path length
     if (strlen($path) > 2048) {
-        return '/';
+        return false;
     }
     
     return $path;

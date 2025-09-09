@@ -29,7 +29,6 @@ if(!defined('RooCMS')) {
 class ApiHandler {
 
     private array $routes = [];
-    private array $middleware = [];
 
     private ControllerFactory $controllerFactory;
     private MiddlewareFactory $middlewareFactory;

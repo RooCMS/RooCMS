@@ -101,7 +101,7 @@ class AuthController extends BaseController {
                 ->from(TABLE_USERS)
                 ->where('login', '=', $data['login'])
                 ->limit(1)
-                ->fetchOne();
+                ->first();
 
             if (!$user) {
                 $this->error_response('Invalid credentials', 401);
@@ -217,7 +217,7 @@ class AuthController extends BaseController {
                 ->from(TABLE_USERS)
                 ->where('login', '=', $data['login'])
                 ->limit(1)
-                ->fetchOne();
+                ->first();
 
             if ($existing_login) {
                 $this->error_response('Login already exists', 409);
@@ -229,7 +229,7 @@ class AuthController extends BaseController {
                 ->from(TABLE_USERS)
                 ->where('email', '=', $data['email'])
                 ->limit(1)
-                ->fetchOne();
+                ->first();
 
             if ($existing_email) {
                 $this->error_response('Email already exists', 409);
@@ -300,7 +300,7 @@ class AuthController extends BaseController {
         $this->log_request('auth_logout');
         
         $user = $this->require_authentication();
-        if (!$user) {
+        if (empty($user)) {
             return; // Error response already sent
         }
 
@@ -342,7 +342,7 @@ class AuthController extends BaseController {
                 ->where('refresh', '=', $data['refresh_token'])
                 ->where('refresh_expires', '>', time())
                 ->limit(1)
-                ->fetchOne();
+                ->first();
 
             if (!$token_data) {
                 $this->error_response('Invalid or expired refresh token', 401);
@@ -355,7 +355,7 @@ class AuthController extends BaseController {
                 ->where('user_id', '=', $token_data['user_id'])
                 ->where('is_active', '=', '1')
                 ->limit(1)
-                ->fetchOne();
+                ->first();
 
             if (!$user) {
                 $this->error_response('User not found or inactive', 401);
@@ -431,7 +431,7 @@ class AuthController extends BaseController {
                 ->where('email', '=', $data['email'])
                 ->where('is_active', '=', '1')
                 ->limit(1)
-                ->fetchOne();
+                ->first();
 
             // Always return success to prevent email enumeration
             if (!$user) {
@@ -532,7 +532,7 @@ class AuthController extends BaseController {
                 ->where('expires_at', '>', time())
                 ->where('used_at', 'IS', null)
                 ->limit(1)
-                ->fetchOne();
+                ->first();
 
             if (!$verification_code) {
                 $this->error_response('Invalid or expired reset code', 401);
@@ -551,7 +551,7 @@ class AuthController extends BaseController {
                 ->where('user_id', '=', $verification_code['user_id'])
                 ->where('is_active', '=', '1')
                 ->limit(1)
-                ->fetchOne();
+                ->first();
 
             if (!$user) {
                 // Increment attempts even for invalid user
@@ -627,7 +627,7 @@ class AuthController extends BaseController {
         $this->log_request('password_update');
         
         $user = $this->require_authentication();
-        if (!$user) {
+        if (empty($user)) {
             return; // Error response already sent
         }
 

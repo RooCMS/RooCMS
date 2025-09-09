@@ -497,7 +497,25 @@ class DbMigrator {
 	 * Building CREATE TABLE for PostgreSQL
 	 */
 	private function build_postgres_create_table(string $table_name, string $definition, array $config): string {
-		return 'CREATE TABLE IF NOT EXISTS ' . $table_name . ' (' . $definition . ')';
+		$sql = 'CREATE TABLE IF NOT EXISTS ' . $table_name . ' (' . $definition . ')';
+
+		// ENCODING (from charset with conversion)
+		$charset = $config['options']['charset'] ?? 'utf8';
+		if ($charset === 'utf8mb4') {
+			$charset = 'UTF8';
+		}
+		$sql .= ' ENCODING \'' . $charset . '\'';
+
+		// LC_COLLATE и LC_CTYPE (from collate with conversion)
+		$collate = $config['options']['collate'] ?? 'utf8_unicode_ci';
+		$locale = match($collate) {
+			'utf8mb4_unicode_ci', 'utf8_unicode_ci' => 'en_US.UTF-8',
+			'utf8mb4_bin', 'utf8_bin' => 'C',
+			default => 'en_US.UTF-8'
+		};
+		$sql .= ' LC_COLLATE \'' . $locale . '\' LC_CTYPE \'' . $locale . '\'';
+
+		return $sql;
 	}
 
 
@@ -505,7 +523,16 @@ class DbMigrator {
 	 * Building CREATE TABLE for Firebird
 	 */
 	private function build_firebird_create_table(string $table_name, string $definition, array $config): string {
-		return 'CREATE TABLE ' . $table_name . ' (' . $definition . ')';
+		$sql = 'CREATE TABLE ' . $table_name . ' (' . $definition . ')';
+
+		// DEFAULT CHARACTER SET (from charset with conversion)
+		$charset = $config['options']['charset'] ?? 'utf8';
+		if ($charset === 'utf8mb4') {
+			$charset = 'UTF8';
+		}
+		$sql .= ' DEFAULT CHARACTER SET ' . $charset;
+
+		return $sql;
 	}
 
 

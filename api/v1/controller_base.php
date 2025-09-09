@@ -264,7 +264,7 @@ abstract class BaseController {
                 'uri' => sanitize_log(env('REQUEST_URI') ?? ''),
                 'ip' => sanitize_log(env('REMOTE_ADDR') ?? ''),
                 'timestamp' => date('Y-m-d H:i:s'),
-                'data' => sanitize_log($data)
+                'data' => sanitize_input_data($data)
             ];
 
             error_log('API Request: ' . json_encode($log_data) . '\r\n', 3, SYSERRLOG);
@@ -298,7 +298,7 @@ abstract class BaseController {
             }
             
             // Fallback: simple connection test
-            $result = $this->db->query("SELECT 1");
+            $this->db->query("SELECT 1");
             
             return [
                 'status' => 'ok',
@@ -329,7 +329,7 @@ abstract class BaseController {
     protected function require_authentication(): array|null {
         $user = $this->get_authenticated_user();
         
-        if (!$user) {
+        if (empty($user)) {
             $this->error_response('Authentication required', 401);
             return null;
         }
@@ -345,7 +345,7 @@ abstract class BaseController {
     protected function check_permission(string $permission): bool {
         $user = $this->get_authenticated_user();
         
-        if (!$user) {
+        if (empty($user)) {
             return false;
         }
         
