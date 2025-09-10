@@ -30,7 +30,7 @@ function check_php_version(): array {
     $php_version = PHP_VERSION;
     $results = [];
 
-    if (version_compare($php, '8.1', "<")) {
+    if (version_compare($php_version, '8.1', "<")) {
         $results[] = [
             "check" => "PHP Version",
             "value" => $php_version,

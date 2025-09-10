@@ -49,7 +49,7 @@ function is_valid_id(mixed $id): bool {
  * Check if string contains valid JSON
  */
 function is_json_string(string $value): bool {
-    if (!is_string($value) || empty($value)) {
+    if (empty($value)) {
         return false;
     }
 
