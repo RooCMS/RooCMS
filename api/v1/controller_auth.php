@@ -660,13 +660,13 @@ class AuthController extends BaseController {
 
         try {
             // Verify current password
-            if (!$this->auth->verify($data['current_password'], $user['password'])) {
+            if (!$this->auth->verify_password($data['current_password'], $user['password'])) {
                 $this->error_response('Current password is incorrect', 401);
                 return;
             }
 
             // Hash new password
-            $hashed_password = $this->auth->hash($data['new_password']);
+            $hashed_password = $this->auth->hash_password($data['new_password']);
 
             // Update user password
             $this->db->update(TABLE_USERS)
