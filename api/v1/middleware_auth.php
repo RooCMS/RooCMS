@@ -28,12 +28,14 @@ if(!defined('RooCMS')) {
 class AuthMiddleware {
 
     private readonly Db $db;
+    private readonly Auth $auth;
 
     /**
      * Constructor
      */
-    public function __construct(Db $db) {
+    public function __construct(Db $db, Auth $auth) {
         $this->db = $db;
+        $this->auth = $auth;
     }
 
     
@@ -88,10 +90,13 @@ class AuthMiddleware {
      */
     private function authenticate_token(string $token): array|null {
         try {
+            // Hash the token before searching in database
+            $token_hash = $this->auth->hash_data($token);
+
             // Find valid token
             $token_data = $this->db->select()
                 ->from(TABLE_TOKENS)
-                ->where('hash', '=', $token)
+                ->where('token', '=', $token_hash)
                 ->where('token_expires', '>', time())
                 ->limit(1)
                 ->first();

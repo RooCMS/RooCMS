@@ -29,6 +29,7 @@ if(!defined('RooCMS')) {
 class Auth {
 
     private Db $db;
+    private string $hash_key = "your-unique-secret-key/change-this-in-production"; // TODO: Must be moved to environment variables
 
     protected int $hash_cost             = 10;
     protected int $token_length          = 32;
@@ -85,7 +86,7 @@ class Auth {
      * @param string $data
      * @return string
      */
-    public function hash(string $data): string {
+    public function hash_password(string $data): string {
         
         // options for password_hash
         $options = [
@@ -103,27 +104,55 @@ class Auth {
      * @param string $hash
      * @return bool
      */
-    public function verify(string $data, string $hash): bool {
+    public function verify_password(string $data, string $hash): bool {
         return password_verify($data, $hash);
     }
 
 
     /**
-     * Store token
+     * Hash data using HMAC
      *
+     * @param string $data
+     * @return string
+     */
+    public function hash_data(string $data): string {
+        return hash_hmac('sha3-256', $data, $this->hash_key);
+    }
+
+
+    /**
+     * Verify data
+     *
+     * @param string $data
      * @param string $hash
+     * @return bool
+     */
+    public function verify_data(string $data, string $hash): bool {
+        return hash_equals($hash, $this->hash_data($data));
+    }
+
+
+    /**
+     * Store token (hashes tokens before storing)
+     *
+     * @param string $token
+     * @param string $refresh_token
      * @param int $user_id
      * @param int $expires
      * @return void
      */
-    public function store_token(string $token_hash, string $refresh_hash, int $user_id, int $expires = null): void {
+    public function store_token(string $token, string $refresh_token, int $user_id, int $expires = null): void {
         $expires = $expires ?? $this->token_expires;
         $expires = time() + $expires;
         $refresh_token_expires = time() + $this->refresh_token_expires;
 
+        // Hash tokens before storing in database
+        $token_hash = $this->hash_data($token);
+        $refresh_hash = $this->hash_data($refresh_token);
+
         // insert token to database
         $this->db->insert(TABLE_TOKENS)->data([
-            'hash' => $token_hash,
+            'token' => $token_hash,
             'refresh' => $refresh_hash,
             'user_id' => $user_id,
             'token_expires' => $expires,

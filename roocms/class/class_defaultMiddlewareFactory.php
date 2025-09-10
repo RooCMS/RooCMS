@@ -29,14 +29,16 @@ class DefaultMiddlewareFactory implements MiddlewareFactory {
 
     private readonly Db $db;
     private readonly Role $role;
+    private readonly Auth $auth;
 
 
     /**
      * Constructor
      */
-    public function __construct(Db $db, Role $role) {
+    public function __construct(Db $db, Role $role, Auth $auth) {
         $this->db = $db;
         $this->role = $role;
+        $this->auth = $auth;
     }
 
     /**
@@ -54,7 +56,7 @@ class DefaultMiddlewareFactory implements MiddlewareFactory {
         // Inject dependencies based on middleware type
         switch ($middlewareClass) {
             case 'AuthMiddleware':
-                return new AuthMiddleware($this->db);
+                return new AuthMiddleware($this->db, $this->auth);
             case 'RoleMiddleware':
                 return new RoleMiddleware($this->role);
             default:

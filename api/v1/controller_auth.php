@@ -124,7 +124,7 @@ class AuthController extends BaseController {
             }
 
             // Verify password
-            if (!$this->auth->verify($data['password'], $user['password'])) {
+            if (!$this->auth->verify_password($data['password'], $user['password'])) {
                 $this->error_response('Invalid credentials', 401);
                 return;
             }
@@ -237,7 +237,7 @@ class AuthController extends BaseController {
             }
 
             // Hash password
-            $hashed_password = $this->auth->hash($data['password']);
+            $hashed_password = $this->auth->hash_password($data['password']);
             $current_time = time();
 
             // Insert new user
@@ -336,10 +336,13 @@ class AuthController extends BaseController {
         }
 
         try {
+            // Hash the refresh token before searching in database
+            $refresh_token_hash = $this->auth->hash_data($data['refresh_token']);
+
             // Find valid refresh token
             $token_data = $this->db->select()
                 ->from(TABLE_TOKENS)
-                ->where('refresh', '=', $data['refresh_token'])
+                ->where('refresh', '=', $refresh_token_hash)
                 ->where('refresh_expires', '>', time())
                 ->limit(1)
                 ->first();
@@ -447,7 +450,7 @@ class AuthController extends BaseController {
 
             // Generate recovery code (6-digit numeric)
             $recovery_code = str_pad((string)random_int(100000, 999999), $this->recovery_code_length, '0', STR_PAD_LEFT);
-            $code_hash = hash('sha256', $recovery_code);
+            $code_hash = $this->auth->hash_data($recovery_code);
             $expires_at = time() + $this->recovery_token_expires;
 
             // Remove any existing recovery codes for this user
@@ -523,7 +526,7 @@ class AuthController extends BaseController {
 
         try {
             // Find and validate recovery code
-            $code_hash = hash('sha256', $data['token']);
+            $code_hash = $this->auth->hash_data($data['token']);
             
             $verification_code = $this->db->select()
                 ->from(TABLE_VERIFICATION_CODES)
@@ -571,7 +574,7 @@ class AuthController extends BaseController {
             }
 
             // Hash new password
-            $hashed_password = $this->auth->hash($data['password']);
+            $hashed_password = $this->auth->hash_password($data['password']);
 
             // Update user password
             $this->db->update(TABLE_USERS)

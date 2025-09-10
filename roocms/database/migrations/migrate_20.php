@@ -37,9 +37,9 @@ return [
                         'auto_increment' => true,
                         'null' => false,
                     ],
-                    'hash' => [
+                    'token' => [
                         'type' => 'string',
-                        'length' => 32,
+                        'length' => 64,
                         'null' => false,
                     ],
                     'refresh' => [
@@ -73,8 +73,8 @@ return [
 					],
 					[
 						'type' => 'key',
-						'name' => 'tokens_hash_idx',
-						'columns' => ['hash', 'token_expires'],
+						'name' => 'tokens_token_idx',
+						'columns' => ['token', 'token_expires'],
 					],
 					[
 						'type' => 'key',
@@ -83,12 +83,12 @@ return [
 					],
                     [
                         'type' => 'unique',
-                        'name' => 'tokens_uhash_idx',
-                        'columns' => 'hash',
+                        'name' => 'tokens_token_uq',
+                        'columns' => 'token',
                     ],
                     [
                         'type' => 'unique',
-                        'name' => 'tokens_urefresh_idx',
+                        'name' => 'tokens_refresh_uq',
                         'columns' => 'refresh',
                     ],
 					[

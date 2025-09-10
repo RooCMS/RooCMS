@@ -54,10 +54,10 @@ spl_autoload_register(function(string $controller_name) {
 
 
 /**
- * Create controller factory and router instance
+ * Create controller and middleware factories and router instance
  */
 $controllerFactory = new DefaultControllerFactory($db);
-$middlewareFactory = new DefaultMiddlewareFactory($db, new Role());
+$middlewareFactory = new DefaultMiddlewareFactory($db, new Role(), new Auth($db));
 $api = new ApiHandler($controllerFactory, $middlewareFactory);
 
 /**
