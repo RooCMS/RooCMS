@@ -230,15 +230,29 @@ class DbMigrator {
 	 */
 	private function process_migration(array $migration_data): void {
 		foreach ($migration_data as $operation_type => $operation_data) {
-			match ($operation_type) {
-				'tables' => $this->process_create_tables($operation_data),
-				'alter_tables' => $this->process_alter_tables($operation_data),
-				'data' => $this->process_insert_data($operation_data),
-				'delete_data' => $this->process_delete_data($operation_data),
-				'drop_tables' => $this->process_drop_tables($operation_data),
-				'raw_sql' => $this->process_raw_sql($operation_data),
-				default => null // Ignore unknown operations
-			};
+			switch ($operation_type) {
+				case 'tables':
+					$this->process_create_tables($operation_data);
+					break;
+				case 'alter_tables':
+					$this->process_alter_tables($operation_data);
+					break;
+				case 'data':
+					$this->process_insert_data($operation_data);
+					break;
+				case 'delete_data':
+					$this->process_delete_data($operation_data);
+					break;
+				case 'drop_tables':
+					$this->process_drop_tables($operation_data);
+					break;
+				case 'raw_sql':
+					$this->process_raw_sql($operation_data);
+					break;
+				default:
+					// Ignore unknown operations
+					break;
+			}
 		}
 	}
 
