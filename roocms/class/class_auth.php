@@ -38,6 +38,7 @@ class Auth {
     public int $refresh_token_expires    = 86400;
     public int $password_length          = 6;
 
+    
 
     /**
      * Constructor
@@ -50,10 +51,10 @@ class Auth {
     /**
      * Generate password
      *
-     * @param int $length
+     * @param int|null $length
      * @return string
      */
-    public function generate_password(int $length = null): string {
+    public function generate_password(?int $length = null): string {
         $length = $length ?? $this->password_length;
         
         $password = randcode($length, 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$!%');
@@ -65,10 +66,10 @@ class Auth {
     /**
      * Generate token
      *
-     * @param int $length
+     * @param int|null $length
      * @return string
      */
-    public function generate_token(int $length = null): string {
+    public function generate_token(?int $length = null): string {
 
         $length = $length ?? $this->token_length;
 
@@ -138,10 +139,10 @@ class Auth {
      * @param string $token
      * @param string $refresh_token
      * @param int $user_id
-     * @param int $expires
+     * @param int|null $expires
      * @return void
      */
-    public function store_token(string $token, string $refresh_token, int $user_id, int $expires = null): void {
+    public function store_token(string $token, string $refresh_token, int $user_id, ?int $expires = null): void {
         $expires = $expires ?? $this->token_expires;
         $expires = time() + $expires;
         $refresh_token_expires = time() + $this->refresh_token_expires;
