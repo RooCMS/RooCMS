@@ -229,51 +229,87 @@ class DbMigrator {
 	 * @param array $migration_data
 	 */
 	private function process_migration(array $migration_data): void {
-		// Creating tables
-		if (isset($migration_data['tables'])) {
-			foreach ($migration_data['tables'] as $table_constant => $table_config) {
-				$table_name = constant($table_constant);
-				$this->create_table($table_name, $table_config);
-			}
+		foreach ($migration_data as $operation_type => $operation_data) {
+			match ($operation_type) {
+				'tables' => $this->process_create_tables($operation_data),
+				'alter_tables' => $this->process_alter_tables($operation_data),
+				'data' => $this->process_insert_data($operation_data),
+				'delete_data' => $this->process_delete_data($operation_data),
+				'drop_tables' => $this->process_drop_tables($operation_data),
+				'raw_sql' => $this->process_raw_sql($operation_data),
+				default => null // Ignore unknown operations
+			};
 		}
+	}
 
-		// Changing tables
-		if (isset($migration_data['alter_tables'])) {
-			foreach ($migration_data['alter_tables'] as $table_constant => $alter_config) {
-				$table_name = constant($table_constant);
-				$this->alter_table($table_name, $alter_config);
-			}
+
+	/**
+	 * Processing table creation operations
+	 * @param array $tables_data
+	 */
+	private function process_create_tables(array $tables_data): void {
+		foreach ($tables_data as $table_constant => $table_config) {
+			$table_name = constant($table_constant);
+			$this->create_table($table_name, $table_config);
 		}
+	}
 
-		// Inserting data
-		if (isset($migration_data['data'])) {
-			foreach ($migration_data['data'] as $table_constant => $records) {
-				$table_name = constant($table_constant);
-				$this->insert_data($table_name, $records);
-			}
+
+	/**
+	 * Processing table alteration operations
+	 * @param array $alter_data
+	 */
+	private function process_alter_tables(array $alter_data): void {
+		foreach ($alter_data as $table_constant => $alter_config) {
+			$table_name = constant($table_constant);
+			$this->alter_table($table_name, $alter_config);
 		}
+	}
 
-		// Deleting data
-		if (isset($migration_data['delete_data'])) {
-			foreach ($migration_data['delete_data'] as $table_constant => $conditions) {
-				$table_name = constant($table_constant);
-				$this->delete_data($table_name, $conditions);
-			}
+
+	/**
+	 * Processing data insertion operations
+	 * @param array $data
+	 */
+	private function process_insert_data(array $data): void {
+		foreach ($data as $table_constant => $records) {
+			$table_name = constant($table_constant);
+			$this->insert_data($table_name, $records);
 		}
+	}
 
-		// Deleting tables
-		if (isset($migration_data['drop_tables'])) {
-			foreach ($migration_data['drop_tables'] as $table_constant) {
-				$table_name = constant($table_constant);
-				$this->drop_table($table_name);
-			}
+
+	/**
+	 * Processing data deletion operations
+	 * @param array $delete_data
+	 */
+	private function process_delete_data(array $delete_data): void {
+		foreach ($delete_data as $table_constant => $conditions) {
+			$table_name = constant($table_constant);
+			$this->delete_data($table_name, $conditions);
 		}
+	}
 
-		// Performing arbitrary SQL queries
-		if (isset($migration_data['raw_sql'])) {
-			foreach ($migration_data['raw_sql'] as $sql) {
-				$this->db->query($sql);
-			}
+
+	/**
+	 * Processing table dropping operations
+	 * @param array $drop_tables
+	 */
+	private function process_drop_tables(array $drop_tables): void {
+		foreach ($drop_tables as $table_constant) {
+			$table_name = constant($table_constant);
+			$this->drop_table($table_name);
+		}
+	}
+
+
+	/**
+	 * Processing raw SQL operations
+	 * @param array $raw_sql_queries
+	 */
+	private function process_raw_sql(array $raw_sql_queries): void {
+		foreach ($raw_sql_queries as $sql) {
+			$this->db->query($sql);
 		}
 	}
 
