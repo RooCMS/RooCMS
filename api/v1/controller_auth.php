@@ -222,9 +222,12 @@ class AuthController extends BaseController {
         ])->execute())(time());
 
         // Generate tokens
-        $generate_tokens = fn($user_id) => (fn($access, $refresh) => [
-            $this->auth->store_token($access, $refresh, $user_id),
-            [
+        $generate_tokens = function($user_id) use ($data) {
+            $access = $this->auth->generate_token();
+            $refresh = $this->auth->generate_token(64);
+            $this->auth->store_token($access, $refresh, $user_id);
+            
+            return [
                 'access_token' => $access,
                 'refresh_token' => $refresh,
                 'token_type' => 'Bearer',
@@ -236,8 +239,8 @@ class AuthController extends BaseController {
                     'email' => $data['email'],
                     'is_verified' => false
                 ]
-            ]
-        ][1])($this->auth->generate_token(), $this->auth->generate_token(64));
+            ];
+        };
 
         // Execute registration pipeline
         try {
