@@ -262,7 +262,37 @@ class AuthController extends BaseController {
                 return;
             }
 
-            $this->created_response($generate_tokens($user_id), 'Registration successful');
+            // Prepare response data (tokens and user info)
+            $response_payload = $generate_tokens($user_id);
+
+            // Send Welcome email (non-blocking, errors are ignored)
+            try {
+                $settings = new Settings($this->db);
+                $mailer = new Mailer($settings);
+
+                $site_name = $settings->get_by_key('site_name') ?? 'RooCMS';
+                $site_domain = $settings->get_by_key('site_domain') ?? _DOMAIN;
+                $site_url = 'https://' . $site_domain;
+
+                $subject = 'Welcome to ' . $site_name . '!';
+
+                $mailer->send_with_template([
+                    'to' => $data['email'],
+                    'subject' => $subject,
+                    'template' => 'welcome',
+                    'data' => [
+                        'user_name' => $data['login'],
+                        'user_email' => $data['email'],
+                        'site_name' => $site_name,
+                        'site_url' => $site_url,
+                        'login_url' => $site_url
+                    ],
+                ]);
+            } catch (Exception $e) {
+                // Ignore mailing errors to not affect registration flow
+            }
+
+            $this->created_response($response_payload, 'Registration successful');
 
         } catch (Exception $e) {
             $this->error_response('Registration failed', 500);
@@ -450,18 +480,41 @@ class AuthController extends BaseController {
                 'max_attempts' => $this->max_recovery_attempts
             ])->execute();
 
-            // TODO: Send recovery email with code
-            // For now, return code in response (remove in production!)
-            $response_data = [];
-            if (DEBUGMODE) {
-                $response_data['recovery_code'] = $recovery_code; // Only in debug mode!
+            // Send recovery email with code
+            try {
+                $settings = new Settings($this->db);
+                $mailer = new Mailer($settings);
+
+                $site_name = $settings->get_by_key('site_name') ?? 'RooCMS';
+                $site_domain = $settings->get_by_key('site_domain') ?? _DOMAIN;
+                $site_url = 'https://' . $site_domain;
+
+                $subject = 'Password recovery on ' . $site_name;
+
+                // Prefer templated email; failures are non-fatal
+                $mailer->send_with_template([
+                    'to' => $user['email'],
+                    'subject' => $subject,
+                    'template' => 'notice',
+                    'data' => [
+                        'title' => 'Recovery password',
+                        'message' => "Your recovery code: {$recovery_code}\nValid for 30 minutes.",
+                        'user_name' => $user['login'] ?? '',
+                        'site_name' => $site_name,
+                        'site_url' => $site_url,
+                    ],
+                ]);
+            } catch (Exception $e) {
+                // Intentionally ignore mailing errors to avoid information leakage
             }
 
-            $this->json_response(
-                $response_data,
-                200, 
-                'Recovery code sent to your email'
-            );
+            // For debug mode, return code in response (do not enable in production)
+            $response_data = [];
+            if (DEBUGMODE) {
+                $response_data['recovery_code'] = $recovery_code; // Only in debug mode! TODO: Remove in production
+            }
+
+            $this->json_response($response_data, 200, 'Recovery code sent to your email');
 
         } catch (Exception $e) {
             $this->error_response('Password recovery failed', 500);
