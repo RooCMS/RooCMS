@@ -169,7 +169,6 @@ class AuthController extends BaseController {
      * User registration
      * POST /api/v1/auth/register
      * 
-     * @param array $data
      * @return void
      */
     public function register(): void {
@@ -177,103 +176,59 @@ class AuthController extends BaseController {
         
         $data = $this->get_input_data();
         
-        // Validate required fields
-        $required = ['login', 'email', 'password'];
-        $validation_errors = $this->validate_required($data, $required);
-        
-        if (!empty($validation_errors)) {
-            $this->validation_error_response($validation_errors);
-            return;
-        }
+        // Validation pipeline using closures
+        $validate = fn() => array_merge(
+            $this->validate_required($data, ['login', 'email', 'password']),
+            array_filter([
+                'login' => match(true) {
+                    strlen($data['login'] ?? '') < $this->login_min_length,
+                    strlen($data['login'] ?? '') > $this->login_max_length 
+                        => "Login must be between {$this->login_min_length} and {$this->login_max_length} characters",
+                    default => null
+                },
+                'email' => !filter_var($data['email'] ?? '', FILTER_VALIDATE_EMAIL) ? 'Invalid email format' : null,
+                'password' => strlen($data['password'] ?? '') < $this->password_min_length 
+                    ? "Password must be at least {$this->password_min_length} characters" : null,
+                'password_confirmation' => isset($data['password_confirmation']) && $data['password'] !== $data['password_confirmation']
+                    ? 'Password confirmation does not match' : null
+            ])
+        );
 
-        // Additional validation
-        if (strlen($data['login']) < $this->login_min_length || strlen($data['login']) > $this->login_max_length) {
-            $validation_errors['login'] = 'Login must be between ' . $this->login_min_length . ' and ' . $this->login_max_length . ' characters';
-        }
+        // Check for existing users
+        $check_existing = fn() => array_reduce(
+            [['login', 'Login already exists'], ['email', 'Email already exists']],
+            fn($carry, $check) => $carry ?: (
+                $this->db->select()->from(TABLE_USERS)->where($check[0], '=', $data[$check[0]])->limit(1)->first()
+                    ? ['message' => $check[1], 'code' => 409] 
+                    : null
+            ),
+            null
+        );
 
-        if (!filter_var($data['email'], FILTER_VALIDATE_EMAIL)) {
-            $validation_errors['email'] = 'Invalid email format';
-        }
+        // Create user data
+        $create_user = fn() => (fn($time) => $this->db->insert(TABLE_USERS)->data([
+            'login' => $data['login'],
+            'email' => $data['email'], 
+            'password' => $this->auth->hash_password($data['password']),
+            'role' => 'u',
+            'is_active' => '1',
+            'is_verified' => '0',
+            'is_banned' => '0',
+            'ban_expired' => 0,
+            'ban_reason' => '',
+            'created_at' => $time,
+            'updated_at' => $time,
+            'last_activity' => $time
+        ])->execute())(time());
 
-        if (strlen($data['password']) < $this->password_min_length) {
-            $validation_errors['password'] = 'Password must be at least ' . $this->password_min_length . ' characters';
-        }
-
-        // Check for password confirmation if provided
-        if (isset($data['password_confirmation'])) {
-            if ($data['password'] !== $data['password_confirmation']) {
-                $validation_errors['password_confirmation'] = 'Password confirmation does not match';
-            }
-        }
-
-        if (!empty($validation_errors)) {
-            $this->validation_error_response($validation_errors);
-            return;
-        }
-
-        try {
-            // Check if login already exists
-            $existing_login = $this->db->select()
-                ->from(TABLE_USERS)
-                ->where('login', '=', $data['login'])
-                ->limit(1)
-                ->first();
-
-            if ($existing_login) {
-                $this->error_response('Login already exists', 409);
-                return;
-            }
-
-            // Check if email already exists
-            $existing_email = $this->db->select()
-                ->from(TABLE_USERS)
-                ->where('email', '=', $data['email'])
-                ->limit(1)
-                ->first();
-
-            if ($existing_email) {
-                $this->error_response('Email already exists', 409);
-                return;
-            }
-
-            // Hash password
-            $hashed_password = $this->auth->hash_password($data['password']);
-            $current_time = time();
-
-            // Insert new user
-            $user_id = $this->db->insert(TABLE_USERS)->data([
-                'login' => $data['login'],
-                'email' => $data['email'],
-                'password' => $hashed_password,
-                'role' => 'u',
-                'is_active' => '1',
-                'is_verified' => '0',
-                'is_banned' => '0',
-                'ban_expired' => 0,
-                'ban_reason' => '',
-                'created_at' => $current_time,
-                'updated_at' => $current_time,
-                'last_activity' => $current_time
-            ])->execute();
-
-            if (!$user_id) {
-                $this->error_response('Registration failed', 500);
-                return;
-            }
-
-            // Generate tokens
-            $access_token = $this->auth->generate_token();
-            $refresh_token = $this->auth->generate_token(64);
-            
-            // Store tokens in database
-            $this->auth->store_token($access_token, $refresh_token, $user_id);
-
-            // Return success response
-            $response_data = [
-                'access_token' => $access_token,
-                'refresh_token' => $refresh_token,
+        // Generate tokens
+        $generate_tokens = fn($user_id) => (fn($access, $refresh) => [
+            $this->auth->store_token($access, $refresh, $user_id),
+            [
+                'access_token' => $access,
+                'refresh_token' => $refresh,
                 'token_type' => 'Bearer',
-                'expires_in' => 3600,
+                'expires_in' => $this->token_expires,
                 'user' => [
                     'user_id' => $user_id,
                     'role' => 'u',
@@ -281,9 +236,30 @@ class AuthController extends BaseController {
                     'email' => $data['email'],
                     'is_verified' => false
                 ]
-            ];
+            ]
+        ][1])($this->auth->generate_token(), $this->auth->generate_token(64));
 
-            $this->created_response($response_data, 'Registration successful');
+        // Execute registration pipeline
+        try {
+            // Validate input
+            if ($validation_errors = $validate()) {
+                $this->validation_error_response($validation_errors);
+                return;
+            }
+
+            // Check existing users
+            if ($existing_error = $check_existing()) {
+                $this->error_response($existing_error['message'], $existing_error['code']);
+                return;
+            }
+
+            // Create user and generate response
+            if (!($user_id = $create_user())) {
+                $this->error_response('Registration failed', 500);
+                return;
+            }
+
+            $this->created_response($generate_tokens($user_id), 'Registration successful');
 
         } catch (Exception $e) {
             $this->error_response('Registration failed', 500);
