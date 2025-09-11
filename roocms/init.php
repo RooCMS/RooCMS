@@ -71,6 +71,7 @@ spl_autoload_register(function(string $class_name) {
         'DbExtends'                 => _CLASS . '/trait_dbExtends.php',
         'DbMigrator'                => _CLASS . '/class_dbMigrator.php',
         'Settings'                  => _CLASS . '/class_settings.php',
+        'Mailer'                    => _CLASS . '/class_mailer.php',
         'ControllerFactory'         => _CLASS . '/interface_controllerFactory.php',
         'DefaultControllerFactory'  => _CLASS . '/class_defaultControllerFactory.php',
         'MiddlewareFactory'         => _CLASS . '/interface_middlewareFactory.php',
