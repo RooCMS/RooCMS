@@ -195,7 +195,7 @@ function sanitize_path(string $uri): string|false {
     // Get path from URI
     $path = parse_url($uri, PHP_URL_PATH);
 
-    if ($path === false) {
+    if ($path === false || $path === null) {
         return false;
     }
     
@@ -211,23 +211,16 @@ function sanitize_path(string $uri): string|false {
     // Enhanced path traversal protection
     // Remove various forms of directory traversal patterns
     $dangerous_patterns = [
-        '/\.\./\.*/',     // ../ and variations
-        '/\.\.\\\.*//',   // ..\ and variations  
-        '/\.\./',         // Simple ..
-        '/\.\.\\/',       // Simple ..\
-        '/\.\.%2f/i',     // URL encoded ../
-        '/\.\.%5c/i',     // URL encoded ..\
-        '/\.\.%252f/i',   // Double URL encoded ../
-        '/\.%2e%2f/i',    // Encoded ../
-        '/%2e%2e%2f/i',   // Fully encoded ../
-        '/%2e%2e%5c/i',   // Fully encoded ..\
-        '/\.{2,}/',       // Multiple dots
+        '#\.\.(?:/|\\\\)+#',            // ../ or ..\ (including repeated)
+        '#%2e%2e(?:%2f|%5c)+#i',        // URL-encoded ../ or ..\
+        '#%252e%252e(?:%2f|%5c)+#i',    // Double encoding
+        '#\.{3,}#',                     // 3+ dots in a row
     ];
     
     foreach ($dangerous_patterns as $pattern) {
         $path = preg_replace($pattern, '', $path);
     }
-    
+
     // Remove any remaining directory traversal sequences iteratively
     do {
         $old_path = $path;
