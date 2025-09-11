@@ -140,20 +140,6 @@ class Db {
 
 
 	/**
-	 * Execution query with return one row
-	 * 
-	 * @param string $sql
-	 * @param array $params
-	 * 
-	 * @return array|false
-	 */
-	public function fetch_row(string $sql, array $params = []): array|false {
-		$stmt = $this->query($sql, $params);
-		return $stmt->fetch(PDO::FETCH_ROW);
-	}
-
-
-	/**
 	 * Execution query with return one value
 	 * 
 	 * @param string $sql
@@ -170,29 +156,15 @@ class Db {
 
 	/**
 	 * Getting associative array from result
-	 * 
+	 *
 	 * @param string $sql
 	 * @param array $params
-	 * 
+	 *
 	 * @return array|false
 	 */
 	public function fetch_assoc(string $sql, array $params = []): array|false {
 		$stmt = $this->query($sql, $params);
 		return $stmt->fetch(PDO::FETCH_ASSOC);
-	}
-
-
-	/**
-	 * Getting numerical array from result
-	 * 
-	 * @param string $sql
-	 * @param array $params
-	 * 
-	 * @return array|bool
-	 */
-	public function fetch_num(string $sql, array $params = []): array|false {
-		$stmt = $this->query($sql, $params);
-		return $stmt->fetch(PDO::FETCH_NUM);
 	}
 
 
@@ -209,14 +181,14 @@ class Db {
 
 
 	/**
-	 * Counting the number of rows in the result
+	 * Counting the number of rows from SQL query
 	 *
 	 * @param string $sql
 	 * @param array $params
 	 *
 	 * @return int
 	 */
-	public function num_rows(string $sql, array $params = []): int {
+	public function count_rows(string $sql, array $params = []): int {
 		// For counting rows we use a wrapper in a subquery
 		$count_sql = 'SELECT COUNT(*) FROM (' . $sql . ') as count_query';
 		return (int) $this->fetch_column($count_sql, $params);
@@ -334,21 +306,6 @@ class Db {
 
 
 	/**
-	 * Counting rows
-	 * 
-	 * @param string $table
-	 * @param string $where
-	 * @param array $params
-	 * 
-	 * @return int
-	 */
-	public function count_rows(string $table, string $where = '1=1', array $params = []): int {
-		$sql = "SELECT COUNT(*) FROM {$table} WHERE {$where}";
-		return (int) $this->fetch_column($sql, $params);
-	}
-
-
-	/**
 	 * Checking the existence of ID
 	 * 
 	 * @param int|string $id
@@ -368,7 +325,8 @@ class Db {
 			$where_params = array_merge($where_params, $params);
 		}
 
-		return $this->count_rows($table, $where, $where_params) > 0;
+		$sql = "SELECT 1 FROM {$table} WHERE {$where} LIMIT 1";
+		return $this->fetch_column($sql, $where_params) !== false;
 	}
 
 
