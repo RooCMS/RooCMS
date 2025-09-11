@@ -438,7 +438,7 @@ return [
             'TABLE_TOKENS',
             'TABLE_USERS',
             'TABLE_VERIFICATION_CODES',
-            'TABLE_CONFIG_SETTINGS'
+            'TABLE_SETTINGS'
         ]
     ]
 ];
