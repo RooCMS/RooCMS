@@ -87,117 +87,67 @@ function check_php_extensions(): array {
  * @return array{check: string, value: string, status: bool, message: string}[]
  */
 function check_php_ini(): array {
-    $results = [];
+    // Helper function to create check result
+    $make_check = fn(string $name, string $value, bool $status, string $message = '') => [
+        'check' => $name,
+        'value' => $value,
+        'status' => $status,
+        'message' => $message
+    ];
 
-    // Check PCRE UTF-8 support
-    if (!preg_match('//u', '')) {
-        $results[] = [
-            "check" => "Support PCRE UTF-8",
-            "value" => "Off",
-            "status" => false,
-            "message" => "Regular expressions do not support UTF-8"
-        ];
-    } else {
-        $results[] = [
-            "check" => "Support PCRE UTF-8",
-            "value" => "On",
-            "status" => true,
-            "message" => ""
-        ];
-    }
+    // Define all checks with their validation logic
+    $checks = [
+        // PCRE UTF-8 support
+        fn() => (fn($has_utf8) => $make_check(
+            'Support PCRE UTF-8',
+            $has_utf8 ? 'On' : 'Off',
+            $has_utf8,
+            $has_utf8 ? '' : 'Regular expressions do not support UTF-8'
+        ))((bool)preg_match('//u', '')),
 
-    // Check memory limit (minimum 128M)
-    $memory_limit = getenv_or_ini('MEMORY_LIMIT');
-    $memory_limit_bytes = parse_size($memory_limit);
-    if ($memory_limit_bytes < 134217728) { // 128M
-        $results[] = [
-            "check" => "Memory Limit",
-            "value" => $memory_limit,
-            "status" => false,
-            "message" => "Memory limit should be at least 128M for stable RooCMS operation"
-        ];
-    } else {
-        $results[] = [
-            "check" => "Memory Limit",
-            "value" => $memory_limit,
-            "status" => true,
-            "message" => ""
-        ];
-    }
+        // Memory limit (minimum 128M)
+        fn() => (fn($limit, $bytes) => $make_check(
+            'Memory Limit',
+            $limit,
+            $bytes >= 134217728,
+            $bytes >= 134217728 ? '' : 'Memory limit should be at least 128M for stable RooCMS operation'
+        ))(getenv_or_ini('MEMORY_LIMIT'), parse_size(getenv_or_ini('MEMORY_LIMIT'))),
 
-    // Check max execution time (minimum 30 seconds)
-    $max_execution_time = (int)(getenv_or_ini('MAX_EXECUTION_TIME'));
-    if ($max_execution_time > 0 && $max_execution_time < 30) {
-        $results[] = [
-            "check" => "Max Execution Time",
-            "value" => $max_execution_time . "s",
-            "status" => false,
-            "message" => "Max execution time should be at least 30 seconds"
-        ];
-    } else {
-        $results[] = [
-            "check" => "Max Execution Time",
-            "value" => $max_execution_time > 0 ? $max_execution_time . "s" : "Unlimited",
-            "status" => true,
-            "message" => ""
-        ];
-    }
+        // Max execution time (minimum 30 seconds)
+        fn() => (fn($time) => $make_check(
+            'Max Execution Time',
+            $time > 0 ? $time . 's' : 'Unlimited',
+            $time === 0 || $time >= 30,
+            ($time === 0 || $time >= 30) ? '' : 'Max execution time should be at least 30 seconds'
+        ))((int)getenv_or_ini('MAX_EXECUTION_TIME')),
 
-    // Check upload limits
-    $upload_max_filesize = parse_size(getenv_or_ini('UPLOAD_MAX_FILESIZE'));
-    $post_max_size = parse_size(getenv_or_ini('POST_MAX_SIZE'));
+        // Upload max filesize (minimum 8M)
+        fn() => (fn($size) => $make_check(
+            'Upload Max Filesize',
+            (string)$size,
+            $size >= 8388608,
+            $size >= 8388608 ? '' : 'Upload max filesize should be at least 8M'
+        ))(parse_size(getenv_or_ini('UPLOAD_MAX_FILESIZE'))),
 
-    if ($upload_max_filesize < 8388608) { // 8M
-        $results[] = [
-            "check" => "Upload Max Filesize",
-            "value" => $upload_max_filesize,
-            "status" => false,
-            "message" => "Upload max filesize should be at least 8M"
-        ];
-    } else {
-        $results[] = [
-            "check" => "Upload Max Filesize",
-            "value" => $upload_max_filesize,
-            "status" => true,
-            "message" => ""
-        ];
-    }
+        // Post max size (minimum 8M)
+        fn() => (fn($size) => $make_check(
+            'Post Max Size',
+            (string)$size,
+            $size >= 8388608,
+            $size >= 8388608 ? '' : 'Post max size should be at least 8M'
+        ))(parse_size(getenv_or_ini('POST_MAX_SIZE'))),
 
-    if ($post_max_size < 8388608) { // 8M
-        $results[] = [
-            "check" => "Post Max Size",
-            "value" => $post_max_size,
-            "status" => false,
-            "message" => "Post max size should be at least 8M"
-        ];
-    } else {
-        $results[] = [
-            "check" => "Post Max Size",
-            "value" => $post_max_size,
-            "status" => true,
-            "message" => ""
-        ];
-    }
+        // Timezone
+        fn() => (fn($tz) => $make_check(
+            'Timezone',
+            empty($tz) ? 'Not set' : $tz,
+            !empty($tz),
+            !empty($tz) ? '' : 'Timezone should be configured in php.ini'
+        ))(getenv_or_ini('TIMEZONE'))
+    ];
 
-    // Check timezone
-    $timezone = getenv_or_ini('TIMEZONE');
-    if (empty($timezone)) {
-        $results[] = [
-            "check" => "Timezone",
-            "value" => "Not set",
-            "status" => false,
-            "message" => "Timezone should be configured in php.ini"
-        ];
-    } else {
-        $results[] = [
-            "check" => "Timezone",
-            "value" => $timezone,
-            "status" => true,
-            "message" => ""
-        ];
-    }
-
-    return $results;
+    // Execute all checks and return results
+    return array_map(fn($check) => $check(), $checks);
 }
 
 /**
@@ -349,5 +299,5 @@ function parse_size(string $size): int {
  * @return string
  */
 function getenv_or_ini(string $key): string {
-    return env($key) ?? ini_get($key);
+    return (string)(env($key) ?? ini_get($key) ?? '');
 }

@@ -31,47 +31,29 @@ if(!defined('RooCMS')) {
  * @return mixed - env-variable value
  */
 function env(string $key, mixed $default = null): mixed {
-    // Check sources by priority, correctly handling false from getenv()
-    $value = null;
+    // Get value from sources with priority: $_ENV -> getenv() -> $_SERVER
+    $value = $_ENV[$key] ?? (($env = getenv($key)) !== false ? $env : null) ?? $_SERVER[$key] ?? null;
     
-    if (isset($_ENV[$key])) {
-        $value = $_ENV[$key];
-    } elseif (($envValue = getenv($key)) !== false) {
-        $value = $envValue;
-    } elseif (isset($_SERVER[$key])) {
-        $value = $_SERVER[$key];
-    }
-
+    // Return default if not found
     if ($value === null) {
         return $default;
     }
     
-    // If value is not a string (e.g., float from $_SERVER), return as is
+    // Non-string values (like floats from $_SERVER) return as-is
     if (!is_string($value)) {
         return $value;
     }
     
-    // Type conversion for boolean values (only for strings)
-    $lowerValue = strtolower($value);
-    if (in_array($lowerValue, ['true', '(true)'])) {
-        return true;
-    }
-    if (in_array($lowerValue, ['false', '(false)'])) {
-        return false;
-    }
-    if (in_array($lowerValue, ['null', '(null)'])) {
-        return null;
-    }
-    if (in_array($lowerValue, ['empty', '(empty)'])) {
-        return '';
-    }
-    
-    // Type conversion for numeric values 
-    if (is_numeric($value)) {
-        return str_contains($value, '.') ? (float)$value : (int)$value;
-    }
-    
-    return $value;
+    // Type casting for string values using match expression
+    return match (strtolower($value)) {
+        'true', '(true)' => true,
+        'false', '(false)' => false,
+        'null', '(null)' => null,
+        'empty', '(empty)' => '',
+        default => is_numeric($value) 
+            ? (str_contains($value, '.') ? (float)$value : (int)$value)
+            : $value
+    };
 }
 
 
