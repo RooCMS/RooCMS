@@ -129,7 +129,8 @@ trait DbExtends {
      * @param array $params
 	 */
 	public function paginate_from_db(string $table, string $where = '1=1', array $params = []): void {
-		$count = $this->count_rows($table, $where, $params);
+		$sql = "SELECT COUNT(*) FROM {$table} WHERE {$where}";
+		$count = $this->count_rows($sql, $params);
 		$this->calculate_pagination($count);
 	}
 
@@ -217,12 +218,11 @@ trait DbExtends {
 
 
     /**
-     * Counting the number of rows in the table
+     * Counting the number of rows from SQL query
      *
-     * @param string $table
-     * @param string $where
+     * @param string $sql
      * @param array $params
      * @return int
      */
-    abstract protected function count_rows(string $table, string $where = '1=1', array $params = []): int;
+    abstract protected function count_rows(string $sql, array $params = []): int;
 }
