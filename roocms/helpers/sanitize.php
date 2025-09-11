@@ -199,14 +199,54 @@ function sanitize_path(string $uri): string|false {
         return false;
     }
     
-    // Decode URL-encoded symbols
-    $path = urldecode($path);
+    // Decode URL-encoded symbols (handle double encoding)
+    $path = urldecode(urldecode($path));
+    
+    // Normalize path separators to forward slashes
+    $path = str_replace('\\', '/', $path);
     
     // Remove multiple slashes
     $path = preg_replace('#/{2,}#', '/', $path);
     
-    // Remove sequences ../ and ..\
-    $path = str_replace(['../', '..\\'], '', $path);
+    // Enhanced path traversal protection
+    // Remove various forms of directory traversal patterns
+    $dangerous_patterns = [
+        '/\.\./\.*/',     // ../ and variations
+        '/\.\.\\\.*//',   // ..\ and variations  
+        '/\.\./',         // Simple ..
+        '/\.\.\\/',       // Simple ..\
+        '/\.\.%2f/i',     // URL encoded ../
+        '/\.\.%5c/i',     // URL encoded ..\
+        '/\.\.%252f/i',   // Double URL encoded ../
+        '/\.%2e%2f/i',    // Encoded ../
+        '/%2e%2e%2f/i',   // Fully encoded ../
+        '/%2e%2e%5c/i',   // Fully encoded ..\
+        '/\.{2,}/',       // Multiple dots
+    ];
+    
+    foreach ($dangerous_patterns as $pattern) {
+        $path = preg_replace($pattern, '', $path);
+    }
+    
+    // Remove any remaining directory traversal sequences iteratively
+    do {
+        $old_path = $path;
+        $path = str_replace(['../', '..\\', '..'], '', $path);
+        $path = preg_replace('#/{2,}#', '/', $path);
+    } while ($old_path !== $path);
+    
+    // Additional security: block null bytes and control characters
+    if (strpos($path, "\0") !== false || preg_match('/[\x00-\x1f\x7f]/', $path)) {
+        return false;
+    }
+    
+    // Block suspicious file extensions if present
+    $suspicious_extensions = ['.php', '.asp', '.aspx', '.jsp', '.exe', '.bat', '.sh'];
+    foreach ($suspicious_extensions as $ext) {
+        if (stripos($path, $ext) !== false) {
+            return false;
+        }
+    }
     
     // Make sure the path starts with a slash
     if (substr($path, 0, 1) !== '/') {
@@ -215,6 +255,11 @@ function sanitize_path(string $uri): string|false {
     
     // Limit the path length
     if (strlen($path) > 2048) {
+        return false;
+    }
+    
+    // Final validation: ensure no directory traversal remains
+    if (strpos($path, '../') !== false || strpos($path, '..\\') !== false) {
         return false;
     }
     
