@@ -269,7 +269,8 @@ function check_server_environment(): array {
     $results = [];
 
     // Check if running on HTTPS
-    $is_https = isset(getenv_or_ini('HTTPS')) && getenv_or_ini('HTTPS') === 'on';
+    $https_value = getenv_or_ini('HTTPS');
+    $is_https = $https_value !== null && $https_value === 'on';
     $results[] = [
         "check" => "HTTPS Support",
         "value" => $is_https ? "Enabled" : "Disabled",

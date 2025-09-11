@@ -139,12 +139,17 @@ class Mailer {
         }
 
         // Selection of the method of sending depending on the driver
-        return match($this->driver) {
-            'smtp' => $this->send_via_smtp($to, $subject, $body, $is_html, $attachments, $custom_from, $custom_from_name),
-            'sendmail' => $this->send_via_sendmail($to, $subject, $body, $is_html, $attachments, $custom_from, $custom_from_name),
-            'mail' => $this->send_via_mail($to, $subject, $body, $is_html, $attachments, $custom_from, $custom_from_name),
-            default => throw new InvalidArgumentException('Unsupported driver: '.$this->driver)
-        };
+        switch($this->driver) {
+            case 'smtp':
+                return $this->send_via_smtp($to, $subject, $body, $is_html, $attachments, $custom_from, $custom_from_name);
+            case 'sendmail':
+                return $this->send_via_sendmail($to, $subject, $body, $is_html, $attachments, $custom_from, $custom_from_name);
+            case 'mail':
+                return $this->send_via_mail($to, $subject, $body, $is_html, $attachments, $custom_from, $custom_from_name);
+            default:
+                $this->last_error = 'Unsupported driver: '.$this->driver;
+                return false;
+        }
     }
 
 
@@ -643,7 +648,8 @@ class Mailer {
         $template_path = _ASSETS . '/mail/'.$template.'.php';
         
         if (!file_exists($template_path)) {
-            throw new InvalidArgumentException('Email template not found: '.$template);
+            $this->last_error = 'Email template not found: '.$template;
+            return '';
         }
 
         // Extracting variables into the local scope
