@@ -80,7 +80,7 @@ class HealthController extends BaseController {
      */
     private function check_api_health(): array {
         try {
-             return [
+            return [
                 'status' => 'ok',
                 'message' => 'API is responding normally',
                 'response_time' => round(microtime(true) - (env('REQUEST_TIME_FLOAT') ?? microtime(true)), 4)
