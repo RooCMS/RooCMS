@@ -133,6 +133,44 @@ function get_http_response_code(string $url) : int {
 
 
 /**
+ * Extract Bearer token from HTTP headers
+ *
+ * @return string|null
+ */
+function get_bearer_token() : ?string {
+	// Try common server variables
+	$candidates = [
+		env('HTTP_AUTHORIZATION'),
+		env('Authorization'),
+		env('HTTP_Authorization'),
+		env('REDIRECT_HTTP_AUTHORIZATION')
+	];
+
+	foreach($candidates as $header) {
+		if(is_string($header) && $header !== '') {
+			if(preg_match('/Bearer\s+(.*)$/i', $header, $matches)) {
+				return $matches[1];
+			}
+		}
+	}
+
+	// Fallback to getallheaders()/apache_request_headers()
+	$all = function_exists('getallheaders') ? getallheaders() : (function_exists('apache_request_headers') ? apache_request_headers() : []);
+	if(is_array($all)) {
+		foreach($all as $key => $value) {
+			if(stripos((string)$key, 'Authorization') === 0 && is_string($value)) {
+				if(preg_match('/Bearer\s+(.*)$/i', $value, $m)) {
+					return $m[1];
+				}
+			}
+		}
+	}
+
+	return null;
+}
+
+
+/**
  * Read data file
  *
  * @param string $file - full path to file

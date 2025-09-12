@@ -440,6 +440,20 @@ class AuthService {
 
 
 	/**
+	 * Logout for a user
+	 * @param int $user_id
+	 * @param string $token
+	 */
+	public function logout(int $user_id, string $token): void {
+		$token_hash = $this->auth->hash_data($token);
+		$this->db->delete(TABLE_TOKENS)
+			->where('user_id', $user_id)
+			->where('token', $token_hash)
+			->execute();
+	}
+
+
+	/**
 	 * Logout all devices for a user
 	 * @param int $user_id
 	 */

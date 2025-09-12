@@ -29,7 +29,7 @@ class AuthController extends BaseController {
 
     private readonly AuthService $authService;
     
-    
+
     private int $password_min_length    = 8;
     private int $login_min_length       = 5;
     private int $login_max_length       = 30;
@@ -157,10 +157,39 @@ class AuthController extends BaseController {
         }
 
         try {
-            $this->authService->logout_all_devices((int)$user['id']);
+            // Extract bearer using shared helper
+            $access_token = get_bearer_token();
+            if ($access_token === null) {
+                $this->error_response('Authorization token required', 401);
+                return;
+            }
+            $this->authService->logout((int)$user['id'], $access_token);
+
             $this->json_response(null, 200, 'Logout successful');
         } catch (Exception $e) {
             $this->error_response('Logout failed', 500);
+        }
+    }
+
+
+    /**
+     * User logout all devices
+     * POST /api/v1/auth/logout/all
+     * Requires: AuthMiddleware
+     */
+    public function logout_all(): void {
+        $this->log_request('auth_logout_all');
+        
+        $user = $this->require_authentication();
+        if (empty($user)) {
+            return; // Error response already sent
+        }
+
+        try {
+            $this->authService->logout_all_devices((int)$user['id']);
+            $this->json_response(null, 200, 'Logout all devices successful');
+        } catch (Exception $e) {
+            $this->error_response('Logout all devices failed', 500);
         }
     }
 

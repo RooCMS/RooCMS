@@ -78,6 +78,7 @@ $api->post('/v1/auth/refresh', 'AuthController@refresh');
 
 // Authentication endpoints (protected)
 $api->post('/v1/auth/logout', 'AuthController@logout', ['AuthMiddleware']);
+$api->post('/v1/auth/logout/all', 'AuthController@logout_all', ['AuthMiddleware']);
 
 // Password management endpoints (public)
 $api->post('/v1/auth/password/recovery', 'AuthController@recovery_password');
@@ -118,6 +119,7 @@ $api->get('/', function() {
             'auth_login' => 'POST /api/v1/auth/login',
             'auth_register' => 'POST /api/v1/auth/register',
             'auth_logout' => 'POST /api/v1/auth/logout',
+            'auth_logout_all' => 'POST /api/v1/auth/logout/all',
             'auth_refresh' => 'POST /api/v1/auth/refresh',
             'password_update' => 'PUT /api/v1/auth/password',
             'password_recovery' => 'POST /api/v1/auth/password/recovery',
