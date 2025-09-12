@@ -278,6 +278,45 @@
           "response": []
         },
         {
+          "name": "User Logout All Devices",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 200) {",
+                  "    pm.collectionVariables.set('access_token', '');",
+                  "    pm.collectionVariables.set('refresh_token', '');",
+                  "    pm.collectionVariables.set('user_id', '');",
+                  "    console.log('All sessions terminated; tokens cleared');",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/v1/auth/logout/all",
+              "host": ["{{base_url}}"],
+              "path": ["v1", "auth", "logout", "all"]
+            },
+            "description": "Terminate all user sessions across devices"
+          },
+          "response": []
+        },
+        {
           "name": "Refresh Token",
           "event": [
             {

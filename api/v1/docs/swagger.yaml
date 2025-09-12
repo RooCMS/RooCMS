@@ -173,6 +173,27 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+  /v1/auth/logout/all:
+    post:
+      summary: Logout from all devices
+      description: Terminate all user sessions
+      tags:
+        - Authentication
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Successful logout from all devices
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+        '401':
+          description: Authentication required
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
   /v1/auth/refresh:
     post:
       summary: Token refresh
@@ -453,11 +474,11 @@ components:
       properties:
         login:
           type: string
-          minLength: 3
+          minLength: 5
           example: user123
         password:
           type: string
-          minLength: 6
+          minLength: 8
           example: password123
     RegisterRequest:
       type: object
@@ -468,8 +489,8 @@ components:
       properties:
         login:
           type: string
-          minLength: 3
-          maxLength: 50
+          minLength: 5
+          maxLength: 30
           example: newuser
         email:
           type: string
@@ -477,7 +498,7 @@ components:
           example: user@example.com
         password:
           type: string
-          minLength: 6
+          minLength: 8
           example: password123
         password_confirmation:
           type: string
@@ -584,7 +605,7 @@ components:
           example: '123456'
         password:
           type: string
-          minLength: 6
+          minLength: 8
           example: newpassword123
         password_confirmation:
           type: string
@@ -600,7 +621,7 @@ components:
           example: oldpassword123
         new_password:
           type: string
-          minLength: 6
+          minLength: 8
           example: newpassword123
         new_password_confirmation:
           type: string
