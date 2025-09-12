@@ -5,9 +5,9 @@
 > **Совместимость:** PHP 8.1+  
 > **Версия:** 2.0.0 alpha  
 
-[![API Status](https://img.shields.io/badge/API-Healthy-brightgreen)](https://dev.roocms.com/api/v1/health)
+![API Status](https://img.shields.io/badge/API-Healthy-brightgreen)
 [![PHP Version](https://img.shields.io/badge/PHP-8.1%2B-blue)](https://www.php.net/)
-[![Database](https://img.shields.io/badge/DB-MySQL%20%7C%20PostgreSQL%20%7C%20Firebird-orange)](https://dev.roocms.com/api/v1/health/details)
+![Database](https://img.shields.io/badge/DB-MySQL%20%7C%20PostgreSQL%20%7C%20Firebird-orange)
 
 ### Notice
 > Documents are temporarily in Russian language.   
@@ -239,7 +239,7 @@ php roocms/database/migrate_cli.php status     # Показать статус
 Мы приветствуем вклад в развитие RooCMS:
 
 1. **Сообщения об ошибках**: Создайте issue с подробным описанием
-2. **Pull requests**: Небольшие, сфокусированные изменения
+2. **Pull requests**: Небольшие, сфокусированные изменения с тестами
 3. **Следуйте правилам**: PHP 8.1+, без фреймворков/ORM, строгая типизация
 
 ## 🔒 Безопасность
