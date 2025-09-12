@@ -188,7 +188,7 @@ class AuthService {
 				'user_id' => (int)($user['id'] ?? $user['user_id']),
 				'role' => $user['role'] ?? 'u',
 				'login' => $user['login'] ?? $login,
-				'email' => $user['email'] ?? $email,
+				'email' => $user['email'],
 				'is_verified' => isset($user['is_verified']) ? ($user['is_verified'] == '1') : false
 			]
 		];

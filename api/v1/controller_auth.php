@@ -29,16 +29,11 @@ class AuthController extends BaseController {
 
     private readonly AuthService $authService;
     
-    private int $token_expires          = 3600;
-    private int $refresh_token_expires  = 604800;
-    private int $recovery_token_expires = 1800; // 30 minutes
-
-    private int $password_min_length    = 6;
-    private int $login_min_length       = 3;
-    private int $login_max_length       = 50;
     
-    private int $recovery_code_length   = 6;
-    private int $max_recovery_attempts  = 3;
+    private int $password_min_length    = 8;
+    private int $login_min_length       = 5;
+    private int $login_max_length       = 30;
+    
 
 
 
