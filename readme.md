@@ -1,17 +1,31 @@
 
-[![RooCMS](https://dev.roocms.com/skin/default/img/logo.png)](http://www.roocms.com)
+[![RooCMS](https://dev.roocms.com/skin/default/img/logo.png)](https://www.roocms.com)
 ===============================
-![Build Status](https://scrutinizer-ci.com/g/RooCMS/RooCMS/badges/build.png?b=master) [![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](http://www.gnu.org/licenses/gpl-3.0)
+ [![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
+[![PHP Version](https://img.shields.io/badge/PHP-8.1%2B-blue)](https://www.php.net/)
+[![Database](https://img.shields.io/badge/DB-MySQL%20%7C%20PostgreSQL%20%7C%20Firebird-orange)](https://dev.roocms.com/api/v1/health/details)
 
 | RooCMS   | Open Source Free CMS                              |
 |:--------:|:--------------------------------------------------|
 | Author   | alex Roosso                                       |
-| Web      | http://www.roocms.com                             |
+| Web      | https://www.roocms.com                            |
 | Contact  | info@roocms.com                                   |
-| Download | ❌ http://www.roocms.com/index.php?page=download  |
+| Download | https://github.com/RooCMS/RooCMS/releases         |
 | Source   | https://github.com/RooCMS/RooCMS                  |
 | License  | GNU GPL v3                                        |
 | CodeRank | [![Codacy Badge](https://app.codacy.com/project/badge/Grade/e9c0df8a7bd5445eb45fc727bf0cd8c4)](https://www.codacy.com/gh/RooCMS/RooCMS/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=RooCMS/RooCMS&amp;utm_campaign=Badge_Grade)  [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/RooCMS/RooCMS/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/RooCMS/RooCMS/?branch=master)                                      |
+
+Contents
+--------
+- [Notice to our RooCMS Users](#notice-to-our-roocms-users)
+- [System requirements](#system-requirements)
+- [Recommended software](#recommended-software)
+- [Install](#install)
+- [Documentation](#documentation)
+- [Useful links](#useful-links)
+- [Contributing](#contributing)
+- [Security](#security)
+- [License](#license)
 
 Notice to our RooCMS Users
 -------------------
@@ -45,10 +59,10 @@ Recommended software
 
 Install
 -------
-1. Download latest release 
-2. Unpack archive to folder with your site on  hosting
-3. Create MySQL BD on your hosting
-4. In browser open link: `http://www.your_site.com/install/`
+1. Download latest release: https://github.com/RooCMS/RooCMS/releases
+2. Unpack the archive to the folder with your site on hosting
+3. Create a MySQL/MariaDB database on your hosting
+4. In browser open link: `https://www.your_site.com/install/`
 
 > Instead of `your_site.com` use the domain name attached to your hosting.
 
@@ -57,6 +71,29 @@ Install
 
 
 
+Documentation
+-------------
+- API overview and examples: `api/README.md`
+- Database migrations: `roocms/database/README.md`
+- API schemas: `api/v1/docs/swagger.yaml`, `api/v1/docs/postman.json`
+
+Useful links
+------------
+- Releases: https://github.com/RooCMS/RooCMS/releases
+- Changelog (highlights): `RELEASE.md`
+- Website: https://www.roocms.com
+
+Contributing
+------------
+We welcome issues and pull requests.
+- Open an issue describing the change or problem
+- Keep PRs focused and small; include rationale and testing notes
+- Follow PHP 8.1+ features and project rules (no frameworks/ORM)
+
+Security
+--------
+If you discover a security vulnerability, please responsibly disclose it to: info@roocms.com
+
 License
 -------
-[License](http://gplv3.fsf.org/)
+[License](https://gplv3.fsf.org/)
