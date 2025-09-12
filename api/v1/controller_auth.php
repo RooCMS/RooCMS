@@ -27,7 +27,7 @@ if(!defined('RooCMS')) {
  */
 class AuthController extends BaseController {
 
-    private readonly Auth $auth;
+    private readonly AuthService $authService;
     
     private int $token_expires          = 3600;
     private int $refresh_token_expires  = 604800;
@@ -53,10 +53,7 @@ class AuthController extends BaseController {
             return;
         }
         
-        $this->auth = new Auth($this->db);
-
-        $this->token_expires = $this->auth->token_expires;
-        $this->refresh_token_expires = $this->auth->refresh_token_expires;
+        $this->authService = new AuthService($this->db);
     }
 
 
@@ -96,69 +93,10 @@ class AuthController extends BaseController {
         }
 
         try {
-            // Find user by login
-            $user = $this->db->select()
-                ->from(TABLE_USERS)
-                ->where('login', '=', $data['login'])
-                ->limit(1)
-                ->first();
-
-            if (!$user) {
-                $this->error_response('Invalid credentials', 401);
-                return;
-            }
-
-            // Check if user is active
-            if ($user['is_active'] != '1') {
-                $this->error_response('Account is not active', 403);
-                return;
-            }
-
-            // Check if user is banned
-            if ($user['is_banned'] == '1' && $user['ban_expired'] > time()) {
-                $this->error_response('Account is banned', 403, [
-                    'ban_reason' => $user['ban_reason'],
-                    'ban_expires' => format_timestamp($user['ban_expired'])
-                ]);
-                return;
-            }
-
-            // Verify password
-            if (!$this->auth->verify_password($data['password'], $user['password'])) {
-                $this->error_response('Invalid credentials', 401);
-                return;
-            }
-
-            // Generate tokens
-            $access_token = $this->auth->generate_token();
-            $refresh_token = $this->auth->generate_token(64);
-            
-            // Store tokens in database
-            $this->auth->store_token($access_token, $refresh_token, $user['user_id']);
-
-            // Update last activity
-            $this->db->update(TABLE_USERS)
-                ->set(['last_activity' => time()])
-                ->where('user_id', '=', $user['user_id'])
-                ->execute();
-
-            // Return success response with tokens
-            $response_data = [
-                'access_token' => $access_token,
-                'refresh_token' => $refresh_token,
-                'token_type' => 'Bearer',
-                'expires_in' => $this->auth->token_expires,
-                'user' => [
-                    'user_id' => $user['user_id'],
-                    'role' => $user['role'],
-                    'login' => $user['login'],
-                    'email' => $user['email'],
-                    'is_verified' => $user['is_verified'] == '1'
-                ]
-            ];
-
+            $response_data = $this->authService->login($data['login'], $data['password']);
             $this->json_response($response_data, 200, 'Login successful');
-
+        } catch (DomainException $e) {
+            $this->error_response($e->getMessage(), $e->getCode() ?: 400);
         } catch (Exception $e) {
             $this->error_response('Login failed', 500);
         }
@@ -176,8 +114,8 @@ class AuthController extends BaseController {
         
         $data = $this->get_input_data();
         
-        // Validation pipeline using closures
-        $validate = fn() => array_merge(
+        // Validate input
+        $validation_errors = array_merge(
             $this->validate_required($data, ['login', 'email', 'password']),
             array_filter([
                 'login' => match(true) {
@@ -194,106 +132,16 @@ class AuthController extends BaseController {
             ])
         );
 
-        // Check for existing users
-        $check_existing = fn() => array_reduce(
-            [['login', 'Login already exists'], ['email', 'Email already exists']],
-            fn($carry, $check) => $carry ?: (
-                $this->db->select()->from(TABLE_USERS)->where($check[0], '=', $data[$check[0]])->limit(1)->first()
-                    ? ['message' => $check[1], 'code' => 409] 
-                    : null
-            ),
-            null
-        );
+        if (!empty($validation_errors)) {
+            $this->validation_error_response($validation_errors);
+            return;
+        }
 
-        // Create user data
-        $create_user = fn() => (fn($time) => $this->db->insert(TABLE_USERS)->data([
-            'login' => $data['login'],
-            'email' => $data['email'], 
-            'password' => $this->auth->hash_password($data['password']),
-            'role' => 'u',
-            'is_active' => '1',
-            'is_verified' => '0',
-            'is_banned' => '0',
-            'ban_expired' => 0,
-            'ban_reason' => '',
-            'created_at' => $time,
-            'updated_at' => $time,
-            'last_activity' => $time
-        ])->execute())(time());
-
-        // Generate tokens
-        $generate_tokens = function($user_id) use ($data) {
-            $access = $this->auth->generate_token();
-            $refresh = $this->auth->generate_token(64);
-            $this->auth->store_token($access, $refresh, $user_id);
-            
-            return [
-                'access_token' => $access,
-                'refresh_token' => $refresh,
-                'token_type' => 'Bearer',
-                'expires_in' => $this->token_expires,
-                'user' => [
-                    'user_id' => $user_id,
-                    'role' => 'u',
-                    'login' => $data['login'],
-                    'email' => $data['email'],
-                    'is_verified' => false
-                ]
-            ];
-        };
-
-        // Execute registration pipeline
         try {
-            // Validate input
-            if ($validation_errors = $validate()) {
-                $this->validation_error_response($validation_errors);
-                return;
-            }
-
-            // Check existing users
-            if ($existing_error = $check_existing()) {
-                $this->error_response($existing_error['message'], $existing_error['code']);
-                return;
-            }
-
-            // Create user and generate response
-            if (!($user_id = $create_user())) {
-                $this->error_response('Registration failed', 500);
-                return;
-            }
-
-            // Prepare response data (tokens and user info)
-            $response_payload = $generate_tokens($user_id);
-
-            // Send Welcome email (non-blocking, errors are ignored)
-            try {
-                $settings = new Settings($this->db);
-                $mailer = new Mailer($settings);
-
-                $site_name = $settings->get_by_key('site_name') ?? 'RooCMS';
-                $site_domain = $settings->get_by_key('site_domain') ?? _DOMAIN;
-                $site_url = 'https://' . $site_domain;
-
-                $subject = 'Welcome to ' . $site_name . '!';
-
-                $mailer->send_with_template([
-                    'to' => $data['email'],
-                    'subject' => $subject,
-                    'template' => 'welcome',
-                    'data' => [
-                        'user_name' => $data['login'],
-                        'user_email' => $data['email'],
-                        'site_name' => $site_name,
-                        'site_url' => $site_url,
-                        'login_url' => $site_url
-                    ],
-                ]);
-            } catch (Exception $e) {
-                // Ignore mailing errors to not affect registration flow
-            }
-
+            $response_payload = $this->authService->register($data['login'], $data['email'], $data['password']);
             $this->created_response($response_payload, 'Registration successful');
-
+        } catch (DomainException $e) {
+            $this->error_response($e->getMessage(), $e->getCode() ?: 400);
         } catch (Exception $e) {
             $this->error_response('Registration failed', 500);
         }
@@ -314,13 +162,8 @@ class AuthController extends BaseController {
         }
 
         try {
-            // Remove all tokens for this user (logout from all devices)
-            $this->db->delete(TABLE_TOKENS)
-                ->where('user_id', '=', $user['user_id'])
-                ->execute();
-
+            $this->authService->logout_all_devices((int)$user['id']);
             $this->json_response(null, 200, 'Logout successful');
-
         } catch (Exception $e) {
             $this->error_response('Logout failed', 500);
         }
@@ -345,69 +188,10 @@ class AuthController extends BaseController {
         }
 
         try {
-            // Hash the refresh token before searching in database
-            $refresh_token_hash = $this->auth->hash_data($data['refresh_token']);
-
-            // Find valid refresh token
-            $token_data = $this->db->select()
-                ->from(TABLE_TOKENS)
-                ->where('refresh', '=', $refresh_token_hash)
-                ->where('refresh_expires', '>', time())
-                ->limit(1)
-                ->first();
-
-            if (!$token_data) {
-                $this->error_response('Invalid or expired refresh token', 401);
-                return;
-            }
-
-            // Get user data
-            $user = $this->db->select()
-                ->from(TABLE_USERS)
-                ->where('user_id', '=', $token_data['user_id'])
-                ->where('is_active', '=', '1')
-                ->limit(1)
-                ->first();
-
-            if (!$user) {
-                $this->error_response('User not found or inactive', 401);
-                return;
-            }
-
-            // Check if user is banned
-            if ($user['is_banned'] == '1' && $user['ban_expired'] > time()) {
-                $this->error_response('Account is banned', 403);
-                return;
-            }
-
-            // Generate new tokens
-            $new_access_token = $this->auth->generate_token();
-            $new_refresh_token = $this->auth->generate_token(64);
-
-            // Remove old token
-            $this->db->delete(TABLE_TOKENS)
-                ->where('id', '=', $token_data['id'])
-                ->execute();
-
-            // Store new tokens
-            $this->auth->store_token($new_access_token, $new_refresh_token, $user['user_id']);
-
-            // Update last activity
-            $this->db->update(TABLE_USERS)
-                ->set(['last_activity' => time()])
-                ->where('user_id', '=', $user['user_id'])
-                ->execute();
-
-            // Return new tokens
-            $response_data = [
-                'access_token' => $new_access_token,
-                'refresh_token' => $new_refresh_token,
-                'token_type' => 'Bearer',
-                'expires_in' => 3600
-            ];
-
+            $response_data = $this->authService->refresh($data['refresh_token']);
             $this->json_response($response_data, 200, 'Token refreshed successfully');
-
+        } catch (DomainException $e) {
+            $this->error_response($e->getMessage(), $e->getCode() ?: 400);
         } catch (Exception $e) {
             $this->error_response('Token refresh failed', 500);
         }
@@ -437,85 +221,8 @@ class AuthController extends BaseController {
         }
 
         try {
-            // Find user by email
-            $user = $this->db->select()
-                ->from(TABLE_USERS)
-                ->where('email', '=', $data['email'])
-                ->where('is_active', '=', '1')
-                ->limit(1)
-                ->first();
-
-            // Always return success to prevent email enumeration
-            if (!$user) {
-                $this->json_response(null, 200, 'If email exists, recovery code will be sent');
-                return;
-            }
-
-            // Check if user is banned
-            if ($user['is_banned'] == '1' && $user['ban_expired'] > time()) {
-                $this->json_response(null, 200, 'If email exists, recovery code will be sent');
-                return;
-            }
-
-            // Generate recovery code (6-digit numeric)
-            $recovery_code = str_pad((string)random_int(100000, 999999), $this->recovery_code_length, '0', STR_PAD_LEFT);
-            $code_hash = $this->auth->hash_data($recovery_code);
-            $expires_at = time() + $this->recovery_token_expires;
-
-            // Remove any existing recovery codes for this user
-            $this->db->delete(TABLE_VERIFICATION_CODES)
-                ->where('user_id', '=', $user['user_id'])
-                ->where('code_type', '=', 'password_reset')
-                ->execute();
-
-            // Store recovery code
-            $this->db->insert(TABLE_VERIFICATION_CODES)->data([
-                'code_hash' => $code_hash,
-                'user_id' => $user['user_id'],
-                'email' => $user['email'],
-                'code_type' => 'password_reset',
-                'expires_at' => $expires_at,
-                'used_at' => null,
-                'attempts' => 0,
-                'max_attempts' => $this->max_recovery_attempts
-            ])->execute();
-
-            // Send recovery email with code
-            try {
-                $settings = new Settings($this->db);
-                $mailer = new Mailer($settings);
-
-                $site_name = $settings->get_by_key('site_name') ?? 'RooCMS';
-                $site_domain = $settings->get_by_key('site_domain') ?? _DOMAIN;
-                $site_url = 'https://' . $site_domain;
-
-                $subject = 'Password recovery on ' . $site_name;
-
-                // Prefer templated email; failures are non-fatal
-                $mailer->send_with_template([
-                    'to' => $user['email'],
-                    'subject' => $subject,
-                    'template' => 'notice',
-                    'data' => [
-                        'title' => 'Recovery password',
-                        'message' => "Your recovery code: {$recovery_code}\nValid for 30 minutes.",
-                        'user_name' => $user['login'] ?? '',
-                        'site_name' => $site_name,
-                        'site_url' => $site_url,
-                    ],
-                ]);
-            } catch (Exception $e) {
-                // Intentionally ignore mailing errors to avoid information leakage
-            }
-
-            // For debug mode, return code in response (do not enable in production)
-            $response_data = [];
-            if (DEBUGMODE) {
-                $response_data['recovery_code'] = $recovery_code; // Only in debug mode! TODO: Remove in production
-            }
-
+            $response_data = $this->authService->request_password_recovery($data['email']);
             $this->json_response($response_data, 200, 'Recovery code sent to your email');
-
         } catch (Exception $e) {
             $this->error_response('Password recovery failed', 500);
         }
@@ -557,94 +264,11 @@ class AuthController extends BaseController {
         }
 
         try {
-            // Find and validate recovery code
-            $code_hash = $this->auth->hash_data($data['token']);
-            
-            $verification_code = $this->db->select()
-                ->from(TABLE_VERIFICATION_CODES)
-                ->where('code_hash', '=', $code_hash)
-                ->where('code_type', '=', 'password_reset')
-                ->where('expires_at', '>', time())
-                ->where('used_at', 'IS', null)
-                ->limit(1)
-                ->first();
-
-            if (!$verification_code) {
-                $this->error_response('Invalid or expired reset code', 401);
-                return;
-            }
-
-            // Check attempts limit
-            if ($verification_code['attempts'] >= $verification_code['max_attempts']) {
-                $this->error_response('Maximum attempts exceeded', 429);
-                return;
-            }
-
-            // Get user
-            $user = $this->db->select()
-                ->from(TABLE_USERS)
-                ->where('user_id', '=', $verification_code['user_id'])
-                ->where('is_active', '=', '1')
-                ->limit(1)
-                ->first();
-
-            if (!$user) {
-                // Increment attempts even for invalid user
-                $this->db->update(TABLE_VERIFICATION_CODES)
-                    ->set(['attempts' => $verification_code['attempts'] + 1])
-                    ->where('id', '=', $verification_code['id'])
-                    ->execute();
-                    
-                $this->error_response('User not found', 404);
-                return;
-            }
-
-            // Check if user is banned
-            if ($user['is_banned'] == '1' && $user['ban_expired'] > time()) {
-                $this->error_response('Account is banned', 403);
-                return;
-            }
-
-            // Hash new password
-            $hashed_password = $this->auth->hash_password($data['password']);
-
-            // Update user password
-            $this->db->update(TABLE_USERS)
-                ->set([
-                    'password' => $hashed_password,
-                    'updated_at' => time()
-                ])
-                ->where('user_id', '=', $user['user_id'])
-                ->execute();
-
-            // Mark verification code as used
-            $this->db->update(TABLE_VERIFICATION_CODES)
-                ->set(['used_at' => time()])
-                ->where('id', '=', $verification_code['id'])
-                ->execute();
-
-            // Remove all user tokens (force re-login on all devices)
-            $this->db->delete(TABLE_TOKENS)
-                ->where('user_id', '=', $user['user_id'])
-                ->execute();
-
-            // Clean up old/used verification codes for this user
-            $this->db->delete(TABLE_VERIFICATION_CODES)
-                ->where('user_id', '=', $user['user_id'])
-                ->where('code_type', '=', 'password_reset')
-                ->execute();
-
+            $this->authService->reset_password($data['token'], $data['password']);
             $this->json_response(null, 200, 'Password reset successfully');
-
+        } catch (DomainException $e) {
+            $this->error_response($e->getMessage(), $e->getCode() ?: 400);
         } catch (Exception $e) {
-            // Increment attempts on any error
-            if (isset($verification_code)) {
-                $this->db->update(TABLE_VERIFICATION_CODES)
-                    ->set(['attempts' => $verification_code['attempts'] + 1])
-                    ->where('id', '=', $verification_code['id'])
-                    ->execute();
-            }
-            
             $this->error_response('Password reset failed', 500);
         }
     }
@@ -691,31 +315,10 @@ class AuthController extends BaseController {
         }
 
         try {
-            // Verify current password
-            if (!$this->auth->verify_password($data['current_password'], $user['password'])) {
-                $this->error_response('Current password is incorrect', 401);
-                return;
-            }
-
-            // Hash new password
-            $hashed_password = $this->auth->hash_password($data['new_password']);
-
-            // Update user password
-            $this->db->update(TABLE_USERS)
-                ->set([
-                    'password' => $hashed_password,
-                    'updated_at' => time()
-                ])
-                ->where('user_id', '=', $user['user_id'])
-                ->execute();
-
-            // Remove all user tokens (force re-login on all devices)
-            $this->db->delete(TABLE_TOKENS)
-                ->where('user_id', '=', $user['user_id'])
-                ->execute();
-
+            $this->authService->update_password((int)$user['id'], $data['current_password'], $data['new_password']);
             $this->json_response(null, 200, 'Password updated successfully. Please login again.');
-
+        } catch (DomainException $e) {
+            $this->error_response($e->getMessage(), $e->getCode() ?: 400);
         } catch (Exception $e) {
             $this->error_response('Password update failed', 500);
         }

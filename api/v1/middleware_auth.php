@@ -75,10 +75,32 @@ class AuthMiddleware {
      * Get bearer token from Authorization header
      */
     private function get_bearer_token(): string|null {
-        $auth_header = env('HTTP_AUTHORIZATION') ?? env('HTTP_Authorization') ?? '';
+        // Try common server variables
+        $candidates = [
+            env('HTTP_AUTHORIZATION'),
+            env('Authorization'),
+            env('HTTP_Authorization'),
+            env('REDIRECT_HTTP_AUTHORIZATION')
+        ];
 
-        if (preg_match('/Bearer\s+(.*)$/i', $auth_header, $matches)) {
-            return $matches[1];
+        foreach ($candidates as $header) {
+            if (is_string($header) && $header !== '') {
+                if (preg_match('/Bearer\s+(.*)$/i', $header, $matches)) {
+                    return $matches[1];
+                }
+            }
+        }
+
+        // Fallback to getallheaders()/apache_request_headers()
+        $all = function_exists('getallheaders') ? getallheaders() : (function_exists('apache_request_headers') ? apache_request_headers() : []);
+        if (is_array($all)) {
+            foreach ($all as $key => $value) {
+                if (stripos((string)$key, 'Authorization') === 0 && is_string($value)) {
+                    if (preg_match('/Bearer\s+(.*)$/i', $value, $m)) {
+                        return $m[1];
+                    }
+                }
+            }
         }
 
         return null;
@@ -96,8 +118,8 @@ class AuthMiddleware {
             // Find valid token
             $token_data = $this->db->select()
                 ->from(TABLE_TOKENS)
-                ->where('token', '=', $token_hash)
-                ->where('token_expires', '>', time())
+                ->where('token', $token_hash)
+                ->where('token_expires', time(), '>')
                 ->limit(1)
                 ->first();
 
@@ -109,8 +131,8 @@ class AuthMiddleware {
             // Get user data
             $user = $this->db->select()
                 ->from(TABLE_USERS)
-                ->where('user_id', '=', $token_data['user_id'])
-                ->where('is_active', '=', '1')
+                ->where('id', $token_data['user_id'])
+                ->where('is_active', '1')
                 ->limit(1)
                 ->first();
 
@@ -120,7 +142,7 @@ class AuthMiddleware {
             }
 
             // Check if user is banned
-            if ($user['is_banned'] == '1' && $user['ban_expired'] > time()) {
+            if ($user['is_banned'] == '1' && (int)$user['ban_expired'] > time()) {
                 $this->send_error_response('Account is banned', 403, [
                     'ban_reason' => $user['ban_reason'],
                     'ban_expires' => format_timestamp($user['ban_expired'])
@@ -130,8 +152,8 @@ class AuthMiddleware {
 
             // Update last activity
             $this->db->update(TABLE_USERS)
-                ->set(['last_activity' => time()])
-                ->where('user_id', '=', $user['user_id'])
+                ->data(['last_activity' => time()])
+                ->where('id', $user['id'])
                 ->execute();
 
             return $user;

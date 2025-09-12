@@ -73,6 +73,7 @@ const TABLE_USERS               = DB_PREFIX.'users';
 */
 const _ROOCMS       = _SITEROOT.'/roocms';
 const _CLASS        = _ROOCMS.'/class';
+const _SERVICES     = _ROOCMS.'/services';
 const _API          = _SITEROOT.'/api';
 const _UPLOAD       = _SITEROOT.'/upload';
 const _UPLOADIMAGES = _UPLOAD.'/images';
