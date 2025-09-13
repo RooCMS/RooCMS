@@ -33,9 +33,7 @@ class HealthController extends BaseController {
      * GET /api/v1/health
      */
     public function index(): void {
-        if(DEBUGMODE) {
-            $this->log_request('health_check');
-        }
+        $this->log_request('health_check');
         
         $checks = [
             'api' => $this->check_api_health(),

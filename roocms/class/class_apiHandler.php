@@ -111,8 +111,9 @@ class ApiHandler {
         // Escape forward slashes
         $regex = str_replace('/', '\/', $pattern);
         
-        // Replace {id} with regex pattern for numeric IDs
+        // Replace {id} and any {*_id} with numeric pattern
         $regex = preg_replace('/\{id\}/', '(\d+)', $regex);
+        $regex = preg_replace('/\{[A-Za-z0-9_]*_id\}/', '(\d+)', $regex);
         
         // Replace {param} with regex pattern for alphanumeric parameters
         $regex = preg_replace('/\{([^}]+)\}/', '([^\/]+)', $regex);

@@ -65,7 +65,7 @@ return [
                         'null' => false,
                     ],
                     'created_at' => [
-                        'type' => 'timestamp',
+                        'type' => 'bigint',
                         'length' => 20,
                         'unsigned' => true,
                         'null' => false,
@@ -164,7 +164,7 @@ return [
                     ],
                     'password' => [
                         'type' => 'string',
-                        'length' => 64,
+                        'length' => 255,
                         'null' => false,
                     ],
                     'created_at' => [
@@ -199,6 +199,11 @@ return [
                         'name' => 'login',
                         'columns' => 'login',
                     ],
+                    [
+						'type' => 'unique',
+						'name' => 'users_email_uq',
+						'columns' => 'email',
+					],
                     [
 						'type' => 'key',
 						'name' => 'role_idx',

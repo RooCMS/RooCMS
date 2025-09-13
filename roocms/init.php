@@ -80,6 +80,8 @@ spl_autoload_register(function(string $class_name) {
         'Auth'                      => _CLASS . '/class_auth.php',
         'AuthService'               => _SERVICES . '/auth.php',
         'Role'                      => _CLASS . '/class_role.php',
+        'User'                      => _CLASS . '/class_user.php',
+        'UserService'               => _SERVICES . '/user.php',
         'Shteirlitz'                => _CLASS . '/class_shteirlitz.php'
     ];
     

@@ -84,12 +84,33 @@ class AuthService {
 			'last_activity' => $time
 		];
 
-		$this->db->insert(TABLE_USERS)->data($data)->execute();
-		$user_id = (int)$this->db->insert_id();
 
-		if(!$user_id) {
-			throw new RuntimeException('Registration failed', 500);
-		}
+		// Create user and base profile atomically
+		$user_id = (int)$this->db->transaction(function() use ($data, $time) {
+			$this->db->insert(TABLE_USERS)->data($data)->execute();
+			$inserted_user_id = (int)$this->db->insert_id();
+			if(!$inserted_user_id) {
+				throw new RuntimeException('Registration failed', 500);
+			}
+
+			// Base profile (minimal defaults)
+			$this->db->insert(TABLE_USER_PROFILES)->data([
+				'user_id' => $inserted_user_id,
+				'nickname' => null,
+				'first_name' => null,
+				'last_name' => null,
+				'gender' => null,
+				'avatar' => null,
+				'bio' => null,
+				'birthday' => null,
+				'website' => null,
+				'is_public' => 0,
+				'created_at' => $time,
+				'updated_at' => $time,
+			])->execute();
+
+			return $inserted_user_id;
+		});
 
 		$access_token = $this->auth->generate_token();
 		$refresh_token = $this->auth->generate_token(64);

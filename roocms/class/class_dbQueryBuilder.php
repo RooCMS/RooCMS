@@ -178,6 +178,19 @@ class DbQueryBuilder {
 	 * @return self
 	 */
 	public function where(string $column, mixed $value, string $operator = '='): self {
+		$operator = strtoupper(trim($operator));
+
+		// Handle NULL specifically
+		if($value === null) {
+			$null_operator = match($operator) {
+				'=', 'IS' => 'IS NULL',
+				'!=', '<>', 'IS NOT' => 'IS NOT NULL',
+				default => 'IS NULL'
+			};
+			$this->where[] = $column . ' ' . $null_operator;
+			return $this;
+		}
+
 		$this->where[] = $column . ' ' . $operator . ' ?';
 		$this->where_params[] = $value;
 		return $this;

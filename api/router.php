@@ -37,6 +37,7 @@ spl_autoload_register(function(string $controller_name) {
         'HealthController'  => _API . '/v1/controller_health.php',
         'CspController'     => _API . '/v1/controller_csp.php',
         'AuthController'    => _API . '/v1/controller_auth.php',
+        'UsersController'   => _API . '/v1/controller_users.php',
         'AuthMiddleware'    => _API . '/v1/middleware_auth.php',
         'RoleMiddleware'    => _API . '/v1/middleware_role.php'
     ];
@@ -87,14 +88,19 @@ $api->post('/v1/auth/password/reset', 'AuthController@reset_password');
 // Password management endpoints (protected)
 $api->put('/v1/auth/password', 'AuthController@update_password', ['AuthMiddleware']);
 
+// Users endpoints
+$api->get('/v1/users', 'UsersController@index');
+$api->get('/v1/users/me', 'UsersController@me', ['AuthMiddleware']);
+$api->get('/v1/users/{user_id}', 'UsersController@show');
+$api->post('/v1/users/me/verify-email', 'UsersController@request_verify_email', ['AuthMiddleware']);
+$api->get('/v1/users/verify-email/{verification_code}', 'UsersController@verify_email');
+$api->patch('/v1/users/me', 'UsersController@update_me', ['AuthMiddleware']);
+$api->delete('/v1/users/me', 'UsersController@delete_me', ['AuthMiddleware']);
+$api->put('/v1/users/{user_id}', 'UsersController@update_user', ['AuthMiddleware', 'RoleMiddleware@require_admin_access']);
+$api->delete('/v1/users/{user_id}', 'UsersController@delete_user', ['AuthMiddleware', 'RoleMiddleware@require_admin_access']);
+
 // Future routes will be added here
 // Example:
-// $api->get('/v1/users', 'UsersController@index');
-// $api->get('/v1/users/{id}', 'UsersController@show');
-// $api->post('/v1/users', 'UsersController@store');
-// $api->put('/v1/users/{id}', 'UsersController@update');
-// $api->delete('/v1/users/{id}', 'UsersController@destroy');
-
 // Admin endpoints (require authentication + admin role)
 // Attention: RoleMiddleware requires AuthMiddleware, which checks the token and sets $GLOBALS['authenticated_user']
 // Example admin routes with role-based access control:
@@ -123,7 +129,16 @@ $api->get('/', function() {
             'auth_refresh' => 'POST /api/v1/auth/refresh',
             'password_update' => 'PUT /api/v1/auth/password',
             'password_recovery' => 'POST /api/v1/auth/password/recovery',
-            'password_reset' => 'POST /api/v1/auth/password/reset'
+            'password_reset' => 'POST /api/v1/auth/password/reset',
+            'users_index' => 'GET /api/v1/users',
+            'users_show' => 'GET /api/v1/users/{user_id}',
+            'users_me' => 'GET /api/v1/users/me',
+            'users_request_verify_email' => 'POST /api/v1/users/me/verify-email',
+            'users_verify_email' => 'GET /api/v1/users/verify-email/{verification_code}',
+            'users_update_me' => 'PATCH /api/v1/users/me',
+            'users_delete_me' => 'DELETE /api/v1/users/me',
+            'users_update_user' => 'PUT /api/v1/users/{user_id}',
+            'users_delete_user' => 'DELETE /api/v1/users/{user_id}'
         ]
     ];
     

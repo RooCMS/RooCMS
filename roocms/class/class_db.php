@@ -281,7 +281,22 @@ class Db {
 				$set_parts[] = $this->quote_identifier($column) . " = :$column";
 			}
 
-			$sql = "UPDATE {$table} SET " . implode(', ', $set_parts) . " WHERE {$where}";
+			// Convert positional placeholders in WHERE to named ones to avoid mixing
+			$named_where = $where;
+			$named_params = [];
+			if(strpos($where, '?') !== false && !empty($where_params)) {
+				$counter = 1;
+				foreach($where_params as $param) {
+					$placeholder = ":w{$counter}";
+					$pos = strpos($named_where, '?');
+					if($pos === false) { break; }
+					$named_where = substr_replace($named_where, $placeholder, $pos, 1);
+					$named_params[$placeholder] = $param;
+					$counter++;
+				}
+			}
+
+			$sql = "UPDATE {$table} SET " . implode(', ', $set_parts) . " WHERE {$named_where}";
 			
 			$stmt = $this->pdo->prepare($sql);
 			
@@ -290,9 +305,9 @@ class Db {
 				$stmt->bindValue(":$key", $value, $this->get_pdo_param_type($value));
 			}
 			
-			// Bind parameters WHERE
-			foreach($where_params as $index => $param) {
-				$stmt->bindValue($index + 1, $param, $this->get_pdo_param_type($param));
+			// Bind named WHERE parameters (if converted)
+			foreach($named_params as $ph => $param) {
+				$stmt->bindValue($ph, $param, $this->get_pdo_param_type($param));
 			}
 
 			$result = $stmt->execute();
