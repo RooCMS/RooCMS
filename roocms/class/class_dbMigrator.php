@@ -75,8 +75,7 @@ class DbMigrator {
 	 * @return string
 	 */
 	private function detect_driver(): string {
-		$info = $this->db->get_database_info();
-		$driver = strtolower($info['driver'] ?? 'mysql');
+		$driver = strtolower($this->db->get_driver() ?? 'mysql');
 		
 		return match($driver) {
 			'mysql', 'mysqli' => 'mysql',

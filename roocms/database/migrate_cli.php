@@ -18,17 +18,25 @@
 // Set a constant to protect against direct access
 define('RooCMS', true);
 
+// Safe debug mode for CLI (trait DebugLog expects DEBUGMODE)
+if(!defined('DEBUGMODE')) {
+    define('DEBUGMODE', false);
+}
+
 // Set the base paths for the CLI
 define('_SITEROOT', dirname(__DIR__, 2));
 
 // Connect the necessary classes
 require_once _SITEROOT . '/roocms/config/config.php';
 require_once _SITEROOT . '/roocms/config/defines.php'; 
-require_once _CLASS . '/roocms/class/class_db.php';
-require_once _CLASS . '/roocms/class/class_dbQueryBuilder.php';
-require_once _CLASS . '/roocms/class/trait_dbExtends.php';
-require_once _CLASS . '/roocms/class/trait_debugLog.php';
-require_once _CLASS . '/roocms/class/class_dbMigrator.php';
+require_once _SITEROOT . '/roocms/helpers/functions.php';
+require_once _SITEROOT . '/roocms/helpers/sanitize.php';
+require_once _CLASS . '/class_dbConnect.php';
+require_once _CLASS . '/trait_dbExtends.php';
+require_once _CLASS . '/trait_debugLog.php';
+require_once _CLASS . '/class_db.php';
+require_once _CLASS . '/class_dbQueryBuilder.php';
+require_once _CLASS . '/class_dbMigrator.php';
 
 /**
  * CLI interface for managing database migrations
@@ -69,8 +77,7 @@ class MigrationCLI {
 	private function checkRequiredConstants(): void {
 		$required_constants = [
 			'TABLE_MIGRATIONS',
-			'TABLE_CONFIG_PARTS', 
-			'TABLE_CONFIG_SETTINGS'
+			'TABLE_SETTINGS'
 		];
 
 		$missing = [];

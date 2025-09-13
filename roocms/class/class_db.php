@@ -240,9 +240,10 @@ class Db {
 			$start_time = microtime(true);
 
 			$columns = array_keys($data);
+			$quoted_columns = $this->quote_identifiers($columns);
 			$placeholders = ':' . implode(', :', $columns);
 			
-			$sql = 'INSERT INTO ' . $table . ' (' . implode(', ', $columns) . ') VALUES (' . $placeholders . ')';
+			$sql = 'INSERT INTO ' . $table . ' (' . implode(', ', $quoted_columns) . ') VALUES (' . $placeholders . ')';
 			
 			$stmt = $this->pdo->prepare($sql);
 			
@@ -277,7 +278,7 @@ class Db {
 
 			$set_parts = [];
 			foreach(array_keys($data) as $column) {
-				$set_parts[] = "$column = :$column";
+				$set_parts[] = $this->quote_identifier($column) . " = :$column";
 			}
 
 			$sql = "UPDATE {$table} SET " . implode(', ', $set_parts) . " WHERE {$where}";
@@ -347,8 +348,9 @@ class Db {
 			$this->begin_transaction();
 			
 			$columns = array_keys($data[0]);
+			$quoted_columns = $this->quote_identifiers($columns);
 			$placeholders = ':' . implode(', :', $columns);
-			$sql = "INSERT INTO {$table} (" . implode(', ', $columns) . ") VALUES ({$placeholders})";
+			$sql = "INSERT INTO {$table} (" . implode(', ', $quoted_columns) . ") VALUES ({$placeholders})";
 			
 			$stmt = $this->pdo->prepare($sql);
 			
@@ -534,6 +536,32 @@ class Db {
 			WHERE rf.rdb\$relation_name = UPPER(?)
 			ORDER BY rf.rdb\$field_position
 		", [$table]);
+	}
+
+
+	/**
+	 * Quote identifier (column/table name) per driver
+	 * 
+	 * @param string $identifier
+	 * 
+	 * @return string
+	 */
+	private function quote_identifier(string $identifier): string {
+		return match($this->driver) {
+			'pgsql', 'postgres', 'postgresql', 'firebird' => '"' . str_replace('"', '""', $identifier) . '"',
+			default => '`' . str_replace('`', '``', $identifier) . '`'
+		};
+	}
+
+	/**
+	 * Quote list of identifiers
+	 * 
+	 * @param array $identifiers
+	 * 
+	 * @return array
+	 */
+	private function quote_identifiers(array $identifiers): array {
+		return array_map(fn($id) => $this->quote_identifier((string)$id), $identifiers);
 	}
 
 
