@@ -308,6 +308,293 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ValidationErrorResponse'
+  /v1/users:
+    get:
+      summary: List users
+      description: List users with pagination and filters
+      tags:
+        - Users
+      parameters:
+        - in: query
+          name: page
+          schema:
+            type: integer
+            minimum: 1
+            default: 1
+          description: Page number
+        - in: query
+          name: limit
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+            default: 10
+          description: Items per page
+        - in: query
+          name: offset
+          schema:
+            type: integer
+            minimum: 0
+          description: Optional offset override
+        - in: query
+          name: search
+          schema:
+            type: string
+          description: Search by login or email
+        - in: query
+          name: role
+          schema:
+            type: string
+            enum: [u, m, a, su]
+          description: Filter by role
+        - in: query
+          name: is_active
+          schema:
+            type: boolean
+          description: Filter active users
+        - in: query
+          name: is_banned
+          schema:
+            type: boolean
+          description: Filter banned users
+      responses:
+        '200':
+          description: Users list
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UsersListResponse'
+  /v1/users/{user_id}:
+    get:
+      summary: Get user by ID
+      tags:
+        - Users
+      parameters:
+        - in: path
+          name: user_id
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: User found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '404':
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    put:
+      summary: Update user (admin)
+      description: Update user fields and profile
+      tags:
+        - Users
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: user_id
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AdminUserUpdateRequest'
+      responses:
+        '200':
+          description: User updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+        '401':
+          description: Authentication required
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Admin role required
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '422':
+          description: Validation error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValidationErrorResponse'
+    delete:
+      summary: Delete user (admin)
+      tags:
+        - Users
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: user_id
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: User deleted
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+        '401':
+          description: Authentication required
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Admin role required
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /v1/users/me:
+    get:
+      summary: Get current user
+      tags:
+        - Users
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Current user
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '401':
+          description: Authentication required
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    patch:
+      summary: Update my profile
+      tags:
+        - Users
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserUpdateMeRequest'
+      responses:
+        '200':
+          description: Profile updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Authentication required
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '422':
+          description: Validation error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValidationErrorResponse'
+    delete:
+      summary: Delete my account
+      tags:
+        - Users
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Account deleted
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+        '401':
+          description: Authentication required
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /v1/users/me/verify-email:
+    post:
+      summary: Request verification email
+      tags:
+        - Users
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Verification email sent
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VerifyEmailRequestResponse'
+        '400':
+          description: Already verified
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Authentication required
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /v1/users/verify-email/{verification_code}:
+    get:
+      summary: Verify email by code
+      tags:
+        - Users
+      parameters:
+        - in: path
+          name: verification_code
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Email verified
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+        '400':
+          description: Invalid or expired verification code
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
 components:
   securitySchemes:
     bearerAuth:
@@ -705,6 +992,108 @@ components:
               example:
                 email: Invalid email format
                 password: Password must be at least 6 characters
+    UsersListResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: true
+        timestamp:
+          type: string
+          format: date-time
+        data:
+          type: object
+          properties:
+            items:
+              type: array
+              items:
+                $ref: '#/components/schemas/User'
+            meta:
+              $ref: '#/components/schemas/PaginationMeta'
+    PaginationMeta:
+      type: object
+      properties:
+        current_page:
+          type: integer
+          example: 1
+        per_page:
+          type: integer
+          example: 10
+        total:
+          type: integer
+          example: 100
+        total_pages:
+          type: integer
+          example: 10
+        has_next:
+          type: boolean
+          example: true
+        has_prev:
+          type: boolean
+          example: false
+    UserUpdateMeRequest:
+      type: object
+      properties:
+        email:
+          type: string
+          format: email
+        nickname:
+          type: string
+        first_name:
+          type: string
+        last_name:
+          type: string
+        gender:
+          type: string
+          enum: [male, female, other]
+        avatar:
+          type: string
+          description: URL to avatar image
+        bio:
+          type: string
+        birthday:
+          type: string
+          format: date
+          example: '1990-01-01'
+        website:
+          type: string
+          format: uri
+        is_public:
+          type: boolean
+    AdminUserUpdateRequest:
+      allOf:
+        - $ref: '#/components/schemas/UserUpdateMeRequest'
+        - type: object
+          properties:
+            is_active:
+              type: boolean
+            is_verified:
+              type: boolean
+            is_banned:
+              type: boolean
+            ban_expired:
+              type: integer
+              description: Unix timestamp until which user is banned
+            ban_reason:
+              type: string
+    VerifyEmailRequestResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: true
+        message:
+          type: string
+          example: Verification email sent
+        timestamp:
+          type: string
+          format: date-time
+        data:
+          type: object
+          properties:
+            verification_code:
+              type: string
+              description: Present only in debug mode
 tags:
   - name: API Info
     description: API information
@@ -716,3 +1105,5 @@ tags:
     description: Authentication and authorization
   - name: Password Management
     description: Password management
+  - name: Users
+    description: Users and profiles

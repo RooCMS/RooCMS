@@ -40,6 +40,11 @@
       "key": "user_id",
       "value": "",
       "type": "string"
+    },
+    {
+      "key": "verification_code",
+      "value": "",
+      "type": "string"
     }
   ],
   "item": [
@@ -464,6 +469,223 @@
         }
       ],
       "description": "Password management endpoints"
+    },
+    {
+      "name": "Users",
+      "item": [
+        {
+          "name": "List Users",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/v1/users",
+              "host": ["{{base_url}}"],
+              "path": ["v1", "users"],
+              "query": [
+                { "key": "page", "value": "1" },
+                { "key": "limit", "value": "10" },
+                { "key": "search", "value": "" },
+                { "key": "role", "value": "" },
+                { "key": "is_active", "value": "" },
+                { "key": "is_banned", "value": "" }
+              ]
+            },
+            "description": "List users with pagination and filters"
+          },
+          "response": []
+        },
+        {
+          "name": "Get User by ID",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/v1/users/{{user_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["v1", "users", "{{user_id}}"]
+            },
+            "description": "Get user by ID"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Me",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/v1/users/me",
+              "host": ["{{base_url}}"],
+              "path": ["v1", "users", "me"]
+            },
+            "description": "Get current authenticated user"
+          },
+          "response": []
+        },
+        {
+          "name": "Update Me",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"user@example.com\",\n  \"nickname\": \"nick\",\n  \"first_name\": \"John\",\n  \"last_name\": \"Doe\",\n  \"gender\": \"other\",\n  \"avatar\": \"https://example.com/avatar.png\",\n  \"bio\": \"About me\",\n  \"birthday\": \"1990-01-01\",\n  \"website\": \"https://example.com\",\n  \"is_public\": true\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/v1/users/me",
+              "host": ["{{base_url}}"],
+              "path": ["v1", "users", "me"]
+            },
+            "description": "Update current user's profile and email"
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Me",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/v1/users/me",
+              "host": ["{{base_url}}"],
+              "path": ["v1", "users", "me"]
+            },
+            "description": "Delete current user account"
+          },
+          "response": []
+        },
+        {
+          "name": "Request Verify Email",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/v1/users/me/verify-email",
+              "host": ["{{base_url}}"],
+              "path": ["v1", "users", "me", "verify-email"]
+            },
+            "description": "Send verification email for current user"
+          },
+          "response": []
+        },
+        {
+          "name": "Verify Email with Code",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/v1/users/verify-email/{{verification_code}}",
+              "host": ["{{base_url}}"],
+              "path": ["v1", "users", "verify-email", "{{verification_code}}"]
+            },
+            "description": "Verify email by code"
+          },
+          "response": []
+        },
+        {
+          "name": "Admin Update User",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"user@example.com\",\n  \"is_active\": true,\n  \"is_verified\": true,\n  \"is_banned\": false,\n  \"ban_expired\": 0,\n  \"ban_reason\": \"\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/v1/users/{{user_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["v1", "users", "{{user_id}}"]
+            },
+            "description": "Update user by admin"
+          },
+          "response": []
+        },
+        {
+          "name": "Admin Delete User",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/v1/users/{{user_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["v1", "users", "{{user_id}}"]
+            },
+            "description": "Delete user by admin"
+          },
+          "response": []
+        }
+      ],
+      "description": "Users and profiles endpoints"
     }
   ],
   "event": [
