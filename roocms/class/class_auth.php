@@ -94,7 +94,11 @@ class Auth {
             'cost' => $this->hash_cost,
         ];
 
-        return password_hash($data, PASSWORD_DEFAULT, $options);
+        $hash = password_hash($data, PASSWORD_DEFAULT, $options);
+        if($hash === false) {
+            throw new RuntimeException('Password hashing failed');
+        }
+        return $hash;
     }
 
 

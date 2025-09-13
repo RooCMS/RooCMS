@@ -132,7 +132,7 @@ function clearing_string(string $string) : string {
  */
 function clearing_html(string $text) : string {
     $text = strip_tags($text);
-    $text = str_ireplace(['&lt;','&gt;','&#123;','&#125;','&#39;','&quot;','&amp;','&#36;'], '', $text);
+    $text = (string) str_ireplace(['&lt;','&gt;','&#123;','&#125;','&#39;','&quot;','&amp;','&#36;'], '', $text);
 
     return $text;
 }

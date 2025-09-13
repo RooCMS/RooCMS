@@ -139,12 +139,26 @@ class DbConnect {
 	 * @return void
 	 */
 	private function configure_database(): void {
-		match($this->driver) {
-			'mysql', 'mysqli', 'mariadb' => $this->configure_mysql(),
-			'pgsql', 'postgres', 'postgresql' => $this->configure_postgres(),
-			'firebird' => $this->configure_firebird(),
-			default => null
-		};
+		switch($this->driver) {
+			case 'mysql':
+			case 'mysqli':
+			case 'mariadb':
+				$this->configure_mysql();
+				break;
+
+			case 'pgsql':
+			case 'postgres':
+			case 'postgresql':
+				$this->configure_postgres();
+				break;
+
+			case 'firebird':
+				$this->configure_firebird();
+				break;
+
+			default:
+				break;
+		}
 	}
 
 
@@ -154,9 +168,9 @@ class DbConnect {
 	 * @return void
 	 */
 	private function configure_mysql(): void {
-		$this->pdo->exec("SET NAMES utf8mb4 COLLATE utf8mb4_unicode_ci");
-		$this->pdo->exec("SET sql_mode = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION'");
-		$this->pdo->exec("SET time_zone = '+00:00'");
+		$this->pdo?->exec("SET NAMES utf8mb4 COLLATE utf8mb4_unicode_ci");
+		$this->pdo?->exec("SET sql_mode = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION'");
+		$this->pdo?->exec("SET time_zone = '+00:00'");
 	}
 
 
@@ -166,8 +180,8 @@ class DbConnect {
 	 * @return void
 	 */
 	private function configure_postgres(): void {
-		$this->pdo->exec("SET NAMES 'UTF8'");
-		$this->pdo->exec("SET timezone = 'UTC'");
+		$this->pdo?->exec("SET NAMES 'UTF8'");
+		$this->pdo?->exec("SET timezone = 'UTC'");
 	}
 
 
@@ -178,10 +192,10 @@ class DbConnect {
 	 */
 	private function configure_firebird(): void {
 		// Firebird basic settings for working with UTF-8
-		$this->pdo->exec("SET NAMES UTF8");
+		$this->pdo?->exec("SET NAMES UTF8");
 
 		// Setting the date format
-		$this->pdo->exec("SET SQL DIALECT 3");
+		$this->pdo?->exec("SET SQL DIALECT 3");
 	}
 
 

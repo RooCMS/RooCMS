@@ -83,8 +83,8 @@ class UserService {
             $birthday = trim((string)$profile_data['birthday']);
             if($birthday !== '') {
                 $dt = date_create_from_format('Y-m-d', $birthday);
-                $errors = $dt ? date_get_last_errors() : ['warning_count' => 1, 'error_count' => 1];
-                if(!$dt || ($errors['warning_count'] ?? 0) > 0 || ($errors['error_count'] ?? 0) > 0) {
+                $errors = $dt !== false ? date_get_last_errors() : ['warning_count' => 1, 'error_count' => 1];
+                if($dt === false || ($errors['warning_count'] ?? 0) > 0 || ($errors['error_count'] ?? 0) > 0) {
                     throw new DomainException('Invalid birthday format. Use Y-m-d', 422);
                 }
                 $profile_data['birthday'] = $birthday;

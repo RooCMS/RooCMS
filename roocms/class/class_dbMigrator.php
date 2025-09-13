@@ -464,7 +464,7 @@ class DbMigrator {
 			'datetime' => 'DATETIME',
 			'date' => 'DATE',
 			'time' => 'TIME',
-			'decimal' => $precision && $scale ? 'DECIMAL(' . $precision . ', ' . $scale . ')' : 'DECIMAL(10, 2)',
+			'decimal' => ($precision !== null && $scale !== null) ? 'DECIMAL(' . $precision . ', ' . $scale . ')' : 'DECIMAL(10, 2)',
 			'float' => 'FLOAT',
 			'double' => 'DOUBLE',
 			'enum' => isset($config['values']) ? 'ENUM(\'' . implode('\',\'', $config['values']) . '\')' : 'ENUM()',
@@ -487,7 +487,7 @@ class DbMigrator {
 			'datetime' => 'TIMESTAMP',
 			'date' => 'DATE',
 			'time' => 'TIME',
-			'decimal' => $precision && $scale ? 'DECIMAL(' . $precision . ', ' . $scale . ')' : 'DECIMAL(10, 2)',
+			'decimal' => ($precision !== null && $scale !== null) ? 'DECIMAL(' . $precision . ', ' . $scale . ')' : 'DECIMAL(10, 2)',
 			'float' => 'REAL',
 			'double' => 'DOUBLE PRECISION',
 			'enum' => isset($config['values']) ? 'VARCHAR(50) CHECK(' . $config['column'] . ' IN (\'' . implode('\',\'', $config['values']) . '\'))' : 'VARCHAR(50)',
@@ -501,7 +501,7 @@ class DbMigrator {
 	 */
 	private function convert_firebird_type(string $type, ?int $length, ?int $precision, ?int $scale, array $config): string {
 		return match(strtolower($type)) {
-			'integer', 'int' => $length && $length <= 32767 ? 'SMALLINT' : 'INTEGER',
+			'integer', 'int' => ($length !== null && $length > 0 && $length <= 32767) ? 'SMALLINT' : 'INTEGER',
 			'bigint' => 'BIGINT',
 			'string', 'varchar' => $length ? 'VARCHAR(' . $length . ')' : 'VARCHAR(255)',
 			'text', 'longtext' => 'BLOB SUB_TYPE TEXT',
@@ -510,7 +510,7 @@ class DbMigrator {
 			'datetime' => 'TIMESTAMP',
 			'date' => 'DATE',
 			'time' => 'TIME',
-			'decimal' => ($precision && $scale) ? 'DECIMAL(' . $precision . ',' . $scale . ')' : 'DECIMAL(18,2)',
+			'decimal' => ($precision !== null && $scale !== null) ? 'DECIMAL(' . $precision . ',' . $scale . ')' : 'DECIMAL(18,2)',
 			'float' => 'FLOAT',
 			'double' => 'DOUBLE PRECISION',
 			'enum' => $length ? 'VARCHAR(' . $length . ')' : 'VARCHAR(50)',
