@@ -156,6 +156,7 @@ class AuthService {
 			'refresh_token' => $refresh_token,
 			'token_type' => 'Bearer',
 			'expires_in' => $this->auth->token_expires,
+			'refresh_expires_in' => $this->auth->refresh_token_expires,
 			'user' => $user_data
 		];
 	}
@@ -205,6 +206,7 @@ class AuthService {
 			'refresh_token' => $refresh_token,
 			'token_type' => 'Bearer',
 			'expires_in' => $this->auth->token_expires,
+			'refresh_expires_in' => $this->auth->refresh_token_expires,
 			'user' => [
 				'user_id' => (int)($user['id'] ?? $user['user_id']),
 				'role' => $user['role'] ?? 'u',
@@ -268,7 +270,8 @@ class AuthService {
 			'access_token' => $new_access_token,
 			'refresh_token' => $new_refresh_token,
 			'token_type' => 'Bearer',
-			'expires_in' => $this->auth->token_expires
+			'expires_in' => $this->auth->token_expires,
+			'refresh_expires_in' => $this->auth->refresh_token_expires
 		];
 	}
 
@@ -481,6 +484,20 @@ class AuthService {
 	public function logout_all_devices(int $user_id): void {
 		$this->db->delete(TABLE_TOKENS)
 			->where('user_id', $user_id)
+			->execute();
+	}
+
+
+	/**
+	 * Revoke a specific refresh token (and its paired access token)
+	 * @param int $user_id
+	 * @param string $refresh_token
+	 */
+	public function revoke_refresh_token(int $user_id, string $refresh_token): void {
+		$refresh_hash = $this->auth->hash_data($refresh_token);
+		$this->db->delete(TABLE_TOKENS)
+			->where('user_id', $user_id)
+			->where('refresh', $refresh_hash)
 			->execute();
 	}
 }

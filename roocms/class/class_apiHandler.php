@@ -239,7 +239,7 @@ class ApiHandler {
             'error' => true,
             'message' => 'Endpoint not found',
             'status_code' => 404,
-            'timestamp' => date('Y-m-d H:i:s')
+            'timestamp' => format_timestamp(time())
         ];
         
         output_json($response);
@@ -262,7 +262,7 @@ class ApiHandler {
             'message' => 'Method not allowed',
             'status_code' => 405,
             'allowed_methods' => $allowedMethods,
-            'timestamp' => date('Y-m-d H:i:s')
+            'timestamp' => format_timestamp(time())
         ];
         
         output_json($response);
@@ -280,7 +280,7 @@ class ApiHandler {
             'error' => true,
             'message' => $message,
             'status_code' => 500,
-            'timestamp' => date('Y-m-d H:i:s')
+            'timestamp' => format_timestamp(time())
         ];
         
         output_json($response);

@@ -244,6 +244,9 @@ function format_timestamp(mixed $timestamp) : string {
  * @return void
  */
 function output_json(mixed $data) : void {
+    if (!headers_sent()) {
+        header('Content-Type: application/json; charset=utf-8');
+    }
 	echo json_encode($data, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
 	exit();
 }

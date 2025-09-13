@@ -80,6 +80,7 @@ $api->post('/v1/auth/refresh', 'AuthController@refresh');
 // Authentication endpoints (protected)
 $api->post('/v1/auth/logout', 'AuthController@logout', ['AuthMiddleware']);
 $api->post('/v1/auth/logout/all', 'AuthController@logout_all', ['AuthMiddleware']);
+$api->post('/v1/auth/refresh/revoke', 'AuthController@revoke_refresh', ['AuthMiddleware']);
 
 // Password management endpoints (public)
 $api->post('/v1/auth/password/recovery', 'AuthController@recovery_password');
@@ -116,7 +117,7 @@ $api->get('/', function() {
     $response = [
         'success' => true,
         'message' => 'RooCMS API',
-        'timestamp' => date('Y-m-d H:i:s'),
+        'timestamp' => format_timestamp(time()),
         'version' => defined('ROOCMS_FULL_VERSION') ? ROOCMS_FULL_VERSION : '...',
         'endpoints' => [
             'health' => 'GET /api/v1/health',
@@ -127,12 +128,13 @@ $api->get('/', function() {
             'auth_logout' => 'POST /api/v1/auth/logout',
             'auth_logout_all' => 'POST /api/v1/auth/logout/all',
             'auth_refresh' => 'POST /api/v1/auth/refresh',
+            'auth_refresh_revoke' => 'POST /api/v1/auth/refresh/revoke',	
             'password_update' => 'PUT /api/v1/auth/password',
             'password_recovery' => 'POST /api/v1/auth/password/recovery',
             'password_reset' => 'POST /api/v1/auth/password/reset',
+            'users_me' => 'GET /api/v1/users/me',
             'users_index' => 'GET /api/v1/users',
             'users_show' => 'GET /api/v1/users/{user_id}',
-            'users_me' => 'GET /api/v1/users/me',
             'users_request_verify_email' => 'POST /api/v1/users/me/verify-email',
             'users_verify_email' => 'GET /api/v1/users/verify-email/{verification_code}',
             'users_update_me' => 'PATCH /api/v1/users/me',

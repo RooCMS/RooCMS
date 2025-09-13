@@ -195,6 +195,34 @@ class AuthController extends BaseController {
 
 
     /**
+     * Revoke a specific refresh token
+     * POST /api/v1/auth/refresh/revoke
+     * Requires: AuthMiddleware
+     */
+    public function revoke_refresh(): void {
+        $this->log_request('auth_revoke_refresh');
+
+        $user = $this->require_authentication();
+        if (empty($user)) {
+            return; // Error response already sent
+        }
+
+        $data = $this->get_input_data();
+        if (!isset($data['refresh_token']) || $data['refresh_token'] === '') {
+            $this->error_response('Refresh token required', 400);
+            return;
+        }
+
+        try {
+            $this->authService->revoke_refresh_token((int)$user['id'], (string)$data['refresh_token']);
+            $this->json_response(null, 200, 'Refresh token revoked');
+        } catch (Exception $e) {
+            $this->error_response('Failed to revoke refresh token', 500);
+        }
+    }
+
+
+    /**
      * Refresh token
      * POST /api/v1/auth/refresh
      * 

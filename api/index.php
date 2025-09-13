@@ -101,7 +101,7 @@ try {
         'error' => true,
         'message' => 'Internal server error',
         'status_code' => 500,
-        'timestamp' => date('Y-m-d H:i:s')
+        'timestamp' => format_timestamp(time())
     ];
     
     // Log the error if logging is available
