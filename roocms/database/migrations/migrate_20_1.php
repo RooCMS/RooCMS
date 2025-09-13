@@ -123,11 +123,10 @@ return [
 						'values' => ['u', 'm', 'a', 'su'],
 						'default' => 'u',
 						'null' => false
-					]
+					],
                     'is_active' => [
-                        'type' => 'enum',
-                        'values' => ['0', '1'],
-                        'default' => '0',
+                        'type' => 'boolean',
+                        'default' => 0,
                         'null' => false,
                     ],
                     'login' => [
@@ -141,15 +140,13 @@ return [
                         'null' => false,
                     ],
                     'is_verified' => [
-                        'type' => 'enum',
-                        'values' => ['0', '1'],
-                        'default' => '0',
+                        'type' => 'boolean',
+                        'default' => 0,
                         'null' => false,
                     ],
                     'is_banned' => [
-                        'type' => 'enum',
-                        'values' => ['0', '1'],
-                        'default' => '0',
+                        'type' => 'boolean',
+                        'default' => 0,
                         'null' => false,
                     ],
                     'ban_expired' => [
@@ -215,6 +212,89 @@ return [
                     'auto_increment' => 1,
                 ],
             ],
+            'TABLE_USER_PROFILES' => [
+				'columns' => [
+					'user_id' => [
+						'type' => 'integer',
+						'length' => 11,
+						'unsigned' => true,
+						'null' => false,
+					],
+					'nickname' => [
+						'type' => 'string',
+						'length' => 64,
+						'null' => true,
+					],
+					'first_name' => [
+						'type' => 'string',
+						'length' => 64,
+						'null' => true,
+					],
+					'last_name' => [
+						'type' => 'string',
+						'length' => 64,
+						'null' => true,
+					],
+                    'gender' => [
+						'type' => 'enum',
+						'values' => ['male', 'female', 'other'],
+						'null' => true,
+					],
+					'avatar' => [
+						'type' => 'string',
+						'length' => 255,
+						'null' => true,
+					],
+					'bio' => [
+						'type' => 'text',
+						'null' => true,
+					],
+					'birthday' => [
+						'type' => 'date',
+						'null' => true,
+					],
+					'website' => [
+						'type' => 'string',
+						'length' => 200,
+						'null' => true,
+					],
+                    'is_public' => [
+						'type' => 'boolean',
+						'default' => 1,
+						'null' => false,
+					],
+					'created_at' => [
+						'type' => 'bigint',
+						'length' => 20,
+						'unsigned' => true,
+						'null' => false,
+						'default' => 0,
+					],
+					'updated_at' => [
+						'type' => 'bigint',
+						'length' => 20,
+						'unsigned' => true,
+						'null' => false,
+						'default' => 0,
+					],
+				],
+				'indexes' => [
+					[
+						'type' => 'primary',
+						'columns' => 'user_id',
+					],
+					[
+						'type' => 'unique',
+						'name' => 'user_profiles_nickname_uq',
+						'columns' => 'nickname',
+					],
+				],
+				'options' => [
+					'engine' => 'InnoDB',
+					'charset' => 'utf8mb4',
+					'collate' => 'utf8mb4_unicode_ci',
+				],
+			],
             'TABLE_VERIFICATION_CODES' => [
                 'columns' => [
                     'id' => [
@@ -459,16 +539,37 @@ return [
                     'charset' => 'utf8mb4',
                     'collate' => 'utf8mb4_unicode_ci',
                 ],
-            ]
-        ]
+            ],
+        ],
+        'add_foreign_keys' => [
+            'TABLE_USER_PROFILES' => [
+                [
+                    'name' => 'fk_user_profiles_user_id',
+                    'columns' => ['user_id'],
+                    'reference_table' => 'TABLE_USERS',
+                    'reference_columns' => ['id'],
+                    'on_delete' => 'CASCADE',
+                ],
+            ],
+            'TABLE_VERIFICATION_CODES' => [
+                [
+                    'name' => 'fk_verification_codes_user_id',
+                    'columns' => ['user_id'],
+                    'reference_table' => 'TABLE_USERS',
+                    'reference_columns' => ['id'],
+                    'on_delete' => 'CASCADE',
+                ],
+            ],
+        ],
     ],
 
     'down' => [
         'drop_tables' => [
             'TABLE_TOKENS',
-            'TABLE_USERS',
+            'TABLE_USER_PROFILES',
             'TABLE_VERIFICATION_CODES',
-            'TABLE_SETTINGS'
+            'TABLE_USERS',
+            'TABLE_SETTINGS',
         ]
     ]
 ];

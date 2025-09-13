@@ -425,6 +425,12 @@ class Db {
 			return false;
 		}
 
+		// Handle drivers with implicit commits on DDL (e.g., MySQL)
+		if(!$this->pdo->inTransaction()) {
+			$this->transaction_stack = [];
+			return true;
+		}
+
 		$last_transaction = array_pop($this->transaction_stack);
 		
 		if($last_transaction === true) {
@@ -446,6 +452,12 @@ class Db {
 	public function rollback(): bool {
 		if(empty($this->transaction_stack)) {
 			return false;
+		}
+
+		// Handle drivers with implicit commits on DDL (e.g., MySQL)
+		if(!$this->pdo->inTransaction()) {
+			$this->transaction_stack = [];
+			return true;
 		}
 
 		$last_transaction = array_pop($this->transaction_stack);

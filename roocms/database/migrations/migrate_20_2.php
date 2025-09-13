@@ -21,7 +21,9 @@ if(!defined('RooCMS')) {
 //#########################################################
 
 
-
+/**
+ * Migration Two Zero: Install data
+ */
 return [
 	'up' => [
 		'data' => [
@@ -271,7 +273,11 @@ return [
 	'down' => [
 		'delete_data' => [
 			'TABLE_SETTINGS' => [
-				'where' => 'key IN (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
+				'where_by_driver' => [
+					'mysql' => '`key` IN (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
+					'postgresql' => '"key" IN (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
+					'firebird' => '"key" IN (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
+				],
 				'params' => [
 					'site_domain',
 					'site_name',

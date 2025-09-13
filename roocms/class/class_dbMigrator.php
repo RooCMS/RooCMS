@@ -245,6 +245,12 @@ class DbMigrator {
 				case 'drop_tables':
 					$this->process_drop_tables($operation_data);
 					break;
+				case 'add_foreign_keys':
+					$this->process_add_foreign_keys($operation_data);
+					break;
+				case 'drop_foreign_keys':
+					$this->process_drop_foreign_keys($operation_data);
+					break;
 				case 'raw_sql':
 					$this->process_raw_sql($operation_data);
 					break;
@@ -347,6 +353,7 @@ class DbMigrator {
 	private function build_create_table_sql(string $table_name, array $config): string {
 		$columns = [];
 		$indexes = [];
+		$constraints = [];
 		
 		// Building columns
 		foreach ($config['columns'] as $column_name => $column_config) {
@@ -360,7 +367,18 @@ class DbMigrator {
 			}
 		}
 
-		$table_definition = implode(', ', array_merge($columns, $indexes));
+		// Building constraints (currently supports only CHECK)
+		if (isset($config['constraints'])) {
+			foreach ($config['constraints'] as $constraint) {
+				if (($constraint['type'] ?? '') === 'check' && isset($constraint['expression'])) {
+					$name = $constraint['name'] ?? '';
+					$definition = 'CHECK (' . $constraint['expression'] . ')';
+					$constraints[] = $name ? 'CONSTRAINT ' . $this->quote_identifier($name) . ' ' . $definition : $definition;
+				}
+			}
+		}
+
+		$table_definition = implode(', ', array_merge($columns, $indexes, $constraints));
 		
 		$sql = match($this->driver) {
 			'mysql' => $this->build_mysql_create_table($table_name, $table_definition, $config),
@@ -507,7 +525,9 @@ class DbMigrator {
 	private function build_index_definition(array $index): string {
 		$type = $index['type'] ?? 'KEY';
 		$name = $index['name'] ?? '';
-		$columns = is_array($index['columns']) ? implode('`, `', $index['columns']) : $index['columns'];
+		$columns = is_array($index['columns']) 
+			? implode('`, `', $index['columns']) 
+			: $index['columns'];
 
 		return match(strtoupper($type)) {
 			'PRIMARY' => 'PRIMARY KEY (`' . $columns . '`)',
@@ -539,6 +559,136 @@ class DbMigrator {
 		}
 
 		return $sql;
+	}
+
+
+	/**
+	 * Quote identifier per driver
+	 */
+	private function quote_identifier(string $name): string {
+		return match($this->driver) {
+			'postgresql', 'firebird' => '"' . str_replace('"', '""', $name) . '"',
+			default => '`' . str_replace('`', '``', $name) . '`'
+		};
+	}
+
+
+	/**
+	 * Add foreign keys
+	 */
+	private function process_add_foreign_keys(array $fks_data): void {
+		foreach ($fks_data as $table_constant => $fks) {
+			$table_name = constant($table_constant);
+			foreach ($fks as $fk) {
+				$this->add_foreign_key($table_name, $fk);
+			}
+		}
+	}
+
+
+	/**
+	 * Drop foreign keys
+	 */
+	private function process_drop_foreign_keys(array $drop_data): void {
+		foreach ($drop_data as $table_constant => $fk_names) {
+			$table_name = constant($table_constant);
+			foreach ($fk_names as $fk_name) {
+				$this->drop_foreign_key($table_name, $fk_name);
+			}
+		}
+	}
+
+
+	/**
+	 * Add single foreign key (idempotent)
+	 */
+	private function add_foreign_key(string $table_name, array $fk): void {
+		$name = $fk['name'] ?? '';
+		if ($name === '') {
+			throw new Exception('Foreign key name is required');
+		}
+
+		// Skip if already exists
+		if ($this->foreign_key_exists($table_name, $name)) {
+			return;
+		}
+
+		$columns = (array)($fk['columns'] ?? []);
+		$ref_table_const = $fk['reference_table'] ?? '';
+		$ref_table = is_string($ref_table_const) ? constant($ref_table_const) : $ref_table_const;
+		$ref_columns = (array)($fk['reference_columns'] ?? ['id']);
+		$on_delete = $fk['on_delete'] ?? '';
+		$on_update = $fk['on_update'] ?? '';
+
+		if (empty($columns) || empty($ref_table)) {
+			throw new Exception('Invalid foreign key config for ' . $name);
+		}
+
+		$cols_sql = implode(', ', array_map(fn($c) => $this->quote_identifier($c), $columns));
+		$ref_cols_sql = implode(', ', array_map(fn($c) => $this->quote_identifier($c), $ref_columns));
+
+		$sql = match($this->driver) {
+			'mysql' => 'ALTER TABLE ' . $this->quote_identifier($table_name)
+				. ' ADD CONSTRAINT ' . $this->quote_identifier($name)
+				. ' FOREIGN KEY (' . $cols_sql . ') REFERENCES ' . $this->quote_identifier($ref_table)
+				. ' (' . $ref_cols_sql . ')' 
+				. ($on_delete ? ' ON DELETE ' . $on_delete : '')
+				. ($on_update ? ' ON UPDATE ' . $on_update : ''),
+			'postgresql', 'firebird' => 'ALTER TABLE ' . $this->quote_identifier($table_name)
+				. ' ADD CONSTRAINT ' . $this->quote_identifier($name)
+				. ' FOREIGN KEY (' . $cols_sql . ') REFERENCES ' . $this->quote_identifier($ref_table)
+				. ' (' . $ref_cols_sql . ')' 
+				. ($on_delete ? ' ON DELETE ' . $on_delete : '')
+				. ($on_update ? ' ON UPDATE ' . $on_update : ''),
+			default => ''
+		};
+
+		if ($sql !== '') {
+			$this->db->query($sql);
+		}
+	}
+
+
+	/**
+	 * Drop single foreign key (if exists)
+	 */
+	private function drop_foreign_key(string $table_name, string $fk_name): void {
+		// Skip if not exists
+		if (!$this->foreign_key_exists($table_name, $fk_name)) {
+			return;
+		}
+
+		$sql = match($this->driver) {
+			'mysql' => 'ALTER TABLE ' . $this->quote_identifier($table_name) . ' DROP FOREIGN KEY ' . $this->quote_identifier($fk_name),
+			'postgresql', 'firebird' => 'ALTER TABLE ' . $this->quote_identifier($table_name) . ' DROP CONSTRAINT ' . $this->quote_identifier($fk_name),
+			default => ''
+		};
+
+		if ($sql !== '') {
+			$this->db->query($sql);
+		}
+	}
+
+
+	/**
+	 * Check if foreign key exists on a table
+	 */
+	private function foreign_key_exists(string $table_name, string $fk_name): bool {
+		return match($this->driver) {
+			'mysql' => (bool) $this->db->fetch_column(
+				'SELECT 1 FROM information_schema.TABLE_CONSTRAINTS WHERE CONSTRAINT_SCHEMA = DATABASE() AND TABLE_NAME = ? AND CONSTRAINT_TYPE = "FOREIGN KEY" AND CONSTRAINT_NAME = ? LIMIT 1',
+				[$table_name, $fk_name]
+			),
+			'postgresql' => (bool) $this->db->fetch_column(
+				"SELECT 1 FROM pg_constraint c JOIN pg_class rel ON rel.oid = c.conrelid JOIN pg_namespace nsp ON nsp.oid = rel.relnamespace WHERE c.contype = 'f' AND rel.relname = ? AND c.conname = ? LIMIT 1",
+				[$table_name, $fk_name]
+			),
+			'firebird' => (bool) $this->db->fetch_column(
+				"SELECT 1 FROM rdb$relation_constraints WHERE rdb$relation_name = UPPER(?) AND rdb$constraint_name = UPPER(?) AND rdb$constraint_type = 'FOREIGN KEY'",
+				[$table_name, $fk_name]
+			),
+			default => false
+		};
 	}
 
 
@@ -648,8 +798,15 @@ class DbMigrator {
 	 * Deleting data
 	 */
 	private function delete_data(string $table_name, array $conditions): void {
-		if (isset($conditions['where'])) {
+		if (isset($conditions['where_by_driver']) && is_array($conditions['where_by_driver'])) {
+			$where = $conditions['where_by_driver'][$this->driver] ?? ($conditions['where'] ?? '');
+		} elseif (isset($conditions['where'])) {
 			$where = $conditions['where'];
+		} else {
+			$where = '';
+		}
+
+		if ($where !== '') {
 			$params = $conditions['params'] ?? [];
 			$sql = 'DELETE FROM ' . $table_name . ' WHERE ' . $where;
 			$this->db->query($sql, $params);
