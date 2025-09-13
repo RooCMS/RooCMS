@@ -263,7 +263,7 @@ abstract class BaseController {
                 'method' => sanitize_log(env('REQUEST_METHOD') ?? 'UNKNOWN'),
                 'uri' => sanitize_log(env('REQUEST_URI') ?? ''),
                 'ip' => sanitize_log(env('REMOTE_ADDR') ?? ''),
-                'timestamp' => date('Y-m-d H:i:s'),
+                'timestamp' => format_timestamp(time()),
                 'data' => sanitize_input_data($data)
             ];
 

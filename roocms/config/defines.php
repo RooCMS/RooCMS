@@ -95,6 +95,7 @@ define('_DOMAIN',	str_ireplace(array('http://','www.'), '', $site['domain']));
  */
 const ERRORSLOG = _LOGS."/lowerrors.log";
 const SYSERRLOG = _LOGS."/syserrors.log";
+const DEBUGSLOG = _LOGS."/debug.log";
 
 
 /**

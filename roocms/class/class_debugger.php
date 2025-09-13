@@ -46,6 +46,13 @@ class Debugger {
 	# requirement php extension
 	private $required_extensions	= ['Core', 'pdo', 'standard', 'mbstring', 'calendar', 'date', 'pcre', 'gd', 'curl', 'openssl', 'json'];
 
+	# guard to prevent double shutdown registration
+	private bool $shutdown_registered = false;
+
+	# debug entry counter
+	private int $debug_counter = 0;
+
+
 
 	/**
 	 * Construct
@@ -138,8 +145,9 @@ class Debugger {
 			default => [3, "Unknown error"]
 		};
 
-		if($erlevel == 0) {
+		if($erlevel == 0 && !$this->shutdown_registered) {
 			register_shutdown_function([$this, 'shutdown']);
+			$this->shutdown_registered = true;
 		}
 
 		$time = date('d.m.Y H:i:s');
@@ -167,10 +175,6 @@ class Debugger {
 			$messager = file_read(_ASSETS.'/critical.html');
 			$messager = str_replace('{MESSAGE_CRITICAL_ERROR}', $msg, $messager);
 			exit($messager);
-		}
-
-        if(DEBUGMODE) { // TODO: exchange this to debug log
-			echo $error;
 		}
 
 		# We kill the standard handler, so that he would not give out anything to spy (:
@@ -296,11 +300,11 @@ class Debugger {
 	 * @return void
 	 */
 	public function rundebug(mixed $var, ?string $label = null, bool $detailed = true) : void {
-		static $use = 1;
 
 		# shutdown register
-		if($use == 1) {
+		if(!$this->shutdown_registered) {
 			register_shutdown_function([$this,'shutdown']);
+			$this->shutdown_registered = true;
 		}
 
 		# get caller info
@@ -312,8 +316,7 @@ class Debugger {
 
 		# analyze variable
 		$debug_entry = [
-			'id' => $use,
-			'label' => $label ?? "Debug #{$use}",
+			'label' => $label ?? 'Debug #'.$this->debug_counter,
 			'caller' => [
 				'file' => $file,
 				'line' => $line,
@@ -367,8 +370,7 @@ class Debugger {
 		} else {
 			// For simple dumps, store raw data for REST API
 			$simple_entry = [
-				'id' => $use,
-				'label' => $label ?? "Dump #{$use}",
+				'label' => $label ?? 'Dump #'.$this->debug_counter,
 				'caller' => [
 					'file' => $file,
 					'line' => $line,
@@ -382,8 +384,7 @@ class Debugger {
 			$this->debug_dump[] = $simple_entry;
 		}
 
-		# step
-		$use++;
+		$this->debug_counter++;
 	}
 
 
@@ -600,7 +601,7 @@ class Debugger {
 						'db_queries' => $db->query_count ?? 0
 					],
 					'dumps' => $debug_dumps,
-					'database' => $debug->show_debug ? $debug->debug_info : null,
+					'database' => $debug->debug_info,
 					'environment' => [
 						'php' => $debug->check_php(),
 						'user_environment' => [
@@ -626,11 +627,15 @@ class Debugger {
 			'timestamp' => date('c')
 		];
 
-		// Set JSON headers
-		// header('Content-Type: application/json; charset=utf-8');
-		
 		// Output JSON response
-		echo json_encode($response, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+		# write debug info to DEBUGSLOG instead of output
+		$dsubj = file_read(DEBUGSLOG);
+		$dsubj .= json_encode($response, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES).",\r\n";
+		$df = fopen(DEBUGSLOG, 'w+');
+		if(is_writable(DEBUGSLOG)) {
+			fwrite($df, $dsubj);
+		}
+		fclose($df);
 
 		exit;
 	}
