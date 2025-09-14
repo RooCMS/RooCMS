@@ -85,6 +85,8 @@ DirectoryIndex index.php
 	AddHandler cgi-script .pl .py .jsp .asp .htm .shtml .sh .cgi
 	AddType application/x-javascript .js
 	AddType application/json .json
+	AddType text/javascript .js
+    AddType text/javascript .mjs
 	AddType text/css .css
 	AddType text/xml .xml
 	# Audio

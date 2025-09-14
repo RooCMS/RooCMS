@@ -20,9 +20,11 @@ Contents
 - [Notice to our RooCMS Users](#notice-to-our-roocms-users)
 - [System requirements](#system-requirements)
 - [Recommended software](#recommended-software)
+- [Key Features](#key-features)
 - [Install](#install)
 - [Documentation](#documentation)
 - [Useful links](#useful-links)
+- [Architecture](#architecture)
 - [Contributing](#contributing)
 - [Security](#security)
 - [License](#license)
@@ -35,9 +37,10 @@ This is the development branch for version 2.0. All code here is unstable and ma
 
 System requirements
 -------------------
- - WebServer:	`Apache 2.2`, `Apache 2.4`
+ - WebServer:	`Apache 2.2`, `Apache 2.4`, `Nginx`
  - PHP:		`8.1+`
  - DB:		`MySQL 5.7+`, `MariaDB: 10.10+`, `PostgreSQL 14+`, `Firebird`
+ - Frontend:	Modern browser with JavaScript support
  - PHP Extension: 
 	`Core`
 	`pdo`
@@ -57,6 +60,17 @@ Recommended software
  - PHP:		`8.4`
  - DB:		`MariaDB: 11.7`
 
+Key Features
+------------
+- **Pure PHP**: No external frameworks or ORM dependencies
+- **Modern PHP 8.1+**: Uses latest PHP features and strict typing
+- **RESTful API**: Complete API interface for all operations
+- **Theme System**: Modular theme architecture with modern frontend
+- **Frontend Stack**: Pico CSS framework + Alpine.js for interactivity
+- **Security First**: CSP support, role-based access, input sanitization
+- **Database Agnostic**: Support for MySQL, MariaDB, PostgreSQL, Firebird
+- **Migration System**: Database schema versioning and migrations
+
 Install
 -------
 1. Download latest release: https://github.com/RooCMS/RooCMS/releases
@@ -73,6 +87,7 @@ Install
 
 Documentation
 -------------
+- Project structure: `structure.md`
 - API overview and examples: `api/README.md`
 - Database migrations: `roocms/database/README.md`
 - API schemas: `api/v1/docs/swagger.yaml`, `api/v1/docs/postman.json`
@@ -82,6 +97,26 @@ Useful links
 - Releases: https://github.com/RooCMS/RooCMS/releases
 - Changelog (highlights): `RELEASE.md`
 - Website: https://www.roocms.com
+
+Architecture
+------------
+RooCMS follows a **framework-free** approach with these core principles:
+
+- **No External Dependencies**: Pure PHP without frameworks or ORM
+- **Custom MVC**: Own implementation of Model-View-Controller pattern  
+- **API-First Design**: RESTful API as primary interface
+- **Modern PHP**: PHP 8.1+ features with strict typing
+- **Theme System**: Modular frontend
+- **Security Focus**: CSP, role-based access, input sanitization
+
+### Directory Structure
+```
+├── api/          # RESTful API endpoints
+├── roocms/       # Core CMS system
+├── themes/       # Theme system (Pico CSS + Alpine.js)
+├── storage/      # Data storage and logs
+└── upload/       # User uploaded files
+```
 
 Contributing
 ------------
