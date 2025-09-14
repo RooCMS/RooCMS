@@ -1,0 +1,34 @@
+$white:	          #fff;
+$black:	          #000;
+$middle-grey:	  #adb5bd; //
+
+$brand-primary:	  #2C3E50; //2f3d60
+$brand-secondary: #335b8e; //
+$brand-success:	  #72B110; //
+$brand-info:	  #3498DB; //17a2d8
+$brand-hot:       #faaa32; //
+$brand-warning:	  #FB8C00; //
+$brand-danger:    #C60D14; //
+$brand-moment:    #772953; //20c997
+$brand-extra:     #6610f2; //
+$brand-dark:      #212529; //
+$brand-gray:      #95a5a6; //6c757d
+$brand-light:     #e9ecef; //
+
+$colors:(
+	"primary":   $brand-primary,
+	"secondary": $brand-secondary,
+	"success":   $brand-success,
+	"info":      $brand-info,
+	"hot":       $brand-hot,
+	"warning":   $brand-warning,
+	"danger":    $brand-danger,
+	"moment":    $brand-moment,
+	"extra":     $brand-extra,
+	"dark":      $brand-dark,
+	"gray":      $brand-gray,
+	"light":     $brand-light,
+	"white":     $white,
+	"black":     $black
+);
+

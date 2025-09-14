@@ -18,6 +18,7 @@ $page_scripts = isset($page_scripts) && is_array($page_scripts) ? $page_scripts 
     <title><?php echo htmlspecialchars($page_title, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8'); ?></title>
     <meta name="description" content="<?php echo htmlspecialchars($page_description, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8'); ?>">
 
+    <link rel="stylesheet" href="/themes/default/assets/css/normalize.min.css">
     <link rel="stylesheet" href="/themes/default/assets/css/pico.min.css">
     <link rel="stylesheet" href="/themes/default/assets/css/app.css">
 
