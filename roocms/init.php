@@ -72,6 +72,7 @@ spl_autoload_register(function(string $class_name) {
         'DbMigrator'                => _CLASS . '/class_dbMigrator.php',
         'Settings'                  => _CLASS . '/class_settings.php',
         'Mailer'                    => _CLASS . '/class_mailer.php',
+        'DependencyContainer'       => _CLASS . '/class_dependency_container.php',
         'ControllerFactory'         => _CLASS . '/interface_controllerFactory.php',
         'DefaultControllerFactory'  => _CLASS . '/class_defaultControllerFactory.php',
         'MiddlewareFactory'         => _CLASS . '/interface_middlewareFactory.php',
@@ -82,7 +83,8 @@ spl_autoload_register(function(string $class_name) {
         'Role'                      => _CLASS . '/class_role.php',
         'User'                      => _CLASS . '/class_user.php',
         'UserService'               => _SERVICES . '/user.php',
-        'Shteirlitz'                => _CLASS . '/class_shteirlitz.php'
+        'Shteirlitz'                => _CLASS . '/class_shteirlitz.php',
+
     ];
     
     // try to load the class
@@ -106,6 +108,20 @@ require_once _ROOCMS."/helpers/debug.php";
  */
 $db = new Db();
 
+
+/**
+ * Initialize Dependency Container
+ */
+$container = new DependencyContainer();
+
+// Register core services
+$container->register(Db::class, fn() => $db, true); // Singleton
+$container->register(Auth::class, Auth::class, true); // Singleton
+$container->register(User::class, User::class, true); // Singleton
+$container->register(Settings::class, Settings::class, true); // Singleton
+$container->register(Mailer::class, Mailer::class, true); // Singleton
+$container->register(UserService::class, UserService::class, true); // Singleton
+$container->register(AuthService::class, AuthService::class, true); // Singleton
 
 
 // Health check for database connection

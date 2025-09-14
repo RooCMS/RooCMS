@@ -53,13 +53,20 @@ spl_autoload_register(function(string $controller_name) {
     return false;
 });
 
+/**
+ * Register controllers
+ */
+$container->register(\UsersController::class, \UsersController::class); 
+$container->register(\AuthController::class, \AuthController::class); 
+
 
 /**
  * Create controller and middleware factories and router instance
  */
-$controllerFactory = new DefaultControllerFactory($db);
-$middlewareFactory = new DefaultMiddlewareFactory($db, new Role(), new Auth($db));
+$controllerFactory = new DefaultControllerFactory($container);
+$middlewareFactory = new DefaultMiddlewareFactory($db, new Role(), $container->get(Auth::class));
 $api = new ApiHandler($controllerFactory, $middlewareFactory);
+
 
 /**
  * API v1 Routes

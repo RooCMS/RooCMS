@@ -24,19 +24,19 @@ if(!defined('RooCMS')) {
 
 /**
  * Default implementation of ControllerFactory
- * Creates controller instances using reflection/new operator
+ * Creates controller instances using dependency injection container
  */
 class DefaultControllerFactory implements ControllerFactory {
 
-    private readonly Db $db;
+    private readonly DependencyContainer $container;
 
 
 
     /**
      * Constructor
      */
-    public function __construct(Db $db) {
-        $this->db = $db;
+    public function __construct(DependencyContainer $container) {
+        $this->container = $container;
     }
 
     /**
@@ -51,6 +51,12 @@ class DefaultControllerFactory implements ControllerFactory {
             throw new Exception("Controller class '{$controllerClass}' not found");
         }
 
-        return new $controllerClass($this->db);
+        // Try to get controller from DI container first
+        try {
+            return $this->container->get($controllerClass);
+        } catch (Exception $e) {
+            // Fallback to manual creation if not registered
+            throw new Exception("Controller '{$controllerClass}' not registered in DI container: " . $e->getMessage());
+        }
     }
 }
