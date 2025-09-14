@@ -54,24 +54,25 @@ Core CMS system with main classes and configuration.
 
 ```
 roocms/class/
-├── class_apiHandler.php            # API request handler
-├── class_auth.php                  # Authentication system
-├── class_db.php                    # Main database class
-├── class_dbConnect.php             # Database connection
-├── class_dbMigrator.php            # Database migrations
-├── class_dbQueryBuilder.php        # SQL query builder
-├── class_debugger.php              # Debugger system
+├── class_apiHandler.php                # API request handler
+├── class_auth.php                      # Authentication system
+├── class_db.php                        # Main database class
+├── class_dbConnect.php                 # Database connection
+├── class_dbMigrator.php                # Database migrations
+├── class_dbQueryBuilder.php            # SQL query builder
+├── class_debugger.php                  # Debugger system
 ├── class_defaultControllerFactory.php  # Default controller factory
 ├── class_defaultMiddlewareFactory.php  # Default middleware factory
-├── class_mailer.php                # Mailer system
-├── class_role.php                  # Roles system
-├── class_settings.php              # System settings
-├── class_shteirlitz.php            # Special functionality
-├── class_user.php                  # User management
-├── interface_controllerFactory.php # Controller factory interface
-├── interface_middlewareFactory.php # Middleware factory interface
-├── trait_dbExtends.php             # DB extends trait
-└── trait_debugLog.php              # Debug log trait
+├── class_dependency_container.php      # Dependency injection container
+├── class_mailer.php                    # Mailer system
+├── class_role.php                      # Roles system
+├── class_settings.php                  # System settings
+├── class_shteirlitz.php                # Special functionality
+├── class_user.php                      # User management
+├── interface_controllerFactory.php     # Controller factory interface
+├── interface_middlewareFactory.php     # Middleware factory interface
+├── trait_dbExtends.php                 # DB extends trait
+└── trait_debugLog.php                  # Debug log trait
 ```
 
 ### Configuration (`/roocms/config/`)
@@ -205,8 +206,65 @@ themes/
 - **Without ORM**: Direct SQL queries through PDO
 - **PHP 8.1+**: Modern PHP 8.1 and higher capabilities
 - **MVC pattern**: Own implementation of Model-View-Controller
+- **Dependency Injection**: Custom DI container for managing dependencies
+- **SOLID principles**: Clean architecture with dependency inversion
 - **API-first**: RESTful API interface
 - **Theme system**: Modular theme system
+
+### Dependency Injection architecture
+
+RooCMS implements a custom dependency injection (DI) container for managing service dependencies and promoting clean architecture following SOLID principles.
+
+#### DI Container (`class_dependency_container.php`)
+- **Automatic dependency resolution**: Uses reflection to analyze constructor parameters
+- **Singleton support**: Long-lived services can be registered as singletons
+- **Factory functions**: Support for custom service creation logic
+- **Service registry**: Centralized management of all services
+
+#### Registered services
+
+**Core services (singletons):**
+- `Db` - Database connection and queries
+- `Auth` - Authentication and authorization
+- `User` - User management operations
+- `Settings` - System configuration
+- `Mailer` - Email sending system
+- `UserService` - Business logic for user operations
+- `AuthService` - Business logic for authentication
+
+**Request-scoped services (new instance per request):**
+- `UsersController` - User management API controller
+- `AuthController` - Authentication API controller
+
+#### Service dependencies
+
+```
+AuthService
+├── Db (database)
+├── Auth (authentication)
+├── Settings (configuration)
+└── Mailer (email sending)
+
+UserService
+├── Db (database)
+└── User (user operations)
+
+UsersController
+├── UserService (business logic)
+├── Auth (authentication)
+├── Settings (configuration)
+└── Mailer (email sending)
+
+AuthController
+└── AuthService (business logic)
+```
+
+#### Benefits
+- **Loose coupling**: Classes don't create their own dependencies
+- **Testability**: Easy to mock dependencies for unit testing
+- **Maintainability**: Centralized dependency management
+- **Performance**: Singleton optimization for shared services
+- **SOLID compliance**: Dependency inversion principle implementation
 
 ### Naming conventions
 - **snake_case**: for functions, methods and variables
@@ -230,4 +288,4 @@ themes/
 - **Modular architecture**: Division of JavaScript code by pages and components
 - **CSP compatibility**: Support for Content Security Policy
 
-This project is a modern CMS system built on the principles of pure PHP with a focus on performance, security and ease of maintenance. The system includes a modular theme architecture with modern frontend technologies for creating responsive and interactive user interfaces.
+This project is a modern CMS system built on the principles of pure PHP with a focus on performance, security and ease of maintenance. The system features a custom dependency injection container for clean architecture, modular theme system with modern frontend technologies for creating responsive and interactive user interfaces, and follows SOLID principles for maintainable and testable code.
