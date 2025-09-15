@@ -57,103 +57,103 @@ class RoleMiddleware {
     /**
      * Check if user has moderator access or higher
      */
-    public function require_moderator_access(): array|null {
+    public function require_moderator_access(): bool {
         $user = $GLOBALS['authenticated_user'] ?? null;
 
         if (!$user) {
             $this->send_error_response('Authentication required', 401);
-            return null;
+            return false;
         }
 
         // Basic validation - ensure user has role field
         if (!isset($user['role'])) {
             $this->send_error_response('Invalid user data', 401);
-            return null;
+            return false;
         }
 
         if (!in_array($user['role'], ['m', 'a', 'su'])) {
             $this->send_error_response('Moderator access required', 403);
-            return null;
+            return false;
         }
 
-        return $user;
+        return true;
     }
 
     /**
      * Check if user has admin access (admin or superuser only)
      */
-    public function require_admin_access(): array|null {
+    public function require_admin_access(): bool {
         $user = $GLOBALS['authenticated_user'] ?? null;
 
         if (!$user) {
             $this->send_error_response('Authentication required', 401);
-            return null;
+            return false;
         }
 
         // Basic validation - ensure user has role field
         if (!isset($user['role'])) {
             $this->send_error_response('Invalid user data', 401);
-            return null;
+            return false;
         }
 
         if (!in_array($user['role'], ['a', 'su'])) {
             $this->send_error_response('Admin access required', 403);
-            return null;
+            return false;
         }
 
-        return $user;
+        return true;
     }
 
     /**
      * Check if user has superuser access
      */
-    public function require_superuser_access(): array|null {
+    public function require_superuser_access(): bool {
         $user = $GLOBALS['authenticated_user'] ?? null;
 
         if (!$user) {
             $this->send_error_response('Authentication required', 401);
-            return null;
+            return false;
         }
 
         // Basic validation - ensure user has role field
         if (!isset($user['role'])) {
             $this->send_error_response('Invalid user data', 401);
-            return null;
+            return false;
         }
 
         if ($user['role'] !== 'su') {
             $this->send_error_response('Superuser access required', 403);
-            return null;
+            return false;
         }
 
-        return $user;
+        return true;
     }
 
     /**
      * Check if user has specific role
      */
-    public function require_role(string|array $required_roles): array|null {
+    public function require_role(string|array $required_roles): bool {
         $user = $GLOBALS['authenticated_user'] ?? null;
 
         if (!$user) {
             $this->send_error_response('Authentication required', 401);
-            return null;
+            return false;
         }
 
         // Basic validation - ensure user has role field
         if (!isset($user['role'])) {
             $this->send_error_response('Invalid user data', 401);
-            return null;
+            return false;
         }
 
         $roles = is_array($required_roles) ? $required_roles : [$required_roles];
 
         if (!in_array($user['role'], $roles)) {
             $this->send_error_response('Required role access denied', 403);
-            return null;
+            return false;
         }
 
-        return $user;
+        return true;
     }
 
 

@@ -70,6 +70,7 @@ spl_autoload_register(function(string $class_name) {
         'DbQueryBuilder'            => _CLASS . '/class_dbQueryBuilder.php',
         'DbExtends'                 => _CLASS . '/trait_dbExtends.php',
         'DbMigrator'                => _CLASS . '/class_dbMigrator.php',
+        'DbBackuper'                => _CLASS . '/class_dbBackuper.php',
         'Settings'                  => _CLASS . '/class_settings.php',
         'Mailer'                    => _CLASS . '/class_mailer.php',
         'DependencyContainer'       => _CLASS . '/class_dependency_container.php',
@@ -80,11 +81,11 @@ spl_autoload_register(function(string $class_name) {
         'ApiHandler'                => _CLASS . '/class_apiHandler.php',
         'Auth'                      => _CLASS . '/class_auth.php',
         'AuthService'               => _SERVICES . '/auth.php',
+        'BackupService'             => _SERVICES . '/backup.php',
         'Role'                      => _CLASS . '/class_role.php',
         'User'                      => _CLASS . '/class_user.php',
         'UserService'               => _SERVICES . '/user.php',
         'Shteirlitz'                => _CLASS . '/class_shteirlitz.php',
-
     ];
     
     // try to load the class
@@ -120,8 +121,10 @@ $container->register(Auth::class, Auth::class, true); // Singleton
 $container->register(User::class, User::class, true); // Singleton
 $container->register(Settings::class, Settings::class, true); // Singleton
 $container->register(Mailer::class, Mailer::class, true); // Singleton
+$container->register(DbBackuper::class, DbBackuper::class, true); // Singleton
 $container->register(UserService::class, UserService::class, true); // Singleton
 $container->register(AuthService::class, AuthService::class, true); // Singleton
+$container->register(BackupService::class, BackupService::class, true); // Singleton
 
 
 // Health check for database connection

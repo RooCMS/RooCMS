@@ -38,6 +38,7 @@ spl_autoload_register(function(string $controller_name) {
         'CspController'     => _API . '/v1/controller_csp.php',
         'AuthController'    => _API . '/v1/controller_auth.php',
         'UsersController'   => _API . '/v1/controller_users.php',
+        'BackupController'  => _API . '/v1/controller_backup.php',
         'AuthMiddleware'    => _API . '/v1/middleware_auth.php',
         'RoleMiddleware'    => _API . '/v1/middleware_role.php'
     ];
@@ -56,9 +57,11 @@ spl_autoload_register(function(string $controller_name) {
 /**
  * Register controllers
  */
+$container->register(\CspController::class, \CspController::class); 
 $container->register(\UsersController::class, \UsersController::class); 
 $container->register(\AuthController::class, \AuthController::class); 
-
+$container->register(\HealthController::class, \HealthController::class);
+$container->register(\BackupController::class, \BackupController::class);
 
 /**
  * Create controller and middleware factories and router instance
@@ -107,6 +110,15 @@ $api->delete('/v1/users/me', 'UsersController@delete_me', ['AuthMiddleware']);
 $api->put('/v1/users/{user_id}', 'UsersController@update_user', ['AuthMiddleware', 'RoleMiddleware@require_admin_access']);
 $api->delete('/v1/users/{user_id}', 'UsersController@delete_user', ['AuthMiddleware', 'RoleMiddleware@require_admin_access']);
 
+// Backup endpoints (admin only)
+$api->post('/v1/backup/create', 'BackupController@create', ['AuthMiddleware', 'RoleMiddleware@require_admin_access']);
+$api->post('/v1/backup/restore', 'BackupController@restore', ['AuthMiddleware', 'RoleMiddleware@require_admin_access']);
+$api->get('/v1/backup/list', 'BackupController@list', ['AuthMiddleware', 'RoleMiddleware@require_admin_access']);
+$api->delete('/v1/backup/delete/{filename}', 'BackupController@delete', ['AuthMiddleware', 'RoleMiddleware@require_admin_access']);
+$api->get('/v1/backup/download/{filename}', 'BackupController@download', ['AuthMiddleware', 'RoleMiddleware@require_admin_access']);
+$api->get('/v1/backup/logs', 'BackupController@logs', ['AuthMiddleware', 'RoleMiddleware@require_admin_access']);
+$api->get('/v1/backup/status', 'BackupController@status', ['AuthMiddleware', 'RoleMiddleware@require_admin_access']);
+
 // Future routes will be added here
 // Example:
 // Admin endpoints (require authentication + admin role)
@@ -147,7 +159,14 @@ $api->get('/', function() {
             'users_update_me' => 'PATCH /api/v1/users/me',
             'users_delete_me' => 'DELETE /api/v1/users/me',
             'users_update_user' => 'PUT /api/v1/users/{user_id}',
-            'users_delete_user' => 'DELETE /api/v1/users/{user_id}'
+            'users_delete_user' => 'DELETE /api/v1/users/{user_id}',
+            'backup_create' => 'POST /api/v1/backup/create',
+            'backup_restore' => 'POST /api/v1/backup/restore',
+            'backup_list' => 'GET /api/v1/backup/list',
+            'backup_delete' => 'DELETE /api/v1/backup/delete/{filename}',
+            'backup_download' => 'GET /api/v1/backup/download/{filename}',
+            'backup_logs' => 'GET /api/v1/backup/logs',
+            'backup_status' => 'GET /api/v1/backup/status'
         ]
     ];
     

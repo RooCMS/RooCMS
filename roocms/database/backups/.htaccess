@@ -1,0 +1,38 @@
+# RooCMS Database Backups Security
+# Deny all direct access to backup files
+
+# Deny access to all files in this directory
+<Files "*">
+    Order Allow,Deny
+    Deny from all
+</Files>
+
+# Specifically deny backup file extensions
+<FilesMatch "\.(sql|sql\.gz|sql\.bz2|dump|backup)$">
+    Order Allow,Deny 
+    Deny from all
+</FilesMatch>
+
+# Deny directory browsing
+Options -Indexes
+
+# Prevent access to hidden files (like .htaccess itself)
+<Files ".*">
+    Order Allow,Deny
+    Deny from all
+</Files>
+
+# Custom error page for unauthorized access
+ErrorDocument 403 /err.php
+
+# Additional security headers
+<IfModule mod_headers.c>
+    Header always set X-Robots-Tag "noindex, nofollow, nosnippet, noarchive"
+    Header always set X-Content-Type-Options nosniff
+    Header always set X-Frame-Options DENY
+</IfModule>
+
+# Disable execution of any scripts
+<IfModule mod_php8.c>
+    php_flag engine off
+</IfModule>
