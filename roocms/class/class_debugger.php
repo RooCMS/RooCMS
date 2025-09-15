@@ -267,7 +267,7 @@ class Debugger {
 	 *
 	 * @param boolean $show
 	 */
-	private static function error_report(bool $show = false) : void {
+	private function error_report(bool $show = false) : void {
 
 		/**
 		 * Set up error log

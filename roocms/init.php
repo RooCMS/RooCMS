@@ -107,8 +107,17 @@ require_once _ROOCMS."/helpers/debug.php";
 /**
  * Initialize db
  */
-$db = new Db();
-
+try {
+    $db = new Db();
+} catch (Throwable $e) {
+    // Log and provide clear message in debug mode
+    error_log('Database initialization failed: ' . $e->getMessage());
+    if(defined('DEBUGMODE') && DEBUGMODE) {
+        throw $e;
+    }
+    // graceful fallback: stop initialization
+    exit('Database initialization error.');
+}
 
 /**
  * Initialize Dependency Container
@@ -117,6 +126,12 @@ $container = new DependencyContainer();
 
 // Register core services
 $container->register(Db::class, fn() => $db, true); // Singleton
+
+// register debugger if available
+if($debug instanceof Debugger) {
+    $container->register(Debugger::class, fn() => $debug, true);
+}
+
 $container->register(Auth::class, Auth::class, true); // Singleton
 $container->register(User::class, User::class, true); // Singleton
 $container->register(Settings::class, Settings::class, true); // Singleton
