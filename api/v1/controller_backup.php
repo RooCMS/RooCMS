@@ -68,7 +68,7 @@ class BackupController extends BaseController {
 			$this->json_response($result);
 
 		} catch(Exception $e) {
-			$this->json_response(['error' => $e->getMessage()], 500);
+			$this->error_response($e->getMessage(), 500);
 		}
 	}
 
@@ -84,7 +84,7 @@ class BackupController extends BaseController {
 			$input = $this->get_input_data();
 			
 			if(empty($input['filename'])) {
-				$this->json_response(['error' => 'Filename is required'], 400);
+				$this->error_response('Filename is required', 400);
 				return;
 			}
 
@@ -99,7 +99,7 @@ class BackupController extends BaseController {
 			$this->json_response($result);
 
 		} catch(Exception $e) {
-			$this->json_response(['error' => $e->getMessage()], 500);
+			$this->error_response($e->getMessage(), 500);
 		}
 	}
 
@@ -117,7 +117,7 @@ class BackupController extends BaseController {
 			$this->json_response($result);
 
 		} catch(Exception $e) {
-			$this->json_response(['error' => $e->getMessage()], 500);
+			$this->error_response($e->getMessage(), 500);
 		}
 	}
 
@@ -133,7 +133,7 @@ class BackupController extends BaseController {
 			$filename = $this->get_path_parameter('filename');
 			
 			if(empty($filename)) {
-				$this->json_response(['error' => 'Filename is required'], 400);
+				$this->error_response('Filename is required', 400);
 				return;
 			}
 
@@ -141,7 +141,7 @@ class BackupController extends BaseController {
 			$this->json_response($result);
 
 		} catch(Exception $e) {
-			$this->json_response(['error' => $e->getMessage()], 500);
+			$this->error_response($e->getMessage(), 500);
 		}
 	}
 
@@ -157,13 +157,13 @@ class BackupController extends BaseController {
 			$filename = $this->get_path_parameter('filename');
 			
 			if(empty($filename)) {
-				$this->json_response(['error' => 'Filename is required'], 400);
+				$this->error_response('Filename is required', 400);
 				return;
 			}
 
 			// Security check: prevent path traversal
 			if(strpos($filename, '..') !== false || strpos($filename, '/') !== false || strpos($filename, '\\') !== false) {
-				$this->json_response(['error' => 'Invalid filename'], 400);
+				$this->error_response('Invalid filename', 400);
 				return;
 			}
 
@@ -180,7 +180,7 @@ class BackupController extends BaseController {
 			}
 
 			if(!$backup_file || !file_exists($backup_file)) {
-				$this->json_response(['error' => 'Backup file not found'], 404);
+				$this->not_found_response('Backup file not found');
 				return;
 			}
 
@@ -196,7 +196,7 @@ class BackupController extends BaseController {
 			exit;
 
 		} catch(Exception $e) {
-			$this->json_response(['error' => $e->getMessage()], 500);
+			$this->error_response($e->getMessage(), 500);
 		}
 	}
 
@@ -214,7 +214,7 @@ class BackupController extends BaseController {
 			$this->json_response($result);
 
 		} catch(Exception $e) {
-			$this->json_response(['error' => $e->getMessage()], 500);
+			$this->error_response($e->getMessage(), 500);
 		}
 	}
 
@@ -231,7 +231,7 @@ class BackupController extends BaseController {
 			$this->json_response($result);
 
 		} catch(Exception $e) {
-			$this->json_response(['error' => $e->getMessage()], 500);
+			$this->error_response($e->getMessage(), 500);
 		}
 	}
 
@@ -243,7 +243,7 @@ class BackupController extends BaseController {
 	 * @return string|null Parameter value
 	 */
 	private function get_path_parameter(string $name): ?string {
-		$uri = $_SERVER['REQUEST_URI'] ?? '';
+		$uri = env('REQUEST_URI') ?? '';
 		$path = parse_url($uri, PHP_URL_PATH);
 		$segments = explode('/', trim($path, '/'));
 		

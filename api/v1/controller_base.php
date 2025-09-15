@@ -119,7 +119,7 @@ abstract class BaseController {
 
         if (strpos($contentType, 'application/json') !== false) {
             // Safely read and decode JSON input
-            $input = file_get_contents('php://input');
+            $input = file_read('php://input');
 
             if ($input === false) {
                 return [];

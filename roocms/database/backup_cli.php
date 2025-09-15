@@ -3,7 +3,6 @@
  * RooCMS - Database Backup CLI Tool
  * Command line interface for database backup and restore operations
  * 
- * RooCMS - Database Migration CLI Tool
  * © 2010-2025 alexandr Belov aka alex Roosso. All rights reserved.
  * @author    alex Roosso <info@roocms.com>
  * @link      https://www.roocms.com
@@ -261,7 +260,7 @@ class BackupCli {
 			'include_structure' => true,
 			'exclude_tables' => [],
 			'filename' => null,
-			'add_timestamp' => true
+			'universal_format' => true
 		];
 
 		for($i = 2; $i < count($argv); $i++) {
@@ -279,9 +278,6 @@ class BackupCli {
 					break;
 				case '--data-only':
 					$options['include_structure'] = false;
-					break;
-				case '--no-timestamp':
-					$options['add_timestamp'] = false;
 					break;
 				case '--filename':
 					if(isset($argv[$i + 1])) {
@@ -372,7 +368,6 @@ class BackupCli {
 		$this->output_line("  --no-data           Export structure only");
 		$this->output_line("  --structure-only    Export structure only (same as --no-data)");
 		$this->output_line("  --data-only         Export data only");
-		$this->output_line("  --no-timestamp      Don't add timestamp to filename");
 		$this->output_line("  --filename <name>   Custom backup filename");
 		$this->output_line("  --exclude-tables <list>  Comma-separated list of tables to exclude");
 		$this->output_line("");
@@ -463,13 +458,13 @@ class BackupCli {
 	 */
 	private function supports_colors(): bool {
 		return php_sapi_name() === 'cli' && 
-			   (getenv('TERM') !== false || getenv('ANSICON') !== false);
+			   (env('TERM') !== false || env('ANSICON') !== false);
 	}
 }
 
 
 // Run CLI if called directly
-if(basename(__FILE__) === basename($_SERVER['SCRIPT_NAME'])) {
+if(basename(__FILE__) === basename(env('SCRIPT_NAME'))) {
 	$cli = new BackupCli();
 	$cli->run($argv);
 }

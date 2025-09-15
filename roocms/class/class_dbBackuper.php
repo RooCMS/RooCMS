@@ -72,8 +72,7 @@ class DbBackuper {
 			'include_structure' => true,
 			'exclude_tables' => [],
 			'filename' => null,
-			'add_timestamp' => false, // Changed default since we auto-add datetime
-			'universal_format' => true // New option for universal SQL format
+			'universal_format' => true // Universal SQL format for cross-database compatibility
 		], $options);
 
 		try {
@@ -963,7 +962,8 @@ class DbBackuper {
 	 * @return array Column information
 	 */
 	private function get_firebird_column_info(string $table): array {
-		// Simplified version - in production might need more detailed queries
+		// TODO: Implement Firebird column information extraction
+		// This would require detailed Firebird system table queries
 		return [];
 	}
 
@@ -1070,7 +1070,8 @@ class DbBackuper {
 	 * @return array Indexes information
 	 */
 	private function get_postgres_indexes(string $table): array {
-		// Simplified implementation - can be extended later
+		// TODO: Implement PostgreSQL indexes extraction
+		// Query: SELECT * FROM pg_indexes WHERE tablename = ?
 		return [];
 	}
 
@@ -1081,7 +1082,8 @@ class DbBackuper {
 	 * @return array Indexes information
 	 */
 	private function get_firebird_indexes(string $table): array {
-		// Simplified implementation - can be extended later
+		// TODO: Implement Firebird indexes extraction
+		// Query: SELECT * FROM rdb$indices WHERE rdb$relation_name = UPPER(?)
 		return [];
 	}
 
@@ -1172,7 +1174,7 @@ class DbBackuper {
 	 */
 	private function compress_backup(string $backup_file): ?string {
 		if(function_exists('gzencode')) {
-			$content = file_get_contents($backup_file);
+			$content = file_read($backup_file);
 			$compressed_content = gzencode($content, 9);
 			$compressed_file = $backup_file . '.gz';
 			
@@ -1195,11 +1197,11 @@ class DbBackuper {
 		$extension = pathinfo($backup_file, PATHINFO_EXTENSION);
 		
 		if($extension === 'gz' && function_exists('gzdecode')) {
-			$compressed_content = file_get_contents($backup_file);
+			$compressed_content = file_read($backup_file);
 			return gzdecode($compressed_content);
 		}
 		
-		return file_get_contents($backup_file);
+		return file_read($backup_file);
 	}
 
 
@@ -1281,7 +1283,7 @@ class DbBackuper {
 	 * @return string .htaccess content
 	 */
 	private function generate_htaccess_content(): string {
-		$domain = $_SERVER['HTTP_HOST'] ?? 'localhost';
+		$domain = env('HTTP_HOST') ?? 'localhost';
 		
 		return <<<HTACCESS
 # RooCMS Database Backups Security
@@ -1340,7 +1342,7 @@ HTACCESS;
 	 * @param int $bytes Number of bytes
 	 * @return string Formatted string
 	 */
-	private function format_bytes(int $bytes): string {
+	public function format_bytes(int $bytes): string {
 		$units = ['B', 'KB', 'MB', 'GB', 'TB'];
 		$factor = floor((strlen($bytes) - 1) / 3);
 		

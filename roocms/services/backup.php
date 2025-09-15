@@ -194,7 +194,7 @@ class BackupService {
                 'data' => [
                     'backup_count' => count($backups),
                     'total_size' => $total_size,
-                    'total_size_human' => $this->format_bytes($total_size),
+                    'total_size_human' => $this->backuper->format_bytes($total_size),
                     'latest_backup' => !empty($backups) ? $backups[0] : null,
                     'oldest_backup' => !empty($backups) ? end($backups) : null,
                     'compression_enabled' => function_exists('gzencode'),
@@ -399,19 +399,5 @@ class BackupService {
         ];
         
         error_log('Backup error: ' . json_encode($log_entry), 3, _LOGS . 'backup_errors.log');
-    }
-    
-
-    /**
-     * Format bytes to human readable format
-     *
-     * @param int $bytes Number of bytes
-     * @return string Formatted string
-     */
-    private function format_bytes(int $bytes): string {
-        $units = ['B', 'KB', 'MB', 'GB', 'TB'];
-        $factor = floor((strlen($bytes) - 1) / 3);
-        
-        return sprintf('%.2f %s', $bytes / (1024 ** $factor), $units[$factor]);
     }
 }
