@@ -23,3 +23,13 @@
 	-o-transition:  all #{$time}s ease-in-out;
 	outline:none;
 }
+
+// Gradient
+@mixin gradient($color1, $color2, $direction: to right) {
+	background: linear-gradient($direction, $color1, $color2);
+}
+
+// Gradient Radial
+@mixin gradient-radial($color1, $color2, $shape: circle) {
+	background: radial-gradient($shape, $color1, $color2);
+}

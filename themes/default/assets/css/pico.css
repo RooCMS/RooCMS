@@ -219,13 +219,11 @@ nav details.dropdown summary:focus-visible {
 }
 
 details summary[role=button]:not(.outline)::after {
-  -webkit-filter: brightness(0) invert(1);
-          filter: brightness(0) invert(1);
+  filter: brightness(0) invert(1);
 }
 
 [aria-busy=true]:not(input, select, textarea):is(button, [type=submit], [type=button], [type=reset], [role=button]):not(.outline)::before {
-  -webkit-filter: brightness(0) invert(1);
-          filter: brightness(0) invert(1);
+  filter: brightness(0) invert(1);
 }
 
 /**
@@ -237,18 +235,18 @@ details summary[role=button]:not(.outline)::after {
   color-scheme: light;
   --pico-background-color: #fff;
   --pico-color: #373c44;
-  --pico-text-selection-color: rgba(2, 154, 232, 0.25);
+  --pico-text-selection-color: rgba(71, 164, 23, 0.25);
   --pico-muted-color: #646b79;
   --pico-muted-border-color: #e7eaf0;
-  --pico-primary: #0172ad;
-  --pico-primary-background: #0172ad;
+  --pico-primary: #33790f;
+  --pico-primary-background: #398712;
   --pico-primary-border: var(--pico-primary-background);
-  --pico-primary-underline: rgba(1, 114, 173, 0.5);
-  --pico-primary-hover: #015887;
-  --pico-primary-hover-background: #02659a;
+  --pico-primary-underline: rgba(51, 121, 15, 0.5);
+  --pico-primary-hover: #265e09;
+  --pico-primary-hover-background: #33790f;
   --pico-primary-hover-border: var(--pico-primary-hover-background);
   --pico-primary-hover-underline: var(--pico-primary-hover);
-  --pico-primary-focus: rgba(2, 154, 232, 0.5);
+  --pico-primary-focus: rgba(71, 164, 23, 0.5);
   --pico-primary-inverse: #fff;
   --pico-secondary: #5d6b89;
   --pico-secondary-background: #525f7a;
@@ -364,18 +362,18 @@ details summary[role=button]:not(.outline)::after {
     color-scheme: dark;
     --pico-background-color: #13171f;
     --pico-color: #c2c7d0;
-    --pico-text-selection-color: rgba(1, 170, 255, 0.1875);
+    --pico-text-selection-color: rgba(78, 179, 27, 0.1875);
     --pico-muted-color: #7b8495;
     --pico-muted-border-color: #202632;
-    --pico-primary: #01aaff;
-    --pico-primary-background: #0172ad;
+    --pico-primary: #4eb31b;
+    --pico-primary-background: #398712;
     --pico-primary-border: var(--pico-primary-background);
-    --pico-primary-underline: rgba(1, 170, 255, 0.5);
-    --pico-primary-hover: #79c0ff;
-    --pico-primary-hover-background: #017fc0;
+    --pico-primary-underline: rgba(78, 179, 27, 0.5);
+    --pico-primary-hover: #5dd121;
+    --pico-primary-hover-background: #409614;
     --pico-primary-hover-border: var(--pico-primary-hover-background);
     --pico-primary-hover-underline: var(--pico-primary-hover);
-    --pico-primary-focus: rgba(1, 170, 255, 0.375);
+    --pico-primary-focus: rgba(78, 179, 27, 0.375);
     --pico-primary-inverse: #fff;
     --pico-secondary: #969eaf;
     --pico-secondary-background: #525f7a;
@@ -480,8 +478,7 @@ details summary[role=button]:not(.outline)::after {
   }
   :root:not([data-theme]) details summary[role=button].contrast:not(.outline)::after,
   :host(:not([data-theme])) details summary[role=button].contrast:not(.outline)::after {
-    -webkit-filter: brightness(0);
-            filter: brightness(0);
+    filter: brightness(0);
   }
   :root:not([data-theme]) [aria-busy=true]:not(input, select, textarea).contrast:is(button,
   [type=submit],
@@ -493,26 +490,25 @@ details summary[role=button]:not(.outline)::after {
   [type=button],
   [type=reset],
   [role=button]):not(.outline)::before {
-    -webkit-filter: brightness(0);
-            filter: brightness(0);
+    filter: brightness(0);
   }
 }
 [data-theme=dark] {
   color-scheme: dark;
   --pico-background-color: #13171f;
   --pico-color: #c2c7d0;
-  --pico-text-selection-color: rgba(1, 170, 255, 0.1875);
+  --pico-text-selection-color: rgba(78, 179, 27, 0.1875);
   --pico-muted-color: #7b8495;
   --pico-muted-border-color: #202632;
-  --pico-primary: #01aaff;
-  --pico-primary-background: #0172ad;
+  --pico-primary: #4eb31b;
+  --pico-primary-background: #398712;
   --pico-primary-border: var(--pico-primary-background);
-  --pico-primary-underline: rgba(1, 170, 255, 0.5);
-  --pico-primary-hover: #79c0ff;
-  --pico-primary-hover-background: #017fc0;
+  --pico-primary-underline: rgba(78, 179, 27, 0.5);
+  --pico-primary-hover: #5dd121;
+  --pico-primary-hover-background: #409614;
   --pico-primary-hover-border: var(--pico-primary-hover-background);
   --pico-primary-hover-underline: var(--pico-primary-hover);
-  --pico-primary-focus: rgba(1, 170, 255, 0.375);
+  --pico-primary-focus: rgba(78, 179, 27, 0.375);
   --pico-primary-inverse: #fff;
   --pico-secondary: #969eaf;
   --pico-secondary-background: #525f7a;
@@ -610,16 +606,14 @@ details summary[role=button]:not(.outline)::after {
   --pico-form-element-focus-color: var(--pico-primary-focus);
 }
 [data-theme=dark] details summary[role=button].contrast:not(.outline)::after {
-  -webkit-filter: brightness(0);
-          filter: brightness(0);
+  filter: brightness(0);
 }
 [data-theme=dark] [aria-busy=true]:not(input, select, textarea).contrast:is(button,
 [type=submit],
 [type=button],
 [type=reset],
 [role=button]):not(.outline)::before {
-  -webkit-filter: brightness(0);
-          filter: brightness(0);
+  filter: brightness(0);
 }
 
 progress,
@@ -636,8 +630,7 @@ progress,
 *,
 *::before,
 *::after {
-  -webkit-box-sizing: border-box;
-          box-sizing: border-box;
+  box-sizing: border-box;
   background-repeat: no-repeat;
 }
 
@@ -652,7 +645,6 @@ progress,
   -webkit-tap-highlight-color: transparent;
   -webkit-text-size-adjust: 100%;
   -moz-text-size-adjust: 100%;
-   -ms-text-size-adjust: 100%;
        text-size-adjust: 100%;
   background-color: var(--pico-background-color);
   color: var(--pico-color);
@@ -740,9 +732,7 @@ section {
 .grid {
   grid-column-gap: var(--pico-grid-column-gap);
   grid-row-gap: var(--pico-grid-row-gap);
-  display: -ms-grid;
   display: grid;
-  -ms-grid-columns: 1fr;
   grid-template-columns: 1fr;
 }
 @media (min-width: 768px) {
@@ -886,10 +876,8 @@ blockquote {
   padding: var(--pico-spacing);
   border-right: none;
   border-left: 0.25rem solid var(--pico-blockquote-border-color);
-  -webkit-border-start: 0.25rem solid var(--pico-blockquote-border-color);
-          border-inline-start: 0.25rem solid var(--pico-blockquote-border-color);
-  -webkit-border-end: none;
-          border-inline-end: none;
+  border-inline-start: 0.25rem solid var(--pico-blockquote-border-color);
+  border-inline-end: none;
 }
 blockquote footer {
   margin-top: calc(var(--pico-typography-spacing-vertical) * 0.5);
@@ -934,10 +922,9 @@ del {
           text-decoration: var(--pico-text-decoration);
   text-decoration-color: var(--pico-underline);
   text-underline-offset: 0.125em;
-  -webkit-transition: background-color var(--pico-transition), color var(--pico-transition), -webkit-text-decoration var(--pico-transition), -webkit-box-shadow var(--pico-transition);
-  transition: background-color var(--pico-transition), color var(--pico-transition), -webkit-text-decoration var(--pico-transition), -webkit-box-shadow var(--pico-transition);
+  transition: background-color var(--pico-transition), color var(--pico-transition), box-shadow var(--pico-transition), -webkit-text-decoration var(--pico-transition);
   transition: background-color var(--pico-transition), color var(--pico-transition), text-decoration var(--pico-transition), box-shadow var(--pico-transition);
-  transition: background-color var(--pico-transition), color var(--pico-transition), text-decoration var(--pico-transition), box-shadow var(--pico-transition), -webkit-text-decoration var(--pico-transition), -webkit-box-shadow var(--pico-transition);
+  transition: background-color var(--pico-transition), color var(--pico-transition), text-decoration var(--pico-transition), box-shadow var(--pico-transition), -webkit-text-decoration var(--pico-transition);
 }
 :where(a:not([role=button])):is([aria-current]:not([aria-current=false]), :hover, :active, :focus),
 [role=link]:is([aria-current]:not([aria-current=false]), :hover, :active, :focus) {
@@ -947,8 +934,7 @@ del {
 }
 :where(a:not([role=button])):focus-visible,
 [role=link]:focus-visible {
-  -webkit-box-shadow: 0 0 0 var(--pico-outline-width) var(--pico-primary-focus);
-          box-shadow: 0 0 0 var(--pico-outline-width) var(--pico-primary-focus);
+  box-shadow: 0 0 0 var(--pico-outline-width) var(--pico-primary-focus);
 }
 :where(a:not([role=button])).secondary,
 [role=link].secondary {
@@ -992,33 +978,6 @@ button,
   -webkit-appearance: button;
 }
 
-[type=file]::-webkit-file-upload-button {
-  --pico-background-color: var(--pico-primary-background);
-  --pico-border-color: var(--pico-primary-border);
-  --pico-color: var(--pico-primary-inverse);
-  --pico-box-shadow: var(--pico-button-box-shadow, 0 0 0 rgba(0, 0, 0, 0));
-  padding: var(--pico-form-element-spacing-vertical) var(--pico-form-element-spacing-horizontal);
-  border: var(--pico-border-width) solid var(--pico-border-color);
-  border-radius: var(--pico-border-radius);
-  outline: none;
-  background-color: var(--pico-background-color);
-  -webkit-box-shadow: var(--pico-box-shadow);
-          box-shadow: var(--pico-box-shadow);
-  color: var(--pico-color);
-  font-weight: var(--pico-font-weight);
-  font-size: 1rem;
-  line-height: var(--pico-line-height);
-  text-align: center;
-  text-decoration: none;
-  cursor: pointer;
-  -webkit-user-select: none;
-          user-select: none;
-  -webkit-transition: background-color var(--pico-transition), border-color var(--pico-transition), color var(--pico-transition), -webkit-box-shadow var(--pico-transition);
-  transition: background-color var(--pico-transition), border-color var(--pico-transition), color var(--pico-transition), -webkit-box-shadow var(--pico-transition);
-  transition: background-color var(--pico-transition), border-color var(--pico-transition), color var(--pico-transition), box-shadow var(--pico-transition);
-  transition: background-color var(--pico-transition), border-color var(--pico-transition), color var(--pico-transition), box-shadow var(--pico-transition), -webkit-box-shadow var(--pico-transition);
-}
-
 button,
 [type=submit],
 [type=reset],
@@ -1034,8 +993,7 @@ button,
   border-radius: var(--pico-border-radius);
   outline: none;
   background-color: var(--pico-background-color);
-  -webkit-box-shadow: var(--pico-box-shadow);
-          box-shadow: var(--pico-box-shadow);
+  box-shadow: var(--pico-box-shadow);
   color: var(--pico-color);
   font-weight: var(--pico-font-weight);
   font-size: 1rem;
@@ -1045,18 +1003,8 @@ button,
   cursor: pointer;
   -webkit-user-select: none;
      -moz-user-select: none;
-      -ms-user-select: none;
           user-select: none;
-  -webkit-transition: background-color var(--pico-transition), border-color var(--pico-transition), color var(--pico-transition), -webkit-box-shadow var(--pico-transition);
-  transition: background-color var(--pico-transition), border-color var(--pico-transition), color var(--pico-transition), -webkit-box-shadow var(--pico-transition);
   transition: background-color var(--pico-transition), border-color var(--pico-transition), color var(--pico-transition), box-shadow var(--pico-transition);
-  transition: background-color var(--pico-transition), border-color var(--pico-transition), color var(--pico-transition), box-shadow var(--pico-transition), -webkit-box-shadow var(--pico-transition);
-}
-[type=file]::-webkit-file-upload-button:is([aria-current]:not([aria-current=false])), [type=file]::-webkit-file-upload-button:is(:hover, :active, :focus) {
-  --pico-background-color: var(--pico-primary-hover-background);
-  --pico-border-color: var(--pico-primary-hover-border);
-  --pico-box-shadow: var(--pico-button-hover-box-shadow, 0 0 0 rgba(0, 0, 0, 0));
-  --pico-color: var(--pico-primary-inverse);
 }
 button:is([aria-current]:not([aria-current=false])), button:is(:hover, :active, :focus),
 [type=submit]:is([aria-current]:not([aria-current=false])),
@@ -1073,9 +1021,6 @@ button:is([aria-current]:not([aria-current=false])), button:is(:hover, :active, 
   --pico-border-color: var(--pico-primary-hover-border);
   --pico-box-shadow: var(--pico-button-hover-box-shadow, 0 0 0 rgba(0, 0, 0, 0));
   --pico-color: var(--pico-primary-inverse);
-}
-[type=file]::-webkit-file-upload-button:focus, [type=file]::-webkit-file-upload-button:is([aria-current]:not([aria-current=false])):focus {
-  --pico-box-shadow: var(--pico-button-hover-box-shadow, 0 0 0 rgba(0, 0, 0, 0)), 0 0 0 var(--pico-outline-width) var(--pico-primary-focus);
 }
 button:focus, button:is([aria-current]:not([aria-current=false])):focus,
 [type=submit]:focus,
@@ -1097,13 +1042,6 @@ button:focus, button:is([aria-current]:not([aria-current=false])):focus,
   margin-bottom: var(--pico-spacing);
 }
 
-[type=file]::-webkit-file-upload-button {
-  --pico-background-color: var(--pico-secondary-background);
-  --pico-border-color: var(--pico-secondary-border);
-  --pico-color: var(--pico-secondary-inverse);
-  cursor: pointer;
-}
-
 :is(button, [type=submit], [type=button], [role=button]).secondary,
 [type=reset],
 [type=file]::file-selector-button {
@@ -1112,20 +1050,12 @@ button:focus, button:is([aria-current]:not([aria-current=false])):focus,
   --pico-color: var(--pico-secondary-inverse);
   cursor: pointer;
 }
-[type=file]::-webkit-file-upload-button:is([aria-current]:not([aria-current=false]), :hover, :active, :focus) {
-  --pico-background-color: var(--pico-secondary-hover-background);
-  --pico-border-color: var(--pico-secondary-hover-border);
-  --pico-color: var(--pico-secondary-inverse);
-}
 :is(button, [type=submit], [type=button], [role=button]).secondary:is([aria-current]:not([aria-current=false]), :hover, :active, :focus),
 [type=reset]:is([aria-current]:not([aria-current=false]), :hover, :active, :focus),
 [type=file]::file-selector-button:is([aria-current]:not([aria-current=false]), :hover, :active, :focus) {
   --pico-background-color: var(--pico-secondary-hover-background);
   --pico-border-color: var(--pico-secondary-hover-border);
   --pico-color: var(--pico-secondary-inverse);
-}
-[type=file]::-webkit-file-upload-button:focus, [type=file]::-webkit-file-upload-button:is([aria-current]:not([aria-current=false])):focus {
-  --pico-box-shadow: var(--pico-button-hover-box-shadow, 0 0 0 rgba(0, 0, 0, 0)), 0 0 0 var(--pico-outline-width) var(--pico-secondary-focus);
 }
 :is(button, [type=submit], [type=button], [role=button]).secondary:focus, :is(button, [type=submit], [type=button], [role=button]).secondary:is([aria-current]:not([aria-current=false])):focus,
 [type=reset]:focus,
@@ -1479,14 +1409,10 @@ textarea {
   border-radius: var(--pico-border-radius);
   outline: none;
   background-color: var(--pico-background-color);
-  -webkit-box-shadow: var(--pico-box-shadow);
-          box-shadow: var(--pico-box-shadow);
+  box-shadow: var(--pico-box-shadow);
   color: var(--pico-color);
   font-weight: var(--pico-font-weight);
-  -webkit-transition: background-color var(--pico-transition), border-color var(--pico-transition), color var(--pico-transition), -webkit-box-shadow var(--pico-transition);
-  transition: background-color var(--pico-transition), border-color var(--pico-transition), color var(--pico-transition), -webkit-box-shadow var(--pico-transition);
   transition: background-color var(--pico-transition), border-color var(--pico-transition), color var(--pico-transition), box-shadow var(--pico-transition);
-  transition: background-color var(--pico-transition), border-color var(--pico-transition), color var(--pico-transition), box-shadow var(--pico-transition), -webkit-box-shadow var(--pico-transition);
 }
 
 input:not([type=submit],
@@ -1537,10 +1463,8 @@ label[aria-disabled=true] input[disabled] {
 [type=range])[aria-invalid] {
   padding-right: calc(var(--pico-form-element-spacing-horizontal) + 1.5rem) !important;
   padding-left: var(--pico-form-element-spacing-horizontal);
-  -webkit-padding-start: var(--pico-form-element-spacing-horizontal) !important;
-          padding-inline-start: var(--pico-form-element-spacing-horizontal) !important;
-  -webkit-padding-end: calc(var(--pico-form-element-spacing-horizontal) + 1.5rem) !important;
-          padding-inline-end: calc(var(--pico-form-element-spacing-horizontal) + 1.5rem) !important;
+  padding-inline-start: var(--pico-form-element-spacing-horizontal) !important;
+  padding-inline-end: calc(var(--pico-form-element-spacing-horizontal) + 1.5rem) !important;
   background-position: center right 0.75rem;
   background-size: 1rem auto;
   background-repeat: no-repeat;
@@ -1588,11 +1512,6 @@ label[aria-disabled=true] input[disabled] {
   background-position: center left 0.75rem;
 }
 
-input::-webkit-input-placeholder, textarea::-webkit-input-placeholder {
-  color: var(--pico-form-element-placeholder-color);
-  opacity: 1;
-}
-
 input::placeholder,
 input::-webkit-input-placeholder,
 textarea::placeholder,
@@ -1615,10 +1534,8 @@ select::-ms-expand {
 select:not([multiple], [size]) {
   padding-right: calc(var(--pico-form-element-spacing-horizontal) + 1.5rem);
   padding-left: var(--pico-form-element-spacing-horizontal);
-  -webkit-padding-start: var(--pico-form-element-spacing-horizontal);
-          padding-inline-start: var(--pico-form-element-spacing-horizontal);
-  -webkit-padding-end: calc(var(--pico-form-element-spacing-horizontal) + 1.5rem);
-          padding-inline-end: calc(var(--pico-form-element-spacing-horizontal) + 1.5rem);
+  padding-inline-start: var(--pico-form-element-spacing-horizontal);
+  padding-inline-end: calc(var(--pico-form-element-spacing-horizontal) + 1.5rem);
   background-image: var(--pico-icon-chevron);
   background-position: center right 0.75rem;
   background-size: 1rem auto;
@@ -1665,7 +1582,6 @@ label > :where(input, select, textarea) {
  * Checkboxes, Radios and Switches
  */
 label:has([type=checkbox], [type=radio]) {
-  width: -webkit-fit-content;
   width: -moz-fit-content;
   width: fit-content;
   cursor: pointer;
@@ -1679,8 +1595,7 @@ label:has([type=checkbox], [type=radio]) {
   width: 1.25em;
   height: 1.25em;
   margin-top: -0.125em;
-  -webkit-margin-end: 0.5em;
-          margin-inline-end: 0.5em;
+  margin-inline-end: 0.5em;
   border-width: var(--pico-border-width);
   vertical-align: middle;
   cursor: pointer;
@@ -1708,8 +1623,7 @@ label:has([type=checkbox], [type=radio]) {
 }
 [type=checkbox] ~ label:not(:last-of-type),
 [type=radio] ~ label:not(:last-of-type) {
-  -webkit-margin-end: 1em;
-          margin-inline-end: 1em;
+  margin-inline-end: 1em;
 }
 
 [type=checkbox]:indeterminate {
@@ -1749,10 +1663,8 @@ label:has([type=checkbox], [type=radio]) {
   height: 100%;
   border-radius: 50%;
   background-color: var(--pico-color);
-  -webkit-box-shadow: var(--pico-switch-thumb-box-shadow);
-          box-shadow: var(--pico-switch-thumb-box-shadow);
+  box-shadow: var(--pico-switch-thumb-box-shadow);
   content: "";
-  -webkit-transition: margin 0.1s ease-in-out;
   transition: margin 0.1s ease-in-out;
 }
 [type=checkbox][role=switch]:focus {
@@ -1765,8 +1677,7 @@ label:has([type=checkbox], [type=radio]) {
   background-image: none;
 }
 [type=checkbox][role=switch]:checked::before {
-  -webkit-margin-start: calc(2.25em - 1.25em);
-          margin-inline-start: calc(2.25em - 1.25em);
+  margin-inline-start: calc(2.25em - 1.25em);
 }
 [type=checkbox][role=switch][disabled] {
   --pico-background-color: var(--pico-border-color);
@@ -1875,24 +1786,13 @@ input:not([type=checkbox], [type=radio], [type=range], [type=file])[type=time] {
   border-radius: 0;
   background: none;
 }
-[type=file]::-webkit-file-upload-button {
-  margin-right: calc(var(--pico-spacing) / 2);
-  padding: calc(var(--pico-form-element-spacing-vertical) * 0.5) var(--pico-form-element-spacing-horizontal);
-}
 [type=file]::file-selector-button {
   margin-right: calc(var(--pico-spacing) / 2);
   padding: calc(var(--pico-form-element-spacing-vertical) * 0.5) var(--pico-form-element-spacing-horizontal);
 }
-[type=file]:is(:hover, :active, :focus)::-webkit-file-upload-button {
-  --pico-background-color: var(--pico-secondary-hover-background);
-  --pico-border-color: var(--pico-secondary-hover-border);
-}
 [type=file]:is(:hover, :active, :focus)::file-selector-button {
   --pico-background-color: var(--pico-secondary-hover-background);
   --pico-border-color: var(--pico-secondary-hover-border);
-}
-[type=file]:focus::-webkit-file-upload-button {
-  --pico-box-shadow: var(--pico-button-hover-box-shadow, 0 0 0 rgba(0, 0, 0, 0)), 0 0 0 var(--pico-outline-width) var(--pico-secondary-focus);
 }
 [type=file]:focus::file-selector-button {
   --pico-box-shadow: var(--pico-button-hover-box-shadow, 0 0 0 rgba(0, 0, 0, 0)), 0 0 0 var(--pico-outline-width) var(--pico-secondary-focus);
@@ -1914,10 +1814,8 @@ input:not([type=checkbox], [type=radio], [type=range], [type=file])[type=time] {
   height: 0.375rem;
   border-radius: var(--pico-border-radius);
   background-color: var(--pico-range-border-color);
-  -webkit-transition: background-color var(--pico-transition), -webkit-box-shadow var(--pico-transition);
-  transition: background-color var(--pico-transition), -webkit-box-shadow var(--pico-transition);
+  -webkit-transition: background-color var(--pico-transition), box-shadow var(--pico-transition);
   transition: background-color var(--pico-transition), box-shadow var(--pico-transition);
-  transition: background-color var(--pico-transition), box-shadow var(--pico-transition), -webkit-box-shadow var(--pico-transition);
 }
 [type=range]::-moz-range-track {
   width: 100%;
@@ -1944,10 +1842,8 @@ input:not([type=checkbox], [type=radio], [type=range], [type=file])[type=time] {
   border-radius: 50%;
   background-color: var(--pico-range-thumb-color);
   cursor: pointer;
-  -webkit-transition: background-color var(--pico-transition), -webkit-transform var(--pico-transition);
-  transition: background-color var(--pico-transition), -webkit-transform var(--pico-transition);
+  -webkit-transition: background-color var(--pico-transition), transform var(--pico-transition);
   transition: background-color var(--pico-transition), transform var(--pico-transition);
-  transition: background-color var(--pico-transition), transform var(--pico-transition), -webkit-transform var(--pico-transition);
 }
 [type=range]::-moz-range-thumb {
   -webkit-appearance: none;
@@ -1978,8 +1874,7 @@ input:not([type=checkbox], [type=radio], [type=range], [type=file])[type=time] {
   --pico-range-thumb-color: var(--pico-range-thumb-active-color);
 }
 [type=range]:active::-webkit-slider-thumb {
-  -webkit-transform: scale(1.25);
-          transform: scale(1.25);
+  transform: scale(1.25);
 }
 [type=range]:active::-moz-range-thumb {
   transform: scale(1.25);
@@ -1992,16 +1887,14 @@ input:not([type=checkbox], [type=radio], [type=range], [type=file])[type=time] {
  * Input type search
  */
 input:not([type=checkbox], [type=radio], [type=range], [type=file])[type=search] {
-  -webkit-padding-start: calc(var(--pico-form-element-spacing-horizontal) + 1.75rem);
-          padding-inline-start: calc(var(--pico-form-element-spacing-horizontal) + 1.75rem);
+  padding-inline-start: calc(var(--pico-form-element-spacing-horizontal) + 1.75rem);
   background-image: var(--pico-icon-search);
   background-position: center left calc(var(--pico-form-element-spacing-horizontal) + 0.125rem);
   background-size: 1rem auto;
   background-repeat: no-repeat;
 }
 input:not([type=checkbox], [type=radio], [type=range], [type=file])[type=search][aria-invalid] {
-  -webkit-padding-start: calc(var(--pico-form-element-spacing-horizontal) + 1.75rem) !important;
-          padding-inline-start: calc(var(--pico-form-element-spacing-horizontal) + 1.75rem) !important;
+  padding-inline-start: calc(var(--pico-form-element-spacing-horizontal) + 1.75rem) !important;
   background-position: center left 1.125rem, center right 0.75rem;
 }
 input:not([type=checkbox], [type=radio], [type=range], [type=file])[type=search][aria-invalid=false] {
@@ -2029,7 +1922,6 @@ details summary {
   line-height: 1rem;
   list-style-type: none;
   cursor: pointer;
-  -webkit-transition: color var(--pico-transition);
   transition: color var(--pico-transition);
 }
 details summary:not([role]) {
@@ -2048,20 +1940,15 @@ details summary::after {
   display: block;
   width: 1rem;
   height: 1rem;
-  -webkit-margin-start: calc(var(--pico-spacing, 1rem) * 0.5);
-          margin-inline-start: calc(var(--pico-spacing, 1rem) * 0.5);
+  margin-inline-start: calc(var(--pico-spacing, 1rem) * 0.5);
   float: right;
-  -webkit-transform: rotate(-90deg);
-          transform: rotate(-90deg);
+  transform: rotate(-90deg);
   background-image: var(--pico-icon-chevron);
   background-position: right center;
   background-size: 1rem auto;
   background-repeat: no-repeat;
   content: "";
-  -webkit-transition: -webkit-transform var(--pico-transition);
-  transition: -webkit-transform var(--pico-transition);
   transition: transform var(--pico-transition);
-  transition: transform var(--pico-transition), -webkit-transform var(--pico-transition);
 }
 details summary:focus {
   outline: none;
@@ -2088,8 +1975,7 @@ details[open] > summary:not([role]):not(:focus) {
   color: var(--pico-accordion-open-summary-color);
 }
 details[open] > summary::after {
-  -webkit-transform: rotate(0);
-          transform: rotate(0);
+  transform: rotate(0);
 }
 
 [dir=rtl] details summary {
@@ -2108,8 +1994,7 @@ article {
   padding: var(--pico-block-spacing-vertical) var(--pico-block-spacing-horizontal);
   border-radius: var(--pico-border-radius);
   background: var(--pico-card-background-color);
-  -webkit-box-shadow: var(--pico-card-box-shadow);
-          box-shadow: var(--pico-card-box-shadow);
+  box-shadow: var(--pico-card-box-shadow);
 }
 article > header,
 article > footer {
@@ -2146,11 +2031,9 @@ details.dropdown > a::after {
   display: block;
   width: 1rem;
   height: calc(1rem * var(--pico-line-height, 1.5));
-  -webkit-margin-start: 0.25rem;
-          margin-inline-start: 0.25rem;
+  margin-inline-start: 0.25rem;
   float: right;
-  -webkit-transform: rotate(0deg) translateX(0.2rem);
-          transform: rotate(0deg) translateX(0.2rem);
+  transform: rotate(0deg) translateX(0.2rem);
   background-image: var(--pico-icon-chevron);
   background-position: right center;
   background-size: 1rem auto;
@@ -2173,20 +2056,15 @@ details.dropdown > summary:not([role]) {
   cursor: pointer;
   -webkit-user-select: none;
      -moz-user-select: none;
-      -ms-user-select: none;
           user-select: none;
-  -webkit-transition: background-color var(--pico-transition), border-color var(--pico-transition), color var(--pico-transition), -webkit-box-shadow var(--pico-transition);
-  transition: background-color var(--pico-transition), border-color var(--pico-transition), color var(--pico-transition), -webkit-box-shadow var(--pico-transition);
   transition: background-color var(--pico-transition), border-color var(--pico-transition), color var(--pico-transition), box-shadow var(--pico-transition);
-  transition: background-color var(--pico-transition), border-color var(--pico-transition), color var(--pico-transition), box-shadow var(--pico-transition), -webkit-box-shadow var(--pico-transition);
 }
 details.dropdown > summary:not([role]):active, details.dropdown > summary:not([role]):focus {
   border-color: var(--pico-form-element-active-border-color);
   background-color: var(--pico-form-element-active-background-color);
 }
 details.dropdown > summary:not([role]):focus {
-  -webkit-box-shadow: 0 0 0 var(--pico-outline-width) var(--pico-form-element-focus-color);
-          box-shadow: 0 0 0 var(--pico-outline-width) var(--pico-form-element-focus-color);
+  box-shadow: 0 0 0 var(--pico-outline-width) var(--pico-form-element-focus-color);
 }
 details.dropdown > summary:not([role]):focus-visible {
   outline: none;
@@ -2207,31 +2085,23 @@ nav details.dropdown {
   margin: calc(var(--pico-nav-element-spacing-vertical) * -1) 0;
 }
 nav details.dropdown > summary::after {
-  -webkit-transform: rotate(0deg) translateX(0rem);
-          transform: rotate(0deg) translateX(0rem);
+  transform: rotate(0deg) translateX(0rem);
 }
 nav details.dropdown > summary:not([role]) {
   height: calc(1rem * var(--pico-line-height) + var(--pico-nav-link-spacing-vertical) * 2);
   padding: calc(var(--pico-nav-link-spacing-vertical) - var(--pico-border-width) * 2) var(--pico-nav-link-spacing-horizontal);
 }
 nav details.dropdown > summary:not([role]):focus-visible {
-  -webkit-box-shadow: 0 0 0 var(--pico-outline-width) var(--pico-primary-focus);
-          box-shadow: 0 0 0 var(--pico-outline-width) var(--pico-primary-focus);
+  box-shadow: 0 0 0 var(--pico-outline-width) var(--pico-primary-focus);
 }
 
 details.dropdown > summary + ul {
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
   z-index: 99;
   position: absolute;
   left: 0;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
+  flex-direction: column;
   width: 100%;
-  min-width: -webkit-fit-content;
   min-width: -moz-fit-content;
   min-width: fit-content;
   margin: 0;
@@ -2240,15 +2110,11 @@ details.dropdown > summary + ul {
   border: var(--pico-border-width) solid var(--pico-dropdown-border-color);
   border-radius: var(--pico-border-radius);
   background-color: var(--pico-dropdown-background-color);
-  -webkit-box-shadow: var(--pico-dropdown-box-shadow);
-          box-shadow: var(--pico-dropdown-box-shadow);
+  box-shadow: var(--pico-dropdown-box-shadow);
   color: var(--pico-dropdown-color);
   white-space: nowrap;
   opacity: 0;
-  -webkit-transition: opacity var(--pico-transition), -webkit-transform 0s ease-in-out 1s;
-  transition: opacity var(--pico-transition), -webkit-transform 0s ease-in-out 1s;
   transition: opacity var(--pico-transition), transform 0s ease-in-out 1s;
-  transition: opacity var(--pico-transition), transform 0s ease-in-out 1s, -webkit-transform 0s ease-in-out 1s;
 }
 details.dropdown > summary + ul[dir=rtl] {
   right: 0;
@@ -2291,13 +2157,9 @@ details.dropdown[open] > summary {
 }
 
 details.dropdown[open] > summary + ul {
-  -webkit-transform: scaleY(1);
-          transform: scaleY(1);
+  transform: scaleY(1);
   opacity: 1;
-  -webkit-transition: opacity var(--pico-transition), -webkit-transform 0s ease-in-out 0s;
-  transition: opacity var(--pico-transition), -webkit-transform 0s ease-in-out 0s;
   transition: opacity var(--pico-transition), transform 0s ease-in-out 0s;
-  transition: opacity var(--pico-transition), transform 0s ease-in-out 0s, -webkit-transform 0s ease-in-out 0s;
 }
 
 details.dropdown[open] > summary::before {
@@ -2321,20 +2183,14 @@ label > details.dropdown {
  */
 [role=search],
 [role=group] {
-  display: -webkit-inline-box;
-  display: -ms-inline-flexbox;
   display: inline-flex;
   position: relative;
   width: 100%;
   margin-bottom: var(--pico-spacing);
   border-radius: var(--pico-border-radius);
-  -webkit-box-shadow: var(--pico-group-box-shadow, 0 0 0 rgba(0, 0, 0, 0));
-          box-shadow: var(--pico-group-box-shadow, 0 0 0 rgba(0, 0, 0, 0));
+  box-shadow: var(--pico-group-box-shadow, 0 0 0 rgba(0, 0, 0, 0));
   vertical-align: middle;
-  -webkit-transition: -webkit-box-shadow var(--pico-transition);
-  transition: -webkit-box-shadow var(--pico-transition);
   transition: box-shadow var(--pico-transition);
-  transition: box-shadow var(--pico-transition), -webkit-box-shadow var(--pico-transition);
 }
 [role=search] > *,
 [role=search] input:not([type=checkbox], [type=radio]),
@@ -2343,9 +2199,7 @@ label > details.dropdown {
 [role=group] input:not([type=checkbox], [type=radio]),
 [role=group] select {
   position: relative;
-  -webkit-box-flex: 1;
-      -ms-flex: 1 1 auto;
-          flex: 1 1 auto;
+  flex: 1 1 auto;
   margin-bottom: 0;
 }
 [role=search] > *:not(:first-child),
@@ -2439,8 +2293,7 @@ label > details.dropdown {
   [role=group] [type=reset]:focus,
   [role=group] [type=button]:focus,
   [role=group] [role=button]:focus {
-    -webkit-box-shadow: none;
-            box-shadow: none;
+    box-shadow: none;
   }
 }
 
@@ -2470,8 +2323,7 @@ label > details.dropdown {
   vertical-align: -0.125em;
 }
 [aria-busy=true]:not(input, select, textarea, html, form):not(:empty)::before {
-  -webkit-margin-end: calc(var(--pico-spacing) * 0.5);
-          margin-inline-end: calc(var(--pico-spacing) * 0.5);
+  margin-inline-end: calc(var(--pico-spacing) * 0.5);
 }
 [aria-busy=true]:not(input, select, textarea, html, form):empty {
   text-align: center;
@@ -2495,8 +2347,6 @@ a[aria-busy=true] {
 }
 
 dialog {
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
   z-index: 999;
   position: fixed;
@@ -2504,19 +2354,16 @@ dialog {
   right: 0;
   bottom: 0;
   left: 0;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
+  align-items: center;
+  justify-content: center;
   width: inherit;
   min-width: 100%;
   height: inherit;
   min-height: 100%;
   padding: 0;
   border: 0;
-  backdrop-filter: var(--pico-modal-overlay-backdrop-filter);
+  -webkit-backdrop-filter: var(--pico-modal-overlay-backdrop-filter);
+          backdrop-filter: var(--pico-modal-overlay-backdrop-filter);
   background-color: var(--pico-modal-overlay-background-color);
   color: var(--pico-color);
 }
@@ -2570,7 +2417,6 @@ dialog > article .close, dialog > article :is(a, button)[rel=prev] {
   background-repeat: no-repeat;
   background-color: transparent;
   opacity: 0.5;
-  -webkit-transition: opacity var(--pico-transition);
   transition: opacity var(--pico-transition);
 }
 dialog > article .close:is([aria-current]:not([aria-current=false]), :hover, :active, :focus), dialog > article :is(a, button)[rel=prev]:is([aria-current]:not([aria-current=false]), :hover, :active, :focus) {
@@ -2584,68 +2430,44 @@ dialog:not([open]), dialog[open=false] {
   padding-right: var(--pico-scrollbar-width, 0px);
   overflow: hidden;
   pointer-events: none;
-  -ms-touch-action: none;
-      touch-action: none;
+  touch-action: none;
 }
 .modal-is-open dialog {
   pointer-events: auto;
-  -ms-touch-action: auto;
-      touch-action: auto;
+  touch-action: auto;
 }
 
 :where(.modal-is-opening, .modal-is-closing) dialog,
 :where(.modal-is-opening, .modal-is-closing) dialog > article {
-  -webkit-animation-duration: 0.2s;
-          animation-duration: 0.2s;
-  -webkit-animation-timing-function: ease-in-out;
-          animation-timing-function: ease-in-out;
-  -webkit-animation-fill-mode: both;
-          animation-fill-mode: both;
+  animation-duration: 0.2s;
+  animation-timing-function: ease-in-out;
+  animation-fill-mode: both;
 }
 :where(.modal-is-opening, .modal-is-closing) dialog {
-  -webkit-animation-duration: 0.8s;
-          animation-duration: 0.8s;
-  -webkit-animation-name: modal-overlay;
-          animation-name: modal-overlay;
+  animation-duration: 0.8s;
+  animation-name: modal-overlay;
 }
 :where(.modal-is-opening, .modal-is-closing) dialog > article {
-  -webkit-animation-delay: 0.2s;
-          animation-delay: 0.2s;
-  -webkit-animation-name: modal;
-          animation-name: modal;
+  animation-delay: 0.2s;
+  animation-name: modal;
 }
 
 .modal-is-closing dialog,
 .modal-is-closing dialog > article {
-  -webkit-animation-delay: 0s;
-          animation-delay: 0s;
+  animation-delay: 0s;
   animation-direction: reverse;
-}
-
-@-webkit-keyframes modal-overlay {
-  from {
-    backdrop-filter: none;
-    background-color: transparent;
-  }
 }
 
 @keyframes modal-overlay {
   from {
-    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+            backdrop-filter: none;
     background-color: transparent;
-  }
-}
-@-webkit-keyframes modal {
-  from {
-    -webkit-transform: translateY(-100%);
-            transform: translateY(-100%);
-    opacity: 0;
   }
 }
 @keyframes modal {
   from {
-    -webkit-transform: translateY(-100%);
-            transform: translateY(-100%);
+    transform: translateY(-100%);
     opacity: 0;
   }
 }
@@ -2659,22 +2481,16 @@ dialog:not([open]), dialog[open=false] {
 
 nav,
 nav ul {
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
 }
 
 nav {
-  -webkit-box-pack: justify;
-      -ms-flex-pack: justify;
-          justify-content: space-between;
+  justify-content: space-between;
   overflow: visible;
 }
 nav ol,
 nav ul {
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
+  align-items: center;
   margin-bottom: 0;
   padding: 0;
   list-style: none;
@@ -2713,21 +2529,15 @@ nav li select {
   padding: calc(var(--pico-nav-link-spacing-vertical) - var(--pico-border-width) * 2) var(--pico-nav-link-spacing-horizontal);
 }
 nav[aria-label=breadcrumb] {
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  -webkit-box-pack: start;
-      -ms-flex-pack: start;
-          justify-content: start;
+  align-items: center;
+  justify-content: start;
 }
 nav[aria-label=breadcrumb] ul li:not(:first-child) {
-  -webkit-margin-start: var(--pico-nav-link-spacing-horizontal);
-          margin-inline-start: var(--pico-nav-link-spacing-horizontal);
+  margin-inline-start: var(--pico-nav-link-spacing-horizontal);
 }
 nav[aria-label=breadcrumb] ul li a {
   margin: calc(var(--pico-nav-link-spacing-vertical) * -1) 0;
-  -webkit-margin-start: calc(var(--pico-nav-link-spacing-horizontal) * -1);
-          margin-inline-start: calc(var(--pico-nav-link-spacing-horizontal) * -1);
+  margin-inline-start: calc(var(--pico-nav-link-spacing-horizontal) * -1);
 }
 nav[aria-label=breadcrumb] ul li:not(:last-child)::after {
   display: inline-block;
@@ -2803,10 +2613,8 @@ progress::-moz-progress-bar {
 }
 @media (prefers-reduced-motion: no-preference) {
   progress:indeterminate {
-    background: var(--pico-progress-background-color) -webkit-gradient(linear, left top, right top, color-stop(30%, var(--pico-progress-color)), color-stop(30%, var(--pico-progress-background-color))) top left/150% 150% no-repeat;
     background: var(--pico-progress-background-color) linear-gradient(to right, var(--pico-progress-color) 30%, var(--pico-progress-background-color) 30%) top left/150% 150% no-repeat;
-    -webkit-animation: progress-indeterminate 1s linear infinite;
-            animation: progress-indeterminate 1s linear infinite;
+    animation: progress-indeterminate 1s linear infinite;
   }
   progress:indeterminate[value]::-webkit-progress-value {
     background-color: transparent;
@@ -2819,15 +2627,6 @@ progress::-moz-progress-bar {
 @media (prefers-reduced-motion: no-preference) {
   [dir=rtl] progress:indeterminate {
     animation-direction: reverse;
-  }
-}
-
-@-webkit-keyframes progress-indeterminate {
-  0% {
-    background-position: 200% 0;
-  }
-  100% {
-    background-position: -200% 0;
   }
 }
 
@@ -2858,8 +2657,7 @@ progress::-moz-progress-bar {
   left: 50%;
   padding: 0.25rem 0.5rem;
   overflow: hidden;
-  -webkit-transform: translate(-50%, -0.25rem);
-          transform: translate(-50%, -0.25rem);
+  transform: translate(-50%, -0.25rem);
   border-radius: var(--pico-border-radius);
   background: var(--pico-tooltip-background-color);
   content: attr(data-tooltip);
@@ -2875,8 +2673,7 @@ progress::-moz-progress-bar {
 }
 [data-tooltip][data-placement=top]::after, [data-tooltip]::after {
   padding: 0;
-  -webkit-transform: translate(-50%, 0rem);
-          transform: translate(-50%, 0rem);
+  transform: translate(-50%, 0rem);
   border-top: 0.3rem solid;
   border-right: 0.3rem solid transparent;
   border-left: 0.3rem solid transparent;
@@ -2888,12 +2685,10 @@ progress::-moz-progress-bar {
 [data-tooltip][data-placement=bottom]::before, [data-tooltip][data-placement=bottom]::after {
   top: 100%;
   bottom: auto;
-  -webkit-transform: translate(-50%, 0.25rem);
-          transform: translate(-50%, 0.25rem);
+  transform: translate(-50%, 0.25rem);
 }
 [data-tooltip][data-placement=bottom]:after {
-  -webkit-transform: translate(-50%, -0.3rem);
-          transform: translate(-50%, -0.3rem);
+  transform: translate(-50%, -0.3rem);
   border: 0.3rem solid transparent;
   border-bottom: 0.3rem solid;
 }
@@ -2902,12 +2697,10 @@ progress::-moz-progress-bar {
   right: 100%;
   bottom: auto;
   left: auto;
-  -webkit-transform: translate(-0.25rem, -50%);
-          transform: translate(-0.25rem, -50%);
+  transform: translate(-0.25rem, -50%);
 }
 [data-tooltip][data-placement=left]:after {
-  -webkit-transform: translate(0.3rem, -50%);
-          transform: translate(0.3rem, -50%);
+  transform: translate(0.3rem, -50%);
   border: 0.3rem solid transparent;
   border-left: 0.3rem solid;
 }
@@ -2916,12 +2709,10 @@ progress::-moz-progress-bar {
   right: auto;
   bottom: auto;
   left: 100%;
-  -webkit-transform: translate(0.25rem, -50%);
-          transform: translate(0.25rem, -50%);
+  transform: translate(0.25rem, -50%);
 }
 [data-tooltip][data-placement=right]:after {
-  -webkit-transform: translate(-0.3rem, -50%);
-          transform: translate(-0.3rem, -50%);
+  transform: translate(-0.3rem, -50%);
   border: 0.3rem solid transparent;
   border-right: 0.3rem solid;
 }
@@ -2931,87 +2722,51 @@ progress::-moz-progress-bar {
 @media (hover: hover) and (pointer: fine) {
   [data-tooltip]:focus::before, [data-tooltip]:focus::after, [data-tooltip]:hover::before, [data-tooltip]:hover::after {
     --pico-tooltip-slide-to: translate(-50%, -0.25rem);
-    -webkit-transform: translate(-50%, 0.75rem);
-            transform: translate(-50%, 0.75rem);
-    -webkit-animation-duration: 0.2s;
-            animation-duration: 0.2s;
-    -webkit-animation-fill-mode: forwards;
-            animation-fill-mode: forwards;
-    -webkit-animation-name: tooltip-slide;
-            animation-name: tooltip-slide;
+    transform: translate(-50%, 0.75rem);
+    animation-duration: 0.2s;
+    animation-fill-mode: forwards;
+    animation-name: tooltip-slide;
     opacity: 0;
   }
   [data-tooltip]:focus::after, [data-tooltip]:hover::after {
     --pico-tooltip-caret-slide-to: translate(-50%, 0rem);
-    -webkit-transform: translate(-50%, -0.25rem);
-            transform: translate(-50%, -0.25rem);
-    -webkit-animation-name: tooltip-caret-slide;
-            animation-name: tooltip-caret-slide;
+    transform: translate(-50%, -0.25rem);
+    animation-name: tooltip-caret-slide;
   }
   [data-tooltip][data-placement=bottom]:focus::before, [data-tooltip][data-placement=bottom]:focus::after, [data-tooltip][data-placement=bottom]:hover::before, [data-tooltip][data-placement=bottom]:hover::after {
     --pico-tooltip-slide-to: translate(-50%, 0.25rem);
-    -webkit-transform: translate(-50%, -0.75rem);
-            transform: translate(-50%, -0.75rem);
-    -webkit-animation-name: tooltip-slide;
-            animation-name: tooltip-slide;
+    transform: translate(-50%, -0.75rem);
+    animation-name: tooltip-slide;
   }
   [data-tooltip][data-placement=bottom]:focus::after, [data-tooltip][data-placement=bottom]:hover::after {
     --pico-tooltip-caret-slide-to: translate(-50%, -0.3rem);
-    -webkit-transform: translate(-50%, -0.5rem);
-            transform: translate(-50%, -0.5rem);
-    -webkit-animation-name: tooltip-caret-slide;
-            animation-name: tooltip-caret-slide;
+    transform: translate(-50%, -0.5rem);
+    animation-name: tooltip-caret-slide;
   }
   [data-tooltip][data-placement=left]:focus::before, [data-tooltip][data-placement=left]:focus::after, [data-tooltip][data-placement=left]:hover::before, [data-tooltip][data-placement=left]:hover::after {
     --pico-tooltip-slide-to: translate(-0.25rem, -50%);
-    -webkit-transform: translate(0.75rem, -50%);
-            transform: translate(0.75rem, -50%);
-    -webkit-animation-name: tooltip-slide;
-            animation-name: tooltip-slide;
+    transform: translate(0.75rem, -50%);
+    animation-name: tooltip-slide;
   }
   [data-tooltip][data-placement=left]:focus::after, [data-tooltip][data-placement=left]:hover::after {
     --pico-tooltip-caret-slide-to: translate(0.3rem, -50%);
-    -webkit-transform: translate(0.05rem, -50%);
-            transform: translate(0.05rem, -50%);
-    -webkit-animation-name: tooltip-caret-slide;
-            animation-name: tooltip-caret-slide;
+    transform: translate(0.05rem, -50%);
+    animation-name: tooltip-caret-slide;
   }
   [data-tooltip][data-placement=right]:focus::before, [data-tooltip][data-placement=right]:focus::after, [data-tooltip][data-placement=right]:hover::before, [data-tooltip][data-placement=right]:hover::after {
     --pico-tooltip-slide-to: translate(0.25rem, -50%);
-    -webkit-transform: translate(-0.75rem, -50%);
-            transform: translate(-0.75rem, -50%);
-    -webkit-animation-name: tooltip-slide;
-            animation-name: tooltip-slide;
+    transform: translate(-0.75rem, -50%);
+    animation-name: tooltip-slide;
   }
   [data-tooltip][data-placement=right]:focus::after, [data-tooltip][data-placement=right]:hover::after {
     --pico-tooltip-caret-slide-to: translate(-0.3rem, -50%);
-    -webkit-transform: translate(-0.05rem, -50%);
-            transform: translate(-0.05rem, -50%);
-    -webkit-animation-name: tooltip-caret-slide;
-            animation-name: tooltip-caret-slide;
-  }
-}
-@-webkit-keyframes tooltip-slide {
-  to {
-    -webkit-transform: var(--pico-tooltip-slide-to);
-            transform: var(--pico-tooltip-slide-to);
-    opacity: 1;
+    transform: translate(-0.05rem, -50%);
+    animation-name: tooltip-caret-slide;
   }
 }
 @keyframes tooltip-slide {
   to {
-    -webkit-transform: var(--pico-tooltip-slide-to);
-            transform: var(--pico-tooltip-slide-to);
-    opacity: 1;
-  }
-}
-@-webkit-keyframes tooltip-caret-slide {
-  50% {
-    opacity: 0;
-  }
-  to {
-    -webkit-transform: var(--pico-tooltip-caret-slide-to);
-            transform: var(--pico-tooltip-caret-slide-to);
+    transform: var(--pico-tooltip-slide-to);
     opacity: 1;
   }
 }
@@ -3020,8 +2775,7 @@ progress::-moz-progress-bar {
     opacity: 0;
   }
   to {
-    -webkit-transform: var(--pico-tooltip-caret-slide-to);
-            transform: var(--pico-tooltip-caret-slide-to);
+    transform: var(--pico-tooltip-caret-slide-to);
     opacity: 1;
   }
 }
@@ -3071,16 +2825,11 @@ textarea,
   :not([aria-busy=true])::before,
   :not([aria-busy=true])::after {
     background-attachment: initial !important;
-    -webkit-animation-duration: 1ms !important;
-            animation-duration: 1ms !important;
-    -webkit-animation-delay: -1ms !important;
-            animation-delay: -1ms !important;
-    -webkit-animation-iteration-count: 1 !important;
-            animation-iteration-count: 1 !important;
+    animation-duration: 1ms !important;
+    animation-delay: -1ms !important;
+    animation-iteration-count: 1 !important;
     scroll-behavior: auto !important;
-    -webkit-transition-delay: 0s !important;
-            transition-delay: 0s !important;
-    -webkit-transition-duration: 0s !important;
-            transition-duration: 0s !important;
+    transition-delay: 0s !important;
+    transition-duration: 0s !important;
   }
 }
