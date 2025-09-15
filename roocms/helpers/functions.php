@@ -175,16 +175,14 @@ function get_bearer_token() : ?string {
  *
  * @param string $file - full path to file
  *
- * @return string - data from file
+ * @return string|false - data from file or false on failure
  */
-function file_read(string $file) : string {
-	$data = "";
-
+function file_read(string $file) : string|false {
 	if(is_file($file) && is_readable($file)) {
-		$data .= file_get_contents($file);
+		return file_get_contents($file);
 	}
 
-	return $data;
+	return false;
 }
 
 

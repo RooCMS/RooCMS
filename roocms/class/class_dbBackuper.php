@@ -1242,11 +1242,6 @@ class DbBackuper {
 		];
 		
 		$this->backup_log[] = $log_entry;
-		
-		// Log to debug system if available
-		if(method_exists($this, 'debug_log')) {
-			$this->debug_log("DbBackuper: {$operation} - {$filename}", $data);
-		}
 	}
 
 
