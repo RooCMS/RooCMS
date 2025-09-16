@@ -113,6 +113,8 @@ abstract class BaseController {
 
     /**
      * Get request input data (JSON or form data) with security validation
+     * 
+     * @return array
      */
     protected function get_input_data(): array {
         $contentType = env('CONTENT_TYPE') ?? '';
@@ -146,6 +148,9 @@ abstract class BaseController {
 
     /**
      * Get query parameters with sanitization and optional type casting
+     * 
+     * @param bool $auto_cast_types Auto cast types
+     * @return array
      */
     protected function get_query_params(bool $auto_cast_types = true): array {
         $params = [];
@@ -168,6 +173,9 @@ abstract class BaseController {
 
     /**
      * Cast query parameter to appropriate type
+     * 
+     * @param string $value Value
+     * @return mixed
      */
     private function cast_param_type(string $value): mixed {
         // Skip casting if value looks like JSON
@@ -200,6 +208,10 @@ abstract class BaseController {
 
     /**
      * Validate required fields
+     * 
+     * @param array $data Data
+     * @param array $required Required
+     * @return array
      */
     protected function validate_required(array $data, array $required): array {
         $errors = [];
@@ -216,6 +228,8 @@ abstract class BaseController {
     
     /**
      * Get pagination parameters
+     * 
+     * @return array
      */
     protected function get_pagination_params(): array {
         $page = (int)($_GET['page'] ?? 1);
@@ -237,6 +251,11 @@ abstract class BaseController {
     
     /**
      * Format pagination meta information
+     * 
+     * @param int $total Total
+     * @param int $page Page
+     * @param int $limit Limit
+     * @return array
      */
     protected function format_pagination_meta(int $total, int $page, int $limit): array {
         $total_pages = (int)ceil($total / $limit);
@@ -254,6 +273,10 @@ abstract class BaseController {
     
     /**
      * Log API request for debugging
+     * 
+     * @param string $action Action
+     * @param array $data Data
+     * @return void
      */
     protected function log_request(string $action = '', array $data = []): void {
         if ($this->db && defined('SYSERRLOG') && DEBUGMODE) {
@@ -274,6 +297,8 @@ abstract class BaseController {
 
     /**
      * Check if database is available
+     * 
+     * @return bool
      */
     protected function is_database_available(): bool {
         return $this->db !== null && $this->db instanceof Db;
@@ -282,6 +307,8 @@ abstract class BaseController {
 
     /**
      * Get database health status
+     * 
+     * @return array
      */
     protected function get_database_health(): array {
         if (!$this->is_database_available()) {
@@ -317,6 +344,8 @@ abstract class BaseController {
 
     /**
      * Get authenticated user from global context (set by AuthMiddleware)
+     * 
+     * @return array|null
      */
     protected function get_authenticated_user(): array|null {
         return $GLOBALS['authenticated_user'] ?? null;
@@ -325,6 +354,8 @@ abstract class BaseController {
 
     /**
      * Require authenticated user or send error response
+     * 
+     * @return array|null
      */
     protected function require_authentication(): array|null {
         $user = $this->get_authenticated_user();
@@ -341,6 +372,9 @@ abstract class BaseController {
     /**
      * Check if current user has specific permission
      * This is a placeholder for future permission system
+     * 
+     * @param string $permission Permission
+     * @return bool
      */
     protected function check_permission(string $permission): bool {
         $user = $this->get_authenticated_user();

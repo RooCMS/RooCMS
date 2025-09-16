@@ -408,6 +408,7 @@ class Debugger {
 
     /**
      * Check filesystem health
+	 * @return array
      */
     private function check_filesystem_health(): array {
         $checks = [];
@@ -471,6 +472,7 @@ class Debugger {
 
     /**
      * Check PHP health and configuration
+	 * @return array
      */
     private function check_php(): array {
         $checks = [];
@@ -532,6 +534,7 @@ class Debugger {
 
 	/**
      * Get server load (Linux/Unix only)
+	 * @return array|null
      */
     private function get_server_load(): ?array {
         if (function_exists('sys_getloadavg')) {

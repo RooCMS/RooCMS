@@ -32,6 +32,9 @@ class AuthMiddleware {
 
     /**
      * Constructor
+     * 
+     * @param Db $db Database
+     * @param Auth $auth Auth
      */
     public function __construct(Db $db, Auth $auth) {
         $this->db = $db;
@@ -42,6 +45,8 @@ class AuthMiddleware {
     /**
      * Handle middleware execution
      * Returns true if authentication is successful, false otherwise
+     * 
+     * @return bool
      */
     public function handle(): bool {
         try {
@@ -73,6 +78,8 @@ class AuthMiddleware {
 
     /**
      * Get bearer token from Authorization header
+     * 
+     * @return string|null
      */
     private function get_bearer_token(): string|null {
         return get_bearer_token();
@@ -81,6 +88,9 @@ class AuthMiddleware {
 
     /**
      * Authenticate token and return user data
+     * 
+     * @param string $token Token
+     * @return array|null
      */
     private function authenticate_token(string $token): array|null {
         try {
@@ -138,6 +148,11 @@ class AuthMiddleware {
 
     /**
      * Send error response and exit
+     * 
+     * @param string $message Message
+     * @param int $code Code
+     * @param array $details Details
+     * @return void
      */
     private function send_error_response(string $message, int $code = 401, array $details = []): void {
         http_response_code($code);

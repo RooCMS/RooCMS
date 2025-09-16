@@ -10,11 +10,6 @@
  * along with this program. If not, see https://www.gnu.org/licenses/
  */
 
-/**
- * ATTENTION!
- * If something... I haven't tested this yet, so there may be errors
- */
-
 // Set a constant to protect against direct access
 define('RooCMS', true);
 

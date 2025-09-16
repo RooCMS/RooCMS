@@ -75,6 +75,8 @@ class HealthController extends BaseController {
 
     /**
      * Check API health
+     * 
+     * @return array
      */
     private function check_api_health(): array {
         try {
@@ -95,6 +97,9 @@ class HealthController extends BaseController {
 
     /**
      * Determine overall system status
+     * 
+     * @param array $checks Checks
+     * @return string
      */
     private function determine_overall_status(array $checks): string {
         foreach ($checks as $check) {
@@ -111,6 +116,8 @@ class HealthController extends BaseController {
 
     /**
      * Get basic system information
+     * 
+     * @return array
      */
     private function get_system_info(): array {
         return [
@@ -122,6 +129,8 @@ class HealthController extends BaseController {
 
     /**
      * Get detailed system information
+     * 
+     * @return array
      */
     private function get_detailed_system_info(): array {
         return array_merge($this->get_system_info(), [
@@ -136,6 +145,8 @@ class HealthController extends BaseController {
 
     /**
      * Get PHP configuration info
+     * 
+     * @return array
      */
     private function get_php_info(): array {
         return [
@@ -151,6 +162,8 @@ class HealthController extends BaseController {
 
     /**
      * Get RooCMS specific information
+     * 
+     * @return array
      */
     private function get_roocms_info(): array {
         $info = [

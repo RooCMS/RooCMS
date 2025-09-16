@@ -100,6 +100,9 @@ class UsersController extends BaseController {
 	/**
 	 * Get user by ID
 	 * GET /api/v1/users/{user_id}
+	 * 
+	 * @param int $user_id User ID
+	 * @return void
 	 */
 	public function show(int $user_id): void {
 		$this->log_request('users_show', ['user_id' => $user_id]);
@@ -116,6 +119,8 @@ class UsersController extends BaseController {
 	 * Get current user
 	 * GET /api/v1/users/me
 	 * Requires: AuthMiddleware
+	 * 
+	 * @return void
 	 */
 	public function me(): void {
 		$this->log_request('users_me');
@@ -132,6 +137,8 @@ class UsersController extends BaseController {
 	 * Request verification email
 	 * POST /api/v1/users/me/verify-email
 	 * Requires: AuthMiddleware
+	 * 
+	 * @return void
 	 */
 	public function request_verify_email(): void {
 		$this->log_request('users_request_verify_email');
@@ -208,6 +215,9 @@ class UsersController extends BaseController {
 	/**
 	 * Verify email
 	 * GET /api/v1/users/verify-email/{verification_code}
+	 * 
+	 * @param string $verification_code Verification code
+	 * @return void
 	 */
 	public function verify_email(string $verification_code): void {
 		$this->log_request('users_verify_email');
@@ -252,6 +262,8 @@ class UsersController extends BaseController {
 	 * Update current user
 	 * PATCH /api/v1/users/me
 	 * Requires: AuthMiddleware
+	 * 
+	 * @return void
 	 */
 	public function update_me(): void {
 		$this->log_request('users_update_me');
@@ -306,6 +318,8 @@ class UsersController extends BaseController {
 	 * Delete current user
 	 * DELETE /api/v1/users/me
 	 * Requires: AuthMiddleware
+	 * 
+	 * @return void
 	 */
 	public function delete_me(): void {
 		$this->log_request('users_delete_me');
@@ -327,6 +341,9 @@ class UsersController extends BaseController {
 	 * Update user
 	 * PUT /api/v1/users/{user_id}
 	 * Requires: AuthMiddleware + RoleMiddleware@admin_access
+	 * 
+	 * @param int $user_id User ID
+	 * @return void
 	 */
 	public function update_user(int $user_id): void {
 		$this->log_request('users_update_admin', ['user_id' => $user_id]);
@@ -376,6 +393,9 @@ class UsersController extends BaseController {
 	 * Delete user
 	 * DELETE /api/v1/users/{user_id}
 	 * Requires: AuthMiddleware + RoleMiddleware@admin_access
+	 * 
+	 * @param int $user_id User ID
+	 * @return void
 	 */
 	public function delete_user(int $user_id): void {
 		$this->log_request('users_delete_admin', ['user_id' => $user_id]);

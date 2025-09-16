@@ -1551,7 +1551,6 @@ class DbBackuper {
 
 	/**
 	 * Ensure backup directory exists and is properly secured
-	 *
 	 * @return void
 	 */
 	private function ensure_backup_directory(): void {
@@ -1578,7 +1577,6 @@ class DbBackuper {
 
 	/**
 	 * Generate .htaccess content for backup directory security
-	 *
 	 * @return string .htaccess content
 	 */
 	private function generate_htaccess_content(): string {

@@ -49,6 +49,10 @@ class ApiHandler {
 
     /**
      * Add GET route
+     * 
+     * @param string $pattern Pattern
+     * @param callable|string $handler Handler
+     * @param array $middleware Middleware
      */
     public function get(string $pattern, callable|string $handler, array $middleware = []): void {
         $this->add_route('GET', $pattern, $handler, $middleware);
@@ -57,6 +61,10 @@ class ApiHandler {
 
     /**
      * Add POST route
+     * 
+     * @param string $pattern Pattern
+     * @param callable|string $handler Handler
+     * @param array $middleware Middleware
      */
     public function post(string $pattern, callable|string $handler, array $middleware = []): void {
         $this->add_route('POST', $pattern, $handler, $middleware);
@@ -65,6 +73,10 @@ class ApiHandler {
 
     /**
      * Add PUT route
+     * 
+     * @param string $pattern Pattern
+     * @param callable|string $handler Handler
+     * @param array $middleware Middleware
      */
     public function put(string $pattern, callable|string $handler, array $middleware = []): void {
         $this->add_route('PUT', $pattern, $handler, $middleware);
@@ -73,6 +85,10 @@ class ApiHandler {
 
     /**
      * Add DELETE route
+     * 
+     * @param string $pattern Pattern
+     * @param callable|string $handler Handler
+     * @param array $middleware Middleware
      */
     public function delete(string $pattern, callable|string $handler, array $middleware = []): void {
         $this->add_route('DELETE', $pattern, $handler, $middleware);
@@ -81,6 +97,10 @@ class ApiHandler {
 
     /**
      * Add PATCH route
+     * 
+     * @param string $pattern Pattern
+     * @param callable|string $handler Handler
+     * @param array $middleware Middleware
      */
     public function patch(string $pattern, callable|string $handler, array $middleware = []): void {
         $this->add_route('PATCH', $pattern, $handler, $middleware);
@@ -89,6 +109,11 @@ class ApiHandler {
 
     /**
      * Add route to routing table
+     * 
+     * @param string $method Method
+     * @param string $pattern Pattern
+     * @param callable|string $handler Handler
+     * @param array $middleware Middleware
      */
     private function add_route(string $method, string $pattern, callable|string $handler, array $middleware = []): void {
         // Convert pattern to regex
@@ -106,6 +131,9 @@ class ApiHandler {
 
     /**
      * Convert URL pattern to regex
+     * 
+     * @param string $pattern Pattern
+     * @return string
      */
     private function convert_pattern_to_regex(string $pattern): string {
         // Escape forward slashes
@@ -124,6 +152,10 @@ class ApiHandler {
 
     /**
      * Dispatch request to appropriate handler
+     * 
+     * @param string $method Method
+     * @param string $uri URI
+     * @return mixed
      */
     public function dispatch(string $method, string $uri): mixed {
         // Remove query string from URI
@@ -164,6 +196,9 @@ class ApiHandler {
     /**
      * Execute middleware
      * Supports both 'Middleware' and 'Middleware@method' syntax
+     * 
+     * @param string $middlewareSpec Middleware specification
+     * @return bool
      */
     private function execute_middleware(string $middlewareSpec): bool {
         // Support Middleware@method syntax
@@ -198,6 +233,10 @@ class ApiHandler {
 
     /**
      * Execute route handler
+     * 
+     * @param callable|string $handler Handler
+     * @param array $params Parameters
+     * @return mixed
      */
     private function execute_handler(callable|string $handler, array $params = []): mixed {
         if (is_string($handler)) {
@@ -230,6 +269,8 @@ class ApiHandler {
 
     /**
      * Handle 404 Not Found
+     * 
+     * @return void
      */
     public function handle_not_found(): void {
         http_response_code(404);
@@ -248,7 +289,10 @@ class ApiHandler {
 
     /**
      * Handle 405 Method Not Allowed
-     */
+     * 
+     * @param array $allowedMethods Allowed methods
+     * @return void
+    */
     public function handle_method_not_allowed(array $allowedMethods = []): void {
         http_response_code(405);
         header('Content-Type: application/json; charset=utf-8');
@@ -271,7 +315,10 @@ class ApiHandler {
 
     /**
      * Handle general errors
-     */
+     * 
+     * @param string $message Message
+     * @return void
+    */
     private function handle_error(string $message): void {
         http_response_code(500);
         header('Content-Type: application/json; charset=utf-8');
@@ -289,7 +336,9 @@ class ApiHandler {
 
     /**
      * Get all registered routes (for debugging)
-     */
+     * 
+     * @return array
+    */
     public function get_routes(): array {
         return $this->routes;
     }
@@ -297,6 +346,10 @@ class ApiHandler {
 
     /**
      * Check if route exists for given method and URI
+     * 
+     * @param string $method Method
+     * @param string $uri URI
+     * @return bool
      */
     public function route_exists(string $method, string $uri): bool {
         $uri = strtok($uri, '?');

@@ -520,7 +520,9 @@ class DbMigrator {
 
 
 	/**
-	 * Building the index definition
+	 * Building the index definition 
+	 * @param array $index Index
+	 * @return string
 	 */
 	private function build_index_definition(array $index): string {
 		$type = $index['type'] ?? 'KEY';
@@ -540,6 +542,10 @@ class DbMigrator {
 
 	/**
 	 * Building CREATE TABLE for MySQL
+	 * @param string $table_name Table name
+	 * @param string $definition Definition
+	 * @param array $config Config
+	 * @return string
 	 */
 	private function build_mysql_create_table(string $table_name, string $definition, array $config): string {
 		$sql = 'CREATE TABLE IF NOT EXISTS `' . $table_name . '` (' . $definition . ')';
@@ -564,6 +570,8 @@ class DbMigrator {
 
 	/**
 	 * Quote identifier per driver
+	 * @param string $name Name
+	 * @return string
 	 */
 	private function quote_identifier(string $name): string {
 		return match($this->driver) {
@@ -575,6 +583,8 @@ class DbMigrator {
 
 	/**
 	 * Add foreign keys
+	 * @param array $fks_data Fks data
+	 * @return void
 	 */
 	private function process_add_foreign_keys(array $fks_data): void {
 		foreach ($fks_data as $table_constant => $fks) {
@@ -588,6 +598,8 @@ class DbMigrator {
 
 	/**
 	 * Drop foreign keys
+	 * @param array $drop_data Drop data
+	 * @return void
 	 */
 	private function process_drop_foreign_keys(array $drop_data): void {
 		foreach ($drop_data as $table_constant => $fk_names) {
@@ -601,6 +613,9 @@ class DbMigrator {
 
 	/**
 	 * Add single foreign key (idempotent)
+	 * @param string $table_name Table name
+	 * @param array $fk Fk
+	 * @return void
 	 */
 	private function add_foreign_key(string $table_name, array $fk): void {
 		$name = $fk['name'] ?? '';
@@ -651,6 +666,9 @@ class DbMigrator {
 
 	/**
 	 * Drop single foreign key (if exists)
+	 * @param string $table_name Table name
+	 * @param string $fk_name Fk name
+	 * @return void
 	 */
 	private function drop_foreign_key(string $table_name, string $fk_name): void {
 		// Skip if not exists
@@ -672,6 +690,9 @@ class DbMigrator {
 
 	/**
 	 * Check if foreign key exists on a table
+	 * @param string $table_name Table name
+	 * @param string $fk_name Fk name
+	 * @return bool
 	 */
 	private function foreign_key_exists(string $table_name, string $fk_name): bool {
 		return match($this->driver) {
@@ -694,6 +715,10 @@ class DbMigrator {
 
 	/**
 	 * Building CREATE TABLE for PostgreSQL
+	 * @param string $table_name Table name
+	 * @param string $definition Definition
+	 * @param array $config Config
+	 * @return string
 	 */
 	private function build_postgres_create_table(string $table_name, string $definition, array $config): string {
 		$sql = 'CREATE TABLE IF NOT EXISTS ' . $table_name . ' (' . $definition . ')';
@@ -720,6 +745,10 @@ class DbMigrator {
 
 	/**
 	 * Building CREATE TABLE for Firebird
+	 * @param string $table_name Table name
+	 * @param string $definition Definition
+	 * @param array $config Config
+	 * @return string
 	 */
 	private function build_firebird_create_table(string $table_name, string $definition, array $config): string {
 		$sql = 'CREATE TABLE ' . $table_name . ' (' . $definition . ')';
@@ -737,6 +766,9 @@ class DbMigrator {
 
 	/**
 	 * Changing the table
+	 * @param string $table_name Table name
+	 * @param array $config Config
+	 * @return void
 	 */
 	private function alter_table(string $table_name, array $config): void {
 		if (isset($config['add_columns'])) {
@@ -768,6 +800,9 @@ class DbMigrator {
 
 	/**
 	 * Adding an index
+	 * @param string $table_name Table name
+	 * @param array $index Index
+	 * @return void
 	 */
 	private function add_index(string $table_name, array $index): void {
 		$type = strtoupper($index['type'] ?? 'INDEX');
@@ -786,6 +821,9 @@ class DbMigrator {
 
 	/**
 	 * Inserting data
+	 * @param string $table_name Table name
+	 * @param array $records Records
+	 * @return void
 	 */
 	private function insert_data(string $table_name, array $records): void {
 		foreach ($records as $record) {
@@ -796,6 +834,9 @@ class DbMigrator {
 
 	/**
 	 * Deleting data
+	 * @param string $table_name Table name
+	 * @param array $conditions Conditions
+	 * @return void
 	 */
 	private function delete_data(string $table_name, array $conditions): void {
 		if (isset($conditions['where_by_driver']) && is_array($conditions['where_by_driver'])) {
@@ -819,6 +860,8 @@ class DbMigrator {
 
 	/**
 	 * Deleting a table
+	 * @param string $table_name Table name
+	 * @return void
 	 */
 	private function drop_table(string $table_name): void {
 		$sql = 'DROP TABLE IF EXISTS ' . $table_name;
@@ -828,6 +871,8 @@ class DbMigrator {
 
 	/**
 	 * Adding a record about the executed migration
+	 * @param string $migration_name Migration name
+	 * @return void
 	 */
 	private function add_migration_record(string $migration_name): void {
 		$this->db->insert_array([
@@ -839,6 +884,8 @@ class DbMigrator {
 
 	/**
 	 * Deleting a record about the migration
+	 * @param string $migration_name Migration name
+	 * @return void
 	 */
 	private function remove_migration_record(string $migration_name): void {
 		$this->db->query('DELETE FROM ' . TABLE_MIGRATIONS . ' WHERE migration = ?', [$migration_name]);
@@ -847,6 +894,7 @@ class DbMigrator {
 
 	/**
 	 * Getting the status of migrations
+	 * @return array
 	 */
 	public function status(): array {
 		$all_migrations = $this->get_all_migration_files();

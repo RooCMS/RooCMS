@@ -41,6 +41,8 @@ class RoleMiddleware {
     /**
      * Handle middleware execution
      * Performs basic role validation (moderator access or higher)
+     * 
+     * @return bool
      */
     public function handle(): bool {
         $user = $GLOBALS['authenticated_user'] ?? null;
@@ -56,6 +58,8 @@ class RoleMiddleware {
 
     /**
      * Check if user has moderator access or higher
+     * 
+     * @return bool
      */
     public function moderator_access(): bool {
         $user = $GLOBALS['authenticated_user'] ?? null;
@@ -81,6 +85,8 @@ class RoleMiddleware {
 
     /**
      * Check if user has admin access (admin or superuser only)
+     * 
+     * @return bool
      */
     public function admin_access(): bool {
         $user = $GLOBALS['authenticated_user'] ?? null;
@@ -106,6 +112,8 @@ class RoleMiddleware {
 
     /**
      * Check if user has superuser access
+     * 
+     * @return bool
      */
     public function superuser_access(): bool {
         $user = $GLOBALS['authenticated_user'] ?? null;
@@ -131,6 +139,9 @@ class RoleMiddleware {
 
     /**
      * Check if user has specific role
+     * 
+     * @param string|array $required_roles Required roles
+     * @return bool
      */
     public function require_role(string|array $required_roles): bool {
         $user = $GLOBALS['authenticated_user'] ?? null;
@@ -159,6 +170,11 @@ class RoleMiddleware {
 
     /**
      * Send error response and exit
+     * 
+     * @param string $message Message
+     * @param int $code Code
+     * @param array $details Details
+     * @return void
      */
     private function send_error_response(string $message, int $code = 403, array $details = []): void {
         http_response_code($code);
@@ -180,6 +196,9 @@ class RoleMiddleware {
 
     /**
      * Get role hierarchy level (delegate to Role class)
+     * 
+     * @param string $role Role
+     * @return int
      */
     public function get_role_level(string $role): int {
         return $this->role->get_role_level($role);
@@ -187,6 +206,10 @@ class RoleMiddleware {
 
     /**
      * Check if user has sufficient role level
+     * 
+     * @param array $user User
+     * @param int $required_level Required level
+     * @return bool
      */
     public function has_role_level(array $user, int $required_level): bool {
         return $this->role->has_sufficient_level($user['role'], $required_level);
@@ -194,6 +217,9 @@ class RoleMiddleware {
 
     /**
      * Check if user has admin access (delegate to Role class)
+     * 
+     * @param string $role Role
+     * @return bool
      */
     public function has_admin_access(string $role): bool {
         return $this->role->has_admin_access($role);
@@ -201,6 +227,9 @@ class RoleMiddleware {
 
     /**
      * Check if user has moderator access (delegate to Role class)
+     * 
+     * @param string $role Role
+     * @return bool
      */
     public function has_moderator_access(string $role): bool {
         return $this->role->has_moderator_access($role);

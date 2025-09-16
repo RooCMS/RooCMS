@@ -197,6 +197,10 @@ class Db {
 
 	/**
 	 * Query Builder: SELECT
+	 * 
+	 * @param string|array $columns Columns
+	 * 
+	 * @return DbQueryBuilder
 	 */
 	public function select(string|array $columns = '*'): DbQueryBuilder {
 		return new DbQueryBuilder($this)->select($columns);
@@ -205,6 +209,10 @@ class Db {
 
 	/**
 	 * Query Builder: INSERT
+	 * 
+	 * @param string $table Table
+	 * 
+	 * @return DbQueryBuilder
 	 */
 	public function insert(string $table): DbQueryBuilder {
 		return new DbQueryBuilder($this)->insert($table);
@@ -213,6 +221,10 @@ class Db {
 
 	/**
 	 * Query Builder: UPDATE
+	 * 
+	 * @param string $table Table
+	 * 
+	 * @return DbQueryBuilder
 	 */
 	public function update(string $table): DbQueryBuilder {
 		return new DbQueryBuilder($this)->update($table);
@@ -221,6 +233,10 @@ class Db {
 
 	/**
 	 * Query Builder: DELETE
+	 * 
+	 * @param string $table Table
+	 * 
+	 * @return DbQueryBuilder
 	 */
 	public function delete(string $table): DbQueryBuilder {
 		return new DbQueryBuilder($this)->delete($table);

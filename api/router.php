@@ -131,7 +131,9 @@ $api->get('/v1/backup/status', 'BackupController@status', ['AuthMiddleware', 'Ro
 // For superuser access only:
 // $api->post('/v1/admin/system/config', 'AdminController@updateSystemConfig', ['AuthMiddleware', 'RoleMiddleware@superuser_access']);
 
-// Default route for API root
+/**
+ * Default route for API root
+ */
 $api->get('/', function() {
     $response = [
         'success' => true,
