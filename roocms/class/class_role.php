@@ -61,6 +61,9 @@ class Role {
 
     /**
      * Get role name
+     * 
+     * @param string $role Role
+     * @return string
      */
     public function get_role_name(string $role): string {
         return self::ROLE_NAMES[$role] ?? 'Unknown role';
@@ -69,6 +72,9 @@ class Role {
 
     /**
      * Get role description
+     * 
+     * @param string $role Role
+     * @return string
      */
     public function get_role_description(string $role): string {
         return self::ROLE_DESCRIPTIONS[$role] ?? 'Role description is not available';
@@ -77,6 +83,9 @@ class Role {
 
     /**
      * Get role hierarchy level
+     * 
+     * @param string $role Role
+     * @return int
      */
     public function get_role_level(string $role): int {
         return self::ROLE_LEVELS[$role] ?? 0;
@@ -85,6 +94,8 @@ class Role {
 
     /**
      * Get all available roles
+     * 
+     * @return array
      */
     public function get_all_roles(): array {
         return [
@@ -98,6 +109,8 @@ class Role {
 
     /**
      * Get roles list with names and descriptions
+     * 
+     * @return array
      */
     public function get_roles_list(): array {
         $roles = [];
@@ -115,6 +128,9 @@ class Role {
 
     /**
      * Check if role has admin access (moderator, admin, superuser)
+     * 
+     * @param string $role Role
+     * @return bool
      */
     public function has_admin_access(string $role): bool {
         return in_array($role, [self::ADMIN, self::SUPERUSER]);
@@ -123,6 +139,9 @@ class Role {
 
     /**
      * Check if role has moderator access or higher
+     * 
+     * @param string $role Role
+     * @return bool
      */
     public function has_moderator_access(string $role): bool {
         return in_array($role, [self::MODERATOR, self::ADMIN, self::SUPERUSER]);
@@ -131,6 +150,9 @@ class Role {
 
     /**
      * Check if role is superuser
+     * 
+     * @param string $role Role
+     * @return bool
      */
     public function is_superuser(string $role): bool {
         return $role === self::SUPERUSER;
@@ -139,6 +161,10 @@ class Role {
 
     /**
      * Check if user role has sufficient level
+     * 
+     * @param string $user_role User role
+     * @param int $required_level Required level
+     * @return bool
      */
     public function has_sufficient_level(string $user_role, int $required_level): bool {
         $user_level = $this->get_role_level($user_role);
@@ -148,6 +174,10 @@ class Role {
 
     /**
      * Check if user role can access specific role's permissions
+     * 
+     * @param string $user_role User role
+     * @param string $target_role Target role
+     * @return bool
      */
     public function can_access_role(string $user_role, string $target_role): bool {
         $user_level = $this->get_role_level($user_role);
@@ -158,6 +188,8 @@ class Role {
 
     /**
      * Get default role for new users
+     * 
+     * @return string
      */
     public function get_default_role(): string {
         return self::USER;
@@ -166,6 +198,9 @@ class Role {
 
     /**
      * Validate role key
+     * 
+     * @param string $role Role
+     * @return bool
      */
     public function is_valid_role(string $role): bool {
         return in_array($role, $this->get_all_roles());
@@ -174,6 +209,9 @@ class Role {
 
     /**
      * Format role for display
+     * 
+     * @param string $role Role
+     * @return array
      */
     public function format_role(string $role): array {
         return [

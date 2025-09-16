@@ -686,6 +686,185 @@
         }
       ],
       "description": "Users and profiles endpoints"
+    },
+    {
+      "name": "Database Backups",
+      "item": [
+        {
+          "name": "Create Database Backup",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"compress\": true,\n  \"include_data\": true,\n  \"include_structure\": true,\n  \"exclude_tables\": [],\n  \"filename\": \"my_backup\",\n  \"universal_format\": true\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/v1/backup/create",
+              "host": ["{{base_url}}"],
+              "path": ["v1", "backup", "create"]
+            },
+            "description": "Create a new database backup with customizable options"
+          },
+          "response": []
+        },
+        {
+          "name": "Restore Database from Backup",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"filename\": \"backup_2025-01-15_12-00-00.sql.gz\",\n  \"drop_existing\": false,\n  \"ignore_errors\": false,\n  \"batch_size\": 1000\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/v1/backup/restore",
+              "host": ["{{base_url}}"],
+              "path": ["v1", "backup", "restore"]
+            },
+            "description": "Restore database from an existing backup file"
+          },
+          "response": []
+        },
+        {
+          "name": "List Available Backups",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/v1/backup/list",
+              "host": ["{{base_url}}"],
+              "path": ["v1", "backup", "list"],
+              "query": [
+                { "key": "search", "value": "", "disabled": true },
+                { "key": "limit", "value": "10", "disabled": true },
+                { "key": "sort", "value": "date_desc", "disabled": true }
+              ]
+            },
+            "description": "Get list of all available database backups"
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Backup File",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/v1/backup/delete/backup_2025-01-15_12-00-00.sql.gz",
+              "host": ["{{base_url}}"],
+              "path": ["v1", "backup", "delete", "backup_2025-01-15_12-00-00.sql.gz"]
+            },
+            "description": "Delete a specific backup file"
+          },
+          "response": []
+        },
+        {
+          "name": "Download Backup File",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/v1/backup/download/backup_2025-01-15_12-00-00.sql.gz",
+              "host": ["{{base_url}}"],
+              "path": ["v1", "backup", "download", "backup_2025-01-15_12-00-00.sql.gz"]
+            },
+            "description": "Download a backup file to local system"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Backup Operation Logs",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/v1/backup/logs",
+              "host": ["{{base_url}}"],
+              "path": ["v1", "backup", "logs"],
+              "query": [
+                { "key": "limit", "value": "100" }
+              ]
+            },
+            "description": "Get recent backup and restore operation logs"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Backup System Status",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/v1/backup/status",
+              "host": ["{{base_url}}"],
+              "path": ["v1", "backup", "status"]
+            },
+            "description": "Get backup system status, statistics and health information"
+          },
+          "response": []
+        }
+      ],
+      "description": "Database backup and restore management endpoints"
     }
   ],
   "event": [

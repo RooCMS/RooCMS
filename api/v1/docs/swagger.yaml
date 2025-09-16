@@ -595,6 +595,311 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+  /v1/backup/create:
+    post:
+      summary: Create database backup
+      description: Create a new database backup with customizable options
+      tags:
+        - Database Backups
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BackupCreateRequest'
+      responses:
+        '200':
+          description: Backup created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BackupCreateResponse'
+        '401':
+          description: Authentication required
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Admin role required
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Backup creation failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /v1/backup/restore:
+    post:
+      summary: Restore database from backup
+      description: Restore database from an existing backup file
+      tags:
+        - Database Backups
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BackupRestoreRequest'
+      responses:
+        '200':
+          description: Database restored successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BackupRestoreResponse'
+        '400':
+          description: Invalid request or missing filename
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Authentication required
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Admin role required
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Backup file not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Restore operation failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /v1/backup/list:
+    get:
+      summary: List available backups
+      description: Get list of all available database backups with filtering and sorting
+      tags:
+        - Database Backups
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: query
+          name: search
+          schema:
+            type: string
+          description: Search by filename
+        - in: query
+          name: limit
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+            default: 50
+          description: Maximum number of backups to return
+        - in: query
+          name: sort
+          schema:
+            type: string
+            enum: [date_asc, date_desc, size_asc, size_desc, name_asc, name_desc]
+            default: date_desc
+          description: Sort order for results
+      responses:
+        '200':
+          description: List of available backups
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BackupListResponse'
+        '401':
+          description: Authentication required
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Admin role required
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /v1/backup/delete/{filename}:
+    delete:
+      summary: Delete backup file
+      description: Delete a specific backup file from the server
+      tags:
+        - Database Backups
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: filename
+          required: true
+          schema:
+            type: string
+            pattern: '^[a-zA-Z0-9_.-]+\.(sql|sql\.gz|sql\.bz2)$'
+          description: Backup filename to delete
+      responses:
+        '200':
+          description: Backup deleted successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+        '400':
+          description: Invalid filename
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Authentication required
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Admin role required
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Backup file not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /v1/backup/download/{filename}:
+    get:
+      summary: Download backup file
+      description: Download a backup file to local system
+      tags:
+        - Database Backups
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: filename
+          required: true
+          schema:
+            type: string
+            pattern: '^[a-zA-Z0-9_.-]+\.(sql|sql\.gz|sql\.bz2)$'
+          description: Backup filename to download
+      responses:
+        '200':
+          description: Backup file download
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
+          headers:
+            Content-Disposition:
+              schema:
+                type: string
+              description: 'attachment; filename="backup.sql.gz"'
+            Content-Length:
+              schema:
+                type: integer
+              description: File size in bytes
+        '400':
+          description: Invalid filename
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Authentication required
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Admin role required
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Backup file not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /v1/backup/logs:
+    get:
+      summary: Get backup operation logs
+      description: Get recent backup and restore operation logs for monitoring
+      tags:
+        - Database Backups
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: query
+          name: limit
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 500
+            default: 100
+          description: Maximum number of log entries to return
+      responses:
+        '200':
+          description: Backup operation logs
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BackupLogsResponse'
+        '401':
+          description: Authentication required
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Admin role required
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /v1/backup/status:
+    get:
+      summary: Get backup system status
+      description: Get backup system status, statistics and health information
+      tags:
+        - Database Backups
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Backup system status and statistics
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BackupStatusResponse'
+        '401':
+          description: Authentication required
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Admin role required
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
 components:
   securitySchemes:
     bearerAuth:
@@ -1094,6 +1399,312 @@ components:
             verification_code:
               type: string
               description: Present only in debug mode
+    BackupCreateRequest:
+      type: object
+      properties:
+        compress:
+          type: boolean
+          default: true
+          description: Compress backup file using gzip
+        include_data:
+          type: boolean
+          default: true
+          description: Include table data in backup
+        include_structure:
+          type: boolean
+          default: true
+          description: Include table structure in backup
+        exclude_tables:
+          type: array
+          items:
+            type: string
+          default: []
+          description: List of table names to exclude from backup
+        filename:
+          type: string
+          description: Custom backup filename (without extension)
+          example: "my_backup"
+        universal_format:
+          type: boolean
+          default: true
+          description: Create backup in universal format for cross-database compatibility
+    BackupCreateResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: true
+        message:
+          type: string
+          example: "Database backup created successfully"
+        timestamp:
+          type: string
+          format: date-time
+        data:
+          type: object
+          properties:
+            filename:
+              type: string
+              example: "backup_2025-01-15_12-00-00.sql.gz"
+            filepath:
+              type: string
+              example: "/var/backups/backup_2025-01-15_12-00-00.sql.gz"
+            size:
+              type: integer
+              example: 1048576
+              description: File size in bytes
+            size_human:
+              type: string
+              example: "1.00 MB"
+              description: Human-readable file size
+            execution_time:
+              type: number
+              example: 2.456
+              description: Backup creation time in seconds
+            compressed:
+              type: boolean
+              example: true
+              description: Whether the backup file is compressed
+    BackupRestoreRequest:
+      type: object
+      required:
+        - filename
+      properties:
+        filename:
+          type: string
+          example: "backup_2025-01-15_12-00-00.sql.gz"
+          description: Name of the backup file to restore
+        drop_existing:
+          type: boolean
+          default: false
+          description: Drop existing tables before restore
+        ignore_errors:
+          type: boolean
+          default: false
+          description: Continue restore process even if some statements fail
+        batch_size:
+          type: integer
+          default: 1000
+          minimum: 1
+          maximum: 10000
+          description: Number of statements to process in one batch
+    BackupRestoreResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: true
+        message:
+          type: string
+          example: "Database restored successfully"
+        timestamp:
+          type: string
+          format: date-time
+        data:
+          type: object
+          properties:
+            filename:
+              type: string
+              example: "backup_2025-01-15_12-00-00.sql.gz"
+            statements_executed:
+              type: integer
+              example: 1250
+              description: Number of SQL statements successfully executed
+            execution_time:
+              type: number
+              example: 4.789
+              description: Restore execution time in seconds
+            errors:
+              type: array
+              items:
+                type: string
+              description: List of errors encountered during restore (if ignore_errors was true)
+    BackupListResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: true
+        message:
+          type: string
+          example: "Backup files retrieved successfully"
+        timestamp:
+          type: string
+          format: date-time
+        data:
+          type: object
+          properties:
+            backups:
+              type: array
+              items:
+                $ref: '#/components/schemas/BackupFileInfo'
+            total_count:
+              type: integer
+              example: 5
+              description: Total number of backup files
+            total_size:
+              type: integer
+              example: 52428800
+              description: Total size of all backups in bytes
+            total_size_human:
+              type: string
+              example: "50.00 MB"
+              description: Human-readable total size
+    BackupFileInfo:
+      type: object
+      properties:
+        filename:
+          type: string
+          example: "backup_2025-01-15_12-00-00.sql.gz"
+        filepath:
+          type: string
+          example: "/var/backups/backup_2025-01-15_12-00-00.sql.gz"
+        size:
+          type: integer
+          example: 1048576
+          description: File size in bytes
+        size_human:
+          type: string
+          example: "1.00 MB"
+        created:
+          type: string
+          format: date-time
+          example: "2025-01-15 12:00:00"
+          description: File creation timestamp
+        compressed:
+          type: boolean
+          example: true
+          description: Whether the file is compressed
+    BackupLogsResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: true
+        message:
+          type: string
+          example: "Backup logs retrieved successfully"
+        timestamp:
+          type: string
+          format: date-time
+        data:
+          type: object
+          properties:
+            logs:
+              type: array
+              items:
+                $ref: '#/components/schemas/BackupLogEntry'
+            total_count:
+              type: integer
+              example: 25
+    BackupLogEntry:
+      type: object
+      properties:
+        operation:
+          type: string
+          enum: [backup_start, backup_complete, backup_error, restore_start, restore_complete, restore_error, backup_deleted]
+          example: "backup_complete"
+        filename:
+          type: string
+          example: "backup_2025-01-15_12-00-00.sql.gz"
+        timestamp:
+          type: string
+          format: date-time
+          example: "2025-01-15 12:05:30"
+        data:
+          type: object
+          description: Additional operation-specific data
+          additionalProperties: true
+    BackupStatusResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: true
+        message:
+          type: string
+          example: "Backup system status retrieved successfully"
+        timestamp:
+          type: string
+          format: date-time
+        data:
+          type: object
+          properties:
+            system_status:
+              type: string
+              enum: [healthy, warning, error]
+              example: "healthy"
+            backup_directory:
+              type: object
+              properties:
+                path:
+                  type: string
+                  example: "/var/backups"
+                exists:
+                  type: boolean
+                  example: true
+                writable:
+                  type: boolean
+                  example: true
+                free_space:
+                  type: integer
+                  example: 1073741824
+                  description: Available free space in bytes
+                free_space_human:
+                  type: string
+                  example: "1.00 GB"
+            database_info:
+              type: object
+              properties:
+                driver:
+                  type: string
+                  example: "mysql"
+                version:
+                  type: string
+                  example: "8.0.35"
+                connection_status:
+                  type: string
+                  enum: [connected, disconnected, error]
+                  example: "connected"
+            backup_statistics:
+              type: object
+              properties:
+                total_backups:
+                  type: integer
+                  example: 15
+                total_size:
+                  type: integer
+                  example: 157286400
+                  description: Total size of all backups in bytes
+                total_size_human:
+                  type: string
+                  example: "150.00 MB"
+                oldest_backup:
+                  type: string
+                  format: date-time
+                  example: "2025-01-01 10:30:00"
+                newest_backup:
+                  type: string
+                  format: date-time
+                  example: "2025-01-15 12:00:00"
+                last_operation:
+                  type: object
+                  properties:
+                    type:
+                      type: string
+                      enum: [backup, restore, delete]
+                      example: "backup"
+                    status:
+                      type: string
+                      enum: [success, error]
+                      example: "success"
+                    timestamp:
+                      type: string
+                      format: date-time
+                      example: "2025-01-15 12:05:30"
+                    filename:
+                      type: string
+                      example: "backup_2025-01-15_12-00-00.sql.gz"
 tags:
   - name: API Info
     description: API information
@@ -1107,3 +1718,5 @@ tags:
     description: Password management
   - name: Users
     description: Users and profiles
+  - name: Database Backups
+    description: Database backup and restore operations

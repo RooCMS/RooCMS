@@ -53,8 +53,8 @@ class UsersController extends BaseController {
 
 
 	/**
-	 * GET /api/v1/users
 	 * List users with pagination and filters
+	 * GET /api/v1/users
 	 */
 	public function index(): void {
 		$this->log_request('users_index');
@@ -98,6 +98,7 @@ class UsersController extends BaseController {
 
 
 	/**
+	 * Get user by ID
 	 * GET /api/v1/users/{user_id}
 	 */
 	public function show(int $user_id): void {
@@ -112,6 +113,7 @@ class UsersController extends BaseController {
 
 
 	/**
+	 * Get current user
 	 * GET /api/v1/users/me
 	 * Requires: AuthMiddleware
 	 */
@@ -127,6 +129,7 @@ class UsersController extends BaseController {
 
 
 	/**
+	 * Request verification email
 	 * POST /api/v1/users/me/verify-email
 	 * Requires: AuthMiddleware
 	 */
@@ -203,6 +206,7 @@ class UsersController extends BaseController {
 
 
 	/**
+	 * Verify email
 	 * GET /api/v1/users/verify-email/{verification_code}
 	 */
 	public function verify_email(string $verification_code): void {
@@ -245,6 +249,7 @@ class UsersController extends BaseController {
 
 
 	/**
+	 * Update current user
 	 * PATCH /api/v1/users/me
 	 * Requires: AuthMiddleware
 	 */
@@ -298,6 +303,7 @@ class UsersController extends BaseController {
 
 
 	/**
+	 * Delete current user
 	 * DELETE /api/v1/users/me
 	 * Requires: AuthMiddleware
 	 */
@@ -318,8 +324,9 @@ class UsersController extends BaseController {
 
 
 	/**
+	 * Update user
 	 * PUT /api/v1/users/{user_id}
-	 * Requires: AuthMiddleware + RoleMiddleware@require_admin_access
+	 * Requires: AuthMiddleware + RoleMiddleware@admin_access
 	 */
 	public function update_user(int $user_id): void {
 		$this->log_request('users_update_admin', ['user_id' => $user_id]);
@@ -366,8 +373,9 @@ class UsersController extends BaseController {
 
 
 	/**
+	 * Delete user
 	 * DELETE /api/v1/users/{user_id}
-	 * Requires: AuthMiddleware + RoleMiddleware@require_admin_access
+	 * Requires: AuthMiddleware + RoleMiddleware@admin_access
 	 */
 	public function delete_user(int $user_id): void {
 		$this->log_request('users_delete_admin', ['user_id' => $user_id]);

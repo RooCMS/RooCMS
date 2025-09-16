@@ -107,17 +107,17 @@ $api->post('/v1/users/me/verify-email', 'UsersController@request_verify_email', 
 $api->get('/v1/users/verify-email/{verification_code}', 'UsersController@verify_email');
 $api->patch('/v1/users/me', 'UsersController@update_me', ['AuthMiddleware']);
 $api->delete('/v1/users/me', 'UsersController@delete_me', ['AuthMiddleware']);
-$api->put('/v1/users/{user_id}', 'UsersController@update_user', ['AuthMiddleware', 'RoleMiddleware@require_admin_access']);
-$api->delete('/v1/users/{user_id}', 'UsersController@delete_user', ['AuthMiddleware', 'RoleMiddleware@require_admin_access']);
+$api->put('/v1/users/{user_id}', 'UsersController@update_user', ['AuthMiddleware', 'RoleMiddleware@admin_access']);
+$api->delete('/v1/users/{user_id}', 'UsersController@delete_user', ['AuthMiddleware', 'RoleMiddleware@admin_access']);
 
 // Backup endpoints (admin only)
-$api->post('/v1/backup/create', 'BackupController@create', ['AuthMiddleware', 'RoleMiddleware@require_admin_access']);
-$api->post('/v1/backup/restore', 'BackupController@restore', ['AuthMiddleware', 'RoleMiddleware@require_admin_access']);
-$api->get('/v1/backup/list', 'BackupController@list', ['AuthMiddleware', 'RoleMiddleware@require_admin_access']);
-$api->delete('/v1/backup/delete/{filename}', 'BackupController@delete', ['AuthMiddleware', 'RoleMiddleware@require_admin_access']);
-$api->get('/v1/backup/download/{filename}', 'BackupController@download', ['AuthMiddleware', 'RoleMiddleware@require_admin_access']);
-$api->get('/v1/backup/logs', 'BackupController@logs', ['AuthMiddleware', 'RoleMiddleware@require_admin_access']);
-$api->get('/v1/backup/status', 'BackupController@status', ['AuthMiddleware', 'RoleMiddleware@require_admin_access']);
+$api->post('/v1/backup/create', 'BackupController@create', ['AuthMiddleware', 'RoleMiddleware@admin_access']);
+$api->post('/v1/backup/restore', 'BackupController@restore', ['AuthMiddleware', 'RoleMiddleware@admin_access']);
+$api->get('/v1/backup/list', 'BackupController@list', ['AuthMiddleware', 'RoleMiddleware@admin_access']);
+$api->delete('/v1/backup/delete/{filename}', 'BackupController@delete', ['AuthMiddleware', 'RoleMiddleware@admin_access']);
+$api->get('/v1/backup/download/{filename}', 'BackupController@download', ['AuthMiddleware', 'RoleMiddleware@admin_access']);
+$api->get('/v1/backup/logs', 'BackupController@logs', ['AuthMiddleware', 'RoleMiddleware@admin_access']);
+$api->get('/v1/backup/status', 'BackupController@status', ['AuthMiddleware', 'RoleMiddleware@admin_access']);
 
 // Future routes will be added here
 // Example:
@@ -125,11 +125,11 @@ $api->get('/v1/backup/status', 'BackupController@status', ['AuthMiddleware', 'Ro
 // Attention: RoleMiddleware requires AuthMiddleware, which checks the token and sets $GLOBALS['authenticated_user']
 // Example admin routes with role-based access control:
 // For moderator access or higher (moderator, admin, superuser):
-// $api->get('/v1/admin/dashboard', 'AdminController@dashboard', ['AuthMiddleware', 'RoleMiddleware@require_moderator_access']);
+// $api->get('/v1/admin/dashboard', 'AdminController@dashboard', ['AuthMiddleware', 'RoleMiddleware@moderator_access']);
 // For admin access only (admin, superuser):
-// $api->get('/v1/admin/users', 'AdminController@users', ['AuthMiddleware', 'RoleMiddleware@require_admin_access']);
+// $api->get('/v1/admin/users', 'AdminController@users', ['AuthMiddleware', 'RoleMiddleware@admin_access']);
 // For superuser access only:
-// $api->post('/v1/admin/system/config', 'AdminController@updateSystemConfig', ['AuthMiddleware', 'RoleMiddleware@require_superuser_access']);
+// $api->post('/v1/admin/system/config', 'AdminController@updateSystemConfig', ['AuthMiddleware', 'RoleMiddleware@superuser_access']);
 
 // Default route for API root
 $api->get('/', function() {

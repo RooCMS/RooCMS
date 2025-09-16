@@ -36,7 +36,6 @@ class AuthController extends BaseController {
     
 
 
-
     /**
      * Constructor with dependency injection
      */
@@ -146,7 +145,9 @@ class AuthController extends BaseController {
     /**
      * User logout
      * POST /api/v1/auth/logout
-     * Requires: AuthMiddleware
+     * requires: AuthMiddleware
+     * 
+     * @return void
      */
     public function logout(): void {
         $this->log_request('auth_logout');
@@ -175,7 +176,9 @@ class AuthController extends BaseController {
     /**
      * User logout all devices
      * POST /api/v1/auth/logout/all
-     * Requires: AuthMiddleware
+     * requires: AuthMiddleware
+     * 
+     * @return void
      */
     public function logout_all(): void {
         $this->log_request('auth_logout_all');
@@ -197,7 +200,9 @@ class AuthController extends BaseController {
     /**
      * Revoke a specific refresh token
      * POST /api/v1/auth/refresh/revoke
-     * Requires: AuthMiddleware
+     * requires: AuthMiddleware
+     * 
+     * @return void
      */
     public function revoke_refresh(): void {
         $this->log_request('auth_revoke_refresh');

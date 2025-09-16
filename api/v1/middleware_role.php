@@ -57,7 +57,7 @@ class RoleMiddleware {
     /**
      * Check if user has moderator access or higher
      */
-    public function require_moderator_access(): bool {
+    public function moderator_access(): bool {
         $user = $GLOBALS['authenticated_user'] ?? null;
 
         if (!$user) {
@@ -82,7 +82,7 @@ class RoleMiddleware {
     /**
      * Check if user has admin access (admin or superuser only)
      */
-    public function require_admin_access(): bool {
+    public function admin_access(): bool {
         $user = $GLOBALS['authenticated_user'] ?? null;
 
         if (!$user) {
@@ -107,7 +107,7 @@ class RoleMiddleware {
     /**
      * Check if user has superuser access
      */
-    public function require_superuser_access(): bool {
+    public function superuser_access(): bool {
         $user = $GLOBALS['authenticated_user'] ?? null;
 
         if (!$user) {

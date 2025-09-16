@@ -52,6 +52,8 @@ class Mailer {
 
     /**
      * Constructor with initialization of properties
+     * 
+     * @param Settings $settings Settings
      */
     public function __construct(Settings $settings) {
 
@@ -79,6 +81,10 @@ class Mailer {
 
     /**
      * Sending a notification to the user
+     * 
+     * @param object $user User
+     * @param string $message Message
+     * @return bool
      */
     public function send_notification(object $user, string $message): bool {
         if (!isset($user->email) || !is_string($user->email)) {
@@ -99,6 +105,9 @@ class Mailer {
 
     /**
      * Main method of sending email
+     * 
+     * @param array $params Parameters
+     * @return bool
      */
     public function send(array $params): bool {
         // Required parameters validation
@@ -155,6 +164,15 @@ class Mailer {
 
     /**
      * Sending via SMTP
+     * 
+     * @param string $to To
+     * @param string $subject Subject
+     * @param string $body Body
+     * @param bool $is_html Is HTML
+     * @param array|null $attachments Attachments
+     * @param string|null $custom_from Custom from
+     * @param string|null $custom_from_name Custom from name
+     * @return bool
      */
     private function send_via_smtp(string $to, string $subject, string $body, bool $is_html, 
                         ?array $attachments, ?string $custom_from, ?string $custom_from_name): bool {
@@ -215,6 +233,15 @@ class Mailer {
 
     /**
      * Sending via sendmail
+     * 
+     * @param string $to To
+     * @param string $subject Subject
+     * @param string $body Body
+     * @param bool $is_html Is HTML
+     * @param array|null $attachments Attachments
+     * @param string|null $custom_from Custom from
+     * @param string|null $custom_from_name Custom from name
+     * @return bool
      */
     private function send_via_sendmail(string $to, string $subject, string $body, bool $is_html,
                                 ?array $attachments, ?string $custom_from, ?string $custom_from_name): bool {
@@ -255,6 +282,15 @@ class Mailer {
 
     /**
      * Sending via the built-in mail() function
+     * 
+     * @param string $to To
+     * @param string $subject Subject
+     * @param string $body Body
+     * @param bool $is_html Is HTML
+     * @param array|null $attachments Attachments
+     * @param string|null $custom_from Custom from
+     * @param string|null $custom_from_name Custom from name
+     * @return bool
      */
     private function send_via_mail(string $to, string $subject, string $body, bool $is_html, 
                         ?array $attachments, ?string $custom_from, ?string $custom_from_name): bool {
@@ -286,6 +322,8 @@ class Mailer {
 
     /**
      * Creating an SMTP connection
+     * 
+     * @return resource|false
      */
     private function create_smtp_connection() {
         $verify_peer = (bool)($this->settings->get_by_key('mailer_verify_peer') ?? false);
@@ -329,6 +367,11 @@ class Mailer {
 
     /**
      * Executing an SMTP command
+     * 
+     * @param resource $socket Socket
+     * @param string $command Command
+     * @param string $expectedCode Expected code
+     * @return bool
      */
     private function smtp_command($socket, string $command, string $expectedCode = '250'): bool {
         if (!is_resource($socket)) {
@@ -350,6 +393,9 @@ class Mailer {
 
     /**
      * SMTP authentication
+     * 
+     * @param resource $socket Socket
+     * @return bool
      */
     private function smtp_auth($socket): bool {
         if (!$this->smtp_command($socket, 'AUTH LOGIN', '334')) {
@@ -370,6 +416,16 @@ class Mailer {
 
     /**
      * Sending a message via SMTP
+     * 
+     * @param resource $socket Socket
+     * @param string $to To
+     * @param string $subject Subject
+     * @param string $body Body
+     * @param bool $is_html Is HTML
+     * @param array|null $attachments Attachments
+     * @param string|null $custom_from Custom from
+     * @param string|null $custom_from_name Custom from name
+     * @return bool
      */
     private function smtp_send_message($socket, string $to, string $subject, string $body, bool $is_html,
                                 ?array $attachments, ?string $custom_from, ?string $custom_from_name): bool {   
@@ -420,6 +476,11 @@ class Mailer {
 
     /**
      * Building the headers of the email
+     * 
+     * @param bool $is_html Is HTML
+     * @param string|null $custom_from Custom from
+     * @param string|null $custom_from_name Custom from name
+     * @return string
      */
     private function build_headers(bool $is_html, ?string $custom_from = null, ?string $custom_from_name = null): string {
         $from = $custom_from ?? $this->from;
@@ -453,6 +514,8 @@ class Mailer {
 
     /**
      * Generating a boundary for multipart messages
+     * 
+     * @return string
      */
     private function generate_boundary(): string {
         return '----=_NextPart_' . md5(uniqid(time()));
@@ -461,6 +524,9 @@ class Mailer {
 
     /**
      * Validation of attachments
+     * 
+     * @param array|null $attachments Attachments
+     * @return array
      */
     private function validate_attachments(?array $attachments): array {
         if (!$attachments || count($attachments) === 0) {
@@ -534,6 +600,9 @@ class Mailer {
 
     /**
      * Determining the MIME type of the file
+     * 
+     * @param string $file_path File path
+     * @return string
      */
     private function get_mime_type(string $file_path): string {
         // Using finfo if available
@@ -571,6 +640,12 @@ class Mailer {
 
     /**
      * Processing attachments and preparing headers/body
+     * 
+     * @param string $body Body
+     * @param bool $is_html Is HTML
+     * @param array|null $attachments Attachments
+     * @param string $headers Headers
+     * @return array
      */
     private function process_attachments(string $body, bool $is_html, ?array $attachments, string $headers): array {
         // Validating attachments
@@ -598,6 +673,12 @@ class Mailer {
 
     /**
      * Building the multipart body of the message with attachments
+     * 
+     * @param string $body Body
+     * @param array $attachments Attachments
+     * @param string $boundary Boundary
+     * @param bool $is_html Is HTML
+     * @return string
      */
     private function build_multipart_body(string $body, array $attachments, string $boundary, bool $is_html): string {
         $message = '--'.$boundary."\r\n";
@@ -633,6 +714,9 @@ class Mailer {
 
     /**
      * Sanitization of the message subject
+     * 
+     * @param string $subject Subject
+     * @return string
      */
     private function sanitize_subject(string $subject): string {
         // Removing potentially dangerous characters for headers
@@ -643,6 +727,10 @@ class Mailer {
 
     /**
      * Rendering the email template
+     * 
+     * @param string $template Template
+     * @param array $data Data
+     * @return string
      */
     public function render_template(string $template, array $data = []): string {
         $template_path = _ASSETS . '/mail/'.$template.'.php';
@@ -663,6 +751,9 @@ class Mailer {
 
     /**
      * Sending email using a template
+     * 
+     * @param array $params Parameters
+     * @return bool
      */
     public function send_with_template(array $params): bool {
         // Required parameters validation
@@ -709,6 +800,8 @@ class Mailer {
 
     /**
      * Getting the last error
+     * 
+     * @return string
      */
     public function get_last_error(): string {
         return $this->last_error;
@@ -717,6 +810,8 @@ class Mailer {
 
     /**
      * Checking the configuration
+     * 
+     * @return bool
      */
     public function is_configured(): bool {
         return !empty($this->from) && !empty($this->from_name);
@@ -725,6 +820,8 @@ class Mailer {
 
     /**
      * Testing the connection
+     * 
+     * @return bool
      */
     public function test_connection(): bool {
         if ($this->driver === 'smtp') {
@@ -744,6 +841,8 @@ class Mailer {
 
     /**
      * Getting information about the limitations of attachments
+     * 
+     * @return array
      */
     public function get_attachment_limits(): array {
         return [

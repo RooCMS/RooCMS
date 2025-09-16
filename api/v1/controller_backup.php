@@ -24,7 +24,6 @@ if(!defined('RooCMS')) {
 /**
  * Backup API Controller
  * Handles database backup and restore operations via REST API
- * Follows MVC pattern with service layer for business logic
  */
 class BackupController extends BaseController {
 

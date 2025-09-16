@@ -73,7 +73,7 @@ spl_autoload_register(function(string $class_name) {
         'DbBackuper'                => _CLASS . '/class_dbBackuper.php',
         'Settings'                  => _CLASS . '/class_settings.php',
         'Mailer'                    => _CLASS . '/class_mailer.php',
-        'DependencyContainer'       => _CLASS . '/class_dependency_container.php',
+        'DependencyContainer'       => _CLASS . '/class_dependencyContainer.php',
         'ControllerFactory'         => _CLASS . '/interface_controllerFactory.php',
         'DefaultControllerFactory'  => _CLASS . '/class_defaultControllerFactory.php',
         'MiddlewareFactory'         => _CLASS . '/interface_middlewareFactory.php',

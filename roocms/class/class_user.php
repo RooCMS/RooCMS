@@ -30,6 +30,8 @@ class User {
 
     /**
      * Constructor
+     * 
+     * @param Db $db Database
      */
     public function __construct(Db $db) {
         $this->db = $db;
@@ -38,6 +40,9 @@ class User {
 
     /**
      * Get user by ID
+     * 
+     * @param int $user_id User ID
+     * @return array|null
      */
     public function get_user_by_id(int $user_id): ?array {
         return $this->get_user_by('id', $user_id, false);
@@ -46,6 +51,9 @@ class User {
 
     /**
      * Get user by login
+     * 
+     * @param string $login Login
+     * @return array|null
      */
     public function get_user_by_login(string $login): ?array {
         return $this->get_user_by('login', $login, true);
@@ -54,6 +62,9 @@ class User {
 
     /**
      * Get user by email
+     * 
+     * @param string $email Email
+     * @return array|null
      */
     public function get_user_by_email(string $email): ?array {
         return $this->get_user_by('email', $email, false);
@@ -62,6 +73,11 @@ class User {
 
     /**
      * Base fetcher by arbitrary field
+     * 
+     * @param string $field Field
+     * @param int|string $value Value
+     * @param bool $with_password With password
+     * @return array|null
      */
     private function get_user_by(string $field, int|string $value, bool $with_password = false): ?array {
         try {
@@ -86,6 +102,9 @@ class User {
 
     /**
      * Create new user
+     * 
+     * @param array $user_data User data
+     * @return int|bool
      */
     public function create_user(array $user_data): int|bool {
         try {
@@ -121,6 +140,10 @@ class User {
 
     /**
      * Update user
+     * 
+     * @param int $user_id User ID
+     * @param array $user_data User data
+     * @return bool
      */
     public function update_user(int $user_id, array $user_data): bool {
         try {
@@ -157,6 +180,9 @@ class User {
 
     /**
      * Delete user
+     * 
+     * @param int $user_id User ID
+     * @return bool
      */
     public function delete_user(int $user_id): bool {
         try {
@@ -172,6 +198,10 @@ class User {
 
     /**
      * Create or update user profile
+     * 
+     * @param int $user_id User ID
+     * @param array $profile_data Profile data
+     * @return bool
      */
     public function upsert_profile(int $user_id, array $profile_data): bool {
         try {
@@ -209,6 +239,9 @@ class User {
 
     /**
      * Get user profile
+     * 
+     * @param int $user_id User ID
+     * @return array|null
      */
     public function get_profile(int $user_id): ?array {
         try {
@@ -224,6 +257,9 @@ class User {
 
     /**
      * Check if user exists by login
+     * 
+     * @param string $login Login
+     * @return bool
      */
     public function login_exists(string $login): bool {
         try {
@@ -239,7 +275,10 @@ class User {
 
     /**
      * Check if user exists by email
-     */
+     * 
+     * @param string $email Email
+     * @return bool
+    */
     public function email_exists(string $email): bool {
         try {
             $query = "SELECT COUNT(*) as count FROM " . TABLE_USERS . " WHERE email = ?";
@@ -254,7 +293,10 @@ class User {
 
     /**
     * Check if user exists by nickname
-     */
+     * 
+     * @param string $nickname Nickname
+     * @return bool
+    */
     public function nickname_exists(string $nickname): bool {
         try {
             $query = "SELECT COUNT(*) as count FROM " . TABLE_USER_PROFILES . " WHERE nickname = ?";
@@ -269,6 +311,9 @@ class User {
 
     /**
      * Update last activity
+     * 
+     * @param int $user_id User ID
+     * @return bool
      */
     public function update_last_activity(int $user_id): bool {
         try {
@@ -284,6 +329,11 @@ class User {
 
     /**
      * Get users list with pagination
+     * 
+     * @param int $page Page
+     * @param int $per_page Per page
+     * @param array $filters Filters
+     * @return array
      */
     public function get_users_list(int $page = 1, int $per_page = 20, array $filters = []): array {
         try {
@@ -338,6 +388,9 @@ class User {
     
     /**
      * Get users count
+     * 
+     * @param array $filters Filters
+     * @return int
      */
     public function get_users_count(array $filters = []): int {
         try {

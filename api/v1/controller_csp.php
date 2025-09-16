@@ -21,8 +21,18 @@ if(!defined('RooCMS')) {
 //#########################################################
 
 
+/**
+ * CSP Controller
+ * Handles CSP violation reports
+ */
 class CspController extends BaseController {
     
+    /**
+     * Report CSP violation
+     * POST /api/v1/csp/report
+     * 
+     * @return void
+     */
     public function report(): void {
         $input = $this->get_input_data();
         
@@ -38,6 +48,13 @@ class CspController extends BaseController {
         $this->json_response(['status' => 'reported'], 200);
     }
     
+
+    /**
+     * Log CSP violation
+     * 
+     * @param array $report CSP violation report
+     * @return void
+     */
     private function log_csp_violation(array $report): void {
 
         $ip = filter_var(env('REMOTE_ADDR'), FILTER_VALIDATE_IP) ?? '';
