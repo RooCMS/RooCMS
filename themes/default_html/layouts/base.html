@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="ru">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>{{title}}</title>
+	<meta name="description" content="{{description}}">
+
+    <link rel="stylesheet" href="{{theme_base}}/assets/css/pico.css">
+    <link rel="stylesheet" href="{{theme_base}}/assets/css/app.css">
+
+    <script src="{{theme_base}}/assets/js/app/alpine-defer.js"></script>
+	{{page_scripts}}
+    <script defer src="{{theme_base}}/assets/js/alpine.csp.min.js"></script>
+    <script type="module" src="{{theme_base}}/assets/js/app/config.js"></script>
+    <script type="module" src="{{theme_base}}/assets/js/app/api.js"></script>
+    <script type="module" src="{{theme_base}}/assets/js/app/auth.js"></script>
+    <script type="module" src="{{theme_base}}/assets/js/app/main.js"></script>
+    <script src="{{theme_base}}/assets/js/app/alpine-start.js"></script>
+</head>
+<body>
+	<header>
+		{{header}}
+	</header>
+
+	<main class="container">
+		{{content}}
+	</main>
+
+	<footer>
+		{{footer}}
+	</footer>
+</body>
+</html>
+
+

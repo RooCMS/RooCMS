@@ -1,0 +1,31 @@
+{
+	"name": "Default HTML Theme",
+	"slug": "default_html",
+	"version": "1.0.0",
+	"description": "Стандартная HTML тема для RooCMS с поддержкой плейсхолдеров",
+	"type": "html",
+	"author": "RooCMS Team",
+	"assets": {
+		"css": [
+			"normalize.min.css",
+			"pico.css",
+			"app.css"
+		],
+		"js": [
+			"alpine-defer.js",
+			"alpine.csp.min.js",
+			"app/config.js",
+			"app/api.js",
+			"app/auth.js",
+			"app/main.js"
+		]
+	},
+	"features": {
+		"responsive": true,
+		"dark_mode": false,
+		"accessibility": true,
+		"template_variables": true,
+		"includes": true,
+		"conditionals": true
+	}
+}

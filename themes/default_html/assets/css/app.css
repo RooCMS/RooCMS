@@ -1,0 +1,52 @@
+/* RooCMS theme custom styles (Pico.css compatible) */
+
+.container {
+	max-width: 960px;
+	margin: 0 auto;
+	padding: 1rem;
+}
+
+header nav.container {
+	padding-top: 0.75rem;
+	padding-bottom: 0.75rem;
+}
+
+main.container {
+	min-height: 60vh;
+}
+
+footer.container {
+	margin-top: 2rem;
+	padding-top: 1rem;
+	border-top: 1px solid rgba(0,0,0,.1);
+}
+
+[x-cloak] { display: none !important; }
+
+/* Toast/alert */
+.toast {
+	position: fixed;
+	left: 50%;
+	bottom: 1.5rem;
+	transform: translateX(-50%);
+	min-width: 240px;
+	max-width: 90vw;
+	padding: .75rem 1rem;
+	border-radius: .5rem;
+	background: var(--pico-card-background-color, #fff);
+	box-shadow: 0 8px 24px rgba(0,0,0,.12);
+	border: 1px solid rgba(0,0,0,.08);
+	z-index: 1000;
+}
+.toast mark { background: transparent; color: inherit; }
+.toast .close {
+	background: transparent;
+	border: 0;
+	cursor: pointer;
+	color: var(--pico-body-color);
+	font-size: 1rem;
+	line-height: 1;
+	margin-left: 2.5rem;
+}
+
+

@@ -21,20 +21,20 @@
 
 const RooCMS = true;
 
-// Define root path
-defined('_SITEROOT') or define('_SITEROOT', __DIR__);
+/**
+ * define root roocms path
+ */
+if(!defined('_SITEROOT')) {
+    define('_SITEROOT', __DIR__);
+}
 
 // Bootstrap RooCMS
 require_once _SITEROOT.'/roocms/init.php';
 
 // Detect active theme (from settings or fallback to 'default')
-$active_theme = defined('RooCMS_active_theme') && RooCMS_active_theme
-    ? (string)RooCMS_active_theme
-    : 'default';
+$active_theme = $site['theme'] ?? 'default';
 
-$theme_base = _SITEROOT.'/themes/'.$active_theme;
-
-// Basic router: map URI path to page file under theme
+// Parse URI path
 $uri = env('REQUEST_URI') ?? '/';
 $path = sanitize_path($uri);
 if ($path === false) {
@@ -42,41 +42,29 @@ if ($path === false) {
     exit('Bad Request');
 }
 
-// Strip query string already done by sanitize_path; normalize trailing slash
+// Normalize trailing slash
 if ($path !== '/' && substr($path, -1) === '/') {
     $path = rtrim($path, '/');
 }
 
-// Map well-known paths
-$routes = [
-    '/'                 => $theme_base.'/pages/index.php',
-    '/auth/login'       => $theme_base.'/pages/auth/login.php',
-    '/users'            => $theme_base.'/pages/users/index.php',
-    '/users/me'         => $theme_base.'/pages/users/me.php',
-];
-
-$page_file = $routes[$path] ?? null;
-
-// Fallback: try direct mapping under theme pages (e.g., /about -> pages/about.php)
-if ($page_file === null) {
-    $candidate = $theme_base.'/pages'.$path.'.php';
-    if (is_file($candidate)) {
-        $page_file = $candidate;
-    }
+// Initialize theme system and set active theme from DI container
+/** @var DependencyContainer $container */
+$themes = $container->get(Themes::class);
+if (!$themes->set_theme($active_theme)) {
+    // Fallback to default theme
+    $themes->set_theme('default');
 }
 
-// 404 fallback
-if ($page_file === null || !is_file($page_file)) {
+// Try to render the page
+if (!$themes->render($path)) {
+    // Ensure HTTP 404 status for missing page
     http_response_code(404);
-    $page_file = $theme_base.'/pages/404.php';
-    if (!is_file($page_file)) {
+    // Try themed 404 page
+    if (!$themes->render('/404')) {
+        // Raw 404 if no 404 template
         header('Content-Type: text/html; charset=utf-8');
         echo '<!doctype html><html><head><meta charset="utf-8"><title>404</title></head><body><h1>404 Not Found</h1></body></html>';
-        exit;
     }
 }
-
-// Render page
-require $page_file;
 
 

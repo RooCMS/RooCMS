@@ -20,13 +20,13 @@ if(!defined('RooCMS')) {
 }
 //#########################################################
 
+
 /**
  * define root roocms path
  */
 if(!defined('_SITEROOT')) {
-    define('_SITEROOT', dirname(__DIR__, 2));
+    define('_SITEROOT', dirname(__DIR__));
 }
-
 
 /**
  * list of configs
@@ -72,6 +72,12 @@ spl_autoload_register(function(string $class_name) {
         'DbMigrator'                => _CLASS . '/class_dbMigrator.php',
         'DbBackuper'                => _CLASS . '/class_dbBackuper.php',
         'Settings'                  => _CLASS . '/class_settings.php',
+        'Themes'                    => _CLASS . '/class_themes.php',
+        'ThemeConfig'               => _CLASS . '/class_themeConfig.php',
+        'TemplateRenderer'          => _CLASS . '/interface_templateRenderer.php',
+        'ThemeConfigInterface'      => _CLASS . '/interface_themeConfig.php',
+        'TemplateRendererPhp'       => _CLASS . '/class_templateRendererPhp.php',
+        'TemplateRendererHtml'      => _CLASS . '/class_templateRendererHtml.php',
         'Mailer'                    => _CLASS . '/class_mailer.php',
         'DependencyContainer'       => _CLASS . '/class_dependencyContainer.php',
         'ControllerFactory'         => _CLASS . '/interface_controllerFactory.php',
@@ -140,6 +146,18 @@ $container->register(DbBackuper::class, DbBackuper::class, true); // Singleton
 $container->register(UserService::class, UserService::class, true); // Singleton
 $container->register(AuthService::class, AuthService::class, true); // Singleton
 $container->register(BackupService::class, BackupService::class, true); // Singleton
+
+// Template renderers and themes
+$container->register(TemplateRendererPhp::class, TemplateRendererPhp::class, true);
+$container->register(TemplateRendererHtml::class, TemplateRendererHtml::class, true);
+$container->register(Themes::class, function(DependencyContainer $c) {
+	// Inject renderers via DI, themes dir defaults to 'themes'
+	return new Themes(
+		$c->get(TemplateRendererPhp::class),
+		$c->get(TemplateRendererHtml::class),
+		'themes'
+	);
+}, true);
 
 
 // Health check for database connection

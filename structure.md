@@ -65,7 +65,11 @@ roocms/class/
 ├── class_debugger.php                  # Debugger system
 ├── class_defaultControllerFactory.php  # Default controller factory
 ├── class_defaultMiddlewareFactory.php  # Default middleware factory
-├── class_dependency_container.php      # Dependency injection container
+├── class_dependencyContainer.php       # Dependency injection container
+├── class_templateRendererPhp.php       # PHP template renderer
+├── class_templateRendererHtml.php      # HTML template renderer
+├── class_themeConfig.php               # Theme configuration implementation
+├── class_themes.php                    # Theme management system
 ├── class_mailer.php                    # Mailer system
 ├── class_role.php                      # Roles system
 ├── class_settings.php                  # System settings
@@ -73,6 +77,8 @@ roocms/class/
 ├── class_user.php                      # User management
 ├── interface_controllerFactory.php     # Controller factory interface
 ├── interface_middlewareFactory.php     # Middleware factory interface
+├── interface_templateRenderer.php      # Template renderer interface
+├── interface_themeConfig.php           # Theme configuration interface
 ├── trait_dbExtends.php                 # DB extends trait
 └── trait_debugLog.php                  # Debug log trait
 ```
@@ -93,7 +99,7 @@ roocms/config/
 roocms/database/
 ├── backup_cli.php              # CLI interface for database backups
 ├── backups/                    # Database backup files storage
-│   ├── .htaccess               # Web access protection rules
+│   ├── .htaccess               # Web access protection rules (soon)
 │   └── index.php               # Directory access protection
 ├── migrate_cli.php             # CLI interface for migrations
 ├── migrations/                 # Migration files
@@ -130,7 +136,21 @@ roocms/services/
 
 ```
 roocms/
-└── init.php                # System initialization file
+└── init.php                # System initialization file (Initializes configuration, helpers, autoloader, database, and DI container.)
+```
+
+Registers core services and template system:
+
+```
+$container->register(TemplateRendererPhp::class, TemplateRendererPhp::class, true);
+$container->register(TemplateRendererHtml::class, TemplateRendererHtml::class, true);
+$container->register(Themes::class, function(DependencyContainer $c) {
+    return new Themes(
+        $c->get(TemplateRendererPhp::class),
+        $c->get(TemplateRendererHtml::class),
+        'themes'
+    );
+}, true);
 ```
 
 ## Storage (`/storage/`)
@@ -167,18 +187,52 @@ upload/
 
 ## Themes (`/themes/`)
 
-System themes for configuring the appearance of the website.
+System themes for configuring the appearance of the website. RooCMS supports two rendering modes: PHP and HTML.
 
 ```
 themes/
-└── default/                        # Default theme
-    ├── assets/                     # Theme resources
+├── default/                        # Default theme
+│   ├── assets/                     # Theme resources
+│   │   ├── css/                    # CSS styles
+│   │   │   ├── app.css             # Application main styles
+│   │   │   ├── dist/               # Pico CSS sources
+│   │   │   │   └── pico/           # Pico CSS framework components
+│   │   │   ├── pico.css            # Pico CSS framework
+│   │   │   └── pico.min.css        # Minified Pico CSS (soon)
+│   │   └── js/                     # JavaScript files
+│   │       ├── alpine.csp.min.js   # Alpine.js with CSP support
+│   │       ├── alpine.min.js       # Alpine.js framework
+│   │       ├── app/                # Application modules
+│   │       │   ├── alpine-defer.js # Deferred loading Alpine
+│   │       │   ├── alpine-start.js # Alpine initialization
+│   │       │   ├── api.js          # API client
+│   │       │   ├── auth.js         # Authentication
+│   │       │   ├── config.js       # Configuration
+│   │       │   └── main.js         # Main module
+│   │       └── pages/              # Pages scripts
+│   │           ├── auth_login.js   # Login page
+│   │           ├── home.js         # Home page
+│   │           └── users_index.js  # Users list
+│   ├── layouts/                    # Layouts templates
+│   │   └── base.php                # Base layout
+│   ├── pages/                      # Pages templates
+│   │   ├── 404.php                 # 404 page
+│   │   ├── auth/                   # Authentication pages
+│   │   │   └── login.php           # Login page
+│   │   ├── index.php               # Home page
+│   │   └── users/                  # Users pages
+│   │       └── index.php           # Users list
+│   ├── partials/                   # Partial templates
+│   │   ├── footer.php              # Footer
+│   │   └── header.php              # Header
+│   └── theme.json                  # Theme manifest (type: "php")
+│
+└── default_html/                   # HTML theme (placeholders, includes, conditionals)
+    ├── assets/                     # Theme resources (css/js)
     │   ├── css/                    # CSS styles
     │   │   ├── app.css             # Application main styles
-    │   │   ├── dist/               # Pico CSS sources
-    │   │   │   └── pico/           # Pico CSS framework components
     │   │   ├── pico.css            # Pico CSS framework
-    │   │   └── pico.min.css        # Minified Pico CSS
+    │   │   └── pico.min.css        # Minified Pico CSS (soon)
     │   └── js/                     # JavaScript files
     │       ├── alpine.csp.min.js   # Alpine.js with CSP support
     │       ├── alpine.min.js       # Alpine.js framework
@@ -193,19 +247,27 @@ themes/
     │           ├── auth_login.js   # Login page
     │           ├── home.js         # Home page
     │           └── users_index.js  # Users list
-    ├── layouts/                    # Layouts templates
-    │   └── base.php                # Base layout
-    ├── pages/                      # Pages templates
-    │   ├── 404.php                 # 404 page
-    │   ├── auth/                   # Authentication pages
-    │   │   └── login.php           # Login page
-    │   ├── index.php               # Home page
-    │   └── users/                  # Users pages
-    │       └── index.php           # Users list
-    └── partials/                   # Partial templates
-        ├── footer.php              # Footer
-        └── header.php              # Header
+    ├── layouts/
+    │   └── base.html               # Base layout (HTML)
+    ├── pages/
+    │   ├── 404.html                # 404 page
+    │   ├── auth/
+    │   │   └── login.html          # Login page
+    │   ├── index.html              # Home page
+    │   └── users/
+    │       └── index.html          # Users list
+    ├── partials/
+    │   ├── header.html             # Header
+    │   ├── footer.html             # Footer
+    └── theme.json                  # Theme manifest (type: "html")
 ```
+
+HTML engine supports:
+- `{{variable}}` and `{{{raw_variable}}}`
+- `<!-- if: variable --> ... <!-- endif -->`
+- `<!-- foreach: items as item --> ... <!-- endforeach -->`
+- `<!-- include: partials/header.html -->`
+- `{{asset: css/app.css}}` / `{{asset: js/app.js}}`
 
 ## Features architecture
 
