@@ -101,9 +101,8 @@ class TemplateRendererHtml implements TemplateRenderer {
 		// Assemble the final HTML
 		$final_html = $this->assemble_html($layout, $content, $partials, $variables);
 
-		// Send headers and output
-		header('Content-Type: text/html; charset=utf-8');
-		echo $final_html;
+		// Send output
+		output_html($final_html);
 
 		return true;
 	}

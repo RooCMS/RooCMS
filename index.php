@@ -62,9 +62,6 @@ if (!$themes->render($path)) {
     // Try themed 404 page
     if (!$themes->render('/404')) {
         // Raw 404 if no 404 template
-        header('Content-Type: text/html; charset=utf-8');
-        echo '<!doctype html><html><head><meta charset="utf-8"><title>404</title></head><body><h1>404 Not Found</h1></body></html>';
+        output_html('<!doctype html><html><head><meta charset="utf-8"><title>404</title></head><body><h1>404 Not Found</h1></body></html>');
     }
 }
-
-

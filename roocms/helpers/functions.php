@@ -176,22 +176,6 @@ function file_read(string $file) : string|false {
 
 
 /**
- * Cache headers
- */
-function nocache() : void {
-	if (headers_sent()) {
-		return;
-	}
-
-	header('Expires: Thu, 01 Jan 1970 00:00:01 GMT');
-	header('Cache-Control: no-store, no-cache, must-revalidate, max-age=0');
-	header('Cache-Control: post-check=0, pre-check=0', false);
-	header('Pragma: no-cache');
-	header('Last-Modified: '.gmdate('D, d M Y H:i:s').' GMT');
-}
-
-
-/**
  * Convert hex color to array
  * @param string $hexcolor - hex color
  * @return array - array of color
@@ -216,18 +200,4 @@ function cvrt_color_h2d(string $hexcolor) : array {
  */
 function format_timestamp(mixed $timestamp) : string {
 	return date('Y-m-d H:i:s', is_string($timestamp) ? strtotime($timestamp) : $timestamp);
-}
-
-
-/**
- * Output JSON
- * @param mixed $data - data to output
- * @return void
- */
-function output_json(mixed $data) : void {
-	if (!headers_sent()) {
-		header('Content-Type: application/json; charset=utf-8');
-	}
-	echo json_encode($data, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
-	exit();
 }

@@ -50,10 +50,23 @@ foreach($configs as $config) {
 
 
 /**
+ * list of helpers
+ */
+$helpers = [
+    'functions.php',  // content security policy
+    'sanitize.php',  // system settings
+    'output.php',   // output helpers
+];
+
+
+/**
  * Include helpers
  */
-require_once _ROOCMS."/helpers/functions.php";
-require_once _ROOCMS."/helpers/sanitize.php";
+foreach($helpers as $helper) {
+    if(file_exists(_ROOCMS."/helpers/".$helper)) {
+        require_once _ROOCMS."/helpers/".$helper;
+    }
+}
 
 
 /**

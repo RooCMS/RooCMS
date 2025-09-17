@@ -645,7 +645,6 @@ class Db {
 	 */
 	private function handle_error(string $message, string $sql = '', array $params = []): void {
 		http_response_code(500);
-		header('Content-Type: application/json; charset=utf-8');
 
 		$response = [
 			'error' => true,
@@ -664,8 +663,7 @@ class Db {
 			];
 		}
 
-		echo json_encode($response, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
-		exit();
+		output_json($response);
 	}
 
 

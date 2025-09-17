@@ -274,7 +274,6 @@ class ApiHandler {
      */
     public function handle_not_found(): void {
         http_response_code(404);
-        header('Content-Type: application/json; charset=utf-8');
         
         $response = [
             'error' => true,
@@ -295,7 +294,6 @@ class ApiHandler {
     */
     public function handle_method_not_allowed(array $allowedMethods = []): void {
         http_response_code(405);
-        header('Content-Type: application/json; charset=utf-8');
         
         if (!empty($allowedMethods)) {
             header('Allow: ' . implode(', ', $allowedMethods));
@@ -321,7 +319,6 @@ class ApiHandler {
     */
     private function handle_error(string $message): void {
         http_response_code(500);
-        header('Content-Type: application/json; charset=utf-8');
         
         $response = [
             'error' => true,
