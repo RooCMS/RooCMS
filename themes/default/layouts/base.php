@@ -18,28 +18,28 @@ $theme_base = '/themes/'.$theme_name;
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title><?php echo htmlspecialchars($page_title, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8'); ?></title>
-    <meta name="description" content="<?php echo htmlspecialchars($page_description, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8'); ?>">
+    <title><?php render_html($page_title); ?></title>
+    <meta name="description" content="<?php render_html($page_description); ?>">
 
-    <link rel="stylesheet" href="<?php echo $theme_base; ?>/assets/css/normalize.min.css">
-    <link rel="stylesheet" href="<?php echo $theme_base; ?>/assets/css/pico.css">
-    <link rel="stylesheet" href="<?php echo $theme_base; ?>/assets/css/app.css">
+    <link rel="stylesheet" href="<?php render_html($theme_base); ?>/assets/css/normalize.min.css">
+    <link rel="stylesheet" href="<?php render_html($theme_base); ?>/assets/css/pico.css">
+    <link rel="stylesheet" href="<?php render_html($theme_base); ?>/assets/css/app.css">
 
-    <script src="<?php echo $theme_base; ?>/assets/js/app/alpine-defer.js"></script>
-    <script defer src="<?php echo $theme_base; ?>/assets/js/alpine.csp.min.js"></script>
+    <script src="<?php render_html($theme_base); ?>/assets/js/app/alpine-defer.js"></script>
+    <script defer src="<?php render_html($theme_base); ?>/assets/js/alpine.csp.min.js"></script>
 
     <!-- Register header component BEFORE Alpine initialization -->
-    <script src="<?php echo $theme_base; ?>/assets/js/app/header-component.js"></script>
+    <script src="<?php render_html($theme_base); ?>/assets/js/app/header-component.js"></script>
 
-    <script src="<?php echo $theme_base; ?>/assets/js/app/alpine-start.js"></script>
+    <script src="<?php render_html($theme_base); ?>/assets/js/app/alpine-start.js"></script>
 
-    <script type="module" src="<?php echo $theme_base; ?>/assets/js/app/main.js"></script>
-    <script type="module" src="<?php echo $theme_base; ?>/assets/js/app/config.js"></script>
-    <script type="module" src="<?php echo $theme_base; ?>/assets/js/app/api.js"></script>
-    <script type="module" src="<?php echo $theme_base; ?>/assets/js/app/auth.js"></script>
+    <script type="module" src="<?php render_html($theme_base); ?>/assets/js/app/main.js"></script>
+    <script type="module" src="<?php render_html($theme_base); ?>/assets/js/app/config.js"></script>
+    <script type="module" src="<?php render_html($theme_base); ?>/assets/js/app/api.js"></script>
+    <script type="module" src="<?php render_html($theme_base); ?>/assets/js/app/auth.js"></script>
     <?php foreach($page_scripts as $script_path): ?>
         <?php $resolved = (strpos($script_path, '/') === 0) ? $script_path : ($theme_base.'/'.ltrim($script_path, '/')); ?>
-        <script type="module" src="<?php echo htmlspecialchars($resolved, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8'); ?>"></script>
+        <script type="module" src="<?php render_html($resolved); ?>"></script>
     <?php endforeach; ?>
 </head>
 <body>
@@ -48,15 +48,11 @@ $theme_base = '/themes/'.$theme_name;
     <?php require __DIR__ . '/../partials/header.php'; ?>
 
     <main class="container">
-        <?php echo isset($page_content) ? $page_content : ''; ?>
+        <?php isset($page_content) ? render_html($page_content) : render_html(''); ?>
     </main>
 
     <footer>
         <?php require __DIR__ . '/../partials/footer.php'; ?>
     </footer>
-
-
 </body>
 </html>
-
-

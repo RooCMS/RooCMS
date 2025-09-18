@@ -55,13 +55,27 @@ function output_json(mixed $data) : void {
  * Output HTML
  * @param string $data - data to output
  * @param bool $hsc - use htmlspacialchars
+ * @param bool $exit - exit after output
  * @return void
  */
-function output_html(string $data, ?bool $hsc = null) : void {
+function output_html(string $data, ?bool $exit = true, ?bool $hsc = null) : void {
 	if (!headers_sent()) {
 		header('Content-Type: text/html; charset=utf-8');
 	}
 
 	echo ($hsc !== null) ? htmlspecialchars($data, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8') : $data;
-	exit();
+
+	if ($exit) exit();
+}
+
+
+/**
+ * Output HTML
+ * @param string $data - data to output
+ * @param bool $hsc - use htmlspacialchars
+ * @return void
+ */
+function render_html(string $data, ?bool $hsc = null) : void {
+	// Render HTML without exiting
+	output_html($data, false, $hsc);
 }
