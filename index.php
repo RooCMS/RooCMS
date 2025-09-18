@@ -15,9 +15,6 @@
 //  RooCMS Front Controller for Theme Rendering
 //#########################################################
 
-//#########################################################
-//  TODO: This is Draft
-//#########################################################
 
 const RooCMS = true;
 
@@ -28,13 +25,21 @@ if(!defined('_SITEROOT')) {
     define('_SITEROOT', __DIR__);
 }
 
-// Bootstrap RooCMS
+/**
+ * Bootstrap RooCMS
+ */
 require_once _SITEROOT.'/roocms/init.php';
 
-// Detect active theme (from settings or fallback to 'default')
+
+/**
+ * Detect active theme (from settings or fallback to 'default')
+ * TODO: add theme detection from URL
+ */
 $active_theme = $site['theme'] ?? 'default';
 
-// Parse URI path
+/**
+ * Parse URI path
+ */
 $uri = env('REQUEST_URI') ?? '/';
 $path = sanitize_path($uri);
 if ($path === false) {
@@ -42,20 +47,26 @@ if ($path === false) {
     exit('Bad Request');
 }
 
-// Normalize trailing slash
+/**
+ * Normalize trailing slash
+ */
 if ($path !== '/' && substr($path, -1) === '/') {
     $path = rtrim($path, '/');
 }
 
-// Initialize theme system and set active theme from DI container
-/** @var DependencyContainer $container */
+/**
+ * Initialize theme system and set active theme from DI container
+ * @var DependencyContainer $container
+ */
 $themes = $container->get(Themes::class);
 if (!$themes->set_theme($active_theme)) {
     // Fallback to default theme
     $themes->set_theme('default');
 }
 
-// Try to render the page
+/**
+ * Try to render the page
+ */
 if (!$themes->render($path)) {
     // Ensure HTTP 404 status for missing page
     http_response_code(404);
