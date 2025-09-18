@@ -6,11 +6,6 @@
 	padding: 1rem;
 }
 
-header nav.container {
-	padding-top: 0.75rem;
-	padding-bottom: 0.75rem;
-}
-
 main.container {
 	min-height: 60vh;
 }
@@ -19,6 +14,544 @@ footer.container {
 	margin-top: 2rem;
 	padding-top: 1rem;
 	border-top: 1px solid rgba(0,0,0,.1);
+}
+
+/* Modern Header Styles */
+.modern-header {
+	position: sticky;
+	top: 0;
+	z-index: 1000;
+	background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+	box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+	backdrop-filter: blur(10px);
+	border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+.header-container {
+	max-width: 1200px;
+	margin: 0 auto;
+	padding: 0 1rem;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	min-height: 70px;
+}
+
+/* Brand Styles */
+.brand {
+	flex-shrink: 0;
+}
+
+.brand-link {
+	text-decoration: none;
+	color: white;
+	display: flex;
+	align-items: center;
+	transition: transform 0.2s ease;
+}
+
+.brand-link:hover {
+	transform: scale(1.02);
+	text-decoration: none;
+}
+
+.brand-logo {
+	display: flex;
+	align-items: center;
+	gap: 0.5rem;
+}
+
+.logo-icon {
+	font-size: 1.5rem;
+	line-height: 1;
+}
+
+.logo-text {
+	font-size: 1.25rem;
+	font-weight: 700;
+	letter-spacing: -0.02em;
+}
+
+/* Navigation Styles */
+.main-nav {
+	flex: 1;
+	margin: 0 2rem;
+}
+
+.nav-list {
+	display: flex;
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	gap: 0.5rem;
+	justify-content: center;
+}
+
+.nav-item {
+	position: relative;
+}
+
+.nav-link {
+	display: flex;
+	align-items: center;
+	gap: 0.5rem;
+	padding: 0.75rem 1rem;
+	color: rgba(255,255,255,0.9);
+	text-decoration: none;
+	border-radius: 8px;
+	transition: all 0.2s ease;
+	font-weight: 500;
+}
+
+.nav-link:hover {
+	background: rgba(255,255,255,0.1);
+	color: white;
+	text-decoration: none;
+	transform: translateY(-1px);
+}
+
+.nav-link.active {
+	background: rgba(255,255,255,0.15);
+	color: white;
+	box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+.nav-icon {
+	font-size: 1rem;
+	line-height: 1;
+}
+
+/* Header Actions */
+.header-actions {
+	display: flex;
+	align-items: center;
+	gap: 1rem;
+	flex-shrink: 0;
+}
+
+/* Search Styles */
+.search-container {
+	position: relative;
+}
+
+.search-wrapper {
+	position: relative;
+}
+
+.search-toggle {
+	background: rgba(255,255,255,0.1);
+	border: none;
+	color: white;
+	padding: 0.5rem;
+	border-radius: 8px;
+	cursor: pointer;
+	transition: all 0.2s ease;
+	font-size: 1rem;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	min-width: 40px;
+	height: 40px;
+}
+
+.search-toggle:hover {
+	background: rgba(255,255,255,0.2);
+	transform: scale(1.05);
+}
+
+.search-dropdown {
+	position: absolute;
+	top: calc(100% + 8px);
+	right: 0;
+	background: white;
+	border-radius: 12px;
+	box-shadow: 0 8px 32px rgba(0,0,0,0.12);
+	padding: 1rem;
+	min-width: 300px;
+	z-index: 1001;
+	border: 1px solid rgba(0,0,0,0.08);
+	transition: opacity 0.2s ease;
+}
+
+.search-dropdown[x-cloak] {
+	display: none !important;
+}
+
+/* Alpine.js управляет видимостью через x-show */
+
+
+.search-input {
+	width: 100%;
+	padding: 0.75rem;
+	border: 2px solid #e1e5e9;
+	border-radius: 8px;
+	font-size: 1rem;
+	transition: border-color 0.2s ease;
+}
+
+.search-input:focus {
+	outline: none;
+	border-color: #667eea;
+	box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+/* User Menu Styles */
+.user-menu {
+	position: relative;
+}
+
+.user-toggle {
+	display: flex;
+	align-items: center;
+	gap: 0.5rem;
+	padding: 0.5rem 0.75rem;
+	background: rgba(255,255,255,0.1);
+	border: none;
+	border-radius: 8px;
+	color: white;
+	cursor: pointer;
+	transition: all 0.2s ease;
+	font-size: 0.9rem;
+}
+
+.user-toggle:hover {
+	background: rgba(255,255,255,0.2);
+	transform: scale(1.02);
+}
+
+.user-avatar {
+	width: 32px;
+	height: 32px;
+	border-radius: 50%;
+	background: rgba(255,255,255,0.2);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-size: 1rem;
+}
+
+.avatar-icon {
+	line-height: 1;
+}
+
+.user-name {
+	font-weight: 500;
+	max-width: 120px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.dropdown-arrow {
+	font-size: 0.8rem;
+	transition: transform 0.2s ease;
+}
+
+.dropdown-arrow.open {
+	transform: rotate(180deg);
+}
+
+.user-dropdown {
+	position: absolute;
+	top: calc(100% + 8px);
+	right: 0;
+	background: white;
+	border-radius: 12px;
+	box-shadow: 0 8px 32px rgba(0,0,0,0.12);
+	min-width: 200px;
+	z-index: 1001;
+	border: 1px solid rgba(0,0,0,0.08);
+	overflow: hidden;
+	transition: opacity 0.2s ease;
+}
+
+.user-dropdown[x-cloak] {
+	display: none !important;
+}
+
+/* Alpine.js управляет видимостью через x-show */
+
+
+.dropdown-item {
+	display: flex;
+	align-items: center;
+	gap: 0.75rem;
+	padding: 0.75rem 1rem;
+	color: #374151;
+	text-decoration: none;
+	transition: background-color 0.2s ease;
+	border: none;
+	background: transparent;
+	width: 100%;
+	text-align: left;
+	cursor: pointer;
+	font-size: 0.95rem;
+}
+
+.dropdown-item:hover {
+	background: #f3f4f6;
+	color: #111827;
+}
+
+.dropdown-item.logout-btn {
+	color: #dc2626;
+}
+
+.dropdown-item.logout-btn:hover {
+	background: #fef2f2;
+}
+
+.dropdown-divider {
+	margin: 0.5rem 0;
+	border: 0;
+	border-top: 1px solid #e5e7eb;
+}
+
+/* Mobile Menu Toggle */
+.mobile-menu-toggle {
+	display: none;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	width: 40px;
+	height: 40px;
+	background: rgba(255,255,255,0.1);
+	border: none;
+	border-radius: 8px;
+	color: white;
+	cursor: pointer;
+	transition: all 0.2s ease;
+	padding: 0;
+}
+
+.mobile-menu-toggle:hover {
+	background: rgba(255,255,255,0.2);
+	transform: scale(1.05);
+}
+
+.hamburger-icon {
+	display: flex;
+	flex-direction: column;
+	gap: 3px;
+	width: 18px;
+	height: 12px;
+	position: relative;
+}
+
+.hamburger-icon span {
+	width: 100%;
+	height: 2px;
+	background: currentColor;
+	border-radius: 1px;
+	transition: all 0.3s ease;
+	transform-origin: center;
+}
+
+.hamburger-icon.open span:nth-child(1) {
+	transform: rotate(45deg) translate(5px, 5px);
+}
+
+.hamburger-icon.open span:nth-child(2) {
+	opacity: 0;
+}
+
+.hamburger-icon.open span:nth-child(3) {
+	transform: rotate(-45deg) translate(7px, -6px);
+}
+
+/* Mobile Navigation */
+.mobile-nav {
+	position: fixed;
+	top: 70px;
+	left: 0;
+	right: 0;
+	background: white;
+	border-top: 1px solid #e5e7eb;
+	box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+	z-index: 999;
+	max-height: calc(100vh - 70px);
+	overflow-y: auto;
+	/* Скрываем по умолчанию до инициализации Alpine.js */
+	display: none;
+}
+
+.mobile-nav[x-cloak] {
+	display: none !important;
+}
+
+.mobile-nav-content {
+	padding: 1rem;
+}
+
+.mobile-nav-list {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+.mobile-nav-item {
+	margin-bottom: 0.5rem;
+}
+
+.mobile-nav-link {
+	display: flex;
+	align-items: center;
+	gap: 1rem;
+	padding: 1rem;
+	color: #374151;
+	text-decoration: none;
+	border-radius: 8px;
+	transition: all 0.2s ease;
+	font-size: 1.1rem;
+	font-weight: 500;
+	border: none;
+	background: transparent;
+	width: 100%;
+	text-align: left;
+	cursor: pointer;
+}
+
+.mobile-nav-link:hover {
+	background: #f3f4f6;
+	color: #111827;
+	transform: translateX(4px);
+}
+
+.mobile-nav-link.logout-mobile {
+	color: #dc2626;
+}
+
+.mobile-nav-link.logout-mobile:hover {
+	background: #fef2f2;
+}
+
+/* Mobile Search */
+.mobile-search {
+	margin-top: 1.5rem;
+	padding-top: 1rem;
+	border-top: 1px solid #e5e7eb;
+}
+
+.mobile-search-wrapper {
+	display: flex;
+	gap: 0.5rem;
+}
+
+.mobile-search-input {
+	flex: 1;
+	padding: 0.75rem;
+	border: 2px solid #e1e5e9;
+	border-radius: 8px;
+	font-size: 1rem;
+}
+
+.mobile-search-input:focus {
+	outline: none;
+	border-color: #667eea;
+	box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.mobile-search-btn {
+	padding: 0.75rem 1rem;
+	background: #667eea;
+	color: white;
+	border: none;
+	border-radius: 8px;
+	cursor: pointer;
+	transition: background-color 0.2s ease;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-size: 1rem;
+}
+
+.mobile-search-btn:hover {
+	background: #5a67d8;
+}
+
+/* Mobile Overlay */
+.mobile-overlay {
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background: rgba(0,0,0,0.5);
+	z-index: 998;
+	backdrop-filter: blur(2px);
+	/* Скрываем по умолчанию до инициализации Alpine.js */
+	display: none;
+}
+
+.mobile-overlay[x-cloak] {
+	display: none !important;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+	.header-container {
+		padding: 0 0.75rem;
+	}
+
+	.main-nav {
+		display: none;
+	}
+
+	.mobile-menu-toggle {
+		display: flex;
+	}
+
+	.search-container {
+		display: none;
+	}
+
+	.user-name {
+		display: none;
+	}
+
+	.logo-text {
+		font-size: 1.1rem;
+	}
+}
+
+@media (max-width: 480px) {
+	.header-container {
+		min-height: 60px;
+		padding: 0 0.5rem;
+	}
+
+	.brand-logo {
+		gap: 0.25rem;
+	}
+
+	.logo-icon {
+		font-size: 1.25rem;
+	}
+
+	.logo-text {
+		font-size: 1rem;
+	}
+}
+
+/* Animation Classes */
+.fade-enter-active, .fade-leave-active {
+	transition: opacity 0.3s ease;
+}
+
+.fade-enter-from, .fade-leave-to {
+	opacity: 0;
+}
+
+.slide-enter-active, .slide-leave-active {
+	transition: transform 0.3s ease;
+}
+
+.slide-enter-from {
+	transform: translateX(-100%);
+}
+
+.slide-leave-to {
+	transform: translateX(-100%);
 }
 
 [x-cloak] { display: none !important; }
