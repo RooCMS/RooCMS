@@ -21,8 +21,6 @@ ob_start();
         </div>
         <span x-effect="visible = (text !== '')"></span>
     </div>
-    <hr>
-    <p><a href="/auth/login">Войти</a> | <a href="/users">Пользователи</a></p>
 <?php $page_content = ob_get_clean();
 require __DIR__ . '/../layouts/base.php';
 

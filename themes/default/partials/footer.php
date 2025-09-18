@@ -3,6 +3,6 @@ if(!defined('RooCMS')) { http_response_code(403); header('Content-Type: text/pla
 ?>
 <footer class="container">
     <small>
-        © <?php render_html(date('Y')); ?> RooCMS. Все права защищены.
+        © <?php render_html(date('Y')); ?> RooCMS. All rights reserved.
     </small>
 </footer>

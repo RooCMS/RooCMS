@@ -7,14 +7,16 @@ export async function login(login, password) {
     });
     const j = await res.json();
     if (!res.ok) throw new Error(j?.message || 'Login failed');
-    const token = j?.data?.access_token ?? j?.access_token;
-    setAccessToken(token || null);
-    return j?.data ?? j;
+    const token = j?.data?.access_token;
+    if (token) {
+        setAccessToken(token);
+        return j.data;
+    } else {
+        throw new Error('Access token not found in response');
+    }
 }
 
 export async function logout() {
     try { await request('/v1/auth/logout', { method: 'POST' }); } catch(e) {}
     setAccessToken(null);
 }
-
-

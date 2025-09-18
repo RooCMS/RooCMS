@@ -4,7 +4,6 @@ window.deferLoadingAlpine = function(init) {
 	// Guard against multiple assignments
 	if (!window.__roocmsStartAlpine) {
 		window.__roocmsStartAlpine = init;
+		console.log('Alpine defer loaded');
 	}
 };
-
-
