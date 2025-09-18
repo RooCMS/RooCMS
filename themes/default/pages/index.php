@@ -25,6 +25,15 @@ ob_start();
         <span x-effect="visible = (text !== '')"></span>
     </div>
 
+    <div x-data="{}">
+        <button @click="console.log('Alpine OK')">Test Alpine</button>
+    </div>
+    <div>
+        <a href="/login">Login</a>
+        <a href="/logout">Logout</a>
+        <a href="/register">Register</a>
+    </div>
+
     <!-- Debug info -->
     <details>
         <summary class="text-success">Debug информация</summary>
