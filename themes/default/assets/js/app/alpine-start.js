@@ -1,13 +1,23 @@
 (function(){
 	console.log('Alpine start loaded');
 
-	function maybeStart(){
-		window.__roocmsAlpineStarted = true;
-		try { window.__roocmsStartAlpine(); } catch(e) {}
+	function startAlpine(){
+		if (window.Alpine) {
+			console.log('Starting Alpine.js CSP version...');
+			window.__roocmsAlpineStarted = true;
+			window.Alpine.start();
+		} else {
+			console.log('Alpine.js not loaded yet, retrying...');
+			setTimeout(startAlpine, 10);
+		}
 	}
 
-	window.addEventListener('DOMContentLoaded', maybeStart);
-	//maybeStart();
+	// Try to start immediately, or wait for DOM and Alpine
+	if (document.readyState === 'loading') {
+		document.addEventListener('DOMContentLoaded', startAlpine);
+	} else {
+		startAlpine();
+	}
 })();
 
 

@@ -25,15 +25,10 @@ $theme_base = '/themes/'.$theme_name;
     <link rel="stylesheet" href="<?php render_html($theme_base); ?>/assets/css/pico.css">
     <link rel="stylesheet" href="<?php render_html($theme_base); ?>/assets/css/roocms.css">
 
-    <!-- <script src="<?php render_html($theme_base); ?>/assets/js/app/alpine-defer.js"></script> -->
     <script defer src="<?php render_html($theme_base); ?>/assets/js/alpine.csp.min.js"></script>
 
-    <script src="<?php render_html($theme_base); ?>/assets/js/app/alpine-start.js"></script> <!-- Alpine start -->
-
+    <!-- Page-level modules should be loaded via $page_scripts when needed -->
     <script type="module" src="<?php render_html($theme_base); ?>/assets/js/app/main.js"></script>
-    <script type="module" src="<?php render_html($theme_base); ?>/assets/js/app/config.js"></script>
-    <script type="module" src="<?php render_html($theme_base); ?>/assets/js/app/api.js"></script>
-    <script type="module" src="<?php render_html($theme_base); ?>/assets/js/app/auth.js"></script>
     <?php foreach($page_scripts as $script_path): ?>
         <?php $resolved = (strpos($script_path, '/') === 0) ? $script_path : ($theme_base.'/'.ltrim($script_path, '/')); ?>
         <script type="module" src="<?php render_html($resolved); ?>"></script>
