@@ -22,7 +22,6 @@ $theme_base = '/themes/'.$theme_name;
     <meta name="description" content="<?php render_html($page_description); ?>">
 
     <link rel="stylesheet" href="<?php render_html($theme_base); ?>/assets/css/normalize.min.css">
-    <link rel="stylesheet" href="<?php render_html($theme_base); ?>/assets/css/pico.css">
     <link rel="stylesheet" href="<?php render_html($theme_base); ?>/assets/css/roocms.css">
 
     <script defer src="<?php render_html($theme_base); ?>/assets/js/alpine.csp.min.js"></script>
