@@ -16,26 +16,26 @@ if(!defined('RooCMS')) { http_response_code(403); header('Content-Type: text/pla
 
             <!-- Desktop Navigation -->
             <nav class="hidden md:flex md:items-center md:space-x-8">
-                <a href="/" class="text-sm font-medium text-zinc-700 transition-colors hover:text-zinc-900">
+                <a href="/" class="text-sm font-medium text-zinc-700 transition-colors hover:text-sky-900">
                     Home
                 </a>
-                <a href="/about" class="text-sm font-medium text-zinc-700 transition-colors hover:text-zinc-900">
-                    403
+                <a href="/about" class="text-sm font-medium text-zinc-700 transition-colors hover:text-sky-900">
+                    About
                 </a>
-                <a href="/403" class="text-sm font-medium text-zinc-700 transition-colors hover:text-zinc-900">
+                <a href="/403" class="text-sm font-medium text-zinc-700 transition-colors hover:text-sky-900">
                     Access denied
                 </a>
-                <a href="/blog" class="text-sm font-medium text-zinc-700 transition-colors hover:text-zinc-900">
+                <a href="/blog" class="text-sm font-medium text-zinc-700 transition-colors hover:text-sky-900">
                     Blog
                 </a>
-                <a href="/contact" class="text-sm font-medium text-zinc-700 transition-colors hover:text-zinc-900">
+                <a href="/contact" class="text-sm font-medium text-zinc-700 transition-colors hover:text-sky-900">
                     Contact
                 </a>
             </nav>
 
             <!-- Auth Buttons -->
             <div class="flex items-center space-x-4">
-                <a href="/login" class="text-sm font-medium text-zinc-700 transition-colors hover:text-zinc-900">
+                <a href="/login" class="text-sm font-medium text-zinc-700 transition-colors hover:text-sky-800">
                     Login
                 </a>
                 <a href="/register" class="inline-flex items-center justify-center rounded-md bg-gradient-to-r from-blue-600 to-purple-600 px-4 py-2 text-sm font-medium text-white transition-all hover:from-blue-700 hover:to-purple-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 shadow-sm hover:shadow-md">

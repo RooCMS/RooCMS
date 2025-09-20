@@ -54,5 +54,3 @@ ob_start();
 </div>
 <?php $page_content = ob_get_clean();
 require __DIR__ . '/../layouts/base.php';
-
-
