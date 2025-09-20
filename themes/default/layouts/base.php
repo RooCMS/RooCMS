@@ -22,7 +22,7 @@ $theme_base = '/themes/'.$theme_name;
     <meta name="description" content="<?php render_html($page_description); ?>">
 
     <link rel="stylesheet" href="<?php render_html($theme_base); ?>/assets/css/normalize.min.css">
-    <link rel="stylesheet" href="<?php render_html($theme_base); ?>/assets/css/roocms.css">
+    <link rel="stylesheet" href="<?php render_html($theme_base); ?>/assets/css/roocms.min.css">
 
     <script defer src="<?php render_html($theme_base); ?>/assets/js/alpine.csp.min.js"></script>
 
@@ -34,15 +34,17 @@ $theme_base = '/themes/'.$theme_name;
     <?php endforeach; ?>
     
 </head>
-<body>
+<body class="font-sans bg-white lg:bg-zinc-100 dark:bg-zinc-900 dark:lg:bg-zinc-950">
 
-    <?php require __DIR__ . '/../partials/header.php'; ?>
+    <header class="container mx-auto">
+        <?php require __DIR__ . '/../partials/header.php'; ?>
+    </header>
 
-    <main class="container">
+    <main class="container mx-auto">
         <?php isset($page_content) ? render_html($page_content) : render_html(''); ?>
     </main>
 
-    <footer>
+    <footer class="container mx-auto">
         <?php require __DIR__ . '/../partials/footer.php'; ?>
     </footer>
 </body>

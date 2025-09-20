@@ -12,12 +12,12 @@ ob_start();
     <p>This is the home page of the RooCMS theme</p>
     <!-- Alpine.js CSP Test -->
     <div x-data="{ count: 0, cspTest: 'CSP работает!' }">
-        <button @click="count++" role="button" class="secondary">Counter: <strong x-text="count"></strong></button>
-        <p x-text="cspTest" class="text-success"></p>
+        <button @click="count++" role="button" class="">Counter: <strong x-text="count"></strong></button>
+        <p x-text="cspTest" class=""></p>
     </div>
 
     <div x-data="{ visible: false, text: '' }">
-        <button @click="text='Saved in CSP mode'" class="primary">Show notification</button>
+        <button @click="text='Saved in CSP mode'" class="">Show notification</button>
         <div class="toast" x-show="visible" x-transition>
             <mark x-text="text"></mark>
             <button class="close" @click="text=''" aria-label="Hide">×</button>
@@ -36,7 +36,7 @@ ob_start();
 
     <!-- Debug info -->
     <details>
-        <summary class="text-success">Debug information</summary>
+        <summary class="">Debug information</summary>
         <div x-data="{ alpineLoaded: false }" x-init="alpineLoaded = !!window.Alpine">
             <p><strong>Alpine.js загружен:</strong> <span x-text="alpineLoaded ? 'Yes' : 'No'"></span></p>
             <p><strong>Версия Alpine:</strong> <span x-text="(window.Alpine && window.Alpine.version) ? window.Alpine.version : 'Unknown version'"></span></p>

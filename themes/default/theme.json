@@ -1,15 +1,14 @@
 {
-	"name": "Default PHP Theme",
+	"name": "Default",
 	"slug": "default",
 	"version": "1.0.0",
-	"description": "Стандартная PHP тема для RooCMS",
+	"description": "Standard PHP theme for RooCMS",
 	"type": "php",
 	"author": "RooCMS Team",
 	"assets": {
 		"css": [
 			"normalize.min.css",
-			"pico.css",
-			"app.css"
+			"roocms.css"
 		],
 		"js": [
 			"alpine-defer.js",

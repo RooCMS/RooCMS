@@ -1,47 +1,10 @@
-@charset "UTF-8";
+/* Tailwind CSS 4 | MIT License | https://tailwindcss.com */
+@import "tailwindcss";
+
 /*
  * RooCMS Default Style
  * http://www.roocms.com/
  * copyright © 2010-2025 alexandr Belov aka alex Roosso. All rights reserved.
  * license http://www.gnu.org/licenses/gpl-3.0.html
  */
-/*
-   This is draft for RooCMS theme
-   It is not ready for use
-   It is not ready for use
-*/
-:root {
-  --primary: #2C3E50;
-  --secondary: #335b8e;
-  --success: #72B110;
-  --info: #3498DB;
-  --hot: #faaa32;
-  --warning: #FB8C00;
-  --danger: #C60D14;
-  --moment: #772953;
-  --extra: #6610f2;
-  --dark: #212529;
-  --gray: #95a5a6;
-  --light: #e9ecef;
-  --white: #fff;
-  --black: #000;
-  --accent: #7cf3c6;
-  --accent-alt: #008000;
-  --muted: #aab4c3;
-  --shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
-}
 
-* {
-  box-sizing: border-box;
-}
-
-html, body {
-  height: 100%;
-}
-
-body {
-  color: var(--gray);
-  background: linear-gradient(1200px 50px at 20% -10%, #21283a, #0b0f16);
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-}
