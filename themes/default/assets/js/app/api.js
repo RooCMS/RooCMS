@@ -8,6 +8,10 @@ export function setAccessToken(token) {
     access_token = token;
 }
 
+export function getAccessToken() {
+    return access_token;
+}
+
 export async function request(path, options = {}) {
     const headers = Object.assign({'Content-Type': 'application/json'}, options.headers || {});
     if (access_token) headers['Authorization'] = `Bearer ${access_token}`;
@@ -32,7 +36,7 @@ export async function request(path, options = {}) {
     return fetch(API_BASE_URL + path, Object.assign({}, options, { headers, credentials: 'include' }));
 }
 
-async function refresh_token() {
+export async function refresh_token() {
     try {
         const res = await fetch(API_BASE_URL + '/v1/auth/refresh', {
             method: 'POST',
@@ -40,13 +44,14 @@ async function refresh_token() {
             body: '{}',
             credentials: 'include'
         });
-        if (!res.ok) { access_token = null; return; }
+        if (!res.ok) { getAccessToken() = null; return; }
         const data = await res.json();
+        getAccessToken() = data?.data?.access_token ?? data?.access_token ?? null;
         const token = data?.data?.access_token ?? data?.access_token ?? null;
         if (DEBUG) console.debug('token refreshed');
         setAccessToken(token);
     } catch (e) {
-        access_token = null;
+        getAccessToken() = null;
     }
 }
 

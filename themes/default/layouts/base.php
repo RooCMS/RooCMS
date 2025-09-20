@@ -24,17 +24,17 @@ $theme_base = '/themes/'.$theme_name;
     <link rel="stylesheet" href="<?php render_html($theme_base); ?>/assets/css/normalize.min.css">
     <link rel="stylesheet" href="<?php render_html($theme_base); ?>/assets/css/roocms.min.css">
 
-    <script defer src="<?php render_html($theme_base); ?>/assets/js/alpine.csp.min.js"></script>
-
     <!-- Page-level modules should be loaded via $page_scripts when needed -->
-    <script type="module" src="<?php render_html($theme_base); ?>/assets/js/app/main.js"></script>
+    <script defer type="module" src="<?php render_html($theme_base); ?>/assets/js/app/main.js"></script>
     <?php foreach($page_scripts as $script_path): ?>
         <?php $resolved = (strpos($script_path, '/') === 0) ? $script_path : ($theme_base.'/'.ltrim($script_path, '/')); ?>
-        <script type="module" src="<?php render_html($resolved); ?>"></script>
+        <script defer type="module" src="<?php render_html($resolved); ?>"></script>
     <?php endforeach; ?>
+
+    <script defer src="<?php render_html($theme_base); ?>/assets/js/alpine.csp.min.js"></script>
     
 </head>
-<body class="font-san bg-gradient-to-r from-amber-100 to-sky-50" x-data="{}">
+<body class="font-sans bg-gradient-to-r from-amber-100 to-sky-50 grid grid-rows-[auto_1fr_auto] min-h-screen" x-data="{}">
 
     <?php require __DIR__ . '/../partials/header.php'; ?>
 
@@ -42,8 +42,7 @@ $theme_base = '/themes/'.$theme_name;
         <?php isset($page_content) ? render_html($page_content) : render_html(''); ?>
     </main>
 
-    <footer class="container mx-auto text-center">
-        <?php require __DIR__ . '/../partials/footer.php'; ?>
-    </footer>
+    <?php require __DIR__ . '/../partials/footer.php'; ?>
+    
 </body>
 </html>

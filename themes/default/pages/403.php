@@ -6,7 +6,7 @@ $page_title = 'Access denied — 403';
 
 ob_start();
 ?>
-<div class="flex items-center justify-center px-12 py-12">
+<div class="min-h-full flex items-center justify-center px-12 py-12">
     <div class="max-w-md w-full text-center">
         <!-- 404 Number -->
         <div class="mb-8">
