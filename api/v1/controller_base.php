@@ -119,9 +119,11 @@ abstract class BaseController {
     protected function get_input_data(): array {
         $contentType = env('CONTENT_TYPE') ?? '';
 
-        if (strpos($contentType, 'application/json') !== false) {
+        // Handle JSON data (including CSP reports)
+        if (strpos($contentType, 'application/json') !== false ||
+            strpos($contentType, 'application/csp-report') !== false) {
             // Safely read and decode JSON input
-            $input = file_read('php://input');
+            $input = read_input_stream();
 
             if ($input === false) {
                 return [];

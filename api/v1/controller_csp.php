@@ -34,16 +34,33 @@ class CspController extends BaseController {
      * @return void
      */
     public function report(): void {
-        $input = $this->get_input_data();
-        
+        // Try to read input directly for CSP reports
+        $raw_input = read_input_stream('php://input');
+
+        if (!empty($raw_input)) {
+            // Try to decode JSON
+            $input = json_decode($raw_input, true);
+            if ($input === null) {
+                // Try safe_json_decode as fallback
+                $input = safe_json_decode($raw_input, 1048576);
+                if ($input === null) {
+                    $this->error_response('Invalid JSON in CSP report', 400);
+                    return;
+                }
+            }
+            $input = sanitize_input_data($input);
+        } else {
+            $input = $this->get_input_data();
+        }
+
         if (!isset($input['csp-report'])) {
             $this->error_response('Invalid CSP report', 400);
             return;
         }
-        
+
         // Log the violation
         $this->log_csp_violation($input['csp-report']);
-        
+
         // Return 200 OK without data
         $this->json_response(['status' => 'reported'], 200);
     }

@@ -176,6 +176,15 @@ function file_read(string $file) : string|false {
 
 
 /**
+ * Read input stream
+ * @return string|false - data from input stream or false on failure
+ */
+function read_input_stream(): string|false {
+    return file_get_contents('php://input');
+}
+
+
+/**
  * Convert hex color to array
  * @param string $hexcolor - hex color
  * @return array - array of color
