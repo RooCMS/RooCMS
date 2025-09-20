@@ -52,7 +52,7 @@ Options All -ExecCGI -Indexes -Includes +FollowSymLinks
 	# Block dangerous characters in REQUEST_URI (path part)
 	RewriteCond %{THE_REQUEST} (<|>|%3C|%3E|'|") [NC]
 	# Redirect blocked requests to custom error page
-	RewriteRule .* /err.php?code=403 [R=403,L]
+	RewriteRule .* /403 [R=403,L]
 
 	# Redirect blocked requests
 	# RewriteRule .* index.php [F]
