@@ -31,7 +31,7 @@ $csp_nonce = str_replace(['+', '/', '='], ['-', '_', ''], $csp_nonce);
 /**
  * Get CSP header
  */
-function get_csp_header(): string {
+function get_csp_header($csp_nonce): string {
     $csp = [
         "default-src" => "'self'",
         "script-src" => "'self' 'nonce-".$csp_nonce."'",
@@ -67,8 +67,8 @@ function get_csp_header(): string {
 /**
  * Set CSP header
  */
-function set_csp_header(): void {
+function set_csp_header($csp_nonce): void {
     if (!headers_sent()) {
-        header('Content-Security-Policy: ' . get_csp_header());
+        header('Content-Security-Policy: ' . get_csp_header($csp_nonce));
     }
 }
