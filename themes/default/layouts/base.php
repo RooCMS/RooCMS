@@ -34,17 +34,17 @@ $theme_base = '/themes/'.$theme_name;
     <?php endforeach; ?>
     
 </head>
-<body class="font-sans bg-white lg:bg-zinc-100 dark:bg-zinc-900 dark:lg:bg-zinc-950">
+<body class="font-san bg-gradient-to-r from-amber-100 to-sky-50">
 
-    <header class="container mx-auto">
+    <!-- <header class="container mx-auto flex w-full flex-wrap items-end justify-between gap-4 border-b border-zinc-950/10 pb-6 dark:border-white/10"> -->
         <?php require __DIR__ . '/../partials/header.php'; ?>
-    </header>
+    <!-- </header> -->
 
     <main class="container mx-auto">
         <?php isset($page_content) ? render_html($page_content) : render_html(''); ?>
     </main>
 
-    <footer class="container mx-auto">
+    <footer class="container mx-auto text-center">
         <?php require __DIR__ . '/../partials/footer.php'; ?>
     </footer>
 </body>
