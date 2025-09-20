@@ -25,7 +25,7 @@ ob_start();
         <span x-effect="visible = (text !== '')"></span>
     </div>
 
-    <div x-data="{}">
+    <div>
         <button @click="console.log('Alpine OK')">Test Alpine</button>
     </div>
     <div>

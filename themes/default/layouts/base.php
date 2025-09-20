@@ -34,11 +34,9 @@ $theme_base = '/themes/'.$theme_name;
     <?php endforeach; ?>
     
 </head>
-<body class="font-san bg-gradient-to-r from-amber-100 to-sky-50">
+<body class="font-san bg-gradient-to-r from-amber-100 to-sky-50" x-data="{}">
 
-    <!-- <header class="container mx-auto flex w-full flex-wrap items-end justify-between gap-4 border-b border-zinc-950/10 pb-6 dark:border-white/10"> -->
-        <?php require __DIR__ . '/../partials/header.php'; ?>
-    <!-- </header> -->
+    <?php require __DIR__ . '/../partials/header.php'; ?>
 
     <main class="container mx-auto">
         <?php isset($page_content) ? render_html($page_content) : render_html(''); ?>
