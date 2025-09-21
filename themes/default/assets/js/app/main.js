@@ -10,9 +10,22 @@ document.addEventListener('DOMContentLoaded', () => {
     Alpine = window.Alpine;
 });
 
+// Global Alpine data
+document.addEventListener('alpine:init', () => {
+    // Mobile menu store
+    Alpine.store('mobileMenu', {
+        open: false,
+        toggle() {
+            this.open = !this.open;
+        }
+    });
 
-// Mark modules ready (used by potential starters)
-window.__roocmsModulesReady = true;
+    // Mobile menu
+    Alpine.data('MobileMenu', () => ({
+        mobileMenuOpen: false,
+    }));
+});
+
 
 // Global error handler
 window.addEventListener('error', (e) => {

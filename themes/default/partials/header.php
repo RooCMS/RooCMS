@@ -45,7 +45,7 @@ if(!defined('RooCMS')) { http_response_code(403); header('Content-Type: text/pla
 
             <!-- Mobile menu button (placeholder for future JS implementation) -->
             <div class="md:hidden">
-                <button type="button" class="inline-flex items-center justify-center rounded-md p-2 text-zinc-700 hover:bg-zinc-100 hover:text-zinc-900 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-zinc-900">
+                <button type="button" class="inline-flex items-center justify-center rounded-md p-2 text-zinc-700 hover:bg-zinc-100 hover:text-zinc-900 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-zinc-900" x-on:click="$store.mobileMenu.toggle()">
                     <span class="sr-only">Open main menu</span>
                     <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
@@ -55,7 +55,7 @@ if(!defined('RooCMS')) { http_response_code(403); header('Content-Type: text/pla
         </div>
 
         <!-- Mobile Navigation -->
-        <div class="md:hidden">
+        <div class="md:hidden" x-show="$store.mobileMenu.open">
             <div class="space-y-1 pb-3 pt-2">
                 <a href="/" class="block border-l-4 border-transparent py-2 pl-3 pr-4 text-base font-medium text-zinc-700 hover:border-zinc-300 hover:bg-zinc-50 hover:text-zinc-900">
                     Home
