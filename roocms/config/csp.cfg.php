@@ -25,17 +25,17 @@ if(!defined('RooCMS')) {
  * Generate CSP nonce
  */
 $csp_nonce = base64_encode(random_bytes(16));;
-$csp_nonce = str_replace(['+', '/', '='], ['-', '_', ''], $csp_nonce);
-
+$csp_nonce = str_ireplace(['+', '/', '='], ['-', '_', ''], $csp_nonce);
+define('CSPNONCE', $csp_nonce);
 
 /**
  * Get CSP header
  */
-function get_csp_header($csp_nonce): string {
+function get_csp_header(): string {
     $csp = [
         "default-src" => "'self'",
-        "script-src" => "'self' 'nonce-".$csp_nonce."'",
-        "style-src" => "'self' 'unsafe-inline' 'nonce-".$csp_nonce."'",
+        "script-src" => "'self' 'nonce-".CSPNONCE."'",
+        "style-src" => "'self' 'unsafe-inline' 'nonce-".CSPNONCE."'",
         "img-src" => "'self' data: https:",
         "font-src" => "'self'",
         "connect-src" => "'self'",
@@ -67,8 +67,8 @@ function get_csp_header($csp_nonce): string {
 /**
  * Set CSP header
  */
-function set_csp_header($csp_nonce): void {
+function set_csp_header(): void {
     if (!headers_sent()) {
-        header('Content-Security-Policy: ' . get_csp_header($csp_nonce));
+        header('Content-Security-Policy: ' . get_csp_header());
     }
 }

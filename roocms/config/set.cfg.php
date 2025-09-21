@@ -35,7 +35,7 @@ define('MEMORYUSAGE', memory_get_usage());
 /**
  * Set the CSP header
  */
-set_csp_header($csp_nonce);
+set_csp_header();
 
 /**
  * Start GZip

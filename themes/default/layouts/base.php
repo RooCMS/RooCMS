@@ -25,13 +25,13 @@ $theme_base = '/themes/'.$theme_name;
     <link rel="stylesheet" href="<?php render_html($theme_base); ?>/assets/css/roocms.min.css">
 
     <!-- Page-level modules should be loaded via $page_scripts when needed -->
-    <script defer type="module" src="<?php render_html($theme_base); ?>/assets/js/app/main.js"></script>
+    <script defer type="module" src="<?php render_html($theme_base); ?>/assets/js/app/main.js" nonce="<?php render_html(CSPNONCE); ?>"></script>
     <?php foreach($page_scripts as $script_path): ?>
         <?php $resolved = (strpos($script_path, '/') === 0) ? $script_path : ($theme_base.'/'.ltrim($script_path, '/')); ?>
-        <script defer type="module" src="<?php render_html($resolved); ?>"></script>
+        <script defer type="module" src="<?php render_html($resolved); ?>" nonce="<?php render_html(CSPNONCE); ?>"></script>
     <?php endforeach; ?>
 
-    <script defer src="<?php render_html($theme_base); ?>/assets/js/alpine.csp.min.js"></script>
+    <script defer src="<?php render_html($theme_base); ?>/assets/js/alpine.csp.min.js" nonce="<?php render_html(CSPNONCE); ?>"></script>
     
 </head>
 <body class="font-sans bg-gradient-to-r from-amber-100 to-sky-50 grid grid-rows-[auto_1fr_auto] min-h-screen" x-data="{}">
