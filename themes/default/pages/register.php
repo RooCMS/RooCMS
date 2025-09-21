@@ -1,8 +1,8 @@
 <?php declare(strict_types=1);
 if(!defined('RooCMS')) { http_response_code(403); header('Content-Type: text/plain; charset=utf-8'); exit('403:Access denied'); }
 
-$page_title = 'Регистрация — RooCMS';
-$page_description = 'Создайте аккаунт в RooCMS для доступа к системе управления контентом';
+$page_title = 'Register — RooCMS';
+$page_description = 'Create an account in RooCMS for access to the content management system';
 
 $theme_name = basename(dirname(__DIR__));
 $theme_base = '/themes/'.$theme_name;
@@ -22,12 +22,12 @@ ob_start();
                 </div>
             </div>
             <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">
-                Создать аккаунт
+                Create account
             </h2>
             <p class="mt-2 text-center text-sm text-gray-600">
-                Уже есть аккаунт?
+                Already have an account?
                 <a href="/login" class="font-medium text-blue-600 hover:text-blue-500 transition-colors">
-                    Войти
+                    Login
                 </a>
             </p>
         </div>
@@ -46,7 +46,7 @@ ob_start();
                 <!-- Login field -->
                 <div>
                     <label for="login" class="block text-sm font-medium text-gray-700">
-                        Логин <span class="text-red-500">*</span>
+                        Login <span class="text-red-500">*</span>
                     </label>
                     <div class="mt-1">
                         <input
@@ -55,7 +55,7 @@ ob_start();
                             type="text"
                             autocomplete="username"
                             class="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 transition-colors"
-                            placeholder="Введите логин"
+                            placeholder="Enter login"
                         >
                     </div>
                     <div id="login-error" class="hidden mt-1 text-sm text-red-600"></div>
@@ -82,7 +82,7 @@ ob_start();
                 <!-- Password field -->
                 <div>
                     <label for="password" class="block text-sm font-medium text-gray-700">
-                        Пароль <span class="text-red-500">*</span>
+                        Password <span class="text-red-500">*</span>
                     </label>
                     <div class="mt-1">
                         <input
@@ -91,7 +91,7 @@ ob_start();
                             type="password"
                             autocomplete="new-password"
                             class="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 transition-colors"
-                            placeholder="Минимум 8 символов"
+                            placeholder="Minimum 8 characters"
                         >
                     </div>
                     <div id="password-error" class="hidden mt-1 text-sm text-red-600"></div>
@@ -100,7 +100,7 @@ ob_start();
                 <!-- Password confirmation field -->
                 <div>
                     <label for="password_confirmation" class="block text-sm font-medium text-gray-700">
-                        Подтверждение пароля <span class="text-red-500">*</span>
+                        Password confirmation <span class="text-red-500">*</span>
                     </label>
                     <div class="mt-1">
                         <input
@@ -109,7 +109,7 @@ ob_start();
                             type="password"
                             autocomplete="new-password"
                             class="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 transition-colors"
-                            placeholder="Повторите пароль"
+                            placeholder="Repeat password"
                         >
                     </div>
                     <div id="password-confirmation-error" class="hidden mt-1 text-sm text-red-600"></div>
@@ -122,13 +122,13 @@ ob_start();
                         id="submit-btn"
                         class="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 shadow-sm hover:shadow-md"
                     >
-                        <span id="submit-text">Создать аккаунт</span>
+                        <span id="submit-text">Create account</span>
                         <span id="loading-text" class="hidden flex items-center">
                             <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                                 <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
                                 <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                             </svg>
-                            Регистрация...
+                            Registration...
                         </span>
                     </button>
                 </div>
@@ -137,9 +137,9 @@ ob_start();
             <!-- Policy link -->
             <div class="mt-6 text-center text-sm text-gray-500">
                 <p>
-                    Создавая аккаунт, вы соглашаетесь с нашими
-                    <br /><a href="/terms" class="font-medium text-blue-600 hover:text-blue-500 transition-colors">Условиями использования</a>
-                    <br />и <a href="/privacy" class="font-medium text-blue-600 hover:text-blue-500 transition-colors">Политикой конфиденциальности</a>
+                    By creating an account, you agree to our
+                    <br /><a href="/terms" class="font-medium text-blue-600 hover:text-blue-500 transition-colors">Terms of use</a>
+                    and <a href="/privacy" class="font-medium text-blue-600 hover:text-blue-500 transition-colors">Privacy policy</a>
                 </p>
             </div>
         </div>
