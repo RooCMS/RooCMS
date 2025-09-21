@@ -251,7 +251,7 @@ class TemplateRendererHtml implements TemplateRenderer {
 			'title' => $meta['title'],
 			'description' => $meta['description'],
 			'theme_base' => $theme_web,
-			'year' => date('Y'),
+			'csp_nonce' => CSPNONCE,
 			'content' => '', // will be set later
 			'header' => '',
 			'footer' => '',
@@ -275,7 +275,7 @@ class TemplateRendererHtml implements TemplateRenderer {
 				$script = trim($script);
 				if ($script !== '') {
 					$resolved = (strpos($script, '/') === 0) ? $script : ($theme_web . '/' . ltrim($script, '/'));
-					$script_tags[] = '<script type="module" src="' . htmlspecialchars($resolved, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8') . '"></script>';
+					$script_tags[] = '<script type="module" src="' . htmlspecialchars($resolved, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8') . '" nonce="' . htmlspecialchars(CSPNONCE, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8') . '"></script>';
 				}
 			}
 			$variables['page_scripts'] = implode("\n\t", $script_tags);
@@ -439,7 +439,7 @@ class TemplateRendererHtml implements TemplateRenderer {
 		$final_html = $layout;
 
 		// Variables that do not need to be escaped (already contain processed HTML)
-		$no_escape_vars = ['header', 'footer', 'content', 'page_scripts'];
+		$no_escape_vars = ['header', 'footer', 'content', 'page_scripts', 'csp_nonce'];
 
 		foreach ($variables as $key => $value) {
 			if (is_scalar($value)) {

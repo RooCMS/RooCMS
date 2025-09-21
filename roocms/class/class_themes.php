@@ -30,7 +30,7 @@ class Themes {
 	private array $renderers = []; 						// TemplateRenderer Available renderers: php/html
 	private ?ThemeConfig $current_theme_config = null;	// Current theme configuration
 	private string $themes_dir; 						// Directory with themes
-	private array $global_vars = []; 					// Global variables for all templates: site_name, site_description, current_year, base_url, current_url
+	private array $global_vars = []; 					// Global variables for all templates: site_name, site_description, base_url, current_url
 	private $theme_config_factory; 						// callable(string $theme_name, string $themes_dir): ThemeConfig
 
 
@@ -79,7 +79,7 @@ class Themes {
 		$this->global_vars = [
 			'site_name' => 'RooCMS',
 			'site_description' => 'Open Source Content Management System',
-			'current_year' => date('Y'),
+			'csp_nonce' => CSPNONCE,
 			'base_url' => $this->get_base_url(),
 			'current_url' => $this->get_current_url(),
 		];
