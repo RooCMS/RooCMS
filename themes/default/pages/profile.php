@@ -411,7 +411,7 @@ ob_start();
                         Quick Actions
                     </h3>
 
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
                         <button class="group flex items-center justify-center p-4 bg-white/80 backdrop-blur-sm rounded-xl border border-gray-200/50 shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1">
                             <div class="text-center">
                                 <div class="flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-r from-blue-500 to-indigo-500 mx-auto mb-2 shadow-sm group-hover:scale-110 transition-transform duration-300">
@@ -447,6 +447,18 @@ ob_start();
                                 <div class="text-xs text-gray-500 mt-1">Get assistance</div>
                             </div>
                         </button>
+
+                        <button class="group flex items-center justify-center p-4 bg-white/80 backdrop-blur-sm rounded-xl border border-gray-200/50 shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1">
+                            <div class="text-center">
+                                <div class="flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-r from-red-500 to-rose-500 mx-auto mb-2 shadow-lg group-hover:scale-110 transition-transform duration-300">
+                                    <svg class="w-6 h-6 text-white py-0 translate-y-0.25" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                                    </svg>
+                                </div>
+                                <div class="text-sm font-medium text-gray-900">Delete Account</div>
+                                <div class="text-xs text-gray-500 mt-1">Remove profile</div>
+                            </div>
+                        </button>
                     </div>
                 </div>
 
@@ -463,7 +475,6 @@ ob_start();
         </div>
     </div>
 </div>
-
 
 <?php $page_content = ob_get_clean();
 require __DIR__ . '/../layouts/base.php'; ?>

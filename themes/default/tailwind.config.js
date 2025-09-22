@@ -10,6 +10,10 @@ module.exports = {
     "./**/*.php",
     "./**/*.js"
   ],
+  corePlugins: {
+    // Please make sure this is not set to false
+    preflight: true,
+  },
   theme: {
     extend: {},
   },
