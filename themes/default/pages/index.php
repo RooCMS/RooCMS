@@ -1,41 +1,43 @@
 <?php declare(strict_types=1);
 if(!defined('RooCMS')) { http_response_code(403); header('Content-Type: text/plain; charset=utf-8'); exit('403:Access denied'); }
 
-$page_title = 'Welcome to RooCMS';
-$page_description = 'The modern content management system on pure PHP';
-$page_scripts = [];
+$page_title = 'RooCMS - Modern PHP Content Management System | Fast, Secure, Framework-Free';
+$page_description = 'RooCMS - powerful open-source CMS built on pure PHP 8.1+. No frameworks, no ORM. Fast performance, security-first approach, REST API, multi-database support.';
+$page_keywords = 'RooCMS, PHP CMS, content management system, open source, pure PHP, framework-free, REST API, MySQL, PostgreSQL, Firebird, PHP 8.1, secure CMS, fast CMS, KISS principle';
 
 ob_start();
 ?>
 <!-- Hero Section -->
-<section class="relative py-10 sm:py-24 lg:py-10">
+<section class="relative py-10 sm:py-24 lg:py-10" aria-labelledby="hero-heading">
     <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div class="text-center">
-            <h1 class="text-4xl font-bold tracking-tight text-zinc-900 sm:text-6xl">
+            <h1 id="hero-heading" class="text-4xl font-bold tracking-tight text-zinc-900 sm:text-6xl">
                 Welcome to
                 <span class="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">RooCMS</span>
             </h1>
-            <p class="mx-auto mt-6 max-w-2xl text-lg leading-8 text-zinc-600">
+            <p class="mx-auto mt-6 max-w-2xl text-lg leading-8 text-zinc-600" role="banner">
                 The modern content management system on pure PHP without frameworks.
                 Simple, fast and secure platform for creating websites.
             </p>
-            <div class="mt-10 flex items-center justify-center gap-x-6">
-                <a href="/register" class="inline-flex items-center justify-center rounded-md bg-gradient-to-r from-blue-600 to-purple-600 px-8 py-3 text-base font-semibold text-white transition-all hover:from-blue-700 hover:to-purple-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 shadow-lg hover:shadow-xl transform hover:scale-105">
+            <div class="mt-10 flex items-center justify-center gap-x-6" role="group" aria-label="Main actions">
+                <a href="/register" class="inline-flex items-center justify-center rounded-md bg-gradient-to-r from-blue-600 to-purple-600 px-8 py-3 text-base font-semibold text-white transition-all hover:from-blue-700 hover:to-purple-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 shadow-lg hover:shadow-xl transform hover:scale-105" aria-describedby="register-desc">
                     Start working
                 </a>
-                <a href="/about" class="text-base font-semibold leading-6 text-zinc-900 hover:text-zinc-700 transition-colors">
+                <span id="register-desc" class="sr-only">Create your first website with RooCMS</span>
+                <a href="/about" class="text-base font-semibold leading-6 text-zinc-900 hover:text-zinc-700 transition-colors focus:outline-none focus:ring-2 focus:ring-zinc-500 focus:ring-offset-2 rounded px-2" aria-describedby="about-desc">
                     Learn more <span aria-hidden="true">→</span>
                 </a>
+                <span id="about-desc" class="sr-only">Read more about RooCMS features and capabilities</span>
             </div>
         </div>
     </div>
 </section>
 
 <!-- Features Section -->
-<section class="py-16 sm:py-20 bg-white/50 rounded-sm">
+<section class="py-16 sm:py-20 bg-white/50 rounded-sm" aria-labelledby="features-heading">
     <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div class="text-center mb-16">
-            <h2 class="text-3xl font-bold tracking-tight text-zinc-900 sm:text-4xl">
+            <h2 id="features-heading" class="text-3xl font-bold tracking-tight text-zinc-900 sm:text-4xl">
                 Why RooCMS?
             </h2>
             <p class="mt-4 text-lg text-zinc-600 max-w-2xl mx-auto">
@@ -43,11 +45,11 @@ ob_start();
             </p>
         </div>
 
-        <div class="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
+        <div class="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3" role="list" aria-label="RooCMS features">
             <!-- Feature 1 -->
-            <div class="relative bg-white rounded-lg shadow-sm border border-zinc-200 p-8 hover:shadow-md transition-shadow">
-                <div class="flex items-center justify-center w-12 h-12 rounded-lg bg-gradient-to-r from-blue-500 to-purple-500 mb-6">
-                    <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div class="relative bg-white rounded-lg shadow-sm border border-zinc-200 p-8 hover:shadow-md transition-shadow" role="listitem">
+                <div class="flex items-center justify-center w-12 h-12 rounded-lg bg-gradient-to-r from-blue-500 to-purple-500 mb-6" aria-hidden="true">
+                    <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-label="Lightning bolt icon">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
                     </svg>
                 </div>
@@ -58,9 +60,9 @@ ob_start();
             </div>
 
             <!-- Feature 2 -->
-            <div class="relative bg-white rounded-lg shadow-sm border border-zinc-200 p-8 hover:shadow-md transition-shadow">
-                <div class="flex items-center justify-center w-12 h-12 rounded-lg bg-gradient-to-r from-green-500 to-teal-500 mb-6">
-                    <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div class="relative bg-white rounded-lg shadow-sm border border-zinc-200 p-8 hover:shadow-md transition-shadow" role="listitem">
+                <div class="flex items-center justify-center w-12 h-12 rounded-lg bg-gradient-to-r from-green-500 to-teal-500 mb-6" aria-hidden="true">
+                    <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-label="Shield icon">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
                     </svg>
                 </div>
@@ -244,23 +246,75 @@ ob_start();
     </div>
 </section>
 
+<!-- Documentation Section -->
+<section class="py-16 sm:py-20" aria-labelledby="docs-heading">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-12">
+            <h2 id="docs-heading" class="text-3xl font-bold tracking-tight text-zinc-900 sm:text-4xl mb-4">
+                Comprehensive documentation
+            </h2>
+            <p class="text-lg text-zinc-600 max-w-2xl mx-auto">
+                Everything you need to get started with RooCMS development and deployment
+            </p>
+        </div>
+
+        <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3" role="list" aria-label="Documentation resources">
+            <div class="relative bg-white rounded-lg shadow-sm border border-zinc-200 p-6 hover:shadow-md transition-shadow" role="listitem">
+                <div class="flex items-center justify-center w-12 h-12 rounded-lg bg-blue-100 mb-4">
+                    <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-label="Installation guide">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                    </svg>
+                </div>
+                <h3 class="text-lg font-semibold text-zinc-900 mb-2">Installation Guide</h3>
+                <p class="text-zinc-600 text-sm mb-4">Step-by-step installation instructions for various hosting environments.</p>
+                <a href="/docs/installation" class="text-blue-600 hover:text-blue-800 font-medium text-sm">Read guide →</a>
+            </div>
+
+            <div class="relative bg-white rounded-lg shadow-sm border border-zinc-200 p-6 hover:shadow-md transition-shadow" role="listitem">
+                <div class="flex items-center justify-center w-12 h-12 rounded-lg bg-green-100 mb-4">
+                    <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-label="API documentation">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 9l3 3-3 3m5 0h3M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                    </svg>
+                </div>
+                <h3 class="text-lg font-semibold text-zinc-900 mb-2">API Reference</h3>
+                <p class="text-zinc-600 text-sm mb-4">Complete REST API documentation with examples and endpoints.</p>
+                <a href="/docs/api" class="text-blue-600 hover:text-blue-800 font-medium text-sm">View API →</a>
+            </div>
+
+            <div class="relative bg-white rounded-lg shadow-sm border border-zinc-200 p-6 hover:shadow-md transition-shadow" role="listitem">
+                <div class="flex items-center justify-center w-12 h-12 rounded-lg bg-purple-100 mb-4">
+                    <svg class="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-label="Theme development">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                    </svg>
+                </div>
+                <h3 class="text-lg font-semibold text-zinc-900 mb-2">Theme Development</h3>
+                <p class="text-zinc-600 text-sm mb-4">Learn how to create custom themes with Tailwind CSS and Alpine.js.</p>
+                <a href="/docs/themes" class="text-blue-600 hover:text-blue-800 font-medium text-sm">Learn theming →</a>
+            </div>
+        </div>
+    </div>
+</section>
+
 <!-- CTA Section -->
-<section class="py-16 sm:py-12">
+<section class="py-16 sm:py-12" aria-labelledby="cta-heading">
     <div class="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
-        <div class="text-center bg-gradient-to-r from-sky-100 to-purple-100 rounded-2xl p-8 sm:p-12">
-            <h2 class="text-3xl font-bold tracking-tight text-zinc-900 sm:text-4xl mb-4">
+        <div class="text-center bg-gradient-to-r from-sky-100 to-purple-100 rounded-2xl p-8 sm:p-12" role="region" aria-labelledby="cta-heading">
+            <h2 id="cta-heading" class="text-3xl font-bold tracking-tight text-zinc-900 sm:text-4xl mb-4">
                 Ready to start?
             </h2>
             <p class="text-lg text-zinc-600 mb-8 max-w-2xl mx-auto">
                 Create your first website on RooCMS today. Fast installation and easy content management.
             </p>
-            <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
-                <a href="/register" class="inline-flex items-center justify-center rounded-md bg-gradient-to-r from-blue-600 to-purple-600 px-8 py-3 text-base font-semibold text-white transition-all hover:from-blue-700 hover:to-purple-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 shadow-lg hover:shadow-xl transform hover:scale-105">
+            <div class="flex flex-col sm:flex-row items-center justify-center gap-4" role="group" aria-label="Get started actions">
+                <a href="/register" class="inline-flex items-center justify-center rounded-md bg-gradient-to-r from-blue-600 to-purple-600 px-8 py-3 text-base font-semibold text-white transition-all hover:from-blue-700 hover:to-purple-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 shadow-lg hover:shadow-xl transform hover:scale-105" aria-describedby="register-cta-desc">
                     Create an account
                 </a>
-                <a href="/login" class="inline-flex items-center justify-center rounded-md border border-zinc-300 bg-white px-8 py-3 text-base font-semibold text-zinc-900 transition-all hover:bg-zinc-50 focus:outline-none focus:ring-2 focus:ring-zinc-500 focus:ring-offset-2 shadow-sm hover:shadow-md">
+                <span id="register-cta-desc" class="sr-only">Start using RooCMS by creating a new account</span>
+                <a href="/login" class="inline-flex items-center justify-center rounded-md border border-zinc-300 bg-white px-8 py-3 text-base font-semibold text-zinc-900 transition-all hover:bg-zinc-50 focus:outline-none focus:ring-2 focus:ring-zinc-500 focus:ring-offset-2 shadow-sm hover:shadow-md" aria-describedby="login-cta-desc">
                     Login to the system
                 </a>
+                <span id="login-cta-desc" class="sr-only">Access your existing RooCMS account</span>
             </div>
         </div>
     </div>
