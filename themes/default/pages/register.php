@@ -33,7 +33,7 @@ ob_start();
         </div>
 
         <!-- Registration form -->
-        <div class="bg-white py-8 px-6 shadow-lg rounded-lg border border-gray-200" x-data="registerForm" x-data="{form_error: '', form_success:'', loading: false}">
+        <div class="bg-white py-8 px-6 shadow-lg rounded-lg border border-gray-200" x-data="registerForm">
             <!-- Error messages -->
             <div id="error-message" class="hidden mb-4 p-4 bg-red-50 border border-red-200 rounded-md text-red-700 text-sm" x-show="form_error" x-text="form_error">
             </div>
@@ -42,7 +42,7 @@ ob_start();
             <div id="success-message" class="hidden mb-4 p-4 bg-green-50 border border-green-200 rounded-md text-green-700 text-sm" x-show="form_success" x-text="form_success">
             </div>
 
-            <form id="register-form" class="space-y-6" method="POST" x-data="registerForm" x-on:submit.prevent="submitForm">
+            <form id="register-form" class="space-y-6" method="POST" x-on:submit.prevent="submitForm">
                 <!-- Login field -->
                 <div>
                     <label for="login" class="block text-sm font-medium text-gray-700">

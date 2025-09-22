@@ -16,6 +16,23 @@ export async function login(login, password) {
     }
 }
 
+export async function register(login, email, password, password_confirmation) {
+    const res = await request('/v1/auth/register', {
+        method: 'POST',
+        body: JSON.stringify({ login, email, password, password_confirmation })
+    });
+    const j = await res.json();
+
+    if (!res.ok) {
+        const error = new Error(j?.message || 'Registration failed');
+        error.status = res.status;
+        error.details = j?.details?.validation_errors || j?.errors || null;
+        throw error;
+    }
+
+    return j.data;
+}
+
 export async function logout() {
     try { await request('/v1/auth/logout', { method: 'POST' }); } catch(e) {}
     setAccessToken(null);
