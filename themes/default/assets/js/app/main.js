@@ -7,13 +7,13 @@ document.addEventListener('DOMContentLoaded', () => {
         window.Alpine.deferMutations();
     }
 
-    Alpine = window.Alpine;
+    Alpine = window.Alpine; // On any case ;)
 });
 
 // Global Alpine data
 document.addEventListener('alpine:init', () => {
     // Mobile menu store
-    Alpine.store('mobileMenu', {
+    window.Alpine.store('mobileMenu', {
         open: false,
         toggle() {
             this.open = !this.open;
@@ -21,7 +21,7 @@ document.addEventListener('alpine:init', () => {
     });
 
     // Mobile menu
-    Alpine.data('MobileMenu', () => ({
+    window.Alpine.data('MobileMenu', () => ({
         mobileMenuOpen: false,
     }));
 });

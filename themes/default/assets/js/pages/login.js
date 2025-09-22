@@ -1,7 +1,7 @@
 import { login } from './../app/auth.js';
 
 document.addEventListener('alpine:init', () => {
-    Alpine.data('loginForm', () => ({
+    window.Alpine.data('loginForm', () => ({
         login: '',
         password: '',
         form_error: '',

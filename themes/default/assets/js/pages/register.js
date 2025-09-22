@@ -1,7 +1,7 @@
 import { register } from '../app/auth.js';
 
 document.addEventListener('alpine:init', () => {
-    Alpine.data('registerForm', () => ({
+    window.Alpine.data('registerForm', () => ({
         login: '',
         email: '',
         password: '',
