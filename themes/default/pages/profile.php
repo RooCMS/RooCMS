@@ -122,7 +122,7 @@ ob_start();
                                 Personal Details
                             </h3>
                             <div class="px-3 py-1 bg-gradient-to-r from-purple-100 to-pink-100 text-purple-800 rounded-full text-sm font-medium border border-purple-200">
-                                <span x-text="user ? (user.first_name || user.last_name ? 'Complete' : 'Incomplete') : 'Loading...'"></span>
+                                <span x-text="user ? (user.first_name && user.last_name && user.nickname && user.gender && user.birthday ? 'Complete' : 'Incomplete') : 'Loading...'"></span>
                             </div>
                         </div>
 
@@ -132,7 +132,7 @@ ob_start();
                                     <div class="text-sm font-medium text-gray-500">First Name</div>
                                     <div class="h-2 w-2 bg-purple-400 rounded-full"></div>
                                 </div>
-                                <div class="text-xl font-bold text-gray-900" x-text="(user || {}).first_name || 'Not set'"></div>
+                                <div class="text-xl font-bold text-gray-900" x-text="(user || {}).first_name || 'Not set'" x-bind:class="user ? (user.first_name ? 'text-gray-900' : 'text-red-600') : 'text-gray-500'"></div>
                                 <div class="mt-2 text-xs text-gray-400">Given name</div>
                             </div>
 
@@ -141,7 +141,7 @@ ob_start();
                                     <div class="text-sm font-medium text-gray-500">Last Name</div>
                                     <div class="h-2 w-2 bg-pink-400 rounded-full"></div>
                                 </div>
-                                <div class="text-xl font-bold text-gray-900" x-text="(user || {}).last_name || 'Not set'"></div>
+                                <div class="text-xl font-bold text-gray-900" x-text="(user || {}).last_name || 'Not set'" x-bind:class="user ? (user.last_name ? 'text-gray-900' : 'text-red-600') : 'text-gray-500'"></div>
                                 <div class="mt-2 text-xs text-gray-400">Family name</div>
                             </div>
 
@@ -150,7 +150,7 @@ ob_start();
                                     <div class="text-sm font-medium text-gray-500">Nickname</div>
                                     <div class="h-2 w-2 bg-indigo-400 rounded-full"></div>
                                 </div>
-                                <div class="text-xl font-bold text-gray-900" x-text="(user || {}).nickname || 'Not set'"></div>
+                                <div class="text-xl font-bold text-gray-900" x-text="(user || {}).nickname || 'Not set'" x-bind:class="user ? (user.nickname ? 'text-gray-900' : 'text-red-600') : 'text-gray-500'"></div>
                                 <div class="mt-2 text-xs text-gray-400">Display name</div>
                             </div>
 
@@ -159,7 +159,7 @@ ob_start();
                                     <div class="text-sm font-medium text-gray-500">Gender</div>
                                     <div class="h-2 w-2 bg-rose-400 rounded-full"></div>
                                 </div>
-                                <div class="text-xl font-bold text-gray-900" x-text="(user || {}).gender || 'Not set'"></div>
+                                <div class="text-xl font-bold text-gray-900" x-text="(user || {}).gender || 'Not set'" x-bind:class="user ? (user.gender ? 'text-gray-900' : 'text-red-600') : 'text-gray-500'"></div>
                                 <div class="mt-2 text-xs text-gray-400">Identity</div>
                             </div>
 
@@ -168,7 +168,7 @@ ob_start();
                                     <div class="text-sm font-medium text-gray-500">Birthday</div>
                                     <div class="h-2 w-2 bg-amber-400 rounded-full"></div>
                                 </div>
-                                <div class="text-xl font-bold text-gray-900" x-text="formatDate((user || {}).birthday) || 'Not set'"></div>
+                                <div class="text-xl font-bold text-gray-900" x-text="formatDate((user || {}).birthday) || 'Not set'" x-bind:class="user ? (user.birthday ? 'text-gray-900' : 'text-red-600') : 'text-gray-500'"></div>
                                 <div class="mt-2 text-xs text-gray-400">Date of birth</div>
                             </div>
                         </div>
@@ -201,7 +201,7 @@ ob_start();
                                 Contact & Bio
                             </h3>
                             <div class="px-3 py-1 bg-gradient-to-r from-emerald-100 to-teal-100 text-emerald-800 rounded-full text-sm font-medium border border-emerald-200">
-                                <span x-text="user ? (user.email && user.bio ? 'Complete' : 'Needs Setup') : 'Loading...'"></span>
+                                <span x-text="user ? (user.email && user.bio && user.website ? 'Complete' : 'Needs Setup') : 'Loading...'"></span>
                             </div>
                         </div>
 
