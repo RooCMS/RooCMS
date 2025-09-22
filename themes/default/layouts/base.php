@@ -6,9 +6,11 @@ if(!defined('RooCMS')) { http_response_code(403); header('Content-Type: text/pla
 
 $page_title = isset($page_title) && $page_title !== '' ? (string)$page_title : 'RooCMS';
 $page_description = isset($page_description) && $page_description !== '' ? (string)$page_description : 'RooCMS website';
+$page_keywords = isset($page_keywords) && $page_keywords !== '' ? (string)$page_keywords : '';
 
 // Optional: array of page-specific module scripts
 $page_scripts = isset($page_scripts) && is_array($page_scripts) ? $page_scripts : [];
+
 // Compute web base for current theme to avoid hardcoded paths
 $theme_name = basename(dirname(__DIR__));
 $theme_base = '/themes/'.$theme_name;
@@ -20,6 +22,20 @@ $theme_base = '/themes/'.$theme_name;
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title><?php render_html($page_title); ?></title>
     <meta name="description" content="<?php render_html($page_description); ?>">
+    <?php if($page_keywords): ?>
+        <meta name="keywords" content="<?php render_html($page_keywords); ?>">
+    <?php endif; ?>
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="<?php render_html($page_title); ?>">
+    <meta property="og:description" content="<?php render_html($page_description); ?>">
+    <meta property="og:site_name" content="RooCMS">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:title" content="<?php render_html($page_title); ?>">
+    <meta property="twitter:description" content="<?php render_html($page_description); ?>">
 
     <link rel="stylesheet" href="<?php render_html($theme_base); ?>/assets/css/normalize.min.css">
     <link rel="stylesheet" href="<?php render_html($theme_base); ?>/assets/css/roocms.min.css">
@@ -32,7 +48,7 @@ $theme_base = '/themes/'.$theme_name;
     <?php endforeach; ?>
 
     <script defer src="<?php render_html($theme_base); ?>/assets/js/alpine.csp.min.js" nonce="<?php render_html($csp_nonce); ?>"></script>
-    
+
 </head>
 <body class="font-sans bg-gradient-to-r from-amber-100 to-sky-50 grid grid-rows-[auto_1fr_auto] min-h-screen" x-data="{}">
 
