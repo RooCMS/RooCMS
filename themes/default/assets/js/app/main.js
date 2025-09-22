@@ -31,11 +31,7 @@ document.addEventListener('alpine:init', () => {
 
     // Auth buttons component
     window.Alpine.data('authButtons', () => ({
-        isAuth: false,
-
-        checkAuth() {
-            this.isAuth = !!localStorage.getItem('access_token');
-        },
+        isAuth: !!localStorage.getItem('access_token'),
 
         async logout() {
             try {

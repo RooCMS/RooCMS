@@ -34,10 +34,10 @@ if(!defined('RooCMS')) { http_response_code(403); header('Content-Type: text/pla
             </nav>
 
             <!-- Auth Buttons -->
-            <div class="flex items-center space-x-4" x-data="authButtons" x-init="checkAuth()">
+            <div class="flex items-center space-x-4" x-data="authButtons">
 
                 <!-- Not authenticated -->
-                <div x-show="!isAuth" class="flex items-center space-x-4">
+                <div id="auth-guest" class="flex items-center space-x-4">
                     <a href="/login" class="text-sm font-medium text-zinc-700 transition-colors hover:text-sky-800">
                         Login
                     </a>
@@ -47,7 +47,7 @@ if(!defined('RooCMS')) { http_response_code(403); header('Content-Type: text/pla
                 </div>
 
                 <!-- Authenticated -->
-                <div x-show="isAuth" class="flex items-center space-x-4">
+                <div id="auth-user" class="flex items-center space-x-4 hidden">
                     <a href="/profile" class="inline-flex items-center text-sm font-medium text-zinc-700 transition-colors hover:text-sky-600 cursor-pointer">
                         <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
@@ -62,6 +62,19 @@ if(!defined('RooCMS')) { http_response_code(403); header('Content-Type: text/pla
                     </a>
                 </div>
             </div>
+
+            <script nonce="<?php render_html($csp_nonce); ?>">
+            // Show correct auth buttons immediately to prevent flickering
+            const isAuth = !!localStorage.getItem('access_token');
+            ['auth-guest', 'mobile-auth-guest'].forEach(id => {
+                const el = document.getElementById(id);
+                if (el) el.classList.toggle('hidden', isAuth);
+            });
+            ['auth-user', 'mobile-auth-user'].forEach(id => {
+                const el = document.getElementById(id);
+                if (el) el.classList.toggle('hidden', !isAuth);
+            });
+            </script>
 
             <!-- Mobile menu button (placeholder for future JS implementation) -->
             <div class="md:hidden">
@@ -94,9 +107,9 @@ if(!defined('RooCMS')) { http_response_code(403); header('Content-Type: text/pla
                 </a>
 
                 <!-- Mobile Auth Links -->
-                <div class="border-t border-zinc-200 pt-2 mt-2" x-data="authButtons" x-init="checkAuth()">
+                <div class="border-t border-zinc-200 pt-2 mt-2" x-data="authButtons">
                     <!-- Not authenticated -->
-                    <div x-show="!isAuth">
+                    <div id="mobile-auth-guest">
                         <a href="/login" class="block border-l-4 border-transparent py-2 pl-3 pr-4 text-base font-medium text-zinc-700 hover:border-zinc-300 hover:bg-zinc-50 hover:text-zinc-900">
                             Login
                         </a>
@@ -106,7 +119,7 @@ if(!defined('RooCMS')) { http_response_code(403); header('Content-Type: text/pla
                     </div>
 
                     <!-- Authenticated -->
-                    <div x-show="isAuth">
+                    <div id="mobile-auth-user" class="hidden">
                         <a href="/profile" class="flex items-center border-l-4 border-transparent py-2 pl-3 pr-4 text-base font-medium text-zinc-700 hover:border-zinc-300 hover:bg-zinc-50 hover:text-zinc-900 transition-colors duration-200">
                             <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>

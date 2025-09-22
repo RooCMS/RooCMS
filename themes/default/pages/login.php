@@ -12,6 +12,13 @@ $page_scripts = [$theme_base.'/assets/js/app/api.js', $theme_base.'/assets/js/ap
 ob_start();
 ?>
 
+<script nonce="<?php render_html($csp_nonce); ?>">
+// Redirect if already authenticated
+if (localStorage.getItem('access_token')) {
+    window.location.href = '/profile';
+}
+</script>
+
 <div class="min-h-full flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
     <div class="max-w-md w-full space-y-8">
         <!-- Title -->
