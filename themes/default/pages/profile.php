@@ -451,7 +451,7 @@ ob_start();
 
                 <!-- Navigation -->
                 <div class="flex justify-center">
-                    <a href="/" class="group inline-flex items-center px-6 py-3 bg-gradient-to-r from-gray-600 to-slate-600 text-white rounded-xl shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1 gap-3">
+                    <a href="/" class="group inline-flex items-center px-6 py-3 mt-4 bg-gradient-to-r from-gray-600 to-slate-600 text-white rounded-xl shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1 gap-3">
                         <svg class="w-5 h-5 group-hover:-translate-x-1 transition-transform duration-300 flex-shrink-0 py-0 translate-y-0.25" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
                         </svg>
