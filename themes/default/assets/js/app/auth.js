@@ -6,7 +6,14 @@ export async function login(login, password) {
         body: JSON.stringify({ login, password })
     });
     const j = await res.json();
-    if (!res.ok) throw new Error(j?.message || 'Login failed');
+
+    if (!res.ok) {
+        const error = new Error(j?.message || 'Login failed');
+        error.status = res.status;
+        error.details = j?.details?.validation_errors || j?.errors || null;
+        throw error;
+    }
+
     const token = j?.data?.access_token;
     if (token) {
         setAccessToken(token);
@@ -36,4 +43,6 @@ export async function register(login, email, password, password_confirmation) {
 export async function logout() {
     try { await request('/v1/auth/logout', { method: 'POST' }); } catch(e) {}
     setAccessToken(null);
+    // Redirect to home page after logout
+    window.location.href = '/';
 }

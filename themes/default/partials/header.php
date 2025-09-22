@@ -34,13 +34,33 @@ if(!defined('RooCMS')) { http_response_code(403); header('Content-Type: text/pla
             </nav>
 
             <!-- Auth Buttons -->
-            <div class="flex items-center space-x-4">
-                <a href="/login" class="text-sm font-medium text-zinc-700 transition-colors hover:text-sky-800">
-                    Login
-                </a>
-                <a href="/register" class="inline-flex items-center justify-center rounded-md bg-gradient-to-r from-blue-600 to-purple-600 px-4 py-2 text-sm font-medium text-white transition-all hover:from-blue-700 hover:to-purple-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 shadow-sm hover:shadow-md">
-                    Register
-                </a>
+            <div class="flex items-center space-x-4" x-data="authButtons" x-init="checkAuth()">
+
+                <!-- Not authenticated -->
+                <div x-show="!isAuth" class="flex items-center space-x-4">
+                    <a href="/login" class="text-sm font-medium text-zinc-700 transition-colors hover:text-sky-800">
+                        Login
+                    </a>
+                    <a href="/register" class="inline-flex items-center justify-center rounded-md bg-gradient-to-r from-blue-600 to-purple-600 px-4 py-2 text-sm font-medium text-white transition-all hover:from-blue-700 hover:to-purple-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 shadow-sm hover:shadow-md cursor-pointer">
+                        Register
+                    </a>
+                </div>
+
+                <!-- Authenticated -->
+                <div x-show="isAuth" class="flex items-center space-x-4">
+                    <a href="/profile" class="inline-flex items-center text-sm font-medium text-zinc-700 transition-colors hover:text-sky-600 cursor-pointer">
+                        <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                        </svg>
+                        My Profile
+                    </a>
+                    <a href="#" @click.prevent="logout" class="inline-flex items-center justify-center rounded-lg bg-gradient-to-r from-red-500 to-red-600 px-4 py-2 text-sm font-medium text-white transition-all duration-300 hover:from-red-600 hover:to-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 shadow-md hover:shadow-lg cursor-pointer">
+                        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path>
+                        </svg>
+                        Logout
+                    </a>
+                </div>
             </div>
 
             <!-- Mobile menu button (placeholder for future JS implementation) -->
@@ -72,6 +92,35 @@ if(!defined('RooCMS')) { http_response_code(403); header('Content-Type: text/pla
                 <a href="/contact" class="block border-l-4 border-transparent py-2 pl-3 pr-4 text-base font-medium text-zinc-700 hover:border-zinc-300 hover:bg-zinc-50 hover:text-zinc-900">
                     Contact
                 </a>
+
+                <!-- Mobile Auth Links -->
+                <div class="border-t border-zinc-200 pt-2 mt-2" x-data="authButtons" x-init="checkAuth()">
+                    <!-- Not authenticated -->
+                    <div x-show="!isAuth">
+                        <a href="/login" class="block border-l-4 border-transparent py-2 pl-3 pr-4 text-base font-medium text-zinc-700 hover:border-zinc-300 hover:bg-zinc-50 hover:text-zinc-900">
+                            Login
+                        </a>
+                        <a href="/register" class="block border-l-4 border-transparent py-2 pl-3 pr-4 text-base font-medium text-zinc-700 hover:border-zinc-300 hover:bg-zinc-50 hover:text-zinc-900">
+                            Register
+                        </a>
+                    </div>
+
+                    <!-- Authenticated -->
+                    <div x-show="isAuth">
+                        <a href="/profile" class="flex items-center border-l-4 border-transparent py-2 pl-3 pr-4 text-base font-medium text-zinc-700 hover:border-zinc-300 hover:bg-zinc-50 hover:text-zinc-900 transition-colors duration-200">
+                            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                            </svg>
+                            My Profile
+                        </a>
+                        <a href="#" @click.prevent="logout" class="flex items-center border-l-4 border-transparent py-2 pl-3 pr-4 text-base font-medium text-red-600 hover:border-red-300 hover:bg-red-50 hover:text-red-900 cursor-pointer transition-colors duration-200">
+                            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path>
+                            </svg>
+                            Logout
+                        </a>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

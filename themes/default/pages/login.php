@@ -33,7 +33,7 @@ ob_start();
         </div>
 
         <!-- Login form -->
-        <div class="bg-white py-8 px-6 shadow-lg rounded-lg border border-gray-200" x-data="{form_error: '', form_success:'', loading: false}">
+        <div class="bg-white py-8 px-6 shadow-lg rounded-lg border border-gray-200" x-data="loginForm">
             <!-- Error messages -->
             <div id="error-message" class="mb-4 p-4 bg-red-50 border border-red-200 rounded-md text-red-700 text-sm" x-show="form_error" x-text="form_error">
             </div>
@@ -42,7 +42,7 @@ ob_start();
             <div id="success-message" class="mb-4 p-4 bg-green-50 border border-green-200 rounded-md text-green-700 text-sm" x-show="form_success" x-text="form_success">
             </div>
 
-            <form id="login-form" class="space-y-6" method="POST" x-data="loginForm" x-on:submit.prevent="submitForm">
+            <form id="login-form" class="space-y-6" method="POST" x-on:submit.prevent="submitForm">
                 <!-- Login field -->
                 <div>
                     <label for="login" class="block text-sm font-medium text-gray-700">
@@ -94,9 +94,10 @@ ob_start();
                         type="submit"
                         id="submit-btn"
                         class="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 shadow-sm hover:shadow-md"
+                        :disabled="loading"
                         x-on:click="submitForm"
                     >
-                        <span id="submit-text">Enter</span>
+                        <span id="submit-text" x-show="!loading">Enter</span>
                         <span id="loading-text" class="flex items-center" x-show="loading">
                             <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                                 <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>

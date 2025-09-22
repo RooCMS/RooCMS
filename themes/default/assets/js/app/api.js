@@ -1,11 +1,16 @@
 import { API_BASE_URL, DEBUG } from './config.js';
 
-let access_token = null;
+let access_token = localStorage.getItem('access_token');
 let is_refreshing = false;
 const refresh_waiters = [];
 
 export function setAccessToken(token) {
     access_token = token;
+    if (token) {
+        localStorage.setItem('access_token', token);
+    } else {
+        localStorage.removeItem('access_token');
+    }
 }
 
 export function getAccessToken() {
@@ -18,6 +23,12 @@ export async function request(path, options = {}) {
     const req = Object.assign({}, options, { headers, credentials: 'include' });
 
     const res = await fetch(API_BASE_URL + path, req);
+
+    // Don't try to refresh token for auth endpoints that legitimately return 401
+    if (res.status === 401 && path.includes('/auth/')) {
+        return res;
+    }
+
     if (res.status !== 401) return res;
 
     if (!is_refreshing) {
@@ -44,14 +55,18 @@ export async function refresh_token() {
             body: '{}',
             credentials: 'include'
         });
-        if (!res.ok) { getAccessToken() = null; return; }
+        if (!res.ok) {
+            access_token = null;
+            localStorage.removeItem('access_token');
+            return;
+        }
         const data = await res.json();
-        getAccessToken() = data?.data?.access_token ?? data?.access_token ?? null;
         const token = data?.data?.access_token ?? data?.access_token ?? null;
         if (DEBUG) console.debug('token refreshed');
         setAccessToken(token);
     } catch (e) {
-        getAccessToken() = null;
+        access_token = null;
+        localStorage.removeItem('access_token');
     }
 }
 
