@@ -49,9 +49,6 @@ if(!defined('RooCMS')) { http_response_code(403); header('Content-Type: text/pla
                 <!-- Authenticated -->
                 <div id="auth-user" class="flex items-center space-x-4 hidden">
                     <a href="/profile" class="inline-flex items-center text-sm font-medium text-zinc-700 transition-colors hover:text-sky-600 cursor-pointer">
-                        <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
-                        </svg>
                         My Profile
                     </a>
                     <a href="#" @click.prevent="logout" class="inline-flex items-center justify-center rounded-lg bg-gradient-to-r from-red-500 to-red-600 px-4 py-2 text-sm font-medium text-white transition-all duration-300 hover:from-red-600 hover:to-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 shadow-md hover:shadow-lg cursor-pointer">
@@ -121,9 +118,6 @@ if(!defined('RooCMS')) { http_response_code(403); header('Content-Type: text/pla
                     <!-- Authenticated -->
                     <div id="mobile-auth-user" class="hidden">
                         <a href="/profile" class="flex items-center border-l-4 border-transparent py-2 pl-3 pr-4 text-base font-medium text-zinc-700 hover:border-zinc-300 hover:bg-zinc-50 hover:text-zinc-900 transition-colors duration-200">
-                            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
-                            </svg>
                             My Profile
                         </a>
                         <a href="#" @click.prevent="logout" class="flex items-center border-l-4 border-transparent py-2 pl-3 pr-4 text-base font-medium text-red-600 hover:border-red-300 hover:bg-red-50 hover:text-red-900 cursor-pointer transition-colors duration-200">

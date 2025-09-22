@@ -56,7 +56,7 @@ ob_start();
                         </div>
 
                         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-                            <div class="group bg-white/80 backdrop-blur-sm p-5 rounded-xl border border-gray-200/50 shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1">
+                            <div class="group bg-white/80 backdrop-blur-sm p-5 rounded-xl border border-gray-200/50 shadow-sm hover:shadow-md transition-all duration-300">
                                 <div class="flex items-center justify-between mb-2">
                                     <div class="text-sm font-medium text-gray-500">User ID</div>
                                     <div class="h-2 w-2 bg-blue-400 rounded-full"></div>
@@ -65,7 +65,7 @@ ob_start();
                                 <div class="mt-2 text-xs text-gray-400">Unique identifier</div>
                             </div>
 
-                            <div class="group bg-white/80 backdrop-blur-sm p-5 rounded-xl border border-gray-200/50 shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1">
+                            <div class="group bg-white/80 backdrop-blur-sm p-5 rounded-xl border border-gray-200/50 shadow-sm hover:shadow-md transition-all duration-300">
                                 <div class="flex items-center justify-between mb-2">
                                     <div class="text-sm font-medium text-gray-500">Role</div>
                                     <div class="h-2 w-2 bg-purple-400 rounded-full"></div>
@@ -74,7 +74,7 @@ ob_start();
                                 <div class="mt-2 text-xs text-gray-400">Account level</div>
                             </div>
 
-                            <div class="group bg-white/80 backdrop-blur-sm p-5 rounded-xl border border-gray-200/50 shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1">
+                            <div class="group bg-white/80 backdrop-blur-sm p-5 rounded-xl border border-gray-200/50 shadow-sm hover:shadow-md transition-all duration-300">
                                 <div class="flex items-center justify-between mb-2">
                                     <div class="text-sm font-medium text-gray-500">Username</div>
                                     <div class="h-2 w-2 bg-indigo-400 rounded-full"></div>
@@ -83,7 +83,7 @@ ob_start();
                                 <div class="mt-2 text-xs text-gray-400">Login credentials</div>
                             </div>
 
-                            <div class="group bg-white/80 backdrop-blur-sm p-5 rounded-xl border border-gray-200/50 shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1">
+                            <div class="group bg-white/80 backdrop-blur-sm p-5 rounded-xl border border-gray-200/50 shadow-sm hover:shadow-md transition-all duration-300">
                                 <div class="flex items-center justify-between mb-2">
                                     <div class="text-sm font-medium text-gray-500">Verification</div>
                                     <div class="h-2 w-2 rounded-full" x-bind:class="user ? (user.is_verified ? 'bg-green-400' : 'bg-red-400') : 'bg-gray-300'"></div>
@@ -127,7 +127,7 @@ ob_start();
                         </div>
 
                         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-                            <div class="group bg-white/80 backdrop-blur-sm p-5 rounded-xl border border-gray-200/50 shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1">
+                            <div class="group bg-white/80 backdrop-blur-sm p-5 rounded-xl border border-gray-200/50 shadow-sm hover:shadow-md transition-all duration-300">
                                 <div class="flex items-center justify-between mb-2">
                                     <div class="text-sm font-medium text-gray-500">First Name</div>
                                     <div class="h-2 w-2 bg-purple-400 rounded-full"></div>
@@ -136,7 +136,7 @@ ob_start();
                                 <div class="mt-2 text-xs text-gray-400">Given name</div>
                             </div>
 
-                            <div class="group bg-white/80 backdrop-blur-sm p-5 rounded-xl border border-gray-200/50 shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1">
+                            <div class="group bg-white/80 backdrop-blur-sm p-5 rounded-xl border border-gray-200/50 shadow-sm hover:shadow-md transition-all duration-300">
                                 <div class="flex items-center justify-between mb-2">
                                     <div class="text-sm font-medium text-gray-500">Last Name</div>
                                     <div class="h-2 w-2 bg-pink-400 rounded-full"></div>
@@ -145,7 +145,7 @@ ob_start();
                                 <div class="mt-2 text-xs text-gray-400">Family name</div>
                             </div>
 
-                            <div class="group bg-white/80 backdrop-blur-sm p-5 rounded-xl border border-gray-200/50 shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1">
+                            <div class="group bg-white/80 backdrop-blur-sm p-5 rounded-xl border border-gray-200/50 shadow-sm hover:shadow-md transition-all duration-300">
                                 <div class="flex items-center justify-between mb-2">
                                     <div class="text-sm font-medium text-gray-500">Nickname</div>
                                     <div class="h-2 w-2 bg-indigo-400 rounded-full"></div>
@@ -154,7 +154,7 @@ ob_start();
                                 <div class="mt-2 text-xs text-gray-400">Display name</div>
                             </div>
 
-                            <div class="group bg-white/80 backdrop-blur-sm p-5 rounded-xl border border-gray-200/50 shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1">
+                            <div class="group bg-white/80 backdrop-blur-sm p-5 rounded-xl border border-gray-200/50 shadow-sm hover:shadow-md transition-all duration-300">
                                 <div class="flex items-center justify-between mb-2">
                                     <div class="text-sm font-medium text-gray-500">Gender</div>
                                     <div class="h-2 w-2 bg-rose-400 rounded-full"></div>
@@ -163,7 +163,7 @@ ob_start();
                                 <div class="mt-2 text-xs text-gray-400">Identity</div>
                             </div>
 
-                            <div class="group bg-white/80 backdrop-blur-sm p-5 rounded-xl border border-gray-200/50 shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1 lg:col-span-2">
+                            <div class="group bg-white/80 backdrop-blur-sm p-5 rounded-xl border border-gray-200/50 shadow-sm hover:shadow-md transition-all duration-300 lg:col-span-2">
                                 <div class="flex items-center justify-between mb-2">
                                     <div class="text-sm font-medium text-gray-500">Birthday</div>
                                     <div class="h-2 w-2 bg-amber-400 rounded-full"></div>
@@ -206,7 +206,7 @@ ob_start();
                         </div>
 
                         <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
-                            <div class="group bg-white/80 backdrop-blur-sm p-5 rounded-xl border border-gray-200/50 shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1">
+                            <div class="group bg-white/80 backdrop-blur-sm p-5 rounded-xl border border-gray-200/50 shadow-sm hover:shadow-md transition-all duration-300">
                                 <div class="flex items-center justify-between mb-2">
                                     <div class="text-sm font-medium text-gray-500">Email Address</div>
                                     <div class="h-2 w-2 bg-emerald-400 rounded-full"></div>
@@ -223,7 +223,7 @@ ob_start();
                                 </div>
                             </div>
 
-                            <div class="group bg-white/80 backdrop-blur-sm p-5 rounded-xl border border-gray-200/50 shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1">
+                            <div class="group bg-white/80 backdrop-blur-sm p-5 rounded-xl border border-gray-200/50 shadow-sm hover:shadow-md transition-all duration-300">
                                 <div class="flex items-center justify-between mb-2">
                                     <div class="text-sm font-medium text-gray-500">Website</div>
                                     <div class="h-2 w-2 bg-teal-400 rounded-full"></div>
@@ -249,7 +249,7 @@ ob_start();
                                 </div>
                             </div>
 
-                            <div class="group bg-white/80 backdrop-blur-sm p-5 rounded-xl border border-gray-200/50 shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1 lg:col-span-2">
+                            <div class="group bg-white/80 backdrop-blur-sm p-5 rounded-xl border border-gray-200/50 shadow-sm hover:shadow-md transition-all duration-300 lg:col-span-2">
                                 <div class="flex items-center justify-between mb-2">
                                     <div class="text-sm font-medium text-gray-500">About Me</div>
                                     <div class="h-2 w-2 bg-cyan-400 rounded-full"></div>
@@ -300,41 +300,8 @@ ob_start();
                         </div>
 
                         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-                            <div class="group bg-white/80 backdrop-blur-sm p-5 rounded-xl border border-gray-200/50 shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1">
-                                <div class="flex items-center justify-between mb-2">
-                                    <div class="text-sm font-medium text-gray-500">Account Created</div>
-                                    <div class="h-2 w-2 bg-amber-400 rounded-full"></div>
-                                </div>
-                                <div class="text-xl font-bold text-gray-900" x-text="formatDate((user || {}).created_at) || 'Loading...'"></div>
-                                <div class="mt-2 text-xs text-gray-400">Member since</div>
-                                <div class="mt-3">
-                                    <span class="text-xs bg-gradient-to-r from-blue-100 to-indigo-100 text-blue-800 px-2 py-1 rounded-full flex items-center gap-1">
-                                        <svg class="w-3 h-3 flex-shrink-0 py-0 translate-y-0.25" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                                        </svg>
-                                        <span>Joined</span>
-                                    </span>
-                                </div>
-                            </div>
 
-                            <div class="group bg-white/80 backdrop-blur-sm p-5 rounded-xl border border-gray-200/50 shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1">
-                                <div class="flex items-center justify-between mb-2">
-                                    <div class="text-sm font-medium text-gray-500">Last Activity</div>
-                                    <div class="h-2 w-2 bg-orange-400 rounded-full"></div>
-                                </div>
-                                <div class="text-xl font-bold text-gray-900" x-text="formatDateTime((user || {}).last_activity) || 'Loading...'"></div>
-                                <div class="mt-2 text-xs text-gray-400">Recent activity</div>
-                                <div class="mt-3">
-                                    <span class="text-xs bg-gradient-to-r from-green-100 to-emerald-100 text-green-800 px-2 py-1 rounded-full flex items-center gap-1">
-                                        <svg class="w-3 h-3 flex-shrink-0 py-0 translate-y-0.25" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                                        </svg>
-                                        <span>Online</span>
-                                    </span>
-                                </div>
-                            </div>
-
-                            <div class="group bg-white/80 backdrop-blur-sm p-5 rounded-xl border border-gray-200/50 shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1">
+                            <div class="group bg-white/80 backdrop-blur-sm p-5 rounded-xl border border-gray-200/50 shadow-sm hover:shadow-md transition-all duration-300">
                                 <div class="flex items-center justify-between mb-2">
                                     <div class="text-sm font-medium text-gray-500">Profile Visibility</div>
                                     <div class="h-2 w-2 rounded-full" x-bind:class="user ? (user.is_public ? 'bg-green-400' : 'bg-gray-400') : 'bg-gray-300'"></div>
@@ -355,7 +322,7 @@ ob_start();
                                 </div>
                             </div>
 
-                            <div class="group bg-white/80 backdrop-blur-sm p-5 rounded-xl border border-gray-200/50 shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1">
+                            <div class="group bg-white/80 backdrop-blur-sm p-5 rounded-xl border border-gray-200/50 shadow-sm hover:shadow-md transition-all duration-300">
                                 <div class="flex items-center justify-between mb-2">
                                     <div class="text-sm font-medium text-gray-500">Account Status</div>
                                     <div class="h-2 w-2 rounded-full" x-bind:class="user ? (user.is_active ? 'bg-green-400' : 'bg-red-400') : 'bg-gray-300'"></div>
@@ -370,6 +337,40 @@ ob_start();
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                                         </svg>
                                         <span x-text="user ? (user.is_active ? 'Enabled' : 'Disabled') : 'Status'"></span>
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="group bg-white/80 backdrop-blur-sm p-5 rounded-xl border border-gray-200/50 shadow-sm hover:shadow-md transition-all duration-300">
+                                <div class="flex items-center justify-between mb-2">
+                                    <div class="text-sm font-medium text-gray-500">Account Created</div>
+                                    <div class="h-2 w-2 bg-amber-400 rounded-full"></div>
+                                </div>
+                                <div class="text-xl font-bold text-gray-900" x-text="formatDate((user || {}).created_at) || 'Loading...'"></div>
+                                <div class="mt-2 text-xs text-gray-400">Member since</div>
+                                <div class="mt-3">
+                                    <span class="text-xs bg-gradient-to-r from-blue-100 to-indigo-100 text-blue-800 px-2 py-1 rounded-full flex items-center gap-1">
+                                        <svg class="w-3 h-3 flex-shrink-0 py-0 translate-y-0.25" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                        </svg>
+                                        <span>Joined</span>
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="group bg-white/80 backdrop-blur-sm p-5 rounded-xl border border-gray-200/50 shadow-sm hover:shadow-md transition-all duration-300">
+                                <div class="flex items-center justify-between mb-2">
+                                    <div class="text-sm font-medium text-gray-500">Last Activity</div>
+                                    <div class="h-2 w-2 bg-orange-400 rounded-full"></div>
+                                </div>
+                                <div class="text-xl font-bold text-gray-900" x-text="formatDateTime((user || {}).last_activity) || 'Loading...'"></div>
+                                <div class="mt-2 text-xs text-gray-400">Recent activity</div>
+                                <div class="mt-3">
+                                    <span class="text-xs bg-gradient-to-r from-green-100 to-emerald-100 text-green-800 px-2 py-1 rounded-full flex items-center gap-1">
+                                        <svg class="w-3 h-3 flex-shrink-0 py-0 translate-y-0.25" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                        </svg>
+                                        <span>Online</span>
                                     </span>
                                 </div>
                             </div>
