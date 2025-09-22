@@ -24,12 +24,12 @@ document.addEventListener('alpine:init', () => {
 
             try {
                 const result = await register(this.login, this.email, this.password, this.password_confirmation);
-                this.form_success = 'Account created successfully! Check your email to verify your account.';
+                this.form_success = 'Account created successfully! You can now log in.';
                 this.clearForm();
 
                 // Redirect to registration complete page
                 setTimeout(() => {
-                    window.location.href = '/register-complete';
+                    window.location.href = '/login';
                 }, 1500);
 
             } catch (error) {
