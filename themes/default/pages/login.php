@@ -33,13 +33,13 @@ ob_start();
         </div>
 
         <!-- Login form -->
-        <div class="bg-white py-8 px-6 shadow-lg rounded-lg border border-gray-200" x-data="{login_error: '', login_success:'', loading: false}">
+        <div class="bg-white py-8 px-6 shadow-lg rounded-lg border border-gray-200" x-data="{form_error: '', form_success:'', loading: false}">
             <!-- Error messages -->
-            <div id="error-message" class="mb-4 p-4 bg-red-50 border border-red-200 rounded-md text-red-700 text-sm" x-show="login_error" x-text="login_error">
+            <div id="error-message" class="mb-4 p-4 bg-red-50 border border-red-200 rounded-md text-red-700 text-sm" x-show="form_error" x-text="form_error">
             </div>
 
             <!-- Success messages -->
-            <div id="success-message" class="mb-4 p-4 bg-green-50 border border-green-200 rounded-md text-green-700 text-sm" x-show="login_success" x-text="login_success">
+            <div id="success-message" class="mb-4 p-4 bg-green-50 border border-green-200 rounded-md text-green-700 text-sm" x-show="form_success" x-text="form_success">
             </div>
 
             <form id="login-form" class="space-y-6" method="POST" x-data="loginForm" x-on:submit.prevent="submitForm">
