@@ -1,4 +1,4 @@
-import { request, setAccessToken } from './api.js';
+import { request, setAccessToken, setRefreshToken } from './api.js';
 
 export async function login(login, password) {
     const res = await request('/v1/auth/login', {
@@ -15,8 +15,13 @@ export async function login(login, password) {
     }
 
     const token = j?.data?.access_token;
+    const refreshToken = j?.data?.refresh_token;
+
     if (token) {
         setAccessToken(token);
+        if (refreshToken) {
+            setRefreshToken(refreshToken);
+        }
         return j.data;
     } else {
         throw new Error('Access token not found in response');
@@ -43,6 +48,7 @@ export async function register(login, email, password, password_confirmation) {
 export async function logout() {
     try { await request('/v1/auth/logout', { method: 'POST' }); } catch(e) {}
     setAccessToken(null);
+    setRefreshToken(null);
     // Redirect to home page after logout
     window.location.href = '/';
 }

@@ -1,6 +1,7 @@
 import { API_BASE_URL, DEBUG } from './config.js';
 
 let access_token = localStorage.getItem('access_token');
+let refresh_token = localStorage.getItem('refresh_token');
 let is_refreshing = false;
 const refresh_waiters = [];
 
@@ -10,6 +11,15 @@ export function setAccessToken(token) {
         localStorage.setItem('access_token', token);
     } else {
         localStorage.removeItem('access_token');
+    }
+}
+
+export function setRefreshToken(token) {
+    refresh_token = token;
+    if (token) {
+        localStorage.setItem('refresh_token', token);
+    } else {
+        localStorage.removeItem('refresh_token');
     }
 }
 
@@ -33,26 +43,64 @@ export async function request(path, options = {}) {
 
     if (!is_refreshing) {
         is_refreshing = true;
-        refresh_token().finally(() => {
+        do_refresh_token().finally(() => {
             is_refreshing = false;
             while (refresh_waiters.length) {
                 const resume = refresh_waiters.shift();
-                try { resume(); } catch(e) {}
+                try {
+                    // Check if token was refreshed successfully
+                    if (access_token) {
+                        resume();
+                    } else {
+                        // Token refresh failed, reject the waiting request
+                        resume(new Error('Token refresh failed'));
+                    }
+                } catch(e) {}
             }
         });
     }
-    await new Promise(resolve => refresh_waiters.push(resolve));
+
+    try {
+        await new Promise((resolve, reject) => {
+            refresh_waiters.push((error) => {
+                if (error) {
+                    reject(error);
+                } else {
+                    resolve();
+                }
+            });
+        });
+    } catch (error) {
+        // Token refresh failed, return a response-like object
+        const fakeResponse = {
+            ok: false,
+            status: 401,
+            statusText: 'Unauthorized',
+            json: async () => ({
+                error: true,
+                message: 'Authentication failed - token refresh failed',
+                status_code: 401
+            }),
+            text: async () => 'Authentication failed - token refresh failed',
+            headers: new Headers({ 'Content-Type': 'application/json' })
+        };
+        return fakeResponse;
+    }
 
     if (access_token) headers['Authorization'] = `Bearer ${access_token}`; else delete headers['Authorization'];
     return fetch(API_BASE_URL + path, Object.assign({}, options, { headers, credentials: 'include' }));
 }
 
-export async function refresh_token() {
+export async function do_refresh_token() {
+    if (!refresh_token) {
+        throw new Error('No refresh token');
+    }
+
     try {
         const res = await fetch(API_BASE_URL + '/v1/auth/refresh', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: '{}',
+            body: JSON.stringify({ refresh_token: refresh_token }),
             credentials: 'include'
         });
         if (!res.ok) {
@@ -62,8 +110,15 @@ export async function refresh_token() {
         }
         const data = await res.json();
         const token = data?.data?.access_token ?? data?.access_token ?? null;
+        const newRefreshToken = data?.data?.refresh_token ?? data?.refresh_token ?? null;
+
         if (DEBUG) console.debug('token refreshed');
         setAccessToken(token);
+
+        // Save new refresh token if provided
+        if (newRefreshToken) {
+            setRefreshToken(newRefreshToken);
+        }
     } catch (e) {
         access_token = null;
         localStorage.removeItem('access_token');

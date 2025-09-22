@@ -259,11 +259,14 @@ class AuthService {
 		$new_access_token = $this->auth->generate_token();
 		$new_refresh_token = $this->auth->generate_token(64);
 
-		$this->db->delete(TABLE_TOKENS)
-			->where('id', $token_data['id'])
-			->execute();
+		// Refresh tokens atomically within a transaction
+		$this->db->transaction(function() use ($token_data, $new_access_token, $new_refresh_token, $user) {
+			$this->db->delete(TABLE_TOKENS)
+				->where('id', $token_data['id'])
+				->execute();
 
-		$this->auth->store_token($new_access_token, $new_refresh_token, (int)$user['id']);
+			$this->auth->store_token($new_access_token, $new_refresh_token, (int)$user['id']);
+		});
 
 		$this->db->update(TABLE_USERS)
 			->data(['last_activity' => time()])

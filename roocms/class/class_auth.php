@@ -34,8 +34,8 @@ class Auth {
     protected int $hash_cost             = 10;
     protected int $token_length          = 32;
 
-    public int $token_expires            = 3600;
-    public int $refresh_token_expires    = 86400;
+    public int $token_expires            = 3600; // 1 hour
+    public int $refresh_token_expires    = 86400; // 24 hours
     public int $password_length          = 6;
 
     

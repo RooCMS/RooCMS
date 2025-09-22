@@ -40,7 +40,7 @@ document.addEventListener('alpine:init', () => {
 
                 // Redirect after successful login
                 setTimeout(() => {
-                    window.location.href = '/';
+                    window.location.href = '/profile';
                 }, 1500);
 
             } catch (error) {
