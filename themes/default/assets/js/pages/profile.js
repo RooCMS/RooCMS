@@ -24,16 +24,13 @@ document.addEventListener('alpine:init', () => {
 
         get profileCompletionWidth() {
             if (!this.user) return '0';
-            if (this.user.first_name && this.user.last_name && this.user.nickname) return '75';
-            if (this.user.first_name || this.user.last_name) return '40';
-            return '20';
-        },
-
-        get profileCompletionPercent() {
-            if (!this.user) return 'Loading...';
-            if (this.user.first_name && this.user.last_name && this.user.nickname) return '75%';
-            if (this.user.first_name || this.user.last_name) return '40%';
-            return '20%';
+            let complete = 0;
+            if (this.user.first_name) complete += 20;
+            if (this.user.last_name) complete += 20;
+            if (this.user.nickname) complete += 20;
+            if (this.user.gender) complete += 20;
+            if (this.user.birthday) complete += 20;
+            return complete;
         },
 
         get contactCompletionWidth() {
@@ -42,14 +39,6 @@ document.addEventListener('alpine:init', () => {
             if (this.user.email && this.user.bio) return '70';
             if (this.user.email) return '40';
             return '10';
-        },
-
-        get contactCompletionPercent() {
-            if (!this.user) return 'Loading...';
-            if (this.user.email && this.user.bio && this.user.website) return '100%';
-            if (this.user.email && this.user.bio) return '70%';
-            if (this.user.email) return '40%';
-            return '10%';
         },
 
         async loadUserProfile() {

@@ -177,7 +177,7 @@ ob_start();
                         <div class="mt-6 bg-white/60 rounded-xl p-4 border border-gray-200/50 shadow-sm">
                             <div class="flex items-center justify-between mb-2">
                                 <span class="text-sm font-medium text-gray-700">Profile Completion</span>
-                                <span class="text-sm font-bold text-gray-900" x-text="profileCompletionPercent"></span>
+                                <span class="text-sm font-bold text-gray-900" x-text="profileCompletionWidth + '%'"></span>
                             </div>
                             <div class="w-full bg-gray-200 rounded-full h-2">
                                 <div class="h-2 rounded-full transition-all duration-500 bg-gradient-to-r from-purple-400 to-pink-600"
@@ -271,7 +271,7 @@ ob_start();
                         <div class="mt-6 bg-white/60 rounded-xl p-4 border border-gray-200/50 shadow-sm">
                             <div class="flex items-center justify-between mb-2">
                                 <span class="text-sm font-medium text-gray-700">Contact Score</span>
-                                <span class="text-sm font-bold text-gray-900" x-text="contactCompletionPercent"></span>
+                                <span class="text-sm font-bold text-gray-900" x-text="contactCompletionWidth + '%'"></span>
                             </div>
                             <div class="w-full bg-gray-200 rounded-full h-2">
                                 <div class="h-2 rounded-full transition-all duration-500 bg-gradient-to-r from-emerald-400 to-teal-600"
