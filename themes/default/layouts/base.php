@@ -73,15 +73,11 @@ $theme_base = '/themes/'.$theme_name;
                     'from-red-50 to-white': $modal.type === 'alert',
                     'from-orange-50 to-white': $modal.type === 'warning',
                     'from-blue-50 to-white': $modal.type === 'notice'
-                }" id="headlessui-dialog-panel-_r_6_" data-headlessui-state="open" data-open="">
+                }" data-headlessui-state="open" data-open="">
                    <div class="text-center">
-                       <div class="flex justify-center mb-6">
-                           <div class="flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-r from-red-500 to-orange-500 shadow-lg" x-bind:class="{
-                               'from-red-500 to-orange-500': $modal.type === 'alert',
-                               'from-orange-500 to-yellow-500': $modal.type === 'warning',
-                               'from-blue-500 to-indigo-500': $modal.type === 'notice'
-                           }">
-                               <div id="modal-icon" class="flex items-center justify-center w-full h-full text-white">
+                       <div class="flex justify-center">
+                           <div class="flex h-16 w-16 items-center justify-center">
+                               <div id="modal-icon" class="flex items-center justify-center w-full h-full">
                                </div>
                            </div>
                        </div>
@@ -91,15 +87,21 @@ $theme_base = '/themes/'.$theme_name;
                    </div>
 
                    <div class="mt-8 flex flex-col-reverse items-center justify-center gap-4 sm:flex-row" x-bind:class="{ 'justify-center': !showCancelButton, 'justify-end': showCancelButton }">
-                       <button x-show="showCancelButton" @click="cancel()" class="cursor-pointer group flex items-center justify-center p-4 bg-white/90 backdrop-blur-sm rounded-xl border border-gray-200/50 shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1 min-w-[140px]" type="button">
-                           <span class="text-sm font-medium text-gray-700 group-hover:text-gray-900" x-text="$modal.cancel_text"></span>
+                       <button x-show="showCancelButton" @click="cancel()" class="inline-flex items-center justify-center rounded-lg bg-gradient-to-r from-gray-500 to-gray-600 px-4 py-2 text-sm font-medium text-white transition-all duration-300 hover:from-gray-600 hover:to-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 shadow-md hover:shadow-lg cursor-pointer" type="button">
+                           <span class="flex items-center gap-2">
+                               <span class="leading-none">✕</span>
+                               <span x-text="$modal.cancel_text"></span>
+                           </span>
                        </button>
-                       <button @click="confirm()" class="cursor-pointer group flex items-center justify-center p-4 bg-gradient-to-r from-red-500 to-orange-500 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 min-w-[140px]" x-bind:class="{
-                           'from-red-500 to-orange-500': $modal.type === 'alert',
-                           'from-orange-500 to-yellow-500': $modal.type === 'warning',
-                           'from-blue-500 to-indigo-500': $modal.type === 'notice'
+                       <button @click="confirm()" class="inline-flex items-center justify-center rounded-lg bg-gradient-to-r from-red-500 to-red-600 px-4 py-2 text-sm font-medium text-white transition-all duration-300 hover:from-red-600 hover:to-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 shadow-md hover:shadow-lg cursor-pointer min-w-[140px]" x-bind:class="{
+                           'bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 focus:ring-red-500': $modal.type === 'alert',
+                           'bg-gradient-to-r from-yellow-500 to-amber-500 hover:from-yellow-600 hover:to-amber-600 focus:ring-yellow-500': $modal.type === 'warning',
+                           'bg-gradient-to-r from-sky-500 to-blue-500 hover:from-sky-600 hover:to-blue-600 focus:ring-sky-500': $modal.type === 'notice'
                        }" type="button">
-                           <span class="text-sm font-semibold text-white" x-text="$modal.confirm_text"></span>
+                           <span class="flex items-center gap-2">
+                               <span x-text="$modal.confirm_text"></span>
+                               <span class="text-lg leading-none" style="font-size: 16px; line-height: 1;">✓</span>
+                           </span>
                        </button>
                    </div>
             </div>

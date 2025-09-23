@@ -76,7 +76,7 @@ document.addEventListener('alpine:init', () => {
 
         async deleteAccount() {
             try {
-                // Показываем модальное окно через Alpine store
+                // Show modal window through Alpine store
                 const modalStore = window.Alpine.store('modal');
                 const confirmed = await modalStore.show(
                     'Delete account',
