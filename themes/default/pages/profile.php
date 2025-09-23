@@ -448,7 +448,7 @@ ob_start();
                             </div>
                         </button>
 
-                        <button class="group flex items-center justify-center p-4 bg-white/80 backdrop-blur-sm rounded-xl border border-gray-200/50 shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1">
+                        <button @click="deleteAccount()" class="cursor-pointer group flex items-center justify-center p-4 bg-white/80 backdrop-blur-sm rounded-xl border border-gray-200/50 shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1">
                             <div class="text-center">
                                 <div class="flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-r from-red-500 to-rose-500 mx-auto mb-2 shadow-lg group-hover:scale-110 transition-transform duration-300">
                                     <svg class="w-6 h-6 text-white py-0 translate-y-0.25" fill="none" stroke="currentColor" viewBox="0 0 24 24">

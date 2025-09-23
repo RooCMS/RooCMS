@@ -58,6 +58,54 @@ $theme_base = '/themes/'.$theme_name;
         <?php isset($page_content) ? render_html($page_content) : render_html(''); ?>
     </main>
 
+    <div class="fixed inset-0 flex w-screen justify-center overflow-y-auto bg-zinc-950/25 px-2 py-2 transition duration-100 focus:outline-0 data-closed:opacity-0 data-enter:ease-out data-leave:ease-in sm:px-6 sm:py-8 lg:px-8 lg:py-16 dark:bg-zinc-950/50 opacity-0 modal-hidden" id="modal-backdrop" :class="{ 'opacity-100': $modal.isOpen, 'opacity-0': !$modal.isOpen, 'modal-hidden': !$modal.isOpen }" x-data="modalStore" x-show="$modal.isOpen" x-transition:enter="ease-out duration-300" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100" x-transition:leave="ease-in duration-200" x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0"></div>
+    <div class="fixed inset-0 w-screen overflow-y-auto pt-6 sm:pt-0 modal-hidden" id="modal" x-data="modalStore" x-show="$modal.isOpen" :class="{ 'modal-hidden': !$modal.isOpen }" x-transition:enter="ease-out duration-300" x-transition:enter-start="opacity-0 scale-95" x-transition:enter-end="opacity-100 scale-100" x-transition:leave="ease-in duration-200" x-transition:leave-start="opacity-100 scale-100" x-transition:leave-end="opacity-0 scale-95">
+        <div class="grid min-h-full grid-rows-[1fr_auto] justify-items-center sm:grid-rows-[1fr_auto_3fr] sm:p-4" @click="cancel()">
+            <div class="sm:max-w-lg row-start-2 w-full min-w-0 relative" @click.stop>
+                
+                <div class="absolute inset-0 bg-gradient-to-r from-red-600/5 to-orange-600/5 rounded-2xl" x-bind:class="{
+                    'from-red-600/5 to-orange-600/5': $modal.type === 'alert',
+                    'from-orange-600/5 to-yellow-600/5': $modal.type === 'warning',
+                    'from-blue-600/5 to-indigo-600/5': $modal.type === 'notice'
+                }"></div>
+
+                <div class="relative bg-gradient-to-br from-white to-gray-50 rounded-2xl p-8 border border-gray-200/50 shadow-xl backdrop-blur-sm transition-all duration-300 transform scale-100" x-bind:class="{
+                    'from-red-50 to-white': $modal.type === 'alert',
+                    'from-orange-50 to-white': $modal.type === 'warning',
+                    'from-blue-50 to-white': $modal.type === 'notice'
+                }" id="headlessui-dialog-panel-_r_6_" data-headlessui-state="open" data-open="">
+                   <div class="text-center">
+                       <div class="flex justify-center mb-6">
+                           <div class="flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-r from-red-500 to-orange-500 shadow-lg" x-bind:class="{
+                               'from-red-500 to-orange-500': $modal.type === 'alert',
+                               'from-orange-500 to-yellow-500': $modal.type === 'warning',
+                               'from-blue-500 to-indigo-500': $modal.type === 'notice'
+                           }">
+                               <div id="modal-icon" class="flex items-center justify-center w-full h-full text-white">
+                               </div>
+                           </div>
+                       </div>
+
+                       <h2 class="text-2xl font-bold text-balance text-gray-900 mb-4" x-text="$modal.title"></h2>
+                       <p class="text-pretty text-base text-gray-600 leading-relaxed max-w-md mx-auto" x-text="$modal.message"></p>
+                   </div>
+
+                   <div class="mt-8 flex flex-col-reverse items-center justify-center gap-4 sm:flex-row" x-bind:class="{ 'justify-center': !showCancelButton, 'justify-end': showCancelButton }">
+                       <button x-show="showCancelButton" @click="cancel()" class="cursor-pointer group flex items-center justify-center p-4 bg-white/90 backdrop-blur-sm rounded-xl border border-gray-200/50 shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1 min-w-[140px]" type="button">
+                           <span class="text-sm font-medium text-gray-700 group-hover:text-gray-900" x-text="$modal.cancel_text"></span>
+                       </button>
+                       <button @click="confirm()" class="cursor-pointer group flex items-center justify-center p-4 bg-gradient-to-r from-red-500 to-orange-500 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 min-w-[140px]" x-bind:class="{
+                           'from-red-500 to-orange-500': $modal.type === 'alert',
+                           'from-orange-500 to-yellow-500': $modal.type === 'warning',
+                           'from-blue-500 to-indigo-500': $modal.type === 'notice'
+                       }" type="button">
+                           <span class="text-sm font-semibold text-white" x-text="$modal.confirm_text"></span>
+                       </button>
+                   </div>
+            </div>
+        </div>
+    </div>
+
     <?php require __DIR__ . '/../partials/footer.php'; ?>
     
 </body>

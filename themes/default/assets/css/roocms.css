@@ -7,3 +7,8 @@
  * copyright © 2010-2025 alexandr Belov aka alex Roosso. All rights reserved.
  * license http://www.gnu.org/licenses/gpl-3.0.html
  */
+
+/* Modal visibility control */
+.modal-hidden {
+    display: none !important;
+}

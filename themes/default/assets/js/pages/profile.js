@@ -72,6 +72,59 @@ document.addEventListener('alpine:init', () => {
             } finally {
                 this.loading = false;
             }
+        },
+
+        async deleteAccount() {
+            try {
+                // Показываем модальное окно через Alpine store
+                const modalStore = window.Alpine.store('modal');
+                const confirmed = await modalStore.show(
+                    'Delete account',
+                    'Are you sure you want to delete your account? This action cannot be undone. All your data will be permanently deleted.',
+                    'Delete account',
+                    'Cancel'
+                );
+
+                if (!confirmed) {
+                    return; // User canceled the action
+                }
+
+                // Call API to delete the account
+                const response = await request('/v1/users/me', {
+                    method: 'DELETE'
+                });
+
+                if (!response.ok) {
+                    const errorData = await response.json().catch(() => ({}));
+                    throw new Error(errorData.message || `Failed to delete account: ${response.status}`);
+                }
+
+                // Clear tokens
+                localStorage.removeItem('access_token');
+                localStorage.removeItem('refresh_token');
+
+                // Show success message
+                await modalStore.show(
+                    'Account deleted',
+                    'Your account has been successfully deleted. You will be redirected to the home page.',
+                    'OK',
+                    ''
+                );
+
+                // Redirect to the home page
+                window.location.href = '/';
+
+            } catch (error) {
+                console.error('Delete account error:', error);
+
+                // Show error
+                await modalStore.show(
+                    'Error',
+                    `Failed to delete account: ${error.message}`,
+                    'OK',
+                    ''
+                );
+            }
         }
     }));
 });
