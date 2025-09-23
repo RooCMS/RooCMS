@@ -1,4 +1,4 @@
-import { request } from '../app/api.js';
+import { request, setAccessToken, setRefreshToken } from '../app/api.js';
 
 document.addEventListener('alpine:init', () => {
     window.Alpine.data('userProfile', () => ({
@@ -50,7 +50,7 @@ document.addEventListener('alpine:init', () => {
                 if (!response.ok) {
                     if (response.status === 401) {
                         // Token expired or invalid, redirect to login
-                        localStorage.removeItem('access_token');
+                        setAccessToken(null);
                         window.location.href = '/login';
                         return;
                     }
@@ -66,7 +66,7 @@ document.addEventListener('alpine:init', () => {
 
                 // If unauthorized, redirect to login
                 if (error.status === 401 || error.message?.includes('401') || error.message?.includes('Unauthorized')) {
-                    localStorage.removeItem('access_token');
+                    setAccessToken(null);
                     window.location.href = '/login';
                 }
             } finally {
@@ -100,8 +100,8 @@ document.addEventListener('alpine:init', () => {
                 }
 
                 // Clear tokens
-                localStorage.removeItem('access_token');
-                localStorage.removeItem('refresh_token');
+                setAccessToken(null);
+                setRefreshToken(null);
 
                 // Show success message
                 await modalStore.show(

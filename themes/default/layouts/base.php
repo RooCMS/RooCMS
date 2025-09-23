@@ -100,7 +100,7 @@ $theme_base = '/themes/'.$theme_name;
                        }" type="button">
                            <span class="flex items-center gap-2">
                                <span x-text="$modal.confirm_text"></span>
-                               <span class="text-lg leading-none" style="font-size: 16px; line-height: 1;">✓</span>
+                               <span class="text-lg leading-none">✓</span>
                            </span>
                        </button>
                    </div>
