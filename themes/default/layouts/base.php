@@ -37,7 +37,6 @@ $theme_base = '/themes/'.$theme_name;
     <meta property="twitter:title" content="<?php render_html($page_title); ?>">
     <meta property="twitter:description" content="<?php render_html($page_description); ?>">
 
-    <!-- <link rel="stylesheet" href="<?php render_html($theme_base); ?>/assets/css/normalize.min.css"> -->
     <link rel="stylesheet" href="<?php render_html($theme_base); ?>/assets/css/roocms.min.css">
 
     <!-- Page-level modules should be loaded via $page_scripts when needed -->
