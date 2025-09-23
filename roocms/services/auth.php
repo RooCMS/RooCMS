@@ -416,7 +416,7 @@ class AuthService {
 			->execute();
 
 		$this->db->update(TABLE_VERIFICATION_CODES)
-			->data(['used_at' => date('Y-m-d H:i:s')])
+			->data(['used_at' => time()])
 			->where('id', $verification_code['id'])
 			->execute();
 
