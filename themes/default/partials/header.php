@@ -25,9 +25,6 @@ if(!defined('RooCMS')) { http_response_code(403); header('Content-Type: text/pla
                 <a href="/403" class="text-sm font-medium text-zinc-700 transition-colors hover:text-sky-900">
                     Access denied
                 </a>
-                <a href="/blog" class="text-sm font-medium text-zinc-700 transition-colors hover:text-sky-900">
-                    Blog
-                </a>
                 <a href="/contact" class="text-sm font-medium text-zinc-700 transition-colors hover:text-sky-900">
                     Contact
                 </a>
@@ -95,9 +92,6 @@ if(!defined('RooCMS')) { http_response_code(403); header('Content-Type: text/pla
                 </a>
                 <a href="/403" class="block border-l-4 border-transparent py-2 pl-3 pr-4 text-base font-medium text-zinc-700 hover:border-zinc-300 hover:bg-zinc-50 hover:text-zinc-900">
                     403
-                </a>
-                <a href="/blog" class="block border-l-4 border-transparent py-2 pl-3 pr-4 text-base font-medium text-zinc-700 hover:border-zinc-300 hover:bg-zinc-50 hover:text-zinc-900">
-                    Blog
                 </a>
                 <a href="/contact" class="block border-l-4 border-transparent py-2 pl-3 pr-4 text-base font-medium text-zinc-700 hover:border-zinc-300 hover:bg-zinc-50 hover:text-zinc-900">
                     Contact

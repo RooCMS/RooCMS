@@ -30,6 +30,11 @@ if(!defined('_SITEROOT')) {
  */
 require_once _SITEROOT.'/roocms/init.php';
 
+/**
+ * Disable caching for all pages
+ */
+nocache();
+
 
 /**
  * Detect active theme (from settings or fallback to 'default')
