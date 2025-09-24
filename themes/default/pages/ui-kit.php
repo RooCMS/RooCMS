@@ -38,6 +38,185 @@ ob_start();
 		</section>
 
 		<section>
+			<h2 class="mb-3 text-base font-semibold text-zinc-900">Дизайн-токены</h2>
+			<div class="grid grid-cols-1 gap-4 lg:grid-cols-3">
+				<div class="rounded-2xl border border-zinc-200 bg-white p-6 shadow-sm">
+					<h3 class="text-sm font-semibold text-zinc-900">Цветовая палитра</h3>
+					<p class="mt-1 text-xs text-zinc-500">Базовые цвета для темы RooCMS.</p>
+					<div class="mt-4 grid grid-cols-2 gap-3 text-xs">
+						<div class="space-y-2">
+							<div class="h-14 rounded-xl bg-gradient-to-r from-blue-600 to-purple-600"></div>
+							<div class="font-semibold text-zinc-700">Primary</div>
+							<div class="text-zinc-500">#2563eb → #7c3aed</div>
+						</div>
+						<div class="space-y-2">
+							<div class="h-14 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-500"></div>
+							<div class="font-semibold text-zinc-700">Positive</div>
+							<div class="text-zinc-500">#10b981 → #14b8a6</div>
+						</div>
+						<div class="space-y-2">
+							<div class="h-14 rounded-xl bg-gradient-to-r from-amber-500 to-orange-500"></div>
+							<div class="font-semibold text-zinc-700">Warning</div>
+							<div class="text-zinc-500">#f59e0b → #f97316</div>
+						</div>
+						<div class="space-y-2">
+							<div class="h-14 rounded-xl bg-gradient-to-r from-rose-500 to-red-500"></div>
+							<div class="font-semibold text-zinc-700">Danger</div>
+							<div class="text-zinc-500">#f43f5e → #ef4444</div>
+						</div>
+					</div>
+				</div>
+				<div class="rounded-2xl border border-zinc-200 bg-white p-6 shadow-sm">
+					<h3 class="text-sm font-semibold text-zinc-900">Типографика</h3>
+					<p class="mt-1 text-xs text-zinc-500">Основные размеры и начертания.</p>
+					<div class="mt-4 space-y-3 text-zinc-900">
+						<div>
+							<div class="text-xs uppercase tracking-wide text-zinc-500">Заголовок</div>
+							<div class="text-3xl font-bold">Display 32px / 1.25</div>
+						</div>
+						<div>
+							<div class="text-xs uppercase tracking-wide text-zinc-500">Подзаголовок</div>
+							<div class="text-xl font-semibold">Heading 20px / 1.4</div>
+						</div>
+						<div>
+							<div class="text-xs uppercase tracking-wide text-zinc-500">Основной текст</div>
+							<div class="text-sm text-zinc-600">Body 14px / 1.6 — используется для большинства параграфов.</div>
+						</div>
+						<div>
+							<div class="text-xs uppercase tracking-wide text-zinc-500">Подпись</div>
+							<div class="text-xs text-zinc-500">Caption 12px / 1.5 для второстепенных текстов.</div>
+						</div>
+					</div>
+				</div>
+				<div class="rounded-2xl border border-zinc-200 bg-white p-6 shadow-sm">
+					<h3 class="text-sm font-semibold text-zinc-900">Отступы и тени</h3>
+					<p class="mt-1 text-xs text-zinc-500">Базовый scale и глубина.</p>
+					<div class="mt-4 space-y-4 text-sm text-zinc-600">
+						<div class="flex items-center justify-between rounded-xl border border-dashed border-zinc-300 p-3">
+							<span class="font-medium text-zinc-700">Spacing scale</span>
+							<span class="rounded-full bg-zinc-100 px-2 py-0.5 text-xs text-zinc-500">4 / 8 / 12 / 16 / 24 / 32</span>
+						</div>
+						<div class="grid grid-cols-3 gap-3">
+							<div class="rounded-xl border border-zinc-200 bg-white p-4 shadow-sm">
+								<div class="h-14 rounded-lg bg-zinc-100 shadow-sm"></div>
+								<div class="mt-2 text-xs text-zinc-500">shadow-sm</div>
+							</div>
+							<div class="rounded-xl border border-zinc-200 bg-white p-4 shadow">
+								<div class="h-14 rounded-lg bg-zinc-100 shadow"></div>
+								<div class="mt-2 text-xs text-zinc-500">shadow</div>
+							</div>
+							<div class="rounded-xl border border-zinc-200 bg-white p-4 shadow-lg">
+								<div class="h-14 rounded-lg bg-zinc-100 shadow-lg"></div>
+								<div class="mt-2 text-xs text-zinc-500">shadow-lg</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<section>
+			<h2 class="mb-3 text-base font-semibold text-zinc-900">Навигация</h2>
+			<div class="space-y-6">
+				<div class="rounded-2xl border border-zinc-200 bg-white p-6 shadow-sm">
+					<header class="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+						<div class="flex items-center gap-3">
+							<div class="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-r from-blue-600 to-purple-600 text-white font-semibold">R</div>
+							<div>
+								<p class="text-sm font-semibold text-zinc-900">RooCMS</p>
+								<p class="text-xs text-zinc-500">Админ &middot; CMS &middot; Документация</p>
+							</div>
+						</div>
+						<nav class="flex flex-wrap items-center gap-2">
+							<a href="#" class="rounded-md px-3 py-2 text-sm font-medium text-zinc-600 transition hover:text-zinc-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-500">Главная</a>
+							<a href="#" class="rounded-md px-3 py-2 text-sm font-medium text-zinc-900 bg-zinc-100">Публикации</a>
+							<a href="#" class="rounded-md px-3 py-2 text-sm font-medium text-zinc-600 transition hover:text-zinc-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-500">Категории</a>
+							<a href="#" class="rounded-md px-3 py-2 text-sm font-medium text-zinc-600 transition hover:text-zinc-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-500">Теги</a>
+							<a href="#" class="rounded-md px-3 py-2 text-sm font-medium text-zinc-600 transition hover:text-zinc-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-500">Контакты</a>
+						</nav>
+						<div class="flex items-center gap-2">
+							<a href="#" class="rounded-md px-3 py-2 text-sm font-medium text-zinc-600 hover:text-zinc-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-500">Войти</a>
+							<a href="#" class="inline-flex items-center rounded-md bg-gradient-to-r from-blue-600 to-purple-600 px-3 py-2 text-sm font-semibold text-white shadow-sm transition hover:from-blue-700 hover:to-purple-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500">Регистрация</a>
+						</div>
+					</header>
+				</div>
+
+				<div class="rounded-2xl border border-zinc-200 bg-white p-6 shadow-sm">
+					<nav class="space-y-4">
+						<div class="flex items-center justify-between">
+							<h3 class="text-sm font-semibold text-zinc-900">Раздел документации</h3>
+							<button type="button" class="rounded-full border border-zinc-200 bg-white px-3 py-1 text-xs font-medium text-zinc-600 hover:bg-zinc-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-500">Фильтр</button>
+						</div>
+						<ul class="flex flex-wrap gap-2 text-xs font-medium">
+							<li><a href="#" class="inline-flex items-center gap-1 rounded-full border border-sky-200 bg-sky-50 px-3 py-1 text-sky-800">Гиды<span class="rounded-full bg-white px-1 text-[10px]">12</span></a></li>
+							<li><a href="#" class="inline-flex items-center gap-1 rounded-full border border-zinc-200 bg-white px-3 py-1 text-zinc-600 hover:bg-zinc-50">API</a></li>
+							<li><a href="#" class="inline-flex items-center gap-1 rounded-full border border-zinc-200 bg-white px-3 py-1 text-zinc-600 hover:bg-zinc-50">CLI</a></li>
+							<li><a href="#" class="inline-flex items-center gap-1 rounded-full border border-zinc-200 bg-white px-3 py-1 text-zinc-600 hover:bg-zinc-50">Справка</a></li>
+						</ul>
+						<div class="flex flex-wrap items-center gap-4 border-t border-zinc-100 pt-4 text-sm">
+							<a href="#" class="inline-flex items-center gap-2 rounded-md px-3 py-1.5 text-zinc-600 hover:text-zinc-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-500"><span class="h-2.5 w-2.5 rounded-full bg-emerald-500"></span>Опубликовано</a>
+							<a href="#" class="inline-flex items-center gap-2 rounded-md px-3 py-1.5 text-zinc-600 hover:text-zinc-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-500"><span class="h-2.5 w-2.5 rounded-full bg-amber-500"></span>В работе</a>
+							<a href="#" class="inline-flex items-center gap-2 rounded-md px-3 py-1.5 text-zinc-600 hover:text-zinc-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-500"><span class="h-2.5 w-2.5 rounded-full bg-rose-500"></span>Архив</a>
+						</div>
+					</nav>
+				</div>
+			</div>
+		</section>
+
+		<section>
+			<h2 class="mb-3 text-base font-semibold text-zinc-900">Боковое меню и карточка профиля</h2>
+			<div class="grid grid-cols-1 gap-4 lg:grid-cols-3">
+				<aside class="rounded-2xl border border-zinc-200 bg-white p-5 shadow-sm">
+					<div class="flex items-center gap-3">
+						<img src="https://i.pravatar.cc/64?img=24" alt="avatar" class="h-12 w-12 rounded-full object-cover">
+						<div>
+							<p class="text-sm font-semibold text-zinc-900">Alexandr Roo</p>
+							<p class="text-xs text-emerald-600">Статус: активен</p>
+						</div>
+					</div>
+					<nav class="mt-5 space-y-1 text-sm">
+						<a href="#" class="flex items-center justify-between rounded-lg bg-gradient-to-r from-blue-600 to-purple-600 px-3 py-2 font-medium text-white shadow-sm">Обзор<span class="rounded-full bg-white/20 px-2 py-0.5 text-xs">5</span></a>
+						<a href="#" class="flex items-center justify-between rounded-lg px-3 py-2 text-zinc-600 hover:bg-zinc-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-500">Публикации<span class="text-xs text-zinc-400">12</span></a>
+						<a href="#" class="flex items-center justify-between rounded-lg px-3 py-2 text-zinc-600 hover:bg-zinc-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-500">Комментарии<span class="text-xs text-zinc-400">48</span></a>
+						<a href="#" class="flex items-center justify-between rounded-lg px-3 py-2 text-zinc-600 hover:bg-zinc-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-500">Настройки<span class="text-xs text-zinc-400">&rsaquo;</span></a>
+					</nav>
+					<div class="mt-5 rounded-xl border border-dashed border-sky-200 bg-sky-50 p-4 text-xs text-sky-900">
+						<p class="font-semibold">Планы публикаций</p>
+						<p class="mt-1 text-sky-700">Запланировано 3 поста на эту неделю.</p>
+					</div>
+				</aside>
+				<div class="lg:col-span-2 space-y-4">
+					<div class="rounded-2xl border border-zinc-200 bg-white p-6 shadow-sm">
+						<h3 class="text-sm font-semibold text-zinc-900">Краткое содержание</h3>
+						<p class="mt-2 text-sm text-zinc-600">Используйте эти блоки для представления метаданных автора, записи или раздела личного кабинета.</p>
+						<dl class="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2">
+							<div class="rounded-xl border border-zinc-100 bg-zinc-50 p-4">
+								<dt class="text-xs text-zinc-500">Роль</dt>
+								<dd class="text-sm font-medium text-zinc-900">Редактор</dd>
+							</div>
+							<div class="rounded-xl border border-zinc-100 bg-zinc-50 p-4">
+								<dt class="text-xs text-zinc-500">Создано</dt>
+								<dd class="text-sm font-medium text-zinc-900">15 мая 2024</dd>
+							</div>
+							<div class="rounded-xl border border-zinc-100 bg-zinc-50 p-4">
+								<dt class="text-xs text-zinc-500">Активность</dt>
+								<dd class="text-sm font-medium text-zinc-900">Онлайн · 5 мин назад</dd>
+							</div>
+							<div class="rounded-xl border border-zinc-100 bg-zinc-50 p-4">
+								<dt class="text-xs text-zinc-500">Черновики</dt>
+								<dd class="text-sm font-medium text-zinc-900">2 черновика</dd>
+							</div>
+						</dl>
+					</div>
+					<div class="rounded-2xl border border-amber-200 bg-amber-50 p-6 text-sm text-amber-900 shadow-sm">
+						<p class="font-semibold">Совет по оптимизации</p>
+						<p class="mt-1">Добавьте описание профиля и ссылку на сайт, чтобы улучшить доверие читателей.</p>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<section>
 			<h2 class="mb-3 text-base font-semibold text-zinc-900">Кнопки и ссылки</h2>
 			<div class="rounded-xl border border-zinc-200 bg-white p-5 shadow-sm">
 				<div class="flex flex-wrap gap-3">
@@ -49,6 +228,28 @@ ob_start();
 					<a href="#" class="inline-flex items-center justify-center rounded-md bg-gradient-to-r from-gray-600 to-slate-600 px-4 py-2 text-sm font-medium text-white transition hover:from-gray-700 hover:to-slate-700">Contrast</a>
 					<a href="#" class="inline-flex items-center justify-center rounded-md border border-zinc-200 bg-white px-4 py-2 text-sm font-medium text-zinc-900 hover:bg-zinc-50">Secondary</a>
 					<a href="#" class="text-sm font-medium text-sky-700 hover:text-sky-900">Текстовая ссылка</a>
+				</div>
+			</div>
+		</section>
+
+		<section>
+			<h2 class="mb-3 text-base font-semibold text-zinc-900">Состояния кнопок</h2>
+			<div class="rounded-xl border border-zinc-200 bg-white p-5 shadow-sm space-y-4">
+				<div class="flex flex-wrap gap-3">
+					<button class="rounded-md bg-gradient-to-r from-blue-600 to-purple-600 px-4 py-2 text-sm font-medium text-white shadow-sm transition hover:from-blue-700 hover:to-purple-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500">Hover / Focus</button>
+					<button class="rounded-md bg-gradient-to-r from-blue-600 to-purple-600 px-4 py-2 text-sm font-medium text-white opacity-60 cursor-not-allowed" disabled aria-disabled="true">Disabled</button>
+					<button class="group inline-flex items-center gap-2 rounded-md border border-zinc-300 bg-white px-4 py-2 text-sm font-medium text-zinc-600 transition hover:border-blue-500 hover:text-blue-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500">
+						<svg class="h-4 w-4 transition-transform group-hover:translate-x-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" /></svg>
+						Primary link
+					</button>
+				</div>
+				<div class="rounded-lg border border-dashed border-zinc-200 bg-zinc-50 p-4 text-xs text-zinc-600">
+					<p class="font-semibold text-zinc-900">Рекомендации</p>
+					<ul class="mt-2 list-disc space-y-1 pl-4">
+						<li><span class="text-zinc-700">Используйте <code class="rounded bg-white px-1">focus-visible</code> и контрастную обводку для клавиатурной навигации.</span></li>
+						<li><span class="text-zinc-700">Состояние <em>disabled</em> делайте визуально очевидным и не используйте его для важных действий.</span></li>
+						<li><span class="text-zinc-700">Добавляйте <code class="rounded bg-white px-1">aria-label</code> к кнопкам без текста.</span></li>
+					</ul>
 				</div>
 			</div>
 		</section>
@@ -81,6 +282,43 @@ ob_start();
 						<svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
 						With icon
 					</a>
+				</div>
+			</div>
+		</section>
+
+		<section>
+			<h2 class="mb-3 text-base font-semibold text-zinc-900">Формы: состояния и валидация</h2>
+			<div class="rounded-xl border border-zinc-200 bg-white p-5 shadow-sm space-y-6">
+				<div class="grid grid-cols-1 gap-4 md:grid-cols-2">
+					<label class="flex flex-col gap-2">
+						<span class="text-xs font-semibold uppercase tracking-wide text-zinc-500">Нормальное состояние</span>
+						<input type="text" placeholder="Название" class="rounded-md border border-zinc-300 px-3 py-2 text-sm text-zinc-900 placeholder-zinc-400 transition focus:border-blue-500 focus:outline-none focus:ring focus:ring-blue-200/50">
+					</label>
+					<label class="flex flex-col gap-2">
+						<span class="text-xs font-semibold uppercase tracking-wide text-zinc-500">С ошибкой</span>
+						<input type="text" value="" aria-invalid="true" class="rounded-md border border-rose-400 bg-rose-50 px-3 py-2 text-sm text-rose-900 placeholder-rose-300 focus:border-rose-500 focus:outline-none focus:ring focus:ring-rose-200/50">
+						<span class="text-xs text-rose-600">Поле обязательно для заполнения.</span>
+					</label>
+				</div>
+				<div class="grid grid-cols-1 gap-4 md:grid-cols-2">
+					<label class="flex flex-col gap-2">
+						<span class="text-xs font-semibold uppercase tracking-wide text-zinc-500">Disabled</span>
+						<select class="rounded-md border border-zinc-300 bg-zinc-100 px-3 py-2 text-sm text-zinc-500" disabled>
+							<option>Недоступно</option>
+						</select>
+					</label>
+					<label class="flex flex-col gap-2">
+						<span class="text-xs font-semibold uppercase tracking-wide text-zinc-500">Textarea</span>
+						<textarea rows="3" class="rounded-md border border-zinc-300 px-3 py-2 text-sm text-zinc-900 placeholder-zinc-400 transition focus:border-blue-500 focus:outline-none focus:ring focus:ring-blue-200/50">Текст...</textarea>
+					</label>
+				</div>
+				<div class="rounded-lg border border-dashed border-zinc-200 bg-zinc-50 p-4 text-xs text-zinc-600">
+					<p class="font-semibold text-zinc-900">Рекомендации</p>
+					<ul class="mt-2 list-disc space-y-1 pl-4">
+						<li><span class="text-zinc-700">Используйте явные подписи и подсказки вместо placeholder как единственного источника.</span></li>
+						<li><span class="text-zinc-700">Цвет ошибки комбинируйте с текстом и иконкой, чтобы сохранить понятность при дальтонизме.</span></li>
+						<li><span class="text-zinc-700">Для обязательных полей добавляйте <code class="rounded bg-white px-1">aria-required="true"</code>.</span></li>
+					</ul>
 				</div>
 			</div>
 		</section>
@@ -252,6 +490,30 @@ ob_start();
 			</div>
 		</section>
 
+		<section>
+			<h2 class="mb-3 text-base font-semibold text-зinc-900">Комментарии: состояния</h2>
+			<div class="rounded-xl border border-zinc-200 bg-white p-5 shadow-sm space-y-4">
+				<div class="flex flex-col gap-3">
+					<div class="rounded-lg border border-sky-200 bg-sky-50 p-4 text-sm text-sky-900">Комментарий отправлен. Модератор проверит его в течение 10 минут.</div>
+					<div class="rounded-lg border border-zinc-200 bg-zinc-50 p-4 text-sm text-zinc-700 italic">Комментарий ожидает модерации.</div>
+					<div class="rounded-lg border border-rose-200 bg-rose-50 p-4 text-sm text-rose-900"><span class="font-semibold">Ошибка:</span> текст комментария не должен превышать 500 символов.</div>
+				</div>
+				<form class="space-y-3">
+					<label class="flex flex-col gap-1 text-sm">
+						<span class="text-zinc-700">Ответ</span>
+						<textarea rows="3" class="rounded-md border border-zinc-300 px-3 py-2 text-sm text-zinc-900 placeholder-zinc-400 transition focus:border-blue-500 focus:outline-none focus:ring focus:ring-blue-200/50">@Leslie спасибо!</textarea>
+					</label>
+					<div class="flex flex-wrap items-center justify-between gap-3 text-xs text-zinc-500">
+						<span>Осталось символов: <strong class="text-zinc-700">120</strong></span>
+						<div class="flex gap-2">
+							<button type="button" class="rounded-md border border-zinc-200 px-3 py-1.5 text-sm font-medium text-zinc-600 hover:bg-zinc-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-zinc-400">Отмена</button>
+							<button type="submit" class="inline-flex items-center rounded-md bg-gradient-to-r from-blue-600 to-purple-600 px-4 py-2 text-sm font-medium text-white shadow-sm transition hover:from-blue-700 hover:to-purple-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500">Ответить</button>
+						</div>
+					</div>
+				</form>
+			</div>
+		</section>
+
 		<!-- Docs breadcrumbs/subtitles -->
 		<section>
 			<h2 class="mb-3 text-base font-semibold text-zinc-900">Документация: хлебные крошки и подзаголовки</h2>
@@ -324,6 +586,45 @@ ob_start();
 						<span>5 мин</span>
 					</div>
 				</article>
+			</div>
+		</section>
+
+		<section>
+			<h2 class="mb-3 text-base font-semibold text-зinc-900">Списки и элементы</h2>
+			<div class="grid grid-cols-1 gap-4 lg:grid-cols-3">
+				<div class="rounded-xl border border-зinc-200 bg-white p-5 shadow-sm">
+					<h3 class="text-sm font-semibold text-зinc-900">Маркированный список</h3>
+					<ul class="mt-3 list-disc space-y-2 pl-5 text-sm text-зinc-600">
+						<li>Поддержка вложенных страниц</li>
+						<li>Версия для печати</li>
+						<li>SEO-метаданные</li>
+					</ul>
+				</div>
+				<div class="rounded-xl border border-зinc-200 bg-white p-5 shadow-sm">
+					<h3 class="text-sm font-semibold text-зinc-900">Нумерованный список</h3>
+					<ol class="mt-3 list-decimal space-y-2 pl-5 text-sm text-зinc-600">
+						<li>Создайте запись</li>
+						<li>Добавьте медиа</li>
+						<li>Опубликуйте контент</li>
+					</ol>
+				</div>
+				<div class="rounded-xl border border-зinc-200 bg-white p-5 shadow-sm">
+					<h3 class="text-sm font-semibold text-зinc-900">Элемент списка с индикатором</h3>
+					<ul class="mt-3 space-y-2 text-sm text-зinc-600">
+						<li class="flex items-start gap-2">
+							<span class="mt-1 inline-flex h-2.5 w-2.5 flex-shrink-0 rounded-full bg-emerald-500"></span>
+							<span>Сайт доступен 99.9% времени.</span>
+						</li>
+						<li class="flex items-start gap-2">
+							<span class="mt-1 inline-flex h-2.5 w-2.5 flex-shrink-0 rounded-full bg-sky-500"></span>
+							<span>Все изображения оптимизированы.</span>
+						</li>
+						<li class="flex items-start gap-2">
+							<span class="mt-1 inline-flex h-2.5 w-2.5 flex-shrink-0 rounded-full bg-amber-500"></span>
+							<span>Нужно обновить документацию.</span>
+						</li>
+					</ul>
+				</div>
 			</div>
 		</section>
 
@@ -697,6 +998,306 @@ function hello() {
 				</div>
 			</div>
 		</section>
+
+		<section>
+			<h2 class="mb-3 text-base font-semibold text-zinc-900">Контентные блоки CMS</h2>
+			<div class="grid grid-cols-1 gap-4 lg:grid-cols-3">
+				<article class="flex flex-col gap-3 rounded-xl border border-zinc-200 bg-white p-5 shadow-sm">
+					<header class="flex items-center justify-between text-xs uppercase tracking-wide text-zinc-500">
+						<span>Страница</span>
+						<span class="rounded-full bg-emerald-50 px-2 py-0.5 text-emerald-700">Опубликовано</span>
+					</header>
+					<div class="space-y-2">
+						<h3 class="text-lg font-semibold text-zinc-900">Политика конфиденциальности</h3>
+						<p class="text-sm text-zinc-600">Документ описывает правила сбора, хранения и использования личных данных.</p>
+					</div>
+					<footer class="flex items-center justify-between text-xs text-zinc-500">
+						<span>Обновлено: 12.05.2024</span>
+						<a href="#" class="inline-flex items-center gap-1 text-sky-600 hover:text-sky-700">Перейти<svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg></a>
+					</footer>
+				</article>
+				<article class="flex flex-col gap-3 rounded-xl border border-zinc-200 bg-white p-5 shadow-sm">
+					<header class="flex items-center justify-between text-xs uppercase tracking-wide text-zinc-500">
+						<span>Шаблон</span>
+						<span class="rounded-full bg-amber-50 px-2 py-0.5 text-amber-700">Черновик</span>
+					</header>
+					<div class="space-y-2">
+						<h3 class="text-lg font-semibold text-zinc-900">Состояние пустого раздела</h3>
+						<p class="text-sm text-зinc-600">Используйте этот блок, чтобы показывать подсказки при отсутствии контента.</p>
+					</div>
+					<footer class="flex items-center justify-between text-xs text-зinc-500">
+						<span>Изменено: 08.05.2024</span>
+						<a href="#" class="inline-flex items-center gap-1 text-sky-600 hover:text-sky-700">Редактировать<svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg></a>
+					</footer>
+				</article>
+				<article class="flex flex-col gap-3 rounded-xl border border-зinc-200 bg-white p-5 shadow-sm">
+					<header class="flex items-center justify-between text-xs uppercase tracking-wide text-zinc-500">
+						<span>Блок</span>
+						<span class="rounded-full bg-rose-50 px-2 py-0.5 text-rose-700">Не опубликовано</span>
+					</header>
+					<div class="space-y-2">
+						<h3 class="text-lg font-semibold text-зinc-900">Промо баннер</h3>
+						<p class="text-sm text-зinc-600">Привлекайте внимание к новым релизам и акциям RooCMS.</p>
+					</div>
+					<footer class="flex items-center justify-between text-xs text-зinc-500">
+						<span>Автор: RooCMS</span>
+						<a href="#" class="inline-flex items-center gap-1 text-sky-600 hover:text-sky-700">Предпросмотр<svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg></a>
+					</footer>
+				</article>
+			</div>
+		</section>
+
+		<section>
+			<h2 class="mb-3 text-base font-semibold text-zinc-900">Элементы форм</h2>
+			<div class="rounded-xl border border-zinc-200 bg-white p-5 shadow-sm space-y-6">
+				<div class="grid grid-cols-1 gap-4 md:grid-cols-2">
+					<label class="flex items-center gap-3 rounded-lg border border-zinc-200 bg-zinc-50 p-4 text-sm text-zinc-700">
+						<input type="checkbox" class="h-4 w-4 rounded border-zinc-300 text-blue-600 focus:ring-blue-500" checked>
+						<span class="flex-1">Отправлять уведомления об обновлениях</span>
+					</label>
+					<label class="flex items-center gap-3 rounded-lg border border-zinc-200 bg-zinc-50 p-4 text-sm text-zinc-700">
+						<input type="checkbox" class="h-4 w-4 rounded border-zinc-300 text-blue-600 focus:ring-blue-500">
+						<span class="flex-1">Получать отчёт на email</span>
+					</label>
+				</div>
+				<div class="grid grid-cols-1 gap-4 md:grid-cols-3">
+					<label class="flex items-center gap-3 rounded-lg border border-zinc-200 p-4 text-sm text-zinc-700">
+						<input name="plan" type="radio" class="h-4 w-4 border-zinc-300 text-blue-600 focus:ring-blue-500" checked>
+						<span class="flex-1">
+							<p class="font-semibold text-zinc-900">Базовый</p>
+							<p class="text-xs text-zinc-500">Поддержка по email</p>
+						</span>
+					</label>
+					<label class="flex items-center gap-3 rounded-lg border border-zinc-200 p-4 text-sm text-zinc-700">
+						<input name="plan" type="radio" class="h-4 w-4 border-zinc-300 text-blue-600 focus:ring-blue-500">
+						<span class="flex-1">
+							<p class="font-semibold text-zinc-900">Про</p>
+							<p class="text-xs text-zinc-500">Расширенные отчёты</p>
+						</span>
+					</label>
+					<label class="flex items-center justify-between gap-3 rounded-lg border border-zinc-200 p-4 text-sm text-zinc-700">
+						<span class="font-medium text-zinc-900">Видимость профиля</span>
+						<button type="button" class="relative inline-flex h-6 w-11 items-center rounded-full bg-gradient-to-r from-blue-600 to-purple-600 transition">
+							<span class="inline-block h-5 w-5 translate-x-5 rounded-full bg-white shadow transition"></span>
+						</button>
+					</label>
+				</div>
+				<div class="grid grid-cols-1 gap-4 md:grid-cols-2">
+					<label class="block text-sm text-zinc-700">
+						<span class="mb-1 block font-medium text-zinc-900">URL</span>
+						<div class="flex rounded-md border border-zinc-300 focus-within:border-blue-500 focus-within:ring focus-within:ring-blue-200/50">
+							<span class="inline-flex items-center border-r border-zinc-200 bg-zinc-50 px-3 text-xs uppercase tracking-wide text-zinc-500">https://</span>
+							<input type="text" class="min-w-0 flex-1 rounded-r-md bg-white px-3 py-2 text-sm text-zinc-900 outline-none" placeholder="dev.roocms.com/page">
+						</div>
+					</label>
+					<label class="block text-sm text-zinc-700">
+						<span class="mb-1 block font-medium text-zinc-900">Файл</span>
+						<div class="flex items-center gap-3 rounded-lg border border-dashed border-zinc-300 bg-zinc-50 px-4 py-3">
+							<svg class="h-5 w-5 text-zinc-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1M4 12V8a2 2 0 012-2h3m10 6V8a2 2 0 00-2-2h-3m-4-4l4 4m0 0l-4 4m4-4H9"/></svg>
+							<div class="flex-1 text-xs">
+								<p class="font-medium text-zinc-800">Загрузите обложку</p>
+								<p class="text-zinc-500">PNG, JPG до 5 МБ</p>
+							</div>
+							<button type="button" class="rounded-md border border-zinc-200 bg-white px-3 py-1.5 text-xs font-medium text-zinc-700 hover:bg-zinc-100">Выбрать</button>
+						</div>
+					</label>
+				</div>
+			</div>
+		</section>
+
+		<section>
+			<h2 class="mb-3 text-base font-semibold text-zinc-900">Списки задач</h2>
+            <div class="grid grid-cols-1 gap-4 lg:grid-cols-2">
+                <div class="rounded-xl border border-zinc-200 bg-white p-5 shadow-sm">
+                    <h3 class="text-sm font-semibold text-zinc-900">Чек-лист публикации</h3>
+                    <div class="mt-3 space-y-2 text-sm text-zinc-600">
+                        <label class="flex items-start gap-3 rounded-lg border border-zinc-200/70 bg-zinc-50 px-3 py-2">
+                            <input type="checkbox" class="mt-1 h-4 w-4 rounded border-zinc-300 text-blue-600 focus:ring-blue-500" checked>
+                            <span>Заголовок и описание заполнены</span>
+                        </label>
+                        <label class="flex items-start gap-3 rounded-lg border border-zinc-200/70 bg-zinc-50 px-3 py-2">
+                            <input type="checkbox" class="mt-1 h-4 w-4 rounded border-zinc-300 text-blue-600 focus:ring-blue-500" checked>
+                            <span>Обложка загружена</span>
+                        </label>
+                        <label class="flex items-start gap-3 rounded-lg border border-zinc-200/70 bg-zinc-50 px-3 py-2">
+                            <input type="checkbox" class="mt-1 h-4 w-4 rounded border-zinc-300 text-blue-600 focus:ring-blue-500">
+                            <span>SEO-поля заполнены</span>
+                        </label>
+                        <label class="flex items-start gap-3 rounded-lg border border-zinc-200/70 bg-zinc-50 px-3 py-2">
+                            <input type="checkbox" class="mt-1 h-4 w-4 rounded border-zinc-300 text-blue-600 focus:ring-blue-500">
+                            <span>Просмотрено вторым редактором</span>
+                        </label>
+					</div>
+				</div>
+				<div class="rounded-xl border border-zinc-200 bg-white p-5 shadow-sm">
+					<h3 class="text-sm font-semibold text-zinc-900">Канбан задачи</h3>
+                    <ul class="mt-3 space-y-2 text-sm text-zinc-600">
+                        <li class="rounded-lg border border-blue-200 bg-blue-50 px-3 py-2">
+                            <p class="font-semibold text-zinc-900">Новый релиз 2.1</p>
+                            <p class="text-xs text-zinc-500">Статус: В работе</p>
+                        </li>
+                        <li class="rounded-lg border border-emerald-200 bg-emerald-50 px-3 py-2">
+                            <p class="font-semibold text-zinc-900">Добавить локализацию</p>
+                            <p class="text-xs text-zinc-500">Статус: Готово</p>
+                        </li>
+                        <li class="rounded-lg border border-amber-200 bg-amber-50 px-3 py-2">
+                            <p class="font-semibold text-zinc-900">Проверить резервные копии</p>
+                            <p class="text-xs text-zinc-500">Статус: В ожидании</p>
+                        </li>
+                        <li class="rounded-lg border border-rose-200 bg-rose-50 px-3 py-2">
+                            <p class="font-semibold text-zinc-900">Обновить документацию</p>
+                            <p class="text-xs text-zinc-500">Статус: Требует внимания</p>
+                        </li>
+                    </ul>
+				</div>
+			</div>		
+		</section>
+
+		<section>
+			<h2 class="mb-3 text-base font-semibold text-zinc-900">Свитчи (Toggle)</h2>
+			<div class="rounded-xl border border-zinc-200 bg-white p-5 shadow-sm space-y-4">
+				<div class="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
+					<label class="flex cursor-pointer select-none items-center justify-between gap-3 rounded-lg border border-zinc-200 bg-zinc-50 px-4 py-3 text-sm text-zinc-700">
+						<span class="font-medium text-zinc-900">Email уведомления</span>
+						<input type="checkbox" class="peer sr-only" checked>
+						<span class="flex h-6 w-11 items-center justify-start rounded-full bg-zinc-300 px-0.5 transition-all duration-200 ease-out peer-checked:bg-blue-600 peer-checked:justify-end">
+							<span class="h-5 w-5 rounded-full bg-white shadow transition-transform duration-200 ease-out"></span>
+						</span>
+					</label>
+					<label class="flex cursor-pointer select-none items-center justify-between gap-3 rounded-lg border border-zinc-200 bg-zinc-50 px-4 py-3 text-sm text-zinc-700">
+						<span class="font-medium text-zinc-900">Публичный профиль</span>
+						<input type="checkbox" class="peer sr-only" checked>
+						<span class="flex h-6 w-11 items-center justify-start rounded-full bg-zinc-300 px-0.5 transition-all duration-200 ease-out peer-checked:bg-emerald-500 peer-checked:justify-end">
+							<span class="h-5 w-5 rounded-full bg-white shadow transition-transform duration-200 ease-out"></span>
+						</span>
+					</label>
+					<label class="flex cursor-pointer select-none items-center justify-between gap-3 rounded-lg border border-zinc-200 bg-zinc-50 px-4 py-3 text-sm text-zinc-700">
+						<span class="font-medium text-зinc-900">Режим обслуживания</span>
+						<input type="checkbox" class="peer sr-only">
+						<span class="flex h-6 w-11 items-center justify-start rounded-full bg-zinc-300 px-0.5 transition-all duration-200 ease-out peer-checked:bg-rose-500 peer-checked:justify-end">
+							<span class="h-5 w-5 rounded-full bg-white shadow transition-transform duration-200 ease-out"></span>
+						</span>
+					</label>
+					<label class="flex select-none items-center justify-between gap-3 rounded-lg border border-transparent px-4 py-3 text-sm text-zinc-400">
+						<span class="font-medium text-zinc-500">Автообновления</span>
+						<input type="checkbox" class="peer sr-only" disabled>
+						<span class="flex h-6 w-11 items-center justify-start rounded-full bg-zinc-200 px-0.5">
+							<span class="h-5 w-5 rounded-full bg-white shadow"></span>
+						</span>
+					</label>
+				</div>
+				<p class="text-xs text-зинк-500">Стили выравнивают бегунок без JS с помощью <code class="rounded bg-зинк-100 px-1">peer</code> и flex-расположения.</p>
+			</div>
+		</section>
+
+		<section>
+			<h2 class="mb-3 text-base font-semibold text-zinc-900">Tree View</h2>
+			<div class="rounded-xl border border-zinc-200 bg-white p-5 shadow-sm space-y-3">
+				<details open class="rounded-lg border border-zinc-200 bg-zinc-50 px-4 py-3 text-sm text-zinc-700">
+					<summary class="flex cursor-pointer items-center gap-2 font-medium text-zinc-900">
+						<svg class="h-4 w-4 text-zinc-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 9l6 6 6-6"/></svg>
+						Контент
+					</summary>
+					<div class="mt-3 space-y-2 pl-6">
+						<label class="flex items-center gap-2">
+							<input type="checkbox" class="h-4 w-4 rounded border-zinc-300 text-blue-600 focus:ring-blue-500">
+							<span>Новости</span>
+						</label>
+						<details open class="space-y-2">
+							<summary class="flex items-center gap-2 text-zinc-700">
+								<svg class="h-4 w-4 text-zinc-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 9l6 6 6-6"/></svg>
+								Справочник
+							</summary>
+							<div class="space-y-2 pl-6">
+								<label class="flex items-center gap-2">
+									<input type="checkbox" class="h-4 w-4 rounded border-zinc-300 text-blue-600 focus:ring-blue-500" checked>
+									<span>Документация</span>
+								</label>
+								<label class="flex items-center gap-2">
+									<input type="checkbox" class="h-4 w-4 rounded border-zinc-300 text-blue-600 focus:ring-blue-500">
+									<span>FAQ</span>
+								</label>
+							</div>
+						</details>
+					</div>
+				</details>
+				<details class="rounded-lg border border-zinc-200 bg-zinc-50 px-4 py-3 text-sm text-zinc-700">
+					<summary class="flex cursor-pointer items-center gap-2 font-medium text-zinc-900">
+						<svg class="h-4 w-4 text-zinc-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+						Маркетинг
+					</summary>
+				</details>
+			</div>
+		</section>
+
+		<section>
+			<h2 class="mb-3 text-base font-semibold text-zinc-900">Рейтинг</h2>
+			<div class="grid grid-cols-1 gap-4 md:grid-cols-3">
+				<div class="rounded-xl border border-zinc-200 bg-white p-5 shadow-sm">
+					<fieldset class="space-y-3" aria-label="Рейтинг звёздами">
+						<legend class="text-sm font-medium text-zinc-900">Звёзды</legend>
+						<div class="rating-group text-amber-400" aria-hidden="true">
+							<input type="radio" name="rating-stars" id="rating-star-5" value="5">
+							<label for="rating-star-5">
+								<svg class="h-6 w-6 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118l-2.8-2.034c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+							</label>
+							<input type="radio" name="rating-stars" id="rating-star-4" value="4" checked>
+							<label for="rating-star-4">
+								<svg class="h-6 w-6 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118l-2.8-2.034c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+							</label>
+							<input type="radio" name="rating-stars" id="rating-star-3" value="3">
+							<label for="rating-star-3">
+								<svg class="h-6 w-6 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118l-2.8-2.034c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+							</label>
+							<input type="radio" name="rating-stars" id="rating-star-2" value="2">
+							<label for="rating-star-2">
+								<svg class="h-6 w-6 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118l-2.8-2.034c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+							</label>
+							<input type="radio" name="rating-stars" id="rating-star-1" value="1">
+							<label for="rating-star-1">
+								<svg class="h-6 w-6 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118l-2.8-2.034c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+							</label>
+						</div>
+						<p class="text-xs text-zinc-500">Выбор звезды окрашивает текущий рейтинг и все правее.</p>
+					</fieldset>
+				</div>
+				<div class="rounded-xl border border-zinc-200 bg-white p-5 shadow-sm">
+					<p class="text-sm font-medium text-zinc-900">Смайлы</p>
+					<div class="mt-3 flex items-center gap-4" role="radiogroup" aria-label="Рейтинг смайлами">
+						<label class="flex cursor-pointer flex-col items-center gap-1 text-2xl text-zinc-400 hover:text-rose-500">
+							<input type="radio" name="rating-emoji" class="sr-only">
+							<span aria-hidden="true">😞</span>
+							<span class="text-xs text-zinc-500">Плохо</span>
+						</label>
+						<label class="flex cursor-pointer flex-col items-center gap-1 text-2xl text-emerald-500">
+							<input type="radio" name="rating-emoji" class="sr-only" checked>
+							<span aria-hidden="true">😊</span>
+							<span class="text-xs text-zinc-500">Отлично</span>
+						</label>
+						<label class="flex cursor-pointer flex-col items-center gap-1 text-2xl text-purple-500 hover:text-purple-600">
+							<input type="radio" name="rating-emoji" class="sr-only">
+							<span aria-hidden="true">😍</span>
+							<span class="text-xs text-zinc-500">Люблю</span>
+						</label>
+					</div>
+				</div>
+				<div class="rounded-xl border border-zinc-200 bg-white p-5 shadow-sm">
+					<p class="text-sm font-medium text-zinc-900">Кастомные иконки + половинки</p>
+					<div class="mt-3 flex items-center gap-1 text-rose-200">
+						<span class="relative">
+							<svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 6 4 4 6.5 4c1.74 0 3.41.81 4.5 2.09C12.09 4.81 13.76 4 15.5 4 18 4 20 6 20 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+							<svg class="absolute inset-0 h-6 w-6 text-rose-500 half-icon" fill="currentColor" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 6 4 4 6.5 4c1.74 0 3.41.81 4.5 2.09C12.09 4.81 13.76 4 15.5 4 18 4 20 6 20 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+						</span>
+						<svg class="h-6 w-6 text-rose-500" fill="currentColor" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 6 4 4 6.5 4c1.74 0 3.41.81 4.5 2.09C12.09 4.81 13.76 4 15.5 4 18 4 20 6 20 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+						<svg class="h-6 w-6 text-rose-500" fill="currentColor" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 6 4 4 6.5 4c1.74 0 3.41.81 4.5 2.09C12.09 4.81 13.76 4 15.5 4 18 4 20 6 20 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+						<svg class="h-6 w-6 text-zinc-300" fill="currentColor" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 6 4 4 6.5 4c1.74 0 3.41.81 4.5 2.09C12.09 4.81 13.76 4 15.5 4 18 4 20 6 20 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+						<span class="text-sm text-zinc-600">3.5 / 5</span>
+					</div>
+					<p class="mt-2 text-xs text-zinc-500">Для половин используйте две иконки: базовую и цветную с обрезкой по clip-path.</p>
+				</div>
+			</div>
+		</section>
+
 	</div>
 </div>
 

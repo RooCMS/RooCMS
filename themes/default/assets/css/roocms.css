@@ -12,3 +12,30 @@
 .modal-hidden {
     display: none !important;
 }
+
+/* Rating group */
+.rating-group {
+    display: inline-flex;
+    direction: rtl;
+    gap: 0.25rem;
+}
+.rating-group input {
+    display: none;
+}
+.rating-group label {
+    color: #d4d4d8;
+    cursor: pointer;
+    transition: color .2s ease;
+}
+.rating-group label:hover,
+.rating-group label:hover ~ label {
+    color: #fbbf24;
+}
+.rating-group input:checked ~ label {
+    color: #fbbf24;
+}
+
+/* Half icon */
+.half-icon {
+    clip-path: inset(0 50% 0 0);
+}
