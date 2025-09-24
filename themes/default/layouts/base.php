@@ -57,6 +57,8 @@ $theme_base = '/themes/'.$theme_name;
         <?php isset($page_content) ? render_html($page_content) : render_html(''); ?>
     </main>
 
+    <?php require __DIR__ . '/../partials/footer.php'; ?>
+
     <div class="fixed inset-0 flex w-screen justify-center overflow-y-auto bg-zinc-950/25 px-2 py-2 transition duration-100 focus:outline-0 data-closed:opacity-0 data-enter:ease-out data-leave:ease-in sm:px-6 sm:py-8 lg:px-8 lg:py-16 dark:bg-zinc-950/50 opacity-0 modal-hidden" id="modal-backdrop" :class="{ 'opacity-100': $modal.isOpen, 'opacity-0': !$modal.isOpen, 'modal-hidden': !$modal.isOpen }" x-data="modalStore" x-show="$modal.isOpen" x-transition:enter="ease-out duration-300" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100" x-transition:leave="ease-in duration-200" x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0"></div>
     <div class="fixed inset-0 w-screen overflow-y-auto pt-6 sm:pt-0 modal-hidden" id="modal" x-data="modalStore" x-show="$modal.isOpen" :class="{ 'modal-hidden': !$modal.isOpen }" x-transition:enter="ease-out duration-300" x-transition:enter-start="opacity-0 scale-95" x-transition:enter-end="opacity-100 scale-100" x-transition:leave="ease-in duration-200" x-transition:leave-start="opacity-100 scale-100" x-transition:leave-end="opacity-0 scale-95">
         <div class="grid min-h-full grid-rows-[1fr_auto] justify-items-center sm:grid-rows-[1fr_auto_3fr] sm:p-4" @click="cancel()">
@@ -106,8 +108,6 @@ $theme_base = '/themes/'.$theme_name;
             </div>
         </div>
     </div>
-
-    <?php require __DIR__ . '/../partials/footer.php'; ?>
     
 </body>
 </html>
