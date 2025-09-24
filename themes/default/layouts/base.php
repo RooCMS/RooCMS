@@ -49,7 +49,7 @@ $theme_base = '/themes/'.$theme_name;
     <script defer src="<?php render_html($theme_base); ?>/assets/js/alpine.csp.min.js" nonce="<?php render_html($csp_nonce); ?>"></script>
 
 </head>
-<body class="font-sans bg-gradient-to-r from-amber-100 to-sky-50 grid grid-rows-[auto_1fr_auto] min-h-screen" x-data="{}">
+<body class="font-sans bg-gradient-to-r from-orange-50 to-sky-50 grid grid-rows-[auto_1fr_auto] min-h-screen" x-data="{}">
 
     <?php require __DIR__ . '/../partials/header.php'; ?>
 
