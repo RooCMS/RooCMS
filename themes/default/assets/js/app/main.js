@@ -1,6 +1,21 @@
 // Global Alpine helpers and small UI utilities can be added here
-import { logout, getCurrentUser, getUserData } from './auth.js';
 import { getAccessToken } from './api.js';
+import {
+    logout,
+    getCurrentUser,
+    getUserData,
+    getUserId,
+    getUserLogin,
+    getUserEmail,
+    getUserNickname,
+    getUserRole,
+    getUserAvatar,
+    getUserFullName,
+    isUserAdmin,
+    isUserSuperAdmin,
+    isUserModerator,
+    updateUserData
+} from './auth.js';
 
 // Import utilities and make them globally available
 import * as ValidationUtils from './helpers/validation.js';
@@ -85,12 +100,79 @@ document.addEventListener('alpine:init', () => {
     window.Alpine.store('auth', {
         isAuthenticated: !!getAccessToken(),
         user: getUserData(),
+
+        // Update authentication status and user data
         updateStatus() {
             this.isAuthenticated = !!getAccessToken();
             this.user = getUserData();
         },
+
+        // Role and permission checks
         isAdmin() {
-            return this.user && (this.user.role === 'a' || this.user.role === 'su');
+            return isUserAdmin();
+        },
+
+        isSuperAdmin() {
+            return isUserSuperAdmin();
+        },
+
+        isModerator() {
+            return isUserModerator();
+        },
+
+        hasPermission(permission) {
+            return hasUserPermission(permission);
+        },
+
+        // User data getters
+        getId() {
+            return getUserId();
+        },
+
+        getLogin() {
+            return getUserLogin();
+        },
+
+        getEmail() {
+            return getUserEmail();
+        },
+
+        getNickname() {
+            return getUserNickname();
+        },
+
+        getRole() {
+            return getUserRole();
+        },
+
+        getAvatar() {
+            return getUserAvatar();
+        },
+
+        getFullName() {
+            return getUserFullName();
+        },
+
+        // Update user data
+        updateUserData(updates) {
+            const updatedUser = updateUserData(updates);
+            if (updatedUser) {
+                this.user = updatedUser;
+                return true;
+            }
+            return false;
+        },
+
+        // Refresh user data from server
+        async refreshUserData() {
+            if (this.isAuthenticated) {
+                const userData = await getCurrentUser();
+                if (userData) {
+                    this.user = userData;
+                    return userData;
+                }
+            }
+            return null;
         }
     });
 
@@ -102,14 +184,16 @@ document.addEventListener('alpine:init', () => {
         cancel() { this.$modal.cancel(); }
     }));
 
-    // Auth buttons component
+    // Auth buttons component - handles authentication UI state
     window.Alpine.data('authButtons', () => ({
+        // Get authentication status from global auth system
         isAuth: !!getAccessToken(),
 
+        // Logout function with global state update
         async logout() {
-            await logout();
+            await logout(); // Use global logout function
             this.isAuth = false;
-            window.Alpine.store('auth').updateStatus();
+            window.Alpine.store('auth').updateStatus(); // Update global auth store
         }
     }));
 });

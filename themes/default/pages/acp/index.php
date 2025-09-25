@@ -4,11 +4,14 @@ if(!defined('RooCMS')) { http_response_code(403); header('Content-Type: text/pla
 $page_title = 'Admin Control Panel — RooCMS';
 $page_description = 'Control Panel for RooCMS';
 
-$theme_name = basename(dirname(__DIR__));
+$theme_name = basename(dirname(dirname(__DIR__)));
 $theme_base = '/themes/'.$theme_name;
+
+$page_scripts = [$theme_base.'/assets/js/app/acp-access.js'];
 
 ob_start();
 ?>
+
 <div class="py-10">
 	<div class="grid grid-cols-1 gap-8 lg:grid-cols-[260px_1fr] px-4 sm:px-6 lg:px-8 space-y-8">
 		<aside class="hidden lg:block pr-6">
