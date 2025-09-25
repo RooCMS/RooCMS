@@ -10,7 +10,7 @@ $theme_base = '/themes/'.$theme_name;
 ob_start();
 ?>
 <div class="py-10">
-	<div class="grid grid-cols-1 gap-8 lg:grid-cols-[260px_1fr]">
+	<div class="grid grid-cols-1 gap-8 lg:grid-cols-[260px_1fr] px-4 sm:px-6 lg:px-8 space-y-8">
 		<aside class="hidden lg:block pr-6">
 			<nav aria-label="Админ-меню" class="sticky top-24">
 				<h2 class="sr-only">Меню администратора</h2>
