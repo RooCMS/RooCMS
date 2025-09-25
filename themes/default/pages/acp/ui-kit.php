@@ -11,7 +11,7 @@ ob_start();
 ?>
 <div class="py-10">
 	<div class="grid grid-cols-1 gap-8 lg:grid-cols-[260px_1fr]">
-		<aside class="hidden lg:block border-r border-zinc-200 pr-6">
+		<aside class="hidden lg:block pr-6">
 			<nav aria-label="Админ-меню" class="sticky top-24">
 				<h2 class="sr-only">Меню администратора</h2>
 				<ul class="space-y-1">
@@ -399,6 +399,73 @@ ob_start();
 							<div class="relative flex justify-center">
 								<span class="bg-white px-2 text-xs text-zinc-500">Разделитель</span>
 							</div>
+						</div>
+					</div>
+				</section>
+				<section>
+					<div class="grid grid-cols-1 gap-6 sm:grid-cols-2 xl:grid-cols-4">
+						<div class="rounded-xl border border-zinc-200/80 bg-white/80 p-5 shadow-sm backdrop-blur">
+							<div class="text-xs font-medium text-zinc-500">Выручка</div>
+							<div class="mt-2 text-2xl font-semibold text-zinc-900">$2.6M</div>
+							<div class="mt-1 text-xs text-emerald-600">+4.5% за неделю</div>
+										</div>
+						<div class="rounded-xl border border-zinc-200/80 bg-white/80 p-5 shadow-sm backdrop-blur">
+							<div class="text-xs font-medium text-zinc-500">Средний чек</div>
+							<div class="mt-2 text-2xl font-semibold text-zinc-900">$455</div>
+							<div class="mt-1 text-xs text-zinc-500">−0.5% за неделю</div>
+									</div>
+						<div class="rounded-xl border border-zinc-200/80 bg-white/80 p-5 shadow-sm backdrop-blur">
+							<div class="text-xs font-medium text-zinc-500">Продажи</div>
+							<div class="mt-2 text-2xl font-semibold text-zinc-900">5,888</div>
+							<div class="mt-1 text-xs text-emerald-600">+4.5% за неделю</div>
+									</div>
+						<div class="rounded-xl border border-zinc-200/80 bg-white/80 p-5 shadow-sm backdrop-blur">
+							<div class="text-xs font-medium text-zinc-500">Просмотры</div>
+							<div class="mt-2 text-2xl font-semibold text-zinc-900">823,067</div>
+							<div class="mt-1 text-xs text-emerald-600">+21.2% за неделю</div>
+						</div>
+					</div>
+
+					<div class="mt-10 rounded-xl border border-zinc-200/80 bg-white/80 p-5 shadow-sm backdrop-blur">
+						<div class="mb-4 flex items-center justify-between">
+							<h2 class="text-base font-semibold text-zinc-900">Последние заказы</h2>
+							<a href="/acp/orders" class="text-sm font-medium text-zinc-700 hover:text-zinc-900">Все заказы</a>
+						</div>
+						<div class="-mx-5 overflow-x-auto px-5">
+							<table class="min-w-full text-left text-sm" aria-label="Последние заказы">
+								<thead class="border-b border-zinc-200/80 text-zinc-500">
+									<tr>
+										<th scope="col" class="py-3 pr-6 font-medium">Номер</th>
+										<th scope="col" class="py-3 pr-6 font-medium">Дата</th>
+										<th scope="col" class="py-3 pr-6 font-medium">Клиент</th>
+										<th scope="col" class="py-3 pr-6 font-medium">Событие</th>
+										<th scope="col" class="py-3 pr-0 font-medium text-right">Сумма</th>
+									</tr>
+								</thead>
+								<tbody class="divide-y divide-zinc-100/80">
+									<tr class="hover:bg-zinc-50">
+										<td class="py-3 pr-6 text-zinc-900">3000</td>
+										<td class="py-3 pr-6 text-zinc-600">9 мая 2024</td>
+										<td class="py-3 pr-6 text-zinc-900">Leslie Alexander</td>
+										<td class="py-3 pr-6 text-zinc-900">Bear Hug: Live in Concert</td>
+										<td class="py-3 pr-0 text-right text-zinc-900">US$80.00</td>
+									</tr>
+									<tr class="hover:bg-zinc-50">
+										<td class="py-3 pr-6 text-zinc-900">3001</td>
+										<td class="py-3 pr-6 text-zinc-600">5 мая 2024</td>
+										<td class="py-3 pr-6 text-zinc-900">Michael Foster</td>
+										<td class="py-3 pr-6 text-zinc-900">Six Fingers — DJ Set</td>
+										<td class="py-3 pr-0 text-right text-zinc-900">US$299.00</td>
+									</tr>
+									<tr class="hover:bg-zinc-50">
+										<td class="py-3 pr-6 text-zinc-900">3002</td>
+										<td class="py-3 pr-6 text-zinc-600">28 апр 2024</td>
+										<td class="py-3 pr-6 text-zinc-900">Dries Vincent</td>
+										<td class="py-3 pr-6 text-zinc-900">We All Look The Same</td>
+										<td class="py-3 pr-0 text-right text-zinc-900">US$150.00</td>
+									</tr>
+								</tbody>
+							</table>
 						</div>
 					</div>
 				</section>

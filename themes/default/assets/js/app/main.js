@@ -1,5 +1,5 @@
 // Global Alpine helpers and small UI utilities can be added here
-import { logout } from './auth.js';
+import { logout, getCurrentUser, getUserData } from './auth.js';
 import { getAccessToken } from './api.js';
 
 // Import utilities and make them globally available
@@ -14,12 +14,21 @@ window.FormHelperUtils = FormHelperUtils;
 
 
 // Initialize when DOM is ready (CSP mode)
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
     if (window.Alpine) {
         window.Alpine.deferMutations();
     }
 
     Alpine = window.Alpine; // On any case ;)
+
+    // Load user data if authenticated
+    if (getAccessToken()) {
+        const userData = getUserData();
+        if (!userData) {
+            // If we have a token but no user data, fetch it
+            await getCurrentUser();
+        }
+    }
 });
 
 // Global Alpine data
@@ -75,8 +84,13 @@ document.addEventListener('alpine:init', () => {
     // Auth store
     window.Alpine.store('auth', {
         isAuthenticated: !!getAccessToken(),
+        user: getUserData(),
         updateStatus() {
             this.isAuthenticated = !!getAccessToken();
+            this.user = getUserData();
+        },
+        isAdmin() {
+            return this.user && (this.user.role === 'a' || this.user.role === 'su');
         }
     });
 
@@ -95,6 +109,7 @@ document.addEventListener('alpine:init', () => {
         async logout() {
             await logout();
             this.isAuth = false;
+            window.Alpine.store('auth').updateStatus();
         }
     }));
 });
