@@ -1,13 +1,15 @@
 <?php declare(strict_types=1);
 if(!defined('RooCMS')) { http_response_code(403); header('Content-Type: text/plain; charset=utf-8'); exit('403:Access denied'); }
 
-// Current page for highlighting active link
+/**
+ * Current page for highlighting active link
+ */
 $current_page = $current_page ?? basename(env('REQUEST_URI') ?? '', '.php');
 $current_page = str_replace('/acp/', '', $current_page);
 $current_page = $current_page === 'acp' || $current_page === '' ? 'index' : $current_page;
 
 /**
- * Получить атрибуты и классы для ссылки меню
+ * Get attributes and classes for the menu link
  */
 function get_nav_link_attrs(string $page_key): array {
     global $current_page;
@@ -26,16 +28,18 @@ function get_nav_link_attrs(string $page_key): array {
     ];
 }
 
-// Данные меню
+/**
+ * Nav menu
+ */
 $nav_menu = [
     'general' => [
-        ['key' => 'index', 'title' => 'Панель управления', 'url' => '/acp'],
-        ['key' => 'users', 'title' => 'Пользователи', 'url' => '/acp/users'],
-        ['key' => 'content', 'title' => 'Контент', 'url' => '/acp/content']
+        ['key' => 'index', 'title' => 'Dashboard', 'url' => '/acp'],
+        ['key' => 'users', 'title' => 'Users', 'url' => '/acp/users'],
+        ['key' => 'content', 'title' => 'Content', 'url' => '/acp/content']
     ],
     'system' => [
-        ['key' => 'settings', 'title' => 'Настройки', 'url' => '/acp/settings'],
-        ['key' => 'logs', 'title' => 'Логи', 'url' => '/acp/logs'],
+        ['key' => 'settings', 'title' => 'Settings', 'url' => '/acp/settings'],
+        ['key' => 'logs', 'title' => 'Logs', 'url' => '/acp/logs'],
         ['key' => 'ui-kit', 'title' => 'UI Kit', 'url' => '/acp/ui-kit']
     ]
 ];
@@ -43,11 +47,11 @@ $nav_menu = [
 ?>
 <aside class="hidden lg:block pr-6">
     <nav aria-label="Админ-меню" class="sticky top-24">
-        <h2 class="sr-only">Меню администратора</h2>
+        <h2 class="sr-only">Admin menu</h2>
         <ul class="space-y-1">
             <?php foreach ($nav_menu as $section_key => $section_items): ?>
                 <li class="px-2 <?php echo $section_key === 'general' ? 'pt-0' : 'pt-4'; ?> pb-1 text-xs font-semibold uppercase tracking-wide text-zinc-500/80">
-                    <?php echo $section_key === 'general' ? 'Общее' : 'Система'; ?>
+                    <?php echo $section_key === 'general' ? 'General' : 'System'; ?>
                 </li>
                 <?php foreach ($section_items as $item): ?>
                     <?php $attrs = get_nav_link_attrs($item['key']); ?>
@@ -63,9 +67,9 @@ $nav_menu = [
     </nav>
 </aside>
 
-<!-- Мобильная навигация ACP -->
+<!-- Mobile navigation ACP -->
 <div class="mt-6 px-4 lg:hidden">
-    <nav aria-label="Навигация ACP" class="flex gap-2 overflow-x-auto">
+    <nav aria-label="ACP navigation" class="flex gap-2 overflow-x-auto">
         <?php foreach ($nav_menu as $section_items): ?>
             <?php foreach ($section_items as $item): ?>
                 <?php $attrs = get_nav_link_attrs($item['key']); ?>

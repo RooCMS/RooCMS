@@ -22,15 +22,15 @@ ob_start();
 
 		<section>
 			<header class="mb-8">
-				<nav class="mb-3 text-sm text-zinc-500" aria-label="Хлебные крошки">
+				<nav class="mb-3 text-sm text-zinc-500" aria-label="Breadcrumbs">
 					<ol class="flex items-center gap-2">
-						<li><a href="/" class="hover:text-zinc-700">Главная</a></li>
+						<li><a href="/" class="hover:text-zinc-700">Home</a></li>
 						<li aria-hidden="true" class="text-zinc-400">/</li>
 						<li><a href="/acp" aria-current="page" class="text-zinc-700">ACP</a></li>
 					</ol>
 				</nav>
-				<h1 class="text-2xl font-semibold tracking-tight text-zinc-900">Панель управления</h1>
-				<p class="mt-2 text-sm text-zinc-600">Обзор ключевых метрик и последних действий.</p>
+				<h1 class="text-2xl font-semibold tracking-tight text-zinc-900">Dashboard</h1>
+				<p class="mt-2 text-sm text-zinc-600">Overview of key metrics and latest actions.</p>
         	</header>
 
 			<div class="mt-10 grid grid-cols-1 gap-6 lg:grid-cols-3">
