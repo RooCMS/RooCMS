@@ -4,6 +4,8 @@ if(!defined('RooCMS')) { http_response_code(403); header('Content-Type: text/pla
 $page_title = 'UI Kit — Public — RooCMS';
 $page_description = 'Public UI components for RooCMS theme';
 
+$page_scripts = ['assets/js/pages/uik-kit.js'];
+
 $theme_name = basename(dirname(__DIR__));
 $theme_base = '/themes/'.$theme_name;
 
@@ -1060,7 +1062,7 @@ function hello() {
 						<span class="flex-1">Получать отчёт на email</span>
 					</label>
 				</div>
-				<div class="grid grid-cols-1 gap-4 md:grid-cols-3">
+				<div class="grid grid-cols-1 gap-4 md:grid-cols-2">
 					<label class="flex items-center gap-3 rounded-lg border border-zinc-200 p-4 text-sm text-zinc-700">
 						<input name="plan" type="radio" class="h-4 w-4 border-zinc-300 text-blue-600 focus:ring-blue-500" checked>
 						<span class="flex-1">
@@ -1074,12 +1076,6 @@ function hello() {
 							<p class="font-semibold text-zinc-900">Про</p>
 							<p class="text-xs text-zinc-500">Расширенные отчёты</p>
 						</span>
-					</label>
-					<label class="flex items-center justify-between gap-3 rounded-lg border border-zinc-200 p-4 text-sm text-zinc-700">
-						<span class="font-medium text-zinc-900">Видимость профиля</span>
-						<button type="button" class="relative inline-flex h-6 w-11 items-center rounded-full bg-gradient-to-r from-blue-600 to-purple-600 transition">
-							<span class="inline-block h-5 w-5 translate-x-5 rounded-full bg-white shadow transition"></span>
-						</button>
 					</label>
 				</div>
 				<div class="grid grid-cols-1 gap-4 md:grid-cols-2">
@@ -1160,21 +1156,21 @@ function hello() {
 					<label class="flex cursor-pointer select-none items-center justify-between gap-3 rounded-lg border border-zinc-200 bg-zinc-50 px-4 py-3 text-sm text-zinc-700">
 						<span class="font-medium text-zinc-900">Email уведомления</span>
 						<input type="checkbox" class="peer sr-only" checked>
-						<span class="flex h-6 w-11 items-center justify-start rounded-full bg-zinc-300 px-0.5 transition-all duration-200 ease-out peer-checked:bg-blue-600 peer-checked:justify-end">
+						<span class="flex h-6 w-11 items-center justify-start rounded-full bg-zinc-300 px-0.5 transition-all duration-200 ease-out peer-checked:bg-gradient-to-r  from-blue-600 to-purple-600 peer-checked:justify-end">
 							<span class="h-5 w-5 rounded-full bg-white shadow transition-transform duration-200 ease-out"></span>
 						</span>
 					</label>
 					<label class="flex cursor-pointer select-none items-center justify-between gap-3 rounded-lg border border-zinc-200 bg-zinc-50 px-4 py-3 text-sm text-zinc-700">
 						<span class="font-medium text-zinc-900">Публичный профиль</span>
 						<input type="checkbox" class="peer sr-only" checked>
-						<span class="flex h-6 w-11 items-center justify-start rounded-full bg-zinc-300 px-0.5 transition-all duration-200 ease-out peer-checked:bg-emerald-500 peer-checked:justify-end">
+						<span class="flex h-6 w-11 items-center justify-start rounded-full bg-zinc-300 px-0.5 transition-all duration-200 ease-out peer-checked:bg-gradient-to-r from-emerald-500 to-teal-500 peer-checked:justify-end">
 							<span class="h-5 w-5 rounded-full bg-white shadow transition-transform duration-200 ease-out"></span>
 						</span>
 					</label>
 					<label class="flex cursor-pointer select-none items-center justify-between gap-3 rounded-lg border border-zinc-200 bg-zinc-50 px-4 py-3 text-sm text-zinc-700">
 						<span class="font-medium text-зinc-900">Режим обслуживания</span>
 						<input type="checkbox" class="peer sr-only">
-						<span class="flex h-6 w-11 items-center justify-start rounded-full bg-zinc-300 px-0.5 transition-all duration-200 ease-out peer-checked:bg-rose-500 peer-checked:justify-end">
+						<span class="flex h-6 w-11 items-center justify-start rounded-full bg-zinc-300 px-0.5 transition-all duration-200 ease-out peer-checked:bg-gradient-to-r from-rose-500 to-pink-500 peer-checked:justify-end">
 							<span class="h-5 w-5 rounded-full bg-white shadow transition-transform duration-200 ease-out"></span>
 						</span>
 					</label>
@@ -1229,6 +1225,76 @@ function hello() {
 				</details>
 			</div>
 		</section>
+
+		<section>
+			<h2 class="mb-3 text-base font-semibold text-zinc-900">Модальные окна</h2>
+			<div class="rounded-xl border border-zinc-200 bg-white p-5 shadow-sm">
+				<div class="grid grid-cols-1 gap-4 lg:grid-cols-3">
+					<!-- Базовое модальное окно -->
+					<div class="rounded-lg border border-zinc-200 bg-zinc-50 p-4">
+						<h3 class="mb-3 text-sm font-semibold text-zinc-900">Базовое подтверждение</h3>
+						<p class="mb-4 text-xs text-zinc-600">Простое модальное окно с подтверждением действия.</p>
+						<button @click="window.modalExamples.showWarning()" class="inline-flex items-center rounded-md bg-gradient-to-r from-amber-500 to-orange-500 px-3 py-2 text-xs font-medium text-white hover:from-amber-600 hover:to-orange-600">Предупреждение</button>
+					</div>
+
+					<!-- Модальное окно с формой -->
+					<div class="rounded-lg border border-zinc-200 bg-zinc-50 p-4">
+						<h3 class="mb-3 text-sm font-semibold text-zinc-900">Форма обратной связи</h3>
+						<p class="mb-4 text-xs text-zinc-600">Модальное окно с формой для отправки сообщения.</p>
+						<button @click="window.modalExamples.showFeedback()" class="inline-flex items-center rounded-md bg-gradient-to-r from-sky-500 to-blue-500 px-3 py-2 text-xs font-medium text-white hover:from-sky-600 hover:to-blue-600">Форма</button>
+					</div>
+
+					<!-- Модальное окно с изображением -->
+					<div class="rounded-lg border border-zinc-200 bg-zinc-50 p-4">
+						<h3 class="mb-3 text-sm font-semibold text-zinc-900">Просмотр изображения</h3>
+						<p class="mb-4 text-xs text-zinc-600">Модальное окно для отображения изображений и медиа.</p>
+						<button @click="window.modalExamples.showImage()" class="inline-flex items-center rounded-md bg-gradient-to-r from-emerald-500 to-teal-500 px-3 py-2 text-xs font-medium text-white hover:from-emerald-600 hover:to-teal-600">Изображение</button>
+					</div>
+				</div>
+
+				<div class="mt-6 rounded-lg border border-dashed border-zinc-200 bg-zinc-50 p-4 text-xs text-zinc-600">
+					<p class="font-semibold text-zinc-900">Примеры использования</p>
+					<ul class="mt-2 list-disc space-y-1 pl-4">
+						<li><span class="text-zinc-700">Используйте <code class="rounded bg-white px-1">window.modalExamples.show*()</code> для вызова модальных окон.</span></li>
+						<li><span class="text-zinc-700">Поддерживаются типы: <code class="rounded bg-white px-1">alert</code>, <code class="rounded bg-white px-1">warning</code>, <code class="rounded bg-white px-1">notice</code>.</span></li>
+						<li><span class="text-zinc-700">Функция возвращает Promise с результатом выбора пользователя.</span></li>
+						<li><span class="text-zinc-700">Для CSP совместимости все модальные окна используют глобальные функции.</span></li>
+					</ul>
+				</div>
+			</div>
+		</section>
+
+		<!-- Продвинутые примеры модальных окон -->
+		<section>
+			<h2 class="mb-3 text-base font-semibold text-zinc-900">Расширенные модальные окна</h2>
+			<div class="rounded-xl border border-zinc-200 bg-white p-5 shadow-sm">
+				<div class="grid grid-cols-1 gap-4 lg:grid-cols-2">
+					<!-- Модальное окно с формой входа -->
+					<div class="rounded-lg border border-zinc-200 bg-zinc-50 p-4">
+						<h3 class="mb-3 text-sm font-semibold text-zinc-900">Форма входа</h3>
+						<p class="mb-4 text-xs text-zinc-600">Модальное окно с формой аутентификации пользователя.</p>
+						<button @click="window.modalExamples.loginFlow()" class="inline-flex items-center rounded-md bg-gradient-to-r from-purple-500 to-pink-500 px-3 py-2 text-xs font-medium text-white hover:from-purple-600 hover:to-pink-600">Вход</button>
+					</div>
+
+					<!-- Модальное окно с подтверждением удаления -->
+					<div class="rounded-lg border border-zinc-200 bg-zinc-50 p-4">
+						<h3 class="mb-3 text-sm font-semibold text-zinc-900">Подтверждение удаления</h3>
+						<p class="mb-4 text-xs text-zinc-600">Критическое действие с дополнительным подтверждением.</p>
+						<button @click="window.modalExamples.deleteFlow()" class="inline-flex items-center rounded-md bg-gradient-to-r from-rose-500 to-red-500 px-3 py-2 text-xs font-medium text-white hover:from-rose-600 hover:to-red-600">Удалить</button>
+					</div>
+				</div>
+
+				<div class="mt-6 rounded-lg border border-dashed border-zinc-200 bg-zinc-50 p-4 text-xs text-zinc-600">
+					<p class="font-semibold text-zinc-900">Продвинутые возможности</p>
+					<ul class="mt-2 list-disc space-y-1 pl-4">
+						<li><span class="text-zinc-700">Используйте цепочки вызовов для многошаговых процессов.</span></li>
+						<li><span class="text-zinc-700">Комбинируйте разные типы модальных окон в одном сценарии.</span></li>
+						<li><span class="text-zinc-700">Обработка ошибок и валидация формы внутри модального окна.</span></li>
+					</ul>
+				</div>
+			</div>
+		</section>
+
 
 		<section>
 			<h2 class="mb-3 text-base font-semibold text-zinc-900">Рейтинг</h2>
@@ -1303,5 +1369,3 @@ function hello() {
 
 <?php $page_content = ob_get_clean();
 require __DIR__ . '/../layouts/base.php';
-
-
