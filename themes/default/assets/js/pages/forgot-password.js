@@ -34,7 +34,7 @@ document.addEventListener('alpine:init', () => {
                 }, 3000);
 
             } catch (error) {
-                this.form_error = window.ErrorHandlerUtils.handleForgotPasswordError(error);
+                this.form_error = handleForgotPasswordError(error);
             } finally {
                 this.loading = false;
             }
@@ -61,4 +61,40 @@ function validateForgotPasswordForm(formData) {
         isValid: Object.keys(errors).length === 0,
         errors
     };
+}
+
+/**
+ * Handles errors for the forgot password form
+ * @param {Error} error - Error object
+ * @returns {string} - Error message for the user
+ */
+function handleForgotPasswordError(error) {
+    // Handle different error types based on HTTP status
+    switch (error.status) {
+        case 400: // Bad Request - validation errors
+        case 422: // Unprocessable Entity - validation errors
+            if (error.details) {
+                // Show specific validation errors from server
+                if (typeof error.details === 'object') {
+                    const messages = Object.values(error.details).flat();
+                    return messages.join('. ') + '.';
+                } else {
+                    return error.details;
+                }
+            } else {
+                return error.message || 'Please check your email address and try again.';
+            }
+
+        case 404: // Not Found - email not found
+            return 'No account found with this email address.';
+
+        case 429: // Too Many Requests - rate limiting
+            return 'Too many password reset requests. Please wait a few minutes before trying again.';
+
+        case 500: // Internal Server Error
+            return 'Server error occurred. Please try again later.';
+
+        default:
+            return error.message || 'Failed to send password reset email. Please try again.';
+    }
 }

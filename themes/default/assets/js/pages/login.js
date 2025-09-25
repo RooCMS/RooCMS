@@ -34,7 +34,7 @@ document.addEventListener('alpine:init', () => {
                 window.FormHelperUtils.redirectAfterSuccess('/profile');
 
             } catch (error) {
-                this.form_error = window.ErrorHandlerUtils.handleLoginError(error);
+                this.form_error = handleLoginError(error);
             } finally {
                 this.loading = false;
             }
@@ -84,5 +84,50 @@ function updateAuthComponents() {
                 component.checkAuth();
             }
         });
+    }
+}
+
+/**
+ * Handles errors for the login form
+ * @param {Error} error - Error object
+ * @returns {string} - Error message for the user
+ */
+function handleLoginError(error) {
+    // Handle different error types based on HTTP status
+    switch (error.status) {
+        case 401: // Unauthorized - invalid credentials
+            return 'Invalid login credentials. Please check your login/email and password.';
+
+        case 403: // Forbidden - account issues
+            if (error.message?.includes('not verified')) {
+                return 'Your account is not verified. Please check your email for verification link.';
+            } else if (error.message?.includes('banned')) {
+                return 'Your account has been banned. Please contact support.';
+            } else {
+                return 'Access denied. Please contact support.';
+            }
+
+        case 400: // Bad Request - validation errors
+        case 422: // Unprocessable Entity - validation errors
+            if (error.details) {
+                // Show specific validation errors from server
+                if (typeof error.details === 'object') {
+                    const messages = Object.values(error.details).flat();
+                    return messages.join('. ') + '.';
+                } else {
+                    return error.details;
+                }
+            } else {
+                return error.message || 'Please check your input data and try again.';
+            }
+
+        case 429: // Too Many Requests - rate limiting
+            return 'Too many login attempts. Please wait a few minutes before trying again.';
+
+        case 500: // Internal Server Error
+            return 'Server error occurred. Please try again later.';
+
+        default:
+            return error.message || 'Login failed. Please try again.';
     }
 }

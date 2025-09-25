@@ -47,7 +47,7 @@ document.addEventListener('alpine:init', () => {
                 window.FormHelperUtils.redirectAfterSuccess('/login');
 
             } catch (error) {
-                const { formError, fieldErrors } = window.ErrorHandlerUtils.handleRegisterError(error);
+                const { formError, fieldErrors } = handleRegisterError(error);
 
                 if (formError) {
                     this.form_error = formError;
@@ -102,4 +102,49 @@ function validateRegisterForm(formData) {
         isValid: Object.keys(errors).length === 0,
         errors
     };
+}
+
+/**
+ * Handles errors for the registration form
+ * @param {Error} error - Error object
+ * @returns {Object} - {formError: string, fieldErrors: Object}
+ */
+function handleRegisterError(error) {
+    const fieldErrors = {};
+    let formError = '';
+
+    // Handle different error types based on HTTP status
+    switch (error.status) {
+        case 409: // Conflict - user already exists
+            if (error.message?.includes('Login already exists')) {
+                fieldErrors.login = 'This login is already taken. Please choose another one.';
+            } else if (error.message?.includes('Email already exists')) {
+                fieldErrors.email = 'This email is already registered. Please use another email or try to login.';
+            } else {
+                formError = 'Account with these credentials already exists.';
+            }
+            break;
+
+        case 400: // Bad Request
+        case 422: // Unprocessable Entity - validation errors
+            if (error.details) {
+                // Show field-specific validation errors
+                Object.keys(error.details).forEach(field => {
+                    fieldErrors[field] = error.details[field];
+                });
+            } else {
+                formError = error.message || 'Please check your input data and try again.';
+            }
+            break;
+
+        case 500: // Internal Server Error
+            formError = 'Server error occurred. Please try again later.';
+            break;
+
+        default:
+            formError = error.message || 'Registration failed. Please try again.';
+            break;
+    }
+
+    return { formError, fieldErrors };
 }

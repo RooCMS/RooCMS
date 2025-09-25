@@ -4,13 +4,11 @@ import { getAccessToken } from './api.js';
 
 // Import utilities and make them globally available
 import * as ValidationUtils from './helpers/validation.js';
-import * as ErrorHandlerUtils from './helpers/errorHandler.js';
 import * as FormatterUtils from './helpers/formatters.js';
 import * as FormHelperUtils from './helpers/formHelpers.js';
 
 // Make utilities globally available
 window.ValidationUtils = ValidationUtils;
-window.ErrorHandlerUtils = ErrorHandlerUtils;
 window.FormatterUtils = FormatterUtils;
 window.FormHelperUtils = FormHelperUtils;
 

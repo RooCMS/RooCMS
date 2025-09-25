@@ -39,7 +39,7 @@ document.addEventListener('alpine:init', () => {
                 window.FormHelperUtils.redirectAfterSuccess('/login', 2000);
 
             } catch (error) {
-                this.form_error = window.ErrorHandlerUtils.handleResetPasswordError(error);
+                this.form_error = handleResetPasswordError(error);
             } finally {
                 this.loading = false;
             }
@@ -76,4 +76,46 @@ function validateResetPasswordForm(formData) {
         isValid: Object.keys(errors).length === 0,
         errors
     };
+}
+
+/**
+ * Handles errors for the reset password form
+ * @param {Error} error - Error object
+ * @returns {string} - Error message for the user
+ */
+function handleResetPasswordError(error) {
+    // Handle different error types based on HTTP status
+    switch (error.status) {
+        case 400: // Bad Request - validation errors
+        case 422: // Unprocessable Entity - validation errors
+            if (error.details) {
+                // Show specific validation errors from server
+                if (typeof error.details === 'object') {
+                    const messages = Object.values(error.details).flat();
+                    return messages.join('. ') + '.';
+                } else {
+                    return error.details;
+                }
+            } else {
+                return error.message || 'Please check your input data and try again.';
+            }
+
+        case 401: // Unauthorized - invalid token
+            return 'This reset code is invalid or has expired. Please request a new password reset.';
+
+        case 403: // Forbidden - token expired or used
+            return 'This reset code has expired. Please request a new password reset.';
+
+        case 404: // Not Found - token not found
+            return 'This reset code is invalid. Please request a new password reset.';
+
+        case 429: // Too Many Requests - rate limiting
+            return 'Too many password reset attempts. Please wait a few minutes before trying again.';
+
+        case 500: // Internal Server Error
+            return 'Server error occurred. Please try again later.';
+
+        default:
+            return error.message || 'Failed to reset password. Please try again.';
+    }
 }
