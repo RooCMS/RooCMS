@@ -170,6 +170,60 @@ document.addEventListener('alpine:init', () => {
                     this.emailVerificationType = '';
                 }, 5000);
             }
-        }
+        },
+
+        async toggleProfileVisibility() {
+            try {
+                if (!this.user) {
+                    return;
+                }
+
+                // Determine new visibility state
+                const newVisibility = !this.user.is_public;
+
+                // Call API to update profile visibility
+                const response = await request('/v1/users/me', {
+                    method: 'PATCH',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        is_public: newVisibility
+                    })
+                });
+
+                if (!response.ok) {
+                    const errorData = await response.json().catch(() => ({}));
+                    throw new Error(errorData.message || `Failed to update profile visibility: ${response.status}`);
+                }
+
+                const data = await response.json();
+
+                // Update local user data
+                this.user.is_public = newVisibility;
+
+                // Show success message
+                await window.Alpine.store('modal').show(
+                    'Profile Updated',
+                    `Your profile is now ${newVisibility ? 'public' : 'private'}.`,
+                    'OK',
+                    '',
+                    'success'
+                );
+
+            } catch (error) {
+                console.error('Profile visibility update error:', error);
+
+                // Show error message
+                await window.Alpine.store('modal').show(
+                    'Error',
+                    `Failed to update profile visibility: ${error.message}`,
+                    'OK',
+                    '',
+                    'alert'
+                );
+            }
+        },
+
     }));
 });

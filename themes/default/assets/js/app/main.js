@@ -43,6 +43,7 @@ document.addEventListener('alpine:init', () => {
                     alert: '<svg class="w-10 h-10 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z"></path></svg>',
                     warning: '<svg class="w-10 h-10 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z"></path></svg>',
                     notice: '<svg class="w-10 h-10 text-sky-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>',
+                    success: '<svg class="w-10 h-10 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>',
                     default: ''
                 };
                 modalIcon.innerHTML = icons[type] || icons.default;
@@ -95,7 +96,7 @@ document.addEventListener('alpine:init', () => {
  * @param {string} message - Message text
  * @param {string} confirm_text - Text of the confirm button (default "OK")
  * @param {string} cancel_text - Text of the cancel button (default "Cancel")
- * @param {string} type - Type of the modal: "alert", "notice", "warning" (affects the icon)
+ * @param {string} type - Type of the modal: "alert", "notice", "warning", "success" (affects the icon)
  * @returns {Promise<boolean>} - Returns true if the user clicked confirm
  */
 export async function modal(title, message, confirm_text = "OK", cancel_text = "Cancel", type = "alert") {

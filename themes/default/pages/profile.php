@@ -314,8 +314,8 @@ ob_start();
                                 </div>
                                 <div class="mt-2 text-xs text-gray-400">Profile access</div>
                                 <div class="mt-3">
-                                    <button class="text-xs bg-gradient-to-r from-gray-500 to-slate-500 text-white px-3 py-1 rounded-lg hover:from-gray-600 hover:to-slate-600 transition-all duration-200 flex items-center gap-1"
-                                            x-bind:class="(user || {}).is_public ? 'bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600' : ''">
+                                    <button @click="toggleProfileVisibility()" class="cursor-pointer text-xs text-white px-3 py-1 rounded-lg transition-all duration-200 flex items-center gap-1"
+                                            x-bind:class="(user || {}).is_public ? 'bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600' : 'bg-gradient-to-r from-gray-500 to-slate-500 hover:from-gray-600 hover:to-slate-600'">
                                         <svg class="w-3 h-3 flex-shrink-0 py-0 translate-y-0.25" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>

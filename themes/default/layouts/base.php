@@ -67,13 +67,15 @@ $theme_base = '/themes/'.$theme_name;
                 <div class="absolute inset-0 bg-gradient-to-r from-red-600/5 to-orange-600/5 rounded-2xl" x-bind:class="{
                     'from-red-600/5 to-orange-600/5': $modal.type === 'alert',
                     'from-orange-600/5 to-yellow-600/5': $modal.type === 'warning',
-                    'from-blue-600/5 to-indigo-600/5': $modal.type === 'notice'
+                    'from-blue-600/5 to-indigo-600/5': $modal.type === 'notice',
+                    'from-emerald-600/5 to-green-600/5': $modal.type === 'success'
                 }"></div>
 
                 <div class="relative bg-gradient-to-br from-white to-gray-50 rounded-2xl p-8 border border-gray-200/50 shadow-xl backdrop-blur-sm transition-all duration-300 transform scale-100" x-bind:class="{
                     'from-red-50 to-white': $modal.type === 'alert',
                     'from-orange-50 to-white': $modal.type === 'warning',
-                    'from-blue-50 to-white': $modal.type === 'notice'
+                    'from-blue-50 to-white': $modal.type === 'notice',
+                    'from-emerald-50 to-white': $modal.type === 'success'
                 }" data-headlessui-state="open" data-open="">
                    <div class="text-center">
                        <div class="flex justify-center">
@@ -97,7 +99,8 @@ $theme_base = '/themes/'.$theme_name;
                        <button @click="confirm()" class="inline-flex items-center justify-center rounded-lg bg-gradient-to-r from-red-500 to-red-600 px-4 py-2 text-sm font-medium text-white transition-all duration-300 hover:from-red-600 hover:to-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 shadow-md hover:shadow-lg cursor-pointer min-w-[140px]" x-bind:class="{
                            'bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 focus:ring-red-500': $modal.type === 'alert',
                            'bg-gradient-to-r from-yellow-500 to-amber-500 hover:from-yellow-600 hover:to-amber-600 focus:ring-yellow-500': $modal.type === 'warning',
-                           'bg-gradient-to-r from-sky-500 to-blue-500 hover:from-sky-600 hover:to-blue-600 focus:ring-sky-500': $modal.type === 'notice'
+                           'bg-gradient-to-r from-sky-500 to-blue-500 hover:from-sky-600 hover:to-blue-600 focus:ring-sky-500': $modal.type === 'notice',
+                           'bg-gradient-to-r from-emerald-500 to-green-500 hover:from-emerald-600 hover:to-green-600 focus:ring-emerald-500': $modal.type === 'success'
                        }" type="button">
                            <span class="flex items-center gap-2">
                                <span x-text="$modal.confirm_text"></span>
