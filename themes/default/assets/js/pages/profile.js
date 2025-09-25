@@ -5,6 +5,8 @@ document.addEventListener('alpine:init', () => {
         user: null,
         loading: true,
         error: '',
+        emailVerificationMessage: '',
+        emailVerificationType: '',
 
         async init() {
             await this.loadUserProfile();
@@ -124,6 +126,49 @@ document.addEventListener('alpine:init', () => {
                     'OK',
                     ''
                 );
+            }
+        },
+
+        async sendEmailVerification() {
+            try {
+                // Clear previous message
+                this.emailVerificationMessage = '';
+                this.emailVerificationType = '';
+
+                // Call API to send email verification
+                const response = await request('/v1/users/me/verify-email', {
+                    method: 'POST'
+                });
+
+                if (!response.ok) {
+                    const errorData = await response.json().catch(() => ({}));
+                    throw new Error(errorData.message || `Failed to send verification email: ${response.status}`);
+                }
+
+                const data = await response.json();
+
+                // Show success message
+                this.emailVerificationMessage = data.message || 'Verification email sent successfully!';
+                this.emailVerificationType = 'success';
+
+                // Hide message after 5 seconds
+                setTimeout(() => {
+                    this.emailVerificationMessage = '';
+                    this.emailVerificationType = '';
+                }, 5000);
+
+            } catch (error) {
+                console.error('Email verification error:', error);
+
+                // Show error message
+                this.emailVerificationMessage = error.message || 'Failed to send verification email. Please try again.';
+                this.emailVerificationType = 'error';
+
+                // Hide message after 5 seconds
+                setTimeout(() => {
+                    this.emailVerificationMessage = '';
+                    this.emailVerificationType = '';
+                }, 5000);
             }
         }
     }));

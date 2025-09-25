@@ -214,12 +214,15 @@ ob_start();
                                 <div class="text-xl font-bold text-gray-900 break-all" x-text="(user || {}).email || 'Loading...'"></div>
                                 <div class="mt-2 text-xs text-gray-400">Primary contact</div>
                                 <div class="mt-3">
-                                    <button class="text-xs bg-gradient-to-r from-blue-500 to-indigo-500 text-white px-3 py-1 rounded-lg hover:from-blue-600 hover:to-indigo-600 transition-all duration-200 flex items-center gap-1">
-                                        <svg class="w-3 h-3 flex-shrink-0 py-0 translate-y-0.25" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
-                                        </svg>
-                                        <span>Send Email</span>
-                                    </button>
+                                    <div class="flex items-center gap-3">
+                                        <button @click="sendEmailVerification()" class="cursor-pointer text-xs bg-gradient-to-r from-blue-500 to-indigo-500 text-white px-3 py-1 rounded-lg hover:from-blue-600 hover:to-indigo-600 transition-all duration-200 flex items-center gap-1">
+                                            <svg class="w-3 h-3 flex-shrink-0 py-0 translate-y-0.25" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                                            </svg>
+                                            <span>Send Email</span>
+                                        </button>
+                                        <div x-show="emailVerificationMessage" x-text="emailVerificationMessage" x-bind:class="emailVerificationType === 'success' ? 'text-green-600 text-xs' : 'text-red-600 text-xs'" class="transition-all duration-200"></div>
+                                    </div>
                                 </div>
                             </div>
 
