@@ -34,8 +34,8 @@ ob_start();
 </section>
 
 <!-- Features Section -->
-<section class="py-16 sm:py-20 bg-white/50 rounded-sm" aria-labelledby="features-heading">
-    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+<section class="py-16 sm:py-20 rounded-sm" aria-labelledby="features-heading">
+    <div class="mx-auto max-w-8xl px-4 sm:px-6 lg:px-8">
         <div class="text-center mb-16">
             <h2 id="features-heading" class="text-3xl font-bold tracking-tight text-zinc-900 sm:text-4xl">
                 Why RooCMS?
@@ -201,7 +201,7 @@ ob_start();
                 <p class="text-zinc-600">
                     Full support for transactions to ensure data integrity in complex operations.
                 </p>
-    </div>
+            </div>
 
             <!-- Feature 13 -->
             <div class="relative bg-white rounded-lg shadow-sm border border-zinc-200 p-8 hover:shadow-md transition-shadow">
@@ -241,14 +241,13 @@ ob_start();
                     Automatic validation and sanitization of all input data for security.
                 </p>
             </div>
-
-    </div>
+        </div>
     </div>
 </section>
 
 <!-- Documentation Section -->
 <section class="py-16 sm:py-20" aria-labelledby="docs-heading">
-    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <div class="mx-auto max-w-8xl px-4 sm:px-6 lg:px-8">
         <div class="text-center mb-12">
             <h2 id="docs-heading" class="text-3xl font-bold tracking-tight text-zinc-900 sm:text-4xl mb-4">
                 Comprehensive documentation

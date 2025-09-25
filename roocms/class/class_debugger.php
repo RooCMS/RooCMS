@@ -622,8 +622,7 @@ class Debugger {
 						]
 					],
 					'server_load' => $debug->get_server_load(),
-					'process_id' => getmypid(),
-					'user' => get_current_user()
+					'process_id' => getmypid()
 				]
 			],
 			'status' => 'debug',
