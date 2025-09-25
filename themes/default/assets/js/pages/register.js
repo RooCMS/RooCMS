@@ -1,71 +1,5 @@
 import { register } from '../app/auth.js';
 
-document.addEventListener('alpine:init', () => {
-    window.Alpine.data('registerForm', () => ({
-        login: '',
-        email: '',
-        password: '',
-        password_confirmation: '',
-        form_error: '',
-        form_success: '',
-        loading: false,
-
-        async submitForm() {
-            if (this.loading) return;
-
-            // Client-side validation
-            const validation = validateRegisterForm({
-                login: this.login,
-                email: this.email,
-                password: this.password,
-                password_confirmation: this.password_confirmation
-            });
-
-            if (!validation.isValid) {
-                // Clear previous errors
-                window.FormHelperUtils.clearFieldErrors(['login-error', 'email-error', 'password-error', 'password-confirmation-error']);
-
-                // Show new errors
-                Object.keys(validation.errors).forEach(field => {
-                    window.FormHelperUtils.showFieldError(`${field}-error`, validation.errors[field]);
-                });
-                return;
-            }
-
-            this.loading = true;
-            this.form_error = '';
-            this.form_success = '';
-
-            try {
-                const result = await register(this.login, this.email, this.password, this.password_confirmation);
-                this.form_success = 'Account created successfully! You can now log in.';
-
-                // Clear form after successful submission
-                window.FormHelperUtils.clearFormFields(['login', 'email', 'password', 'password_confirmation']);
-
-                // Redirect to login page
-                window.FormHelperUtils.redirectAfterSuccess('/login');
-
-            } catch (error) {
-                const { formError, fieldErrors } = handleRegisterError(error);
-
-                if (formError) {
-                    this.form_error = formError;
-                }
-
-                if (fieldErrors) {
-                    Object.keys(fieldErrors).forEach(field => {
-                        window.FormHelperUtils.showFieldError(`${field}-error`, fieldErrors[field]);
-                    });
-                }
-            } finally {
-                this.loading = false;
-            }
-        }
-    }));
-});
-
-
 /**
  * Validate register form
  * @param {Object} formData - Data of the form {login, email, password, password_confirmation}
@@ -148,3 +82,72 @@ function handleRegisterError(error) {
 
     return { formError, fieldErrors };
 }
+
+
+/**
+ * Handles the register form
+ */
+document.addEventListener('alpine:init', () => {
+    window.Alpine.data('registerForm', () => ({
+        login: '',
+        email: '',
+        password: '',
+        password_confirmation: '',
+        form_error: '',
+        form_success: '',
+        loading: false,
+
+        async submitForm() {
+            if (this.loading) return;
+
+            // Client-side validation
+            const validation = validateRegisterForm({
+                login: this.login,
+                email: this.email,
+                password: this.password,
+                password_confirmation: this.password_confirmation
+            });
+
+            if (!validation.isValid) {
+                // Clear previous errors
+                window.FormHelperUtils.clearFieldErrors(['login-error', 'email-error', 'password-error', 'password-confirmation-error']);
+
+                // Show new errors
+                Object.keys(validation.errors).forEach(field => {
+                    window.FormHelperUtils.showFieldError(`${field}-error`, validation.errors[field]);
+                });
+                return;
+            }
+
+            this.loading = true;
+            this.form_error = '';
+            this.form_success = '';
+
+            try {
+                const result = await register(this.login, this.email, this.password, this.password_confirmation);
+                this.form_success = 'Account created successfully! You can now log in.';
+
+                // Clear form after successful submission
+                window.FormHelperUtils.clearFormFields(['login', 'email', 'password', 'password_confirmation']);
+
+                // Redirect to login page
+                window.FormHelperUtils.redirectAfterSuccess('/login');
+
+            } catch (error) {
+                const { formError, fieldErrors } = handleRegisterError(error);
+
+                if (formError) {
+                    this.form_error = formError;
+                }
+
+                if (fieldErrors) {
+                    Object.keys(fieldErrors).forEach(field => {
+                        window.FormHelperUtils.showFieldError(`${field}-error`, fieldErrors[field]);
+                    });
+                }
+            } finally {
+                this.loading = false;
+            }
+        }
+    }));
+});

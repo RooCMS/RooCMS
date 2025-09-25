@@ -1,5 +1,54 @@
 import { request, setAccessToken, setRefreshToken } from '../app/api.js';
 
+/**
+ * Calculates the profile completion percentage
+ * @param {Object} user - User object
+ * @returns {number} - Completion percentage (0-100)
+ */
+function calculateProfileCompletion(user) {
+    if (!user) return 0;
+
+    let complete = 0;
+    const fields = ['first_name', 'last_name', 'nickname', 'gender', 'birthday'];
+    const totalFields = fields.length;
+
+    fields.forEach(field => {
+        if (user[field]) complete += (100 / totalFields);
+    });
+
+    return Math.round(complete);
+}
+
+/**
+ * Calculates the contact information completion percentage
+ * @param {Object} user - User object
+ * @returns {number} - Completion percentage (0-100)
+ */
+function calculateContactCompletion(user) {
+    if (!user) return 0;
+
+    const requiredFields = ['email', 'bio', 'website'];
+    const optionalFields = ['phone', 'address', 'social_links'];
+
+    let score = 0;
+
+    // Required fields give more points
+    requiredFields.forEach(field => {
+        if (user[field]) score += 30; // 30 points for each required field
+    });
+
+    // Optional fields give less points
+    optionalFields.forEach(field => {
+        if (user[field]) score += 10; // 10 points for each optional field
+    });
+
+    return Math.min(score, 100); // Not more than 100%
+}
+
+
+/**
+ * Handles the user profile
+ */
 document.addEventListener('alpine:init', () => {
     window.Alpine.data('userProfile', () => ({
         user: null,
@@ -204,49 +253,3 @@ document.addEventListener('alpine:init', () => {
 
     }));
 });
-
-
-/**
- * Calculates the profile completion percentage
- * @param {Object} user - User object
- * @returns {number} - Completion percentage (0-100)
- */
-function calculateProfileCompletion(user) {
-    if (!user) return 0;
-
-    let complete = 0;
-    const fields = ['first_name', 'last_name', 'nickname', 'gender', 'birthday'];
-    const totalFields = fields.length;
-
-    fields.forEach(field => {
-        if (user[field]) complete += (100 / totalFields);
-    });
-
-    return Math.round(complete);
-}
-
-/**
- * Calculates the contact information completion percentage
- * @param {Object} user - User object
- * @returns {number} - Completion percentage (0-100)
- */
-function calculateContactCompletion(user) {
-    if (!user) return 0;
-
-    const requiredFields = ['email', 'bio', 'website'];
-    const optionalFields = ['phone', 'address', 'social_links'];
-
-    let score = 0;
-
-    // Required fields give more points
-    requiredFields.forEach(field => {
-        if (user[field]) score += 30; // 30 points for each required field
-    });
-
-    // Optional fields give less points
-    optionalFields.forEach(field => {
-        if (user[field]) score += 10; // 10 points for each optional field
-    });
-
-    return Math.min(score, 100); // Not more than 100%
-}
