@@ -124,5 +124,3 @@ export async function do_refresh_token() {
         localStorage.removeItem('access_token');
     }
 }
-
-

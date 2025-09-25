@@ -61,14 +61,15 @@ class HealthController extends BaseController {
      */
     public function details(): void {
         $this->log_request('health_details');
-        
+
         $response = [
             'api check' => $this->check_api_health(),
+            'database check' => $this->get_database_health(),
             'system_info' => $this->get_detailed_system_info(),
             'php_info' => $this->get_php_info(),
             'roocms_info' => $this->get_roocms_info()
         ];
-        
+
         $this->json_response($response);
     }
     
@@ -150,6 +151,7 @@ class HealthController extends BaseController {
      */
     private function get_php_info(): array {
         return [
+            'version' => PHP_VERSION,
             'configuration' => [
                 'memory_limit' => ini_get('memory_limit'),
                 'max_execution_time' => ini_get('max_execution_time'),

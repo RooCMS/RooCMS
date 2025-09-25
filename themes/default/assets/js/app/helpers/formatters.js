@@ -18,16 +18,42 @@ export function formatDate(timestamp) {
 
 /**
  * Formats timestamp to date and time
- * @param {number|string} timestamp - Unix timestamp or date string
+ * @param {number|string|Date} timestamp - Unix timestamp, date string, or Date object
  * @returns {string} - Formatted date and time
  */
 export function formatDateTime(timestamp) {
     if (!timestamp) return 'Not set';
 
-    const date = new Date(typeof timestamp === 'string' ? timestamp : timestamp * 1000);
+    let date;
+    if (timestamp instanceof Date) {
+        date = timestamp;
+    } else {
+        date = new Date(typeof timestamp === 'string' ? timestamp : timestamp * 1000);
+    }
+
     if (isNaN(date.getTime())) return 'Invalid date';
 
-    return date.toLocaleString();
+    return date.toLocaleString('ru-RU');
+}
+
+/**
+ * Formats timestamp to time only (HH:MM:SS)
+ * @param {number|string|Date} timestamp - Unix timestamp, date string, or Date object
+ * @returns {string} - Formatted time only
+ */
+export function formatTimeOnly(timestamp) {
+    if (!timestamp) return '';
+
+    let date;
+    if (timestamp instanceof Date) {
+        date = timestamp;
+    } else {
+        date = new Date(typeof timestamp === 'string' ? timestamp : timestamp * 1000);
+    }
+
+    if (isNaN(date.getTime())) return '';
+
+    return date.toLocaleTimeString('ru-RU');
 }
 
 

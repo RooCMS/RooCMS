@@ -106,11 +106,11 @@ ob_start();
 					<h2 class="mb-4 text-base font-semibold text-zinc-900">Бейджи</h2>
 					<div class="rounded-xl border border-zinc-200/80 bg-white/80 p-5 shadow-sm backdrop-blur">
 						<div class="flex flex-wrap items-center gap-3 text-xs font-medium">
-							<span class="rounded-full bg-zinc-100 px-2.5 py-1 text-zinc-700">Neutral</span>
-							<span class="rounded-full bg-sky-100 px-2.5 py-1 text-sky-700">Info</span>
-							<span class="rounded-full bg-emerald-100 px-2.5 py-1 text-emerald-700">Success</span>
-							<span class="rounded-full bg-amber-100 px-2.5 py-1 text-amber-700">Warning</span>
-							<span class="rounded-full bg-rose-100 px-2.5 py-1 text-rose-700">Danger</span>
+							<span class="rounded-md bg-zinc-100 px-2.5 py-1 text-zinc-700">Neutral</span>
+							<span class="rounded-md bg-sky-100 px-2.5 py-1 text-sky-700">Info</span>
+							<span class="rounded-md bg-emerald-100 px-2.5 py-1 text-emerald-700">Success</span>
+							<span class="rounded-md bg-amber-100 px-2.5 py-1 text-amber-700">Warning</span>
+							<span class="rounded-md bg-rose-100 px-2.5 py-1 text-rose-700">Danger</span>
 						</div>
 					</div>
 				</section>
@@ -145,8 +145,8 @@ ob_start();
 									<span>Загрузка</span>
 									<span>45%</span>
 								</div>
-								<div class="h-2 w-full overflow-hidden rounded-full bg-zinc-200" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="45">
-									<div class="h-full w-[45%] rounded-full bg-zinc-900"></div>
+								<div class="h-2 w-full overflow-hidden rounded-md bg-zinc-200" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="45">
+									<div class="h-full w-[45%] rounded-md bg-zinc-900"></div>
 								</div>
 							</div>
 							<div>
