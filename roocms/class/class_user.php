@@ -198,7 +198,7 @@ class User {
 
     /**
      * Create or update user profile
-     * 
+     *
      * @param int $user_id User ID
      * @param array $profile_data Profile data
      * @return bool
@@ -207,8 +207,66 @@ class User {
         try {
             $current_time = time();
 
-            // Build data set
+            // Decide update or insert
+            $exists = $this->db->check_id($user_id, TABLE_USER_PROFILES, 'user_id');
+            if($exists) {
+                // Update only provided fields
+                $set_clauses = [];
+                $params = [];
+
+                // Build SET clauses only for provided fields
+                if (array_key_exists('nickname', $profile_data)) {
+                    $set_clauses[] = "nickname = ?";
+                    $params[] = $profile_data['nickname'];
+                }
+                if (array_key_exists('first_name', $profile_data)) {
+                    $set_clauses[] = "first_name = ?";
+                    $params[] = $profile_data['first_name'];
+                }
+                if (array_key_exists('last_name', $profile_data)) {
+                    $set_clauses[] = "last_name = ?";
+                    $params[] = $profile_data['last_name'];
+                }
+                if (array_key_exists('gender', $profile_data)) {
+                    $set_clauses[] = "gender = ?";
+                    $params[] = $profile_data['gender'];
+                }
+                if (array_key_exists('avatar', $profile_data)) {
+                    $set_clauses[] = "avatar = ?";
+                    $params[] = $profile_data['avatar'];
+                }
+                if (array_key_exists('bio', $profile_data)) {
+                    $set_clauses[] = "bio = ?";
+                    $params[] = $profile_data['bio'];
+                }
+                if (array_key_exists('birthday', $profile_data)) {
+                    $set_clauses[] = "birthday = ?";
+                    $params[] = $profile_data['birthday'];
+                }
+                if (array_key_exists('website', $profile_data)) {
+                    $set_clauses[] = "website = ?";
+                    $params[] = $profile_data['website'];
+                }
+                if (array_key_exists('is_public', $profile_data)) {
+                    $set_clauses[] = "is_public = ?";
+                    $params[] = $profile_data['is_public'];
+                }
+
+                if (empty($set_clauses)) {
+                    return true; // No fields to update
+                }
+
+                $set_clauses[] = "updated_at = ?";
+                $params[] = $current_time;
+                $params[] = $user_id;
+
+                $query = "UPDATE " . TABLE_USER_PROFILES . " SET " . implode(', ', $set_clauses) . " WHERE user_id = ?";
+                return (bool)$this->db->query($query, $params);
+            }
+
+            // Insert new profile - use provided data with defaults for missing fields
             $data = [
+                'user_id' => $user_id,
                 'nickname' => $profile_data['nickname'] ?? null,
                 'first_name' => $profile_data['first_name'] ?? null,
                 'last_name' => $profile_data['last_name'] ?? null,
@@ -218,17 +276,10 @@ class User {
                 'birthday' => $profile_data['birthday'] ?? null,
                 'website' => $profile_data['website'] ?? null,
                 'is_public' => $profile_data['is_public'] ?? 1,
+                'created_at' => $current_time,
                 'updated_at' => $current_time,
             ];
 
-            // Decide update or insert
-            $exists = $this->db->check_id($user_id, TABLE_USER_PROFILES, 'user_id');
-            if($exists) {
-                return $this->db->update_array($data, TABLE_USER_PROFILES, 'user_id = ?', [$user_id]);
-            }
-
-            $data['user_id'] = $user_id;
-            $data['created_at'] = $current_time;
             return $this->db->insert_array($data, TABLE_USER_PROFILES);
         } catch (Exception $e) {
             error_log('Error upserting user profile: ' . $e->getMessage());
