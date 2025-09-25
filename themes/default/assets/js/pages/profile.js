@@ -56,6 +56,8 @@ document.addEventListener('alpine:init', () => {
         error: '',
         emailVerificationMessage: '',
         emailVerificationType: '',
+        togglingVisibility: false,
+        sendingEmailVerification: false,
 
         async init() {
             await this.loadUserProfile();
@@ -161,9 +163,15 @@ document.addEventListener('alpine:init', () => {
 
         async sendEmailVerification() {
             try {
+                if (this.sendingEmailVerification) {
+                    return;
+                }
+
                 // Clear previous message
                 this.emailVerificationMessage = '';
                 this.emailVerificationType = '';
+
+                this.sendingEmailVerification = true;
 
                 // Call API to send email verification
                 const response = await request('/v1/users/me/verify-email', {
@@ -199,14 +207,18 @@ document.addEventListener('alpine:init', () => {
                     this.emailVerificationMessage = '';
                     this.emailVerificationType = '';
                 }, 5000);
+            } finally {
+                this.sendingEmailVerification = false;
             }
         },
 
         async toggleProfileVisibility() {
             try {
-                if (!this.user) {
+                if (!this.user || this.togglingVisibility) {
                     return;
                 }
+
+                this.togglingVisibility = true;
 
                 // Determine new visibility state
                 const newVisibility = !this.user.is_public;
@@ -248,6 +260,8 @@ document.addEventListener('alpine:init', () => {
                     `Failed to update profile visibility: ${error.message}`,
                     'alert'
                 );
+            } finally {
+                this.togglingVisibility = false;
             }
         },
 

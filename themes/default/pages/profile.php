@@ -55,7 +55,47 @@ ob_start();
                             </div>
                         </div>
 
-                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                        <!-- Account Security Skeleton -->
+                        <div x-show="loading" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                            <div class="bg-white/80 backdrop-blur-sm p-5 rounded-xl border border-gray-200/50 shadow-sm animate-pulse">
+                                <div class="flex items-center justify-between mb-2">
+                                    <div class="bg-gray-200 rounded h-4 w-24"></div>
+                                    <div class="h-2 w-2 bg-gray-300 rounded-full"></div>
+                                </div>
+                                <div class="bg-gray-200 rounded h-6 w-32 mb-2"></div>
+                                <div class="bg-gray-200 rounded h-4 w-16"></div>
+                            </div>
+
+                            <div class="bg-white/80 backdrop-blur-sm p-5 rounded-xl border border-gray-200/50 shadow-sm animate-pulse">
+                                <div class="flex items-center justify-between mb-2">
+                                    <div class="bg-gray-200 rounded h-4 w-16"></div>
+                                    <div class="h-2 w-2 bg-gray-300 rounded-full"></div>
+                                </div>
+                                <div class="bg-gray-200 rounded h-6 w-24 mb-2"></div>
+                                <div class="bg-gray-200 rounded h-4 w-16"></div>
+                            </div>
+
+                            <div class="bg-white/80 backdrop-blur-sm p-5 rounded-xl border border-gray-200/50 shadow-sm animate-pulse">
+                                <div class="flex items-center justify-between mb-2">
+                                    <div class="bg-gray-200 rounded h-4 w-24"></div>
+                                    <div class="h-2 w-2 bg-gray-300 rounded-full"></div>
+                                </div>
+                                <div class="bg-gray-200 rounded h-6 w-32 mb-2"></div>
+                                <div class="bg-gray-200 rounded h-4 w-24"></div>
+                            </div>
+
+                            <div class="bg-white/80 backdrop-blur-sm p-5 rounded-xl border border-gray-200/50 shadow-sm animate-pulse">
+                                <div class="flex items-center justify-between mb-2">
+                                    <div class="bg-gray-200 rounded h-4 w-24"></div>
+                                    <div class="h-2 w-2 bg-gray-300 rounded-full"></div>
+                                </div>
+                                <div class="bg-gray-200 rounded h-6 w-32 mb-2"></div>
+                                <div class="bg-gray-200 rounded h-4 w-16"></div>
+                            </div>
+                        </div>
+
+                        <!-- Account Security Content -->
+                        <div x-show="!loading" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
                             <div class="group bg-white/80 backdrop-blur-sm p-5 rounded-xl border border-gray-200/50 shadow-sm hover:shadow-md transition-all duration-300">
                                 <div class="flex items-center justify-between mb-2">
                                     <div class="text-sm font-medium text-gray-500">User ID</div>
@@ -95,8 +135,19 @@ ob_start();
                             </div>
                         </div>
 
-                        <!-- Security Progress -->
-                        <div class="mt-6 bg-white/60 rounded-xl p-4 border border-gray-200/50 shadow-sm">
+                        <!-- Security Progress Skeleton -->
+                        <div x-show="loading" class="mt-6 bg-white/60 rounded-xl p-4 border border-gray-200/50 shadow-sm animate-pulse">
+                            <div class="flex items-center justify-between mb-2">
+                                <div class="bg-gray-200 rounded h-4 w-24"></div>
+                                <div class="bg-gray-200 rounded h-4 w-16"></div>
+                            </div>
+                            <div class="w-full bg-gray-200 rounded-full h-2">
+                                <div class="bg-gray-300 h-2 rounded-full w-3/4"></div>
+                            </div>
+                        </div>
+
+                        <!-- Security Progress Content -->
+                        <div x-show="!loading" class="mt-6 bg-white/60 rounded-xl p-4 border border-gray-200/50 shadow-sm">
                             <div class="flex items-center justify-between mb-2">
                                 <span class="text-sm font-medium text-gray-700">Security Score</span>
                                 <span class="text-sm font-bold text-gray-900" x-text="user ? (user.is_verified ? '85%' : '45%') : 'Loading...'"></span>
@@ -126,7 +177,56 @@ ob_start();
                             </div>
                         </div>
 
-                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                        <!-- Personal Details Skeleton -->
+                        <div x-show="loading" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                            <div class="bg-white/80 backdrop-blur-sm p-5 rounded-xl border border-gray-200/50 shadow-sm animate-pulse">
+                                <div class="flex items-center justify-between mb-2">
+                                    <div class="bg-gray-200 rounded h-4 w-24"></div>
+                                    <div class="h-2 w-2 bg-gray-300 rounded-full"></div>
+                                </div>
+                                <div class="bg-gray-200 rounded h-6 w-32 mb-2"></div>
+                                <div class="bg-gray-200 rounded h-4 w-16"></div>
+                            </div>
+
+                            <div class="bg-white/80 backdrop-blur-sm p-5 rounded-xl border border-gray-200/50 shadow-sm animate-pulse">
+                                <div class="flex items-center justify-between mb-2">
+                                    <div class="bg-gray-200 rounded h-4 w-24"></div>
+                                    <div class="h-2 w-2 bg-gray-300 rounded-full"></div>
+                                </div>
+                                <div class="bg-gray-200 rounded h-6 w-32 mb-2"></div>
+                                <div class="bg-gray-200 rounded h-4 w-16"></div>
+                            </div>
+
+                            <div class="bg-white/80 backdrop-blur-sm p-5 rounded-xl border border-gray-200/50 shadow-sm animate-pulse">
+                                <div class="flex items-center justify-between mb-2">
+                                    <div class="bg-gray-200 rounded h-4 w-24"></div>
+                                    <div class="h-2 w-2 bg-gray-300 rounded-full"></div>
+                                </div>
+                                <div class="bg-gray-200 rounded h-6 w-32 mb-2"></div>
+                                <div class="bg-gray-200 rounded h-4 w-24"></div>
+                            </div>
+
+                            <div class="bg-white/80 backdrop-blur-sm p-5 rounded-xl border border-gray-200/50 shadow-sm animate-pulse">
+                                <div class="flex items-center justify-between mb-2">
+                                    <div class="bg-gray-200 rounded h-4 w-16"></div>
+                                    <div class="h-2 w-2 bg-gray-300 rounded-full"></div>
+                                </div>
+                                <div class="bg-gray-200 rounded h-6 w-24 mb-2"></div>
+                                <div class="bg-gray-200 rounded h-4 w-16"></div>
+                            </div>
+
+                            <div class="bg-white/80 backdrop-blur-sm p-5 rounded-xl border border-gray-200/50 shadow-sm animate-pulse lg:col-span-2">
+                                <div class="flex items-center justify-between mb-2">
+                                    <div class="bg-gray-200 rounded h-4 w-24"></div>
+                                    <div class="h-2 w-2 bg-gray-300 rounded-full"></div>
+                                </div>
+                                <div class="bg-gray-200 rounded h-6 w-32 mb-2"></div>
+                                <div class="bg-gray-200 rounded h-4 w-24"></div>
+                            </div>
+                        </div>
+
+                        <!-- Personal Details Content -->
+                        <div x-show="!loading" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
                             <div class="group bg-white/80 backdrop-blur-sm p-5 rounded-xl border border-gray-200/50 shadow-sm hover:shadow-md transition-all duration-300">
                                 <div class="flex items-center justify-between mb-2">
                                     <div class="text-sm font-medium text-gray-500">First Name</div>
@@ -173,8 +273,19 @@ ob_start();
                             </div>
                         </div>
 
-                        <!-- Profile Completion -->
-                        <div class="mt-6 bg-white/60 rounded-xl p-4 border border-gray-200/50 shadow-sm">
+                        <!-- Profile Completion Skeleton -->
+                        <div x-show="loading" class="mt-6 bg-white/60 rounded-xl p-4 border border-gray-200/50 shadow-sm animate-pulse">
+                            <div class="flex items-center justify-between mb-2">
+                                <div class="bg-gray-200 rounded h-4 w-32"></div>
+                                <div class="bg-gray-200 rounded h-4 w-16"></div>
+                            </div>
+                            <div class="w-full bg-gray-200 rounded-full h-2">
+                                <div class="bg-gray-300 h-2 rounded-full w-2/3"></div>
+                            </div>
+                        </div>
+
+                        <!-- Profile Completion Content -->
+                        <div x-show="!loading" class="mt-6 bg-white/60 rounded-xl p-4 border border-gray-200/50 shadow-sm">
                             <div class="flex items-center justify-between mb-2">
                                 <span class="text-sm font-medium text-gray-700">Profile Completion</span>
                                 <span class="text-sm font-bold text-gray-900" x-text="profileCompletionWidth + '%'"></span>
@@ -205,7 +316,49 @@ ob_start();
                             </div>
                         </div>
 
-                        <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                        <!-- Contact & Bio Skeleton -->
+                        <div x-show="loading" class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                            <div class="bg-white/80 backdrop-blur-sm p-5 rounded-xl border border-gray-200/50 shadow-sm animate-pulse">
+                                <div class="flex items-center justify-between mb-2">
+                                    <div class="bg-gray-200 rounded h-4 w-32"></div>
+                                    <div class="h-2 w-2 bg-gray-300 rounded-full"></div>
+                                </div>
+                                <div class="bg-gray-200 rounded h-6 w-32 mb-2"></div>
+                                <div class="bg-gray-200 rounded h-4 w-24"></div>
+                                <div class="mt-3">
+                                    <div class="bg-gray-200 h-6 w-20 rounded-lg"></div>
+                                </div>
+                            </div>
+
+                            <div class="bg-white/80 backdrop-blur-sm p-5 rounded-xl border border-gray-200/50 shadow-sm animate-pulse">
+                                <div class="flex items-center justify-between mb-2">
+                                    <div class="bg-gray-200 rounded h-4 w-24"></div>
+                                    <div class="h-2 w-2 bg-gray-300 rounded-full"></div>
+                                </div>
+                                <div class="bg-gray-200 rounded h-6 w-32 mb-2"></div>
+                                <div class="bg-gray-200 rounded h-4 w-16"></div>
+                                <div class="mt-3">
+                                    <div class="bg-gray-200 h-6 w-16 rounded-lg"></div>
+                                </div>
+                            </div>
+
+                            <div class="bg-white/80 backdrop-blur-sm p-5 rounded-xl border border-gray-200/50 shadow-sm animate-pulse lg:col-span-2">
+                                <div class="flex items-center justify-between mb-2">
+                                    <div class="bg-gray-200 rounded h-4 w-24"></div>
+                                    <div class="h-2 w-2 bg-gray-300 rounded-full"></div>
+                                </div>
+                                <div class="bg-gray-200 rounded h-4 mb-1"></div>
+                                <div class="bg-gray-200 rounded h-4 mb-1 w-3/4"></div>
+                                <div class="bg-gray-200 rounded h-4 w-1/2 mb-2"></div>
+                                <div class="bg-gray-200 rounded h-4 w-24"></div>
+                                <div class="mt-3">
+                                    <div class="bg-gray-200 h-6 w-14 rounded-lg"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Contact & Bio Content -->
+                        <div x-show="!loading" class="grid grid-cols-1 lg:grid-cols-2 gap-4">
                             <div class="group bg-white/80 backdrop-blur-sm p-5 rounded-xl border border-gray-200/50 shadow-sm hover:shadow-md transition-all duration-300">
                                 <div class="flex items-center justify-between mb-2">
                                     <div class="text-sm font-medium text-gray-500">Email Address</div>
@@ -215,9 +368,13 @@ ob_start();
                                 <div class="mt-2 text-xs text-gray-400">Primary contact</div>
                                 <div class="mt-3">
                                     <div class="flex items-center gap-3">
-                                        <button @click="sendEmailVerification()" class="cursor-pointer text-xs bg-gradient-to-r from-blue-500 to-indigo-500 text-white px-3 py-1 rounded-lg hover:from-blue-600 hover:to-indigo-600 transition-all duration-200 flex items-center gap-1">
-                                            <svg class="w-3 h-3 flex-shrink-0 py-0 translate-y-0.25" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <button @click="sendEmailVerification()" class="cursor-pointer text-xs bg-gradient-to-r from-blue-500 to-indigo-500 text-white px-3 py-1 rounded-lg hover:from-blue-600 hover:to-indigo-600 transition-all duration-200 flex items-center gap-1 disabled:opacity-50 disabled:cursor-not-allowed"
+                                                x-bind:disabled="sendingEmailVerification">
+                                            <svg x-show="!sendingEmailVerification" class="w-3 h-3 flex-shrink-0 py-0 translate-y-0.25" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                                            </svg>
+                                            <svg x-show="sendingEmailVerification" x-cloak class="w-3 h-3 flex-shrink-0 py-0 translate-y-0.25 animate-spin" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
                                             </svg>
                                             <span>Send Email</span>
                                         </button>
@@ -270,8 +427,19 @@ ob_start();
                             </div>
                         </div>
 
-                        <!-- Contact Score -->
-                        <div class="mt-6 bg-white/60 rounded-xl p-4 border border-gray-200/50 shadow-sm">
+                        <!-- Contact Score Skeleton -->
+                        <div x-show="loading" class="mt-6 bg-white/60 rounded-xl p-4 border border-gray-200/50 shadow-sm animate-pulse">
+                            <div class="flex items-center justify-between mb-2">
+                                <div class="bg-gray-200 rounded h-4 w-24"></div>
+                                <div class="bg-gray-200 rounded h-4 w-16"></div>
+                            </div>
+                            <div class="w-full bg-gray-200 rounded-full h-2">
+                                <div class="bg-gray-300 h-2 rounded-full w-1/2"></div>
+                            </div>
+                        </div>
+
+                        <!-- Contact Score Content -->
+                        <div x-show="!loading" class="mt-6 bg-white/60 rounded-xl p-4 border border-gray-200/50 shadow-sm">
                             <div class="flex items-center justify-between mb-2">
                                 <span class="text-sm font-medium text-gray-700">Contact Score</span>
                                 <span class="text-sm font-bold text-gray-900" x-text="contactCompletionWidth + '%'"></span>
@@ -302,8 +470,59 @@ ob_start();
                             </div>
                         </div>
 
-                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                        <!-- Activity Cards Skeleton -->
+                        <div x-show="loading" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                            <div class="bg-white/80 backdrop-blur-sm p-5 rounded-xl border border-gray-200/50 shadow-sm animate-pulse">
+                                <div class="flex items-center justify-between mb-2">
+                                    <div class="bg-gray-200 rounded h-4 w-32"></div>
+                                    <div class="h-2 w-2 bg-gray-300 rounded-full"></div>
+                                </div>
+                                <div class="bg-gray-200 rounded h-6 w-24 mb-2"></div>
+                                <div class="bg-gray-200 rounded h-4 w-24"></div>
+                                <div class="mt-3">
+                                    <div class="bg-gray-200 h-6 w-20 rounded-lg"></div>
+                                </div>
+                            </div>
 
+                            <div class="bg-white/80 backdrop-blur-sm p-5 rounded-xl border border-gray-200/50 shadow-sm animate-pulse">
+                                <div class="flex items-center justify-between mb-2">
+                                    <div class="bg-gray-200 rounded h-4 w-24"></div>
+                                    <div class="h-2 w-2 bg-gray-300 rounded-full"></div>
+                                </div>
+                                <div class="bg-gray-200 rounded h-6 w-24 mb-2"></div>
+                                <div class="bg-gray-200 rounded h-4 w-16"></div>
+                                <div class="mt-3">
+                                    <div class="bg-gray-200 h-5 w-16 rounded-full"></div>
+                                </div>
+                            </div>
+
+                            <div class="bg-white/80 backdrop-blur-sm p-5 rounded-xl border border-gray-200/50 shadow-sm animate-pulse">
+                                <div class="flex items-center justify-between mb-2">
+                                    <div class="bg-gray-200 rounded h-4 w-24"></div>
+                                    <div class="h-2 w-2 bg-gray-300 rounded-full"></div>
+                                </div>
+                                <div class="bg-gray-200 rounded h-6 w-32 mb-2"></div>
+                                <div class="bg-gray-200 rounded h-4 w-24"></div>
+                                <div class="mt-3">
+                                    <div class="bg-gray-200 h-5 w-12 rounded-full"></div>
+                                </div>
+                            </div>
+
+                            <div class="bg-white/80 backdrop-blur-sm p-5 rounded-xl border border-gray-200/50 shadow-sm animate-pulse">
+                                <div class="flex items-center justify-between mb-2">
+                                    <div class="bg-gray-200 rounded h-4 w-24"></div>
+                                    <div class="h-2 w-2 bg-gray-300 rounded-full"></div>
+                                </div>
+                                <div class="bg-gray-200 rounded h-6 w-32 mb-2"></div>
+                                <div class="bg-gray-200 rounded h-4 w-24"></div>
+                                <div class="mt-3">
+                                    <div class="bg-gray-200 h-5 w-14 rounded-full"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Activity Cards Content -->
+                        <div x-show="!loading" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
                             <div class="group bg-white/80 backdrop-blur-sm p-5 rounded-xl border border-gray-200/50 shadow-sm hover:shadow-md transition-all duration-300">
                                 <div class="flex items-center justify-between mb-2">
                                     <div class="text-sm font-medium text-gray-500">Profile Visibility</div>
@@ -314,11 +533,15 @@ ob_start();
                                 </div>
                                 <div class="mt-2 text-xs text-gray-400">Profile access</div>
                                 <div class="mt-3">
-                                    <button @click="toggleProfileVisibility()" class="cursor-pointer text-xs text-white px-3 py-1 rounded-lg transition-all duration-200 flex items-center gap-1"
-                                            x-bind:class="(user || {}).is_public ? 'bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600' : 'bg-gradient-to-r from-gray-500 to-slate-500 hover:from-gray-600 hover:to-slate-600'">
-                                        <svg class="w-3 h-3 flex-shrink-0 py-0 translate-y-0.25" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <button @click="toggleProfileVisibility()" class="cursor-pointer text-xs text-white px-3 py-1 rounded-lg transition-all duration-200 flex items-center gap-1 disabled:opacity-50 disabled:cursor-not-allowed"
+                                            x-bind:class="(user || {}).is_public ? 'bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600' : 'bg-gradient-to-r from-gray-500 to-slate-500 hover:from-gray-600 hover:to-slate-600'"
+                                            x-bind:disabled="togglingVisibility">
+                                        <svg x-show="!togglingVisibility" class="w-3 h-3 flex-shrink-0 py-0 translate-y-0.25" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+                                        </svg>
+                                        <svg x-show="togglingVisibility" x-cloak class="w-3 h-3 flex-shrink-0 py-0 translate-y-0.25 animate-spin" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
                                         </svg>
                                         <span x-text="user ? (user.is_public ? 'Make Private' : 'Make Public') : 'Toggle'"></span>
                                     </button>
@@ -379,8 +602,28 @@ ob_start();
                             </div>
                         </div>
 
-                        <!-- Activity Timeline -->
-                        <div class="mt-6 bg-white/60 rounded-xl p-4 border border-gray-200/50 shadow-sm">
+                        <!-- Activity Timeline Skeleton -->
+                        <div x-show="loading" class="mt-6 bg-white/60 rounded-xl p-4 border border-gray-200/50 shadow-sm animate-pulse">
+                            <div class="flex items-center justify-between mb-3">
+                                <div class="bg-gray-200 rounded h-4 w-24"></div>
+                                <div class="bg-gray-200 rounded h-4 w-16"></div>
+                            </div>
+                            <div class="space-y-2">
+                                <div class="flex items-center text-sm gap-3">
+                                    <div class="h-3 w-3 bg-gray-300 rounded-full"></div>
+                                    <div class="bg-gray-200 rounded h-4 w-24"></div>
+                                    <div class="ml-auto bg-gray-200 rounded h-4 w-16"></div>
+                                </div>
+                                <div class="flex items-center text-sm gap-3">
+                                    <div class="h-3 w-3 bg-gray-300 rounded-full"></div>
+                                    <div class="bg-gray-200 rounded h-4 w-24"></div>
+                                    <div class="ml-auto bg-gray-200 rounded h-4 w-16"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Activity Timeline Content -->
+                        <div x-show="!loading" class="mt-6 bg-white/60 rounded-xl p-4 border border-gray-200/50 shadow-sm">
                             <div class="flex items-center justify-between mb-3">
                                 <span class="text-sm font-medium text-gray-700">Account Timeline</span>
                                 <span class="text-xs text-gray-500">Since creation</span>
