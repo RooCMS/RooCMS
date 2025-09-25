@@ -7,7 +7,7 @@ $page_description = 'Reset your password for RooCMS account';
 $theme_name = basename(dirname(__DIR__));
 $theme_base = '/themes/'.$theme_name;
 
-$page_scripts = [$theme_base.'/assets/js/app/api.js', $theme_base.'/assets/js/app/auth.js', $theme_base.'/assets/js/pages/forgot-password.js'];
+$page_scripts = [$theme_base.'/assets/js/app/api.js', $theme_base.'/assets/js/app/auth.js', $theme_base.'/assets/js/pages/password-forgot.js'];
 
 ob_start();
 ?>

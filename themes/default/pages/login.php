@@ -89,7 +89,7 @@ if (localStorage.getItem('access_token')) {
                 <!-- Forgot password -->
                 <div class="flex items-center justify-between">
                     <div class="text-sm">
-                        <a href="/forgot-password" class="font-medium text-blue-600 hover:text-blue-500 transition-colors">
+                        <a href="/password-forgot" class="font-medium text-blue-600 hover:text-blue-500 transition-colors">
                             Forgot password?
                         </a>
                     </div>
