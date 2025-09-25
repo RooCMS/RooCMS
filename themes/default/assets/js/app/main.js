@@ -2,6 +2,18 @@
 import { logout } from './auth.js';
 import { getAccessToken } from './api.js';
 
+// Import utilities and make them globally available
+import * as ValidationUtils from './helpers/validation.js';
+import * as ErrorHandlerUtils from './helpers/errorHandler.js';
+import * as FormatterUtils from './helpers/formatters.js';
+import * as FormHelperUtils from './helpers/formHelpers.js';
+
+// Make utilities globally available
+window.ValidationUtils = ValidationUtils;
+window.ErrorHandlerUtils = ErrorHandlerUtils;
+window.FormatterUtils = FormatterUtils;
+window.FormHelperUtils = FormHelperUtils;
+
 
 // Initialize when DOM is ready (CSP mode)
 document.addEventListener('DOMContentLoaded', () => {
@@ -100,8 +112,27 @@ document.addEventListener('alpine:init', () => {
  * @returns {Promise<boolean>} - Returns true if the user clicked confirm
  */
 export async function modal(title, message, confirm_text = "OK", cancel_text = "Cancel", type = "alert") {
-    return await window.Alpine.store('modal').show(title, message, confirm_text, cancel_text, type);
+    // Check if modal store is available
+    if (window.Alpine && window.Alpine.store && window.Alpine.store('modal')) {
+        return await window.Alpine.store('modal').show(title, message, confirm_text, cancel_text, type);
+    }
+    return false;
 }
+
+/**
+ * Show a message modal (no cancel button)
+ * @param {string} title - Title of the modal window
+ * @param {string} message - Message text
+ * @param {string} type - Type of the modal: "notice", "warning", "success" (affects the icon)
+ * @returns {Promise<boolean>} - Always returns true when dismissed
+ */
+export async function showMessage(title, message, type = "notice") {
+    return await modal(title, message, "OK", "", type);
+}
+
+// Make modal functions globally available
+window.modal = modal;
+window.showMessage = showMessage;
 
 // Global error handler
 window.addEventListener('error', (e) => console.error('Global error:', e.error));

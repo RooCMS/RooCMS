@@ -11,7 +11,9 @@ document.addEventListener('alpine:init', () => {
             if (this.loading) return;
 
             // Client-side validation
-            if (!this.validateForm()) {
+            const validation = validateForgotPasswordForm({ email: this.email });
+            if (!validation.isValid) {
+                this.form_error = Object.values(validation.errors)[0];
                 return;
             }
 
@@ -24,7 +26,7 @@ document.addEventListener('alpine:init', () => {
                 this.form_success = 'Password reset code has been sent to your email address. Please check your inbox and enter the code on the password reset page.';
 
                 // Clear form after successful submission
-                this.email = '';
+                window.FormHelperUtils.clearFormFields(['email']);
 
                 // Redirect to password reset page after showing success message
                 setTimeout(() => {
@@ -32,72 +34,31 @@ document.addEventListener('alpine:init', () => {
                 }, 3000);
 
             } catch (error) {
-                this.handleForgotPasswordError(error);
+                this.form_error = window.ErrorHandlerUtils.handleForgotPasswordError(error);
             } finally {
                 this.loading = false;
-            }
-        },
-
-        validateForm() {
-            // Clear previous error
-            this.form_error = '';
-
-            let isValid = true;
-
-            // Email validation
-            if (!this.email.trim()) {
-                this.form_error = 'Email address is required';
-                isValid = false;
-            } else if (!this.isValidEmail(this.email)) {
-                this.form_error = 'Please enter a valid email address';
-                isValid = false;
-            }
-
-            return isValid;
-        },
-
-        isValidEmail(email) {
-            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            return emailRegex.test(email);
-        },
-
-        handleForgotPasswordError(error) {
-            // Clear form-level error first
-            this.form_error = '';
-
-            // Handle different error types based on HTTP status
-            switch (error.status) {
-                case 400: // Bad Request - validation errors
-                case 422: // Unprocessable Entity - validation errors
-                    if (error.details) {
-                        // Show specific validation errors from server
-                        if (typeof error.details === 'object') {
-                            const messages = Object.values(error.details).flat();
-                            this.form_error = messages.join('. ') + '.';
-                        } else {
-                            this.form_error = error.details;
-                        }
-                    } else {
-                        this.form_error = error.message || 'Please check your email address and try again.';
-                    }
-                    break;
-
-                case 404: // Not Found - email not found
-                    this.form_error = 'No account found with this email address.';
-                    break;
-
-                case 429: // Too Many Requests - rate limiting
-                    this.form_error = 'Too many password reset requests. Please wait a few minutes before trying again.';
-                    break;
-
-                case 500: // Internal Server Error
-                    this.form_error = 'Server error occurred. Please try again later.';
-                    break;
-
-                default:
-                    this.form_error = error.message || 'Failed to send password reset email. Please try again.';
-                    break;
             }
         }
     }));
 });
+
+
+/**
+ * Validate forgot password form
+ * @param {Object} formData - Data of the form {email}
+ * @returns {Object} - {isValid: boolean, errors: Object}
+ */
+function validateForgotPasswordForm(formData) {
+    const errors = {};
+
+    if (!window.ValidationUtils.isNotEmpty(formData.email)) {
+        errors.email = 'Email address is required';
+    } else if (!window.ValidationUtils.isValidEmail(formData.email)) {
+        errors.email = 'Please enter a valid email address';
+    }
+
+    return {
+        isValid: Object.keys(errors).length === 0,
+        errors
+    };
+}

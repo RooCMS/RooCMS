@@ -13,34 +13,19 @@ document.addEventListener('alpine:init', () => {
         },
 
         formatDate(timestamp) {
-            if (!timestamp) return 'Not set';
-            const date = new Date(timestamp * 1000);
-            return date.toLocaleDateString();
+            return window.FormatterUtils.formatDate(timestamp);
         },
 
         formatDateTime(timestamp) {
-            if (!timestamp) return 'Not set';
-            const date = new Date(timestamp * 1000);
-            return date.toLocaleString();
+            return window.FormatterUtils.formatDateTime(timestamp);
         },
 
         get profileCompletionWidth() {
-            if (!this.user) return '0';
-            let complete = 0;
-            if (this.user.first_name) complete += 20;
-            if (this.user.last_name) complete += 20;
-            if (this.user.nickname) complete += 20;
-            if (this.user.gender) complete += 20;
-            if (this.user.birthday) complete += 20;
-            return complete;
+            return calculateProfileCompletion(this.user);
         },
 
         get contactCompletionWidth() {
-            if (!this.user) return '0';
-            if (this.user.email && this.user.bio && this.user.website) return '100';
-            if (this.user.email && this.user.bio) return '70';
-            if (this.user.email) return '40';
-            return '10';
+            return calculateContactCompletion(this.user);
         },
 
         async loadUserProfile() {
@@ -78,9 +63,7 @@ document.addEventListener('alpine:init', () => {
 
         async deleteAccount() {
             try {
-                // Show modal window through Alpine store
-                const modalStore = window.Alpine.store('modal');
-                const confirmed = await modalStore.show(
+                const confirmed = await window.modal(
                     'Delete account',
                     'Are you sure you want to delete your account? This action cannot be undone. All your data will be permanently deleted.',
                     'Delete account',
@@ -106,11 +89,10 @@ document.addEventListener('alpine:init', () => {
                 setRefreshToken(null);
 
                 // Show success message
-                await modalStore.show(
+                await window.showMessage(
                     'Account deleted',
                     'Your account has been successfully deleted. You will be redirected to the home page.',
-                    'OK',
-                    ''
+                    'success'
                 );
 
                 // Redirect to the home page
@@ -120,11 +102,10 @@ document.addEventListener('alpine:init', () => {
                 console.error('Delete account error:', error);
 
                 // Show error
-                await modalStore.show(
+                await window.showMessage(
                     'Error',
                     `Failed to delete account: ${error.message}`,
-                    'OK',
-                    ''
+                    'alert'
                 );
             }
         },
@@ -203,11 +184,9 @@ document.addEventListener('alpine:init', () => {
                 this.user.is_public = newVisibility;
 
                 // Show success message
-                await window.Alpine.store('modal').show(
+                await window.showMessage(
                     'Profile Updated',
                     `Your profile is now ${newVisibility ? 'public' : 'private'}.`,
-                    'OK',
-                    '',
                     'success'
                 );
 
@@ -215,11 +194,9 @@ document.addEventListener('alpine:init', () => {
                 console.error('Profile visibility update error:', error);
 
                 // Show error message
-                await window.Alpine.store('modal').show(
+                await window.showMessage(
                     'Error',
                     `Failed to update profile visibility: ${error.message}`,
-                    'OK',
-                    '',
                     'alert'
                 );
             }
@@ -227,3 +204,49 @@ document.addEventListener('alpine:init', () => {
 
     }));
 });
+
+
+/**
+ * Calculates the profile completion percentage
+ * @param {Object} user - User object
+ * @returns {number} - Completion percentage (0-100)
+ */
+function calculateProfileCompletion(user) {
+    if (!user) return 0;
+
+    let complete = 0;
+    const fields = ['first_name', 'last_name', 'nickname', 'gender', 'birthday'];
+    const totalFields = fields.length;
+
+    fields.forEach(field => {
+        if (user[field]) complete += (100 / totalFields);
+    });
+
+    return Math.round(complete);
+}
+
+/**
+ * Calculates the contact information completion percentage
+ * @param {Object} user - User object
+ * @returns {number} - Completion percentage (0-100)
+ */
+function calculateContactCompletion(user) {
+    if (!user) return 0;
+
+    const requiredFields = ['email', 'bio', 'website'];
+    const optionalFields = ['phone', 'address', 'social_links'];
+
+    let score = 0;
+
+    // Required fields give more points
+    requiredFields.forEach(field => {
+        if (user[field]) score += 30; // 30 points for each required field
+    });
+
+    // Optional fields give less points
+    optionalFields.forEach(field => {
+        if (user[field]) score += 10; // 10 points for each optional field
+    });
+
+    return Math.min(score, 100); // Not more than 100%
+}

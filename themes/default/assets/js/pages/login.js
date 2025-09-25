@@ -12,7 +12,9 @@ document.addEventListener('alpine:init', () => {
             if (this.loading) return;
 
             // Client-side validation
-            if (!this.validateForm()) {
+            const validation = validateLoginForm({ login: this.login, password: this.password });
+            if (!validation.isValid) {
+                this.form_error = Object.values(validation.errors)[0];
                 return;
             }
 
@@ -25,99 +27,62 @@ document.addEventListener('alpine:init', () => {
                 this.form_success = 'Login successful! Redirecting...';
 
                 // Update auth status globally
-                if (window.Alpine && window.Alpine.store) {
-                    window.Alpine.store('auth').updateStatus();
-                }
-
-                // Update all authButtons components
-                if (window.Alpine && window.Alpine.all) {
-                    window.Alpine.all().forEach(component => {
-                        if (component.isAuth !== undefined) {
-                            component.checkAuth();
-                        }
-                    });
-                }
+                updateAuthStatus();
+                updateAuthComponents();
 
                 // Redirect after successful login
-                setTimeout(() => {
-                    window.location.href = '/profile';
-                }, 1500);
+                window.FormHelperUtils.redirectAfterSuccess('/profile');
 
             } catch (error) {
-                this.handleLoginError(error);
+                this.form_error = window.ErrorHandlerUtils.handleLoginError(error);
             } finally {
                 this.loading = false;
-            }
-        },
-
-        validateForm() {
-            // Clear previous error
-            this.form_error = '';
-
-            let isValid = true;
-
-            // Login validation
-            if (!this.login.trim()) {
-                this.form_error = 'Login or email is required';
-                isValid = false;
-            }
-
-            // Password validation
-            if (!this.password) {
-                this.form_error = 'Password is required';
-                isValid = false;
-            }
-
-            return isValid;
-        },
-
-        handleLoginError(error) {
-            // Clear form-level error first
-            this.form_error = '';
-
-            // Handle different error types based on HTTP status
-            switch (error.status) {
-                case 401: // Unauthorized - invalid credentials
-                    this.form_error = 'Invalid login credentials. Please check your login/email and password.';
-                    break;
-
-                case 403: // Forbidden - account issues
-                    if (error.message.includes('not verified')) {
-                        this.form_error = 'Your account is not verified. Please check your email for verification link.';
-                    } else if (error.message.includes('banned')) {
-                        this.form_error = 'Your account has been banned. Please contact support.';
-                    } else {
-                        this.form_error = 'Access denied. Please contact support.';
-                    }
-                    break;
-
-                case 400: // Bad Request - validation errors
-                case 422: // Unprocessable Entity - validation errors
-                    if (error.details) {
-                        // Show specific validation errors from server
-                        if (typeof error.details === 'object') {
-                            const messages = Object.values(error.details).flat();
-                            this.form_error = messages.join('. ') + '.';
-                        } else {
-                            this.form_error = error.details;
-                        }
-                    } else {
-                        this.form_error = error.message || 'Please check your input data and try again.';
-                    }
-                    break;
-
-                case 429: // Too Many Requests - rate limiting
-                    this.form_error = 'Too many login attempts. Please wait a few minutes before trying again.';
-                    break;
-
-                case 500: // Internal Server Error
-                    this.form_error = 'Server error occurred. Please try again later.';
-                    break;
-
-                default:
-                    this.form_error = error.message || 'Login failed. Please try again.';
-                    break;
             }
         }
     }));
 });
+
+
+/**
+ * Validate login form
+ * @param {Object} formData - Data of the form {login, password}
+ * @returns {Object} - {isValid: boolean, errors: Object}
+ */
+function validateLoginForm(formData) {
+    const errors = {};
+
+    if (!window.ValidationUtils.isNotEmpty(formData.login)) {
+        errors.login = 'Login or email is required';
+    }
+
+    if (!window.ValidationUtils.isNotEmpty(formData.password)) {
+        errors.password = 'Password is required';
+    }
+
+    return {
+        isValid: Object.keys(errors).length === 0,
+        errors
+    };
+}
+
+/**
+ * Updates the authentication status in the global storage
+ */
+function updateAuthStatus() {
+    if (window.Alpine && window.Alpine.store && window.Alpine.store('auth')) {
+        window.Alpine.store('auth').updateStatus();
+    }
+}
+
+/**
+ * Updates the state of all authentication components
+ */
+function updateAuthComponents() {
+    if (window.Alpine && window.Alpine.all) {
+        window.Alpine.all().forEach(component => {
+            if (component.isAuth !== undefined) {
+                component.checkAuth();
+            }
+        });
+    }
+}

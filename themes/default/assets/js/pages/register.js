@@ -14,7 +14,21 @@ document.addEventListener('alpine:init', () => {
             if (this.loading) return;
 
             // Client-side validation
-            if (!this.validateForm()) {
+            const validation = validateRegisterForm({
+                login: this.login,
+                email: this.email,
+                password: this.password,
+                password_confirmation: this.password_confirmation
+            });
+
+            if (!validation.isValid) {
+                // Clear previous errors
+                window.FormHelperUtils.clearFieldErrors(['login-error', 'email-error', 'password-error', 'password-confirmation-error']);
+
+                // Show new errors
+                Object.keys(validation.errors).forEach(field => {
+                    window.FormHelperUtils.showFieldError(`${field}-error`, validation.errors[field]);
+                });
                 return;
             }
 
@@ -25,136 +39,67 @@ document.addEventListener('alpine:init', () => {
             try {
                 const result = await register(this.login, this.email, this.password, this.password_confirmation);
                 this.form_success = 'Account created successfully! You can now log in.';
-                this.clearForm();
 
-                // Redirect to registration complete page
-                setTimeout(() => {
-                    window.location.href = '/login';
-                }, 1500);
+                // Clear form after successful submission
+                window.FormHelperUtils.clearFormFields(['login', 'email', 'password', 'password_confirmation']);
+
+                // Redirect to login page
+                window.FormHelperUtils.redirectAfterSuccess('/login');
 
             } catch (error) {
-                this.handleRegistrationError(error);
+                const { formError, fieldErrors } = window.ErrorHandlerUtils.handleRegisterError(error);
+
+                if (formError) {
+                    this.form_error = formError;
+                }
+
+                if (fieldErrors) {
+                    Object.keys(fieldErrors).forEach(field => {
+                        window.FormHelperUtils.showFieldError(`${field}-error`, fieldErrors[field]);
+                    });
+                }
             } finally {
                 this.loading = false;
-            }
-        },
-
-        validateForm() {
-            // Clear previous errors
-            this.clearErrors();
-
-            let isValid = true;
-
-            // Login validation
-            if (!this.login.trim()) {
-                this.showError('login-error', 'Login is required');
-                isValid = false;
-            } else if (this.login.length < 3) {
-                this.showError('login-error', 'Login must be at least 3 characters');
-                isValid = false;
-            }
-
-            // Email validation
-            if (!this.email.trim()) {
-                this.showError('email-error', 'Email is required');
-                isValid = false;
-            } else if (!this.isValidEmail(this.email)) {
-                this.showError('email-error', 'Please enter a valid email address');
-                isValid = false;
-            }
-
-            // Password validation
-            if (!this.password) {
-                this.showError('password-error', 'Password is required');
-                isValid = false;
-            } else if (this.password.length < 8) {
-                this.showError('password-error', 'Password must be at least 8 characters');
-                isValid = false;
-            }
-
-            // Password confirmation validation
-            if (!this.password_confirmation) {
-                this.showError('password-confirmation-error', 'Password confirmation is required');
-                isValid = false;
-            } else if (this.password !== this.password_confirmation) {
-                this.showError('password-confirmation-error', 'Passwords do not match');
-                isValid = false;
-            }
-
-            return isValid;
-        },
-
-        isValidEmail(email) {
-            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            return emailRegex.test(email);
-        },
-
-        showError(elementId, message) {
-            const element = document.getElementById(elementId);
-            if (element) {
-                element.textContent = message;
-                element.classList.remove('hidden');
-            }
-        },
-
-        clearErrors() {
-            const errorElements = ['login-error', 'email-error', 'password-error', 'password-confirmation-error'];
-            errorElements.forEach(id => {
-                const element = document.getElementById(id);
-                if (element) {
-                    element.textContent = '';
-                    element.classList.add('hidden');
-                }
-            });
-        },
-
-        clearForm() {
-            this.login = '';
-            this.email = '';
-            this.password = '';
-            this.password_confirmation = '';
-        },
-
-        handleRegistrationError(error) {
-            // Clear previous field errors
-            this.clearErrors();
-
-            // Clear form-level error first
-            this.form_error = '';
-
-            // Handle different error types based on HTTP status
-            switch (error.status) {
-                case 409: // Conflict - user already exists
-                    if (error.message.includes('Login already exists')) {
-                        this.showError('login-error', 'This login is already taken. Please choose another one.');
-                    } else if (error.message.includes('Email already exists')) {
-                        this.showError('email-error', 'This email is already registered. Please use another email or try to login.');
-                    } else {
-                        this.form_error = 'Account with these credentials already exists.';
-                    }
-                    break;
-
-                case 400: // Bad Request
-                case 422: // Unprocessable Entity - validation errors
-                    if (error.details) {
-                        // Show field-specific validation errors
-                        Object.keys(error.details).forEach(field => {
-                            const elementId = `${field}-error`;
-                            this.showError(elementId, error.details[field]);
-                        });
-                    } else {
-                        this.form_error = error.message || 'Please check your input data and try again.';
-                    }
-                    break;
-
-                case 500: // Internal Server Error
-                    this.form_error = 'Server error occurred. Please try again later.';
-                    break;
-
-                default:
-                    this.form_error = error.message || 'Registration failed. Please try again.';
-                    break;
             }
         }
     }));
 });
+
+
+/**
+ * Validate register form
+ * @param {Object} formData - Data of the form {login, email, password, password_confirmation}
+ * @returns {Object} - {isValid: boolean, errors: Object}
+ */
+function validateRegisterForm(formData) {
+    const errors = {};
+
+    if (!window.ValidationUtils.isNotEmpty(formData.login)) {
+        errors.login = 'Login is required';
+    } else if (!window.ValidationUtils.hasMinLength(formData.login, 3)) {
+        errors.login = 'Login must be at least 3 characters';
+    }
+
+    if (!window.ValidationUtils.isNotEmpty(formData.email)) {
+        errors.email = 'Email is required';
+    } else if (!window.ValidationUtils.isValidEmail(formData.email)) {
+        errors.email = 'Please enter a valid email address';
+    }
+
+    if (!window.ValidationUtils.isNotEmpty(formData.password)) {
+        errors.password = 'Password is required';
+    } else if (!window.ValidationUtils.hasMinLength(formData.password, 8)) {
+        errors.password = 'Password must be at least 8 characters';
+    }
+
+    if (!window.ValidationUtils.isNotEmpty(formData.password_confirmation)) {
+        errors.password_confirmation = 'Password confirmation is required';
+    } else if (!window.ValidationUtils.valuesMatch(formData.password, formData.password_confirmation)) {
+        errors.password_confirmation = 'Passwords do not match';
+    }
+
+    return {
+        isValid: Object.keys(errors).length === 0,
+        errors
+    };
+}
