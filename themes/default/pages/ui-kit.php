@@ -4,10 +4,10 @@ if(!defined('RooCMS')) { http_response_code(403); header('Content-Type: text/pla
 $page_title = 'UI Kit — Public — RooCMS';
 $page_description = 'Public UI components for RooCMS theme';
 
-$page_scripts = ['assets/js/pages/uik-kit.js'];
-
 $theme_name = basename(dirname(__DIR__));
 $theme_base = '/themes/'.$theme_name;
+
+$page_scripts = [$theme_base.'/assets/js/app/ui-kit.js'];
 
 ob_start();
 ?>
