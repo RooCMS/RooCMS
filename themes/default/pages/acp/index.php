@@ -8,8 +8,9 @@ $theme_name = basename(dirname(dirname(__DIR__)));
 $theme_base = '/themes/'.$theme_name;
 
 $page_scripts = [
-    $theme_base.'/assets/js/app/acp-dashboard.js',
-    $theme_base.'/assets/js/app/acp-access.js'
+	$theme_base.'/assets/js/app/acp.js',
+    $theme_base.'/assets/js/app/acp-access.js',
+	$theme_base.'/assets/js/pages/acp-dashboard.js'
 ];
 
 ob_start();
@@ -17,57 +18,7 @@ ob_start();
 
 <div class="py-10">
 	<div class="grid grid-cols-1 gap-8 lg:grid-cols-[260px_1fr] px-4 sm:px-6 lg:px-8 space-y-8">
-		<aside class="hidden lg:block pr-6">
-			<nav aria-label="Админ-меню" class="sticky top-24">
-				<h2 class="sr-only">Меню администратора</h2>
-				<ul class="space-y-1">
-					<li class="px-2 pb-1 text-xs font-semibold uppercase tracking-wide text-zinc-500/80">Общее</li>
-					<li>
-					<a href="/acp" aria-current="page" class="flex items-center gap-3 rounded-lg border border-zinc-200 bg-white/80 backdrop-blur px-3 py-2 text-sm font-medium text-zinc-900 shadow-sm hover:bg-white">
-							<span class="inline-block h-2 w-2 rounded-full bg-zinc-900"></span>
-							<span>Панель управления</span>
-						</a>
-					</li>
-					<li>
-						<a href="/acp/users" class="flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium text-zinc-700 border border-transparent hover:text-zinc-900 hover:bg-white hover:border-zinc-200">
-							<span class="inline-block h-2 w-2 rounded-full bg-zinc-300"></span>
-							<span>Пользователи</span>
-						</a>
-					</li>
-					<li>
-						<a href="/acp/content" class="flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium text-zinc-700 border border-transparent hover:text-zinc-900 hover:bg-white hover:border-zinc-200">
-							<span class="inline-block h-2 w-2 rounded-full bg-zinc-300"></span>
-							<span>Контент</span>
-						</a>
-					</li>
-					<li class="px-2 pt-4 pb-1 text-xs font-semibold uppercase tracking-wide text-zinc-500/80">Система</li>
-					<li>
-						<a href="/acp/media" class="flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium text-zinc-700 border border-transparent hover:text-zinc-900 hover:bg-white hover:border-zinc-200">
-							<span class="inline-block h-2 w-2 rounded-full bg-zinc-300"></span>
-							<span>Медиа</span>
-						</a>
-					</li>
-					<li>
-						<a href="/acp/settings" class="flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium text-zinc-700 border border-transparent hover:text-zinc-900 hover:bg-white hover:border-zinc-200">
-							<span class="inline-block h-2 w-2 rounded-full bg-zinc-300"></span>
-							<span>Настройки</span>
-						</a>
-					</li>
-					<li>
-						<a href="/acp/logs" class="flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium text-zinc-700 border border-transparent hover:text-zinc-900 hover:bg-white hover:border-zinc-200">
-							<span class="inline-block h-2 w-2 rounded-full bg-zinc-300"></span>
-							<span>Логи</span>
-						</a>
-					</li>
-					<li>
-						<a href="/acp/support" class="flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium text-zinc-700 border border-transparent hover:text-zinc-900 hover:bg-white hover:border-zinc-200">
-							<span class="inline-block h-2 w-2 rounded-full bg-zinc-300"></span>
-							<span>Поддержка</span>
-						</a>
-					</li>
-				</ul>
-        	</nav>
-		</aside>
+		<?php require __DIR__ . '/../../layouts/acp-nav.php'; ?>
 
 		<section>
 			<header class="mb-8">
@@ -166,19 +117,6 @@ ob_start();
             </div>
 		</section>
     </div>
-</div>
-
-<!-- Мобильная навигация ACP без JS -->
-<div class="mt-6 px-4 lg:hidden">
-	<nav aria-label="Навигация ACP" class="flex gap-2 overflow-x-auto">
-		<a href="/acp" class="whitespace-nowrap rounded-lg border border-zinc-200 bg-white/90 px-3 py-2 text-sm font-medium text-zinc-700">Панель</a>
-		<a href="/acp/users" class="whitespace-nowrap rounded-lg border border-zinc-200 bg-white/70 px-3 py-2 text-sm text-zinc-700">Пользователи</a>
-		<a href="/acp/content" class="whitespace-nowrap rounded-lg border border-zinc-200 bg-white/70 px-3 py-2 text-sm text-zinc-700">Контент</a>
-		<a href="/acp/media" class="whitespace-nowrap rounded-lg border border-zinc-200 bg-white/70 px-3 py-2 text-sm text-zinc-700">Медиа</a>
-		<a href="/acp/settings" class="whitespace-nowrap rounded-lg border border-zinc-200 bg-white/70 px-3 py-2 text-sm text-zinc-700">Настройки</a>
-		<a href="/acp/logs" class="whitespace-nowrap rounded-lg border border-zinc-200 bg-white/70 px-3 py-2 text-sm text-zinc-700">Логи</a>
-		<a href="/acp/support" class="whitespace-nowrap rounded-lg border border-zinc-200 bg-white/70 px-3 py-2 text-sm text-zinc-700">Поддержка</a>
-	</nav>
 </div>
 
 <?php $page_content = ob_get_clean();

@@ -11,63 +11,7 @@ ob_start();
 ?>
 <div class="py-10">
 	<div class="grid grid-cols-1 gap-8 lg:grid-cols-[260px_1fr]">
-		<aside class="hidden lg:block pr-6">
-			<nav aria-label="Админ-меню" class="sticky top-24">
-				<h2 class="sr-only">Меню администратора</h2>
-				<ul class="space-y-1">
-					<li class="px-2 pb-1 text-xs font-semibold uppercase tracking-wide text-zinc-500/80">Общее</li>
-					<li>
-						<a href="/acp" class="flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium text-zinc-700 border border-transparent hover:text-zinc-900 hover:bg-white hover:border-zinc-200">
-							<span class="inline-block h-2 w-2 rounded-full bg-zinc-300"></span>
-							<span>Панель управления</span>
-						</a>
-					</li>
-					<li>
-						<a href="/acp/users" class="flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium text-zinc-700 border border-transparent hover:text-zinc-900 hover:bg-white hover:border-zinc-200">
-							<span class="inline-block h-2 w-2 rounded-full bg-zinc-300"></span>
-							<span>Пользователи</span>
-						</a>
-					</li>
-					<li>
-						<a href="/acp/content" class="flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium text-zinc-700 border border-transparent hover:text-zinc-900 hover:bg-white hover:border-zinc-200">
-							<span class="inline-block h-2 w-2 rounded-full bg-zinc-300"></span>
-							<span>Контент</span>
-						</a>
-					</li>
-					<li class="px-2 pt-4 pb-1 text-xs font-semibold uppercase tracking-wide text-zinc-500/80">Система</li>
-					<li>
-						<a href="/acp/media" class="flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium text-zinc-700 border border-transparent hover:text-zinc-900 hover:bg-white hover:border-zinc-200">
-							<span class="inline-block h-2 w-2 rounded-full bg-zinc-300"></span>
-							<span>Медиа</span>
-						</a>
-					</li>
-					<li>
-						<a href="/acp/settings" class="flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium text-zinc-700 border border-transparent hover:text-zinc-900 hover:bg-white hover:border-zinc-200">
-							<span class="inline-block h-2 w-2 rounded-full bg-zinc-300"></span>
-							<span>Настройки</span>
-						</a>
-					</li>
-					<li>
-						<a href="/acp/logs" class="flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium text-zinc-700 border border-transparent hover:text-zinc-900 hover:bg-white hover:border-zinc-200">
-							<span class="inline-block h-2 w-2 rounded-full bg-zinc-300"></span>
-							<span>Логи</span>
-						</a>
-					</li>
-					<li>
-						<a href="/acp/support" class="flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium text-zinc-700 border border-transparent hover:text-zinc-900 hover:bg-white hover:border-zinc-200">
-							<span class="inline-block h-2 w-2 rounded-full bg-zinc-300"></span>
-							<span>Поддержка</span>
-						</a>
-					</li>
-					<li>
-						<a href="/acp/ui-kit" aria-current="page" class="flex items-center gap-3 rounded-lg border border-zinc-200 bg-white/80 backdrop-blur px-3 py-2 text-sm font-medium text-zinc-900 shadow-sm hover:bg-white">
-							<span class="inline-block h-2 w-2 rounded-full bg-zinc-900"></span>
-							<span>UI Kit</span>
-						</a>
-					</li>
-				</ul>
-			</nav>
-		</aside>
+		<?php require __DIR__ . '/../../layouts/acp-nav.php'; ?>
 
 		<section>
 			<header class="mb-8">
@@ -237,7 +181,7 @@ ob_start();
 							</div>
 							<div>
 								<label for="f-role" class="mb-1 block text-sm font-medium text-zinc-800">Роль</label>
-								<select id="f-role" name="role" class="block w-full rounded-lg border border-zinc-300 bg-white px-3 py-2 text-sm text-zinc-900 focus:border-zinc-500 focus:outline-none">
+								<select id="f-role" name="role" class="select-custom block w-full rounded-lg border border-zinc-300 bg-white px-3 py-2 text-sm text-zinc-900 focus:border-zinc-500 focus:outline-none">
 									<option>Администратор</option>
 									<option>Редактор</option>
 									<option>Гость</option>

@@ -3,7 +3,7 @@
  *
  * Handles system status display and data loading for the admin control panel dashboard.
  */
-import { request } from './api.js';
+import { request } from '../app/api.js';
 
 /**
  * Get system health details from API
