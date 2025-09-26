@@ -34,17 +34,18 @@ api/
 ├── README.md               # API Docs
 ├── router.php              # Request router
 └── v1/                     # API version 1
-    ├── controller_auth.php     # Authentication controller
-    ├── controller_backup.php   # Database backup controller
-    ├── controller_base.php     # Base controller
-    ├── controller_csp.php      # Content Security Policy controller
-    ├── controller_health.php   # Health check controller
-    ├── controller_users.php    # Users controller
-    ├── docs/                   # API docs
-    │   ├── postman.json        # Postman collection
-    │   └── swagger.yaml        # Swagger docs
-    ├── middleware_auth.php     # Middleware authentication
-    └── middleware_role.php     # Middleware roles
+    ├── controller_adminSettings.php # Admin settings controller
+    ├── controller_auth.php          # Authentication controller 
+    ├── controller_backup.php        # Database backup controller
+    ├── controller_base.php          # Base controller
+    ├── controller_csp.php           # Content Security Policy controller
+    ├── controller_health.php        # Health check controller
+    ├── controller_users.php         # Users controller
+    ├── docs/                        # API docs
+    │   ├── postman.json             # Postman collection
+    │   └── swagger.yaml             # Swagger docs
+    ├── middleware_auth.php          # Middleware authentication
+    └── middleware_role.php          # Middleware roles
 ```
 
 ## Core system (`/roocms/`)
@@ -72,7 +73,7 @@ roocms/class/
 ├── class_themes.php                    # Theme management system
 ├── class_mailer.php                    # Mailer system
 ├── class_role.php                      # Roles system
-├── class_settings.php                  # System settings
+├── class_siteSettings.php              # Modern site settings system
 ├── class_shteirlitz.php                # Special functionality
 ├── class_user.php                      # User management
 ├── interface_controllerFactory.php     # Controller factory interface
@@ -99,7 +100,7 @@ roocms/config/
 roocms/database/
 ├── backup_cli.php              # CLI interface for database backups
 ├── backups/                    # Database backup files storage
-│   ├── .htaccess               # Web access protection rules (soon)
+│   ├── .htaccess               # Web access protection rules
 │   └── index.php               # Directory access protection
 ├── migrate_cli.php             # CLI interface for migrations
 ├── migrations/                 # Migration files
@@ -120,6 +121,7 @@ roocms/helpers/
 │   └── pastcost_cli.php    # CLI utility pastcost
 ├── debug.php               # Debug functions
 ├── functions.php           # Common functions
+├── output.php              # Output helper functions
 └── sanitize.php            # Data sanitization functions
 ```
 
@@ -129,6 +131,7 @@ roocms/helpers/
 roocms/services/
 ├── auth.php                # Authentication service
 ├── backup.php              # Database backup service
+├── siteSettings.php        # Site settings service
 └── user.php                # User service
 ```
 
@@ -141,7 +144,20 @@ roocms/
 
 Registers core services and template system:
 
-```
+```php
+// Register core services
+$container->register(Db::class, fn() => $db, true); // Singleton
+$container->register(Auth::class, Auth::class, true);
+$container->register(AuthService::class, AuthService::class, true);
+$container->register(User::class, User::class, true);
+$container->register(UserService::class, UserService::class, true);
+$container->register(SiteSettings::class, SiteSettings::class, true);
+$container->register(SiteSettingsService::class, SiteSettingsService::class, true);
+$container->register(Mailer::class, Mailer::class, true);
+$container->register(DbBackuper::class, DbBackuper::class, true);
+$container->register(BackupService::class, BackupService::class, true);
+
+// Template renderers and themes
 $container->register(TemplateRendererPhp::class, TemplateRendererPhp::class, true);
 $container->register(TemplateRendererHtml::class, TemplateRendererHtml::class, true);
 $container->register(Themes::class, function(DependencyContainer $c) {
@@ -194,72 +210,58 @@ themes/
 ├── default/                        # Default theme
 │   ├── assets/                     # Theme resources
 │   │   ├── css/                    # CSS styles
-│   │   │   ├── app.css             # Application main styles
-│   │   │   ├── dist/               # Pico CSS sources
-│   │   │   │   └── pico/           # Pico CSS framework components
-│   │   │   ├── pico.css            # Pico CSS framework
-│   │   │   └── pico.min.css        # Minified Pico CSS (soon)
+│   │   │   ├── roocms.css          # RooCMS main styles
+│   │   │   └── roocms.min.css      # Minified RooCMS styles
 │   │   └── js/                     # JavaScript files
 │   │       ├── alpine.csp.min.js   # Alpine.js with CSP support
 │   │       ├── alpine.min.js       # Alpine.js framework
 │   │       ├── app/                # Application modules
-│   │       │   ├── alpine-defer.js # Deferred loading Alpine
-│   │       │   ├── alpine-start.js # Alpine initialization
+│   │       │   ├── acp-access.js   # ACP access control
+│   │       │   ├── acp.js          # ACP functionality
 │   │       │   ├── api.js          # API client
 │   │       │   ├── auth.js         # Authentication
 │   │       │   ├── config.js       # Configuration
+│   │       │   ├── helpers/        # Helper functions
+│   │       │   │   ├── formatters.js # Data formatters
+│   │       │   │   ├── formHelpers.js # Form helpers
+│   │       │   │   └── validation.js # Validation helpers
 │   │       │   └── main.js         # Main module
 │   │       └── pages/              # Pages scripts
-│   │           ├── auth_login.js   # Login page
-│   │           ├── home.js         # Home page
-│   │           └── users_index.js  # Users list
+│   │           ├── acp-dashboard.js # Admin dashboard page
+│   │           ├── acp-settings.js  # Admin settings page
+│   │           ├── login.js         # Login page
+│   │           ├── password-forgot.js # Password forgot page
+│   │           ├── password-reset.js  # Password reset page
+│   │           ├── profile.js       # Profile page
+│   │           ├── register.js      # Register page
+│   │           └── ui-kit.js        # UI kit page
 │   ├── layouts/                    # Layouts templates
+│   │   ├── acp-nav.php             # ACP navigation layout
 │   │   └── base.php                # Base layout
 │   ├── pages/                      # Pages templates
-│   │   ├── 404.php                 # 404 page
-│   │   ├── auth/                   # Authentication pages
-│   │   │   └── login.php           # Login page
+│   │   ├── 403.php                 # 403 access denied page
+│   │   ├── 404.php                 # 404 not found page
+│   │   ├── acp/                    # Admin control panel pages
+│   │   │   ├── index.php           # ACP dashboard
+│   │   │   ├── settings.php        # ACP settings
+│   │   │   └── ui-kit.php          # ACP UI kit
 │   │   ├── index.php               # Home page
-│   │   └── users/                  # Users pages
-│   │       └── index.php           # Users list
+│   │   ├── login.php               # Login page
+│   │   ├── password-forgot.php     # Password forgot page
+│   │   ├── password-reset.php      # Password reset page
+│   │   ├── privacy.php             # Privacy policy page
+│   │   ├── profile.php             # User profile page
+│   │   ├── register.php            # Registration page
+│   │   ├── register-complete.php   # Registration complete page
+│   │   ├── terms.php               # Terms of service page
+│   │   └── ui-kit.php              # UI kit demo page
 │   ├── partials/                   # Partial templates
 │   │   ├── footer.php              # Footer
 │   │   └── header.php              # Header
 │   └── theme.json                  # Theme manifest (type: "php")
 │
-└── default_html/                   # HTML theme (placeholders, includes, conditionals)
-    ├── assets/                     # Theme resources (css/js)
-    │   ├── css/                    # CSS styles
-    │   │   ├── app.css             # Application main styles
-    │   │   ├── pico.css            # Pico CSS framework
-    │   │   └── pico.min.css        # Minified Pico CSS (soon)
-    │   └── js/                     # JavaScript files
-    │       ├── alpine.csp.min.js   # Alpine.js with CSP support
-    │       ├── alpine.min.js       # Alpine.js framework
-    │       ├── app/                # Application modules
-    │       │   ├── alpine-defer.js # Deferred loading Alpine
-    │       │   ├── alpine-start.js # Alpine initialization
-    │       │   ├── api.js          # API client
-    │       │   ├── auth.js         # Authentication
-    │       │   ├── config.js       # Configuration
-    │       │   └── main.js         # Main module
-    │       └── pages/              # Pages scripts
-    │           ├── auth_login.js   # Login page
-    │           ├── home.js         # Home page
-    │           └── users_index.js  # Users list
-    ├── layouts/
-    │   └── base.html               # Base layout (HTML)
-    ├── pages/
-    │   ├── 404.html                # 404 page
-    │   ├── auth/
-    │   │   └── login.html          # Login page
-    │   ├── index.html              # Home page
-    │   └── users/
-    │       └── index.html          # Users list
-    ├── partials/
-    │   ├── header.html             # Header
-    │   ├── footer.html             # Footer
-    └── theme.json                  # Theme manifest (type: "html")
+└── default_html.7z                 # HTML theme archive (placeholders, includes, conditionals)
+                                    # Note: This theme is currently archived and not actively used
 ```
 
 HTML engine supports:
@@ -280,6 +282,8 @@ HTML engine supports:
 - **SOLID principles**: Clean architecture with dependency inversion
 - **API-first**: RESTful API interface
 - **Theme system**: Modular theme system
+- **Dynamic Settings**: Meta-driven settings system with type validation
+- **Alpine.js frontend**: Reactive UI components for modern interactivity
 
 ### Database Backup System
 
@@ -342,16 +346,18 @@ RooCMS implements a custom dependency injection (DI) container for managing serv
 - `Db` - Database connection and queries
 - `Auth` - Authentication and authorization
 - `User` - User management operations
-- `Settings` - System configuration
+- `SiteSettings` - Modern site settings system
 - `Mailer` - Email sending system
 - `DbBackuper` - Database backup and restore operations
 - `UserService` - Business logic for user operations
 - `AuthService` - Business logic for authentication
 - `BackupService` - Business logic for backup operations
+- `SiteSettingsService` - Business logic for site settings
 
 **Request-scoped services (new instance per request):**
 - `UsersController` - User management API controller
 - `AuthController` - Authentication API controller
+- `AdminSettingsController` - Admin settings API controller
 - `BackupController` - Database backup API controller
 
 #### Service dependencies
@@ -360,7 +366,7 @@ RooCMS implements a custom dependency injection (DI) container for managing serv
 AuthService
 ├── Db (database)
 ├── Auth (authentication)
-├── Settings (configuration)
+├── SiteSettings (configuration)
 └── Mailer (email sending)
 
 UserService
@@ -386,6 +392,11 @@ AuthController
 BackupController
 ├── BackupService (business logic)
 └── Auth (authentication)
+
+AdminSettingsController
+├── SiteSettingsService (business logic)
+├── SiteSettings (settings model)
+└── Auth (authentication)
 ```
 
 #### Benefits
@@ -406,7 +417,9 @@ BackupController
 - Protected `index.php` files in directories with data
 - **Web directory protection** - `.htaccess` rules preventing direct file access
 - **Backup security** - Multi-layer protection for database backup files:
-  - Apache-level access denial via `.htaccess`
+  - Apache-level access denial via `.htaccess` with custom error pages
+  - PHP engine disabled for backup directory
+  - Security headers (X-Robots-Tag, X-Content-Type-Options, X-Frame-Options)
   - PHP-level directory protection via `index.php`
   - API-only authorized downloads with JWT tokens
   - Admin role requirement for all backup operations
@@ -421,9 +434,11 @@ BackupController
 - **Logging system**: Tracking errors and debugging
 
 ### Frontend technologies
-- **Pico CSS**: Minimalistic CSS framework for fast prototyping
+- **Tailwind CSS 4.x**: Utility-first CSS framework for rapid UI development
 - **Alpine.js**: Lightweight JavaScript framework for interactivity
 - **Modular architecture**: Division of JavaScript code by pages and components
 - **CSP compatibility**: Support for Content Security Policy
+- **Reactive components**: Dynamic UI with conditional rendering and state management
+- **Type-safe forms**: Automatic form generation based on backend metadata
 
 This project is a modern CMS system built on the principles of pure PHP with a focus on performance, security and ease of maintenance. 

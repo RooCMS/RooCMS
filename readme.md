@@ -66,22 +66,23 @@ Key Features
 - **Modern PHP 8.1+**: Uses latest PHP features and strict typing
 - **RESTful API**: Complete API interface for all operations
 - **Theme System**: Modular theme architecture with modern frontend
-- **Frontend Stack**: Pico CSS framework + Alpine.js for interactivity
+- **Frontend Stack**: Tailwind CSS 4.x + Alpine.js for interactivity
 - **Security First**: CSP support, role-based access, input sanitization
 - **Database Agnostic**: Support for MySQL, MariaDB, PostgreSQL, Firebird
 - **Migration System**: Database schema versioning and migrations
+- **Backup System**: Comprehensive database backup and restore with CLI/API interfaces
 
 Install
 -------
 1. Download latest release: https://github.com/RooCMS/RooCMS/releases
 2. Unpack the archive to the folder with your site on hosting
 3. Create a MySQL/MariaDB database on your hosting
-4. In browser open link: `https://www.your_site.com/install/`
+4. Configure your web server and database settings
+5. Access your site through the web browser
 
-> Instead of `your_site.com` use the domain name attached to your hosting.
+> **Note**: This is development version 2.0 - installation process may differ from final release.
 
-> Attention
-> For security purposes, RooCMS does not support the ability to work with a database without a login and password. When trying to use an empty password for the database, the system will show an error.
+> **Security Notice**: For security purposes, RooCMS requires proper database authentication. Empty database passwords are not supported.
 
 
 
@@ -89,7 +90,8 @@ Documentation
 -------------
 - Project structure: `structure.md`
 - API overview and examples: `api/README.md`
-- Database migrations: `roocms/database/README.md`
+- Database migrations: `roocms/database/README_Migrate.md`
+- Database backup system: `roocms/database/README_Backup.md`
 - API schemas: `api/v1/docs/swagger.yaml`, `api/v1/docs/postman.json`
 
 Useful links
@@ -113,7 +115,7 @@ RooCMS follows a **framework-free** approach with these core principles:
 ```
 ├── api/          # RESTful API endpoints
 ├── roocms/       # Core CMS system
-├── themes/       # Theme system (Pico CSS + Alpine.js)
+├── themes/       # Theme system (Tailwind CSS 4.x + Alpine.js)
 ├── storage/      # Data storage and logs
 └── upload/       # User uploaded files
 ```
