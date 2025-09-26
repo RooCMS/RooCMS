@@ -64,7 +64,7 @@ class SettingsController extends BaseController {
 
     /**
      * Get settings by group/category
-     * GET /api/v1/settings/{group}
+     * GET /api/v1/settings/group-{group}
      * Requires: AuthMiddleware + RoleMiddleware@admin_access
      *
      * @param string $group Settings group
@@ -89,7 +89,7 @@ class SettingsController extends BaseController {
 
     /**
      * Get specific setting by key
-     * GET /api/v1/settings/{key}
+     * GET /api/v1/settings/key-{key}
      * Requires: AuthMiddleware + RoleMiddleware@admin_access
      *
      * @param string $key Setting key
@@ -121,7 +121,7 @@ class SettingsController extends BaseController {
 
     /**
      * Update specific setting
-     * PUT /api/v1/settings/{key}
+     * PUT /api/v1/settings/key-{key}
      * Requires: AuthMiddleware + RoleMiddleware@admin_access
      *
      * @param string $key Setting key
@@ -252,6 +252,12 @@ class SettingsController extends BaseController {
         };
     }
 
+
+    /**
+     * Validate boolean value
+     * @param mixed $value Value
+     * @return string|null Validation error message or null if valid
+     */
     private function validate_boolean_value(mixed $value): ?string {
         if (!is_bool($value) && !in_array($value, [0, 1, '0', '1'], true)) {
             return 'Value must be a boolean (true/false, 0/1)';
@@ -259,6 +265,12 @@ class SettingsController extends BaseController {
         return null;
     }
 
+
+    /**
+     * Validate integer value
+     * @param mixed $value Value
+     * @return string|null Validation error message or null if valid
+     */
     private function validate_integer_value(mixed $value): ?string {
         if (!is_numeric($value) || !is_int($value + 0)) {
             return 'Value must be an integer';
@@ -266,6 +278,12 @@ class SettingsController extends BaseController {
         return null;
     }
 
+
+    /**
+     * Validate string value
+     * @param mixed $value Value
+     * @return string|null Validation error message or null if valid
+     */
     private function validate_string_value(mixed $value): ?string {
         if (!is_string($value)) {
             return 'Value must be a string';
@@ -273,6 +291,12 @@ class SettingsController extends BaseController {
         return null;
     }
 
+
+    /**
+     * Validate date value
+     * @param mixed $value Value
+     * @return string|null Validation error message or null if valid
+     */
     private function validate_date_value(mixed $value): ?string {
         if (!is_numeric($value) || $value <= 0) {
             return 'Value must be a valid timestamp';
@@ -280,6 +304,12 @@ class SettingsController extends BaseController {
         return null;
     }
 
+
+    /**
+     * Validate email value
+     * @param mixed $value Value
+     * @return string|null Validation error message or null if valid
+     */
     private function validate_email_value(mixed $value): ?string {
         if (filter_var($value, FILTER_VALIDATE_EMAIL) === false) {
             return 'Value must be a valid email address';
@@ -287,6 +317,13 @@ class SettingsController extends BaseController {
         return null;
     }
 
+
+    /**
+     * Validate select value
+     * @param mixed $value Value
+     * @param array $meta Setting metadata
+     * @return string|null Validation error message or null if valid
+     */
     private function validate_select_value(mixed $value, array $meta): ?string {
         if (!is_string($value)) {
             return 'Value must be a string';
@@ -307,7 +344,7 @@ class SettingsController extends BaseController {
 
     /**
      * Reset specific setting to default value
-     * GET /api/v1/reset/{key}
+     * GET /api/v1/settings/reset/key-{key}
      * Requires: AuthMiddleware + RoleMiddleware@admin_access
      *
      * @param string $key Setting key
@@ -335,7 +372,7 @@ class SettingsController extends BaseController {
 
     /**
      * Reset all settings in a group to default values
-     * GET /api/v1/reset/{group}
+     * GET /api/v1/settings/reset/group-{group}
      * Requires: AuthMiddleware + RoleMiddleware@admin_access
      *
      * @param string $group Settings group
@@ -366,7 +403,7 @@ class SettingsController extends BaseController {
 
     /**
      * Reset all settings to default values
-     * GET /api/v1/reset/all
+     * GET /api/v1/settings/reset/all
      * Requires: AuthMiddleware + RoleMiddleware@admin_access
      */
     public function reset_all(): void {

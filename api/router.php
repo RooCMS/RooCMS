@@ -114,13 +114,13 @@ $api->delete('/v1/users/{user_id}', 'UsersController@delete_user', ['AuthMiddlew
 
 // Settings routes (admin only)
 $api->get('/v1/settings', 'SettingsController@index', ['AuthMiddleware', 'RoleMiddleware@admin_access']);
-$api->get('/v1/settings/{group}', 'SettingsController@get_group', ['AuthMiddleware', 'RoleMiddleware@admin_access']);
-$api->get('/v1/settings/{key}', 'SettingsController@get_setting', ['AuthMiddleware', 'RoleMiddleware@admin_access']);
-$api->put('/v1/settings/{key}', 'SettingsController@update_setting', ['AuthMiddleware', 'RoleMiddleware@admin_access']);
+$api->get('/v1/settings/group-{group}', 'SettingsController@get_group', ['AuthMiddleware', 'RoleMiddleware@admin_access']);
+$api->get('/v1/settings/key-{key}', 'SettingsController@get_setting', ['AuthMiddleware', 'RoleMiddleware@admin_access']);
+$api->put('/v1/settings/key-{key}', 'SettingsController@update_setting', ['AuthMiddleware', 'RoleMiddleware@admin_access']);
 $api->patch('/v1/settings', 'SettingsController@update_settings', ['AuthMiddleware', 'RoleMiddleware@admin_access']);
-$api->get('/v1/reset/all', 'SettingsController@reset_all', ['AuthMiddleware', 'RoleMiddleware@admin_access']);
-$api->get('/v1/reset/{group}', 'SettingsController@reset_group', ['AuthMiddleware', 'RoleMiddleware@admin_access']);
-$api->get('/v1/reset/{key}', 'SettingsController@reset_setting', ['AuthMiddleware', 'RoleMiddleware@admin_access']);
+$api->get('/v1/settings/reset/all', 'SettingsController@reset_all', ['AuthMiddleware', 'RoleMiddleware@admin_access']);
+$api->get('/v1/settings/reset/group-{group}', 'SettingsController@reset_group', ['AuthMiddleware', 'RoleMiddleware@admin_access']);
+$api->get('/v1/settings/reset/key-{key}', 'SettingsController@reset_setting', ['AuthMiddleware', 'RoleMiddleware@admin_access']);
 
 // Backup endpoints (admin only)
 $api->post('/v1/backup/create', 'BackupController@create', ['AuthMiddleware', 'RoleMiddleware@admin_access']);
@@ -182,13 +182,13 @@ $api->get('/', function() {
             'backup_logs' => 'GET /api/v1/backup/logs',
             'backup_status' => 'GET /api/v1/backup/status',
             'settings_index' => 'GET /api/v1/settings',
-            'settings_get_group' => 'GET /api/v1/settings/{group}',
-            'settings_get_setting' => 'GET /api/v1/settings/{key}',
-            'settings_update_setting' => 'PUT /api/v1/settings/{key}',
+            'settings_get_group' => 'GET /api/v1/settings/group-{group}',
+            'settings_get_setting' => 'GET /api/v1/settings/key-{key}',
+            'settings_update_setting' => 'PUT /api/v1/settings/key-{key}',
             'settings_update_settings' => 'PATCH /api/v1/settings',
-            'settings_reset_all' => 'GET /api/v1/reset/all',
-            'settings_reset_group' => 'GET /api/v1/reset/{group}',
-            'settings_reset_setting' => 'GET /api/v1/reset/{key}'
+            'settings_reset_all' => 'GET /api/v1/settings/reset/all',
+            'settings_reset_group' => 'GET /api/v1/settings/reset/group-{group}',
+            'settings_reset_setting' => 'GET /api/v1/settings/reset/key-{key}'
         ]
     ];
 

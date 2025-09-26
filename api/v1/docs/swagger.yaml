@@ -900,6 +900,346 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+  /v1/settings:
+    get:
+      summary: Get all settings
+      description: Retrieve all system settings grouped by categories
+      tags:
+        - Settings
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: All settings retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SettingsResponse'
+        '401':
+          description: Authentication required
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Admin role required
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /v1/settings/group-{group}:
+    get:
+      summary: Get settings by group
+      description: Retrieve all settings for a specific group/category
+      tags:
+        - Settings
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: group
+          in: path
+          required: true
+          description: Settings group name (e.g., site, mailer)
+          schema:
+            type: string
+            example: "site"
+      responses:
+        '200':
+          description: Group settings retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SettingsGroupResponse'
+        '401':
+          description: Authentication required
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Admin role required
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Settings group not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /v1/settings/key-{key}:
+    get:
+      summary: Get specific setting by key
+      description: Retrieve a specific setting by its key with metadata
+      tags:
+        - Settings
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: key
+          in: path
+          required: true
+          description: Setting key name
+          schema:
+            type: string
+            example: "site_name"
+      responses:
+        '200':
+          description: Setting retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SettingResponse'
+        '401':
+          description: Authentication required
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Admin role required
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Setting not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    put:
+      summary: Update specific setting
+      description: Update a specific setting value with validation
+      tags:
+        - Settings
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: key
+          in: path
+          required: true
+          description: Setting key name
+          schema:
+            type: string
+            example: "site_name"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - value
+              properties:
+                value:
+                  description: New value for the setting
+                  oneOf:
+                    - type: string
+                    - type: integer
+                    - type: boolean
+                  example: "New Site Name"
+      responses:
+        '200':
+          description: Setting updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+        '400':
+          description: Invalid request data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Authentication required
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Admin role required
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Setting not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '422':
+          description: Validation failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValidationErrorResponse'
+  /v1/settings:
+    patch:
+      summary: Update multiple settings
+      description: Update multiple settings at once with validation
+      tags:
+        - Settings
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties:
+                description: Setting key-value pairs to update
+                oneOf:
+                  - type: string
+                  - type: integer
+                  - type: boolean
+              example:
+                site_name: "Updated Site"
+                site_domain: "updated.com"
+      responses:
+        '200':
+          description: Settings updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+        '400':
+          description: Invalid request data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Authentication required
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Admin role required
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '422':
+          description: Validation failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValidationErrorResponse'
+  /v1/settings/reset/all:
+    get:
+      summary: Reset all settings to defaults
+      description: Reset all system settings to their default values
+      tags:
+        - Settings
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: All settings reset successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+        '401':
+          description: Authentication required
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Admin role required
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /v1/settings/reset/group-{group}:
+    get:
+      summary: Reset settings group to defaults
+      description: Reset all settings in a specific group to their default values
+      tags:
+        - Settings
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: group
+          in: path
+          required: true
+          description: Settings group name (e.g., site, mailer)
+          schema:
+            type: string
+            example: "site"
+      responses:
+        '200':
+          description: Group settings reset successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+        '401':
+          description: Authentication required
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Admin role required
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Settings group not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /v1/settings/reset/key-{key}:
+    get:
+      summary: Reset specific setting to default
+      description: Reset a specific setting to its default value
+      tags:
+        - Settings
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: key
+          in: path
+          required: true
+          description: Setting key name
+          schema:
+            type: string
+            example: "site_name"
+      responses:
+        '200':
+          description: Setting reset successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+        '401':
+          description: Authentication required
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Admin role required
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Setting not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
 components:
   securitySchemes:
     bearerAuth:
@@ -1705,6 +2045,137 @@ components:
                     filename:
                       type: string
                       example: "backup_2025-01-15_12-00-00.sql.gz"
+    SettingsResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: true
+        timestamp:
+          type: string
+          format: date-time
+          example: "2025-01-15 12:00:00"
+        data:
+          type: object
+          additionalProperties:
+            type: object
+            additionalProperties: true
+          example:
+            site:
+              site_name: "RooCMS 2.0"
+              site_domain: "dev.roocms.com"
+            mailer:
+              mailer_driver: "mail"
+              mailer_host: "localhost"
+    SettingsGroupResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: true
+        timestamp:
+          type: string
+          format: date-time
+          example: "2025-01-15 12:00:00"
+        data:
+          type: object
+          additionalProperties: true
+          example:
+            site_name: "RooCMS 2.0"
+            site_domain: "dev.roocms.com"
+    SettingResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: true
+        timestamp:
+          type: string
+          format: date-time
+          example: "2025-01-15 12:00:00"
+        data:
+          type: object
+          properties:
+            key:
+              type: string
+              example: "site_name"
+            value:
+              oneOf:
+                - type: string
+                - type: integer
+                - type: boolean
+              example: "RooCMS 2.0"
+            meta:
+              type: object
+              properties:
+                id:
+                  type: integer
+                  example: 2
+                category:
+                  type: string
+                  example: "site"
+                sort_order:
+                  type: integer
+                  example: 2
+                title:
+                  type: string
+                  example: "Site name"
+                description:
+                  type: string
+                  nullable: true
+                  example: null
+                type:
+                  type: string
+                  enum: [string, integer, boolean, email, date, select, image, file]
+                  example: "string"
+                options:
+                  type: object
+                  nullable: true
+                  additionalProperties: true
+                max_length:
+                  type: integer
+                  nullable: true
+                  example: 255
+                is_required:
+                  type: integer
+                  enum: [0, 1]
+                  example: 1
+                is_serialized:
+                  type: integer
+                  enum: [0, 1]
+                  example: 0
+                created_at:
+                  type: integer
+                  example: 0
+                updated_at:
+                  type: integer
+                  example: 1758842798
+    ValidationErrorResponse:
+      type: object
+      properties:
+        error:
+          type: boolean
+          example: true
+        message:
+          type: string
+          example: "Validation failed"
+        status_code:
+          type: integer
+          example: 422
+        timestamp:
+          type: string
+          format: date-time
+          example: "2025-01-15 12:00:00"
+        details:
+          type: object
+          properties:
+            validation_errors:
+              type: object
+              additionalProperties:
+                type: string
+              example:
+                site_name: "Value exceeds maximum length of 255 characters"
+                mailer_from: "Value must be a valid email address"
 tags:
   - name: API Info
     description: API information
@@ -1720,3 +2191,5 @@ tags:
     description: Users and profiles
   - name: Database Backups
     description: Database backup and restore operations
+  - name: Settings
+    description: System settings management

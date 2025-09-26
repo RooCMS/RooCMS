@@ -865,6 +865,270 @@
         }
       ],
       "description": "Database backup and restore management endpoints"
+    },
+    {
+      "name": "Settings",
+      "item": [
+        {
+          "name": "Get All Settings",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{access_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/v1/settings",
+              "host": ["{{base_url}}"],
+              "path": ["v1", "settings"]
+            },
+            "description": "Retrieve all system settings grouped by categories"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Settings Group",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{access_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/v1/settings/group-site",
+              "host": ["{{base_url}}"],
+              "path": ["v1", "settings", "group-site"]
+            },
+            "description": "Retrieve all settings for a specific group (e.g., site, mailer)"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Specific Setting",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{access_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/v1/settings/key-site_name",
+              "host": ["{{base_url}}"],
+              "path": ["v1", "settings", "key-site_name"]
+            },
+            "description": "Retrieve a specific setting by its key with metadata"
+          },
+          "response": []
+        },
+        {
+          "name": "Update Specific Setting",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{access_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"value\": \"New Site Name\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/v1/settings/key-site_name",
+              "host": ["{{base_url}}"],
+              "path": ["v1", "settings", "key-site_name"]
+            },
+            "description": "Update a specific setting value with validation"
+          },
+          "response": []
+        },
+        {
+          "name": "Update Multiple Settings",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{access_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"site_name\": \"Updated Site\",\n  \"site_domain\": \"updated.com\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/v1/settings",
+              "host": ["{{base_url}}"],
+              "path": ["v1", "settings"]
+            },
+            "description": "Update multiple settings at once with validation"
+          },
+          "response": []
+        },
+        {
+          "name": "Reset All Settings",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{access_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/v1/settings/reset/all",
+              "host": ["{{base_url}}"],
+              "path": ["v1", "settings", "reset", "all"]
+            },
+            "description": "Reset all system settings to their default values"
+          },
+          "response": []
+        },
+        {
+          "name": "Reset Settings Group",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{access_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/v1/settings/reset/group-site",
+              "host": ["{{base_url}}"],
+              "path": ["v1", "settings", "reset", "group-site"]
+            },
+            "description": "Reset all settings in a specific group to their default values"
+          },
+          "response": []
+        },
+        {
+          "name": "Reset Specific Setting",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{access_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/v1/settings/reset/key-site_name",
+              "host": ["{{base_url}}"],
+              "path": ["v1", "settings", "reset", "key-site_name"]
+            },
+            "description": "Reset a specific setting to its default value"
+          },
+          "response": []
+        }
+      ],
+      "description": "System settings management endpoints"
     }
   ],
   "event": [
