@@ -38,7 +38,7 @@ if(!defined('RooCMS')) { http_response_code(403); header('Content-Type: text/pla
                     <a href="/login" class="text-sm font-medium text-zinc-700 transition-colors hover:text-sky-800">
                         Login
                     </a>
-                    <a href="/register" class="inline-flex items-center justify-center rounded-md bg-gradient-to-r from-blue-600 to-purple-600 px-4 py-2 text-sm font-medium text-white transition-all hover:from-blue-700 hover:to-purple-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 shadow-sm hover:shadow-md cursor-pointer">
+                    <a href="/register" class="btn primary">
                         Register
                     </a>
                 </div>

@@ -71,7 +71,7 @@ ob_start();
 
                 <!-- Back to Login -->
                 <div>
-                    <a href="/login" class="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 shadow-sm hover:shadow-md">
+                    <a href="/login" class="btn primary w-full justify-center">
                         <span>Back to Login</span>
                     </a>
                 </div>

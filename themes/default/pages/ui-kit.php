@@ -150,15 +150,15 @@ ob_start();
 							<button type="button" class="rounded-full border border-zinc-200 bg-white px-3 py-1 text-xs font-medium text-zinc-600 hover:bg-zinc-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-500">Фильтр</button>
 						</div>
 						<ul class="flex flex-wrap gap-2 text-xs font-medium">
-							<li><a href="#" class="inline-flex items-center gap-1 rounded-full border border-sky-200 bg-sky-50 px-3 py-1 text-sky-800">Гиды<span class="rounded-full bg-white px-1 text-[10px]">12</span></a></li>
-							<li><a href="#" class="inline-flex items-center gap-1 rounded-full border border-zinc-200 bg-white px-3 py-1 text-zinc-600 hover:bg-zinc-50">API</a></li>
-							<li><a href="#" class="inline-flex items-center gap-1 rounded-full border border-zinc-200 bg-white px-3 py-1 text-zinc-600 hover:bg-zinc-50">CLI</a></li>
-							<li><a href="#" class="inline-flex items-center gap-1 rounded-full border border-zinc-200 bg-white px-3 py-1 text-zinc-600 hover:bg-zinc-50">Справка</a></li>
+							<li><a href="#" class="nav-tag nav-tag--active">Гиды<span class="nav-tag__badge">12</span></a></li>
+							<li><a href="#" class="nav-tag nav-tag--default">API</a></li>
+							<li><a href="#" class="nav-tag nav-tag--default">CLI</a></li>
+							<li><a href="#" class="nav-tag nav-tag--default">Справка</a></li>
 						</ul>
 						<div class="flex flex-wrap items-center gap-4 border-t border-zinc-100 pt-4 text-sm">
-							<a href="#" class="inline-flex items-center gap-2 rounded-md px-3 py-1.5 text-zinc-600 hover:text-zinc-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-500"><span class="h-2.5 w-2.5 rounded-full bg-emerald-500"></span>Опубликовано</a>
-							<a href="#" class="inline-flex items-center gap-2 rounded-md px-3 py-1.5 text-zinc-600 hover:text-zinc-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-500"><span class="h-2.5 w-2.5 rounded-full bg-amber-500"></span>В работе</a>
-							<a href="#" class="inline-flex items-center gap-2 rounded-md px-3 py-1.5 text-zinc-600 hover:text-zinc-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-500"><span class="h-2.5 w-2.5 rounded-full bg-rose-500"></span>Архив</a>
+							<a href="#" class="status-link"><span class="indicator published"></span>Опубликовано</a>
+							<a href="#" class="status-link"><span class="indicator draft"></span>В работе</a>
+							<a href="#" class="status-link"><span class="indicator archived"></span>Архив</a>
 						</div>
 					</nav>
 				</div>
@@ -177,10 +177,10 @@ ob_start();
 						</div>
 					</div>
 					<nav class="mt-5 space-y-1 text-sm">
-						<a href="#" class="flex items-center justify-between rounded-lg bg-gradient-to-r from-blue-600 to-purple-600 px-3 py-2 font-medium text-white shadow-sm">Обзор<span class="rounded-full bg-white/20 px-2 py-0.5 text-xs">5</span></a>
-						<a href="#" class="flex items-center justify-between rounded-lg px-3 py-2 text-zinc-600 hover:bg-zinc-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-500">Публикации<span class="text-xs text-zinc-400">12</span></a>
-						<a href="#" class="flex items-center justify-between rounded-lg px-3 py-2 text-zinc-600 hover:bg-zinc-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-500">Комментарии<span class="text-xs text-zinc-400">48</span></a>
-						<a href="#" class="flex items-center justify-between rounded-lg px-3 py-2 text-zinc-600 hover:bg-zinc-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-500">Настройки<span class="text-xs text-zinc-400">&rsaquo;</span></a>
+						<a href="#" class="sidebar-nav-link active">Обзор<span class="badge">5</span></a>
+						<a href="#" class="sidebar-nav-link">Публикации<span class="badge">12</span></a>
+						<a href="#" class="sidebar-nav-link">Комментарии<span class="badge">48</span></a>
+						<a href="#" class="sidebar-nav-link">Настройки<span class="badge">&rsaquo;</span></a>
 					</nav>
 					<div class="mt-5 rounded-xl border border-dashed border-sky-200 bg-sky-50 p-4 text-xs text-sky-900">
 						<p class="font-semibold">Планы публикаций</p>
@@ -222,14 +222,14 @@ ob_start();
 			<h2 class="mb-3 text-base font-semibold text-zinc-900">Кнопки и ссылки</h2>
 			<div class="rounded-xl border border-zinc-200 bg-white p-5 shadow-sm">
 				<div class="flex flex-wrap gap-3">
-					<a href="#" class="inline-flex items-center justify-center rounded-md bg-gradient-to-r from-blue-600 to-purple-600 px-4 py-2 text-sm font-medium text-white transition hover:from-blue-700 hover:to-purple-700">Primary</a>
-					<a href="#" class="inline-flex items-center justify-center rounded-md bg-gradient-to-r from-rose-600 to-red-600 px-4 py-2 text-sm font-medium text-white transition hover:from-rose-700 hover:to-red-700">Danger</a>
-					<a href="#" class="inline-flex items-center justify-center rounded-md bg-gradient-to-r from-emerald-600 to-green-600 px-4 py-2 text-sm font-medium text-white transition hover:from-emerald-700 hover:to-green-700">Success</a>
-					<a href="#" class="inline-flex items-center justify-center rounded-md bg-gradient-to-r from-sky-600 to-blue-600 px-4 py-2 text-sm font-medium text-white transition hover:from-sky-700 hover:to-blue-700">Info</a>
-					<a href="#" class="inline-flex items-center justify-center rounded-md bg-gradient-to-r from-amber-500 to-orange-500 px-4 py-2 text-sm font-medium text-white transition hover:from-amber-600 hover:to-orange-600">Warning</a>
-					<a href="#" class="inline-flex items-center justify-center rounded-md bg-gradient-to-r from-gray-600 to-slate-600 px-4 py-2 text-sm font-medium text-white transition hover:from-gray-700 hover:to-slate-700">Contrast</a>
-					<a href="#" class="inline-flex items-center justify-center rounded-md border border-zinc-200 bg-white px-4 py-2 text-sm font-medium text-zinc-900 hover:bg-zinc-50">Secondary</a>
-					<a href="#" class="text-sm font-medium text-sky-700 hover:text-sky-900">Текстовая ссылка</a>
+					<a href="#" class="btn primary">Primary</a>
+					<a href="#" class="btn danger">Danger</a>
+					<a href="#" class="btn success">Success</a>
+					<a href="#" class="btn info">Info</a>
+					<a href="#" class="btn warning">Warning</a>
+					<a href="#" class="btn contrast">Contrast</a>
+					<a href="#" class="btn secondary">Secondary</a>
+					<a href="#" class="link-text">Текстовая ссылка</a>
 				</div>
 			</div>
 		</section>
@@ -238,10 +238,10 @@ ob_start();
 			<h2 class="mb-3 text-base font-semibold text-zinc-900">Состояния кнопок</h2>
 			<div class="rounded-xl border border-zinc-200 bg-white p-5 shadow-sm space-y-4">
 				<div class="flex flex-wrap gap-3">
-					<button class="rounded-md bg-gradient-to-r from-blue-600 to-purple-600 px-4 py-2 text-sm font-medium text-white shadow-sm transition hover:from-blue-700 hover:to-purple-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500">Hover / Focus</button>
-					<button class="rounded-md bg-gradient-to-r from-blue-600 to-purple-600 px-4 py-2 text-sm font-medium text-white opacity-60 cursor-not-allowed" disabled aria-disabled="true">Disabled</button>
-					<button class="group inline-flex items-center gap-2 rounded-md border border-zinc-300 bg-white px-4 py-2 text-sm font-medium text-zinc-600 transition hover:border-blue-500 hover:text-blue-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500">
-						<svg class="h-4 w-4 transition-transform group-hover:translate-x-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" /></svg>
+					<button class="btn primary">Hover / Focus</button>
+					<button class="btn primary" disabled aria-disabled="true">Disabled</button>
+					<button class="btn outline btn-tr-lr">
+						<svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" /></svg>
 						Primary link
 					</button>
 				</div>
@@ -261,27 +261,27 @@ ob_start();
 			<h2 class="mb-3 text-base font-semibold text-zinc-900">Кнопки: размеры и иконки</h2>
 			<div class="rounded-xl border border-zinc-200 bg-white p-5 shadow-sm space-y-4">
 				<div class="flex flex-wrap items-center gap-3">
-					<a href="#" class="inline-flex items-center gap-2 rounded-md bg-gradient-to-r from-blue-600 to-purple-600 px-3 py-1.5 text-xs font-medium text-white">
-						<svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+					<a href="#" class="btn primary small">
+						<svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
 						Small
 					</a>
-					<a href="#" class="inline-flex items-center gap-2 rounded-md bg-gradient-to-r from-blue-600 to-purple-600 px-4 py-2 text-sm font-medium text-white">
-						<svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+					<a href="#" class="btn primary">
+						<svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
 						Medium
 					</a>
-					<a href="#" class="inline-flex items-center gap-3 rounded-md bg-gradient-to-r from-blue-600 to-purple-600 px-5 py-2.5 text-base font-semibold text-white">
-						<svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+					<a href="#" class="btn primary large">
+						<svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
 						Large
 					</a>
 				</div>
 
 				<div class="flex flex-wrap items-center gap-3">
-					<a href="/" class="group inline-flex items-center gap-2 rounded-md bg-gradient-to-r from-gray-600 to-slate-600 px-5 py-2.5 text-sm font-medium text-white">
-						<svg class="h-4 w-4 transition-transform group-hover:-translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
+					<a href="/" class="btn contrast btn-tr-rl">
+						<svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
 						Back to Home
 					</a>
-					<a href="#" class="inline-flex items-center gap-2 rounded-md border border-zinc-200 bg-white px-4 py-2 text-sm font-medium text-zinc-900 hover:bg-zinc-50">
-						<svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+					<a href="#" class="btn secondary btn-tr-lr">
+						<svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
 						With icon
 					</a>
 				</div>
@@ -329,20 +329,17 @@ ob_start();
 		<section>
 			<h2 class="mb-3 text-base font-semibold text-zinc-900">Контейнеры</h2>
 			<div class="grid grid-cols-1 gap-4 md:grid-cols-3">
-				<div class="rounded-2xl border border-gray-200/50 bg-white/50 py-8 px-6 shadow-sm backdrop-blur-sm">
+				<div class="container-panel frosted">
 					<h3 class="text-sm font-semibold text-zinc-900 mb-1">Frosted</h3>
 					<p class="text-sm text-zinc-600">Полупрозрачная панель на светлом фоне.</p>
 				</div>
-				<div class="rounded-2xl border border-zinc-200 bg-white py-8 px-6 shadow-sm">
+				<div class="container-panel classic">
 					<h3 class="text-sm font-semibold text-zinc-900 mb-1">Panel</h3>
 					<p class="text-sm text-zinc-600">Классическая панель контента.</p>
 				</div>
-				<div class="relative rounded-2xl border border-blue-200/50 bg-gradient-to-br from-blue-50 to-indigo-50 py-8 px-6 shadow-sm">
-					<div class="absolute inset-0 rounded-2xl bg-gradient-to-r from-blue-600/5 to-indigo-600/5"></div>
-					<div class="relative">
-						<h3 class="text-sm font-semibold text-zinc-900 mb-1">Gradient Panel</h3>
-						<p class="text-sm text-zinc-600">Как на profile/terms секциях.</p>
-					</div>
+				<div class="container-panel gradient">
+					<h3 class="text-sm font-semibold text-zinc-900 mb-1">Gradient Panel</h3>
+					<p class="text-sm text-zinc-600">Как на profile/terms секциях.</p>
 				</div>
 			</div>
 		</section>
@@ -351,25 +348,25 @@ ob_start();
 		<section>
 			<h2 class="mb-3 text-base font-semibold text-zinc-900">Карточки статистики</h2>
 			<div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-				<div class="rounded-xl border border-zinc-200 bg-white p-5 shadow-sm">
-					<div class="text-xs font-medium text-zinc-500">Пользователи</div>
-					<div class="mt-1 text-2xl font-semibold text-zinc-900">1,248</div>
-					<div class="mt-1 text-xs text-emerald-600">+3.1% за неделю</div>
+				<div class="stats-card">
+					<div class="label">Пользователи</div>
+					<div class="value">1,248</div>
+					<div class="change positive">+3.1% за неделю</div>
 				</div>
-				<div class="rounded-xl border border-zinc-200 bg-white p-5 shadow-sm">
-					<div class="text-xs font-medium text-zinc-500">Публикации</div>
-					<div class="mt-1 text-2xl font-semibold text-zinc-900">328</div>
-					<div class="mt-1 text-xs text-zinc-500">−0.8% за неделю</div>
+				<div class="stats-card">
+					<div class="label">Публикации</div>
+					<div class="value">328</div>
+					<div class="change neutral">−0.8% за неделю</div>
 				</div>
-				<div class="rounded-xl border border-zinc-200 bg-white p-5 shadow-sm">
-					<div class="text-xs font-medium text-zinc-500">Просмотры</div>
-					<div class="mt-1 text-2xl font-semibold text-zinc-900">82,304</div>
-					<div class="mt-1 text-xs text-emerald-600">+12.4% за неделю</div>
+				<div class="stats-card">
+					<div class="label">Просмотры</div>
+					<div class="value">82,304</div>
+					<div class="change positive">+12.4% за неделю</div>
 				</div>
-				<div class="rounded-xl border border-zinc-200 bg-white p-5 shadow-sm">
-					<div class="text-xs font-medium text-zinc-500">Комментарии</div>
-					<div class="mt-1 text-2xl font-semibold text-zinc-900">5,231</div>
-					<div class="mt-1 text-xs text-emerald-600">+1.2% за неделю</div>
+				<div class="stats-card">
+					<div class="label">Комментарии</div>
+					<div class="value">5,231</div>
+					<div class="change positive">+1.2% за неделю</div>
 				</div>
 			</div>
 		</section>
@@ -378,13 +375,13 @@ ob_start();
 		<section>
 			<h2 class="mb-3 text-base font-semibold text-zinc-900">Прогресс</h2>
 			<div class="rounded-xl border border-zinc-200 bg-white p-5 shadow-sm space-y-4">
-				<div>
-					<div class="mb-1 flex items-center justify-between text-xs text-zinc-600"><span>Загрузка</span><span>45%</span></div>
-					<div class="h-2 w-full overflow-hidden rounded-full bg-zinc-200"><div class="h-full w-[45%] rounded-full bg-gradient-to-r from-blue-500 to-indigo-600"></div></div>
+				<div class="progress-item">
+					<div class="header"><span>Загрузка</span><span>45%</span></div>
+					<div class="progress-track primary"><div class="progress-bar primary w-[45%]"></div></div>
 				</div>
-				<div>
-					<div class="mb-1 flex items-center justify-between text-xs text-zinc-600"><span>Обработка</span><span class="text-emerald-700">70%</span></div>
-					<div class="h-2 w-full overflow-hidden rounded-full bg-emerald-100"><div class="h-full w-[70%] rounded-full bg-gradient-to-r from-emerald-500 to-green-600"></div></div>
+				<div class="progress-item">
+					<div class="header"><span>Обработка</span><span class="percentage success">70%</span></div>
+					<div class="progress-track success"><div class="progress-bar success w-[70%]"></div></div>
 				</div>
 			</div>
 		</section>
@@ -408,19 +405,19 @@ ob_start();
 			<h2 class="mb-3 text-base font-semibold text-zinc-900">Бейджи и алерты</h2>
 			<div class="grid grid-cols-1 gap-4 md:grid-cols-2">
 				<div class="rounded-xl border border-zinc-200 bg-white p-5 shadow-sm">
-					<div class="flex flex-wrap items-center gap-3 text-xs font-medium">
-						<span class="rounded-full bg-zinc-100 px-2.5 py-1 text-zinc-700">Neutral</span>
-						<span class="rounded-full bg-sky-100 px-2.5 py-1 text-sky-700">Info</span>
-						<span class="rounded-full bg-emerald-100 px-2.5 py-1 text-emerald-700">Success</span>
-						<span class="rounded-full bg-amber-100 px-2.5 py-1 text-amber-700">Warning</span>
-						<span class="rounded-full bg-rose-100 px-2.5 py-1 text-rose-700">Danger</span>
+					<div class="flex flex-wrap items-center gap-3">
+						<span class="badge neutral">Neutral</span>
+						<span class="badge info">Info</span>
+						<span class="badge success">Success</span>
+						<span class="badge warning">Warning</span>
+						<span class="badge danger">Danger</span>
 					</div>
 				</div>
 				<div class="space-y-3">
-					<div class="rounded-lg border border-sky-200 bg-sky-50 p-4 text-sm text-sky-900">Инфо: полезное уведомление.</div>
-					<div class="rounded-lg border border-emerald-200 bg-emerald-50 p-4 text-sm text-emerald-900">Успех: действие завершено.</div>
-					<div class="rounded-lg border border-amber-200 bg-amber-50 p-4 text-sm text-amber-900">Предупреждение: проверьте данные.</div>
-					<div class="rounded-lg border border-rose-200 bg-rose-50 p-4 text-sm text-rose-900">Ошибка: что-то пошло не так.</div>
+					<div class="alert info">Инфо: полезное уведомление.</div>
+					<div class="alert success">Успех: действие завершено.</div>
+					<div class="alert warning">Предупреждение: проверьте данные.</div>
+					<div class="alert danger">Ошибка: что-то пошло не так.</div>
 				</div>
 			</div>
 		</section>
@@ -429,17 +426,17 @@ ob_start();
 		<section>
 			<h2 class="mb-3 text-base font-semibold text-zinc-900">Превью статьи и лэйаут</h2>
 			<div class="grid grid-cols-1 gap-4 lg:grid-cols-3">
-				<article class="rounded-xl border border-zinc-200 bg-white p-4 shadow-sm">
-					<div class="aspect-[16/9] w-full rounded-lg bg-zinc-100"></div>
-					<h3 class="mt-3 text-base font-semibold text-zinc-900">Заголовок статьи</h3>
-					<p class="mt-1 text-sm text-zinc-600">Короткое описание содержания статьи...</p>
-					<div class="mt-2 flex items-center gap-2 text-xs text-zinc-500"><span>12 мая 2024</span><span>•</span><span>12 мин</span></div>
+				<article class="article-card small">
+					<div class="thumbnail"></div>
+					<h3 class="title">Заголовок статьи</h3>
+					<p class="description">Короткое описание содержания статьи...</p>
+					<div class="meta"><span>12 мая 2024</span><span>•</span><span>12 мин</span></div>
 				</article>
-				<article class="lg:col-span-2 rounded-xl border border-zinc-200 bg-white p-6 shadow-sm max-w-none">
-				<div class="aspect-[16/9] w-full rounded-lg bg-zinc-100"></div>
-					<h3 class="mt-3 text-base font-semibold text-zinc-900">Заголовок статьи</h3>
-					<p class="mt-1 text-sm text-zinc-600">Короткое описание содержания статьи...</p>
-					<div class="mt-2 flex items-center gap-2 text-xs text-zinc-500"><span>12 мая 2024</span><span>•</span><span>12 мин</span></div>
+				<article class="article-card large lg:col-span-2 max-w-none">
+					<div class="thumbnail"></div>
+					<h3 class="title">Заголовок статьи</h3>
+					<p class="description">Короткое описание содержания статьи...</p>
+					<div class="meta"><span>12 мая 2024</span><span>•</span><span>12 мин</span></div>
 				</article>
 			</div>
 		</section>
@@ -447,14 +444,14 @@ ob_start();
 		<section>
 			<h2 class="mb-3 text-base font-semibold text-zinc-900">Карточки и типографика</h2>
 			<div class="grid grid-cols-1 gap-4 md:grid-cols-2">
-				<article class="rounded-xl border border-zinc-200 bg-white p-6 shadow-sm">
-					<h3 class="mb-2 text-lg font-semibold text-zinc-900">Заголовок карточки</h3>
-					<p class="text-sm text-zinc-600">Этот текст демонстрирует базовую типографику публичной темы. Используются аккуратные отступы, комфортные размеры шрифтов и мягкие цвета.</p>
+				<article class="content-card simple">
+					<h3 class="title">Заголовок карточки</h3>
+					<p class="text">Этот текст демонстрирует базовую типографику публичной темы. Используются аккуратные отступы, комфортные размеры шрифтов и мягкие цвета.</p>
 				</article>
-				<article class="rounded-xl border border-zinc-200 bg-white p-0 shadow-sm">
-					<header class="border-b border-zinc-200 p-4 text-sm font-semibold text-zinc-900">Заголовок</header>
-					<div class="p-4 text-sm text-zinc-600">Содержимое карточки: абзацы, ссылки, список.</div>
-					<footer class="border-t border-zinc-200 p-3 text-right"><a href="#" class="text-sm font-medium text-sky-700 hover:text-sky-900">Подробнее</a></footer>
+				<article class="content-card structured">
+					<header class="header">Заголовок</header>
+					<div class="body">Содержимое карточки: абзацы, ссылки, список.</div>
+					<footer class="footer"><a href="#" class="link-text">Подробнее</a></footer>
 				</article>
 			</div>
 		</section>
@@ -464,18 +461,18 @@ ob_start();
 			<h2 class="mb-3 text-base font-semibold text-zinc-900">Комментарии</h2>
 			<div class="rounded-xl border border-zinc-200 bg-white p-5 shadow-sm">
 				<div class="space-y-4">
-					<div class="flex gap-3">
-						<img src="https://i.pravatar.cc/40?img=11" alt="avatar" class="h-10 w-10 rounded-full object-cover">
-						<div>
-							<div class="text-sm font-medium text-zinc-900">Leslie Alexander <span class="ml-2 text-xs font-normal text-zinc-500">12 мая 2024</span></div>
-							<p class="text-sm text-zinc-700">Отличная статья! Очень понравилась подача и примеры.</p>
+					<div class="comment">
+						<img src="https://i.pravatar.cc/40?img=11" alt="avatar" class="avatar">
+						<div class="content">
+							<div class="header">Leslie Alexander <span class="date">12 мая 2024</span></div>
+							<p class="text">Отличная статья! Очень понравилась подача и примеры.</p>
 						</div>
 					</div>
-					<div class="flex gap-3">
-						<img src="https://i.pravatar.cc/40?img=12" alt="avatar" class="h-10 w-10 rounded-full object-cover">
-						<div>
-							<div class="text-sm font-medium text-zinc-900">Michael Foster <span class="ml-2 text-xs font-normal text-zinc-500">10 мая 2024</span></div>
-							<p class="text-sm text-zinc-700">Спасибо, жду продолжения серии.</p>
+					<div class="comment">
+						<img src="https://i.pravatar.cc/40?img=12" alt="avatar" class="avatar">
+						<div class="content">
+							<div class="header">Michael Foster <span class="date">10 мая 2024</span></div>
+							<p class="text">Спасибо, жду продолжения серии.</p>
 						</div>
 					</div>
 				</div>
@@ -496,9 +493,9 @@ ob_start();
 			<h2 class="mb-3 text-base font-semibold text-зinc-900">Комментарии: состояния</h2>
 			<div class="rounded-xl border border-zinc-200 bg-white p-5 shadow-sm space-y-4">
 				<div class="flex flex-col gap-3">
-					<div class="rounded-lg border border-sky-200 bg-sky-50 p-4 text-sm text-sky-900">Комментарий отправлен. Модератор проверит его в течение 10 минут.</div>
-					<div class="rounded-lg border border-zinc-200 bg-zinc-50 p-4 text-sm text-zinc-700 italic">Комментарий ожидает модерации.</div>
-					<div class="rounded-lg border border-rose-200 bg-rose-50 p-4 text-sm text-rose-900"><span class="font-semibold">Ошибка:</span> текст комментария не должен превышать 500 символов.</div>
+					<div class="comment-state success">Комментарий отправлен. Модератор проверит его в течение 10 минут.</div>
+					<div class="comment-state pending">Комментарий ожидает модерации.</div>
+					<div class="comment-state error"><span class="font-semibold">Ошибка:</span> текст комментария не должен превышать 500 символов.</div>
 				</div>
 				<form class="space-y-3">
 					<label class="flex flex-col gap-1 text-sm">
@@ -520,18 +517,18 @@ ob_start();
 		<section>
 			<h2 class="mb-3 text-base font-semibold text-zinc-900">Документация: хлебные крошки и подзаголовки</h2>
 			<div class="rounded-xl border border-zinc-200 bg-white p-5 shadow-sm space-y-4">
-				<nav class="text-sm text-zinc-500" aria-label="Breadcrumb">
-					<ol class="flex items-center gap-2">
-						<li><a href="#" class="hover:text-sky-700">Docs</a></li>
-						<li aria-hidden="true" class="text-zinc-400">/</li>
-						<li><a href="#" class="hover:text-sky-700">Guides</a></li>
-						<li aria-hidden="true" class="text-zinc-400">/</li>
-						<li><span class="text-zinc-700">Getting started</span></li>
+				<nav class="breadcrumb" aria-label="Breadcrumb">
+					<ol>
+						<li><a href="#">Docs</a></li>
+						<li aria-hidden="true" class="separator">/</li>
+						<li><a href="#">Guides</a></li>
+						<li aria-hidden="true" class="separator">/</li>
+						<li><span class="current">Getting started</span></li>
 					</ol>
 				</nav>
-				<div class="flex items-center justify-between">
-					<h3 class="text-lg font-semibold text-zinc-900">Getting started</h3>
-					<span class="rounded-full border border-zinc-200 bg-zinc-50 px-2 py-0.5 text-xs text-zinc-600">Last updated: 2024-05-12</span>
+				<div class="section-header">
+					<h3 class="title">Getting started</h3>
+					<span class="meta-badge">Last updated: 2024-05-12</span>
 				</div>
 			</div>
 		</section>
@@ -540,15 +537,15 @@ ob_start();
 		<section>
 			<h2 class="mb-3 text-base font-semibold text-zinc-900">Карточки блога</h2>
 			<div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-				<article class="rounded-xl border border-zinc-200 bg-white p-4 shadow-sm">
-					<div class="aspect-[16/9] w-full rounded-lg bg-zinc-100"></div>
-					<div class="mt-3 flex flex-wrap gap-2 text-xs">
-						<span class="rounded-full border border-sky-200 bg-sky-50 px-2 py-0.5 text-sky-800">Tailwind</span>
-						<span class="rounded-full border border-zinc-200 bg-zinc-50 px-2 py-0.5 text-zinc-700">Design</span>
+				<article class="blog-card">
+					<div class="thumbnail"></div>
+					<div class="tags">
+						<span class="tag primary">Tailwind</span>
+						<span class="tag neutral">Design</span>
 					</div>
-					<h3 class="mt-2 text-base font-semibold text-zinc-900">Создаём чистые UI без фреймворков</h3>
-					<div class="mt-1 flex items-center gap-2 text-xs text-zinc-500">
-						<img src="https://i.pravatar.cc/28?img=15" class="h-5 w-5 rounded-full" alt="author">
+					<h3 class="title">Создаём чистые UI без фреймворков</h3>
+					<div class="meta">
+						<img src="https://i.pravatar.cc/28?img=15" class="avatar" alt="author">
 						<span>Alex</span>
 						<span>•</span>
 						<span>12 мая 2024</span>
@@ -556,15 +553,15 @@ ob_start();
 						<span>8 мин</span>
 					</div>
 				</article>
-				<article class="rounded-xl border border-zinc-200 bg-white p-4 shadow-sm">
-					<div class="aspect-[16/9] w-full rounded-lg bg-zinc-100"></div>
-					<div class="mt-3 flex flex-wrap gap-2 text-xs">
-						<span class="rounded-full border border-emerald-200 bg-emerald-50 px-2 py-0.5 text-emerald-800">PHP</span>
-						<span class="rounded-full border border-zinc-200 bg-zinc-50 px-2 py-0.5 text-zinc-700">Backend</span>
+				<article class="blog-card">
+					<div class="thumbnail"></div>
+					<div class="tags">
+						<span class="tag success">PHP</span>
+						<span class="tag neutral">Backend</span>
 					</div>
-					<h3 class="mt-2 text-base font-semibold text-zinc-900">Чистый PHP: быстро и понятно</h3>
-					<div class="mt-1 flex items-center gap-2 text-xs text-zinc-500">
-						<img src="https://i.pravatar.cc/28?img=16" class="h-5 w-5 rounded-full" alt="author">
+					<h3 class="title">Чистый PHP: быстро и понятно</h3>
+					<div class="meta">
+						<img src="https://i.pravatar.cc/28?img=16" class="avatar" alt="author">
 						<span>Irina</span>
 						<span>•</span>
 						<span>10 мая 2024</span>
@@ -572,15 +569,15 @@ ob_start();
 						<span>6 мин</span>
 					</div>
 				</article>
-				<article class="rounded-xl border border-zinc-200 bg-white p-4 shadow-sm">
-					<div class="aspect-[16/9] w-full rounded-lg bg-zinc-100"></div>
-					<div class="mt-3 flex flex-wrap gap-2 text-xs">
-						<span class="rounded-full border border-amber-200 bg-amber-50 px-2 py-0.5 text-amber-800">Guide</span>
-						<span class="rounded-full border border-zinc-200 bg-zinc-50 px-2 py-0.5 text-zinc-700">UX</span>
+				<article class="blog-card">
+					<div class="thumbnail"></div>
+					<div class="tags">
+						<span class="tag warning">Guide</span>
+						<span class="tag neutral">UX</span>
 					</div>
-					<h3 class="mt-2 text-base font-semibold text-zinc-900">UX‑шаблоны для RooCMS</h3>
-					<div class="mt-1 flex items-center gap-2 text-xs text-zinc-500">
-						<img src="https://i.pravatar.cc/28?img=17" class="h-5 w-5 rounded-full" alt="author">
+					<h3 class="title">UX‑шаблоны для RooCMS</h3>
+					<div class="meta">
+						<img src="https://i.pravatar.cc/28?img=17" class="avatar" alt="author">
 						<span>Oleg</span>
 						<span>•</span>
 						<span>8 мая 2024</span>
@@ -594,35 +591,35 @@ ob_start();
 		<section>
 			<h2 class="mb-3 text-base font-semibold text-зinc-900">Списки и элементы</h2>
 			<div class="grid grid-cols-1 gap-4 lg:grid-cols-3">
-				<div class="rounded-xl border border-зinc-200 bg-white p-5 shadow-sm">
-					<h3 class="text-sm font-semibold text-зinc-900">Маркированный список</h3>
-					<ul class="mt-3 list-disc space-y-2 pl-5 text-sm text-зinc-600">
+				<div class="list-card">
+					<h3 class="title">Маркированный список</h3>
+					<ul class="list bulleted">
 						<li>Поддержка вложенных страниц</li>
 						<li>Версия для печати</li>
 						<li>SEO-метаданные</li>
 					</ul>
 				</div>
-				<div class="rounded-xl border border-зinc-200 bg-white p-5 shadow-sm">
-					<h3 class="text-sm font-semibold text-зinc-900">Нумерованный список</h3>
-					<ol class="mt-3 list-decimal space-y-2 pl-5 text-sm text-зinc-600">
+				<div class="list-card">
+					<h3 class="title">Нумерованный список</h3>
+					<ol class="list numbered">
 						<li>Создайте запись</li>
 						<li>Добавьте медиа</li>
 						<li>Опубликуйте контент</li>
 					</ol>
 				</div>
-				<div class="rounded-xl border border-зinc-200 bg-white p-5 shadow-sm">
-					<h3 class="text-sm font-semibold text-зinc-900">Элемент списка с индикатором</h3>
-					<ul class="mt-3 space-y-2 text-sm text-зinc-600">
-						<li class="flex items-start gap-2">
-							<span class="mt-1 inline-flex h-2.5 w-2.5 flex-shrink-0 rounded-full bg-emerald-500"></span>
+				<div class="list-card">
+					<h3 class="title">Элемент списка с индикатором</h3>
+					<ul class="list">
+						<li class="list-item">
+							<span class="indicator success"></span>
 							<span>Сайт доступен 99.9% времени.</span>
 						</li>
-						<li class="flex items-start gap-2">
-							<span class="mt-1 inline-flex h-2.5 w-2.5 flex-shrink-0 rounded-full bg-sky-500"></span>
+						<li class="list-item">
+							<span class="indicator info"></span>
 							<span>Все изображения оптимизированы.</span>
 						</li>
-						<li class="flex items-start gap-2">
-							<span class="mt-1 inline-flex h-2.5 w-2.5 flex-shrink-0 rounded-full bg-amber-500"></span>
+						<li class="list-item">
+							<span class="indicator warning"></span>
 							<span>Нужно обновить документацию.</span>
 						</li>
 					</ul>
@@ -673,16 +670,16 @@ ob_start();
 		<section>
 			<h2 class="mb-3 text-base font-semibold text-zinc-900">Пагинация</h2>
 			<div class="rounded-xl border border-zinc-200 bg-white p-5 shadow-sm">
-				<nav class="flex items-center justify-between" aria-label="Пагинация">
-					<a href="#" class="rounded-md border border-zinc-200 px-3 py-2 text-sm text-zinc-700 hover:bg-zinc-50">Назад</a>
-					<ul class="flex items-center gap-1">
-						<li><a href="#" class="inline-flex h-9 w-9 items-center justify-center rounded-md border border-zinc-200 text-sm text-zinc-700 hover:bg-zinc-50">1</a></li>
-						<li><a aria-current="page" href="#" class="inline-flex h-9 w-9 items-center justify-center rounded-md bg-gradient-to-r from-blue-600 to-purple-600 text-sm font-medium text-white">2</a></li>
-						<li><a href="#" class="inline-flex h-9 w-9 items-center justify-center rounded-md border border-zinc-200 text-sm text-zinc-700 hover:bg-zinc-50">3</a></li>
-						<li><span class="inline-flex h-9 w-9 items-center justify-center text-sm text-zinc-400">…</span></li>
-						<li><a href="#" class="inline-flex h-9 w-9 items-center justify-center rounded-md border border-zinc-200 text-sm text-zinc-700 hover:bg-zinc-50">10</a></li>
+				<nav class="pagination" aria-label="Пагинация">
+					<a href="#" class="nav-button">Назад</a>
+					<ul class="pages">
+						<li><a href="#" class="page-item default">1</a></li>
+						<li><a aria-current="page" href="#" class="page-item active">2</a></li>
+						<li><a href="#" class="page-item default">3</a></li>
+						<li><span class="page-item ellipsis">…</span></li>
+						<li><a href="#" class="page-item default">10</a></li>
 					</ul>
-					<a href="#" class="rounded-md border border-zinc-200 px-3 py-2 text-sm text-zinc-700 hover:bg-zinc-50">Вперёд</a>
+					<a href="#" class="nav-button">Вперёд</a>
 				</nav>
 			</div>
 		</section>
@@ -693,11 +690,11 @@ ob_start();
 				<!-- Chips -->
 				<div class="rounded-xl border border-zinc-200 bg-white p-5 shadow-sm">
 					<div class="mb-3 flex flex-wrap gap-2">
-						<span class="inline-flex items-center gap-2 rounded-full border border-zinc-200 bg-white pl-3 pr-1 py-1 text-xs text-zinc-700">Design<button type="button" class="inline-flex h-5 w-5 items-center justify-center rounded-full bg-zinc-100 text-[12px] leading-none text-zinc-500 hover:bg-zinc-200">×</button></span>
-						<span class="inline-flex items-center gap-2 rounded-full border border-zinc-200 bg-white pl-3 pr-1 py-1 text-xs text-zinc-700">UX<button type="button" class="inline-flex h-5 w-5 items-center justify-center rounded-full bg-zinc-100 text-[12px] leading-none text-zinc-500 hover:bg-zinc-200">×</button></span>
-						<span class="inline-flex items-center gap-2 rounded-full border border-zinc-200 bg-white pl-3 pr-1 py-1 text-xs text-zinc-700">CMS<button type="button" class="inline-flex h-5 w-5 items-center justify-center rounded-full bg-zinc-100 text-[12px] leading-none text-zinc-500 hover:bg-zinc-200">×</button></span>
+						<span class="chip">Design<button type="button" class="remove-btn">×</button></span>
+						<span class="chip">UX<button type="button" class="remove-btn">×</button></span>
+						<span class="chip">CMS<button type="button" class="remove-btn">×</button></span>
 					</div>
-					<blockquote class="rounded-xl border-l-4 border-sky-500 bg-sky-50 p-4 text-sm text-sky-900 shadow-sm">
+					<blockquote class="rounded-md border-l-4 border-sky-500 bg-sky-50 p-4 text-sm text-sky-900 shadow-sm">
 						<p class="mb-1 font-medium">Info</p>
 						<p>Подсказка с дополнительной информацией.</p>
 					</blockquote>
@@ -705,22 +702,22 @@ ob_start();
 				<!-- Avatars -->
 				<div class="rounded-xl border border-zinc-200 bg-white p-5 shadow-sm">
 					<div class="flex items-center gap-3">
-						<img alt="A" src="https://i.pravatar.cc/40?img=1" class="h-10 w-10 rounded-full object-cover transition hover:scale-[1.03] hover:ring-2 hover:ring-zinc-300">
-						<img alt="B" src="https://i.pravatar.cc/40?img=2" class="h-10 w-10 rounded-full object-cover transition hover:scale-[1.03] hover:ring-2 hover:ring-zinc-300">
-						<img alt="C" src="https://i.pravatar.cc/40?img=3" class="h-10 w-10 rounded-full object-cover transition hover:scale-[1.03] hover:ring-2 hover:ring-zinc-300">
+						<img alt="A" src="https://i.pravatar.cc/40?img=1" class="avatar small">
+						<img alt="B" src="https://i.pravatar.cc/40?img=2" class="avatar small">
+						<img alt="C" src="https://i.pravatar.cc/40?img=3" class="avatar small">
 					</div>
 					<div class="mt-4 grid grid-cols-3 gap-4">
-						<div class="relative inline-block h-12 w-12">
-							<img alt="Online" src="https://i.pravatar.cc/64?img=7" class="block h-12 w-12 rounded-full object-cover ring-2 ring-white transition hover:scale-[1.03] hover:ring-zinc-300">
-							<span class="absolute bottom-0 right-0 inline-block h-3.5 w-3.5 translate-x-[2px] translate-y-[2px] rounded-full bg-emerald-500 ring-2 ring-white"></span>
+						<div class="avatar-with-status medium">
+							<img alt="Online" src="https://i.pravatar.cc/64?img=7" class="avatar medium">
+							<span class="status-indicator online"></span>
 						</div>
-						<div class="relative inline-block h-12 w-12">
-							<img alt="Offline" src="https://i.pravatar.cc/64?img=8" class="block h-12 w-12 rounded-full object-cover ring-2 ring-white transition hover:scale-[1.03] hover:ring-zinc-300">
-							<span class="absolute bottom-0 right-0 inline-block h-3.5 w-3.5 translate-x-[2px] translate-y-[2px] rounded-full bg-zinc-400 ring-2 ring-white"></span>
+						<div class="avatar-with-status medium">
+							<img alt="Offline" src="https://i.pravatar.cc/64?img=8" class="avatar medium">
+							<span class="status-indicator offline"></span>
 						</div>
-						<div class="relative inline-block h-12 w-12">
-							<img alt="Messages" src="https://i.pravatar.cc/64?img=9" class="block h-12 w-12 rounded-full object-cover ring-2 ring-white transition hover:scale-[1.03] hover:ring-zinc-300">
-							<span class="absolute top-0 right-0 inline-flex -translate-y-[2px] translate-x-[2px] items-center justify-center rounded-full bg-rose-600 px-1.5 text-[10px] font-medium text-white ring-2 ring-white">12</span>
+						<div class="avatar-with-status medium">
+							<img alt="Messages" src="https://i.pravatar.cc/64?img=9" class="avatar medium">
+							<span class="notification-badge">12</span>
 						</div>
 					</div>
 				</div>
@@ -743,26 +740,26 @@ ob_start();
 		<section>
 			<h2 class="mb-3 text-base font-semibold text-zinc-900">Features</h2>
 			<div class="grid grid-cols-1 gap-4 md:grid-cols-3">
-				<div class="rounded-2xl border border-zinc-200 bg-gradient-to-br from-blue-50 to-indigo-50 p-5 shadow-sm">
-					<div class="mb-3 flex h-10 w-10 items-center justify-center rounded-lg bg-gradient-to-r from-blue-500 to-indigo-500">
-						<svg class="h-5 w-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+				<div class="feature-card blue">
+					<div class="icon blue">
+						<svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
 					</div>
-					<h3 class="text-sm font-semibold text-zinc-900">Безопасность</h3>
-					<p class="mt-1 text-sm text-zinc-600">Современные практики и простые обновления.</p>
+					<h3 class="title">Безопасность</h3>
+					<p class="description">Современные практики и простые обновления.</p>
 				</div>
-				<div class="rounded-2xl border border-zinc-200 bg-gradient-to-br from-emerald-50 to-teal-50 p-5 shadow-sm">
-					<div class="mb-3 flex h-10 w-10 items-center justify-center rounded-lg bg-gradient-to-r from-emerald-500 to-teal-500">
-						<svg class="h-5 w-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+				<div class="feature-card green">
+					<div class="icon green">
+						<svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
 					</div>
-					<h3 class="text-sm font-semibold text-zinc-900">Контент</h3>
-					<p class="mt-1 text-sm text-zinc-600">Фокус на тексте, чистая типографика.</p>
+					<h3 class="title">Контент</h3>
+					<p class="description">Фокус на тексте, чистая типографика.</p>
 				</div>
-				<div class="rounded-2xl border border-zinc-200 bg-gradient-to-br from-amber-50 to-orange-50 p-5 shadow-sm">
-					<div class="mb-3 flex h-10 w-10 items-center justify-center rounded-lg bg-gradient-to-r from-amber-500 to-orange-500">
-						<svg class="h-5 w-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+				<div class="feature-card orange">
+					<div class="icon orange">
+						<svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
 					</div>
-					<h3 class="text-sm font-semibold text-zinc-900">Скорость</h3>
-					<p class="mt-1 text-sm text-zinc-600">Минимум JS, максимум скорости.</p>
+					<h3 class="title">Скорость</h3>
+					<p class="description">Минимум JS, максимум скорости.</p>
 				</div>
 			</div>
 		</section>
@@ -801,7 +798,7 @@ function hello() {
   console.log('Hello RooCMS');
 }
 </code></pre>
-				<blockquote class="rounded-xl border-l-4 border-amber-500 bg-amber-50 p-4 text-sm text-amber-900 shadow-sm">Важная примечание к тексту.</blockquote>
+				<blockquote class="rounded-md border-l-4 border-amber-500 bg-amber-50 p-4 text-sm text-amber-900 shadow-sm">Важная примечание к тексту.</blockquote>
 			</div>
 		</section>
 
@@ -888,15 +885,15 @@ function hello() {
 			<h2 class="mb-3 text-base font-semibold text-zinc-900">Фильтры и теги</h2>
 			<div class="rounded-xl border border-zinc-200 bg-white p-5 shadow-sm">
 				<div class="flex flex-wrap gap-2">
-					<button class="rounded-full border border-zinc-200 bg-white px-3 py-1 text-xs text-zinc-700 hover:bg-zinc-50">Все</button>
-					<button class="rounded-full border border-sky-200 bg-sky-50 px-3 py-1 text-xs font-medium text-sky-800">UI</button>
-					<button class="rounded-full border border-emerald-200 bg-emerald-50 px-3 py-1 text-xs font-medium text-emerald-800">Backend</button>
-					<button class="rounded-full border border-amber-200 bg-amber-50 px-3 py-1 text-xs font-medium text-amber-800">Guides</button>
-					<button class="rounded-full border border-rose-200 bg-rose-50 px-3 py-1 text-xs text-rose-800 hover:bg-rose-50">Errors</button>
+					<button class="filter-btn default">Все</button>
+					<button class="filter-btn primary">UI</button>
+					<button class="filter-btn success">Backend</button>
+					<button class="filter-btn warning">Guides</button>
+					<button class="filter-btn danger">Errors</button>
 				</div>
 				<div class="mt-4 flex flex-wrap gap-2">
-					<span class="inline-flex items-center gap-2 rounded-full border border-zinc-200 bg-white pl-3 pr-1 py-1 text-xs text-zinc-700">Selected: UI<button type="button" class="inline-flex h-5 w-5 items-center justify-center rounded-full bg-zinc-100 text-[12px] leading-none text-zinc-500 hover:bg-zinc-200">×</button></span>
-					<span class="inline-flex items-center gap-2 rounded-full border border-zinc-200 bg-white pl-3 pr-1 py-1 text-xs text-zinc-700">Selected: Backend<button type="button" class="inline-flex h-5 w-5 items-center justify-center rounded-full bg-zinc-100 text-[12px] leading-none text-zinc-500 hover:bg-zinc-200">×</button></span>
+					<span class="chip">Selected: UI<button type="button" class="remove-btn">×</button></span>
+					<span class="chip">Selected: Backend<button type="button" class="remove-btn">×</button></span>
 				</div>
 			</div>
 		</section>
@@ -949,18 +946,18 @@ function hello() {
 		<section>
 			<h2 class="mb-3 text-base font-semibold text-zinc-900">Stepper</h2>
 			<div class="rounded-xl border border-zinc-200 bg-white p-5 shadow-sm">
-				<ol class="grid grid-cols-1 gap-3 sm:grid-cols-3">
-					<li class="flex items-center gap-2">
-						<span class="inline-flex h-6 w-6 items-center justify-center rounded-full bg-gradient-to-r from-blue-600 to-purple-600 text-xs font-medium text-white">1</span>
-						<span class="text-sm text-zinc-900">Загрузка</span>
+				<ol class="stepper">
+					<li class="stepper-item">
+						<span class="number active">1</span>
+						<span class="label">Загрузка</span>
 					</li>
-					<li class="flex items-center gap-2">
-						<span class="inline-flex h-6 w-6 items-center justify-center rounded-full bg-gradient-to-r from-emerald-600 to-green-600 text-xs font-medium text-white">2</span>
-						<span class="text-sm text-zinc-900">Проверка</span>
+					<li class="stepper-item">
+						<span class="number completed">2</span>
+						<span class="label">Проверка</span>
 					</li>
-					<li class="flex items-center gap-2">
-						<span class="inline-flex h-6 w-6 items-center justify-center rounded-full bg-zinc-300 text-xs font-medium text-zinc-700">3</span>
-						<span class="text-sm text-zinc-900">Готово</span>
+					<li class="stepper-item">
+						<span class="number pending">3</span>
+						<span class="label">Готово</span>
 					</li>
 				</ol>
 			</div>
@@ -992,11 +989,11 @@ function hello() {
 		<section>
 			<h2 class="mb-3 text-base font-semibold text-zinc-900">Skeletons</h2>
 			<div class="rounded-xl border border-zinc-200 bg-white p-5 shadow-sm">
-				<div class="animate-pulse space-y-3">
-					<div class="h-4 w-1/3 rounded bg-zinc-200"></div>
-					<div class="h-3 w-full rounded bg-zinc-200"></div>
-					<div class="h-3 w-5/6 rounded bg-zinc-200"></div>
-					<div class="h-3 w-2/3 rounded bg-zinc-200"></div>
+				<div class="skeleton-container">
+					<div class="skeleton-line title"></div>
+					<div class="skeleton-line full"></div>
+					<div class="skeleton-line large"></div>
+					<div class="skeleton-line medium"></div>
 				</div>
 			</div>
 		</section>
@@ -1004,46 +1001,46 @@ function hello() {
 		<section>
 			<h2 class="mb-3 text-base font-semibold text-zinc-900">Контентные блоки CMS</h2>
 			<div class="grid grid-cols-1 gap-4 lg:grid-cols-3">
-				<article class="flex flex-col gap-3 rounded-xl border border-zinc-200 bg-white p-5 shadow-sm">
-					<header class="flex items-center justify-between text-xs uppercase tracking-wide text-zinc-500">
+				<article class="cms-card">
+					<header class="header">
 						<span>Страница</span>
-						<span class="rounded-full bg-emerald-50 px-2 py-0.5 text-emerald-700">Опубликовано</span>
+						<span class="status published">Опубликовано</span>
 					</header>
-					<div class="space-y-2">
-						<h3 class="text-lg font-semibold text-zinc-900">Политика конфиденциальности</h3>
-						<p class="text-sm text-zinc-600">Документ описывает правила сбора, хранения и использования личных данных.</p>
+					<div class="content">
+						<h3 class="title">Политика конфиденциальности</h3>
+						<p class="description">Документ описывает правила сбора, хранения и использования личных данных.</p>
 					</div>
-					<footer class="flex items-center justify-between text-xs text-zinc-500">
+					<footer class="footer">
 						<span>Обновлено: 12.05.2024</span>
-						<a href="#" class="inline-flex items-center gap-1 text-sky-600 hover:text-sky-700">Перейти<svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg></a>
+						<a href="#" class="action-link">Перейти<svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg></a>
 					</footer>
 				</article>
-				<article class="flex flex-col gap-3 rounded-xl border border-zinc-200 bg-white p-5 shadow-sm">
-					<header class="flex items-center justify-between text-xs uppercase tracking-wide text-zinc-500">
+				<article class="cms-card">
+					<header class="header">
 						<span>Шаблон</span>
-						<span class="rounded-full bg-amber-50 px-2 py-0.5 text-amber-700">Черновик</span>
+						<span class="status draft">Черновик</span>
 					</header>
-					<div class="space-y-2">
-						<h3 class="text-lg font-semibold text-zinc-900">Состояние пустого раздела</h3>
-						<p class="text-sm text-зinc-600">Используйте этот блок, чтобы показывать подсказки при отсутствии контента.</p>
+					<div class="content">
+						<h3 class="title">Состояние пустого раздела</h3>
+						<p class="description">Используйте этот блок, чтобы показывать подсказки при отсутствии контента.</p>
 					</div>
-					<footer class="flex items-center justify-between text-xs text-зinc-500">
+					<footer class="footer">
 						<span>Изменено: 08.05.2024</span>
-						<a href="#" class="inline-flex items-center gap-1 text-sky-600 hover:text-sky-700">Редактировать<svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg></a>
+						<a href="#" class="action-link">Редактировать<svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg></a>
 					</footer>
 				</article>
-				<article class="flex flex-col gap-3 rounded-xl border border-зinc-200 bg-white p-5 shadow-sm">
-					<header class="flex items-center justify-between text-xs uppercase tracking-wide text-zinc-500">
+				<article class="cms-card">
+					<header class="header">
 						<span>Блок</span>
-						<span class="rounded-full bg-rose-50 px-2 py-0.5 text-rose-700">Не опубликовано</span>
+						<span class="status unpublished">Не опубликовано</span>
 					</header>
-					<div class="space-y-2">
-						<h3 class="text-lg font-semibold text-зinc-900">Промо баннер</h3>
-						<p class="text-sm text-зinc-600">Привлекайте внимание к новым релизам и акциям RooCMS.</p>
+					<div class="content">
+						<h3 class="title">Промо баннер</h3>
+						<p class="description">Привлекайте внимание к новым релизам и акциям RooCMS.</p>
 					</div>
-					<footer class="flex items-center justify-between text-xs text-зinc-500">
+					<footer class="footer">
 						<span>Автор: RooCMS</span>
-						<a href="#" class="inline-flex items-center gap-1 text-sky-600 hover:text-sky-700">Предпросмотр<svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg></a>
+						<a href="#" class="action-link">Предпросмотр<svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg></a>
 					</footer>
 				</article>
 			</div>
@@ -1125,24 +1122,24 @@ function hello() {
                         </label>
 					</div>
 				</div>
-				<div class="rounded-xl border border-zinc-200 bg-white p-5 shadow-sm">
-					<h3 class="text-sm font-semibold text-zinc-900">Канбан задачи</h3>
-                    <ul class="mt-3 space-y-2 text-sm text-zinc-600">
-                        <li class="rounded-lg border border-blue-200 bg-blue-50 px-3 py-2">
-                            <p class="font-semibold text-zinc-900">Новый релиз 2.1</p>
-                            <p class="text-xs text-zinc-500">Статус: В работе</p>
+				<div class="list-card">
+					<h3 class="title">Канбан задачи</h3>
+                    <ul class="list">
+                        <li class="alert info">
+                            <p class="text-title">Новый релиз 2.1</p>
+                            <p class="text-meta">Статус: В работе</p>
                         </li>
-                        <li class="rounded-lg border border-emerald-200 bg-emerald-50 px-3 py-2">
-                            <p class="font-semibold text-zinc-900">Добавить локализацию</p>
-                            <p class="text-xs text-zinc-500">Статус: Готово</p>
+                        <li class="alert success">
+                            <p class="text-title">Добавить локализацию</p>
+                            <p class="text-meta">Статус: Готово</p>
                         </li>
-                        <li class="rounded-lg border border-amber-200 bg-amber-50 px-3 py-2">
-                            <p class="font-semibold text-zinc-900">Проверить резервные копии</p>
-                            <p class="text-xs text-zinc-500">Статус: В ожидании</p>
+                        <li class="alert warning">
+                            <p class="text-title">Проверить резервные копии</p>
+                            <p class="text-meta">Статус: В ожидании</p>
                         </li>
-                        <li class="rounded-lg border border-rose-200 bg-rose-50 px-3 py-2">
-                            <p class="font-semibold text-zinc-900">Обновить документацию</p>
-                            <p class="text-xs text-zinc-500">Статус: Требует внимания</p>
+                        <li class="alert danger">
+                            <p class="text-title">Обновить документацию</p>
+                            <p class="text-meta">Статус: Требует внимания</p>
                         </li>
                     </ul>
 				</div>
@@ -1153,32 +1150,32 @@ function hello() {
 			<h2 class="mb-3 text-base font-semibold text-zinc-900">Свитчи (Toggle)</h2>
 			<div class="rounded-xl border border-zinc-200 bg-white p-5 shadow-sm space-y-4">
 				<div class="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
-					<label class="flex cursor-pointer select-none items-center justify-between gap-3 rounded-lg border border-zinc-200 bg-zinc-50 px-4 py-3 text-sm text-zinc-700">
-						<span class="font-medium text-zinc-900">Email уведомления</span>
-						<input type="checkbox" class="peer sr-only" checked>
-						<span class="flex h-6 w-11 items-center justify-start rounded-full bg-zinc-300 px-0.5 transition-all duration-200 ease-out peer-checked:bg-gradient-to-r  from-blue-600 to-purple-600 peer-checked:justify-end">
-							<span class="h-5 w-5 rounded-full bg-white shadow transition-transform duration-200 ease-out"></span>
+					<label class="toggle-label enabled">
+						<span class="label-text">Email уведомления</span>
+						<input type="checkbox" class="toggle-input" checked>
+						<span class="toggle-switch enabled primary">
+							<span class="toggle-knob enabled"></span>
 						</span>
 					</label>
-					<label class="flex cursor-pointer select-none items-center justify-between gap-3 rounded-lg border border-zinc-200 bg-zinc-50 px-4 py-3 text-sm text-zinc-700">
-						<span class="font-medium text-zinc-900">Публичный профиль</span>
-						<input type="checkbox" class="peer sr-only" checked>
-						<span class="flex h-6 w-11 items-center justify-start rounded-full bg-zinc-300 px-0.5 transition-all duration-200 ease-out peer-checked:bg-gradient-to-r from-emerald-500 to-teal-500 peer-checked:justify-end">
-							<span class="h-5 w-5 rounded-full bg-white shadow transition-transform duration-200 ease-out"></span>
+					<label class="toggle-label enabled">
+						<span class="label-text">Публичный профиль</span>
+						<input type="checkbox" class="toggle-input" checked>
+						<span class="toggle-switch enabled success">
+							<span class="toggle-knob enabled"></span>
 						</span>
 					</label>
-					<label class="flex cursor-pointer select-none items-center justify-between gap-3 rounded-lg border border-zinc-200 bg-zinc-50 px-4 py-3 text-sm text-zinc-700">
-						<span class="font-medium text-зinc-900">Режим обслуживания</span>
-						<input type="checkbox" class="peer sr-only">
-						<span class="flex h-6 w-11 items-center justify-start rounded-full bg-zinc-300 px-0.5 transition-all duration-200 ease-out peer-checked:bg-gradient-to-r from-rose-500 to-pink-500 peer-checked:justify-end">
-							<span class="h-5 w-5 rounded-full bg-white shadow transition-transform duration-200 ease-out"></span>
+					<label class="toggle-label enabled">
+						<span class="label-text">Режим обслуживания</span>
+						<input type="checkbox" class="toggle-input">
+						<span class="toggle-switch enabled danger">
+							<span class="toggle-knob enabled"></span>
 						</span>
 					</label>
-					<label class="flex select-none items-center justify-between gap-3 rounded-lg border border-transparent px-4 py-3 text-sm text-zinc-400">
-						<span class="font-medium text-zinc-500">Автообновления</span>
-						<input type="checkbox" class="peer sr-only" disabled>
-						<span class="flex h-6 w-11 items-center justify-start rounded-full bg-zinc-200 px-0.5">
-							<span class="h-5 w-5 rounded-full bg-white shadow"></span>
+					<label class="toggle-label disabled">
+						<span class="label-text">Автообновления</span>
+						<input type="checkbox" class="toggle-input" disabled>
+						<span class="toggle-switch disabled">
+							<span class="toggle-knob"></span>
 						</span>
 					</label>
 				</div>

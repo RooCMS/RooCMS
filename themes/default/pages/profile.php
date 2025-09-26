@@ -26,7 +26,7 @@ ob_start();
                 </p>
                 <div class="mt-4 flex justify-center">
                     <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-gradient-to-r from-green-100 to-emerald-100 text-green-800 border border-green-200">
-                        <span class="w-2 h-2 bg-green-400 rounded-full mr-2 animate-pulse"></span>
+                        <span class="w-2 h-2 bg-green-400 rounded-full animate-pulse mr-2"></span>
                         Account Active
                     </span>
                 </div>

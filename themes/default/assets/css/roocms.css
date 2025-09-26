@@ -52,3 +52,830 @@
     padding-right: 2.5rem;
     cursor: pointer;
 }
+
+/* Navigation tags */
+.nav-tag {
+    @apply inline-flex items-center gap-1 rounded-full px-3 py-1 text-xs font-medium;
+}
+
+.nav-tag--active {
+    @apply border border-sky-200 bg-sky-50 text-sky-800;
+}
+
+.nav-tag--default {
+    @apply border border-zinc-200 bg-white text-zinc-600 hover:bg-zinc-50;
+}
+
+.nav-tag__badge {
+    @apply rounded-full bg-white px-1 text-[10px];
+}
+
+/* Status links */
+.status-link {
+    @apply inline-flex items-center gap-2 rounded-md px-3 py-1.5 text-zinc-600 hover:text-zinc-900 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-500;
+}
+
+.status-link .indicator {
+    @apply h-2.5 w-2.5 rounded-full;
+}
+
+.status-link .indicator.published {
+    @apply bg-emerald-500;
+}
+
+.status-link .indicator.draft {
+    @apply bg-amber-500;
+}
+
+.status-link .indicator.archived {
+    @apply bg-rose-500;
+}
+
+/* Sidebar navigation */
+.sidebar-nav-link {
+    @apply flex items-center justify-between rounded-lg px-3 py-2 text-zinc-600 hover:bg-zinc-50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-500;
+}
+
+.sidebar-nav-link.active {
+    @apply bg-gradient-to-r from-blue-600 to-purple-600 font-medium text-white shadow-sm;
+}
+
+.sidebar-nav-link .badge {
+    @apply text-xs text-zinc-400;
+}
+
+.sidebar-nav-link.active .badge {
+    @apply rounded-full bg-white/20 px-2 py-0.5 text-white;
+}
+
+/* Buttons */
+.btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-md px-4 py-2 text-sm font-medium transition shadow-sm focus-visible:outline-2 focus-visible:outline-offset-2;
+}
+
+.btn.primary {
+    @apply bg-gradient-to-r from-blue-600 to-purple-600 text-white hover:from-blue-700 hover:to-purple-700 focus-visible:outline-blue-500;
+}
+
+.btn.danger {
+    @apply bg-gradient-to-r from-rose-600 to-red-600 text-white hover:from-rose-700 hover:to-red-700 focus-visible:outline-rose-500;
+}
+
+.btn.success {
+    @apply bg-gradient-to-r from-emerald-600 to-green-600 text-white hover:from-emerald-700 hover:to-green-700 focus-visible:outline-emerald-500;
+}
+
+.btn.info {
+    @apply bg-gradient-to-r from-sky-600 to-blue-600 text-white hover:from-sky-700 hover:to-blue-700 focus-visible:outline-sky-500;
+}
+
+.btn.warning {
+    @apply bg-gradient-to-r from-amber-500 to-orange-500 text-white hover:from-amber-600 hover:to-orange-600 focus-visible:outline-amber-500;
+}
+
+.btn.contrast {
+    @apply bg-gradient-to-r from-gray-600 to-slate-600 text-white hover:from-gray-700 hover:to-slate-700 focus-visible:outline-gray-500;
+}
+
+.btn.secondary {
+    @apply border border-zinc-200 bg-white text-zinc-900 hover:bg-zinc-50 focus-visible:outline-zinc-500;
+}
+
+.btn:disabled {
+    @apply opacity-60 cursor-not-allowed;
+}
+
+.btn.outline {
+    @apply border border-zinc-300 bg-white text-zinc-600 hover:border-blue-500 hover:text-blue-600 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500;
+}
+
+.btn svg {
+    @apply h-4 w-4 transition-transform;
+}
+
+.btn-tr-lr:hover svg {
+    @apply translate-x-1;
+}
+
+.btn-tr-rl:hover svg {
+    @apply -translate-x-1;
+}
+
+/* Button sizes */
+.btn.small {
+    @apply px-3 py-1.5 text-xs;
+}
+
+.btn.small svg {
+    @apply h-3.5 w-3.5;
+}
+
+.btn.large {
+    @apply px-5 py-2.5 text-base font-semibold;
+}
+
+.btn.large svg {
+    @apply h-5 w-5;
+}
+
+.link-text {
+    @apply text-sm font-medium text-sky-700 hover:text-sky-900;
+}
+
+/* Containers */
+.container-panel {
+    @apply rounded-2xl py-8 px-6 shadow-sm;
+}
+
+.container-panel.frosted {
+    @apply border border-gray-200/50 bg-white/50 backdrop-blur-sm;
+}
+
+.container-panel.classic {
+    @apply border border-zinc-200 bg-white;
+}
+
+.container-panel.gradient {
+    @apply relative border border-blue-200/50 bg-gradient-to-br from-blue-50 to-indigo-50;
+}
+
+.container-panel.gradient::before {
+    content: '';
+    @apply absolute inset-0 rounded-2xl bg-gradient-to-r from-blue-600/5 to-indigo-600/5;
+}
+
+.container-panel.gradient > * {
+    @apply relative;
+}
+
+/* Stats cards */
+.stats-card {
+    @apply rounded-xl border border-zinc-200 bg-white p-5 shadow-sm;
+}
+
+.stats-card .label {
+    @apply text-xs font-medium text-zinc-500;
+}
+
+.stats-card .value {
+    @apply mt-1 text-2xl font-semibold text-zinc-900;
+}
+
+.stats-card .change {
+    @apply mt-1 text-xs;
+}
+
+.stats-card .change.positive {
+    @apply text-emerald-600;
+}
+
+.stats-card .change.neutral {
+    @apply text-zinc-500;
+}
+
+/* Progress bars */
+.progress-item {
+    @apply space-y-1;
+}
+
+.progress-item .header {
+    @apply mb-1 flex items-center justify-between text-xs text-zinc-600;
+}
+
+.progress-item .header .percentage.success {
+    @apply text-emerald-700;
+}
+
+.progress-track {
+    @apply h-2 w-full overflow-hidden rounded-full;
+}
+
+.progress-track.primary {
+    @apply bg-blue-100;
+}
+
+.progress-track.success {
+    @apply bg-emerald-100;
+}
+
+.progress-bar {
+    @apply h-full rounded-full;
+}
+
+.progress-bar.primary {
+    @apply bg-gradient-to-r from-blue-500 to-indigo-600;
+}
+
+.progress-bar.success {
+    @apply bg-gradient-to-r from-emerald-500 to-green-600;
+}
+
+/* Badges */
+.badge {
+    @apply rounded-lg px-2.5 py-1 text-xs font-medium;
+}
+
+.badge.neutral {
+    @apply bg-zinc-100 text-zinc-700;
+}
+
+.badge.info {
+    @apply bg-sky-100 text-sky-700;
+}
+
+.badge.success {
+    @apply bg-emerald-100 text-emerald-700;
+}
+
+.badge.warning {
+    @apply bg-amber-100 text-amber-700;
+}
+
+.badge.danger {
+    @apply bg-rose-100 text-rose-700;
+}
+
+/* Alerts */
+.alert {
+    @apply rounded-lg border border-l-4 p-4 text-sm;
+}
+
+.alert.info {
+    @apply border-sky-200 bg-sky-50 text-sky-900;
+}
+
+.alert.success {
+    @apply border-emerald-200 bg-emerald-50 text-emerald-900;
+}
+
+.alert.warning {
+    @apply border-amber-200 bg-amber-50 text-amber-900;
+}
+
+.alert.danger {
+    @apply border-rose-200 bg-rose-50 text-rose-900;
+}
+
+/* Article cards */
+.article-card {
+    @apply rounded-xl border border-zinc-200 bg-white shadow-sm;
+}
+
+.article-card.small {
+    @apply p-4;
+}
+
+.article-card.large {
+    @apply p-6;
+}
+
+.article-card .thumbnail {
+    @apply aspect-[16/9] w-full rounded-lg bg-zinc-100;
+}
+
+.article-card .title {
+    @apply mt-3 text-base font-semibold text-zinc-900;
+}
+
+.article-card .description {
+    @apply mt-1 text-sm text-zinc-600;
+}
+
+.article-card .meta {
+    @apply mt-2 flex items-center gap-2 text-xs text-zinc-500;
+}
+
+/* Content cards */
+.content-card {
+    @apply rounded-xl border border-zinc-200 bg-white shadow-sm;
+}
+
+.content-card.simple {
+    @apply p-6;
+}
+
+.content-card.simple .title {
+    @apply mb-2 text-lg font-semibold text-zinc-900;
+}
+
+.content-card.simple .text {
+    @apply text-sm text-zinc-600;
+}
+
+.content-card.structured {
+    @apply p-0;
+}
+
+.content-card.structured .header {
+    @apply border-b border-zinc-200 p-4 text-sm font-semibold text-zinc-900;
+}
+
+.content-card.structured .body {
+    @apply p-4 text-sm text-zinc-600;
+}
+
+.content-card.structured .footer {
+    @apply border-t border-zinc-200 p-3 text-right;
+}
+
+/* Comments */
+.comment {
+    @apply flex gap-3;
+}
+
+.comment .avatar {
+    @apply h-10 w-10 rounded-full object-cover;
+}
+
+.comment .content .header {
+    @apply text-sm font-medium text-zinc-900;
+}
+
+.comment .content .date {
+    @apply ml-2 text-xs font-normal text-zinc-500;
+}
+
+.comment .content .text {
+    @apply text-sm text-zinc-700;
+}
+
+/* Comment states */
+.comment-state {
+    @apply rounded-lg border p-4 text-sm;
+}
+
+.comment-state.success {
+    @apply border-sky-200 bg-sky-50 text-sky-900;
+}
+
+.comment-state.pending {
+    @apply border-zinc-200 bg-zinc-50 text-zinc-700 italic;
+}
+
+.comment-state.error {
+    @apply border-rose-200 bg-rose-50 text-rose-900;
+}
+
+/* Breadcrumbs */
+.breadcrumb {
+    @apply text-sm text-zinc-500;
+}
+
+.breadcrumb ol {
+    @apply flex items-center gap-2;
+}
+
+.breadcrumb a {
+    @apply hover:text-sky-700;
+}
+
+.breadcrumb .separator {
+    @apply text-zinc-400;
+}
+
+.breadcrumb .current {
+    @apply text-zinc-700;
+}
+
+/* Section header */
+.section-header {
+    @apply flex items-center justify-between;
+}
+
+.section-header .title {
+    @apply text-lg font-semibold text-zinc-900;
+}
+
+.section-header .meta-badge {
+    @apply rounded-full border border-zinc-200 bg-zinc-50 px-2 py-0.5 text-xs text-zinc-600;
+}
+
+/* Blog cards */
+.blog-card {
+    @apply rounded-xl border border-zinc-200 bg-white p-4 shadow-sm;
+}
+
+.blog-card .thumbnail {
+    @apply aspect-[16/9] w-full rounded-lg bg-zinc-100;
+}
+
+.blog-card .tags {
+    @apply mt-3 flex flex-wrap gap-2 text-xs;
+}
+
+.blog-card .tags .tag {
+    @apply rounded-full border px-2 py-0.5;
+}
+
+.blog-card .tags .tag.primary {
+    @apply border-sky-200 bg-sky-50 text-sky-800;
+}
+
+.blog-card .tags .tag.success {
+    @apply border-emerald-200 bg-emerald-50 text-emerald-800;
+}
+
+.blog-card .tags .tag.warning {
+    @apply border-amber-200 bg-amber-50 text-amber-800;
+}
+
+.blog-card .tags .tag.neutral {
+    @apply border-zinc-200 bg-zinc-50 text-zinc-700;
+}
+
+.blog-card .title {
+    @apply mt-2 text-base font-semibold text-zinc-900;
+}
+
+.blog-card .meta {
+    @apply mt-1 flex items-center gap-2 text-xs text-zinc-500;
+}
+
+.blog-card .meta .avatar {
+    @apply h-5 w-5 rounded-full;
+}
+
+/* List cards */
+.list-card {
+    @apply rounded-xl border border-zinc-200 bg-white p-5 shadow-sm;
+}
+
+.list-card .title {
+    @apply text-sm font-semibold text-zinc-900;
+}
+
+.list-card .list {
+    @apply mt-3 space-y-2 text-sm text-zinc-600;
+}
+
+.list-card .list.bulleted {
+    @apply list-disc pl-5;
+}
+
+.list-card .list.numbered {
+    @apply list-decimal pl-5;
+}
+
+.list-card .list-item {
+    @apply flex items-start gap-2;
+}
+
+.list-card .list-item .indicator {
+    @apply mt-1 inline-flex h-2.5 w-2.5 flex-shrink-0 rounded-full;
+}
+
+.list-card .list-item .indicator.success {
+    @apply bg-emerald-500;
+}
+
+.list-card .list-item .indicator.info {
+    @apply bg-sky-500;
+}
+
+.list-card .list-item .indicator.warning {
+    @apply bg-amber-500;
+}
+
+/* Pagination */
+.pagination {
+    @apply flex items-center justify-between;
+}
+
+.pagination .nav-button {
+    @apply rounded-md border border-zinc-200 px-3 py-2 text-sm text-zinc-700 hover:bg-zinc-50;
+}
+
+.pagination .pages {
+    @apply flex items-center gap-1;
+}
+
+.pagination .page-item {
+    @apply inline-flex h-9 w-9 items-center justify-center rounded-md text-sm;
+}
+
+.pagination .page-item.default {
+    @apply border border-zinc-200 text-zinc-700 hover:bg-zinc-50;
+}
+
+.pagination .page-item.active {
+    @apply bg-gradient-to-r from-blue-600 to-purple-600 font-medium text-white;
+}
+
+.pagination .page-item.ellipsis {
+    @apply text-zinc-400;
+}
+
+/* Chips */
+.chip {
+    @apply inline-flex items-center gap-2 rounded-full border border-zinc-200 bg-white pl-3 pr-1 py-1 text-xs text-zinc-700;
+}
+
+.chip .remove-btn {
+    @apply cursor-pointer inline-flex h-5 w-5 items-center justify-center rounded-full bg-zinc-100 text-[12px] leading-none text-zinc-500 hover:bg-zinc-200;
+}
+
+/* Avatars */
+.avatar {
+    @apply rounded-full object-cover transition;
+}
+
+.avatar.small {
+    @apply h-10 w-10;
+}
+
+.avatar.medium {
+    @apply h-12 w-12;
+}
+
+.avatar:hover {
+    @apply scale-[1.03] ring-2 ring-zinc-300;
+}
+
+.avatar-with-status {
+    @apply relative inline-block;
+}
+
+.avatar-with-status.small {
+    @apply h-10 w-10;
+}
+
+.avatar-with-status.medium {
+    @apply h-12 w-12;
+}
+
+.avatar-with-status .avatar {
+    @apply block ring-2 ring-white;
+}
+
+.avatar-with-status .status-indicator {
+    @apply absolute bottom-0 right-0 inline-block h-3.5 w-3.5 translate-x-[2px] translate-y-[2px] rounded-full ring-2 ring-white;
+}
+
+.avatar-with-status .status-indicator.online {
+    @apply bg-emerald-500;
+}
+
+.avatar-with-status .status-indicator.offline {
+    @apply bg-zinc-400;
+}
+
+.avatar-with-status .notification-badge {
+    @apply absolute top-0 right-0 inline-flex -translate-y-[2px] translate-x-[2px] items-center justify-center rounded-full bg-rose-600 px-1.5 text-[10px] font-medium text-white ring-2 ring-white;
+}
+
+/* Feature cards */
+.feature-card {
+    @apply rounded-2xl border border-zinc-200 p-5 shadow-sm;
+}
+
+.feature-card.blue {
+    @apply bg-gradient-to-br from-blue-50 to-indigo-50;
+}
+
+.feature-card.green {
+    @apply bg-gradient-to-br from-emerald-50 to-teal-50;
+}
+
+.feature-card.orange {
+    @apply bg-gradient-to-br from-amber-50 to-orange-50;
+}
+
+.feature-card .icon {
+    @apply mb-3 flex h-10 w-10 items-center justify-center rounded-lg;
+}
+
+.feature-card .icon.blue {
+    @apply bg-gradient-to-r from-blue-500 to-indigo-500;
+}
+
+.feature-card .icon.green {
+    @apply bg-gradient-to-r from-emerald-500 to-teal-500;
+}
+
+.feature-card .icon.orange {
+    @apply bg-gradient-to-r from-amber-500 to-orange-500;
+}
+
+.feature-card .icon svg {
+    @apply h-5 w-5 text-white;
+}
+
+.feature-card .title {
+    @apply text-sm font-semibold text-zinc-900;
+}
+
+.feature-card .description {
+    @apply mt-1 text-sm text-zinc-600;
+}
+
+/* Filter buttons */
+.filter-btn {
+    @apply rounded-lg border px-3 py-1 text-xs cursor-pointer;
+}
+
+.filter-btn.default {
+    @apply border-zinc-200 bg-white text-zinc-700 hover:bg-zinc-50;
+}
+
+.filter-btn.primary {
+    @apply border-sky-200 bg-sky-50 text-sky-800 font-medium hover:bg-sky-100;
+}
+
+.filter-btn.success {
+    @apply border-emerald-200 bg-emerald-50 text-emerald-800 font-medium hover:bg-emerald-100;
+}
+
+.filter-btn.warning {
+    @apply border-amber-200 bg-amber-50 text-amber-800 font-medium hover:bg-amber-100;
+}
+
+.filter-btn.danger {
+    @apply border-rose-200 bg-rose-50 text-rose-800 hover:bg-rose-100;
+}
+
+/* Stepper */
+.stepper {
+    @apply grid grid-cols-1 gap-3 sm:grid-cols-3;
+}
+
+.stepper-item {
+    @apply flex items-center gap-2;
+}
+
+.stepper-item .number {
+    @apply inline-flex h-6 w-6 items-center justify-center rounded-full text-xs font-medium;
+}
+
+.stepper-item .number.active {
+    @apply bg-gradient-to-r from-blue-600 to-purple-600 text-white;
+}
+
+.stepper-item .number.completed {
+    @apply bg-gradient-to-r from-emerald-600 to-green-600 text-white;
+}
+
+.stepper-item .number.pending {
+    @apply bg-zinc-300 text-zinc-700;
+}
+
+.stepper-item .label {
+    @apply text-sm text-zinc-900;
+}
+
+/* Skeletons */
+.skeleton-container {
+    @apply animate-pulse space-y-3;
+}
+
+.skeleton-line {
+    @apply h-3 rounded bg-zinc-200;
+}
+
+.skeleton-line.title {
+    @apply h-4 w-1/3;
+}
+
+.skeleton-line.full {
+    @apply w-full;
+}
+
+.skeleton-line.large {
+    @apply w-5/6;
+}
+
+.skeleton-line.medium {
+    @apply w-2/3;
+}
+
+/* CMS Content blocks */
+.cms-card {
+    @apply flex flex-col gap-3 rounded-xl border border-zinc-200 bg-white p-5 shadow-sm;
+}
+
+.cms-card .header {
+    @apply flex items-center justify-between text-xs uppercase tracking-wide text-zinc-500;
+}
+
+.cms-card .status {
+    @apply rounded-full px-2 py-0.5;
+}
+
+.cms-card .status.published {
+    @apply bg-emerald-50 text-emerald-700;
+}
+
+.cms-card .status.draft {
+    @apply bg-amber-50 text-amber-700;
+}
+
+.cms-card .status.unpublished {
+    @apply bg-rose-50 text-rose-700;
+}
+
+.cms-card .content {
+    @apply space-y-2;
+}
+
+.cms-card .content .title {
+    @apply text-lg font-semibold text-zinc-900;
+}
+
+.cms-card .content .description {
+    @apply text-sm text-zinc-600;
+}
+
+.cms-card .footer {
+    @apply flex items-center justify-between text-xs text-zinc-500;
+}
+
+.cms-card .footer .action-link {
+    @apply inline-flex items-center gap-1 text-sky-600 hover:text-sky-700;
+}
+
+.cms-card .footer .action-link svg {
+    @apply h-3.5 w-3.5;
+}
+
+/* Text utilities */
+.text-title {
+    @apply font-semibold text-zinc-900;
+}
+
+.text-meta {
+    @apply text-xs text-zinc-500;
+}
+
+/* Toggle switches */
+.toggle-label {
+    @apply flex cursor-pointer select-none items-center justify-between gap-3 rounded-lg border px-4 py-3 text-sm;
+}
+
+.toggle-label.enabled {
+    @apply border-zinc-200 bg-zinc-50 text-zinc-700;
+}
+
+.toggle-label.disabled {
+    @apply border-transparent text-zinc-400;
+}
+
+.toggle-label .label-text {
+    @apply font-medium;
+}
+
+.toggle-label.enabled .label-text {
+    @apply text-zinc-900;
+}
+
+.toggle-label.disabled .label-text {
+    @apply text-zinc-500;
+}
+
+.toggle-input {
+    @apply sr-only;
+}
+
+.toggle-switch {
+    @apply flex h-6 w-11 items-center rounded-full px-0.5 transition-all duration-200 ease-out;
+}
+
+.toggle-switch.enabled {
+    @apply bg-zinc-300 justify-start;
+}
+
+.toggle-switch.enabled.primary {
+    @apply bg-zinc-300;
+}
+
+.toggle-switch.enabled.success {
+    @apply bg-zinc-300;
+}
+
+.toggle-switch.enabled.danger {
+    @apply bg-zinc-300;
+}
+
+.toggle-switch.disabled {
+    @apply bg-zinc-200 justify-start;
+}
+
+.toggle-knob {
+    @apply h-5 w-5 rounded-full bg-white shadow transition-transform duration-200 ease-out;
+}
+
+/* Checked states using input:checked + selector */
+.toggle-input:checked + .toggle-switch.enabled {
+    @apply justify-end;
+}
+
+.toggle-input:checked + .toggle-switch.enabled.primary {
+    @apply bg-gradient-to-r from-blue-600 to-purple-600;
+}
+
+.toggle-input:checked + .toggle-switch.enabled.success {
+    @apply bg-gradient-to-r from-emerald-500 to-teal-500;
+}
+
+.toggle-input:checked + .toggle-switch.enabled.danger {
+    @apply bg-gradient-to-r from-rose-500 to-pink-500;
+}
+

@@ -53,7 +53,7 @@ ob_start();
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
                     </svg>
                 </div>
-                <h3 class="text-xl font-semibold text-zinc-900 mb-3">Fast performance</h3>
+                <h3 class="text-xl text-title mb-3">Fast performance</h3>
                 <p class="text-zinc-600">
                     Written in pure PHP without heavy frameworks. Minimum server resource requirements.
                 </p>
@@ -66,7 +66,7 @@ ob_start();
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
                     </svg>
                 </div>
-                <h3 class="text-xl font-semibold text-zinc-900 mb-3">Security in priority</h3>
+                <h3 class="text-xl text-title mb-3">Security in priority</h3>
                 <p class="text-zinc-600">
                     Modern security standards, CSP protection and strict access control.
                 </p>
@@ -79,7 +79,7 @@ ob_start();
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
                     </svg>
                 </div>
-                <h3 class="text-xl font-semibold text-zinc-900 mb-3">Ease of use</h3>
+                <h3 class="text-xl text-title mb-3">Ease of use</h3>
                 <p class="text-zinc-600">
                     Clear architecture and intuitive interface. Easily configurable and expandable.
                 </p>
@@ -92,7 +92,7 @@ ob_start();
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 9l3 3-3 3m5 0h3M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
                     </svg>
                 </div>
-                <h3 class="text-xl font-semibold text-zinc-900 mb-3">Powerful REST API</h3>
+                <h3 class="text-xl text-title mb-3">Powerful REST API</h3>
                 <p class="text-zinc-600">
                     Full-featured API for integration with any applications. Standardized JSON responses and middleware system.
                 </p>
@@ -105,7 +105,7 @@ ob_start();
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4"></path>
                     </svg>
                 </div>
-                <h3 class="text-xl font-semibold text-zinc-900 mb-3">Multi-database</h3>
+                <h3 class="text-xl text-title mb-3">Multi-database</h3>
                 <p class="text-zinc-600">
                     Support for MySQL, PostgreSQL and Firebird in one code. Migration system and Query Builder for safe work.
                 </p>
@@ -118,7 +118,7 @@ ob_start();
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path>
                     </svg>
                 </div>
-                <h3 class="text-xl font-semibold text-zinc-900 mb-3">Modern PHP 8.1+</h3>
+                <h3 class="text-xl text-title mb-3">Modern PHP 8.1+</h3>
                 <p class="text-zinc-600">
                     Strict typing, modern language features and best practices without outdated code.
                 </p>
@@ -131,7 +131,7 @@ ob_start();
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path>
                     </svg>
                 </div>
-                <h3 class="text-xl font-semibold text-zinc-900 mb-3">Health monitoring</h3>
+                <h3 class="text-xl text-title mb-3">Health monitoring</h3>
                 <p class="text-zinc-600">
                     Built-in Health Check endpoints for monitoring system and database state in real time.
                 </p>
@@ -144,7 +144,7 @@ ob_start();
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z"></path>
                     </svg>
                 </div>
-                <h3 class="text-xl font-semibold text-zinc-900 mb-3">Modular themes</h3>
+                <h3 class="text-xl text-title mb-3">Modular themes</h3>
                 <p class="text-zinc-600">
                     Flexible theme system with support for multiple designs. Alpine.js integration for interactivity.
                 </p>
@@ -158,7 +158,7 @@ ob_start();
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
                     </svg>
                 </div>
-                <h3 class="text-xl font-semibold text-zinc-900 mb-3">CLI tools</h3>
+                <h3 class="text-xl text-title mb-3">CLI tools</h3>
                 <p class="text-zinc-600">
                     Powerful CLI tools for database migrations, backups and automation tasks.
                 </p>
@@ -171,7 +171,7 @@ ob_start();
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                     </svg>
                 </div>
-                <h3 class="text-xl font-semibold text-zinc-900 mb-3">API-First approach</h3>
+                <h3 class="text-xl text-title mb-3">API-First approach</h3>
                 <p class="text-zinc-600">
                     RooCMS - this is not only a CMS, but also a powerful API platform for creating any applications and integrations.
                 </p>
@@ -184,7 +184,7 @@ ob_start();
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8V7z"></path>
                     </svg>
                 </div>
-                <h3 class="text-xl font-semibold text-zinc-900 mb-3">Injection protection</h3>
+                <h3 class="text-xl text-title mb-3">Injection protection</h3>
                 <p class="text-zinc-600">
                     Query Builder provides full protection from SQL injections. All requests are safe and parameterized.
                 </p>
@@ -197,7 +197,7 @@ ob_start();
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
                     </svg>
                 </div>
-                <h3 class="text-xl font-semibold text-zinc-900 mb-3">Transactional security</h3>
+                <h3 class="text-xl text-title mb-3">Transactional security</h3>
                 <p class="text-zinc-600">
                     Full support for transactions to ensure data integrity in complex operations.
                 </p>
@@ -210,7 +210,7 @@ ob_start();
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"></path>
                     </svg>
                 </div>
-                <h3 class="text-xl font-semibold text-zinc-900 mb-3">Flexible frontend choice</h3>
+                <h3 class="text-xl text-title mb-3">Flexible frontend choice</h3>
                 <p class="text-zinc-600">
                     Use any frontend: React, Vue, Angular, vanilla HTML+JS or built-in PHP template engine.
                 </p>
@@ -223,7 +223,7 @@ ob_start();
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16V4m0 0L3 8m4-4l4 4m6 0v12m0 0l4-4m-4 4l-4-4"></path>
                     </svg>
                 </div>
-                <h3 class="text-xl font-semibold text-zinc-900 mb-3">Routing system</h3>
+                <h3 class="text-xl text-title mb-3">Routing system</h3>
                 <p class="text-zinc-600">
                     Flexible routing with support for dynamic parameters {id}, {param} for creating RESTful API.
                 </p>
@@ -236,7 +236,7 @@ ob_start();
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
                     </svg>
                 </div>
-                <h3 class="text-xl font-semibold text-zinc-900 mb-3">Data validation</h3>
+                <h3 class="text-xl text-title mb-3">Data validation</h3>
                 <p class="text-zinc-600">
                     Automatic validation and sanitization of all input data for security.
                 </p>
@@ -265,7 +265,7 @@ ob_start();
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
                     </svg>
                 </div>
-                <h3 class="text-lg font-semibold text-zinc-900 mb-2">Installation Guide</h3>
+                <h3 class="text-lg text-title mb-2">Installation Guide</h3>
                 <p class="text-zinc-600 text-sm mb-4">Step-by-step installation instructions for various hosting environments.</p>
                 <a href="/docs/installation" class="text-blue-600 hover:text-blue-800 font-medium text-sm">Read guide →</a>
             </div>
@@ -276,7 +276,7 @@ ob_start();
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 9l3 3-3 3m5 0h3M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
                     </svg>
                 </div>
-                <h3 class="text-lg font-semibold text-zinc-900 mb-2">API Reference</h3>
+                <h3 class="text-lg text-title mb-2">API Reference</h3>
                 <p class="text-zinc-600 text-sm mb-4">Complete REST API documentation with examples and endpoints.</p>
                 <a href="/docs/api" class="text-blue-600 hover:text-blue-800 font-medium text-sm">View API →</a>
             </div>
@@ -287,7 +287,7 @@ ob_start();
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
                     </svg>
                 </div>
-                <h3 class="text-lg font-semibold text-zinc-900 mb-2">Theme Development</h3>
+                <h3 class="text-lg text-title mb-2">Theme Development</h3>
                 <p class="text-zinc-600 text-sm mb-4">Learn how to create custom themes with Tailwind CSS and Alpine.js.</p>
                 <a href="/docs/themes" class="text-blue-600 hover:text-blue-800 font-medium text-sm">Learn theming →</a>
             </div>
@@ -310,7 +310,7 @@ ob_start();
                     Create an account
                 </a>
                 <span id="register-cta-desc" class="sr-only">Start using RooCMS by creating a new account</span>
-                <a href="/login" class="inline-flex items-center justify-center rounded-md border border-zinc-300 bg-white px-8 py-3 text-base font-semibold text-zinc-900 transition-all hover:bg-zinc-50 focus:outline-none focus:ring-2 focus:ring-zinc-500 focus:ring-offset-2 shadow-sm hover:shadow-md" aria-describedby="login-cta-desc">
+                <a href="/login" class="inline-flex items-center justify-center rounded-md border border-zinc-300 bg-white px-8 py-3 text-base text-title transition-all hover:bg-zinc-50 focus:outline-none focus:ring-2 focus:ring-zinc-500 focus:ring-offset-2 shadow-sm hover:shadow-md" aria-describedby="login-cta-desc">
                     Login to the system
                 </a>
                 <span id="login-cta-desc" class="sr-only">Access your existing RooCMS account</span>
