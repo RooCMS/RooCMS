@@ -5,6 +5,11 @@ let refresh_token = localStorage.getItem('refresh_token');
 let is_refreshing = false;
 const refresh_waiters = [];
 
+/**
+ * Sets access token in localStorage and global variable
+ * @param {string|null} token - JWT access token or null to remove
+ * @returns {void}
+ */
 export function setAccessToken(token) {
     access_token = token;
     if (token) {
@@ -14,6 +19,11 @@ export function setAccessToken(token) {
     }
 }
 
+/**
+ * Sets refresh token in localStorage and global variable
+ * @param {string|null} token - JWT refresh token or null to remove
+ * @returns {void}
+ */
 export function setRefreshToken(token) {
     refresh_token = token;
     if (token) {
@@ -23,10 +33,29 @@ export function setRefreshToken(token) {
     }
 }
 
+/**
+ * Gets current access token
+ * @returns {string|null} - Current access token or null if not set
+ */
 export function getAccessToken() {
     return access_token;
 }
 
+/**
+ * @typedef {Object} RequestOptions
+ * @property {string} [method='GET'] - HTTP method
+ * @property {Object.<string, string>} [headers] - HTTP headers
+ * @property {string|FormData|null} [body] - Request body
+ * @property {string} [credentials='include'] - Cookies parameters
+ */
+
+/**
+ * Executes HTTP request to API with automatic token refresh
+ * @param {string} path - Path to API endpoint (e.g., '/v1/users/me')
+ * @param {RequestOptions} [options={}] - Request options
+ * @returns {Promise<Response>} - Promise with Response object
+ * @throws {Error} - In case of network or server error
+ */
 export async function request(path, options = {}) {
     const headers = Object.assign({'Content-Type': 'application/json'}, options.headers || {});
     if (access_token) headers['Authorization'] = `Bearer ${access_token}`;
@@ -91,6 +120,11 @@ export async function request(path, options = {}) {
     return fetch(API_BASE_URL + path, Object.assign({}, options, { headers, credentials: 'include' }));
 }
 
+/**
+ * Refreshes access token using refresh token
+ * @returns {Promise<void>} - Promise without return value
+ * @throws {Error} - If refresh token is missing or request fails
+ */
 export async function do_refresh_token() {
     if (!refresh_token) {
         throw new Error('No refresh token');
