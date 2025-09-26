@@ -131,7 +131,7 @@ if (localStorage.getItem('access_token')) {
                     <button
                         type="submit"
                         id="submit-btn"
-                        class="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 shadow-sm hover:shadow-md"
+                        class="btn primary full-width"
                         x-on:click="submitForm"
                     >
                         <span id="submit-text" x-show="!loading">Create account</span>
