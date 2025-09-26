@@ -26,7 +26,7 @@ class AuthService {
 
 	private Db $db;
 	private Auth $auth;
-	private Settings $settings;
+	private SiteSettings $siteSettings;
 	private Mailer $mailer;
 
 	private int $recovery_code_length = 6;
@@ -38,13 +38,13 @@ class AuthService {
 	 * Constructor
 	 * @param Db $db
 	 * @param Auth $auth
-	 * @param Settings $settings
+	 * @param SiteSettings $siteSettings
 	 * @param Mailer $mailer
 	 */
-	public function __construct(Db $db, Auth $auth, Settings $settings, Mailer $mailer) {
+	public function __construct(Db $db, Auth $auth, SiteSettings $siteSettings, Mailer $mailer) {
 		$this->db = $db;
 		$this->auth = $auth;
-		$this->settings = $settings;
+		$this->siteSettings = $siteSettings;
 		$this->mailer = $mailer;
 	}
 
@@ -124,8 +124,8 @@ class AuthService {
 
 		try {
 
-			$site_name = $this->settings->get_by_key('site_name') ?? 'RooCMS';
-			$site_domain = $this->settings->get_by_key('site_domain') ?? _DOMAIN;
+			$site_name = $this->siteSettings->get_by_key('site_name') ?? 'RooCMS';
+			$site_domain = $this->siteSettings->get_by_key('site_domain') ?? _DOMAIN;
 			$site_url = 'https://' . $site_domain;
 
 			$subject = 'Welcome to ' . $site_name . '!';
@@ -330,8 +330,8 @@ class AuthService {
 
 		try {
 
-			$site_name = $this->settings->get_by_key('site_name') ?? 'RooCMS';
-			$site_domain = $this->settings->get_by_key('site_domain') ?? _DOMAIN;
+			$site_name = $this->siteSettings->get_by_key('site_name') ?? 'RooCMS';
+			$site_domain = $this->siteSettings->get_by_key('site_domain') ?? _DOMAIN;
 			$site_url = 'https://' . $site_domain;
 
 			$subject = 'Password recovery on ' . $site_name;

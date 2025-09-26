@@ -27,7 +27,7 @@ if(!defined('RooCMS')) {
  */
 class Mailer {
 
-    private Settings $settings;
+    private SiteSettings $siteSettings;
     private string $last_error = '';
 
     // Configuration of the mail driver
@@ -53,29 +53,29 @@ class Mailer {
     /**
      * Constructor with initialization of properties
      * 
-     * @param Settings $settings Settings
+     * @param SiteSettings $siteSettings Settings
      */
-    public function __construct(Settings $settings) {
+    public function __construct(SiteSettings $siteSettings) {
 
-        $this->settings = $settings;
+        $this->siteSettings = $siteSettings;
 
         // Initialization of readonly properties through the constructor
-        $this->driver = $this->settings->get_by_key('mailer_driver') ?? 'mail';
-        $this->host = $this->settings->get_by_key('mailer_host') ?? 'localhost';
-        $this->port = (int)($this->settings->get_by_key('mailer_port') ?? 25);
-        $this->username = $this->settings->get_by_key('mailer_username') ?? '';
-        $this->password = $this->settings->get_by_key('mailer_password') ?? '';
-        $this->encryption = $this->settings->get_by_key('mailer_encryption') ?? 'tls';
-        $this->from = $this->settings->get_by_key('mailer_from') ?? '';
-        $this->from_name = $this->settings->get_by_key('mailer_from_name') ?? '';
-        $this->reply_to = $this->settings->get_by_key('mailer_reply_to') ?? '';
-        $this->reply_to_name = $this->settings->get_by_key('mailer_reply_to_name') ?? '';
+        $this->driver = $this->siteSettings->get_by_key('mailer_driver') ?? 'mail';
+        $this->host = $this->siteSettings->get_by_key('mailer_host') ?? 'localhost';
+        $this->port = (int)($this->siteSettings->get_by_key('mailer_port') ?? 25);
+        $this->username = $this->siteSettings->get_by_key('mailer_username') ?? '';
+        $this->password = $this->siteSettings->get_by_key('mailer_password') ?? '';
+        $this->encryption = $this->siteSettings->get_by_key('mailer_encryption') ?? 'tls';
+        $this->from = $this->siteSettings->get_by_key('mailer_from') ?? '';
+        $this->from_name = $this->siteSettings->get_by_key('mailer_from_name') ?? '';
+        $this->reply_to = $this->siteSettings->get_by_key('mailer_reply_to') ?? '';
+        $this->reply_to_name = $this->siteSettings->get_by_key('mailer_reply_to_name') ?? '';
         
-        $this->site_domain = $this->settings->get_by_key('site_domain') ?? 'localhost';
+        $this->site_domain = $this->siteSettings->get_by_key('site_domain') ?? 'localhost';
         
         // Initialization of limits for attachments
-        $this->max_attachment_size = (int)($this->settings->get_by_key('mailer_max_attachment_size') ?? 10485760); // 10MB by default
-        $this->max_attachments_count = (int)($this->settings->get_by_key('mailer_max_attachments_count') ?? 10); // 10 files by default
+        $this->max_attachment_size = (int)($this->siteSettings->get_by_key('mailer_max_attachment_size') ?? 10485760); // 10MB by default
+        $this->max_attachments_count = (int)($this->siteSettings->get_by_key('mailer_max_attachments_count') ?? 10); // 10 files by default
     }
 
 
@@ -92,7 +92,7 @@ class Mailer {
             return false;
         }
 
-        $subject = 'Notification from ' . ($this->settings->get_by_key('site_name') ?? 'RooCMS');
+        $subject = 'Notification from ' . ($this->siteSettings->get_by_key('site_name') ?? 'RooCMS');
         
         return $this->send([
             'to' => $user->email,
@@ -326,9 +326,9 @@ class Mailer {
      * @return resource|false
      */
     private function create_smtp_connection() {
-        $verify_peer = (bool)($this->settings->get_by_key('mailer_verify_peer') ?? false);
-        $verify_peer_name = (bool)($this->settings->get_by_key('mailer_verify_peer_name') ?? false);
-        $allow_self_signed = (bool)($this->settings->get_by_key('mailer_allow_self_signed') ?? true);
+        $verify_peer = (bool)($this->siteSettings->get_by_key('mailer_verify_peer') ?? false);
+        $verify_peer_name = (bool)($this->siteSettings->get_by_key('mailer_verify_peer_name') ?? false);
+        $allow_self_signed = (bool)($this->siteSettings->get_by_key('mailer_allow_self_signed') ?? true);
 
         $context = stream_context_create([
             'ssl' => [
@@ -490,7 +490,7 @@ class Mailer {
 
         $from_name = $custom_from_name ?? $this->from_name;
         if ($from_name === '') {
-            $from_name = $this->settings->get_by_key('site_name') ?? 'RooCMS';
+            $from_name = $this->siteSettings->get_by_key('site_name') ?? 'RooCMS';
         }
         $encoded_from_name = mb_encode_mimeheader($from_name, 'UTF-8', 'B');
 

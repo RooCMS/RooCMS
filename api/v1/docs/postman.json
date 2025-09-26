@@ -867,7 +867,7 @@
       "description": "Database backup and restore management endpoints"
     },
     {
-      "name": "Settings",
+      "name": "Admin Settings",
       "item": [
         {
           "name": "Get All Settings",
@@ -891,9 +891,9 @@
               }
             ],
             "url": {
-              "raw": "{{base_url}}/v1/settings",
+              "raw": "{{base_url}}/v1/admin/settings",
               "host": ["{{base_url}}"],
-              "path": ["v1", "settings"]
+              "path": ["v1", "admin", "settings"]
             },
             "description": "Retrieve all system settings grouped by categories"
           },
@@ -921,9 +921,9 @@
               }
             ],
             "url": {
-              "raw": "{{base_url}}/v1/settings/group-site",
+              "raw": "{{base_url}}/v1/admin/settings/group-site",
               "host": ["{{base_url}}"],
-              "path": ["v1", "settings", "group-site"]
+              "path": ["v1", "admin", "settings", "group-site"]
             },
             "description": "Retrieve all settings for a specific group (e.g., site, mailer)"
           },
@@ -951,9 +951,9 @@
               }
             ],
             "url": {
-              "raw": "{{base_url}}/v1/settings/key-site_name",
+              "raw": "{{base_url}}/v1/admin/settings/key-site_name",
               "host": ["{{base_url}}"],
-              "path": ["v1", "settings", "key-site_name"]
+              "path": ["v1", "admin", "settings", "key-site_name"]
             },
             "description": "Retrieve a specific setting by its key with metadata"
           },
@@ -990,9 +990,9 @@
               "raw": "{\n  \"value\": \"New Site Name\"\n}"
             },
             "url": {
-              "raw": "{{base_url}}/v1/settings/key-site_name",
+              "raw": "{{base_url}}/v1/admin/settings/key-site_name",
               "host": ["{{base_url}}"],
-              "path": ["v1", "settings", "key-site_name"]
+              "path": ["v1", "admin", "settings", "key-site_name"]
             },
             "description": "Update a specific setting value with validation"
           },
@@ -1029,9 +1029,9 @@
               "raw": "{\n  \"site_name\": \"Updated Site\",\n  \"site_domain\": \"updated.com\"\n}"
             },
             "url": {
-              "raw": "{{base_url}}/v1/settings",
+              "raw": "{{base_url}}/v1/admin/settings",
               "host": ["{{base_url}}"],
-              "path": ["v1", "settings"]
+              "path": ["v1", "admin", "settings"]
             },
             "description": "Update multiple settings at once with validation"
           },
@@ -1059,9 +1059,9 @@
               }
             ],
             "url": {
-              "raw": "{{base_url}}/v1/settings/reset/all",
+              "raw": "{{base_url}}/v1/admin/settings/reset/all",
               "host": ["{{base_url}}"],
-              "path": ["v1", "settings", "reset", "all"]
+              "path": ["v1", "admin", "settings", "reset", "all"]
             },
             "description": "Reset all system settings to their default values"
           },
@@ -1089,9 +1089,9 @@
               }
             ],
             "url": {
-              "raw": "{{base_url}}/v1/settings/reset/group-site",
+              "raw": "{{base_url}}/v1/admin/settings/reset/group-site",
               "host": ["{{base_url}}"],
-              "path": ["v1", "settings", "reset", "group-site"]
+              "path": ["v1", "admin", "settings", "reset", "group-site"]
             },
             "description": "Reset all settings in a specific group to their default values"
           },
@@ -1119,9 +1119,9 @@
               }
             ],
             "url": {
-              "raw": "{{base_url}}/v1/settings/reset/key-site_name",
+              "raw": "{{base_url}}/v1/admin/settings/reset/key-site_name",
               "host": ["{{base_url}}"],
-              "path": ["v1", "settings", "reset", "key-site_name"]
+              "path": ["v1", "admin", "settings", "reset", "key-site_name"]
             },
             "description": "Reset a specific setting to its default value"
           },

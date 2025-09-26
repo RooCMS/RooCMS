@@ -22,7 +22,7 @@ if(!defined('RooCMS')) {
 
 
 
-class Settings {
+class SiteSettings {
 
     private Db $db;
 

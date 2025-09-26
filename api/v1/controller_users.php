@@ -30,14 +30,14 @@ class UsersController extends BaseController {
 
     private readonly UserService $userService;
     private readonly Auth $auth;
-    private readonly Settings $settings;
+    private readonly SiteSettings $siteSettings;
     private readonly Mailer $mailer;
 
 
     /**
  	 * Constructor
  	 */
-    public function __construct(UserService $userService, Auth $auth, Settings $settings, Mailer $mailer, Db|null $db = null) {
+    public function __construct(UserService $userService, Auth $auth, SiteSettings $siteSettings, Mailer $mailer, Db|null $db = null) {
         parent::__construct($db);
 
         if(!$this->is_database_available()) {
@@ -47,7 +47,7 @@ class UsersController extends BaseController {
 
         $this->userService = $userService;
         $this->auth = $auth;
-        $this->settings = $settings;
+        $this->siteSettings = $siteSettings;
         $this->mailer = $mailer;
     }
 
@@ -180,8 +180,8 @@ class UsersController extends BaseController {
 
 			// Send email
 			try {
-				$site_name = $this->settings->get_by_key('site_name') ?? 'RooCMS';
-				$site_domain = $this->settings->get_by_key('site_domain') ?? _DOMAIN;
+				$site_name = $this->siteSettings->get_by_key('site_name') ?? 'RooCMS';
+				$site_domain = $this->siteSettings->get_by_key('site_domain') ?? _DOMAIN;
 				$site_url = 'https://' . $site_domain;
 				$verify_link = $site_url . '/api/v1/users/verify-email/' . rawurlencode($plain_code);
 

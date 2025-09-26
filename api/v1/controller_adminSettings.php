@@ -26,14 +26,14 @@ if(!defined('RooCMS')) {
  * Settings Controller
  * API for managing global settings
  */
-class SettingsController extends BaseController {
+class AdminSettingsController extends BaseController {
 
-    private readonly SettingsService $settingsService;
+    private readonly SiteSettingsService $siteSettingsService;
 
     /**
      * Constructor
      */
-    public function __construct(SettingsService $settingsService, Db|null $db = null) {
+    public function __construct(SiteSettingsService $siteSettingsService, Db|null $db = null) {
         parent::__construct($db);
 
         if(!$this->is_database_available()) {
@@ -41,20 +41,20 @@ class SettingsController extends BaseController {
             return;
         }
 
-        $this->settingsService = $settingsService;
+        $this->siteSettingsService = $siteSettingsService;
     }
 
 
     /**
      * Get all settings
-     * GET /api/v1/settings
+     * GET /api/v1/admin/settings
      * Requires: AuthMiddleware + RoleMiddleware@admin_access
      */
     public function index(): void {
         $this->log_request('settings_index');
 
         try {
-            $settings = $this->settingsService->get_all_settings();
+            $settings = $this->siteSettingsService->get_all_settings();
             $this->json_response($settings);
         } catch(Exception $e) {
             $this->error_response('Failed to fetch settings', 500);
@@ -64,7 +64,7 @@ class SettingsController extends BaseController {
 
     /**
      * Get settings by group/category
-     * GET /api/v1/settings/group-{group}
+     * GET /api/v1/admin/settings/group-{group}
      * Requires: AuthMiddleware + RoleMiddleware@admin_access
      *
      * @param string $group Settings group
@@ -73,7 +73,7 @@ class SettingsController extends BaseController {
         $this->log_request('settings_get_group', ['group' => $group]);
 
         try {
-            $settings = $this->settingsService->get_settings_by_group($group);
+            $settings = $this->siteSettingsService->get_settings_by_group($group);
 
             if(empty($settings)) {
                 $this->not_found_response('Settings group not found');
@@ -89,7 +89,7 @@ class SettingsController extends BaseController {
 
     /**
      * Get specific setting by key
-     * GET /api/v1/settings/key-{key}
+     * GET /api/v1/admin/settings/key-{key}
      * Requires: AuthMiddleware + RoleMiddleware@admin_access
      *
      * @param string $key Setting key
@@ -98,13 +98,13 @@ class SettingsController extends BaseController {
         $this->log_request('settings_get_setting', ['key' => $key]);
 
         try {
-            if(!$this->settingsService->setting_exists($key)) {
+            if(!$this->siteSettingsService->setting_exists($key)) {
                 $this->not_found_response('Setting not found');
                 return;
             }
 
-            $value = $this->settingsService->get_setting_by_key($key);
-            $meta = $this->settingsService->get_setting_meta($key);
+            $value = $this->siteSettingsService->get_setting_by_key($key);
+            $meta = $this->siteSettingsService->get_setting_meta($key);
 
             $response = [
                 'key' => $key,
@@ -121,7 +121,7 @@ class SettingsController extends BaseController {
 
     /**
      * Update specific setting
-     * PUT /api/v1/settings/key-{key}
+     * PUT /api/v1/admin/settings/key-{key}
      * Requires: AuthMiddleware + RoleMiddleware@admin_access
      *
      * @param string $key Setting key
@@ -137,13 +137,13 @@ class SettingsController extends BaseController {
         }
 
         try {
-            if(!$this->settingsService->setting_exists($key)) {
+            if(!$this->siteSettingsService->setting_exists($key)) {
                 $this->not_found_response('Setting not found');
                 return;
             }
 
             // Get setting metadata for validation
-            $meta = $this->settingsService->get_setting_meta($key);
+            $meta = $this->siteSettingsService->get_setting_meta($key);
             if (!$meta) {
                 $this->error_response('Setting metadata not found', 500);
                 return;
@@ -156,7 +156,7 @@ class SettingsController extends BaseController {
                 return;
             }
 
-            if(!$this->settingsService->update_setting($key, $data['value'])) {
+            if(!$this->siteSettingsService->update_setting($key, $data['value'])) {
                 $this->error_response('Failed to update setting', 500);
                 return;
             }
@@ -170,7 +170,7 @@ class SettingsController extends BaseController {
 
     /**
      * Partially update settings (bulk update)
-     * PATCH /api/v1/settings
+     * PATCH /api/v1/admin/settings
      * Requires: AuthMiddleware + RoleMiddleware@admin_access
      */
     public function update_settings(): void {
@@ -187,12 +187,12 @@ class SettingsController extends BaseController {
             // Validate all settings before updating
             $validationErrors = [];
             foreach ($data as $key => $value) {
-                if(!$this->settingsService->setting_exists($key)) {
+                if(!$this->siteSettingsService->setting_exists($key)) {
                     $validationErrors[$key] = 'Setting not found';
                     continue;
                 }
 
-                $meta = $this->settingsService->get_setting_meta($key);
+                $meta = $this->siteSettingsService->get_setting_meta($key);
                 if (!$meta) {
                     $validationErrors[$key] = 'Setting metadata not found';
                     continue;
@@ -209,7 +209,7 @@ class SettingsController extends BaseController {
                 return;
             }
 
-            if(!$this->settingsService->update_multiple_settings($data)) {
+            if(!$this->siteSettingsService->update_multiple_settings($data)) {
                 $this->error_response('Failed to update some settings', 500);
                 return;
             }
@@ -344,7 +344,7 @@ class SettingsController extends BaseController {
 
     /**
      * Reset specific setting to default value
-     * GET /api/v1/settings/reset/key-{key}
+     * GET /api/v1/admin/settings/reset/key-{key}
      * Requires: AuthMiddleware + RoleMiddleware@admin_access
      *
      * @param string $key Setting key
@@ -353,12 +353,12 @@ class SettingsController extends BaseController {
         $this->log_request('settings_reset_setting', ['key' => $key]);
 
         try {
-            if(!$this->settingsService->setting_exists($key)) {
+            if(!$this->siteSettingsService->setting_exists($key)) {
                 $this->not_found_response('Setting not found');
                 return;
             }
 
-            if(!$this->settingsService->reset_setting($key)) {
+            if(!$this->siteSettingsService->reset_setting($key)) {
                 $this->error_response('Failed to reset setting', 500);
                 return;
             }
@@ -372,7 +372,7 @@ class SettingsController extends BaseController {
 
     /**
      * Reset all settings in a group to default values
-     * GET /api/v1/settings/reset/group-{group}
+     * GET /api/v1/admin/settings/reset/group-{group}
      * Requires: AuthMiddleware + RoleMiddleware@admin_access
      *
      * @param string $group Settings group
@@ -382,14 +382,14 @@ class SettingsController extends BaseController {
 
         try {
             // Check if group exists by getting settings
-            $settings = $this->settingsService->get_settings_by_group($group);
+            $settings = $this->siteSettingsService->get_settings_by_group($group);
 
             if(empty($settings)) {
                 $this->not_found_response('Settings group not found');
                 return;
             }
 
-            if(!$this->settingsService->reset_group_settings($group)) {
+            if(!$this->siteSettingsService->reset_group_settings($group)) {
                 $this->error_response('Failed to reset group settings', 500);
                 return;
             }
@@ -403,14 +403,14 @@ class SettingsController extends BaseController {
 
     /**
      * Reset all settings to default values
-     * GET /api/v1/settings/reset/all
+     * GET /api/v1/admin/settings/reset/all
      * Requires: AuthMiddleware + RoleMiddleware@admin_access
      */
     public function reset_all(): void {
         $this->log_request('settings_reset_all');
 
         try {
-            if(!$this->settingsService->reset_all_settings()) {
+            if(!$this->siteSettingsService->reset_all_settings()) {
                 $this->error_response('Failed to reset all settings', 500);
                 return;
             }

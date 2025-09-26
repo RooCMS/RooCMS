@@ -22,18 +22,18 @@ if(!defined('RooCMS')) {
 
 
 
-class SettingsService {
+class SiteSettingsService {
 
     private Db $db;
-    private Settings $settings;
+    private SiteSettings $siteSettings;
 
 
     /**
      * Constructor
      */
-    public function __construct(Db $db, Settings $settings) {
+    public function __construct(Db $db, SiteSettings $siteSettings) {
         $this->db = $db;
-        $this->settings = $settings;
+        $this->siteSettings = $siteSettings;
     }
 
 
@@ -41,7 +41,7 @@ class SettingsService {
      * Get all settings
      */
     public function get_all_settings(): array {
-        return $this->settings->get_all();
+        return $this->siteSettings->get_all();
     }
 
 
@@ -49,7 +49,7 @@ class SettingsService {
      * Get settings by category/group
      */
     public function get_settings_by_group(string $group): array {
-        return $this->settings->get_by_category($group);
+        return $this->siteSettings->get_by_category($group);
     }
 
 
@@ -57,7 +57,7 @@ class SettingsService {
      * Get setting by key
      */
     public function get_setting_by_key(string $key): mixed {
-        return $this->settings->get_by_key($key);
+        return $this->siteSettings->get_by_key($key);
     }
 
 
@@ -65,7 +65,7 @@ class SettingsService {
      * Update setting value
      */
     public function update_setting(string $key, mixed $value): bool {
-        return $this->settings->set($key, $value);
+        return $this->siteSettings->set($key, $value);
     }
 
 
@@ -76,7 +76,7 @@ class SettingsService {
         $success = true;
 
         foreach ($settings as $key => $value) {
-            if (!$this->settings->set($key, $value)) {
+            if (!$this->siteSettings->set($key, $value)) {
                 $success = false;
             }
         }
@@ -136,7 +136,7 @@ class SettingsService {
      * Get setting metadata
      */
     public function get_setting_meta(string $key): ?array {
-        return $this->settings->get_meta($key);
+        return $this->siteSettings->get_meta($key);
     }
 
 
@@ -144,7 +144,7 @@ class SettingsService {
      * Check if setting exists
      */
     public function setting_exists(string $key): bool {
-        return $this->settings->exists($key);
+        return $this->siteSettings->exists($key);
     }
 
 

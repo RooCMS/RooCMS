@@ -39,7 +39,7 @@ spl_autoload_register(function(string $controller_name) {
         'AuthController'     => _API . '/v1/controller_auth.php',
         'UsersController'    => _API . '/v1/controller_users.php',
         'BackupController'   => _API . '/v1/controller_backup.php',
-        'SettingsController' => _API . '/v1/controller_settings.php',
+        'AdminSettingsController' => _API . '/v1/controller_adminSettings.php',
         'AuthMiddleware'     => _API . '/v1/middleware_auth.php',
         'RoleMiddleware'     => _API . '/v1/middleware_role.php'
     ];
@@ -59,10 +59,10 @@ spl_autoload_register(function(string $controller_name) {
  * Register controllers
  */
 $container->register(\CspController::class, \CspController::class);
+$container->register(\HealthController::class, \HealthController::class);
 $container->register(\UsersController::class, \UsersController::class);
 $container->register(\AuthController::class, \AuthController::class);
-$container->register(\HealthController::class, \HealthController::class);
-$container->register(\SettingsController::class, \SettingsController::class);
+$container->register(\AdminSettingsController::class, \AdminSettingsController::class);
 $container->register(\BackupController::class, \BackupController::class);
 
 /**
@@ -113,14 +113,14 @@ $api->put('/v1/users/{user_id}', 'UsersController@update_user', ['AuthMiddleware
 $api->delete('/v1/users/{user_id}', 'UsersController@delete_user', ['AuthMiddleware', 'RoleMiddleware@admin_access']);
 
 // Settings routes (admin only)
-$api->get('/v1/settings', 'SettingsController@index', ['AuthMiddleware', 'RoleMiddleware@admin_access']);
-$api->get('/v1/settings/group-{group}', 'SettingsController@get_group', ['AuthMiddleware', 'RoleMiddleware@admin_access']);
-$api->get('/v1/settings/key-{key}', 'SettingsController@get_setting', ['AuthMiddleware', 'RoleMiddleware@admin_access']);
-$api->put('/v1/settings/key-{key}', 'SettingsController@update_setting', ['AuthMiddleware', 'RoleMiddleware@admin_access']);
-$api->patch('/v1/settings', 'SettingsController@update_settings', ['AuthMiddleware', 'RoleMiddleware@admin_access']);
-$api->get('/v1/settings/reset/all', 'SettingsController@reset_all', ['AuthMiddleware', 'RoleMiddleware@admin_access']);
-$api->get('/v1/settings/reset/group-{group}', 'SettingsController@reset_group', ['AuthMiddleware', 'RoleMiddleware@admin_access']);
-$api->get('/v1/settings/reset/key-{key}', 'SettingsController@reset_setting', ['AuthMiddleware', 'RoleMiddleware@admin_access']);
+$api->get('/v1/admin/settings', 'AdminSettingsController@index', ['AuthMiddleware', 'RoleMiddleware@admin_access']);
+$api->get('/v1/admin/settings/group-{group}', 'AdminSettingsController@get_group', ['AuthMiddleware', 'RoleMiddleware@admin_access']);
+$api->get('/v1/admin/settings/key-{key}', 'AdminSettingsController@get_setting', ['AuthMiddleware', 'RoleMiddleware@admin_access']);
+$api->put('/v1/admin/settings/key-{key}', 'AdminSettingsController@update_setting', ['AuthMiddleware', 'RoleMiddleware@admin_access']);
+$api->patch('/v1/admin/settings', 'AdminSettingsController@update_settings', ['AuthMiddleware', 'RoleMiddleware@admin_access']);
+$api->get('/v1/admin/settings/reset/all', 'AdminSettingsController@reset_all', ['AuthMiddleware', 'RoleMiddleware@admin_access']);
+$api->get('/v1/admin/settings/reset/group-{group}', 'AdminSettingsController@reset_group', ['AuthMiddleware', 'RoleMiddleware@admin_access']);
+$api->get('/v1/admin/settings/reset/key-{key}', 'AdminSettingsController@reset_setting', ['AuthMiddleware', 'RoleMiddleware@admin_access']);
 
 // Backup endpoints (admin only)
 $api->post('/v1/backup/create', 'BackupController@create', ['AuthMiddleware', 'RoleMiddleware@admin_access']);
@@ -181,14 +181,14 @@ $api->get('/', function() {
             'backup_download' => 'GET /api/v1/backup/download/{filename}',
             'backup_logs' => 'GET /api/v1/backup/logs',
             'backup_status' => 'GET /api/v1/backup/status',
-            'settings_index' => 'GET /api/v1/settings',
-            'settings_get_group' => 'GET /api/v1/settings/group-{group}',
-            'settings_get_setting' => 'GET /api/v1/settings/key-{key}',
-            'settings_update_setting' => 'PUT /api/v1/settings/key-{key}',
-            'settings_update_settings' => 'PATCH /api/v1/settings',
-            'settings_reset_all' => 'GET /api/v1/settings/reset/all',
-            'settings_reset_group' => 'GET /api/v1/settings/reset/group-{group}',
-            'settings_reset_setting' => 'GET /api/v1/settings/reset/key-{key}'
+            'admin_settings_index' => 'GET /api/v1/admin/settings',
+            'admin_settings_get_group' => 'GET /api/v1/admin/settings/group-{group}',
+            'admin_settings_get_setting' => 'GET /api/v1/admin/settings/key-{key}',
+            'admin_settings_update_setting' => 'PUT /api/v1/admin/settings/key-{key}',
+            'admin_settings_update_settings' => 'PATCH /api/v1/admin/settings',
+            'admin_settings_reset_all' => 'GET /api/v1/admin/settings/reset/all',
+            'admin_settings_reset_group' => 'GET /api/v1/admin/settings/reset/group-{group}',
+            'admin_settings_reset_setting' => 'GET /api/v1/admin/settings/reset/key-{key}'
         ]
     ];
 

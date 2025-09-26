@@ -900,7 +900,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-  /v1/settings:
+  /v1/admin/settings:
     get:
       summary: Get all settings
       description: Retrieve all system settings grouped by categories
@@ -927,7 +927,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-  /v1/settings/group-{group}:
+  /v1/admin/settings/group-{group}:
     get:
       summary: Get settings by group
       description: Retrieve all settings for a specific group/category
@@ -968,7 +968,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-  /v1/settings/key-{key}:
+  /v1/admin/settings/key-{key}:
     get:
       summary: Get specific setting by key
       description: Retrieve a specific setting by its key with metadata
@@ -1077,7 +1077,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ValidationErrorResponse'
-  /v1/settings:
+  /v1/admin/settings:
     patch:
       summary: Update multiple settings
       description: Update multiple settings at once with validation
@@ -1131,7 +1131,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ValidationErrorResponse'
-  /v1/settings/reset/all:
+  /v1/admin/settings/reset/all:
     get:
       summary: Reset all settings to defaults
       description: Reset all system settings to their default values
@@ -1158,7 +1158,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-  /v1/settings/reset/group-{group}:
+  /v1/admin/settings/reset/group-{group}:
     get:
       summary: Reset settings group to defaults
       description: Reset all settings in a specific group to their default values
@@ -1199,7 +1199,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-  /v1/settings/reset/key-{key}:
+  /v1/admin/settings/reset/key-{key}:
     get:
       summary: Reset specific setting to default
       description: Reset a specific setting to its default value
@@ -2191,5 +2191,5 @@ tags:
     description: Users and profiles
   - name: Database Backups
     description: Database backup and restore operations
-  - name: Settings
+  - name: Admin Settings
     description: System settings management
