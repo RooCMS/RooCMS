@@ -54,7 +54,7 @@ class SiteSettings {
      */
     public function get_by_key(string $key): mixed {
         $sql = "
-            SELECT value, default_value, is_serialized
+            SELECT value, default_value, type, is_serialized
             FROM " . TABLE_SETTINGS . "
             WHERE `key` = ?
         ";
@@ -64,7 +64,8 @@ class SiteSettings {
             return null;
         }
 
-        $value = $result['value'] ?? $result['default_value'];
+        // Use default value if current value is null or empty string
+        $value = ($result['value'] !== null && $result['value'] !== '') ? $result['value'] : $result['default_value'];
 
         // Deserialization if necessary
         if ($result['is_serialized'] && $value !== null) {
@@ -82,7 +83,7 @@ class SiteSettings {
      */
     public function get_by_category(string $category): array {
         $sql = "
-            SELECT `key`, value, default_value, is_serialized
+            SELECT `key`, value, default_value, type, is_serialized
             FROM " . TABLE_SETTINGS . "
             WHERE category = ?
             ORDER BY sort_order ASC, title ASC
@@ -91,7 +92,8 @@ class SiteSettings {
 
         $settings = [];
         foreach ($results as $row) {
-            $value = $row['value'] ?? $row['default_value'];
+            // Use default value if current value is null or empty string
+            $value = ($row['value'] !== null && $row['value'] !== '') ? $row['value'] : $row['default_value'];
 
             // Deserialization if necessary
             if ($row['is_serialized'] && $value !== null) {
@@ -111,7 +113,7 @@ class SiteSettings {
      */
     public function get_all(): array {
         $sql = "
-            SELECT category, `key`, value, default_value, is_serialized
+            SELECT category, `key`, value, default_value, type, is_serialized
             FROM " . TABLE_SETTINGS . "
             ORDER BY category ASC, sort_order ASC, title ASC
         ";
@@ -119,7 +121,8 @@ class SiteSettings {
 
         $settings = [];
         foreach ($results as $row) {
-            $value = $row['value'] ?? $row['default_value'];
+            // Use default value if current value is null or empty string
+            $value = ($row['value'] !== null && $row['value'] !== '') ? $row['value'] : $row['default_value'];
 
             // Deserialization if necessary
             if ($row['is_serialized'] && $value !== null) {
@@ -299,14 +302,17 @@ class SiteSettings {
      * @return bool Is value valid
      */
     private function validate_select_value(mixed $value, array $setting): bool {
-        // First check if value is a string
-        if (!is_string($value)) {
-            return false;
+        // Empty values are valid for optional fields
+        if ($value === null || $value === '' || $value === 0 || $value === '0') {
+            return !$setting['is_required'];
         }
 
-        // If options are not set, then any string value is valid
+        // Convert to string for comparison
+        $value = (string)$value;
+
+        // Select fields must have options defined
         if (empty($setting['options'])) {
-            return true;
+            return false;
         }
 
         // Check if value is in the list of valid options
@@ -337,9 +343,14 @@ class SiteSettings {
      * @return bool Is value valid
      */
     private function validate_value(mixed $value, array $setting): bool {
-        // Check if required
+        // Check if required - empty values are only invalid for required fields
         if ($setting['is_required'] && ($value === null || $value === '')) {
             return false;
+        }
+
+        // For optional fields, empty values are always valid
+        if ($value === null || $value === '') {
+            return true;
         }
 
         // Check maximum length for string types
@@ -347,13 +358,13 @@ class SiteSettings {
             return false;
         }
 
-        // Validate by type
+        // Validate by type (only for non-empty values)
         return match ($setting['type']) {
             'boolean' => is_bool($value) || in_array($value, [0, 1, '0', '1']),
             'integer' => is_numeric($value) && is_int($value + 0),
             'string', 'text', 'html', 'color' => is_string($value),
             'date' => is_numeric($value) && $value > 0,
-            'email' => filter_var($value, FILTER_VALIDATE_EMAIL) !== false,
+            'email' => is_string($value) && filter_var($value, FILTER_VALIDATE_EMAIL) !== false,
             'select' => $this->validate_select_value($value, $setting),
             'image', 'file' => is_string($value),
             default => true

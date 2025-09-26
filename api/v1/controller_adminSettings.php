@@ -183,6 +183,7 @@ class AdminSettingsController extends BaseController {
             return;
         }
 
+
         try {
             // Validate all settings before updating
             $validationErrors = [];
@@ -229,9 +230,19 @@ class AdminSettingsController extends BaseController {
      * @return string|null Validation error message or null if valid
      */
     private function validate_setting_value(mixed $value, array $meta): ?string {
-        // Check if required
-        if ($meta['is_required'] && ($value === null || $value === '')) {
+        // Normalize null values to empty strings
+        if ($value === null) {
+            $value = '';
+        }
+
+        // Check if required - empty values are only invalid for required fields
+        if ($meta['is_required'] && $value === '') {
             return 'This field is required';
+        }
+
+        // For optional fields, empty values are always valid
+        if ($value === '') {
+            return null;
         }
 
         // Check maximum length for string types
@@ -239,7 +250,7 @@ class AdminSettingsController extends BaseController {
             return "Value exceeds maximum length of {$meta['max_length']} characters";
         }
 
-        // Validate by type
+        // Validate by type (only for non-empty values)
         return match ($meta['type']) {
             'boolean' => $this->validate_boolean_value($value),
             'integer' => $this->validate_integer_value($value),
@@ -325,15 +336,22 @@ class AdminSettingsController extends BaseController {
      * @return string|null Validation error message or null if valid
      */
     private function validate_select_value(mixed $value, array $meta): ?string {
-        if (!is_string($value)) {
-            return 'Value must be a string';
+        // Empty values are valid for optional fields
+        if ($value === null || $value === '' || $value === 0 || $value === '0') {
+            return $meta['is_required'] ? 'This field is required' : null;
         }
 
+        // Convert to string for comparison
+        $value = (string)$value;
+
+        // Select fields must have options defined
         if (empty($meta['options'])) {
-            return null; // If no options defined, any string is valid
+            return 'Select field must have options defined';
         }
 
         $options = $meta['options'];
+
+        // Check if value exists in options
         if (!array_key_exists($value, $options)) {
             $validOptions = implode(', ', array_keys($options));
             return "Value must be one of: {$validOptions}";

@@ -26,13 +26,13 @@ if(!defined('RooCMS')) {
 //---------------------------------------------------------
 $db_info = [];
 //---------------------------------------------------------
-$db_info['host'] = "";						#	Database host (default is localhost)
-$db_info['user'] = "";						#	Database user (default is root)
-$db_info['pass'] = "";						#	Database password (default is empty)
-$db_info['base'] = "";						#	Database name (default is empty)
-$db_info['port'] = "";					    #	Database port 3306 for mysql, 5432 for postgresql, firebird (default is 3306)
-$db_info['type'] = "";					    #	Database type mysql, postgresql, firebird (default is mysql)
-$db_info['prefix'] = "";					#	Database prefix (default is roocms_)
+$db_info['host'] = "mariadb-11.7";				#	Database host (default is localhost)
+$db_info['user'] = "test";						#	Database user (default is root)
+$db_info['pass'] = "test";						#	Database password (default is empty)
+$db_info['base'] = "devroocms2";				#	Database name (default is empty)
+$db_info['port'] = "3306";					    #	Database port 3306 for mysql, 5432 for postgresql, firebird (default is 3306)
+$db_info['type'] = "mysql";					    #	Database type mysql, postgresql, firebird (default is mysql)
+$db_info['prefix'] = "roocms_";					#	Database prefix (default is roocms_)
 //#########################################################
 
 
@@ -41,9 +41,9 @@ $db_info['prefix'] = "";					#	Database prefix (default is roocms_)
 //---------------------------------------------------------
 $site = [];
 //---------------------------------------------------------
-$site['title'] = "";						#	Site title
-$site['domain'] = "";						#	default domain
-$site['scheme'] = "";		    		    #	Site scheme
-$site['sysemail'] = "";						#	Service email
-$site['theme'] = "";						#	Site theme
+$site['title'] = "RooCMS 2.0";					#	Site title
+$site['domain'] = "dev.roocms.com";				#	default domain
+$site['scheme'] = "https";		    		    #	Site scheme
+$site['sysemail'] = "info@roocms.com";			#	Service email
+$site['theme'] = "default";				        #	Site theme
 //#########################################################
