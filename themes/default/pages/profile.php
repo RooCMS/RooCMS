@@ -389,7 +389,7 @@ ob_start();
                                     <div class="h-2 w-2 bg-teal-400 rounded-full"></div>
                                 </div>
                                 <div class="text-xl font-bold">
-                                    <span x-show="(user || {}).website" class="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">
+                                    <span x-show="(user || {}).website">
                                         <a x-bind:href="(user || {}).website" target="_blank" class="hover:underline flex items-center" x-text="(user || {}).website">
                                             <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
@@ -400,12 +400,12 @@ ob_start();
                                 </div>
                                 <div class="mt-2 text-xs text-gray-400">Personal site</div>
                                 <div class="mt-3" x-show="(user || {}).website">
-                                    <button class="text-xs bg-gradient-to-r from-green-500 to-emerald-500 text-white px-3 py-1 rounded-lg hover:from-green-600 hover:to-emerald-600 transition-all duration-200 flex items-center gap-1">
+                                    <a x-bind:href="(user || {}).website" target="_blank" class="text-xs bg-gradient-to-r from-green-500 to-emerald-500 text-white px-3 py-1 rounded-lg hover:from-green-600 hover:to-emerald-600 transition-all duration-200 flex items-center gap-1 cursor-pointer max-w-24">
                                         <svg class="w-3 h-3 flex-shrink-0 py-0 translate-y-0.25" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
                                         </svg>
                                         <span>Visit Site</span>
-                                    </button>
+                                    </a>
                                 </div>
                             </div>
 
@@ -416,14 +416,6 @@ ob_start();
                                 </div>
                                 <div class="text-lg font-medium text-gray-900 whitespace-pre-line min-h-[60px]" x-text="(user || {}).bio || 'No biography set yet. Tell us about yourself!'"></div>
                                 <div class="mt-2 text-xs text-gray-400">Personal description</div>
-                                <div class="mt-3" x-show="(user || {}).bio">
-                                    <button class="text-xs bg-gradient-to-r from-purple-500 to-pink-500 text-white px-3 py-1 rounded-lg hover:from-purple-600 hover:to-pink-600 transition-all duration-200 flex items-center gap-1">
-                                        <svg class="w-3 h-3 flex-shrink-0 py-0 translate-y-0.25" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
-                                        </svg>
-                                        <span>Edit Bio</span>
-                                    </button>
-                                </div>
                             </div>
                         </div>
 
@@ -658,12 +650,12 @@ ob_start();
                     </h3>
 
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <button class="btn info full-width large">
+                        <a href="/profile-edit" class="btn info full-width large">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
                             </svg>
                             Edit Profile
-                        </button>
+                        </a>
 
                         <button @click="deleteAccount()" class="btn danger full-width large">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
