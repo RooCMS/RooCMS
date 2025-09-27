@@ -59,10 +59,6 @@ class AuthMiddleware {
 
             $user = $this->authenticate_token($token);
 
-            if ($user === null) {
-                return false; // Error response already sent
-            }
-
             // Set authenticated user in global context
             // TODO: Move to global context
             $GLOBALS['authenticated_user'] = $user;
@@ -90,9 +86,9 @@ class AuthMiddleware {
      * Authenticate token and return user data
      * 
      * @param string $token Token
-     * @return array|null
+     * @return array
      */
-    private function authenticate_token(string $token): array|null {
+    private function authenticate_token(string $token): array {
         try {
             // Hash the token before searching in database
             $token_hash = $this->auth->hash_data($token);
@@ -107,7 +103,6 @@ class AuthMiddleware {
 
             if (!$token_data) {
                 $this->send_error_response('Invalid or expired token', 401);
-                return null;
             }
 
             // Get user data
@@ -120,7 +115,6 @@ class AuthMiddleware {
 
             if ($user === false) {
                 $this->send_error_response('User not found or inactive', 401);
-                return null;
             }
 
             // Check if user is banned
@@ -129,7 +123,6 @@ class AuthMiddleware {
                     'ban_reason' => $user['ban_reason'],
                     'ban_expires' => format_timestamp($user['ban_expired'])
                 ]);
-                return null;
             }
 
             // Update last activity
@@ -142,7 +135,6 @@ class AuthMiddleware {
 
         } catch (Exception $e) {
             $this->send_error_response('Authentication failed', 401);
-            return null;
         }
     }
 
@@ -154,7 +146,7 @@ class AuthMiddleware {
      * @param array $details Details
      * @return void
      */
-    private function send_error_response(string $message, int $code = 401, array $details = []): void {
+    private function send_error_response(string $message, int $code = 401, array $details = []): never {
         http_response_code($code);
         
         $response = [

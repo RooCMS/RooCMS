@@ -152,10 +152,8 @@ class SiteSettingsService {
      * Get available groups/categories
      */
     public function get_available_groups(): array {
-        $results = $this->db->select_distinct(['category'])
-            ->from(TABLE_SETTINGS)
-            ->order_by('category', 'ASC')
-            ->get();
+        $sql = "SELECT DISTINCT category FROM " . TABLE_SETTINGS . " ORDER BY category ASC";
+        $results = $this->db->fetch_all($sql);
         return array_column($results, 'category');
     }
 }

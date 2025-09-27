@@ -33,8 +33,7 @@ class Db {
 	private DbConnect|null $db_connect 	= null;
 	private PDO|null $pdo 				= null;
 	private string $driver 				= '';
-	private array $query_log 			= [];
-	public int $query_count 			= 0;
+	private DbLogger $logger;
 	private bool $is_connected 			= false;
 	private array $transaction_stack 	= [];
 
@@ -46,13 +45,15 @@ class Db {
 	 * @param DbConnect|null $db_connect Database connection instance
 	 * @param string|null $driver Database driver (fallback for backward compatibility)
 	 * @param array|null $config Database config (fallback for backward compatibility)
+	 * @param DbLogger|null $logger Database logger instance
 	 */
-	public function __construct(?DbConnect $db_connect = null, ?string $driver = null, ?array $config = null) {
+	public function __construct(?DbConnect $db_connect = null, ?string $driver = null, ?array $config = null, ?DbLogger $logger = null) {
 		// Use injected DbConnect or create new one for backward compatibility
 		$this->db_connect = $db_connect ?? new DbConnect($driver, $config);
 		$this->pdo = $this->db_connect->get_pdo();
 		$this->driver = $this->db_connect->get_driver();
 		$this->is_connected = $this->db_connect->is_connected();
+		$this->logger = $logger ?? new DbLogger();
 	}
 
 
@@ -80,7 +81,7 @@ class Db {
 				$stmt = $this->pdo->query($sql);
 			}
 
-			$this->log_query($sql, $params, microtime(true) - $start_time);
+			$this->logger->log_query($sql, $params, microtime(true) - $start_time);
 			return $stmt;
 
 		} catch(PDOException $e) {
@@ -280,7 +281,7 @@ class Db {
 			}
 			
 			$result = $stmt->execute();
-			$this->log_query($sql, $data, microtime(true) - $start_time);
+			$this->logger->log_query($sql, $data, microtime(true) - $start_time);
 			
 			return $result;
 		} catch(PDOException $e) {
@@ -304,48 +305,61 @@ class Db {
 		try {
 			$start_time = microtime(true);
 
-			$set_parts = [];
-			foreach(array_keys($data) as $column) {
-				$set_parts[] = $this->quote_identifier($column) . " = :$column";
-			}
+			// Build SET clause
+			$set_parts = array_map(
+				fn($column) => $this->quote_identifier($column) . " = :set_{$column}",
+				array_keys($data)
+			);
 
-			// Convert positional placeholders in WHERE to named ones to avoid mixing
-			$named_where = $where;
-			$named_params = [];
-			if(strpos($where, '?') !== false && !empty($where_params)) {
-				$counter = 1;
-				foreach($where_params as $param) {
-					$placeholder = ":w{$counter}";
-					$pos = strpos($named_where, '?');
-					if($pos === false) { break; }
-					$named_where = substr_replace($named_where, $placeholder, $pos, 1);
-					$named_params[$placeholder] = $param;
-					$counter++;
-				}
-			}
+			// Convert positional WHERE placeholders to named to avoid parameter conflicts
+			[$processed_where, $named_params] = $this->convert_positional_to_named($where, $where_params);
 
-			$sql = "UPDATE {$table} SET " . implode(', ', $set_parts) . " WHERE {$named_where}";
-			
+			$sql = "UPDATE {$table} SET " . implode(', ', $set_parts) . " WHERE {$processed_where}";
 			$stmt = $this->pdo->prepare($sql);
 			
-			// Bind data for SET
+			// Bind SET parameters with prefix
 			foreach($data as $key => $value) {
-				$stmt->bindValue(":$key", $value, $this->get_pdo_param_type($value));
+				$stmt->bindValue(":set_{$key}", $value, $this->get_pdo_param_type($value));
 			}
 			
-			// Bind named WHERE parameters (if converted)
-			foreach($named_params as $ph => $param) {
-				$stmt->bindValue($ph, $param, $this->get_pdo_param_type($param));
+			// Bind WHERE parameters
+			foreach($named_params as $placeholder => $param) {
+				$stmt->bindValue($placeholder, $param, $this->get_pdo_param_type($param));
 			}
 
 			$result = $stmt->execute();
-			$this->log_query($sql, array_merge($data, $where_params), microtime(true) - $start_time);
+			$this->logger->log_query($sql, array_merge($data, $where_params), microtime(true) - $start_time);
 			
 			return $result;
 		} catch(PDOException $e) {
 			$this->handle_error("Error updating data: " . $e->getMessage());
 			return false;
 		}
+	}
+
+	
+	/**
+	 * Convert positional placeholders to named ones
+	 * 
+	 * @param string $where WHERE clause
+	 * @param array $params Parameters
+	 * @return array [processed_where, named_params]
+	 */
+	private function convert_positional_to_named(string $where, array $params): array {
+		if(empty($params) || !str_contains($where, '?')) {
+			return [$where, []];
+		}
+
+		$named_params = [];
+		$counter = 1;
+		$processed_where = preg_replace_callback('/\?/', function() use (&$counter, $params, &$named_params) {
+			$placeholder = ":where_{$counter}";
+			$named_params[$placeholder] = $params[$counter - 1] ?? null;
+			$counter++;
+			return $placeholder;
+		}, $where);
+
+		return [$processed_where, $named_params];
 	}
 
 
@@ -385,10 +399,8 @@ class Db {
 	public function insert_batch(array $data, string $table): bool {
 		if(empty($data)) return false;
 
-		try {
+		return $this->transaction(function() use ($data, $table) {
 			$start_time = microtime(true);
-
-			$this->begin_transaction();
 			
 			$columns = array_keys($data[0]);
 			$quoted_columns = $this->quote_identifiers($columns);
@@ -404,15 +416,9 @@ class Db {
 				$stmt->execute();
 			}
 			
-			$this->commit();
-			$this->log_query($sql, ['batch_count' => count($data)], microtime(true) - $start_time);
-			
+			$this->logger->log_query($sql, ['batch_count' => count($data)], microtime(true) - $start_time);
 			return true;
-		} catch(PDOException $e) {
-			$this->rollback();
-			$this->handle_error("Error batch insert: " . $e->getMessage());
-			return false;
-		}
+		});
 	}
 
 
@@ -444,17 +450,15 @@ class Db {
 	public function begin_transaction(): bool {
 		if(empty($this->transaction_stack)) {
 			$result = $this->pdo->beginTransaction();
-			if($result) {
-				$this->transaction_stack[] = true;
-			}
+			$result && $this->transaction_stack[] = true;
 			return $result;
-		} else {
-			// Emulation of nested transactions through savepoints
-			$savepoint_name = 'savepoint_' . count($this->transaction_stack);
-			$this->pdo->exec("SAVEPOINT {$savepoint_name}");
-			$this->transaction_stack[] = $savepoint_name;
-			return true;
 		}
+		
+		// Nested transaction via savepoint
+		$savepoint_name = 'savepoint_' . count($this->transaction_stack);
+		$this->pdo->exec("SAVEPOINT {$savepoint_name}");
+		$this->transaction_stack[] = $savepoint_name;
+		return true;
 	}
 
 
@@ -464,26 +468,16 @@ class Db {
 	 * @return bool
 	 */
 	public function commit(): bool {
-		if(empty($this->transaction_stack)) {
-			return false;
-		}
-
-		// Handle drivers with implicit commits on DDL (e.g., MySQL)
-		if(!$this->pdo->inTransaction()) {
+		if(empty($this->transaction_stack) || !$this->pdo->inTransaction()) {
 			$this->transaction_stack = [];
-			return true;
+			return !empty($this->transaction_stack);
 		}
 
 		$last_transaction = array_pop($this->transaction_stack);
 		
-		if($last_transaction === true) {
-			// Main transaction
-			return $this->pdo->commit();
-		} else {
-			// Savepoint - just remove it from the stack
-			$this->pdo->exec("RELEASE SAVEPOINT {$last_transaction}");
-			return true;
-		}
+		return $last_transaction === true 
+			? $this->pdo->commit()
+			: (bool)$this->pdo->exec("RELEASE SAVEPOINT {$last_transaction}");
 	}
 
 
@@ -493,26 +487,16 @@ class Db {
 	 * @return bool
 	 */
 	public function rollback(): bool {
-		if(empty($this->transaction_stack)) {
-			return false;
-		}
-
-		// Handle drivers with implicit commits on DDL (e.g., MySQL)
-		if(!$this->pdo->inTransaction()) {
+		if(empty($this->transaction_stack) || !$this->pdo->inTransaction()) {
 			$this->transaction_stack = [];
-			return true;
+			return !empty($this->transaction_stack);
 		}
 
 		$last_transaction = array_pop($this->transaction_stack);
 		
-		if($last_transaction === true) {
-			// Main transaction
-			return $this->pdo->rollBack();
-		} else {
-			// Rollback to savepoint
-			$this->pdo->exec("ROLLBACK TO SAVEPOINT {$last_transaction}");
-			return true;
-		}
+		return $last_transaction === true 
+			? $this->pdo->rollBack()
+			: (bool)$this->pdo->exec("ROLLBACK TO SAVEPOINT {$last_transaction}");
 	}
 
 
@@ -608,6 +592,7 @@ class Db {
 		};
 	}
 
+	
 	/**
 	 * Quote list of identifiers
 	 * 
@@ -617,31 +602,6 @@ class Db {
 	 */
 	private function quote_identifiers(array $identifiers): array {
 		return array_map(fn($id) => $this->quote_identifier((string)$id), $identifiers);
-	}
-
-
-	/**
-	 * Logging requests
-	 *
-	 * @param string $sql SQL query string
-	 * @param array $params Query parameters
-	 * @param float $execution_time Query execution time in seconds
-	 *
-	 * @return void
-	 */
-	private function log_query(string $sql, array $params, float $execution_time): void {
-		$this->query_count++;
-		
-		$this->query_log[] = [
-			'sql' => $sql,
-			'params' => $params,
-			'time' => $execution_time,
-			'number' => $this->query_count
-		];
-
-		if(defined('DEBUGMODE') && DEBUGMODE && function_exists('debugQuery')) {
-			debugQuery($sql, $params, $execution_time);
-		}
 	}
 
 
@@ -708,15 +668,16 @@ class Db {
 	 * @return array
 	 */
 	public function get_query_stats(): array {
-		return [
-			'count_queries' => $this->query_count,
-			'queries' => $this->query_log,
-			'total_time' => array_sum(array_column($this->query_log, 'time')),
-			'average_time' => $this->query_count > 0 ? array_sum(array_column($this->query_log, 'time')) / $this->query_count : 0,
-			'memory_usage' => memory_get_usage(true),
-			'peak_memory' => memory_get_peak_usage(true),
-			'check_time' => time()
-		];
+		return $this->logger->get_query_stats();
+	}
+
+	/**
+	 * Get query count (for backward compatibility)
+	 *
+	 * @return int
+	 */
+	public function get_query_count(): int {
+		return $this->logger->get_query_count();
 	}
 
 	

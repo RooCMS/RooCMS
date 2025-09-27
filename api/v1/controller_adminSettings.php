@@ -125,26 +125,25 @@ class AdminSettingsController extends BaseController {
         $this->log_request('settings_update_setting', ['key' => $key]);
 
         $data = $this->get_input_data();
-
         if(!isset($data['value'])) {
             $this->error_response('Value field is required', 400);
             return;
         }
 
         try {
+            // Validate setting existence and get metadata
             if(!$this->siteSettingsService->setting_exists($key)) {
                 $this->not_found_response('Setting not found');
                 return;
             }
 
-            // Get setting metadata for validation
             $meta = $this->siteSettingsService->get_setting_meta($key);
             if (!$meta) {
                 $this->error_response('Setting metadata not found', 500);
                 return;
             }
 
-            // Validate value
+            // Validate and update
             $validationError = $this->validate_setting_value($data['value'], $meta);
             if ($validationError) {
                 $this->validation_error_response([$key => $validationError]);
@@ -250,7 +249,8 @@ class AdminSettingsController extends BaseController {
      * @return string|null Validation error message or null if valid
      */
     private function validate_boolean_value(mixed $value): ?string {
-        if (!is_bool($value) && !in_array($value, [0, 1, '0', '1'], true)) {
+        $validBooleans = [true, false, 0, 1, '0', '1'];
+        if (!in_array($value, $validBooleans, true)) {
             return 'Value must be a boolean (true/false, 0/1)';
         }
         return null;
@@ -263,7 +263,7 @@ class AdminSettingsController extends BaseController {
      * @return string|null Validation error message or null if valid
      */
     private function validate_integer_value(mixed $value): ?string {
-        if (!is_numeric($value) || !is_int($value + 0)) {
+        if (!filter_var($value, FILTER_VALIDATE_INT)) {
             return 'Value must be an integer';
         }
         return null;
