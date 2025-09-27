@@ -40,7 +40,7 @@ return [
 					'default_value' => '',
 					'max_length' => 255,
 					'is_required' => 1,
-					'is_serialized' => 0,
+					'is_serialized' => 0
 				],
 				[
 					'category' => 'site',
@@ -54,7 +54,7 @@ return [
 					'default_value' => '',
 					'max_length' => 255,
 					'is_required' => 1,
-					'is_serialized' => 0,
+					'is_serialized' => 0
 				],
 				[
 					'category' => 'mailer',
@@ -68,7 +68,7 @@ return [
 					'default_value' => 'mail',
 					'max_length' => 10,
 					'is_required' => 1,
-					'is_serialized' => 0,
+					'is_serialized' => 0
 				],
 				[
 					'category' => 'mailer',
@@ -82,7 +82,7 @@ return [
 					'default_value' => 'localhost',
 					'max_length' => 255,
 					'is_required' => 0,
-					'is_serialized' => 0,
+					'is_serialized' => 0
 				],
 				[
 					'category' => 'mailer',
@@ -96,7 +96,7 @@ return [
 					'default_value' => '25',
 					'max_length' => null,
 					'is_required' => 0,
-					'is_serialized' => 0,
+					'is_serialized' => 0
 				],
 				[
 					'category' => 'mailer',
@@ -110,7 +110,7 @@ return [
 					'default_value' => '',
 					'max_length' => 255,
 					'is_required' => 0,
-					'is_serialized' => 0,
+					'is_serialized' => 0
 				],
 				[
 					'category' => 'mailer',
@@ -124,7 +124,7 @@ return [
 					'default_value' => '',
 					'max_length' => 255,
 					'is_required' => 0,
-					'is_serialized' => 0,
+					'is_serialized' => 0
 				],
 				[
 					'category' => 'mailer',
@@ -138,7 +138,7 @@ return [
 					'default_value' => 'tls',
 					'max_length' => 10,
 					'is_required' => 0,
-					'is_serialized' => 0,
+					'is_serialized' => 0
 				],
 				[
 					'category' => 'mailer',
@@ -152,7 +152,7 @@ return [
 					'default_value' => '',
 					'max_length' => 255,
 					'is_required' => 1,
-					'is_serialized' => 0,
+					'is_serialized' => 0
 				],
 				[
 					'category' => 'mailer',
@@ -166,7 +166,7 @@ return [
 					'default_value' => '',
 					'max_length' => 255,
 					'is_required' => 1,
-					'is_serialized' => 0,
+					'is_serialized' => 0
 				],
 				[
 					'category' => 'mailer',
@@ -180,7 +180,7 @@ return [
 					'default_value' => '',
 					'max_length' => 255,
 					'is_required' => 0,
-					'is_serialized' => 0,
+					'is_serialized' => 0
 				],
 				[
 					'category' => 'mailer',
@@ -194,7 +194,7 @@ return [
 					'default_value' => '',
 					'max_length' => 255,
 					'is_required' => 0,
-					'is_serialized' => 0,
+					'is_serialized' => 0
 				],
 				[
 					'category' => 'mailer',
@@ -208,7 +208,7 @@ return [
 					'default_value' => '10485760',
 					'max_length' => null,
 					'is_required' => 0,
-					'is_serialized' => 0,
+					'is_serialized' => 0
 				],
 				[
 					'category' => 'mailer',
@@ -222,13 +222,13 @@ return [
 					'default_value' => '10',
 					'max_length' => null,
 					'is_required' => 0,
-					'is_serialized' => 0,
+					'is_serialized' => 0
 				],
 				[
 					'category' => 'mailer',
 					'sort_order' => 13,
 					'title' => 'Check SSL certificate',
-					'description' => 'verify_peer for SMTP driver',
+					'description' => 'Check SSL certificate for SMTP driver',
 					'key' => 'mailer_verify_peer',
 					'type' => 'boolean',
 					'options' => null,
@@ -236,13 +236,13 @@ return [
 					'default_value' => '0',
 					'max_length' => null,
 					'is_required' => 0,
-					'is_serialized' => 0,
+					'is_serialized' => 0
 				],
 				[
 					'category' => 'mailer',
 					'sort_order' => 14,
 					'title' => 'Check SSL certificate name',
-					'description' => 'verify_peer_name for SMTP driver',
+					'description' => 'Check SSL certificate name for SMTP driver',
 					'key' => 'mailer_verify_peer_name',
 					'type' => 'boolean',
 					'options' => null,
@@ -250,13 +250,13 @@ return [
 					'default_value' => '0',
 					'max_length' => null,
 					'is_required' => 0,
-					'is_serialized' => 0,
+					'is_serialized' => 0
 				],
 				[
 					'category' => 'mailer',
 					'sort_order' => 15,
 					'title' => 'Allow self-signed certificates',
-					'description' => 'allow_self_signed for SMTP driver',
+					'description' => 'Allow self signed for SMTP driver',
 					'key' => 'mailer_allow_self_signed',
 					'type' => 'boolean',
 					'options' => null,
@@ -264,7 +264,7 @@ return [
 					'default_value' => '1',
 					'max_length' => null,
 					'is_required' => 0,
-					'is_serialized' => 0,
+					'is_serialized' => 0
 				],
 				[
 					'category' => 'mailer',

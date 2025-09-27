@@ -54,6 +54,11 @@ class UsersController extends BaseController {
 	public function index(): void {
 		$this->log_request('users_index');
 
+		$current = $this->require_authentication();
+		if(empty($current)) {
+			return;
+		}
+
 		$params = $this->get_query_params();
 		$pagination = $this->get_pagination_params();
 
@@ -75,6 +80,14 @@ class UsersController extends BaseController {
 		}
 		if(isset($params['is_banned'])) {
 			$filters['is_banned'] = (int)(bool)$params['is_banned'];
+		}
+
+		// Handle is_deleted filter - only for roles m, a, su
+		if(isset($params['is_deleted'])) {
+			$current_role = $current['role'] ?? 'u';
+			if(in_array($current_role, ['m', 'a', 'su'], true)) {
+				$filters['is_deleted'] = (int)(bool)$params['is_deleted'];
+			}
 		}
 
 		try {

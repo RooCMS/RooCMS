@@ -188,6 +188,18 @@ return [
                         'null' => false,
                         'default' => 0,
                     ],
+                    'is_deleted' => [
+                        'type' => 'boolean',
+                        'default' => 0,
+                        'null' => false,
+                    ],
+                    'deleted_at' => [
+                        'type' => 'bigint',
+                        'length' => 20,
+                        'unsigned' => true,
+                        'null' => true,
+                        'default' => 0,
+                    ],
                 ],
                 'indexes' => [
                     [
@@ -208,7 +220,12 @@ return [
 						'type' => 'key',
 						'name' => 'role_idx',
 						'columns' => 'role'
-					]
+					],
+					[
+						'type' => 'key',
+						'name' => 'is_deleted_idx',
+						'columns' => 'is_deleted',
+					],
                 ],
                 'options' => [
                     'engine' => 'InnoDB',
@@ -281,7 +298,7 @@ return [
 						'unsigned' => true,
 						'null' => false,
 						'default' => 0,
-					],
+					]
 				],
 				'indexes' => [
 					[
@@ -292,7 +309,7 @@ return [
 						'type' => 'unique',
 						'name' => 'user_profiles_nickname_uq',
 						'columns' => 'nickname',
-					],
+					]
 				],
 				'options' => [
 					'engine' => 'InnoDB',

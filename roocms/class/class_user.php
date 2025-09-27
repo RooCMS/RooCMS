@@ -91,15 +91,18 @@ class User {
                         p.birthday, p.website, p.is_public
                       FROM " . TABLE_USERS . " u
                       LEFT JOIN " . TABLE_USER_PROFILES . " p ON u.id = p.user_id
-                      WHERE u." . $field . " = ? LIMIT 1";
+                      WHERE u." . $field . " = ? AND u.is_deleted = 0 LIMIT 1";
 
             $row = $this->db->fetch_assoc($query, [$value]);
 
-            $row['role_name'] = $this->role->get_role_name($row['role']);
-            $row['role_description'] = $this->role->get_role_description($row['role']);
-            $row['role_level'] = $this->role->get_role_level($row['role']);
+            if($row !== false) {
+                $row['role_name'] = $this->role->get_role_name($row['role']);
+                $row['role_description'] = $this->role->get_role_description($row['role']);
+                $row['role_level'] = $this->role->get_role_level($row['role']);
+                return $row;
+            }
             
-            return $row !== false ? $row : null;
+            return null;
         } catch (Exception $e) {
             error_log('Error getting user by ' . $field . ': ' . $e->getMessage());
             return null;
@@ -186,15 +189,16 @@ class User {
 
 
     /**
-     * Delete user
+     * Delete user (soft delete)
      * 
      * @param int $user_id User ID
      * @return bool
      */
     public function delete_user(int $user_id): bool {
         try {
-            $query = "DELETE FROM " . TABLE_USERS . " WHERE id = ?";
-            $this->db->query($query, [$user_id]);
+            $query = "UPDATE " . TABLE_USERS . " SET is_deleted = 1, deleted_at = ?, updated_at = ? WHERE id = ?";
+            $current_time = time();
+            $this->db->query($query, [$current_time, $current_time, $user_id]);
             return true;
         } catch (Exception $e) {
             error_log('Error deleting user: ' . $e->getMessage());
@@ -274,7 +278,7 @@ class User {
      */
     public function login_exists(string $login): bool {
         try {
-            $query = "SELECT COUNT(*) as count FROM " . TABLE_USERS . " WHERE login = ?";
+            $query = "SELECT COUNT(*) as count FROM " . TABLE_USERS . " WHERE login = ? AND is_deleted = 0";
             $result = $this->db->fetch_assoc($query, [$login]);
             return $result && $result['count'] > 0;
         } catch (Exception $e) {
@@ -292,7 +296,7 @@ class User {
     */
     public function email_exists(string $email): bool {
         try {
-            $query = "SELECT COUNT(*) as count FROM " . TABLE_USERS . " WHERE email = ?";
+            $query = "SELECT COUNT(*) as count FROM " . TABLE_USERS . " WHERE email = ? AND is_deleted = 0";
             $result = $this->db->fetch_assoc($query, [$email]);
             return $result && $result['count'] > 0;
         } catch (Exception $e) {
@@ -358,6 +362,11 @@ class User {
             $where_conditions = [];
             $params = [];
 
+            // Default filter: only non-deleted users
+            if (!isset($filters['is_deleted'])) {
+                $filters['is_deleted'] = 0;
+            }
+
             // Filters
             if (!empty($filters['role'])) {
                 $where_conditions[] = "u.role = ?";
@@ -372,6 +381,11 @@ class User {
             if (isset($filters['is_banned'])) {
                 $where_conditions[] = "u.is_banned = ?";
                 $params[] = $filters['is_banned'];
+            }
+
+            if (isset($filters['is_deleted'])) {
+                $where_conditions[] = "u.is_deleted = ?";
+                $params[] = $filters['is_deleted'];
             }
 
             if (!empty($filters['search'])) {
@@ -414,6 +428,11 @@ class User {
             $where_conditions = [];
             $params = [];
 
+            // Default filter: only non-deleted users
+            if (!isset($filters['is_deleted'])) {
+                $filters['is_deleted'] = 0;
+            }
+
             // Filters (the same as in get_users_list)
             if (!empty($filters['role'])) {
                 $where_conditions[] = "u.role = ?";
@@ -428,6 +447,11 @@ class User {
             if (isset($filters['is_banned'])) {
                 $where_conditions[] = "u.is_banned = ?";
                 $params[] = $filters['is_banned'];
+            }
+
+            if (isset($filters['is_deleted'])) {
+                $where_conditions[] = "u.is_deleted = ?";
+                $params[] = $filters['is_deleted'];
             }
 
             if (!empty($filters['search'])) {

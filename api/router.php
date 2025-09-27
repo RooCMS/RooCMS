@@ -33,15 +33,15 @@ spl_autoload_register(function(string $controller_name) {
     
     // allowed controllers
     $controllers = [
-        'BaseController'     => _API . '/v1/controller_base.php',
-        'HealthController'   => _API . '/v1/controller_health.php',
-        'CspController'      => _API . '/v1/controller_csp.php',
-        'AuthController'     => _API . '/v1/controller_auth.php',
-        'UsersController'    => _API . '/v1/controller_users.php',
-        'BackupController'   => _API . '/v1/controller_backup.php',
-        'AdminSettingsController' => _API . '/v1/controller_adminSettings.php',
-        'AuthMiddleware'     => _API . '/v1/middleware_auth.php',
-        'RoleMiddleware'     => _API . '/v1/middleware_role.php'
+        'BaseController'            => _API . '/v1/controller_base.php',
+        'HealthController'          => _API . '/v1/controller_health.php',
+        'CspController'             => _API . '/v1/controller_csp.php',
+        'AuthController'            => _API . '/v1/controller_auth.php',
+        'UsersController'           => _API . '/v1/controller_users.php',
+        'BackupController'          => _API . '/v1/controller_backup.php',
+        'AdminSettingsController'   => _API . '/v1/controller_adminSettings.php',
+        'AuthMiddleware'            => _API . '/v1/middleware_auth.php',
+        'RoleMiddleware'            => _API . '/v1/middleware_role.php'
     ];
     
     // try to load the controller

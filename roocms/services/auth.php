@@ -29,9 +29,9 @@ class AuthService {
 	private SiteSettings $siteSettings;
 	private Mailer $mailer;
 
-	public int $password_min_length    = 8;
-    public int $login_min_length       = 5;
-    public int $login_max_length       = 30;
+	public int $password_min_length     = 8;
+    public int $login_min_length        = 5;
+    public int $login_max_length        = 30;
 	private int $recovery_code_length 	= 6;
 	private int $max_recovery_attempts 	= 3;
 
@@ -186,6 +186,10 @@ class AuthService {
 			throw new DomainException('Invalid credentials', 401);
 		}
 
+		if($user['is_deleted'] == '1') {
+			throw new DomainException('Invalid credentials', 401);
+		}
+
 		if($user['is_active'] != '1') {
 			throw new DomainException('Account is not active', 403);
 		}
@@ -255,6 +259,10 @@ class AuthService {
 			throw new DomainException('User not found or inactive', 401);
 		}
 
+		if($user['is_deleted'] == '1') {
+			throw new DomainException('User not found or inactive', 401);
+		}
+
 		if($user['is_banned'] == '1' && (int)$user['ban_expired'] > time()) {
 			throw new DomainException('Account is banned', 403);
 		}
@@ -304,6 +312,10 @@ class AuthService {
 			->first();
 
 		if(!$user) {
+			return [];
+		}
+
+		if($user['is_deleted'] == '1') {
 			return [];
 		}
 
@@ -401,6 +413,10 @@ class AuthService {
 				->data(['attempts' => (int)$verification_code['attempts'] + 1])
 				->where('id', $verification_code['id'])
 				->execute();
+			throw new DomainException('User not found', 404);
+		}
+
+		if($user['is_deleted'] == '1') {
 			throw new DomainException('User not found', 404);
 		}
 
