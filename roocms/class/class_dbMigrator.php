@@ -228,36 +228,22 @@ class DbMigrator {
 	 * @param array $migration_data
 	 */
 	private function process_migration(array $migration_data): void {
+		$operations = [
+			'tables' => fn($data) => $this->process_create_tables($data),
+			'alter_tables' => fn($data) => $this->process_alter_tables($data),
+			'data' => fn($data) => $this->process_insert_data($data),
+			'delete_data' => fn($data) => $this->process_delete_data($data),
+			'drop_tables' => fn($data) => $this->process_drop_tables($data),
+			'add_foreign_keys' => fn($data) => $this->process_add_foreign_keys($data),
+			'drop_foreign_keys' => fn($data) => $this->process_drop_foreign_keys($data),
+			'raw_sql' => fn($data) => $this->process_raw_sql($data)
+		];
+
 		foreach ($migration_data as $operation_type => $operation_data) {
-			switch ($operation_type) {
-				case 'tables':
-					$this->process_create_tables($operation_data);
-					break;
-				case 'alter_tables':
-					$this->process_alter_tables($operation_data);
-					break;
-				case 'data':
-					$this->process_insert_data($operation_data);
-					break;
-				case 'delete_data':
-					$this->process_delete_data($operation_data);
-					break;
-				case 'drop_tables':
-					$this->process_drop_tables($operation_data);
-					break;
-				case 'add_foreign_keys':
-					$this->process_add_foreign_keys($operation_data);
-					break;
-				case 'drop_foreign_keys':
-					$this->process_drop_foreign_keys($operation_data);
-					break;
-				case 'raw_sql':
-					$this->process_raw_sql($operation_data);
-					break;
-				default:
-					// Ignore unknown operations
-					break;
+			if (isset($operations[$operation_type])) {
+				$operations[$operation_type]($operation_data);
 			}
+			// Unknown operations are silently ignored
 		}
 	}
 
@@ -351,43 +337,37 @@ class DbMigrator {
 	 * @return string
 	 */
 	private function build_create_table_sql(string $table_name, array $config): string {
-		$columns = [];
-		$indexes = [];
-		$constraints = [];
-		
 		// Building columns
-		foreach ($config['columns'] as $column_name => $column_config) {
-			$columns[] = $this->build_column_definition($column_name, $column_config);
-		}
+		$columns = array_map(
+			fn($name, $conf) => $this->build_column_definition($name, $conf),
+			array_keys($config['columns']),
+			$config['columns']
+		);
 
 		// Building indexes
-		if (isset($config['indexes'])) {
-			foreach ($config['indexes'] as $index) {
-				$indexes[] = $this->build_index_definition($index);
-			}
-		}
+		$indexes = array_map(
+			fn($index) => $this->build_index_definition($index),
+			$config['indexes'] ?? []
+		);
 
 		// Building constraints (currently supports only CHECK)
-		if (isset($config['constraints'])) {
-			foreach ($config['constraints'] as $constraint) {
-				if (($constraint['type'] ?? '') === 'check' && isset($constraint['expression'])) {
-					$name = $constraint['name'] ?? '';
-					$definition = 'CHECK (' . $constraint['expression'] . ')';
-					$constraints[] = $name ? 'CONSTRAINT ' . $this->quote_identifier($name) . ' ' . $definition : $definition;
-				}
+		$constraints = array_filter(array_map(function($constraint) {
+			if (($constraint['type'] ?? '') !== 'check' || !isset($constraint['expression'])) {
+				return null;
 			}
-		}
+			$definition = 'CHECK (' . $constraint['expression'] . ')';
+			$name = $constraint['name'] ?? '';
+			return $name ? 'CONSTRAINT ' . $this->quote_identifier($name) . ' ' . $definition : $definition;
+		}, $config['constraints'] ?? []));
 
 		$table_definition = implode(', ', array_merge($columns, $indexes, $constraints));
 		
-		$sql = match($this->driver) {
+		return match($this->driver) {
 			'mysql' => $this->build_mysql_create_table($table_name, $table_definition, $config),
 			'postgresql' => $this->build_postgres_create_table($table_name, $table_definition, $config),
 			'firebird' => $this->build_firebird_create_table($table_name, $table_definition, $config),
 			default => throw new Exception('Unsupported driver: ' . $this->driver)
 		};
-
-		return $sql;
 	}
 
     
@@ -619,48 +599,33 @@ class DbMigrator {
 	 */
 	private function add_foreign_key(string $table_name, array $fk): void {
 		$name = $fk['name'] ?? '';
-		if ($name === '') {
-			throw new Exception('Foreign key name is required');
-		}
-
-		// Skip if already exists
-		if ($this->foreign_key_exists($table_name, $name)) {
-			return;
+		if ($name === '' || $this->foreign_key_exists($table_name, $name)) {
+			if ($name === '') throw new Exception('Foreign key name is required');
+			return; // Skip if already exists
 		}
 
 		$columns = (array)($fk['columns'] ?? []);
 		$ref_table_const = $fk['reference_table'] ?? '';
 		$ref_table = is_string($ref_table_const) ? constant($ref_table_const) : $ref_table_const;
 		$ref_columns = (array)($fk['reference_columns'] ?? ['id']);
-		$on_delete = $fk['on_delete'] ?? '';
-		$on_update = $fk['on_update'] ?? '';
 
 		if (empty($columns) || empty($ref_table)) {
 			throw new Exception('Invalid foreign key config for ' . $name);
 		}
 
+		// Build SQL parts
 		$cols_sql = implode(', ', array_map(fn($c) => $this->quote_identifier($c), $columns));
 		$ref_cols_sql = implode(', ', array_map(fn($c) => $this->quote_identifier($c), $ref_columns));
+		$on_delete_sql = ($fk['on_delete'] ?? '') ? ' ON DELETE ' . $fk['on_delete'] : '';
+		$on_update_sql = ($fk['on_update'] ?? '') ? ' ON UPDATE ' . $fk['on_update'] : '';
+		
+		// Build base SQL (same for all supported drivers)
+		$sql = 'ALTER TABLE ' . $this->quote_identifier($table_name)
+			. ' ADD CONSTRAINT ' . $this->quote_identifier($name)
+			. ' FOREIGN KEY (' . $cols_sql . ') REFERENCES ' . $this->quote_identifier($ref_table)
+			. ' (' . $ref_cols_sql . ')' . $on_delete_sql . $on_update_sql;
 
-		$sql = match($this->driver) {
-			'mysql' => 'ALTER TABLE ' . $this->quote_identifier($table_name)
-				. ' ADD CONSTRAINT ' . $this->quote_identifier($name)
-				. ' FOREIGN KEY (' . $cols_sql . ') REFERENCES ' . $this->quote_identifier($ref_table)
-				. ' (' . $ref_cols_sql . ')' 
-				. ($on_delete ? ' ON DELETE ' . $on_delete : '')
-				. ($on_update ? ' ON UPDATE ' . $on_update : ''),
-			'postgresql', 'firebird' => 'ALTER TABLE ' . $this->quote_identifier($table_name)
-				. ' ADD CONSTRAINT ' . $this->quote_identifier($name)
-				. ' FOREIGN KEY (' . $cols_sql . ') REFERENCES ' . $this->quote_identifier($ref_table)
-				. ' (' . $ref_cols_sql . ')' 
-				. ($on_delete ? ' ON DELETE ' . $on_delete : '')
-				. ($on_update ? ' ON UPDATE ' . $on_update : ''),
-			default => ''
-		};
-
-		if ($sql !== '') {
-			$this->db->query($sql);
-		}
+		$this->db->query($sql);
 	}
 
 

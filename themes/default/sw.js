@@ -89,25 +89,25 @@ const STATIC_CACHE_TTL = TIME_CONSTANTS.HOUR;
  * Installation of Service Worker - precaching (if enabled)
  */
 self.addEventListener('install', (event) => {
-    console.log('[SW] Installing...');
+    protocol('log', 'Installing...');
     
     if (STATIC_CACHE_ENABLE) {
         event.waitUntil(
             caches.open(CACHE_NAME)
                 .then((cache) => {
-                    console.log('[SW] Precaching app shell');
+                    protocol('log', 'Precaching app shell');
                     return cache.addAll(PRECACHE_URLS);
                 })
                 .then(() => {
-                    console.log('[SW] Installed successfully');
+                    protocol('log', 'Installed successfully');
                     return self.skipWaiting();
                 })
                 .catch((error) => {
-                    console.error('[SW] Installation failed:', error);
+                    protocol('error', 'Installation failed:', error);
                 })
         );
     } else {
-        console.log('[SW] Static caching disabled, skipping precaching');
+        protocol('log', 'Static caching disabled, skipping precaching');
         event.waitUntil(self.skipWaiting());
     }
 });
@@ -116,7 +116,7 @@ self.addEventListener('install', (event) => {
  * Activation of Service Worker - clearing old caches
  */
 self.addEventListener('activate', (event) => {
-    console.log('[SW] Activating...');
+    protocol('log', 'Activating...');
     
     event.waitUntil(
         caches.keys()
@@ -124,14 +124,14 @@ self.addEventListener('activate', (event) => {
                 return Promise.all(
                     cacheNames.map((cacheName) => {
                         if (cacheName !== CACHE_NAME && cacheName !== API_CACHE_NAME) {
-                            console.log('[SW] Deleting old cache:', cacheName);
+                            protocol('log', 'Deleting old cache:', cacheName);
                             return caches.delete(cacheName);
                         }
                     })
                 );
             })
             .then(() => {
-                console.log('[SW] Activated successfully');
+                protocol('log', 'Activated successfully');
                 return self.clients.claim();
             })
     );
@@ -175,11 +175,11 @@ async function handleApiRequest(request) {
     
     // If API caching is disabled - simply proxy the request
     if (!API_CACHE_ENABLE) {
-        console.log('[SW] API caching disabled, proxying request:', url.pathname);
+        protocol('log', 'API caching disabled, proxying request:', url.pathname);
         try {
             return await fetch(request);
         } catch (error) {
-            console.log('[SW] API request failed (no cache):', url.pathname, error);
+            protocol('error', 'API request failed (no cache):', url.pathname, error);
             return new Response(
                 JSON.stringify({ error: 'Network Error', message: 'API request failed and caching is disabled' }),
                 { status: 503, headers: { 'Content-Type': 'application/json' } }
@@ -206,15 +206,15 @@ async function handleApiRequest(request) {
             if (API_CACHE_TTL > 0) {
                 const cacheDate = cached.headers.get('sw-cache-date');
                 if (cacheDate && (Date.now() - parseInt(cacheDate)) < API_CACHE_TTL) {
-                    console.log('[SW] API cache hit (fresh):', url.pathname);
+                    protocol('log', 'API cache hit (fresh):', url.pathname);
                     return cached;
                 } else {
-                    console.log('[SW] API cache expired:', url.pathname);
+                    protocol('log', 'API cache expired:', url.pathname);
                     // Cache expired, continue loading
                 }
             } else {
                 // TTL = 0, cache forever
-                console.log('[SW] API cache hit (permanent):', url.pathname);
+                protocol('log', 'API cache hit (permanent):', url.pathname);
                 return cached;
             }
         }
@@ -225,12 +225,12 @@ async function handleApiRequest(request) {
             const responseClone = response.clone();
             responseClone.headers.set('sw-cache-date', Date.now().toString());
             await cache.put(request, responseClone);
-            console.log('[SW] API cached:', url.pathname);
+            protocol('log', 'API cached:', url.pathname);
         }
 
         return response;
     } catch (error) {
-        console.log('[SW] API offline, serving cache:', url.pathname);
+        protocol('log', 'API offline, serving cache:', url.pathname);
         const cache = await caches.open(API_CACHE_NAME);
         const cached = await cache.match(request);
         return cached || new Response(
@@ -251,7 +251,7 @@ async function handleNavigateRequest(request) {
         const response = await fetch(request);
         return response;
     } catch (error) {
-        console.log('[SW] Navigation offline, serving cache');
+        protocol('log', 'Navigation offline, serving cache');
         
         // If offline - search in cache
         const cache = await caches.open(CACHE_NAME);
@@ -277,11 +277,11 @@ async function handleNavigateRequest(request) {
 async function handleStaticRequest(request) {
     // If static caching is disabled - simply proxy the request
     if (!STATIC_CACHE_ENABLE) {
-        console.log('[SW] Static caching disabled, proxying request:', request.url);
+        protocol('log', 'Static caching disabled, proxying request:', request.url);
         try {
             return await fetch(request);
         } catch (error) {
-            console.log('[SW] Static request failed (no cache):', request.url, error);
+            protocol('error', 'Static request failed (no cache):', request.url, error);
             return new Response(
                 'Resource not available offline',
                 { status: 503 }
@@ -298,15 +298,15 @@ async function handleStaticRequest(request) {
             if (STATIC_CACHE_TTL > 0) {
                 const cacheDate = cached.headers.get('sw-cache-date');
                 if (cacheDate && (Date.now() - parseInt(cacheDate)) < STATIC_CACHE_TTL) {
-                    console.log('[SW] Static cache hit (fresh):', request.url);
+                    protocol('log', 'Static cache hit (fresh):', request.url);
                     return cached;
                 } else {
-                    console.log('[SW] Static cache expired:', request.url);
+                    protocol('log', 'Static cache expired:', request.url);
                     // Cache expired, continue loading
                 }
             } else {
                 // TTL = 0, cache forever
-                console.log('[SW] Static cache hit (permanent):', request.url);
+                protocol('log', 'Static cache hit (permanent):', request.url);
                 return cached;
             }
         }
@@ -318,12 +318,12 @@ async function handleStaticRequest(request) {
             // Add header with current time for TTL check
             responseClone.headers.set('sw-cache-date', Date.now().toString());
             await cache.put(request, responseClone);
-            console.log('[SW] Static cached:', request.url);
+            protocol('log', 'Static cached:', request.url);
         }
 
         return response;
     } catch (error) {
-        console.log('[SW] Static offline:', request.url);
+        protocol('log', 'Static offline:', request.url);
         
         // In offline mode - search in cache
         const cache = await caches.open(CACHE_NAME);
@@ -366,7 +366,7 @@ async function fetchAndCache(request, cacheName) {
  * Background Sync for delayed data sending
  */
 self.addEventListener('sync', (event) => {
-    console.log('[SW] Background sync:', event.tag);
+    protocol('log', 'Background sync:', event.tag);
     
     if (event.tag === 'background-sync') {
         event.waitUntil(doBackgroundSync());
@@ -378,7 +378,7 @@ self.addEventListener('sync', (event) => {
  * @returns {Promise<void>}
  */
 async function doBackgroundSync() {
-    console.log('[SW] Performing background sync...');
+    protocol('log', 'Performing background sync...');
     // Here you can add logic for sending delayed data
     // For example, sending forms that were not sent in offline mode
 }
@@ -387,7 +387,7 @@ async function doBackgroundSync() {
  * Handling push notifications (if needed in the future)
  */
 self.addEventListener('push', (event) => {
-    console.log('[SW] Push received:', event);
+    protocol('log', 'Push received:', event);
     
     if (event.data) {
         const data = event.data.json();
@@ -406,7 +406,7 @@ self.addEventListener('push', (event) => {
  * Handling clicks on notifications
  */
 self.addEventListener('notificationclick', (event) => {
-    console.log('[SW] Notification clicked:', event);
+    protocol('log', 'Notification clicked:', event);
     
     event.notification.close();
     
@@ -415,4 +415,19 @@ self.addEventListener('notificationclick', (event) => {
     );
 });
 
-console.log('[SW] Service Worker script loaded');
+function protocol(type, message) {
+    const logMethods = {
+        log: console.log,
+        error: console.error,
+        warn: console.warn,
+        debug: console.debug
+    };
+    
+    const logMethod = logMethods[type];
+    if (logMethod) {
+        logMethod('[SW] ' + message);
+    }
+}
+
+protocol('log', 'Service Worker script loaded');
+

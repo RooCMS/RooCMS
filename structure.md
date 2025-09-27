@@ -207,58 +207,64 @@ System themes for configuring the appearance of the website. RooCMS supports two
 
 ```
 themes/
-├── default/                        # Default theme
-│   ├── assets/                     # Theme resources
-│   │   ├── css/                    # CSS styles
-│   │   │   ├── roocms.css          # RooCMS main styles
-│   │   │   └── roocms.min.css      # Minified RooCMS styles
-│   │   └── js/                     # JavaScript files
-│   │       ├── alpine.csp.min.js   # Alpine.js with CSP support
-│   │       ├── alpine.min.js       # Alpine.js framework
-│   │       ├── app/                # Application modules
-│   │       │   ├── acp-access.js   # ACP access control
-│   │       │   ├── acp.js          # ACP functionality
-│   │       │   ├── api.js          # API client
-│   │       │   ├── auth.js         # Authentication
-│   │       │   ├── config.js       # Configuration
-│   │       │   ├── helpers/        # Helper functions
-│   │       │   │   ├── formatters.js # Data formatters
-│   │       │   │   ├── formHelpers.js # Form helpers
-│   │       │   │   └── validation.js # Validation helpers
-│   │       │   └── main.js         # Main module
-│   │       └── pages/              # Pages scripts
-│   │           ├── acp-dashboard.js # Admin dashboard page
-│   │           ├── acp-settings.js  # Admin settings page
-│   │           ├── login.js         # Login page
-│   │           ├── password-forgot.js # Password forgot page
-│   │           ├── password-reset.js  # Password reset page
-│   │           ├── profile.js       # Profile page
-│   │           ├── register.js      # Register page
-│   │           └── ui-kit.js        # UI kit page
-│   ├── layouts/                    # Layouts templates
-│   │   ├── acp-nav.php             # ACP navigation layout
-│   │   └── base.php                # Base layout
-│   ├── pages/                      # Pages templates
-│   │   ├── 403.php                 # 403 access denied page
-│   │   ├── 404.php                 # 404 not found page
-│   │   ├── acp/                    # Admin control panel pages
-│   │   │   ├── index.php           # ACP dashboard
-│   │   │   ├── settings.php        # ACP settings
-│   │   │   └── ui-kit.php          # ACP UI kit
-│   │   ├── index.php               # Home page
-│   │   ├── login.php               # Login page
-│   │   ├── password-forgot.php     # Password forgot page
-│   │   ├── password-reset.php      # Password reset page
-│   │   ├── privacy.php             # Privacy policy page
-│   │   ├── profile.php             # User profile page
-│   │   ├── register.php            # Registration page
-│   │   ├── register-complete.php   # Registration complete page
-│   │   ├── terms.php               # Terms of service page
-│   │   └── ui-kit.php              # UI kit demo page
-│   ├── partials/                   # Partial templates
-│   │   ├── footer.php              # Footer
-│   │   └── header.php              # Header
-│   └── theme.json                  # Theme manifest (type: "php")
+├── default/                            # Default theme
+│   ├── assets/                         # Theme resources
+│   │   ├── css/                        # CSS styles
+│   │   │   ├── roocms.css              # RooCMS main styles
+│   │   │   └── roocms.min.css          # Minified RooCMS styles
+│   │   └── js/                         # JavaScript files
+│   │       ├── alpine.csp.min.js       # Alpine.js with CSP support
+│   │       ├── app/                    # Application modules
+│   │       │   ├── acp-access.js       # ACP access control
+│   │       │   ├── acp.js              # ACP functionality
+│   │       │   ├── api.js              # API client
+│   │       │   ├── auth.js             # Authentication
+│   │       │   ├── config.js           # Configuration
+│   │       │   ├── helpers/            # Helper functions
+│   │       │   │   ├── formatters.js   # Data formatters
+│   │       │   │   ├── formHelpers.js  # Form helpers
+│   │       │   │   ├── lazyLoader.js   # Lazy loading helpers (not used)
+│   │       │   │   └── validation.js   # Validation helpers
+│   │       │   ├── main.js             # Main module
+│   │       │   └── serviceWorker.js    # Service worker functionality (draft)
+│   │       └── pages/                  # Pages scripts
+│   │           ├── acp-dashboard.js    # Admin dashboard page
+│   │           ├── acp-settings.js     # Admin settings page
+│   │           ├── login.js            # Login page
+│   │           ├── password-forgot.js  # Password forgot page
+│   │           ├── password-reset.js   # Password reset page
+│   │           ├── profile.js          # Profile page
+│   │           ├── register.js         # Register page
+│   │           └── ui-kit.js           # UI kit page
+│   ├── layouts/                        # Layouts templates
+│   │   ├── acp-nav.php                 # ACP navigation layout
+│   │   └── base.php                    # Base layout
+│   ├── pages/                          # Pages templates
+│   │   ├── 403.php                     # 403 access denied page
+│   │   ├── 404.php                     # 404 not found page
+│   │   ├── acp/                        # Admin control panel pages
+│   │   │   ├── index.php               # ACP dashboard
+│   │   │   ├── settings.php            # ACP settings
+│   │   │   └── ui-kit.php              # ACP UI kit
+│   │   ├── index.php                   # Home page
+│   │   ├── login.php                   # Login page
+│   │   ├── offline.php                 # Offline page (for service worker)
+│   │   ├── password-forgot.php         # Password forgot page
+│   │   ├── password-reset.php          # Password reset page
+│   │   ├── privacy.php                 # Privacy policy page
+│   │   ├── profile.php                 # User profile page
+│   │   ├── register.php                # Registration page
+│   │   ├── register-complete.php       # Registration complete page
+│   │   ├── terms.php                   # Terms of service page
+│   │   └── ui-kit.php                  # UI kit demo page
+│   ├── partials/                       # Partial templates
+│   │   ├── footer.php                  # Footer
+│   │   └── header.php                  # Header
+│   ├── prepros.config                  # Prepros configuration
+│   ├── sw.js                           # Service worker (draft)
+│   ├── sw.min.js                       # Minified service worker
+│   ├── tailwind.config.js              # Tailwind CSS configuration
+│   └── theme.json                      # Theme manifest (type: "php")
 │
 └── default_html.7z                 # HTML theme archive (placeholders, includes, conditionals)
                                     # Note: This theme is currently archived and not actively used

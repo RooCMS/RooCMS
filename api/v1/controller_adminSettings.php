@@ -177,35 +177,27 @@ class AdminSettingsController extends BaseController {
         $this->log_request('settings_update_settings');
 
         $data = $this->get_input_data();
-
         if(empty($data) || !is_array($data)) {
             $this->error_response('Settings data is required', 400);
             return;
         }
 
-
         try {
             // Validate all settings before updating
-            $validationErrors = [];
-            foreach ($data as $key => $value) {
+            $validationErrors = array_filter(array_map(function($key, $value) {
                 if(!$this->siteSettingsService->setting_exists($key)) {
-                    $validationErrors[$key] = 'Setting not found';
-                    continue;
+                    return 'Setting not found';
                 }
-
+                
                 $meta = $this->siteSettingsService->get_setting_meta($key);
                 if (!$meta) {
-                    $validationErrors[$key] = 'Setting metadata not found';
-                    continue;
+                    return 'Setting metadata not found';
                 }
+                
+                return $this->validate_setting_value($value, $meta) ?: null;
+            }, array_keys($data), $data));
 
-                $validationError = $this->validate_setting_value($value, $meta);
-                if ($validationError) {
-                    $validationErrors[$key] = $validationError;
-                }
-            }
-
-            if (!empty($validationErrors)) {
+            if ($validationErrors) {
                 $this->validation_error_response($validationErrors);
                 return;
             }
@@ -230,19 +222,12 @@ class AdminSettingsController extends BaseController {
      * @return string|null Validation error message or null if valid
      */
     private function validate_setting_value(mixed $value, array $meta): ?string {
-        // Normalize null values to empty strings
-        if ($value === null) {
-            $value = '';
-        }
-
-        // Check if required - empty values are only invalid for required fields
-        if ($meta['is_required'] && $value === '') {
-            return 'This field is required';
-        }
-
-        // For optional fields, empty values are always valid
-        if ($value === '') {
-            return null;
+        // Normalize and check empty values
+        $value = $value ?? '';
+        $isEmpty = $value === '';
+        
+        if ($isEmpty) {
+            return $meta['is_required'] ? 'This field is required' : null;
         }
 
         // Check maximum length for string types
@@ -336,25 +321,20 @@ class AdminSettingsController extends BaseController {
      * @return string|null Validation error message or null if valid
      */
     private function validate_select_value(mixed $value, array $meta): ?string {
-        // Empty values are valid for optional fields
-        if ($value === null || $value === '' || $value === 0 || $value === '0') {
+        // Check for empty values
+        $isEmpty = in_array($value, [null, '', 0, '0'], true);
+        if ($isEmpty) {
             return $meta['is_required'] ? 'This field is required' : null;
         }
-
-        // Convert to string for comparison
-        $value = (string)$value;
 
         // Select fields must have options defined
         if (empty($meta['options'])) {
             return 'Select field must have options defined';
         }
 
-        $options = $meta['options'];
-
-        // Check if value exists in options
-        if (!array_key_exists($value, $options)) {
-            $validOptions = implode(', ', array_keys($options));
-            return "Value must be one of: {$validOptions}";
+        // Check if value exists in options (convert to string for comparison)
+        if (!array_key_exists((string)$value, $meta['options'])) {
+            return 'Value must be one of: ' . implode(', ', array_keys($meta['options']));
         }
 
         return null;

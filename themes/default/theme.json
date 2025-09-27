@@ -7,11 +7,10 @@
 	"author": "RooCMS Team",
 	"assets": {
 		"css": [
-			"normalize.min.css",
+			"roocms.min.css",
 			"roocms.css"
 		],
 		"js": [
-			"alpine-defer.js",
 			"alpine.csp.min.js",
 			"app/config.js",
 			"app/api.js",

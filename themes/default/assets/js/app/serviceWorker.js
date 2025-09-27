@@ -46,28 +46,28 @@ export async function registerServiceWorker() {
     };
 
     if (!status.supported) {
-        console.log('[SW Registration] Service Worker not supported');
+        log('Service Worker not supported');
         return status;
     }
 
     try {
-        console.log('[SW Registration] Registering Service Worker...');
+        log('Registering Service Worker...');
         
         const registration = await navigator.serviceWorker.register(SW_PATH, SW_OPTIONS);
         
         status.registered = true;
         status.registration = registration;
         
-        console.log('[SW Registration] Service Worker registered successfully:', registration);
+        log('Service Worker registered successfully:', registration);
 
         // Event handlers for Service Worker lifecycle
         registration.addEventListener('updatefound', () => {
-            console.log('[SW Registration] New Service Worker version found');
+            log('New Service Worker version found');
             
             const newWorker = registration.installing;
             if (newWorker) {
                 newWorker.addEventListener('statechange', () => {
-                    console.log('[SW Registration] Service Worker state:', newWorker.state);
+                    log('Service Worker state:', newWorker.state);
                     
                     if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
                         // New version installed, can show notification to user
@@ -83,7 +83,7 @@ export async function registerServiceWorker() {
         }, 60000); // Check every minute
 
     } catch (error) {
-        console.error('[SW Registration] Failed to register Service Worker:', error);
+        log('Failed to register Service Worker:', error);
         status.error = error;
     }
 
@@ -103,12 +103,12 @@ export async function unregisterServiceWorker() {
         const registration = await navigator.serviceWorker.getRegistration();
         if (registration) {
             const result = await registration.unregister();
-            console.log('[SW Registration] Service Worker unregistered:', result);
+            log('Service Worker unregistered:', result);
             return result;
         }
         return true;
     } catch (error) {
-        console.error('[SW Registration] Failed to unregister Service Worker:', error);
+        log('Failed to unregister Service Worker:', error);
         return false;
     }
 }
@@ -125,7 +125,7 @@ export async function getServiceWorkerRegistration() {
     try {
         return await navigator.serviceWorker.getRegistration();
     } catch (error) {
-        console.error('[SW Registration] Failed to get Service Worker registration:', error);
+        log('Failed to get Service Worker registration:', error);
         return null;
     }
 }
@@ -143,7 +143,7 @@ export function isServiceWorkerActive() {
  * @private
  */
 function notifyUserAboutUpdate() {
-    console.log('[SW Registration] New version available');
+    log('New version available');
     
     // Can show notification to user about available update
     if (window.modal) {
@@ -197,7 +197,7 @@ export async function sendMessageToServiceWorker(message) {
  */
 export async function initServiceWorker() {
     if (window.location.protocol !== 'https:' && window.location.hostname !== 'localhost') {
-        console.log('[SW Registration] Service Worker requires HTTPS');
+        log('Service Worker requires HTTPS');
         return;
     }
 
@@ -205,20 +205,24 @@ export async function initServiceWorker() {
         const status = await registerServiceWorker();
         
         if (status.registered) {
-            console.log('[SW Registration] Service Worker initialized successfully');
+            log('Service Worker initialized successfully');
         } else if (status.error) {
-            console.error('[SW Registration] Service Worker initialization failed:', status.error);
+            log('Service Worker initialization failed:', status.error);
         } else {
-            console.log('[SW Registration] Service Worker not supported');
+            log('Service Worker not supported');
         }
     } catch (error) {
-        console.error('[SW Registration] Service Worker initialization error:', error);
+        log('Service Worker initialization error:', error);
     }
 }
 
 // Automatic initialization of Service Worker when page is loaded
 if (typeof window !== 'undefined') {
     window.addEventListener('load', initServiceWorker);
+}
+
+function log(message) {
+    console.log('[SW Registration] ' + message);
 }
 
 /**
@@ -228,17 +232,17 @@ if (typeof window !== 'undefined') {
  * 
  * // Check support
  * if (isServiceWorkerSupported()) {
- *     console.log('Service Worker supported');
+ *     log('Service Worker supported');
  * }
  * 
  * // Manual registration
  * registerServiceWorker().then(status => {
  *     if (status.registered) {
- *         console.log('SW registered');
+ *         log('SW registered');
  *     }
  * });
  * 
  * // Sending message to Service Worker
  * sendMessageToServiceWorker({ action: 'clearCache' })
- *     .then(response => console.log('SW response:', response));
+ *     .then(response => log('SW response:', response));
  */
