@@ -268,23 +268,14 @@ class UsersController extends BaseController {
 		}
 
 		$data = $this->get_input_data();
+		$field_mapping = [
+			'user' => ['email'],
+			'profile' => ['nickname','first_name','last_name','gender','avatar','bio','birthday','website','is_public']
+		];
 
-		$allowed_user_fields = ['email'];
-		$allowed_profile_fields = ['nickname','first_name','last_name','gender','avatar','bio','birthday','website','is_public'];
-
-		$user_updates = [];
-		$profile_updates = [];
-
-		foreach($allowed_user_fields as $field) {
-			if(array_key_exists($field, $data)) {
-				$user_updates[$field] = $data[$field];
-			}
-		}
-		foreach($allowed_profile_fields as $field) {
-			if(array_key_exists($field, $data)) {
-				$profile_updates[$field] = $data[$field];
-			}
-		}
+		// Filter data by allowed fields for each type
+		$user_updates = array_intersect_key($data, array_flip($field_mapping['user']));
+		$profile_updates = array_intersect_key($data, array_flip($field_mapping['profile']));
 
 		if(empty($user_updates) && empty($profile_updates)) {
 			$this->error_response('No valid fields to update', 400);
@@ -293,10 +284,10 @@ class UsersController extends BaseController {
 
 		try {
 			$this->db->transaction(function() use ($current, $user_updates, $profile_updates) {
-				if(!empty($user_updates)) {
+				if($user_updates) {
 					$this->userService->update_user((int)$current['id'], $user_updates);
 				}
-				if(!empty($profile_updates)) {
+				if($profile_updates) {
 					$this->userService->upsert_profile((int)$current['id'], $profile_updates);
 				}
 			});

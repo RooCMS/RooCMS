@@ -58,49 +58,45 @@ class UserService {
      * Create or update user profile by ID
      */
     public function upsert_profile(int $user_id, array $profile_data): bool {
-        // Normalization and simple validation of the profile
-        if(isset($profile_data['nickname'])) {
-            $nickname = trim((string)$profile_data['nickname']);
-            if($nickname !== '' && $this->user->nickname_exists($nickname)) {
-                throw new DomainException('Nickname already taken', 409);
+        // Normalize and validate profile fields
+        foreach(['nickname', 'website'] as $field) {
+            if(isset($profile_data[$field])) {
+                $value = trim((string)$profile_data[$field]);
+                $profile_data[$field] = $value !== '' ? $value : null;
             }
-            $profile_data['nickname'] = $nickname !== '' ? $nickname : null;
         }
 
+        // Validate nickname uniqueness
+        if(!empty($profile_data['nickname']) && $this->user->nickname_exists($profile_data['nickname'])) {
+            throw new DomainException('Nickname already taken', 409);
+        }
+
+        // Validate gender
         if(isset($profile_data['gender'])) {
             $gender = $profile_data['gender'];
-            if($gender !== null && $gender !== '') {
-                $allowed = ['male','female','other'];
-                if(!in_array($gender, $allowed, true)) {
-                    throw new DomainException('Invalid gender', 422);
-                }
-            } else {
-                $profile_data['gender'] = null;
-            }
+            $allowed_genders = ['male', 'female', 'other'];
+            $profile_data['gender'] = (!empty($gender) && in_array($gender, $allowed_genders, true)) ? $gender : null;
         }
 
+        // Validate birthday
         if(isset($profile_data['birthday'])) {
             $birthday = trim((string)$profile_data['birthday']);
             if($birthday !== '') {
                 $dt = date_create_from_format('Y-m-d', $birthday);
-                $errors = $dt !== false ? date_get_last_errors() : ['warning_count' => 1, 'error_count' => 1];
-                if($dt === false || ($errors['warning_count'] ?? 0) > 0 || ($errors['error_count'] ?? 0) > 0) {
+                $errors = date_get_last_errors();
+                if(!$dt || $errors['warning_count'] > 0 || $errors['error_count'] > 0) {
                     throw new DomainException('Invalid birthday format. Use Y-m-d', 422);
                 }
-                $profile_data['birthday'] = $birthday;
-            } else {
-                $profile_data['birthday'] = null;
             }
+            $profile_data['birthday'] = $birthday !== '' ? $birthday : null;
         }
 
-        if(isset($profile_data['website'])) {
-            $website = trim((string)$profile_data['website']);
-            if($website !== '' && !filter_var($website, FILTER_VALIDATE_URL)) {
-                throw new DomainException('Invalid website URL', 422);
-            }
-            $profile_data['website'] = $website !== '' ? $website : null;
+        // Validate website URL
+        if(!empty($profile_data['website']) && !filter_var($profile_data['website'], FILTER_VALIDATE_URL)) {
+            throw new DomainException('Invalid website URL', 422);
         }
 
+        // Normalize boolean field
         if(isset($profile_data['is_public'])) {
             $profile_data['is_public'] = (int)(bool)$profile_data['is_public'];
         }
