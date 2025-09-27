@@ -22,6 +22,9 @@ import * as ValidationUtils from './helpers/validation.js';
 import * as FormatterUtils from './helpers/formatters.js';
 import * as FormHelperUtils from './helpers/formHelpers.js';
 
+//import { initServiceWorker, isServiceWorkerSupported } from './serviceWorker.js';
+//import { defaultLazyLoader } from './helpers/lazyLoader.js';
+
 // Make utilities globally available
 window.ValidationUtils = ValidationUtils;
 window.FormatterUtils = FormatterUtils;
@@ -35,6 +38,16 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     Alpine = window.Alpine; // On any case ;)
+
+    // Initialize Service Worker for offline functionality
+    /*if (isServiceWorkerSupported()) {
+        try {
+            await initServiceWorker();
+            console.log('[Main] Service Worker initialized');
+        } catch (error) {
+            console.error('[Main] Service Worker initialization failed:', error);
+        }
+    }*/
 
     // Load user data if authenticated
     if (getAccessToken()) {

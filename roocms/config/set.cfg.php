@@ -38,6 +38,11 @@ define('MEMORYUSAGE', memory_get_usage());
 set_csp_header();
 
 /**
+ * Set the Service-Worker-Allowed header
+ */
+header('Service-Worker-Allowed: /');
+
+/**
  * Start GZip
  */
 ob_start('ob_gzhandler', 8);
@@ -46,7 +51,7 @@ ob_start('ob_gzhandler', 8);
 /**
  * Set up PHP
  */
-set_time_limit(30);
+set_time_limit(45);
 #ini_set('memory_limit', 			'512M');
 #ini_set('upload_tmp_dir', 			'/tmp');	# temporary directory for uploaded files. (uncomment if you have difficulties with PHP settings)
 
@@ -57,11 +62,11 @@ set_time_limit(30);
 #ini_set('serialize_precision', 		'-1');
 
 /**
- * Set up default charset, mimetype and socket timeout
+ * Set up default charset
  * Uncomment if you have difficulties with PHP settings
  */
 #ini_set('default_charset',			'utf-8');
-#ini_set('default_mimetype',		'text/html');
+
 
 /**
  * Set up timezone
@@ -87,12 +92,6 @@ date_default_timezone_set('UTC');
 mb_internal_encoding('UTF-8');
 mb_http_output('UTF-8');
 
-
-/**
- * Set header encoding
- */
-#header('Content-type: text/html; charset=utf-8');
-#header('Content-type: application/json; charset=utf-8');
 
 /**
  * Security headers
