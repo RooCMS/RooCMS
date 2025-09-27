@@ -25,6 +25,15 @@ const SW_OPTIONS = {
     scope: '/themes/default/'
 };
 
+
+/**
+ * Log function
+ * @param {string} message - Log message
+ */
+function log(message) {
+    console.log('[SW Registration] ' + message);
+}
+
 /**
  * Checks if Service Worker is supported in the browser
  * @returns {boolean} - true if Service Worker is supported
@@ -219,10 +228,6 @@ export async function initServiceWorker() {
 // Automatic initialization of Service Worker when page is loaded
 if (typeof window !== 'undefined') {
     window.addEventListener('load', initServiceWorker);
-}
-
-function log(message) {
-    console.log('[SW Registration] ' + message);
 }
 
 /**

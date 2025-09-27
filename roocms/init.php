@@ -125,10 +125,26 @@ spl_autoload_register(function(string $class_name) {
 require_once _ROOCMS."/helpers/debug.php";
 
 /**
- * Initialize db
+ * Initialize Dependency Container
+ */
+$container = new DependencyContainer();
+
+// Register database connection first
+$container->register(DbConnect::class, function() {
+    return new DbConnect();
+}, true); // Singleton
+
+// Register database service with proper DI
+$container->register(Db::class, function(DependencyContainer $c) {
+    return new Db($c->get(DbConnect::class));
+}, true); // Singleton
+
+
+/**
+ * Initialize db for backward compatibility
  */
 try {
-    $db = new Db();
+    $db = $container->get(Db::class);
 } catch (Throwable $e) {
     // Log and provide clear message in debug mode
     error_log('Database initialization failed: ' . $e->getMessage());
@@ -138,14 +154,6 @@ try {
     // graceful fallback: stop initialization
     exit('Database initialization error.');
 }
-
-/**
- * Initialize Dependency Container
- */
-$container = new DependencyContainer();
-
-// Register core services
-$container->register(Db::class, fn() => $db, true); // Singleton
 
 // register debugger if available
 if($debug instanceof Debugger) {

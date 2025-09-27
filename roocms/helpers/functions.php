@@ -82,13 +82,14 @@ function randcode(int $ns = 6, string $symbols = "ABCEFHKLMNPRSTVXYZ123456789") 
 
 /**
  * Calculate percentage
- * @param int $n - number
- * @param int $from - from number
- * @return int - percentage
+ * @param float|int $n - number
+ * @param float|int $from - from number
+ * @param int $precision - decimal precision (default: 0)
+ * @return float - percentage
  */
-function percent(int $n, int $from) : int {
+function percent(float|int $n, float|int $from, int $precision = 0): float {
 
-	return round(($n / $from) * 100);
+	return round(($n / $from) * 100, $precision);
 }
 
 

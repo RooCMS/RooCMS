@@ -85,6 +85,27 @@ const API_CACHE_TTL = TIME_CONSTANTS.MINUTE;
  */
 const STATIC_CACHE_TTL = TIME_CONSTANTS.HOUR;
 
+
+
+
+/**
+ * Protocol function for logging
+ * @param {string} type - Log type
+ * @param {string} message - Log message
+ */
+function protocol(type, message) {
+    const logMethods = {
+        log: console.log,
+        error: console.error,
+        warn: console.warn
+    };
+    
+    const logMethod = logMethods[type];
+    if (logMethod) {
+        logMethod('[SW] ' + message);
+    }
+}
+
 /**
  * Installation of Service Worker - precaching (if enabled)
  */
@@ -415,19 +436,7 @@ self.addEventListener('notificationclick', (event) => {
     );
 });
 
-function protocol(type, message) {
-    const logMethods = {
-        log: console.log,
-        error: console.error,
-        warn: console.warn,
-        debug: console.debug
-    };
-    
-    const logMethod = logMethods[type];
-    if (logMethod) {
-        logMethod('[SW] ' + message);
-    }
-}
-
+/**
+ * Log the Service Worker script loaded
+ */
 protocol('log', 'Service Worker script loaded');
-

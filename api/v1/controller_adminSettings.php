@@ -197,7 +197,7 @@ class AdminSettingsController extends BaseController {
                 return $this->validate_setting_value($value, $meta) ?: null;
             }, array_keys($data), $data));
 
-            if ($validationErrors) {
+            if (!empty($validationErrors)) {
                 $this->validation_error_response($validationErrors);
                 return;
             }

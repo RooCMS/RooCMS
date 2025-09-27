@@ -41,13 +41,15 @@ class Db {
 
 
 	/**
-	 * Constructor with auto-connection
+	 * Constructor with dependency injection
 	 *
-	 * @param string|null $driver
-	 * @param array|null $config
+	 * @param DbConnect|null $db_connect Database connection instance
+	 * @param string|null $driver Database driver (fallback for backward compatibility)
+	 * @param array|null $config Database config (fallback for backward compatibility)
 	 */
-	public function __construct(?string $driver = null, ?array $config = null) {
-		$this->db_connect = new DbConnect($driver, $config);
+	public function __construct(?DbConnect $db_connect = null, ?string $driver = null, ?array $config = null) {
+		// Use injected DbConnect or create new one for backward compatibility
+		$this->db_connect = $db_connect ?? new DbConnect($driver, $config);
 		$this->pdo = $this->db_connect->get_pdo();
 		$this->driver = $this->db_connect->get_driver();
 		$this->is_connected = $this->db_connect->is_connected();
@@ -196,6 +198,16 @@ class Db {
 
 
 	/**
+	 * Create new query builder instance
+	 * 
+	 * @return DbQueryBuilder
+	 */
+	protected function create_query_builder(): DbQueryBuilder {
+		return new DbQueryBuilder($this);
+	}
+
+
+	/**
 	 * Query Builder: SELECT
 	 * 
 	 * @param string|array $columns Columns
@@ -203,7 +215,7 @@ class Db {
 	 * @return DbQueryBuilder
 	 */
 	public function select(string|array $columns = '*'): DbQueryBuilder {
-		return new DbQueryBuilder($this)->select($columns);
+		return $this->create_query_builder()->select($columns);
 	}
 
 
@@ -215,7 +227,7 @@ class Db {
 	 * @return DbQueryBuilder
 	 */
 	public function insert(string $table): DbQueryBuilder {
-		return new DbQueryBuilder($this)->insert($table);
+		return $this->create_query_builder()->insert($table);
 	}
 
 
@@ -227,7 +239,7 @@ class Db {
 	 * @return DbQueryBuilder
 	 */
 	public function update(string $table): DbQueryBuilder {
-		return new DbQueryBuilder($this)->update($table);
+		return $this->create_query_builder()->update($table);
 	}
 
 
@@ -239,7 +251,7 @@ class Db {
 	 * @return DbQueryBuilder
 	 */
 	public function delete(string $table): DbQueryBuilder {
-		return new DbQueryBuilder($this)->delete($table);
+		return $this->create_query_builder()->delete($table);
 	}
 
 

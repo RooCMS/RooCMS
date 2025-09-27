@@ -224,14 +224,14 @@ class UsersController extends BaseController {
 
 		$code_hash = $this->auth->hash_data($verification_code);
 
-		$record = $this->db->select()
-			->from(TABLE_VERIFICATION_CODES)
-			->where('code_hash', $code_hash)
-			->where('code_type', 'verification')
-			->where('expires_at', time(), '>')
-			->where('used_at', null, 'IS')
-			->limit(1)
-			->first();
+		$sql = "SELECT * FROM " . TABLE_VERIFICATION_CODES . " 
+				WHERE code_hash = ? 
+				AND code_type = 'verification' 
+				AND expires_at > ? 
+				AND used_at IS NULL 
+				LIMIT 1";
+		
+		$record = $this->db->fetch_assoc($sql, [$code_hash, time()]);
 
 		if(!$record) {
 			$this->error_response('Invalid or expired verification code', 400);
