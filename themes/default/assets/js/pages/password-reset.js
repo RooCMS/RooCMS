@@ -1,4 +1,28 @@
-import { resetPassword } from '../app/auth.js';
+import { request } from '../app/api.js';
+
+/**
+ * Password reset
+ * @param {string} token - Reset token
+ * @param {string} password - New password
+ * @param {string} password_confirmation - Password confirmation
+ * @returns {Promise<object>} - Password reset result
+ */
+async function resetPassword(token, password, password_confirmation) {
+    const res = await request('/v1/auth/password/reset', {
+        method: 'POST',
+        body: JSON.stringify({ token, password, password_confirmation })
+    });
+    const j = await res.json();
+
+    if (!res.ok) {
+        const error = new Error(j?.message || 'Password reset failed');
+        error.status = res.status;
+        error.details = j?.details?.validation_errors || j?.errors || null;
+        throw error;
+    }
+
+    return j.data;
+}
 
 /**
  * Validate reset password form

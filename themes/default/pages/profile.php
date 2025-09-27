@@ -110,8 +110,8 @@ ob_start();
                                     <div class="text-sm font-medium text-gray-500">Role</div>
                                     <div class="h-2 w-2 bg-purple-400 rounded-full"></div>
                                 </div>
-                                <div class="text-xl font-bold text-gray-900" x-text="(user || {}).role || 'Loading...'"></div>
-                                <div class="mt-2 text-xs text-gray-400">Account level</div>
+                                <div class="text-xl font-bold text-gray-900" x-text="(user || {}).role_name || 'Loading...'" x-bind:title="(user || {}).role_description || 'Loading...'"></div>
+                                <div class="mt-2 text-xs text-gray-400">Account level <span x-text="(user || {}).role_level || 'Loading...'"></span></div>
                             </div>
 
                             <div class="group bg-white/80 backdrop-blur-sm p-5 rounded-xl border border-gray-200/50 shadow-sm hover:shadow-md transition-all duration-300">
@@ -150,10 +150,10 @@ ob_start();
                         <div x-show="!loading" class="mt-6 bg-white/60 rounded-xl p-4 border border-gray-200/50 shadow-sm">
                             <div class="flex items-center justify-between mb-2">
                                 <span class="text-sm font-medium text-gray-700">Security Score</span>
-                                <span class="text-sm font-bold text-gray-900" x-text="user ? (user.is_verified ? '85%' : '45%') : 'Loading...'"></span>
+                                <span class="text-sm font-bold text-gray-900" x-text="user ? (user.is_verified ? '100%' : '99%') : 'Loading...'"></span>
                             </div>
                             <div class="w-full bg-gray-200 rounded-full h-2">
-                                <div class="h-2 rounded-full transition-all duration-500" x-bind:class="user ? (user.is_verified ? 'bg-gradient-to-r from-green-400 to-green-600 w-[85%]' : 'bg-gradient-to-r from-red-400 to-red-600 w-[45%]') : 'bg-gray-300 w-0'"></div>
+                                <div class="h-2 rounded-full transition-all duration-500" x-bind:class="user ? (user.is_verified ? 'bg-gradient-to-r from-green-400 to-green-600 w-full' : 'bg-gradient-to-r from-red-400 to-red-600 w-[99%]') : 'bg-gray-300 w-0'"></div>
                             </div>
                         </div>
                     </div>

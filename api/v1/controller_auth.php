@@ -29,10 +29,6 @@ class AuthController extends BaseController {
 
     private readonly AuthService $authService;
     
-
-    private int $password_min_length    = 8;
-    private int $login_min_length       = 5;
-    private int $login_max_length       = 30;
     
 
 
@@ -68,12 +64,12 @@ class AuthController extends BaseController {
         }
 
         // Additional validation
-        if (strlen($data['login']) < $this->login_min_length) {
-            $validation_errors['login'] = 'Login must be at least ' . $this->login_min_length . ' characters';
+        if (strlen($data['login']) < $this->authService->login_min_length) {
+            $validation_errors['login'] = 'Login must be at least ' . $this->authService->login_min_length . ' characters';
         }
         
-        if (strlen($data['password']) < $this->password_min_length) {
-            $validation_errors['password'] = 'Password must be at least ' . $this->password_min_length . ' characters';
+        if (strlen($data['password']) < $this->authService->password_min_length) {
+            $validation_errors['password'] = 'Password must be at least ' . $this->authService->password_min_length . ' characters';
         }
 
         if (!empty($validation_errors)) {
@@ -108,14 +104,14 @@ class AuthController extends BaseController {
             $this->validate_required($data, ['login', 'email', 'password']),
             array_filter([
                 'login' => match(true) {
-                    strlen($data['login'] ?? '') < $this->login_min_length,
-                    strlen($data['login'] ?? '') > $this->login_max_length 
-                        => "Login must be between {$this->login_min_length} and {$this->login_max_length} characters",
+                    strlen($data['login'] ?? '') < $this->authService->login_min_length,
+                    strlen($data['login'] ?? '') > $this->authService->login_max_length 
+                        => "Login must be between " . $this->authService->login_min_length ." and ". $this->authService->login_max_length ." characters",
                     default => null
                 },
                 'email' => !filter_var($data['email'] ?? '', FILTER_VALIDATE_EMAIL) ? 'Invalid email format' : null,
-                'password' => strlen($data['password'] ?? '') < $this->password_min_length 
-                    ? "Password must be at least {$this->password_min_length} characters" : null,
+                'password' => strlen($data['password'] ?? '') < $this->authService->password_min_length 
+                    ? "Password must be at least " . $this->authService->password_min_length ." characters" : null,
                 'password_confirmation' => isset($data['password_confirmation']) && $data['password'] !== $data['password_confirmation']
                     ? 'Password confirmation does not match' : null
             ])
@@ -302,8 +298,8 @@ class AuthController extends BaseController {
             return;
         }
 
-        if (strlen($data['password']) < $this->password_min_length) {
-            $this->error_response('Password must be at least ' . $this->password_min_length . ' characters', 400);
+        if (strlen($data['password']) < $this->authService->password_min_length) {
+            $this->error_response('Password must be at least ' . $this->authService->password_min_length . ' characters', 400);
             return;
         }
 
@@ -353,8 +349,8 @@ class AuthController extends BaseController {
             return;
         }
 
-        if (strlen($data['new_password']) < $this->password_min_length) {
-            $this->error_response('New password must be at least ' . $this->password_min_length . ' characters', 400);
+        if (strlen($data['new_password']) < $this->authService->password_min_length) {
+            $this->error_response('New password must be at least ' . $this->authService->password_min_length . ' characters', 400);
             return;
         }
 

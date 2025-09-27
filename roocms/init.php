@@ -53,9 +53,9 @@ foreach($configs as $config) {
  * list of helpers
  */
 $helpers = [
-    'functions.php',  // content security policy
-    'sanitize.php',  // system settings
-    'output.php',   // output helpers
+    'functions.php',  // functions
+    'sanitize.php',   // sanitize helpers
+    'output.php',     // output helpers
 ];
 
 
@@ -165,6 +165,7 @@ if($debug instanceof Debugger) {
 $container->register(Auth::class, Auth::class, true); // Singleton
 $container->register(AuthService::class, AuthService::class, true); // Singleton
 $container->register(User::class, User::class, true); // Singleton
+$container->register(Role::class, Role::class, true); // Singleton
 $container->register(UserService::class, UserService::class, true); // Singleton
 $container->register(SiteSettings::class, SiteSettings::class, true); // Singleton
 $container->register(SiteSettingsService::class, SiteSettingsService::class, true); // Singleton

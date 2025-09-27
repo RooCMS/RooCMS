@@ -22,17 +22,17 @@ ob_start();
 
         <section>
             <header class="mb-8">
-                <nav class="mb-3 text-sm text-zinc-500" aria-label="Хлебные крошки">
+                <nav class="mb-3 text-sm text-zinc-500" aria-label="Breadcrumbs">
                     <ol class="flex items-center gap-2">
-                        <li><a href="/" class="hover:text-zinc-700">Главная</a></li>
+                        <li><a href="/" class="hover:text-zinc-700">Home</a></li>
                         <li aria-hidden="true" class="text-zinc-400">/</li>
                         <li><a href="/acp" class="hover:text-zinc-700">ACP</a></li>
                         <li aria-hidden="true" class="text-zinc-400">/</li>
-                        <li><span class="text-zinc-700">Настройки</span></li>
+                        <li><span class="text-zinc-700">Settings</span></li>
                     </ol>
                 </nav>
-                <h1 class="text-2xl font-semibold tracking-tight text-zinc-900">Настройки системы</h1>
-                <p class="mt-2 text-sm text-zinc-600">Управление конфигурацией RooCMS</p>
+                <h1 class="text-2xl font-semibold tracking-tight text-zinc-900">Settings</h1>
+                <p class="mt-2 text-sm text-zinc-600">Manage the configuration of RooCMS</p>
             </header>
 
             <div class="space-y-10" x-data="settingsManager()">
@@ -128,14 +128,14 @@ ob_start();
                 <section>
                     <div class="rounded-xl border border-zinc-200/80 bg-white/80 p-5 shadow-sm backdrop-blur">
                         <div class="flex items-center justify-between">
-                            <p class="text-sm text-zinc-600">Сохранить все настройки или сбросить к значениям по умолчанию</p>
+                            <p class="text-sm text-zinc-600">Save all settings or reset to default values</p>
                             <div class="flex gap-2">
                                 <button type="button"
                                         @click="resetSettings()"
                                         :disabled="loading"
                                         class="cursor-pointer inline-flex items-center justify-center rounded-lg border border-zinc-300 bg-white px-4 py-2 text-sm font-medium text-zinc-700 hover:bg-zinc-50 disabled:opacity-50 transition-colors">
-                                    <span x-show="!loading">Сбросить</span>
-                                    <span x-show="loading">Сброс...</span>
+                                    <span x-show="!loading">Reset</span>
+                                    <span x-show="loading">Reset...</span>
                                 </button>
                                 <button type="button"
                                         @click="saveSettings()"
@@ -144,8 +144,8 @@ ob_start();
                                     <svg x-show="!loading" class="w-4 h-4 mr-2 align-middle" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                                     </svg>
-                                    <span x-show="!loading">Сохранить настройки</span>
-                                    <span x-show="loading">Сохранение...</span>
+                                    <span x-show="!loading">Save settings</span>
+                                    <span x-show="loading">Saving...</span>
                                 </button>
                             </div>
                         </div>

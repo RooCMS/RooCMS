@@ -26,6 +26,7 @@ if(!defined('RooCMS')) {
 class User {
 
     private Db $db;
+    private Role $role;
 
 
     /**
@@ -33,8 +34,9 @@ class User {
      * 
      * @param Db $db Database
      */
-    public function __construct(Db $db) {
+    public function __construct(Db $db, Role $role) {
         $this->db = $db;
+        $this->role = $role;
     }
 
 
@@ -92,6 +94,11 @@ class User {
                       WHERE u." . $field . " = ? LIMIT 1";
 
             $row = $this->db->fetch_assoc($query, [$value]);
+
+            $row['role_name'] = $this->role->get_role_name($row['role']);
+            $row['role_description'] = $this->role->get_role_description($row['role']);
+            $row['role_level'] = $this->role->get_role_level($row['role']);
+            
             return $row !== false ? $row : null;
         } catch (Exception $e) {
             error_log('Error getting user by ' . $field . ': ' . $e->getMessage());

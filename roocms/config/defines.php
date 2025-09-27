@@ -28,6 +28,12 @@ define('DB_PREFIX', $db_info['prefix']);
 
 
 /**
+* Domain
+*/
+define('DOMAIN', $site['domain']);
+
+
+/**
 * Config $DB Table
 */
 const TABLE_MIGRATIONS          = DB_PREFIX.'migrations';
@@ -88,7 +94,7 @@ const _LOGS         = _STORAGE.'/logs';
 /**
  * Web $Path
  */
-define('_DOMAIN',	str_ireplace(array('http://','www.'), '', $site['domain']));
+define('_DOMAIN',	str_ireplace(array('http://','https://','www.'), '', $site['domain']));
 
 
 /**
@@ -102,7 +108,7 @@ const DEBUGSLOG = _LOGS."/debug.log";
 /**
  * $Param
  */
-const EMAIL_MESSAGE_PARAMETERS = 'content-Type: text/html; charset="utf-8"';
+const EMAIL_MESSAGE_PARAMETERS = 'Content-Type: text/html; charset="utf-8"';
 const CHARSET                  = 'text/html; charset=utf-8';
 
 const ROOCMS_MAJOR_VERSION   = '2';

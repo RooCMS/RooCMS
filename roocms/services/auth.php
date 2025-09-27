@@ -29,8 +29,11 @@ class AuthService {
 	private SiteSettings $siteSettings;
 	private Mailer $mailer;
 
-	private int $recovery_code_length = 6;
-	private int $max_recovery_attempts = 3;
+	public int $password_min_length    = 8;
+    public int $login_min_length       = 5;
+    public int $login_max_length       = 30;
+	private int $recovery_code_length 	= 6;
+	private int $max_recovery_attempts 	= 3;
 
 
 	
@@ -125,7 +128,7 @@ class AuthService {
 		try {
 
 			$site_name = $this->siteSettings->get_by_key('site_name') ?? 'RooCMS';
-			$site_domain = $this->siteSettings->get_by_key('site_domain') ?? _DOMAIN;
+			$site_domain = $this->siteSettings->get_by_key('site_domain') ?? DOMAIN;
 			$site_url = 'https://' . $site_domain;
 
 			$subject = 'Welcome to ' . $site_name . '!';

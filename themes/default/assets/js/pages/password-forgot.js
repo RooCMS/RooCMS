@@ -1,4 +1,26 @@
-import { forgotPassword } from '../app/auth.js';
+import { request } from '../app/api.js';
+
+/**
+ * Password recovery
+ * @param {string} email - Email address
+ * @returns {Promise<object>} - Password recovery result
+ */
+async function forgotPassword(email) {
+    const res = await request('/v1/auth/password/recovery', {
+        method: 'POST',
+        body: JSON.stringify({ email })
+    });
+    const j = await res.json();
+
+    if (!res.ok) {
+        const error = new Error(j?.message || 'Password recovery failed');
+        error.status = res.status;
+        error.details = j?.details?.validation_errors || j?.errors || null;
+        throw error;
+    }
+
+    return j.data;
+}
 
 /**
  * Validate forgot password form

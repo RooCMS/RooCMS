@@ -66,7 +66,6 @@ document.addEventListener('alpine:init', () => {
                     showErrorMessage('Failed to load profile data');
                 }
             } catch (error) {
-                console.error('Error loading profile:', error);
                 showErrorMessage('Error loading profile data');
             } finally {
                 this.loading = false;
@@ -111,7 +110,6 @@ document.addEventListener('alpine:init', () => {
                     }
                 }
             } catch (error) {
-                console.error('Error saving profile:', error);
                 this.errorMessage = 'Error saving profile. Please try again.';
                 showErrorMessage('Error saving profile. Please try again.');
             } finally {

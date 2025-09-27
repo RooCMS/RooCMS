@@ -176,9 +176,10 @@ class UsersController extends BaseController {
 			// Send email
 			try {
 				$site_name = $this->siteSettings->get_by_key('site_name') ?? 'RooCMS';
-				$site_domain = $this->siteSettings->get_by_key('site_domain') ?? _DOMAIN;
+				$site_domain = $this->siteSettings->get_by_key('site_domain') ?? DOMAIN;
+				$verification_mail_uri = $this->siteSettings->get_by_key('mailer_verification_mail_uri') ?? '/verify-email';
 				$site_url = 'https://' . $site_domain;
-				$verify_link = $site_url . '/api/v1/users/verify-email/' . rawurlencode($plain_code);
+				$verify_link = $site_url . $verification_mail_uri . '?' . rawurlencode($plain_code);
 
 				$this->mailer->send_with_template([
 					'to' => $current['email'],
@@ -219,13 +220,13 @@ class UsersController extends BaseController {
 
 		$code_hash = $this->auth->hash_data($verification_code);
 
-		$sql = "SELECT * FROM " . TABLE_VERIFICATION_CODES . " 
-				WHERE code_hash = ? 
-				AND code_type = 'verification' 
-				AND expires_at > ? 
-				AND used_at IS NULL 
+		$sql = "SELECT * FROM " . TABLE_VERIFICATION_CODES . "
+				WHERE code_hash = ?
+				AND code_type = 'verification'
+				AND expires_at > ?
+				AND used_at IS NULL
 				LIMIT 1";
-		
+
 		$record = $this->db->fetch_assoc($sql, [$code_hash, time()]);
 
 		if(!$record) {

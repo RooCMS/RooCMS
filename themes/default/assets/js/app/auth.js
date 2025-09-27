@@ -57,40 +57,6 @@ export async function register(login, email, password, password_confirmation) {
     return j.data;
 }
 
-export async function forgotPassword(email) {
-    const res = await request('/v1/auth/password/recovery', {
-        method: 'POST',
-        body: JSON.stringify({ email })
-    });
-    const j = await res.json();
-
-    if (!res.ok) {
-        const error = new Error(j?.message || 'Password recovery failed');
-        error.status = res.status;
-        error.details = j?.details?.validation_errors || j?.errors || null;
-        throw error;
-    }
-
-    return j.data;
-}
-
-export async function resetPassword(token, password, password_confirmation) {
-    const res = await request('/v1/auth/password/reset', {
-        method: 'POST',
-        body: JSON.stringify({ token, password, password_confirmation })
-    });
-    const j = await res.json();
-
-    if (!res.ok) {
-        const error = new Error(j?.message || 'Password reset failed');
-        error.status = res.status;
-        error.details = j?.details?.validation_errors || j?.errors || null;
-        throw error;
-    }
-
-    return j.data;
-}
-
 export async function logout() {
     try { await request('/v1/auth/logout', { method: 'POST' }); } catch(e) {}
     setAccessToken(null);
