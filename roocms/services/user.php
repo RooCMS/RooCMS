@@ -67,7 +67,7 @@ class UserService {
         }
 
         // Validate nickname uniqueness
-        if(!empty($profile_data['nickname']) && $this->user->nickname_exists($profile_data['nickname'])) {
+        if(!empty($profile_data['nickname']) && $this->user->nickname_exists($profile_data['nickname'], $user_id)) {
             throw new DomainException('Nickname already taken', 409);
         }
 
@@ -84,7 +84,7 @@ class UserService {
             if($birthday !== '') {
                 $dt = date_create_from_format('Y-m-d', $birthday);
                 $errors = date_get_last_errors();
-                if(!$dt || $errors['warning_count'] > 0 || $errors['error_count'] > 0) {
+                if(!$dt || ($errors !== false && ($errors['warning_count'] > 0 || $errors['error_count'] > 0))) {
                     throw new DomainException('Invalid birthday format. Use Y-m-d', 422);
                 }
             }

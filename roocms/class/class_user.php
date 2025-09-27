@@ -299,12 +299,18 @@ class User {
     * Check if user exists by nickname
      * 
      * @param string $nickname Nickname
+     * @param int|null $exclude_user_id User ID to exclude from check
      * @return bool
     */
-    public function nickname_exists(string $nickname): bool {
+    public function nickname_exists(string $nickname, ?int $exclude_user_id = null): bool {
         try {
-            $query = "SELECT COUNT(*) as count FROM " . TABLE_USER_PROFILES . " WHERE nickname = ?";
-            $result = $this->db->fetch_assoc($query, [$nickname]);
+            if ($exclude_user_id !== null) {
+                $query = "SELECT COUNT(*) as count FROM " . TABLE_USER_PROFILES . " WHERE nickname = ? AND user_id != ?";
+                $result = $this->db->fetch_assoc($query, [$nickname, $exclude_user_id]);
+            } else {
+                $query = "SELECT COUNT(*) as count FROM " . TABLE_USER_PROFILES . " WHERE nickname = ?";
+                $result = $this->db->fetch_assoc($query, [$nickname]);
+            }
             return $result && $result['count'] > 0;
         } catch (Exception $e) {
             error_log('Error checking nickname exists: ' . $e->getMessage());
