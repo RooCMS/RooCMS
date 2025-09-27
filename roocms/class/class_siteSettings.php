@@ -343,14 +343,10 @@ class SiteSettings {
      * @return bool Is value valid
      */
     private function validate_value(mixed $value, array $setting): bool {
-        // Check if required - empty values are only invalid for required fields
-        if ($setting['is_required'] && ($value === null || $value === '')) {
-            return false;
-        }
-
-        // For optional fields, empty values are always valid
-        if ($value === null || $value === '') {
-            return true;
+        // Handle empty values first
+        $isEmpty = ($value === null || $value === '');
+        if ($isEmpty) {
+            return !$setting['is_required'];
         }
 
         // Check maximum length for string types
@@ -360,13 +356,12 @@ class SiteSettings {
 
         // Validate by type (only for non-empty values)
         return match ($setting['type']) {
-            'boolean' => is_bool($value) || in_array($value, [0, 1, '0', '1']),
-            'integer' => is_numeric($value) && is_int($value + 0),
-            'string', 'text', 'html', 'color' => is_string($value),
+            'boolean' => is_bool($value) || in_array($value, [0, 1, '0', '1'], true),
+            'integer' => filter_var($value, FILTER_VALIDATE_INT) !== false,
+            'string', 'text', 'html', 'color', 'image', 'file' => is_string($value),
             'date' => is_numeric($value) && $value > 0,
-            'email' => is_string($value) && filter_var($value, FILTER_VALIDATE_EMAIL) !== false,
+            'email' => filter_var($value, FILTER_VALIDATE_EMAIL) !== false,
             'select' => $this->validate_select_value($value, $setting),
-            'image', 'file' => is_string($value),
             default => true
         };
     }

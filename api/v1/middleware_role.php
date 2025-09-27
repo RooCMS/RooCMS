@@ -191,7 +191,6 @@ class RoleMiddleware {
         }
 
         output_json($response);
-        exit();
     }
 
     /**

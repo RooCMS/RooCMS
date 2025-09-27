@@ -42,7 +42,6 @@ abstract class BaseController {
         // Check database connection on controller initialization
         if (!$this->db->is_connected()) {
             $this->error_response('Database connection unavailable', 503);
-            exit();
         }
     }
     
@@ -322,7 +321,7 @@ abstract class BaseController {
             return [
                 'status' => 'ok',
                 'message' => 'Database connection OK',
-                'queries_count' => $this->db->query_count ?? 0
+                'queries_count' => $this->db->get_query_count()
             ];
             
         } catch (Exception $e) {

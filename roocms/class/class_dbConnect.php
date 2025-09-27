@@ -23,7 +23,7 @@ if(!defined('RooCMS')) {
 
 class DbConnect {
 
-    private PDO|null $pdo 		= null;
+    private PDO $pdo;
     private string $driver 		= '';
 	private array $config 		= [];
 	private bool $is_connected 	= false;
@@ -42,9 +42,11 @@ class DbConnect {
 		$this->config = $config ?? $db_info;
 		$this->driver = strtolower($driver ?? $this->config['type'] ?? 'mysql');
 
-		if(!empty($this->config['host']) && !empty($this->config['base'])) {
-			$this->connect();
+		if(empty($this->config['host']) || empty($this->config['base'])) {
+			throw new InvalidArgumentException('Database host and database name are required');
 		}
+
+		$this->connect();
 	}
 
 
@@ -168,9 +170,9 @@ class DbConnect {
 	 * @return void
 	 */
 	private function configure_mysql(): void {
-		$this->pdo?->exec("SET NAMES utf8mb4 COLLATE utf8mb4_unicode_ci");
-		$this->pdo?->exec("SET sql_mode = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION'");
-		$this->pdo?->exec("SET time_zone = '+00:00'");
+		$this->pdo->exec("SET NAMES utf8mb4 COLLATE utf8mb4_unicode_ci");
+		$this->pdo->exec("SET sql_mode = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION'");
+		$this->pdo->exec("SET time_zone = '+00:00'");
 	}
 
 
@@ -180,8 +182,8 @@ class DbConnect {
 	 * @return void
 	 */
 	private function configure_postgres(): void {
-		$this->pdo?->exec("SET NAMES 'UTF8'");
-		$this->pdo?->exec("SET timezone = 'UTC'");
+		$this->pdo->exec("SET NAMES 'UTF8'");
+		$this->pdo->exec("SET timezone = 'UTC'");
 	}
 
 
@@ -192,19 +194,19 @@ class DbConnect {
 	 */
 	private function configure_firebird(): void {
 		// Firebird basic settings for working with UTF-8
-		$this->pdo?->exec("SET NAMES UTF8");
+		$this->pdo->exec("SET NAMES UTF8");
 
 		// Setting the date format
-		$this->pdo?->exec("SET SQL DIALECT 3");
+		$this->pdo->exec("SET SQL DIALECT 3");
 	}
 
 
 	/**
 	 * Getting PDO object
 	 *
-	 * @return PDO|null
+	 * @return PDO
 	 */
-	public function get_pdo(): ?PDO {
+	public function get_pdo(): PDO {
 		return $this->pdo;
 	}
 

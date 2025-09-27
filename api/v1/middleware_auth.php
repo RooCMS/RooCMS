@@ -50,7 +50,7 @@ class AuthMiddleware {
      */
     public function handle(): bool {
         try {
-            $token = $this->get_bearer_token();
+            $token = get_bearer_token();
 
             if (!$token) {
                 $this->send_error_response('Authorization token required', 401);
@@ -69,16 +69,6 @@ class AuthMiddleware {
             $this->send_error_response('Authentication failed', 401);
             return false;
         }
-    }
-
-
-    /**
-     * Get bearer token from Authorization header
-     * 
-     * @return string|null
-     */
-    private function get_bearer_token(): string|null {
-        return get_bearer_token();
     }
 
 
@@ -161,5 +151,7 @@ class AuthMiddleware {
         }
         
         output_json($response);
+        // This line will never execute, but helps static analysis
+        throw new RuntimeException('Response sent'); // TODO: Maybe it will break the analyzer?
     }
 }

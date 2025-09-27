@@ -175,6 +175,8 @@ class Debugger {
 			$messager = file_read(_ASSETS.'/critical.html');
 			$messager = str_replace('{MESSAGE_CRITICAL_ERROR}', $msg, $messager);
 			exit($messager);
+			// This return will never execute, but helps static analysis
+			return false; // TODO: Maybe it will break the analyzer?
 		}
 
 		# We kill the standard handler, so that he would not give out anything to spy (:

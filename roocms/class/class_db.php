@@ -30,8 +30,8 @@ class Db {
 
 	use DbExtends, DebugLog;
 
-	private DbConnect|null $db_connect 	= null;
-	private PDO|null $pdo 				= null;
+	private DbConnect $db_connect;
+	private PDO $pdo;
 	private string $driver 				= '';
 	private DbLogger $logger;
 	private bool $is_connected 			= false;
@@ -66,7 +66,7 @@ class Db {
 	 * @return PDOStatement
 	 */
 	public function query(string $sql, array $params = []): PDOStatement {
-		if(!$this->is_connected || $this->pdo === null) {
+		if(!$this->is_connected) {
 			throw new Exception('No connection to the database');
 		}
 
@@ -636,6 +636,8 @@ class Db {
 		}
 
 		output_json($response);
+		// This line will never execute, but helps static analysis
+		throw new RuntimeException('Response sent'); // TODO: Maybe it will break the analyzer?
 	}
 
 
@@ -700,10 +702,9 @@ class Db {
 	 * Closing connection
 	 */
 	public function close(): void {
-		if($this->pdo) {
-			$this->pdo = null;
-			$this->is_connected = false;
-		}
+		// PDO connections are closed automatically when the object is destroyed
+		// Just mark as disconnected
+		$this->is_connected = false;
 	}
 
 
