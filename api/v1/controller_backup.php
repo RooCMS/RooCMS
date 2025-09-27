@@ -37,7 +37,9 @@ class BackupController extends BaseController {
 	 * @param BackupService $backupService Backup service
 	 * @param Auth $auth Authentication service
 	 */
-	public function __construct(BackupService $backupService, Auth $auth) {
+	public function __construct(BackupService $backupService, Auth $auth, Db $db) {
+		parent::__construct($db);
+		
 		$this->backupService = $backupService;
 		$this->auth = $auth;
 	}

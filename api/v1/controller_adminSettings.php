@@ -33,13 +33,8 @@ class AdminSettingsController extends BaseController {
     /**
      * Constructor
      */
-    public function __construct(SiteSettingsService $siteSettingsService, Db|null $db = null) {
+    public function __construct(SiteSettingsService $siteSettingsService, Db $db) {
         parent::__construct($db);
-
-        if(!$this->is_database_available()) {
-            $this->error_response('Database connection required', 500);
-            return;
-        }
 
         $this->siteSettingsService = $siteSettingsService;
     }

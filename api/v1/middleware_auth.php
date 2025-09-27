@@ -59,7 +59,7 @@ class AuthMiddleware {
 
             $user = $this->authenticate_token($token);
 
-            if (!$user) {
+            if ($user === null) {
                 return false; // Error response already sent
             }
 
@@ -118,7 +118,7 @@ class AuthMiddleware {
                 ->limit(1)
                 ->first();
 
-            if (!$user) {
+            if ($user === false) {
                 $this->send_error_response('User not found or inactive', 401);
                 return null;
             }

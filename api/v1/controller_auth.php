@@ -39,13 +39,8 @@ class AuthController extends BaseController {
     /**
      * Constructor with dependency injection
      */
-    public function __construct(AuthService $authService, Db|null $db = null) {
+    public function __construct(AuthService $authService, Db $db) {
         parent::__construct($db);
-
-        if (!$this->is_database_available()) {
-            $this->error_response('Database connection required', 500);
-            return;
-        }
 
         $this->authService = $authService;
     }

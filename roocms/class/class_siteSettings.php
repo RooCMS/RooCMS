@@ -223,7 +223,7 @@ class SiteSettings {
 
             $result = $this->db->insert_array($insertData, TABLE_SETTINGS);
 
-            return $result ? $this->db->insert_id() : false;
+            return $result ? (int)$this->db->insert_id() : false;
 
         } catch (Exception $e) {
             return false;

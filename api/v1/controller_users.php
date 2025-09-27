@@ -37,13 +37,8 @@ class UsersController extends BaseController {
     /**
  	 * Constructor
  	 */
-    public function __construct(UserService $userService, Auth $auth, SiteSettings $siteSettings, Mailer $mailer, Db|null $db = null) {
+    public function __construct(UserService $userService, Auth $auth, SiteSettings $siteSettings, Mailer $mailer, Db $db) {
         parent::__construct($db);
-
-        if(!$this->is_database_available()) {
-            $this->error_response('Database connection required', 500);
-            return;
-        }
 
         $this->userService = $userService;
         $this->auth = $auth;

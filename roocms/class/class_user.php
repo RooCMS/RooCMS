@@ -126,7 +126,7 @@ class User {
             
             $result = $this->db->query($query, $params);
             
-            if ($result) {
+            if ($result->rowCount() > 0) {
                 return (int)$this->db->insert_id();
             }
             

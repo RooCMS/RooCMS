@@ -29,15 +29,21 @@ if(!defined('RooCMS')) {
 abstract class BaseController {
     
     protected array|null $current_user = null;    
-    protected readonly Db|null $db;
+    protected readonly Db $db;
 
 
 
     /**
      * Constructor with dependency injection
      */
-    public function __construct(Db|null $db = null) {
+    public function __construct(Db $db) {
         $this->db = $db;
+        
+        // Check database connection on controller initialization
+        if (!$this->db->is_connected()) {
+            $this->error_response('Database connection unavailable', 503);
+            exit();
+        }
     }
     
 
@@ -298,27 +304,11 @@ abstract class BaseController {
 
 
     /**
-     * Check if database is available
-     * 
-     * @return bool
-     */
-    protected function is_database_available(): bool {
-        return $this->db !== null && $this->db instanceof Db;
-    }
-    
-
-    /**
      * Get database health status
      * 
      * @return array
      */
     protected function get_database_health(): array {
-        if (!$this->is_database_available()) {
-            return [
-                'status' => 'error',
-                'message' => 'Database connection not available'
-            ];
-        }
         
         try {
             // Try to get database health status if method exists

@@ -65,7 +65,7 @@ class Db {
 	 * @return PDOStatement
 	 */
 	public function query(string $sql, array $params = []): PDOStatement {
-		if(!$this->is_connected) {
+		if(!$this->is_connected || $this->pdo === null) {
 			throw new Exception('No connection to the database');
 		}
 
@@ -655,7 +655,7 @@ class Db {
 	 * @return void
 	 * @throws Exception
 	 */
-	private function handle_error(string $message, string $sql = '', array $params = []): void {
+	private function handle_error(string $message, string $sql = '', array $params = []): never {
 		http_response_code(500);
 
 		$response = [
