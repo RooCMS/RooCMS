@@ -122,7 +122,7 @@ class UserRecoveryService {
             $this->emailService->mark_code_as_used($record['id']);
 
             // Revoke all existing tokens to force re-login
-            $this->auth->revoke_all_tokens($record['user_id']);
+            $this->auth->revoke_token_by_user_id($record['user_id']);
         });
     }
 

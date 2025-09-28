@@ -138,7 +138,7 @@ class AuthenticationService {
         $this->validator->validate_account_status($user);
 
         // Revoke old refresh token and generate new ones
-        $this->revoke_refresh_token_internal($refresh_token);
+        $this->auth->revoke_refresh_token($refresh_token);
         $tokens = $this->generate_user_tokens($user_id);
         $this->update_user_activity($user_id);
 
