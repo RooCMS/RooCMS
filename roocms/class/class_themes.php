@@ -27,6 +27,8 @@ if(!defined('RooCMS')) {
  */
 class Themes {
 
+	private readonly SiteSettings $siteSettings;
+
 	private array $renderers = []; 						// TemplateRenderer Available renderers: php/html
 	private ?ThemeConfig $current_theme_config = null;	// Current theme configuration
 	private string $themes_dir; 						// Directory with themes
@@ -42,7 +44,8 @@ class Themes {
 	 * @param string $themes_dir Themes directory
 	 * @param callable|null $theme_config_factory Theme config factory
 	 */
-	public function __construct(TemplateRendererPhp $php_renderer, TemplateRendererHtml $html_renderer, string $themes_dir = 'themes', ?callable $theme_config_factory = null) {
+	public function __construct(SiteSettings $siteSettings, TemplateRendererPhp $php_renderer, TemplateRendererHtml $html_renderer, string $themes_dir = 'themes', ?callable $theme_config_factory = null) {
+		$this->siteSettings = $siteSettings;
 		$this->themes_dir = $themes_dir;
 		// First global variables, then bind renderers
 		$this->initialize_global_vars();
@@ -77,8 +80,8 @@ class Themes {
 	 */
 	private function initialize_global_vars(): void {
 		$this->global_vars = [
-			'site_name' => 'RooCMS',
-			'site_description' => 'Open Source Content Management System',
+			'site_name' => $this->siteSettings->get_by_key('site_name') ?? 'RooCMS',
+			'site_description' => $this->siteSettings->get_by_key('site_description') ?? 'Open Source Content Management System',
 			'csp_nonce' => CSPNONCE,
 			'base_url' => $this->get_base_url(),
 			'current_url' => $this->get_current_url(),

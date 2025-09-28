@@ -105,7 +105,7 @@ class EmailService {
                 'template' => 'notice',
                 'data' => [
                     'title' => 'Recovery password',
-                    'message' => "Your recovery code: {$recovery_code}\nValid for 30 minutes.",
+                    'message' => "Your recovery code: ".$recovery_code."\nValid for 30 minutes.",
                     'user_name' => $user['login'] ?? '',
                     'site_name' => $site_config['name'],
                     'site_url' => $site_url,
@@ -163,7 +163,7 @@ class EmailService {
                 'template' => 'notice',
                 'data' => [
                     'title' => 'Email verification',
-                    'message' => "Use the link to verify your email:\n\n {$verify_link}\nThe link is valid for 24 hours.",
+                    'message' => "Use the link to verify your email:\n\n ".$verify_link."\nThe link is valid for 24 hours.",
                     'user_name' => $user['login'] ?? '',
                     'site_name' => $site_config['name'],
                     'site_url' => 'https://' . $site_config['domain'],

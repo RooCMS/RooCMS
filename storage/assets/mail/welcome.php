@@ -170,6 +170,7 @@ $support_email = $support_email ?? 'support@' . parse_url($site_url, PHP_URL_HOS
                 
                 <?php if (!empty($user_email)): ?>
                 <p><strong>Your email:</strong> <?= htmlspecialchars($user_email) ?></p>
+                <p><strong>Your login:</strong> <?= htmlspecialchars($user_name) ?></p>
                 <?php endif; ?>
             </div>
             

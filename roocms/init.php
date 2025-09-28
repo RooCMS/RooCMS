@@ -189,6 +189,7 @@ $container->register(TemplateRendererHtml::class, TemplateRendererHtml::class, t
 $container->register(Themes::class, function(DependencyContainer $c) {
 	// Inject renderers via DI, themes dir defaults to 'themes'
 	return new Themes(
+        $c->get(SiteSettings::class),
 		$c->get(TemplateRendererPhp::class),
 		$c->get(TemplateRendererHtml::class),
 		'themes'
