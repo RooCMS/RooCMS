@@ -22,6 +22,10 @@ if(!defined('RooCMS')) {
 
 
 
+/**
+ * SiteSettings Class
+ * Provides utilities for working with site settings
+ */
 class SiteSettings {
 
     private Db $db;

@@ -116,7 +116,7 @@ spl_autoload_register(function(string $class_name) {
     // try to load the class
     if(isset($allowed_classes[$class_name])) {
         if(file_exists($allowed_classes[$class_name])) {
-            require_once $allowed_classes[$class_name];            
+            require_once $allowed_classes[$class_name];         
             return true;
         }
     }

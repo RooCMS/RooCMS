@@ -29,22 +29,32 @@ if(!defined('RooCMS')) {
 class Auth {
 
     private Db $db;
-    private string $hash_key = "your-unique-secret-key/change-this-in-production"; // TODO: Must be moved to environment variables
+    private SiteSettings $siteSettings;
 
-    protected int $hash_cost             = 10;
-    protected int $token_length          = 32;
+    private string $hash_key;
 
-    public int $token_expires            = 3600; // 1 hour
-    public int $refresh_token_expires    = 86400; // 24 hours
-    public int $password_length          = 6;
+    protected int $hash_cost;
+    protected int $token_length;
+
+    public int $token_expires;
+    public int $refresh_token_expires;
+    public int $password_length;
 
     
 
     /**
      * Constructor
      */
-    public function __construct(Db $db) {
+    public function __construct(Db $db, SiteSettings $siteSettings) {
         $this->db = $db;
+        $this->siteSettings = $siteSettings;
+
+        $this->hash_key = $this->siteSettings->get_by_key('security_token_hash_key') ?? 'RooCMS';
+        $this->hash_cost = (int)($this->siteSettings->get_by_key('security_token_hash_cost') ?? 10);
+        $this->token_length = (int)($this->siteSettings->get_by_key('security_token_length') ?? 32);
+        $this->token_expires = (int)($this->siteSettings->get_by_key('security_token_expires') ?? 3600);
+        $this->refresh_token_expires = (int)($this->siteSettings->get_by_key('security_refresh_token_expires') ?? 86400);
+        $this->password_length = (int)($this->siteSettings->get_by_key('security_password_length') ?? 8);
     }
 
 

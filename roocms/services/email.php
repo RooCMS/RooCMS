@@ -53,7 +53,7 @@ class EmailService {
     private function get_site_config(): array {
         return [
             'name' => $this->siteSettings->get_by_key('site_name') ?? 'RooCMS',
-            'domain' => $this->siteSettings->get_by_key('site_domain') ?? DOMAIN,
+            'domain' => $this->siteSettings->get_by_key('site_domain') ?? _DOMAIN,
             'verify_uri' => $this->siteSettings->get_by_key('mailer_verification_mail_uri') ?? '/verify-email'
         ];
     }

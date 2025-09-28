@@ -28,12 +28,6 @@ define('DB_PREFIX', $db_info['prefix']);
 
 
 /**
-* Domain
-*/
-define('DOMAIN', $site['domain']);
-
-
-/**
 * Config $DB Table
 */
 const TABLE_MIGRATIONS          = DB_PREFIX.'migrations';
