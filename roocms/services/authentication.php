@@ -30,16 +30,18 @@ class AuthenticationService {
     private Db $db;
     private Auth $auth;
     private UserValidationService $validator;
+    private SiteSettings $siteSettings;
 
 
 
     /**
      * Constructor with dependency injection
      */
-    public function __construct(Db $db, Auth $auth, UserValidationService $validator) {
+    public function __construct(Db $db, Auth $auth, UserValidationService $validator, SiteSettings $siteSettings) {
         $this->db = $db;
         $this->auth = $auth;
         $this->validator = $validator;
+        $this->siteSettings = $siteSettings;
     }
 
 
@@ -197,9 +199,15 @@ class AuthenticationService {
      */
     public function update_password(int $user_id, string $current_password, string $new_password): void {
         $user = $this->db->select()->from(TABLE_USERS)->where('id', $user_id)->first();
-        
+
         if(!$user || !$this->auth->verify_password($current_password, $user['password'])) {
             throw new DomainException('Current password is incorrect', 400);
+        }
+
+        // Validate new password strength
+        $min_length = (int)($this->siteSettings->get_by_key('security_password_length') ?? 8);
+        if (strlen($new_password) < $min_length) {
+            throw new DomainException("Password must be at least " . $min_length . " characters long", 400);
         }
 
         $this->db->update(TABLE_USERS)

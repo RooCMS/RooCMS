@@ -2,26 +2,30 @@
 if(!defined('RooCMS')) { http_response_code(403); header('Content-Type: text/plain; charset=utf-8'); exit('403:Access denied'); }
 
 /**
- * Current page for highlighting active link
+ * Get current page for navigation highlighting (cached)
  */
-$current_page = $current_page ?? basename(env('REQUEST_URI') ?? '', '.php');
-$current_page = str_replace('/acp/', '', $current_page);
-$current_page = $current_page === 'acp' || $current_page === '' ? 'index' : $current_page;
+function get_current_page(): string {
+    static $page = null;
+    return $page ??= (function() {
+        $uri = (string)(env('REQUEST_URI') ?? '');
+        $page = str_replace('/acp/', '', basename($uri, '.php'));
+        $page = str_contains($page, '/') ? end(explode('/', $page)) : $page;
+        return ($page === 'acp' || $page === '') ? 'index' : trim($page);
+    })();
+}
 
 /**
  * Get attributes and classes for the menu link
  */
 function get_nav_link_attrs(string $page_key): array {
-    global $current_page;
-
-    $is_active = $current_page === $page_key;
+    $is_active = get_current_page() === trim($page_key);
 
     return [
         'aria_current' => $is_active ? 'aria-current="page"' : '',
         'classes' => $is_active
-            ? 'border border-zinc-200 bg-white/80 backdrop-blur px-3 py-2 text-sm font-medium text-zinc-900 shadow-sm hover:bg-white'
-            : 'px-3 py-2 text-sm font-medium text-zinc-700 border border-transparent hover:text-zinc-900 hover:bg-white hover:border-zinc-200',
-        'dot_classes' => $is_active ? 'bg-zinc-900' : 'bg-zinc-300',
+            ? 'border border-zinc-200 bg-white/60 backdrop-blur px-3 py-2 text-sm font-medium text-zinc-900 shadow-sm hover:bg-white'
+            : 'px-3 py-2 text-sm font-medium text-zinc-700 border border-transparent hover:text-zinc-900 hover:bg-white/20 hover:border-zinc-200',
+        'dot_classes' => $is_active ? 'bg-zinc-400' : 'bg-zinc-300',
         'mobile_classes' => $is_active
             ? 'whitespace-nowrap rounded-lg border border-zinc-200 bg-white/90 px-3 py-2 text-sm font-medium text-zinc-900'
             : 'whitespace-nowrap rounded-lg border border-zinc-200 bg-white/70 px-3 py-2 text-sm text-zinc-700'
@@ -46,7 +50,7 @@ $nav_menu = [
 
 ?>
 <aside class="hidden lg:block pr-6">
-    <nav aria-label="Админ-меню" class="sticky top-24">
+    <nav aria-label="Admin menu" class="sticky top-24">
         <h2 class="sr-only">Admin menu</h2>
         <ul class="space-y-1">
             <?php foreach ($nav_menu as $section_key => $section_items): ?>

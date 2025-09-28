@@ -62,7 +62,7 @@ ob_start();
                                                            :name="key"
                                                            x-model="settings[groupName][key]"
                                                            class="peer sr-only">
-                                                    <span class="relative inline-block h-6 w-11 rounded-full bg-zinc-300 transition peer-checked:bg-zinc-900 after:absolute after:left-0.5 after:top-1/2 after:-translate-y-1/2 after:h-5 after:w-5 after:rounded-full after:bg-white after:transition peer-checked:after:translate-x-5"></span>
+                                                    <span class="relative inline-block h-6 w-11 rounded-full bg-zinc-300 transition peer-checked:bg-sky-900 after:absolute after:left-0.5 after:top-1/2 after:-translate-y-1/2 after:h-5 after:w-5 after:rounded-full after:bg-white after:transition peer-checked:after:translate-x-5"></span>
                                                 </label>
                                             </template>
 
@@ -70,7 +70,7 @@ ob_start();
                                                 <select :id="getFieldId(groupName, key)"
                                                         :name="key"
                                                         x-model="settings[groupName][key]"
-                                                        class="select-custom block w-full rounded-lg border border-zinc-300 bg-white px-3 py-2 text-sm text-zinc-900 focus:border-zinc-500 focus:outline-none">
+                                                        class="select-custom block w-full rounded-lg border border-zinc-300 bg-white px-3 py-2 text-sm text-zinc-900 focus:border-sky-500 focus:outline-none">
                                                     <template x-for="(label, optionValue) in getFieldOptions(key)" :key="optionValue">
                                                         <option :value="optionValue" x-text="label"></option>
                                                     </template>
@@ -83,7 +83,7 @@ ob_start();
                                                           :maxlength="getFieldMeta(key, 'max_length')"
                                                           rows="3"
                                                           x-model="settings[groupName][key]"
-                                                          class="block w-full rounded-lg border border-zinc-300 bg-white px-3 py-2 text-sm text-zinc-900 placeholder-zinc-400 focus:border-zinc-500 focus:outline-none"></textarea>
+                                                          class="block w-full rounded-lg border border-zinc-300 bg-white px-3 py-2 text-sm text-zinc-900 placeholder-zinc-400 focus:border-sky-500 focus:outline-none"></textarea>
                                             </template>
 
                                             <template x-if="getFieldType(key) !== 'boolean' && getFieldType(key) !== 'select' && getFieldType(key) !== 'text'">
@@ -92,7 +92,7 @@ ob_start();
                                                        :name="key"
                                                        :maxlength="getFieldMeta(key, 'max_length')"
                                                        x-model="settings[groupName][key]"
-                                                       class="block w-full rounded-lg border border-zinc-300 bg-white px-3 py-2 text-sm text-zinc-900 placeholder-zinc-400 focus:border-zinc-500 focus:outline-none">
+                                                       class="block w-full rounded-lg border border-zinc-300 bg-white px-3 py-2 text-sm text-zinc-900 placeholder-zinc-400 focus:border-sky-500 focus:outline-none">
                                             </template>
                                         </div>
 

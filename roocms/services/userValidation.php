@@ -28,14 +28,16 @@ if(!defined('RooCMS')) {
 class UserValidationService {
 
     private User $user;
+    private SiteSettings $siteSettings;
 
 
 
     /**
      * Construct
      */
-    public function __construct(User $user) {
+    public function __construct(User $user, SiteSettings $siteSettings) {
         $this->user = $user;
+        $this->siteSettings = $siteSettings;
     }
 
 
@@ -140,23 +142,43 @@ class UserValidationService {
 
 
     /**
+     * Validate password strength
+     *
+     * @param string $password Password to validate
+     * @throws DomainException If password is too short
+     */
+    public function validate_password_strength(string $password): void {
+        // Get minimum password length from site settings or use default 8
+        $min_length = (int)($this->siteSettings->get_by_key('security_password_length') ?? 8);
+
+        if (strlen($password) < $min_length) {
+            throw new DomainException("Password must be at least " . $min_length . " characters long", 400);
+        }
+    }
+
+
+    /**
      * Validate registration data
-     * 
+     *
      * @param string $login Login to validate
      * @param string $email Email to validate
+     * @param string $password Password to validate
      * @throws DomainException If validation fails
      */
-    public function validate_registration_data(string $login, string $email): void {
+    public function validate_registration_data(string $login, string $email, string $password): void {
         $validation_checks = [
             ['method' => 'login_exists', 'value' => $login, 'error' => 'Login already exists'],
             ['method' => 'email_exists', 'value' => $email, 'error' => 'Email already exists']
         ];
-        
+
         foreach($validation_checks as $check) {
             if($this->{$check['method']}($check['value'])) {
                 throw new DomainException($check['error'], 409);
             }
         }
+
+        // Validate password strength
+        $this->validate_password_strength($password);
     }
 
 

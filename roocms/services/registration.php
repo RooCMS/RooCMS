@@ -59,7 +59,7 @@ class RegistrationService {
      */
     public function register(string $login, string $email, string $password, array $profile_data = []): array {
         // Validate registration data
-        $this->validator->validate_registration_data($login, $email);
+        $this->validator->validate_registration_data($login, $email, $password);
 
         $time = time();
         

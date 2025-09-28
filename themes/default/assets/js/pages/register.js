@@ -22,8 +22,8 @@ function validateRegisterForm(formData) {
 
     if (!window.ValidationUtils.isNotEmpty(formData.password)) {
         errors.password = 'Password is required';
-    } else if (!window.ValidationUtils.hasMinLength(formData.password, 8)) {
-        errors.password = 'Password must be at least 8 characters';
+    } else if (!window.ValidationUtils.hasMinLength(formData.password, 6)) {
+        errors.password = 'Password must be at least 6 characters';
     }
 
     if (!window.ValidationUtils.isNotEmpty(formData.password_confirmation)) {

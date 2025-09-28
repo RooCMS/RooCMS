@@ -154,7 +154,7 @@ ob_start();
 							<label class="flex cursor-pointer items-center justify-between gap-4">
 								<span class="text-sm text-zinc-800">Уведомления</span>
 								<input type="checkbox" class="peer sr-only">
-								<span class="relative inline-block h-6 w-11 rounded-full bg-zinc-300 transition peer-checked:bg-zinc-900 after:absolute after:left-0.5 after:top-1/2 after:-translate-y-1/2 after:h-5 after:w-5 after:rounded-full after:bg-white after:transition peer-checked:after:translate-x-5"></span>
+								<span class="relative inline-block h-6 w-11 rounded-full bg-zinc-300 transition peer-checked:bg-sky-900 after:absolute after:left-0.5 after:top-1/2 after:-translate-y-1/2 after:h-5 after:w-5 after:rounded-full after:bg-white after:transition peer-checked:after:translate-x-5"></span>
 							</label>
 							<label class="flex cursor-pointer items-center justify-between gap-4">
 								<span class="text-sm text-zinc-800">Автосохранение</span>
@@ -172,16 +172,16 @@ ob_start();
 						<form action="#" method="post" class="space-y-4">
 							<div>
 								<label for="f-name" class="mb-1 block text-sm font-medium text-zinc-800">Имя</label>
-								<input id="f-name" name="name" type="text" class="block w-full rounded-lg border border-zinc-300 bg-white px-3 py-2 text-sm text-zinc-900 placeholder-zinc-400 focus:border-zinc-500 focus:outline-none" placeholder="Иван Иванов">
+								<input id="f-name" name="name" type="text" class="block w-full rounded-lg border border-zinc-300 bg-white px-3 py-2 text-sm text-zinc-900 placeholder-zinc-400 focus:border-sky-500 focus:outline-none" placeholder="Иван Иванов">
 							</div>
 							<div>
 								<label for="f-email" class="mb-1 block text-sm font-medium text-zinc-800">Email</label>
-								<input id="f-email" name="email" type="email" class="block w-full rounded-lg border border-zinc-300 bg-white px-3 py-2 text-sm text-zinc-900 placeholder-zinc-400 focus:border-zinc-500 focus:outline-none" placeholder="you@example.com">
+								<input id="f-email" name="email" type="email" class="block w-full rounded-lg border border-zinc-300 bg-white px-3 py-2 text-sm text-zinc-900 placeholder-zinc-400 focus:border-sky-500 focus:outline-none" placeholder="you@example.com">
 								<p class="mt-1 text-xs text-zinc-500">Мы никому не передаём ваш email.</p>
 							</div>
 							<div>
 								<label for="f-role" class="mb-1 block text-sm font-medium text-zinc-800">Роль</label>
-								<select id="f-role" name="role" class="select-custom block w-full rounded-lg border border-zinc-300 bg-white px-3 py-2 text-sm text-zinc-900 focus:border-zinc-500 focus:outline-none">
+								<select id="f-role" name="role" class="select-custom block w-full rounded-lg border border-zinc-300 bg-white px-3 py-2 text-sm text-zinc-900 focus:border-sky-500 focus:outline-none">
 									<option>Администратор</option>
 									<option>Редактор</option>
 									<option>Гость</option>
@@ -199,7 +199,7 @@ ob_start();
 							</fieldset>
 							<div>
 								<label for="f-notes" class="mb-1 block text-sm font-medium text-zinc-800">Заметки</label>
-								<textarea id="f-notes" class="block w-full rounded-lg border border-zinc-300 bg-white px-3 py-2 text-sm text-zinc-900 placeholder-zinc-400 focus:border-zinc-500 focus:outline-none" rows="3" placeholder="Краткое описание..."></textarea>
+								<textarea id="f-notes" class="block w-full rounded-lg border border-zinc-300 bg-white px-3 py-2 text-sm text-zinc-900 placeholder-zinc-400 focus:border-sky-500 focus:outline-none" rows="3" placeholder="Краткое описание..."></textarea>
 							</div>
 							<div class="flex items-center justify-between">
 								<p class="text-xs text-rose-600">Пример ошибки: Email обязателен</p>
@@ -302,14 +302,14 @@ ob_start();
 						<div class="grid grid-cols-1 gap-4 md:grid-cols-2">
 							<label class="block">
 								<span class="mb-1 block text-sm font-medium text-zinc-800">URL</span>
-								<div class="flex rounded-lg border border-zinc-300 focus-within:border-zinc-500">
+								<div class="flex rounded-lg border border-zinc-300 focus-within:border-sky-500">
 									<span class="inline-flex items-center rounded-l-lg border-r border-zinc-300 bg-zinc-50 px-3 text-sm text-zinc-500">https://</span>
 									<input type="text" class="min-w-0 flex-1 rounded-r-lg bg-white px-3 py-2 text-sm text-zinc-900 outline-none" placeholder="dev.roocms.com">
 								</div>
 							</label>
 							<label class="block">
 								<span class="mb-1 block text-sm font-medium text-zinc-800">Поиск</span>
-								<div class="flex rounded-lg border border-zinc-300 focus-within:border-zinc-500">
+								<div class="flex rounded-lg border border-zinc-300 focus-within:border-sky-500">
 									<input type="text" class="min-w-0 flex-1 rounded-l-lg bg-white px-3 py-2 text-sm text-zinc-900 outline-none" placeholder="Запрос...">
 									<button type="button" class="rounded-r-lg bg-zinc-900 px-3 py-2 text-sm font-medium text-white hover:bg-zinc-800">Найти</button>
 								</div>
@@ -325,15 +325,15 @@ ob_start();
 						<div class="mb-4 flex flex-wrap gap-2">
 							<span class="inline-flex items-center gap-2 rounded-full border border-zinc-200 bg-white pl-3 pr-1 py-1 text-xs text-zinc-700">
 								Design
-								<button type="button" class="inline-flex h-5 w-5 items-center justify-center rounded-full bg-zinc-100 text-[12px] leading-none text-zinc-500 hover:bg-zinc-200">×</button>
+								<button type="button" class="inline-flex h-5 w-5 items-center justify-center rounded-full bg-zinc-100 text-[12px] leading-none text-zinc-500 hover:bg-zinc-200 cursor-pointer">×</button>
 							</span>
 							<span class="inline-flex items-center gap-2 rounded-full border border-zinc-200 bg-white pl-3 pr-1 py-1 text-xs text-zinc-700">
 								UX
-								<button type="button" class="inline-flex h-5 w-5 items-center justify-center rounded-full bg-zinc-100 text-[12px] leading-none text-zinc-500 hover:bg-zinc-200">×</button>
+								<button type="button" class="inline-flex h-5 w-5 items-center justify-center rounded-full bg-zinc-100 text-[12px] leading-none text-zinc-500 hover:bg-zinc-200 cursor-pointer">×</button>
 							</span>
 							<span class="inline-flex items-center gap-2 rounded-full border border-zinc-200 bg-white pl-3 pr-1 py-1 text-xs text-zinc-700">
 								CMS
-								<button type="button" class="inline-flex h-5 w-5 items-center justify-center rounded-full bg-zinc-100 text-[12px] leading-none text-zinc-500 hover:bg-zinc-200">×</button>
+								<button type="button" class="inline-flex h-5 w-5 items-center justify-center rounded-full bg-zinc-100 text-[12px] leading-none text-zinc-500 hover:bg-zinc-200 cursor-pointer">×</button>
 							</span>
 						</div>
 						<div class="relative py-3">
