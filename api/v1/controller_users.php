@@ -290,10 +290,10 @@ class UsersController extends BaseController {
 
 		try {
 			$this->db->transaction(function() use ($user_id, $user_updates, $profile_updates) {
-				if($user_updates) {
+				if(!empty($user_updates)) {
 					$this->userService->update_user($user_id, $user_updates);
 				}
-				if($profile_updates) {
+				if(!empty($profile_updates)) {
 					$this->userService->upsert_profile($user_id, $profile_updates);
 				}
 			});

@@ -80,7 +80,7 @@ class RegistrationService {
             ];
             
             $inserted_user_id = $this->user->create_user($user_data);
-            if(!$inserted_user_id) {
+            if($inserted_user_id === false) {
                 throw new RuntimeException('Registration failed', 500);
             }
 

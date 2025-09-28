@@ -143,7 +143,7 @@ class AuthController extends BaseController {
             }
 
             // Logout by revoking the current access token
-            $this->authService->logout_by_access_token((int)$user['id'], $access_token);
+            $this->authService->revoke_access_token((int)$user['id'], $access_token);
             $this->json_response(['success' => true], 200, 'Logout successful');
         } catch (Exception $e) {
             $this->error_response('Logout failed: ' . $e->getMessage(), 500);
@@ -234,6 +234,52 @@ class AuthController extends BaseController {
 
 
     /**
+     * Update password for authenticated user
+     * PUT /api/v1/auth/password
+     * Requires: AuthMiddleware
+     * 
+     * @param array $data
+     * @return void
+     */
+    public function update_password(): void {
+        $this->log_request('password_update');
+        
+        $user = $this->require_authentication();
+        if (empty($user)) {
+            return; // Error response already sent
+        }
+
+        $data = $this->get_input_data();
+        
+        // Validate required fields
+        $required = ['current_password', 'new_password'];
+        $validation_errors = $this->validate_required($data, $required);
+        
+        if (!empty($validation_errors)) {
+            $this->validation_error_response($validation_errors);
+            return;
+        }
+
+        // Check for password confirmation
+        if (isset($data['new_password_confirmation'])) {
+            if ($data['new_password'] !== $data['new_password_confirmation']) {
+                $this->error_response('New password confirmation does not match', 400);
+                return;
+            }
+        }
+
+        try {
+            $this->authService->update_password((int)$user['id'], $data['current_password'], $data['new_password']);
+            $this->json_response(null, 200, 'Password updated successfully. Please login again.');
+        } catch (DomainException $e) {
+            $this->error_response($e->getMessage(), $e->getCode() ?: 400);
+        } catch (Exception $e) {
+            $this->error_response('Password update failed', 500);
+        }
+    }
+
+
+    /**
      * Password recovery request
      * POST /api/v1/auth/password/recovery
      * 
@@ -302,51 +348,4 @@ class AuthController extends BaseController {
             $this->error_response('Password reset failed', 500);
         }
     }
-
-
-    /**
-     * Update password for authenticated user
-     * PUT /api/v1/auth/password
-     * Requires: AuthMiddleware
-     * 
-     * @param array $data
-     * @return void
-     */
-    public function update_password(): void {
-        $this->log_request('password_update');
-        
-        $user = $this->require_authentication();
-        if (empty($user)) {
-            return; // Error response already sent
-        }
-
-        $data = $this->get_input_data();
-        
-        // Validate required fields
-        $required = ['current_password', 'new_password'];
-        $validation_errors = $this->validate_required($data, $required);
-        
-        if (!empty($validation_errors)) {
-            $this->validation_error_response($validation_errors);
-            return;
-        }
-
-        // Check for password confirmation
-        if (isset($data['new_password_confirmation'])) {
-            if ($data['new_password'] !== $data['new_password_confirmation']) {
-                $this->error_response('New password confirmation does not match', 400);
-                return;
-            }
-        }
-
-        try {
-            $this->authService->update_password((int)$user['id'], $data['current_password'], $data['new_password']);
-            $this->json_response(null, 200, 'Password updated successfully. Please login again.');
-        } catch (DomainException $e) {
-            $this->error_response($e->getMessage(), $e->getCode() ?: 400);
-        } catch (Exception $e) {
-            $this->error_response('Password update failed', 500);
-        }
-    }
-
 }

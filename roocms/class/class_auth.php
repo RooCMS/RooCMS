@@ -165,4 +165,52 @@ class Auth {
             'created_at' => time()
         ])->execute();
     }
+
+
+    /**
+     * Revoke token by user id
+     * This function will revoke all tokens for the user
+     *
+     * @param int $user_id
+     * @return void
+     */
+    public function revoke_token_by_user_id(int $user_id): void {
+        $this->db->delete(TABLE_TOKENS)->where('user_id', $user_id)->execute();
+    }
+
+
+    /**
+     * Revoke token universal
+     * 
+     * @param string $token
+     * @return void
+     */
+    public function revoke_token($token) {
+        $this->revoke_access_token($token);
+        $this->revoke_refresh_token($token);
+    }
+
+
+    /**
+     * Revoke access token
+     *
+     * @param string $token
+     * @return void
+     */
+    public function revoke_access_token(string $token): void {
+        $token_hash = $this->hash_data($token);
+        $this->db->delete(TABLE_TOKENS)->where('token', $token_hash)->execute();
+    }
+
+
+    /**
+     * Revoke refresh token
+     *
+     * @param string $refresh_token
+     * @return void
+     */
+    public function revoke_refresh_token(string $refresh_token): void {
+        $refresh_hash = $this->hash_data($refresh_token);
+        $this->db->delete(TABLE_TOKENS)->where('refresh', $refresh_hash)->execute();
+    }
 }

@@ -80,6 +80,32 @@ class AuthenticationService {
 
 
     /**
+     * Get current user by token
+     * 
+     * @param string $token Access token
+     * @return array|null User data or null if invalid
+     */
+    public function get_current_user(string $token): ?array {
+        return $this->verify_token($token);
+    }
+
+
+    /**
+     * Check if user has specific role
+     * 
+     * @param array $user User data
+     * @param string|array $required_roles Required role(s)
+     * @return bool True if user has required role
+     */
+    public function user_has_role(array $user, string|array $required_roles): bool {
+        $user_role = $user['role'] ?? 'u';
+        $roles = (array) $required_roles;
+        
+        return in_array($user_role, $roles, true);
+    }
+
+
+    /**
      * Refresh access token using refresh token
      * 
      * @param string $refresh_token Refresh token
@@ -127,53 +153,25 @@ class AuthenticationService {
 
 
     /**
-     * Logout user from a specific device/token
-     * @param int $user_id
-     * @param string $refresh_token Refresh token to revoke
-     * @throws DomainException
-     */
-    public function logout(int $user_id, string $refresh_token): void {
-        $this->revoke_refresh_token_internal($refresh_token);
-    }
-
-
-    /**
-     * Logout user by access token (revoke associated refresh token)
-     * @param int $user_id
-     * @param string $access_token Access token to find and revoke
-     * @throws DomainException
-     */
-    public function logout_by_access_token(int $user_id, string $access_token): void {
-        $token_hash = $this->auth->hash_data($access_token);
-        
-        // Find token record by access token
-        $token_data = $this->db->select()
-            ->from(TABLE_TOKENS)
-            ->where('token', $token_hash)
-            ->where('user_id', $user_id)
-            ->limit(1)
-            ->first();
-        
-        if (!$token_data) {
-            throw new DomainException('Token not found', 404);
-        }
-        
-        // Delete the entire token record (both access and refresh)
-        $this->db->delete(TABLE_TOKENS)
-            ->where('id', $token_data['id'])
-            ->execute();
-    }
-
-
-    /**
      * Logout from all devices (revoke all tokens)
      * 
      * @param int $user_id User ID
+     * @throws DomainException
      */
     public function logout_all_devices(int $user_id): void {
-        $this->db->delete(TABLE_TOKENS)
-            ->where('user_id', $user_id)
-            ->execute();
+        $this->auth->revoke_token_by_user_id($user_id);
+    }
+
+
+    /**
+     * Revoke specific refresh token
+     * 
+     * @param int $user_id User ID
+     * @param string $access_token Access token to revoke
+     * @throws DomainException
+     */
+    public function revoke_access_token(int $user_id, string $access_token): void {
+        $this->auth->revoke_access_token($access_token);
     }
 
 
@@ -182,9 +180,10 @@ class AuthenticationService {
      * 
      * @param int $user_id User ID
      * @param string $refresh_token Refresh token to revoke
+     * @throws DomainException
      */
     public function revoke_refresh_token(int $user_id, string $refresh_token): void {
-        $this->revoke_refresh_token_internal($refresh_token);
+        $this->auth->revoke_refresh_token($refresh_token);
     }
 
 
@@ -244,20 +243,6 @@ class AuthenticationService {
         $this->db->update(TABLE_USERS)
             ->data(['last_activity' => time()])
             ->where('id', $user_id)
-            ->execute();
-    }
-
-
-    /**
-     * Revoke refresh token (internal method)
-     * 
-     * @param string $refresh_token Refresh token to revoke
-     */
-    private function revoke_refresh_token_internal(string $refresh_token): void {
-        $refresh_hash = $this->auth->hash_data($refresh_token);
-        
-        $this->db->delete(TABLE_TOKENS)
-            ->where('refresh', $refresh_hash)
             ->execute();
     }
 
@@ -323,31 +308,5 @@ class AuthenticationService {
         } catch (Exception $e) {
             return null;
         }
-    }
-
-
-    /**
-     * Get current user by token
-     * 
-     * @param string $token Access token
-     * @return array|null User data or null if invalid
-     */
-    public function get_current_user(string $token): ?array {
-        return $this->verify_token($token);
-    }
-
-
-    /**
-     * Check if user has specific role
-     * 
-     * @param array $user User data
-     * @param string|array $required_roles Required role(s)
-     * @return bool True if user has required role
-     */
-    public function user_has_role(array $user, string|array $required_roles): bool {
-        $user_role = $user['role'] ?? 'u';
-        $roles = is_array($required_roles) ? $required_roles : [$required_roles];
-        
-        return in_array($user_role, $roles, true);
     }
 }
