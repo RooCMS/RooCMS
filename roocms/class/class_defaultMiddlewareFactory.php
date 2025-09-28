@@ -27,18 +27,19 @@ if(!defined('RooCMS')) {
  */
 class DefaultMiddlewareFactory implements MiddlewareFactory {
 
-    private readonly Db $db;
+    private readonly AuthenticationService $authService;
+    private readonly UserValidationService $validator;
     private readonly Role $role;
-    private readonly Auth $auth;
 
 
+    
     /**
      * Constructor
      */
-    public function __construct(Db $db, Role $role, Auth $auth) {
-        $this->db = $db;
+    public function __construct(AuthenticationService $authService, UserValidationService $validator, Role $role) {
+        $this->authService = $authService;
+        $this->validator = $validator;
         $this->role = $role;
-        $this->auth = $auth;
     }
 
     /**
@@ -56,9 +57,9 @@ class DefaultMiddlewareFactory implements MiddlewareFactory {
         // Inject dependencies based on middleware type
         switch ($middlewareClass) {
             case 'AuthMiddleware':
-                return new AuthMiddleware($this->db, $this->auth);
+                return new AuthMiddleware($this->authService, $this->validator);
             case 'RoleMiddleware':
-                return new RoleMiddleware($this->role);
+                return new RoleMiddleware($this->role, $this->authService);
             default:
                 // For other middleware without dependencies
                 return new $middlewareClass();

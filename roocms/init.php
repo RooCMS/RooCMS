@@ -85,9 +85,7 @@ spl_autoload_register(function(string $class_name) {
         'DbExtends'                 => _CLASS . '/trait_dbExtends.php',
         'DbMigrator'                => _CLASS . '/class_dbMigrator.php',
         'DbBackuper'                => _CLASS . '/class_dbBackuper.php',
-        'BackupService'             => _SERVICES . '/backup.php',
         'SiteSettings'              => _CLASS . '/class_siteSettings.php',
-        'SiteSettingsService'       => _SERVICES . '/siteSettings.php',
         'Themes'                    => _CLASS . '/class_themes.php',
         'ThemeConfig'               => _CLASS . '/class_themeConfig.php',
         'TemplateRenderer'          => _CLASS . '/interface_templateRenderer.php',
@@ -96,17 +94,23 @@ spl_autoload_register(function(string $class_name) {
         'TemplateRendererHtml'      => _CLASS . '/class_templateRendererHtml.php',
         'Mailer'                    => _CLASS . '/class_mailer.php',
         'Auth'                      => _CLASS . '/class_auth.php',
-        'AuthService'               => _SERVICES . '/auth.php',
         'Role'                      => _CLASS . '/class_role.php',
         'User'                      => _CLASS . '/class_user.php',
-        'UserService'               => _SERVICES . '/user.php',
         'Shteirlitz'                => _CLASS . '/class_shteirlitz.php',
         'ApiHandler'                => _CLASS . '/class_apiHandler.php',
         'DependencyContainer'       => _CLASS . '/class_dependencyContainer.php',
         'ControllerFactory'         => _CLASS . '/interface_controllerFactory.php',
         'DefaultControllerFactory'  => _CLASS . '/class_defaultControllerFactory.php',
         'MiddlewareFactory'         => _CLASS . '/interface_middlewareFactory.php',
-        'DefaultMiddlewareFactory'  => _CLASS . '/class_defaultMiddlewareFactory.php'
+        'DefaultMiddlewareFactory'  => _CLASS . '/class_defaultMiddlewareFactory.php',
+        'SiteSettingsService'       => _SERVICES . '/siteSettings.php',
+        'UserService'               => _SERVICES . '/user.php',
+        'AuthenticationService'     => _SERVICES . '/authentication.php',
+        'RegistrationService'       => _SERVICES . '/registration.php',
+        'UserValidationService'     => _SERVICES . '/userValidation.php',
+        'EmailService'              => _SERVICES . '/email.php',
+        'UserRecoveryService'       => _SERVICES . '/userRecovery.php',
+        'BackupService'             => _SERVICES . '/backup.php'
     ];
     
     // try to load the class
@@ -163,7 +167,6 @@ if($debug instanceof Debugger) {
 
 // register services
 $container->register(Auth::class, Auth::class, true); // Singleton
-$container->register(AuthService::class, AuthService::class, true); // Singleton
 $container->register(User::class, User::class, true); // Singleton
 $container->register(Role::class, Role::class, true); // Singleton
 $container->register(UserService::class, UserService::class, true); // Singleton
@@ -173,6 +176,12 @@ $container->register(Mailer::class, Mailer::class, true); // Singleton
 $container->register(DbLogger::class, DbLogger::class, true); // Singleton
 $container->register(DbBackuper::class, DbBackuper::class, true); // Singleton
 $container->register(BackupService::class, BackupService::class, true); // Singleton
+$container->register(AuthenticationService::class, AuthenticationService::class, true); // Singleton
+$container->register(RegistrationService::class, RegistrationService::class, true); // Singleton
+$container->register(EmailService::class, EmailService::class, true); // Singleton
+$container->register(UserRecoveryService::class, UserRecoveryService::class, true); // Singleton
+$container->register(UserValidationService::class, UserValidationService::class, true); // Singleton
+
 
 // Template renderers and themes
 $container->register(TemplateRendererPhp::class, TemplateRendererPhp::class, true);

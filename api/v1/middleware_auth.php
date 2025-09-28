@@ -27,18 +27,17 @@ if(!defined('RooCMS')) {
  */
 class AuthMiddleware {
 
-    private readonly Db $db;
-    private readonly Auth $auth;
+    private readonly AuthenticationService $authService;
+    private readonly UserValidationService $validator;
+
+
 
     /**
      * Constructor
-     * 
-     * @param Db $db Database
-     * @param Auth $auth Auth
      */
-    public function __construct(Db $db, Auth $auth) {
-        $this->db = $db;
-        $this->auth = $auth;
+    public function __construct(AuthenticationService $authService, UserValidationService $validator) {
+        $this->authService = $authService;
+        $this->validator = $validator;
     }
 
     
@@ -57,14 +56,24 @@ class AuthMiddleware {
                 return false;
             }
 
-            $user = $this->authenticate_token($token);
+            $user = $this->authService->verify_token($token);
+
+            if (!$user) {
+                $this->send_error_response('Invalid or expired token', 401);
+                return false;
+            }
+
+            // Validate account status
+            $this->validator->validate_account_status($user);
 
             // Set authenticated user in global context
-            // TODO: Move to global context
             $GLOBALS['authenticated_user'] = $user;
 
             return true;
 
+        } catch (DomainException $e) {
+            $this->send_error_response($e->getMessage(), $e->getCode() ?: 401);
+            return false;
         } catch (Exception $e) {
             $this->send_error_response('Authentication failed', 401);
             return false;
@@ -72,61 +81,6 @@ class AuthMiddleware {
     }
 
 
-    /**
-     * Authenticate token and return user data
-     * 
-     * @param string $token Token
-     * @return array
-     */
-    private function authenticate_token(string $token): array {
-        try {
-            // Hash the token before searching in database
-            $token_hash = $this->auth->hash_data($token);
-
-            // Find valid token
-            $token_data = $this->db->select()
-                ->from(TABLE_TOKENS)
-                ->where('token', $token_hash)
-                ->where('token_expires', time(), '>')
-                ->limit(1)
-                ->first();
-
-            if (!$token_data) {
-                $this->send_error_response('Invalid or expired token', 401);
-            }
-
-            // Get user data
-            $user = $this->db->select()
-                ->from(TABLE_USERS)
-                ->where('id', $token_data['user_id'])
-                ->where('is_active', '1')
-                ->limit(1)
-                ->first();
-
-            if ($user === false) {
-                $this->send_error_response('User not found or inactive', 401);
-            }
-
-            // Check if user is banned
-            if ($user['is_banned'] == '1' && (int)$user['ban_expired'] > time()) {
-                $this->send_error_response('Account is banned', 403, [
-                    'ban_reason' => $user['ban_reason'],
-                    'ban_expires' => format_timestamp($user['ban_expired'])
-                ]);
-            }
-
-            // Update last activity
-            $this->db->update(TABLE_USERS)
-                ->data(['last_activity' => time()])
-                ->where('id', $user['id'])
-                ->execute();
-
-            return $user;
-
-        } catch (Exception $e) {
-            $this->send_error_response('Authentication failed', 401);
-        }
-    }
 
     /**
      * Send error response and exit
@@ -137,6 +91,7 @@ class AuthMiddleware {
      * @return void
      */
     private function send_error_response(string $message, int $code = 401, array $details = []): never {
+        
         http_response_code($code);
         
         $response = [

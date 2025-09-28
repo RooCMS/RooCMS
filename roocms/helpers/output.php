@@ -43,9 +43,15 @@ function nocache() : void {
  * @return void
  */
 function output_json(mixed $data) : void {
+	// Clear all output buffers to prevent conflicts with gzip buffering
+	while (ob_get_level()) {
+		ob_end_clean();
+	}
+	
 	if (!headers_sent()) {
 		header('Content-Type: application/json; charset=utf-8');
 	}
+	
 	echo json_encode($data, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
 	exit();
 }

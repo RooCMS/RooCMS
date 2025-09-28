@@ -31,6 +31,7 @@ class BackupController extends BaseController {
 	private Auth $auth;
 	
 
+	
 	/**
 	 * Constructor with dependency injection
 	 *
@@ -129,14 +130,8 @@ class BackupController extends BaseController {
 	 */
 	public function delete(): void {
 		try {
-			// Admin permissions already checked by middleware
-
-			$filename = $this->get_path_parameter('filename');
-			
-			if(empty($filename)) {
-				$this->error_response('Filename is required', 400);
-				return;
-			}
+			$filename = $this->validate_filename_parameter();
+			if(!$filename) return;
 
 			$result = $this->backupService->delete_backup($filename);
 			$this->json_response($result);
@@ -153,52 +148,81 @@ class BackupController extends BaseController {
 	 */
 	public function download(): void {
 		try {
-			// Admin permissions already checked by middleware
+			$filename = $this->validate_filename_parameter(true);
+			if(!$filename) return;
 
-			$filename = $this->get_path_parameter('filename');
-			
-			if(empty($filename)) {
-				$this->error_response('Filename is required', 400);
-				return;
-			}
-
-			// Security check: prevent path traversal
-			if(strpos($filename, '..') !== false || strpos($filename, '/') !== false || strpos($filename, '\\') !== false) {
-				$this->error_response('Invalid filename', 400);
-				return;
-			}
-
-			$backups_result = $this->backupService->list_backups();
-			$backups = $backups_result['data'] ?? [];
-			$backup_file = null;
-
-			// Find the backup file
-			foreach($backups as $backup) {
-				if($backup['filename'] === $filename) {
-					$backup_file = $backup['filepath'];
-					break;
-				}
-			}
-
-			if(!$backup_file || !file_exists($backup_file)) {
+			$backup_file = $this->find_backup_file($filename);
+			if(!$backup_file) {
 				$this->not_found_response('Backup file not found');
 				return;
 			}
 
-			// Set headers for file download
-			header('Content-Type: application/octet-stream');
-			header('Content-Disposition: attachment; filename="' . $filename . '"');
-			header('Content-Length: ' . filesize($backup_file));
-			header('Cache-Control: no-cache, must-revalidate');
-			header('Pragma: no-cache');
-
-			// Output file content
-			readfile($backup_file);
-			exit;
+			$this->send_file_download($backup_file, $filename);
 
 		} catch(Exception $e) {
 			$this->error_response($e->getMessage(), 500);
 		}
+	}
+
+	/**
+	 * Validate filename parameter from path
+	 * 
+	 * @param bool $check_security Whether to check for path traversal
+	 * @return string|null Validated filename or null if invalid
+	 */
+	private function validate_filename_parameter(bool $check_security = false): ?string {
+		$filename = $this->get_path_parameter('filename');
+		
+		if(empty($filename)) {
+			$this->error_response('Filename is required', 400);
+			return null;
+		}
+
+		if($check_security) {
+			$forbidden_chars = ['..', '/', '\\'];
+			if(array_filter($forbidden_chars, fn($char) => str_contains($filename, $char))) {
+				$this->error_response('Invalid filename', 400);
+				return null;
+			}
+		}
+
+		return $filename;
+	}
+
+	/**
+	 * Find backup file by filename
+	 * 
+	 * @param string $filename Backup filename
+	 * @return string|null File path or null if not found
+	 */
+	private function find_backup_file(string $filename): ?string {
+		$backups_result = $this->backupService->list_backups();
+		$backups = $backups_result['data'] ?? [];
+
+		foreach($backups as $backup) {
+			if($backup['filename'] === $filename && file_exists($backup['filepath'])) {
+				return $backup['filepath'];
+			}
+		}
+
+		return null;
+	}
+
+	/**
+	 * Send file as download
+	 * 
+	 * @param string $filepath Full file path
+	 * @param string $filename Download filename
+	 */
+	private function send_file_download(string $filepath, string $filename): void {
+		header('Content-Type: application/octet-stream');
+		header('Content-Disposition: attachment; filename="' . $filename . '"');
+		header('Content-Length: ' . filesize($filepath));
+		header('Cache-Control: no-cache, must-revalidate');
+		header('Pragma: no-cache');
+
+		readfile($filepath);
+		exit;
 	}
 
 

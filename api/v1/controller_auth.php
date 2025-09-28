@@ -27,18 +27,21 @@ if(!defined('RooCMS')) {
  */
 class AuthController extends BaseController {
 
-    private readonly AuthService $authService;
-    
-    
+    private readonly AuthenticationService $authService;
+    private readonly RegistrationService $registrationService;
+    private readonly UserRecoveryService $recoveryService;
 
 
+    
     /**
      * Constructor with dependency injection
      */
-    public function __construct(AuthService $authService, Db $db) {
+    public function __construct(AuthenticationService $authService, RegistrationService $registrationService, UserRecoveryService $recoveryService, Db $db) {
         parent::__construct($db);
 
         $this->authService = $authService;
+        $this->registrationService = $registrationService;
+        $this->recoveryService = $recoveryService;
     }
 
 
@@ -58,20 +61,6 @@ class AuthController extends BaseController {
         $required = ['login', 'password'];
         $validation_errors = $this->validate_required($data, $required);
         
-        if (!empty($validation_errors)) {
-            $this->validation_error_response($validation_errors);
-            return;
-        }
-
-        // Additional validation
-        if (strlen($data['login']) < $this->authService->login_min_length) {
-            $validation_errors['login'] = 'Login must be at least ' . $this->authService->login_min_length . ' characters';
-        }
-        
-        if (strlen($data['password']) < $this->authService->password_min_length) {
-            $validation_errors['password'] = 'Password must be at least ' . $this->authService->password_min_length . ' characters';
-        }
-
         if (!empty($validation_errors)) {
             $this->validation_error_response($validation_errors);
             return;
@@ -99,31 +88,28 @@ class AuthController extends BaseController {
         
         $data = $this->get_input_data();
         
-        // Validate input
-        $validation_errors = array_merge(
-            $this->validate_required($data, ['login', 'email', 'password']),
-            array_filter([
-                'login' => match(true) {
-                    strlen($data['login'] ?? '') < $this->authService->login_min_length,
-                    strlen($data['login'] ?? '') > $this->authService->login_max_length 
-                        => "Login must be between " . $this->authService->login_min_length ." and ". $this->authService->login_max_length ." characters",
-                    default => null
-                },
-                'email' => !filter_var($data['email'] ?? '', FILTER_VALIDATE_EMAIL) ? 'Invalid email format' : null,
-                'password' => strlen($data['password'] ?? '') < $this->authService->password_min_length 
-                    ? "Password must be at least " . $this->authService->password_min_length ." characters" : null,
-                'password_confirmation' => isset($data['password_confirmation']) && $data['password'] !== $data['password_confirmation']
-                    ? 'Password confirmation does not match' : null
-            ])
-        );
-
+        // Validate required fields
+        $required = ['login', 'email', 'password'];
+        $validation_errors = $this->validate_required($data, $required);
+        
         if (!empty($validation_errors)) {
             $this->validation_error_response($validation_errors);
             return;
         }
 
+        // Check password confirmation if provided
+        if(isset($data['password_confirmation']) && $data['password'] !== $data['password_confirmation']) {
+            $this->validation_error_response(['password_confirmation' => 'Password confirmation does not match']);
+            return;
+        }
+
         try {
-            $response_payload = $this->authService->register($data['login'], $data['email'], $data['password']);
+            $response_payload = $this->registrationService->register(
+                trim($data['login']), 
+                trim($data['email']), 
+                $data['password']
+            );
+            
             $this->created_response($response_payload, 'Registration successful');
         } catch (DomainException $e) {
             $this->error_response($e->getMessage(), $e->getCode() ?: 400);
@@ -149,17 +135,18 @@ class AuthController extends BaseController {
         }
 
         try {
-            // Extract bearer using shared helper
+            // Get access token from header
             $access_token = get_bearer_token();
-            if ($access_token === null) {
-                $this->error_response('Authorization token required', 401);
+            if (!$access_token) {
+                $this->error_response('Access token required', 401);
                 return;
             }
-            $this->authService->logout((int)$user['id'], $access_token);
 
-            $this->json_response(null, 200, 'Logout successful');
+            // Logout by revoking the current access token
+            $this->authService->logout_by_access_token((int)$user['id'], $access_token);
+            $this->json_response(['success' => true], 200, 'Logout successful');
         } catch (Exception $e) {
-            $this->error_response('Logout failed', 500);
+            $this->error_response('Logout failed: ' . $e->getMessage(), 500);
         }
     }
 
@@ -236,12 +223,12 @@ class AuthController extends BaseController {
         }
 
         try {
-            $response_data = $this->authService->refresh($data['refresh_token']);
+            $response_data = $this->authService->refresh_token($data['refresh_token']);
             $this->json_response($response_data, 200, 'Token refreshed successfully');
         } catch (DomainException $e) {
             $this->error_response($e->getMessage(), $e->getCode() ?: 400);
         } catch (Exception $e) {
-            $this->error_response('Token refresh failed', 500);
+            $this->error_response('Token refresh failed: ' . $e->getMessage(), 500);
         }
     }
 
@@ -269,7 +256,7 @@ class AuthController extends BaseController {
         }
 
         try {
-            $response_data = $this->authService->request_password_recovery($data['email']);
+            $response_data = $this->recoveryService->request_password_recovery($data['email']);
             $this->json_response($response_data, 200, 'Recovery code sent to your email');
         } catch (Exception $e) {
             $this->error_response('Password recovery failed', 500);
@@ -298,11 +285,6 @@ class AuthController extends BaseController {
             return;
         }
 
-        if (strlen($data['password']) < $this->authService->password_min_length) {
-            $this->error_response('Password must be at least ' . $this->authService->password_min_length . ' characters', 400);
-            return;
-        }
-
         // Check for password confirmation
         if (isset($data['password_confirmation'])) {
             if ($data['password'] !== $data['password_confirmation']) {
@@ -312,7 +294,7 @@ class AuthController extends BaseController {
         }
 
         try {
-            $this->authService->reset_password($data['token'], $data['password']);
+            $this->recoveryService->reset_password($data['token'], $data['password']);
             $this->json_response(null, 200, 'Password reset successfully');
         } catch (DomainException $e) {
             $this->error_response($e->getMessage(), $e->getCode() ?: 400);
@@ -346,11 +328,6 @@ class AuthController extends BaseController {
         
         if (!empty($validation_errors)) {
             $this->validation_error_response($validation_errors);
-            return;
-        }
-
-        if (strlen($data['new_password']) < $this->authService->password_min_length) {
-            $this->error_response('New password must be at least ' . $this->authService->password_min_length . ' characters', 400);
             return;
         }
 

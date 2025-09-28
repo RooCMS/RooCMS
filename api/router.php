@@ -69,7 +69,11 @@ $container->register(\BackupController::class, \BackupController::class);
  * Create controller and middleware factories and router instance
  */
 $controllerFactory = new DefaultControllerFactory($container);
-$middlewareFactory = new DefaultMiddlewareFactory($db, new Role(), $container->get(Auth::class));
+$middlewareFactory = new DefaultMiddlewareFactory(
+    $container->get(AuthenticationService::class),
+    $container->get(UserValidationService::class), 
+    $container->get(Role::class)
+);
 $api = new ApiHandler($controllerFactory, $middlewareFactory);
 
 

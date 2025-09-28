@@ -29,21 +29,20 @@ if(!defined('RooCMS')) {
 class UsersController extends BaseController {
 
     private readonly UserService $userService;
+    private readonly EmailService $emailService;
     private readonly Auth $auth;
-    private readonly SiteSettings $siteSettings;
-    private readonly Mailer $mailer;
 
 
+	
     /**
- 	 * Constructor
- 	 */
-    public function __construct(UserService $userService, Auth $auth, SiteSettings $siteSettings, Mailer $mailer, Db $db) {
+	 * Constructor
+	 */
+    public function __construct(UserService $userService, EmailService $emailService, Auth $auth, Db $db) {
         parent::__construct($db);
 
         $this->userService = $userService;
+        $this->emailService = $emailService;
         $this->auth = $auth;
-        $this->siteSettings = $siteSettings;
-        $this->mailer = $mailer;
     }
 
 
@@ -151,69 +150,16 @@ class UsersController extends BaseController {
 	public function request_verify_email(): void {
 		$this->log_request('users_request_verify_email');
 		$current = $this->require_authentication();
-		if(empty($current)) {
-			return;
-		}
-
-		// Already verified
-		if(isset($current['is_verified']) && (string)$current['is_verified'] === '1') {
-			$this->error_response('Email already verified', 400);
+		
+		if(empty($current) || ((string)($current['is_verified'] ?? '0') === '1')) {
+			if(!empty($current) && (string)($current['is_verified'] ?? '0') === '1') {
+				$this->error_response('Email already verified', 400);
+			}
 			return;
 		}
 
 		try {
-			$expires_at = time() + 86400; // 24h
-			$plain_code = $this->auth->generate_token(24);
-			$code_hash = $this->auth->hash_data($plain_code);
-
-			// Remove previous verification codes
-			$this->db->delete(TABLE_VERIFICATION_CODES)
-				->where('user_id', (int)$current['id'])
-				->where('code_type', 'verification')
-				->execute();
-
-			// Insert new verification code
-			$this->db->insert(TABLE_VERIFICATION_CODES)->data([
-				'code_hash' => $code_hash,
-				'user_id' => (int)$current['id'],
-				'email' => $current['email'] ?? null,
-				'code_type' => 'verification',
-				'expires_at' => $expires_at,
-				'used_at' => null,
-				'attempts' => 0,
-				'max_attempts' => 3,
-				'created_at' => time(),
-				'updated_at' => time()
-			])->execute();
-
-			// Send email
-			try {
-				$site_name = $this->siteSettings->get_by_key('site_name') ?? 'RooCMS';
-				$site_domain = $this->siteSettings->get_by_key('site_domain') ?? DOMAIN;
-				$verification_mail_uri = $this->siteSettings->get_by_key('mailer_verification_mail_uri') ?? '/verify-email';
-				$site_url = 'https://' . $site_domain;
-				$verify_link = $site_url . $verification_mail_uri . '?' . rawurlencode($plain_code);
-
-				$this->mailer->send_with_template([
-					'to' => $current['email'],
-					'subject' => 'Verify your email on ' . $site_name,
-					'template' => 'notice',
-					'data' => [
-						'title' => 'Email verification',
-						'message' => "Use the link to verify your email: {$verify_link}\nThe link is valid for 24 hours.",
-						'user_name' => $current['login'] ?? '',
-						'site_name' => $site_name,
-						'site_url' => $site_url,
-					],
-				]);
-			} catch(Exception $e) {
-				// ignore mail errors
-			}
-
-			$response = [];
-			if(defined('DEBUGMODE') && DEBUGMODE) {
-				$response['verification_code'] = $plain_code;
-			}
+			$response = $this->emailService->request_email_verification($current);
 			$this->json_response($response, 200, 'Verification email sent');
 		} catch(Exception $e) {
 			$this->error_response('Failed to request verification email', 500);
@@ -231,36 +177,16 @@ class UsersController extends BaseController {
 	public function verify_email(string $verification_code): void {
 		$this->log_request('users_verify_email');
 
-		$code_hash = $this->auth->hash_data($verification_code);
-
-		$sql = "SELECT * FROM " . TABLE_VERIFICATION_CODES . "
-				WHERE code_hash = ?
-				AND code_type = 'verification'
-				AND expires_at > ?
-				AND used_at IS NULL
-				LIMIT 1";
-
-		$record = $this->db->fetch_assoc($sql, [$code_hash, time()]);
-
-		if(!$record) {
-			$this->error_response('Invalid or expired verification code', 400);
+		$current = $this->require_authentication();
+		if(empty($current)) {
 			return;
 		}
 
 		try {
-			$this->db->transaction(function() use ($record) {
-				$this->db->update(TABLE_USERS)
-					->data(['is_verified' => 1, 'updated_at' => time()])
-					->where('id', $record['user_id'])
-					->execute();
-
-				$this->db->update(TABLE_VERIFICATION_CODES)
-					->data(['used_at' => time()])
-					->where('id', $record['id'])
-					->execute();
-			});
-
+			$this->emailService->verify_email($verification_code, (int)$current['id']);
 			$this->json_response(null, 200, 'Email verified successfully');
+		} catch(DomainException $e) {
+			$this->error_response($e->getMessage(), $e->getCode() ?: 400);
 		} catch(Exception $e) {
 			$this->error_response('Email verification failed', 500);
 		}
@@ -348,23 +274,14 @@ class UsersController extends BaseController {
 	public function update_user(int $user_id): void {
 		$this->log_request('users_update_admin', ['user_id' => $user_id]);
 		$data = $this->get_input_data();
+		$field_mapping = [
+			'user' => ['email','is_active','is_verified','is_banned','ban_expired','ban_reason'],
+			'profile' => ['nickname','first_name','last_name','gender','avatar','bio','birthday','website','is_public']
+		];
 
-		$allowed_user_fields = ['email','is_active','is_verified','is_banned','ban_expired','ban_reason'];
-		$allowed_profile_fields = ['nickname','first_name','last_name','gender','avatar','bio','birthday','website','is_public'];
-
-		$user_updates = [];
-		$profile_updates = [];
-
-		foreach($allowed_user_fields as $field) {
-			if(array_key_exists($field, $data)) {
-				$user_updates[$field] = $data[$field];
-			}
-		}
-		foreach($allowed_profile_fields as $field) {
-			if(array_key_exists($field, $data)) {
-				$profile_updates[$field] = $data[$field];
-			}
-		}
+		// Filter data by allowed fields for each type
+		$user_updates = array_intersect_key($data, array_flip($field_mapping['user']));
+		$profile_updates = array_intersect_key($data, array_flip($field_mapping['profile']));
 
 		if(empty($user_updates) && empty($profile_updates)) {
 			$this->error_response('No valid fields to update', 400);
@@ -373,10 +290,10 @@ class UsersController extends BaseController {
 
 		try {
 			$this->db->transaction(function() use ($user_id, $user_updates, $profile_updates) {
-				if(!empty($user_updates)) {
+				if($user_updates) {
 					$this->userService->update_user($user_id, $user_updates);
 				}
-				if(!empty($profile_updates)) {
+				if($profile_updates) {
 					$this->userService->upsert_profile($user_id, $profile_updates);
 				}
 			});

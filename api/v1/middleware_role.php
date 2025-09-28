@@ -28,13 +28,16 @@ if(!defined('RooCMS')) {
 class RoleMiddleware {
 
     private readonly Role $role;
+    private readonly AuthenticationService $authService;
 
 
+    
     /**
      * Constructor
      */
-    public function __construct(Role $role) {
+    public function __construct(Role $role, AuthenticationService $authService) {
         $this->role = $role;
+        $this->authService = $authService;
     }
 
 
@@ -45,14 +48,33 @@ class RoleMiddleware {
      * @return bool
      */
     public function handle(): bool {
-        $user = $GLOBALS['authenticated_user'] ?? null;
-
+        $user = $this->get_authenticated_user();
         if (!$user) {
-            $this->send_error_response('Authentication required', 401);
             return false;
         }
 
         return true;
+    }
+
+    /**
+     * Get authenticated user from global context
+     * 
+     * @return array|null User data or null if not authenticated
+     */
+    private function get_authenticated_user(): ?array {
+        $user = $GLOBALS['authenticated_user'] ?? null;
+
+        if (!$user) {
+            $this->send_error_response('Authentication required', 401);
+            return null;
+        }
+
+        if (!isset($user['role'])) {
+            $this->send_error_response('Invalid user data', 401);
+            return null;
+        }
+
+        return $user;
     }
 
 
@@ -62,20 +84,12 @@ class RoleMiddleware {
      * @return bool
      */
     public function moderator_access(): bool {
-        $user = $GLOBALS['authenticated_user'] ?? null;
-
+        $user = $this->get_authenticated_user();
         if (!$user) {
-            $this->send_error_response('Authentication required', 401);
             return false;
         }
 
-        // Basic validation - ensure user has role field
-        if (!isset($user['role'])) {
-            $this->send_error_response('Invalid user data', 401);
-            return false;
-        }
-
-        if (!in_array($user['role'], ['m', 'a', 'su'])) {
+        if (!$this->role->has_moderator_access($user['role'])) {
             $this->send_error_response('Moderator access required', 403);
             return false;
         }
@@ -89,20 +103,12 @@ class RoleMiddleware {
      * @return bool
      */
     public function admin_access(): bool {
-        $user = $GLOBALS['authenticated_user'] ?? null;
-
+        $user = $this->get_authenticated_user();
         if (!$user) {
-            $this->send_error_response('Authentication required', 401);
             return false;
         }
 
-        // Basic validation - ensure user has role field
-        if (!isset($user['role'])) {
-            $this->send_error_response('Invalid user data', 401);
-            return false;
-        }
-
-        if (!in_array($user['role'], ['a', 'su'])) {
+        if (!$this->role->has_admin_access($user['role'])) {
             $this->send_error_response('Admin access required', 403);
             return false;
         }
@@ -116,16 +122,8 @@ class RoleMiddleware {
      * @return bool
      */
     public function superuser_access(): bool {
-        $user = $GLOBALS['authenticated_user'] ?? null;
-
+        $user = $this->get_authenticated_user();
         if (!$user) {
-            $this->send_error_response('Authentication required', 401);
-            return false;
-        }
-
-        // Basic validation - ensure user has role field
-        if (!isset($user['role'])) {
-            $this->send_error_response('Invalid user data', 401);
             return false;
         }
 
@@ -144,22 +142,14 @@ class RoleMiddleware {
      * @return bool
      */
     public function require_role(string|array $required_roles): bool {
-        $user = $GLOBALS['authenticated_user'] ?? null;
-
+        $user = $this->get_authenticated_user();
         if (!$user) {
-            $this->send_error_response('Authentication required', 401);
-            return false;
-        }
-
-        // Basic validation - ensure user has role field
-        if (!isset($user['role'])) {
-            $this->send_error_response('Invalid user data', 401);
             return false;
         }
 
         $roles = is_array($required_roles) ? $required_roles : [$required_roles];
 
-        if (!in_array($user['role'], $roles)) {
+        if (!in_array($user['role'], $roles, true)) {
             $this->send_error_response('Required role access denied', 403);
             return false;
         }

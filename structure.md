@@ -61,6 +61,7 @@ roocms/class/
 ├── class_db.php                        # Main database class
 ├── class_dbBackuper.php                # Database backup and restore system
 ├── class_dbConnect.php                 # Database connection
+├── class_dbLogger.php                  # Database logging system
 ├── class_dbMigrator.php                # Database migrations
 ├── class_dbQueryBuilder.php            # SQL query builder
 ├── class_debugger.php                  # Debugger system
@@ -129,10 +130,14 @@ roocms/helpers/
 
 ```
 roocms/services/
-├── auth.php                # Authentication service
+├── authentication.php      # Authentication service
 ├── backup.php              # Database backup service
+├── email.php               # Email service
+├── registration.php        # User registration service
 ├── siteSettings.php        # Site settings service
-└── user.php                # User service
+├── user.php                # User service
+├── userRecovery.php        # User password recovery service
+└── userValidation.php      # User validation service
 ```
 
 ### Initialization
@@ -146,16 +151,25 @@ Registers core services and template system:
 
 ```php
 // Register core services
-$container->register(Db::class, fn() => $db, true); // Singleton
-$container->register(Auth::class, Auth::class, true);
-$container->register(AuthService::class, AuthService::class, true);
-$container->register(User::class, User::class, true);
-$container->register(UserService::class, UserService::class, true);
-$container->register(SiteSettings::class, SiteSettings::class, true);
-$container->register(SiteSettingsService::class, SiteSettingsService::class, true);
-$container->register(Mailer::class, Mailer::class, true);
-$container->register(DbBackuper::class, DbBackuper::class, true);
-$container->register(BackupService::class, BackupService::class, true);
+$container->register(Db::class, function(DependencyContainer $c) {
+    return new Db($c->get(DbConnect::class));
+}, true); // Singleton
+
+$container->register(Auth::class, Auth::class, true); // Singleton
+$container->register(User::class, User::class, true); // Singleton
+$container->register(Role::class, Role::class, true); // Singleton
+$container->register(UserService::class, UserService::class, true); // Singleton
+$container->register(SiteSettings::class, SiteSettings::class, true); // Singleton
+$container->register(SiteSettingsService::class, SiteSettingsService::class, true); // Singleton
+$container->register(Mailer::class, Mailer::class, true); // Singleton
+$container->register(DbLogger::class, DbLogger::class, true); // Singleton
+$container->register(DbBackuper::class, DbBackuper::class, true); // Singleton
+$container->register(BackupService::class, BackupService::class, true); // Singleton
+$container->register(AuthenticationService::class, AuthenticationService::class, true); // Singleton
+$container->register(RegistrationService::class, RegistrationService::class, true); // Singleton
+$container->register(EmailService::class, EmailService::class, true); // Singleton
+$container->register(UserRecoveryService::class, UserRecoveryService::class, true); // Singleton
+$container->register(UserValidationService::class, UserValidationService::class, true); // Singleton
 
 // Template renderers and themes
 $container->register(TemplateRendererPhp::class, TemplateRendererPhp::class, true);
@@ -233,9 +247,11 @@ themes/
 │   │           ├── login.js            # Login page
 │   │           ├── password-forgot.js  # Password forgot page
 │   │           ├── password-reset.js   # Password reset page
+│   │           ├── profile-edit.js     # Profile edit page
 │   │           ├── profile.js          # Profile page
 │   │           ├── register.js         # Register page
-│   │           └── ui-kit.js           # UI kit page
+│   │           ├── ui-kit.js           # UI kit page
+│   │           └── verify-email.js     # Email verification page
 │   ├── layouts/                        # Layouts templates
 │   │   ├── acp-nav.php                 # ACP navigation layout
 │   │   └── base.php                    # Base layout
@@ -260,7 +276,6 @@ themes/
 │   ├── partials/                       # Partial templates
 │   │   ├── footer.php                  # Footer
 │   │   └── header.php                  # Header
-│   ├── prepros.config                  # Prepros configuration
 │   ├── sw.js                           # Service worker (draft)
 │   ├── sw.min.js                       # Minified service worker
 │   ├── tailwind.config.js              # Tailwind CSS configuration
@@ -352,11 +367,17 @@ RooCMS implements a custom dependency injection (DI) container for managing serv
 - `Db` - Database connection and queries
 - `Auth` - Authentication and authorization
 - `User` - User management operations
+- `Role` - Role management system
 - `SiteSettings` - Modern site settings system
 - `Mailer` - Email sending system
+- `DbLogger` - Database logging system
 - `DbBackuper` - Database backup and restore operations
 - `UserService` - Business logic for user operations
-- `AuthService` - Business logic for authentication
+- `AuthenticationService` - Business logic for authentication
+- `RegistrationService` - Business logic for user registration
+- `EmailService` - Business logic for email operations
+- `UserRecoveryService` - Business logic for password recovery
+- `UserValidationService` - Business logic for user validation
 - `BackupService` - Business logic for backup operations
 - `SiteSettingsService` - Business logic for site settings
 
@@ -369,11 +390,34 @@ RooCMS implements a custom dependency injection (DI) container for managing serv
 #### Service dependencies
 
 ```
-AuthService
+AuthenticationService
 ├── Db (database)
 ├── Auth (authentication)
 ├── SiteSettings (configuration)
 └── Mailer (email sending)
+
+RegistrationService
+├── Db (database)
+├── User (user operations)
+├── Auth (authentication)
+├── Mailer (email sending)
+└── SiteSettings (configuration)
+
+EmailService
+├── Mailer (email sending)
+└── SiteSettings (configuration)
+
+UserRecoveryService
+├── Db (database)
+├── User (user operations)
+├── Auth (authentication)
+├── Mailer (email sending)
+└── SiteSettings (configuration)
+
+UserValidationService
+├── Db (database)
+├── User (user operations)
+└── Auth (authentication)
 
 UserService
 ├── Db (database)
@@ -393,7 +437,7 @@ UsersController
 └── Mailer (email sending)
 
 AuthController
-└── AuthService (business logic)
+└── AuthenticationService (business logic)
 
 BackupController
 ├── BackupService (business logic)

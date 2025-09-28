@@ -87,6 +87,7 @@ class User {
             $query = "SELECT 
                         u.id, u.role, u.is_active, u.login, u.email, u.is_verified, u.is_banned, 
                         u.ban_expired, u.ban_reason, u.created_at, u.updated_at, u.last_activity{$password_column},
+                        u.is_deleted, u.deleted_at,
                         p.nickname, p.first_name, p.last_name, p.gender, p.avatar, p.bio, 
                         p.birthday, p.website, p.is_public
                       FROM " . TABLE_USERS . " u
@@ -121,17 +122,23 @@ class User {
             $current_time = time();
             
             $query = "INSERT INTO " . TABLE_USERS . " 
-                     (role, is_active, login, email, password, created_at, updated_at) 
-                     VALUES (?, ?, ?, ?, ?, ?, ?)";
+                     (role, is_active, is_verified, is_banned, ban_expired, ban_reason, 
+                      login, email, password, created_at, updated_at, last_activity) 
+                     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
             
             $params = [
                 $user_data['role'] ?? 'u',
                 $user_data['is_active'] ?? 0,
+                $user_data['is_verified'] ?? 0,
+                $user_data['is_banned'] ?? 0,
+                $user_data['ban_expired'] ?? $current_time,
+                $user_data['ban_reason'] ?? '',
                 $user_data['login'],
                 $user_data['email'],
                 $user_data['password'],
                 $current_time,
-                $current_time
+                $current_time,
+                $user_data['last_activity'] ?? $current_time
             ];
             
             $result = $this->db->query($query, $params);
@@ -241,7 +248,7 @@ class User {
 
             // Add provided fields or defaults
             foreach($allowed_fields as $field) {
-                $insert_data[$field] = $profile_data[$field] ?? ($field === 'is_public' ? 1 : null);
+                $insert_data[$field] = $profile_data[$field] ?? ($field === 'is_public' ? 0 : null);
             }
 
             return $this->db->insert_array($insert_data, TABLE_USER_PROFILES);
