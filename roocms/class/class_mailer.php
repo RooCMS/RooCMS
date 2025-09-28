@@ -110,55 +110,53 @@ class Mailer {
      * @return bool
      */
     public function send(array $params): bool {
-        // Required parameters validation
-        if (!isset($params['to']) || empty($params['to'])) {
-            $this->last_error = 'Missing required parameter: to';
-            return false;
-        }
-        
-        if (!isset($params['subject']) || empty($params['subject'])) {
-            $this->last_error = 'Missing required parameter: subject';
-            return false;
-        }
-        
-        if (!isset($params['body'])) {
-            $this->last_error = 'Missing required parameter: body';
-            return false;
+        // Validate required parameters
+        $required_params = ['to' => 'Missing required parameter: to', 'subject' => 'Missing required parameter: subject', 'body' => 'Missing required parameter: body'];
+        foreach ($required_params as $param => $error_msg) {
+            if (!isset($params[$param]) || ($param !== 'body' && empty($params[$param]))) {
+                $this->last_error = $error_msg;
+                return false;
+            }
         }
 
-        // Extract parameters with defaults
-        $to = $params['to'];
-        $subject = $params['subject'];
-        $body = $params['body'];
-        $is_html = $params['is_html'] ?? true;
-        $attachments = $params['attachments'] ?? null;
-        $custom_from = $params['from'] ?? null;
-        $custom_from_name = $params['from_name'] ?? null;
-        // Validation and sanitization of input data
-        $to = sanitize_email($to);
+        // Extract and validate parameters
+        $to = sanitize_email($params['to']);
+        $subject = $this->sanitize_subject($params['subject']);
+        
         if (!$to) {
             $this->last_error = 'Invalid recipient email';
             return false;
         }
-
-        $subject = $this->sanitize_subject($subject);
+        
         if (empty($subject)) {
             $this->last_error = 'Empty message subject';
             return false;
         }
 
-        // Selection of the method of sending depending on the driver
-        switch($this->driver) {
-            case 'smtp':
-                return $this->send_via_smtp($to, $subject, $body, $is_html, $attachments, $custom_from, $custom_from_name);
-            case 'sendmail':
-                return $this->send_via_sendmail($to, $subject, $body, $is_html, $attachments, $custom_from, $custom_from_name);
-            case 'mail':
-                return $this->send_via_mail($to, $subject, $body, $is_html, $attachments, $custom_from, $custom_from_name);
-            default:
-                $this->last_error = 'Unsupported driver: '.$this->driver;
-                return false;
+        // Prepare parameters for driver methods
+        $send_params = [
+            $to, 
+            $subject, 
+            $params['body'],
+            $params['is_html'] ?? true,
+            $params['attachments'] ?? null,
+            $params['from'] ?? null,
+            $params['from_name'] ?? null
+        ];
+
+        // Driver method mapping
+        $drivers = [
+            'smtp' => 'send_via_smtp',
+            'sendmail' => 'send_via_sendmail', 
+            'mail' => 'send_via_mail'
+        ];
+
+        if (!isset($drivers[$this->driver])) {
+            $this->last_error = 'Unsupported driver: ' . $this->driver;
+            return false;
         }
+
+        return $this->{$drivers[$this->driver]}(...$send_params);
     }
 
 
@@ -182,41 +180,45 @@ class Mailer {
                 return false;
             }
 
-            // SMTP commands
-            if (!$this->smtp_command($socket, 'EHLO ' . $this->site_domain)) {
-                fclose($socket);
-                return false;
+            // SMTP protocol steps - consolidated error handling
+            $commands = [
+                ['EHLO ' . $this->site_domain, null],
+            ];
+
+            // Add TLS commands if needed
+            if ($this->encryption === 'tls') {
+                $commands[] = ['STARTTLS', '220'];
             }
 
-            // Enabling TLS if needed (STARTTLS must be sent AFTER EHLO)
-            if ($this->encryption === 'tls') {
-                if (!$this->smtp_command($socket, 'STARTTLS', '220')) {
+            // Execute initial commands
+            foreach ($commands as [$command, $expected_code]) {
+                if (!$this->smtp_command($socket, $command, $expected_code)) {
                     fclose($socket);
                     return false;
                 }
+            }
 
+            // Handle TLS encryption
+            if ($this->encryption === 'tls') {
                 if (!stream_socket_enable_crypto($socket, true, STREAM_CRYPTO_METHOD_TLS_CLIENT)) {
                     $this->last_error = 'Failed to enable TLS encryption';
                     fclose($socket);
                     return false;
                 }
-
-                // Repeat EHLO after enabling TLS (required by RFC 3207)
+                // Repeat EHLO after TLS (RFC 3207)
                 if (!$this->smtp_command($socket, 'EHLO ' . $this->site_domain)) {
                     fclose($socket);
                     return false;
                 }
             }
 
-            // Authentication if required
-            if (!empty($this->username) && !empty($this->password)) {
-                if (!$this->smtp_auth($socket)) {
-                    fclose($socket);
-                    return false;
-                }
+            // Authentication if credentials provided
+            if (!empty($this->username) && !empty($this->password) && !$this->smtp_auth($socket)) {
+                fclose($socket);
+                return false;
             }
 
-            // Sending the message
+            // Send message and cleanup
             $success = $this->smtp_send_message($socket, $to, $subject, $body, $is_html, $attachments, $custom_from, $custom_from_name);
             
             $this->smtp_command($socket, 'QUIT', '221');
@@ -533,59 +535,51 @@ class Mailer {
             return ['valid' => true, 'attachments' => []];
         }
 
-        // Checking the number of attachments
+        // Helper function for error response
+        $error_response = fn($message) => ($this->last_error = $message) && ['valid' => false, 'attachments' => []];
+
+        // Check attachments count
         if (count($attachments) > $this->max_attachments_count) {
-            $this->last_error = 'Exceeded the maximum number of attachments ('.$this->max_attachments_count.')';
-            return ['valid' => false, 'attachments' => []];
+            return $error_response('Exceeded the maximum number of attachments ('.$this->max_attachments_count.')');
         }
 
         $validated_attachments = [];
         $total_size = 0;
+        $max_size_mb = round($this->max_attachment_size / 1048576, 1);
+        $max_total_mb = round(($this->max_attachment_size * $this->max_attachments_count) / 1048576, 1);
 
         foreach ($attachments as $attachment) {
-            // Checking the structure of the attachment
-            if (!isset($attachment['path']) || !is_string($attachment['path'])) {
-                $this->last_error = 'Invalid attachment structure: the path to the file is missing';
-                return ['valid' => false, 'attachments' => []];
+            // Validate attachment structure and file
+            $file_path = $attachment['path'] ?? null;
+            
+            $file_checks = [
+                [!isset($attachment['path']) || !is_string($file_path), 'Invalid attachment structure: the path to the file is missing'],
+                [!file_exists($file_path), 'File not found: '.$file_path],
+                [!is_readable($file_path), 'File is not accessible for reading: '.$file_path],
+            ];
+
+            foreach ($file_checks as [$condition, $message]) {
+                if ($condition) {
+                    return $error_response($message);
+                }
             }
 
-            $file_path = $attachment['path'];
-
-            // Checking the existence of the file
-            if (!file_exists($file_path)) {
-                $this->last_error = 'File not found: '.$file_path;
-                return ['valid' => false, 'attachments' => []];
-            }
-
-            // Checking the accessibility for reading
-            if (!is_readable($file_path)) {
-                $this->last_error = 'File is not accessible for reading: '.$file_path;
-                return ['valid' => false, 'attachments' => []];
-            }
-
-            // Checking the size of the file
+            // Check file size
             $file_size = filesize($file_path);
             if ($file_size === false) {
-                $this->last_error = 'Failed to determine the size of the file: '.$file_path;
-                return ['valid' => false, 'attachments' => []];
+                return $error_response('Failed to determine the size of the file: '.$file_path);
             }
 
             if ($file_size > $this->max_attachment_size) {
-                $max_mb = round($this->max_attachment_size / 1048576, 1);
-                $this->last_error = 'File is too large: '.$file_path.' (maximum '.$max_mb.'MB)';
-                return ['valid' => false, 'attachments' => []];
+                return $error_response('File is too large: '.$file_path.' (maximum '.$max_size_mb.'MB)');
             }
 
             $total_size += $file_size;
-
-            // Checking the total size of all attachments
             if ($total_size > ($this->max_attachment_size * $this->max_attachments_count)) {
-                $max_total_mb = round(($this->max_attachment_size * $this->max_attachments_count) / 1048576, 1);
-                $this->last_error = 'The total size of the attachments is too large (maximum '.$max_total_mb.'MB)';
-                return ['valid' => false, 'attachments' => []];
+                return $error_response('The total size of the attachments is too large (maximum '.$max_total_mb.'MB)');
             }
 
-            // Adding a validated attachment
+            // Add validated attachment
             $validated_attachments[] = [
                 'path' => $file_path,
                 'name' => $attachment['name'] ?? basename($file_path),
@@ -756,39 +750,28 @@ class Mailer {
      * @return bool
      */
     public function send_with_template(array $params): bool {
-        // Required parameters validation
-        if (!isset($params['to']) || empty($params['to'])) {
-            $this->last_error = 'Missing required parameter: to';
-            return false;
+        // Validate required parameters
+        $required_params = ['to' => 'Missing required parameter: to',
+                            'subject' => 'Missing required parameter: subject', 
+                            'template' => 'Missing required parameter: template'];
+        foreach ($required_params as $param => $error_msg) {
+            if (!isset($params[$param]) || empty($params[$param])) {
+                $this->last_error = $error_msg;
+                return false;
+            }
         }
-        
-        if (!isset($params['subject']) || empty($params['subject'])) {
-            $this->last_error = 'Missing required parameter: subject';
-            return false;
-        }
-        
-        if (!isset($params['template']) || empty($params['template'])) {
-            $this->last_error = 'Missing required parameter: template';
-            return false;
-        }
-
-        // Extract parameters with defaults
-        $template = $params['template'];
-        $data = $params['data'] ?? [];
         
         try {
-            $body = $this->render_template($template, $data);
+            $body = $this->render_template($params['template'], $params['data'] ?? []);
             
-            // Prepare parameters for send method
-            $send_params = [
-                'to' => $params['to'],
-                'subject' => $params['subject'],
+            // Prepare parameters for send method - merge with defaults
+            $send_params = array_merge($params, [
                 'body' => $body,
                 'is_html' => true,
                 'attachments' => $params['attachments'] ?? null,
                 'from' => $params['from'] ?? null,
                 'from_name' => $params['from_name'] ?? null
-            ];
+            ]);
             
             return $this->send($send_params);
         } catch (Exception $e) {

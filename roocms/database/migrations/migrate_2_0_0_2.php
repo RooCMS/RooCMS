@@ -278,8 +278,22 @@ return [
 					'default_value' => '/verify-email',
 					'max_length' => 255,
 					'is_required' => 1,
-					'is_serialized' => 0,
-				]
+					'is_serialized' => 0
+				],
+				[
+					'category' => 'security',
+					'sort_order' => 1,
+					'title' => '',
+					'description' => '',
+					'key' => '',
+					'type' => 'boolean',
+					'options' => null,
+					'value' => null,
+					'default_value' => '',
+					'max_length' => null,
+					'is_required' => 0,
+					'is_serialized' => 0
+				],
 			],
 		],
 	],

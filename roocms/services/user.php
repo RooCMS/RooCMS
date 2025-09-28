@@ -58,42 +58,31 @@ class UserService {
      * Create or update user profile by ID
      */
     public function upsert_profile(int $user_id, array $profile_data): bool {
-        // Normalize and validate profile fields
-        foreach(['nickname', 'website'] as $field) {
+        // Normalize string fields to null if empty
+        $string_fields = ['nickname', 'website', 'birthday'];
+        foreach($string_fields as $field) {
             if(isset($profile_data[$field])) {
                 $value = trim((string)$profile_data[$field]);
                 $profile_data[$field] = $value !== '' ? $value : null;
             }
         }
 
-        // Validate nickname uniqueness
-        if(!empty($profile_data['nickname']) && $this->user->nickname_exists($profile_data['nickname'], $user_id)) {
-            throw new DomainException('Nickname already taken', 409);
-        }
+        // Validate specific fields
+        $validations = [
+            'nickname' => fn($v) => !empty($v) && $this->user->nickname_exists($v, $user_id) ? 
+                throw new DomainException('Nickname already taken', 409) : null,
+            'gender' => fn($v) => !empty($v) && !in_array($v, ['male', 'female', 'other'], true) ? 
+                ($profile_data['gender'] = null) : null,
+            'birthday' => fn($v) => !empty($v) && (!($dt = date_create_from_format('Y-m-d', $v)) || date_get_last_errors()['error_count'] > 0) ? 
+                throw new DomainException('Invalid birthday format. Use Y-m-d', 422) : null,
+            'website' => fn($v) => !empty($v) && !filter_var($v, FILTER_VALIDATE_URL) ? 
+                throw new DomainException('Invalid website URL', 422) : null,
+        ];
 
-        // Validate gender
-        if(isset($profile_data['gender'])) {
-            $gender = $profile_data['gender'];
-            $allowed_genders = ['male', 'female', 'other'];
-            $profile_data['gender'] = (!empty($gender) && in_array($gender, $allowed_genders, true)) ? $gender : null;
-        }
-
-        // Validate birthday
-        if(isset($profile_data['birthday'])) {
-            $birthday = trim((string)$profile_data['birthday']);
-            if($birthday !== '') {
-                $dt = date_create_from_format('Y-m-d', $birthday);
-                $errors = date_get_last_errors();
-                if(!$dt || ($errors !== false && ($errors['warning_count'] > 0 || $errors['error_count'] > 0))) {
-                    throw new DomainException('Invalid birthday format. Use Y-m-d', 422);
-                }
+        foreach($validations as $field => $validator) {
+            if(isset($profile_data[$field])) {
+                $validator($profile_data[$field]);
             }
-            $profile_data['birthday'] = $birthday !== '' ? $birthday : null;
-        }
-
-        // Validate website URL
-        if(!empty($profile_data['website']) && !filter_var($profile_data['website'], FILTER_VALIDATE_URL)) {
-            throw new DomainException('Invalid website URL', 422);
         }
 
         // Normalize boolean field

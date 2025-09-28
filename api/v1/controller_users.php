@@ -61,32 +61,28 @@ class UsersController extends BaseController {
 		$params = $this->get_query_params();
 		$pagination = $this->get_pagination_params();
 
-		// Optional support for explicit offset
+		// Handle explicit offset
 		if(isset($_GET['offset'])) {
-			$offset = max(0, (int)$_GET['offset']);
-			$pagination['page'] = (int)floor($offset / $pagination['limit']) + 1;
+			$pagination['page'] = (int)floor(max(0, (int)$_GET['offset']) / $pagination['limit']) + 1;
 		}
 
-		$filters = [];
-		if(!empty($params['search'])) {
-			$filters['search'] = (string)$params['search'];
-		}
-		if(!empty($params['role']) && in_array($params['role'], ['u','m','a','su'], true)) {
-			$filters['role'] = $params['role'];
-		}
-		if(isset($params['is_active'])) {
-			$filters['is_active'] = (int)(bool)$params['is_active'];
-		}
-		if(isset($params['is_banned'])) {
-			$filters['is_banned'] = (int)(bool)$params['is_banned'];
-		}
+		// Build filters using array operations
+		$filter_mappings = [
+			'search' => fn($v) => !empty($v) ? (string)$v : null,
+			'role' => fn($v) => (!empty($v) && in_array($v, ['u','m','a','su'], true)) ? $v : null,
+			'is_active' => fn($v) => isset($v) ? (int)(bool)$v : null,
+			'is_banned' => fn($v) => isset($v) ? (int)(bool)$v : null,
+		];
 
-		// Handle is_deleted filter - only for roles m, a, su
-		if(isset($params['is_deleted'])) {
-			$current_role = $current['role'] ?? 'u';
-			if(in_array($current_role, ['m', 'a', 'su'], true)) {
-				$filters['is_deleted'] = (int)(bool)$params['is_deleted'];
-			}
+		$filters = array_filter(array_map(
+			fn($key, $mapper) => $mapper($params[$key] ?? null),
+			array_keys($filter_mappings),
+			$filter_mappings
+		), fn($v) => $v !== null);
+
+		// Add is_deleted filter for privileged roles only
+		if(isset($params['is_deleted']) && in_array($current['role'] ?? 'u', ['m', 'a', 'su'], true)) {
+			$filters['is_deleted'] = (int)(bool)$params['is_deleted'];
 		}
 
 		try {

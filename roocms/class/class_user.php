@@ -370,35 +370,28 @@ class User {
             $params = [];
 
             // Default filter: only non-deleted users
-            if (!isset($filters['is_deleted'])) {
-                $filters['is_deleted'] = 0;
+            $filters['is_deleted'] = $filters['is_deleted'] ?? 0;
+
+            // Build filters using simple mapping
+            $field_filters = [
+                'role' => !empty($filters['role']),
+                'is_active' => isset($filters['is_active']),
+                'is_banned' => isset($filters['is_banned']),
+                'is_deleted' => isset($filters['is_deleted'])
+            ];
+
+            foreach ($field_filters as $field => $should_add) {
+                if ($should_add) {
+                    $where_conditions[] = "u.{$field} = ?";
+                    $params[] = $filters[$field];
+                }
             }
 
-            // Filters
-            if (!empty($filters['role'])) {
-                $where_conditions[] = "u.role = ?";
-                $params[] = $filters['role'];
-            }
-
-            if (isset($filters['is_active'])) {
-                $where_conditions[] = "u.is_active = ?";
-                $params[] = $filters['is_active'];
-            }
-
-            if (isset($filters['is_banned'])) {
-                $where_conditions[] = "u.is_banned = ?";
-                $params[] = $filters['is_banned'];
-            }
-
-            if (isset($filters['is_deleted'])) {
-                $where_conditions[] = "u.is_deleted = ?";
-                $params[] = $filters['is_deleted'];
-            }
-
+            // Search filter
             if (!empty($filters['search'])) {
                 $where_conditions[] = "(u.login LIKE ? OR u.email LIKE ? OR p.nickname LIKE ? OR p.first_name LIKE ? OR p.last_name LIKE ?)";
                 $search_term = '%' . $filters['search'] . '%';
-                $params = array_merge($params, [$search_term, $search_term, $search_term, $search_term, $search_term]);
+                $params = array_merge($params, array_fill(0, 5, $search_term));
             }
 
             $where_clause = empty($where_conditions) ? '' : 'WHERE ' . implode(' AND ', $where_conditions);
@@ -432,44 +425,39 @@ class User {
      */
     public function get_users_count(array $filters = []): int {
         try {
+            // Set default filter for non-deleted users
+            $filters['is_deleted'] = $filters['is_deleted'] ?? 0;
+
+            // Define filter mappings for cleaner code (same as get_users_list)
+            $filter_mappings = [
+                'role' => fn($value) => ["u.role = ?", $value],
+                'is_active' => fn($value) => ["u.is_active = ?", $value],
+                'is_banned' => fn($value) => ["u.is_banned = ?", $value],
+                'is_deleted' => fn($value) => ["u.is_deleted = ?", $value],
+            ];
+
             $where_conditions = [];
             $params = [];
 
-            // Default filter: only non-deleted users
-            if (!isset($filters['is_deleted'])) {
-                $filters['is_deleted'] = 0;
+            // Build WHERE conditions using mappings (same logic as get_users_list)
+            foreach ($filter_mappings as $key => $mapper) {
+                if (isset($filters[$key]) && ($key !== 'role' ? $filters[$key] !== null : !empty($filters[$key]))) {
+                    [$condition, $value] = $mapper($filters[$key]);
+                    $where_conditions[] = $condition;
+                    $params[] = $value;
+                }
             }
 
-            // Filters (the same as in get_users_list)
-            if (!empty($filters['role'])) {
-                $where_conditions[] = "u.role = ?";
-                $params[] = $filters['role'];
-            }
-
-            if (isset($filters['is_active'])) {
-                $where_conditions[] = "u.is_active = ?";
-                $params[] = $filters['is_active'];
-            }
-
-            if (isset($filters['is_banned'])) {
-                $where_conditions[] = "u.is_banned = ?";
-                $params[] = $filters['is_banned'];
-            }
-
-            if (isset($filters['is_deleted'])) {
-                $where_conditions[] = "u.is_deleted = ?";
-                $params[] = $filters['is_deleted'];
-            }
-
+            // Handle search filter separately
             if (!empty($filters['search'])) {
                 $where_conditions[] = "(u.login LIKE ? OR u.email LIKE ? OR p.nickname LIKE ? OR p.first_name LIKE ? OR p.last_name LIKE ?)";
                 $search_term = '%' . $filters['search'] . '%';
-                $params = array_merge($params, [$search_term, $search_term, $search_term, $search_term, $search_term]);
+                $params = array_merge($params, array_fill(0, 5, $search_term));
             }
 
             $where_clause = empty($where_conditions) ? '' : 'WHERE ' . implode(' AND ', $where_conditions);
 
-            $query = "SELECT COUNT(*) as total 
+            $query = "SELECT COUNT(*) as total
                       FROM " . TABLE_USERS . " u
                       LEFT JOIN " . TABLE_USER_PROFILES . " p ON u.id = p.user_id
                       {$where_clause}";
