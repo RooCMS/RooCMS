@@ -294,4 +294,21 @@ trait DbBackuperMSQL {
 		
 		return $indexes;
 	}
+
+
+    /**
+     * Getting the list of tables in the database
+     *
+     * @return array
+     */
+    abstract protected function get_database_tables(): array;
+    
+
+    /**
+     * Splitting the SQL content into statements
+     *
+     * @param string $sql_content
+     * @return array
+     */
+    abstract protected function split_sql_statements(string $sql_content): array;
 }

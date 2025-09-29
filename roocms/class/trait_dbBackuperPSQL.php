@@ -313,4 +313,22 @@ trait DbBackuperPSQL {
 		
 		return $indexes;
 	}
+
+
+    /**
+     * Getting the list of tables in the database
+     *
+     * @return array
+     */
+    abstract protected function get_database_tables(): array;
+
+
+    /**
+     * Restore MySQL backup
+     *
+     * @param string $sql_content SQL dump content
+     * @param array $options Restore options
+     * @return array Restore result
+     */
+    abstract protected function restore_mysql_backup(string $sql_content, array $options): array;
 }
