@@ -308,7 +308,8 @@ trait DbBackuperMSQL {
      * Splitting the SQL content into statements
      *
      * @param string $sql_content
+     * @param string $delimiter Statement delimiter
      * @return array
      */
-    abstract protected function split_sql_statements(string $sql_content): array;
+    abstract protected function split_sql_statements(string $sql_content, string $delimiter = ';'): array;
 }
