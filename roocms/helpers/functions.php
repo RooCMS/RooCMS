@@ -204,6 +204,26 @@ function cvrt_color_h2d(string $hexcolor) : array {
 
 
 /**
+ * Convert limit string to bytes
+ *
+ * @param string $value Limit string (e.g., "128M", "1G")
+ * @return int Limit in bytes
+ */
+function convert_to_bytes(string $value): int {
+	$value = trim($value);
+	$unit = strtolower($value[strlen($value) - 1]);
+	$num = (int) $value;
+
+	return match($unit) {
+		'g' => $num * 1024 * 1024 * 1024,
+		'm' => $num * 1024 * 1024,
+		'k' => $num * 1024,
+		default => $num
+	};
+}
+
+
+/**
  * Format timestamp
  * @param mixed $timestamp - timestamp
  * @return string - formatted timestamp
