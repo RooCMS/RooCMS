@@ -24,7 +24,7 @@ if(!defined('RooCMS')) {
  * Database Query Logger
  * Handles logging and statistics for database queries
  */
-class DbLogger {
+trait DbLogger {
 
 	private array $query_log = [];
 	private int $query_count = 0;

@@ -81,10 +81,10 @@ spl_autoload_register(function(string $class_name) {
         'Db'                        => _CLASS . '/class_db.php',
         'DbConnect'                 => _CLASS . '/class_dbConnect.php',
         'DbQueryBuilder'            => _CLASS . '/class_dbQueryBuilder.php',
-        'DbLogger'                  => _CLASS . '/class_dbLogger.php',
         'DbExtends'                 => _CLASS . '/trait_dbExtends.php',
         'DbMigrator'                => _CLASS . '/class_dbMigrator.php',
         'DbBackuper'                => _CLASS . '/class_dbBackuper.php',
+        'DbLogger'                  => _CLASS . '/trait_dbLogger.php',
         'SiteSettings'              => _CLASS . '/class_siteSettings.php',
         'Themes'                    => _CLASS . '/class_themes.php',
         'ThemeConfig'               => _CLASS . '/class_themeConfig.php',
@@ -173,7 +173,6 @@ $container->register(UserService::class, UserService::class, true); // Singleton
 $container->register(SiteSettings::class, SiteSettings::class, true); // Singleton
 $container->register(SiteSettingsService::class, SiteSettingsService::class, true); // Singleton
 $container->register(Mailer::class, Mailer::class, true); // Singleton
-$container->register(DbLogger::class, DbLogger::class, true); // Singleton
 $container->register(DbBackuper::class, DbBackuper::class, true); // Singleton
 $container->register(BackupService::class, BackupService::class, true); // Singleton
 $container->register(AuthenticationService::class, AuthenticationService::class, true); // Singleton

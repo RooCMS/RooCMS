@@ -28,12 +28,11 @@ if(!defined('RooCMS')) {
  */
 class Db {
 
-	use DbExtends, DebugLog;
+	use DbExtends, DbLogger, DebugLog;
 
 	private DbConnect $db_connect;
 	private PDO $pdo;
 	private string $driver 				= '';
-	private DbLogger $logger;
 	private bool $is_connected 			= false;
 	private array $transaction_stack 	= [];
 
@@ -45,15 +44,13 @@ class Db {
 	 * @param DbConnect|null $db_connect Database connection instance
 	 * @param string|null $driver Database driver (fallback for backward compatibility)
 	 * @param array|null $config Database config (fallback for backward compatibility)
-	 * @param DbLogger|null $logger Database logger instance
 	 */
-	public function __construct(?DbConnect $db_connect = null, ?string $driver = null, ?array $config = null, ?DbLogger $logger = null) {
+	public function __construct(?DbConnect $db_connect = null, ?string $driver = null, ?array $config = null) {
 		// Use injected DbConnect or create new one for backward compatibility
 		$this->db_connect = $db_connect ?? new DbConnect($driver, $config);
 		$this->pdo = $this->db_connect->get_pdo();
 		$this->driver = $this->db_connect->get_driver();
 		$this->is_connected = $this->db_connect->is_connected();
-		$this->logger = $logger ?? new DbLogger();
 	}
 
 
@@ -81,7 +78,7 @@ class Db {
 				$stmt = $this->pdo->query($sql);
 			}
 
-			$this->logger->log_query($sql, $params, microtime(true) - $start_time);
+			$this->log_query($sql, $params, microtime(true) - $start_time);
 			return $stmt;
 
 		} catch(PDOException $e) {
@@ -281,7 +278,7 @@ class Db {
 			}
 			
 			$result = $stmt->execute();
-			$this->logger->log_query($sql, $data, microtime(true) - $start_time);
+			$this->log_query($sql, $data, microtime(true) - $start_time);
 			
 			return $result;
 		} catch(PDOException $e) {
@@ -328,7 +325,7 @@ class Db {
 			}
 
 			$result = $stmt->execute();
-			$this->logger->log_query($sql, array_merge($data, $where_params), microtime(true) - $start_time);
+			$this->log_query($sql, array_merge($data, $where_params), microtime(true) - $start_time);
 			
 			return $result;
 		} catch(PDOException $e) {
@@ -416,7 +413,7 @@ class Db {
 				$stmt->execute();
 			}
 			
-			$this->logger->log_query($sql, ['batch_count' => count($data)], microtime(true) - $start_time);
+			$this->log_query($sql, ['batch_count' => count($data)], microtime(true) - $start_time);
 			return true;
 		});
 	}
@@ -670,7 +667,7 @@ class Db {
 	 * @return array
 	 */
 	public function get_query_stats(): array {
-		return $this->logger->get_query_stats();
+		return $this->get_query_stats();
 	}
 
 	/**
@@ -679,7 +676,7 @@ class Db {
 	 * @return int
 	 */
 	public function get_query_count(): int {
-		return $this->logger->get_query_count();
+		return $this->get_query_count();
 	}
 
 	
