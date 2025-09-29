@@ -654,10 +654,10 @@ class Debugger {
 		
 		# Use append mode to avoid truncating existing logs
 		$df = fopen(DEBUGSLOG, 'a');
-		if($df && is_writable(DEBUGSLOG)) {
-			fwrite($df, $debug_entry);
-			fclose($df);
-		} elseif($df) {
+		if($df !== false) {
+			if(is_writable(DEBUGSLOG)) {
+				fwrite($df, $debug_entry);
+			}
 			fclose($df);
 		}
 

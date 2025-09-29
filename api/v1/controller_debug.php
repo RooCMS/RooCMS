@@ -60,7 +60,6 @@ class DebugController extends BaseController {
             ]);
 
         } catch (Exception $e) {
-            $this->log_error('debug_clear_error', $e->getMessage());
             $this->json_response([
                 'status' => 'error',
                 'message' => 'Failed to clear debug logs: ' . $e->getMessage()
