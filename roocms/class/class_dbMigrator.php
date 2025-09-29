@@ -1,3 +1,4 @@
+
 <?php
 /**
  * RooCMS - Open Source Free Content Managment System
@@ -30,6 +31,10 @@ class DbMigrator {
 	private string $driver;
 	private array $migrations_table_schema;
 	private string $migrations_dir;
+
+	private string $migration_file_prefix = 'migrate_';
+	
+	public string $result_action = null;
 
 
 
@@ -111,9 +116,9 @@ class DbMigrator {
 			try {
 				$this->execute_migration($file, 'up');
 				$executed[] = $file;
-				echo "✓ Migration " . sanitize_log($file) . " completed successfully\n";
+				$this->result_action = "✓ Migration " . sanitize_log($file) . " completed successfully\n";
 			} catch (Exception $e) {
-				echo "✗ Error executing migration " . sanitize_log($file) . ": " . $e->getMessage() . "\n";
+				$this->result_action = "✗ Error executing migration " . sanitize_log($file) . ": " . $e->getMessage() . "\n";
 				break;
 			}
 		}
@@ -137,9 +142,9 @@ class DbMigrator {
 				$this->execute_migration($migration, 'down');
 				$this->remove_migration_record($migration);
 				$rolled_back[] = $migration;
-				echo "✓ Migration {$migration} rolled back successfully\n";
+				$this->result_action = "✓ Migration {$migration} rolled back successfully\n";
 			} catch (Exception $e) {
-				echo "✗ Error rolling back migration {$migration}: " . $e->getMessage() . "\n";
+				$this->result_action = "✗ Error rolling back migration {$migration}: " . $e->getMessage() . "\n";
 				break;
 			}
 		}
@@ -165,7 +170,7 @@ class DbMigrator {
 	 * @return array
 	 */
 	private function get_all_migration_files(): array {
-		$files = glob($this->migrations_dir . 'migrate_*.php');
+		$files = glob($this->migrations_dir . $this->migration_file_prefix . '*.php');
 		$migrations = [];
 		
 		foreach ($files as $file) {

@@ -28,6 +28,7 @@ require_once _SITEROOT . '/roocms/helpers/functions.php';
 require_once _SITEROOT . '/roocms/helpers/sanitize.php';
 require_once _CLASS . '/class_dbConnect.php';
 require_once _CLASS . '/trait_dbExtends.php';
+require_once _CLASS . '/trait_dbLogger.php';
 require_once _CLASS . '/trait_debugLog.php';
 require_once _CLASS . '/class_db.php';
 require_once _CLASS . '/class_dbQueryBuilder.php';
@@ -152,6 +153,8 @@ class MigrationCLI {
 		
 		$executed = $this->migrator->migrate();
 		
+		echo $this->migrator->result_action;
+		
 		echo "\n✅ Executed migrations: " . count($executed) . "\n";
 		
 		if (count($executed) > 0) {
@@ -182,6 +185,8 @@ class MigrationCLI {
 
 		$rolled_back = $this->migrator->rollback($steps);
 		
+		echo $this->migrator->result_action;
+
 		echo "\n✅ Rollback completed for " . count($rolled_back) . " migrations\n";
 		
 		if (count($rolled_back) > 0) {
