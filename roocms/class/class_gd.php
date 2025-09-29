@@ -105,7 +105,7 @@ class GD {
 			}
 
 			# watermark text string two
-			$this->domain = $_SERVER['SERVER_NAME'];
+			$this->domain = env('SERVER_NAME');
 			$watermark_two = $this->get_setting('gd_watermark_string_two');
 			if(trim($watermark_two) !== "") {
 				$this->domain = sanitize_string($watermark_two);
@@ -273,7 +273,7 @@ class GD {
 	 * @param string $ext      - file extension (without dot)
 	 * @param string $path     - path to file
 	 */
-	protected function resize(string $filename, string $ext, string $path = _UPLOADIMAGES): void {
+	protected function resize(string $filename, string $ext, string $path = _UPLOADIMG): void {
 
 		# Build file paths
 		$file_original = $this->build_file_path($path, $filename, self::FILE_SUFFIX_ORIGINAL, $ext);
@@ -321,7 +321,7 @@ class GD {
 	 * @param string $ext      - file extension (without dot)
 	 * @param string $path     - path to file
 	 */
-	protected function resized(string $filename, string $ext, string $path = _UPLOADIMAGES): void {
+	protected function resized(string $filename, string $ext, string $path = _UPLOADIMG): void {
 
 		# vars
 		$file = $filename.".".$ext;
@@ -374,7 +374,7 @@ class GD {
 	 * @param string $ext      - file extension (without dot)
 	 * @param string $path     - path to file
 	 */
-	protected function thumbnail(string $filename, string $ext, string $path = _UPLOADIMAGES): void {
+	protected function thumbnail(string $filename, string $ext, string $path = _UPLOADIMG): void {
 
 		# vars
 		$fileresize 	= $filename . self::FILE_SUFFIX_RESIZED . "." . $ext;
@@ -418,7 +418,7 @@ class GD {
 	 * @param string $ext      - file extension (without dot)
 	 * @param string $path     - path to file
 	 */
-	protected function watermark_text(string $filename, string $ext, string $path = _UPLOADIMAGES): void {
+	protected function watermark_text(string $filename, string $ext, string $path = _UPLOADIMG): void {
 
 		# vars
 		$fileresize = $filename . self::FILE_SUFFIX_RESIZED . "." . $ext;
@@ -492,7 +492,7 @@ class GD {
 	 * @param string $ext      - file extension (without dot)
 	 * @param string $path     - path to file
 	 */
-	protected function watermark_image(string $filename, string $ext, string $path = _UPLOADIMAGES): void {
+	protected function watermark_image(string $filename, string $ext, string $path = _UPLOADIMG): void {
 
 		# vars
 		$fileresize = $filename . self::FILE_SUFFIX_RESIZED . "." . $ext;
@@ -556,7 +556,7 @@ class GD {
 	 *
 	 * @return string          - return result extension
 	 */
-	protected function convert_jpgtowebp(string $filename, string $ext, string $path = _UPLOADIMAGES): string {
+	protected function convert_jpgtowebp(string $filename, string $ext, string $path = _UPLOADIMG): string {
 
 		if($this->is_jpg($ext)) {
 
