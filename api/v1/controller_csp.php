@@ -84,8 +84,7 @@ class CspController extends BaseController {
             'uri' => $uri
         ], JSON_UNESCAPED_UNICODE);
         
-        if (defined('SYSERRLOG')) {
-            error_log('[CSP VIOLATION] ' . $log_entry . PHP_EOL, 3, SYSERRLOG);
-        }
+
+        error_log('[CSP VIOLATION] ' . $log_entry . PHP_EOL);
     }
 }

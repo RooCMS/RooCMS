@@ -53,25 +53,3 @@ function dump(mixed $var, string $label = 'Dump'): void {
 
     $debug->rundebug($var, $label, false);
 }
-
-
-/**
- * Debug SQL query with execution time
- *
- * @param string $query
- * @param array $params
- * @param float $execution_time
- */
-function debugQuery(string $query, array $params = [], float $execution_time = 0.0): void {
-
-    global $debug;
-
-    $query_info = [
-        'query' => $query,
-        'params' => $params,
-        'execution_time' => $execution_time,
-        'formatted_query' => $debug->format_sql_query($query)
-    ];
-    
-    $debug->rundebug($query_info, 'SQL Query', true);
-}

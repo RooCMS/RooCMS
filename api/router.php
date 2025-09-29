@@ -40,6 +40,7 @@ spl_autoload_register(function(string $controller_name) {
         'UsersController'           => _API . '/v1/controller_users.php',
         'BackupController'          => _API . '/v1/controller_backup.php',
         'AdminSettingsController'   => _API . '/v1/controller_adminSettings.php',
+        'DebugController'           => _API . '/v1/controller_debug.php',
         'AuthMiddleware'            => _API . '/v1/middleware_auth.php',
         'RoleMiddleware'            => _API . '/v1/middleware_role.php'
     ];
@@ -64,6 +65,7 @@ $container->register(\UsersController::class, \UsersController::class);
 $container->register(\AuthController::class, \AuthController::class);
 $container->register(\AdminSettingsController::class, \AdminSettingsController::class);
 $container->register(\BackupController::class, \BackupController::class);
+$container->register(\DebugController::class, \DebugController::class);
 
 /**
  * Create controller and middleware factories and router instance
@@ -135,6 +137,9 @@ $api->get('/v1/backup/download/{filename}', 'BackupController@download', ['AuthM
 $api->get('/v1/backup/logs', 'BackupController@logs', ['AuthMiddleware', 'RoleMiddleware@admin_access']);
 $api->get('/v1/backup/status', 'BackupController@status', ['AuthMiddleware', 'RoleMiddleware@admin_access']);
 
+// Debug endpoints (admin only)
+$api->post('/v1/admin/debug/clear', 'DebugController@clear', ['AuthMiddleware', 'RoleMiddleware@admin_access']);
+
 // Future routes will be added here
 // Example:
 // Admin endpoints (require authentication + admin role)
@@ -192,7 +197,8 @@ $api->get('/', function() {
             'admin_settings_update_settings' => 'PATCH /api/v1/admin/settings',
             'admin_settings_reset_all' => 'GET /api/v1/admin/settings/reset/all',
             'admin_settings_reset_group' => 'GET /api/v1/admin/settings/reset/group-{group}',
-            'admin_settings_reset_setting' => 'GET /api/v1/admin/settings/reset/key-{key}'
+            'admin_settings_reset_setting' => 'GET /api/v1/admin/settings/reset/key-{key}',
+            'admin_debug_clear' => 'POST /api/v1/admin/debug/clear'
         ]
     ];
 

@@ -45,6 +45,9 @@ $nav_menu = [
         ['key' => 'settings', 'title' => 'Settings', 'url' => '/acp/settings'],
         ['key' => 'logs', 'title' => 'Logs', 'url' => '/acp/logs'],
         ['key' => 'ui-kit', 'title' => 'UI Kit', 'url' => '/acp/ui-kit']
+    ],
+    'debug' => [
+        ['key' => 'debug', 'title' => 'Debug', 'url' => '/acp/debug']
     ]
 ];
 
@@ -55,7 +58,7 @@ $nav_menu = [
         <ul class="space-y-1">
             <?php foreach ($nav_menu as $section_key => $section_items): ?>
                 <li class="px-2 <?php echo $section_key === 'general' ? 'pt-0' : 'pt-4'; ?> pb-1 text-xs font-semibold uppercase tracking-wide text-zinc-500/80">
-                    <?php echo $section_key === 'general' ? 'General' : 'System'; ?>
+                    <?php echo ucfirst($section_key); ?>
                 </li>
                 <?php foreach ($section_items as $item): ?>
                     <?php $attrs = get_nav_link_attrs($item['key']); ?>

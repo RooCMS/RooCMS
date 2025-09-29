@@ -105,9 +105,8 @@ try {
     ];
     
     // Log the error if logging is available
-    if (defined('SYSERRLOG')) {
-        error_log('API Error: ' . $e->getMessage() . ' in ' . $e->getFile() . ':' . $e->getLine(), 3, SYSERRLOG);
-    }
+    error_log('API Error: ' . $e->getMessage() . ' in ' . $e->getFile() . ':' . $e->getLine());
+
     
     // Don't expose exception details in production
     if (defined('ROOCMS_BUILD_VERSION') && ROOCMS_BUILD_VERSION === 'alpha') {

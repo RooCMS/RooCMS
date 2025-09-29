@@ -46,11 +46,6 @@ class DbLogger {
 			'time' => $execution_time,
 			'number' => $this->query_count
 		];
-
-		// External debug logging if available
-		if(defined('DEBUGMODE') && DEBUGMODE && function_exists('debugQuery')) {
-			debugQuery($sql, $params, $execution_time);
-		}
 	}
 
 	/**

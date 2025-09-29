@@ -1,0 +1,70 @@
+<?php
+/**
+ * RooCMS - Open Source Free Content Managment System
+ * © 2010-2025 alexandr Belov aka alex Roosso. All rights reserved.
+ * @author    alex Roosso <info@roocms.com>
+ * @link      https://www.roocms.com
+ * @license   https://www.gnu.org/licenses/gpl-3.0.html
+ *
+ * You should have received a copy of the GNU General Public License v3
+ * along with this program. If not, see https://www.gnu.org/licenses/
+ */
+
+//#########################################################
+//	Anti Hack
+//---------------------------------------------------------
+if(!defined('RooCMS')) {
+	http_response_code(403);
+	header('Content-Type: text/plain; charset=utf-8');
+	exit('403:Access denied');
+}
+//#########################################################
+
+
+/**
+ * Debug Controller
+ * API for managing debug logs
+ */
+class DebugController extends BaseController {
+
+    /**
+     * Constructor
+     */
+    public function __construct(Db $db) {
+        parent::__construct($db);
+    }
+
+
+    /**
+     * Clear debug logs
+     * POST /api/v1/admin/debug/clear
+     * Requires: AuthMiddleware + RoleMiddleware@admin_access
+     */
+    public function clear(): void {
+        $this->log_request('debug_clear');
+
+        try {
+            $debug_log_file = _LOGS . '/debug.log';
+
+            // Clear the debug log file
+            if (is_file($debug_log_file) && is_writable($debug_log_file)) {
+                $result = file_put_contents($debug_log_file, '');
+                if ($result === false) {
+                    throw new Exception('Failed to clear debug log file');
+                }
+            }
+
+            $this->json_response([
+                'status' => 'success',
+                'message' => 'Debug logs cleared successfully'
+            ]);
+
+        } catch (Exception $e) {
+            $this->log_error('debug_clear_error', $e->getMessage());
+            $this->json_response([
+                'status' => 'error',
+                'message' => 'Failed to clear debug logs: ' . $e->getMessage()
+            ], 500);
+        }
+    }
+}

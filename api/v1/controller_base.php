@@ -138,8 +138,8 @@ abstract class BaseController {
 
             if ($data === null) {
                 // Log invalid JSON attempt if in debug mode
-                if (DEBUGMODE && $this->db && defined('SYSERRLOG')) {
-                    error_log('Invalid JSON input received: ' . substr($input, 0, 200) . '\r\n', 3, SYSERRLOG);
+                if (DEBUGMODE && $this->db) {
+                    error_log('Invalid JSON input received: ' . substr($input, 0, 200) . '\r\n');
                 }
                 return [];
             }
@@ -286,7 +286,7 @@ abstract class BaseController {
      * @return void
      */
     protected function log_request(string $action = '', array $data = []): void {
-        if ($this->db && defined('SYSERRLOG') && DEBUGMODE) {
+        if ($this->db && DEBUGMODE) {
             // Sanitize server data to prevent XSS and log injection
             $log_data = [
                 'action' => sanitize_log($action),
@@ -297,7 +297,7 @@ abstract class BaseController {
                 'data' => sanitize_input_data($data)
             ];
 
-            error_log('API Request: ' . json_encode($log_data) . '\r\n', 3, SYSERRLOG);
+            error_log('API Request: ' . json_encode($log_data));
         }
     }
 

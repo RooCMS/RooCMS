@@ -29,7 +29,6 @@ class Debugger {
 	use DebugLog;
 
 	# debug info
-	public  $debug_info				= []; # buffer for debug info text
 	private $debug_dump				= []; # data dump for developers
 
 	# Timer
@@ -76,6 +75,12 @@ class Debugger {
 
 			# check error log
 			$this->check_errorlog();
+
+			# shutdown register
+			if(!$this->shutdown_registered) {
+				register_shutdown_function([$this,'shutdown']);
+				$this->shutdown_registered = true;
+			}
 		}
 	}
 
@@ -401,7 +406,7 @@ class Debugger {
 					'ORDER BY', 'GROUP BY', 'HAVING', 'LIMIT', 'INSERT', 'UPDATE', 'DELETE', 'SET'];
 		
 		foreach($keywords as $keyword) {
-			$query = preg_replace('/\b' . $keyword . '\b/i', "\n" . $keyword, $query);
+			$query = preg_replace('/\b' . $keyword . '\b/i', $keyword, $query);
 		}
 		
 		return trim($query);
@@ -598,15 +603,27 @@ class Debugger {
 		// Prepare REST response
 		$response = [
 			'debug' => [
+				'initiator' => [
+					'protocol' => env('HTTPS'),
+					'host' => env('SERVER_NAME'),
+					'port' => env('SERVER_PORT'),
+					'ip' => env('SERVER_ADDR'),
+					'user_agent' => env('HTTP_USER_AGENT'),
+					'referer' => env('HTTP_REFERER'),
+					'request_uri' => env('REQUEST_URI'),
+					'request_method' => env('REQUEST_METHOD'),
+					'request_time' => env('REQUEST_TIME'),
+					'request_time_float' => env('REQUEST_TIME_FLOAT')
+				],
 				'info' => [
 					'performance' => [
 						'execution_time' => $debug->productivity_time,
 						'memory_usage' => round($debug->productivity_memory / 1024 / 1024, 2),
 						'memory_peak' => round($debug->memory_peak_usage / 1024 / 1024, 2),
-						'db_queries' => $db->get_query_count() ?? 0
+						'db_queries' => $db->get_query_count() ?? 0,
+						'query_stats' => $db->get_query_stats()
 					],
 					'dumps' => $debug_dumps,
-					'database' => $debug->debug_info,
 					'environment' => [
 						'php' => $debug->check_php(),
 						'user_environment' => [
@@ -615,7 +632,7 @@ class Debugger {
 							'user_constants' => $user_constants
 						]
 					],
-					'filesystem' => $debug->check_filesystem_health(),
+					'filesystem' => $debug->check_filesystem_health()['checks'] ?? [],
 					'errors' => [
 						'exist' => $debug->exist_errors,
 						'log_files' => [
@@ -633,13 +650,16 @@ class Debugger {
 
 		// Output JSON response
 		# write debug info to DEBUGSLOG instead of output
-		$dsubj = file_read(DEBUGSLOG);
-		$dsubj .= json_encode($response, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES).",\r\n";
-		$df = fopen(DEBUGSLOG, 'w+');
-		if(is_writable(DEBUGSLOG)) {
-			fwrite($df, $dsubj);
+		$debug_entry = json_encode($response, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES).",\r\n";
+		
+		# Use append mode to avoid truncating existing logs
+		$df = fopen(DEBUGSLOG, 'a');
+		if($df && is_writable(DEBUGSLOG)) {
+			fwrite($df, $debug_entry);
+			fclose($df);
+		} elseif($df) {
+			fclose($df);
 		}
-		fclose($df);
 
 		exit;
 	}

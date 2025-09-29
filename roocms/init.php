@@ -112,7 +112,7 @@ spl_autoload_register(function(string $class_name) {
         'UserRecoveryService'       => _SERVICES . '/userRecovery.php',
         'BackupService'             => _SERVICES . '/backup.php'
     ];
-    
+   
     // try to load the class
     if(isset($allowed_classes[$class_name])) {
         if(file_exists($allowed_classes[$class_name])) {
