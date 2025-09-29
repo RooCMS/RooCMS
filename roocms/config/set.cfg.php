@@ -59,7 +59,7 @@ set_time_limit(45);
  * Set up serialize precision
  * Uncomment if you need the maximum precision of serialization, but on your server there is a problem with serialization
  */
-#ini_set('serialize_precision', 		'-1');
+#ini_set('serialize_precision', 	'-1');
 
 /**
  * Set up default charset

@@ -1,5 +1,5 @@
 <?php declare(strict_types=1);
-if(!defined('RooCMS')) { http_response_code(403); header('Content-Type: text/plain; charset=utf-8'); exit('403:Access denied'); }
+if(!defined('RooCMS')) {roocms_protect();}
 ?>
 <header class="sticky top-0 z-50 w-full border-b border-amber-200/30 bg-white/90 backdrop-blur supports-[backdrop-filter]:bg-white/80">
     <div class="container mx-auto px-4 sm:px-6 lg:px-8">

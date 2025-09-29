@@ -1,5 +1,5 @@
 <?php declare(strict_types=1);
-if(!defined('RooCMS')) { http_response_code(403); header('Content-Type: text/plain; charset=utf-8'); exit('403:Access denied'); }
+if(!defined('RooCMS')) {roocms_protect();}
 
 $page_title = 'Terms of Use - RooCMS Content Management System';
 $page_description = 'Official terms of use for RooCMS - free, open-source content management system. Learn about licensing, usage guidelines, technical support, and data privacy policies.';

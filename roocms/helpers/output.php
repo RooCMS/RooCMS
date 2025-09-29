@@ -11,14 +11,26 @@
  */
 
 //#########################################################
-//	Anti Hack
+//	Protect
 //---------------------------------------------------------
-if(!defined('RooCMS')) {
-	http_response_code(403);
-	header('Content-Type: text/plain; charset=utf-8');
-	exit('403:Access denied');
-}
+if(!defined('RooCMS')) {roocms_protect();}
 //#########################################################
+
+
+
+/**
+ * Set HTTP status code
+ */
+function set_header_status_code(int $code): void {
+    http_response_code($code);
+}
+
+/**
+ * Set HTTP header
+ */
+function set_header(string $header, bool $replace = true, int $http_response_code = 0): void {
+    header($header, $replace, $http_response_code);
+}
 
 
 /**
@@ -29,11 +41,11 @@ function nocache() : void {
 		return;
 	}
 
-	header('Expires: Thu, 01 Jan 1970 00:00:01 GMT');
-	header('Cache-Control: no-store, no-cache, must-revalidate, max-age=0');
-	header('Cache-Control: post-check=0, pre-check=0', false);
-	header('Pragma: no-cache');
-	header('Last-Modified: '.gmdate('D, d M Y H:i:s').' GMT');
+	set_header('Expires: Thu, 01 Jan 1970 00:00:01 GMT');
+	set_header('Cache-Control: no-store, no-cache, must-revalidate, max-age=0');
+	set_header('Cache-Control: post-check=0, pre-check=0', false);
+	set_header('Pragma: no-cache');
+	set_header('Last-Modified: '.gmdate('D, d M Y H:i:s').' GMT');
 }
 
 
@@ -49,7 +61,7 @@ function output_json(mixed $data) : void {
 	}
 	
 	if (!headers_sent()) {
-		header('Content-Type: application/json; charset=utf-8');
+		set_header('Content-Type: application/json; charset=utf-8');
 	}
 	
 	echo json_encode($data, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
@@ -66,7 +78,7 @@ function output_json(mixed $data) : void {
  */
 function output_html(string $data, ?bool $exit = true, ?bool $hsc = null) : void {
 	if (!headers_sent()) {
-		header('Content-Type: text/html; charset=utf-8');
+		set_header('Content-Type: text/html; charset=utf-8');
 	}
 
 	echo ($hsc !== null) ? htmlspecialchars($data, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8') : $data;

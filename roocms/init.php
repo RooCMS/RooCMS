@@ -10,14 +10,22 @@
  * along with this program. If not, see https://www.gnu.org/licenses/
  */
 
-//#########################################################
-//	Anti Hack
-//---------------------------------------------------------
-if(!defined('RooCMS')) {
+/**
+ * Security check function - works without classes for early file protection
+ * This function can be called before any autoloading or class initialization
+ *
+ * @return never
+ */
+function roocms_protect(): never {
     http_response_code(403);
     header('Content-Type: text/plain; charset=utf-8');
     exit('403:Access denied');
 }
+
+//#########################################################
+//	Protect
+//---------------------------------------------------------
+if(!defined('RooCMS')) {roocms_protect();}
 //#########################################################
 
 

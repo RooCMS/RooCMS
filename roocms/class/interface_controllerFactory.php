@@ -11,13 +11,9 @@
  */
 
 //#########################################################
-//	Anti Hack
+//	Protect
 //---------------------------------------------------------
-if(!defined('RooCMS')) {
-    http_response_code(403);
-    header('Content-Type: text/plain; charset=utf-8');
-    exit('403:Access denied');
-}
+if(!defined('RooCMS')) {roocms_protect();}
 //#########################################################
 
 

@@ -1,5 +1,6 @@
 <?php declare(strict_types=1);
-if(!defined('RooCMS')) { http_response_code(403); header('Content-Type: text/plain; charset=utf-8'); exit('403:Access denied'); }
+if(!defined('RooCMS')) {roocms_protect();}
+
 
 /**
  * Get current page for navigation highlighting (cached)
@@ -57,15 +58,15 @@ $nav_menu = [
         <h2 class="sr-only">Admin menu</h2>
         <ul class="space-y-1">
             <?php foreach ($nav_menu as $section_key => $section_items): ?>
-                <li class="px-2 <?php echo $section_key === 'general' ? 'pt-0' : 'pt-4'; ?> pb-1 text-xs font-semibold uppercase tracking-wide text-zinc-500/80">
-                    <?php echo ucfirst($section_key); ?>
+                <li class="px-2 <?php render_html($section_key === 'general' ? 'pt-0' : 'pt-4'); ?> pb-1 text-xs font-semibold uppercase tracking-wide text-zinc-500/80">
+                    <?php render_html(ucfirst($section_key)); ?>
                 </li>
                 <?php foreach ($section_items as $item): ?>
                     <?php $attrs = get_nav_link_attrs($item['key']); ?>
                     <li>
-                        <a href="<?php echo $item['url']; ?>" <?php echo $attrs['aria_current']; ?> class="flex items-center gap-3 rounded-lg <?php echo $attrs['classes']; ?>">
-                            <span class="inline-block h-2 w-2 rounded-full <?php echo $attrs['dot_classes']; ?>"></span>
-                            <span><?php echo $item['title']; ?></span>
+                        <a href="<?php render_html($item['url']); ?>" <?php render_html($attrs['aria_current']); ?> class="flex items-center gap-3 rounded-lg <?php render_html($attrs['classes']); ?>">
+                            <span class="inline-block h-2 w-2 rounded-full <?php render_html($attrs['dot_classes']); ?>"></span>
+                            <span><?php render_html($item['title']); ?></span>
                         </a>
                     </li>
                 <?php endforeach; ?>
@@ -80,7 +81,7 @@ $nav_menu = [
         <?php foreach ($nav_menu as $section_items): ?>
             <?php foreach ($section_items as $item): ?>
                 <?php $attrs = get_nav_link_attrs($item['key']); ?>
-                <a href="<?php echo $item['url']; ?>" class="<?php echo $attrs['mobile_classes']; ?>"><?php echo $item['title']; ?></a>
+                <a href="<?php render_html($item['url']); ?>" class="<?php render_html($attrs['mobile_classes']); ?>"><?php render_html($item['title']); ?></a>
             <?php endforeach; ?>
         <?php endforeach; ?>
     </nav>
