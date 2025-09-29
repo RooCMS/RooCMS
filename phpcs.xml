@@ -10,6 +10,9 @@
         <exclude name="PSR12.ControlStructures.ControlStructureSpacing"/>
         <exclude name="PSR12.Files.LineLength"/>
         <exclude name="Generic.Files.LineLength"/>
+        <exclude name="Security.BadFunctions.FilesystemFunctions.Warn"/>
+        <exclude name="Security.BadFunctions.ExitFunctions.Warn"/>
+        <exclude name="Security.BadFunctions.HeaderFunctions.Warn"/>
     </rule>
 
     <!-- Rules for PHP 8.1+ -->
