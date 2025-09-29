@@ -1,4 +1,3 @@
-
 <?php
 /**
  * RooCMS - Open Source Free Content Managment System
