@@ -1,0 +1,19 @@
+Require all denied
+
+<FilesMatch "\.(jpeg|jpg|gif|png|ico|bmp|webp|svg)$">
+	Require all granted
+</FilesMatch>
+
+<IfModule mod_php.c>
+	php_flag engine off
+</IfModule>
+
+# Disallow executing PHP scripts (works with PHP-FPM)
+<FilesMatch "\.(php|phar|phtml|php[0-9]?)$">
+	Require all denied
+</FilesMatch>
+
+<IfModule mod_mime.c>
+	RemoveHandler .php .phtml .php3 .php4 .php5 .php7 .php8
+	RemoveType .php .phtml .php3 .php4 .php5 .php7 .php8
+</IfModule>

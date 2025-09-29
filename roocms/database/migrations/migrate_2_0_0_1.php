@@ -78,27 +78,27 @@ return [
 					],
 					[
 						'type' => 'key',
-						'name' => 'tokens_token_idx',
+						'name' => 'idx_token',
 						'columns' => ['token', 'token_expires'],
 					],
 					[
 						'type' => 'key',
-						'name' => 'tokens_refresh_idx',
+						'name' => 'idx_refresh',
 						'columns' => ['refresh', 'refresh_expires'],
 					],
                     [
                         'type' => 'unique',
-                        'name' => 'tokens_token_uq',
+                        'name' => 'uq_tokens_token',
                         'columns' => 'token',
                     ],
                     [
                         'type' => 'unique',
-                        'name' => 'tokens_refresh_uq',
+                        'name' => 'uq_tokens_refresh',
                         'columns' => 'refresh',
                     ],
 					[
 						'type' => 'key',
-						'name' => 'tokens_user_id_idx',
+						'name' => 'idx_user_id',
 						'columns' => 'user_id',
 					]
                 ],
@@ -208,22 +208,22 @@ return [
                     ],
                     [
                         'type' => 'unique',
-                        'name' => 'login',
+                        'name' => 'uq_users_login',
                         'columns' => 'login',
                     ],
                     [
 						'type' => 'unique',
-						'name' => 'users_email_uq',
+						'name' => 'uq_users_email',
 						'columns' => 'email',
 					],
                     [
 						'type' => 'key',
-						'name' => 'role_idx',
+						'name' => 'idx_role',
 						'columns' => 'role'
 					],
 					[
 						'type' => 'key',
-						'name' => 'is_deleted_idx',
+						'name' => 'idx_is_deleted',
 						'columns' => 'is_deleted',
 					],
                 ],
@@ -307,7 +307,7 @@ return [
 					],
 					[
 						'type' => 'unique',
-						'name' => 'user_profiles_nickname_uq',
+						'name' => 'uq_user_profiles_nickname',
 						'columns' => 'nickname',
 					]
 				],
@@ -397,32 +397,32 @@ return [
                     ],
                     [
                         'type' => 'key',
-                        'name' => 'type_idx',
+                        'name' => 'idx_type',
                         'columns' => 'code_type',
                     ],
                     [
                         'type' => 'key',
-                        'name' => 'user_id_idx',
+                        'name' => 'idx_user_id',
                         'columns' => 'user_id',
                     ],
                     [
                         'type' => 'key',
-                        'name' => 'email_idx',
+                        'name' => 'idx_email',
                         'columns' => 'email',
                     ],
                     [
                         'type' => 'key',
-                        'name' => 'expires_at_idx',
+                        'name' => 'idx_expires_at',
                         'columns' => 'expires_at',
                     ],
                     [
                         'type' => 'key',
-                        'name' => 'used_at_idx',
+                        'name' => 'idx_used_at',
                         'columns' => 'used_at',
                     ],
                     [
                         'type' => 'key',
-                        'name' => 'code_hash_idx',
+                        'name' => 'idx_code_hash',
                         'columns' => 'code_hash',
                         'length' => 64,
                     ],
@@ -542,18 +542,352 @@ return [
                     ],
                     [
                         'type' => 'unique',
-                        'name' => 'setting_key_uq',
+                        'name' => 'uq_setting_key',
                         'columns' => 'key',
                     ],
                     [
                         'type' => 'key',
-                        'name' => 'setting_category_idx',
+                        'name' => 'idx_setting_category',
                         'columns' => 'category',
                     ],
                     [
                         'type' => 'key',
-                        'name' => 'setting_sort_idx',
+                        'name' => 'idx_setting_sort',
                         'columns' => ['category', 'sort_order'],
+                    ],
+                ],
+                'options' => [
+                    'engine' => 'InnoDB',
+                    'charset' => 'utf8mb4',
+                    'collate' => 'utf8mb4_unicode_ci',
+                ],
+            ],
+            'TABLE_MEDIA' => [
+                'columns' => [
+                    'id' => [
+                        'type' => 'bigint',
+                        'length' => 20,
+                        'unsigned' => true,
+                        'auto_increment' => true,
+                        'null' => false,
+                    ],
+                    'uuid' => [
+                        'type' => 'char',
+                        'length' => 36,
+                        'null' => false,
+                    ],
+                    'user_id' => [
+                        'type' => 'integer',
+                        'length' => 10,
+                        'unsigned' => true,
+                        'null' => true,
+                    ],
+                    'original_name' => [
+                        'type' => 'string',
+                        'length' => 255,
+                        'null' => false,
+                    ],
+                    'filename' => [
+                        'type' => 'string',
+                        'length' => 255,
+                        'null' => false,
+                    ],
+                    'file_path' => [
+                        'type' => 'string',
+                        'length' => 500,
+                        'null' => false,
+                    ],
+                    'mime_type' => [
+                        'type' => 'string',
+                        'length' => 127,
+                        'null' => false,
+                    ],
+                    'file_size' => [
+                        'type' => 'integer',
+                        'length' => 10,
+                        'unsigned' => true,
+                        'null' => false,
+                    ],
+                    'media_type' => [
+                        'type' => 'enum',
+                        'values' => ['image', 'document', 'video', 'audio', 'archive', 'other'],
+                        'null' => false,
+                    ],
+                    'extension' => [
+                        'type' => 'string',
+                        'length' => 20,
+                        'null' => false,
+                    ],
+                    'width' => [
+                        'type' => 'smallint',
+                        'length' => 5,
+                        'unsigned' => true,
+                        'null' => true,
+                    ],
+                    'height' => [
+                        'type' => 'smallint',
+                        'length' => 5,
+                        'unsigned' => true,
+                        'null' => true,
+                    ],
+                    'duration' => [
+                        'type' => 'integer',
+                        'length' => 10,
+                        'unsigned' => true,
+                        'null' => true,
+                    ],
+                    'metadata' => [
+                        'type' => 'json',
+                        'charset' => 'utf8mb4',
+                        'collate' => 'utf8mb4_bin',
+                        'null' => true,
+                    ],
+                    'status' => [
+                        'type' => 'enum',
+                        'values' => ['uploaded', 'processing', 'ready', 'error', 'deleted'],
+                        'default' => 'uploaded',
+                        'null' => false,
+                    ],
+                    'created_at' => [
+                        'type' => 'bigint',
+                        'length' => 20,
+                        'unsigned' => true,
+                        'null' => false,
+                        'default' => 0,
+                    ],
+                    'updated_at' => [
+                        'type' => 'bigint',
+                        'length' => 20,
+                        'unsigned' => true,
+                        'null' => false,
+                        'default' => 0,
+                    ],
+                ],
+                'indexes' => [
+                    [
+                        'type' => 'primary',
+                        'columns' => 'id',
+                    ],
+                    [
+                        'type' => 'unique',
+                        'name' => 'uuid',
+                        'columns' => 'uuid',
+                    ],
+                    [
+                        'type' => 'key',
+                        'name' => 'idx_media_type',
+                        'columns' => 'media_type',
+                    ],
+                    [
+                        'type' => 'key',
+                        'name' => 'idx_user_id',
+                        'columns' => 'user_id',
+                    ],
+                    [
+                        'type' => 'key',
+                        'name' => 'idx_status',
+                        'columns' => 'status',
+                    ],
+                    [
+                        'type' => 'key',
+                        'name' => 'idx_created_at',
+                        'columns' => 'created_at',
+                    ],
+                    [
+                        'type' => 'key',
+                        'name' => 'idx_mime_type',
+                        'columns' => 'mime_type',
+                    ],
+                    [
+                        'type' => 'key',
+                        'name' => 'idx_uuid',
+                        'columns' => 'uuid',
+                    ],
+                    [
+                        'type' => 'key',
+                        'name' => 'idx_original_name',
+                        'columns' => 'original_name',
+                        'length' => 255,
+                    ],
+                    [
+                        'type' => 'key',
+                        'name' => 'idx_file_size',
+                        'columns' => 'file_size',
+                    ],
+                ],
+                'options' => [
+                    'engine' => 'InnoDB',
+                    'charset' => 'utf8mb4',
+                    'collate' => 'utf8mb4_unicode_ci',
+                ],
+            ],
+            'TABLE_MEDIA_VARS' => [
+                'columns' => [
+                    'id' => [
+                        'type' => 'bigint',
+                        'length' => 20,
+                        'unsigned' => true,
+                        'auto_increment' => true,
+                        'null' => false,
+                    ],
+                    'media_id' => [
+                        'type' => 'bigint',
+                        'length' => 20,
+                        'unsigned' => true,
+                        'null' => false,
+                    ],
+                    'variant_type' => [
+                        'type' => 'string',
+                        'length' => 64,
+                        'null' => false,
+                    ],
+                    'file_path' => [
+                        'type' => 'string',
+                        'length' => 255,
+                        'null' => false,
+                    ],
+                    'file_size' => [
+                        'type' => 'integer',
+                        'length' => 10,
+                        'unsigned' => true,
+                        'null' => false,
+                    ],
+                    'width' => [
+                        'type' => 'smallint',
+                        'length' => 5,
+                        'unsigned' => true,
+                        'null' => true,
+                    ],
+                    'height' => [
+                        'type' => 'smallint',
+                        'length' => 5,
+                        'unsigned' => true,
+                        'null' => true,
+                    ],
+                    'quality' => [
+                        'type' => 'tinyint',
+                        'length' => 3,
+                        'unsigned' => true,
+                        'null' => true,
+                    ],
+                    'mime_type' => [
+                        'type' => 'string',
+                        'length' => 127,
+                        'null' => false,
+                    ],
+                    'created_at' => [
+                        'type' => 'bigint',
+                        'length' => 20,
+                        'unsigned' => true,
+                        'null' => false,
+                        'default' => 0,
+                    ],
+                ],
+                'indexes' => [
+                    [
+                        'type' => 'primary',
+                        'columns' => 'id',
+                    ],
+                    [
+                        'type' => 'unique',
+                        'name' => 'unique_variant',
+                        'columns' => ['media_id', 'variant_type'],
+                    ],
+                    [
+                        'type' => 'key',
+                        'name' => 'idx_variant_type',
+                        'columns' => 'variant_type',
+                    ],
+                ],
+                'options' => [
+                    'engine' => 'InnoDB',
+                    'charset' => 'utf8mb4',
+                    'collate' => 'utf8mb4_unicode_ci',
+                ],
+            ],
+            'TABLE_MEDIA_RELS' => [
+                'columns' => [
+                    'id' => [
+                        'type' => 'bigint',
+                        'length' => 20,
+                        'unsigned' => true,
+                        'auto_increment' => true,
+                        'null' => false,
+                    ],
+                    'media_id' => [
+                        'type' => 'bigint',
+                        'length' => 20,
+                        'unsigned' => true,
+                        'null' => false,
+                    ],
+                    'entity_type' => [
+                        'type' => 'string',
+                        'length' => 64,
+                        'null' => false,
+                    ],
+                    'entity_id' => [
+                        'type' => 'bigint',
+                        'length' => 20,
+                        'unsigned' => true,
+                        'null' => false,
+                    ],
+                    'relationship_type' => [
+                        'type' => 'string',
+                        'length' => 64,
+                        'null' => false,
+                    ],
+                    'sort_order' => [
+                        'type' => 'smallint',
+                        'length' => 5,
+                        'unsigned' => true,
+                        'default' => 0,
+                        'null' => false,
+                    ],
+                    'metadata' => [
+                        'type' => 'longtext',
+                        'charset' => 'utf8mb4',
+                        'collate' => 'utf8mb4_bin',
+                        'null' => true,
+                    ],
+                    'created_at' => [
+                        'type' => 'bigint',
+                        'length' => 20,
+                        'unsigned' => true,
+                        'null' => false,
+                        'default' => 0,
+                    ],
+                ],
+                'indexes' => [
+                    [
+                        'type' => 'primary',
+                        'columns' => 'id',
+                    ],
+                    [
+                        'type' => 'unique',
+                        'name' => 'unique_relationship',
+                        'columns' => ['media_id', 'entity_type', 'entity_id', 'relationship_type'],
+                    ],
+                    [
+                        'type' => 'key',
+                        'name' => 'idx_entity',
+                        'columns' => ['entity_type', 'entity_id'],
+                    ],
+                    [
+                        'type' => 'key',
+                        'name' => 'idx_relationship_type',
+                        'columns' => 'relationship_type',
+                    ],
+                    [
+                        'type' => 'key',
+                        'name' => 'idx_sort_order',
+                        'columns' => 'sort_order',
+                    ],
+                ],
+                'constraints' => [
+                    [
+                        'type' => 'check',
+                        'name' => 'chk_metadata_json',
+                        'expression' => 'json_valid(metadata)',
                     ],
                 ],
                 'options' => [
@@ -582,6 +916,33 @@ return [
                     'on_delete' => 'CASCADE',
                 ],
             ],
+            'TABLE_TOKENS' => [
+                [
+                    'name' => 'fk_token_user_id',
+                    'columns' => ['user_id'],
+                    'reference_table' => 'TABLE_USERS',
+                    'reference_columns' => ['id'],
+                    'on_delete' => 'CASCADE',
+                ],
+            ],
+            'TABLE_MEDIA_VARS' => [
+                [
+                    'name' => 'fk_media_vars',
+                    'columns' => ['media_id'],
+                    'reference_table' => 'TABLE_MEDIA',
+                    'reference_columns' => ['id'],
+                    'on_delete' => 'CASCADE',
+                ],
+            ],
+            'TABLE_MEDIA_RELS' => [
+                [
+                    'name' => 'fk_media_rels',
+                    'columns' => ['media_id'],
+                    'reference_table' => 'TABLE_MEDIA',
+                    'reference_columns' => ['id'],
+                    'on_delete' => 'CASCADE',
+                ],
+            ],
         ],
     ],
 
@@ -592,6 +953,9 @@ return [
             'TABLE_VERIFICATION_CODES',
             'TABLE_USERS',
             'TABLE_SETTINGS',
+            'TABLE_MEDIA',
+            'TABLE_MEDIA_VARS',
+            'TABLE_MEDIA_RELS',
         ]
     ]
 ];

@@ -41,8 +41,7 @@ const TABLE_USERS               = DB_PREFIX.'users';
 const TABLE_USER_PROFILES       = DB_PREFIX.'user_profiles';
 //const TABLE_USER_GROUPS         = DB_PREFIX.'user_groups';
 //const TABLE_USER_GROUP_MEMBERS  = DB_PREFIX.'user_group_members';
-//const TABLE_USER_ACTIVITY_LOG = DB_PREFIX.'user_activity_log';
-
+//const TABLE_USER_ACTIVITY_LOG   = DB_PREFIX.'user_activity_log';
 
 /**
 * Content Management Tables
@@ -52,6 +51,15 @@ const TABLE_USER_PROFILES       = DB_PREFIX.'user_profiles';
 //const TABLE_TAGS = DB_PREFIX.'tags';
 //const TABLE_CONTENT_TAGS = DB_PREFIX.'content_tags';
 //const TABLE_CONTENT_TRANSLATIONS = DB_PREFIX.'content_translations';
+
+/**
+* Media Tables
+*/
+const TABLE_MEDIA       = DB_PREFIX.'media';        // Table for media files (images, videos, documents, etc.)
+const TABLE_MEDIA_VARS  = DB_PREFIX.'media_vars';   // Table for media variables (sizes, etc.)
+const TABLE_MEDIA_RELS  = DB_PREFIX.'media_rels';   // Table for media relations (categories, tags, etc.)
+
+
 
 /**
 * Other Tables (commented - activate as needed)
@@ -76,8 +84,9 @@ const _CLASS        = _ROOCMS.'/class';
 const _SERVICES     = _ROOCMS.'/services';
 const _API          = _SITEROOT.'/api';
 const _UPLOAD       = _SITEROOT.'/upload';
-const _UPLOADIMAGES = _UPLOAD.'/images';
 const _UPLOADFILES  = _UPLOAD.'/files';
+const _UPLOADIMG    = _UPLOAD.'/img';
+const _UPLOADAV     = _UPLOAD.'/av';
 const _MIGRATIONS   = _ROOCMS.'/database/migrations';
 const _BACKUPS      = _ROOCMS.'/database/backups';
 const _STORAGE      = _SITEROOT.'/storage';
