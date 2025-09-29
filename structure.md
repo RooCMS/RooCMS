@@ -81,7 +81,12 @@ roocms/class/
 ├── interface_middlewareFactory.php     # Middleware factory interface
 ├── interface_templateRenderer.php      # Template renderer interface
 ├── interface_themeConfig.php           # Theme configuration interface
+├── trait_dbBackuperExtends.php         # Database backup utility methods
+├── trait_dbBackuperFB.php              # Firebird database backup operations
+├── trait_dbBackuperMSQL.php            # MySQL/MariaDB database backup operations
+├── trait_dbBackuperPSQL.php            # PostgreSQL database backup operations
 ├── trait_dbExtends.php                 # DB extends trait
+├── trait_dbLogger.php                  # Database logging trait
 └── trait_debugLog.php                  # Debug log trait
 ```
 
@@ -311,8 +316,12 @@ HTML engine supports:
 Comprehensive database backup and restore system with CLI and API interfaces, featuring complete database structure preservation and enterprise-level security.
 
 #### Components
-- **DbBackuper class** (`class_dbBackuper.php`) - Core backup functionality with full structure support
-- **BackupService** (`services/backup.php`) - Business logic layer with validation and logging  
+- **DbBackuper class** (`class_dbBackuper.php`) - Core backup functionality with trait-based architecture
+- **DbBackuperExtends trait** (`trait_dbBackuperExtends.php`) - Utility methods for backup directory management and security
+- **DbBackuperMSQL trait** (`trait_dbBackuperMSQL.php`) - MySQL/MariaDB specific backup and restore operations
+- **DbBackuperPSQL trait** (`trait_dbBackuperPSQL.php`) - PostgreSQL specific backup and restore operations
+- **DbBackuperFB trait** (`trait_dbBackuperFB.php`) - Firebird specific backup and restore operations
+- **BackupService** (`services/backup.php`) - Business logic layer with validation and logging
 - **CLI interface** (`backup_cli.php`) - Command-line utility for backup operations
 - **API controller** (`controller_backup.php`) - RESTful API for backup management
 - **Storage directory** (`database/backups/`) - Secured backup files storage location
@@ -324,6 +333,33 @@ Comprehensive database backup and restore system with CLI and API interfaces, fe
 - **Performance Optimization** - Gzip compression (9:1 ratio), memory efficiency, batch processing
 - **Auto-naming** - Date/time-based backup filenames
 - **Transaction Safety** - Rollback support with BEGIN/COMMIT blocks
+
+#### Architecture
+
+The backup system uses a modular trait-based architecture for clean separation of concerns:
+
+```
+DbBackuper (main class)
+├── use DebugLog                   # Logging functionality
+├── use DbBackuperExtends          # Utility methods (directory, security)
+├── use DbBackuperMSQL             # MySQL/MariaDB operations
+├── use DbBackuperPSQL             # PostgreSQL operations
+└── use DbBackuperFB               # Firebird operations
+
+Shared methods (implemented in DbBackuper):
+- get_database_tables()            # Universal table listing
+- split_sql_statements()           # Universal SQL parser
+
+Database-specific methods (in respective traits):
+- create_*_backup()                # Backup creation per database type
+- restore_*_backup()               # Restore operations per database type
+```
+
+This architecture ensures:
+- **Single Responsibility**: Each trait handles one database type
+- **Easy Extension**: New database support via additional traits
+- **Clean Code**: No conditional logic based on database type
+- **Maintainability**: Isolated database-specific logic
 
 #### API Endpoints
 - `GET /api/v1/backup/status` - System status and statistics
