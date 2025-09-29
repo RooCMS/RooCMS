@@ -86,13 +86,32 @@ ob_start();
                                                           class="block w-full rounded-lg border border-zinc-300 bg-white px-3 py-2 text-sm text-zinc-900 placeholder-zinc-400 focus:border-sky-500 focus:outline-none"></textarea>
                                             </template>
 
-                                            <template x-if="getFieldType(key) !== 'boolean' && getFieldType(key) !== 'select' && getFieldType(key) !== 'text'">
-                                                <input :type="getFieldType(key) === 'email' ? 'email' : 'text'"
+                                            <template x-if="getFieldType(key) === 'image' || getFieldType(key) === 'file'">
+                                                <div class="space-y-2">
+                                                    <input type="file"
+                                                           :id="getFieldId(groupName, key)"
+                                                           :name="key + '_file'"
+                                                           :accept="getFieldType(key) === 'image' ? 'image/*' : '*/*'"
+                                                           class="block w-full text-sm text-zinc-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-medium file:bg-zinc-50 file:text-zinc-700 hover:file:bg-zinc-100">
+                                                    <input type="text"
+                                                           :name="key"
+                                                           x-model="settings[groupName][key]"
+                                                           placeholder="Or enter file path/URL"
+                                                           class="block w-full rounded-lg border border-zinc-300 bg-white px-3 py-2 text-sm text-zinc-900 placeholder-zinc-400 focus:border-sky-500 focus:outline-none">
+                                                </div>
+                                            </template>
+
+                                            <template x-if="getFieldType(key) !== 'boolean' && getFieldType(key) !== 'select' && getFieldType(key) !== 'text' && getFieldType(key) !== 'image' && getFieldType(key) !== 'file'">
+                                                <input :type="getInputType(key)"
                                                        :id="getFieldId(groupName, key)"
                                                        :name="key"
-                                                       :maxlength="getFieldMeta(key, 'max_length')"
+                                                       :maxlength="getFieldType(key) === 'integer' ? null : getFieldMeta(key, 'max_length')"
+                                                       :min="getFieldType(key) === 'integer' ? '0' : null"
+                                                       :step="getFieldType(key) === 'integer' ? '1' : null"
                                                        x-model="settings[groupName][key]"
-                                                       class="block w-full rounded-lg border border-zinc-300 bg-white px-3 py-2 text-sm text-zinc-900 placeholder-zinc-400 focus:border-sky-500 focus:outline-none">
+                                                       :class="getFieldType(key) === 'color' ? 
+                                                           'block w-20 h-10 rounded-lg border border-zinc-300 bg-white cursor-pointer focus:border-sky-500 focus:outline-none' :
+                                                           'block w-full rounded-lg border border-zinc-300 bg-white px-3 py-2 text-sm text-zinc-900 placeholder-zinc-400 focus:border-sky-500 focus:outline-none'">
                                             </template>
                                         </div>
 

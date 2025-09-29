@@ -178,18 +178,25 @@ class AdminSettingsController extends BaseController {
 
         try {
             // Validate all settings before updating
-            $validationErrors = array_filter(array_map(function($key, $value) {
+            $validationErrors = [];
+            
+            foreach ($data as $key => $value) {
                 if(!$this->siteSettingsService->setting_exists($key)) {
-                    return 'Setting not found';
+                    $validationErrors[$key] = 'Setting not found';
+                    continue;
                 }
                 
                 $meta = $this->siteSettingsService->get_setting_meta($key);
                 if (!$meta) {
-                    return 'Setting metadata not found';
+                    $validationErrors[$key] = 'Setting metadata not found';
+                    continue;
                 }
                 
-                return $this->validate_setting_value($value, $meta) ?: null;
-            }, array_keys($data), $data));
+                $error = $this->validate_setting_value($value, $meta);
+                if ($error) {
+                    $validationErrors[$key] = $error;
+                }
+            }
 
             if (!empty($validationErrors)) {
                 $this->validation_error_response($validationErrors);

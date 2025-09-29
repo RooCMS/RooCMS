@@ -189,6 +189,27 @@ window.settingsManager = () => ({
         return this.meta[key]?.type || 'string';
     },
 
+    getInputType(key) {
+        const fieldType = this.getFieldType(key);
+        
+        // Map field types to HTML input types
+        const typeMapping = {
+            'boolean': 'checkbox',     // handled separately in template
+            'integer': 'number',
+            'string': 'text',
+            'color': 'color',
+            'text': 'textarea',        // handled separately in template
+            'html': 'text',           // could be enhanced with rich editor later
+            'date': 'date',
+            'email': 'email',
+            'select': 'select',       // handled separately in template
+            'image': 'file',
+            'file': 'file'
+        };
+        
+        return typeMapping[fieldType] || 'text';
+    },
+
     getFieldMeta(key, prop) {
         return this.meta[key]?.[prop];
     },
@@ -224,7 +245,7 @@ window.settingsManager = () => ({
     clearValidationErrors() {
         document.querySelectorAll('.validation-error').forEach(el => {
             el.classList.remove('validation-error', 'border-red-500', 'focus:border-red-500');
-            el.classList.add('border-zinc-300', 'focus:border-zinc-500');
+            el.classList.add('border-zinc-300', 'focus:border-sky-500');
         });
         document.querySelectorAll('.field-error-message').forEach(el => el.remove());
     },
@@ -233,17 +254,29 @@ window.settingsManager = () => ({
         this.showMessage('Please correct the validation errors below.', 'error');
 
         Object.entries(validationErrors).forEach(([fieldName, errorMessage]) => {
-            // Find the field element by searching through all groups
             let fieldElement = null;
-
-            // Search through each group to find the field
-            for (const [groupName, groupSettings] of Object.entries(this.settings)) {
-                if (groupSettings.hasOwnProperty(fieldName)) {
-                    // Found the field in this group, now find the DOM element
-                    const groupElement = document.querySelector(`[data-group="${groupName}"]`);
-                    if (groupElement) {
-                        fieldElement = groupElement.querySelector(`[name="${fieldName}"]`);
+            
+            // Method 1: Direct search by name attribute
+            fieldElement = document.querySelector(`[name="${fieldName}"]`);
+            
+            // Method 2: Search by ID in each group
+            if (!fieldElement) {
+                for (const [groupName, groupSettings] of Object.entries(this.settings)) {
+                    if (groupSettings && typeof groupSettings === 'object' && groupSettings.hasOwnProperty(fieldName)) {
+                        const fieldId = this.getFieldId(groupName, fieldName);
+                        fieldElement = document.getElementById(fieldId);
                         if (fieldElement) break;
+                    }
+                }
+            }
+            
+            // Method 3: Fallback - search all input/select/textarea elements
+            if (!fieldElement) {
+                const allFields = document.querySelectorAll('input, select, textarea');
+                for (const field of allFields) {
+                    if (field.name === fieldName || field.id.endsWith(`_${fieldName}`)) {
+                        fieldElement = field;
+                        break;
                     }
                 }
             }
@@ -254,25 +287,35 @@ window.settingsManager = () => ({
                 // Scroll to first error
                 if (Object.keys(validationErrors)[0] === fieldName) {
                     fieldElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                    fieldElement.focus();
+                    setTimeout(() => fieldElement.focus(), 100);
                 }
             }
         });
     },
 
     highlightFieldError(fieldElement, errorMessage) {
+        // Add error classes to the field
         fieldElement.classList.add('validation-error', 'border-red-500', 'focus:border-red-500');
-        fieldElement.classList.remove('border-zinc-300', 'focus:border-zinc-500');
+        fieldElement.classList.remove('border-zinc-300', 'focus:border-sky-500');
 
+        // Find the field container
         const fieldContainer = fieldElement.closest('.field-container');
         if (fieldContainer) {
+            // Remove any existing error messages for this field
+            const existingError = fieldContainer.querySelector('.field-error-message');
+            if (existingError) {
+                existingError.remove();
+            }
+
+            // Create new error message element
             const errorElement = document.createElement('p');
             errorElement.className = 'field-error-message mt-1 text-xs text-red-600';
             errorElement.textContent = errorMessage;
 
-            const existingDesc = fieldContainer.querySelector('p:not(.field-error-message)');
-            if (existingDesc) {
-                existingDesc.insertAdjacentElement('afterend', errorElement);
+            // Insert error message after the field or after existing description
+            const fieldDiv = fieldElement.closest('div');
+            if (fieldDiv && fieldDiv.parentNode === fieldContainer) {
+                fieldDiv.insertAdjacentElement('afterend', errorElement);
             } else {
                 fieldContainer.appendChild(errorElement);
             }
