@@ -57,7 +57,7 @@ class ThemeConfig implements ThemeConfigInterface {
 		$config_file = $this->theme_path . '/theme.json';
 
 		if (is_file($config_file)) {
-			$config_data = json_decode(file_read($config_file), true);
+			$config_data = json_decode(read_file($config_file), true);
 			if (is_array($config_data)) {
 				$this->config = $config_data;
 			}

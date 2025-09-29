@@ -64,8 +64,8 @@ class TemplateRendererHtml implements TemplateRenderer {
 		}
 
 		// Load files
-		$layout = file_read($layout_file);
-		$content = file_read($page_file);
+		$layout = read_file($layout_file);
+		$content = read_file($page_file);
 
 		if ($layout === false || $content === false) {
 			return false;
@@ -201,7 +201,7 @@ class TemplateRendererHtml implements TemplateRenderer {
 
 			$replacement = '';
 			if (is_file($include_file)) {
-				$replacement = file_read($include_file) ?: '';
+				$replacement = read_file($include_file) ?: '';
 			}
 
 			$content = preg_replace($include_pattern, $replacement, $content, 1);
@@ -407,7 +407,7 @@ class TemplateRendererHtml implements TemplateRenderer {
 
 		$header_file = $theme_base . '/partials/header.html';
 		if (is_file($header_file)) {
-			$header_content = file_read($header_file);
+			$header_content = read_file($header_file);
 			if ($header_content !== false) {
 				$variables['header'] = $this->replace_variables_in_content($header_content, $variables);
 			}
@@ -415,7 +415,7 @@ class TemplateRendererHtml implements TemplateRenderer {
 
 		$footer_file = $theme_base . '/partials/footer.html';
 		if (is_file($footer_file)) {
-			$footer_content = file_read($footer_file);
+			$footer_content = read_file($footer_file);
 			if ($footer_content !== false) {
 				$variables['footer'] = $this->replace_variables_in_content($footer_content, $variables);
 			}

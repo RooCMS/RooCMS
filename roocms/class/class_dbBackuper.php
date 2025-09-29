@@ -549,7 +549,7 @@ class DbBackuper {
 	 */
 	private function compress_backup(string $backup_file): ?string {
 		if(function_exists('gzencode')) {
-			$content = file_read($backup_file);
+			$content = read_file($backup_file);
 			$compressed_content = gzencode($content, 9);
 			$compressed_file = $backup_file . '.gz';
 			
@@ -572,11 +572,11 @@ class DbBackuper {
 		$extension = pathinfo($backup_file, PATHINFO_EXTENSION);
 		
 		if($extension === 'gz' && function_exists('gzdecode')) {
-			$compressed_content = file_read($backup_file);
+			$compressed_content = read_file($backup_file);
 			return gzdecode($compressed_content);
 		}
 		
-		return file_read($backup_file);
+		return read_file($backup_file);
 	}
 
 

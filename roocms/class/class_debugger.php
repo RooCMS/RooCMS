@@ -129,7 +129,7 @@ class Debugger {
 	public static function debug_critical_error(int $errno, string $msg, string $file, int $line) : bool {
 
         # read error in file
-		$subj = file_read(ERRORSLOG);
+		$subj = read_file(ERRORSLOG);
 		
 		[$erlevel, $ertitle] = match($errno) {
 			E_ERROR, E_USER_ERROR => [0, match($errno) {
@@ -177,7 +177,7 @@ class Debugger {
 		# hide error if not use debugmode
 		if(error_reporting() == 0 && $erlevel == 0) {
 			$msg = 'Sorry, something went wrong. We are already working on fixing the cause.<br>' . $time . '<br><a href="javascript:history.back(1)">< Back</a>';
-			$messager = file_read(_ASSETS.'/critical.html');
+			$messager = read_file(_ASSETS.'/critical.html');
 			$messager = str_replace('{MESSAGE_CRITICAL_ERROR}', $msg, $messager);
 			exit($messager);
 			// This return will never execute, but helps static analysis
@@ -216,7 +216,7 @@ class Debugger {
 		};
 
 		# Read existing log
-		$subj = file_read(ERRORSLOG);
+		$subj = read_file(ERRORSLOG);
 		
 		# Create exception log entry
 		$error_data = [

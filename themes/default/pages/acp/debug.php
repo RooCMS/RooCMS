@@ -6,9 +6,9 @@ $debug_logs = [];
 $debug_log_file = _LOGS . '/debug.log';
 
 if (is_file($debug_log_file) && is_readable($debug_log_file)) {
-    // Use file_read without locking to avoid blocking log writes
+    // Use read_file without locking to avoid blocking log writes
     // The parsing algorithm below is robust enough to handle partial reads
-    $log_content = file_read($debug_log_file);
+    $log_content = read_file($debug_log_file);
     
     if ($log_content !== false && !empty($log_content)) {
         // Convert the sequence of JSON objects into a JSON array

@@ -687,7 +687,7 @@ class Mailer {
 
             $filename = $attachment['name'] ?? basename($attachment['path']);
             $mime_type = $attachment['mime'] ?? 'application/octet-stream';
-            $file_raw = file_read($attachment['path']);
+            $file_raw = read_file($attachment['path']);
             if ($file_raw === false) {
                 $this->last_error = 'Failed to read attachment file: '.$attachment['path'];
                 continue;

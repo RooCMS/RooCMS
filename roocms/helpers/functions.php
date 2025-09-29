@@ -167,7 +167,7 @@ function get_bearer_token() : ?string {
  * @param string $file - full path to file
  * @return string|false - data from file or false on failure
  */
-function file_read(string $file) : string|false {
+function read_file(string $file) : string|false {
 	if(is_file($file) && is_readable($file)) {
 		return file_get_contents($file);
 	}
