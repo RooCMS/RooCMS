@@ -371,37 +371,31 @@ class DbQueryBuilder {
 	 * @return string
 	 */
 	private function build_select_sql(): string {
-		$sql = 'SELECT ';
-		if($this->distinct) {
-			$sql .= 'DISTINCT ';
-		}
-		$sql .= implode(', ', $this->select);
+		// Base SELECT clause
+		$sql = 'SELECT ' . ($this->distinct ? 'DISTINCT ' : '') . implode(', ', $this->select);
 		$sql .= " FROM {$this->table}";
 
-		if(!empty($this->joins)) {
-			$sql .= ' ' . implode(' ', $this->joins);
+		// SQL clause mappings for conditional appending
+		$clauses = [
+			'joins'    => [' ', $this->joins],
+			'where'    => [' WHERE ', $this->where, ' AND '],
+			'group_by' => [' GROUP BY ', $this->group_by, ', '],
+			'having'   => [' HAVING ', $this->having, ' AND '],
+			'order_by' => [' ORDER BY ', $this->order_by, ', ']
+		];
+
+		// Append clauses if they have data
+		foreach($clauses as $clause_data) {
+			[$prefix, $data, $separator = ' '] = $clause_data;
+			if(!empty($data)) {
+				$sql .= $prefix . implode($separator, $data);
+			}
 		}
 
-		if(!empty($this->where)) {
-			$sql .= ' WHERE ' . implode(' AND ', $this->where);
-		}
-
-		if(!empty($this->group_by)) {
-			$sql .= ' GROUP BY ' . implode(', ', $this->group_by);
-		}
-
-		if(!empty($this->having)) {
-			$sql .= ' HAVING ' . implode(' AND ', $this->having);
-		}
-
-		if(!empty($this->order_by)) {
-			$sql .= ' ORDER BY ' . implode(', ', $this->order_by);
-		}
-
+		// Append LIMIT and OFFSET
 		if($this->limit !== null) {
 			$sql .= " LIMIT {$this->limit}";
 		}
-
 		if($this->offset !== null) {
 			$sql .= " OFFSET {$this->offset}";
 		}
@@ -434,18 +428,10 @@ class DbQueryBuilder {
 	 * @return string
 	 */
 	private function build_update_sql(): string {
-		$setParts = [];
-		foreach(array_keys($this->data) as $column) {
-			$setParts[] = $column . ' = ?';
-		}
-
+		$setParts = array_map(fn($column) => $column . ' = ?', array_keys($this->data));
 		$sql = "UPDATE {$this->table} SET " . implode(', ', $setParts);
 
-		if(!empty($this->where)) {
-			$sql .= ' WHERE ' . implode(' AND ', $this->where);
-		}
-
-		return $sql;
+		return $this->append_where_clause($sql);
 	}
 
 
@@ -455,13 +441,7 @@ class DbQueryBuilder {
 	 * @return string
 	 */
 	private function build_delete_sql(): string {
-		$sql = "DELETE FROM {$this->table}";
-
-		if(!empty($this->where)) {
-			$sql .= ' WHERE ' . implode(' AND ', $this->where);
-		}
-
-		return $sql;
+		return $this->append_where_clause("DELETE FROM {$this->table}");
 	}
 
 
@@ -478,5 +458,19 @@ class DbQueryBuilder {
 		}
 
 		return array_merge($all_params, $this->where_params);
+	}
+
+
+	/**
+	 * Append WHERE clause to SQL if conditions exist
+	 * 
+	 * @param string $sql
+	 * @return string
+	 */
+	private function append_where_clause(string $sql): string {
+		if(!empty($this->where)) {
+			$sql .= ' WHERE ' . implode(' AND ', $this->where);
+		}
+		return $sql;
 	}
 }

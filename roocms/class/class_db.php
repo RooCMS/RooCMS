@@ -115,11 +115,11 @@ class Db {
 	 */
 	private function get_pdo_param_type(mixed $value): int {
 		return match(gettype($value)) {
-			'boolean' => PDO::PARAM_BOOL,
-			'integer' => PDO::PARAM_INT,
-			'NULL' => PDO::PARAM_NULL,
-			'resource' => PDO::PARAM_LOB,
-			default => PDO::PARAM_STR
+			'boolean'  	=> PDO::PARAM_BOOL,
+			'integer'  	=> PDO::PARAM_INT,
+			'NULL' 		=> PDO::PARAM_NULL,
+			'resource' 	=> PDO::PARAM_LOB,
+			default 	=> PDO::PARAM_STR
 		};
 	}
 

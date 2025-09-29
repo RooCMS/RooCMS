@@ -63,7 +63,7 @@ class DependencyContainer {
 
         // Check if service is registered
         if (!isset($this->services[$interface])) {
-            throw new Exception("Service '{$interface}' is not registered");
+            throw new Exception("Service '".$interface."' is not registered");
         }
 
         $implementation = $this->services[$interface];
@@ -121,7 +121,7 @@ class DependencyContainer {
                 if ($parameter->isDefaultValueAvailable()) {
                     $dependencies[] = $parameter->getDefaultValue();
                 } else {
-                    throw new Exception("Cannot resolve parameter '{$parameter->getName()}' for class '{$implementation}' - no type hint or default value");
+                    throw new Exception("Cannot resolve parameter '".$parameter->getName()."' for class '".$implementation."' - no type hint or default value");
                 }
                 continue;
             }
@@ -135,7 +135,7 @@ class DependencyContainer {
                 } elseif ($type->allowsNull()) {
                     $dependencies[] = null;
                 } else {
-                    throw new Exception("Cannot resolve built-in parameter '{$parameter->getName()}' for class '{$implementation}' - no default value");
+                    throw new Exception("Cannot resolve built-in parameter '".$parameter->getName()."' for class '".$implementation."' - no default value");
                 }
                 continue;
             }
@@ -148,7 +148,7 @@ class DependencyContainer {
                 if ($type->allowsNull()) {
                     $dependencies[] = null;
                 } else {
-                    throw new Exception("Cannot resolve dependency '{$type_name}' for class '{$implementation}': " . $e->getMessage());
+                    throw new Exception("Cannot resolve dependency '".$type_name."' for class '".$implementation."': " . $e->getMessage());
                 }
             }
         }

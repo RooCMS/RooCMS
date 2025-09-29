@@ -51,7 +51,7 @@ class DefaultMiddlewareFactory implements MiddlewareFactory {
      */
     public function create(string $middlewareClass): object {
         if (!class_exists($middlewareClass)) {
-            throw new Exception("Middleware class '{$middlewareClass}' not found");
+            throw new Exception("Middleware class '".$middlewareClass."' not found");
         }
 
         // Inject dependencies based on middleware type

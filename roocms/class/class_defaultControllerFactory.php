@@ -48,7 +48,7 @@ class DefaultControllerFactory implements ControllerFactory {
      */
     public function create(string $controllerClass): object {
         if (!class_exists($controllerClass)) {
-            throw new Exception("Controller class '{$controllerClass}' not found");
+            throw new Exception("Controller class '".$controllerClass."' not found");
         }
 
         // Try to get controller from DI container first
@@ -56,7 +56,7 @@ class DefaultControllerFactory implements ControllerFactory {
             return $this->container->get($controllerClass);
         } catch (Exception $e) {
             // Fallback to manual creation if not registered
-            throw new Exception("Controller '{$controllerClass}' not registered in DI container: " . $e->getMessage());
+            throw new Exception("Controller '".$controllerClass."' not registered in DI container: " . $e->getMessage());
         }
     }
 }

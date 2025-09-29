@@ -20,6 +20,7 @@ if(!defined('RooCMS')) {
 }
 //#########################################################
 
+
 /**
  * Database Query Logger
  * Handles logging and statistics for database queries
@@ -29,6 +30,8 @@ trait DbLogger {
 	private array $query_log = [];
 	private int $query_count = 0;
 
+
+	
 	/**
 	 * Log a database query
 	 *
