@@ -100,6 +100,8 @@ spl_autoload_register(function(string $class_name) {
         'Auth'                      => _CLASS . '/class_auth.php',
         'Role'                      => _CLASS . '/class_role.php',
         'User'                      => _CLASS . '/class_user.php',
+        'GD'                        => _CLASS . '/class_gd.php',
+        'GDExtends'                 => _CLASS . '/trait_gdExtends.php',
         'Shteirlitz'                => _CLASS . '/class_shteirlitz.php',
         'ApiHandler'                => _CLASS . '/class_apiHandler.php',
         'DependencyContainer'       => _CLASS . '/class_dependencyContainer.php',

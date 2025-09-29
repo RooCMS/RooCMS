@@ -386,7 +386,9 @@ class DbQueryBuilder {
 
 		// Append clauses if they have data
 		foreach($clauses as $clause_data) {
-			[$prefix, $data, $separator = ' '] = $clause_data;
+			$prefix = $clause_data[0];
+			$data = $clause_data[1];
+			$separator = $clause_data[2] ?? ' ';
 			if(!empty($data)) {
 				$sql .= $prefix . implode($separator, $data);
 			}

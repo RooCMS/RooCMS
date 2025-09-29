@@ -101,7 +101,7 @@ class SiteSettings {
 
             // Deserialization if necessary
             if ($row['is_serialized'] && $value !== null) {
-                $value = unserialize($row['value']);
+                $value = unserialize($value);
             }
 
             $settings[$row['key']] = $value;
@@ -130,7 +130,7 @@ class SiteSettings {
 
             // Deserialization if necessary
             if ($row['is_serialized'] && $value !== null) {
-                $value = unserialize($row['value']);
+                $value = unserialize($value);
             }
 
             if (!isset($settings[$row['category']])) {

@@ -212,7 +212,7 @@ class Db {
 	 * 
 	 * @return DbQueryBuilder
 	 */
-	public function select(string|array $columns = '*'): DbQueryBuilder {
+	public function select($columns = '*'): DbQueryBuilder {
 		return $this->create_query_builder()->select($columns);
 	}
 
@@ -667,7 +667,17 @@ class Db {
 	 * @return array
 	 */
 	public function get_query_stats(): array {
-		return $this->get_query_stats();
+		$total_time = array_sum(array_column($this->query_log, 'time'));
+		
+		return [
+			'count_queries' => $this->query_count,
+			'queries' => $this->query_log,
+			'total_time' => $total_time,
+			'average_time' => $this->query_count > 0 ? $total_time / $this->query_count : 0,
+			'memory_usage' => memory_get_usage(true),
+			'peak_memory' => memory_get_peak_usage(true),
+			'check_time' => time()
+		];
 	}
 
 	/**
@@ -676,7 +686,7 @@ class Db {
 	 * @return int
 	 */
 	public function get_query_count(): int {
-		return $this->get_query_count();
+		return $this->query_count;
 	}
 
 	
