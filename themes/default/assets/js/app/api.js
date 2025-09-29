@@ -42,12 +42,43 @@ export function getAccessToken() {
 }
 
 /**
- * @typedef {Object} RequestOptions
- * @property {string} [method='GET'] - HTTP method
- * @property {Object.<string, string>} [headers] - HTTP headers
- * @property {string|FormData|null} [body] - Request body
- * @property {string} [credentials='include'] - Cookies parameters
+ * Refreshes access token using refresh token
+ * @returns {Promise<void>} - Promise without return value
+ * @throws {Error} - If refresh token is missing or request fails
  */
+export async function do_refresh_token() {
+    if (!refresh_token) {
+        throw new Error('No refresh token');
+    }
+
+    try {
+        const res = await fetch(API_BASE_URL + '/v1/auth/refresh', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ refresh_token: refresh_token }),
+            credentials: 'include'
+        });
+        if (!res.ok) {
+            access_token = null;
+            localStorage.removeItem('access_token');
+            return;
+        }
+        const data = await res.json();
+        const token = data?.data?.access_token ?? data?.access_token ?? null;
+        const newRefreshToken = data?.data?.refresh_token ?? data?.refresh_token ?? null;
+
+        if (DEBUG) console.debug('token refreshed');
+        setAccessToken(token);
+
+        // Save new refresh token if provided
+        if (newRefreshToken) {
+            setRefreshToken(newRefreshToken);
+        }
+    } catch (e) {
+        access_token = null;
+        localStorage.removeItem('access_token');
+    }
+}
 
 /**
  * Executes HTTP request to API with automatic token refresh
@@ -118,43 +149,4 @@ export async function request(path, options = {}) {
 
     if (access_token) headers['Authorization'] = `Bearer ${access_token}`; else delete headers['Authorization'];
     return fetch(API_BASE_URL + path, Object.assign({}, options, { headers, credentials: 'include' }));
-}
-
-/**
- * Refreshes access token using refresh token
- * @returns {Promise<void>} - Promise without return value
- * @throws {Error} - If refresh token is missing or request fails
- */
-export async function do_refresh_token() {
-    if (!refresh_token) {
-        throw new Error('No refresh token');
-    }
-
-    try {
-        const res = await fetch(API_BASE_URL + '/v1/auth/refresh', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ refresh_token: refresh_token }),
-            credentials: 'include'
-        });
-        if (!res.ok) {
-            access_token = null;
-            localStorage.removeItem('access_token');
-            return;
-        }
-        const data = await res.json();
-        const token = data?.data?.access_token ?? data?.access_token ?? null;
-        const newRefreshToken = data?.data?.refresh_token ?? data?.refresh_token ?? null;
-
-        if (DEBUG) console.debug('token refreshed');
-        setAccessToken(token);
-
-        // Save new refresh token if provided
-        if (newRefreshToken) {
-            setRefreshToken(newRefreshToken);
-        }
-    } catch (e) {
-        access_token = null;
-        localStorage.removeItem('access_token');
-    }
 }

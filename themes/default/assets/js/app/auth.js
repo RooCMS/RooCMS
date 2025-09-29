@@ -8,6 +8,44 @@
  */
 import { request, setAccessToken, setRefreshToken } from './api.js';
 
+
+/**
+ * Clears user data from localStorage
+ * @returns {void}
+ */
+export function clearUserData() {
+    localStorage.removeItem('user_data');
+    // Update Alpine store if available
+    if (window.Alpine && window.Alpine.store && window.Alpine.store('auth')) {
+        window.Alpine.store('auth').user = null;
+        window.Alpine.store('auth').isAuthenticated = false;
+    }
+}
+
+/**
+ * Sets user data in localStorage and Alpine store
+ * @param {Object} userData - User data
+ * @returns {void}
+ */
+export function setUserData(userData) {
+    if (userData) {
+        localStorage.setItem('user_data', JSON.stringify(userData));
+        // Update Alpine store if available
+        if (window.Alpine && window.Alpine.store && window.Alpine.store('auth')) {
+            window.Alpine.store('auth').user = userData;
+            window.Alpine.store('auth').isAuthenticated = true;
+        }
+    } else {
+        clearUserData();
+    }
+}
+
+/**
+ * Logs in user
+ * @param {string} login - User login
+ * @param {string} password - User password
+ * @returns {Promise<Object>} - User data
+ */
 export async function login(login, password) {
     const res = await request('/v1/auth/login', {
         method: 'POST',
@@ -40,6 +78,14 @@ export async function login(login, password) {
     }
 }
 
+/**
+ * Registers user
+ * @param {string} login - User login
+ * @param {string} email - User email
+ * @param {string} password - User password
+ * @param {string} password_confirmation - User password confirmation
+ * @returns {Promise<Object>} - User data
+ */
 export async function register(login, email, password, password_confirmation) {
     const res = await request('/v1/auth/register', {
         method: 'POST',
@@ -57,6 +103,10 @@ export async function register(login, email, password, password_confirmation) {
     return j.data;
 }
 
+/**
+ * Logs out user
+ * @returns {Promise<void>}
+ */
 export async function logout() {
     try { await request('/v1/auth/logout', { method: 'POST' }); } catch(e) {}
     setAccessToken(null);
@@ -66,6 +116,10 @@ export async function logout() {
     window.location.href = '/';
 }
 
+/**
+ * Gets current user
+ * @returns {Promise<Object>} - User data
+ */
 export async function getCurrentUser() {
     try {
         const res = await request('/v1/users/me');
@@ -80,6 +134,10 @@ export async function getCurrentUser() {
     return null;
 }
 
+/**
+ * Gets user data from localStorage
+ * @returns {Object|null} - User data
+ */
 export function getUserData() {
     try {
         const data = localStorage.getItem('user_data');
@@ -89,54 +147,56 @@ export function getUserData() {
     }
 }
 
-export function setUserData(userData) {
-    if (userData) {
-        localStorage.setItem('user_data', JSON.stringify(userData));
-        // Update Alpine store if available
-        if (window.Alpine && window.Alpine.store && window.Alpine.store('auth')) {
-            window.Alpine.store('auth').user = userData;
-            window.Alpine.store('auth').isAuthenticated = true;
-        }
-    } else {
-        clearUserData();
-    }
-}
-
-export function clearUserData() {
-    localStorage.removeItem('user_data');
-    // Update Alpine store if available
-    if (window.Alpine && window.Alpine.store && window.Alpine.store('auth')) {
-        window.Alpine.store('auth').user = null;
-        window.Alpine.store('auth').isAuthenticated = false;
-    }
-}
-
-// Additional user data helper methods
+/**
+ * Gets user ID
+ * Additional user data helper methods
+ * @returns {number|null} - User ID
+ */
 export function getUserId() {
     const user = getUserData();
     return user?.id || null;
 }
 
+/**
+ * Gets user login
+ * @returns {string|null} - User login
+ */
 export function getUserLogin() {
     const user = getUserData();
     return user?.login || user?.username || null;
 }
 
+/**
+ * Gets user email
+ * @returns {string|null} - User email
+ */
 export function getUserEmail() {
     const user = getUserData();
     return user?.email || null;
 }
 
+/**
+ * Gets user nickname
+ * @returns {string|null} - User nickname
+ */
 export function getUserNickname() {
     const user = getUserData();
     return user?.nickname || user?.login || user?.username || null;
 }
 
+/**
+ * Gets user role
+ * @returns {string|null} - User role
+ */
 export function getUserRole() {
     const user = getUserData();
     return user?.role || null;
 }
 
+/**
+ * Gets user avatar
+ * @returns {string|null} - User avatar
+ */
 export function getUserAvatar() {
     const user = getUserData();
     return user?.avatar || user?.avatar_url || null;

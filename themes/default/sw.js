@@ -107,6 +107,99 @@ function protocol(type, message) {
 }
 
 /**
+ * Universal function for loading and caching
+ * @param {Request} request - Request
+ * @param {string|null} cacheName - Cache name (or null to disable caching)
+ * @returns {Promise<Response>} - Promise with response
+ */
+async function fetchAndCache(request, cacheName) {
+    try {
+        const response = await fetch(request);
+        
+        if (cacheName && response.ok) {
+            const cache = await caches.open(cacheName);
+            await cache.put(request, response.clone());
+        }
+        
+        return response;
+    } catch (error) {
+        if (cacheName) {
+            const cache = await caches.open(cacheName);
+            const cached = await cache.match(request);
+            if (cached) {
+                return cached;
+            }
+        }
+        throw error;
+    }
+}
+
+/**
+ * Handling static resources (if caching is enabled)
+ * @param {Request} request - Request
+ * @returns {Promise<Response>} - Promise with response
+ */
+async function handleStaticRequest(request) {
+    // If static caching is disabled - simply proxy the request
+    if (!STATIC_CACHE_ENABLE) {
+        protocol('log', 'Static caching disabled, proxying request:', request.url);
+        try {
+            return await fetch(request);
+        } catch (error) {
+            protocol('error', 'Static request failed (no cache):', request.url, error);
+            return new Response(
+                'Resource not available offline',
+                { status: 503 }
+            );
+        }
+    }
+
+    try {
+        const cache = await caches.open(CACHE_NAME);
+        const cached = await cache.match(request);
+
+        if (cached) {
+            // Check cache TTL (if TTL > 0)
+            if (STATIC_CACHE_TTL > 0) {
+                const cacheDate = cached.headers.get('sw-cache-date');
+                if (cacheDate && (Date.now() - parseInt(cacheDate)) < STATIC_CACHE_TTL) {
+                    protocol('log', 'Static cache hit (fresh):', request.url);
+                    return cached;
+                } else {
+                    protocol('log', 'Static cache expired:', request.url);
+                    // Cache expired, continue loading
+                }
+            } else {
+                // TTL = 0, cache forever
+                protocol('log', 'Static cache hit (permanent):', request.url);
+                return cached;
+            }
+        }
+
+        // No cache or cache expired - load and cache
+        const response = await fetch(request);
+        if (response.ok) {
+            const responseClone = response.clone();
+            // Add header with current time for TTL check
+            responseClone.headers.set('sw-cache-date', Date.now().toString());
+            await cache.put(request, responseClone);
+            protocol('log', 'Static cached:', request.url);
+        }
+
+        return response;
+    } catch (error) {
+        protocol('log', 'Static offline:', request.url);
+        
+        // In offline mode - search in cache
+        const cache = await caches.open(CACHE_NAME);
+        return cache.match(request) || new Response(
+            'Resource not available offline',
+            { status: 503 }
+        );
+    }
+}
+
+/**
  * Installation of Service Worker - precaching (if enabled)
  */
 self.addEventListener('install', (event) => {
@@ -291,96 +384,13 @@ async function handleNavigateRequest(request) {
 }
 
 /**
- * Handling static resources (if caching is enabled)
- * @param {Request} request - Request
- * @returns {Promise<Response>} - Promise with response
+ * Performing background sync
+ * @returns {Promise<void>}
  */
-async function handleStaticRequest(request) {
-    // If static caching is disabled - simply proxy the request
-    if (!STATIC_CACHE_ENABLE) {
-        protocol('log', 'Static caching disabled, proxying request:', request.url);
-        try {
-            return await fetch(request);
-        } catch (error) {
-            protocol('error', 'Static request failed (no cache):', request.url, error);
-            return new Response(
-                'Resource not available offline',
-                { status: 503 }
-            );
-        }
-    }
-
-    try {
-        const cache = await caches.open(CACHE_NAME);
-        const cached = await cache.match(request);
-
-        if (cached) {
-            // Check cache TTL (if TTL > 0)
-            if (STATIC_CACHE_TTL > 0) {
-                const cacheDate = cached.headers.get('sw-cache-date');
-                if (cacheDate && (Date.now() - parseInt(cacheDate)) < STATIC_CACHE_TTL) {
-                    protocol('log', 'Static cache hit (fresh):', request.url);
-                    return cached;
-                } else {
-                    protocol('log', 'Static cache expired:', request.url);
-                    // Cache expired, continue loading
-                }
-            } else {
-                // TTL = 0, cache forever
-                protocol('log', 'Static cache hit (permanent):', request.url);
-                return cached;
-            }
-        }
-
-        // No cache or cache expired - load and cache
-        const response = await fetch(request);
-        if (response.ok) {
-            const responseClone = response.clone();
-            // Add header with current time for TTL check
-            responseClone.headers.set('sw-cache-date', Date.now().toString());
-            await cache.put(request, responseClone);
-            protocol('log', 'Static cached:', request.url);
-        }
-
-        return response;
-    } catch (error) {
-        protocol('log', 'Static offline:', request.url);
-        
-        // In offline mode - search in cache
-        const cache = await caches.open(CACHE_NAME);
-        return cache.match(request) || new Response(
-            'Resource not available offline',
-            { status: 503 }
-        );
-    }
-}
-
-/**
- * Universal function for loading and caching
- * @param {Request} request - Request
- * @param {string|null} cacheName - Cache name (or null to disable caching)
- * @returns {Promise<Response>} - Promise with response
- */
-async function fetchAndCache(request, cacheName) {
-    try {
-        const response = await fetch(request);
-        
-        if (cacheName && response.ok) {
-            const cache = await caches.open(cacheName);
-            await cache.put(request, response.clone());
-        }
-        
-        return response;
-    } catch (error) {
-        if (cacheName) {
-            const cache = await caches.open(cacheName);
-            const cached = await cache.match(request);
-            if (cached) {
-                return cached;
-            }
-        }
-        throw error;
-    }
+async function doBackgroundSync() {
+    protocol('log', 'Performing background sync...');
+    // Here you can add logic for sending delayed data
+    // For example, sending forms that were not sent in offline mode
 }
 
 /**
@@ -393,16 +403,6 @@ self.addEventListener('sync', (event) => {
         event.waitUntil(doBackgroundSync());
     }
 });
-
-/**
- * Performing background sync
- * @returns {Promise<void>}
- */
-async function doBackgroundSync() {
-    protocol('log', 'Performing background sync...');
-    // Here you can add logic for sending delayed data
-    // For example, sending forms that were not sent in offline mode
-}
 
 /**
  * Handling push notifications (if needed in the future)

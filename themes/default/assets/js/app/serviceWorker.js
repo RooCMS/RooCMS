@@ -43,6 +43,34 @@ export function isServiceWorkerSupported() {
 }
 
 /**
+ * Notifies user about available update
+ * @private
+ */
+function notifyUserAboutUpdate() {
+    log('New version available');
+    
+    // Can show notification to user about available update
+    if (window.modal) {
+        window.modal(
+            'Update available',
+            'A new version of the application is available. Update now?',
+            'Update',
+            'Later',
+            'notice'
+        ).then((confirmed) => {
+            if (confirmed) {
+                window.location.reload();
+            }
+        });
+    } else {
+        // Fallback if modal window is not available
+        if (confirm('A new version of the application is available. Update now?')) {
+            window.location.reload();
+        }
+    }
+}
+
+/**
  * Registers Service Worker
  * @returns {Promise<ServiceWorkerStatus>} - Promise with registration status
  */
@@ -145,34 +173,6 @@ export async function getServiceWorkerRegistration() {
  */
 export function isServiceWorkerActive() {
     return !!(navigator.serviceWorker && navigator.serviceWorker.controller);
-}
-
-/**
- * Notifies user about available update
- * @private
- */
-function notifyUserAboutUpdate() {
-    log('New version available');
-    
-    // Can show notification to user about available update
-    if (window.modal) {
-        window.modal(
-            'Update available',
-            'A new version of the application is available. Update now?',
-            'Update',
-            'Later',
-            'notice'
-        ).then((confirmed) => {
-            if (confirmed) {
-                window.location.reload();
-            }
-        });
-    } else {
-        // Fallback if modal window is not available
-        if (confirm('A new version of the application is available. Update now?')) {
-            window.location.reload();
-        }
-    }
 }
 
 /**
