@@ -67,7 +67,7 @@ class TemplateRendererPhp implements TemplateRenderer {
 
 		// Content header
 		if (!headers_sent()) {
-			header('Content-Type: text/html; charset=utf-8');
+			set_header('Content-Type: text/html; charset=utf-8');
 		}
 
 		// Execute the template

@@ -292,7 +292,7 @@ class ApiHandler {
         http_response_code(405);
         
         if (!empty($allowedMethods)) {
-            header('Allow: ' . implode(', ', $allowedMethods));
+            set_header('Allow: ' . implode(', ', $allowedMethods));
         }
         
         $response = [

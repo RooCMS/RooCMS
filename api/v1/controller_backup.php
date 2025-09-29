@@ -211,11 +211,11 @@ class BackupController extends BaseController {
 	 * @param string $filename Download filename
 	 */
 	private function send_file_download(string $filepath, string $filename): void {
-		header('Content-Type: application/octet-stream');
-		header('Content-Disposition: attachment; filename="' . $filename . '"');
-		header('Content-Length: ' . filesize($filepath));
-		header('Cache-Control: no-cache, must-revalidate');
-		header('Pragma: no-cache');
+		set_header('Content-Type: application/octet-stream');
+		set_header('Content-Disposition: attachment; filename="' . $filename . '"');
+		set_header('Content-Length: ' . filesize($filepath));
+		set_header('Cache-Control: no-cache, must-revalidate');
+		set_header('Pragma: no-cache');
 
 		readfile($filepath);
 		exit;

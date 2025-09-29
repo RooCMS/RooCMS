@@ -36,10 +36,10 @@ nocache();
 /**
  * Enable CORS for cross-domain requests
  */
-header('Allow: GET, POST, PUT, PATCH, DELETE');
-header('Access-Control-Allow-Origin: *');
-header('Access-Control-Allow-Methods: GET, POST, PUT, PATCH, DELETE, OPTIONS');
-header('Access-Control-Allow-Headers: Content-Type, Authorization');
+set_header('Allow: GET, POST, PUT, PATCH, DELETE');
+set_header('Access-Control-Allow-Origin: *');
+set_header('Access-Control-Allow-Methods: GET, POST, PUT, PATCH, DELETE, OPTIONS');
+set_header('Access-Control-Allow-Headers: Content-Type, Authorization');
 
 /**
  * Handle preflight OPTIONS request
