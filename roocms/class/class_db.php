@@ -60,7 +60,7 @@ class Db {
 	 */
 	public function query(string $sql, array $params = []): PDOStatement {
 		if(!$this->is_connected) {
-			throw new Exception('No connection to the database');
+			throw new PDOException('No connection to the database');
 		}
 
 		$start_time = microtime(true);

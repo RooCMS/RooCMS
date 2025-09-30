@@ -50,8 +50,9 @@ class MediaController extends BaseController {
 		
 		try {
 			# Parse and validate query parameters
-			$page = max(1, (int)($_GET['page'] ?? 1));
-			$per_page = min(100, max(10, (int)($_GET['per_page'] ?? 20)));
+			$pagination = $this->get_pagination_params();
+			$page = $pagination['page'];
+			$limit = $pagination['limit'];
 			$type = $_GET['type'] ?? null;
 			$status = $_GET['status'] ?? null;
 			$user_id = isset($_GET['user_id']) ? (int)$_GET['user_id'] : null;

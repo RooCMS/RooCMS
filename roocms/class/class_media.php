@@ -236,6 +236,108 @@ class Media {
 
 
     /**
+     * Get media info by ID with type-specific processing
+     * 
+     * @param int $media_id Media ID
+     * @param string|null $expected_type Expected media type (optional validation)
+     * @return array|false Media info or false
+     */
+    public function get_media_info(int $media_id, ?string $expected_type = null): array|false {
+        
+        $media = $this->get_by_id($media_id);
+        
+        if(!$media) {
+            return false;
+        }
+        
+        # Validate expected type if provided
+        if($expected_type && $media['media_type'] !== $expected_type) {
+            return false;
+        }
+        
+        # Decode metadata
+        if(isset($media['metadata']) && $media['metadata']) {
+            $media['metadata'] = json_decode($media['metadata'], true);
+        }
+        
+        # Delegate type-specific processing using match
+        return match($media['media_type']) {
+            'image' => $this->process_image_info($media),
+            'document' => $this->process_document_info($media),
+            'video' => $this->process_video_info($media),
+            'audio' => $this->process_audio_info($media),
+            'archive' => $this->process_archive_info($media),
+            default => $media  # Return basic info for unknown types
+        };
+    }
+
+
+    /**
+     * Process image-specific info (delegated from traits)
+     * 
+     * @param array $media Base media data
+     * @return array Processed media info
+     */
+    private function process_image_info(array $media): array {
+        # Add image-specific processing if needed
+        # This can be extended by MediaImage trait
+        return $media;
+    }
+
+
+    /**
+     * Process document-specific info (delegated from traits)
+     * 
+     * @param array $media Base media data
+     * @return array Processed media info
+     */
+    private function process_document_info(array $media): array {
+        # Add document-specific processing if needed
+        # This can be extended by MediaDoc trait
+        return $media;
+    }
+
+
+    /**
+     * Process video-specific info (delegated from traits)
+     * 
+     * @param array $media Base media data
+     * @return array Processed media info
+     */
+    private function process_video_info(array $media): array {
+        # Add video-specific processing if needed
+        # This can be extended by MediaVideo trait
+        return $media;
+    }
+
+
+    /**
+     * Process audio-specific info (delegated from traits)
+     * 
+     * @param array $media Base media data
+     * @return array Processed media info
+     */
+    private function process_audio_info(array $media): array {
+        # Add audio-specific processing if needed
+        # This can be extended by MediaAudio trait
+        return $media;
+    }
+
+
+    /**
+     * Process archive-specific info (delegated from traits)
+     * 
+     * @param array $media Base media data
+     * @return array Processed media info
+     */
+    private function process_archive_info(array $media): array {
+        # Add archive-specific processing if needed
+        # This can be extended by MediaArch trait
+        return $media;
+    }
+
+
+    /**
      * Validate uploaded file basic requirements
      * 
      * @param array $file File data from $_FILES

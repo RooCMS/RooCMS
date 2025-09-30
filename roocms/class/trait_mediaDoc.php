@@ -224,16 +224,31 @@ trait MediaDoc {
      * @return array|false Document info or false
      */
     public function get_document_info(int $media_id): array|false {
+        return $this->get_media_info($media_id, 'document');
+    }
+
+
+    /**
+     * Process document-specific info (overrides Media class method)
+     * 
+     * @param array $media Base media data
+     * @return array Processed media info with document-specific enhancements
+     */
+    private function process_document_info(array $media): array {
+        # Add document-specific processing
+        # This method is called by get_media_info() via match()
         
-        $media = $this->get_by_id($media_id);
-        
-        if(!$media || $media['media_type'] !== 'document') {
-            return false;
+        # Add formatted file size for convenience
+        if(isset($media['file_size'])) {
+            $media['file_size_formatted'] = $this->format_file_size($media['file_size']);
         }
         
-        # Decode metadata
-        if(isset($media['metadata']) && $media['metadata']) {
-            $media['metadata'] = json_decode($media['metadata'], true);
+        # Add document-specific metadata processing if needed
+        if(isset($media['metadata']) && is_array($media['metadata'])) {
+            # Add human-readable page count, etc.
+            if(isset($media['metadata']['pages'])) {
+                $media['metadata']['pages_formatted'] = $media['metadata']['pages'] . ' страниц';
+            }
         }
         
         return $media;

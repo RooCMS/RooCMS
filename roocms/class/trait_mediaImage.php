@@ -178,4 +178,45 @@ trait MediaImage {
         return $this->db->fetch_all($sql, ['media_id' => $media_id]);
     }
 
+
+    /**
+     * Get image info by ID
+     * 
+     * @param int $media_id Media ID
+     * @return array|false Image info or false
+     */
+    public function get_image_info(int $media_id): array|false {
+        return $this->get_media_info($media_id, 'image');
+    }
+
+
+    /**
+     * Process image-specific info (overrides Media class method)
+     * 
+     * @param array $media Base media data
+     * @return array Processed media info with image-specific enhancements
+     */
+    private function process_image_info(array $media): array {
+        # Add image-specific processing
+        # This method is called by get_media_info() via match()
+        
+        # Add formatted file size for convenience
+        if(isset($media['file_size'])) {
+            $media['file_size_formatted'] = $this->format_file_size($media['file_size']);
+        }
+        
+        # Add image-specific metadata formatting
+        if(isset($media['metadata']) && is_array($media['metadata'])) {
+            # Format dimensions
+            if(isset($media['metadata']['width']) && isset($media['metadata']['height'])) {
+                $media['metadata']['dimensions'] = $media['metadata']['width'] . 'x' . $media['metadata']['height'];
+            }
+        }
+        
+        # Load variants for images
+        $media['variants'] = $this->get_all_image_variants($media['id']);
+        
+        return $media;
+    }
+
 }

@@ -20,7 +20,7 @@ if(!defined('RooCMS')) {roocms_protect();}
 /**
  * Generate CSP nonce
  */
-$csp_nonce = base64_encode(random_bytes(16));;
+$csp_nonce = base64_encode(random_bytes(16));
 $csp_nonce = str_ireplace(['+', '/', '='], ['-', '_', ''], $csp_nonce);
 define('CSPNONCE', $csp_nonce);
 

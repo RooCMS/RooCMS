@@ -231,7 +231,7 @@ abstract class BaseController {
     
     /**
      * Get pagination parameters
-     * 
+     *
      * @return array
      */
     protected function get_pagination_params(): array {
@@ -240,10 +240,10 @@ abstract class BaseController {
         
         // Ensure minimum values
         $page = max(1, $page);
-        $limit = max(1, min(100, $limit)); // Max 100 items per page
-        
+        $limit = min(100, max(10, $limit)); // Min 10, max 100 items per page
+
         $offset = ($page - 1) * $limit;
-        
+
         return [
             'page' => $page,
             'limit' => $limit,
@@ -254,7 +254,7 @@ abstract class BaseController {
     
     /**
      * Format pagination meta information
-     * 
+     *
      * @param int $total Total
      * @param int $page Page
      * @param int $limit Limit

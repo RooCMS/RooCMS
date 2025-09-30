@@ -274,21 +274,38 @@ trait MediaAudio {
      * @return array|false Audio info or false
      */
     public function get_audio_info(int $media_id): array|false {
+        return $this->get_media_info($media_id, 'audio');
+    }
+
+
+    /**
+     * Process audio-specific info (overrides Media class method)
+     * 
+     * @param array $media Base media data
+     * @return array Processed media info with audio-specific enhancements
+     */
+    private function process_audio_info(array $media): array {
+        # Add audio-specific processing
+        # This method is called by get_media_info() via match()
         
-        $media = $this->get_by_id($media_id);
-        
-        if(!$media || $media['media_type'] !== 'audio') {
-            return false;
-        }
-        
-        # Decode metadata
-        if(isset($media['metadata']) && $media['metadata']) {
-            $media['metadata'] = json_decode($media['metadata'], true);
+        # Add formatted file size for convenience
+        if(isset($media['file_size'])) {
+            $media['file_size_formatted'] = $this->format_file_size($media['file_size']);
         }
         
         # Format duration
-        if(isset($media['duration'])) {
-            $media['duration_formatted'] = $this->format_duration($media['duration']);
+        if(isset($media['metadata']['duration'])) {
+            $media['duration_formatted'] = $this->format_duration((int)$media['metadata']['duration']);
+        }
+        
+        # Format bitrate if available
+        if(isset($media['metadata']['bitrate'])) {
+            $media['bitrate_formatted'] = $this->format_bitrate((int)$media['metadata']['bitrate']);
+        }
+        
+        # Add music-specific formatting
+        if(isset($media['metadata']['artist']) && isset($media['metadata']['title'])) {
+            $media['display_name'] = $media['metadata']['artist'] . ' - ' . $media['metadata']['title'];
         }
         
         return $media;

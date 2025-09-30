@@ -278,16 +278,41 @@ trait MediaArch {
      * @return array|false Archive info or false
      */
     public function get_archive_info(int $media_id): array|false {
+        return $this->get_media_info($media_id, 'archive');
+    }
+
+
+    /**
+     * Process archive-specific info (overrides Media class method)
+     * 
+     * @param array $media Base media data
+     * @return array Processed media info with archive-specific enhancements
+     */
+    private function process_archive_info(array $media): array {
+        # Add archive-specific processing
+        # This method is called by get_media_info() via match()
         
-        $media = $this->get_by_id($media_id);
-        
-        if(!$media || $media['media_type'] !== 'archive') {
-            return false;
+        # Add formatted file size for convenience
+        if(isset($media['file_size'])) {
+            $media['file_size_formatted'] = $this->format_file_size($media['file_size']);
         }
         
-        # Decode metadata
-        if(isset($media['metadata']) && $media['metadata']) {
-            $media['metadata'] = json_decode($media['metadata'], true);
+        # Add archive-specific metadata formatting
+        if(isset($media['metadata']) && is_array($media['metadata'])) {
+            # Format file count
+            if(isset($media['metadata']['file_count'])) {
+                $media['metadata']['file_count_formatted'] = $media['metadata']['file_count'] . ' файлов';
+            }
+            
+            # Format uncompressed size
+            if(isset($media['metadata']['uncompressed_size'])) {
+                $media['metadata']['uncompressed_size_formatted'] = $this->format_file_size((int)$media['metadata']['uncompressed_size']);
+            }
+            
+            # Format compression ratio
+            if(isset($media['metadata']['compression_ratio'])) {
+                $media['metadata']['compression_ratio_formatted'] = round($media['metadata']['compression_ratio'], 1) . '%';
+            }
         }
         
         return $media;

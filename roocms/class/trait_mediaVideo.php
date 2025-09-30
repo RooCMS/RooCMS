@@ -259,27 +259,39 @@ trait MediaVideo {
      * @return array|false Video info or false
      */
     public function get_video_info(int $media_id): array|false {
+        return $this->get_media_info($media_id, 'video');
+    }
+
+
+    /**
+     * Process video-specific info (overrides Media class method)
+     * 
+     * @param array $media Base media data
+     * @return array Processed media info with video-specific enhancements
+     */
+    private function process_video_info(array $media): array {
+        # Add video-specific processing
+        # This method is called by get_media_info() via match()
         
-        $media = $this->get_by_id($media_id);
-        
-        if(!$media || $media['media_type'] !== 'video') {
-            return false;
-        }
-        
-        # Decode metadata
-        if(isset($media['metadata']) && $media['metadata']) {
-            $media['metadata'] = json_decode($media['metadata'], true);
+        # Add formatted file size for convenience
+        if(isset($media['file_size'])) {
+            $media['file_size_formatted'] = $this->format_file_size($media['file_size']);
         }
         
         # Format duration
-        if(isset($media['duration'])) {
-            $media['duration_formatted'] = $this->format_duration($media['duration']);
+        if(isset($media['metadata']['duration'])) {
+            $media['duration_formatted'] = $this->format_duration((int)$media['metadata']['duration']);
         }
         
         # Add resolution label
-        if(isset($media['width']) && isset($media['height'])) {
-            $media['resolution'] = $media['width'] . 'x' . $media['height'];
-            $media['quality_label'] = $this->get_quality_label($media['height']);
+        if(isset($media['metadata']['width']) && isset($media['metadata']['height'])) {
+            $media['resolution'] = $media['metadata']['width'] . 'x' . $media['metadata']['height'];
+            $media['quality_label'] = $this->get_quality_label((int)$media['metadata']['height']);
+        }
+        
+        # Format bitrate if available
+        if(isset($media['metadata']['bitrate'])) {
+            $media['bitrate_formatted'] = $this->format_bitrate((int)$media['metadata']['bitrate']);
         }
         
         return $media;
