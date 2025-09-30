@@ -30,14 +30,15 @@ class GD {
 
 	# Constants
 	private const ALLOWED_EXTENSIONS = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
-	private const FILE_SUFFIX_ORIGINAL = '_orig';
-	private const FILE_SUFFIX_RESIZED = '_res';
-	private const FILE_SUFFIX_THUMBNAIL = '_thumb';
 	private const DEFAULT_FONT_PATH = _STORAGE . "/fonts/trebuc.ttf";
 	private const WATERMARK_MAX_SIZE_RATIO = 0.33;
 	private const WATERMARK_PADDING = 10;
 	private const TEXT_WATERMARK_FONT_SIZE = 10;
 	private const TEXT_WATERMARK_ALPHA = 20;
+
+	public string $file_suffix_original = '';
+	public string $file_suffix_resized = '_prev';
+	public string $file_suffix_thumbnail = '_thumb';
 
 	# Settings cache
 	private array $settings_cache = [];
@@ -48,8 +49,8 @@ class GD {
 	private int $rs_quality = 90;				# Quality saved image
 	private int $th_quality = 90;				# Quality thumbnail
 	private string $thumbtg = "overflow";			# Type Thumbnail ( Variables: overflow, contain )
-	private array $msize = ['w' => 0, 'h' => 0];	# Max size
-	private array $tsize = ['w' => 0, 'h' => 0];	# Thumbnail size
+	protected array $msize = ['w' => 1200, 'h' => 1200];	# Max size
+	protected array $tsize = ['w' => 267, 'h' => 150];	# Thumbnail size
 	private array $thumbbgcol = ['r' => 0, 'g' => 0, 'b' => 0];	# Background color for thumbnail "contain" type
 
 
@@ -230,7 +231,7 @@ class GD {
 	 * @param bool   $modify    - this parameter indicates whether image is subjected to full modification with preserving the original image and creating thumbnail.
 	 * @param bool   $noresize  - this parameter cancels "nomodify" image resizing, in case we want to keep original size.
 	 */
-	protected function modify_image(string $filename, string $extension, string $path, bool $watermark = true, bool $modify = true, bool $noresize = false): void {
+	public function modify_image(string $filename, string $extension, string $path, bool $watermark = true, bool $modify = true, bool $noresize = false): void {
 
 		# mod
 		if($modify) {
@@ -274,8 +275,8 @@ class GD {
 	protected function resize(string $filename, string $ext, string $path = _UPLOADIMG): void {
 
 		# Build file paths
-		$file_original = $this->build_file_path($path, $filename, self::FILE_SUFFIX_ORIGINAL, $ext);
-		$file_resized = $this->build_file_path($path, $filename, self::FILE_SUFFIX_RESIZED, $ext);
+		$file_original = $this->build_file_path($path, $filename, $this->file_suffix_original, $ext);
+		$file_resized = $this->build_file_path($path, $filename, $this->file_suffix_resized, $ext);
 
 		# Get image size safely
 		$size = $this->get_image_size_safe($file_original);
@@ -375,8 +376,8 @@ class GD {
 	protected function thumbnail(string $filename, string $ext, string $path = _UPLOADIMG): void {
 
 		# vars
-		$fileresize 	= $filename . self::FILE_SUFFIX_RESIZED . "." . $ext;
-		$filethumb 	= $filename . self::FILE_SUFFIX_THUMBNAIL . "." . $ext;
+		$fileresize 	= $filename . $this->file_suffix_resized . "." . $ext;
+		$filethumb 	= $filename . $this->file_suffix_thumbnail . "." . $ext;
 
 		# Get image size
 		$size = getimagesize($path."/".$fileresize);
@@ -419,7 +420,7 @@ class GD {
 	protected function watermark_text(string $filename, string $ext, string $path = _UPLOADIMG): void {
 
 		# vars
-		$fileresize = $filename . self::FILE_SUFFIX_RESIZED . "." . $ext;
+		$fileresize = $filename . $this->file_suffix_resized . "." . $ext;
 
 		# get image size
 		$size = getimagesize($path."/".$fileresize);
@@ -493,7 +494,7 @@ class GD {
 	protected function watermark_image(string $filename, string $ext, string $path = _UPLOADIMG): void {
 
 		# vars
-		$fileresize = $filename . self::FILE_SUFFIX_RESIZED . "." . $ext;
+		$fileresize = $filename . $this->file_suffix_resized . "." . $ext;
 
 		# get image size
 		$size = getimagesize($path."/".$fileresize);
@@ -558,8 +559,8 @@ class GD {
 
 		if($this->is_jpg($ext)) {
 
-			if(is_file($path."/".$filename . self::FILE_SUFFIX_ORIGINAL . "." . $ext)) {
-				$filename = $filename . self::FILE_SUFFIX_ORIGINAL;
+			if(is_file($path."/".$filename . $this->file_suffix_original . "." . $ext)) {
+				$filename = $filename . $this->file_suffix_original;
 			}
 
 			# create

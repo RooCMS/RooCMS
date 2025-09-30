@@ -454,7 +454,7 @@ class Media {
             'updated_at' => time()
         ];
         
-        $result = $this->db->insert('TABLE_MEDIA')
+        $result = $this->db->insert(TABLE_MEDIA)
             ->data($data)
             ->execute();
         
@@ -537,8 +537,8 @@ class Media {
         }
         
         # Delete from database (CASCADE will handle variants and relations)
-        $result = $this->db->delete('TABLE_MEDIA')
-            ->where('id', '=', $id)
+        $result = $this->db->delete(TABLE_MEDIA)
+            ->where('id', $id, '=')
             ->execute();
         
         return $result->rowCount() > 0;
@@ -578,7 +578,7 @@ class Media {
             'created_at' => time()
         ];
         
-        return $this->db->insert('TABLE_MEDIA_RELS', $data);
+        return $this->db->insert_array($data, TABLE_MEDIA_RELS);
     }
 
 
@@ -638,12 +638,12 @@ class Media {
             return false;
         }
         
-        $result = $this->db->update('TABLE_MEDIA')
+        $result = $this->db->update(TABLE_MEDIA)
             ->data([
                 'status' => $status,
                 'updated_at' => time()
             ])
-            ->where('id', '=', $id)
+            ->where('id', $id, '=')
             ->execute();
         
         return $result->rowCount() > 0;

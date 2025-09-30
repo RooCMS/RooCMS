@@ -47,7 +47,7 @@ trait MediaImage {
             $filename_without_ext = $path_info['filename'];
             
             # Rename original file to have _orig suffix
-            $original_file = $directory . '/' . $filename_without_ext . '_orig.' . $extension;
+            $original_file = $directory . '/' . $filename_without_ext . $this->gd->file_suffix_original . "." . $extension;
             rename($file_path, $original_file);
             
             # Use GD class to process image (creates _res and _thumb files)
@@ -78,9 +78,9 @@ trait MediaImage {
         
         # Variants created by GD class
         $variants = [
-            'original' => '_orig',
-            'large' => '_res',
-            'thumbnail' => '_thumb'
+            'original' => $this->gd->file_suffix_original,
+            'large' => $this->gd->file_suffix_resized,
+            'thumbnail' => $this->gd->file_suffix_thumbnail
         ];
         
         $success = true;
@@ -117,7 +117,7 @@ trait MediaImage {
                 'created_at' => time()
             ];
             
-            if(!$this->db->insert('TABLE_MEDIA_VARS', $variant_data)) {
+            if(!$this->db->insert_array($variant_data, TABLE_MEDIA_VARS)) {
                 $success = false;
             }
         }

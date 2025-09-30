@@ -64,9 +64,9 @@ trait MediaVideo {
                 $update_data['metadata'] = json_encode($metadata);
             }
             
-            $this->db->update('TABLE_MEDIA')
+            $this->db->update(TABLE_MEDIA)
                 ->data($update_data)
-                ->where('id', '=', $media_id)
+                ->where('id', $media_id, '=')
                 ->execute();
             
             return true;

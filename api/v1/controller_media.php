@@ -77,7 +77,7 @@ class MediaController extends BaseController {
 			if($search) $filters['search'] = $search;
 			
 			# Delegate to service
-			$media_files = $this->media_service->get_media_list($filters, $page, $per_page);
+			$media_files = $this->media_service->get_media_list($filters, $page, $limit);
 			$total = $this->media_service->get_media_count($filters);
 			
 			# Prepare response
@@ -85,10 +85,10 @@ class MediaController extends BaseController {
 				'data' => $media_files,
 				'pagination' => [
 					'current_page' => $page,
-					'per_page' => $per_page,
+					'per_page' => $limit,
 					'total' => $total,
-					'total_pages' => (int)ceil($total / $per_page),
-					'has_next' => $page * $per_page < $total,
+					'total_pages' => (int)ceil($total / $limit),
+					'has_next' => $page * $limit < $total,
 					'has_prev' => $page > 1
 				],
 				'filters' => $filters

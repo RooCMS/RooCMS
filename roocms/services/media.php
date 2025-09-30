@@ -416,11 +416,11 @@ class MediaService {
 	 * 
 	 * @param array $filters Filters array
 	 * @param int $page Page number
-	 * @param int $per_page Items per page
+	 * @param int $limit Items per page
 	 * @return array List of media with formatted data
 	 */
-	public function get_media_list(array $filters = [], int $page = 1, int $per_page = 20): array {
-		$offset = ($page - 1) * $per_page;
+	public function get_media_list(array $filters = [], int $page = 1, int $limit = 20): array {
+		$offset = ($page - 1) * $limit;
 		
 		# Build WHERE clause
 		$where_conditions = [];
@@ -454,7 +454,7 @@ class MediaService {
 		}
 		
 		$sql .= ' ORDER BY created_at DESC LIMIT :limit OFFSET :offset';
-		$params['limit'] = $per_page;
+		$params['limit'] = $limit;
 		$params['offset'] = $offset;
 		
 		$results = $this->db->fetch_all($sql, $params);

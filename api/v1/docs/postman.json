@@ -2,23 +2,7 @@
   "info": {
     "name": "RooCMS API",
     "description": "REST API for RooCMS content management system",
-    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-    "_postman_id": "roocms-api-collection",
-    "version": {
-      "major": 2,
-      "minor": 0,
-      "patch": 0
-    }
-  },
-  "auth": {
-    "type": "bearer",
-    "bearer": [
-      {
-        "key": "token",
-        "value": "{{access_token}}",
-        "type": "string"
-      }
-    ]
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
   },
   "variable": [
     {
@@ -151,27 +135,6 @@
       "item": [
         {
           "name": "User Login",
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "exec": [
-                  "if (pm.response.code === 200) {",
-                  "    const responseJson = pm.response.json();",
-                  "    if (responseJson.data && responseJson.data.access_token) {",
-                  "        pm.collectionVariables.set('access_token', responseJson.data.access_token);",
-                  "        pm.collectionVariables.set('refresh_token', responseJson.data.refresh_token);",
-                  "        if (responseJson.data.user && responseJson.data.user.user_id) {",
-                  "            pm.collectionVariables.set('user_id', responseJson.data.user.user_id);",
-                  "        }",
-                  "        console.log('Tokens saved to collection variables');",
-                  "    }",
-                  "}"
-                ],
-                "type": "text/javascript"
-              }
-            }
-          ],
           "request": {
             "auth": {
               "type": "noauth"
@@ -198,27 +161,6 @@
         },
         {
           "name": "User Registration",
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "exec": [
-                  "if (pm.response.code === 201) {",
-                  "    const responseJson = pm.response.json();",
-                  "    if (responseJson.data && responseJson.data.access_token) {",
-                  "        pm.collectionVariables.set('access_token', responseJson.data.access_token);",
-                  "        pm.collectionVariables.set('refresh_token', responseJson.data.refresh_token);",
-                  "        if (responseJson.data.user && responseJson.data.user.user_id) {",
-                  "            pm.collectionVariables.set('user_id', responseJson.data.user.user_id);",
-                  "        }",
-                  "        console.log('Tokens saved to collection variables');",
-                  "    }",
-                  "}"
-                ],
-                "type": "text/javascript"
-              }
-            }
-          ],
           "request": {
             "auth": {
               "type": "noauth"
@@ -245,22 +187,6 @@
         },
         {
           "name": "User Logout",
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "exec": [
-                  "if (pm.response.code === 200) {",
-                  "    pm.collectionVariables.set('access_token', '');",
-                  "    pm.collectionVariables.set('refresh_token', '');",
-                  "    pm.collectionVariables.set('user_id', '');",
-                  "    console.log('Tokens cleared from collection variables');",
-                  "}"
-                ],
-                "type": "text/javascript"
-              }
-            }
-          ],
           "request": {
             "method": "POST",
             "header": [
@@ -284,22 +210,6 @@
         },
         {
           "name": "User Logout All Devices",
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "exec": [
-                  "if (pm.response.code === 200) {",
-                  "    pm.collectionVariables.set('access_token', '');",
-                  "    pm.collectionVariables.set('refresh_token', '');",
-                  "    pm.collectionVariables.set('user_id', '');",
-                  "    console.log('All sessions terminated; tokens cleared');",
-                  "}"
-                ],
-                "type": "text/javascript"
-              }
-            }
-          ],
           "request": {
             "method": "POST",
             "header": [
@@ -323,24 +233,6 @@
         },
         {
           "name": "Refresh Token",
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "exec": [
-                  "if (pm.response.code === 200) {",
-                  "    const responseJson = pm.response.json();",
-                  "    if (responseJson.data && responseJson.data.access_token) {",
-                  "        pm.collectionVariables.set('access_token', responseJson.data.access_token);",
-                  "        pm.collectionVariables.set('refresh_token', responseJson.data.refresh_token);",
-                  "        console.log('Tokens refreshed and saved to collection variables');",
-                  "    }",
-                  "}"
-                ],
-                "type": "text/javascript"
-              }
-            }
-          ],
           "request": {
             "auth": {
               "type": "noauth"
@@ -373,23 +265,6 @@
       "item": [
         {
           "name": "Password Recovery Request",
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "exec": [
-                  "if (pm.response.code === 200) {",
-                  "    const responseJson = pm.response.json();",
-                  "    if (responseJson.data && responseJson.data.recovery_code) {",
-                  "        pm.collectionVariables.set('recovery_code', responseJson.data.recovery_code);",
-                  "        console.log('Recovery code saved: ' + responseJson.data.recovery_code);",
-                  "    }",
-                  "}"
-                ],
-                "type": "text/javascript"
-              }
-            }
-          ],
           "request": {
             "auth": {
               "type": "noauth"
@@ -1129,77 +1004,6 @@
         }
       ],
       "description": "System settings management endpoints"
-    }
-  ],
-  "event": [
-    {
-      "listen": "prerequest",
-      "script": {
-        "type": "text/javascript",
-        "exec": [
-          "// Auto-refresh token if expired",
-          "const accessToken = pm.collectionVariables.get('access_token');",
-          "const refreshToken = pm.collectionVariables.get('refresh_token');",
-          "",
-          "if (!accessToken && refreshToken && pm.request.url.path.join('/') !== 'v1/auth/refresh') {",
-          "    console.log('Access token missing, attempting to refresh...');",
-          "    ",
-          "    const refreshRequest = {",
-          "        url: pm.collectionVariables.get('base_url') + '/v1/auth/refresh',",
-          "        method: 'POST',",
-          "        header: {",
-          "            'Content-Type': 'application/json'",
-          "        },",
-          "        body: {",
-          "            mode: 'raw',",
-          "            raw: JSON.stringify({",
-          "                refresh_token: refreshToken",
-          "            })",
-          "        }",
-          "    };",
-          "    ",
-          "    pm.sendRequest(refreshRequest, (err, response) => {",
-          "        if (err) {",
-          "            console.log('Token refresh failed:', err);",
-          "        } else if (response.code === 200) {",
-          "            const responseJson = response.json();",
-          "            if (responseJson.data && responseJson.data.access_token) {",
-          "                pm.collectionVariables.set('access_token', responseJson.data.access_token);",
-          "                pm.collectionVariables.set('refresh_token', responseJson.data.refresh_token);",
-          "                console.log('Token refreshed successfully');",
-          "            }",
-          "        } else {",
-          "            console.log('Token refresh failed with status:', response.code);",
-          "        }",
-          "    });",
-          "}"
-        ]
-      }
-    },
-    {
-      "listen": "test",
-      "script": {
-        "type": "text/javascript",
-        "exec": [
-          "// Global test script for all requests",
-          "pm.test('Response time is less than 5000ms', function () {",
-          "    pm.expect(pm.response.responseTime).to.be.below(5000);",
-          "});",
-          "",
-          "pm.test('Response has correct Content-Type', function () {",
-          "    pm.expect(pm.response.headers.get('Content-Type')).to.include('application/json');",
-          "});",
-          "",
-          "// Handle token expiration",
-          "if (pm.response.code === 401) {",
-          "    const responseJson = pm.response.json();",
-          "    if (responseJson.message && responseJson.message.includes('expired')) {",
-          "        console.log('Token expired, clearing stored tokens');",
-          "        pm.collectionVariables.set('access_token', '');",
-          "    }",
-          "}"
-        ]
-      }
     },
     {
       "name": "Media",

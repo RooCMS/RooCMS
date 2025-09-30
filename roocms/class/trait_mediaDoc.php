@@ -49,12 +49,12 @@ trait MediaDoc {
             
             # Update media metadata
             if(!empty($metadata)) {
-                $this->db->update('TABLE_MEDIA')
+                $this->db->update(TABLE_MEDIA)
                     ->data([
                         'metadata' => json_encode($metadata),
                         'updated_at' => time()
                     ])
-                    ->where('id', '=', $media_id)
+                    ->where('id', $media_id, '=')
                     ->execute();
             }
             

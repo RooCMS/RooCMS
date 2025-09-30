@@ -23,9 +23,6 @@ if(!defined('RooCMS')) {roocms_protect();}
  */
 trait GDExtends {
 
-	public array $msize = ['w' => 1200, 'h' => 1200];	# Max sizes saved image
-	public array $tsize = ['w' => 267, 'h' => 150];		# Thumbnail default sizes
-
 
 	/**
 	 * Check extension on gif or png
