@@ -927,6 +927,59 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+    patch:
+      summary: Update multiple settings
+      description: Update multiple settings at once with validation
+      tags:
+        - Settings
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties:
+                description: Setting key-value pairs to update
+                oneOf:
+                  - type: string
+                  - type: integer
+                  - type: boolean
+              example:
+                site_name: "Updated Site"
+                site_domain: "updated.com"
+      responses:
+        '200':
+          description: Settings updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+        '400':
+          description: Invalid request data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Authentication required
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Admin role required
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '422':
+          description: Validation failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValidationErrorResponse'
   /v1/admin/settings/group-{group}:
     get:
       summary: Get settings by group
@@ -1067,60 +1120,6 @@ paths:
                 $ref: '#/components/schemas/ErrorResponse'
         '404':
           description: Setting not found
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-        '422':
-          description: Validation failed
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ValidationErrorResponse'
-  /v1/admin/settings:
-    patch:
-      summary: Update multiple settings
-      description: Update multiple settings at once with validation
-      tags:
-        - Settings
-      security:
-        - bearerAuth: []
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              additionalProperties:
-                description: Setting key-value pairs to update
-                oneOf:
-                  - type: string
-                  - type: integer
-                  - type: boolean
-              example:
-                site_name: "Updated Site"
-                site_domain: "updated.com"
-      responses:
-        '200':
-          description: Settings updated successfully
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/SuccessResponse'
-        '400':
-          description: Invalid request data
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-        '401':
-          description: Authentication required
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-        '403':
-          description: Admin role required
           content:
             application/json:
               schema:
@@ -1897,31 +1896,6 @@ components:
         details:
           type: object
           description: Additional error details
-    ValidationErrorResponse:
-      type: object
-      properties:
-        error:
-          type: boolean
-          example: true
-        message:
-          type: string
-          example: Validation failed
-        status_code:
-          type: integer
-          example: 422
-        timestamp:
-          type: string
-          format: date-time
-        details:
-          type: object
-          properties:
-            validation_errors:
-              type: object
-              additionalProperties:
-                type: string
-              example:
-                email: Invalid email format
-                password: Password must be at least 6 characters
     UsersListResponse:
       type: object
       properties:
