@@ -40,6 +40,7 @@ api/
     ├── controller_base.php          # Base controller
     ├── controller_csp.php           # Content Security Policy controller
     ├── controller_health.php        # Health check controller
+    ├── controller_media.php         # Media files controller
     ├── controller_users.php         # Users controller
     ├── docs/                        # API docs
     │   ├── postman.json             # Postman collection
@@ -68,6 +69,8 @@ roocms/class/
 ├── class_defaultControllerFactory.php  # Default controller factory
 ├── class_defaultMiddlewareFactory.php  # Default middleware factory
 ├── class_dependencyContainer.php       # Dependency injection container
+├── class_gd.php                        # GD image processing library
+├── class_media.php                     # Media file management system
 ├── class_templateRendererPhp.php       # PHP template renderer
 ├── class_templateRendererHtml.php      # HTML template renderer
 ├── class_themeConfig.php               # Theme configuration implementation
@@ -87,7 +90,13 @@ roocms/class/
 ├── trait_dbBackuperPSQL.php            # PostgreSQL database backup operations
 ├── trait_dbExtends.php                 # DB extends trait
 ├── trait_dbLogger.php                  # Database logging trait
-└── trait_debugLog.php                  # Debug log trait
+├── trait_debugLog.php                  # Debug log trait
+├── trait_gdExtends.php                 # GD library extensions
+├── trait_mediaArch.php                 # Archive media processing
+├── trait_mediaAudio.php                # Audio media processing
+├── trait_mediaDoc.php                  # Document media processing
+├── trait_mediaImage.php                # Image media processing
+└── trait_mediaVideo.php                # Video media processing
 ```
 
 ### Configuration (`/roocms/config/`)
@@ -138,6 +147,7 @@ roocms/services/
 ├── authentication.php      # Authentication service
 ├── backup.php              # Database backup service
 ├── email.php               # Email service
+├── media.php               # Media file management service
 ├── registration.php        # User registration service
 ├── siteSettings.php        # Site settings service
 ├── user.php                # User service
@@ -175,6 +185,9 @@ $container->register(RegistrationService::class, RegistrationService::class, tru
 $container->register(EmailService::class, EmailService::class, true); // Singleton
 $container->register(UserRecoveryService::class, UserRecoveryService::class, true); // Singleton
 $container->register(UserValidationService::class, UserValidationService::class, true); // Singleton
+$container->register(GD::class, GD::class, true); // Singleton
+$container->register(Media::class, Media::class, true); // Singleton
+$container->register(MediaService::class, MediaService::class, true); // Singleton
 
 // Template renderers and themes
 $container->register(TemplateRendererPhp::class, TemplateRendererPhp::class, true);
@@ -386,6 +399,70 @@ This architecture ensures:
 - `--exclude-tables` - Comma-separated list of tables to exclude
 - `--structure-only` - Backup table structure without data
 - `--data-only` - Backup data without table structure
+
+### Media Management System
+
+Comprehensive media file management system with support for multiple file types, automatic processing, and variant generation.
+
+#### Components
+- **Media class** (`class_media.php`) - Core media functionality with trait-based architecture for different file types
+- **MediaImage trait** (`trait_mediaImage.php`) - Image processing with GD integration, thumbnail generation, and watermarking
+- **MediaDocument trait** (`trait_mediaDoc.php`) - Document processing for PDF, TXT, and other document formats
+- **MediaVideo trait** (`trait_mediaVideo.php`) - Video metadata extraction using ffprobe
+- **MediaAudio trait** (`trait_mediaAudio.php`) - Audio metadata extraction with ID3 tag support
+- **MediaArch trait** (`trait_mediaArch.php`) - Archive processing for ZIP, TAR, GZ formats
+- **GD class** (`class_gd.php`) - Advanced image processing library with resize, crop, watermark capabilities
+- **MediaService** (`services/media.php`) - Business logic layer with validation, error handling, and file management
+- **API controller** (`controller_media.php`) - RESTful API for media operations
+- **Storage structure** (`/up/files/`) - Organized file storage by media type
+
+#### Key Features
+- **Multi-format Support** - Images (JPEG, PNG, GIF, WebP), Documents (PDF, TXT, DOC), Video (MP4, AVI, MOV), Audio (MP3, WAV, OGG), Archives (ZIP, TAR, GZ)
+- **Automatic Processing** - Metadata extraction, thumbnail generation, file validation, and type detection
+- **Variant Generation** - Multiple image sizes (thumb, small, medium, large) with overflow/contain modes
+- **Advanced Image Processing** - Resize, crop, watermark, quality optimization via GD library
+- **File Validation** - MIME type checking, file size limits, upload error handling, sanitization
+- **Database Integration** - Complete file metadata storage with relationships and variants tracking
+- **API Interface** - Full CRUD operations via RESTful endpoints with authentication
+- **Business Logic Separation** - Clean architecture with service layer for validation and Media class for core operations
+
+#### Architecture
+
+The media system uses a modular trait-based architecture for clean separation of concerns:
+
+```
+Media (main class)
+├── use MediaImage                 # Image processing (JPEG, PNG, GIF, WebP)
+├── use MediaDocument              # Document processing (PDF, TXT, DOC)
+├── use MediaVideo                 # Video processing (MP4, AVI, MOV)
+├── use MediaAudio                 # Audio processing (MP3, WAV, OGG)
+└── use MediaArch                  # Archive processing (ZIP, TAR, GZ)
+
+GD (image processing)
+├── use GdExtends                  # Extended GD functionality
+└── SiteSettings integration       # Configuration and watermark settings
+
+MediaService (business layer)
+├── File validation                # MIME types, size limits, upload errors
+├── Business rules                 # User permissions, storage quotas
+├── Error handling                 # Exception management and logging
+└── Data formatting               # Response formatting and pagination
+```
+
+#### API Endpoints
+- `GET /v1/media` - List files with pagination and filtering
+- `GET /v1/media/{id}` - Get file metadata
+- `GET /v1/media/{id}/file` - Download file or variant
+- `POST /v1/media/upload` - Upload new file (authenticated)
+- `PUT /v1/media/{id}` - Update metadata (authenticated)
+- `DELETE /v1/media/{id}` - Delete file and variants (authenticated)
+
+#### File Processing Flow
+1. **Upload** - File validation, MIME type detection, sanitization
+2. **Storage** - UUID generation, organized directory structure
+3. **Processing** - Metadata extraction, thumbnail generation (images)
+4. **Database** - Store file info, metadata, and variant relationships
+5. **Variants** - Generate multiple sizes for images with different modes
 
 ### Dependency Injection architecture
 

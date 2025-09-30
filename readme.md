@@ -53,6 +53,9 @@ System requirements
 	`curl`
 	`openssl`
 	`json`
+	`fileinfo`
+	`zip`
+	`exif`
 	
 Recommended software
 --------------------

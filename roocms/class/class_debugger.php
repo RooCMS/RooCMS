@@ -39,7 +39,7 @@ class Debugger {
 	public  $exist_errors			= false;
 
 	# requirement php extension
-	private $required_extensions	= ['Core', 'pdo', 'standard', 'mbstring', 'calendar', 'date', 'pcre', 'gd', 'curl', 'openssl', 'json'];
+	private $required_extensions	= ['Core', 'pdo', 'standard', 'mbstring', 'calendar', 'date', 'pcre', 'gd', 'curl', 'openssl', 'json', 'fileinfo', 'zip', 'exif'];
 
 	# guard to prevent double shutdown registration
 	private bool $shutdown_registered = false;

@@ -51,7 +51,7 @@ function check_php_version(): array {
  * @return array{check: string, value: string, status: bool, message: string}[]
  */
 function check_php_extensions(): array {
-    $required_extensions = ['Core', 'pdo', 'standard', 'mbstring', 'calendar', 'date', 'pcre', 'gd', 'curl', 'openssl', 'json'];
+    $required_extensions = ['Core', 'pdo', 'standard', 'mbstring', 'calendar', 'date', 'pcre', 'gd', 'curl', 'openssl', 'json', 'fileinfo', 'zip', 'exif'];
 
     $loaded_extensions = get_loaded_extensions();
     $results = [];

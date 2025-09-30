@@ -1200,6 +1200,189 @@
           "}"
         ]
       }
+    },
+    {
+      "name": "Media",
+      "item": [
+        {
+          "name": "Get Media Files List",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/v1/media?page=1&limit=20&type=image&status=ready",
+              "host": ["{{base_url}}"],
+              "path": ["v1", "media"],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1",
+                  "description": "Page number (1-based)"
+                },
+                {
+                  "key": "limit", 
+                  "value": "20",
+                  "description": "Items per page (1-100)"
+                },
+                {
+                  "key": "type",
+                  "value": "image",
+                  "description": "Filter by media type",
+                  "disabled": true
+                },
+                {
+                  "key": "status",
+                  "value": "ready", 
+                  "description": "Filter by status",
+                  "disabled": true
+                },
+                {
+                  "key": "user_id",
+                  "value": "42",
+                  "description": "Filter by user ID",
+                  "disabled": true
+                },
+                {
+                  "key": "search",
+                  "value": "document",
+                  "description": "Search in filename and description",
+                  "disabled": true
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Media File Info",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/v1/media/123",
+              "host": ["{{base_url}}"],
+              "path": ["v1", "media", "123"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Download Media File",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/v1/media/123/file?variant=thumb",
+              "host": ["{{base_url}}"],
+              "path": ["v1", "media", "123", "file"],
+              "query": [
+                {
+                  "key": "variant",
+                  "value": "thumb",
+                  "description": "Image variant (for images only)",
+                  "disabled": true
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Upload Media File",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{access_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "file",
+                  "type": "file",
+                  "src": "/path/to/file.jpg"
+                },
+                {
+                  "key": "description",
+                  "value": "My uploaded file",
+                  "type": "text",
+                  "disabled": true
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{base_url}}/v1/media/upload",
+              "host": ["{{base_url}}"],
+              "path": ["v1", "media", "upload"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Media File Metadata",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{access_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"original_name\": \"Updated Document.pdf\",\n  \"description\": \"Updated description\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/v1/media/123",
+              "host": ["{{base_url}}"],
+              "path": ["v1", "media", "123"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Media File",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{access_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/v1/media/123",
+              "host": ["{{base_url}}"],
+              "path": ["v1", "media", "123"]
+            }
+          },
+          "response": []
+        }
+      ],
+      "description": "Media file management and operations"
     }
   ]
 }

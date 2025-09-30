@@ -45,8 +45,11 @@ class MediaService {
 	 */
 	public function upload_file(array $file, ?int $user_id = null, array $options = []): int {
 		
-		# Validate upload
-		$this->validate_upload($file);
+		# Validate basic file requirements using Media class
+		$file_info = $this->media->validate_uploaded_file($file);
+		
+		# Validate business rules (file size limits, MIME types)
+		$this->validate_upload($file, $file_info);
 		
 		# Upload through Media class
 		$media_id = $this->media->upload($file, $user_id, $options);
@@ -60,81 +63,29 @@ class MediaService {
 
 
 	/**
-	 * Validate uploaded file
+	 * Validate uploaded file for business rules
 	 * 
 	 * @param array $file File data from $_FILES
+	 * @param array $file_info File info from Media::validate_uploaded_file()  
 	 * @throws DomainException
 	 */
-	private function validate_upload(array $file): void {
+	private function validate_upload(array $file, array $file_info): void {
+		$media_type = $file_info['media_type'];
+		$mime_type = $file_info['mime_type'];
 		
-		# Check if file was uploaded
-		if(!isset($file['tmp_name']) || !is_uploaded_file($file['tmp_name'])) {
-			throw new DomainException('No file uploaded', 400);
-		}
-		
-		# Check for upload errors
-		if($file['error'] !== UPLOAD_ERR_OK) {
-			$error_messages = [
-				UPLOAD_ERR_INI_SIZE => 'File exceeds upload_max_filesize',
-				UPLOAD_ERR_FORM_SIZE => 'File exceeds MAX_FILE_SIZE',
-				UPLOAD_ERR_PARTIAL => 'File was only partially uploaded',
-				UPLOAD_ERR_NO_FILE => 'No file was uploaded',
-				UPLOAD_ERR_NO_TMP_DIR => 'Missing temporary folder',
-				UPLOAD_ERR_CANT_WRITE => 'Failed to write file to disk',
-				UPLOAD_ERR_EXTENSION => 'Upload stopped by extension'
-			];
-			
-			$message = $error_messages[$file['error']] ?? 'Unknown upload error';
-			throw new DomainException($message, 400);
-		}
-		
-		# Check file size
-		if($file['size'] <= 0) {
-			throw new DomainException('File is empty', 400);
-		}
-		
-		# Get MIME type
-		$mime_type = mime_content_type($file['tmp_name']);
-		$extension_raw = pathinfo($file['name'], PATHINFO_EXTENSION);
-		$extension = is_string($extension_raw) ? strtolower($extension_raw) : '';
-		
-		# Determine media type
-		$media_type = $this->determine_media_type($mime_type, $extension);
-		
-		# Check file size limits
+		# Check file size limits (business rule)
 		$max_size = $this->media->get_max_file_size($media_type);
 		if($file['size'] > $max_size) {
 			$max_size_mb = round($max_size / 1048576, 2);
 			throw new DomainException("File size exceeds {$max_size_mb} MB limit", 413);
 		}
 		
-		# Validate MIME type
+		# Validate MIME type (business rule)
 		$all_mime_types = $this->media->get_allowed_mime_types();
 		$allowed_mimes = array_merge(...array_values($all_mime_types));
 		if(!in_array($mime_type, $allowed_mimes, true)) {
 			throw new DomainException('File type not allowed', 415);
 		}
-	}
-
-
-	/**
-	 * Determine media type by MIME and extension
-	 * 
-	 * @param string $mime_type MIME type
-	 * @param string $extension File extension
-	 * @return string Media type
-	 */
-	private function determine_media_type(string $mime_type, string $extension): string {
-		
-		$all_mime_types = $this->media->get_allowed_mime_types();
-		
-		foreach($all_mime_types as $type => $mimes) {
-			if(in_array($mime_type, $mimes, true)) {
-				return $type;
-			}
-		}
-		
-		return 'other';
 	}
 
 
@@ -381,11 +332,11 @@ class MediaService {
 			$stats['by_type'][$row['media_type']] = [
 				'count' => (int)$row['count'],
 				'size' => (int)$row['total_size'],
-				'size_human' => $this->format_file_size((int)$row['total_size'])
+				'size_human' => $this->media->format_file_size((int)$row['total_size'])
 			];
 		}
 		
-		$stats['total_size_human'] = $this->format_file_size($stats['total_size']);
+		$stats['total_size_human'] = $this->media->format_file_size($stats['total_size']);
 		
 		return $stats;
 	}
@@ -457,5 +408,216 @@ class MediaService {
 	 */
 	public function get_max_file_size(string $media_type): int {
 		return $this->media->get_max_file_size($media_type);
+	}
+
+
+	/**
+	 * Get media list with filters and pagination
+	 * 
+	 * @param array $filters Filters array
+	 * @param int $page Page number
+	 * @param int $per_page Items per page
+	 * @return array List of media with formatted data
+	 */
+	public function get_media_list(array $filters = [], int $page = 1, int $per_page = 20): array {
+		$offset = ($page - 1) * $per_page;
+		
+		# Build WHERE clause
+		$where_conditions = [];
+		$params = [];
+		
+		if(isset($filters['media_type'])) {
+			$where_conditions[] = 'media_type = :media_type';
+			$params['media_type'] = $filters['media_type'];
+		}
+		
+		if(isset($filters['status'])) {
+			$where_conditions[] = 'status = :status';
+			$params['status'] = $filters['status'];
+		}
+		
+		if(isset($filters['user_id'])) {
+			$where_conditions[] = 'user_id = :user_id';
+			$params['user_id'] = $filters['user_id'];
+		}
+		
+		if(isset($filters['search'])) {
+			$where_conditions[] = '(original_name LIKE :search OR description LIKE :search)';
+			$params['search'] = '%' . $filters['search'] . '%';
+		}
+		
+		# Build SQL
+		$sql = 'SELECT * FROM ' . TABLE_MEDIA;
+		
+		if(!empty($where_conditions)) {
+			$sql .= ' WHERE ' . implode(' AND ', $where_conditions);
+		}
+		
+		$sql .= ' ORDER BY created_at DESC LIMIT :limit OFFSET :offset';
+		$params['limit'] = $per_page;
+		$params['offset'] = $offset;
+		
+		$results = $this->db->fetch_all($sql, $params);
+		
+		# Process results - format data
+		return array_map(function($media) {
+			return $this->format_media_data($media);
+		}, $results);
+	}
+
+
+	/**
+	 * Get total count of media files with filters
+	 * 
+	 * @param array $filters Filters array
+	 * @return int Total count
+	 */
+	public function get_media_count(array $filters = []): int {
+		# Build WHERE clause
+		$where_conditions = [];
+		$params = [];
+		
+		if(isset($filters['media_type'])) {
+			$where_conditions[] = 'media_type = :media_type';
+			$params['media_type'] = $filters['media_type'];
+		}
+		
+		if(isset($filters['status'])) {
+			$where_conditions[] = 'status = :status';
+			$params['status'] = $filters['status'];
+		}
+		
+		if(isset($filters['user_id'])) {
+			$where_conditions[] = 'user_id = :user_id';
+			$params['user_id'] = $filters['user_id'];
+		}
+		
+		if(isset($filters['search'])) {
+			$where_conditions[] = '(original_name LIKE :search OR description LIKE :search)';
+			$params['search'] = '%' . $filters['search'] . '%';
+		}
+		
+		# Build SQL
+		$sql = 'SELECT COUNT(*) as total FROM ' . TABLE_MEDIA;
+		
+		if(!empty($where_conditions)) {
+			$sql .= ' WHERE ' . implode(' AND ', $where_conditions);
+		}
+		
+		$result = $this->db->fetch_assoc($sql, $params);
+		return (int)$result['total'];
+	}
+
+
+	/**
+	 * Get file with formatted data
+	 * 
+	 * @param int $id Media ID
+	 * @return array|null Formatted media data or null
+	 */
+	public function get_file_formatted(int $id): ?array {
+		$media = $this->media->get_by_id($id);
+		
+		if(!$media) {
+			return null;
+		}
+		
+		# Get variants
+		$media['variants'] = $this->media->get_variants($id);
+		
+		return $this->format_media_data($media);
+	}
+
+
+	/**
+	 * Update media metadata
+	 * 
+	 * @param int $id Media ID
+	 * @param array $data Data to update
+	 * @return array Updated media data
+	 * @throws DomainException
+	 */
+	public function update_media_metadata(int $id, array $data): array {
+		# Check if media exists
+		$media = $this->media->get_by_id($id);
+		if(!$media) {
+			throw new DomainException('Media not found', 404);
+		}
+		
+		# Validate allowed fields
+		$allowed_fields = ['original_name', 'description', 'tags', 'status'];
+		$update_data = [];
+		
+		foreach($allowed_fields as $field) {
+			if(isset($data[$field])) {
+				$update_data[$field] = $data[$field];
+			}
+		}
+		
+		# Validate status if provided
+		if(isset($update_data['status']) && !in_array($update_data['status'], Media::STATUSES, true)) {
+			throw new DomainException('Invalid status value', 400);
+		}
+		
+		if(empty($update_data)) {
+			throw new DomainException('No valid fields to update', 400);
+		}
+		
+		# Add updated timestamp
+		$update_data['updated_at'] = time();
+		
+		# Update media record
+		$result = $this->db->update(TABLE_MEDIA)
+			->data($update_data)
+			->where('id', '=', $id)
+			->execute();
+		
+		if($result->rowCount() === 0) {
+			throw new DomainException('Failed to update media', 500);
+		}
+		
+		# Return updated data
+		return $this->get_file_formatted($id);
+	}
+
+
+	/**
+	 * Get variant file info
+	 * 
+	 * @param int $media_id Media ID
+	 * @param string $variant_type Variant type
+	 * @return array|null Variant info or null
+	 */
+	public function get_variant_file(int $media_id, string $variant_type): ?array {
+		$sql = 'SELECT * FROM ' . TABLE_MEDIA_VARS . ' WHERE media_id = :media_id AND variant_type = :variant_type LIMIT 1';
+		$result = $this->db->fetch_assoc($sql, [
+			'media_id' => $media_id,
+			'variant_type' => $variant_type
+		]);
+		
+		return $result ?: null;
+	}
+
+
+	/**
+	 * Format media data for output
+	 * 
+	 * @param array $media Raw media data
+	 * @return array Formatted media data
+	 */
+	private function format_media_data(array $media): array {
+		# Format file size using Media class method
+		$media['file_size_human'] = $this->media->format_file_size($media['file_size']);
+		
+		# Format timestamps
+		$media['created_at_formatted'] = date('Y-m-d H:i:s', $media['created_at']);
+		$media['updated_at_formatted'] = date('Y-m-d H:i:s', $media['updated_at']);
+		
+		# Decode metadata if exists
+		if(!empty($media['metadata'])) {
+			$media['metadata'] = json_decode($media['metadata'], true);
+		}
+		
+		return $media;
 	}
 }

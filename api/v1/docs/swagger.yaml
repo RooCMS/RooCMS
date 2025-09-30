@@ -1240,6 +1240,291 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+  /v1/media:
+    get:
+      summary: Get media files list
+      description: Get paginated list of media files with optional filtering
+      tags:
+        - Media
+      parameters:
+        - name: page
+          in: query
+          description: Page number (1-based)
+          required: false
+          schema:
+            type: integer
+            minimum: 1
+            default: 1
+        - name: limit
+          in: query
+          description: Items per page (1-100)
+          required: false
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+            default: 20
+        - name: type
+          in: query
+          description: Filter by media type
+          required: false
+          schema:
+            type: string
+            enum: [image, document, video, audio, archive, other]
+        - name: status
+          in: query
+          description: Filter by status
+          required: false
+          schema:
+            type: string
+            enum: [uploaded, processing, ready, error, deleted]
+        - name: user_id
+          in: query
+          description: Filter by user ID
+          required: false
+          schema:
+            type: integer
+        - name: search
+          in: query
+          description: Search in filename and description
+          required: false
+          schema:
+            type: string
+            maxLength: 255
+      responses:
+        '200':
+          description: Success response with media files list
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MediaListResponse'
+        '400':
+          description: Invalid parameters
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /v1/media/{id}:
+    get:
+      summary: Get media file info
+      description: Get detailed information about specific media file
+      tags:
+        - Media
+      parameters:
+        - name: id
+          in: path
+          description: Media file ID
+          required: true
+          schema:
+            type: integer
+            minimum: 1
+      responses:
+        '200':
+          description: Success response with media file info
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MediaFileResponse'
+        '404':
+          description: Media file not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    put:
+      summary: Update media file metadata
+      description: Update media file name and description (authenticated users only)
+      tags:
+        - Media
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          description: Media file ID
+          required: true
+          schema:
+            type: integer
+            minimum: 1
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MediaUpdateRequest'
+      responses:
+        '200':
+          description: Media file updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MediaFileResponse'
+        '400':
+          description: Invalid request data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Authentication required
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Access denied
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Media file not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    delete:
+      summary: Delete media file
+      description: Delete media file and all its variants (authenticated users only)
+      tags:
+        - Media
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          description: Media file ID
+          required: true
+          schema:
+            type: integer
+            minimum: 1
+      responses:
+        '200':
+          description: Media file deleted successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+        '401':
+          description: Authentication required
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Access denied
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Media file not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /v1/media/{id}/file:
+    get:
+      summary: Download media file
+      description: Download or get media file content
+      tags:
+        - Media
+      parameters:
+        - name: id
+          in: path
+          description: Media file ID
+          required: true
+          schema:
+            type: integer
+            minimum: 1
+        - name: variant
+          in: query
+          description: Image variant (for images only)
+          required: false
+          schema:
+            type: string
+            enum: [thumb, small, medium, large, overflow, contain]
+      responses:
+        '200':
+          description: File content
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
+            image/*:
+              schema:
+                type: string
+                format: binary
+            video/*:
+              schema:
+                type: string
+                format: binary
+            audio/*:
+              schema:
+                type: string
+                format: binary
+            application/*:
+              schema:
+                type: string
+                format: binary
+        '404':
+          description: Media file not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /v1/media/upload:
+    post:
+      summary: Upload media file
+      description: Upload new media file (authenticated users only)
+      tags:
+        - Media
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/MediaUploadRequest'
+      responses:
+        '201':
+          description: File uploaded successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MediaFileResponse'
+        '400':
+          description: Invalid file or request data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Authentication required
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '413':
+          description: File too large
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '415':
+          description: Unsupported media type
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Upload failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
 components:
   securitySchemes:
     bearerAuth:
@@ -2176,6 +2461,182 @@ components:
               example:
                 site_name: "Value exceeds maximum length of 255 characters"
                 mailer_from: "Value must be a valid email address"
+    MediaListResponse:
+      type: object
+      properties:
+        error:
+          type: boolean
+          example: false
+        message:
+          type: string
+          example: "Media files retrieved successfully"
+        status_code:
+          type: integer
+          example: 200
+        timestamp:
+          type: string
+          format: date-time
+          example: "2025-01-15 12:00:00"
+        data:
+          type: object
+          properties:
+            files:
+              type: array
+              items:
+                $ref: '#/components/schemas/MediaFile'
+            pagination:
+              type: object
+              properties:
+                page:
+                  type: integer
+                  example: 1
+                limit:
+                  type: integer
+                  example: 20
+                total:
+                  type: integer
+                  example: 150
+                pages:
+                  type: integer
+                  example: 8
+    MediaFileResponse:
+      type: object
+      properties:
+        error:
+          type: boolean
+          example: false
+        message:
+          type: string
+          example: "Media file retrieved successfully"
+        status_code:
+          type: integer
+          example: 200
+        timestamp:
+          type: string
+          format: date-time
+          example: "2025-01-15 12:00:00"
+        data:
+          $ref: '#/components/schemas/MediaFile'
+    MediaFile:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 123
+        uuid:
+          type: string
+          example: "550e8400-e29b-41d4-a716-446655440000"
+        filename:
+          type: string
+          example: "document.pdf"
+        original_name:
+          type: string
+          example: "My Document.pdf"
+        file_path:
+          type: string
+          example: "/up/files/document/550e8400-e29b-41d4-a716-446655440000.pdf"
+        file_size:
+          type: integer
+          example: 1048576
+        file_size_formatted:
+          type: string
+          example: "1.00 MB"
+        mime_type:
+          type: string
+          example: "application/pdf"
+        media_type:
+          type: string
+          enum: [image, document, video, audio, archive, other]
+          example: "document"
+        status:
+          type: string
+          enum: [uploaded, processing, ready, error, deleted]
+          example: "ready"
+        user_id:
+          type: integer
+          nullable: true
+          example: 42
+        description:
+          type: string
+          nullable: true
+          example: "Important document"
+        metadata:
+          type: object
+          nullable: true
+          additionalProperties: true
+          example:
+            pages: 10
+            title: "Document Title"
+            author: "John Doe"
+        created_at:
+          type: integer
+          example: 1705320000
+        updated_at:
+          type: integer
+          example: 1705320000
+        variants:
+          type: array
+          nullable: true
+          items:
+            $ref: '#/components/schemas/MediaVariant'
+    MediaVariant:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 456
+        media_id:
+          type: integer
+          example: 123
+        variant_type:
+          type: string
+          enum: [thumb, small, medium, large, overflow, contain]
+          example: "thumb"
+        file_path:
+          type: string
+          example: "/up/files/image/thumb_550e8400-e29b-41d4-a716-446655440000.jpg"
+        file_size:
+          type: integer
+          example: 51200
+        width:
+          type: integer
+          nullable: true
+          example: 150
+        height:
+          type: integer
+          nullable: true
+          example: 150
+        created_at:
+          type: integer
+          example: 1705320000
+    MediaUploadRequest:
+      type: object
+      required:
+        - file
+      properties:
+        file:
+          type: string
+          format: binary
+          description: File to upload
+        description:
+          type: string
+          maxLength: 500
+          description: Optional file description
+          example: "My uploaded file"
+    MediaUpdateRequest:
+      type: object
+      properties:
+        original_name:
+          type: string
+          maxLength: 255
+          description: New filename
+          example: "Updated Document.pdf"
+        description:
+          type: string
+          maxLength: 500
+          nullable: true
+          description: File description
+          example: "Updated description"
 tags:
   - name: API Info
     description: API information
@@ -2193,3 +2654,5 @@ tags:
     description: Database backup and restore operations
   - name: Admin Settings
     description: System settings management
+  - name: Media
+    description: Media file management and operations

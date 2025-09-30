@@ -38,6 +38,25 @@ class Media {
     # Number of files for MediaArch trait
     protected int $numFiles = 0;
 
+    # Media statuses
+    public const STATUSES = [
+        'uploaded',
+        'processing', 
+        'ready',
+        'error',
+        'deleted'
+    ];
+
+    # Media types
+    public const TYPES = [
+        'image',
+        'document',
+        'video', 
+        'audio',
+        'archive',
+        'other'
+    ];
+
     private const VARIANT_TYPES = [
         'thumbnail',
         'large',
@@ -203,6 +222,64 @@ class Media {
 
 
     /**
+     * Format file size to human readable format
+     * 
+     * @param int $bytes File size in bytes
+     * @return string Formatted file size
+     */
+    public function format_file_size(int $bytes): string {
+        $units = ['B', 'KB', 'MB', 'GB', 'TB'];
+        $power = $bytes > 0 ? floor(log($bytes, 1024)) : 0;
+        
+        return number_format($bytes / pow(1024, $power), 2) . ' ' . $units[$power];
+    }
+
+
+    /**
+     * Validate uploaded file basic requirements
+     * 
+     * @param array $file File data from $_FILES
+     * @return array Validated file info [mime_type, extension, media_type]
+     * @throws DomainException On validation failure
+     */
+    public function validate_uploaded_file(array $file): array {
+        # Check if file was uploaded
+        if(!isset($file['tmp_name']) || !is_uploaded_file($file['tmp_name'])) {
+            throw new DomainException('Invalid uploaded file', 400);
+        }
+        
+        # Check for upload errors
+        if($file['error'] !== UPLOAD_ERR_OK) {
+            throw new DomainException('File upload error: ' . $file['error'], 400);
+        }
+        
+        # Check file size
+        if($file['size'] <= 0) {
+            throw new DomainException('File is empty', 400);
+        }
+        
+        # Get MIME type
+        $mime_type = mime_content_type($file['tmp_name']);
+        if($mime_type === false) {
+            throw new DomainException('Cannot determine file type', 400);
+        }
+        
+        # Determine extension  
+        $extension_raw = pathinfo($file['name'], PATHINFO_EXTENSION);
+        $extension = is_string($extension_raw) ? strtolower($extension_raw) : '';
+        
+        # Determine media type
+        $media_type = $this->determine_media_type($mime_type, $extension);
+        
+        return [
+            'mime_type' => $mime_type,
+            'extension' => $extension, 
+            'media_type' => $media_type
+        ];
+    }
+
+
+    /**
      * Upload file to storage
      * 
      * @param array $file Uploaded file from $_FILES
@@ -212,21 +289,20 @@ class Media {
      */
     public function upload(array $file, ?int $user_id = null, array $options = []): int|false {
         
-        # Validate file
-        if(!isset($file['tmp_name']) || !is_uploaded_file($file['tmp_name'])) {
-            return false;
+        try {
+            # Validate file using centralized validation
+            $file_info = $this->validate_uploaded_file($file);
+            $mime_type = $file_info['mime_type'];
+            $extension = $file_info['extension'];
+            $media_type = $file_info['media_type'];
+        } catch(DomainException) {
+            return false;  # Media class returns false on failure
         }
 
         # Get file info
         $original_name = sanitize_filename($file['name']);
         $tmp_name = $file['tmp_name'];
         $file_size = $file['size'];
-        $mime_type = mime_content_type($tmp_name);
-        
-        # Determine media type and extension
-        $extension_raw = pathinfo($original_name, PATHINFO_EXTENSION);
-        $extension = is_string($extension_raw) ? strtolower($extension_raw) : '';
-        $media_type = $this->determine_media_type($mime_type, $extension);
         
         # Generate unique filename
         $uuid = $this->generate_uuid();

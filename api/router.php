@@ -37,6 +37,7 @@ spl_autoload_register(function(string $controller_name) {
         'BackupController'          => _API . '/v1/controller_backup.php',
         'AdminSettingsController'   => _API . '/v1/controller_adminSettings.php',
         'DebugController'           => _API . '/v1/controller_debug.php',
+        'MediaController'           => _API . '/v1/controller_media.php',
         'AuthMiddleware'            => _API . '/v1/middleware_auth.php',
         'RoleMiddleware'            => _API . '/v1/middleware_role.php'
     ];
@@ -55,13 +56,14 @@ spl_autoload_register(function(string $controller_name) {
 /**
  * Register controllers
  */
-$container->register(\CspController::class, \CspController::class);
-$container->register(\HealthController::class, \HealthController::class);
-$container->register(\UsersController::class, \UsersController::class);
-$container->register(\AuthController::class, \AuthController::class);
-$container->register(\AdminSettingsController::class, \AdminSettingsController::class);
-$container->register(\BackupController::class, \BackupController::class);
-$container->register(\DebugController::class, \DebugController::class);
+$container->register(CspController::class, CspController::class);
+$container->register(HealthController::class, HealthController::class);
+$container->register(UsersController::class, UsersController::class);
+$container->register(AuthController::class, AuthController::class);
+$container->register(AdminSettingsController::class, AdminSettingsController::class);
+$container->register(BackupController::class, BackupController::class);
+$container->register(DebugController::class, DebugController::class);
+$container->register(MediaController::class, MediaController::class);
 
 /**
  * Create controller and middleware factories and router instance
@@ -136,6 +138,14 @@ $api->get('/v1/backup/status', 'BackupController@status', ['AuthMiddleware', 'Ro
 // Debug endpoints (admin only)
 $api->post('/v1/admin/debug/clear', 'DebugController@clear', ['AuthMiddleware', 'RoleMiddleware@admin_access']);
 
+// Media endpoints
+$api->get('/v1/media', 'MediaController@index'); // List media files (public with filters)
+$api->get('/v1/media/{id}', 'MediaController@show'); // Get media info (public)
+$api->get('/v1/media/{id}/file', 'MediaController@download'); // Download file (public)
+$api->post('/v1/media/upload', 'MediaController@upload', ['AuthMiddleware']); // Upload file (authenticated)
+$api->put('/v1/media/{id}', 'MediaController@update', ['AuthMiddleware']); // Update metadata (authenticated)
+$api->delete('/v1/media/{id}', 'MediaController@delete', ['AuthMiddleware']); // Delete file (authenticated)
+
 // Future routes will be added here
 // Example:
 // Admin endpoints (require authentication + admin role)
@@ -179,6 +189,12 @@ $api->get('/', function() {
             'users_delete_me' => 'DELETE /api/v1/users/me',
             'users_update_user' => 'PUT /api/v1/users/{user_id}',
             'users_delete_user' => 'DELETE /api/v1/users/{user_id}',
+            'media_index' => 'GET /api/v1/media',	
+            'media_show' => 'GET /api/v1/media/{id}',
+            'media_download' => 'GET /api/v1/media/{id}/file',
+            'media_upload' => 'POST /api/v1/media/upload',
+            'media_update' => 'PUT /api/v1/media/{id}',
+            'media_delete' => 'DELETE /api/v1/media/{id}',
             'backup_create' => 'POST /api/v1/backup/create',
             'backup_restore' => 'POST /api/v1/backup/restore',
             'backup_list' => 'GET /api/v1/backup/list',
