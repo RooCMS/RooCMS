@@ -64,7 +64,10 @@ trait MediaVideo {
                 $update_data['metadata'] = json_encode($metadata);
             }
             
-            $this->db->query_update('TABLE_MEDIA', $update_data, ['id' => $media_id]);
+            $this->db->update('TABLE_MEDIA')
+                ->data($update_data)
+                ->where('id', '=', $media_id)
+                ->execute();
             
             return true;
             
@@ -339,7 +342,7 @@ trait MediaVideo {
                   AND duration <= :max_duration 
                   ORDER BY created_at DESC";
         
-        return $this->db->query_execute($query, [
+        return $this->db->fetch_all($query, [
             'min_duration' => $min_duration,
             'max_duration' => $max_duration
         ]);
@@ -361,7 +364,7 @@ trait MediaVideo {
                   AND height >= :min_height 
                   ORDER BY created_at DESC";
         
-        return $this->db->query_execute($query, [
+        return $this->db->fetch_all($query, [
             'min_width' => $min_width,
             'min_height' => $min_height
         ]);

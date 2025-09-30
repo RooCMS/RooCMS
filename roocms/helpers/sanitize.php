@@ -277,8 +277,12 @@ function sanitize_filename(string $filename): string {
     
     # Limit length
     if(strlen($filename) > 255) {
-        $ext = pathinfo($filename, PATHINFO_EXTENSION);
-        $name = pathinfo($filename, PATHINFO_FILENAME);
+        $ext_raw = pathinfo($filename, PATHINFO_EXTENSION);
+        $name_raw = pathinfo($filename, PATHINFO_FILENAME);
+        
+        $ext = is_string($ext_raw) ? $ext_raw : '';
+        $name = is_string($name_raw) ? $name_raw : 'file';
+        
         $filename = substr($name, 0, 255 - strlen($ext) - 1) . '.' . $ext;
     }
     

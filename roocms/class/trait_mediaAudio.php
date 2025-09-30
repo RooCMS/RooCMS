@@ -56,7 +56,10 @@ trait MediaAudio {
                 $update_data['metadata'] = json_encode($metadata);
             }
             
-            $this->db->query_update('TABLE_MEDIA', $update_data, ['id' => $media_id]);
+            $this->db->update('TABLE_MEDIA')
+                ->data($update_data)
+                ->where('id', '=', $media_id)
+                ->execute();
             
             return true;
             
@@ -301,9 +304,8 @@ trait MediaAudio {
     public function get_audio_by_artist(string $artist): array {
         
         # Get all audio files
-        $audio_files = $this->db->query_fetch_all('TABLE_MEDIA', [
-            'media_type' => 'audio'
-        ]);
+        $sql = "SELECT * FROM " . TABLE_MEDIA . " WHERE media_type = :media_type";
+        $audio_files = $this->db->fetch_all($sql, ['media_type' => 'audio']);
         
         $results = [];
         
@@ -332,9 +334,8 @@ trait MediaAudio {
     public function get_audio_by_album(string $album): array {
         
         # Get all audio files
-        $audio_files = $this->db->query_fetch_all('TABLE_MEDIA', [
-            'media_type' => 'audio'
-        ]);
+        $sql = "SELECT * FROM " . TABLE_MEDIA . " WHERE media_type = :media_type";
+        $audio_files = $this->db->fetch_all($sql, ['media_type' => 'audio']);
         
         $results = [];
         
@@ -363,9 +364,8 @@ trait MediaAudio {
     public function get_audio_by_genre(string $genre): array {
         
         # Get all audio files
-        $audio_files = $this->db->query_fetch_all('TABLE_MEDIA', [
-            'media_type' => 'audio'
-        ]);
+        $sql = "SELECT * FROM " . TABLE_MEDIA . " WHERE media_type = :media_type";
+        $audio_files = $this->db->fetch_all($sql, ['media_type' => 'audio']);
         
         $results = [];
         
@@ -393,9 +393,8 @@ trait MediaAudio {
     public function get_all_artists(): array {
         
         # Get all audio files
-        $audio_files = $this->db->query_fetch_all('TABLE_MEDIA', [
-            'media_type' => 'audio'
-        ]);
+        $sql = "SELECT * FROM " . TABLE_MEDIA . " WHERE media_type = :media_type";
+        $audio_files = $this->db->fetch_all($sql, ['media_type' => 'audio']);
         
         $artists = [];
         
@@ -425,9 +424,8 @@ trait MediaAudio {
     public function get_all_albums(): array {
         
         # Get all audio files
-        $audio_files = $this->db->query_fetch_all('TABLE_MEDIA', [
-            'media_type' => 'audio'
-        ]);
+        $sql = "SELECT * FROM " . TABLE_MEDIA . " WHERE media_type = :media_type";
+        $audio_files = $this->db->fetch_all($sql, ['media_type' => 'audio']);
         
         $albums = [];
         

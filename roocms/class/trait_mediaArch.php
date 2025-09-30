@@ -45,10 +45,13 @@ trait MediaArch {
             
             # Update media metadata
             if(!empty($metadata)) {
-                $this->db->query_update('TABLE_MEDIA', [
-                    'metadata' => json_encode($metadata),
-                    'updated_at' => time()
-                ], ['id' => $media_id]);
+                $this->db->update('TABLE_MEDIA')
+                    ->data([
+                        'metadata' => json_encode($metadata),
+                        'updated_at' => time()
+                    ])
+                    ->where('id', '=', $media_id)
+                    ->execute();
             }
             
             return true;
@@ -417,9 +420,8 @@ trait MediaArch {
     public function get_archives_by_file_count(int $min_files, int $max_files): array {
         
         # Get all archives
-        $archives = $this->db->query_fetch_all('TABLE_MEDIA', [
-            'media_type' => 'archive'
-        ]);
+        $sql = "SELECT * FROM " . TABLE_MEDIA . " WHERE media_type = :media_type";
+        $archives = $this->db->fetch_all($sql, ['media_type' => 'archive']);
         
         $results = [];
         

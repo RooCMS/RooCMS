@@ -49,10 +49,13 @@ trait MediaDoc {
             
             # Update media metadata
             if(!empty($metadata)) {
-                $this->db->query_update('TABLE_MEDIA', [
-                    'metadata' => json_encode($metadata),
-                    'updated_at' => time()
-                ], ['id' => $media_id]);
+                $this->db->update('TABLE_MEDIA')
+                    ->data([
+                        'metadata' => json_encode($metadata),
+                        'updated_at' => time()
+                    ])
+                    ->where('id', '=', $media_id)
+                    ->execute();
             }
             
             return true;
@@ -292,9 +295,8 @@ trait MediaDoc {
     public function search_documents_by_content(string $search_term): array {
         
         # Get all text documents
-        $documents = $this->db->query_fetch_all('TABLE_MEDIA', [
-            'media_type' => 'document'
-        ]);
+        $sql = "SELECT * FROM " . TABLE_MEDIA . " WHERE media_type = :media_type";
+        $documents = $this->db->fetch_all($sql, ['media_type' => 'document']);
         
         $results = [];
         

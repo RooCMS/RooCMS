@@ -158,7 +158,8 @@ trait MediaImage {
      */
     public function get_image_variant(int $media_id, string $variant_type): array|false {
         
-        return $this->db->query_fetch_one('TABLE_MEDIA_VARS', [
+        $sql = "SELECT * FROM " . TABLE_MEDIA_VARS . " WHERE media_id = :media_id AND variant_type = :variant_type LIMIT 1";
+        return $this->db->fetch_assoc($sql, [
             'media_id' => $media_id,
             'variant_type' => $variant_type
         ]);
@@ -173,7 +174,8 @@ trait MediaImage {
      */
     public function get_all_image_variants(int $media_id): array {
         
-        return $this->db->query_fetch_all('TABLE_MEDIA_VARS', ['media_id' => $media_id]);
+        $sql = "SELECT * FROM " . TABLE_MEDIA_VARS . " WHERE media_id = :media_id";
+        return $this->db->fetch_all($sql, ['media_id' => $media_id]);
     }
 
 }

@@ -277,10 +277,10 @@ class Media {
         ];
         
         $result = $this->db->insert('TABLE_MEDIA')
-            ->values($data)
+            ->data($data)
             ->execute();
         
-        if(!$result) {
+        if($result->rowCount() === 0) {
             # Clean up file if database insert failed
             @unlink($full_path);
             return false;
@@ -359,9 +359,11 @@ class Media {
         }
         
         # Delete from database (CASCADE will handle variants and relations)
-        return $this->db->delete('TABLE_MEDIA')
+        $result = $this->db->delete('TABLE_MEDIA')
             ->where('id', '=', $id)
             ->execute();
+        
+        return $result->rowCount() > 0;
     }
 
 
@@ -458,11 +460,15 @@ class Media {
             return false;
         }
         
-        return $this->db->update('TABLE_MEDIA')
-            ->set('status', $status)
-            ->set('updated_at', time())
+        $result = $this->db->update('TABLE_MEDIA')
+            ->data([
+                'status' => $status,
+                'updated_at' => time()
+            ])
             ->where('id', '=', $id)
             ->execute();
+        
+        return $result->rowCount() > 0;
     }
 
 
