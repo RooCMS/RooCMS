@@ -254,3 +254,38 @@ function sanitize_path(string $uri): string|false {
     
     return $path;
 }
+
+
+/**
+ * Sanitize filename for safe storage
+ * 
+ * @param string $filename Original filename
+ * @return string Sanitized filename
+ */
+function sanitize_filename(string $filename): string {
+    # Remove path information
+    $filename = basename($filename);
+    
+    # Remove dangerous characters
+    $filename = preg_replace('/[^a-zA-Z0-9_\-\.А-Яа-яЁё]/', '_', $filename);
+    
+    # Remove multiple dots (except last one for extension)
+    $filename = preg_replace('/\.{2,}/', '.', $filename);
+    
+    # Remove leading/trailing dots and underscores
+    $filename = trim($filename, '._');
+    
+    # Limit length
+    if(strlen($filename) > 255) {
+        $ext = pathinfo($filename, PATHINFO_EXTENSION);
+        $name = pathinfo($filename, PATHINFO_FILENAME);
+        $filename = substr($name, 0, 255 - strlen($ext) - 1) . '.' . $ext;
+    }
+    
+    # Fallback for empty filename
+    if(empty($filename)) {
+        $filename = 'unknown_file';
+    }
+    
+    return $filename;
+}

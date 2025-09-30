@@ -34,6 +34,9 @@ class Media {
     
     # Max file sizes in bytes (will be loaded from SiteSettings in future)
     private array $max_file_sizes = [];
+    
+    # Number of files for MediaArch trait
+    protected int $numFiles = 0;
 
     private const VARIANT_TYPES = [
         'thumbnail',
@@ -221,7 +224,8 @@ class Media {
         $mime_type = mime_content_type($tmp_name);
         
         # Determine media type and extension
-        $extension = strtolower(pathinfo($original_name, PATHINFO_EXTENSION));
+        $extension_raw = pathinfo($original_name, PATHINFO_EXTENSION);
+        $extension = is_string($extension_raw) ? strtolower($extension_raw) : '';
         $media_type = $this->determine_media_type($mime_type, $extension);
         
         # Generate unique filename
@@ -272,13 +276,17 @@ class Media {
             'updated_at' => time()
         ];
         
-        $media_id = $this->db->insert('TABLE_MEDIA', $data);
+        $result = $this->db->insert('TABLE_MEDIA')
+            ->values($data)
+            ->execute();
         
-        if(!$media_id) {
+        if(!$result) {
             # Clean up file if database insert failed
             @unlink($full_path);
             return false;
         }
+        
+        $media_id = (int)$this->db->insert_id();
         
         # Process file based on media type
         match($media_type) {
@@ -304,7 +312,8 @@ class Media {
      * @return array|false Media data or false
      */
     public function get_by_id(int $id): array|false {
-        return $this->db->query_fetch_one('TABLE_MEDIA', ['id' => $id]);
+        $sql = "SELECT * FROM " . TABLE_MEDIA . " WHERE id = :id LIMIT 1";
+        return $this->db->fetch_assoc($sql, ['id' => $id]);
     }
 
 
@@ -315,7 +324,8 @@ class Media {
      * @return array|false Media data or false
      */
     public function get_by_uuid(string $uuid): array|false {
-        return $this->db->query_fetch_one('TABLE_MEDIA', ['uuid' => $uuid]);
+        $sql = "SELECT * FROM " . TABLE_MEDIA . " WHERE uuid = :uuid LIMIT 1";
+        return $this->db->fetch_assoc($sql, ['uuid' => $uuid]);
     }
 
 
@@ -349,7 +359,9 @@ class Media {
         }
         
         # Delete from database (CASCADE will handle variants and relations)
-        return $this->db->query_delete('TABLE_MEDIA', ['id' => $id]);
+        return $this->db->delete('TABLE_MEDIA')
+            ->where('id', '=', $id)
+            ->execute();
     }
 
 
@@ -360,7 +372,8 @@ class Media {
      * @return array List of variants
      */
     public function get_variants(int $media_id): array {
-        return $this->db->query_fetch_all('TABLE_MEDIA_VARS', ['media_id' => $media_id]);
+        $sql = "SELECT * FROM " . TABLE_MEDIA_VARS . " WHERE media_id = :media_id ORDER BY id";
+        return $this->db->fetch_all($sql, ['media_id' => $media_id]);
     }
 
 
@@ -408,7 +421,16 @@ class Media {
             $where['relationship_type'] = $relationship_type;
         }
         
-        $relations = $this->db->query_fetch_all('TABLE_MEDIA_RELS', $where, ['sort_order' => 'ASC']);
+        $sql = "SELECT * FROM " . TABLE_MEDIA_RELS . " WHERE entity_type = :entity_type AND entity_id = :entity_id";
+        $params = ['entity_type' => $entity_type, 'entity_id' => $entity_id];
+        
+        if($relationship_type) {
+            $sql .= " AND relationship_type = :relationship_type";
+            $params['relationship_type'] = $relationship_type;
+        }
+        
+        $sql .= " ORDER BY sort_order ASC";
+        $relations = $this->db->fetch_all($sql, $params);
         
         $media_list = [];
         foreach($relations as $relation) {
@@ -436,7 +458,11 @@ class Media {
             return false;
         }
         
-        return $this->db->query_update('TABLE_MEDIA', ['status' => $status, 'updated_at' => time()], ['id' => $id]);
+        return $this->db->update('TABLE_MEDIA')
+            ->set('status', $status)
+            ->set('updated_at', time())
+            ->where('id', '=', $id)
+            ->execute();
     }
 
 
