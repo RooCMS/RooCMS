@@ -367,4 +367,10 @@ trait MediaVideo {
         ]);
     }
 
+
+    /**
+     * Abstract methods
+     */
+    abstract public function get_by_id(int $id): array|false;
+    abstract public function format_file_size(int $size): string;
 }

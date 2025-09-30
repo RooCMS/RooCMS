@@ -213,23 +213,9 @@ trait DbExtends {
     }
 
 
-    /**
-     * Counting the number of rows from SQL query
-     *
-     * @param string $sql
-     * @param array $params
-     * @return int
-     */
-    abstract protected function count_rows(string $sql, array $params = []): int;
-
-
 	/**
-	 * Getting one value from result
-	 * 
-	 * @param string $sql
-	 * @param array $params
-	 * @param int $column_index
-	 * @return mixed
+	 * Abstract methods
 	 */
+    abstract protected function count_rows(string $sql, array $params = []): int;
 	abstract protected function fetch_column(string $sql, array $params = [], int $column_index = 0): mixed;
 }

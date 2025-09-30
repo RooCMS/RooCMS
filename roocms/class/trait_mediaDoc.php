@@ -149,7 +149,7 @@ trait MediaDoc {
         # Count lines
         $line_count = 0;
         $handle = @fopen($file_path, 'r');
-        if($handle) {
+        if($handle !== false) {
             while(!feof($handle)) {
                 fgets($handle);
                 $line_count++;
@@ -326,4 +326,8 @@ trait MediaDoc {
         return $results;
     }
 
+    /**
+     * Abstract methods
+     */
+    abstract public function get_by_id(int $id): array|false;
 }

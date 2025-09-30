@@ -67,7 +67,8 @@ trait MediaArch {
      */
     private function extract_archive_metadata(string $file_path): array {
         
-        $extension = strtolower(pathinfo($file_path, PATHINFO_EXTENSION));
+        $extension_raw = pathinfo($file_path, PATHINFO_EXTENSION);
+        $extension = is_string($extension_raw) ? strtolower($extension_raw) : '';
         
         $metadata = [
             'format' => $extension,
@@ -221,7 +222,7 @@ trait MediaArch {
         
         # Try to get original filename
         $handle = @gzopen($file_path, 'rb');
-        if($handle) {
+        if($handle !== false) {
             # Read uncompressed size (stored at end of file)
             fseek($handle, -4, SEEK_END);
             $data = fread($handle, 4);
@@ -465,4 +466,10 @@ trait MediaArch {
         };
     }
 
+
+    /**
+     * Abstract methods
+     */
+    abstract public function get_by_id(int $id): array|false;
+    abstract public function format_file_size(int $size): string;
 }

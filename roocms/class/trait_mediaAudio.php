@@ -74,8 +74,11 @@ trait MediaAudio {
      */
     private function extract_audio_metadata(string $file_path): array {
         
+        $extension_raw = pathinfo($file_path, PATHINFO_EXTENSION);
+        $format = is_string($extension_raw) ? $extension_raw : '';
+        
         $metadata = [
-            'format' => pathinfo($file_path, PATHINFO_EXTENSION),
+            'format' => $format,
             'size_human' => $this->format_file_size(filesize($file_path))
         ];
         
@@ -86,7 +89,8 @@ trait MediaAudio {
         }
         
         # Try to extract ID3 tags for MP3
-        $extension = strtolower(pathinfo($file_path, PATHINFO_EXTENSION));
+        $extension_raw = pathinfo($file_path, PATHINFO_EXTENSION);
+        $extension = is_string($extension_raw) ? strtolower($extension_raw) : '';
         if($extension === 'mp3') {
             $id3_data = $this->extract_mp3_id3_tags($file_path);
             $metadata = array_merge($metadata, $id3_data);
@@ -183,7 +187,7 @@ trait MediaAudio {
         
         # Read last 128 bytes for ID3v1 tags
         $handle = @fopen($file_path, 'rb');
-        if(!$handle) {
+        if($handle === false) {
             return $metadata;
         }
         
@@ -444,4 +448,13 @@ trait MediaAudio {
         return $albums;
     }
 
+
+    /**
+     * Abstract methods
+     */
+    abstract public function format_file_size(int $size): string;
+    abstract public function is_command_available(string $command): bool;
+    abstract public function format_duration(int $duration): string;
+    abstract public function format_bitrate(int $bitrate): string;
+    abstract public function get_by_id(int $id): array|false;
 }

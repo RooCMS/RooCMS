@@ -51,7 +51,7 @@ class MediaService {
 		# Upload through Media class
 		$media_id = $this->media->upload($file, $user_id, $options);
 		
-		if(!$media_id) {
+		if($media_id === false) {
 			throw new DomainException('Failed to upload file', 500);
 		}
 		
@@ -95,7 +95,8 @@ class MediaService {
 		
 		# Get MIME type
 		$mime_type = mime_content_type($file['tmp_name']);
-		$extension = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
+		$extension_raw = pathinfo($file['name'], PATHINFO_EXTENSION);
+		$extension = is_string($extension_raw) ? strtolower($extension_raw) : '';
 		
 		# Determine media type
 		$media_type = $this->determine_media_type($mime_type, $extension);
@@ -211,7 +212,7 @@ class MediaService {
 		# Attach
 		$rel_id = $this->media->attach_to_entity($media_id, $entity_type, $entity_id, $relationship_type, $metadata);
 		
-		if(!$rel_id) {
+		if($rel_id === false) {
 			throw new DomainException('Failed to attach file', 500);
 		}
 		
