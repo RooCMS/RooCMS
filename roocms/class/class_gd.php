@@ -123,13 +123,13 @@ class GD {
 
 	/**
 	 * Validate image extension
-	 * 
+	 *
 	 * @param string $ext Extension to validate
-	 * @throws \InvalidArgumentException If extension is not supported
+	 * @throws InvalidArgumentException If extension is not supported
 	 */
 	private function validate_extension(string $ext): void {
 		if(!in_array($ext, self::ALLOWED_EXTENSIONS, true)) {
-			throw new \InvalidArgumentException("Unsupported image extension: {$ext}");
+			throw new InvalidArgumentException("Unsupported image extension: {$ext}");
 		}
 	}
 
@@ -172,16 +172,16 @@ class GD {
 	 *
 	 * @param string $file_path Full path to image file
 	 * @return array{0: int, 1: int} Image dimensions [width, height]
-	 * @throws \RuntimeException If file doesn't exist or getimagesize fails
+	 * @throws RuntimeException If file doesn't exist or getimagesize fails
 	 */
 	private function get_image_size_safe(string $file_path): array {
 		if(!file_exists($file_path)) {
-			throw new \RuntimeException("Image file not found: {$file_path}");
+			throw new RuntimeException("Image file not found: {$file_path}");
 		}
 
 		$size = @getimagesize($file_path);
 		if($size === false) {
-			throw new \RuntimeException("Failed to get image size: {$file_path}");
+			throw new RuntimeException("Failed to get image size: {$file_path}");
 		}
 
 		return $size;
@@ -587,8 +587,8 @@ class GD {
 	 * @param string $ext  - file extension without dot
 	 *
 	 * @return \GdImage
-	 * @throws \RuntimeException If image file not found or cannot be created
-	 * @throws \InvalidArgumentException If extension is not supported
+	 * @throws RuntimeException If image file not found or cannot be created
+	 * @throws InvalidArgumentException If extension is not supported
 	 */
 	private function imgcreate(string $from, string $ext): \GdImage {
 
@@ -597,7 +597,7 @@ class GD {
 
 		# Check if file exists and is readable
 		if(!file_exists($from) || !is_readable($from)) {
-			throw new \RuntimeException("Image file not found or not readable: {$from}");
+			throw new RuntimeException("Image file not found or not readable: {$from}");
 		}
 
 		# Create image from file based on extension
@@ -610,7 +610,7 @@ class GD {
 
 		# Check if image creation was successful
 		if($src === false) {
-			throw new \RuntimeException("Failed to create image from file: {$from}");
+			throw new RuntimeException("Failed to create image from file: {$from}");
 		}
 
 		# Setup alpha channel for transparent images
@@ -635,20 +635,20 @@ class GD {
 	 * @param string $ext    - extension
 	 *
 	 * @return \GdImage
-	 * @throws \RuntimeException If image creation fails
+	 * @throws RuntimeException If image creation fails
 	 */
 	private function imgcreatetruecolor(int $width, int $height, string $ext): \GdImage {
 
 		# Validate dimensions
 		if($width <= 0 || $height <= 0) {
-			throw new \InvalidArgumentException("Invalid image dimensions: {$width}x{$height}");
+			throw new InvalidArgumentException("Invalid image dimensions: {$width}x{$height}");
 		}
 
 		$src = @imagecreatetruecolor($width, $height);
 
 		# Check if image creation was successful
 		if($src === false) {
-			throw new \RuntimeException("Failed to create image with dimensions: {$width}x{$height}");
+			throw new RuntimeException("Failed to create image with dimensions: {$width}x{$height}");
 		}
 
 		# Setup alpha channel for transparent images
