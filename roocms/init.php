@@ -110,6 +110,12 @@ spl_autoload_register(function(string $class_name) {
         'User'                      => _CLASS . '/class_user.php',
         'GD'                        => _CLASS . '/class_gd.php',
         'GDExtends'                 => _CLASS . '/trait_gdExtends.php',
+        'Media'                     => _CLASS . '/class_media.php',
+        'MediaImage'                => _CLASS . '/trait_mediaImage.php',
+        'MediaDoc'                  => _CLASS . '/trait_mediaDoc.php',
+        'MediaVideo'                => _CLASS . '/trait_mediaVideo.php',
+        'MediaAudio'                => _CLASS . '/trait_mediaAudio.php',
+        'MediaArch'                 => _CLASS . '/trait_mediaArch.php',
         'Shteirlitz'                => _CLASS . '/class_shteirlitz.php',
         'ApiHandler'                => _CLASS . '/class_apiHandler.php',
         'DependencyContainer'       => _CLASS . '/class_dependencyContainer.php',
@@ -148,12 +154,16 @@ require_once _ROOCMS."/helpers/debug.php";
  */
 $container = new DependencyContainer();
 
-// Register database connection first
+/** 
+ * Register database connection first
+ */
 $container->register(DbConnect::class, function() {
     return new DbConnect();
 }, true); // Singleton
 
-// Register database service with proper DI
+/** 
+ * Register database service with proper DI
+ */
 $container->register(Db::class, function(DependencyContainer $c) {
     return new Db($c->get(DbConnect::class));
 }, true); // Singleton
@@ -174,12 +184,16 @@ try {
     exit('Database initialization error.');
 }
 
-// register debugger if available
+/** 
+ * Register debugger if available
+ */
 if($debug instanceof Debugger) {
     $container->register(Debugger::class, fn() => $debug, true);
 }
 
-// register services
+/** 
+ * Register dependencies
+ */
 $container->register(Auth::class, Auth::class, true); // Singleton
 $container->register(User::class, User::class, true); // Singleton
 $container->register(Role::class, Role::class, true); // Singleton
@@ -187,6 +201,8 @@ $container->register(UserService::class, UserService::class, true); // Singleton
 $container->register(SiteSettings::class, SiteSettings::class, true); // Singleton
 $container->register(SiteSettingsService::class, SiteSettingsService::class, true); // Singleton
 $container->register(Mailer::class, Mailer::class, true); // Singleton
+$container->register(GD::class, GD::class, true); // Singleton
+$container->register(Media::class, Media::class, true); // Singleton
 $container->register(DbBackuper::class, DbBackuper::class, true); // Singleton
 $container->register(BackupService::class, BackupService::class, true); // Singleton
 $container->register(AuthenticationService::class, AuthenticationService::class, true); // Singleton
@@ -196,7 +212,9 @@ $container->register(UserRecoveryService::class, UserRecoveryService::class, tru
 $container->register(UserValidationService::class, UserValidationService::class, true); // Singleton
 
 
-// Template renderers and themes
+/** 
+ * Register template renderers and themes
+ */
 $container->register(TemplateRendererPhp::class, TemplateRendererPhp::class, true);
 $container->register(TemplateRendererHtml::class, TemplateRendererHtml::class, true);
 $container->register(Themes::class, function(DependencyContainer $c) {
@@ -210,7 +228,9 @@ $container->register(Themes::class, function(DependencyContainer $c) {
 }, true);
 
 
-// Health check for database connection
+/** 
+ * Health check for database connection
+ */
 if(DEBUGMODE) {
     $health = $db->get_health_status();
     if($health['status'] === 'unhealthy') {
