@@ -47,7 +47,9 @@ class GD {
 	public string $domain = "";					# Site address ( Default: SERVER_NAME )
 	private int $rs_quality = 90;				# Quality saved image
 	private int $th_quality = 90;				# Quality thumbnail
-	private string $thumbtg = "cover";			# Type Thumbnail ( Variables: cover, contain )
+	private string $thumbtg = "overflow";			# Type Thumbnail ( Variables: overflow, contain )
+	private array $msize = ['w' => 0, 'h' => 0];	# Max size
+	private array $tsize = ['w' => 0, 'h' => 0];	# Thumbnail size
 	private array $thumbbgcol = ['r' => 0, 'g' => 0, 'b' => 0];	# Background color for thumbnail "contain" type
 
 
@@ -141,7 +143,7 @@ class GD {
 	 * @param string   $ext   File extension
 	 * @return int Background color resource
 	 */
-	private function setup_alpha_background(\GdImage $image, string $ext): int {
+	private function setup_alpha_background(GdImage $image, string $ext): int {
 		$alpha = $this->is_gifpng($ext) ? 127 : 0;
 		$bgcolor = imagecolorallocatealpha($image, $this->thumbbgcol['r'], $this->thumbbgcol['g'], $this->thumbbgcol['b'], $alpha);
 
@@ -389,11 +391,11 @@ class GD {
 		$src = $this->imgcreate($path."/".$fileresize, $ext);
 
 		# We carry out calculations thumbnail size
-		$resize = $this->thumbtg !== "cover";
+		$resize = $this->thumbtg !== "overflow";
 		$ns = $this->calc_resize($size[0], $size[1], $this->tsize['w'], $this->tsize['h'], $resize);
 
-		# Recalculate for "cover" thumbnail
-		if($this->thumbtg === "cover") {
+		# Recalculate for "overflow" thumbnail
+		if($this->thumbtg === "overflow") {
 			$ns = $this->calc_newsize($ns);
 		}
 
@@ -457,7 +459,7 @@ class GD {
 	/**
 	 * Draw text with shadow effect
 	 *
-	 * @param \GdImage $image       - image resource
+	 * @param GdImage $image       - image resource
 	 * @param int      $size        - font size
 	 * @param int      $angle       - text angle
 	 * @param int      $x           - x coordinate
@@ -467,7 +469,7 @@ class GD {
 	 * @param string   $font        - font path
 	 * @param string   $text        - text to draw
 	 */
-	private function draw_text_with_shadow(\GdImage $image, int $size, int $angle, int $x, int $y, int $shadow_color, int $text_color, string $font, string $text): void {
+	private function draw_text_with_shadow(GdImage $image, int $size, int $angle, int $x, int $y, int $shadow_color, int $text_color, string $font, string $text): void {
 
 		# Shadow offsets for 3D effect
 		$offsets = [[1, 1], [-1, -1], [1, -1], [-1, 1]];

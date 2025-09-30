@@ -381,7 +381,7 @@ return [
 					'description' => 'Thumbnail type generate. Overflow or contain. Default: overflow',
 					'key' => 'gd_thumb_type_gen',
 					'type' => 'select',
-					'options' => '{"overflow":"cover","contain":"contain"}',
+					'options' => '{"overflow":"overflow","contain":"contain"}',
 					'value' => null,
 					'default_value' => 'overflow',
 					'max_length' => null,

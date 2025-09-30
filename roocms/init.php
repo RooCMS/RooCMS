@@ -130,6 +130,7 @@ spl_autoload_register(function(string $class_name) {
         'UserValidationService'     => _SERVICES . '/userValidation.php',
         'EmailService'              => _SERVICES . '/email.php',
         'UserRecoveryService'       => _SERVICES . '/userRecovery.php',
+        'MediaService'              => _SERVICES . '/media.php',
         'BackupService'             => _SERVICES . '/backup.php'
     ];
    
@@ -203,6 +204,7 @@ $container->register(SiteSettingsService::class, SiteSettingsService::class, tru
 $container->register(Mailer::class, Mailer::class, true); // Singleton
 $container->register(GD::class, GD::class, true); // Singleton
 $container->register(Media::class, Media::class, true); // Singleton
+$container->register(MediaService::class, MediaService::class, true); // Singleton
 $container->register(DbBackuper::class, DbBackuper::class, true); // Singleton
 $container->register(BackupService::class, BackupService::class, true); // Singleton
 $container->register(AuthenticationService::class, AuthenticationService::class, true); // Singleton

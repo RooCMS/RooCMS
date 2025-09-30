@@ -26,21 +26,17 @@ class Media {
     use MediaImage, MediaDoc, MediaVideo, MediaAudio, MediaArch;
 
     private Db $db;
-    private SiteSettings $site_settings;
+    private SiteSettings $siteSettings;
     private ?GD $gd = null;
 
-    private const MEDIA_TYPES = [
-        'image',
-        'document',
-        'video',
-        'audio',
-        'archive',
-        'other'
-    ];
+    # Allowed MIME types by category (will be loaded from SiteSettings in future)
+    private array $allowed_mime_types = [];
+    
+    # Max file sizes in bytes (will be loaded from SiteSettings in future)
+    private array $max_file_sizes = [];
 
     private const VARIANT_TYPES = [
         'thumbnail',
-        'preview',
         'large',
         'original'
     ];
@@ -100,12 +96,106 @@ class Media {
      * Constructor
      * 
      * @param Db $db Database
-     * @param SiteSettings $site_settings Site settings
+     * @param SiteSettings $siteSettings Site settings
+     * @param GD $gd GD instance
      */
     public function __construct(Db $db, SiteSettings $siteSettings, GD $gd) {
         $this->db = $db;
-        $this->site_settings = $siteSettings;
+        $this->siteSettings = $siteSettings;
         $this->gd = $gd;
+        
+        # Initialize default values (will be replaced with SiteSettings in future)
+        $this->init_default_mime_types();
+        $this->init_default_file_sizes();
+    }
+
+
+    /**
+     * Initialize default allowed MIME types
+     * TODO: Load from SiteSettings
+     */
+    private function init_default_mime_types(): void {
+        $this->allowed_mime_types = [
+            'image' => ['image/jpeg', 'image/png', 'image/gif', 'image/webp'],
+            'document' => [
+                'application/pdf',
+                'application/msword',
+                'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+                'application/vnd.ms-excel',
+                'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+                'application/vnd.ms-powerpoint',
+                'application/vnd.openxmlformats-officedocument.presentationml.presentation',
+                'text/plain',
+                'application/rtf'
+            ],
+            'video' => [
+                'video/mp4',
+                'video/avi',
+                'video/x-msvideo',
+                'video/quicktime',
+                'video/x-ms-wmv',
+                'video/x-flv',
+                'video/webm'
+            ],
+            'audio' => [
+                'audio/mpeg',
+                'audio/wav',
+                'audio/ogg',
+                'audio/flac',
+                'audio/aac',
+                'audio/x-m4a'
+            ],
+            'archive' => [
+                'application/zip',
+                'application/x-7z-compressed',
+                'application/x-rar-compressed',
+                'application/x-tar',
+                'application/gzip',
+                'application/x-bzip2'
+            ]
+        ];
+    }
+
+
+    /**
+     * Initialize default max file sizes
+     * TODO: Load from SiteSettings
+     */
+    private function init_default_file_sizes(): void {
+        $this->max_file_sizes = [
+            'image' => 10485760,     // 10 MB
+            'document' => 52428800,  // 50 MB
+            'video' => 524288000,    // 500 MB
+            'audio' => 104857600,    // 100 MB
+            'archive' => 104857600,  // 100 MB
+            'other' => 10485760      // 10 MB
+        ];
+    }
+
+
+    /**
+     * Get allowed MIME types
+     * 
+     * @param string|null $media_type Filter by media type
+     * @return array MIME types
+     */
+    public function get_allowed_mime_types(?string $media_type = null): array {
+        if($media_type !== null && isset($this->allowed_mime_types[$media_type])) {
+            return $this->allowed_mime_types[$media_type];
+        }
+        
+        return $this->allowed_mime_types;
+    }
+
+
+    /**
+     * Get max file size for media type
+     * 
+     * @param string $media_type Media type
+     * @return int Max size in bytes
+     */
+    public function get_max_file_size(string $media_type): int {
+        return $this->max_file_sizes[$media_type] ?? $this->max_file_sizes['other'];
     }
 
 
@@ -264,7 +354,7 @@ class Media {
 
 
     /**
-     * Get media variants (thumbnails, previews, etc.)
+     * Get media variants (thumbnails, large, original)
      * 
      * @param int $media_id Media ID
      * @return array List of variants

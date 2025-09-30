@@ -153,7 +153,7 @@ trait MediaImage {
      * Get image variant by type
      * 
      * @param int $media_id Media ID
-     * @param string $variant_type Variant type (thumbnail, preview, large)
+	 * @param string $variant_type Variant type (thumbnail, large, original)
      * @return array|false Variant data or false
      */
     public function get_image_variant(int $media_id, string $variant_type): array|false {

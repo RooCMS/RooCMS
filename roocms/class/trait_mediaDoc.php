@@ -26,7 +26,7 @@ trait MediaDoc {
 
     /**
      * Process uploaded document
-     * Extracts metadata and creates preview if possible
+	 * Extracts metadata from document
      * 
      * @param int $media_id Media ID
      * @param string $file_path Full path to uploaded file
