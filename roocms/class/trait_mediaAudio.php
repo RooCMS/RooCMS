@@ -111,67 +111,54 @@ trait MediaAudio {
      */
     private function extract_audio_metadata_ffprobe(string $file_path): array {
         
-        $metadata = [];
-        
-        # Build ffprobe command
-        $command = sprintf(
-            'ffprobe -v quiet -print_format json -show_format -show_streams %s 2>&1',
-            escapeshellarg($file_path)
-        );
-        
-        # Execute command
+        # Execute ffprobe command
+        $command = sprintf('ffprobe -v quiet -print_format json -show_format -show_streams %s 2>&1', escapeshellarg($file_path));
         $output = shell_exec($command);
         
-        if(!$output) {
-            return $metadata;
-        }
-        
-        # Parse JSON output
+        # Early returns for invalid data
+        !$output && (return []);
         $data = @json_decode($output, true);
+        !$data && (return []);
         
-        if(!$data) {
-            return $metadata;
+        $metadata = [];
+        
+        # Extract format metadata using array mapping
+        $format = $data['format'] ?? [];
+        $format_map = [
+            'duration' => fn($v) => (int)round((float)$v),
+            'bit_rate' => fn($v) => ['bitrate' => (int)$v, 'bitrate_human' => $this->format_bitrate((int)$v)],
+            'format_name' => fn($v) => $v
+        ];
+        
+        foreach($format_map as $key => $processor) {
+            if(isset($format[$key])) {
+                $result = $processor($format[$key]);
+                $metadata = is_array($result) ? array_merge($metadata, $result) : array_merge($metadata, [$key => $result]);
+            }
         }
         
-        # Extract format info
-        if(isset($data['format'])) {
-            if(isset($data['format']['duration'])) {
-                $metadata['duration'] = (int)round((float)$data['format']['duration']);
-            }
-            
-            if(isset($data['format']['bit_rate'])) {
-                $metadata['bitrate'] = (int)$data['format']['bit_rate'];
-                $metadata['bitrate_human'] = $this->format_bitrate((int)$data['format']['bit_rate']);
-            }
-            
-            if(isset($data['format']['format_name'])) {
-                $metadata['format_name'] = $data['format']['format_name'];
-            }
-            
-            # Extract tags
-            if(isset($data['format']['tags'])) {
-                $tags = $data['format']['tags'];
-                
-                $metadata['artist'] = $tags['artist'] ?? $tags['ARTIST'] ?? null;
-                $metadata['title'] = $tags['title'] ?? $tags['TITLE'] ?? null;
-                $metadata['album'] = $tags['album'] ?? $tags['ALBUM'] ?? null;
-                $metadata['year'] = $tags['date'] ?? $tags['DATE'] ?? $tags['year'] ?? null;
-                $metadata['genre'] = $tags['genre'] ?? $tags['GENRE'] ?? null;
-                $metadata['comment'] = $tags['comment'] ?? $tags['COMMENT'] ?? null;
-            }
+        # Extract tags with fallback keys
+        $tags = $format['tags'] ?? [];
+        $tag_map = [
+            'artist' => ['artist', 'ARTIST'],
+            'title' => ['title', 'TITLE'], 
+            'album' => ['album', 'ALBUM'],
+            'year' => ['date', 'DATE', 'year'],
+            'genre' => ['genre', 'GENRE'],
+            'comment' => ['comment', 'COMMENT']
+        ];
+        
+        foreach($tag_map as $field => $keys) {
+            $metadata[$field] = array_reduce($keys, fn($carry, $key) => $carry ?? ($tags[$key] ?? null), null);
         }
         
         # Extract audio stream info
-        if(isset($data['streams'])) {
-            foreach($data['streams'] as $stream) {
-                if($stream['codec_type'] === 'audio') {
-                    $metadata['codec'] = $stream['codec_name'] ?? null;
-                    $metadata['sample_rate'] = isset($stream['sample_rate']) ? (int)$stream['sample_rate'] : null;
-                    $metadata['channels'] = $stream['channels'] ?? null;
-                    break;
-                }
-            }
-        }
+        $audio_stream = array_filter($data['streams'] ?? [], fn($s) => ($s['codec_type'] ?? '') === 'audio')[0] ?? null;
+        $audio_stream && ($metadata = array_merge($metadata, [
+            'codec' => $audio_stream['codec_name'] ?? null,
+            'sample_rate' => isset($audio_stream['sample_rate']) ? (int)$audio_stream['sample_rate'] : null,
+            'channels' => $audio_stream['channels'] ?? null
+        ]));
         
         return $metadata;
     }

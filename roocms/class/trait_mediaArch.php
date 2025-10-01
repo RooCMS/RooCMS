@@ -98,64 +98,42 @@ trait MediaArch {
      */
     private function extract_zip_info(string $file_path): array {
         
-        $info = [];
-        
-        # Check if ZipArchive class is available
-        if(!class_exists('ZipArchive')) {
-            return $info;
-        }
+        # Early returns for invalid conditions
+        !class_exists('ZipArchive') && (return []);
         
         $zip = new \ZipArchive();
-        $result = $zip->open($file_path);
+        ($zip->open($file_path) !== true) && (return []);
         
-        if($result !== true) {
-            return $info;
-        }
+        # Initialize info with basic data
+        $info = [
+            'files_count' => $zip->numFiles,
+            'files' => []
+        ];
         
-        # Get file count
-        $info['files_count'] = $zip->numFiles;
-        
-        # Calculate total uncompressed size
+        # Calculate sizes and build file list
         $total_uncompressed = 0;
-        $file_list = [];
-        
-        for($i = 0; $i < $zip->numFiles; $i++) {
+        for($i = 0; $i < $zip->numFiles && count($info['files']) < 100; $i++) {
             $stat = $zip->statIndex($i);
-            if($stat !== false) {
-                $total_uncompressed += $stat['size'];
-                
-                # Add to file list (limit to first 100 files)
-                if(count($file_list) < 100) {
-                    $file_list[] = [
-                        'name' => $stat['name'],
-                        'size' => $stat['size'],
-                        'compressed_size' => $stat['comp_size']
-                    ];
-                }
-            }
+            $stat && ($total_uncompressed += $stat['size']) && ($info['files'][] = [
+                'name' => $stat['name'],
+                'size' => $stat['size'],
+                'compressed_size' => $stat['comp_size']
+            ]);
         }
         
+        # Add size information
         $info['uncompressed_size'] = $total_uncompressed;
         $info['uncompressed_size_human'] = $this->format_file_size($total_uncompressed);
         
-        # Calculate compression ratio
+        # Calculate compression ratio if possible
         $compressed_size = filesize($file_path);
-        if($compressed_size > 0 && $total_uncompressed > 0) {
-            $ratio = (1 - ($compressed_size / $total_uncompressed)) * 100;
-            $info['compression_ratio'] = round($ratio, 2) . '%';
-        }
+        ($compressed_size > 0 && $total_uncompressed > 0) && ($info['compression_ratio'] = round((1 - ($compressed_size / $total_uncompressed)) * 100, 2) . '%');
         
-        # Add file list
-        $info['files'] = $file_list;
-        
-        # Get archive comment
+        # Add comment if exists
         $comment = $zip->getArchiveComment();
-        if(!empty($comment)) {
-            $info['comment'] = $comment;
-        }
+        $comment && ($info['comment'] = $comment);
         
         $zip->close();
-        
         return $info;
     }
 
@@ -289,30 +267,24 @@ trait MediaArch {
      * @return array Processed media info with archive-specific enhancements
      */
     private function process_archive_info(array $media): array {
-        # Add archive-specific processing
-        # This method is called by get_media_info() via match()
+        # Add formatted file size
+        isset($media['file_size']) && ($media['file_size_formatted'] = $this->format_file_size($media['file_size']));
         
-        # Add formatted file size for convenience
-        if(isset($media['file_size'])) {
-            $media['file_size_formatted'] = $this->format_file_size($media['file_size']);
+        # Process metadata if exists
+        if(!isset($media['metadata']) || !is_array($media['metadata'])) {
+            return $media;
         }
         
-        # Add archive-specific metadata formatting
-        if(isset($media['metadata']) && is_array($media['metadata'])) {
-            # Format file count
-            if(isset($media['metadata']['file_count'])) {
-                $media['metadata']['file_count_formatted'] = $media['metadata']['file_count'] . ' файлов';
-            }
-            
-            # Format uncompressed size
-            if(isset($media['metadata']['uncompressed_size'])) {
-                $media['metadata']['uncompressed_size_formatted'] = $this->format_file_size((int)$media['metadata']['uncompressed_size']);
-            }
-            
-            # Format compression ratio
-            if(isset($media['metadata']['compression_ratio'])) {
-                $media['metadata']['compression_ratio_formatted'] = round($media['metadata']['compression_ratio'], 1) . '%';
-            }
+        # Define metadata formatters
+        $formatters = [
+            'file_count' => fn($value) => $value . ' файлов',
+            'uncompressed_size' => fn($value) => $this->format_file_size((int)$value),
+            'compression_ratio' => fn($value) => round($value, 1) . '%'
+        ];
+        
+        # Apply formatters to existing metadata
+        foreach($formatters as $key => $formatter) {
+            isset($media['metadata'][$key]) && ($media['metadata'][$key . '_formatted'] = $formatter($media['metadata'][$key]));
         }
         
         return $media;
@@ -444,29 +416,23 @@ trait MediaArch {
      */
     public function get_archives_by_file_count(int $min_files, int $max_files): array {
         
-        # Get all archives
-        $sql = "SELECT * FROM " . TABLE_MEDIA . " WHERE media_type = :media_type";
-        $archives = $this->db->fetch_all($sql, ['media_type' => 'archive']);
+        # Get archives with JSON filtering (more efficient than PHP filtering)
+        $sql = "SELECT * FROM " . TABLE_MEDIA . " 
+                WHERE media_type = :media_type 
+                AND metadata IS NOT NULL 
+                AND JSON_EXTRACT(metadata, '$.files_count') BETWEEN :min_files AND :max_files";
         
-        $results = [];
+        $archives = $this->db->fetch_all($sql, [
+            'media_type' => 'archive',
+            'min_files' => $min_files,
+            'max_files' => $max_files
+        ]);
         
-        foreach($archives as $archive) {
-            # Decode metadata
-            if(isset($archive['metadata']) && $archive['metadata']) {
-                $metadata = json_decode($archive['metadata'], true);
-                
-                if(isset($metadata['files_count'])) {
-                    $files_count = $metadata['files_count'];
-                    
-                    if($files_count >= $min_files && $files_count <= $max_files) {
-                        $archive['metadata'] = $metadata;
-                        $results[] = $archive;
-                    }
-                }
-            }
-        }
-        
-        return $results;
+        # Decode metadata for results
+        return array_map(fn($archive) => [
+            ...$archive,
+            'metadata' => json_decode($archive['metadata'], true) ?: []
+        ], $archives);
     }
 
 

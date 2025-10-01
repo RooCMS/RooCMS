@@ -473,39 +473,28 @@ class MediaService {
 	 * @return int Total count
 	 */
 	public function get_media_count(array $filters = []): int {
-		# Build WHERE clause
+		# Define filter mappings
+		$filter_map = [
+			'media_type' => 'media_type = :media_type',
+			'status' => 'status = :status', 
+			'user_id' => 'user_id = :user_id'
+		];
+		
+		# Build WHERE conditions and parameters
 		$where_conditions = [];
 		$params = [];
 		
-		if(isset($filters['media_type'])) {
-			$where_conditions[] = 'media_type = :media_type';
-			$params['media_type'] = $filters['media_type'];
+		foreach($filter_map as $key => $condition) {
+			isset($filters[$key]) && ($where_conditions[] = $condition) && ($params[$key] = $filters[$key]);
 		}
 		
-		if(isset($filters['status'])) {
-			$where_conditions[] = 'status = :status';
-			$params['status'] = $filters['status'];
-		}
+		# Handle search filter separately
+		isset($filters['search']) && ($where_conditions[] = '(original_name LIKE :search OR description LIKE :search)') && ($params['search'] = '%' . $filters['search'] . '%');
 		
-		if(isset($filters['user_id'])) {
-			$where_conditions[] = 'user_id = :user_id';
-			$params['user_id'] = $filters['user_id'];
-		}
+		# Build and execute SQL
+		$sql = 'SELECT COUNT(*) as total FROM ' . TABLE_MEDIA . (!empty($where_conditions) ? ' WHERE ' . implode(' AND ', $where_conditions) : '');
 		
-		if(isset($filters['search'])) {
-			$where_conditions[] = '(original_name LIKE :search OR description LIKE :search)';
-			$params['search'] = '%' . $filters['search'] . '%';
-		}
-		
-		# Build SQL
-		$sql = 'SELECT COUNT(*) as total FROM ' . TABLE_MEDIA;
-		
-		if(!empty($where_conditions)) {
-			$sql .= ' WHERE ' . implode(' AND ', $where_conditions);
-		}
-		
-		$result = $this->db->fetch_assoc($sql, $params);
-		return (int)$result['total'];
+		return (int)$this->db->fetch_assoc($sql, $params)['total'];
 	}
 
 
@@ -539,44 +528,25 @@ class MediaService {
 	 */
 	public function update_media_metadata(int $id, array $data): array {
 		# Check if media exists
-		$media = $this->media->get_by_id($id);
-		if(!$media) {
-			throw new DomainException('Media not found', 404);
-		}
+		$media = $this->media->get_by_id($id) ?: throw new DomainException('Media not found', 404);
 		
-		# Validate allowed fields
+		# Filter allowed fields
 		$allowed_fields = ['original_name', 'description', 'tags', 'status'];
-		$update_data = [];
+		$update_data = array_intersect_key($data, array_flip($allowed_fields));
 		
-		foreach($allowed_fields as $field) {
-			if(isset($data[$field])) {
-				$update_data[$field] = $data[$field];
-			}
-		}
+		# Validate status and check for empty data
+		isset($update_data['status']) && !in_array($update_data['status'], Media::STATUSES, true) && throw new DomainException('Invalid status value', 400);
+		empty($update_data) && throw new DomainException('No valid fields to update', 400);
 		
-		# Validate status if provided
-		if(isset($update_data['status']) && !in_array($update_data['status'], Media::STATUSES, true)) {
-			throw new DomainException('Invalid status value', 400);
-		}
-		
-		if(empty($update_data)) {
-			throw new DomainException('No valid fields to update', 400);
-		}
-		
-		# Add updated timestamp
-		$update_data['updated_at'] = time();
-		
-		# Update media record
+		# Update media record with timestamp
 		$result = $this->db->update(TABLE_MEDIA)
-			->data($update_data)
+			->data($update_data + ['updated_at' => time()])
 			->where('id', '=', $id)
 			->execute();
 		
-		if($result->rowCount() === 0) {
-			throw new DomainException('Failed to update media', 500);
-		}
+		# Check update success and return formatted data
+		($result->rowCount() === 0) && throw new DomainException('Failed to update media', 500);
 		
-		# Return updated data
 		return $this->get_file_formatted($id);
 	}
 

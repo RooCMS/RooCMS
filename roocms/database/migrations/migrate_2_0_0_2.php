@@ -446,34 +446,6 @@ return [
 				],
 				[
 					'category' => 'gd',
-					'sort_order' => 6,
-					'title' => 'Max image width',
-					'description' => 'Max image width. If image width is greater than this value, it will be resized to this value. Default: 1920 pixels',
-					'key' => 'gd_image_maxwidth',
-					'type' => 'integer',
-					'options' => null,
-					'value' => null,
-					'default_value' => '1920',
-					'max_length' => null,
-					'is_required' => 0,
-					'is_serialized' => 0
-				],
-				[
-					'category' => 'gd',
-					'sort_order' => 7,
-					'title' => 'Max image height',
-					'description' => 'Max image height. If image height is greater than this value, it will be resized to this value. Default: 1080 pixels',
-					'key' => 'gd_image_maxheight',
-					'type' => 'integer',
-					'options' => null,
-					'value' => null,
-					'default_value' => '1080',
-					'max_length' => null,
-					'is_required' => 0,
-					'is_serialized' => 0
-				],
-				[
-					'category' => 'gd',
 					'sort_order' => 8,
 					'title' => 'Use watermark',
 					'description' => 'Use watermark. Watermark is a text or image that is added to the image.',
@@ -620,9 +592,9 @@ return [
 		'delete_data' => [
 			'TABLE_SETTINGS' => [
 				'where_by_driver' => [
-					'mysql' => '`key` IN (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
-					'postgresql' => '"key" IN (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
-					'firebird' => '"key" IN (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
+					'mysql' => '`key` IN (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
+					'postgresql' => '"key" IN (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
+					'firebird' => '"key" IN (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
 				],
 				'params' => [
 					'site_domain',
@@ -655,8 +627,6 @@ return [
 					'gd_thumb_jpg_quality',
 					'gd_thumb_image_width',
 					'gd_thumb_image_height',
-					'gd_image_maxwidth',
-					'gd_image_maxheight',
 					'gd_use_watermark',
 					'gd_watermark_type',
 					'gd_watermark_image',

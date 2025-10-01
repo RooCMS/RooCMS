@@ -98,6 +98,7 @@ spl_autoload_register(function(string $class_name) {
         'DbBackuperPSQL'            => _CLASS . '/trait_dbBackuperPSQL.php',
         'DbBackuperFB'              => _CLASS . '/trait_dbBackuperFB.php',
         'SiteSettings'              => _CLASS . '/class_siteSettings.php',
+        'SiteSettingsExt'           => _CLASS . '/trait_siteSettingsExt.php',
         'Themes'                    => _CLASS . '/class_themes.php',
         'ThemeConfig'               => _CLASS . '/class_themeConfig.php',
         'TemplateRenderer'          => _CLASS . '/interface_templateRenderer.php',

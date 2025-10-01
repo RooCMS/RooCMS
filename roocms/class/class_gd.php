@@ -60,14 +60,8 @@ class GD {
 		# Get GD info
 		$this->info = gd_info();
 
-		# Set max size
-		$max_width = $this->get_setting('gd_image_maxwidth');
-		$max_height = $this->get_setting('gd_image_maxheight');
-
 		# Set thumbnail type
-		if($this->get_setting('gd_thumb_type_gen') === "contain") {
-			$this->thumbtg = "contain";
-		}
+		$this->fit = $this->get_setting('gd_thumb_type_gen') === "contain" ? "contain" : $this->fit;
 
 		# Background color from configuration
 		$bgcolor = $this->get_setting('gd_thumb_bgcolor');
@@ -77,27 +71,20 @@ class GD {
 
 		# Quality thumbnail from configuration
 		$quality = $this->get_setting('gd_thumb_jpg_quality');
-		if($quality >= 10 && $quality <= 100) {
-			$this->th_quality = $quality;
+		$this->th_quality = ($quality >= 10 && $quality <= 100) ? $quality : $this->th_quality;
+
+		# Setup watermark text if enabled
+		if(!$this->get_setting('gd_use_watermark') || $this->get_setting('gd_watermark_type') !== "text") {
+			return;
 		}
 
-		# if use watermark
-		if($this->get_setting('gd_use_watermark') && $this->get_setting('gd_watermark_type') === "text") {
+		# Set copyright text (priority: custom string > site name)
+		$watermark_one = trim($this->get_setting('gd_watermark_string_one'));
+		$this->copyright = sanitize_string($watermark_one ?: $this->get_setting('site_name'));
 
-			# watermark text string one
-			$this->copyright = sanitize_string($this->get_setting('site_name'));
-			$watermark_one = $this->get_setting('gd_watermark_string_one');
-			if(trim($watermark_one) !== "") {
-				$this->copyright = sanitize_string($watermark_one);
-			}
-
-			# watermark text string two
-			$this->domain = env('SERVER_NAME');
-			$watermark_two = $this->get_setting('gd_watermark_string_two');
-			if(trim($watermark_two) !== "") {
-				$this->domain = sanitize_string($watermark_two);
-			}
-		}
+		# Set domain text (priority: custom string > server name)
+		$watermark_two = trim($this->get_setting('gd_watermark_string_two'));
+		$this->domain = sanitize_string($watermark_two ?: env('SERVER_NAME'));
 	}
 
 
@@ -219,34 +206,27 @@ class GD {
 	 * @param string $path      - path to file
 	 * @param bool   $watermark - on/off watermark
 	 */
-	public function modify_image(string $modify,string $filename, string $extension, string $path, array $size, string $suffix, bool $watermark = true): void {
+	public function modify_image(string $modify, string $filename, string $extension, string $path, array $size, string $suffix, bool $watermark = true): void {
 
-		# modification
-		if($modify === "prop") {
-			# image size change according to parameter settings
-			$this->resize_proportional($filename, $extension, $size, $suffix, $path);
-		}
-		elseif($modify === "fit") {
-			# create thumbnail
-			$this->resize_to_fit($filename, $extension, $size, $suffix, $path);
-		}
-		elseif($modify === "no") {
-			$this->noresize($filename, $extension, $path);
+		# Apply modification using match expression
+		match($modify) {
+			'prop' => $this->resize_proportional($filename, $extension, $size, $suffix, $path),
+			'fit' => $this->resize_to_fit($filename, $extension, $size, $suffix, $path),
+			'no' => $this->noresize($filename, $extension, $path),
+			default => null
+		};
+
+		# Apply watermark if enabled
+		if(!$watermark || !$this->get_setting('gd_use_watermark')) {
+			return;
 		}
 
-		# Set watermark on image
-		if($watermark && $this->get_setting('gd_use_watermark')) {
-
-			# Text watermark
-			if($this->get_setting('gd_watermark_type') === "text") {
-				$this->watermark_text($filename, $extension, $path);
-			}
-
-			# Graphic watermark
-			if($this->get_setting('gd_watermark_type') === "image") {
-				$this->watermark_image($filename, $extension, $path);
-			}
-		}
+		# Apply watermark based on type using match expression
+		match($this->get_setting('gd_watermark_type')) {
+			'text' => $this->watermark_text($filename, $extension, $path),
+			'image' => $this->watermark_image($filename, $extension, $path),
+			default => null
+		};
 	}
 
 
@@ -475,7 +455,7 @@ class GD {
 	protected function watermark_image(string $filename, string $ext, string $path = _UPLOADIMG): void {
 
 		# vars
-		$fileresize = $filename . $this->file_suffix_resized . "." . $ext;
+		$fileresize = $filename . "." . $ext;
 
 		# get image size
 		$size = $this->get_image_size_safe($path."/".$fileresize);
@@ -539,10 +519,6 @@ class GD {
 	protected function convert_jpgtowebp(string $filename, string $ext, string $path = _UPLOADIMG): string {
 
 		if($this->is_jpg($ext)) {
-
-			if(is_file($path."/".$filename . $this->file_suffix_original . "." . $ext)) {
-				$filename = $filename . $this->file_suffix_original;
-			}
 
 			# create
 			$src = $this->imgcreate($path."/".$filename.".".$ext,$ext);
@@ -623,23 +599,13 @@ class GD {
 	 */
 	private function imgcreatetruecolor(int $width, int $height, string $ext): GdImage {
 
-		# Validate dimensions
-		if($width <= 0 || $height <= 0) {
-			throw new InvalidArgumentException("Invalid image dimensions: {$width}x{$height}");
-		}
-
-		$src = @imagecreatetruecolor($width, $height);
-
-		# Check if image creation was successful
-		if($src === false) {
-			throw new RuntimeException("Failed to create image with dimensions: {$width}x{$height}");
-		}
+		# Validate dimensions and create image
+		($width <= 0 || $height <= 0) && throw new InvalidArgumentException("Invalid image dimensions: {$width}x{$height}");
+		
+		$src = @imagecreatetruecolor($width, $height) ?: throw new RuntimeException("Failed to create image with dimensions: {$width}x{$height}");
 
 		# Setup alpha channel for transparent images
-		if($this->is_gifpng($ext)) {
-			imagealphablending($src, false);
-			imagesavealpha($src, true);
-		}
+		$this->is_gifpng($ext) && (imagealphablending($src, false) || imagesavealpha($src, true));
 
 		return $src;
 	}
