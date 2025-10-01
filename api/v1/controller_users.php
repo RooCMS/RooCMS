@@ -169,13 +169,8 @@ class UsersController extends BaseController {
 	public function verify_email(string $verification_code): void {
 		$this->log_request('users_verify_email');
 
-		$current = $this->require_authentication();
-		if(empty($current)) {
-			return;
-		}
-
 		try {
-			$this->emailService->verify_email($verification_code, (int)$current['id']);
+			$this->emailService->verify_email($verification_code);
 			$this->json_response(null, 200, 'Email verified successfully');
 		} catch(DomainException $e) {
 			$this->error_response($e->getMessage(), $e->getCode() ?: 400);
