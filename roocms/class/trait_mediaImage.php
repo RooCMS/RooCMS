@@ -46,17 +46,10 @@ trait MediaImage {
             $directory = $path_info['dirname'];
             $filename_without_ext = $path_info['filename'];
             
-            # Rename original file to have _orig suffix
-            $original_file = $directory . '/' . $filename_without_ext . $this->gd->file_suffix_original . "." . $extension;
-            rename($file_path, $original_file);
+            # Create image variants based on VARIANT_TYPES constant
+            $success = $this->create_image_variants($media_id, $file_path, $directory, $filename_without_ext, $extension);
             
-            # Use GD class to process image (creates _res and _thumb files)
-            $this->gd->modify_image($filename_without_ext, $extension, $directory);
-            
-            # Store variants in database
-            $this->store_image_variants($media_id, $directory, $filename_without_ext, $extension);
-            
-            return true;
+            return $success;
             
         } catch(\Exception $e) {
             return false;
@@ -65,65 +58,118 @@ trait MediaImage {
 
 
     /**
-     * Store image variants in database
-     * GD class creates _orig, _res and _thumb files
+     * Create image variants based on VARIANT_TYPES constant
      * 
      * @param int $media_id Media ID
+     * @param string $original_file_path Path to original uploaded file
      * @param string $directory Directory path
      * @param string $filename Filename without extension
      * @param string $extension File extension
      * @return bool Success
      */
-    private function store_image_variants(int $media_id, string $directory, string $filename, string $extension): bool {
-        
-        # Variants created by GD class
-        $variants = [
-            'original' => $this->gd->file_suffix_original,
-            'large' => $this->gd->file_suffix_resized,
-            'thumbnail' => $this->gd->file_suffix_thumbnail
-        ];
+    private function create_image_variants(int $media_id, string $original_file_path, string $directory, string $filename, string $extension): bool {
         
         $success = true;
         
-        foreach($variants as $variant_type => $suffix) {
-            $file_path = $directory . '/' . $filename . $suffix . '.' . $extension;
+        # Get VARIANT_TYPES from parent Media class
+        $variant_types = Media::VARIANT_TYPES;
+        
+        # First, create original file (just rename)
+        $original_config = $variant_types['original'];
+        $original_target = $directory . '/' . $filename . $original_config['suffix'] . '.' . $extension;
+        
+        if(!rename($original_file_path, $original_target)) {
+            return false;
+        }
+        
+        # Store original variant in database
+        if(!$this->store_single_image_variant($media_id, $original_target, 'original')) {
+            $success = false;
+        }
+        
+        # Now create other variants from original
+        foreach($variant_types as $variant_name => $variant_config) {
             
-            # Check if file exists
-            if(!file_exists($file_path)) {
+            # Skip original - already processed
+            if($variant_name === 'original') {
                 continue;
             }
             
-            # Get file size
-            $file_size = @filesize($file_path);
-            if($file_size === false) {
+            # Skip variants with no modification
+            if($variant_config['modify'] === 'no') {
                 continue;
             }
             
-            # Get image dimensions
-            $image_info = @getimagesize($file_path);
-            if($image_info === false) {
-                continue;
-            }
-            
-            # Save variant to database
-            $variant_data = [
-                'media_id' => $media_id,
-                'variant_type' => $variant_type,
-                'file_path' => str_replace(_UPLOAD, '', $file_path),
-                'file_size' => $file_size,
-                'width' => $image_info[0],
-                'height' => $image_info[1],
-                'mime_type' => $image_info['mime'],
-                'created_at' => time()
-            ];
-            
-            if(!$this->db->insert_array($variant_data, TABLE_MEDIA_VARS)) {
+            try {
+                # Use GD to create variant from original
+                $this->gd->modify_image(
+                    $variant_config['modify'],
+                    $filename,
+                    $extension,
+                    $directory,
+                    ['w' => $variant_config['width'], 'h' => $variant_config['height']],
+                    $variant_config['suffix'],
+                    $variant_config['watermark']
+                );
+                
+                # Store variant in database
+                $variant_file = $directory . '/' . $filename . $variant_config['suffix'] . '.' . $extension;
+                if(!$this->store_single_image_variant($media_id, $variant_file, $variant_name)) {
+                    $success = false;
+                }
+                
+            } catch(\Exception $e) {
                 $success = false;
             }
         }
         
         return $success;
     }
+
+
+    /**
+     * Store single image variant in database
+     * 
+     * @param int $media_id Media ID
+     * @param string $file_path Full path to variant file
+     * @param string $variant_type Variant type name
+     * @return bool Success
+     */
+    private function store_single_image_variant(int $media_id, string $file_path, string $variant_type): bool {
+        
+        # Check if file exists
+        if(!file_exists($file_path)) {
+            return false;
+        }
+        
+        # Get file size
+        $file_size = @filesize($file_path);
+        if($file_size === false) {
+            return false;
+        }
+        
+        # Get image dimensions
+        $image_info = @getimagesize($file_path);
+        if($image_info === false) {
+            return false;
+        }
+        
+        # Save variant to database
+        $variant_data = [
+            'media_id' => $media_id,
+            'variant_type' => $variant_type,
+            'file_path' => str_replace(_UPLOAD, '', $file_path),
+            'file_size' => $file_size,
+            'width' => $image_info[0],
+            'height' => $image_info[1],
+            'mime_type' => $image_info['mime'],
+            'created_at' => time()
+        ];
+        
+        return $this->db->insert_array($variant_data, TABLE_MEDIA_VARS);
+    }
+
+
 
 
     /**

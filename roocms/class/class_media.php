@@ -57,10 +57,12 @@ class Media {
         'other'
     ];
 
-    private const VARIANT_TYPES = [
-        'thumbnail',
-        'large',
-        'original'
+    public const VARIANT_TYPES = [
+        'original' => ['modify' => 'no', 'width' => 0, 'height' => 0, 'suffix' => '', 'watermark' => false],
+        'large' => ['modify' => 'prop', 'width' => 1600, 'height' => 1600, 'suffix' => '_large', 'watermark' => false],
+        'medium' => ['modify' => 'prop', 'width' => 1200, 'height' => 1200, 'suffix' => '_medium', 'watermark' => false],
+        'small' => ['modify' => 'prop', 'width' => 800, 'height' => 800, 'suffix' => '_small', 'watermark' => false],
+        'thumbnail' => ['modify' => 'fit', 'width' => 267, 'height' => 150, 'suffix' => '_thumbnail', 'watermark' => false]
     ];
     
     private const ENTITY_TYPES = [

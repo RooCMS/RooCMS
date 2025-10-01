@@ -36,21 +36,15 @@ class GD {
 	private const TEXT_WATERMARK_FONT_SIZE = 10;
 	private const TEXT_WATERMARK_ALPHA = 20;
 
-	public string $file_suffix_original = '';
-	public string $file_suffix_resized = '_prev';
-	public string $file_suffix_thumbnail = '_thumb';
-
 	# Settings cache
 	private array $settings_cache = [];
 
-	public array $info = [];					# GD info
-	public string $copyright = "";				# Copyright text ( Default: site_name )
-	public string $domain = "";					# Site address ( Default: SERVER_NAME )
-	private int $rs_quality = 90;				# Quality saved image
-	private int $th_quality = 90;				# Quality thumbnail
-	private string $thumbtg = "overflow";			# Type Thumbnail ( Variables: overflow, contain )
-	protected array $msize = ['w' => 1200, 'h' => 1200];	# Max size
-	protected array $tsize = ['w' => 267, 'h' => 150];	# Thumbnail size
+	public array $info = [];									# GD info
+	public string $copyright = "";								# Copyright text ( Default: site_name )
+	public string $domain = "";									# Site address ( Default: SERVER_NAME )
+	private int $rs_quality = 90;								# Quality saved image
+	private int $th_quality = 90;								# Quality thumbnail
+	private string $fit = "overflow";							# Type fit ( Variables: overflow, contain )
 	private array $thumbbgcol = ['r' => 0, 'g' => 0, 'b' => 0];	# Background color for thumbnail "contain" type
 
 
@@ -66,15 +60,9 @@ class GD {
 		# Get GD info
 		$this->info = gd_info();
 
-		# Set thumbnail sizes from configuration
-		$thumb_width = $this->get_setting('gd_thumb_image_width');
-		$thumb_height = $this->get_setting('gd_thumb_image_height');
-		$this->set_mod_sizes([$thumb_width, $thumb_height]);
-
 		# Set max size
 		$max_width = $this->get_setting('gd_image_maxwidth');
 		$max_height = $this->get_setting('gd_image_maxheight');
-		$this->set_mod_sizes([$max_width, $max_height], "msize");
 
 		# Set thumbnail type
 		if($this->get_setting('gd_thumb_type_gen') === "contain") {
@@ -94,7 +82,7 @@ class GD {
 		}
 
 		# if use watermark
-		if($this->get_setting('gd_use_watermark') === "text") {
+		if($this->get_setting('gd_use_watermark') && $this->get_setting('gd_watermark_type') === "text") {
 
 			# watermark text string one
 			$this->copyright = sanitize_string($this->get_setting('site_name'));
@@ -129,6 +117,7 @@ class GD {
 	 *
 	 * @param string $ext Extension to validate
 	 * @throws InvalidArgumentException If extension is not supported
+	 * TODO: Remove or move to MediaImage class
 	 */
 	private function validate_extension(string $ext): void {
 		if(!in_array($ext, self::ALLOWED_EXTENSIONS, true)) {
@@ -140,7 +129,7 @@ class GD {
 	/**
 	 * Setup alpha channel and background for image
 	 *
-	 * @param \GdImage $image Image resource
+	 * @param GdImage $image Image resource
 	 * @param string   $ext   File extension
 	 * @return int Background color resource
 	 */
@@ -224,41 +213,37 @@ class GD {
 	 * Modify images
 	 * Resize, create thumbnail, marked watermark.
 	 *
+	 * @param string $modify    - type of modification (prop, fit, no)
 	 * @param string $filename  - file name
 	 * @param string $extension - file extension (without dot)
 	 * @param string $path      - path to file
 	 * @param bool   $watermark - on/off watermark
-	 * @param bool   $modify    - this parameter indicates whether image is subjected to full modification with preserving the original image and creating thumbnail.
-	 * @param bool   $noresize  - this parameter cancels "nomodify" image resizing, in case we want to keep original size.
 	 */
-	public function modify_image(string $filename, string $extension, string $path, bool $watermark = true, bool $modify = true, bool $noresize = false): void {
+	public function modify_image(string $modify,string $filename, string $extension, string $path, array $size, string $suffix, bool $watermark = true): void {
 
-		# mod
-		if($modify) {
+		# modification
+		if($modify === "prop") {
 			# image size change according to parameter settings
-			$this->resize($filename, $extension, $path);
-
+			$this->resize_proportional($filename, $extension, $size, $suffix, $path);
+		}
+		elseif($modify === "fit") {
 			# create thumbnail
-			$this->thumbnail($filename, $extension, $path);
+			$this->resize_to_fit($filename, $extension, $size, $suffix, $path);
 		}
-		else {
-			if(!$noresize) {
-				$this->resized($filename, $extension, $path);
-			}
+		elseif($modify === "no") {
+			$this->noresize($filename, $extension, $path);
 		}
-
 
 		# Set watermark on image
-		$watermark_type = $this->get_setting('gd_use_watermark');
-		if($watermark_type !== "no" && $watermark) {
+		if($watermark && $this->get_setting('gd_use_watermark')) {
 
 			# Text watermark
-			if($watermark_type === "text") {
+			if($this->get_setting('gd_watermark_type') === "text") {
 				$this->watermark_text($filename, $extension, $path);
 			}
 
 			# Graphic watermark
-			if($watermark_type === "image") {
+			if($this->get_setting('gd_watermark_type') === "image") {
 				$this->watermark_image($filename, $extension, $path);
 			}
 		}
@@ -272,26 +257,25 @@ class GD {
 	 * @param string $ext      - file extension (without dot)
 	 * @param string $path     - path to file
 	 */
-	protected function resize(string $filename, string $ext, string $path = _UPLOADIMG): void {
+	protected function resize_proportional(string $filename, string $ext, array $size, string $suffix, string $path = _UPLOADIMG): void {
 
 		# Build file paths
-		$file_original = $this->build_file_path($path, $filename, $this->file_suffix_original, $ext);
-		$file_resized = $this->build_file_path($path, $filename, $this->file_suffix_resized, $ext);
+		$file_resized = $this->build_file_path($path, $filename, $suffix, $ext);
 
 		# Get image size safely
-		$size = $this->get_image_size_safe($file_original);
-		$w = $size[0];
-		$h = $size[1];
+		$image_size = $this->get_image_size_safe($path."/".$filename.".".$ext);
+		$w = $image_size[0];
+		$h = $image_size[1];
 
 		# Check memory limit for processing this image
 		$this->check_memory_limit($w, $h);
 
-		if($w <= $this->msize['w'] && $h <= $this->msize['h']) {
-			copy($file_original, $file_resized);
+		if($w <= $size['w'] && $h <= $size['h']) {
+			copy($path."/".$filename.".".$ext, $file_resized);
 		}
 		else {
 			# We carry out calculations for compression and reduction in size
-			$ns = $this->calc_resize($w, $h, $this->msize['w'], $this->msize['h']);
+			$ns = $this->calc_resize($w, $h, $size['w'], $size['h']);
 
 			# Bring in memory blank image and original image for further work with them.
 			$resize = $this->imgcreatetruecolor($ns['new_width'], $ns['new_height'], $ext);
@@ -300,7 +284,7 @@ class GD {
 			imagefilledrectangle($resize, 0, 0, $ns['new_width']-1, $ns['new_height']-1, $bgcolor);
 
 			# Bring image in memory
-			$src = $this->imgcreate($file_original, $ext);
+			$src = $this->imgcreate($path."/".$filename.".".$ext, $ext);
 
 			imagecopyresampled($resize, $src, 0, 0, 0, 0, $ns['new_width'], $ns['new_height'], $w, $h);
 
@@ -320,22 +304,22 @@ class GD {
 	 * @param string $ext      - file extension (without dot)
 	 * @param string $path     - path to file
 	 */
-	protected function resized(string $filename, string $ext, string $path = _UPLOADIMG): void {
+	protected function noresize(string $filename, string $ext, string $path = _UPLOADIMG): void {
 
 		# vars
 		$file = $filename.".".$ext;
 
 		# Get image size
-		$size = getimagesize($path."/".$file);
+		$image_size = $this->get_image_size_safe($path."/".$file);
 
 		# get orientation image (if possible)
 		$orientation = $this->get_orientation($path."/".$file);
 
 		# Bring in memory blank image and original image for further work with them.
-		$resize = $this->imgcreatetruecolor($this->tsize['w'], $this->tsize['h'], $ext);
+		$resize = $this->imgcreatetruecolor($image_size[0], $image_size[1], $ext);
 		$bgcolor = $this->setup_alpha_background($resize, $ext);
 
-		imagefilledrectangle($resize, 0, 0, $this->tsize['w']-1, $this->tsize['h']-1, $bgcolor);
+		imagefilledrectangle($resize, 0, 0, $image_size[0]-1, $image_size[1]-1, $bgcolor);
 
 		# Bring image in memory
 		$src = $this->imgcreate($path."/".$file, $ext);
@@ -343,11 +327,11 @@ class GD {
 		unlink($path."/".$file);
 
 		# We carry out calculations for compression and reduction in size
-		$ns = $this->calc_resize($size[0], $size[1], $this->tsize['w'], $this->tsize['h'], false);
+		$ns = $this->calc_resize($image_size[0], $image_size[1], $image_size[0], $image_size[1], false);
 		$ns = $this->calc_newsize($ns);
 
 
-		imagecopyresampled($resize, $src, $ns['new_left'], $ns['new_top'], 0, 0, $ns['new_width'], $ns['new_height'], $size[0], $size[1]);
+		imagecopyresampled($resize, $src, $ns['new_left'], $ns['new_top'], 0, 0, $ns['new_width'], $ns['new_height'], $image_size[0], $image_size[1]);
 
 		# rotate image based on EXIF orientation
 		$resize = match($orientation) {
@@ -373,34 +357,34 @@ class GD {
 	 * @param string $ext      - file extension (without dot)
 	 * @param string $path     - path to file
 	 */
-	protected function thumbnail(string $filename, string $ext, string $path = _UPLOADIMG): void {
+	protected function resize_to_fit(string $filename, string $ext, array $size, string $suffix, string $path = _UPLOADIMG): void {
 
 		# vars
-		$fileresize 	= $filename . $this->file_suffix_resized . "." . $ext;
-		$filethumb 	= $filename . $this->file_suffix_thumbnail . "." . $ext;
+		$source_file = $filename . "." . $ext;  # Read from original file (without suffix)
+		$filethumb 	= $filename . $suffix . "." . $ext;
 
 		# Get image size
-		$size = getimagesize($path."/".$fileresize);
+		$image_size = getimagesize($path."/".$source_file);
 
 		# Bring in memory blank image and original image for further work with them.
-		$thumb = $this->imgcreatetruecolor($this->tsize['w'], $this->tsize['h'], $ext);
+		$thumb = $this->imgcreatetruecolor($size['w'], $size['h'], $ext);
 		$bgcolor = $this->setup_alpha_background($thumb, $ext);
 
-		imagefilledrectangle($thumb, 0, 0, $this->tsize['w']-1, $this->tsize['h']-1, $bgcolor);
+		imagefilledrectangle($thumb, 0, 0, $size['w']-1, $size['h']-1, $bgcolor);
 
 		# Bring image in memory
-		$src = $this->imgcreate($path."/".$fileresize, $ext);
+		$src = $this->imgcreate($path."/".$source_file, $ext);
 
 		# We carry out calculations thumbnail size
-		$resize = $this->thumbtg !== "overflow";
-		$ns = $this->calc_resize($size[0], $size[1], $this->tsize['w'], $this->tsize['h'], $resize);
+		$resize = $this->fit !== "overflow";
+		$ns = $this->calc_resize($image_size[0], $image_size[1], $size['w'], $size['h'], $resize);
 
 		# Recalculate for "overflow" thumbnail
-		if($this->thumbtg === "overflow") {
+		if($this->fit === "overflow") {
 			$ns = $this->calc_newsize($ns);
 		}
 
-		imagecopyresampled($thumb, $src, $ns['new_left'], $ns['new_top'], 0, 0, $ns['new_width'], $ns['new_height'], $size[0], $size[1]);
+		imagecopyresampled($thumb, $src, $ns['new_left'], $ns['new_top'], 0, 0, $ns['new_width'], $ns['new_height'], $image_size[0], $image_size[1]);
 
 		# save preview
 		$this->imgsave($thumb, $path."/".$filethumb, $ext, $this->th_quality);
@@ -419,17 +403,14 @@ class GD {
 	 */
 	protected function watermark_text(string $filename, string $ext, string $path = _UPLOADIMG): void {
 
-		# vars
-		$fileresize = $filename . $this->file_suffix_resized . "." . $ext;
-
 		# get image size
-		$size = getimagesize($path."/".$fileresize);
+		$size = $this->get_image_size_safe($path."/".$filename.".".$ext);
 
 		# Bring image in memory
-		$src = $this->imgcreate($path."/".$fileresize, $ext);
+		$src = $this->imgcreate($path."/".$filename.".".$ext, $ext);
 
 		# erase original
-		unlink($path."/".$fileresize);
+		unlink($path."/".$filename.".".$ext);
 
 		# Colors for text watermark
 		$shadow = imagecolorallocatealpha($src, 0, 0, 0, self::TEXT_WATERMARK_ALPHA);
@@ -451,7 +432,7 @@ class GD {
 		}
 
 		# save with watermark
-		$this->imgsave($src, $path."/".$fileresize, $ext, $this->rs_quality);
+		$this->imgsave($src, $path."/".$filename.".".$ext, $ext, $this->rs_quality);
 
 		imagedestroy($src);
 	}
@@ -497,7 +478,7 @@ class GD {
 		$fileresize = $filename . $this->file_suffix_resized . "." . $ext;
 
 		# get image size
-		$size = getimagesize($path."/".$fileresize);
+		$size = $this->get_image_size_safe($path."/".$fileresize);
 		$w = $size[0];
 		$h = $size[1];
 
@@ -510,7 +491,7 @@ class GD {
 		# watermark
 		$wm_image_path = $path . "/" . $this->get_setting('gd_watermark_image');
 		$wminfo = pathinfo($wm_image_path);
-		$wmsize = getimagesize($wm_image_path);
+		$wmsize = $this->get_image_size_safe($wm_image_path);
 		$ww = $wmsize[0];
 		$wh = $wmsize[1];
 		$watermark = $this->imgcreate($wm_image_path, $wminfo['extension']);
@@ -589,11 +570,11 @@ class GD {
 	 * @param string $from - full path and file name for craft
 	 * @param string $ext  - file extension without dot
 	 *
-	 * @return \GdImage
+	 * @return GdImage
 	 * @throws RuntimeException If image file not found or cannot be created
 	 * @throws InvalidArgumentException If extension is not supported
 	 */
-	private function imgcreate(string $from, string $ext): \GdImage {
+	private function imgcreate(string $from, string $ext): GdImage {
 
 		# Validate extension
 		$this->validate_extension($ext);
@@ -637,10 +618,10 @@ class GD {
 	 * @param int    $height - height blank
 	 * @param string $ext    - extension
 	 *
-	 * @return \GdImage
+	 * @return GdImage
 	 * @throws RuntimeException If image creation fails
 	 */
-	private function imgcreatetruecolor(int $width, int $height, string $ext): \GdImage {
+	private function imgcreatetruecolor(int $width, int $height, string $ext): GdImage {
 
 		# Validate dimensions
 		if($width <= 0 || $height <= 0) {
@@ -667,12 +648,12 @@ class GD {
 	/**
 	 * Image save
 	 *
-	 * @param \GdImage $res     - image
+	 * @param GdImage $res     - image
 	 * @param string   $path    - path for save
 	 * @param string   $ext     - extension
 	 * @param int      $quality - quality
 	 */
-	private function imgsave(\GdImage $res, string $path, string $ext, int $quality = 0): void {
+	private function imgsave(GdImage $res, string $path, string $ext, int $quality = 0): void {
 		match($ext) {
 			'webp' => imagewebp($res, $path, $quality),
 			'gif' => imagegif($res, $path),

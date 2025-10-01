@@ -128,36 +128,4 @@ trait GDExtends {
 
 		return $ns;
 	}
-
-
-	/**
-	 * Set thumbnail size parameters for images
-	 *
-	 * @param array{0: int|float, 1: int|float} $sizes - array(width, height) - sizes will be changed according to parameters
-	 * @param string $target - target size type ("tsize" or "msize")
-	 */
-	protected function set_mod_sizes(array $sizes, string $target = "tsize"): void {
-
-		if(count($sizes) === 2) {
-
-			$size = [];
-
-			if(round($sizes[0]) > 16) {
-				$size['w'] = (int) round($sizes[0]);
-			}
-
-			if(round($sizes[1]) > 16) {
-				$size['h'] = (int) round($sizes[1]);
-			}
-
-			if(!empty($size)) {
-				if($target !== "tsize") {
-					$this->msize = $size;
-				}
-				else {
-					$this->tsize = $size;
-				}
-			}
-		}
-	}
 }
