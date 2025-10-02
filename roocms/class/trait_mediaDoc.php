@@ -35,19 +35,19 @@ trait MediaDoc {
     protected function process_document(int $media_id, string $file_path): bool {
         
         try {
-            # Validate document
+            // Validate document
             if(!$this->is_valid_document($file_path)) {
                 return false;
             }
             
-            # Get document info
+            // Get document info
             $doc_info = pathinfo($file_path);
             $extension = strtolower($doc_info['extension']);
             
-            # Extract metadata based on document type
+            // Extract metadata based on document type
             $metadata = $this->extract_document_metadata($file_path, $extension);
             
-            # Update media metadata
+            // Update media metadata
             if(!empty($metadata)) {
                 $this->db->update(TABLE_MEDIA)
                     ->data([
@@ -81,13 +81,13 @@ trait MediaDoc {
             'size_human' => $this->format_file_size(filesize($file_path))
         ];
         
-        # Extract PDF metadata
+        // Extract PDF metadata
         if($extension === 'pdf') {
             $pdf_meta = $this->extract_pdf_metadata($file_path);
             $metadata = array_merge($metadata, $pdf_meta);
         }
         
-        # Extract text file metadata
+        // Extract text file metadata
         if($extension === 'txt') {
             $txt_meta = $this->extract_text_metadata($file_path);
             $metadata = array_merge($metadata, $txt_meta);
@@ -107,30 +107,30 @@ trait MediaDoc {
         
         $metadata = [];
         
-        # Try to read PDF content
+        // Try to read PDF content
         $content = @file_get_contents($file_path);
         if($content === false) {
             return $metadata;
         }
         
-        # Extract page count (simple method)
+        // Extract page count (simple method)
         if(preg_match("/\/N\s+(\d+)/", $content, $matches)) {
             $metadata['pages'] = (int)$matches[1];
         } elseif(preg_match_all("/\/Page\W/", $content, $matches)) {
             $metadata['pages'] = count($matches[0]);
         }
         
-        # Extract title
+        // Extract title
         if(preg_match("/\/Title\s*\(([^)]+)\)/", $content, $matches)) {
             $metadata['title'] = trim($matches[1]);
         }
         
-        # Extract author
+        // Extract author
         if(preg_match("/\/Author\s*\(([^)]+)\)/", $content, $matches)) {
             $metadata['author'] = trim($matches[1]);
         }
         
-        # Extract creation date
+        // Extract creation date
         if(preg_match("/\/CreationDate\s*\(([^)]+)\)/", $content, $matches)) {
             $metadata['creation_date'] = trim($matches[1]);
         }
@@ -149,7 +149,7 @@ trait MediaDoc {
         
         $metadata = [];
         
-        # Count lines
+        // Count lines
         $line_count = 0;
         $handle = @fopen($file_path, 'r');
         if($handle !== false) {
@@ -161,7 +161,7 @@ trait MediaDoc {
             $metadata['lines'] = $line_count;
         }
         
-        # Detect encoding
+        // Detect encoding
         $content = @file_get_contents($file_path, false, null, 0, 4096);
         if($content !== false) {
             $encoding = mb_detect_encoding($content, ['UTF-8', 'ASCII', 'ISO-8859-1', 'Windows-1251'], true);
@@ -169,7 +169,7 @@ trait MediaDoc {
                 $metadata['encoding'] = $encoding;
             }
             
-            # Count words (approximate)
+            // Count words (approximate)
             $word_count = str_word_count($content);
             $metadata['words'] = $word_count;
         }
@@ -235,17 +235,17 @@ trait MediaDoc {
      * @return array Processed media info with document-specific enhancements
      */
     private function process_document_info(array $media): array {
-        # Add document-specific processing
-        # This method is called by get_media_info() via match()
+        // Add document-specific processing
+        // This method is called by get_media_info() via match()
         
-        # Add formatted file size for convenience
+        // Add formatted file size for convenience
         if(isset($media['file_size'])) {
             $media['file_size_formatted'] = $this->format_file_size($media['file_size']);
         }
         
-        # Add document-specific metadata processing if needed
+        // Add document-specific metadata processing if needed
         if(isset($media['metadata']) && is_array($media['metadata'])) {
-            # Add human-readable page count, etc.
+            // Add human-readable page count, etc.
             if(isset($media['metadata']['pages'])) {
                 $media['metadata']['pages_formatted'] = $media['metadata']['pages'] . ' страниц';
             }
@@ -309,14 +309,14 @@ trait MediaDoc {
      */
     public function search_documents_by_content(string $search_term): array {
         
-        # Get all text documents
+        // Get all text documents
         $sql = "SELECT * FROM " . TABLE_MEDIA . " WHERE media_type = :media_type";
         $documents = $this->db->fetch_all($sql, ['media_type' => 'document']);
         
         $results = [];
         
         foreach($documents as $doc) {
-            # Only search in text files
+            // Only search in text files
             if(!in_array($doc['extension'], ['txt', 'csv'], true)) {
                 continue;
             }
@@ -327,14 +327,14 @@ trait MediaDoc {
                 continue;
             }
             
-            # Read file content
+            // Read file content
             $content = @file_get_contents($file_path);
             
             if($content === false) {
                 continue;
             }
             
-            # Search for term (case-insensitive)
+            // Search for term (case-insensitive)
             if(stripos($content, $search_term) !== false) {
                 $results[] = $doc;
             }

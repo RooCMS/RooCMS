@@ -36,17 +36,17 @@ trait MediaImage {
     protected function process_image(int $media_id, string $file_path, string $extension): bool {
         
         try {
-            # Validate image
+            // Validate image
             if(!$this->is_valid_image($file_path)) {
                 return false;
             }
             
-            # Get path info
+            // Get path info
             $path_info = pathinfo($file_path);
             $directory = $path_info['dirname'];
             $filename_without_ext = $path_info['filename'];
             
-            # Create image variants based on VARIANT_TYPES constant
+            // Create image variants based on VARIANT_TYPES constant
             $success = $this->create_image_variants($media_id, $file_path, $directory, $filename_without_ext, $extension);
             
             return $success;
@@ -71,10 +71,10 @@ trait MediaImage {
         
         $success = true;
         
-        # Get VARIANT_TYPES from parent Media class
+        // Get VARIANT_TYPES from parent Media class
         $variant_types = Media::VARIANT_TYPES;
         
-        # First, create original file (just rename)
+        // First, create original file (just rename)
         $original_config = $variant_types['original'];
         $original_target = $directory . '/' . $filename . $original_config['suffix'] . '.' . $extension;
         
@@ -82,26 +82,26 @@ trait MediaImage {
             return false;
         }
         
-        # Store original variant in database
+        // Store original variant in database
         if(!$this->store_single_image_variant($media_id, $original_target, 'original')) {
             $success = false;
         }
         
-        # Now create other variants from original
+        // Now create other variants from original
         foreach($variant_types as $variant_name => $variant_config) {
             
-            # Skip original - already processed
+            // Skip original - already processed
             if($variant_name === 'original') {
                 continue;
             }
             
-            # Skip variants with no modification
+            // Skip variants with no modification
             if($variant_config['modify'] === 'no') {
                 continue;
             }
             
             try {
-                # Use GD to create variant from original
+                // Use GD to create variant from original
                 $this->gd->modify_image(
                     $variant_config['modify'],
                     $filename,
@@ -112,7 +112,7 @@ trait MediaImage {
                     $variant_config['watermark']
                 );
                 
-                # Store variant in database
+                // Store variant in database
                 $variant_file = $directory . '/' . $filename . $variant_config['suffix'] . '.' . $extension;
                 if(!$this->store_single_image_variant($media_id, $variant_file, $variant_name)) {
                     $success = false;
@@ -137,24 +137,24 @@ trait MediaImage {
      */
     private function store_single_image_variant(int $media_id, string $file_path, string $variant_type): bool {
         
-        # Check if file exists
+        // Check if file exists
         if(!file_exists($file_path)) {
             return false;
         }
         
-        # Get file size
+        // Get file size
         $file_size = @filesize($file_path);
         if($file_size === false) {
             return false;
         }
         
-        # Get image dimensions
+        // Get image dimensions
         $image_info = @getimagesize($file_path);
         if($image_info === false) {
             return false;
         }
         
-        # Save variant to database
+        // Save variant to database
         $variant_data = [
             'media_id' => $media_id,
             'variant_type' => $variant_type,
@@ -189,7 +189,7 @@ trait MediaImage {
             return false;
         }
         
-        # Check if MIME type is supported
+        // Check if MIME type is supported
         $allowed_types = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
         return in_array($image_info['mime'], $allowed_types, true);
     }
@@ -243,23 +243,23 @@ trait MediaImage {
      * @return array Processed media info with image-specific enhancements
      */
     private function process_image_info(array $media): array {
-        # Add image-specific processing
-        # This method is called by get_media_info() via match()
+        // Add image-specific processing
+        // This method is called by get_media_info() via match()
         
-        # Add formatted file size for convenience
+        // Add formatted file size for convenience
         if(isset($media['file_size'])) {
             $media['file_size_formatted'] = $this->format_file_size($media['file_size']);
         }
         
-        # Add image-specific metadata formatting
+        // Add image-specific metadata formatting
         if(isset($media['metadata']) && is_array($media['metadata'])) {
-            # Format dimensions
+            // Format dimensions
             if(isset($media['metadata']['width']) && isset($media['metadata']['height'])) {
                 $media['metadata']['dimensions'] = $media['metadata']['width'] . 'x' . $media['metadata']['height'];
             }
         }
         
-        # Load variants for images
+        // Load variants for images
         $media['variants'] = $this->get_all_image_variants($media['id']);
         
         return $media;

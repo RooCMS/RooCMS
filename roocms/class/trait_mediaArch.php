@@ -35,15 +35,15 @@ trait MediaArch {
     protected function process_archive(int $media_id, string $file_path): bool {
         
         try {
-            # Validate archive
+            // Validate archive
             if(!$this->is_valid_archive($file_path)) {
                 return false;
             }
             
-            # Extract archive metadata
+            // Extract archive metadata
             $metadata = $this->extract_archive_metadata($file_path);
             
-            # Update media metadata
+            // Update media metadata
             if(!empty($metadata)) {
                 $this->db->update(TABLE_MEDIA)
                     ->data([
@@ -78,7 +78,7 @@ trait MediaArch {
             'size_human' => $this->format_file_size(filesize($file_path))
         ];
         
-        # Extract info based on archive type
+        // Extract info based on archive type
         $archive_info = match($extension) {
             'zip' => $this->extract_zip_info($file_path),
             'tar' => $this->extract_tar_info($file_path),
@@ -98,7 +98,7 @@ trait MediaArch {
      */
     private function extract_zip_info(string $file_path): array {
         
-        # Early returns for invalid conditions
+        // Early returns for invalid conditions
         if (!class_exists('ZipArchive')) {
             return [];
         }
@@ -108,13 +108,13 @@ trait MediaArch {
             return [];
         }
         
-        # Initialize info with basic data
+        // Initialize info with basic data
         $info = [
             'files_count' => $zip->numFiles,
             'files' => []
         ];
         
-        # Calculate sizes and build file list
+        // Calculate sizes and build file list
         $total_uncompressed = 0;
         for($i = 0; $i < $zip->numFiles && count($info['files']) < 100; $i++) {
             $stat = $zip->statIndex($i);
@@ -125,15 +125,15 @@ trait MediaArch {
             ]);
         }
         
-        # Add size information
+        // Add size information
         $info['uncompressed_size'] = $total_uncompressed;
         $info['uncompressed_size_human'] = $this->format_file_size($total_uncompressed);
         
-        # Calculate compression ratio if possible
+        // Calculate compression ratio if possible
         $compressed_size = filesize($file_path);
         ($compressed_size > 0 && $total_uncompressed > 0) && ($info['compression_ratio'] = round((1 - ($compressed_size / $total_uncompressed)) * 100, 2) . '%');
         
-        # Add comment if exists
+        // Add comment if exists
         $comment = $zip->getArchiveComment();
         $comment && ($info['comment'] = $comment);
         
@@ -152,7 +152,7 @@ trait MediaArch {
         
         $info = [];
         
-        # Check if PharData class is available
+        // Check if PharData class is available
         if(!class_exists('PharData')) {
             return $info;
         }
@@ -160,7 +160,7 @@ trait MediaArch {
         try {
             $phar = new \PharData($file_path);
             
-            # Count files
+            // Count files
             $files_count = 0;
             $total_size = 0;
             $file_list = [];
@@ -169,7 +169,7 @@ trait MediaArch {
                 $files_count++;
                 $total_size += $file->getSize();
                 
-                # Add to file list (limit to first 100 files)
+                // Add to file list (limit to first 100 files)
                 if(count($file_list) < 100) {
                     $file_list[] = [
                         'name' => $file->getFilename(),
@@ -184,7 +184,7 @@ trait MediaArch {
             $info['files'] = $file_list;
             
         } catch(\Exception $e) {
-            # If extraction fails, return empty info
+            // If extraction fails, return empty info
             return $info;
         }
         
@@ -202,13 +202,13 @@ trait MediaArch {
         
         $info = [];
         
-        # GZ files typically contain a single file
+        // GZ files typically contain a single file
         $info['files_count'] = 1;
         
-        # Try to get original filename
+        // Try to get original filename
         $handle = @gzopen($file_path, 'rb');
         if($handle !== false) {
-            # Read uncompressed size (stored at end of file)
+            // Read uncompressed size (stored at end of file)
             fseek($handle, -4, SEEK_END);
             $data = fread($handle, 4);
             $uncompressed_size = unpack('V', $data)[1];
@@ -216,7 +216,7 @@ trait MediaArch {
             $info['uncompressed_size'] = $uncompressed_size;
             $info['uncompressed_size_human'] = $this->format_file_size($uncompressed_size);
             
-            # Calculate compression ratio
+            // Calculate compression ratio
             $compressed_size = filesize($file_path);
             if($compressed_size > 0 && $uncompressed_size > 0) {
                 $ratio = (1 - ($compressed_size / $uncompressed_size)) * 100;
@@ -271,22 +271,22 @@ trait MediaArch {
      * @return array Processed media info with archive-specific enhancements
      */
     private function process_archive_info(array $media): array {
-        # Add formatted file size
+        // Add formatted file size
         isset($media['file_size']) && ($media['file_size_formatted'] = $this->format_file_size($media['file_size']));
         
-        # Process metadata if exists
+        // Process metadata if exists
         if(!isset($media['metadata']) || !is_array($media['metadata'])) {
             return $media;
         }
         
-        # Define metadata formatters
+        // Define metadata formatters
         $formatters = [
             'file_count' => fn($value) => $value . ' файлов',
             'uncompressed_size' => fn($value) => $this->format_file_size((int)$value),
             'compression_ratio' => fn($value) => round($value, 1) . '%'
         ];
         
-        # Apply formatters to existing metadata
+        // Apply formatters to existing metadata
         foreach($formatters as $key => $formatter) {
             isset($media['metadata'][$key]) && ($media['metadata'][$key . '_formatted'] = $formatter($media['metadata'][$key]));
         }
@@ -310,7 +310,7 @@ trait MediaArch {
             return false;
         }
         
-        # Check if metadata contains file list
+        // Check if metadata contains file list
         if(isset($media['metadata']) && $media['metadata']) {
             $metadata = json_decode($media['metadata'], true);
             
@@ -344,12 +344,12 @@ trait MediaArch {
             return false;
         }
         
-        # Create destination directory if not exists
+        // Create destination directory if not exists
         if(!is_dir($destination)) {
             mkdir($destination, 0755, true);
         }
         
-        # Extract based on archive type
+        // Extract based on archive type
         $extension = strtolower($media['extension']);
         
         return match($extension) {
@@ -420,7 +420,7 @@ trait MediaArch {
      */
     public function get_archives_by_file_count(int $min_files, int $max_files): array {
         
-        # Get archives with JSON filtering (more efficient than PHP filtering)
+        // Get archives with JSON filtering (more efficient than PHP filtering)
         $sql = "SELECT * FROM " . TABLE_MEDIA . " 
                 WHERE media_type = :media_type 
                 AND metadata IS NOT NULL 
@@ -432,7 +432,7 @@ trait MediaArch {
             'max_files' => $max_files
         ]);
         
-        # Decode metadata for results
+        // Decode metadata for results
         return array_map(fn($archive) => [
             ...$archive,
             'metadata' => json_decode($archive['metadata'], true) ?: []

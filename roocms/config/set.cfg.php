@@ -47,9 +47,9 @@ ob_start('ob_gzhandler', 8);
 /**
  * Set up PHP
  */
-set_time_limit(45);
-#ini_set('memory_limit', 			'512M');
-#ini_set('upload_tmp_dir', 			'/tmp');	# temporary directory for uploaded files. (uncomment if you have difficulties with PHP settings)
+set_time_limit(45);  // time limit
+#ini_set('memory_limit', 	'512M');  // memory limit
+#ini_set('upload_tmp_dir', 	'/tmp');  // temporary directory for uploaded files. (uncomment if you have difficulties with PHP settings)
 
 /**
  * Set up serialize precision
@@ -78,7 +78,7 @@ date_default_timezone_set('UTC');
 /**
  * Set up style for error display
  */
-#ini_set('error_prepend_string',		'');
+#ini_set('error_prepend_string',	'');
 #ini_set('error_append_string',		'');
 
 
@@ -92,10 +92,10 @@ mb_http_output('UTF-8');
 /**
  * Security headers
  */
-header('X-Frame-Options: sameorigin'); 			# rule to use Iframe only within the site. Protect for "Clickjacking" / Use "deny" to ban iframes completely
-header('X-Content-Type-Options: nosniff'); 		# Check mimetype
-header('X-XSS-Protection: 1; mode=block'); 		# XSS Block
-#header('X-XSS-Protection: 1; report=/?part=report&act=XSS'); 	# XSS Block and report (future)
+header('X-Frame-Options: sameorigin'); 			// rule to use Iframe only within the site. Protect for "Clickjacking" / Use "deny" to ban iframes completely
+header('X-Content-Type-Options: nosniff'); 		// Check mimetype
+header('X-XSS-Protection: 1; mode=block'); 		// XSS Block
+#header('X-XSS-Protection: 1; report=/?part=report&act=XSS'); 	// XSS Block and report (future)
 
 /**
  * Signature in header

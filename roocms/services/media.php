@@ -45,13 +45,13 @@ class MediaService {
 	 */
 	public function upload_file(array $file, ?int $user_id = null, array $options = []): int {
 		
-		# Validate basic file requirements using Media class
+		// Validate basic file requirements using Media class
 		$file_info = $this->media->validate_uploaded_file($file);
 		
-		# Validate business rules (file size limits, MIME types)
+		// Validate business rules (file size limits, MIME types)
 		$this->validate_upload($file, $file_info);
 		
-		# Upload through Media class
+		// Upload through Media class
 		$media_id = $this->media->upload($file, $user_id, $options);
 		
 		if($media_id === false) {
@@ -73,14 +73,14 @@ class MediaService {
 		$media_type = $file_info['media_type'];
 		$mime_type = $file_info['mime_type'];
 		
-		# Check file size limits (business rule)
+		// Check file size limits (business rule)
 		$max_size = $this->media->get_max_file_size($media_type);
 		if($file['size'] > $max_size) {
 			$max_size_mb = round($max_size / 1048576, 2);
 			throw new DomainException("File size exceeds {$max_size_mb} MB limit", 413);
 		}
 		
-		# Validate MIME type (business rule)
+		// Validate MIME type (business rule)
 		$all_mime_types = $this->media->get_allowed_mime_types();
 		$allowed_mimes = array_merge(...array_values($all_mime_types));
 		if(!in_array($mime_type, $allowed_mimes, true)) {
@@ -123,18 +123,18 @@ class MediaService {
 	 */
 	public function delete_file(int $id, ?int $user_id = null): bool {
 		
-		# Check if file exists
+		// Check if file exists
 		$file = $this->media->get_by_id($id);
 		if(!$file) {
 			throw new DomainException('File not found', 404);
 		}
 		
-		# Check ownership if user_id provided
+		// Check ownership if user_id provided
 		if($user_id !== null && isset($file['user_id']) && (int)$file['user_id'] !== $user_id) {
 			throw new DomainException('Access denied', 403);
 		}
 		
-		# Delete in transaction
+		// Delete in transaction
 		return (bool)$this->db->transaction(function() use ($id) {
 			return $this->media->delete($id);
 		});
@@ -154,13 +154,13 @@ class MediaService {
 	 */
 	public function attach_to_entity(int $media_id, string $entity_type, int $entity_id, string $relationship_type = 'attachment', array $metadata = []): int {
 		
-		# Validate media exists
+		// Validate media exists
 		$file = $this->media->get_by_id($media_id);
 		if(!$file) {
 			throw new DomainException('File not found', 404);
 		}
 		
-		# Attach
+		// Attach
 		$rel_id = $this->media->attach_to_entity($media_id, $entity_type, $entity_id, $relationship_type, $metadata);
 		
 		if($rel_id === false) {
@@ -207,7 +207,7 @@ class MediaService {
 	 */
 	public function update_status(int $id, string $status): bool {
 		
-		# Validate status
+		// Validate status
 		$allowed_statuses = ['uploaded', 'processing', 'ready', 'error', 'deleted'];
 		if(!in_array($status, $allowed_statuses, true)) {
 			throw new DomainException('Invalid status', 422);
@@ -227,7 +227,7 @@ class MediaService {
 	 */
 	public function get_by_type(string $media_type, int $limit = 50, int $offset = 0): array {
 		
-		# Guard parameters
+		// Guard parameters
 		$limit = max(1, min(100, (int)$limit));
 		$offset = max(0, (int)$offset);
 		
@@ -255,7 +255,7 @@ class MediaService {
 	 */
 	public function get_by_user(int $user_id, int $limit = 50, int $offset = 0): array {
 		
-		# Guard parameters
+		// Guard parameters
 		$limit = max(1, min(100, (int)$limit));
 		$offset = max(0, (int)$offset);
 		
@@ -282,7 +282,7 @@ class MediaService {
 	 */
 	public function search_files(string $search_term, int $limit = 50): array {
 		
-		# Guard parameters
+		// Guard parameters
 		$search_term = trim($search_term);
 		if(empty($search_term)) {
 			return [];
@@ -420,49 +420,33 @@ class MediaService {
 	 * @return array List of media with formatted data
 	 */
 	public function get_media_list(array $filters = [], int $page = 1, int $limit = 20): array {
-		$offset = ($page - 1) * $limit;
+		// Define filter mappings (reuse from get_media_count)
+		$filter_map = [
+			'media_type' => 'media_type = :media_type',
+			'status' => 'status = :status', 
+			'user_id' => 'user_id = :user_id'
+		];
 		
-		# Build WHERE clause
+		// Build WHERE conditions and parameters
 		$where_conditions = [];
 		$params = [];
 		
-		if(isset($filters['media_type'])) {
-			$where_conditions[] = 'media_type = :media_type';
-			$params['media_type'] = $filters['media_type'];
+		foreach($filter_map as $key => $condition) {
+			isset($filters[$key]) && ($where_conditions[] = $condition) && ($params[$key] = $filters[$key]);
 		}
 		
-		if(isset($filters['status'])) {
-			$where_conditions[] = 'status = :status';
-			$params['status'] = $filters['status'];
-		}
+		// Handle search filter separately
+		isset($filters['search']) && ($where_conditions[] = '(original_name LIKE :search OR description LIKE :search)') && ($params['search'] = '%' . $filters['search'] . '%');
 		
-		if(isset($filters['user_id'])) {
-			$where_conditions[] = 'user_id = :user_id';
-			$params['user_id'] = $filters['user_id'];
-		}
+		// Build and execute SQL with pagination
+		$sql = 'SELECT * FROM ' . TABLE_MEDIA . 
+			   (!empty($where_conditions) ? ' WHERE ' . implode(' AND ', $where_conditions) : '') . 
+			   ' ORDER BY created_at DESC LIMIT :limit OFFSET :offset';
 		
-		if(isset($filters['search'])) {
-			$where_conditions[] = '(original_name LIKE :search OR description LIKE :search)';
-			$params['search'] = '%' . $filters['search'] . '%';
-		}
+		$params += ['limit' => $limit, 'offset' => ($page - 1) * $limit];
 		
-		# Build SQL
-		$sql = 'SELECT * FROM ' . TABLE_MEDIA;
-		
-		if(!empty($where_conditions)) {
-			$sql .= ' WHERE ' . implode(' AND ', $where_conditions);
-		}
-		
-		$sql .= ' ORDER BY created_at DESC LIMIT :limit OFFSET :offset';
-		$params['limit'] = $limit;
-		$params['offset'] = $offset;
-		
-		$results = $this->db->fetch_all($sql, $params);
-		
-		# Process results - format data
-		return array_map(function($media) {
-			return $this->format_media_data($media);
-		}, $results);
+		// Fetch and format results
+		return array_map(fn($media) => $this->format_media_data($media), $this->db->fetch_all($sql, $params));
 	}
 
 
@@ -473,14 +457,14 @@ class MediaService {
 	 * @return int Total count
 	 */
 	public function get_media_count(array $filters = []): int {
-		# Define filter mappings
+		// Define filter mappings
 		$filter_map = [
 			'media_type' => 'media_type = :media_type',
 			'status' => 'status = :status', 
 			'user_id' => 'user_id = :user_id'
 		];
 		
-		# Build WHERE conditions and parameters
+		// Build WHERE conditions and parameters
 		$where_conditions = [];
 		$params = [];
 		
@@ -488,10 +472,10 @@ class MediaService {
 			isset($filters[$key]) && ($where_conditions[] = $condition) && ($params[$key] = $filters[$key]);
 		}
 		
-		# Handle search filter separately
+		// Handle search filter separately
 		isset($filters['search']) && ($where_conditions[] = '(original_name LIKE :search OR description LIKE :search)') && ($params['search'] = '%' . $filters['search'] . '%');
 		
-		# Build and execute SQL
+		// Build and execute SQL
 		$sql = 'SELECT COUNT(*) as total FROM ' . TABLE_MEDIA . (!empty($where_conditions) ? ' WHERE ' . implode(' AND ', $where_conditions) : '');
 		
 		return (int)$this->db->fetch_assoc($sql, $params)['total'];
@@ -511,7 +495,7 @@ class MediaService {
 			return null;
 		}
 		
-		# Get variants
+		// Get variants
 		$media['variants'] = $this->media->get_variants($id);
 		
 		return $this->format_media_data($media);
@@ -527,24 +511,24 @@ class MediaService {
 	 * @throws DomainException
 	 */
 	public function update_media_metadata(int $id, array $data): array {
-		# Check if media exists
+		// Check if media exists
 		$media = $this->media->get_by_id($id) ?: throw new DomainException('Media not found', 404);
 		
-		# Filter allowed fields
+		// Filter allowed fields
 		$allowed_fields = ['original_name', 'description', 'tags', 'status'];
 		$update_data = array_intersect_key($data, array_flip($allowed_fields));
 		
-		# Validate status and check for empty data
+		// Validate status and check for empty data
 		isset($update_data['status']) && !in_array($update_data['status'], Media::STATUSES, true) && throw new DomainException('Invalid status value', 400);
 		empty($update_data) && throw new DomainException('No valid fields to update', 400);
 		
-		# Update media record with timestamp
+		// Update media record with timestamp
 		$result = $this->db->update(TABLE_MEDIA)
 			->data($update_data + ['updated_at' => time()])
 			->where('id', '=', $id)
 			->execute();
 		
-		# Check update success and return formatted data
+		// Check update success and return formatted data
 		($result->rowCount() === 0) && throw new DomainException('Failed to update media', 500);
 		
 		return $this->get_file_formatted($id);
@@ -576,14 +560,14 @@ class MediaService {
 	 * @return array Formatted media data
 	 */
 	private function format_media_data(array $media): array {
-		# Format file size using Media class method
+		// Format file size using Media class method
 		$media['file_size_human'] = $this->media->format_file_size($media['file_size']);
 		
-		# Format timestamps
+		// Format timestamps
 		$media['created_at_formatted'] = date('Y-m-d H:i:s', $media['created_at']);
 		$media['updated_at_formatted'] = date('Y-m-d H:i:s', $media['updated_at']);
 		
-		# Decode metadata if exists
+		// Decode metadata if exists
 		if(!empty($media['metadata'])) {
 			$media['metadata'] = json_decode($media['metadata'], true);
 		}

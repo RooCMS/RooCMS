@@ -24,27 +24,18 @@ class Debugger {
 
 	use DebugLog;
 
-	# debug info
-	private $debug_dump				= []; # data dump for developers
+	private $debug_dump				= []; // data dump for developers
 
-	# Timer
 	private $starttime				= 0;
 	public  $productivity_time		= 0.0;
-
-	# Memory
 	public  $productivity_memory	= 0;
 	public  $memory_peak_usage		= 0;
 
-	# error log file
 	public  $exist_errors			= false;
 
-	# requirement php extension
 	private $required_extensions	= ['Core', 'pdo', 'standard', 'mbstring', 'calendar', 'date', 'pcre', 'gd', 'curl', 'openssl', 'json', 'fileinfo', 'zip', 'exif'];
-
-	# guard to prevent double shutdown registration
+	
 	private bool $shutdown_registered = false;
-
-	# debug entry counter
 	private int $debug_counter = 0;
 
 
@@ -54,25 +45,25 @@ class Debugger {
 	 */
 	public function __construct() {
 
-		# set error and exception handlers
+		// set error and exception handlers
 		set_error_handler([$this,'debug_critical_error']);
 		set_exception_handler([$this,'debug_exception_handler']);
 
-		# default : error hide
+		// default : error hide
 		$this->error_report(false);
 
-        	# for admins all time measure productivity
+        // for admins all time measure productivity
 		if(DEBUGMODE) {
-			# start productivity timer
+			// start productivity timer
 			$this->starttime = env('REQUEST_TIME_FLOAT') ?? microtime(true);
 
-			# try show error
+			// try show error
 			$this->error_report(true);
 
-			# check error log
+			// check error log
 			$this->check_errorlog();
 
-			# shutdown register
+			// shutdown register
 			if(!$this->shutdown_registered) {
 				register_shutdown_function([$this,'shutdown']);
 				$this->shutdown_registered = true;
@@ -85,13 +76,13 @@ class Debugger {
 	 * Stop productivity timer measure script working
 	 */
 	public function end_productivity() : void {
-		# timer
+		// timer
 		$endtime = microtime(true);
 		$totaltime = round(($endtime - $this->starttime), 4);
 
 		$this->productivity_time = $totaltime;
 
-		# memory
+		// memory
 		$this->productivity_memory 	= memory_get_usage() - MEMORYUSAGE;
 		$this->memory_peak_usage 	= memory_get_peak_usage();
 	}
@@ -124,7 +115,7 @@ class Debugger {
 	 */
 	public static function debug_critical_error(int $errno, string $msg, string $file, int $line) : bool {
 
-        # read error in file
+        // read error in file
 		$subj = read_file(ERRORSLOG);
 		
 		[$erlevel, $ertitle] = match($errno) {
@@ -170,7 +161,7 @@ class Debugger {
 		}
 		fclose($f);
 
-		# hide error if not use debugmode
+		// hide error if not use debugmode
 		if(error_reporting() == 0 && $erlevel == 0) {
 			$msg = 'Sorry, something went wrong. We are already working on fixing the cause.<br>' . $time . '<br><a href="javascript:history.back(1)">< Back</a>';
 			$messager = read_file(_ASSETS.'/critical.html');
@@ -180,7 +171,7 @@ class Debugger {
 			return false; // TODO: Maybe it will break the analyzer?
 		}
 
-		# We kill the standard handler, so that he would not give out anything to spy (:
+		// We kill the standard handler, so that he would not give out anything to spy (:
 		return true;
 	}
 
@@ -200,7 +191,7 @@ class Debugger {
 		$line = $exception->getLine();
 		$trace = $exception->getTraceAsString();
 		
-		# Determine exception severity
+		// Determine exception severity
 		$severity = match(true) {
 			$exception instanceof Error => 'Fatal Error',
 			$exception instanceof TypeError => 'Type Error', 
@@ -211,10 +202,10 @@ class Debugger {
 			default => 'Uncaught Exception'
 		};
 
-		# Read existing log
+		// Read existing log
 		$subj = read_file(ERRORSLOG);
 		
-		# Create exception log entry
+		// Create exception log entry
 		$error_data = [
 			'time' => $time,
 			'uri' => sanitize_log(env('REQUEST_URI') ?? 'CLI'),
@@ -230,14 +221,14 @@ class Debugger {
 		$error_json = json_encode($error_data, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
 		$subj .= $error_json . ",\r\n";
 
-		# Write to log file
+		// Write to log file
 		$f = fopen(ERRORSLOG, 'w+');
 		if(is_writable(ERRORSLOG)) {
 			fwrite($f, $subj);
 		}
 		fclose($f);
 
-		# Display error if in debug mode
+		// Display error if in debug mode
 		if(DEBUGMODE) {
 			$safe_message = htmlspecialchars($message, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
 			$safe_file = htmlspecialchars($file, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
@@ -252,7 +243,7 @@ class Debugger {
 				'time' => $time
 			], JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
 		} else {
-			# User-friendly error message
+			// User-friendly error message
 			echo json_encode([
 				'error' => 'internal_error',
 				'message' => 'Something went wrong. We are working on fixing the issue.',
@@ -272,9 +263,7 @@ class Debugger {
 	 */
 	private function error_report(bool $show = false) : void {
 
-		/**
-		 * Set up error log
-		 */
+		// Set up error log
 		ini_set('error_log', SYSERRLOG);
 		error_reporting(0);
 		ini_set('display_errors', 'off');
@@ -304,20 +293,20 @@ class Debugger {
 	 */
 	public function rundebug(mixed $var, ?string $label = null, bool $detailed = true) : void {
 
-		# shutdown register
+		// shutdown register
 		if(!$this->shutdown_registered) {
 			register_shutdown_function([$this,'shutdown']);
 			$this->shutdown_registered = true;
 		}
 
-		# get caller info
+		// get caller info
 		$trace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 2);
 		$caller = $trace[1] ?? $trace[0];
 		$file = basename($caller['file'] ?? 'unknown');
 		$line = $caller['line'] ?? 0;
 		$function = $caller['function'] ?? 'global';
 
-		# analyze variable
+		// analyze variable
 		$debug_entry = [
 			'label' => $label ?? 'Debug #'.$this->debug_counter,
 			'caller' => [
@@ -329,7 +318,7 @@ class Debugger {
 			'timestamp' => microtime(true)
 		];
 
-		# detailed analysis
+		// detailed analysis
 		if($detailed) {
 			$debug_entry['analysis'] = match(true) {
 				is_null($var) => ['value' => null, 'info' => 'NULL value'],
@@ -366,7 +355,7 @@ class Debugger {
 			$debug_entry['value'] = $var;
 		}
 
-		# format output
+		// format output
 		if($detailed) {
 			// Store structured data directly for REST API output
 			$this->debug_dump[] = $debug_entry;
@@ -645,10 +634,10 @@ class Debugger {
 		];
 
 		// Output JSON response
-		# write debug info to DEBUGSLOG instead of output
+		// write debug info to DEBUGSLOG instead of output
 		$debug_entry = json_encode($response, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES).",\r\n";
 		
-		# Use append mode to avoid truncating existing logs
+		// Use append mode to avoid truncating existing logs
 		$df = fopen(DEBUGSLOG, 'a');
 		if($df !== false) {
 			if(is_writable(DEBUGSLOG)) {

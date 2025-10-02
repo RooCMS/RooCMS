@@ -49,7 +49,7 @@ class MediaController extends BaseController {
 		$this->log_request('media_list');
 		
 		try {
-			# Parse and validate query parameters
+			// Parse and validate query parameters
 			$pagination = $this->get_pagination_params();
 			$page = $pagination['page'];
 			$limit = $pagination['limit'];
@@ -58,7 +58,7 @@ class MediaController extends BaseController {
 			$user_id = isset($_GET['user_id']) ? (int)$_GET['user_id'] : null;
 			$search = $_GET['search'] ?? null;
 			
-			# Basic validation using Media class constants
+			// Basic validation using Media class constants
 			if($type && !in_array($type, $this->media::TYPES, true)) {
 				$this->error_response('Invalid media type', 400);
 				return;
@@ -69,18 +69,18 @@ class MediaController extends BaseController {
 				return;
 			}
 			
-			# Build filters
+			// Build filters
 			$filters = [];
 			if($type) $filters['media_type'] = $type;
 			if($status) $filters['status'] = $status;
 			if($user_id) $filters['user_id'] = $user_id;
 			if($search) $filters['search'] = $search;
 			
-			# Delegate to service
+			// Delegate to service
 			$media_files = $this->media_service->get_media_list($filters, $page, $limit);
 			$total = $this->media_service->get_media_count($filters);
 			
-			# Prepare response
+			// Prepare response
 			$response = [
 				'data' => $media_files,
 				'pagination' => [
@@ -110,7 +110,7 @@ class MediaController extends BaseController {
 		$this->log_request('media_show', ['id' => $id]);
 		
 		try {
-			# Delegate to service
+			// Delegate to service
 			$media = $this->media_service->get_file_formatted($id);
 			
 			if(!$media) {
@@ -134,7 +134,7 @@ class MediaController extends BaseController {
 		$this->log_request('media_download', ['id' => $id]);
 		
 		try {
-			# Get media info from service
+			// Get media info from service
 			$media = $this->media_service->get_file($id);
 			
 			if(!$media) {
@@ -142,10 +142,10 @@ class MediaController extends BaseController {
 				return;
 			}
 			
-			# Build file path
+			// Build file path
 			$file_path = _UPLOAD . $media['file_path'] . '/' . $media['filename'];
 			
-			# Check variant request
+			// Check variant request
 			$variant = $_GET['variant'] ?? null;
 			if($variant && in_array($variant, ['thumbnail', 'large', 'original'], true)) {
 				$variant_info = $this->media_service->get_variant_file($id, $variant);
@@ -156,13 +156,13 @@ class MediaController extends BaseController {
 				}
 			}
 			
-			# Validate file exists
+			// Validate file exists
 			if(!file_exists($file_path) || !is_readable($file_path)) {
 				$this->error_response('File not accessible', 404);
 				return;
 			}
 			
-			# Send file with proper headers
+			// Send file with proper headers
 			header('Content-Type: ' . $media['mime_type']);
 			header('Content-Length: ' . filesize($file_path));
 			header('Content-Disposition: attachment; filename="' . $media['original_name'] . '"');
@@ -187,7 +187,7 @@ class MediaController extends BaseController {
 		$this->log_request('media_upload');
 		
 		try {
-			# Basic validation
+			// Basic validation
 			if(!isset($_FILES['file'])) {
 				$this->error_response('No file provided', 400);
 				return;
@@ -200,7 +200,7 @@ class MediaController extends BaseController {
 				return;
 			}
 			
-			# Parse parameters
+			// Parse parameters
 			$user_id = $this->require_authentication()['id'];
 			$description = $_POST['description'] ?? null;
 			$tags = $_POST['tags'] ?? null;
@@ -208,20 +208,20 @@ class MediaController extends BaseController {
 			$entity_id = isset($_POST['entity_id']) ? (int)$_POST['entity_id'] : null;
 			$relationship_type = $_POST['relationship_type'] ?? 'attachment';
 			
-			# Prepare options
+			// Prepare options
 			$options = [];
 			if($description) $options['description'] = $description;
 			if($tags) $options['tags'] = $tags;
 			
-			# Delegate upload to service
+			// Delegate upload to service
 			$media_id = $this->media_service->upload_file($file, $user_id, $options);
 			
-			# Attach to entity if provided
+			// Attach to entity if provided
 			if($entity_type && $entity_id) {
 				$this->media_service->attach_to_entity($media_id, $entity_type, $entity_id, $relationship_type);
 			}
 			
-			# Get formatted media info
+			// Get formatted media info
 			$media = $this->media_service->get_file_formatted($media_id);
 			
 			$this->json_response([
@@ -245,7 +245,7 @@ class MediaController extends BaseController {
 		$this->log_request('media_update', ['id' => $id]);
 		
 		try {
-			# Parse JSON input
+			// Parse JSON input
 			$input = $this->get_json_input();
 			
 			$updated_media = $this->media_service->update_media_metadata($id, $input);
@@ -271,7 +271,7 @@ class MediaController extends BaseController {
 		$this->log_request('media_delete', ['id' => $id]);
 		
 		try {
-			# Delegate to service
+			// Delegate to service
 			$success = $this->media_service->delete_file($id);
 			
 			if(!$success) {

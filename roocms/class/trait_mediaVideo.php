@@ -35,15 +35,15 @@ trait MediaVideo {
     protected function process_video(int $media_id, string $file_path): bool {
         
         try {
-            # Validate video
+            // Validate video
             if(!$this->is_valid_video($file_path)) {
                 return false;
             }
             
-            # Extract video metadata
+            // Extract video metadata
             $metadata = $this->extract_video_metadata($file_path);
             
-            # Update media record with video info
+            // Update media record with video info
             $update_data = [
                 'updated_at' => time()
             ];
@@ -90,10 +90,10 @@ trait MediaVideo {
             'size_human' => $this->format_file_size(filesize($file_path))
         ];
         
-        # Try to get video info using shell commands (if available)
-        # This is a basic implementation. For production, consider using FFmpeg or getID3 library
+        // Try to get video info using shell commands (if available)
+        // This is a basic implementation. For production, consider using FFmpeg or getID3 library
         
-        # Check if ffprobe is available
+        // Check if ffprobe is available
         if($this->is_command_available('ffprobe')) {
             $ffprobe_data = $this->extract_video_metadata_ffprobe($file_path);
             $metadata = array_merge($metadata, $ffprobe_data);
@@ -113,27 +113,27 @@ trait MediaVideo {
         
         $metadata = [];
         
-        # Build ffprobe command
+        // Build ffprobe command
         $command = sprintf(
             'ffprobe -v quiet -print_format json -show_format -show_streams %s 2>&1',
             escapeshellarg($file_path)
         );
         
-        # Execute command
+        // Execute command
         $output = shell_exec($command);
         
         if(!$output) {
             return $metadata;
         }
         
-        # Parse JSON output
+        // Parse JSON output
         $data = @json_decode($output, true);
         
         if(!$data) {
             return $metadata;
         }
         
-        # Extract format info
+        // Extract format info
         if(isset($data['format'])) {
             if(isset($data['format']['duration'])) {
                 $metadata['duration'] = (int)round((float)$data['format']['duration']);
@@ -149,7 +149,7 @@ trait MediaVideo {
             }
         }
         
-        # Extract video stream info
+        // Extract video stream info
         if(isset($data['streams'])) {
             foreach($data['streams'] as $stream) {
                 if($stream['codec_type'] === 'video') {
@@ -174,13 +174,13 @@ trait MediaVideo {
      */
     private function is_command_available(string $command): bool {
         
-        # On Windows
+        // On Windows
         if(strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
             $output = shell_exec(sprintf('where %s 2>NUL', escapeshellarg($command)));
             return !empty($output);
         }
         
-        # On Unix/Linux
+        // On Unix/Linux
         $output = shell_exec(sprintf('which %s 2>/dev/null', escapeshellarg($command)));
         return !empty($output);
     }
@@ -270,26 +270,26 @@ trait MediaVideo {
      * @return array Processed media info with video-specific enhancements
      */
     private function process_video_info(array $media): array {
-        # Add video-specific processing
-        # This method is called by get_media_info() via match()
+        // Add video-specific processing
+        // This method is called by get_media_info() via match()
         
-        # Add formatted file size for convenience
+        // Add formatted file size for convenience
         if(isset($media['file_size'])) {
             $media['file_size_formatted'] = $this->format_file_size($media['file_size']);
         }
         
-        # Format duration
+        // Format duration
         if(isset($media['metadata']['duration'])) {
             $media['duration_formatted'] = $this->format_duration((int)$media['metadata']['duration']);
         }
         
-        # Add resolution label
+        // Add resolution label
         if(isset($media['metadata']['width']) && isset($media['metadata']['height'])) {
             $media['resolution'] = $media['metadata']['width'] . 'x' . $media['metadata']['height'];
             $media['quality_label'] = $this->get_quality_label((int)$media['metadata']['height']);
         }
         
-        # Format bitrate if available
+        // Format bitrate if available
         if(isset($media['metadata']['bitrate'])) {
             $media['bitrate_formatted'] = $this->format_bitrate((int)$media['metadata']['bitrate']);
         }
@@ -347,7 +347,7 @@ trait MediaVideo {
      */
     public function get_videos_by_duration(int $min_duration, int $max_duration): array {
         
-        # Custom query for duration range
+        // Custom query for duration range
         $query = "SELECT * FROM " . TABLE_MEDIA . " 
                   WHERE media_type = 'video' 
                   AND duration >= :min_duration 

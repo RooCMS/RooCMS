@@ -120,38 +120,38 @@ class AdminSettingsController extends BaseController {
     public function update_setting(string $key): void {
         $this->log_request('settings_update_setting', ['key' => $key]);
 
+        // Validate input data
         $data = $this->get_input_data();
-        if(!isset($data['value'])) {
+        if (!isset($data['value'])) {
             $this->error_response('Value field is required', 400);
             return;
         }
 
         try {
-            // Validate setting existence and get metadata
-            if(!$this->siteSettingsService->setting_exists($key)) {
+            // Chain validations with early returns
+            if (!$this->siteSettingsService->setting_exists($key)) {
                 $this->not_found_response('Setting not found');
                 return;
             }
-
+            
             $meta = $this->siteSettingsService->get_setting_meta($key);
             if (!$meta) {
                 $this->error_response('Setting metadata not found', 500);
                 return;
             }
 
-            // Validate and update
+            // Validate and process in one block
             $validationError = $this->validate_setting_value($data['value'], $meta);
             if ($validationError) {
                 $this->validation_error_response([$key => $validationError]);
                 return;
             }
 
-            if(!$this->siteSettingsService->update_setting($key, $data['value'])) {
-                $this->error_response('Failed to update setting', 500);
-                return;
-            }
+            // Update setting or fail
+            $this->siteSettingsService->update_setting($key, $data['value']) 
+                ? $this->json_response(null, 200, 'Setting updated successfully')
+                : $this->error_response('Failed to update setting', 500);
 
-            $this->json_response(null, 200, 'Setting updated successfully');
         } catch(Exception $e) {
             $this->error_response('Failed to update setting', 500);
         }
@@ -166,45 +166,31 @@ class AdminSettingsController extends BaseController {
     public function update_settings(): void {
         $this->log_request('settings_update_settings');
 
+        // Validate input data
         $data = $this->get_input_data();
-        if(empty($data) || !is_array($data)) {
+        if (empty($data) || !is_array($data)) {
             $this->error_response('Settings data is required', 400);
             return;
         }
 
         try {
-            // Validate all settings before updating
-            $validationErrors = [];
-            
-            foreach ($data as $key => $value) {
-                if(!$this->siteSettingsService->setting_exists($key)) {
-                    $validationErrors[$key] = 'Setting not found';
-                    continue;
-                }
-                
-                $meta = $this->siteSettingsService->get_setting_meta($key);
-                if (!$meta) {
-                    $validationErrors[$key] = 'Setting metadata not found';
-                    continue;
-                }
-                
-                $error = $this->validate_setting_value($value, $meta);
-                if ($error) {
-                    $validationErrors[$key] = $error;
-                }
-            }
+            // Validate all settings using array functions
+            $validationErrors = array_filter(array_map(function($key, $value) {
+                return !$this->siteSettingsService->setting_exists($key) ? 'Setting not found'
+                    : (($meta = $this->siteSettingsService->get_setting_meta($key)) ? $this->validate_setting_value($value, $meta) : 'Setting metadata not found');
+            }, array_keys($data), $data));
 
-            if (!empty($validationErrors)) {
+            // Return validation errors if any
+            if ($validationErrors) {
                 $this->validation_error_response($validationErrors);
                 return;
             }
 
-            if(!$this->siteSettingsService->update_multiple_settings($data)) {
-                $this->error_response('Failed to update some settings', 500);
-                return;
-            }
+            // Update settings or return error
+            $this->siteSettingsService->update_multiple_settings($data)
+                ? $this->json_response(null, 200, 'Settings updated successfully')
+                : $this->error_response('Failed to update some settings', 500);
 
-            $this->json_response(null, 200, 'Settings updated successfully');
         } catch(Exception $e) {
             $this->error_response('Failed to update settings', 500);
         }

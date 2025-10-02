@@ -29,16 +29,16 @@ class Media {
     private SiteSettings $siteSettings;
     private ?GD $gd = null;
 
-    # Allowed MIME types by category (will be loaded from SiteSettings in future)
+    // Allowed MIME types by category (will be loaded from SiteSettings in future)
     private array $allowed_mime_types = [];
     
-    # Max file sizes in bytes (will be loaded from SiteSettings in future)
+    // Max file sizes in bytes (will be loaded from SiteSettings in future)
     private array $max_file_sizes = [];
     
-    # Number of files for MediaArch trait
+    // Number of files for MediaArch trait
     protected int $numFiles = 0;
 
-    # Media statuses
+    // Media statuses
     public const STATUSES = [
         'uploaded',
         'processing', 
@@ -47,7 +47,7 @@ class Media {
         'deleted'
     ];
 
-    # Media types
+    // Media types
     public const TYPES = [
         'image',
         'document',
@@ -128,7 +128,7 @@ class Media {
         $this->siteSettings = $siteSettings;
         $this->gd = $gd;
         
-        # Initialize default values (will be replaced with SiteSettings in future)
+        // Initialize default values (will be replaced with SiteSettings in future)
         $this->init_default_mime_types();
         $this->init_default_file_sizes();
     }
@@ -252,24 +252,24 @@ class Media {
             return false;
         }
         
-        # Validate expected type if provided
+        // Validate expected type if provided
         if($expected_type && $media['media_type'] !== $expected_type) {
             return false;
         }
         
-        # Decode metadata
+        // Decode metadata
         if(isset($media['metadata']) && $media['metadata']) {
             $media['metadata'] = json_decode($media['metadata'], true);
         }
         
-        # Delegate type-specific processing using match
+        // Delegate type-specific processing using match
         return match($media['media_type']) {
             'image' => $this->process_image_info($media),
             'document' => $this->process_document_info($media),
             'video' => $this->process_video_info($media),
             'audio' => $this->process_audio_info($media),
             'archive' => $this->process_archive_info($media),
-            default => $media  # Return basic info for unknown types
+            default => $media  // Return basic info for unknown types
         };
     }
 
@@ -281,8 +281,8 @@ class Media {
      * @return array Processed media info
      */
     private function process_image_info(array $media): array {
-        # Add image-specific processing if needed
-        # This can be extended by MediaImage trait
+        // Add image-specific processing if needed
+        // This can be extended by MediaImage trait
         return $media;
     }
 
@@ -294,8 +294,8 @@ class Media {
      * @return array Processed media info
      */
     private function process_document_info(array $media): array {
-        # Add document-specific processing if needed
-        # This can be extended by MediaDoc trait
+        // Add document-specific processing if needed
+        // This can be extended by MediaDoc trait
         return $media;
     }
 
@@ -307,8 +307,8 @@ class Media {
      * @return array Processed media info
      */
     private function process_video_info(array $media): array {
-        # Add video-specific processing if needed
-        # This can be extended by MediaVideo trait
+        // Add video-specific processing if needed
+        // This can be extended by MediaVideo trait
         return $media;
     }
 
@@ -320,8 +320,8 @@ class Media {
      * @return array Processed media info
      */
     private function process_audio_info(array $media): array {
-        # Add audio-specific processing if needed
-        # This can be extended by MediaAudio trait
+        // Add audio-specific processing if needed
+        // This can be extended by MediaAudio trait
         return $media;
     }
 
@@ -333,8 +333,8 @@ class Media {
      * @return array Processed media info
      */
     private function process_archive_info(array $media): array {
-        # Add archive-specific processing if needed
-        # This can be extended by MediaArch trait
+        // Add archive-specific processing if needed
+        // This can be extended by MediaArch trait
         return $media;
     }
 
@@ -347,38 +347,22 @@ class Media {
      * @throws DomainException On validation failure
      */
     public function validate_uploaded_file(array $file): array {
-        # Check if file was uploaded
-        if(!isset($file['tmp_name']) || !is_uploaded_file($file['tmp_name'])) {
-            throw new DomainException('Invalid uploaded file', 400);
-        }
+        // Validate file upload with compact checks
+        (!isset($file['tmp_name']) || !is_uploaded_file($file['tmp_name'])) && throw new DomainException('Invalid uploaded file', 400);
+        ($file['error'] !== UPLOAD_ERR_OK) && throw new DomainException('File upload error: ' . $file['error'], 400);
+        ($file['size'] <= 0) && throw new DomainException('File is empty', 400);
         
-        # Check for upload errors
-        if($file['error'] !== UPLOAD_ERR_OK) {
-            throw new DomainException('File upload error: ' . $file['error'], 400);
-        }
+        // Get and validate MIME type
+        $mime_type = mime_content_type($file['tmp_name']) ?: throw new DomainException('Cannot determine file type', 400);
         
-        # Check file size
-        if($file['size'] <= 0) {
-            throw new DomainException('File is empty', 400);
-        }
+        // Extract and normalize extension
+        $extension = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION) ?: '');
         
-        # Get MIME type
-        $mime_type = mime_content_type($file['tmp_name']);
-        if($mime_type === false) {
-            throw new DomainException('Cannot determine file type', 400);
-        }
-        
-        # Determine extension  
-        $extension_raw = pathinfo($file['name'], PATHINFO_EXTENSION);
-        $extension = is_string($extension_raw) ? strtolower($extension_raw) : '';
-        
-        # Determine media type
-        $media_type = $this->determine_media_type($mime_type, $extension);
-        
+        // Return validation results
         return [
             'mime_type' => $mime_type,
             'extension' => $extension, 
-            'media_type' => $media_type
+            'media_type' => $this->determine_media_type($mime_type, $extension)
         ];
     }
 
@@ -393,84 +377,59 @@ class Media {
      */
     public function upload(array $file, ?int $user_id = null, array $options = []): int|false {
         
+        // Validate file and get info
         try {
-            # Validate file using centralized validation
             $file_info = $this->validate_uploaded_file($file);
-            $mime_type = $file_info['mime_type'];
-            $extension = $file_info['extension'];
-            $media_type = $file_info['media_type'];
         } catch(DomainException) {
-            return false;  # Media class returns false on failure
+            return false;
         }
 
-        # Get file info
-        $original_name = sanitize_filename($file['name']);
-        $tmp_name = $file['tmp_name'];
-        $file_size = $file['size'];
-        
-        # Generate unique filename
+        // Generate file paths and ensure directory exists
         $uuid = $this->generate_uuid();
-        $filename = $this->generate_filename($uuid, $extension);
-        
-        # Determine storage path
-        $file_path = $this->get_storage_path($media_type);
+        $filename = $this->generate_filename($uuid, $file_info['extension']);
+        $file_path = $this->get_storage_path($file_info['media_type']);
         $full_path = _UPLOAD . $file_path . '/' . $filename;
         
-        # Create directory if not exists
-        if(!is_dir(_UPLOAD . $file_path)) {
-            mkdir(_UPLOAD . $file_path, 0755, true);
-        }
+        !is_dir(_UPLOAD . $file_path) && mkdir(_UPLOAD . $file_path, 0755, true);
         
-        # Move uploaded file
-        if(!move_uploaded_file($tmp_name, $full_path)) {
+        // Move uploaded file or fail
+        if (!move_uploaded_file($file['tmp_name'], $full_path)) {
             return false;
         }
         
-        # Get image dimensions if it's an image
-        $width = null;
-        $height = null;
-        if($media_type === 'image') {
-            $size = @getimagesize($full_path);
-            if($size !== false) {
-                $width = $size[0];
-                $height = $size[1];
-            }
-        }
+        // Get image dimensions for images
+        $dimensions = $file_info['media_type'] === 'image' ? (@getimagesize($full_path) ?: [null, null]) : [null, null];
         
-        # Insert into database
-        $data = [
+        // Insert into database with all data
+        $result = $this->db->insert(TABLE_MEDIA)->data([
             'uuid' => $uuid,
             'user_id' => $user_id,
-            'original_name' => $original_name,
+            'original_name' => sanitize_filename($file['name']),
             'filename' => $filename,
             'file_path' => $file_path,
-            'mime_type' => $mime_type,
-            'file_size' => $file_size,
-            'media_type' => $media_type,
-            'extension' => $extension,
-            'width' => $width,
-            'height' => $height,
-            'metadata' => isset($options['metadata']) ? json_encode($options['metadata']) : null,
+            'mime_type' => $file_info['mime_type'],
+            'file_size' => $file['size'],
+            'media_type' => $file_info['media_type'],
+            'extension' => $file_info['extension'],
+            'width' => $dimensions[0],
+            'height' => $dimensions[1],
+            'metadata' => $options['metadata'] ?? null ? json_encode($options['metadata']) : null,
             'status' => 'uploaded',
             'created_at' => time(),
             'updated_at' => time()
-        ];
+        ])->execute();
         
-        $result = $this->db->insert(TABLE_MEDIA)
-            ->data($data)
-            ->execute();
-        
+        // Handle database insert failure
         if($result->rowCount() === 0) {
-            # Clean up file if database insert failed
             @unlink($full_path);
             return false;
         }
         
+        // Process file and update status
         $media_id = (int)$this->db->insert_id();
         
-        # Process file based on media type
-        match($media_type) {
-            'image' => $this->process_image($media_id, $full_path, $extension),
+        match($file_info['media_type']) {
+            'image' => $this->process_image($media_id, $full_path, $file_info['extension']),
             'video' => $this->process_video($media_id, $full_path),
             'audio' => $this->process_audio($media_id, $full_path),
             'document' => $this->process_document($media_id, $full_path),
@@ -478,9 +437,7 @@ class Media {
             default => null
         };
         
-        # Update status to ready
         $this->update_status($media_id, 'ready');
-        
         return $media_id;
     }
 
@@ -517,19 +474,19 @@ class Media {
      */
     public function delete(int $id): bool {
         
-        # Get media info
+        // Get media info
         $media = $this->get_by_id($id);
         if(!$media) {
             return false;
         }
         
-        # Delete physical files
+        // Delete physical files
         $file_path = _UPLOAD . $media['file_path'] . '/' . $media['filename'];
         if(file_exists($file_path)) {
             @unlink($file_path);
         }
         
-        # Delete variants
+        // Delete variants
         $variants = $this->get_variants($id);
         foreach($variants as $variant) {
             $variant_path = _UPLOAD . $variant['file_path'];
@@ -538,7 +495,7 @@ class Media {
             }
         }
         
-        # Delete from database (CASCADE will handle variants and relations)
+        // Delete from database (CASCADE will handle variants and relations)
         $result = $this->db->delete(TABLE_MEDIA)
             ->where('id', $id, '=')
             ->execute();
@@ -705,28 +662,28 @@ class Media {
      */
     private function determine_media_type(string $mime_type, string $extension): string {
         
-        # Image types
+        // Image types
         if(str_starts_with($mime_type, 'image/')) {
             return 'image';
         }
         
-        # Video types
+        // Video types
         if(str_starts_with($mime_type, 'video/')) {
             return 'video';
         }
         
-        # Audio types
+        // Audio types
         if(str_starts_with($mime_type, 'audio/')) {
             return 'audio';
         }
         
-        # Archive types
+        // Archive types
         $archive_extensions = ['zip', '7z', 'rar', 'tar', 'gz', 'bz2', 'xz'];
         if(in_array($extension, $archive_extensions, true)) {
             return 'archive';
         }
         
-        # Document types
+        // Document types
         $doc_extensions = ['pdf', 'doc', 'docx', 'xls', 'xlsx', 'ppt', 'pptx', 'odt', 'ods', 'odp', 'txt', 'rtf'];
         if(in_array($extension, $doc_extensions, true)) {
             return 'document';
