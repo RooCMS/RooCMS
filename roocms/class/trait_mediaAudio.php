@@ -116,9 +116,13 @@ trait MediaAudio {
         $output = shell_exec($command);
         
         # Early returns for invalid data
-        !$output && (return []);
+        if (!$output) {
+            return [];
+        }
         $data = @json_decode($output, true);
-        !$data && (return []);
+        if (!$data) {
+            return [];
+        }
         
         $metadata = [];
         

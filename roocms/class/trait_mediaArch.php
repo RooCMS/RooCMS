@@ -99,10 +99,14 @@ trait MediaArch {
     private function extract_zip_info(string $file_path): array {
         
         # Early returns for invalid conditions
-        !class_exists('ZipArchive') && (return []);
-        
+        if (!class_exists('ZipArchive')) {
+            return [];
+        }
+
         $zip = new \ZipArchive();
-        ($zip->open($file_path) !== true) && (return []);
+        if ($zip->open($file_path) !== true) {
+            return [];
+        }
         
         # Initialize info with basic data
         $info = [

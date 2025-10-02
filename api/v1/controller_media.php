@@ -201,7 +201,7 @@ class MediaController extends BaseController {
 			}
 			
 			# Parse parameters
-			$user_id = isset($_POST['user_id']) ? (int)$_POST['user_id'] : null;
+			$user_id = $this->require_authentication()['id'];
 			$description = $_POST['description'] ?? null;
 			$tags = $_POST['tags'] ?? null;
 			$entity_type = $_POST['entity_type'] ?? null;

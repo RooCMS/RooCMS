@@ -217,8 +217,7 @@ $container->register(EmailService::class, EmailService::class, true); // Singlet
 $container->register(UserRecoveryService::class, UserRecoveryService::class, true); // Singleton
 $container->register(UserValidationService::class, UserValidationService::class, true); // Singleton
 
-
-/** 
+/**
  * Register template renderers and themes
  */
 $container->register(TemplateRendererPhp::class, TemplateRendererPhp::class, true);
