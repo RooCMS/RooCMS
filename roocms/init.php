@@ -98,7 +98,6 @@ spl_autoload_register(function(string $class_name) {
         'DbBackuperPSQL'            => _CLASS . '/trait_dbBackuperPSQL.php',
         'DbBackuperFB'              => _CLASS . '/trait_dbBackuperFB.php',
         'SiteSettings'              => _CLASS . '/class_siteSettings.php',
-        'SiteSettingsExt'           => _CLASS . '/trait_siteSettingsExt.php',
         'Themes'                    => _CLASS . '/class_themes.php',
         'ThemeConfig'               => _CLASS . '/class_themeConfig.php',
         'TemplateRenderer'          => _CLASS . '/interface_templateRenderer.php',
@@ -193,6 +192,12 @@ if($debug instanceof Debugger) {
     $container->register(Debugger::class, fn() => $debug, true);
 }
 
+/**
+ * Register site settings
+ */
+$container->register(SiteSettings::class, fn() => new SiteSettings($db), true); // Singleton
+$container->register(SiteSettingsService::class, SiteSettingsService::class, true); // Singleton
+
 /** 
  * Register dependencies
  */
@@ -200,8 +205,6 @@ $container->register(Auth::class, Auth::class, true); // Singleton
 $container->register(User::class, User::class, true); // Singleton
 $container->register(Role::class, Role::class, true); // Singleton
 $container->register(UserService::class, UserService::class, true); // Singleton
-$container->register(SiteSettings::class, SiteSettings::class, true); // Singleton
-$container->register(SiteSettingsService::class, SiteSettingsService::class, true); // Singleton
 $container->register(Mailer::class, Mailer::class, true); // Singleton
 $container->register(GD::class, GD::class, true); // Singleton
 $container->register(Media::class, Media::class, true); // Singleton

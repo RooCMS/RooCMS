@@ -24,10 +24,7 @@ if(!defined('RooCMS')) {roocms_protect();}
  */
 class SiteSettings {
 
-    use SiteSettingsExt;
-
     private Db $db;
-
 
 
     /**
@@ -40,10 +37,13 @@ class SiteSettings {
         static $initialized = false;
         if (!$initialized) {
             $initialized = true;
-            $roocms_settings = $this->get_by_category('roocms');
-            foreach ($roocms_settings as $key => $value) {
-                //TODO: change to internal public variables
-                define('RooCMS_'.$key, $value);
+
+            $settings = $this->get_all();
+            foreach ($settings as $category => $settings) {
+                define('SETTING_'.strtoupper($category), $settings);
+                foreach ($settings as $key => $value) {
+                    define('SETTING_'.strtoupper($key), $value);
+                }
             }
         }
     }
@@ -55,6 +55,11 @@ class SiteSettings {
      * @return mixed Setting value or default_value if not found
      */
     public function get_by_key(string $key): mixed {
+
+        if (defined('SETTING_'.strtoupper($key))) {
+            return constant('SETTING_'.strtoupper($key));
+        }
+
         $sql = "
             SELECT value, default_value, type, is_serialized
             FROM " . TABLE_SETTINGS . "
@@ -84,6 +89,10 @@ class SiteSettings {
      * @return array Array of settings [key => value]
      */
     public function get_by_category(string $category): array {
+        if (defined('SETTING_'.strtoupper($category))) {
+            return constant('SETTING_'.strtoupper($category));
+        }
+
         $sql = "
             SELECT `key`, value, default_value, type, is_serialized
             FROM " . TABLE_SETTINGS . "
@@ -183,22 +192,6 @@ class SiteSettings {
 
             return $this->db->update_array($data, TABLE_SETTINGS, "`key` = ?", [$key]);
 
-        } catch (Exception $e) {
-            return false;
-        }
-    }
-
-
-    /**
-     * Delete setting
-     * @param string $key Setting key
-     * @return bool Success of operation
-     */
-    public function delete(string $key): bool {
-        try {
-            $sql = "DELETE FROM " . TABLE_SETTINGS . " WHERE `key` = ?";
-            $stmt = $this->db->query($sql, [$key]);
-            return $stmt !== false;
         } catch (Exception $e) {
             return false;
         }
