@@ -24,9 +24,9 @@ if(!defined('RooCMS')) {roocms_protect();}
  */
 class Request {
 
-    private $get;
-    private $post;
-    private $files;
+    public $get;
+    public $post;
+    public $files;
 
 
     /**
