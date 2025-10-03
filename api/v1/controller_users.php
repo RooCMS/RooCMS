@@ -33,8 +33,8 @@ class UsersController extends BaseController {
     /**
 	 * Constructor
 	 */
-    public function __construct(UserService $userService, EmailService $emailService, Auth $auth, Db $db) {
-        parent::__construct($db);
+    public function __construct(UserService $userService, EmailService $emailService, Auth $auth, Db $db, Request $request) {
+        parent::__construct($db, $request);
 
         $this->userService = $userService;
         $this->emailService = $emailService;
@@ -58,8 +58,8 @@ class UsersController extends BaseController {
 		$pagination = $this->get_pagination_params();
 
 		// Handle explicit offset
-		if(isset($_GET['offset'])) {
-			$pagination['page'] = (int)floor(max(0, (int)$_GET['offset']) / $pagination['limit']) + 1;
+		if(isset($pagination['offset'])) {
+			$pagination['page'] = (int)floor(max(0, (int)$pagination['offset']) / $pagination['limit']) + 1;
 		}
 
 		// Build filters using array operations

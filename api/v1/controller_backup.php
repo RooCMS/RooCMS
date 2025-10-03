@@ -34,8 +34,8 @@ class BackupController extends BaseController {
 	 * @param BackupService $backupService Backup service
 	 * @param Auth $auth Authentication service
 	 */
-	public function __construct(BackupService $backupService, Auth $auth, Db $db) {
-		parent::__construct($db);
+	public function __construct(Db $db, Request $request, BackupService $backupService, Auth $auth) {
+		parent::__construct($db, $request);
 		
 		$this->backupService = $backupService;
 		$this->auth = $auth;
@@ -230,7 +230,7 @@ class BackupController extends BaseController {
 		try {
 			// Admin permissions already checked by middleware
 
-			$limit = (int) ($_GET['limit'] ?? 100);
+			$limit = (int) ($request->get['limit'] ?? 100);
 			$result = $this->backupService->get_backup_logs($limit);
 			$this->json_response($result);
 

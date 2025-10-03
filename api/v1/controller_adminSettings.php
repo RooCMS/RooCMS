@@ -29,8 +29,8 @@ class AdminSettingsController extends BaseController {
     /**
      * Constructor
      */
-    public function __construct(SiteSettingsService $siteSettingsService, Db $db) {
-        parent::__construct($db);
+    public function __construct(SiteSettingsService $siteSettingsService, Db $db, Request $request) {
+        parent::__construct($db, $request);
 
         $this->siteSettingsService = $siteSettingsService;
     }

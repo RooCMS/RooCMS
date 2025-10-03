@@ -34,8 +34,8 @@ class MediaController extends BaseController {
 	 * @param MediaService $media_service Media service
 	 * @param Media $media Media class for constants access
 	 */
-	public function __construct(Db $db, MediaService $media_service, Media $media) {
-		parent::__construct($db);
+	public function __construct(Db $db, Request $request, MediaService $media_service, Media $media) {
+		parent::__construct($db, $request);
 		$this->media_service = $media_service;
 		$this->media = $media;
 	}
@@ -53,10 +53,10 @@ class MediaController extends BaseController {
 			$pagination = $this->get_pagination_params();
 			$page = $pagination['page'];
 			$limit = $pagination['limit'];
-			$type = $_GET['type'] ?? null;
-			$status = $_GET['status'] ?? null;
-			$user_id = isset($_GET['user_id']) ? (int)$_GET['user_id'] : null;
-			$search = $_GET['search'] ?? null;
+			$type = $request->get['type'] ?? null;
+			$status = $request->get['status'] ?? null;
+			$user_id = isset($request->get['user_id']) ? (int)$request->get['user_id'] : null;
+			$search = $request->get['search'] ?? null;
 			
 			// Basic validation using Media class constants
 			if($type && !in_array($type, $this->media::TYPES, true)) {
@@ -146,7 +146,7 @@ class MediaController extends BaseController {
 			$file_path = _UPLOAD . $media['file_path'] . '/' . $media['filename'];
 			
 			// Check variant request
-			$variant = $_GET['variant'] ?? null;
+			$variant = $request->get['variant'] ?? null;
 			if($variant && in_array($variant, ['thumbnail', 'large', 'original'], true)) {
 				$variant_info = $this->media_service->get_variant_file($id, $variant);
 				if($variant_info) {
@@ -188,12 +188,12 @@ class MediaController extends BaseController {
 		
 		try {
 			// Basic validation
-			if(!isset($_FILES['file'])) {
+			if(!isset($request->files['file'])) {
 				$this->error_response('No file provided', 400);
 				return;
 			}
 			
-			$file = $_FILES['file'];
+			$file = $request->files['file'];
 			
 			if($file['error'] !== UPLOAD_ERR_OK) {
 				$this->error_response('File upload error: ' . $this->get_upload_error_message($file['error']), 400);
@@ -202,11 +202,11 @@ class MediaController extends BaseController {
 			
 			// Parse parameters
 			$user_id = $this->require_authentication()['id'];
-			$description = $_POST['description'] ?? null;
-			$tags = $_POST['tags'] ?? null;
-			$entity_type = $_POST['entity_type'] ?? null;
-			$entity_id = isset($_POST['entity_id']) ? (int)$_POST['entity_id'] : null;
-			$relationship_type = $_POST['relationship_type'] ?? 'attachment';
+			$description = $request->post['description'] ?? null;
+			$tags = $request->post['tags'] ?? null;
+			$entity_type = $request->post['entity_type'] ?? null;
+			$entity_id = isset($request->post['entity_id']) ? (int)$request->post['entity_id'] : null;
+			$relationship_type = $request->post['relationship_type'] ?? 'attachment';
 			
 			// Prepare options
 			$options = [];

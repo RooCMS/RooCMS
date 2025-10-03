@@ -97,6 +97,7 @@ spl_autoload_register(function(string $class_name) {
         'DbBackuperMSQL'            => _CLASS . '/trait_dbBackuperMSQL.php',
         'DbBackuperPSQL'            => _CLASS . '/trait_dbBackuperPSQL.php',
         'DbBackuperFB'              => _CLASS . '/trait_dbBackuperFB.php',
+        'Request'                   => _CLASS . '/class_request.php',
         'SiteSettings'              => _CLASS . '/class_siteSettings.php',
         'Themes'                    => _CLASS . '/class_themes.php',
         'ThemeConfig'               => _CLASS . '/class_themeConfig.php',
@@ -191,6 +192,11 @@ try {
 if($debug instanceof Debugger) {
     $container->register(Debugger::class, fn() => $debug, true);
 }
+
+/**
+ * Register request
+ */
+$container->register(Request::class, Request::class, true); // Singleton
 
 /**
  * Register site settings

@@ -26,8 +26,8 @@ class DebugController extends BaseController {
     /**
      * Constructor
      */
-    public function __construct(Db $db) {
-        parent::__construct($db);
+    public function __construct(Db $db, Request $request) {
+        parent::__construct($db, $request);
     }
 
 

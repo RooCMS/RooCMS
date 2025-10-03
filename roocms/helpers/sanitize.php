@@ -273,7 +273,7 @@ function sanitize_filename(string $filename): string {
     $filename = preg_replace('/\.{2,}/', '.', $filename);
     
     // Remove leading/trailing dots and underscores
-    $filename = trim($filename, '._');
+    $filename = trim(htmlspecialchars($filename, ENT_QUOTES, 'UTF-8'), '._');
     
     // Limit length
     if(strlen($filename) > 255) {

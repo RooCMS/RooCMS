@@ -24,17 +24,19 @@ if(!defined('RooCMS')) {roocms_protect();}
  */
 abstract class BaseController {
     
-    protected array|null $current_user = null;    
-    protected readonly Db $db;
+    protected array|null $current_user = null;
 
+    protected readonly Db $db;
+    protected readonly Request $request;
 
 
     /**
      * Constructor with dependency injection
      */
-    public function __construct(Db $db) {
+    public function __construct(Db $db, Request $request) {
         $this->db = $db;
-        
+        $this->request = $request;
+
         // Check database connection on controller initialization
         if (!$this->db->is_connected()) {
             $this->error_response('Database connection unavailable', 503);
@@ -158,14 +160,13 @@ abstract class BaseController {
     protected function get_query_params(bool $auto_cast_types = true): array {
         $params = [];
 
-        foreach ($_GET as $key => $value) {
+        foreach ($this->request->get as $key => $value) {
             if ($value !== '' && $value !== null) {
-                $sanitized_value = sanitize_input_data($value);
 
                 if ($auto_cast_types) {
-                    $params[$key] = $this->cast_param_type($sanitized_value);
+                    $params[$key] = $this->cast_param_type($value);
                 } else {
-                    $params[$key] = $sanitized_value;
+                    $params[$key] = $value;
                 }
             }
         }
@@ -235,8 +236,9 @@ abstract class BaseController {
      * @return array
      */
     protected function get_pagination_params(): array {
-        $page = (int)($_GET['page'] ?? 1);
-        $limit = (int)($_GET['limit'] ?? 10);
+        $page = (int)($this->request->get['page'] ?? 1);
+        $limit = (int)($this->request->get['limit'] ?? 10);
+        $offset = (int)($this->request->get['offset'] ?? 0);
         
         // Ensure minimum values
         $page = max(1, $page);
