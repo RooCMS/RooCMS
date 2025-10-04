@@ -110,11 +110,10 @@ ob_start();
                                     x-model="formData.gender"
                                     class="select-custom w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-violet-500 transition-all duration-200 bg-white/80 backdrop-blur-sm"
                                 >
-                                    <option value="">Select gender</option>
+                                    <option value="" disabled>Select gender</option>
                                     <option value="male">Male</option>
                                     <option value="female">Female</option>
                                     <option value="other">Other</option>
-                                    <option value="prefer_not_to_say">Prefer not to say</option>
                                 </select>
                                 <div id="gender_error" class="mt-1 text-sm text-red-600 hidden"></div>
                             </div>

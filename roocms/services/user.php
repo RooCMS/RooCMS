@@ -86,7 +86,7 @@ class UserService {
      */
     public function upsert_profile(int $user_id, array $profile_data): bool {
         // Normalize string fields to null if empty
-        $string_fields = ['nickname', 'website', 'birthday'];
+        $string_fields = ['nickname', 'website', 'birthday', 'gender'];
         foreach($string_fields as $field) {
             if(isset($profile_data[$field])) {
                 $value = trim((string)$profile_data[$field]);
@@ -94,12 +94,17 @@ class UserService {
             }
         }
 
+        // Normalize gender field to lowercase if it's not null
+        if(isset($profile_data['gender']) && $profile_data['gender'] !== null) {
+            $profile_data['gender'] = strtolower((string)$profile_data['gender']);
+        }
+
         // Validate specific fields
         $validations = [
-            'nickname' => fn($v) => !empty($v) && $this->user->nickname_exists($v, $user_id) ? 
+            'nickname' => fn($v) => !empty($v) && $this->user->nickname_exists($v, $user_id) ?
                 throw new DomainException('Nickname already taken', 409) : null,
-            'gender' => fn($v) => !empty($v) && !in_array($v, ['male', 'female', 'other'], true) ? 
-                ($profile_data['gender'] = null) : null,
+            'gender' => fn($v) => $v !== null && !in_array($v, ['male', 'female', 'other'], true) ?
+                throw new DomainException('Invalid gender value. Must be one of: male, female, other', 422) : null,
             'birthday' => fn($v) => !empty($v) && (!($dt = date_create_from_format('Y-m-d', $v)) || date_get_last_errors()['error_count'] > 0) ? 
                 throw new DomainException('Invalid birthday format. Use Y-m-d', 422) : null,
             'website' => fn($v) => !empty($v) && !filter_var($v, FILTER_VALIDATE_URL) ? 

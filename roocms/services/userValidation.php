@@ -68,7 +68,7 @@ class UserValidationService {
      * @throws DomainException If validation fails
      */
     public function validate_user_credentials(string $login, string $password): array {
-        $user = $this->user->get_user_by_login($login);
+        $user = $this->user->get_user_by_login($login, true); // detailed = true for validation
         
         // Check user existence
         if(!$user) {
@@ -103,7 +103,7 @@ class UserValidationService {
      * @return array|null User data or null if not found
      */
     public function get_user_by_login(string $login): ?array {
-        return $this->user->get_user_by_login($login);
+        return $this->user->get_user_by_login($login, true); // detailed = true for authentication
     }
 
 
@@ -118,7 +118,7 @@ class UserValidationService {
             return null;
         }
 
-        $user = $this->user->get_user_by_email($email);
+        $user = $this->user->get_user_by_email($email, true); // detailed = true for recovery operations
 
         if(!$user) {
             return null;
