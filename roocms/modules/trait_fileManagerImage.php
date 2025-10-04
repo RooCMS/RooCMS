@@ -265,4 +265,10 @@ trait FileManagerImage {
         return $media;
     }
 
+
+    /**
+     * Abstract methods
+     */
+    abstract public function get_media_info(int $media_id, ?string $expected_type = null): array|false;
+    abstract public function format_file_size(int $size): string;
 }

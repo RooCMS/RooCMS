@@ -463,4 +463,5 @@ trait FileManagerAudio {
     abstract public function format_duration(int $duration): string;
     abstract public function format_bitrate(int $bitrate): string;
     abstract public function get_by_id(int $id): array|false;
+    abstract public function get_media_info(int $media_id, ?string $expected_type = null): array|false;
 }
