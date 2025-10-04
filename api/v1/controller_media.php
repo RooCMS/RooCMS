@@ -24,20 +24,20 @@ if(!defined('RooCMS')) {roocms_protect();}
  */
 class MediaController extends BaseController {
 
-	private MediaService $media_service;
-	private Media $media;
+	private FilesService $filesService;
+	private Files $files;
 
 	/**
 	 * Constructor
 	 * 
 	 * @param Db $db Database instance
-	 * @param MediaService $media_service Media service
-	 * @param Media $media Media class for constants access
+	 * @param FilesService $filesService Files service
+	 * @param Files $files Files class for constants access
 	 */
-	public function __construct(Db $db, Request $request, MediaService $media_service, Media $media) {
+	public function __construct(Db $db, Request $request, FilesService $filesService, Files $files) {
 		parent::__construct($db, $request);
-		$this->media_service = $media_service;
-		$this->media = $media;
+		$this->filesService = $filesService;
+		$this->files = $files;
 	}
 
 
@@ -59,12 +59,12 @@ class MediaController extends BaseController {
 			$search = $request->get['search'] ?? null;
 			
 			// Basic validation using Media class constants
-			if($type && !in_array($type, $this->media::TYPES, true)) {
+			if($type && !in_array($type, $this->files::TYPES, true)) {
 				$this->error_response('Invalid media type', 400);
 				return;
 			}
 			
-			if($status && !in_array($status, $this->media::STATUSES, true)) {
+			if($status && !in_array($status, $this->files::STATUSES, true)) {
 				$this->error_response('Invalid status', 400);
 				return;
 			}
@@ -77,8 +77,8 @@ class MediaController extends BaseController {
 			if($search) $filters['search'] = $search;
 			
 			// Delegate to service
-			$media_files = $this->media_service->get_media_list($filters, $page, $limit);
-			$total = $this->media_service->get_media_count($filters);
+			$media_files = $this->filesService->get_media_list($filters, $page, $limit);
+			$total = $this->filesService->get_media_count($filters);
 			
 			// Prepare response
 			$response = [
@@ -111,7 +111,7 @@ class MediaController extends BaseController {
 		
 		try {
 			// Delegate to service
-			$media = $this->media_service->get_file_formatted($id);
+			$media = $this->filesService->get_file_formatted($id);
 			
 			if(!$media) {
 				$this->error_response('Media not found', 404);
@@ -135,7 +135,7 @@ class MediaController extends BaseController {
 		
 		try {
 			// Get media info from service
-			$media = $this->media_service->get_file($id);
+			$media = $this->filesService->get_file($id);
 			
 			if(!$media) {
 				$this->error_response('Media not found', 404);
@@ -148,7 +148,7 @@ class MediaController extends BaseController {
 			// Check variant request
 			$variant = $request->get['variant'] ?? null;
 			if($variant && in_array($variant, ['thumbnail', 'large', 'original'], true)) {
-				$variant_info = $this->media_service->get_variant_file($id, $variant);
+				$variant_info = $this->filesService->get_variant_file($id, $variant);
 				if($variant_info) {
 					$file_path = _UPLOAD . $variant_info['file_path'];
 					$media['filename'] = basename($variant_info['file_path']);
@@ -214,15 +214,15 @@ class MediaController extends BaseController {
 			if($tags) $options['tags'] = $tags;
 			
 			// Delegate upload to service
-			$media_id = $this->media_service->upload_file($file, $user_id, $options);
+			$media_id = $this->filesService->upload_file($file, $user_id, $options);
 			
 			// Attach to entity if provided
 			if($entity_type && $entity_id) {
-				$this->media_service->attach_to_entity($media_id, $entity_type, $entity_id, $relationship_type);
+				$this->filesService->attach_to_entity($media_id, $entity_type, $entity_id, $relationship_type);
 			}
 			
 			// Get formatted media info
-			$media = $this->media_service->get_file_formatted($media_id);
+			$media = $this->filesService->get_file_formatted($media_id);
 			
 			$this->json_response([
 				'message' => 'File uploaded successfully',
@@ -248,7 +248,7 @@ class MediaController extends BaseController {
 			// Parse JSON input
 			$input = $this->get_json_input();
 			
-			$updated_media = $this->media_service->update_media_metadata($id, $input);
+			$updated_media = $this->filesService->update_media_metadata($id, $input);
 			
 			$this->json_response([
 				'message' => 'Media updated successfully',
@@ -272,7 +272,7 @@ class MediaController extends BaseController {
 		
 		try {
 			// Delegate to service
-			$success = $this->media_service->delete_file($id);
+			$success = $this->filesService->delete_file($id);
 			
 			if(!$success) {
 				$this->error_response('Failed to delete media', 500);

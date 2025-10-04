@@ -19,10 +19,10 @@ if(!defined('RooCMS')) {roocms_protect();}
 
 
 /**
- * Trait for operations Media Audio
+ * Trait for operations File Audio
  * Handles MP3, WAV, OGG, FLAC, AAC, M4A audio files
  */
-trait MediaAudio {
+trait FileManagerAudio {
 
     /**
      * Process uploaded audio

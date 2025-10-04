@@ -18,19 +18,19 @@ if(!defined('RooCMS')) {roocms_protect();}
 
 
 
-class MediaService {
+class FilesService {
 
 	private Db $db;
-	private Media $media;
+	private Files $files;
 
 
 
 	/**
 	 * Constructor
 	 */
-	public function __construct(Db $db, Media $media) {
+	public function __construct(Db $db, Files $files) {
 		$this->db = $db;
-		$this->media = $media;
+		$this->files = $files;
 	}
 
 
@@ -46,13 +46,13 @@ class MediaService {
 	public function upload_file(array $file, ?int $user_id = null, array $options = []): int {
 		
 		// Validate basic file requirements using Media class
-		$file_info = $this->media->validate_uploaded_file($file);
+		$file_info = $this->files->validate_uploaded_file($file);
 		
 		// Validate business rules (file size limits, MIME types)
 		$this->validate_upload($file, $file_info);
 		
 		// Upload through Media class
-		$media_id = $this->media->upload($file, $user_id, $options);
+		$media_id = $this->files->upload($file, $user_id, $options);
 		
 		if($media_id === false) {
 			throw new DomainException('Failed to upload file', 500);
@@ -74,14 +74,14 @@ class MediaService {
 		$mime_type = $file_info['mime_type'];
 		
 		// Check file size limits (business rule)
-		$max_size = $this->media->get_max_file_size($media_type);
+		$max_size = $this->files->get_max_file_size($media_type);
 		if($file['size'] > $max_size) {
 			$max_size_mb = round($max_size / 1048576, 2);
 			throw new DomainException("File size exceeds {$max_size_mb} MB limit", 413);
 		}
 		
 		// Validate MIME type (business rule)
-		$all_mime_types = $this->media->get_allowed_mime_types();
+		$all_mime_types = $this->files->get_allowed_mime_types();
 		$allowed_mimes = array_merge(...array_values($all_mime_types));
 		if(!in_array($mime_type, $allowed_mimes, true)) {
 			throw new DomainException('File type not allowed', 415);
@@ -96,7 +96,7 @@ class MediaService {
 	 * @return array|null File data
 	 */
 	public function get_file(int $id): ?array {
-		$file = $this->media->get_by_id($id);
+		$file = $this->files->get_by_id($id);
 		return $file ?: null;
 	}
 
@@ -108,7 +108,7 @@ class MediaService {
 	 * @return array|null File data
 	 */
 	public function get_file_by_uuid(string $uuid): ?array {
-		$file = $this->media->get_by_uuid($uuid);
+		$file = $this->files->get_by_uuid($uuid);
 		return $file ?: null;
 	}
 
@@ -124,7 +124,7 @@ class MediaService {
 	public function delete_file(int $id, ?int $user_id = null): bool {
 		
 		// Check if file exists
-		$file = $this->media->get_by_id($id);
+		$file = $this->files->get_by_id($id);
 		if(!$file) {
 			throw new DomainException('File not found', 404);
 		}
@@ -136,7 +136,7 @@ class MediaService {
 		
 		// Delete in transaction
 		return (bool)$this->db->transaction(function() use ($id) {
-			return $this->media->delete($id);
+			return $this->files->delete($id);
 		});
 	}
 
@@ -155,13 +155,13 @@ class MediaService {
 	public function attach_to_entity(int $media_id, string $entity_type, int $entity_id, string $relationship_type = 'attachment', array $metadata = []): int {
 		
 		// Validate media exists
-		$file = $this->media->get_by_id($media_id);
+		$file = $this->files->get_by_id($media_id);
 		if(!$file) {
 			throw new DomainException('File not found', 404);
 		}
 		
 		// Attach
-		$rel_id = $this->media->attach_to_entity($media_id, $entity_type, $entity_id, $relationship_type, $metadata);
+		$rel_id = $this->files->attach_to_entity($media_id, $entity_type, $entity_id, $relationship_type, $metadata);
 		
 		if($rel_id === false) {
 			throw new DomainException('Failed to attach file', 500);
@@ -180,7 +180,7 @@ class MediaService {
 	 * @return array List of files
 	 */
 	public function get_files_for_entity(string $entity_type, int $entity_id, ?string $relationship_type = null): array {
-		return $this->media->get_for_entity($entity_type, $entity_id, $relationship_type);
+		return $this->files->get_for_entity($entity_type, $entity_id, $relationship_type);
 	}
 
 
@@ -192,7 +192,7 @@ class MediaService {
 	 * @return array|null Variant data
 	 */
 	public function get_image_variant(int $media_id, string $variant_type): ?array {
-		$variant = $this->media->get_image_variant($media_id, $variant_type);
+		$variant = $this->files->get_image_variant($media_id, $variant_type);
 		return $variant ?: null;
 	}
 
@@ -213,7 +213,7 @@ class MediaService {
 			throw new DomainException('Invalid status', 422);
 		}
 		
-		return $this->media->update_status($id, $status);
+		return $this->files->update_status($id, $status);
 	}
 
 
@@ -332,11 +332,11 @@ class MediaService {
 			$stats['by_type'][$row['media_type']] = [
 				'count' => (int)$row['count'],
 				'size' => (int)$row['total_size'],
-				'size_human' => $this->media->format_file_size((int)$row['total_size'])
+				'size_human' => $this->files->format_file_size((int)$row['total_size'])
 			];
 		}
 		
-		$stats['total_size_human'] = $this->media->format_file_size($stats['total_size']);
+		$stats['total_size_human'] = $this->files->format_file_size($stats['total_size']);
 		
 		return $stats;
 	}
@@ -374,7 +374,7 @@ class MediaService {
 		$cleaned = 0;
 		
 		foreach($files as $file) {
-			if($this->media->delete((int)$file['id'])) {
+			if($this->files->delete((int)$file['id'])) {
 				$cleaned++;
 			}
 		}
@@ -392,10 +392,10 @@ class MediaService {
 	public function get_allowed_mime_types(?string $media_type = null): array {
 		
 		if($media_type !== null) {
-			return $this->media->get_allowed_mime_types($media_type);
+			return $this->files->get_allowed_mime_types($media_type);
 		}
 		
-		$all_types = $this->media->get_allowed_mime_types();
+		$all_types = $this->files->get_allowed_mime_types();
 		return array_merge(...array_values($all_types));
 	}
 
@@ -407,7 +407,7 @@ class MediaService {
 	 * @return int Max size in bytes
 	 */
 	public function get_max_file_size(string $media_type): int {
-		return $this->media->get_max_file_size($media_type);
+		return $this->files->get_max_file_size($media_type);
 	}
 
 
@@ -489,14 +489,14 @@ class MediaService {
 	 * @return array|null Formatted media data or null
 	 */
 	public function get_file_formatted(int $id): ?array {
-		$media = $this->media->get_by_id($id);
+		$media = $this->files->get_by_id($id);
 		
 		if(!$media) {
 			return null;
 		}
 		
 		// Get variants
-		$media['variants'] = $this->media->get_variants($id);
+		$media['variants'] = $this->files->get_variants($id);
 		
 		return $this->format_media_data($media);
 	}
@@ -512,7 +512,7 @@ class MediaService {
 	 */
 	public function update_media_metadata(int $id, array $data): array {
 		// Check if media exists
-		$media = $this->media->get_by_id($id) ?: throw new DomainException('Media not found', 404);
+		$media = $this->files->get_by_id($id) ?: throw new DomainException('Media not found', 404);
 		
 		// Filter allowed fields
 		$allowed_fields = ['original_name', 'description', 'tags', 'status'];
@@ -561,7 +561,7 @@ class MediaService {
 	 */
 	private function format_media_data(array $media): array {
 		// Format file size using Media class method
-		$media['file_size_human'] = $this->media->format_file_size($media['file_size']);
+		$media['file_size_human'] = $this->files->format_file_size($media['file_size']);
 		
 		// Format timestamps
 		$media['created_at_formatted'] = date('Y-m-d H:i:s', $media['created_at']);

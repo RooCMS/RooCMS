@@ -19,10 +19,10 @@ if(!defined('RooCMS')) {roocms_protect();}
 
 
 /**
- * Trait for operations Media Documents
+ * Trait for operations File Documents
  * Handles PDF, DOC, DOCX, XLS, XLSX, PPT, PPTX, ODT, ODS, ODP, TXT, RTF files
  */
-trait MediaDoc {
+trait FileManagerDoc {
 
     /**
      * Process uploaded document

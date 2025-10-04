@@ -19,10 +19,10 @@ if(!defined('RooCMS')) {roocms_protect();}
 
 
 /**
- * Trait for operations Media Images
+ * Trait for operations File Images
  * Uses GD class for image processing
  */
-trait MediaImage {
+trait FileManagerImage {
 
     /**
      * Process uploaded image

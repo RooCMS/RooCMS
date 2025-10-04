@@ -21,9 +21,9 @@ if(!defined('RooCMS')) {roocms_protect();}
 /**
  * Class for operations Media Content
  */
-class Media {
+class Files {
 
-    use MediaImage, MediaDoc, MediaVideo, MediaAudio, MediaArch;
+    use FileManagerImage, FileManagerDoc, FileManagerVideo, FileManagerAudio, FileManagerArch;
 
     private Db $db;
     private SiteSettings $siteSettings;
@@ -38,7 +38,7 @@ class Media {
     // Number of files for MediaArch trait
     protected int $numFiles = 0;
 
-    // Media statuses
+    // File statuses
     public const STATUSES = [
         'uploaded',
         'processing', 
@@ -47,7 +47,7 @@ class Media {
         'deleted'
     ];
 
-    // Media types
+    // File types
     public const TYPES = [
         'image',
         'document',

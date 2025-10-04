@@ -19,10 +19,10 @@ if(!defined('RooCMS')) {roocms_protect();}
 
 
 /**
- * Trait for operations Media Videos
+ * Trait for operations File Videos
  * Handles MP4, AVI, MKV, MOV, WMV, FLV, WEBM video files
  */
-trait MediaVideo {
+trait FileManagerVideo {
 
     /**
      * Process uploaded video

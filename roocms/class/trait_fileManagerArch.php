@@ -19,10 +19,10 @@ if(!defined('RooCMS')) {roocms_protect();}
 
 
 /**
- * Trait for operations Media Archives
+ * Trait for operations File Archives
  * Handles ZIP, 7Z, RAR, TAR, GZ, BZ2, XZ archive files
  */
-trait MediaArch {
+trait FileManagerArch {
 
     /**
      * Process uploaded archive

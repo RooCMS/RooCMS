@@ -111,7 +111,7 @@ spl_autoload_register(function(string $class_name) {
         'User'                      => _CLASS . '/class_user.php',
         'GD'                        => _CLASS . '/class_gd.php',
         'GDExtends'                 => _CLASS . '/trait_gdExtends.php',
-        'Media'                     => _CLASS . '/class_media.php',
+        'Files'                     => _CLASS . '/class_files.php',
         'MediaImage'                => _CLASS . '/trait_mediaImage.php',
         'MediaDoc'                  => _CLASS . '/trait_mediaDoc.php',
         'MediaVideo'                => _CLASS . '/trait_mediaVideo.php',
@@ -131,7 +131,7 @@ spl_autoload_register(function(string $class_name) {
         'UserValidationService'     => _SERVICES . '/userValidation.php',
         'EmailService'              => _SERVICES . '/email.php',
         'UserRecoveryService'       => _SERVICES . '/userRecovery.php',
-        'MediaService'              => _SERVICES . '/media.php',
+        'FilesService'              => _SERVICES . '/files.php',
         'BackupService'             => _SERVICES . '/backup.php'
     ];
    
@@ -213,8 +213,8 @@ $container->register(Role::class, Role::class, true); // Singleton
 $container->register(UserService::class, UserService::class, true); // Singleton
 $container->register(Mailer::class, Mailer::class, true); // Singleton
 $container->register(GD::class, GD::class, true); // Singleton
-$container->register(Media::class, Media::class, true); // Singleton
-$container->register(MediaService::class, MediaService::class, true); // Singleton
+$container->register(Files::class, Files::class, true); // Singleton
+$container->register(FilesService::class, FilesService::class, true); // Singleton
 $container->register(DbBackuper::class, DbBackuper::class, true); // Singleton
 $container->register(BackupService::class, BackupService::class, true); // Singleton
 $container->register(AuthenticationService::class, AuthenticationService::class, true); // Singleton
