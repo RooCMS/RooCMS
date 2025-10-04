@@ -10,7 +10,7 @@ This document describes the organization of files and directories in the RooCMS 
 ├── roocms/                 # Core RooCMS
 ├── storage/                # Storage
 ├── themes/                 # Themes
-├── upload/                 # Uploaded files
+├── up/                     # Uploaded files
 ├── err.php                 # Error handler
 ├── favicon.ico             # Favicon
 ├── index.php               # Main entry point
@@ -91,12 +91,12 @@ roocms/class/
 ├── trait_dbExtends.php                 # DB extends trait
 ├── trait_dbLogger.php                  # Database logging trait
 ├── trait_debugLog.php                  # Debug log trait
-├── trait_gdExtends.php                 # GD library extensions
-├── trait_mediaArch.php                 # Archive media processing
-├── trait_mediaAudio.php                # Audio media processing
-├── trait_mediaDoc.php                  # Document media processing
-├── trait_mediaImage.php                # Image media processing
-└── trait_mediaVideo.php                # Video media processing
+├── trait_fileManagerArch.php           # Archive file processing
+├── trait_fileManagerAudio.php          # Audio file processing
+├── trait_fileManagerDoc.php            # Document file processing
+├── trait_fileManagerImage.php          # Image file processing
+├── trait_fileManagerVideo.php          # Video file processing
+└── trait_gdExtends.php                 # GD library extensions
 ```
 
 ### Configuration (`/roocms/config/`)
@@ -147,7 +147,7 @@ roocms/services/
 ├── authentication.php      # Authentication service
 ├── backup.php              # Database backup service
 ├── email.php               # Email service
-├── media.php               # Media file management service
+├── files.php               # Files management service
 ├── registration.php        # User registration service
 ├── siteSettings.php        # Site settings service
 ├── user.php                # User service
@@ -186,8 +186,8 @@ $container->register(EmailService::class, EmailService::class, true); // Singlet
 $container->register(UserRecoveryService::class, UserRecoveryService::class, true); // Singleton
 $container->register(UserValidationService::class, UserValidationService::class, true); // Singleton
 $container->register(GD::class, GD::class, true); // Singleton
-$container->register(Media::class, Media::class, true); // Singleton
-$container->register(MediaService::class, MediaService::class, true); // Singleton
+$container->register(Files::class, Files::class, true); // Singleton
+$container->register(FilesService::class, FilesService::class, true); // Singleton
 
 // Template renderers and themes
 $container->register(TemplateRendererPhp::class, TemplateRendererPhp::class, true);
@@ -213,6 +213,9 @@ storage/
 │   └── mail/               # Email templates
 │       ├── notice.php      # Notice template
 │       └── welcome.php     # Welcome template
+├── fonts/                  # System fonts
+│   ├── index.php           # Protected file
+│   └── trebuc.ttf          # Trebuchet MS font
 ├── index.php               # Protected file
 └── logs/                   # System logs
     ├── debug.log           # Debug log
@@ -221,15 +224,16 @@ storage/
     └── syserrors.log       # Log of system errors
 ```
 
-## Uploads (`/upload/`)
+## Uploads (`/up/`)
 
 Directory for storing uploaded user files.
 
 ```
-upload/
-├── files/                  # Uploaded files
+up/
+├── av/                     # Audio and video files
+├── files/                  # General uploaded files
 │   └── index.php           # Protected file
-├── images/                 # Uploaded images
+├── img/                    # Uploaded images
 └── index.php               # Protected file
 ```
 
@@ -261,6 +265,7 @@ themes/
 │   │       │   └── serviceWorker.js    # Service worker functionality (draft)
 │   │       └── pages/                  # Pages scripts
 │   │           ├── acp-dashboard.js    # Admin dashboard page
+│   │           ├── acp-debug.js        # Admin debug page
 │   │           ├── acp-settings.js     # Admin settings page
 │   │           ├── login.js            # Login page
 │   │           ├── password-forgot.js  # Password forgot page
@@ -277,6 +282,7 @@ themes/
 │   │   ├── 403.php                     # 403 access denied page
 │   │   ├── 404.php                     # 404 not found page
 │   │   ├── acp/                        # Admin control panel pages
+│   │   │   ├── debug.php               # ACP debug page
 │   │   │   ├── index.php               # ACP dashboard
 │   │   │   ├── settings.php            # ACP settings
 │   │   │   └── ui-kit.php              # ACP UI kit
@@ -400,21 +406,21 @@ This architecture ensures:
 - `--structure-only` - Backup table structure without data
 - `--data-only` - Backup data without table structure
 
-### Media Management System
+### Files Management System
 
-Comprehensive media file management system with support for multiple file types, automatic processing, and variant generation.
+Comprehensive file management system with support for multiple file types, automatic processing, and variant generation.
 
 #### Components
-- **Media class** (`class_media.php`) - Core media functionality with trait-based architecture for different file types
-- **MediaImage trait** (`trait_mediaImage.php`) - Image processing with GD integration, thumbnail generation, and watermarking
-- **MediaDocument trait** (`trait_mediaDoc.php`) - Document processing for PDF, TXT, and other document formats
-- **MediaVideo trait** (`trait_mediaVideo.php`) - Video metadata extraction using ffprobe
-- **MediaAudio trait** (`trait_mediaAudio.php`) - Audio metadata extraction with ID3 tag support
-- **MediaArch trait** (`trait_mediaArch.php`) - Archive processing for ZIP, TAR, GZ formats
+- **Files class** (`class_files.php`) - Core files functionality with trait-based architecture for different file types
+- **FileManagerImage trait** (`trait_fileManagerImage.php`) - Image processing with GD integration, thumbnail generation, and watermarking
+- **FileManagerDoc trait** (`trait_fileManagerDoc.php`) - Document processing for PDF, TXT, and other document formats
+- **FileManagerVideo trait** (`trait_fileManagerVideo.php`) - Video metadata extraction using ffprobe
+- **FileManagerAudio trait** (`trait_fileManagerAudio.php`) - Audio metadata extraction with ID3 tag support
+- **FileManagerArch trait** (`trait_fileManagerArch.php`) - Archive processing for ZIP, TAR, GZ formats
 - **GD class** (`class_gd.php`) - Advanced image processing library with resize, crop, watermark capabilities
-- **MediaService** (`services/media.php`) - Business logic layer with validation, error handling, and file management
+- **FilesService** (`services/files.php`) - Business logic layer with validation, error handling, and file management
 - **API controller** (`controller_media.php`) - RESTful API for media operations
-- **Storage structure** (`/up/files/`) - Organized file storage by media type
+- **Storage structure** (`/up/`) - Organized file storage by file type
 
 #### Key Features
 - **Multi-format Support** - Images (JPEG, PNG, GIF, WebP), Documents (PDF, TXT, DOC), Video (MP4, AVI, MOV), Audio (MP3, WAV, OGG), Archives (ZIP, TAR, GZ)
@@ -428,21 +434,21 @@ Comprehensive media file management system with support for multiple file types,
 
 #### Architecture
 
-The media system uses a modular trait-based architecture for clean separation of concerns:
+The files system uses a modular trait-based architecture for clean separation of concerns:
 
 ```
-Media (main class)
-├── use MediaImage                 # Image processing (JPEG, PNG, GIF, WebP)
-├── use MediaDocument              # Document processing (PDF, TXT, DOC)
-├── use MediaVideo                 # Video processing (MP4, AVI, MOV)
-├── use MediaAudio                 # Audio processing (MP3, WAV, OGG)
-└── use MediaArch                  # Archive processing (ZIP, TAR, GZ)
+Files (main class)
+├── use FileManagerImage           # Image processing (JPEG, PNG, GIF, WebP)
+├── use FileManagerDoc             # Document processing (PDF, TXT, DOC)
+├── use FileManagerVideo           # Video processing (MP4, AVI, MOV)
+├── use FileManagerAudio           # Audio processing (MP3, WAV, OGG)
+└── use FileManagerArch            # Archive processing (ZIP, TAR, GZ)
 
 GD (image processing)
 ├── use GdExtends                  # Extended GD functionality
 └── SiteSettings integration       # Configuration and watermark settings
 
-MediaService (business layer)
+FilesService (business layer)
 ├── File validation                # MIME types, size limits, upload errors
 ├── Business rules                 # User permissions, storage quotas
 ├── Error handling                 # Exception management and logging

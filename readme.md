@@ -68,6 +68,7 @@ Key Features
 - **Pure PHP**: No external frameworks or ORM dependencies
 - **Modern PHP 8.1+**: Uses latest PHP features and strict typing
 - **RESTful API**: Complete API interface for all operations
+- **File Management System**: Advanced file upload, processing and management with multiple format support
 - **Theme System**: Modular theme architecture with modern frontend
 - **Frontend Stack**: Tailwind CSS 4.x + Alpine.js for interactivity
 - **Security First**: CSP support, role-based access, input sanitization
@@ -108,10 +109,11 @@ Architecture
 RooCMS follows a **framework-free** approach with these core principles:
 
 - **No External Dependencies**: Pure PHP without frameworks or ORM
-- **Custom MVC**: Own implementation of Model-View-Controller pattern  
+- **Custom MVC**: Own implementation of Model-View-Controller pattern
+- **File Management**: Advanced file processing with trait-based architecture
 - **API-First Design**: RESTful API as primary interface
 - **Modern PHP**: PHP 8.1+ features with strict typing
-- **Theme System**: Modular frontend
+- **Theme System**: Modular frontend with multiple rendering engines
 - **Security Focus**: CSP, role-based access, input sanitization
 
 ### Directory Structure
@@ -120,7 +122,7 @@ RooCMS follows a **framework-free** approach with these core principles:
 ├── roocms/       # Core CMS system
 ├── themes/       # Theme system (Tailwind CSS 4.x + Alpine.js)
 ├── storage/      # Data storage and logs
-└── upload/       # User uploaded files
+└── up/           # User uploaded files
 ```
 
 Contributing
