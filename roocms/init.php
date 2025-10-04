@@ -71,8 +71,8 @@ $helpers = [
  * Include helpers
  */
 foreach($helpers as $helper) {
-    if(file_exists(_ROOCMS."/helpers/".$helper)) {
-        require_once _ROOCMS."/helpers/".$helper;
+    if(file_exists(_HELPERS."/".$helper)) {
+        require_once _HELPERS."/".$helper;
     }
 }
 
@@ -149,7 +149,7 @@ spl_autoload_register(function(string $class_name) {
 /**
  * include debug and run debugging project
  */
-require_once _ROOCMS."/helpers/debug.php";
+require_once _HELPERS."/debug.php";
 
 /**
  * Initialize Dependency Container
@@ -161,14 +161,14 @@ $container = new DependencyContainer();
  */
 $container->register(DbConnect::class, function() {
     return new DbConnect();
-}, true); // Singleton
+}, true);
 
 /** 
  * Register database service with proper DI
  */
 $container->register(Db::class, function(DependencyContainer $c) {
     return new Db($c->get(DbConnect::class));
-}, true); // Singleton
+}, true);
 
 
 /**
@@ -196,32 +196,32 @@ if($debug instanceof Debugger) {
 /**
  * Register request
  */
-$container->register(Request::class, Request::class, true); // Singleton
+$container->register(Request::class, Request::class, true);
 
 /**
  * Register site settings
  */
-$container->register(SiteSettings::class, fn() => new SiteSettings($db), true); // Singleton
-$container->register(SiteSettingsService::class, SiteSettingsService::class, true); // Singleton
+$container->register(SiteSettings::class, fn() => new SiteSettings($db), true);
+$container->register(SiteSettingsService::class, SiteSettingsService::class, true);
 
 /** 
  * Register dependencies
  */
-$container->register(Auth::class, Auth::class, true); // Singleton
-$container->register(User::class, User::class, true); // Singleton
-$container->register(Role::class, Role::class, true); // Singleton
-$container->register(UserService::class, UserService::class, true); // Singleton
-$container->register(Mailer::class, Mailer::class, true); // Singleton
-$container->register(GD::class, GD::class, true); // Singleton
-$container->register(Files::class, Files::class, true); // Singleton
-$container->register(FilesService::class, FilesService::class, true); // Singleton
-$container->register(DbBackuper::class, DbBackuper::class, true); // Singleton
-$container->register(BackupService::class, BackupService::class, true); // Singleton
-$container->register(AuthenticationService::class, AuthenticationService::class, true); // Singleton
-$container->register(RegistrationService::class, RegistrationService::class, true); // Singleton
-$container->register(EmailService::class, EmailService::class, true); // Singleton
-$container->register(UserRecoveryService::class, UserRecoveryService::class, true); // Singleton
-$container->register(UserValidationService::class, UserValidationService::class, true); // Singleton
+$container->register(Auth::class, Auth::class, true);
+$container->register(User::class, User::class, true);
+$container->register(Role::class, Role::class, true);
+$container->register(UserService::class, UserService::class, true);
+$container->register(Mailer::class, Mailer::class, true);
+$container->register(GD::class, GD::class, true);
+$container->register(Files::class, Files::class, true);
+$container->register(FilesService::class, FilesService::class, true);
+$container->register(DbBackuper::class, DbBackuper::class, true);
+$container->register(BackupService::class, BackupService::class, true);
+$container->register(AuthenticationService::class, AuthenticationService::class, true);
+$container->register(RegistrationService::class, RegistrationService::class, true);
+$container->register(EmailService::class, EmailService::class, true);
+$container->register(UserRecoveryService::class, UserRecoveryService::class, true);
+$container->register(UserValidationService::class, UserValidationService::class, true);
 
 /**
  * Register template renderers and themes

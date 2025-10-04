@@ -78,6 +78,7 @@ const TABLE_MEDIA_RELS  = DB_PREFIX.'media_rels';   // Table for media relations
 const _ROOCMS       = _SITEROOT.'/roocms';
 const _MODULES      = _ROOCMS.'/modules';
 const _SERVICES     = _ROOCMS.'/services';
+const _HELPERS      = _ROOCMS.'/helpers';
 const _API          = _SITEROOT.'/api';
 const _UPLOAD       = _SITEROOT.'/up';
 const _UPLOADFILES  = _UPLOAD.'/files';
