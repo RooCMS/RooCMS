@@ -100,16 +100,27 @@ class UsersController extends BaseController {
 	 * Get user by ID
 	 * GET /api/v1/users/{user_id}
 	 * 
+	 * Access rules:
+	 * - Full access: User requesting own profile OR admin/superuser requesting any profile
+	 * - Limited access: Unauthenticated users, regular users, moderators - only non-deleted profiles
+	 * 
 	 * @param int $user_id User ID
 	 * @return void
 	 */
 	public function show(int $user_id): void {
 		$this->log_request('users_show', ['user_id' => $user_id]);
-		$user = $this->userService->get_user($user_id);
+		
+		// Get current user (may be null if not authenticated)
+		$current = $this->get_authenticated_user();
+		
+		// Use access-controlled method to get user data
+		$user = $this->userService->get_user($user_id, $current);
+		
 		if(!$user) {
 			$this->not_found_response('User not found');
 			return;
 		}
+
 		$this->json_response($user);
 	}
 
@@ -127,7 +138,7 @@ class UsersController extends BaseController {
 		if(empty($current)) {
 			return;
 		}
-		$user = $this->userService->get_user((int)$current['id']);
+		$user = $this->userService->get_user((int)$current['id'], $current);
 		$this->json_response($user);
 	}
 

@@ -40,10 +40,11 @@ class User {
      * Get user by ID
      * 
      * @param int $user_id User ID
-     * @return array|null
+     * @param bool $detailed Include deleted users and full details
+     * @return array|null User data or null if not found
      */
-    public function get_user_by_id(int $user_id): ?array {
-        return $this->get_user_by('id', $user_id, false);
+    public function get_user_by_id(int $user_id, bool $detailed = false): ?array {
+        return $this->get_user_by('id', $user_id, false, $detailed);
     }
 
 
@@ -51,10 +52,11 @@ class User {
      * Get user by login
      * 
      * @param string $login Login
-     * @return array|null
+     * @param bool $detailed Include deleted users and full details
+     * @return array|null User data or null if not found
      */
-    public function get_user_by_login(string $login): ?array {
-        return $this->get_user_by('login', $login, true);
+    public function get_user_by_login(string $login, bool $detailed = false): ?array {
+        return $this->get_user_by('login', $login, true, $detailed);
     }
 
 
@@ -62,10 +64,11 @@ class User {
      * Get user by email
      * 
      * @param string $email Email
-     * @return array|null
+     * @param bool $detailed Include deleted users and full details
+     * @return array|null User data or null if not found
      */
-    public function get_user_by_email(string $email): ?array {
-        return $this->get_user_by('email', $email, false);
+    public function get_user_by_email(string $email, bool $detailed = false): ?array {
+        return $this->get_user_by('email', $email, false, $detailed);
     }
 
 
@@ -75,20 +78,23 @@ class User {
      * @param string $field Field
      * @param int|string $value Value
      * @param bool $with_password With password
-     * @return array|null
+     * @param bool $detailed Include deleted users and full details
+     * @return array|null User data or null if not found
      */
-    private function get_user_by(string $field, int|string $value, bool $with_password = false): ?array {
+    private function get_user_by(string $field, int|string $value, bool $with_password = false, bool $detailed = false): ?array {
         try {
             $password_column = $with_password ? ', u.password' : '';
+            $detailed_condition = $detailed ? '' : 'AND u.is_deleted = 0';
+            $detailed_columns = $detailed ? ', u.is_verified, u.created_at, u.updated_at, u.is_deleted, u.deleted_at' : '';
+            
             $query = "SELECT 
-                        u.id, u.role, u.is_active, u.login, u.email, u.is_verified, u.is_banned, 
-                        u.ban_expired, u.ban_reason, u.created_at, u.updated_at, u.last_activity{$password_column},
-                        u.is_deleted, u.deleted_at,
+                        u.id, u.role, u.is_active, u.login, u.email{$password_column}, u.is_banned, 
+                        u.ban_expired, u.ban_reason, u.last_activity{$detailed_columns},
                         p.nickname, p.first_name, p.last_name, p.gender, p.avatar, p.bio, 
                         p.birthday, p.website, p.is_public
                       FROM " . TABLE_USERS . " u
                       LEFT JOIN " . TABLE_USER_PROFILES . " p ON u.id = p.user_id
-                      WHERE u." . $field . " = ? AND u.is_deleted = 0 LIMIT 1";
+                      WHERE u." . $field . " = ? {$detailed_condition} LIMIT 1";
 
             $row = $this->db->fetch_assoc($query, [$value]);
 

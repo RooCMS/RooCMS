@@ -36,9 +36,40 @@ class UserService {
 
     /**
      * Get user by ID
+     * 
+     * @param int $user_id User ID
+     * @param array|null $caller Caller user (null if not authenticated)
+     * @return array|null User data or null if not found/no access
      */
-    public function get_user(int $user_id): ?array {
-        return $this->user->get_user_by_id($user_id);
+    public function get_user(int $user_id, ?array $caller = null): ?array {
+        // Determine if full access should be granted
+        $has_full_access = false;
+        
+        if($caller) {
+            // User requesting their own profile
+            if((int)$caller['id'] === $user_id) {
+                $has_full_access = true;
+            }
+            // Admin or superuser requesting any profile
+            elseif(in_array($caller['role'] ?? '', ['a', 'su'], true)) {
+                $has_full_access = true;
+            }
+        }
+        
+        // Get user data based on access level
+        if($has_full_access) {
+            // Full access: include detailed data
+            $user = $this->user->get_user_by_id($user_id, true);
+        } else {
+            // Limited access: only basic data
+            $user = $this->user->get_user_by_id($user_id, false);
+        }
+
+        if(!$user) {
+            return null;
+        }
+        
+        return $user;
     }
 
 
