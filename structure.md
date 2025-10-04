@@ -2,164 +2,165 @@
 
 This document describes the organization of files and directories in the RooCMS project.
 
-## Root directory
+## 🏠 Root directory
 
 ```
 /
-├── api/                    # API interface
-├── roocms/                 # Core RooCMS
-├── storage/                # Storage
-├── themes/                 # Themes
-├── up/                     # Uploaded files
-├── err.php                 # Error handler
-├── favicon.ico             # Favicon
-├── index.php               # Main entry point
-├── LICENSE.md              # License
-├── logobg.png              # Logo
-├── phpcs.xml               # PHP CodeSniffer config
-├── phpstan.neon            # PHPStan config
-├── README.md               # Main docs
-├── RELEASE.md              # Release info
-├── robots.txt              # Robots rules
-└── structure.md            # Project structure docs
+├── 📁 api/                    # API interface
+├── 📁 roocms/                 # Core RooCMS
+├── 📁 storage/                # Storage
+├── 📁 themes/                 # Themes
+├── 📁 up/                     # Uploaded files
+├── 📄 err.php                 # Error handler
+├── 📄 favicon.ico             # Favicon
+├── 📄 index.php               # Main entry point
+├── 📄 LICENSE.md              # License
+├── 📄 logobg.png              # Logo
+├── 📄 phpcs.xml               # PHP CodeSniffer config
+├── 📄 phpstan.neon            # PHPStan config
+├── 📄 README.md               # Main docs
+├── 📄 RELEASE.md              # Release info
+├── 📄 robots.txt              # Robots rules
+└── 📄 structure.md            # Project structure docs
 ```
 
-## API (`/api/`)
+## 🌐 API (`/api/`)
 
 Module API for interaction with the system through the RESTful interface.
 
 ```
 api/
-├── index.php               # API entry point
-├── README.md               # API Docs
-├── router.php              # Request router
-└── v1/                     # API version 1
-    ├── controller_adminSettings.php # Admin settings controller
-    ├── controller_auth.php          # Authentication controller 
-    ├── controller_backup.php        # Database backup controller
-    ├── controller_base.php          # Base controller
-    ├── controller_csp.php           # Content Security Policy controller
-    ├── controller_health.php        # Health check controller
-    ├── controller_media.php         # Media files controller
-    ├── controller_users.php         # Users controller
-    ├── docs/                        # API docs
-    │   ├── postman.json             # Postman collection
-    │   └── swagger.yaml             # Swagger docs
-    ├── middleware_auth.php          # Middleware authentication
-    └── middleware_role.php          # Middleware roles
+├── 📄 index.php               # API entry point
+├── 📄 README.md               # API Docs
+├── 📄 router.php              # Request router
+└── 📁 v1/                     # API version 1
+    ├── 📄 controller_adminSettings.php    # Admin settings controller
+    ├── 📄 controller_auth.php             # Authentication controller
+    ├── 📄 controller_backup.php           # Database backup controller
+    ├── 📄 controller_base.php             # Base controller
+    ├── 📄 controller_csp.php              # Content Security Policy controller
+    ├── 📄 controller_debug.php            # Debug API controller
+    ├── 📄 controller_health.php           # Health check controller
+    ├── 📄 controller_media.php            # Media files controller
+    ├── 📄 controller_users.php            # Users controller
+    ├── 📁 docs/                           # API docs
+    │   ├── 📄 postman.json                # Postman collection
+    │   └── 📄 swagger.yaml                # Swagger docs
+    ├── 📄 middleware_auth.php             # Middleware authentication
+    └── 📄 middleware_role.php             # Middleware roles
 ```
 
-## Core system (`/roocms/`)
+## 🏗️ Core system (`/roocms/`)
 
 Core CMS system with main classes and configuration.
 
-### Classes (`/roocms/class/`)
+### 📚 Classes (`/roocms/class/`)
 
 ```
 roocms/class/
-├── class_apiHandler.php                # API request handler
-├── class_auth.php                      # Authentication system
-├── class_db.php                        # Main database class
-├── class_dbBackuper.php                # Database backup and restore system
-├── class_dbConnect.php                 # Database connection
-├── class_dbLogger.php                  # Database logging system
-├── class_dbMigrator.php                # Database migrations
-├── class_dbQueryBuilder.php            # SQL query builder
-├── class_debugger.php                  # Debugger system
-├── class_defaultControllerFactory.php  # Default controller factory
-├── class_defaultMiddlewareFactory.php  # Default middleware factory
-├── class_dependencyContainer.php       # Dependency injection container
-├── class_gd.php                        # GD image processing library
-├── class_media.php                     # Media file management system
-├── class_templateRendererPhp.php       # PHP template renderer
-├── class_templateRendererHtml.php      # HTML template renderer
-├── class_themeConfig.php               # Theme configuration implementation
-├── class_themes.php                    # Theme management system
-├── class_mailer.php                    # Mailer system
-├── class_role.php                      # Roles system
-├── class_siteSettings.php              # Modern site settings system
-├── class_shteirlitz.php                # Special functionality
-├── class_user.php                      # User management
-├── interface_controllerFactory.php     # Controller factory interface
-├── interface_middlewareFactory.php     # Middleware factory interface
-├── interface_templateRenderer.php      # Template renderer interface
-├── interface_themeConfig.php           # Theme configuration interface
-├── trait_dbBackuperExtends.php         # Database backup utility methods
-├── trait_dbBackuperFB.php              # Firebird database backup operations
-├── trait_dbBackuperMSQL.php            # MySQL/MariaDB database backup operations
-├── trait_dbBackuperPSQL.php            # PostgreSQL database backup operations
-├── trait_dbExtends.php                 # DB extends trait
-├── trait_dbLogger.php                  # Database logging trait
-├── trait_debugLog.php                  # Debug log trait
-├── trait_fileManagerArch.php           # Archive file processing
-├── trait_fileManagerAudio.php          # Audio file processing
-├── trait_fileManagerDoc.php            # Document file processing
-├── trait_fileManagerImage.php          # Image file processing
-├── trait_fileManagerVideo.php          # Video file processing
-└── trait_gdExtends.php                 # GD library extensions
+├── 📄 class_apiHandler.php                # API request handler
+├── 📄 class_auth.php                      # Authentication system
+├── 📄 class_db.php                        # Main database class
+├── 📄 class_dbBackuper.php                # Database backup and restore system
+├── 📄 class_dbConnect.php                 # Database connection
+├── 📄 class_dbMigrator.php                # Database migration system
+├── 📄 class_dbQueryBuilder.php            # SQL query builder
+├── 📄 class_debugger.php                  # Debugging and logging utilities
+├── 📄 class_defaultControllerFactory.php  # Default controller factory implementation
+├── 📄 class_defaultMiddlewareFactory.php  # Default middleware factory implementation
+├── 📄 class_dependencyContainer.php       # Dependency injection container
+├── 📄 class_files.php                     # File management system (main class)
+├── 📄 class_gd.php                        # GD image processing library
+├── 📄 class_mailer.php                    # Email sending system
+├── 📄 class_request.php                   # HTTP request handling utilities
+├── 📄 class_role.php                      # User roles management
+├── 📄 class_siteSettings.php              # Site configuration management
+├── 📄 class_shteirlitz.php                # Special utilities (encoded functionality)
+├── 📄 class_templateRendererHtml.php      # HTML template renderer
+├── 📄 class_templateRendererPhp.php       # PHP template renderer
+├── 📄 class_themeConfig.php               # Theme configuration handler
+├── 📄 class_themes.php                    # Theme management system
+├── 📄 class_user.php                      # User management operations
+├── 📄 interface_controllerFactory.php     # Controller factory interface
+├── 📄 interface_middlewareFactory.php     # Middleware factory interface
+├── 📄 interface_templateRenderer.php      # Template renderer interface
+├── 📄 interface_themeConfig.php           # Theme configuration interface
+├── 📄 trait_dbBackuperExtends.php         # Database backup utility methods
+├── 📄 trait_dbBackuperFB.php              # Firebird database backup operations
+├── 📄 trait_dbBackuperMSQL.php            # MySQL/MariaDB backup operations
+├── 📄 trait_dbBackuperPSQL.php            # PostgreSQL backup operations
+├── 📄 trait_dbExtends.php                 # Database extension utilities
+├── 📄 trait_dbLogger.php                  # Database logging trait
+├── 📄 trait_debugLog.php                  # Debug logging functionality
+├── 📄 trait_fileManagerArch.php           # Archive file processing
+├── 📄 trait_fileManagerAudio.php          # Audio file processing
+├── 📄 trait_fileManagerDoc.php            # Document file processing
+├── 📄 trait_fileManagerImage.php          # Image file processing
+├── 📄 trait_fileManagerVideo.php          # Video file processing
+└── 📄 trait_gdExtends.php                 # GD library extensions
 ```
 
-### Configuration (`/roocms/config/`)
+### ⚙️ Configuration (`/roocms/config/`)
 
 ```
 roocms/config/
-├── config.php              # Main configuration
-├── csp.cfg.php             # Content Security Policy settings
-├── defines.php             # System constants
-└── set.cfg.php             # Additional settings
+├── 📄 config.php              # Main configuration
+├── 📄 csp.cfg.php             # Content Security Policy settings
+├── 📄 defines.php             # System constants
+└── 📄 set.cfg.php             # Additional settings
 ```
 
-### Database (`/roocms/database/`)
+### 🗄️ Database (`/roocms/database/`)
 
 ```
 roocms/database/
-├── backup_cli.php              # CLI interface for database backups
-├── backups/                    # Database backup files storage
-│   ├── .htaccess               # Web access protection rules
-│   └── index.php               # Directory access protection
-├── migrate_cli.php             # CLI interface for migrations
-├── migrations/                 # Migration files
-│   ├── example_1.php           # Migration example 1
-│   ├── example_2.php           # Migration example 2
-│   ├── migrate_2_0_0_1.php     # Migration version 2.0.0.1
-│   └── migrate_2_0_0_2.php     # Migration version 2.0.0.2
-├── README_Migrate.md           # Migration docs
-└── README_Backup.md            # Database backup system docs
+├── 📄 backup_cli.php              # CLI interface for database backups
+├── 📁 backups/                    # Database backup files storage
+│   ├── 📄 .htaccess               # Web access protection rules
+│   └── 📄 index.php               # Directory access protection
+├── 📄 migrate_cli.php             # CLI interface for migrations
+├── 📁 migrations/                 # Migration files
+│   ├── 📄 example_1.php           # Migration example 1
+│   ├── 📄 example_2.php           # Migration example 2
+│   ├── 📄 migrate_2_0_0_1.php     # Migration version 2.0.0.1
+│   └── 📄 migrate_2_0_0_2.php     # Migration version 2.0.0.2
+├── 📄 README_Migrate.md           # Migration docs
+└── 📄 README_Backup.md            # Database backup system docs
 ```
 
-### Helpers (`/roocms/helpers/`)
+### 🛠️ Helpers (`/roocms/helpers/`)
 
 ```
 roocms/helpers/
-├── check.php               # Check functions
-├── cli/                    # CLI utilities
-│   └── pastcost_cli.php    # CLI utility pastcost
-├── debug.php               # Debug functions
-├── functions.php           # Common functions
-├── output.php              # Output helper functions
-└── sanitize.php            # Data sanitization functions
+├── 📄 check.php               # Check functions
+├── 📁 cli/                    # CLI utilities
+│   └── 📄 pastcost_cli.php    # CLI utility pastcost
+├── 📄 debug.php               # Debug functions
+├── 📄 functions.php           # Common functions
+├── 📄 output.php              # Output helper functions
+└── 📄 sanitize.php            # Data sanitization functions
 ```
 
-### Services (`/roocms/services/`)
+### 🔧 Services (`/roocms/services/`)
 
 ```
 roocms/services/
-├── authentication.php      # Authentication service
-├── backup.php              # Database backup service
-├── email.php               # Email service
-├── files.php               # Files management service
-├── registration.php        # User registration service
-├── siteSettings.php        # Site settings service
-├── user.php                # User service
-├── userRecovery.php        # User password recovery service
-└── userValidation.php      # User validation service
+├── 📄 authentication.php      # Authentication service
+├── 📄 backup.php              # Database backup service
+├── 📄 email.php               # Email service
+├── 📄 files.php               # Files management service
+├── 📄 registration.php        # User registration service
+├── 📄 siteSettings.php        # Site settings service
+├── 📄 user.php                # User service
+├── 📄 userRecovery.php        # User password recovery service
+└── 📄 userValidation.php      # User validation service
 ```
 
-### Initialization
+### 🚀 Initialization
 
 ```
 roocms/
-└── init.php                # System initialization file (Initializes configuration, helpers, autoloader, database, and DI container.)
+└── 📄 init.php                # System initialization file (Initializes configuration, helpers, autoloader, database, and DI container.)
 ```
 
 Registers core services and template system:
@@ -201,111 +202,111 @@ $container->register(Themes::class, function(DependencyContainer $c) {
 }, true);
 ```
 
-## Storage (`/storage/`)
+## 💾 Storage (`/storage/`)
 
 Directory for storing data, logs and resources.
 
 ```
 storage/
-├── assets/                 # System resources
-│   ├── critical.html       # Critical resources
-│   ├── index.php           # Protected file
-│   └── mail/               # Email templates
-│       ├── notice.php      # Notice template
-│       └── welcome.php     # Welcome template
-├── fonts/                  # System fonts
-│   ├── index.php           # Protected file
-│   └── trebuc.ttf          # Trebuchet MS font
-├── index.php               # Protected file
-└── logs/                   # System logs
-    ├── debug.log           # Debug log
-    ├── index.php           # Protected file
-    ├── lowerrors.log       # Log of minor errors
-    └── syserrors.log       # Log of system errors
+├── 📁 assets/                 # System resources
+│   ├── 📄 critical.html       # Critical resources
+│   ├── 📄 index.php           # Protected file
+│   └── 📁 mail/               # Email templates
+│       ├── 📄 notice.php      # Notice template
+│       └── 📄 welcome.php     # Welcome template
+├── 📁 fonts/                  # System fonts
+│   ├── 📄 index.php           # Protected file
+│   └── 📄 trebuc.ttf          # Trebuchet MS font
+├── 📄 index.php               # Protected file
+└── 📁 logs/                   # System logs
+    ├── 📄 debug.log           # Debug log
+    ├── 📄 index.php           # Protected file
+    ├── 📄 lowerrors.log       # Log of minor errors
+    └── 📄 syserrors.log       # Log of system errors
 ```
 
-## Uploads (`/up/`)
+## 📤 Uploads (`/up/`)
 
 Directory for storing uploaded user files.
 
 ```
 up/
-├── av/                     # Audio and video files
-├── files/                  # General uploaded files
-│   └── index.php           # Protected file
-├── img/                    # Uploaded images
-└── index.php               # Protected file
+├── 📁 av/                     # Audio and video files
+├── 📁 files/                  # General uploaded files
+│   └── 📄 index.php           # Protected file
+├── 📁 img/                    # Uploaded images
+└── 📄 index.php               # Protected file
 ```
 
-## Themes (`/themes/`)
+## 🎨 Themes (`/themes/`)
 
 System themes for configuring the appearance of the website. RooCMS supports two rendering modes: PHP and HTML.
 
 ```
 themes/
-├── default/                            # Default theme
-│   ├── assets/                         # Theme resources
-│   │   ├── css/                        # CSS styles
-│   │   │   ├── roocms.css              # RooCMS main styles
-│   │   │   └── roocms.min.css          # Minified RooCMS styles
-│   │   └── js/                         # JavaScript files
-│   │       ├── alpine.csp.min.js       # Alpine.js with CSP support
-│   │       ├── app/                    # Application modules
-│   │       │   ├── acp-access.js       # ACP access control
-│   │       │   ├── acp.js              # ACP functionality
-│   │       │   ├── api.js              # API client
-│   │       │   ├── auth.js             # Authentication
-│   │       │   ├── config.js           # Configuration
-│   │       │   ├── helpers/            # Helper functions
-│   │       │   │   ├── formatters.js   # Data formatters
-│   │       │   │   ├── formHelpers.js  # Form helpers
-│   │       │   │   ├── lazyLoader.js   # Lazy loading helpers (not used)
-│   │       │   │   └── validation.js   # Validation helpers
-│   │       │   ├── main.js             # Main module
-│   │       │   └── serviceWorker.js    # Service worker functionality (draft)
-│   │       └── pages/                  # Pages scripts
-│   │           ├── acp-dashboard.js    # Admin dashboard page
-│   │           ├── acp-debug.js        # Admin debug page
-│   │           ├── acp-settings.js     # Admin settings page
-│   │           ├── login.js            # Login page
-│   │           ├── password-forgot.js  # Password forgot page
-│   │           ├── password-reset.js   # Password reset page
-│   │           ├── profile-edit.js     # Profile edit page
-│   │           ├── profile.js          # Profile page
-│   │           ├── register.js         # Register page
-│   │           ├── ui-kit.js           # UI kit page
-│   │           └── verify-email.js     # Email verification page
-│   ├── layouts/                        # Layouts templates
-│   │   ├── acp-nav.php                 # ACP navigation layout
-│   │   └── base.php                    # Base layout
-│   ├── pages/                          # Pages templates
-│   │   ├── 403.php                     # 403 access denied page
-│   │   ├── 404.php                     # 404 not found page
-│   │   ├── acp/                        # Admin control panel pages
-│   │   │   ├── debug.php               # ACP debug page
-│   │   │   ├── index.php               # ACP dashboard
-│   │   │   ├── settings.php            # ACP settings
-│   │   │   └── ui-kit.php              # ACP UI kit
-│   │   ├── index.php                   # Home page
-│   │   ├── login.php                   # Login page
-│   │   ├── offline.php                 # Offline page (for service worker)
-│   │   ├── password-forgot.php         # Password forgot page
-│   │   ├── password-reset.php          # Password reset page
-│   │   ├── privacy.php                 # Privacy policy page
-│   │   ├── profile.php                 # User profile page
-│   │   ├── register.php                # Registration page
-│   │   ├── register-complete.php       # Registration complete page
-│   │   ├── terms.php                   # Terms of service page
-│   │   └── ui-kit.php                  # UI kit demo page
-│   ├── partials/                       # Partial templates
-│   │   ├── footer.php                  # Footer
-│   │   └── header.php                  # Header
-│   ├── sw.js                           # Service worker (draft)
-│   ├── sw.min.js                       # Minified service worker
-│   ├── tailwind.config.js              # Tailwind CSS configuration
-│   └── theme.json                      # Theme manifest (type: "php")
+├── 📁 default/                            # Default theme
+│   ├── 📁 assets/                         # Theme resources
+│   │   ├── 📁 css/                        # CSS styles
+│   │   │   ├── 📄 roocms.css              # RooCMS main styles
+│   │   │   └── 📄 roocms.min.css          # Minified RooCMS styles
+│   │   └── 📁 js/                         # JavaScript files
+│   │       ├── 📄 alpine.csp.min.js       # Alpine.js with CSP support
+│   │       ├── 📁 app/                    # Application modules
+│   │       │   ├── 📄 acp-access.js       # ACP access control
+│   │       │   ├── 📄 acp.js              # ACP functionality
+│   │       │   ├── 📄 api.js              # API client
+│   │       │   ├── 📄 auth.js             # Authentication
+│   │       │   ├── 📄 config.js           # Configuration
+│   │       │   ├── 📁 helpers/            # Helper functions
+│   │       │   │   ├── 📄 formatters.js   # Data formatters
+│   │       │   │   ├── 📄 formHelpers.js  # Form helpers
+│   │       │   │   ├── 📄 lazyLoader.js   # Lazy loading helpers (not used)
+│   │       │   │   └── 📄 validation.js   # Validation helpers
+│   │       │   ├── 📄 main.js             # Main module
+│   │       │   └── 📄 serviceWorker.js    # Service worker functionality (draft)
+│   │       └── 📁 pages/                  # Pages scripts
+│   │           ├── 📄 acp-dashboard.js    # Admin dashboard page
+│   │           ├── 📄 acp-debug.js        # Admin debug page
+│   │           ├── 📄 acp-settings.js     # Admin settings page
+│   │           ├── 📄 login.js            # Login page
+│   │           ├── 📄 password-forgot.js  # Password forgot page
+│   │           ├── 📄 password-reset.js   # Password reset page
+│   │           ├── 📄 profile-edit.js     # Profile edit page
+│   │           ├── 📄 profile.js          # Profile page
+│   │           ├── 📄 register.js         # Register page
+│   │           ├── 📄 ui-kit.js           # UI kit page
+│   │           └── 📄 verify-email.js     # Email verification page
+│   ├── 📁 layouts/                        # Layouts templates
+│   │   ├── 📄 acp-nav.php                 # ACP navigation layout
+│   │   └── 📄 base.php                    # Base layout
+│   ├── 📁 pages/                          # Pages templates
+│   │   ├── 📄 403.php                     # 403 access denied page
+│   │   ├── 📄 404.php                     # 404 not found page
+│   │   ├── 📁 acp/                        # Admin control panel pages
+│   │   │   ├── 📄 debug.php               # ACP debug page
+│   │   │   ├── 📄 index.php               # ACP dashboard
+│   │   │   ├── 📄 settings.php            # ACP settings
+│   │   │   └── 📄 ui-kit.php              # ACP UI kit
+│   │   ├── 📄 index.php                   # Home page
+│   │   ├── 📄 login.php                   # Login page
+│   │   ├── 📄 offline.php                 # Offline page (for service worker)
+│   │   ├── 📄 password-forgot.php         # Password forgot page
+│   │   ├── 📄 password-reset.php          # Password reset page
+│   │   ├── 📄 privacy.php                 # Privacy policy page
+│   │   ├── 📄 profile.php                 # User profile page
+│   │   ├── 📄 register.php                # Registration page
+│   │   ├── 📄 register-complete.php       # Registration complete page
+│   │   ├── 📄 terms.php                   # Terms of service page
+│   │   └── 📄 ui-kit.php                  # UI kit demo page
+│   ├── 📁 partials/                       # Partial templates
+│   │   ├── 📄 footer.php                  # Footer
+│   │   └── 📄 header.php                  # Header
+│   ├── 📄 sw.js                           # Service worker (draft)
+│   ├── 📄 sw.min.js                       # Minified service worker
+│   ├── 📄 tailwind.config.js              # Tailwind CSS configuration
+│   └── 📄 theme.json                      # Theme manifest (type: "php")
 │
-└── default_html.7z                 # HTML theme archive (placeholders, includes, conditionals)
+└── 📄 default_html.7z                 # HTML theme archive (placeholders, includes, conditionals)
                                     # Note: This theme is currently archived and not actively used
 ```
 
@@ -316,9 +317,9 @@ HTML engine supports:
 - `<!-- include: partials/header.html -->`
 - `{{asset: css/app.css}}` / `{{asset: js/app.js}}`
 
-## Features architecture
+## 🏛️ Features architecture
 
-### Development principles
+### ⚡ Development principles
 - **Without frameworks**: Project uses pure PHP without external frameworks
 - **Without ORM**: Direct SQL queries through PDO
 - **PHP 8.1+**: Modern PHP 8.1 and higher capabilities
@@ -330,11 +331,11 @@ HTML engine supports:
 - **Dynamic Settings**: Meta-driven settings system with type validation
 - **Alpine.js frontend**: Reactive UI components for modern interactivity
 
-### Database Backup System
+### 💾 Database Backup System
 
 Comprehensive database backup and restore system with CLI and API interfaces, featuring complete database structure preservation and enterprise-level security.
 
-#### Components
+#### 🧩 Components
 - **DbBackuper class** (`class_dbBackuper.php`) - Core backup functionality with trait-based architecture
 - **DbBackuperExtends trait** (`trait_dbBackuperExtends.php`) - Utility methods for backup directory management and security
 - **DbBackuperMSQL trait** (`trait_dbBackuperMSQL.php`) - MySQL/MariaDB specific backup and restore operations
@@ -345,7 +346,7 @@ Comprehensive database backup and restore system with CLI and API interfaces, fe
 - **API controller** (`controller_backup.php`) - RESTful API for backup management
 - **Storage directory** (`database/backups/`) - Secured backup files storage location
 
-#### Key Features
+#### ✨ Key Features
 - **Complete Structure Preservation** - All database objects: PRIMARY/FOREIGN/UNIQUE keys, indexes, constraints, AUTO_INCREMENT, DEFAULT values, ENUM types
 - **Universal Cross-Database Format** - Compatible with MySQL/MariaDB, PostgreSQL, Firebird
 - **Enterprise Security** - Multi-layer protection: .htaccess rules, API-only access, admin authentication, path traversal protection
@@ -353,7 +354,7 @@ Comprehensive database backup and restore system with CLI and API interfaces, fe
 - **Auto-naming** - Date/time-based backup filenames
 - **Transaction Safety** - Rollback support with BEGIN/COMMIT blocks
 
-#### Architecture
+#### 🏗️ Architecture
 
 The backup system uses a modular trait-based architecture for clean separation of concerns:
 
@@ -380,7 +381,7 @@ This architecture ensures:
 - **Clean Code**: No conditional logic based on database type
 - **Maintainability**: Isolated database-specific logic
 
-#### API Endpoints
+#### 🔌 API Endpoints
 - `GET /api/v1/backup/status` - System status and statistics
 - `GET /api/v1/backup/list` - List all available backups
 - `POST /api/v1/backup/create` - Create new backup
@@ -389,7 +390,7 @@ This architecture ensures:
 - `GET /api/v1/backup/download/{filename}` - Download backup file
 - `GET /api/v1/backup/logs` - Backup operation logs
 
-#### CLI Commands
+#### 💻 CLI Commands
 - `php backup_cli.php create [--filename=name] [--compress] [--universal]` - Create new backup
 - `php backup_cli.php restore [--filename=name] [--batch-size=1000]` - Restore from backup
 - `php backup_cli.php list` - List all available backups with metadata
@@ -406,11 +407,11 @@ This architecture ensures:
 - `--structure-only` - Backup table structure without data
 - `--data-only` - Backup data without table structure
 
-### Files Management System
+### 📁 Files Management System
 
 Comprehensive file management system with support for multiple file types, automatic processing, and variant generation.
 
-#### Components
+#### 🧩 Components
 - **Files class** (`class_files.php`) - Core files functionality with trait-based architecture for different file types
 - **FileManagerImage trait** (`trait_fileManagerImage.php`) - Image processing with GD integration, thumbnail generation, and watermarking
 - **FileManagerDoc trait** (`trait_fileManagerDoc.php`) - Document processing for PDF, TXT, and other document formats
@@ -422,7 +423,7 @@ Comprehensive file management system with support for multiple file types, autom
 - **API controller** (`controller_media.php`) - RESTful API for media operations
 - **Storage structure** (`/up/`) - Organized file storage by file type
 
-#### Key Features
+#### ✨ Key Features
 - **Multi-format Support** - Images (JPEG, PNG, GIF, WebP), Documents (PDF, TXT, DOC), Video (MP4, AVI, MOV), Audio (MP3, WAV, OGG), Archives (ZIP, TAR, GZ)
 - **Automatic Processing** - Metadata extraction, thumbnail generation, file validation, and type detection
 - **Variant Generation** - Multiple image sizes (thumb, small, medium, large) with overflow/contain modes
@@ -432,7 +433,7 @@ Comprehensive file management system with support for multiple file types, autom
 - **API Interface** - Full CRUD operations via RESTful endpoints with authentication
 - **Business Logic Separation** - Clean architecture with service layer for validation and Media class for core operations
 
-#### Architecture
+#### 🏗️ Architecture
 
 The files system uses a modular trait-based architecture for clean separation of concerns:
 
@@ -455,7 +456,7 @@ FilesService (business layer)
 └── Data formatting               # Response formatting and pagination
 ```
 
-#### API Endpoints
+#### 🔌 API Endpoints
 - `GET /v1/media` - List files with pagination and filtering
 - `GET /v1/media/{id}` - Get file metadata
 - `GET /v1/media/{id}/file` - Download file or variant
@@ -463,24 +464,24 @@ FilesService (business layer)
 - `PUT /v1/media/{id}` - Update metadata (authenticated)
 - `DELETE /v1/media/{id}` - Delete file and variants (authenticated)
 
-#### File Processing Flow
+#### 🔄 File Processing Flow
 1. **Upload** - File validation, MIME type detection, sanitization
 2. **Storage** - UUID generation, organized directory structure
 3. **Processing** - Metadata extraction, thumbnail generation (images)
 4. **Database** - Store file info, metadata, and variant relationships
 5. **Variants** - Generate multiple sizes for images with different modes
 
-### Dependency Injection architecture
+### 🔗 Dependency Injection architecture
 
 RooCMS implements a custom dependency injection (DI) container for managing service dependencies and promoting clean architecture following SOLID principles.
 
-#### DI Container (`class_dependency_container.php`)
+#### 📦 DI Container (`class_dependency_container.php`)
 - **Automatic dependency resolution**: Uses reflection to analyze constructor parameters
 - **Singleton support**: Long-lived services can be registered as singletons
 - **Factory functions**: Support for custom service creation logic
 - **Service registry**: Centralized management of all services
 
-#### Registered services
+#### 📋 Registered services
 
 **Core services (singletons):**
 - `Db` - Database connection and queries
@@ -506,7 +507,7 @@ RooCMS implements a custom dependency injection (DI) container for managing serv
 - `AdminSettingsController` - Admin settings API controller
 - `BackupController` - Database backup API controller
 
-#### Service dependencies
+#### 🔗 Service dependencies
 
 ```
 AuthenticationService
@@ -568,21 +569,21 @@ AdminSettingsController
 └── Auth (authentication)
 ```
 
-#### Benefits
+#### 🎯 Benefits
 - **Loose coupling**: Classes don't create their own dependencies
 - **Testability**: Easy to mock dependencies for unit testing
 - **Maintainability**: Centralized dependency management
 - **Performance**: Singleton optimization for shared services
 - **SOLID compliance**: Dependency inversion principle implementation
 
-### Naming conventions
+### 🏷️ Naming conventions
 - **snake_case**: for functions, methods and variables
 - **CamelCase**: for class names and controllers
 - **Class prefixes**: `class_` for main classes
 - **Controller prefixes**: `controller_` for API controllers
 - **Middleware prefixes**: `middleware_` for middleware
 
-### Security
+### 🔒 Security
 - Protected `index.php` files in directories with data
 - **Web directory protection** - `.htaccess` rules preventing direct file access
 - **Backup security** - Multi-layer protection for database backup files:
@@ -599,10 +600,10 @@ AdminSettingsController
 - Data sanitization and input validation
 - CORS protection for API endpoints
 
-### Code quality tools
+### 🧪 Code quality tools
 - **Logging system**: Tracking errors and debugging
 
-### Frontend technologies
+### 🎨 Frontend technologies
 - **Tailwind CSS 4.x**: Utility-first CSS framework for rapid UI development
 - **Alpine.js**: Lightweight JavaScript framework for interactivity
 - **Modular architecture**: Division of JavaScript code by pages and components

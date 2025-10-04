@@ -76,7 +76,7 @@ const TABLE_MEDIA_RELS  = DB_PREFIX.'media_rels';   // Table for media relations
 * RooCMS $Path
 */
 const _ROOCMS       = _SITEROOT.'/roocms';
-const _CLASS        = _ROOCMS.'/class';
+const _MODULES      = _ROOCMS.'/modules';
 const _SERVICES     = _ROOCMS.'/services';
 const _API          = _SITEROOT.'/api';
 const _UPLOAD       = _SITEROOT.'/up';

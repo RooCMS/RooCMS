@@ -41,12 +41,12 @@ foreach($config_files as $config) {
 require_once _ROOCMS . '/helpers/functions.php';
 
 // Include classes manually
-require_once _CLASS . '/trait_debugLog.php';
-require_once _CLASS . '/trait_dbExtends.php';
-require_once _CLASS . '/class_dbConnect.php';
-require_once _CLASS . '/class_dbQueryBuilder.php';
-require_once _CLASS . '/class_db.php';
-require_once _CLASS . '/class_dbBackuper.php';
+require_once _MODULES . '/db/trait_debugLog.php';
+require_once _MODULES . '/db/trait_dbExtends.php';
+require_once _MODULES . '/db/class_dbConnect.php';
+require_once _MODULES . '/db/class_dbQueryBuilder.php';
+require_once _MODULES . '/db/class_db.php';
+require_once _MODULES . '/db/class_dbBackuper.php';
 
 /**
  * Database Backup CLI Handler
