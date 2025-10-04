@@ -18,7 +18,20 @@ if(!defined('RooCMS')) {roocms_protect();}
 
 
 /**
- * Trait for extending the DbBackuper class
+ * Extended Functionality Trait for Database Backup Operations
+ *
+ * Provides additional utility methods for the DbBackuper class, including
+ * directory management, file operations, compression handling, and security features.
+ * This trait enhances the core backup functionality with helper methods for
+ * backup storage management and file system operations.
+ *
+ * Key features:
+ * - Automatic backup directory creation and security setup
+ * - File compression and archive management
+ * - Backup file naming and organization
+ * - Directory structure validation and cleanup
+ * - Security hardening for backup storage locations
+ * - Progress tracking and status reporting utilities
  */
 trait DbBackuperExtends {
      

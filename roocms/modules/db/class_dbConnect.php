@@ -17,6 +17,13 @@ if(!defined('RooCMS')) {roocms_protect();}
 //#########################################################
 
 
+/**
+ * Database Connection Class for RooCMS
+ *
+ * Provides a connection to the database using PDO with support for
+ * MySQL/MariaDB, PostgreSQL, and Firebird databases. Features include
+ * connection pooling, health monitoring, and error handling.
+ */
 class DbConnect {
 
     private PDO $pdo;

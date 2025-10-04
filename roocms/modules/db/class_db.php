@@ -18,9 +18,20 @@ if(!defined('RooCMS')) {roocms_protect();}
 
 
 /**
- * Universal classes for work with databases through PDO
- * Supports only free and open-source server databases: MySQL/MariaDB, PostgreSQL, Firebird
- * Includes Query Builder, Prepared Statements and transactions
+ * Universal Database Access Layer for RooCMS
+ *
+ * Provides a unified interface for database operations using PDO with support for
+ * MySQL/MariaDB, PostgreSQL, and Firebird databases. Features include Query Builder,
+ * prepared statements, transaction management, and comprehensive error handling.
+ *
+ * Key capabilities:
+ * - PDO-based database abstraction layer
+ * - Multi-database support (MySQL/MariaDB, PostgreSQL, Firebird)
+ * - Fluent Query Builder interface
+ * - Prepared statements for SQL injection prevention
+ * - Transaction management with rollback support
+ * - Automatic parameter binding and type detection
+ * - Connection health monitoring and error logging
  */
 class Db {
 

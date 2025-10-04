@@ -16,9 +16,22 @@
 if(!defined('RooCMS')) {roocms_protect();}
 //#########################################################
 
+
 /**
- * Universal Database Migration Manager
- * Supports MySQL, PostgreSQL, Firebird
+ * Database Migration Manager for RooCMS
+ *
+ * Comprehensive database migration system supporting MySQL/MariaDB, PostgreSQL, and Firebird.
+ * Provides version-controlled database schema changes with rollback capabilities,
+ * migration tracking, and automated execution of migration scripts.
+ *
+ * Key features:
+ * - Multi-database support (MySQL/MariaDB, PostgreSQL, Firebird)
+ * - Migration versioning and execution tracking
+ * - Up/down migration support with rollback capabilities
+ * - Transaction-wrapped migration execution
+ * - Automatic migration discovery and ordering
+ * - CLI and programmatic migration interfaces
+ * - Migration status monitoring and reporting
  */
 class DbMigrator {
 

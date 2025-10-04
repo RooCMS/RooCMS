@@ -17,6 +17,23 @@ if(!defined('RooCMS')) {roocms_protect();}
 //#########################################################
 
 
+
+/**
+ * Extended Database Operations Trait
+ *
+ * Provides additional utility methods for database operations, including
+ * pagination management, connection testing, data manipulation helpers,
+ * and advanced query execution features.
+ *
+ * Key features:
+ * - Pagination management with automatic limit/offset calculation
+ * - Database connection testing and validation
+ * - Bulk data operations and batch processing
+ * - Query optimization and performance monitoring
+ * - Data export and import utilities
+ * - Advanced filtering and sorting capabilities
+ * - Connection pooling and resource management
+ */
 trait DbExtends {
 
 	// Pagination parameters

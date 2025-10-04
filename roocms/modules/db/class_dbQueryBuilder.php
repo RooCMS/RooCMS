@@ -17,8 +17,22 @@ if(!defined('RooCMS')) {roocms_protect();}
 //#########################################################
 
 
+
 /**
- * Query Builder
+ * SQL Query Builder with Fluent Interface for RooCMS
+ *
+ * Provides a fluent interface for constructing complex SQL queries with support for
+ * SELECT, INSERT, UPDATE, and DELETE operations. Includes JOINs, WHERE conditions,
+ * ORDER BY, GROUP BY, HAVING, LIMIT, and OFFSET clauses.
+ *
+ * Key features:
+ * - Multi-database support (MySQL/MariaDB, PostgreSQL, Firebird)
+ * - Fluent interface for method chaining
+ * - Comprehensive WHERE conditions with multiple operators
+ * - JOIN operations (INNER, LEFT, RIGHT, FULL)
+ * - Aggregation functions and HAVING clauses
+ * - Parameter binding for SQL injection prevention
+ * - Query result processing and error handling
  */
 class DbQueryBuilder {
 

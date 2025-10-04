@@ -18,9 +18,20 @@ if(!defined('RooCMS')) {roocms_protect();}
 
 
 /**
- * Database backup and restore system
- * Supports MySQL/MariaDB, PostgreSQL, and Firebird databases
- * Provides secure backup creation, compression, and restoration capabilities
+ * Database Backup and Restore Manager for RooCMS
+ *
+ * Comprehensive backup system supporting MySQL/MariaDB, PostgreSQL, and Firebird databases.
+ * Provides secure database backup creation with compression, automated scheduling,
+ * integrity verification, and reliable restoration capabilities.
+ *
+ * Key features:
+ * - Multi-database support (MySQL/MariaDB, PostgreSQL, Firebird)
+ * - Compressed backup archives for storage efficiency
+ * - Database integrity verification before and after backup
+ * - Automated backup scheduling and retention policies
+ * - Secure restoration with transaction rollback support
+ * - Progress logging and error reporting
+ * - CLI and programmatic backup interfaces
  */
 class DbBackuper {
 

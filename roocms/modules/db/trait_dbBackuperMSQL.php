@@ -18,7 +18,21 @@ if(!defined('RooCMS')) {roocms_protect();}
 
 
 /**
- * Trait for MySQL|MariaDB|MySQLi backup and restore operations
+ * MySQL/MariaDB Database Backup and Restore Operations Trait
+ *
+ * Specialized trait for MySQL and MariaDB database backup and restore operations within the DbBackuper system.
+ * Implements MySQL-specific SQL syntax, storage engines, character sets, and backup strategies
+ * optimized for MySQL/MariaDB database engines.
+ *
+ * Key features:
+ * - MySQL/MariaDB-specific SQL syntax and storage engine support
+ * - Table structure extraction with indexes, constraints, and triggers
+ * - Character set and collation handling for proper encoding
+ * - Foreign key constraint management during backup/restore
+ * - View, procedure, and function backup capabilities
+ * - Optimized data export with bulk insert statements
+ * - Transaction-safe restore operations with proper sequencing
+ * - MySQL-specific error handling and recovery mechanisms
  */
 trait DbBackuperMSQL {
 

@@ -17,9 +17,22 @@ if(!defined('RooCMS')) {roocms_protect();}
 //#########################################################
 
 
+
 /**
- * Database Query Logger
- * Handles logging and statistics for database queries
+ * Database Query Logger and Statistics Trait
+ *
+ * Provides comprehensive logging and performance monitoring capabilities for database operations.
+ * Tracks query execution statistics, maintains query history, and provides debugging
+ * information for database performance analysis and troubleshooting.
+ *
+ * Key features:
+ * - Query execution time tracking and performance monitoring
+ * - Complete query history with parameters and timestamps
+ * - Query count statistics and usage patterns
+ * - Memory usage tracking for query operations
+ * - Debug logging with configurable verbosity levels
+ * - Query performance profiling and bottleneck identification
+ * - Error logging and exception tracking
  */
 trait DbLogger {
 

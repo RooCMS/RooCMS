@@ -18,7 +18,24 @@ if(!defined('RooCMS')) {roocms_protect();}
 
 
 /**
- * Trait for PostgreSQL backup and restore operations
+ * PostgreSQL Database Backup and Restore Operations Trait
+ *
+ * Specialized trait for PostgreSQL database backup and restore operations within the DbBackuper system.
+ * Implements PostgreSQL-specific SQL syntax, schemas, sequences, and backup strategies optimized for
+ * the PostgreSQL database engine's advanced features and capabilities.
+ *
+ * Key features:
+ * - PostgreSQL-specific SQL syntax and schema handling
+ * - Sequence and serial column backup and restore
+ * - Schema-qualified table and object naming
+ * - Advanced PostgreSQL data types and array support
+ * - Function, trigger, and rule backup capabilities
+ * - Transaction-safe operations with proper savepoints
+ * - PostgreSQL-specific constraint and index handling
+ * - Proper handling of inherited tables and table partitions
+ * - Encoding and locale-aware backup generation
+ * - Error handling and recovery for PostgreSQL-specific operations
+ * - SQL statement parsing and execution for PostgreSQL
  */
 trait DbBackuperPSQL {
 

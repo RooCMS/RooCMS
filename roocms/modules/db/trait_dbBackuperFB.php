@@ -18,7 +18,21 @@ if(!defined('RooCMS')) {roocms_protect();}
 
 
 /**
- * Trait for Firebird backup and restore operations
+ * Firebird Database Backup and Restore Operations Trait
+ *
+ * Specialized trait for Firebird database backup and restore operations within the DbBackuper system.
+ * Implements Firebird-specific SQL syntax, data types, and backup strategies optimized for
+ * the Firebird database engine's unique characteristics.
+ *
+ * Key features:
+ * - Firebird-specific SQL syntax and data type handling
+ * - Table structure extraction with Firebird metadata
+ * - Optimized data export with proper encoding support
+ * - Backup file generation with Firebird-specific headers
+ * - Table exclusion and selective data backup options
+ * - Restore operations with transaction safety
+ * - Firebird-specific error handling and recovery
+ * - SQL statement parsing and execution for Firebird
  */
 trait DbBackuperFB {
 
