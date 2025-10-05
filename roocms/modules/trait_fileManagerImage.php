@@ -72,7 +72,7 @@ trait FileManagerImage {
         $success = true;
         
         // Get VARIANT_TYPES from parent Media class
-        $variant_types = Media::VARIANT_TYPES;
+        $variant_types = Files::VARIANT_TYPES;
         
         // First, create original file (just rename)
         $original_config = $variant_types['original'];

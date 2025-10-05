@@ -66,7 +66,7 @@ class FilesService {
 	 * Validate uploaded file for business rules
 	 * 
 	 * @param array $file File data from $_FILES
-	 * @param array $file_info File info from Media::validate_uploaded_file()  
+	 * @param array $file_info File info from Files::validate_uploaded_file()  
 	 * @throws DomainException
 	 */
 	private function validate_upload(array $file, array $file_info): void {
@@ -519,7 +519,7 @@ class FilesService {
 		$update_data = array_intersect_key($data, array_flip($allowed_fields));
 		
 		// Validate status and check for empty data
-		isset($update_data['status']) && !in_array($update_data['status'], Media::STATUSES, true) && throw new DomainException('Invalid status value', 400);
+		isset($update_data['status']) && !in_array($update_data['status'], Files::STATUSES, true) && throw new DomainException('Invalid status value', 400);
 		empty($update_data) && throw new DomainException('No valid fields to update', 400);
 		
 		// Update media record with timestamp
