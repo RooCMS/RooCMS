@@ -345,59 +345,44 @@ class DbBackuper {
 		};
 		
 		$sql .= "CREATE TABLE {$table} (\n";
-		$column_definitions = [];
-		$constraints = [];
+		$definitions = [];
 		
 		// Process columns
 		foreach($columns as $column) {
-			$definition = "  {$column['name']} {$this->map_to_universal_type($column['type'])}";
-			
-			// Add AUTO_INCREMENT if applicable
-			if(isset($column['extra']) && str_contains(strtolower($column['extra']), 'auto_increment')) {
-				$definition .= ' AUTO_INCREMENT';
-			}
-			
-			if($column['nullable'] === false) {
-				$definition .= ' NOT NULL';
-			}
-			
+			$parts = [
+				"  {$column['name']} {$this->map_to_universal_type($column['type'])}",
+				$column['nullable'] === false ? 'NOT NULL' : '',
+				isset($column['extra']) && str_contains(strtolower($column['extra']), 'auto_increment') ? 'AUTO_INCREMENT' : ''
+			];
+
 			if(!empty($column['default']) && $column['default'] !== 'NULL') {
 				$default = $column['default'];
-				// Handle special defaults
-				if(str_contains(strtolower($default), 'current_timestamp')) {
-					$definition .= " DEFAULT current_timestamp()";
-				} elseif(is_string($default) && !is_numeric($default)) {
-					$definition .= " DEFAULT '{$default}'";
-				} else {
-					$definition .= " DEFAULT {$default}";
-				}
+				$default_value = str_contains(strtolower($default), 'current_timestamp') ? 'current_timestamp()' :
+					(is_string($default) && !is_numeric($default) ? "'{$default}'" : $default);
+				$parts[] = "DEFAULT {$default_value}";
 			}
-			
-			$column_definitions[] = $definition;
+
+			$definitions[] = trim(implode(' ', array_filter($parts)));
 		}
 		
 		// Process indexes and constraints
 		foreach($indexes as $index) {
-			if($index['type'] === 'PRIMARY') {
-				$constraints[] = "  PRIMARY KEY ({$index['columns']})";
-			} elseif($index['type'] === 'UNIQUE') {
-				$constraints[] = "  UNIQUE KEY {$index['name']} ({$index['columns']})";
-			} elseif($index['type'] === 'INDEX') {
-				$constraints[] = "  INDEX {$index['name']} ({$index['columns']})";
-			} elseif($index['type'] === 'FOREIGN') {
-				$constraints[] = "  FOREIGN KEY {$index['name']} ({$index['columns']}) REFERENCES {$index['ref_table']}({$index['ref_columns']})";
-				if(!empty($index['on_delete'])) {
-					$constraints[count($constraints)-1] .= " ON DELETE {$index['on_delete']}";
-				}
-				if(!empty($index['on_update'])) {
-					$constraints[count($constraints)-1] .= " ON UPDATE {$index['on_update']}";
-				}
-			}
+			$parts = match($index['type']) {
+				'PRIMARY' => ["  PRIMARY KEY ({$index['columns']})"],
+				'UNIQUE' => ["  UNIQUE KEY {$index['name']} ({$index['columns']})"],
+				'INDEX' => ["  INDEX {$index['name']} ({$index['columns']})"],
+				'FOREIGN' => [
+					"  FOREIGN KEY {$index['name']} ({$index['columns']}) REFERENCES {$index['ref_table']}({$index['ref_columns']})",
+					!empty($index['on_delete']) ? "ON DELETE {$index['on_delete']}" : '',
+					!empty($index['on_update']) ? "ON UPDATE {$index['on_update']}" : ''
+				],
+				default => []
+			};
+			
+			$definitions[] = trim(implode(' ', array_filter($parts)));
 		}
 		
-		// Combine columns and constraints
-		$all_definitions = array_merge($column_definitions, $constraints);
-		$sql .= implode(",\n", $all_definitions) . "\n);\n\n";
+		$sql .= implode(",\n", array_filter($definitions)) . "\n);\n\n";
 		
 		return $sql;
 	}

@@ -24,6 +24,7 @@ if(!defined('RooCMS')) {roocms_protect();}
 class Files {
 
     use FileManagerImage, FileManagerDoc, FileManagerVideo, FileManagerAudio, FileManagerArch;
+    use FilesExtends;
 
     private Db $db;
     private SiteSettings $siteSettings;
@@ -220,20 +221,6 @@ class Files {
      */
     public function get_max_file_size(string $media_type): int {
         return $this->max_file_sizes[$media_type] ?? $this->max_file_sizes['other'];
-    }
-
-
-    /**
-     * Format file size to human readable format
-     * 
-     * @param int $bytes File size in bytes
-     * @return string Formatted file size
-     */
-    public function format_file_size(int $bytes): string {
-        $units = ['B', 'KB', 'MB', 'GB', 'TB'];
-        $power = $bytes > 0 ? floor(log($bytes, 1024)) : 0;
-        
-        return number_format($bytes / pow(1024, $power), 2) . ' ' . $units[$power];
     }
 
 
@@ -607,90 +594,4 @@ class Files {
         
         return $result->rowCount() > 0;
     }
-
-
-    /**
-     * Generate UUID v4
-     * 
-     * @return string UUID
-     */
-    private function generate_uuid(): string {
-        $data = random_bytes(16);
-        $data[6] = chr(ord($data[6]) & 0x0f | 0x40);
-        $data[8] = chr(ord($data[8]) & 0x3f | 0x80);
-        return vsprintf('%s%s-%s-%s-%s-%s%s%s', str_split(bin2hex($data), 4));
-    }
-
-
-    /**
-     * Generate unique filename
-     * 
-     * @param string $uuid UUID
-     * @param string $extension File extension
-     * @return string Filename
-     */
-    private function generate_filename(string $uuid, string $extension): string {
-        return $uuid . '.' . $extension;
-    }
-
-
-    /**
-     * Get storage path for media type
-     * 
-     * @param string $media_type Media type
-     * @return string Relative path
-     */
-    private function get_storage_path(string $media_type): string {
-        
-        return match($media_type) {
-            'image' => '/img',
-            'video' => '/av',
-            'audio' => '/av',
-            'document' => '/files',
-            'archive' => '/files',
-            default => '/files'
-        };
-    }
-
-
-    /**
-     * Determine media type by MIME type and extension
-     * 
-     * @param string $mime_type MIME type
-     * @param string $extension File extension
-     * @return string Media type
-     */
-    private function determine_media_type(string $mime_type, string $extension): string {
-        
-        // Image types
-        if(str_starts_with($mime_type, 'image/')) {
-            return 'image';
-        }
-        
-        // Video types
-        if(str_starts_with($mime_type, 'video/')) {
-            return 'video';
-        }
-        
-        // Audio types
-        if(str_starts_with($mime_type, 'audio/')) {
-            return 'audio';
-        }
-        
-        // Archive types
-        $archive_extensions = ['zip', '7z', 'rar', 'tar', 'gz', 'bz2', 'xz'];
-        if(in_array($extension, $archive_extensions, true)) {
-            return 'archive';
-        }
-        
-        // Document types
-        $doc_extensions = ['pdf', 'doc', 'docx', 'xls', 'xlsx', 'ppt', 'pptx', 'odt', 'ods', 'odp', 'txt', 'rtf'];
-        if(in_array($extension, $doc_extensions, true)) {
-            return 'document';
-        }
-        
-        return 'other';
-    }
-
-
 }
