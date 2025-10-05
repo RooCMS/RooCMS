@@ -1,4 +1,4 @@
-# RooCMS project structure
+﻿# RooCMS project structure
 
 This document describes the organization of files and directories in the RooCMS project.
 
@@ -54,21 +54,13 @@ api/
 
 Core CMS system with main classes and configuration.
 
-### 📚 Classes (`/roocms/class/`)
+### 📚 Modules (`/roocms/modules/`)
 
 ```
-roocms/class/
+roocms/modules/
 ├── 📄 class_apiHandler.php                # API request handler
 ├── 📄 class_auth.php                      # Authentication system
-├── 📄 class_db.php                        # Main database class
-├── 📄 class_dbBackuper.php                # Database backup and restore system
-├── 📄 class_dbConnect.php                 # Database connection
-├── 📄 class_dbMigrator.php                # Database migration system
-├── 📄 class_dbQueryBuilder.php            # SQL query builder
 ├── 📄 class_debugger.php                  # Debugging and logging utilities
-├── 📄 class_defaultControllerFactory.php  # Default controller factory implementation
-├── 📄 class_defaultMiddlewareFactory.php  # Default middleware factory implementation
-├── 📄 class_dependencyContainer.php       # Dependency injection container
 ├── 📄 class_files.php                     # File management system (main class)
 ├── 📄 class_gd.php                        # GD image processing library
 ├── 📄 class_mailer.php                    # Email sending system
@@ -76,28 +68,40 @@ roocms/class/
 ├── 📄 class_role.php                      # User roles management
 ├── 📄 class_siteSettings.php              # Site configuration management
 ├── 📄 class_shteirlitz.php                # Special utilities (encoded functionality)
-├── 📄 class_templateRendererHtml.php      # HTML template renderer
-├── 📄 class_templateRendererPhp.php       # PHP template renderer
-├── 📄 class_themeConfig.php               # Theme configuration handler
-├── 📄 class_themes.php                    # Theme management system
 ├── 📄 class_user.php                      # User management operations
-├── 📄 interface_controllerFactory.php     # Controller factory interface
-├── 📄 interface_middlewareFactory.php     # Middleware factory interface
-├── 📄 interface_templateRenderer.php      # Template renderer interface
-├── 📄 interface_themeConfig.php           # Theme configuration interface
-├── 📄 trait_dbBackuperExtends.php         # Database backup utility methods
-├── 📄 trait_dbBackuperFB.php              # Firebird database backup operations
-├── 📄 trait_dbBackuperMSQL.php            # MySQL/MariaDB backup operations
-├── 📄 trait_dbBackuperPSQL.php            # PostgreSQL backup operations
-├── 📄 trait_dbExtends.php                 # Database extension utilities
-├── 📄 trait_dbLogger.php                  # Database logging trait
 ├── 📄 trait_debugLog.php                  # Debug logging functionality
 ├── 📄 trait_fileManagerArch.php           # Archive file processing
 ├── 📄 trait_fileManagerAudio.php          # Audio file processing
 ├── 📄 trait_fileManagerDoc.php            # Document file processing
 ├── 📄 trait_fileManagerImage.php          # Image file processing
 ├── 📄 trait_fileManagerVideo.php          # Video file processing
-└── 📄 trait_gdExtends.php                 # GD library extensions
+├── 📄 trait_filesExtends.php              # Files extension utilities
+├── 📄 trait_gdExtends.php                 # GD library extensions
+├── 📁 db/                                 # Database-related classes and traits
+│   ├── 📄 class_db.php                    # Main database class
+│   ├── 📄 class_dbBackuper.php            # Database backup and restore system
+│   ├── 📄 class_dbConnect.php             # Database connection
+│   ├── 📄 class_dbMigrator.php            # Database migration system
+│   ├── 📄 class_dbQueryBuilder.php        # SQL query builder
+│   ├── 📄 trait_dbBackuperExtends.php     # Database backup utility methods
+│   ├── 📄 trait_dbBackuperFB.php          # Firebird database backup operations
+│   ├── 📄 trait_dbBackuperMSQL.php        # MySQL/MariaDB backup operations
+│   ├── 📄 trait_dbBackuperPSQL.php        # PostgreSQL backup operations
+│   ├── 📄 trait_dbExtends.php             # Database extension utilities
+│   └── 📄 trait_dbLogger.php              # Database logging trait
+├── 📁 di/                                 # Dependency injection classes
+│   ├── 📄 class_defaultControllerFactory.php  # Default controller factory implementation
+│   ├── 📄 class_defaultMiddlewareFactory.php  # Default middleware factory implementation
+│   ├── 📄 class_dependencyContainer.php       # Dependency injection container
+│   ├── 📄 interface_controllerFactory.php     # Controller factory interface
+│   └── 📄 interface_middlewareFactory.php     # Middleware factory interface
+└── 📁 ui/                                 # UI and template classes
+    ├── 📄 class_templateRendererHtml.php     # HTML template renderer
+    ├── 📄 class_templateRendererPhp.php      # PHP template renderer
+    ├── 📄 class_themeConfig.php              # Theme configuration handler
+    ├── 📄 class_themes.php                   # Theme management system
+    ├── 📄 interface_templateRenderer.php     # Template renderer interface
+    └── 📄 interface_themeConfig.php          # Theme configuration interface
 ```
 
 ### ⚙️ Configuration (`/roocms/config/`)
@@ -136,9 +140,9 @@ roocms/helpers/
 ├── 📁 cli/                    # CLI utilities
 │   └── 📄 pastcost_cli.php    # CLI utility pastcost
 ├── 📄 debug.php               # Debug functions
-├── 📄 functions.php           # Common functions
-├── 📄 output.php              # Output helper functions
-└── 📄 sanitize.php            # Data sanitization functions
+├── 📄 functions.php           # Common functions (includes env() and other utilities)
+├── 📄 output.php              # Output helper functions (includes output_html())
+└── 📄 sanitize.php            # Data sanitization functions (includes sanitize_path())
 ```
 
 ### 🔧 Services (`/roocms/services/`)
@@ -294,6 +298,7 @@ themes/
 │   │   ├── 📄 password-reset.php          # Password reset page
 │   │   ├── 📄 privacy.php                 # Privacy policy page
 │   │   ├── 📄 profile.php                 # User profile page
+│   │   ├── 📄 profile-edit.php            # Profile edit page
 │   │   ├── 📄 register.php                # Registration page
 │   │   ├── 📄 register-complete.php       # Registration complete page
 │   │   ├── 📄 terms.php                   # Terms of service page
@@ -306,8 +311,8 @@ themes/
 │   ├── 📄 tailwind.config.js              # Tailwind CSS configuration
 │   └── 📄 theme.json                      # Theme manifest (type: "php")
 │
-└── 📄 default_html.7z                 # HTML theme archive (placeholders, includes, conditionals)
-                                    # Note: This theme is currently archived and not actively used
+└── 📄 default_html.7z                      # Archive of the default HTML theme (placeholders, includes, conditionals)
+                                            # Note: This theme is currently archived and not used by default; the active theme is the PHP engine in themes/default (theme.json type: "php")
 ```
 
 HTML engine supports:
@@ -611,4 +616,4 @@ AdminSettingsController
 - **Reactive components**: Dynamic UI with conditional rendering and state management
 - **Type-safe forms**: Automatic form generation based on backend metadata
 
-This project is a modern CMS system built on the principles of pure PHP with a focus on performance, security and ease of maintenance. 
+This project is a modern CMS system built on the principles of pure PHP with a focus on performance, security and ease of maintenance.
