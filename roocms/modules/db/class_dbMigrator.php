@@ -683,7 +683,7 @@ class DbMigrator {
 				[$table_name, $fk_name]
 			),
 			'firebird' => (bool) $this->db->fetch_column(
-				"SELECT 1 FROM rdb$relation_constraints WHERE rdb$relation_name = UPPER(?) AND rdb$constraint_name = UPPER(?) AND rdb$constraint_type = 'FOREIGN KEY'",
+				"SELECT 1 FROM rdb\$relation_constraints WHERE rdb\$relation_name = UPPER(?) AND rdb\$constraint_name = UPPER(?) AND rdb\$constraint_type = 'FOREIGN KEY'",
 				[$table_name, $fk_name]
 			),
 			default => false

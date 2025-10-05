@@ -23,8 +23,8 @@ if(!defined('RooCMS')) {roocms_protect();}
  */
 class Files {
 
-    use FileManagerImage, FileManagerDoc, FileManagerVideo, FileManagerAudio, FileManagerArch;
     use FilesExtends;
+    use FileManagerImage, FileManagerDoc, FileManagerVideo, FileManagerAudio, FileManagerArch;
 
     private Db $db;
     private SiteSettings $siteSettings;

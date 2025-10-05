@@ -147,7 +147,7 @@ trait DbBackuperMSQL {
 	 * @param array $options Restore options
 	 * @return array Restore result
 	 */
-	private function restore_mysql_backup(string $sql_content, array $options): array {
+	protected function restore_mysql_backup(string $sql_content, array $options): array {
 		$statements = $this->split_sql_statements($sql_content);
 		$executed = 0;
 		$errors = [];

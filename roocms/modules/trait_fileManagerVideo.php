@@ -172,7 +172,7 @@ trait FileManagerVideo {
      * @param string $command Command name
      * @return bool Available
      */
-    private function is_command_available(string $command): bool {
+    protected function is_command_available(string $command): bool {
         
         // On Windows
         if(strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
@@ -215,7 +215,7 @@ trait FileManagerVideo {
      * @param int $bitrate Bitrate in bits per second
      * @return string Formatted bitrate
      */
-    private function format_bitrate(int $bitrate): string {
+    protected function format_bitrate(int $bitrate): string {
         
         if($bitrate >= 1000000) {
             return round($bitrate / 1000000, 2) . ' Mbps';
@@ -304,7 +304,7 @@ trait FileManagerVideo {
      * @param int $seconds Duration in seconds
      * @return string Formatted duration
      */
-    private function format_duration(int $seconds): string {
+    protected function format_duration(int $seconds): string {
         
         $hours = floor($seconds / 3600);
         $minutes = floor(($seconds % 3600) / 60);

@@ -525,7 +525,7 @@ class FilesService {
 		// Update media record with timestamp
 		$result = $this->db->update(TABLE_MEDIA)
 			->data($update_data + ['updated_at' => time()])
-			->where('id', '=', $id)
+			->where('id', $id, '=')
 			->execute();
 		
 		// Check update success and return formatted data

@@ -204,6 +204,7 @@ class BackupController extends BaseController {
 		return null;
 	}
 
+
 	/**
 	 * Send file as download
 	 * 
@@ -247,7 +248,6 @@ class BackupController extends BaseController {
 	public function status(): void {
 		try {
 			// Admin permissions already checked by middleware
-
 			$result = $this->backupService->get_system_status();
 			$this->json_response($result);
 

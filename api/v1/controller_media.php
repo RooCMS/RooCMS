@@ -27,6 +27,8 @@ class MediaController extends BaseController {
 	private FilesService $filesService;
 	private Files $files;
 
+
+
 	/**
 	 * Constructor
 	 * 
@@ -53,10 +55,10 @@ class MediaController extends BaseController {
 			$pagination = $this->get_pagination_params();
 			$page = $pagination['page'];
 			$limit = $pagination['limit'];
-			$type = $request->get['type'] ?? null;
-			$status = $request->get['status'] ?? null;
-			$user_id = isset($request->get['user_id']) ? (int)$request->get['user_id'] : null;
-			$search = $request->get['search'] ?? null;
+			$type = $this->request->get['type'] ?? null;
+			$status = $this->request->get['status'] ?? null;
+			$user_id = isset($this->request->get['user_id']) ? (int)$this->request->get['user_id'] : null;
+			$search = $this->request->get['search'] ?? null;
 			
 			// Basic validation using Media class constants
 			if($type && !in_array($type, $this->files::TYPES, true)) {
@@ -188,12 +190,12 @@ class MediaController extends BaseController {
 		
 		try {
 			// Basic validation
-			if(!isset($request->files['file'])) {
+			if(!isset($this->request->files['file'])) {
 				$this->error_response('No file provided', 400);
 				return;
 			}
 			
-			$file = $request->files['file'];
+			$file = $this->request->files['file'];
 			
 			if($file['error'] !== UPLOAD_ERR_OK) {
 				$this->error_response('File upload error: ' . $this->get_upload_error_message($file['error']), 400);
@@ -202,12 +204,12 @@ class MediaController extends BaseController {
 			
 			// Parse parameters
 			$user_id = $this->require_authentication()['id'];
-			$description = $request->post['description'] ?? null;
-			$tags = $request->post['tags'] ?? null;
-			$entity_type = $request->post['entity_type'] ?? null;
-			$entity_id = isset($request->post['entity_id']) ? (int)$request->post['entity_id'] : null;
-			$relationship_type = $request->post['relationship_type'] ?? 'attachment';
-			
+			$description = $this->request->post['description'] ?? null;
+			$tags = $this->request->post['tags'] ?? null;
+			$entity_type = $this->request->post['entity_type'] ?? null;
+			$entity_id = isset($this->request->post['entity_id']) ? (int)$this->request->post['entity_id'] : null;
+			$relationship_type = $this->request->post['relationship_type'] ?? 'attachment';
+
 			// Prepare options
 			$options = [];
 			if($description) $options['description'] = $description;
@@ -245,8 +247,10 @@ class MediaController extends BaseController {
 		$this->log_request('media_update', ['id' => $id]);
 		
 		try {
+			// TODO: Implement JSON input parsing
 			// Parse JSON input
-			$input = $this->get_json_input();
+			//$input = $this->get_json_input();
+			$input = [];
 			
 			$updated_media = $this->filesService->update_media_metadata($id, $input);
 			
