@@ -30,6 +30,7 @@ const TABLE_MIGRATIONS          = DB_PREFIX.'migrations';
 const TABLE_TOKENS              = DB_PREFIX.'tokens';
 const TABLE_VERIFICATION_CODES  = DB_PREFIX.'verification_codes';
 const TABLE_SETTINGS            = DB_PREFIX.'settings';
+
 /**
 * Users Tables
 */
@@ -38,6 +39,11 @@ const TABLE_USER_PROFILES       = DB_PREFIX.'user_profiles';
 //const TABLE_USER_GROUPS         = DB_PREFIX.'user_groups';
 //const TABLE_USER_GROUP_MEMBERS  = DB_PREFIX.'user_group_members';
 //const TABLE_USER_ACTIVITY_LOG   = DB_PREFIX.'user_activity_log';
+
+/**
+* Structure Tables
+*/
+const TABLE_STRUCTURE           = DB_PREFIX.'structure';
 
 /**
 * Content Management Tables
@@ -51,16 +57,13 @@ const TABLE_USER_PROFILES       = DB_PREFIX.'user_profiles';
 /**
 * Media Tables
 */
-const TABLE_MEDIA       = DB_PREFIX.'media';        // Table for media files (images, videos, documents, etc.)
-const TABLE_MEDIA_VARS  = DB_PREFIX.'media_vars';   // Table for media variables (sizes, etc.)
-const TABLE_MEDIA_RELS  = DB_PREFIX.'media_rels';   // Table for media relations (categories, tags, etc.)
-
-
+const TABLE_MEDIA               = DB_PREFIX.'media';        // Table for media files (images, videos, documents, etc.)
+const TABLE_MEDIA_VARS          = DB_PREFIX.'media_vars';   // Table for media variables (sizes, etc.)
+const TABLE_MEDIA_RELS          = DB_PREFIX.'media_rels';   // Table for media relations (categories, tags, etc.)
 
 /**
 * Other Tables (commented - activate as needed)
 */
-//const TABLE_STRUCTURE = DB_PREFIX.'structure';
 //const TABLE_PAGES = DB_PREFIX.'pages';
 //const TABLE_TAGS_LINKED = DB_PREFIX.'tags_linked';
 //const TABLE_BLOCKS = DB_PREFIX.'blocks';

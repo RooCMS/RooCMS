@@ -95,13 +95,13 @@ roocms/modules/
 │   ├── 📄 class_dependencyContainer.php       # Dependency injection container
 │   ├── 📄 interface_controllerFactory.php     # Controller factory interface
 │   └── 📄 interface_middlewareFactory.php     # Middleware factory interface
-└── 📁 ui/                                 # UI and template classes
-    ├── 📄 class_templateRendererHtml.php     # HTML template renderer
-    ├── 📄 class_templateRendererPhp.php      # PHP template renderer
-    ├── 📄 class_themeConfig.php              # Theme configuration handler
-    ├── 📄 class_themes.php                   # Theme management system
-    ├── 📄 interface_templateRenderer.php     # Template renderer interface
-    └── 📄 interface_themeConfig.php          # Theme configuration interface
+└── 📁 ui/                                     # UI and template classes
+    ├── 📄 class_templateRendererHtml.php      # HTML template renderer
+    ├── 📄 class_templateRendererPhp.php       # PHP template renderer
+    ├── 📄 class_themeConfig.php               # Theme configuration handler
+    ├── 📄 class_themes.php                    # Theme management system
+    ├── 📄 interface_templateRenderer.php      # Template renderer interface
+    └── 📄 interface_themeConfig.php           # Theme configuration interface
 ```
 
 ### ⚙️ Configuration (`/roocms/config/`)

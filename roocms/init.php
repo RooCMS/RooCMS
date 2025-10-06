@@ -99,6 +99,7 @@ spl_autoload_register(function(string $class_name) {
         'DbBackuperFB'              => _MODULES . '/db/trait_dbBackuperFB.php',
         'Request'                   => _MODULES . '/class_request.php',
         'SiteSettings'              => _MODULES . '/class_siteSettings.php',
+        'Structure'                 => _MODULES . '/class_structure.php',
         'Themes'                    => _MODULES . '/ui/class_themes.php',
         'ThemeConfig'               => _MODULES . '/ui/class_themeConfig.php',
         'TemplateRenderer'          => _MODULES . '/ui/interface_templateRenderer.php',
@@ -212,6 +213,7 @@ $container->register(Auth::class, Auth::class, true);
 $container->register(User::class, User::class, true);
 $container->register(Role::class, Role::class, true);
 $container->register(UserService::class, UserService::class, true);
+$container->register(Structure::class, Structure::class, true);
 $container->register(Mailer::class, Mailer::class, true);
 $container->register(GD::class, GD::class, true);
 $container->register(Files::class, Files::class, true);

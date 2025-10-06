@@ -18,7 +18,10 @@ if(!defined('RooCMS')) {roocms_protect();}
 
 
 
-
+/**
+ * Class User
+ * This class provides methods for user management.
+ */
 class User {
 
     private Db $db;

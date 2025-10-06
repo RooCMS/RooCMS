@@ -61,13 +61,6 @@ class Files {
     // Entity types
     private const ENTITY_TYPES = [
         'post',
-        'page',
-        'category',
-        'product',
-        'service',
-        'news',
-        'gallery',
-        'tag',
         'user',
         'content',
         'other'

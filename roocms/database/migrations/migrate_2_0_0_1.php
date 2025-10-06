@@ -892,6 +892,121 @@ return [
                     'collate' => 'utf8mb4_unicode_ci',
                 ],
             ],
+            'TABLE_STRUCTURE' => [
+                'columns' => [
+                    'id' => [
+                        'type' => 'integer',
+                        'length' => 10,
+                        'unsigned' => true,
+                        'auto_increment' => true,
+                        'null' => false,
+                    ],
+                    'slug' => [
+                        'type' => 'string',
+                        'length' => 255,
+                        'null' => false,
+                    ],
+                    'parent_id' => [
+                        'type' => 'integer',
+                        'length' => 10,
+                        'unsigned' => true,
+                        'default' => 1,
+                        'null' => false,
+                    ],
+                    'nav' => [
+                        'type' => 'enum',
+                        'values' => ['0', '1'],
+                        'default' => '0',
+                        'null' => false,
+                    ],
+                    'title' => [
+                        'type' => 'string',
+                        'length' => 255,
+                        'null' => false,
+                    ],
+                    'meta_title' => [
+                        'type' => 'string',
+                        'length' => 255,
+                        'null' => false,
+                    ],
+                    'meta_description' => [
+                        'type' => 'string',
+                        'length' => 255,
+                        'null' => false,
+                    ],
+                    'meta_keywords' => [
+                        'type' => 'string',
+                        'length' => 255,
+                        'null' => false,
+                    ],
+                    'sort' => [
+                        'type' => 'integer',
+                        'length' => 10,
+                        'unsigned' => true,
+                        'default' => 0,
+                        'null' => false,
+                    ],
+                    'page_type' => [
+                        'type' => 'enum',
+                        'values' => ['page', 'feed'],
+                        'default' => 'page',
+                        'null' => false,
+                    ],
+                    'noindex' => [
+                        'type' => 'enum',
+                        'values' => ['0', '1'],
+                        'default' => '0',
+                        'null' => false,
+                    ],
+                    'childs' => [
+                        'type' => 'integer',
+                        'length' => 10,
+                        'unsigned' => true,
+                        'default' => 0,
+                        'null' => false,
+                    ],
+                    'created_at' => [
+                        'type' => 'bigint',
+                        'length' => 20,
+                        'unsigned' => true,
+                        'default' => 0,
+                        'null' => false,
+                    ],
+                    'updated_at' => [
+                        'type' => 'bigint',
+                        'length' => 20,
+                        'unsigned' => true,
+                        'default' => 0,
+                        'null' => false,
+                    ],
+                ],
+                'indexes' => [
+                    [
+                        'type' => 'primary',
+                        'columns' => 'id',
+                    ],
+                    [
+                        'type' => 'unique',
+                        'name' => 'uq_structure_slug',
+                        'columns' => 'slug',
+                    ],
+                    [
+                        'type' => 'unique',
+                        'name' => 'uq_structure_id',
+                        'columns' => 'id',
+                    ],
+                    [
+                        'type' => 'key',
+                        'name' => 'idx_structure_type',
+                        'columns' => 'page_type',
+                    ],
+                ],
+                'options' => [
+                    'engine' => 'InnoDB',
+                    'charset' => 'utf8mb4',
+                    'collate' => 'utf8mb4_unicode_ci',
+                ],
+            ],
         ],
         'add_foreign_keys' => [
             'TABLE_USER_PROFILES' => [
@@ -952,6 +1067,7 @@ return [
             'TABLE_MEDIA',
             'TABLE_MEDIA_VARS',
             'TABLE_MEDIA_RELS',
+            'TABLE_STRUCTURE',
         ]
     ]
 ];
