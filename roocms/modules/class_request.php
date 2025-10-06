@@ -43,6 +43,7 @@ class Request {
     
     /**
      * Sanitize the files
+     * 
      * @param array $files
      * @return array
      */
@@ -77,6 +78,7 @@ class Request {
 
     /**
      * Get the value of the GET parameter
+     * 
      * @param ?string $key
      * @param mixed $default
      * @return mixed
@@ -89,6 +91,7 @@ class Request {
 
     /**
      * Get the value of the POST parameter
+     * 
      * @param ?string $key
      * @param mixed $default
      * @return mixed
@@ -101,6 +104,7 @@ class Request {
 
     /**
      * Get the value of the FILE parameter
+     * 
      * @param ?string $key
      * @param mixed $default
      * @return mixed
@@ -113,6 +117,7 @@ class Request {
 
     /**
      * Check if the GET parameter exists
+     * 
      * @param string $key
      * @return bool
      */
@@ -123,6 +128,7 @@ class Request {
     
     /**
      * Check if the POST parameter exists
+     * 
      * @param string $key
      * @return bool
      */
@@ -133,6 +139,7 @@ class Request {
 
     /**
      * Check if the FILE parameter exists
+     * 
      * @param string $key
      * @return bool
      */

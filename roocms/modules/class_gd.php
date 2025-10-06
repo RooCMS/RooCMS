@@ -579,7 +579,6 @@ class GD {
 	 * @param int    $width  - width blank
 	 * @param int    $height - height blank
 	 * @param string $ext    - extension
-	 *
 	 * @return GdImage
 	 * @throws RuntimeException If image creation fails
 	 */

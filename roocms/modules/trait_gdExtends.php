@@ -28,7 +28,6 @@ trait GDExtends {
 	 * Check extension on gif or png
 	 *
 	 * @param string $ext - extension
-	 *
 	 * @return bool
 	 */
 	protected function is_gifpng(string $ext): bool {
@@ -40,7 +39,6 @@ trait GDExtends {
 	 * Check extension on jpg or jpeg
 	 *
 	 * @param string $ext - extension
-	 *
 	 * @return bool
 	 */
 	protected function is_jpg(string $ext): bool {
@@ -52,7 +50,6 @@ trait GDExtends {
 	 * Get image orientation
 	 *
 	 * @param string $image - path to image
-	 *
 	 * @return int
 	 */
 	protected function get_orientation(string $image): int {
@@ -112,7 +109,6 @@ trait GDExtends {
 	 * @param int  $towidth  - Required width
 	 * @param int  $toheight - Required height
 	 * @param bool $resize   - Flag indicating proportional resize (true) or crop (false)
-	 *
 	 * @return array{new_width: int, new_height: int, new_left: int, new_top: int}
 	 */
 	protected function calc_resize(int $width, int $height, int $towidth, int $toheight, bool $resize = true): array {
@@ -139,7 +135,6 @@ trait GDExtends {
 	 * Calculate new size
 	 *
 	 * @param array{new_width: int, new_height: int, new_left: int, new_top: int} $ns - array new size
-	 *
 	 * @return array{new_width: int, new_height: int, new_left: int, new_top: int}
 	 */
 	protected function calc_newsize(array $ns): array {

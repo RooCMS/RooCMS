@@ -110,7 +110,6 @@ class Debugger {
 	 * @param mixed $msg   - message od error
 	 * @param mixed $file  - filename with error
 	 * @param mixed $line  - string number with error
-	 *
 	 * @return null|boolean
 	 */
 	public static function debug_critical_error(int $errno, string $msg, string $file, int $line) : bool {
@@ -288,7 +287,6 @@ class Debugger {
 	 * @param mixed $var - variable/data/object for debugging
 	 * @param string|null $label - optional label for the debug entry
 	 * @param bool $detailed - include detailed type information
-	 *
 	 * @return void
 	 */
 	public function rundebug(mixed $var, ?string $label = null, bool $detailed = true) : void {

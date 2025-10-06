@@ -389,21 +389,21 @@ class Files {
         
         // Insert into database with all data
         $result = $this->db->insert(TABLE_MEDIA)->data([
-            'uuid' => $uuid,
-            'user_id' => $user_id,
+            'uuid'          => $uuid,
+            'user_id'       => $user_id,
             'original_name' => sanitize_filename($file['name']),
-            'filename' => $filename,
-            'file_path' => $file_path,
-            'mime_type' => $file_info['mime_type'],
-            'file_size' => $file['size'],
-            'media_type' => $file_info['media_type'],
-            'extension' => $file_info['extension'],
-            'width' => $dimensions[0],
-            'height' => $dimensions[1],
-            'metadata' => $options['metadata'] ?? null ? json_encode($options['metadata']) : null,
-            'status' => 'uploaded',
-            'created_at' => time(),
-            'updated_at' => time()
+            'filename'      => $filename,
+            'file_path'     => $file_path,
+            'mime_type'     => $file_info['mime_type'],
+            'file_size'     => $file['size'],
+            'media_type'    => $file_info['media_type'],
+            'extension'     => $file_info['extension'],
+            'width'         => $dimensions[0],
+            'height'        => $dimensions[1],
+            'metadata'      => $options['metadata'] ?? null ? json_encode($options['metadata']) : null,
+            'status'        => 'uploaded',
+            'created_at'    => time(),
+            'updated_at'    => time()
         ])->execute();
         
         // Handle database insert failure
@@ -416,11 +416,11 @@ class Files {
         $media_id = (int)$this->db->insert_id();
         
         match($file_info['media_type']) {
-            'image' => $this->process_image($media_id, $full_path, $file_info['extension']),
-            'video' => $this->process_video($media_id, $full_path),
-            'audio' => $this->process_audio($media_id, $full_path),
-            'document' => $this->process_document($media_id, $full_path),
-            'archive' => $this->process_archive($media_id, $full_path),
+            'image'     => $this->process_image($media_id, $full_path, $file_info['extension']),
+            'video'     => $this->process_video($media_id, $full_path),
+            'audio'     => $this->process_audio($media_id, $full_path),
+            'document'  => $this->process_document($media_id, $full_path),
+            'archive'   => $this->process_archive($media_id, $full_path),
             default => null
         };
         

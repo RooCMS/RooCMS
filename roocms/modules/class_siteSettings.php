@@ -29,6 +29,7 @@ class SiteSettings {
 
     /**
      * Constructor class
+     * 
      * @param Db $db Db object
      */
     public function __construct(Db $db) {
@@ -51,6 +52,7 @@ class SiteSettings {
 
     /**
      * Get setting value by key
+     * 
      * @param string $key Setting key
      * @return mixed Setting value or default_value if not found
      */
@@ -85,6 +87,7 @@ class SiteSettings {
 
     /**
      * Get all settings by category
+     * 
      * @param string $category Category of settings
      * @return array Array of settings [key => value]
      */
@@ -120,6 +123,7 @@ class SiteSettings {
 
     /**
      * Get all settings
+     * 
      * @return array Array of all settings [category][key => value]
      */
     public function get_all(): array {
@@ -153,6 +157,7 @@ class SiteSettings {
 
     /**
      * Save setting value
+     * 
      * @param string $key Setting key
      * @param mixed $value Setting value
      * @return bool Success of operation
@@ -200,6 +205,7 @@ class SiteSettings {
 
     /**
      * Check if setting exists
+     * 
      * @param string $key Setting key
      * @return bool Does setting exist
      */
@@ -211,6 +217,7 @@ class SiteSettings {
 
     /**
      * Get setting metadata
+     * 
      * @param string $key Setting key
      * @return array|null Setting metadata
      */
@@ -232,6 +239,7 @@ class SiteSettings {
 
     /**
      * Get available values for select setting
+     * 
      * @param string $key Setting key
      * @return array Array of available values [value => label] or empty array
      */
@@ -248,6 +256,7 @@ class SiteSettings {
 
     /**
      * Check if value is valid for select setting
+     * 
      * @param mixed $value Value to check
      * @param array $setting Setting metadata
      * @return bool Is value valid
@@ -289,6 +298,7 @@ class SiteSettings {
 
     /**
      * Validate setting value
+     * 
      * @param mixed $value Value
      * @param array $setting Setting metadata
      * @return bool Is value valid
