@@ -29,7 +29,7 @@ class GD {
 	private SiteSettings $siteSettings;
 
 	// Constants
-	private const ALLOWED_EXTENSIONS = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
+	public const ALLOWED_EXTENSIONS = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
 	private const DEFAULT_FONT_PATH = _STORAGE . "/fonts/trebuc.ttf";
 	private const WATERMARK_MAX_SIZE_RATIO = 0.33;
 	private const WATERMARK_PADDING = 10;

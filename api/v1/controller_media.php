@@ -66,7 +66,7 @@ class MediaController extends BaseController {
 				return;
 			}
 			
-			if($status && !in_array($status, $this->files::STATUSES, true)) {
+			if($status && !in_array($status, $this->files::STATUS_TYPES, true)) {
 				$this->error_response('Invalid status', 400);
 				return;
 			}

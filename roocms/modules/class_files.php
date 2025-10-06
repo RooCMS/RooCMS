@@ -39,15 +39,6 @@ class Files {
     // Number of files for MediaArch trait
     protected int $numFiles = 0;
 
-    // File statuses
-    public const STATUSES = [
-        'uploaded',
-        'processing', 
-        'ready',
-        'error',
-        'deleted'
-    ];
-
     // File types
     public const TYPES = [
         'image',
@@ -58,6 +49,7 @@ class Files {
         'other'
     ];
 
+    // Variant types
     public const VARIANT_TYPES = [
         'original'  => ['modify' => 'no',   'width' => 0,    'height' => 0,    'suffix' => '',           'watermark' => false],
         'large'     => ['modify' => 'prop', 'width' => 1600, 'height' => 1600, 'suffix' => '_large',     'watermark' => false],
@@ -66,6 +58,7 @@ class Files {
         'thumbnail' => ['modify' => 'fit',  'width' => 267,  'height' => 150,  'suffix' => '_thumbnail', 'watermark' => false]
     ];
     
+    // Entity types
     private const ENTITY_TYPES = [
         'post',
         'page',
@@ -80,6 +73,7 @@ class Files {
         'other'
     ];
 
+    // Relationship types
     private const RELATIONSHIP_TYPES = [
         'attachment',
         'avatar',
@@ -87,6 +81,7 @@ class Files {
         'other'
     ];
 
+    // Status types
     private const STATUS_TYPES = [
         'uploaded',
         'processing',
