@@ -1187,6 +1187,212 @@
         }
       ],
       "description": "Media file management and operations"
+    },
+    {
+      "name": "Structure",
+      "item": [
+        {
+          "name": "Get Site Structure Tree",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/v1/structure/tree",
+              "host": ["{{base_url}}"],
+              "path": ["v1", "structure", "tree"]
+            },
+            "description": "Retrieve complete hierarchical tree of site structure"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Page by ID",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/v1/structure/page/1",
+              "host": ["{{base_url}}"],
+              "path": ["v1", "structure", "page", "1"]
+            },
+            "description": "Retrieve page details by its ID"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Page by Slug",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/v1/structure/page/slug/about-us",
+              "host": ["{{base_url}}"],
+              "path": ["v1", "structure", "page", "slug", "about-us"]
+            },
+            "description": "Retrieve page details by its URL slug"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Navigation Menu",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/v1/structure/navigation",
+              "host": ["{{base_url}}"],
+              "path": ["v1", "structure", "navigation"]
+            },
+            "description": "Retrieve navigation menu structure for display"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Breadcrumbs for Page",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/v1/structure/breadcrumbs/3",
+              "host": ["{{base_url}}"],
+              "path": ["v1", "structure", "breadcrumbs", "3"]
+            },
+            "description": "Retrieve breadcrumb navigation path for a specific page"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Breadcrumbs for Page by Slug",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/v1/structure/breadcrumbs/slug/services",
+              "host": ["{{base_url}}"],
+              "path": ["v1", "structure", "breadcrumbs", "slug", "services"]
+            },
+            "description": "Retrieve breadcrumb navigation path for a specific page by its slug"
+          },
+          "response": []
+        },
+        {
+          "name": "Get SEO Meta Data for Page",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/v1/structure/seo/1",
+              "host": ["{{base_url}}"],
+              "path": ["v1", "structure", "seo", "1"]
+            },
+            "description": "Retrieve SEO meta information for a specific page"
+          },
+          "response": []
+        },
+        {
+          "name": "Get SEO Meta Data for Page by Slug",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/v1/structure/seo/slug/about",
+              "host": ["{{base_url}}"],
+              "path": ["v1", "structure", "seo", "slug", "about"]
+            },
+            "description": "Retrieve SEO meta information for a specific page by its slug"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Current Page Info",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/v1/structure/current",
+              "host": ["{{base_url}}"],
+              "path": ["v1", "structure", "current"]
+            },
+            "description": "Retrieve information about the current page based on request context"
+          },
+          "response": []
+        },
+        {
+          "name": "Search Pages",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/v1/structure/search?query=about&limit=10",
+              "host": ["{{base_url}}"],
+              "path": ["v1", "structure", "search"],
+              "query": [
+                {
+                  "key": "query",
+                  "value": "about"
+                },
+                {
+                  "key": "limit",
+                  "value": "10"
+                }
+              ]
+            },
+            "description": "Search pages by title or content"
+          },
+          "response": []
+        }
+      ],
+      "description": "Site structure and navigation management"
     }
   ]
 }

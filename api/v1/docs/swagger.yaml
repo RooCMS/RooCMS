@@ -1524,6 +1524,311 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+  /v1/structure/tree:
+    get:
+      summary: Get site structure tree
+      description: Retrieve complete hierarchical tree of site structure
+      tags:
+        - Structure
+      responses:
+        '200':
+          description: Site structure tree retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StructureTreeResponse'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /v1/structure/page/{id}:
+    get:
+      summary: Get page by ID
+      description: Retrieve page details by its ID
+      tags:
+        - Structure
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Page ID
+          schema:
+            type: integer
+            minimum: 1
+            example: 1
+      responses:
+        '200':
+          description: Page details retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StructurePageResponse'
+        '404':
+          description: Page not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /v1/structure/page/slug/{slug}:
+    get:
+      summary: Get page by slug
+      description: Retrieve page details by its URL slug
+      tags:
+        - Structure
+      parameters:
+        - name: slug
+          in: path
+          required: true
+          description: Page slug
+          schema:
+            type: string
+            minLength: 1
+            example: about-us
+      responses:
+        '200':
+          description: Page details retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StructurePageResponse'
+        '404':
+          description: Page not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /v1/structure/navigation:
+    get:
+      summary: Get navigation menu
+      description: Retrieve navigation menu structure for display
+      tags:
+        - Structure
+      responses:
+        '200':
+          description: Navigation menu retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StructureNavigationResponse'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /v1/structure/breadcrumbs/{id}:
+    get:
+      summary: Get breadcrumbs for page
+      description: Retrieve breadcrumb navigation path for a specific page
+      tags:
+        - Structure
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Page ID
+          schema:
+            type: integer
+            minimum: 1
+            example: 3
+      responses:
+        '200':
+          description: Breadcrumbs retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StructureBreadcrumbsResponse'
+        '404':
+          description: Page not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /v1/structure/seo/{id}:
+    get:
+      summary: Get SEO meta data for page
+      description: Retrieve SEO meta information for a specific page
+      tags:
+        - Structure
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Page ID
+          schema:
+            type: integer
+            minimum: 1
+            example: 1
+      responses:
+        '200':
+          description: SEO meta data retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StructureSeoResponse'
+        '404':
+          description: Page not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /v1/structure/breadcrumbs/slug/{slug}:
+    get:
+      summary: Get breadcrumbs for page by slug
+      description: Retrieve breadcrumb navigation path for a specific page by its slug
+      tags:
+        - Structure
+      parameters:
+        - name: slug
+          in: path
+          required: true
+          description: Page slug
+          schema:
+            type: string
+            minLength: 1
+            example: services
+      responses:
+        '200':
+          description: Breadcrumbs retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StructureBreadcrumbsResponse'
+        '404':
+          description: Page not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /v1/structure/seo/slug/{slug}:
+    get:
+      summary: Get SEO meta data for page by slug
+      description: Retrieve SEO meta information for a specific page by its slug
+      tags:
+        - Structure
+      parameters:
+        - name: slug
+          in: path
+          required: true
+          description: Page slug
+          schema:
+            type: string
+            minLength: 1
+            example: about-us
+      responses:
+        '200':
+          description: SEO meta data retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StructureSeoResponse'
+        '404':
+          description: Page not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /v1/structure/current:
+    get:
+      summary: Get current page info
+      description: Retrieve information about the current page based on request context
+      tags:
+        - Structure
+      responses:
+        '200':
+          description: Current page info retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StructureCurrentResponse'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /v1/structure/search:
+    get:
+      summary: Search pages
+      description: Search pages by title or content
+      tags:
+        - Structure
+      parameters:
+        - name: query
+          in: query
+          required: true
+          description: Search query
+          schema:
+            type: string
+            minLength: 2
+            example: about
+        - name: limit
+          in: query
+          required: false
+          description: Maximum number of results
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+            default: 10
+            example: 10
+      responses:
+        '200':
+          description: Search results retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StructureSearchResponse'
+        '400':
+          description: Invalid search parameters
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
 components:
   securitySchemes:
     bearerAuth:
@@ -2611,6 +2916,244 @@ components:
           nullable: true
           description: File description
           example: "Updated description"
+    StructureTreeResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: true
+        timestamp:
+          type: string
+          format: date-time
+          example: '2025-01-15 12:00:00'
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/StructurePage'
+    StructurePageResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: true
+        timestamp:
+          type: string
+          format: date-time
+          example: '2025-01-15 12:00:00'
+        data:
+          $ref: '#/components/schemas/StructurePage'
+    StructureNavigationResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: true
+        timestamp:
+          type: string
+          format: date-time
+          example: '2025-01-15 12:00:00'
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/StructureNavigationItem'
+    StructureBreadcrumbsResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: true
+        timestamp:
+          type: string
+          format: date-time
+          example: '2025-01-15 12:00:00'
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/StructureBreadcrumbItem'
+    StructureSeoResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: true
+        timestamp:
+          type: string
+          format: date-time
+          example: '2025-01-15 12:00:00'
+        data:
+          $ref: '#/components/schemas/StructureSeoMeta'
+    StructureCurrentResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: true
+        timestamp:
+          type: string
+          format: date-time
+          example: '2025-01-15 12:00:00'
+        data:
+          $ref: '#/components/schemas/StructureCurrentPage'
+    StructureSearchResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: true
+        timestamp:
+          type: string
+          format: date-time
+          example: '2025-01-15 12:00:00'
+        data:
+          type: object
+          properties:
+            results:
+              type: array
+              items:
+                $ref: '#/components/schemas/StructurePage'
+            total:
+              type: integer
+              example: 3
+            query:
+              type: string
+              example: "about"
+    StructurePage:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        slug:
+          type: string
+          example: "about-us"
+        parent_id:
+          type: integer
+          nullable: true
+          example: null
+        nav:
+          type: string
+          enum: ['0', '1']
+          example: '1'
+        title:
+          type: string
+          example: "About Us"
+        meta_title:
+          type: string
+          nullable: true
+          example: "About Our Company"
+        meta_description:
+          type: string
+          nullable: true
+          example: "Learn more about our company and mission"
+        meta_keywords:
+          type: string
+          nullable: true
+          example: "about, company, mission"
+        noindex:
+          type: string
+          enum: ['0', '1']
+          example: '0'
+        page_type:
+          type: string
+          example: "page"
+        sort:
+          type: integer
+          example: 100
+        childs:
+          type: integer
+          example: 0
+        created_at:
+          type: string
+          format: date-time
+          example: "2025-01-15 12:00:00"
+        updated_at:
+          type: string
+          format: date-time
+          example: "2025-01-15 12:00:00"
+        children:
+          type: array
+          items:
+            $ref: '#/components/schemas/StructurePage'
+          description: "Child pages (only in tree responses)"
+    StructureNavigationItem:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        slug:
+          type: string
+          example: "about-us"
+        title:
+          type: string
+          example: "About Us"
+        url:
+          type: string
+          example: "/about-us"
+        parent_id:
+          type: integer
+          nullable: true
+          example: null
+        sort:
+          type: integer
+          example: 100
+        children:
+          type: array
+          items:
+            $ref: '#/components/schemas/StructureNavigationItem'
+    StructureBreadcrumbItem:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        title:
+          type: string
+          example: "About Us"
+        slug:
+          type: string
+          example: "about-us"
+        url:
+          type: string
+          example: "/about-us"
+    StructureSeoMeta:
+      type: object
+      properties:
+        title:
+          type: string
+          example: "About Our Company"
+        description:
+          type: string
+          nullable: true
+          example: "Learn more about our company and mission"
+        keywords:
+          type: string
+          nullable: true
+          example: "about, company, mission"
+        noindex:
+          type: boolean
+          example: false
+        canonical_url:
+          type: string
+          example: "https://dev.roocms.com/about-us"
+    StructureCurrentPage:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        slug:
+          type: string
+          example: "home"
+        title:
+          type: string
+          example: "Home Page"
+        url:
+          type: string
+          example: "/"
+        is_home:
+          type: boolean
+          example: true
 tags:
   - name: API Info
     description: API information
@@ -2630,3 +3173,5 @@ tags:
     description: System settings management
   - name: Media
     description: Media file management and operations
+  - name: Structure
+    description: Site structure and navigation management

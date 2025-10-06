@@ -24,7 +24,7 @@ if(!defined('RooCMS')) {roocms_protect();}
  */
 class Structure { 
 
-    private DB $db;
+    private Db $db;
 
 	// Content types
 	public array $content_types = [
@@ -62,7 +62,7 @@ class Structure {
 	/**
 	* Init class
 	*/
-	public function __construct(DB $db) {
+	public function __construct(Db $db) {
 
         $this->db = $db;
 

@@ -38,6 +38,7 @@ spl_autoload_register(function(string $controller_name) {
         'AdminSettingsController'   => _API . '/v1/controller_adminSettings.php',
         'DebugController'           => _API . '/v1/controller_debug.php',
         'MediaController'           => _API . '/v1/controller_media.php',
+        'StructureController'       => _API . '/v1/controller_structure.php',
         'AuthMiddleware'            => _API . '/v1/middleware_auth.php',
         'RoleMiddleware'            => _API . '/v1/middleware_role.php'
     ];
@@ -64,6 +65,7 @@ $container->register(AdminSettingsController::class, AdminSettingsController::cl
 $container->register(BackupController::class, BackupController::class);
 $container->register(DebugController::class, DebugController::class);
 $container->register(MediaController::class, MediaController::class);
+$container->register(StructureController::class, StructureController::class);
 
 /**
  * Create controller and middleware factories and router instance
@@ -146,6 +148,18 @@ $api->post('/v1/media/upload', 'MediaController@upload', ['AuthMiddleware']); //
 $api->put('/v1/media/{id}', 'MediaController@update', ['AuthMiddleware']); // Update metadata (authenticated)
 $api->delete('/v1/media/{id}', 'MediaController@delete', ['AuthMiddleware']); // Delete file (authenticated)
 
+// Structure endpoints (public)
+$api->get('/v1/structure/tree', 'StructureController@tree'); // Get site structure tree
+$api->get('/v1/structure/page/{id}', 'StructureController@show_page'); // Get page by ID
+$api->get('/v1/structure/page/slug/{slug}', 'StructureController@show_page_by_slug'); // Get page by slug
+$api->get('/v1/structure/navigation', 'StructureController@navigation'); // Get navigation menu
+$api->get('/v1/structure/breadcrumbs/{id}', 'StructureController@breadcrumbs'); // Get breadcrumbs by ID
+$api->get('/v1/structure/breadcrumbs/slug/{slug}', 'StructureController@breadcrumbs_by_slug'); // Get breadcrumbs by slug
+$api->get('/v1/structure/seo/{id}', 'StructureController@seo'); // Get SEO metadata by ID
+$api->get('/v1/structure/seo/slug/{slug}', 'StructureController@seo_by_slug'); // Get SEO metadata by slug
+$api->get('/v1/structure/current', 'StructureController@current'); // Get current page info
+$api->get('/v1/structure/search', 'StructureController@search'); // Search pages
+
 // Future routes will be added here
 // Example:
 // Admin endpoints (require authentication + admin role)
@@ -195,6 +209,16 @@ $api->get('/', function() {
             'media_upload' => 'POST /api/v1/media/upload',
             'media_update' => 'PUT /api/v1/media/{id}',
             'media_delete' => 'DELETE /api/v1/media/{id}',
+            'structure_tree' => 'GET /api/v1/structure/tree',
+            'structure_page' => 'GET /api/v1/structure/page/{id}',
+            'structure_page_by_slug' => 'GET /api/v1/structure/page/slug/{slug}',
+            'structure_navigation' => 'GET /api/v1/structure/navigation',
+            'structure_breadcrumbs' => 'GET /api/v1/structure/breadcrumbs/{id}',
+            'structure_breadcrumbs_by_slug' => 'GET /api/v1/structure/breadcrumbs/slug/{slug}',
+            'structure_seo' => 'GET /api/v1/structure/seo/{id}',
+            'structure_seo_by_slug' => 'GET /api/v1/structure/seo/slug/{slug}',
+            'structure_current' => 'GET /api/v1/structure/current',
+            'structure_search' => 'GET /api/v1/structure/search',
             'backup_create' => 'POST /api/v1/backup/create',
             'backup_restore' => 'POST /api/v1/backup/restore',
             'backup_list' => 'GET /api/v1/backup/list',

@@ -31,8 +31,8 @@ class StructureService {
     /**
      * Constructor
      * 
-     * @param Structure $structure Модель структуры
-     * @param SiteSettings $settings Настройки сайта
+     * @param Structure $structure
+     * @param SiteSettings $settings
      */
     public function __construct(Structure $structure, SiteSettings $settings) {
         $this->structure = $structure;
@@ -43,12 +43,12 @@ class StructureService {
     /**
      * Get site tree with filters
      * 
-     * @param int $parent_id Parent ID (default 0 - корень)
-     * @param int $max_level Максимальная глубина вложенности (0 = без ограничений)
-     * @param bool $include_children Включать дочерние элементы
-     * @param bool $only_published Только опубликованные страницы
-     * @param bool $only_navigation Только страницы для навигации
-     * @return array|null Дерево структуры или null при ошибке
+     * @param int $parent_id Parent ID (default 0 - root)
+     * @param int $max_level Max level of nesting (0 = no restrictions)
+     * @param bool $include_children Include children
+     * @param bool $only_published Only published pages
+     * @param bool $only_navigation Only pages for navigation
+     * @return array|null Tree structure or null on error
      */
     public function get_site_tree(int $parent_id = 0, int $max_level = 0, bool $include_children = true, bool $only_published = false, bool $only_navigation = false): ?array {
         try {
@@ -58,7 +58,7 @@ class StructureService {
                 return null;
             }
 
-            // Применяем фильтры
+            // Apply filters
             if ($only_published || $only_navigation) {
                 $tree = $this->filter_tree($tree, $only_published, $only_navigation);
             }
@@ -74,8 +74,8 @@ class StructureService {
     /**
      * Get page by ID with validation
      * 
-     * @param int $page_id ID страницы
-     * @return array|null Данные страницы или null если не найдена
+     * @param int $page_id Page ID
+     * @return array|null Page data or null if not found
      */
     public function get_page_by_id(int $page_id): ?array {
         if ($page_id <= 0) {
@@ -100,8 +100,8 @@ class StructureService {
     /**
      * Get page by slug with validation
      * 
-     * @param string $slug Slug страницы
-     * @return array|null Данные страницы или null если не найдена
+     * @param string $slug Page slug
+     * @return array|null Page data or null if not found
      */
     public function get_page_by_slug(string $slug): ?array {
         $slug = trim($slug);
@@ -128,8 +128,8 @@ class StructureService {
     /**
      * Load page data and set as current
      * 
-     * @param string|int|null $identifier ID страницы или slug
-     * @return bool Успешность операции
+     * @param string|int|null $identifier Page ID or slug
+     * @return bool Success
      */
     public function load_current_page(string|int|null $identifier = null): bool {
         try {
@@ -145,7 +145,7 @@ class StructureService {
     /**
      * Get data of current page
      * 
-     * @return array Данные текущей страницы
+     * @return array Current page data
      */
     public function get_current_page(): array {
         try {
@@ -161,9 +161,9 @@ class StructureService {
     /**
      * Get navigation menu
      * 
-     * @param int $parent_id Родительский ID (0 для главного меню)
-     * @param int $max_level Максимальная глубина меню
-     * @return array Элементы навигации
+     * @param int $parent_id Parent ID (0 for main menu)
+     * @param int $max_level Max level of menu
+     * @return array Navigation items
      */
     public function get_navigation_menu(int $parent_id = 0, int $max_level = 3): array {
         try {
@@ -184,14 +184,14 @@ class StructureService {
     /**
      * Get breadcrumbs for current page
      * 
-     * @return array Массив хлебных крошек
+     * @return array Breadcrumbs array
      */
     public function get_breadcrumbs(): array {
         try {
             $current_page = $this->structure->get_current_page();
             $breadcrumbs = [];
             
-            // Добавляем главную страницу
+            // Add main page
             if ($current_page['id'] !== 1) {
                 $home_page = $this->get_page_by_id(1);
                 if ($home_page) {
@@ -204,11 +204,11 @@ class StructureService {
                 }
             }
 
-            // Строим путь до текущей страницы
+            // Build path to current page
             $path = $this->build_page_path($current_page['id']);
             
             foreach ($path as $page) {
-                if ($page['id'] === 1) continue; // Главную уже добавили
+                if ($page['id'] === 1) continue; // Main page already added
                 
                 $breadcrumbs[] = [
                     'title' => $page['title'],
@@ -229,7 +229,7 @@ class StructureService {
     /**
      * Get SEO metadata for current page
      * 
-     * @return array SEO данные
+     * @return array SEO data
      */
     public function get_seo_meta(): array {
         try {
@@ -255,21 +255,21 @@ class StructureService {
     /**
      * Validate slug
      * 
-     * @param string $slug Slug для проверки
-     * @return bool Результат валидации
+     * @param string $slug Slug to check
+     * @return bool Validation result
      */
     private function validate_slug(string $slug): bool {
-        // Проверяем длину
+        // Check length
         if (strlen($slug) > 255) {
             return false;
         }
 
-        // Проверяем допустимые символы (латиница, цифры, дефис, подчеркивание)
+        // Check allowed characters (latin, numbers, dash, underscore)
         if (!preg_match('/^[a-zA-Z0-9_-]+$/', $slug)) {
             return false;
         }
 
-        // Slug не должен начинаться или заканчиваться дефисом
+        // Slug should not start or end with a dash
         if (str_starts_with($slug, '-') || str_ends_with($slug, '-')) {
             return false;
         }
@@ -281,21 +281,21 @@ class StructureService {
     /**
      * Filter tree of pages
      * 
-     * @param array $tree Дерево страниц
-     * @param bool $only_published Только опубликованные
-     * @param bool $only_navigation Только для навигации
-     * @return array Отфильтрованное дерево
+     * @param array $tree Tree of pages
+     * @param bool $only_published Only published
+     * @param bool $only_navigation Only for navigation
+     * @return array Filtered tree
      */
     private function filter_tree(array $tree, bool $only_published = false, bool $only_navigation = false): array {
         $filtered = [];
 
         foreach ($tree as $page) {
-            // Фильтр по навигации
+            // Filter by navigation
             if ($only_navigation && !$page['nav']) {
                 continue;
             }
 
-            // Фильтр по доступности (для будущей реализации published статуса)
+            // Filter by accessibility (for future implementation of published status)
             if ($only_published && !$page['access']) {
                 continue;
             }
@@ -310,8 +310,8 @@ class StructureService {
     /**
      * Formatting page data
      * 
-     * @param array $page Сырые данные страницы
-     * @return array Отформатированные данные
+     * @param array $page Raw page data
+     * @return array Formatted data
      */
     private function format_page_data(array $page): array {
         return [
@@ -339,7 +339,7 @@ class StructureService {
     /**
      * Building navigation array
      * 
-     * @param array $tree Дерево страниц
+     * @param array $tree Tree of pages
      * @return array array navigation
      */
     private function build_navigation_array(array $tree): array {
@@ -361,7 +361,7 @@ class StructureService {
             $navigation[] = $nav_item;
         }
 
-        // Сортировка по полю sort
+        // Sort by sort field
         usort($navigation, fn($a, $b) => $a['sort'] <=> $b['sort']);
 
         return $navigation;
@@ -371,15 +371,15 @@ class StructureService {
     /**
      * Build path to page (breadcrumbs)
      * 
-     * @param int $page_id ID страницы
-     * @return array Путь до страницы
+     * @param int $page_id Page ID
+     * @return array Path to page
      */
     private function build_page_path(int $page_id): array {
         $path = [];
         $current_id = $page_id;
 
-        // Предотвращаем бесконечный цикл
-        $max_depth = 10;
+        // Prevent infinite loop
+        $max_depth = 10; // max depth of page path
         $depth = 0;
 
         while ($current_id > 0 && $depth < $max_depth) {
@@ -401,8 +401,8 @@ class StructureService {
     /**
      * Build page URL
      * 
-     * @param string $slug Slug страницы
-     * @return string URL страницы
+     * @param string $slug Page slug
+     * @return string Page URL
      */
     private function build_page_url(string $slug): string {
         if ($slug === 'index') {
@@ -416,7 +416,7 @@ class StructureService {
     /**
      * Build canonical URL
      * 
-     * @param string $slug Slug page
+     * @param string $slug Page slug
      * @return string Canonical URL
      */
     private function build_canonical_url(string $slug): string {
