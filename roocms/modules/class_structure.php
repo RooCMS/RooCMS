@@ -26,7 +26,7 @@ class Structure {
 
     private DB $db;
 
-	// vars
+	// Content types
 	public array $content_types = [
 		'page' => ['title' => 'Content'],
 		'feed' => ['title' => 'Feed']
@@ -35,7 +35,7 @@ class Structure {
 	// site tree
 	public array $sitetree = [];
 
-	// on/off (release in future)
+	// on/off
 	public bool $access = true;
 
 	// aliases
