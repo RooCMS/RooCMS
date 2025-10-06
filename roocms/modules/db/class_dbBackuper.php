@@ -123,7 +123,7 @@ class DbBackuper {
 				'filename' => $filename,
 				'filepath' => $backup_file,
 				'size' => $file_size,
-				'size_human' => $this->format_bytes($file_size),
+				'size_human' => format_file_size($file_size),
 				'execution_time' => round($execution_time, 3),
 				'timestamp' => date('Y-m-d H:i:s'),
 				'compressed' => $backup_options['compress']
@@ -214,7 +214,7 @@ class DbBackuper {
 				'filename' => $filename,
 				'filepath' => $file,
 				'size' => filesize($file),
-				'size_human' => $this->format_bytes(filesize($file)),
+				'size_human' => format_file_size(filesize($file)),
 				'created' => date('Y-m-d H:i:s', filemtime($file)),
 				'compressed' => in_array(pathinfo($file, PATHINFO_EXTENSION), ['gz', 'zip'])
 			];
@@ -609,19 +609,5 @@ class DbBackuper {
 		];
 		
 		$this->backup_log[] = $log_entry;
-	}
-
-
-	/**
-	 * Format bytes to human readable format
-	 *
-	 * @param int $bytes Number of bytes
-	 * @return string Formatted string
-	 */
-	public function format_bytes(int $bytes): string {
-		$units = ['B', 'KB', 'MB', 'GB', 'TB'];
-		$factor = floor((strlen($bytes) - 1) / 3);
-		
-		return sprintf('%.2f %s', $bytes / (1024 ** $factor), $units[$factor]);
 	}
 }

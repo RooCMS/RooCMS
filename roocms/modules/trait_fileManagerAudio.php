@@ -82,7 +82,7 @@ trait FileManagerAudio {
         
         $metadata = [
             'format' => $format,
-            'size_human' => $this->format_file_size(filesize($file_path))
+            'size_human' => format_file_size(filesize($file_path))
         ];
         
         // Try to get audio info using FFprobe if available
@@ -281,7 +281,7 @@ trait FileManagerAudio {
         
         // Add formatted file size for convenience
         if(isset($media['file_size'])) {
-            $media['file_size_formatted'] = $this->format_file_size($media['file_size']);
+            $media['file_size_formatted'] = format_file_size($media['file_size']);
         }
         
         // Format duration
@@ -458,7 +458,6 @@ trait FileManagerAudio {
     /**
      * Abstract methods
      */
-    abstract public function format_file_size(int $size): string;
     abstract public function is_command_available(string $command): bool;
     abstract public function format_duration(int $duration): string;
     abstract public function format_bitrate(int $bitrate): string;

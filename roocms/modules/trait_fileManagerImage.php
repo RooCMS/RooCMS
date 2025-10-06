@@ -248,7 +248,7 @@ trait FileManagerImage {
         
         // Add formatted file size for convenience
         if(isset($media['file_size'])) {
-            $media['file_size_formatted'] = $this->format_file_size($media['file_size']);
+            $media['file_size_formatted'] = format_file_size($media['file_size']);
         }
         
         // Add image-specific metadata formatting
@@ -270,5 +270,4 @@ trait FileManagerImage {
      * Abstract methods
      */
     abstract public function get_media_info(int $media_id, ?string $expected_type = null): array|false;
-    abstract public function format_file_size(int $size): string;
 }

@@ -87,7 +87,7 @@ trait FileManagerVideo {
         
         $metadata = [
             'format' => pathinfo($file_path, PATHINFO_EXTENSION),
-            'size_human' => $this->format_file_size(filesize($file_path))
+            'size_human' => format_file_size(filesize($file_path))
         ];
         
         // Try to get video info using shell commands (if available)
@@ -275,7 +275,7 @@ trait FileManagerVideo {
         
         // Add formatted file size for convenience
         if(isset($media['file_size'])) {
-            $media['file_size_formatted'] = $this->format_file_size($media['file_size']);
+            $media['file_size_formatted'] = format_file_size($media['file_size']);
         }
         
         // Format duration
@@ -387,6 +387,5 @@ trait FileManagerVideo {
      * Abstract methods
      */
     abstract public function get_by_id(int $id): array|false;
-    abstract public function format_file_size(int $size): string;
     abstract public function get_media_info(int $media_id, ?string $expected_type = null): array|false;
 }

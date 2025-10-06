@@ -78,7 +78,7 @@ trait FileManagerDoc {
         $metadata = [
             'extension' => $extension,
             'readable' => is_readable($file_path),
-            'size_human' => $this->format_file_size(filesize($file_path))
+            'size_human' => format_file_size(filesize($file_path))
         ];
         
         // Extract PDF metadata
@@ -203,21 +203,6 @@ trait FileManagerDoc {
 
 
     /**
-     * Format file size to human-readable format
-     * 
-     * @param int $bytes File size in bytes
-     * @return string Formatted size
-     */
-    private function format_file_size(int $bytes): string {
-        
-        $units = ['B', 'KB', 'MB', 'GB', 'TB'];
-        $power = $bytes > 0 ? floor(log($bytes, 1024)) : 0;
-        
-        return number_format($bytes / pow(1024, $power), 2) . ' ' . $units[$power];
-    }
-
-
-    /**
      * Get document info by ID
      * 
      * @param int $media_id Media ID
@@ -240,7 +225,7 @@ trait FileManagerDoc {
         
         // Add formatted file size for convenience
         if(isset($media['file_size'])) {
-            $media['file_size_formatted'] = $this->format_file_size($media['file_size']);
+            $media['file_size_formatted'] = format_file_size($media['file_size']);
         }
         
         // Add document-specific metadata processing if needed

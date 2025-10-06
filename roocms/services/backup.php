@@ -191,7 +191,7 @@ class BackupService {
                 'data' => [
                     'backup_count' => count($backups),
                     'total_size' => $total_size,
-                    'total_size_human' => $this->backuper->format_bytes($total_size),
+                    'total_size_human' => format_file_size($total_size),
                     'latest_backup' => !empty($backups) ? $backups[0] : null,
                     'oldest_backup' => !empty($backups) ? end($backups) : null,
                     'compression_enabled' => function_exists('gzencode'),

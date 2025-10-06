@@ -26,20 +26,6 @@ trait FilesExtends {
 
 
     /**
-     * Format file size to human readable format
-     * 
-     * @param int $bytes File size in bytes
-     * @return string Formatted file size
-     */
-    public function format_file_size(int $bytes): string {
-        $units = ['B', 'KB', 'MB', 'GB', 'TB'];
-        $power = $bytes > 0 ? floor(log($bytes, 1024)) : 0;
-        
-        return number_format($bytes / pow(1024, $power), 2) . ' ' . $units[$power];
-    }
-    
-
-    /**
      * Generate UUID v4
      * 
      * @return string UUID

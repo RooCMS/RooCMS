@@ -221,7 +221,21 @@ function cvrt_color_d2h(string $deccolor) : array {
 		"r" => mb_substr($deccolor, 0, 1),
 		"g" => mb_substr($deccolor, 1, 1),
 		"b" => mb_substr($deccolor, 2, 1)
-	]
+	];
+}
+
+
+/**
+ * Format file size to human readable format
+ * 
+ * @param int $bytes File size in bytes
+ * @return string Formatted file size
+ */
+function format_file_size(int $bytes): string {
+	$units = ['B', 'KB', 'MB', 'GB', 'TB'];
+	$power = $bytes > 0 ? floor(log($bytes, 1024)) : 0;
+	
+	return number_format($bytes / pow(1024, $power), 2) . ' ' . $units[$power];
 }
 
 

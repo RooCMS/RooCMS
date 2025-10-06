@@ -75,7 +75,7 @@ trait FileManagerArch {
         
         $metadata = [
             'format' => $extension,
-            'size_human' => $this->format_file_size(filesize($file_path))
+            'size_human' => format_file_size(filesize($file_path))
         ];
         
         // Extract info based on archive type
@@ -127,7 +127,7 @@ trait FileManagerArch {
         
         // Add size information
         $info['uncompressed_size'] = $total_uncompressed;
-        $info['uncompressed_size_human'] = $this->format_file_size($total_uncompressed);
+        $info['uncompressed_size_human'] = format_file_size($total_uncompressed);
         
         // Calculate compression ratio if possible
         $compressed_size = filesize($file_path);
@@ -180,7 +180,7 @@ trait FileManagerArch {
             
             $info['files_count'] = $files_count;
             $info['uncompressed_size'] = $total_size;
-            $info['uncompressed_size_human'] = $this->format_file_size($total_size);
+            $info['uncompressed_size_human'] = format_file_size($total_size);
             $info['files'] = $file_list;
             
         } catch(\Exception $e) {
@@ -214,7 +214,7 @@ trait FileManagerArch {
             $uncompressed_size = unpack('V', $data)[1];
             
             $info['uncompressed_size'] = $uncompressed_size;
-            $info['uncompressed_size_human'] = $this->format_file_size($uncompressed_size);
+            $info['uncompressed_size_human'] = format_file_size($uncompressed_size);
             
             // Calculate compression ratio
             $compressed_size = filesize($file_path);
@@ -272,7 +272,7 @@ trait FileManagerArch {
      */
     private function process_archive_info(array $media): array {
         // Add formatted file size
-        isset($media['file_size']) && ($media['file_size_formatted'] = $this->format_file_size($media['file_size']));
+        isset($media['file_size']) && ($media['file_size_formatted'] = format_file_size($media['file_size']));
         
         // Process metadata if exists
         if(!isset($media['metadata']) || !is_array($media['metadata'])) {
@@ -282,7 +282,7 @@ trait FileManagerArch {
         // Define metadata formatters
         $formatters = [
             'file_count' => fn($value) => $value . ' файлов',
-            'uncompressed_size' => fn($value) => $this->format_file_size((int)$value),
+            'uncompressed_size' => fn($value) => format_file_size((int)$value),
             'compression_ratio' => fn($value) => round($value, 1) . '%'
         ];
         
@@ -468,6 +468,5 @@ trait FileManagerArch {
      * Abstract methods
      */
     abstract public function get_by_id(int $id): array|false;
-    abstract public function format_file_size(int $size): string;
     abstract public function get_media_info(int $media_id, ?string $expected_type = null): array|false;
 }

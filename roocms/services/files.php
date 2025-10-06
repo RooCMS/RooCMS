@@ -332,26 +332,13 @@ class FilesService {
 			$stats['by_type'][$row['media_type']] = [
 				'count' => (int)$row['count'],
 				'size' => (int)$row['total_size'],
-				'size_human' => $this->files->format_file_size((int)$row['total_size'])
+				'size_human' => format_file_size((int)$row['total_size'])
 			];
 		}
 		
-		$stats['total_size_human'] = $this->files->format_file_size($stats['total_size']);
+		$stats['total_size_human'] = format_file_size($stats['total_size']);
 		
 		return $stats;
-	}
-
-
-	/**
-	 * Format file size to human-readable
-	 * 
-	 * @param int $bytes Size in bytes
-	 * @return string Formatted size
-	 */
-	private function format_file_size(int $bytes): string {
-		$units = ['B', 'KB', 'MB', 'GB', 'TB'];
-		$power = $bytes > 0 ? floor(log($bytes, 1024)) : 0;
-		return number_format($bytes / pow(1024, $power), 2) . ' ' . $units[$power];
 	}
 
 
@@ -561,7 +548,7 @@ class FilesService {
 	 */
 	private function format_media_data(array $media): array {
 		// Format file size using Media class method
-		$media['file_size_human'] = $this->files->format_file_size($media['file_size']);
+		$media['file_size_human'] = format_file_size($media['file_size']);
 		
 		// Format timestamps
 		$media['created_at_formatted'] = date('Y-m-d H:i:s', $media['created_at']);
