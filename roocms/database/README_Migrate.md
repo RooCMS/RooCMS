@@ -3,9 +3,9 @@
 > Documents are temporarily in Russian language.   
 > They will be translated into English later.
 
-Универсальная система миграций для RooCMS, поддерживающая MySQL, PostgreSQL и Firebird через собственный PDO класс без использования внешних фреймворков.
+Universal database migration system for RooCMS, supporting MySQL, PostgreSQL and Firebird through its own PDO class without using external frameworks.
 
-## 🚀 Возможности
+## 🚀 Feauters
 
 - ✅ **Универсальная поддержка БД**: MySQL, PostgreSQL, Firebird
 - ✅ **Автоматическое определение драйвера БД**
@@ -30,7 +30,7 @@ roocms/database/
     └── migrate_20_04.php   # Базовые данные
 ```
 
-## 📋 Требования
+## 📋 Requirements
 
 - **PHP 8.1+** (использует современные возможности PHP)
 - **PDO расширение** для работы с базами данных
@@ -389,7 +389,7 @@ return [
 | `date`            | DATE             | DATE             | DATE      |
 | `time`            | TIME             | TIME             | TIME      |
 
-### Специальные типы
+### Special Types
 
 - **ENUM**: Автоматически конвертируется в CHECK ограничения для PostgreSQL
 - **AUTO_INCREMENT**: SERIAL для PostgreSQL, IDENTITY для Firebird
@@ -582,14 +582,14 @@ print_r($stats);
 ],
 ```
 
-## 🤝 Поддержка
+## 🤝 Support
 
 - **Документация**: ----
 - **Форум поддержки**: ---
 - **Email**: info@roocms.com
 - **GitHub Issues**: https://github.com/roocms/roocms
 
-## 📄 Лицензия
+## 📄 License
 
 GNU General Public License v3.0 - смотрите файл [LICENSE.md](../LICENSE.md) для подробностей.
 
@@ -607,6 +607,6 @@ GNU General Public License v3.0 - смотрите файл [LICENSE.md](../LICE
 
 ---
 
-**RooCMS Universal Migration System** - мощный и гибкий инструмент для управления структурой базы данных, созданный специально для RooCMS без использования внешних зависимостей. 
+**RooCMS Universal Migration System** - this is a powerful and flexible tool for managing the structure of the database, created specifically for RooCMS without using external dependencies. 
 
-✨ *Элегантность констант, мощь универсальности, простота использования!*
+✨ *Elegancyconstants, power of universality, simplicity of use!*

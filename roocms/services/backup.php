@@ -21,17 +21,18 @@ if(!defined('RooCMS')) {roocms_protect();}
  * Business logic layer for database backup operations
  */
 class BackupService {
-    
-    private readonly DbBackuper $backuper;
+
     private readonly Db $db;
+    private readonly DbBackuper $backuper;
+
     
 
     /**
      * Constructor with dependency injection
      */
-    public function __construct(DbBackuper $backuper, Db $db) {
-        $this->backuper = $backuper;
+    public function __construct(Db $db, DbBackuper $backuper) {
         $this->db = $db;
+        $this->backuper = $backuper;
     }
     
 

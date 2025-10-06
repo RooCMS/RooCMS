@@ -3,7 +3,7 @@
 > Documents are temporarily in Russian language.   
 > They will be translated into English later.
 
-Полнофункциональная система резервного копирования базы данных для RooCMS с поддержкой MySQL/MariaDB, PostgreSQL и Firebird.
+Full system for backing up the database for RooCMS with support for MySQL/MariaDB, PostgreSQL and Firebird.
 
 ## Возможности
 
@@ -20,7 +20,7 @@
 ## Компоненты
 
 ### 1. Основной класс `DbBackuper`
-Файл: `roocms/class/class_dbBackuper.php`
+File: `roocms/class/class_dbBackuper.php`
 
 Основной класс для работы с резервными копиями.
 
@@ -32,12 +32,12 @@
 - `get_backup_logs()` - получение журнала операций
 
 ### 2. CLI утилита
-Файл: `roocms/database/backup_cli.php`
+File: `roocms/database/backup_cli.php`\r
 
 Консольная утилита для управления резервными копиями.
 
 ### 3. API контроллер
-Файл: `api/v1/controller_backup.php`
+File: `api/v1/controller_backup.php`\r
 
 REST API для веб-интерфейса управления резервными копиями.
 
@@ -233,7 +233,7 @@ Authorization: Bearer <admin_token>
 - Использует системные таблицы `rdb$*`
 - Адаптирован синтаксис под Firebird
 
-## Логирование
+# Logging
 
 Система ведет подробные журналы всех операций:
 - Создание резервных копий
@@ -245,15 +245,15 @@ Authorization: Bearer <admin_token>
 - Метод `get_backup_logs()` в классе
 - API endpoint `/api/v1/backup/logs`
 
-## Примеры использования
+## Usage Examples
 
-### Автоматическое резервное копирование через cron
+### Automatic Backup via Cron
 ```bash
 # Ежедневно в 2:00
 0 2 * * * cd /path/to/roocms && php roocms/database/backup_cli.php create
 ```
 
-### Интеграция в админ-панель
+### Integration into Admin Panel
 ```javascript
 // Создание резервной копии через AJAX
 fetch('/api/v1/backup/create', {
@@ -275,9 +275,9 @@ fetch('/api/v1/backup/create', {
 });
 ```
 
-## Тестирование
+# Testing
 
-Для тестирования системы используйте:
+To test the system, run the following commands:
 
 ```bash
 # Простой тест
@@ -287,18 +287,18 @@ cd roocms/database && php simple_test.php
 cd roocms/database && php backup_cli.php help
 ```
 
-## Требования
+## Requirements
 
 - PHP 8.1+
-- PDO с драйвером для вашей СУБД
-- Права на запись в директории `storage/backups/`
-- Для сжатия: расширение zlib (gzencode)
+- PDO with driver for your RDBMS
+- Write permissions on the `storage/backups/` directory
+- For compression: zlib extension (gzencode)
 
-## Ограничения
+## Limitations
 
-1. Очень большие базы данных могут потребовать увеличения лимитов PHP (memory_limit, execution_time)
-2. Сжатие доступно только при наличии расширения zlib
-3. Некоторые специфичные для СУБД функции могут не поддерживаться (триггеры, процедуры)
+1. Very large databases may require increasing PHP limits (memory_limit, execution_time)
+2. Compression is only available with the zlib extension
+3. Some specific functions of the RDBMS may not be supported (triggers, procedures)
 
 ---
 

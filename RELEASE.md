@@ -42,7 +42,7 @@ php roocms/database/migrate_cli.php status
 ## Система резервного копирования
 
 - CLI-инструмент: `roocms/database/backup_cli.php`
-- API эндпоинты: `/api/v1/backup/*`
+- API endpoints: `/api/v1/backup/*`
 - Поддерживаемые команды: `create`, `restore`, `list`, `delete`, `status`, `help`
 - Многоуровневая защита файлов резервных копий
 
@@ -63,7 +63,7 @@ php roocms/database/backup_cli.php list
 - Тестируйте на стейдже, затем на продакшн
 - Не редактируйте уже выполненные файлы миграций — создавайте новые
 
-### Известные проблемы (Alpha)
+### Known Issues (Alpha)
 
 - Ограниченная поддержка PostgreSQL/Firebird в edge-кейсах типов и индексов
 - Возможны предупреждения/ограничения при откате сложных миграций
@@ -193,7 +193,7 @@ php roocms/database/backup_cli.php list
 
 ## 🛠️ Технические требования
 
-### Минимальные требования
+### Minimal requirements
 - **PHP**: 8.1+ 
 - **Веб-сервер**: Apache 2.4+ / nginx
 - **База данных**: MySQL 5.7+ / MariaDB 10.10+ / PostgreSQL 14+ / Firebird
@@ -215,7 +215,7 @@ php roocms/database/backup_cli.php list
 - **Современный ES6+**: Использование современных возможностей JavaScript
 - **Любые технологии**: React, Vue, Angular, vanilla HTML+JS или встроенный PHP шаблонизатор
 
-## 🚀 Быстрый старт
+## 🚀 Quick start
 
 ### 1. Установка
 ```bash
@@ -240,7 +240,7 @@ php roocms/database/migrate_cli.php migrate
 php roocms/database/migrate_cli.php status
 ```
 
-### 3. Проверка API
+### 3. Check API
 ```bash
 # Проверить здоровье системы
 curl -X GET https://your-domain.com/api/v1/health -k
@@ -287,13 +287,13 @@ php roocms/database/backup_cli.php list        # Список всех бэка�
 ```
 
 ```html
-<!-- HTML - использование Alpine.js в темах -->
+<!-- HTML - use Alpine.js in your themes -->
 <div x-data="{ open: false }">
   <button @click="open = !open" class="button">
-    Показать/скрыть
+    Show/Hide
   </button>
   <div x-show="open" x-transition>
-    <p>Контент с анимацией</p>
+    <p>Content with animation</p>
   </div>
 </div>
 ```
@@ -313,22 +313,22 @@ php roocms/database/backup_cli.php list        # Список всех бэка�
 
 ## 🤝 Участие в разработке
 
-Мы приветствуем вклад в развитие RooCMS:
+We welcome your contribution to the development of RooCMS:
 
-1. **Сообщения об ошибках**: Создайте issue с подробным описанием
+1. **Bug reports**: Create an issue with a detailed description
 2. **Pull requests**: Небольшие, сфокусированные изменения с тестами
 3. **Следуйте правилам**: PHP 8.1+, без фреймворков/ORM, строгая типизация
 
-## 🔒 Безопасность
+## 🔒 Security
 
-Если вы обнаружили уязвимость безопасности, пожалуйста, сообщите об этом ответственно на: **info@roocms.com**
+If you have found a security vulnerability, please report it responsibly to: **info@roocms.com**
 
 ---
 
 <div align="center">
 
-**RooCMS v2.0.0 Alpha** - Современная CMS и API платформа  
-© 2010-2025 alex Roosso. Все права защищены.
+**RooCMS v2.0.0 Alpha** - Modern CMS and API platform  
+© 2010-2025 alex Roosso. All rights reserved.
 
 [![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 [![PHP Version](https://img.shields.io/badge/PHP-8.1%2B-blue)](https://www.php.net/)
