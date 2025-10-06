@@ -71,6 +71,40 @@ trait GDExtends {
 
 
 	/**
+	 * Validate image extension
+	 *
+	 * @param string $ext Extension to validate
+	 * @throws InvalidArgumentException If extension is not supported
+	 * TODO: Remove or move to MediaImage class
+	 */
+	protected function validate_extension(string $ext): void {
+		if(!in_array($ext, self::ALLOWED_EXTENSIONS, true)) {
+			throw new InvalidArgumentException("Unsupported image extension: {$ext}");
+		}
+	}
+
+
+	/**
+	 * Convert limit string to bytes
+	 * 
+	 * @param string $value Limit string (e.g., "128M", "1G")
+	 * @return int Limit in bytes
+	 */
+	protected function convert_to_bytes(string $value): int {
+		$value = trim($value);
+		$unit = strtolower($value[strlen($value) - 1]);
+		$num = (int) $value;
+
+		return match($unit) {
+			'g' => $num * 1024 * 1024 * 1024,
+			'm' => $num * 1024 * 1024,
+			'k' => $num * 1024,
+			default => $num
+		};
+	}
+
+
+	/**
 	 * Calculate new image sizes
 	 *
 	 * @param int  $width    - Current width

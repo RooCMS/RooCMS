@@ -100,20 +100,6 @@ class GD {
 
 
 	/**
-	 * Validate image extension
-	 *
-	 * @param string $ext Extension to validate
-	 * @throws InvalidArgumentException If extension is not supported
-	 * TODO: Remove or move to MediaImage class
-	 */
-	private function validate_extension(string $ext): void {
-		if(!in_array($ext, self::ALLOWED_EXTENSIONS, true)) {
-			throw new InvalidArgumentException("Unsupported image extension: {$ext}");
-		}
-	}
-
-
-	/**
 	 * Setup alpha channel and background for image
 	 *
 	 * @param GdImage $image Image resource
@@ -184,7 +170,7 @@ class GD {
 		}
 
 		// Convert memory limit to bytes
-		$memory_limit_bytes = convert_to_bytes($memory_limit);
+		$memory_limit_bytes = $this->convert_to_bytes($memory_limit);
 		$current_usage = memory_get_usage(true);
 
 		// Check if we have enough memory

@@ -20,6 +20,7 @@ if(!defined('RooCMS')) {roocms_protect();}
 
 /**
  * Getting env-variable with type conversion
+ * 
  * @param string $key - env-variable name
  * @param mixed $default - default value
  * @return mixed - env-variable value
@@ -53,6 +54,7 @@ function env(string $key, mixed $default = null): mixed {
 
 /**
  * Generator random code
+ * 
  * @param int   $ns      - Num of characters in code
  * @param mixed $symbols - Characters from which code will be generated
  * @return string $Code
@@ -78,6 +80,7 @@ function randcode(int $ns = 6, string $symbols = "ABCEFHKLMNPRSTVXYZ123456789") 
 
 /**
  * Calculate percentage
+ * 
  * @param float|int $n - number
  * @param float|int $from - from number
  * @param int $precision - decimal precision (default: 0)
@@ -91,6 +94,7 @@ function percent(float|int $n, float|int $from, int $precision = 0): float {
 
 /**
  * Get response code from remote URL
+ * 
  * @param string $url -  remote url
  * @return int - code response
  */
@@ -107,7 +111,7 @@ function get_http_response_code(string $url) : int {
 		CURLOPT_MAXREDIRS      => 5,
 		CURLOPT_CONNECTTIMEOUT => 5,
 		CURLOPT_TIMEOUT        => 10,
-		CURLOPT_USERAGENT      => 'RooCMS/1.0',
+		CURLOPT_USERAGENT      => 'RooCMS/2.0',
 		CURLOPT_SSL_VERIFYPEER => $ssl_verify,
 		CURLOPT_SSL_VERIFYHOST => $ssl_verify ? 2 : 0,
 		CURLOPT_RETURNTRANSFER => true,
@@ -123,6 +127,7 @@ function get_http_response_code(string $url) : int {
 
 /**
  * Extract Bearer token from HTTP headers
+ * 
  * @return string|null
  */
 function get_bearer_token() : ?string {
@@ -160,6 +165,7 @@ function get_bearer_token() : ?string {
 
 /**
  * Read data file
+ * 
  * @param string $file - full path to file
  * @return string|false - data from file or false on failure
  */
@@ -183,6 +189,7 @@ function read_input_stream(): string|false {
 
 /**
  * Convert hex color to array
+ * 
  * @param string $hexcolor - hex color
  * @return array - array of color
  */
@@ -200,27 +207,27 @@ function cvrt_color_h2d(string $hexcolor) : array {
 
 
 /**
- * Convert limit string to bytes
- *
- * @param string $value Limit string (e.g., "128M", "1G")
- * @return int Limit in bytes
+ * Convert decimal color to array
+ * 
+ * @param string $deccolor - decimal color
+ * @return array - array of color
  */
-function convert_to_bytes(string $value): int {
-	$value = trim($value);
-	$unit = strtolower($value[strlen($value) - 1]);
-	$num = (int) $value;
+function cvrt_color_d2h(string $deccolor) : array {
+	if(mb_strlen($deccolor) != 3) {
+		return [];
+	}
 
-	return match($unit) {
-		'g' => $num * 1024 * 1024 * 1024,
-		'm' => $num * 1024 * 1024,
-		'k' => $num * 1024,
-		default => $num
-	};
+	return [
+		"r" => mb_substr($deccolor, 0, 1),
+		"g" => mb_substr($deccolor, 1, 1),
+		"b" => mb_substr($deccolor, 2, 1)
+	]
 }
 
 
 /**
  * Format timestamp
+ * 
  * @param mixed $timestamp - timestamp
  * @return string - formatted timestamp
  */
