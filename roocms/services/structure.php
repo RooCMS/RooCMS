@@ -237,12 +237,12 @@ class StructureService {
             
             return [
                 'title' => $current['meta_title'] ?: $current['title'],
-                'description' => $current['meta_description'] ?: $this->settings->get('site_description', ''),
+                'description' => $current['meta_description'] ?: $this->settings->get_by_key('site_description'),
                 'keywords' => $current['meta_keywords'],
                 'noindex' => (bool)$current['noindex'],
                 'canonical' => $this->build_canonical_url($current['slug']),
                 'og_title' => $current['title'],
-                'og_description' => $current['meta_description'] ?: $this->settings->get('site_description', ''),
+                'og_description' => $current['meta_description'] ?: $this->settings->get_by_key('site_description'),
                 'og_type' => 'website'
             ];
         } catch (Exception $e) {
