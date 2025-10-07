@@ -1829,6 +1829,40 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+  /v1/structure/status/{status}:
+    get:
+      summary: Get pages by status
+      description: Retrieve pages filtered by their status
+      tags:
+        - Structure
+      parameters:
+        - name: status
+          in: path
+          required: true
+          description: Page status
+          schema:
+            type: string
+            enum: ['draft', 'active', 'inactive']
+            example: active
+      responses:
+        '200':
+          description: Pages retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StructurePagesByStatusResponse'
+        '400':
+          description: Invalid status value
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
 components:
   securitySchemes:
     bearerAuth:
@@ -3017,6 +3051,29 @@ components:
             query:
               type: string
               example: "about"
+    StructurePagesByStatusResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: true
+        timestamp:
+          type: string
+          format: date-time
+          example: '2025-01-15 12:00:00'
+        data:
+          type: object
+          properties:
+            pages:
+              type: array
+              items:
+                $ref: '#/components/schemas/StructurePage'
+            count:
+              type: integer
+              example: 5
+            status:
+              type: string
+              example: "active"
     StructurePage:
       type: object
       properties:
@@ -3030,6 +3087,10 @@ components:
           type: integer
           nullable: true
           example: null
+        status:
+          type: string
+          enum: ['draft', 'active', 'inactive']
+          example: 'active'
         nav:
           type: string
           enum: ['0', '1']
@@ -3070,6 +3131,13 @@ components:
           type: string
           format: date-time
           example: "2025-01-15 12:00:00"
+        published_at:
+          type: string
+          format: date-time
+          example: "2025-01-15 12:00:00"
+        is_published:
+          type: boolean
+          example: true
         children:
           type: array
           items:

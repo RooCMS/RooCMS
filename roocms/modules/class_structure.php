@@ -45,6 +45,7 @@ class Structure {
 	public int $page_id = 1;				// page sid
 	public int $page_parent_id = 0;			// Parent id
 	public string $page_slug = "index";		// unique slug name (was alias)
+	public string $page_status = "draft";	// page status (draft, active, inactive)
 	public string $page_title = "";			// title page
 	public string $page_meta_title = "";	// Meta Title
 	public string $page_meta_desc = "";		// Meta description
@@ -56,6 +57,7 @@ class Structure {
 	public int $page_childs = 0;			// number of children
 	public int $page_created_at = 0;		// creation timestamp
 	public int $page_updated_at = 0;		// update timestamp
+	public int $page_published_at = 0;		// publish timestamp
 
 
 
@@ -92,8 +94,8 @@ class Structure {
 		// Get query all data from DB Делаем единичный запрос в БД собирая данные по структуре сайта.
 		if(!$use) {
 			$query = "SELECT 
-						id, slug, parent_id, nav, title, meta_title, meta_description, meta_keywords, 
-						noindex, page_type, sort, childs, created_at, updated_at
+						id, slug, parent_id, 'status', nav, title, meta_title, meta_description, meta_keywords, 
+						noindex, page_type, sort, childs, created_at, updated_at, published_at
 					FROM " . TABLE_STRUCTURE . " ORDER BY sort";
 			
 			$rows = $this->db->fetch_all($query);
@@ -215,6 +217,7 @@ class Structure {
 		$this->page_id          = (int)$data['id'];
 		$this->page_parent_id   = (int)$data['parent_id'];
 		$this->page_slug        = (string)$data['slug'];
+		$this->page_status      = (string)$data['status'];
 		$this->page_title       = (string)$data['title'];
 		$this->page_meta_title  = !empty(trim($data['meta_title'])) ? $data['meta_title'] : $data['title'];
 		$this->page_meta_desc   = (string)$data['meta_description'];
@@ -226,6 +229,7 @@ class Structure {
 		$this->page_childs      = (int)$data['childs'];
 		$this->page_created_at  = (int)$data['created_at'];
 		$this->page_updated_at  = (int)$data['updated_at'];
+		$this->page_published_at = (int)$data['published_at'];
 
 		// access
 		$this->access = $data['access'];
@@ -277,6 +281,7 @@ class Structure {
 			'id' => $this->page_id,
 			'parent_id' => $this->page_parent_id,
 			'slug' => $this->page_slug,
+			'status' => $this->page_status,
 			'title' => $this->page_title,
 			'meta_title' => $this->page_meta_title,
 			'meta_description' => $this->page_meta_desc,
@@ -288,6 +293,7 @@ class Structure {
 			'childs' => $this->page_childs,
 			'created_at' => $this->page_created_at,
 			'updated_at' => $this->page_updated_at,
+			'published_at' => $this->page_published_at,
 			'access' => $this->access
 		];
 	}

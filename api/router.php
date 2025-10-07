@@ -159,6 +159,7 @@ $api->get('/v1/structure/seo/{id}', 'StructureController@seo'); // Get SEO metad
 $api->get('/v1/structure/seo/slug/{slug}', 'StructureController@seo_by_slug'); // Get SEO metadata by slug
 $api->get('/v1/structure/current', 'StructureController@current'); // Get current page info
 $api->get('/v1/structure/search', 'StructureController@search'); // Search pages
+$api->get('/v1/structure/status/{status}', 'StructureController@pages_by_status'); // Get pages by status
 
 // Future routes will be added here
 // Example:
@@ -219,6 +220,7 @@ $api->get('/', function() {
             'structure_seo_by_slug' => 'GET /api/v1/structure/seo/slug/{slug}',
             'structure_current' => 'GET /api/v1/structure/current',
             'structure_search' => 'GET /api/v1/structure/search',
+            'structure_pages_by_status' => 'GET /api/v1/structure/status/{status}',
             'backup_create' => 'POST /api/v1/backup/create',
             'backup_restore' => 'POST /api/v1/backup/restore',
             'backup_list' => 'GET /api/v1/backup/list',

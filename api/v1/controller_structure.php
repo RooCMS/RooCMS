@@ -44,7 +44,8 @@ class StructureController extends BaseController {
      * - parent_id (int): Parent page ID (default: 0)
      * - max_level (int): Maximum nesting level (default: 0 = unlimited)
      * - navigation (flag): Only navigation pages
-     * - published (flag): Only published pages
+     * - published (flag): Only published pages  
+     * - status (string): Filter by status (draft, active, inactive)
      */
     public function tree(): void {
         $this->log_request('structure_tree');
@@ -56,6 +57,7 @@ class StructureController extends BaseController {
             $max_level = max(0, (int)($params['max_level'] ?? 0));
             $only_navigation = isset($params['navigation']);
             $only_published = isset($params['published']);
+            $status_filter = $params['status'] ?? null;
 
             $tree = $this->structureService->get_site_tree(
                 parent_id: $parent_id,
@@ -70,6 +72,11 @@ class StructureController extends BaseController {
                 return;
             }
 
+            // Apply status filter if specified
+            if ($status_filter && in_array($status_filter, ['draft', 'active', 'inactive'])) {
+                $tree = array_filter($tree, fn($page) => $page['status'] === $status_filter);
+            }
+
             $this->json_response([
                 'tree' => $tree,
                 'count' => count($tree),
@@ -77,7 +84,8 @@ class StructureController extends BaseController {
                     'parent_id' => $parent_id,
                     'max_level' => $max_level,
                     'only_navigation' => $only_navigation,
-                    'only_published' => $only_published
+                    'only_published' => $only_published,
+                    'status_filter' => $status_filter
                 ]
             ]);
 
@@ -458,6 +466,45 @@ class StructureController extends BaseController {
         } catch (Exception $e) {
             error_log('Structure search error: ' . $e->getMessage());
             $this->error_response('Failed to search pages', 500);
+        }
+    }
+
+
+    /**
+     * Get pages by status
+     * GET /api/v1/structure/status/{status}
+     * 
+     * @param string $status Page status (draft, active, inactive)
+     */
+    public function pages_by_status(string $status): void {
+        $this->log_request('structure_pages_by_status', ['status' => $status]);
+
+        // Validate status TODO: remove this
+        if (!in_array($status, ['draft', 'active', 'inactive'])) {
+            $this->error_response('Invalid status. Must be one of: draft, active, inactive', 400);
+            return;
+        }
+
+        try {
+            $tree = $this->structureService->get_site_tree();
+            if ($tree === null) {
+                $this->error_response('Failed to load pages', 500);
+                return;
+            }
+
+            // Filter by status
+            $pages = array_filter($tree, fn($page) => $page['status'] === $status);
+            $pages = array_values($pages); // Reset array keys
+
+            $this->json_response([
+                'pages' => $pages,
+                'count' => count($pages),
+                'status' => $status
+            ]);
+
+        } catch (Exception $e) {
+            error_log('Structure pages by status error: ' . $e->getMessage());
+            $this->error_response('Failed to load pages by status', 500);
         }
     }
 }

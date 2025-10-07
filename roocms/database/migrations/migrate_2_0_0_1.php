@@ -901,6 +901,12 @@ return [
                         'auto_increment' => true,
                         'null' => false,
                     ],
+                    'status' => [
+                        'type' => 'enum',
+                        'values' => ['draft', 'active', 'inactive'],
+                        'default' => 'draft',
+                        'null' => false,
+                    ],
                     'slug' => [
                         'type' => 'string',
                         'length' => 255,
@@ -916,28 +922,28 @@ return [
                     'nav' => [
                         'type' => 'enum',
                         'values' => ['0', '1'],
-                        'default' => '0',
+                        'default' => '1',
                         'null' => false,
                     ],
                     'title' => [
                         'type' => 'string',
                         'length' => 255,
-                        'null' => false,
+                        'null' => true,
                     ],
                     'meta_title' => [
                         'type' => 'string',
                         'length' => 255,
-                        'null' => false,
+                        'null' => true,
                     ],
                     'meta_description' => [
                         'type' => 'string',
                         'length' => 255,
-                        'null' => false,
+                        'null' => true,
                     ],
                     'meta_keywords' => [
                         'type' => 'string',
                         'length' => 255,
-                        'null' => false,
+                        'null' => true,
                     ],
                     'sort' => [
                         'type' => 'integer',
@@ -979,6 +985,13 @@ return [
                         'default' => 0,
                         'null' => false,
                     ],
+                    'published_at' => [
+                        'type' => 'bigint',
+                        'length' => 20,
+                        'unsigned' => true,
+                        'default' => 0,
+                        'null' => false,
+                    ],
                 ],
                 'indexes' => [
                     [
@@ -999,6 +1012,21 @@ return [
                         'type' => 'key',
                         'name' => 'idx_structure_type',
                         'columns' => 'page_type',
+                    ],
+                    [
+                        'type' => 'key',
+                        'name' => 'idx_structure_status',
+                        'columns' => 'status',
+                    ],
+                    [
+                        'type' => 'key',
+                        'name' => 'idx_structure_nav',
+                        'columns' => 'nav',
+                    ],
+                    [
+                        'type' => 'key',
+                        'name' => 'idx_structure_published_at',
+                        'columns' => 'published_at',
                     ],
                 ],
                 'options' => [

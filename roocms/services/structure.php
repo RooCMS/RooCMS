@@ -295,7 +295,12 @@ class StructureService {
                 continue;
             }
 
-            // Filter by accessibility (for future implementation of published status)
+            // Filter by published status
+            if ($only_published && $page['status'] !== 'active') {
+                continue;
+            }
+
+            // Filter by accessibility
             if ($only_published && !$page['access']) {
                 continue;
             }
@@ -318,6 +323,7 @@ class StructureService {
             'id' => (int)$page['id'],
             'parent_id' => (int)$page['parent_id'],
             'slug' => (string)$page['slug'],
+            'status' => (string)($page['status'] ?? 'draft'),
             'title' => (string)$page['title'],
             'meta_title' => (string)($page['meta_title'] ?? $page['title']),
             'meta_description' => (string)($page['meta_description'] ?? ''),
@@ -331,7 +337,9 @@ class StructureService {
             'access' => (bool)($page['access'] ?? true),
             'created_at' => (int)($page['created_at'] ?? 0),
             'updated_at' => (int)($page['updated_at'] ?? 0),
-            'url' => $this->build_page_url($page['slug'])
+            'published_at' => (int)($page['published_at'] ?? 0),
+            'url' => $this->build_page_url($page['slug']),
+            'is_published' => $this->is_page_published($page)
         ];
     }
 
@@ -436,6 +444,7 @@ class StructureService {
             'id' => 1,
             'parent_id' => 0,
             'slug' => 'index',
+            'status' => 'active',
             'title' => $this->settings->get_by_key('site_name'),
             'meta_title' => $this->settings->get_by_key('site_name'),
             'meta_description' => $this->settings->get_by_key('site_description'),
@@ -449,7 +458,9 @@ class StructureService {
             'access' => true,
             'created_at' => time(),
             'updated_at' => time(),
-            'url' => '/'
+            'published_at' => time(),
+            'url' => '/',
+            'is_published' => true
         ];
     }
 
@@ -470,6 +481,28 @@ class StructureService {
             'og_description' => $this->settings->get_by_key('site_description'),
             'og_type' => 'website'
         ];
+    }
+
+
+    /**
+     * Check if page is published
+     * 
+     * @param array $page Page data
+     * @return bool True if published
+     */
+    private function is_page_published(array $page): bool {
+        // Check status
+        if ($page['status'] !== 'active') {
+            return false;
+        }
+
+        // Check published_at timestamp
+        $published_at = (int)($page['published_at'] ?? 0);
+        if ($published_at > 0 && $published_at > time()) {
+            return false; // Published in the future
+        }
+
+        return true;
     }
 
 }

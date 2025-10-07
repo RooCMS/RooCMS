@@ -1390,6 +1390,25 @@
             "description": "Search pages by title or content"
           },
           "response": []
+        },
+        {
+          "name": "Get Pages by Status",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/v1/structure/status/active",
+              "host": ["{{base_url}}"],
+              "path": ["v1", "structure", "status", "active"]
+            },
+            "description": "Retrieve pages filtered by their status (draft, active, inactive)"
+          },
+          "response": []
         }
       ],
       "description": "Site structure and navigation management"
