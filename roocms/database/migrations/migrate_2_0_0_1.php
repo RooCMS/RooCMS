@@ -1000,13 +1000,23 @@ return [
                     ],
                     [
                         'type' => 'unique',
+                        'name' => 'uq_structure_id',
+                        'columns' => 'id'
+                    ],
+                    [
+                        'type' => 'unique',
                         'name' => 'uq_structure_slug',
                         'columns' => 'slug',
                     ],
                     [
-                        'type' => 'unique',
-                        'name' => 'uq_structure_id',
-                        'columns' => 'id',
+                        'type' => 'key',
+                        'name' => 'idx_structure_parent_id',
+                        'columns' => 'parent_id',
+                    ],
+                    [
+                        'type' => 'key',
+                        'name' => 'idx_structure_sort',
+                        'columns' => 'sort',
                     ],
                     [
                         'type' => 'key',
@@ -1027,6 +1037,16 @@ return [
                         'type' => 'key',
                         'name' => 'idx_structure_published_at',
                         'columns' => 'published_at',
+                    ],
+                    [
+                        'type' => 'key',
+                        'name' => 'idx_structure_status_nav',
+                        'columns' => ['status', 'nav'],
+                    ],
+                    [
+                        'type' => 'key',
+                        'name' => 'idx_structure_type_status',
+                        'columns' => ['page_type', 'status'],
                     ],
                 ],
                 'options' => [

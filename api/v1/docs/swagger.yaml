@@ -1863,6 +1863,376 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+  /v1/admin/structure:
+    get:
+      summary: Get all pages (Admin)
+      description: Retrieve all pages for admin panel with filtering and pagination
+      tags:
+        - Admin Structure
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: status
+          in: query
+          description: Filter by status
+          schema:
+            type: string
+            enum: ['draft', 'active', 'inactive']
+        - name: parent_id
+          in: query
+          description: Filter by parent ID
+          schema:
+            type: integer
+        - name: search
+          in: query
+          description: Search in title and slug
+          schema:
+            type: string
+        - name: limit
+          in: query
+          description: Limit results (max 200)
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 200
+            default: 50
+        - name: offset
+          in: query
+          description: Offset for pagination
+          schema:
+            type: integer
+            minimum: 0
+            default: 0
+      responses:
+        '200':
+          description: Pages retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminStructureIndexResponse'
+        '401':
+          description: Authentication required
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Admin access required
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    post:
+      summary: Create new page (Admin)
+      description: Create a new page in the site structure
+      tags:
+        - Admin Structure
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AdminStructureCreateRequest'
+      responses:
+        '201':
+          description: Page created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminStructurePageResponse'
+        '400':
+          description: Validation error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Authentication required
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Admin access required
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /v1/admin/structure/{id}:
+    get:
+      summary: Get page by ID (Admin)
+      description: Retrieve page details for editing
+      tags:
+        - Admin Structure
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Page ID
+          schema:
+            type: integer
+            minimum: 1
+      responses:
+        '200':
+          description: Page retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminStructurePageResponse'
+        '401':
+          description: Authentication required
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Admin access required
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Page not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    put:
+      summary: Update page (Admin)
+      description: Update existing page
+      tags:
+        - Admin Structure
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Page ID
+          schema:
+            type: integer
+            minimum: 1
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AdminStructureUpdateRequest'
+      responses:
+        '200':
+          description: Page updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminStructurePageResponse'
+        '400':
+          description: Validation error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Authentication required
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Admin access required
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Page not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    delete:
+      summary: Delete page (Admin)
+      description: Delete page from site structure
+      tags:
+        - Admin Structure
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Page ID
+          schema:
+            type: integer
+            minimum: 1
+      responses:
+        '200':
+          description: Page deleted successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminStructureDeleteResponse'
+        '400':
+          description: Cannot delete page
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Authentication required
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Admin access required
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Page not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /v1/admin/structure/{id}/status:
+    patch:
+      summary: Change page status (Admin)
+      description: Change the status of a page (draft, active, inactive)
+      tags:
+        - Admin Structure
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Page ID
+          schema:
+            type: integer
+            minimum: 1
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AdminStructureStatusChangeRequest'
+      responses:
+        '200':
+          description: Status updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminStructureStatusChangeResponse'
+        '400':
+          description: Invalid status value
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Authentication required
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Admin access required
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Page not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /v1/admin/structure/reorder:
+    put:
+      summary: Reorder pages (Admin)
+      description: Change the sort order of multiple pages
+      tags:
+        - Admin Structure
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AdminStructureReorderRequest'
+      responses:
+        '200':
+          description: Pages reordered successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminStructureReorderResponse'
+        '400':
+          description: Invalid request data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Authentication required
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Admin access required
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
 components:
   securitySchemes:
     bearerAuth:
@@ -3074,6 +3444,330 @@ components:
             status:
               type: string
               example: "active"
+    AdminStructureIndexResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: true
+        timestamp:
+          type: string
+          format: date-time
+          example: '2025-01-15 12:00:00'
+        data:
+          type: object
+          properties:
+            pages:
+              type: array
+              items:
+                $ref: '#/components/schemas/AdminStructurePage'
+            pagination:
+              type: object
+              properties:
+                total:
+                  type: integer
+                  example: 25
+                limit:
+                  type: integer
+                  example: 50
+                offset:
+                  type: integer
+                  example: 0
+                pages:
+                  type: integer
+                  example: 1
+                current_page:
+                  type: integer
+                  example: 1
+            filters:
+              type: object
+              properties:
+                status:
+                  type: string
+                  nullable: true
+                parent_id:
+                  type: integer
+                  nullable: true
+                search:
+                  type: string
+                  nullable: true
+    AdminStructurePageResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: true
+        timestamp:
+          type: string
+          format: date-time
+          example: '2025-01-15 12:00:00'
+        data:
+          $ref: '#/components/schemas/AdminStructurePage'
+    AdminStructureDeleteResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: true
+        timestamp:
+          type: string
+          format: date-time
+          example: '2025-01-15 12:00:00'
+        data:
+          type: object
+          properties:
+            message:
+              type: string
+              example: "Page deleted successfully"
+            deleted_id:
+              type: integer
+              example: 5
+    AdminStructureCreateRequest:
+      type: object
+      required:
+        - slug
+        - title
+      properties:
+        slug:
+          type: string
+          minLength: 1
+          maxLength: 255
+          example: "new-page"
+        title:
+          type: string
+          minLength: 1
+          example: "New Page"
+        parent_id:
+          type: integer
+          minimum: 1
+          example: 1
+        status:
+          type: string
+          enum: ['draft', 'active', 'inactive']
+          default: 'draft'
+          example: 'draft'
+        nav:
+          type: boolean
+          default: true
+          example: true
+        meta_title:
+          type: string
+          nullable: true
+          example: "New Page Title"
+        meta_description:
+          type: string
+          nullable: true
+          example: "Description for new page"
+        meta_keywords:
+          type: string
+          nullable: true
+          example: "keyword1, keyword2"
+        noindex:
+          type: boolean
+          default: false
+          example: false
+        page_type:
+          type: string
+          enum: ['page', 'feed']
+          default: 'page'
+          example: 'page'
+        sort:
+          type: integer
+          minimum: 0
+          default: 100
+          example: 100
+        published_at:
+          type: string
+          format: date-time
+          nullable: true
+          example: '2025-01-15 12:00:00'
+    AdminStructureUpdateRequest:
+      type: object
+      properties:
+        slug:
+          type: string
+          minLength: 1
+          maxLength: 255
+          example: "updated-page"
+        title:
+          type: string
+          minLength: 1
+          example: "Updated Page"
+        parent_id:
+          type: integer
+          minimum: 1
+          example: 1
+        status:
+          type: string
+          enum: ['draft', 'active', 'inactive']
+          example: 'active'
+        nav:
+          type: boolean
+          example: true
+        meta_title:
+          type: string
+          nullable: true
+          example: "Updated Page Title"
+        meta_description:
+          type: string
+          nullable: true
+          example: "Updated description"
+        meta_keywords:
+          type: string
+          nullable: true
+          example: "updated, keywords"
+        noindex:
+          type: boolean
+          example: false
+        page_type:
+          type: string
+          enum: ['page', 'feed']
+          example: 'page'
+        sort:
+          type: integer
+          minimum: 0
+          example: 150
+        published_at:
+          type: string
+          format: date-time
+          nullable: true
+          example: '2025-01-15 12:00:00'
+    AdminStructurePage:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        slug:
+          type: string
+          example: "about-us"
+        parent_id:
+          type: integer
+          example: 1
+        status:
+          type: string
+          enum: ['draft', 'active', 'inactive']
+          example: 'active'
+        nav:
+          type: boolean
+          example: true
+        title:
+          type: string
+          example: "About Us"
+        meta_title:
+          type: string
+          example: "About Our Company"
+        meta_description:
+          type: string
+          example: "Learn more about our company"
+        meta_keywords:
+          type: string
+          example: "about, company, mission"
+        noindex:
+          type: boolean
+          example: false
+        page_type:
+          type: string
+          enum: ['page', 'feed']
+          example: 'page'
+        sort:
+          type: integer
+          example: 100
+        childs:
+          type: integer
+          example: 0
+        created_at:
+          type: integer
+          example: 1759793273
+        updated_at:
+          type: integer
+          example: 1759793273
+        published_at:
+          type: integer
+          example: 1759793273
+        is_published:
+          type: boolean
+          example: true
+    AdminStructureStatusChangeRequest:
+      type: object
+      required:
+        - status
+      properties:
+        status:
+          type: string
+          enum: ['draft', 'active', 'inactive']
+          example: 'active'
+          description: New status for the page
+    AdminStructureStatusChangeResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: true
+        timestamp:
+          type: string
+          format: date-time
+          example: '2025-01-15 12:00:00'
+        data:
+          type: object
+          properties:
+            message:
+              type: string
+              example: "Status updated successfully"
+            id:
+              type: integer
+              example: 5
+            status:
+              type: string
+              enum: ['draft', 'active', 'inactive']
+              example: 'active'
+    AdminStructureReorderRequest:
+      type: object
+      required:
+        - pages
+      properties:
+        pages:
+          type: array
+          items:
+            type: object
+            required:
+              - id
+              - sort
+            properties:
+              id:
+                type: integer
+                example: 5
+                description: Page ID
+              sort:
+                type: integer
+                example: 100
+                description: New sort order
+          example:
+            - id: 3
+              sort: 10
+            - id: 5
+              sort: 20
+            - id: 7
+              sort: 30
+    AdminStructureReorderResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: true
+        timestamp:
+          type: string
+          format: date-time
+          example: '2025-01-15 12:00:00'
+        data:
+          type: object
+          properties:
+            message:
+              type: string
+              example: "Pages reordered successfully"
+            updated_count:
+              type: integer
+              example: 3
     StructurePage:
       type: object
       properties:
@@ -3243,3 +3937,5 @@ tags:
     description: Media file management and operations
   - name: Structure
     description: Site structure and navigation management
+  - name: Admin Structure
+    description: Administrative site structure management (requires admin access)

@@ -40,11 +40,9 @@ class DebugController extends BaseController {
         $this->log_request('debug_clear');
 
         try {
-            $debug_log_file = _LOGS . '/debug.log';
-
             // Clear the debug log file
-            if (is_file($debug_log_file) && is_writable($debug_log_file)) {
-                $result = file_put_contents($debug_log_file, '');
+            if (is_file(DEBUGSLOG) && is_writable(DEBUGSLOG)) {
+                $result = file_put_contents(DEBUGSLOG, '');
                 if ($result === false) {
                     throw new Exception('Failed to clear debug log file');
                 }

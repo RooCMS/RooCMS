@@ -39,6 +39,7 @@ spl_autoload_register(function(string $controller_name) {
         'DebugController'           => _API . '/v1/controller_debug.php',
         'MediaController'           => _API . '/v1/controller_media.php',
         'StructureController'       => _API . '/v1/controller_structure.php',
+        'AdminStructureController'   => _API . '/v1/controller_adminStructure.php',
         'AuthMiddleware'            => _API . '/v1/middleware_auth.php',
         'RoleMiddleware'            => _API . '/v1/middleware_role.php'
     ];
@@ -66,6 +67,7 @@ $container->register(BackupController::class, BackupController::class);
 $container->register(DebugController::class, DebugController::class);
 $container->register(MediaController::class, MediaController::class);
 $container->register(StructureController::class, StructureController::class);
+$container->register(AdminStructureController::class, AdminStructureController::class);
 
 /**
  * Create controller and middleware factories and router instance
@@ -161,6 +163,15 @@ $api->get('/v1/structure/current', 'StructureController@current'); // Get curren
 $api->get('/v1/structure/search', 'StructureController@search'); // Search pages
 $api->get('/v1/structure/status/{status}', 'StructureController@pages_by_status'); // Get pages by status
 
+// Admin Structure endpoints (require authentication + admin role)
+$api->get('/v1/admin/structure', 'AdminStructureController@index', ['AuthMiddleware', 'RoleMiddleware@admin_access']); // Get all pages
+$api->get('/v1/admin/structure/{id}', 'AdminStructureController@show', ['AuthMiddleware', 'RoleMiddleware@admin_access']); // Get page by ID
+$api->post('/v1/admin/structure', 'AdminStructureController@create', ['AuthMiddleware', 'RoleMiddleware@admin_access']); // Create new page
+$api->put('/v1/admin/structure/{id}', 'AdminStructureController@update', ['AuthMiddleware', 'RoleMiddleware@admin_access']); // Update page
+$api->delete('/v1/admin/structure/{id}', 'AdminStructureController@delete', ['AuthMiddleware', 'RoleMiddleware@admin_access']); // Delete page
+$api->patch('/v1/admin/structure/{id}/status', 'AdminStructureController@change_status', ['AuthMiddleware', 'RoleMiddleware@admin_access']); // Change status
+$api->put('/v1/admin/structure/reorder', 'AdminStructureController@reorder', ['AuthMiddleware', 'RoleMiddleware@admin_access']); // Reorder pages
+
 // Future routes will be added here
 // Example:
 // Admin endpoints (require authentication + admin role)
@@ -221,6 +232,13 @@ $api->get('/', function() {
             'structure_current' => 'GET /api/v1/structure/current',
             'structure_search' => 'GET /api/v1/structure/search',
             'structure_pages_by_status' => 'GET /api/v1/structure/status/{status}',
+            'admin_structure_index' => 'GET /api/v1/admin/structure',
+            'admin_structure_show' => 'GET /api/v1/admin/structure/{id}',
+            'admin_structure_create' => 'POST /api/v1/admin/structure',
+            'admin_structure_update' => 'PUT /api/v1/admin/structure/{id}',
+            'admin_structure_delete' => 'DELETE /api/v1/admin/structure/{id}',
+            'admin_structure_change_status' => 'PATCH /api/v1/admin/structure/{id}/status',
+            'admin_structure_reorder' => 'PUT /api/v1/admin/structure/reorder',
             'backup_create' => 'POST /api/v1/backup/create',
             'backup_restore' => 'POST /api/v1/backup/restore',
             'backup_list' => 'GET /api/v1/backup/list',

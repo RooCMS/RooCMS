@@ -298,4 +298,311 @@ class Structure {
 		];
 	}
 
+
+	// ==============================================
+	// ADMIN METHODS (Data Layer)
+	// ==============================================
+
+	/**
+	 * Get pages with filters and pagination (for admin)
+	 * 
+	 * @param array $filters Array of filters
+	 * @param int $limit Limit results
+	 * @param int $offset Offset for pagination
+	 * @return array Array with pages and total count
+	 */
+	public function get_admin_pages(array $filters = [], int $limit = 50, int $offset = 0): array {
+		$query = "SELECT id, slug, parent_id, status, nav, title, meta_title, meta_description, meta_keywords, 
+		                noindex, page_type, sort, childs, created_at, updated_at, published_at
+		         FROM " . TABLE_STRUCTURE;
+		
+		$where_conditions = [];
+		$params_bind = [];
+
+		// Apply filters
+		if (!empty($filters['status']) && in_array($filters['status'], ['draft', 'active', 'inactive'])) {
+			$where_conditions[] = "status = ?";
+			$params_bind[] = $filters['status'];
+		}
+
+		if (isset($filters['parent_id']) && is_numeric($filters['parent_id'])) {
+			$where_conditions[] = "parent_id = ?";
+			$params_bind[] = (int)$filters['parent_id'];
+		}
+
+		if (!empty($filters['search'])) {
+			$where_conditions[] = "(title LIKE ? OR slug LIKE ?)";
+			$search_param = '%' . $filters['search'] . '%';
+			$params_bind[] = $search_param;
+			$params_bind[] = $search_param;
+		}
+
+		if (!empty($where_conditions)) {
+			$query .= " WHERE " . implode(" AND ", $where_conditions);
+		}
+
+		$query .= " ORDER BY sort ASC, id ASC LIMIT ? OFFSET ?";
+		$params_bind[] = min(200, max(1, $limit));
+		$params_bind[] = max(0, $offset);
+
+		$pages = $this->db->fetch_all($query, $params_bind);
+
+		// Get total count
+		$count_query = "SELECT COUNT(*) as total FROM " . TABLE_STRUCTURE;
+		if (!empty($where_conditions)) {
+			$count_query .= " WHERE " . implode(" AND ", $where_conditions);
+			$count_params = array_slice($params_bind, 0, -2);
+		} else {
+			$count_params = [];
+		}
+		
+		$total_result = $this->db->fetch_row($count_query, $count_params);
+		$total = (int)$total_result['total'];
+
+		return [
+			'pages' => $pages,
+			'total' => $total
+		];
+	}
+
+
+	/**
+	 * Get admin page by ID
+	 * 
+	 * @param int $page_id Page ID
+	 * @return array|null Page data or null if not found
+	 */
+	public function get_admin_page_by_id(int $page_id): ?array {
+		if ($page_id <= 0) {
+			return null;
+		}
+
+		$query = "SELECT id, slug, parent_id, status, nav, title, meta_title, meta_description, meta_keywords, 
+		                noindex, page_type, sort, childs, created_at, updated_at, published_at
+		         FROM " . TABLE_STRUCTURE . " WHERE id = ?";
+		
+		return $this->db->fetch_row($query, [$page_id]) ?: null;
+	}
+
+
+	/**
+	 * Create new page
+	 * 
+	 * @param array $data Page data
+	 * @return int|false Created page ID or false on error
+	 */
+	public function create_page(array $data): int|false {
+		$current_time = time();
+		
+		$insert_data = [
+			'slug' => $data['slug'],
+			'parent_id' => (int)($data['parent_id'] ?? 1),
+			'status' => $data['status'] ?? 'draft',
+			'nav' => isset($data['nav']) && $data['nav'] ? '1' : '0',
+			'title' => $data['title'],
+			'meta_title' => $data['meta_title'] ?? null,
+			'meta_description' => $data['meta_description'] ?? null,
+			'meta_keywords' => $data['meta_keywords'] ?? null,
+			'noindex' => isset($data['noindex']) && $data['noindex'] ? '1' : '0',
+			'page_type' => $data['page_type'] ?? 'page',
+			'sort' => (int)($data['sort'] ?? 100),
+			'childs' => 0,
+			'created_at' => $current_time,
+			'updated_at' => $current_time,
+			'published_at' => isset($data['published_at']) ? strtotime($data['published_at']) : 0
+		];
+
+		return $this->db->insert(TABLE_STRUCTURE, $insert_data);
+	}
+
+
+	/**
+	 * Update existing page
+	 * 
+	 * @param int $page_id Page ID
+	 * @param array $data Update data
+	 * @return bool Success
+	 */
+	public function update_page(int $page_id, array $data): bool {
+		if ($page_id <= 0) {
+			return false;
+		}
+
+		// Prepare update data
+		$update_data = [
+			'updated_at' => time()
+		];
+
+		// Only update provided fields
+		$updatable_fields = ['slug', 'parent_id', 'status', 'nav', 'title', 'meta_title', 
+		                   'meta_description', 'meta_keywords', 'noindex', 'page_type', 'sort'];
+		
+		foreach ($updatable_fields as $field) {
+			if (array_key_exists($field, $data)) {
+				if ($field === 'nav' || $field === 'noindex') {
+					$update_data[$field] = $data[$field] ? '1' : '0';
+				} elseif ($field === 'parent_id' || $field === 'sort') {
+					$update_data[$field] = (int)$data[$field];
+				} else {
+					$update_data[$field] = $data[$field];
+				}
+			}
+		}
+
+		// Handle published_at
+		if (array_key_exists('published_at', $data)) {
+			$update_data['published_at'] = is_string($data['published_at']) 
+				? strtotime($data['published_at']) 
+				: (int)$data['published_at'];
+		}
+
+		return $this->db->update(TABLE_STRUCTURE, $update_data, 'id = ?', [$page_id]);
+	}
+
+
+	/**
+	 * Delete page
+	 * 
+	 * @param int $page_id Page ID
+	 * @return bool Success
+	 */
+	public function delete_page(int $page_id): bool {
+		if ($page_id <= 0) {
+			return false;
+		}
+
+		return $this->db->delete(TABLE_STRUCTURE, 'id = ?', [$page_id]);
+	}
+
+
+	/**
+	 * Check if page exists
+	 * 
+	 * @param int $page_id Page ID
+	 * @return bool True if exists
+	 */
+	public function page_exists(int $page_id): bool {
+		if ($page_id <= 0) {
+			return false;
+		}
+
+		$result = $this->db->fetch_row("SELECT id FROM " . TABLE_STRUCTURE . " WHERE id = ?", [$page_id]);
+		return $result !== false;
+	}
+
+
+	/**
+	 * Check if slug exists
+	 * 
+	 * @param string $slug Slug to check
+	 * @param int|null $exclude_id ID to exclude from check
+	 * @return bool True if exists
+	 */
+	public function slug_exists(string $slug, ?int $exclude_id = null): bool {
+		$query = "SELECT id FROM " . TABLE_STRUCTURE . " WHERE slug = ?";
+		$params = [$slug];
+
+		if ($exclude_id !== null) {
+			$query .= " AND id != ?";
+			$params[] = $exclude_id;
+		}
+
+		$result = $this->db->fetch_row($query, $params);
+		return $result !== false;
+	}
+
+
+	/**
+	 * Get parent page info
+	 * 
+	 * @param int $parent_id Parent ID
+	 * @return array|null Parent page data or null if not found
+	 */
+	public function get_parent_info(int $parent_id): ?array {
+		if ($parent_id <= 0) {
+			return null;
+		}
+
+		$result = $this->db->fetch_row(
+			"SELECT parent_id, childs FROM " . TABLE_STRUCTURE . " WHERE id = ?", 
+			[$parent_id]
+		);
+		
+		return $result ?: null;
+	}
+
+
+	/**
+	 * Update parent childs count
+	 * 
+	 * @param int $parent_id Parent page ID
+	 * @return bool Success
+	 */
+	public function update_parent_childs_count(int $parent_id): bool {
+		if ($parent_id <= 0) {
+			return false;
+		}
+
+		$count_result = $this->db->fetch_row(
+			"SELECT COUNT(*) as childs FROM " . TABLE_STRUCTURE . " WHERE parent_id = ?", 
+			[$parent_id]
+		);
+
+		$childs_count = (int)$count_result['childs'];
+
+		return $this->db->update(
+			TABLE_STRUCTURE, 
+			['childs' => $childs_count, 'updated_at' => time()], 
+			'id = ?', 
+			[$parent_id]
+		);
+	}
+
+
+	/**
+	 * Update page status
+	 * 
+	 * @param int $page_id Page ID
+	 * @param string $status New status
+	 * @return bool Success
+	 */
+	public function update_page_status(int $page_id, string $status): bool {
+		if ($page_id <= 0 || !in_array($status, ['draft', 'active', 'inactive'])) {
+			return false;
+		}
+
+		$update_data = [
+			'status' => $status,
+			'updated_at' => time()
+		];
+
+		// Set published_at if changing to active
+		if ($status === 'active') {
+			$update_data['published_at'] = time();
+		}
+
+		return $this->db->update(TABLE_STRUCTURE, $update_data, 'id = ?', [$page_id]);
+	}
+
+
+	/**
+	 * Update page sort order
+	 * 
+	 * @param int $page_id Page ID
+	 * @param int $sort New sort order
+	 * @return bool Success
+	 */
+	public function update_page_sort(int $page_id, int $sort): bool {
+		if ($page_id <= 0) {
+			return false;
+		}
+
+		return $this->db->update(
+			TABLE_STRUCTURE, 
+			['sort' => $sort, 'updated_at' => time()], 
+			'id = ?', 
+			[$page_id]
+		);
+	}
+
 }

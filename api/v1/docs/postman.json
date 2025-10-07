@@ -2,7 +2,8 @@
   "info": {
     "name": "RooCMS API",
     "description": "REST API for RooCMS content management system",
-    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "version": "2.0.0"
   },
   "variable": [
     {
@@ -1412,6 +1413,216 @@
         }
       ],
       "description": "Site structure and navigation management"
+    },
+    {
+      "name": "Admin Structure",
+      "item": [
+        {
+          "name": "Get All Pages (Admin)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/v1/admin/structure?status=active&parent_id=1&search=about&limit=50&offset=0",
+              "host": ["{{base_url}}"],
+              "path": ["v1", "admin", "structure"],
+              "query": [
+                {
+                  "key": "status",
+                  "value": "active",
+                  "description": "Filter by status (draft, active, inactive)"
+                },
+                {
+                  "key": "parent_id",
+                  "value": "1",
+                  "description": "Filter by parent ID"
+                },
+                {
+                  "key": "search",
+                  "value": "about",
+                  "description": "Search in title and slug"
+                },
+                {
+                  "key": "limit",
+                  "value": "50",
+                  "description": "Limit results (max 200)"
+                },
+                {
+                  "key": "offset",
+                  "value": "0",
+                  "description": "Offset for pagination"
+                }
+              ]
+            },
+            "description": "Retrieve all pages for admin panel with filtering and pagination"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Page by ID (Admin)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/v1/admin/structure/5",
+              "host": ["{{base_url}}"],
+              "path": ["v1", "admin", "structure", "5"]
+            },
+            "description": "Retrieve page details for editing"
+          },
+          "response": []
+        },
+        {
+          "name": "Create New Page (Admin)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"slug\": \"new-page\",\n  \"title\": \"Новая страница\",\n  \"parent_id\": 1,\n  \"status\": \"draft\",\n  \"nav\": true,\n  \"meta_title\": \"Заголовок для SEO\",\n  \"meta_description\": \"Описание для SEO\",\n  \"meta_keywords\": \"ключевые, слова\",\n  \"noindex\": false,\n  \"page_type\": \"page\",\n  \"sort\": 100,\n  \"published_at\": \"2025-01-15 12:00:00\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/v1/admin/structure",
+              "host": ["{{base_url}}"],
+              "path": ["v1", "admin", "structure"]
+            },
+            "description": "Create a new page in the site structure"
+          },
+          "response": []
+        },
+        {
+          "name": "Update Page (Admin)",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"slug\": \"updated-page\",\n  \"title\": \"Обновленная страница\",\n  \"parent_id\": 1,\n  \"status\": \"active\",\n  \"nav\": true,\n  \"meta_title\": \"Обновленный заголовок\",\n  \"meta_description\": \"Обновленное описание\",\n  \"meta_keywords\": \"обновленные, ключевые, слова\",\n  \"noindex\": false,\n  \"page_type\": \"page\",\n  \"sort\": 150,\n  \"published_at\": \"2025-01-15 12:00:00\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/v1/admin/structure/5",
+              "host": ["{{base_url}}"],
+              "path": ["v1", "admin", "structure", "5"]
+            },
+            "description": "Update existing page"
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Page (Admin)",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/v1/admin/structure/5",
+              "host": ["{{base_url}}"],
+              "path": ["v1", "admin", "structure", "5"]
+            },
+            "description": "Delete page from site structure"
+          },
+          "response": []
+        },
+        {
+          "name": "Change Page Status (Admin)",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"active\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/v1/admin/structure/5/status",
+              "host": ["{{base_url}}"],
+              "path": ["v1", "admin", "structure", "5", "status"]
+            },
+            "description": "Change the status of a page (draft, active, inactive)"
+          },
+          "response": []
+        },
+        {
+          "name": "Reorder Pages (Admin)",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"pages\": [\n    {\n      \"id\": 3,\n      \"sort\": 10\n    },\n    {\n      \"id\": 5,\n      \"sort\": 20\n    },\n    {\n      \"id\": 7,\n      \"sort\": 30\n    }\n  ]\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/v1/admin/structure/reorder",
+              "host": ["{{base_url}}"],
+              "path": ["v1", "admin", "structure", "reorder"]
+            },
+            "description": "Change the sort order of multiple pages"
+          },
+          "response": []
+        }
+      ],
+      "description": "Administrative site structure management (requires admin access)"
     }
   ]
 }
