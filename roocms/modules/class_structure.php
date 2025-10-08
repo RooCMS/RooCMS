@@ -412,9 +412,9 @@ class Structure {
 			'published_at' => isset($data['published_at']) ? strtotime($data['published_at']) : 0
 		];
 
-		$stmt = $this->db->insert(TABLE_STRUCTURE)->data($insert_data)->execute();
+		$insert = $this->db->insert_array($insert_data, TABLE_STRUCTURE);
 		
-		if ($stmt->rowCount() > 0) {
+		if ($insert) {
 			return (int)$this->db->insert_id();
 		}
 		
@@ -462,12 +462,9 @@ class Structure {
 				: (int)$data['published_at'];
 		}
 
-		$stmt = $this->db->update(TABLE_STRUCTURE)
-			->data($update_data)
-			->where('id', $page_id)
-			->execute();
+		$success = $this->db->update_array($update_data, TABLE_STRUCTURE, 'id = ?', [$page_id]);
 		
-		return $stmt->rowCount() > 0;
+		return $success;
 	}
 
 
@@ -493,7 +490,7 @@ class Structure {
 			return false; // Do not delete the page with slug='index'
 		}
 
-		$stmt = $this->db->delete(TABLE_STRUCTURE)->where('id', $page_id)->execute();
+		$stmt = $this->db->query('DELETE FROM ' . TABLE_STRUCTURE . ' WHERE id = ?', [$page_id]);
 		return $stmt->rowCount() > 0;
 	}
 
@@ -573,10 +570,10 @@ class Structure {
 
 		$childs_count = (int)$count_result['childs'];
 
-		$stmt = $this->db->update(TABLE_STRUCTURE)
-			->data(['childs' => $childs_count, 'updated_at' => time()])
-			->where('id', $parent_id)
-			->execute();
+		$stmt = $this->db->query(
+			'UPDATE ' . TABLE_STRUCTURE . ' SET childs = ?, updated_at = ? WHERE id = ?',
+			[$childs_count, time(), $parent_id]
+		);
 		
 		return $stmt->rowCount() > 0;
 	}
@@ -604,12 +601,9 @@ class Structure {
 			$update_data['published_at'] = time();
 		}
 
-		$stmt = $this->db->update(TABLE_STRUCTURE)
-			->data($update_data)
-			->where('id', $page_id)
-			->execute();
+		$success = $this->db->update_array($update_data, TABLE_STRUCTURE, 'id = ?', [$page_id]);
 		
-		return $stmt->rowCount() > 0;
+		return $success;
 	}
 
 
@@ -625,10 +619,10 @@ class Structure {
 			return false;
 		}
 
-		$stmt = $this->db->update(TABLE_STRUCTURE)
-			->data(['sort' => $sort, 'updated_at' => time()])
-			->where('id', $page_id)
-			->execute();
+		$stmt = $this->db->query(
+			'UPDATE ' . TABLE_STRUCTURE . ' SET sort = ?, updated_at = ? WHERE id = ?',
+			[$sort, time(), $page_id]
+		);
 		
 		return $stmt->rowCount() > 0;
 	}

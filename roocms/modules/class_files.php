@@ -376,7 +376,7 @@ class Files {
         $dimensions = $file_info['media_type'] === 'image' ? (@getimagesize($full_path) ?: [null, null]) : [null, null];
         
         // Insert into database with all data
-        $result = $this->db->insert(TABLE_MEDIA)->data([
+        $insert = $this->db->insert_array([
             'uuid'          => $uuid,
             'user_id'       => $user_id,
             'original_name' => sanitize_filename($file['name']),
@@ -392,10 +392,10 @@ class Files {
             'status'        => 'uploaded',
             'created_at'    => time(),
             'updated_at'    => time()
-        ])->execute();
+        ], TABLE_MEDIA);
         
         // Handle database insert failure
-        if($result->rowCount() === 0) {
+        if(!$insert) {
             @unlink($full_path);
             return false;
         }
@@ -471,11 +471,9 @@ class Files {
         }
         
         // Delete from database (CASCADE will handle variants and relations)
-        $result = $this->db->delete(TABLE_MEDIA)
-            ->where('id', $id, '=')
-            ->execute();
+        $stmt = $this->db->query('DELETE FROM ' . TABLE_MEDIA . ' WHERE id = ?', [$id]);
         
-        return $result->rowCount() > 0;
+        return $stmt->rowCount() > 0;
     }
 
 
@@ -572,14 +570,8 @@ class Files {
             return false;
         }
         
-        $result = $this->db->update(TABLE_MEDIA)
-            ->data([
-                'status' => $status,
-                'updated_at' => time()
-            ])
-            ->where('id', $id, '=')
-            ->execute();
+        $stmt = $this->db->query('UPDATE ' . TABLE_MEDIA . ' SET status = ?, updated_at = ? WHERE id = ?', [$status, time(), $id]);
         
-        return $result->rowCount() > 0;
+        return $stmt->rowCount() > 0;
     }
 }

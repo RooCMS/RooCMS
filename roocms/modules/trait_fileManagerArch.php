@@ -45,13 +45,10 @@ trait FileManagerArch {
             
             // Update media metadata
             if(!empty($metadata)) {
-                $this->db->update(TABLE_MEDIA)
-                    ->data([
-                        'metadata' => json_encode($metadata),
-                        'updated_at' => time()
-                    ])
-                    ->where('id', $media_id, '=')
-                    ->execute();
+                $this->db->query(
+                    'UPDATE ' . TABLE_MEDIA . ' SET metadata = ?, updated_at = ? WHERE id = ?',
+                    [json_encode($metadata), time(), $media_id]
+                );
             }
             
             return true;

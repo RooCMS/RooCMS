@@ -510,13 +510,10 @@ class FilesService {
 		empty($update_data) && throw new DomainException('No valid fields to update', 400);
 		
 		// Update media record with timestamp
-		$result = $this->db->update(TABLE_MEDIA)
-			->data($update_data + ['updated_at' => time()])
-			->where('id', $id, '=')
-			->execute();
+		$success = $this->db->update_array($update_data + ['updated_at' => time()],	TABLE_MEDIA, 'id = ?', [$id]);
 		
 		// Check update success and return formatted data
-		($result->rowCount() === 0) && throw new DomainException('Failed to update media', 500);
+		(!$success) && throw new DomainException('Failed to update media', 500);
 		
 		return $this->get_file_formatted($id);
 	}

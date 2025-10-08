@@ -106,13 +106,10 @@ class UserRecoveryService {
         // Reset password and mark code as used
         $this->db->transaction(function() use ($record, $new_password) {
             // Update password
-            $this->db->update(TABLE_USERS)
-                ->data([
-                    'password' => $this->auth->hash_password($new_password),
-                    'updated_at' => time()
-                ])
-                ->where('id', $record['user_id'])
-                ->execute();
+            $this->db->query(
+                'UPDATE ' . TABLE_USERS . ' SET password = ?, updated_at = ? WHERE id = ?',
+                [$this->auth->hash_password($new_password), time(), $record['user_id']]
+            );
 
             // Mark recovery code as used
             $this->emailService->mark_code_as_used($record['id']);
@@ -308,11 +305,9 @@ class UserRecoveryService {
      * @param int $user_id User ID
      */
     public function revoke_user_recovery_codes(int $user_id): void {
-        $this->db->update(TABLE_VERIFICATION_CODES)
-            ->data(['used_at' => time()])
-            ->where('user_id', $user_id)
-            ->where('code_type', 'password_reset')
-            ->where('used_at', null)
-            ->execute();
+        $this->db->query(
+            'UPDATE ' . TABLE_VERIFICATION_CODES . ' SET used_at = ? WHERE user_id = ? AND code_type = ? AND used_at IS NULL',
+            [time(), $user_id, 'password_reset']
+        );
     }
 }

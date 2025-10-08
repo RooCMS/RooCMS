@@ -86,10 +86,10 @@ class SiteSettingsService {
      */
     public function reset_setting(string $key): bool {
         try {
-            $this->db->update(TABLE_SETTINGS)
-                ->data(['value' => NULL, 'updated_at' => time()])
-                ->where('`key`', $key)
-                ->execute();
+            $this->db->query(
+                'UPDATE ' . TABLE_SETTINGS . ' SET value = NULL, updated_at = ? WHERE `key` = ?',
+                [time(), $key]
+            );
             return true;
         } catch (Exception $e) {
             return false;
@@ -102,10 +102,10 @@ class SiteSettingsService {
      */
     public function reset_group_settings(string $group): bool {
         try {
-            $this->db->update(TABLE_SETTINGS)
-                ->data(['value' => NULL, 'updated_at' => time()])
-                ->where('category', $group)
-                ->execute();
+            $this->db->query(
+                'UPDATE ' . TABLE_SETTINGS . ' SET value = NULL, updated_at = ? WHERE category = ?',
+                [time(), $group]
+            );
             return true;
         } catch (Exception $e) {
             return false;
@@ -118,9 +118,10 @@ class SiteSettingsService {
      */
     public function reset_all_settings(): bool {
         try {
-            $this->db->update(TABLE_SETTINGS)
-                ->data(['value' => NULL, 'updated_at' => time()])
-                ->execute();
+            $this->db->query(
+                'UPDATE ' . TABLE_SETTINGS . ' SET value = NULL, updated_at = ?',
+                [time()]
+            );
             return true;
         } catch (Exception $e) {
             return false;

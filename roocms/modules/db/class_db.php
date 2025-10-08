@@ -203,64 +203,6 @@ class Db {
 
 
 	/**
-	 * Create new query builder instance
-	 * 
-	 * @return DbQueryBuilder
-	 */
-	protected function create_query_builder(): DbQueryBuilder {
-		return new DbQueryBuilder($this);
-	}
-
-
-	/**
-	 * Query Builder: SELECT
-	 * 
-	 * @param string|array $columns Columns
-	 * 
-	 * @return DbQueryBuilder
-	 */
-	public function select($columns = '*'): DbQueryBuilder {
-		return $this->create_query_builder()->select($columns);
-	}
-
-
-	/**
-	 * Query Builder: INSERT
-	 * 
-	 * @param string $table Table
-	 * 
-	 * @return DbQueryBuilder
-	 */
-	public function insert(string $table): DbQueryBuilder {
-		return $this->create_query_builder()->insert($table);
-	}
-
-
-	/**
-	 * Query Builder: UPDATE
-	 * 
-	 * @param string $table Table
-	 * 
-	 * @return DbQueryBuilder
-	 */
-	public function update(string $table): DbQueryBuilder {
-		return $this->create_query_builder()->update($table);
-	}
-
-
-	/**
-	 * Query Builder: DELETE
-	 * 
-	 * @param string $table Table
-	 * 
-	 * @return DbQueryBuilder
-	 */
-	public function delete(string $table): DbQueryBuilder {
-		return $this->create_query_builder()->delete($table);
-	}
-
-
-	/**
 	 * Insert from array
 	 * 
 	 * @param array $data

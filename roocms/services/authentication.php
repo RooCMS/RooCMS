@@ -114,12 +114,10 @@ class AuthenticationService {
         // Hash refresh token and find in database
         $refresh_hash = $this->auth->hash_data($refresh_token);
         
-        $token_data = $this->db->select()
-            ->from(TABLE_TOKENS)
-            ->where('refresh', $refresh_hash)
-            ->where('refresh_expires', time(), '>')
-            ->limit(1)
-            ->first();
+        $token_data = $this->db->fetch_assoc(
+            'SELECT * FROM ' . TABLE_TOKENS . ' WHERE refresh = ? AND refresh_expires > ? LIMIT 1',
+            [$refresh_hash, time()]
+        );
         
         if(!$token_data) {
             throw new DomainException('Invalid or expired refresh token', 401);
@@ -128,7 +126,7 @@ class AuthenticationService {
         $user_id = (int)$token_data['user_id'];
         
         // Verify user still exists and is active
-        $user = $this->db->select()->from(TABLE_USERS)->where('id', $user_id)->first();
+        $user = $this->db->fetch_assoc('SELECT * FROM ' . TABLE_USERS . ' WHERE id = ? LIMIT 1', [$user_id]);
         if(!$user || $user['is_deleted'] == '1') {
             throw new DomainException('User not found', 401);
         }
@@ -194,7 +192,7 @@ class AuthenticationService {
      * @throws DomainException If current password is invalid
      */
     public function update_password(int $user_id, string $current_password, string $new_password): void {
-        $user = $this->db->select()->from(TABLE_USERS)->where('id', $user_id)->first();
+        $user = $this->db->fetch_assoc('SELECT * FROM ' . TABLE_USERS . ' WHERE id = ? LIMIT 1', [$user_id]);
 
         if(!$user || !$this->auth->verify_password($current_password, $user['password'])) {
             throw new DomainException('Current password is incorrect', 400);
@@ -206,13 +204,10 @@ class AuthenticationService {
             throw new DomainException("Password must be at least " . $min_length . " characters long", 400);
         }
 
-        $this->db->update(TABLE_USERS)
-            ->data([
-                'password' => $this->auth->hash_password($new_password),
-                'updated_at' => time()
-            ])
-            ->where('id', $user_id)
-            ->execute();
+        $this->db->query(
+            'UPDATE ' . TABLE_USERS . ' SET password = ?, updated_at = ? WHERE id = ?',
+            [$this->auth->hash_password($new_password), time(), $user_id]
+        );
 
         // Revoke all tokens to force re-login
         $this->logout_all_devices($user_id);
@@ -244,10 +239,10 @@ class AuthenticationService {
      * @param int $user_id User ID
      */
     private function update_user_activity(int $user_id): void {
-        $this->db->update(TABLE_USERS)
-            ->data(['last_activity' => time()])
-            ->where('id', $user_id)
-            ->execute();
+        $this->db->query(
+            'UPDATE ' . TABLE_USERS . ' SET last_activity = ? WHERE id = ?',
+            [time(), $user_id]
+        );
     }
 
 
@@ -281,24 +276,20 @@ class AuthenticationService {
             $token_hash = $this->auth->hash_data($token);
 
             // Find valid token
-            $token_data = $this->db->select()
-                ->from(TABLE_TOKENS)
-                ->where('token', $token_hash)
-                ->where('token_expires', time(), '>')
-                ->limit(1)
-                ->first();
+            $token_data = $this->db->fetch_assoc(
+                'SELECT * FROM ' . TABLE_TOKENS . ' WHERE token = ? AND token_expires > ? LIMIT 1',
+                [$token_hash, time()]
+            );
 
             if (!$token_data) {
                 return null;
             }
 
             // Get user data
-            $user = $this->db->select()
-                ->from(TABLE_USERS)
-                ->where('id', $token_data['user_id'])
-                ->where('is_active', '1')
-                ->limit(1)
-                ->first();
+            $user = $this->db->fetch_assoc(
+                'SELECT * FROM ' . TABLE_USERS . ' WHERE id = ? AND is_active = ? LIMIT 1',
+                [$token_data['user_id'], '1']
+            );
 
             if (!$user) {
                 return null;

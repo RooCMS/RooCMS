@@ -162,14 +162,14 @@ class Auth {
         $refresh_hash = $this->hash_data($refresh_token);
 
         // insert token to database
-        $this->db->insert(TABLE_TOKENS)->data([
+        $this->db->insert_array([
             'token' => $token_hash,
             'refresh' => $refresh_hash,
             'user_id' => $user_id,
             'token_expires' => $expires,
             'refresh_expires' => $refresh_token_expires,
             'created_at' => time()
-        ])->execute();
+        ], TABLE_TOKENS);
     }
 
 
@@ -181,7 +181,7 @@ class Auth {
      * @return void
      */
     public function revoke_token_by_user_id(int $user_id): void {
-        $this->db->delete(TABLE_TOKENS)->where('user_id', $user_id)->execute();
+        $this->db->query('DELETE FROM ' . TABLE_TOKENS . ' WHERE user_id = ?', [$user_id]);
     }
 
 
@@ -205,7 +205,7 @@ class Auth {
      */
     public function revoke_access_token(string $token): void {
         $token_hash = $this->hash_data($token);
-        $this->db->delete(TABLE_TOKENS)->where('token', $token_hash)->execute();
+        $this->db->query('DELETE FROM ' . TABLE_TOKENS . ' WHERE token = ?', [$token_hash]);
     }
 
 
@@ -217,6 +217,6 @@ class Auth {
      */
     public function revoke_refresh_token(string $refresh_token): void {
         $refresh_hash = $this->hash_data($refresh_token);
-        $this->db->delete(TABLE_TOKENS)->where('refresh', $refresh_hash)->execute();
+        $this->db->query('DELETE FROM ' . TABLE_TOKENS . ' WHERE refresh = ?', [$refresh_hash]);
     }
 }

@@ -214,19 +214,13 @@ class UserService {
     public function delete_user(int $user_id): bool {
         return (bool)$this->db->transaction(function() use ($user_id) {
             // Clean tokens
-            $this->db->delete(TABLE_TOKENS)
-                ->where('user_id', $user_id)
-                ->execute();
+            $this->db->query('DELETE FROM ' . TABLE_TOKENS . ' WHERE user_id = ?', [$user_id]);
 
             // Clean verification codes
-            $this->db->delete(TABLE_VERIFICATION_CODES)
-                ->where('user_id', $user_id)
-                ->execute();
+            $this->db->query('DELETE FROM ' . TABLE_VERIFICATION_CODES . ' WHERE user_id = ?', [$user_id]);
 
             // Delete profile (will be cascaded if FK exists, but safe to delete explicitly)
-            $this->db->delete(TABLE_USER_PROFILES)
-                ->where('user_id', $user_id)
-                ->execute();
+            $this->db->query('DELETE FROM ' . TABLE_USER_PROFILES . ' WHERE user_id = ?', [$user_id]);
 
             // Delete user
             return $this->user->delete_user($user_id);

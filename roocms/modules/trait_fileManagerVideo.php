@@ -64,10 +64,7 @@ trait FileManagerVideo {
                 $update_data['metadata'] = json_encode($metadata);
             }
             
-            $this->db->update(TABLE_MEDIA)
-                ->data($update_data)
-                ->where('id', $media_id, '=')
-                ->execute();
+            $success = $this->db->update_array($update_data, TABLE_MEDIA, 'id = ?', [$media_id]);
             
             return true;
             

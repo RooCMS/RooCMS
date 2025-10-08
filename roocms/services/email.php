@@ -196,16 +196,16 @@ class EmailService {
         // Mark code as used and verify user
         $this->db->transaction(function() use ($record) {
             // Mark verification code as used
-            $this->db->update(TABLE_VERIFICATION_CODES)
-                ->data(['used_at' => time()])
-                ->where('id', $record['id'])
-                ->execute();
+            $this->db->query(
+                'UPDATE ' . TABLE_VERIFICATION_CODES . ' SET used_at = ? WHERE id = ?',
+                [time(), $record['id']]
+            );
 
             // Mark user as verified
-            $this->db->update(TABLE_USERS)
-                ->data(['is_verified' => '1', 'updated_at' => time()])
-                ->where('id', $record['user_id'])
-                ->execute();
+            $this->db->query(
+                'UPDATE ' . TABLE_USERS . ' SET is_verified = ?, updated_at = ? WHERE id = ?',
+                ['1', time(), $record['user_id']]
+            );
         });
     }
 
@@ -224,13 +224,13 @@ class EmailService {
         $current_time = time();
 
         // Remove old codes of the same type
-        $this->db->delete(TABLE_VERIFICATION_CODES)
-            ->where('user_id', $user_id)
-            ->where('code_type', $code_type)
-            ->execute();
+        $this->db->query(
+            'DELETE FROM ' . TABLE_VERIFICATION_CODES . ' WHERE user_id = ? AND code_type = ?',
+            [$user_id, $code_type]
+        );
 
         // Insert new code
-        $this->db->insert(TABLE_VERIFICATION_CODES)->data([
+        $this->db->insert_array([
             'code_hash' => $this->auth->hash_data($plain_code),
             'user_id' => $user_id,
             'email' => $email,
@@ -241,7 +241,7 @@ class EmailService {
             'max_attempts' => $max_attempts,
             'created_at' => $current_time,
             'updated_at' => $current_time
-        ])->execute();
+        ], TABLE_VERIFICATION_CODES);
     }
 
 
@@ -270,9 +270,9 @@ class EmailService {
      * @param int $code_id Code record ID
      */
     public function mark_code_as_used(int $code_id): void {
-        $this->db->update(TABLE_VERIFICATION_CODES)
-            ->data(['used_at' => time()])
-            ->where('id', $code_id)
-            ->execute();
+        $this->db->query(
+            'UPDATE ' . TABLE_VERIFICATION_CODES . ' SET used_at = ? WHERE id = ?',
+            [time(), $code_id]
+        );
     }
 }
