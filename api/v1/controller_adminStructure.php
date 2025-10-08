@@ -117,7 +117,7 @@ class AdminStructureController extends BaseController {
         $this->log_request('admin_structure_create');
 
         try {
-            $data = $this->get_json_input();
+            $data = $this->get_input_data();
             
             $created_page = $this->structureService->create_page($data);
 
@@ -149,7 +149,7 @@ class AdminStructureController extends BaseController {
         }
 
         try {
-            $data = $this->get_json_input();
+            $data = $this->get_input_data();
             
             $updated_page = $this->structureService->update_page($id, $data);
 
@@ -220,7 +220,7 @@ class AdminStructureController extends BaseController {
         }
 
         try {
-            $data = $this->get_json_input();
+            $data = $this->get_input_data();
             
             if (!isset($data['status']) || !in_array($data['status'], ['draft', 'active', 'inactive'])) {
                 $this->error_response('Invalid status. Must be one of: draft, active, inactive', 400);
@@ -254,7 +254,7 @@ class AdminStructureController extends BaseController {
         $this->log_request('admin_structure_reorder');
 
         try {
-            $data = $this->get_json_input();
+            $data = $this->get_input_data();
             
             if (!isset($data['pages']) || !is_array($data['pages'])) {
                 $this->error_response('Invalid data. Expected array of pages with id and sort fields', 400);

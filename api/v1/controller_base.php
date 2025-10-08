@@ -116,7 +116,7 @@ abstract class BaseController {
 
     /**
      * Get request input data (JSON or form data) with security validation
-     * 
+     *
      * @return array
      */
     protected function get_input_data(): array {
@@ -149,7 +149,7 @@ abstract class BaseController {
         // Handle form data with sanitization
         return sanitize_input_data($_POST);
     }
-    
+
 
     /**
      * Get query parameters with sanitization and optional type casting

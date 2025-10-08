@@ -247,10 +247,8 @@ class MediaController extends BaseController {
 		$this->log_request('media_update', ['id' => $id]);
 		
 		try {
-			// TODO: Implement JSON input parsing
 			// Parse JSON input
-			//$input = $this->get_json_input();
-			$input = [];
+			$input = $this->get_input_data();
 			
 			$updated_media = $this->filesService->update_media_metadata($id, $input);
 			
