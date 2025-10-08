@@ -261,20 +261,18 @@ class AdminStructureController extends BaseController {
                 return;
             }
 
-            $success = $this->structureService->reorder_pages($data['pages']);
+            $this->structureService->reorder_pages($data['pages']);
 
-            if ($success) {
-                $this->json_response([
-                    'message' => 'Pages reordered successfully',
-                    'updated_count' => count($data['pages'])
-                ]);
-            } else {
-                $this->error_response('Failed to reorder pages', 500);
-            }
+            $this->json_response([
+                'message' => 'Pages reordered successfully',
+                'updated_count' => count($data['pages'])
+            ]);
 
+        } catch (DomainException $e) {
+            $this->error_response($e->getMessage(), $e->getCode() ?: 400);
         } catch (Exception $e) {
             error_log('Admin structure reorder error: ' . $e->getMessage());
-            $this->error_response($e->getMessage(), 400);
+            $this->error_response('Failed to reorder pages', 500);
         }
     }
 }

@@ -766,18 +766,18 @@ class StructureService {
      * @return bool Success
      */
     public function reorder_pages(array $pages): bool {
-        try {
-            // Validate input data (business logic)
-            foreach ($pages as $page_data) {
-                if (!isset($page_data['id']) || !isset($page_data['sort'])) {
-                    throw new Exception('Each page must have id and sort fields');
-                }
-
-                if (!$this->structure->page_exists((int)$page_data['id'])) {
-                    throw new Exception('Page with ID ' . $page_data['id'] . ' does not exist');
-                }
+        // Validate input data (business logic)
+        foreach ($pages as $page_data) {
+            if (!isset($page_data['id']) || !isset($page_data['sort'])) {
+                throw new DomainException('Each page must have id and sort fields', 400);
             }
 
+            if (!$this->structure->page_exists((int)$page_data['id'])) {
+                throw new DomainException('Page with ID ' . $page_data['id'] . ' does not exist', 404);
+            }
+        }
+
+        try {
             // Use model to update sort orders
             foreach ($pages as $page_data) {
                 $success = $this->structure->update_page_sort((int)$page_data['id'], (int)$page_data['sort']);
@@ -789,7 +789,6 @@ class StructureService {
             return true;
 
         } catch (Exception $e) {
-            error_log('Error reordering pages: ' . $e->getMessage());
             throw $e;
         }
     }
