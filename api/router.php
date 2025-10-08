@@ -39,7 +39,7 @@ spl_autoload_register(function(string $controller_name) {
         'DebugController'           => _API . '/v1/controller_debug.php',
         'MediaController'           => _API . '/v1/controller_media.php',
         'StructureController'       => _API . '/v1/controller_structure.php',
-        'AdminStructureController'   => _API . '/v1/controller_adminStructure.php',
+        'AdminStructureController'  => _API . '/v1/controller_adminStructure.php',
         'AuthMiddleware'            => _API . '/v1/middleware_auth.php',
         'RoleMiddleware'            => _API . '/v1/middleware_role.php'
     ];

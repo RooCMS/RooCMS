@@ -180,6 +180,12 @@ class AdminStructureController extends BaseController {
             return;
         }
 
+        // Addadditional protection against deleting the home page in the controller
+        if ($id === 1) {
+            $this->error_response('Cannot delete the home page (ID=1)', 403);
+            return;
+        }
+
         try {
             $success = $this->structureService->delete_page($id);
 

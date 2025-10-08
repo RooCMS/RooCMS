@@ -93,8 +93,8 @@ class Structure {
 
 		// Get query all data from DB Делаем единичный запрос в БД собирая данные по структуре сайта.
 		if(!$use) {
-			$query = "SELECT 
-						id, slug, parent_id, 'status', nav, title, meta_title, meta_description, meta_keywords, 
+			$query = "SELECT
+						id, slug, parent_id, status, nav, title, meta_title, meta_description, meta_keywords,
 						noindex, page_type, sort, childs, created_at, updated_at, published_at
 					FROM " . TABLE_STRUCTURE . " ORDER BY sort";
 			
@@ -356,7 +356,7 @@ class Structure {
 			$count_params = [];
 		}
 		
-		$total_result = $this->db->fetch_row($count_query, $count_params);
+		$total_result = $this->db->fetch_assoc($count_query, $count_params);
 		$total = (int)$total_result['total'];
 
 		return [
@@ -381,7 +381,7 @@ class Structure {
 		                noindex, page_type, sort, childs, created_at, updated_at, published_at
 		         FROM " . TABLE_STRUCTURE . " WHERE id = ?";
 		
-		return $this->db->fetch_row($query, [$page_id]) ?: null;
+		return $this->db->fetch_assoc($query, [$page_id]) ?: null;
 	}
 
 
@@ -412,7 +412,13 @@ class Structure {
 			'published_at' => isset($data['published_at']) ? strtotime($data['published_at']) : 0
 		];
 
-		return $this->db->insert(TABLE_STRUCTURE, $insert_data);
+		$stmt = $this->db->insert(TABLE_STRUCTURE)->data($insert_data)->execute();
+		
+		if ($stmt->rowCount() > 0) {
+			return (int)$this->db->insert_id();
+		}
+		
+		return false;
 	}
 
 
@@ -451,12 +457,17 @@ class Structure {
 
 		// Handle published_at
 		if (array_key_exists('published_at', $data)) {
-			$update_data['published_at'] = is_string($data['published_at']) 
-				? strtotime($data['published_at']) 
+			$update_data['published_at'] = is_string($data['published_at'])
+				? strtotime($data['published_at'])
 				: (int)$data['published_at'];
 		}
 
-		return $this->db->update(TABLE_STRUCTURE, $update_data, 'id = ?', [$page_id]);
+		$stmt = $this->db->update(TABLE_STRUCTURE)
+			->data($update_data)
+			->where('id', $page_id)
+			->execute();
+		
+		return $stmt->rowCount() > 0;
 	}
 
 
@@ -471,7 +482,19 @@ class Structure {
 			return false;
 		}
 
-		return $this->db->delete(TABLE_STRUCTURE, 'id = ?', [$page_id]);
+		// Additional protection against deleting the main page at the level of the model
+		if ($page_id === 1) {
+			return false; // Do not delete the main page
+		}
+
+		// Additional protection against deleting the main page at the level of the model
+		$page_data = $this->get_admin_page_by_id($page_id);
+		if ($page_data && $page_data['slug'] === 'index') {
+			return false; // Do not delete the page with slug='index'
+		}
+
+		$stmt = $this->db->delete(TABLE_STRUCTURE)->where('id', $page_id)->execute();
+		return $stmt->rowCount() > 0;
 	}
 
 
@@ -486,7 +509,7 @@ class Structure {
 			return false;
 		}
 
-		$result = $this->db->fetch_row("SELECT id FROM " . TABLE_STRUCTURE . " WHERE id = ?", [$page_id]);
+		$result = $this->db->fetch_assoc("SELECT id FROM " . TABLE_STRUCTURE . " WHERE id = ?", [$page_id]);
 		return $result !== false;
 	}
 
@@ -507,7 +530,7 @@ class Structure {
 			$params[] = $exclude_id;
 		}
 
-		$result = $this->db->fetch_row($query, $params);
+		$result = $this->db->fetch_assoc($query, $params);
 		return $result !== false;
 	}
 
@@ -523,7 +546,7 @@ class Structure {
 			return null;
 		}
 
-		$result = $this->db->fetch_row(
+		$result = $this->db->fetch_assoc(
 			"SELECT parent_id, childs FROM " . TABLE_STRUCTURE . " WHERE id = ?", 
 			[$parent_id]
 		);
@@ -543,19 +566,19 @@ class Structure {
 			return false;
 		}
 
-		$count_result = $this->db->fetch_row(
+		$count_result = $this->db->fetch_assoc(
 			"SELECT COUNT(*) as childs FROM " . TABLE_STRUCTURE . " WHERE parent_id = ?", 
 			[$parent_id]
 		);
 
 		$childs_count = (int)$count_result['childs'];
 
-		return $this->db->update(
-			TABLE_STRUCTURE, 
-			['childs' => $childs_count, 'updated_at' => time()], 
-			'id = ?', 
-			[$parent_id]
-		);
+		$stmt = $this->db->update(TABLE_STRUCTURE)
+			->data(['childs' => $childs_count, 'updated_at' => time()])
+			->where('id', $parent_id)
+			->execute();
+		
+		return $stmt->rowCount() > 0;
 	}
 
 
@@ -581,7 +604,12 @@ class Structure {
 			$update_data['published_at'] = time();
 		}
 
-		return $this->db->update(TABLE_STRUCTURE, $update_data, 'id = ?', [$page_id]);
+		$stmt = $this->db->update(TABLE_STRUCTURE)
+			->data($update_data)
+			->where('id', $page_id)
+			->execute();
+		
+		return $stmt->rowCount() > 0;
 	}
 
 
@@ -597,12 +625,12 @@ class Structure {
 			return false;
 		}
 
-		return $this->db->update(
-			TABLE_STRUCTURE, 
-			['sort' => $sort, 'updated_at' => time()], 
-			'id = ?', 
-			[$page_id]
-		);
+		$stmt = $this->db->update(TABLE_STRUCTURE)
+			->data(['sort' => $sort, 'updated_at' => time()])
+			->where('id', $page_id)
+			->execute();
+		
+		return $stmt->rowCount() > 0;
 	}
 
 }

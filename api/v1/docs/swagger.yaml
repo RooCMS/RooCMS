@@ -2079,7 +2079,12 @@ paths:
                 $ref: '#/components/schemas/ErrorResponse'
     delete:
       summary: Delete page (Admin)
-      description: Delete page from site structure
+      description: |
+        Delete page from site structure.
+        
+        **Important restrictions:**
+        - Cannot delete home page (ID=1 or slug='index')
+        - Cannot delete pages that have child pages
       tags:
         - Admin Structure
       security:
@@ -2088,10 +2093,11 @@ paths:
         - name: id
           in: path
           required: true
-          description: Page ID
+          description: Page ID (cannot be 1 for home page)
           schema:
             type: integer
-            minimum: 1
+            minimum: 2
+            example: 5
       responses:
         '200':
           description: Page deleted successfully

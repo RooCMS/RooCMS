@@ -636,6 +636,11 @@ class StructureService {
                 return null;
             }
 
+            // Defense against changing the slug of the main page
+            if (($page_id === 1 || $existing_page['slug'] === 'index') && isset($data['slug']) && $data['slug'] !== 'index') {
+                throw new Exception('Cannot change slug of home page. Home page must always have slug="index"');
+            }
+
             // Validate data (business logic)
             $validation_errors = $this->validate_admin_page_data($data, $page_id);
             if (!empty($validation_errors)) {
@@ -680,20 +685,31 @@ class StructureService {
             return false;
         }
 
-        // Prevent deletion of home page (business rule)
+        // Defense against deleting the main page by ID
         if ($page_id === 1) {
-            throw new Exception('Cannot delete home page');
+            throw new Exception('Cannot delete home page (ID=1)');
         }
 
         try {
-            // Check if page exists and get parent info
-            $page = $this->structure->get_parent_info($page_id);
-            if (!$page) {
+            // Get information about the page to check the slug
+            $page_info = $this->structure->get_admin_page_by_id($page_id);
+            if (!$page_info) {
+                return false;
+            }
+
+            // Defense against deleting the main page by slug
+            if ($page_info['slug'] === 'index') {
+                throw new Exception('Cannot delete home page (slug=index)');
+            }
+
+            // Check information about the parent for updating the counter
+            $parent_info = $this->structure->get_parent_info($page_id);
+            if (!$parent_info) {
                 return false;
             }
 
             // Check if page has children (business rule)
-            if ($page['childs'] > 0) {
+            if ($page_info['childs'] > 0) {
                 throw new Exception('Cannot delete page with children. Delete children first.');
             }
 
@@ -701,8 +717,8 @@ class StructureService {
             $success = $this->structure->delete_page($page_id);
 
             if ($success) {
-                // Update parent childs count (business logic)
-                $this->structure->update_parent_childs_count($page['parent_id']);
+                // Use model to update parent childs count
+                $this->structure->update_parent_childs_count($page_info['parent_id']);
                 return true;
             }
 

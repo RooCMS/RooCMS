@@ -585,6 +585,26 @@ return [
 					'is_serialized' => 0
 				],
 			],
+			'TABLE_STRUCTURE' => [
+				[
+					'id' => 1,
+					'status' => 'active',
+					'slug' => 'index',
+					'parent_id' => 0,
+					'nav' => '1',
+					'title' => 'Home',
+					'meta_title' => 'Home',
+					'meta_description' => null,
+					'meta_keywords' => null,
+					'sort' => 1,
+					'page_type' => 'page',
+					'noindex' => '0',
+					'childs' => 0,
+					'created_at' => time(),
+					'updated_at' => time(),
+					'published_at' => time(),
+				],
+			],
 		],
 	],
 
@@ -638,6 +658,14 @@ return [
 					'gd_watermark_text_one',
 					'gd_watermark_text_two'
 				],
+			],
+			'TABLE_STRUCTURE' => [
+				'where_by_driver' => [
+					'mysql' => '`slug` = ?',
+					'postgresql' => '"slug" = ?',
+					'firebird' => '"slug" = ?',
+				],
+				'params' => ['index'],
 			],
 		],
 	],

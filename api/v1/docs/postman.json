@@ -1563,7 +1563,7 @@
               "host": ["{{base_url}}"],
               "path": ["v1", "admin", "structure", "5"]
             },
-            "description": "Delete page from site structure"
+            "description": "Delete page from site structure. Note: Cannot delete home page (ID=1 or slug='index') or pages with children."
           },
           "response": []
         },
