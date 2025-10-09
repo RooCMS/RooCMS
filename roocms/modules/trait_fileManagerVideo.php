@@ -66,7 +66,7 @@ trait FileManagerVideo {
             
             $success = $this->db->update_array($update_data, TABLE_MEDIA, 'id = ?', [$media_id]);
             
-            return true;
+            return $success;
             
         } catch(\Exception $e) {
             return false;
