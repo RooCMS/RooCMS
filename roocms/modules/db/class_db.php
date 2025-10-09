@@ -447,80 +447,12 @@ class Db {
 
 
 	/**
-	 * Getting the table schema
-	 * 
-	 * @param string $table
-	 * 
-	 * @return array
-	 */
-	public function get_table_schema(string $table): array {
-		return match($this->driver) {
-			'mysql', 'mysqli', 'mariadb' => $this->get_mysql_table_schema($table),
-			'pgsql', 'postgres', 'postgresql' => $this->get_postgres_table_schema($table),
-			'firebird' => $this->get_firebird_table_schema($table),
-			default => []
-		};
-	}
-
-
-	/**
 	 * Checking the activity of a transaction
 	 * 
 	 * @return bool
 	 */
 	public function in_transaction(): bool {
 		return $this->pdo->inTransaction();
-	}
-
-
-	/**
-	 * MySQL table schema
-	 * 
-	 * @param string $table
-	 * 
-	 * @return array
-	 */
-	private function get_mysql_table_schema(string $table): array {
-		return $this->fetch_all("DESCRIBE {$table}");
-	}
-
-
-	/**
-	 * PostgreSQL table schema
-	 * 
-	 * @param string $table
-	 * 
-	 * @return array
-	 */
-	private function get_postgres_table_schema(string $table): array {
-		return $this->fetch_all("
-			SELECT column_name, data_type, is_nullable, column_default 
-			FROM information_schema.columns 
-			WHERE table_name = ?
-		", [$table]);
-	}
-
-
-	/**
-	 * Firebird table schema
-	 * 
-	 * @param string $table
-	 * 
-	 * @return array
-	 */
-	private function get_firebird_table_schema(string $table): array {
-		return $this->fetch_all("
-			SELECT 
-				rf.rdb\$field_name as field_name,
-				ft.rdb\$type_name as field_type,
-				rf.rdb\$null_flag as is_nullable,
-				rf.rdb\$default_source as field_default
-			FROM rdb\$relation_fields rf
-			JOIN rdb\$fields f ON f.rdb\$field_name = rf.rdb\$field_source
-			JOIN rdb\$types ft ON ft.rdb\$type = f.rdb\$field_type
-			WHERE rf.rdb\$relation_name = UPPER(?)
-			ORDER BY rf.rdb\$field_position
-		", [$table]);
 	}
 
 

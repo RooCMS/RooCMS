@@ -24,215 +24,88 @@ if(!defined('RooCMS')) {roocms_protect();}
  * Provides additional utility methods for database operations, including
  * pagination management, connection testing, data manipulation helpers,
  * and advanced query execution features.
- *
+ * 
  * Key features:
- * - Pagination management with automatic limit/offset calculation
- * - Database connection testing and validation
- * - Bulk data operations and batch processing
- * - Query optimization and performance monitoring
- * - Data export and import utilities
- * - Advanced filtering and sorting capabilities
- * - Connection pooling and resource management
+ * - Getting the table schema
  */
 trait DbExtends {
 
-	// Pagination parameters
-	public int $pages   = 0;
-	public int $page    = 1;
-	public int $limit   = 15;
-	public int $from    = 0;
 
-
-
-    /**
-	 * Checking connection to the database
-     *
-     * @param string $host
-     * @param string $user
-     * @param string $pass
-     * @param string $base
-     * @param int|null $port
-     * @param bool $detailed Return detailed connection info
-     *
-     * @return bool|array Connection status or detailed info
-	 */
-	public function check_connect(string $host, string $user, string $pass, string $base, ?int $port = null, ?string $driver = null, bool $detailed = false): bool|array {
-		try {
-			$driver = $driver ?? $this->driver;
-			
-			$config = [
-				'host' => $host,
-				'user' => $user,
-				'pass' => $pass,
-				'base' => $base,
-				'port' => $port,
-				'type' => $driver
-			];
-
-			$testDb = new DbConnect($driver, $config);
-			$connected = $testDb->is_connected();
-
-			if(!$detailed) {
-				return $connected;
-			}
-
-			if($connected) {
-				return [
-					'connected' => true,
-					'database_info' => $testDb->get_database_info(),
-					'table_count' => $this->get_table_count(),
-					'test_time' => time()
-				];
-			}
-
-			return [
-				'connected' => false,
-				'test_time' => time()
-			];
-
-		} catch(Exception $e) {
-			if($detailed) {
-				return [
-					'connected' => false,
-					'error' => $e->getMessage(),
-					'test_time' => time()
-				];
-			}
-			return false;
-		}
-	}
-
-
-    /**
-	 * Getting PDO object (for extended operations)
+	/**
+	 * Getting the table schema
 	 * 
-	 * @return PDO
+	 * @param string $table
+	 * 
+	 * @return array
 	 */
-	public function get_pdo(): PDO {
-		return $this->pdo;
+	public function get_table_schema(string $table): array {
+		return match($this->driver) {
+			'mysql', 'mysqli', 'mariadb' => $this->get_mysql_table_schema($table),
+			'pgsql', 'postgres', 'postgresql' => $this->get_postgres_table_schema($table),
+			'firebird' => $this->get_firebird_table_schema($table),
+			default => []
+		};
 	}
 
 
 	/**
-	 * Getting driver type
+	 * MySQL table schema
 	 * 
-	 * @return string
+	 * @param string $table
+	 * 
+	 * @return array
 	 */
-	public function get_driver(): string {
-		return $this->driver;
+	private function get_mysql_table_schema(string $table): array {
+		return $this->fetch_all("DESCRIBE {$table}");
 	}
 
-	
+
 	/**
-	 * Checking connection
+	 * PostgreSQL table schema
 	 * 
-	 * @return bool
+	 * @param string $table
+	 * 
+	 * @return array
 	 */
-	public function is_connected(): bool {
-		return $this->is_connected;
+	private function get_postgres_table_schema(string $table): array {
+		return $this->fetch_all("
+			SELECT column_name, data_type, is_nullable, column_default 
+			FROM information_schema.columns 
+			WHERE table_name = ?
+		", [$table]);
+	}
+
+
+	/**
+	 * Firebird table schema
+	 * 
+	 * @param string $table
+	 * 
+	 * @return array
+	 */
+	private function get_firebird_table_schema(string $table): array {
+		return $this->fetch_all("
+			SELECT 
+				rf.rdb\$field_name as field_name,
+				ft.rdb\$type_name as field_type,
+				rf.rdb\$null_flag as is_nullable,
+				rf.rdb\$default_source as field_default
+			FROM rdb\$relation_fields rf
+			JOIN rdb\$fields f ON f.rdb\$field_name = rf.rdb\$field_source
+			JOIN rdb\$types ft ON ft.rdb\$type = f.rdb\$field_type
+			WHERE rf.rdb\$relation_name = UPPER(?)
+			ORDER BY rf.rdb\$field_position
+		", [$table]);
 	}
 
 
     /**
-	 * Pagination for DB
-     * Similar page_in_db() method from 1.x version
+     * Fetch all rows from the database
      * 
-     * @param string $table
-     * @param string $where
+     * @param string $sql
      * @param array $params
-	 */
-	public function paginate_from_db(string $table, string $where = '1=1', array $params = []): void {
-		$sql = "SELECT COUNT(*) FROM {$table} WHERE {$where}";
-		$count = $this->count_rows($sql, $params);
-		$this->calculate_pagination($count);
-	}
-
-
-	/**
-	 * Pagination for array
-     * Similar page_non_db() method from 1.x version
-     * 
-     * @param int $totalItems
-	 */
-	public function paginate_from_array(int $totalItems): void {
-		$this->calculate_pagination($totalItems);
-	}
-
-
-	/**
-	 * Calculation of pagination
-     * 
-     * @param int $totalItems
-	 */
-	private function calculate_pagination(int $totalItems): void {
-		if($totalItems > $this->limit) {
-			$this->pages = (int) ceil($totalItems / $this->limit);
-		}
-
-		if($this->pages > 1 && $this->page > 0) {
-			$this->page = min($this->page, $this->pages);
-			$this->from = ($this->page - 1) * $this->limit;
-		}
-	}
-
-
-	/**
-	 * Getting an array of pages for pagination
-     * Similar construct_pagination() method from 1.x version
      * 
      * @return array
-	 */
-	public function get_pagination_array(): array {
-		$pages = [];
-		for($i = 1; $i <= $this->pages; $i++) {
-			$pages[] = ['n' => $i];
-		}
-		return $pages;
-	}
-
-
-    /**
-     * Handling the query condition method
-     * 
-     * @param string $method AND or OR
-     * @param array $arguments
-     * @return string
      */
-    public function query_condition(string $method, array $arguments): string {
-		$cond = $arguments[0] ?? '';
-		
-		if(trim($cond) != "") {
-			return $method === 'AND' ? $cond . " AND " : $cond . " OR "; // AND or OR
-		}
-		
-		return $cond;
-	}
-
-	
-	/**
-     * Getting the number of tables in the database
-     *
-     * @return int
-     */
-    public function get_table_count(): int {
-        try {
-            $sql = match($this->driver) {
-                'mysql', 'mysqli', 'mariadb' => "SELECT COUNT(*) FROM information_schema.tables WHERE table_schema = DATABASE()",
-                'pgsql', 'postgres', 'postgresql' => "SELECT COUNT(*) FROM information_schema.tables WHERE table_schema = current_schema()",
-                'firebird' => "SELECT COUNT(*) FROM rdb\$relations WHERE rdb\$system_flag = 0",
-                default => "SELECT 0"
-            };
-
-            return (int) $this->fetch_column($sql);
-        } catch(Exception $e) {
-            return 0;
-        }
-    }
-
-
-	/**
-	 * Abstract methods
-	 */
-    abstract protected function count_rows(string $sql, array $params = []): int;
-	abstract protected function fetch_column(string $sql, array $params = [], int $column_index = 0): mixed;
+    abstract protected function fetch_all(string $sql, array $params = []): array;
 }
