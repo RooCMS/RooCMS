@@ -247,10 +247,17 @@ class MediaController extends BaseController {
 		$this->log_request('media_update', ['id' => $id]);
 		
 		try {
+			// Require authentication
+			$current_user = $this->require_authentication();
+			if(!$current_user) {
+				return; // Error response already sent
+			}
+			
 			// Parse JSON input
 			$input = $this->get_input_data();
 			
-			$updated_media = $this->filesService->update_media_metadata($id, $input);
+			// Delegate to service with current user info
+			$updated_media = $this->filesService->update_media_metadata($id, $input, $current_user);
 			
 			$this->json_response([
 				'message' => 'Media updated successfully',
@@ -273,8 +280,14 @@ class MediaController extends BaseController {
 		$this->log_request('media_delete', ['id' => $id]);
 		
 		try {
-			// Delegate to service
-			$success = $this->filesService->delete_file($id);
+			// Require authentication
+			$current_user = $this->require_authentication();
+			if(!$current_user) {
+				return; // Error response already sent
+			}
+			
+			// Delegate to service with current user info
+			$success = $this->filesService->delete_file($id, $current_user);
 			
 			if(!$success) {
 				$this->error_response('Failed to delete media', 500);

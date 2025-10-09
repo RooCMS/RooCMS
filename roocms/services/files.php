@@ -22,15 +22,19 @@ class FilesService {
 
 	private Db $db;
 	private Files $files;
+	private Role $role;
+	private User $user;
 
 
 
 	/**
 	 * Constructor
 	 */
-	public function __construct(Db $db, Files $files) {
+	public function __construct(Db $db, Files $files, Role $role, User $user) {
 		$this->db = $db;
 		$this->files = $files;
+		$this->role = $role;
+		$this->user = $user;
 	}
 
 
@@ -117,11 +121,11 @@ class FilesService {
 	 * Delete file with validation
 	 * 
 	 * @param int $id Media ID
-	 * @param int|null $user_id User ID for permission check
+	 * @param array|null $current_user Current user data for permission check
 	 * @return bool Success
 	 * @throws DomainException
 	 */
-	public function delete_file(int $id, ?int $user_id = null): bool {
+	public function delete_file(int $id, ?array $current_user = null): bool {
 		
 		// Check if file exists
 		$file = $this->files->get_by_id($id);
@@ -129,15 +133,43 @@ class FilesService {
 			throw new DomainException('File not found', 404);
 		}
 		
-		// Check ownership if user_id provided
-		if($user_id !== null && isset($file['user_id']) && (int)$file['user_id'] !== $user_id) {
-			throw new DomainException('Access denied', 403);
+		// Check permissions if user is provided
+		if($current_user !== null) {
+			$this->check_modify_permissions($file, $current_user, 'delete');
 		}
 		
 		// Delete in transaction
 		return (bool)$this->db->transaction(function() use ($id) {
 			return $this->files->delete($id);
 		});
+	}
+
+
+	/**
+	 * Check if user has permission to modify the file (delete/update)
+	 * 
+	 * @param array $file File data
+	 * @param array $current_user Current user data
+	 * @param string $operation Operation type (delete, update)
+	 * @throws DomainException
+	 */
+	private function check_modify_permissions(array $file, array $current_user, string $operation): void {
+		$user_id = (int)$current_user['id'];
+		$user_role = $current_user['role'] ?? Role::USER;
+		$file_user_id = isset($file['user_id']) ? (int)$file['user_id'] : null;
+		
+		// Check if user is the author
+		if($file_user_id !== null && $file_user_id === $user_id) {
+			return; // Author can modify their own files
+		}
+		
+		// Check if user has moderator access or higher (moderator, admin, su)
+		if($this->role->has_moderator_access($user_role)) {
+			return; // Moderator, admin, or superuser can modify any file
+		}
+		
+		// Access denied
+		throw new DomainException("Access denied: only file author or moderator/admin can {$operation} files", 403);
 	}
 
 
@@ -494,12 +526,18 @@ class FilesService {
 	 * 
 	 * @param int $id Media ID
 	 * @param array $data Data to update
+	 * @param array|null $current_user Current user data for permission check
 	 * @return array Updated media data
 	 * @throws DomainException
 	 */
-	public function update_media_metadata(int $id, array $data): array {
+	public function update_media_metadata(int $id, array $data, ?array $current_user = null): array {
 		// Check if media exists
 		$media = $this->files->get_by_id($id) ?: throw new DomainException('Media not found', 404);
+		
+		// Check permissions if user is provided
+		if($current_user !== null) {
+			$this->check_modify_permissions($media, $current_user, 'update');
+		}
 		
 		// Filter allowed fields
 		$allowed_fields = ['original_name', 'description', 'tags', 'status'];
@@ -517,6 +555,7 @@ class FilesService {
 		
 		return $this->get_file_formatted($id);
 	}
+
 
 
 	/**

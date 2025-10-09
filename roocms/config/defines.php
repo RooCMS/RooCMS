@@ -24,6 +24,12 @@ define('DB_PREFIX', $db_info['prefix']);
 
 
 /**
+ * Web $Path
+ */
+define('_DOMAIN',	str_ireplace(array('http://','https://','www.'), '', $site['domain']));
+
+
+/**
 * Config $DB Table
 */
 const TABLE_MIGRATIONS          = DB_PREFIX.'migrations';
@@ -41,7 +47,7 @@ const TABLE_USER_PROFILES       = DB_PREFIX.'user_profiles';
 //const TABLE_USER_ACTIVITY_LOG   = DB_PREFIX.'user_activity_log';
 
 /**
-* Structure Tables
+* Structure Content Tables
 */
 const TABLE_STRUCTURE           = DB_PREFIX.'structure';
 
@@ -95,13 +101,7 @@ const _LOGS         = _STORAGE.'/logs';
 
 
 /**
- * Web $Path
- */
-define('_DOMAIN',	str_ireplace(array('http://','https://','www.'), '', $site['domain']));
-
-
-/**
- * Logs
+ * Roocms $Logs
  */
 const ERRORSLOG = _LOGS."/lowerrors.log";
 const SYSERRLOG = _LOGS."/syserrors.log";
