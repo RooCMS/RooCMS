@@ -31,6 +31,26 @@ class Structure {
 		'page' => ['title' => 'Content'],
 		'feed' => ['title' => 'Feed']
 	];
+
+	// denied slugs
+	public const DENIED_SLUGS = [
+		'login', 				// login page
+		'register', 			// register page
+		'register-complete', 	// register complete page
+		'password-forgot', 		// forgot password page
+		'password-reset', 		// reset password page
+		'verify-email', 		// verify email page
+		'profile', 				// profile page
+		'profile-edit', 		// profile edit page
+		'offline', 				// offline page
+		'403', 					// access denied
+		'404', 					// page not found
+		'acp', 					// admin control panel
+		'acp/debug', 			// admin debug page
+		'acp/settings', 		// admin settings page
+		'acp/users', 			// admin users page
+		'acp/structure', 		// admin structure page
+	];
 	
 	// site tree
 	public array $sitetree = [];
@@ -390,8 +410,15 @@ class Structure {
 	 * 
 	 * @param array $data Page data
 	 * @return int|false Created page ID or false on error
+	 * @throws Exception If validation fails
 	 */
 	public function create_page(array $data): int|false {
+		// Validate slug
+		$slug_validation = $this->validate_slug($data['slug']);
+		if (!$slug_validation['valid']) {
+			throw new Exception($slug_validation['error']);
+		}
+
 		$current_time = time();
 		
 		$insert_data = [
@@ -428,10 +455,19 @@ class Structure {
 	 * @param int $page_id Page ID
 	 * @param array $data Update data
 	 * @return bool Success
+	 * @throws Exception If validation fails
 	 */
 	public function update_page(int $page_id, array $data): bool {
 		if ($page_id <= 0) {
 			return false;
+		}
+
+		// Validate slug if it's being updated
+		if (isset($data['slug'])) {
+			$slug_validation = $this->validate_slug($data['slug'], $page_id);
+			if (!$slug_validation['valid']) {
+				throw new Exception($slug_validation['error']);
+			}
 		}
 
 		// Prepare update data
@@ -529,6 +565,53 @@ class Structure {
 
 		$result = $this->db->fetch_assoc($query, $params);
 		return $result !== false;
+	}
+
+
+	/**
+	 * Check if slug is denied
+	 * 
+	 * @param string $slug Slug to check
+	 * @return bool True if slug is denied
+	 */
+	public function is_slug_denied(string $slug): bool {
+		return in_array($slug, self::DENIED_SLUGS, true);
+	}
+
+
+	/**
+	 * Validate slug for creation or update
+	 * 
+	 * @param string $slug Slug to validate
+	 * @param int|null $exclude_id ID to exclude from uniqueness check
+	 * @return array Validation result with 'valid' boolean and 'error' message
+	 */
+	public function validate_slug(string $slug, ?int $exclude_id = null): array {
+		// Check if slug is empty
+		if (empty(trim($slug))) {
+			return ['valid' => false, 'error' => 'Slug cannot be empty'];
+		}
+
+		// Check if slug is denied
+		if ($this->is_slug_denied($slug)) {
+			return ['valid' => false, 'error' => 'This slug is reserved and cannot be used'];
+		}
+
+		// Check if slug already exists
+		if ($this->slug_exists($slug, $exclude_id)) {
+			return ['valid' => false, 'error' => 'Slug already exists'];
+		}
+
+		// Additional slug format validation
+		if (!preg_match('/^[a-z0-9-_]+$/', $slug)) {
+			return ['valid' => false, 'error' => 'Slug can only contain lowercase letters, numbers, hyphens, and underscores'];
+		}
+
+		if (strlen($slug) > 100) {
+			return ['valid' => false, 'error' => 'Slug is too long (maximum 100 characters)'];
+		}
+
+		return ['valid' => true, 'error' => null];
 	}
 
 

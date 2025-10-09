@@ -1513,7 +1513,7 @@
               "host": ["{{base_url}}"],
               "path": ["v1", "admin", "structure"]
             },
-            "description": "Create a new page in the site structure"
+            "description": "Create a new page in the site structure. \n\n**Slug Requirements:**\n- Only lowercase letters, numbers, hyphens, and underscores\n- Cannot start or end with hyphen\n- Maximum 100 characters\n- Must be unique\n\n**Reserved slugs (cannot be used):**\n- login, register, register-complete\n- password-forgot, password-reset, verify-email\n- profile, profile-edit, offline\n- 403, 404, acp (and all /acp/* paths)"
           },
           "response": []
         },
@@ -1540,7 +1540,7 @@
               "host": ["{{base_url}}"],
               "path": ["v1", "admin", "structure", "5"]
             },
-            "description": "Update existing page"
+            "description": "Update existing page. \n\n**Slug Requirements (when updating slug):**\n- Only lowercase letters, numbers, hyphens, and underscores\n- Cannot start or end with hyphen\n- Maximum 100 characters\n- Must be unique\n\n**Reserved slugs (cannot be used):**\n- login, register, register-complete\n- password-forgot, password-reset, verify-email\n- profile, profile-edit, offline\n- 403, 404, acp (and all /acp/* paths)\n\n**Note:** Home page slug cannot be changed from 'index'"
           },
           "response": []
         },

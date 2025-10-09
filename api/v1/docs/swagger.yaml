@@ -3538,6 +3538,20 @@ components:
           type: string
           minLength: 1
           maxLength: 255
+          pattern: '^[a-z0-9-_]+$'
+          description: |
+            Page URL slug (must be unique).
+            
+            **Format requirements:**
+            - Only lowercase letters, numbers, hyphens, and underscores
+            - Cannot start or end with hyphen
+            - Maximum 100 characters
+            
+            **Reserved slugs (cannot be used):**
+            - login, register, register-complete
+            - password-forgot, password-reset, verify-email
+            - profile, profile-edit, offline
+            - 403, 404, acp (and all /acp/* paths)
           example: "new-page"
         title:
           type: string
@@ -3594,6 +3608,20 @@ components:
           type: string
           minLength: 1
           maxLength: 255
+          pattern: '^[a-z0-9-_]+$'
+          description: |
+            Page URL slug (must be unique).
+            
+            **Format requirements:**
+            - Only lowercase letters, numbers, hyphens, and underscores
+            - Cannot start or end with hyphen
+            - Maximum 100 characters
+            
+            **Reserved slugs (cannot be used):**
+            - login, register, register-complete
+            - password-forgot, password-reset, verify-email
+            - profile, profile-edit, offline
+            - 403, 404, acp (and all /acp/* paths)
           example: "updated-page"
         title:
           type: string

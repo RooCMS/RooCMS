@@ -586,12 +586,7 @@ class StructureService {
                 throw new Exception('Validation errors: ' . implode(', ', $validation_errors));
             }
 
-            // Check if slug is unique (business rule)
-            if ($this->structure->slug_exists($data['slug'])) {
-                throw new Exception('Slug already exists');
-            }
-
-            // Use model to create page
+            // Use model to create page (model will validate slug and check for denied slugs)
             $page_id = $this->structure->create_page($data);
 
             if ($page_id) {
@@ -647,12 +642,7 @@ class StructureService {
                 throw new Exception('Validation errors: ' . implode(', ', $validation_errors));
             }
 
-            // Check if slug is unique (excluding current page) (business rule)
-            if (isset($data['slug']) && $data['slug'] !== $existing_page['slug'] && $this->structure->slug_exists($data['slug'], $page_id)) {
-                throw new Exception('Slug already exists');
-            }
-
-            // Use model to update page
+            // Use model to update page (model will validate slug and check for denied slugs)
             $success = $this->structure->update_page($page_id, $data);
 
             if ($success) {
@@ -808,8 +798,12 @@ class StructureService {
         if ($exclude_id === null) { // Creating new page
             if (empty($data['slug'])) {
                 $errors[] = 'Slug is required';
-            } elseif (!$this->validate_slug_format($data['slug'])) {
-                $errors[] = 'Invalid slug format';
+            } else {
+                // Use model's slug validation
+                $slug_validation = $this->structure->validate_slug($data['slug']);
+                if (!$slug_validation['valid']) {
+                    $errors[] = $slug_validation['error'];
+                }
             }
 
             if (empty($data['title'])) {
@@ -819,8 +813,12 @@ class StructureService {
             if (isset($data['slug'])) {
                 if (empty($data['slug'])) {
                     $errors[] = 'Slug cannot be empty';
-                } elseif (!$this->validate_slug_format($data['slug'])) {
-                    $errors[] = 'Invalid slug format';
+                } else {
+                    // Use model's slug validation (excluding current page)
+                    $slug_validation = $this->structure->validate_slug($data['slug'], $exclude_id);
+                    if (!$slug_validation['valid']) {
+                        $errors[] = $slug_validation['error'];
+                    }
                 }
             }
 

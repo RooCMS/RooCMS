@@ -1,7 +1,7 @@
 // Profile Edit JavaScript
 // Handles profile editing functionality with Alpine.js
 
-import { request } from '../app/api.js';
+import { request, setAccessToken } from '../app/api.js';
 import { getCurrentUser, updateUserData } from '../app/auth.js';
 import { isValidEmail, isNotEmpty } from '../app/helpers/validation.js';
 import { showFieldError, clearFieldErrors, showSuccessMessage, showErrorMessage, redirectAfterSuccess } from '../app/helpers/formHelpers.js';
@@ -37,7 +37,21 @@ document.addEventListener('alpine:init', () => {
         async loadUserProfile() {
             try {
                 this.loading = true;
-                const user = await getCurrentUser();
+                
+                // Make direct API request to check authorization
+                const response = await request('/v1/users/me');
+                if (!response.ok) {
+                    if (response.status === 401) {
+                        // Token expired or invalid, redirect to login
+                        setAccessToken(null);
+                        window.location.href = '/login';
+                        return;
+                    }
+                    throw new Error(`Failed to load profile: ${response.status}`);
+                }
+
+                const data = await response.json();
+                const user = data.data || data;
 
                 if (user) {
                     this.formData = {
@@ -66,7 +80,14 @@ document.addEventListener('alpine:init', () => {
                     showErrorMessage('Failed to load profile data');
                 }
             } catch (error) {
+                console.error('Profile load error:', error);
                 showErrorMessage('Error loading profile data');
+                
+                // If unauthorized, redirect to login
+                if (error.status === 401 || error.message?.includes('401') || error.message?.includes('Unauthorized')) {
+                    setAccessToken(null);
+                    window.location.href = '/login';
+                }
             } finally {
                 this.loading = false;
             }
@@ -91,6 +112,15 @@ document.addEventListener('alpine:init', () => {
                     body: JSON.stringify(this.formData)
                 });
 
+                if (!response.ok) {
+                    if (response.status === 401) {
+                        // Token expired or invalid, redirect to login
+                        setAccessToken(null);
+                        window.location.href = '/login';
+                        return;
+                    }
+                }
+
                 const data = await response.json();
 
                 if (response.ok && data.success) {
@@ -110,8 +140,15 @@ document.addEventListener('alpine:init', () => {
                     }
                 }
             } catch (error) {
+                console.error('Profile save error:', error);
                 this.errorMessage = 'Error saving profile. Please try again.';
                 showErrorMessage('Error saving profile. Please try again.');
+                
+                // If unauthorized, redirect to login
+                if (error.status === 401 || error.message?.includes('401') || error.message?.includes('Unauthorized')) {
+                    setAccessToken(null);
+                    window.location.href = '/login';
+                }
             } finally {
                 this.loading = false;
             }
