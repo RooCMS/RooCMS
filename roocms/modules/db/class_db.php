@@ -35,7 +35,7 @@ if(!defined('RooCMS')) {roocms_protect();}
  */
 class Db {
 
-	use DbExtends, DbLogger, DebugLog;
+	use DbExtends, DbHelpers, DbLogger, DebugLog;
 
 	private DbConnect $db_connect;
 	private PDO $pdo;
