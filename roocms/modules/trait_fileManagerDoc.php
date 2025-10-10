@@ -182,20 +182,7 @@ trait FileManagerDoc {
      * @return bool Is valid document
      */
     private function is_valid_document(string $file_path): bool {
-        
-        if(!file_exists($file_path) || !is_readable($file_path)) {
-            return false;
-        }
-        
-        $path_info = pathinfo($file_path);
-        $extension = strtolower($path_info['extension']);
-        
-        $allowed_extensions = [
-            'pdf', 'doc', 'docx', 'xls', 'xlsx', 'ppt', 'pptx',
-            'odt', 'ods', 'odp', 'txt', 'rtf'
-        ];
-        
-        return in_array($extension, $allowed_extensions, true);
+        return $this->is_valid_file($file_path, 'document');
     }
 
 
@@ -217,13 +204,8 @@ trait FileManagerDoc {
      * @return array Processed media info with document-specific enhancements
      */
     private function process_document_info(array $media): array {
-        // Add document-specific processing
-        // This method is called by get_media_info() via match()
-        
-        // Add formatted file size for convenience
-        if(isset($media['file_size'])) {
-            $media['file_size_formatted'] = format_file_size($media['file_size']);
-        }
+        // Add common formatted fields
+        $media = $this->add_common_formatted_fields($media);
         
         // Add document-specific metadata processing if needed
         if(isset($media['metadata']) && is_array($media['metadata'])) {

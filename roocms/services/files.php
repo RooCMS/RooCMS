@@ -224,7 +224,7 @@ class FilesService {
 	 * @return array|null Variant data
 	 */
 	public function get_image_variant(int $media_id, string $variant_type): ?array {
-		$variant = $this->files->get_image_variant($media_id, $variant_type);
+		$variant = $this->files->get_variant($media_id, $variant_type);
 		return $variant ?: null;
 	}
 

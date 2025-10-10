@@ -234,19 +234,7 @@ trait FileManagerArch {
      * @return bool Is valid archive
      */
     private function is_valid_archive(string $file_path): bool {
-        
-        if(!file_exists($file_path) || !is_readable($file_path)) {
-            return false;
-        }
-        
-        $path_info = pathinfo($file_path);
-        $extension = strtolower($path_info['extension']);
-        
-        $allowed_extensions = [
-            'zip', '7z', 'rar', 'tar', 'gz', 'bz2', 'xz', 'tgz', 'tbz2'
-        ];
-        
-        return in_array($extension, $allowed_extensions, true);
+        return $this->is_valid_file($file_path, 'archive');
     }
 
 
@@ -268,8 +256,8 @@ trait FileManagerArch {
      * @return array Processed media info with archive-specific enhancements
      */
     private function process_archive_info(array $media): array {
-        // Add formatted file size
-        isset($media['file_size']) && ($media['file_size_formatted'] = format_file_size($media['file_size']));
+        // Add common formatted fields
+        $media = $this->add_common_formatted_fields($media);
         
         // Process metadata if exists
         if(!isset($media['metadata']) || !is_array($media['metadata'])) {

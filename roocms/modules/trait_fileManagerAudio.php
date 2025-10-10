@@ -260,13 +260,8 @@ trait FileManagerAudio {
      * @return array Processed media info with audio-specific enhancements
      */
     private function process_audio_info(array $media): array {
-        // Add audio-specific processing
-        // This method is called by get_media_info() via match()
-        
-        // Add formatted file size for convenience
-        if(isset($media['file_size'])) {
-            $media['file_size_formatted'] = format_file_size($media['file_size']);
-        }
+        // Add common formatted fields
+        $media = $this->add_common_formatted_fields($media);
         
         // Format duration
         if(isset($media['metadata']['duration'])) {
@@ -407,4 +402,7 @@ trait FileManagerAudio {
      * Abstract methods
      */
     abstract public function get_media_info(int $media_id, ?string $expected_type = null): array|false;
+    abstract public function is_command_available(string $command): bool;
+    abstract public function format_duration(int $duration): string;
+    abstract public function format_bitrate(int $bitrate): string;
 }

@@ -244,73 +244,8 @@ class Files {
             'video' => $this->process_video_info($media),
             'audio' => $this->process_audio_info($media),
             'archive' => $this->process_archive_info($media),
-            default => $media  // Return basic info for unknown types
+            default => $this->add_common_formatted_fields($media)  // Use base formatting for unknown types
         };
-    }
-
-
-    /**
-     * Process image-specific info (delegated from traits)
-     * 
-     * @param array $media Base media data
-     * @return array Processed media info
-     */
-    private function process_image_info(array $media): array {
-        // Add image-specific processing if needed
-        // This can be extended by MediaImage trait
-        return $media;
-    }
-
-
-    /**
-     * Process document-specific info (delegated from traits)
-     * 
-     * @param array $media Base media data
-     * @return array Processed media info
-     */
-    private function process_document_info(array $media): array {
-        // Add document-specific processing if needed
-        // This can be extended by MediaDoc trait
-        return $media;
-    }
-
-
-    /**
-     * Process video-specific info (delegated from traits)
-     * 
-     * @param array $media Base media data
-     * @return array Processed media info
-     */
-    private function process_video_info(array $media): array {
-        // Add video-specific processing if needed
-        // This can be extended by MediaVideo trait
-        return $media;
-    }
-
-
-    /**
-     * Process audio-specific info (delegated from traits)
-     * 
-     * @param array $media Base media data
-     * @return array Processed media info
-     */
-    private function process_audio_info(array $media): array {
-        // Add audio-specific processing if needed
-        // This can be extended by MediaAudio trait
-        return $media;
-    }
-
-
-    /**
-     * Process archive-specific info (delegated from traits)
-     * 
-     * @param array $media Base media data
-     * @return array Processed media info
-     */
-    private function process_archive_info(array $media): array {
-        // Add archive-specific processing if needed
-        // This can be extended by MediaArch trait
-        return $media;
     }
 
 
@@ -486,6 +421,22 @@ class Files {
     public function get_variants(int $media_id): array {
         $sql = "SELECT * FROM " . TABLE_MEDIA_VARS . " WHERE media_id = :media_id ORDER BY id";
         return $this->db->fetch_all($sql, ['media_id' => $media_id]);
+    }
+
+
+    /**
+     * Get specific media variant by type
+     * 
+     * @param int $media_id Media ID
+     * @param string $variant_type Variant type (thumbnail, large, original)
+     * @return array|false Variant data or false
+     */
+    public function get_variant(int $media_id, string $variant_type): array|false {
+        $sql = "SELECT * FROM " . TABLE_MEDIA_VARS . " WHERE media_id = :media_id AND variant_type = :variant_type LIMIT 1";
+        return $this->db->fetch_assoc($sql, [
+            'media_id' => $media_id,
+            'variant_type' => $variant_type
+        ]);
     }
 
 

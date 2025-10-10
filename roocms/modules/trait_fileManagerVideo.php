@@ -36,7 +36,7 @@ trait FileManagerVideo {
         
         try {
             // Validate video
-            if(!$this->is_valid_video($file_path)) {
+            if(!$this->is_valid_file($file_path, "video")) {
                 return false;
             }
             
@@ -187,17 +187,6 @@ trait FileManagerVideo {
 
 
     /**
-     * Validate if file is a valid video
-     * 
-     * @param string $file_path File path
-     * @return bool Is valid video
-     */
-    private function is_valid_video(string $file_path): bool {
-        return $this->is_valid_file($file_path, 'video');
-    }
-
-
-    /**
      * Get video info by ID
      * 
      * @param int $media_id Media ID
@@ -215,13 +204,8 @@ trait FileManagerVideo {
      * @return array Processed media info with video-specific enhancements
      */
     private function process_video_info(array $media): array {
-        // Add video-specific processing
-        // This method is called by get_media_info() via match()
-        
-        // Add formatted file size for convenience
-        if(isset($media['file_size'])) {
-            $media['file_size_formatted'] = format_file_size($media['file_size']);
-        }
+        // Add common formatted fields
+        $media = $this->add_common_formatted_fields($media);
         
         // Format duration
         if(isset($media['metadata']['duration'])) {

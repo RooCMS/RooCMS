@@ -219,4 +219,21 @@ trait FilesExtends {
         
         return sprintf('%02d:%02d', $minutes, $secs);
     }
+
+
+    /**
+     * Add common formatted fields to media data
+     * 
+     * @param array $media Media data
+     * @return array Media data with formatted fields
+     */
+    protected function add_common_formatted_fields(array $media): array {
+        
+        // Add formatted file size for convenience
+        if(isset($media['file_size'])) {
+            $media['file_size_formatted'] = format_file_size($media['file_size']);
+        }
+        
+        return $media;
+    }
 }

@@ -179,49 +179,7 @@ trait FileManagerImage {
      * @return bool Is valid image
      */
     private function is_valid_image(string $file_path): bool {
-        
-        if(!file_exists($file_path)) {
-            return false;
-        }
-        
-        $image_info = @getimagesize($file_path);
-        if($image_info === false) {
-            return false;
-        }
-        
-        // Check if MIME type is supported
-        $allowed_types = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
-        return in_array($image_info['mime'], $allowed_types, true);
-    }
-
-
-    /**
-     * Get image variant by type
-     * 
-     * @param int $media_id Media ID
-	 * @param string $variant_type Variant type (thumbnail, large, original)
-     * @return array|false Variant data or false
-     */
-    public function get_image_variant(int $media_id, string $variant_type): array|false {
-        
-        $sql = "SELECT * FROM " . TABLE_MEDIA_VARS . " WHERE media_id = :media_id AND variant_type = :variant_type LIMIT 1";
-        return $this->db->fetch_assoc($sql, [
-            'media_id' => $media_id,
-            'variant_type' => $variant_type
-        ]);
-    }
-
-
-    /**
-     * Get all image variants
-     * 
-     * @param int $media_id Media ID
-     * @return array List of variants
-     */
-    public function get_all_image_variants(int $media_id): array {
-        
-        $sql = "SELECT * FROM " . TABLE_MEDIA_VARS . " WHERE media_id = :media_id";
-        return $this->db->fetch_all($sql, ['media_id' => $media_id]);
+        return $this->is_valid_file($file_path, 'image');
     }
 
 
@@ -243,13 +201,8 @@ trait FileManagerImage {
      * @return array Processed media info with image-specific enhancements
      */
     private function process_image_info(array $media): array {
-        // Add image-specific processing
-        // This method is called by get_media_info() via match()
-        
-        // Add formatted file size for convenience
-        if(isset($media['file_size'])) {
-            $media['file_size_formatted'] = format_file_size($media['file_size']);
-        }
+        // Add common formatted fields
+        $media = $this->add_common_formatted_fields($media);
         
         // Add image-specific metadata formatting
         if(isset($media['metadata']) && is_array($media['metadata'])) {
@@ -260,7 +213,7 @@ trait FileManagerImage {
         }
         
         // Load variants for images
-        $media['variants'] = $this->get_all_image_variants($media['id']);
+        $media['variants'] = $this->get_variants($media['id']);
         
         return $media;
     }
