@@ -620,46 +620,42 @@ class StructureService {
         }
 
         try {
-            // Check if page exists (business rule)
-            if (!$this->structure->page_exists($page_id)) {
-                return null;
-            }
-
-            // Get existing page for comparison
+            // Get existing page (combines existence check and data fetch)
             $existing_page = $this->structure->get_admin_page_by_id($page_id);
             if (!$existing_page) {
                 return null;
             }
 
-            // Defense against changing the slug of the main page
-            if (($page_id === 1 || $existing_page['slug'] === 'index') && isset($data['slug']) && $data['slug'] !== 'index') {
+            // Protect home page slug from changes
+            $is_home_page = $page_id === 1 || $existing_page['slug'] === 'index';
+            $is_slug_change = isset($data['slug']) && $data['slug'] !== 'index';
+            if ($is_home_page && $is_slug_change) {
                 throw new Exception('Cannot change slug of home page. Home page must always have slug="index"');
             }
 
-            // Validate data (business logic)
+            // Validate data
             $validation_errors = $this->validate_admin_page_data($data, $page_id);
             if (!empty($validation_errors)) {
                 throw new Exception('Validation errors: ' . implode(', ', $validation_errors));
             }
 
-            // Use model to update page (model will validate slug and check for denied slugs)
-            $success = $this->structure->update_page($page_id, $data);
-
-            if ($success) {
-                // Update parent childs count if parent changed (business logic)
-                if (isset($data['parent_id']) && $data['parent_id'] !== $existing_page['parent_id']) {
-                    $this->structure->update_parent_childs_count($existing_page['parent_id']); // Old parent
-                    $this->structure->update_parent_childs_count($data['parent_id']); // New parent
-                }
-
-                return $this->get_admin_page_by_id($page_id);
+            // Update page
+            if (!$this->structure->update_page($page_id, $data)) {
+                return null;
             }
 
-            return null;
+            // Update parent child counts if parent changed
+            $parent_changed = isset($data['parent_id']) && $data['parent_id'] !== $existing_page['parent_id'];
+            if ($parent_changed) {
+                $this->structure->update_parent_childs_count($existing_page['parent_id']); // Old parent
+                $this->structure->update_parent_childs_count($data['parent_id']); // New parent
+            }
+
+            return $this->get_admin_page_by_id($page_id);
 
         } catch (Exception $e) {
             error_log('Error updating page: ' . $e->getMessage());
-            throw $e; // Re-throw to let controller handle specific error messages
+            throw $e;
         }
     }
 
@@ -793,52 +789,31 @@ class StructureService {
      */
     private function validate_admin_page_data(array $data, ?int $exclude_id = null): array {
         $errors = [];
+        $is_creating = $exclude_id === null;
 
-        // Required fields for creation
-        if ($exclude_id === null) { // Creating new page
-            if (empty($data['slug'])) {
-                $errors[] = 'Slug is required';
-            } else {
-                // Use model's slug validation
-                $slug_validation = $this->structure->validate_slug($data['slug']);
-                if (!$slug_validation['valid']) {
-                    $errors[] = $slug_validation['error'];
-                }
-            }
-
-            if (empty($data['title'])) {
-                $errors[] = 'Title is required';
-            }
-        } else { // Updating existing page
-            if (isset($data['slug'])) {
-                if (empty($data['slug'])) {
-                    $errors[] = 'Slug cannot be empty';
-                } else {
-                    // Use model's slug validation (excluding current page)
-                    $slug_validation = $this->structure->validate_slug($data['slug'], $exclude_id);
-                    if (!$slug_validation['valid']) {
-                        $errors[] = $slug_validation['error'];
-                    }
-                }
-            }
-
-            if (isset($data['title']) && empty($data['title'])) {
-                $errors[] = 'Title cannot be empty';
-            }
+        // Validate slug - unified logic for create and update
+        $slug = $data['slug'] ?? '';
+        if ($is_creating && empty($slug)) {
+            $errors[] = 'Slug is required';
+        } elseif (!$is_creating && isset($data['slug']) && empty($slug)) {
+            $errors[] = 'Slug cannot be empty';
+        } elseif (!empty($slug)) {
+            $slug_validation = $this->structure->validate_slug($slug, $exclude_id);
+            !$slug_validation['valid'] && $errors[] = $slug_validation['error'];
         }
 
-        // Optional validations
-        if (isset($data['status']) && !in_array($data['status'], ['draft', 'active', 'inactive'])) {
-            $errors[] = 'Invalid status';
+        // Validate title - unified logic for create and update
+        $title = $data['title'] ?? '';
+        if ($is_creating && empty($title)) {
+            $errors[] = 'Title is required';
+        } elseif (!$is_creating && isset($data['title']) && empty($title)) {
+            $errors[] = 'Title cannot be empty';
         }
 
-        if (isset($data['page_type']) && !in_array($data['page_type'], ['page', 'feed'])) {
-            $errors[] = 'Invalid page type';
-        }
-
-        if (isset($data['parent_id']) && (int)$data['parent_id'] < 0) {
-            $errors[] = 'Invalid parent ID';
-        }
+        // Optional validations - using null coalescing and early evaluation
+        isset($data['status']) && !in_array($data['status'], ['draft', 'active', 'inactive']) && $errors[] = 'Invalid status';
+        isset($data['page_type']) && !in_array($data['page_type'], ['page', 'feed']) && $errors[] = 'Invalid page type';
+        isset($data['parent_id']) && (int)$data['parent_id'] < 0 && $errors[] = 'Invalid parent ID';
 
         return $errors;
     }

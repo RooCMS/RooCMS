@@ -150,9 +150,9 @@ class DbMigrator {
 				$this->execute_migration($migration, 'down');
 				$this->remove_migration_record($migration);
 				$rolled_back[] = $migration;
-				$this->result_action = "✓ Migration {$migration} rolled back successfully\n";
+				$this->result_action = "✓ Migration " . sanitize_log($migration) . " rolled back successfully\n";
 			} catch (Exception $e) {
-				$this->result_action = "✗ Error rolling back migration {$migration}: " . $e->getMessage() . "\n";
+				$this->result_action = "✗ Error rolling back migration " . sanitize_log($migration) . ": " . $e->getMessage() . "\n";
 				break;
 			}
 		}
