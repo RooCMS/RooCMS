@@ -791,29 +791,52 @@ class StructureService {
         $errors = [];
         $is_creating = $exclude_id === null;
 
-        // Validate slug - unified logic for create and update
-        $slug = $data['slug'] ?? '';
-        if ($is_creating && empty($slug)) {
-            $errors[] = 'Slug is required';
-        } elseif (!$is_creating && isset($data['slug']) && empty($slug)) {
-            $errors[] = 'Slug cannot be empty';
-        } elseif (!empty($slug)) {
-            $slug_validation = $this->structure->validate_slug($slug, $exclude_id);
-            !$slug_validation['valid'] && $errors[] = $slug_validation['error'];
+        // Validate slug
+        if ($is_creating) {
+            if (empty($data['slug'])) {
+                $errors[] = 'Slug is required';
+            } else {
+                $slug_validation = $this->structure->validate_slug($data['slug']);
+                if (!$slug_validation['valid']) {
+                    $errors[] = $slug_validation['error'];
+                }
+            }
+        } else {
+            if (isset($data['slug'])) {
+                if (empty($data['slug'])) {
+                    $errors[] = 'Slug cannot be empty';
+                } else {
+                    $slug_validation = $this->structure->validate_slug($data['slug'], $exclude_id);
+                    if (!$slug_validation['valid']) {
+                        $errors[] = $slug_validation['error'];
+                    }
+                }
+            }
         }
 
-        // Validate title - unified logic for create and update
-        $title = $data['title'] ?? '';
-        if ($is_creating && empty($title)) {
-            $errors[] = 'Title is required';
-        } elseif (!$is_creating && isset($data['title']) && empty($title)) {
-            $errors[] = 'Title cannot be empty';
+        // Validate title
+        if ($is_creating) {
+            if (empty($data['title'])) {
+                $errors[] = 'Title is required';
+            }
+        } else {
+            if (isset($data['title']) && empty($data['title'])) {
+                $errors[] = 'Title cannot be empty';
+            }
         }
 
-        // Optional validations - using null coalescing and early evaluation
-        isset($data['status']) && !in_array($data['status'], ['draft', 'active', 'inactive']) && $errors[] = 'Invalid status';
-        isset($data['page_type']) && !in_array($data['page_type'], ['page', 'feed']) && $errors[] = 'Invalid page type';
-        isset($data['parent_id']) && (int)$data['parent_id'] < 0 && $errors[] = 'Invalid parent ID';
+        // Optional validations
+        if (isset($data['status']) && !in_array($data['status'], ['draft', 'active', 'inactive'])) {
+            $errors[] = 'Invalid status';
+        }
+
+        if (isset($data['page_type']) && !in_array($data['page_type'], ['page', 'feed'])) {
+            $errors[] = 'Invalid page type';
+        }
+
+        if (isset($data['parent_id']) && (int)$data['parent_id'] < 0) {
+            $errors[] = 'Invalid parent ID';
+        }
 
         return $errors;
     }
