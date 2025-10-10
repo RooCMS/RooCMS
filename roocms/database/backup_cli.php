@@ -25,10 +25,12 @@ define('RooCMS', true);
 $siteroot = dirname(__DIR__, 2);
 define('_SITEROOT', $siteroot);
 
-// Include configuration first
+/**
+ * Include configuration first
+ */ 
 $config_files = [
-    $siteroot . '/roocms/config/config.php',
-    $siteroot . '/roocms/config/defines.php'
+    _SITEROOT . '/roocms/config/config.php',  	// Config
+    _SITEROOT . '/roocms/config/defines.php'	// Defines
 ];
 
 foreach($config_files as $config) {
@@ -37,16 +39,25 @@ foreach($config_files as $config) {
     }
 }
 
-// Include helpers
-require_once _ROOCMS . '/helpers/functions.php';
 
-// Include classes manually
-require_once _MODULES . '/db/trait_debugLog.php';
-require_once _MODULES . '/db/trait_dbExtends.php';
-require_once _MODULES . '/db/class_dbConnect.php';
-require_once _MODULES . '/db/class_dbQueryBuilder.php';
-require_once _MODULES . '/db/class_db.php';
-require_once _MODULES . '/db/class_dbBackuper.php';
+/**
+ * Include helpers and classes
+ */
+$core_files = [
+	_ROOCMS . '/helpers/functions.php',
+	_MODULES . '/db/trait_debugLog.php',
+	_MODULES . '/db/trait_dbHelpers.php',
+	_MODULES . '/db/class_dbConnect.php',
+	_MODULES . '/db/class_db.php',
+	_MODULES . '/db/class_dbBackuper.php'
+];
+
+foreach($core_files as $file) {
+    if(file_exists($file)) {
+        require_once $file;
+    }
+}
+
 
 /**
  * Database Backup CLI Handler

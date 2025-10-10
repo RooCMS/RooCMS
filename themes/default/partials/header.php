@@ -31,7 +31,7 @@ if(!defined('RooCMS')) {roocms_protect();}
             </nav>
 
             <!-- Auth Buttons -->
-            <div class="flex items-center space-x-4" x-data="authButtons">
+            <div class="flex items-center" x-data="authButtons">
 
                 <!-- Not authenticated users - shows Login/Register buttons -->
                 <div id="auth-guest" class="flex items-center space-x-4">

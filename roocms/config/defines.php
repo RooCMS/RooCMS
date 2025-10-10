@@ -109,11 +109,8 @@ const DEBUGSLOG = _LOGS."/debug.log";
 
 
 /**
- * $Param
+ * RooCMS $Versions
  */
-const EMAIL_MESSAGE_PARAMETERS = 'Content-Type: text/html; charset="utf-8"';
-const CHARSET                  = 'text/html; charset=utf-8';
-
 const ROOCMS_MAJOR_VERSION   = '2';
 const ROOCMS_MINOR_VERSION   = '0';
 const ROOCMS_RELEASE_VERSION = '0';

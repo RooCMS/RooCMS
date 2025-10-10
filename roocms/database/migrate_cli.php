@@ -21,18 +21,41 @@ if(!defined('DEBUGMODE')) {
 // Set the base paths for the CLI
 define('_SITEROOT', dirname(__DIR__, 2));
 
-// Connect the necessary classes
-require_once _SITEROOT . '/roocms/config/config.php';
-require_once _SITEROOT . '/roocms/config/defines.php'; 
-require_once _SITEROOT . '/roocms/helpers/functions.php';
-require_once _SITEROOT . '/roocms/helpers/sanitize.php';
-require_once _MODULES . '/db/class_dbConnect.php';
-require_once _MODULES . '/db/trait_dbExtends.php';
-require_once _MODULES . '/db/trait_dbLogger.php';
-require_once _MODULES . '/db/trait_debugLog.php';
-require_once _MODULES . '/db/class_db.php';
-require_once _MODULES . '/db/class_dbQueryBuilder.php';
-require_once _MODULES . '/db/class_dbMigrator.php';
+/**
+ * Include configuration first
+ */ 
+$config_files = [
+    _SITEROOT . '/roocms/config/config.php',  	// Config
+    _SITEROOT . '/roocms/config/defines.php'	// Defines
+];
+
+foreach($config_files as $config) {
+    if(file_exists($config)) {
+        require_once $config;
+    }
+}
+
+
+/**
+ * Connect the necessary classes
+ */
+$core_files = [
+	_HELPERS . '/functions.php',
+	_HELPERS . '/sanitize.php',
+	_MODULES . '/db/class_dbConnect.php',
+	_MODULES . '/db/trait_dbHelpers.php',
+	_MODULES . '/db/trait_dbLogger.php',
+	_MODULES . '/db/trait_debugLog.php',
+	_MODULES . '/db/class_db.php',
+	_MODULES . '/db/class_dbMigrator.php'
+];
+
+foreach($core_files as $file) {
+    if(file_exists($file)) {
+        require_once $file;
+    }
+}
+
 
 /**
  * CLI interface for managing database migrations

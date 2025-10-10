@@ -144,33 +144,33 @@ $api->post('/v1/admin/debug/clear', 'DebugController@clear', ['AuthMiddleware', 
 
 // Media endpoints
 $api->get('/v1/media', 'MediaController@index'); // List media files (public with filters)
-$api->get('/v1/media/{id}', 'MediaController@show'); // Get media info (public)
-$api->get('/v1/media/{id}/file', 'MediaController@download'); // Download file (public)
-$api->post('/v1/media/upload', 'MediaController@upload', ['AuthMiddleware']); // Upload file (authenticated)
-$api->put('/v1/media/{id}', 'MediaController@update', ['AuthMiddleware']); // Update metadata (authenticated)
-$api->delete('/v1/media/{id}', 'MediaController@delete', ['AuthMiddleware']); // Delete file (authenticated)
+$api->get('/v1/media/{id}', 'MediaController@show'); 
+$api->get('/v1/media/{id}/file', 'MediaController@download'); // Download file (public) TODO: Add option public/auth
+$api->post('/v1/media/upload', 'MediaController@upload', ['AuthMiddleware']);
+$api->put('/v1/media/{id}', 'MediaController@update', ['AuthMiddleware']);
+$api->delete('/v1/media/{id}', 'MediaController@delete', ['AuthMiddleware']);
 
 // Structure endpoints (public)
-$api->get('/v1/structure/tree', 'StructureController@tree'); // Get site structure tree
-$api->get('/v1/structure/page/{id}', 'StructureController@show_page'); // Get page by ID
-$api->get('/v1/structure/page/slug/{slug}', 'StructureController@show_page_by_slug'); // Get page by slug
-$api->get('/v1/structure/navigation', 'StructureController@navigation'); // Get navigation menu
-$api->get('/v1/structure/breadcrumbs/{id}', 'StructureController@breadcrumbs'); // Get breadcrumbs by ID
-$api->get('/v1/structure/breadcrumbs/slug/{slug}', 'StructureController@breadcrumbs_by_slug'); // Get breadcrumbs by slug
-$api->get('/v1/structure/seo/{id}', 'StructureController@seo'); // Get SEO metadata by ID
-$api->get('/v1/structure/seo/slug/{slug}', 'StructureController@seo_by_slug'); // Get SEO metadata by slug
-$api->get('/v1/structure/current', 'StructureController@current'); // Get current page info
-$api->get('/v1/structure/search', 'StructureController@search'); // Search pages
-$api->get('/v1/structure/status/{status}', 'StructureController@pages_by_status'); // Get pages by status
+$api->get('/v1/structure/tree', 'StructureController@tree');
+$api->get('/v1/structure/page/{id}', 'StructureController@show_page');
+$api->get('/v1/structure/page/slug/{slug}', 'StructureController@show_page_by_slug');
+$api->get('/v1/structure/navigation', 'StructureController@navigation');
+$api->get('/v1/structure/breadcrumbs/{id}', 'StructureController@breadcrumbs');
+$api->get('/v1/structure/breadcrumbs/slug/{slug}', 'StructureController@breadcrumbs_by_slug');
+$api->get('/v1/structure/seo/{id}', 'StructureController@seo');
+$api->get('/v1/structure/seo/slug/{slug}', 'StructureController@seo_by_slug');
+$api->get('/v1/structure/current', 'StructureController@current');
+$api->get('/v1/structure/search', 'StructureController@search');
+$api->get('/v1/structure/status/{status}', 'StructureController@pages_by_status');
 
 // Admin Structure endpoints (require authentication + admin role)
-$api->get('/v1/admin/structure', 'AdminStructureController@index', ['AuthMiddleware', 'RoleMiddleware@admin_access']); // Get all pages
-$api->get('/v1/admin/structure/{id}', 'AdminStructureController@show', ['AuthMiddleware', 'RoleMiddleware@admin_access']); // Get page by ID
-$api->post('/v1/admin/structure', 'AdminStructureController@create', ['AuthMiddleware', 'RoleMiddleware@admin_access']); // Create new page
-$api->put('/v1/admin/structure/{id}', 'AdminStructureController@update', ['AuthMiddleware', 'RoleMiddleware@admin_access']); // Update page
-$api->delete('/v1/admin/structure/{id}', 'AdminStructureController@delete', ['AuthMiddleware', 'RoleMiddleware@admin_access']); // Delete page
-$api->patch('/v1/admin/structure/{id}/status', 'AdminStructureController@change_status', ['AuthMiddleware', 'RoleMiddleware@admin_access']); // Change status
-$api->put('/v1/admin/structure/reorder', 'AdminStructureController@reorder', ['AuthMiddleware', 'RoleMiddleware@admin_access']); // Reorder pages
+$api->get('/v1/admin/structure', 'AdminStructureController@index', ['AuthMiddleware', 'RoleMiddleware@admin_access']); 
+$api->get('/v1/admin/structure/{id}', 'AdminStructureController@show', ['AuthMiddleware', 'RoleMiddleware@admin_access']);
+$api->post('/v1/admin/structure', 'AdminStructureController@create', ['AuthMiddleware', 'RoleMiddleware@admin_access']);
+$api->put('/v1/admin/structure/{id}', 'AdminStructureController@update', ['AuthMiddleware', 'RoleMiddleware@admin_access']); 
+$api->delete('/v1/admin/structure/{id}', 'AdminStructureController@delete', ['AuthMiddleware', 'RoleMiddleware@admin_access']); 
+$api->patch('/v1/admin/structure/{id}/status', 'AdminStructureController@change_status', ['AuthMiddleware', 'RoleMiddleware@admin_access']);
+$api->put('/v1/admin/structure/reorder', 'AdminStructureController@reorder', ['AuthMiddleware', 'RoleMiddleware@admin_access']); 
 
 // Future routes will be added here
 // Example:
