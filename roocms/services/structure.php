@@ -106,7 +106,7 @@ class StructureService {
     public function get_page_by_slug(string $slug): ?array {
         $slug = trim($slug);
         
-        if (empty($slug) || !$this->validate_slug($slug)) {
+        if (empty($slug)) {
             return null;
         }
 
@@ -249,32 +249,6 @@ class StructureService {
             error_log('Error getting SEO meta: ' . $e->getMessage());
             return $this->get_default_seo_meta();
         }
-    }
-
-
-    /**
-     * Validate slug
-     * 
-     * @param string $slug Slug to check
-     * @return bool Validation result
-     */
-    private function validate_slug(string $slug): bool {
-        // Check length
-        if (strlen($slug) > 255) {
-            return false;
-        }
-
-        // Check allowed characters (latin, numbers, dash, underscore)
-        if (!preg_match('/^[a-zA-Z0-9_-]+$/', $slug)) {
-            return false;
-        }
-
-        // Slug should not start or end with a dash
-        if (str_starts_with($slug, '-') || str_ends_with($slug, '-')) {
-            return false;
-        }
-
-        return true;
     }
 
 
@@ -677,7 +651,7 @@ class StructureService {
         }
 
         try {
-            // Get information about the page to check the slug
+            // Get page info (combines existence check and data fetch)
             $page_info = $this->structure->get_admin_page_by_id($page_id);
             if (!$page_info) {
                 return false;
@@ -686,12 +660,6 @@ class StructureService {
             // Defense against deleting the main page by slug
             if ($page_info['slug'] === 'index') {
                 throw new Exception('Cannot delete home page (slug=index)');
-            }
-
-            // Check information about the parent for updating the counter
-            $parent_info = $this->structure->get_parent_info($page_id);
-            if (!$parent_info) {
-                return false;
             }
 
             // Check if page has children (business rule)
@@ -730,8 +698,8 @@ class StructureService {
         }
 
         try {
-            // Check if page exists (business rule)
-            if (!$this->structure->page_exists($page_id)) {
+            // Use get_admin_page_by_id to check existence (avoids duplicate DB call)
+            if (!$this->get_admin_page_by_id($page_id)) {
                 return false;
             }
 
@@ -791,41 +759,25 @@ class StructureService {
         $errors = [];
         $is_creating = $exclude_id === null;
 
-        // Validate slug
+        // Required fields for creation
         if ($is_creating) {
             if (empty($data['slug'])) {
                 $errors[] = 'Slug is required';
-            } else {
-                $slug_validation = $this->structure->validate_slug($data['slug']);
-                if (!$slug_validation['valid']) {
-                    $errors[] = $slug_validation['error'];
-                }
             }
-        } else {
-            if (isset($data['slug'])) {
-                if (empty($data['slug'])) {
-                    $errors[] = 'Slug cannot be empty';
-                } else {
-                    $slug_validation = $this->structure->validate_slug($data['slug'], $exclude_id);
-                    if (!$slug_validation['valid']) {
-                        $errors[] = $slug_validation['error'];
-                    }
-                }
-            }
-        }
-
-        // Validate title
-        if ($is_creating) {
             if (empty($data['title'])) {
                 $errors[] = 'Title is required';
             }
         } else {
+            // For updates - only validate if fields are being changed
+            if (isset($data['slug']) && empty($data['slug'])) {
+                $errors[] = 'Slug cannot be empty';
+            }
             if (isset($data['title']) && empty($data['title'])) {
                 $errors[] = 'Title cannot be empty';
             }
         }
 
-        // Optional validations
+        // Optional field validations
         if (isset($data['status']) && !in_array($data['status'], ['draft', 'active', 'inactive'])) {
             $errors[] = 'Invalid status';
         }
@@ -839,31 +791,6 @@ class StructureService {
         }
 
         return $errors;
-    }
-
-
-    /**
-     * Validate slug format
-     * 
-     * @param string $slug Slug to validate
-     * @return bool True if valid
-     */
-    private function validate_slug_format(string $slug): bool {
-        if (strlen($slug) > 255 || strlen($slug) < 1) {
-            return false;
-        }
-
-        // Check allowed characters
-        if (!preg_match('/^[a-zA-Z0-9_-]+$/', $slug)) {
-            return false;
-        }
-
-        // Slug should not start or end with a dash
-        if (str_starts_with($slug, '-') || str_ends_with($slug, '-')) {
-            return false;
-        }
-
-        return true;
     }
 
 
