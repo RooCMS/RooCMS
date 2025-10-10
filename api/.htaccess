@@ -12,6 +12,15 @@ Options -MultiViews
     Satisfy Any
 </Files>
 
+# CORS headers
+Header always set Access-Control-Allow-Origin "*"
+Header always set Access-Control-Allow-Methods "GET, POST, PUT, PATCH, DELETE, OPTIONS"
+Header always set Access-Control-Allow-Headers "Content-Type, Authorization"
+
+# Handle preflight OPTIONS requests
+RewriteCond %{REQUEST_METHOD} OPTIONS
+RewriteRule ^(.*)$ index.php [L]
+
 # Always route versioned API prefixes (e.g., /v1, /v1/...) to index.php
 RewriteRule ^v[0-9]+(/.*)?$ index.php [L,QSA]
 
