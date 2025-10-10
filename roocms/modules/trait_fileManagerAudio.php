@@ -36,7 +36,7 @@ trait FileManagerAudio {
         
         try {
             // Validate audio
-            if(!$this->is_valid_audio($file_path)) {
+            if(!$this->is_valid_file($file_path, 'audio')) {
                 return false;
             }
             
@@ -232,28 +232,6 @@ trait FileManagerAudio {
 
 
     /**
-     * Validate if file is a valid audio
-     * 
-     * @param string $file_path File path
-     * @return bool Is valid audio
-     */
-    private function is_valid_audio(string $file_path): bool {
-        return $this->is_valid_file($file_path, 'audio');
-    }
-
-
-    /**
-     * Get audio info by ID
-     * 
-     * @param int $media_id Media ID
-     * @return array|false Audio info or false
-     */
-    public function get_audio_info(int $media_id): array|false {
-        return $this->get_media_info($media_id, 'audio');
-    }
-
-
-    /**
      * Process audio-specific info (overrides Media class method)
      * 
      * @param array $media Base media data
@@ -401,8 +379,9 @@ trait FileManagerAudio {
     /**
      * Abstract methods
      */
-    abstract public function get_media_info(int $media_id, ?string $expected_type = null): array|false;
+    abstract public function add_common_formatted_fields(array $media): array;
+    abstract public function is_valid_file(string $file_path, string $type): bool;
     abstract public function is_command_available(string $command): bool;
-    abstract public function format_duration(int $duration): string;
+    abstract public function format_duration(int $duration): string;    
     abstract public function format_bitrate(int $bitrate): string;
 }

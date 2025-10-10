@@ -36,7 +36,7 @@ trait FileManagerDoc {
         
         try {
             // Validate document
-            if(!$this->is_valid_document($file_path)) {
+            if(!$this->is_valid_file($file_path, 'document')) {
                 return false;
             }
             
@@ -176,28 +176,6 @@ trait FileManagerDoc {
 
 
     /**
-     * Validate if file is a valid document
-     * 
-     * @param string $file_path File path
-     * @return bool Is valid document
-     */
-    private function is_valid_document(string $file_path): bool {
-        return $this->is_valid_file($file_path, 'document');
-    }
-
-
-    /**
-     * Get document info by ID
-     * 
-     * @param int $media_id Media ID
-     * @return array|false Document info or false
-     */
-    public function get_document_info(int $media_id): array|false {
-        return $this->get_media_info($media_id, 'document');
-    }
-
-
-    /**
      * Process document-specific info (overrides Media class method)
      * 
      * @param array $media Base media data
@@ -311,5 +289,6 @@ trait FileManagerDoc {
      * Abstract methods
      */
     abstract public function get_by_id(int $id): array|false;
-    abstract public function get_media_info(int $media_id, ?string $expected_type = null): array|false;
+    abstract public function add_common_formatted_fields(array $media): array;
+    abstract public function is_valid_file(string $file_path, string $type): bool;
 }

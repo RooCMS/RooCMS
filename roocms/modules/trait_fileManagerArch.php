@@ -36,7 +36,7 @@ trait FileManagerArch {
         
         try {
             // Validate archive
-            if(!$this->is_valid_archive($file_path)) {
+            if(!$this->is_valid_file($file_path, 'archive')) {
                 return false;
             }
             
@@ -224,28 +224,6 @@ trait FileManagerArch {
         }
         
         return $info;
-    }
-
-
-    /**
-     * Validate if file is a valid archive
-     * 
-     * @param string $file_path File path
-     * @return bool Is valid archive
-     */
-    private function is_valid_archive(string $file_path): bool {
-        return $this->is_valid_file($file_path, 'archive');
-    }
-
-
-    /**
-     * Get archive info by ID
-     * 
-     * @param int $media_id Media ID
-     * @return array|false Archive info or false
-     */
-    public function get_archive_info(int $media_id): array|false {
-        return $this->get_media_info($media_id, 'archive');
     }
 
 
@@ -453,5 +431,6 @@ trait FileManagerArch {
      * Abstract methods
      */
     abstract public function get_by_id(int $id): array|false;
-    abstract public function get_media_info(int $media_id, ?string $expected_type = null): array|false;
+    abstract public function add_common_formatted_fields(array $media): array;
+    abstract public function is_valid_file(string $file_path, string $type): bool;
 }

@@ -37,7 +37,7 @@ trait FileManagerImage {
         
         try {
             // Validate image
-            if(!$this->is_valid_image($file_path)) {
+            if(!$this->is_valid_file($file_path, 'image')) {
                 return false;
             }
             
@@ -171,29 +171,6 @@ trait FileManagerImage {
 
 
 
-
-    /**
-     * Validate if file is a valid image
-     * 
-     * @param string $file_path File path
-     * @return bool Is valid image
-     */
-    private function is_valid_image(string $file_path): bool {
-        return $this->is_valid_file($file_path, 'image');
-    }
-
-
-    /**
-     * Get image info by ID
-     * 
-     * @param int $media_id Media ID
-     * @return array|false Image info or false
-     */
-    public function get_image_info(int $media_id): array|false {
-        return $this->get_media_info($media_id, 'image');
-    }
-
-
     /**
      * Process image-specific info (overrides Media class method)
      * 
@@ -222,5 +199,7 @@ trait FileManagerImage {
     /**
      * Abstract methods
      */
-    abstract public function get_media_info(int $media_id, ?string $expected_type = null): array|false;
+    abstract public function add_common_formatted_fields(array $media): array;
+    abstract public function is_valid_file(string $file_path, string $type): bool;
+    abstract public function get_variants(int $media_id): array;
 }
