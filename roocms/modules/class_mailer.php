@@ -100,6 +100,30 @@ class Mailer {
 
 
     /**
+     * Get effective from address
+     * 
+     * @param string|null $custom_from Custom from address
+     * @return string
+     */
+    private function get_effective_from(?string $custom_from = null): string {
+        $from = $custom_from ?? $this->from;
+        return ($from === '') ? 'no-reply@' . $this->site_domain : $from;
+    }
+
+
+    /**
+     * Get effective from name
+     * 
+     * @param string|null $custom_from_name Custom from name
+     * @return string
+     */
+    private function get_effective_from_name(?string $custom_from_name = null): string {
+        $from_name = $custom_from_name ?? $this->from_name;
+        return ($from_name === '') ? ($this->siteSettings->get_by_key('site_name') ?? 'RooCMS') : $from_name;
+    }
+
+
+    /**
      * Main method of sending email
      * 
      * @param array $params Parameters
@@ -302,10 +326,7 @@ class Mailer {
         $headers = $processed['headers'];
         $body = $processed['body'];
 
-        $from = $custom_from ?? $this->from;
-        if ($from === '') {
-            $from = 'no-reply@' . $this->site_domain;
-        }
+        $from = $this->get_effective_from($custom_from);
 
         $result = mail($to, $subject, $body, $headers, '-f '.$from);
         
@@ -427,10 +448,7 @@ class Mailer {
      */
     private function smtp_send_message($socket, string $to, string $subject, string $body, bool $is_html,
                                 ?array $attachments, ?string $custom_from, ?string $custom_from_name): bool {   
-        $from = $custom_from ?? $this->from;
-        if ($from === '') {
-            $from = 'no-reply@' . $this->site_domain;
-        }
+        $from = $this->get_effective_from($custom_from);
         
         if (!$this->smtp_command($socket, 'MAIL FROM: <'.$from.'>')) {
             return false;
@@ -481,15 +499,8 @@ class Mailer {
      * @return string
      */
     private function build_headers(bool $is_html, ?string $custom_from = null, ?string $custom_from_name = null): string {
-        $from = $custom_from ?? $this->from;
-        if ($from === '') {
-            $from = 'no-reply@' . $this->site_domain;
-        }
-
-        $from_name = $custom_from_name ?? $this->from_name;
-        if ($from_name === '') {
-            $from_name = $this->siteSettings->get_by_key('site_name') ?? 'RooCMS';
-        }
+        $from = $this->get_effective_from($custom_from);
+        $from_name = $this->get_effective_from_name($custom_from_name);
         $encoded_from_name = mb_encode_mimeheader($from_name, 'UTF-8', 'B');
 
         $headers = "MIME-Version: 1.0\r\n";

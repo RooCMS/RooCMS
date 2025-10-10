@@ -76,6 +76,7 @@ trait FileManagerAudio {
         
         $extension_raw = pathinfo($file_path, PATHINFO_EXTENSION);
         $format = is_string($extension_raw) ? $extension_raw : '';
+        $extension = strtolower($format);
         
         $metadata = [
             'format' => $format,
@@ -89,8 +90,6 @@ trait FileManagerAudio {
         }
         
         // Try to extract ID3 tags for MP3
-        $extension_raw = pathinfo($file_path, PATHINFO_EXTENSION);
-        $extension = is_string($extension_raw) ? strtolower($extension_raw) : '';
         if($extension === 'mp3') {
             $id3_data = $this->extract_mp3_id3_tags($file_path);
             $metadata = array_merge($metadata, $id3_data);
@@ -239,19 +238,7 @@ trait FileManagerAudio {
      * @return bool Is valid audio
      */
     private function is_valid_audio(string $file_path): bool {
-        
-        if(!file_exists($file_path) || !is_readable($file_path)) {
-            return false;
-        }
-        
-        $path_info = pathinfo($file_path);
-        $extension = strtolower($path_info['extension']);
-        
-        $allowed_extensions = [
-            'mp3', 'wav', 'ogg', 'flac', 'aac', 'm4a', 'wma', 'ape', 'opus'
-        ];
-        
-        return in_array($extension, $allowed_extensions, true);
+        return $this->is_valid_file($file_path, 'audio');
     }
 
 
@@ -301,13 +288,14 @@ trait FileManagerAudio {
 
 
     /**
-     * Get audio files by artist
+     * Get audio files by metadata field
+     * Generic method to search audio files by any metadata field
      * 
-     * @param string $artist Artist name
+     * @param string $field Metadata field name
+     * @param string $value Search value
      * @return array List of audio files
      */
-    public function get_audio_by_artist(string $artist): array {
-        
+    private function get_audio_by_metadata_field(string $field, string $value): array {
         // Get all audio files
         $sql = "SELECT * FROM " . TABLE_MEDIA . " WHERE media_type = :media_type";
         $audio_files = $this->db->fetch_all($sql, ['media_type' => 'audio']);
@@ -319,7 +307,7 @@ trait FileManagerAudio {
             if(isset($audio['metadata']) && $audio['metadata']) {
                 $metadata = json_decode($audio['metadata'], true);
                 
-                if(isset($metadata['artist']) && stripos($metadata['artist'], $artist) !== false) {
+                if(isset($metadata[$field]) && stripos($metadata[$field], $value) !== false) {
                     $audio['metadata'] = $metadata;
                     $results[] = $audio;
                 }
@@ -327,6 +315,17 @@ trait FileManagerAudio {
         }
         
         return $results;
+    }
+
+
+    /**
+     * Get audio files by artist
+     * 
+     * @param string $artist Artist name
+     * @return array List of audio files
+     */
+    public function get_audio_by_artist(string $artist): array {
+        return $this->get_audio_by_metadata_field('artist', $artist);
     }
 
 
@@ -337,26 +336,7 @@ trait FileManagerAudio {
      * @return array List of audio files
      */
     public function get_audio_by_album(string $album): array {
-        
-        // Get all audio files
-        $sql = "SELECT * FROM " . TABLE_MEDIA . " WHERE media_type = :media_type";
-        $audio_files = $this->db->fetch_all($sql, ['media_type' => 'audio']);
-        
-        $results = [];
-        
-        foreach($audio_files as $audio) {
-            // Decode metadata
-            if(isset($audio['metadata']) && $audio['metadata']) {
-                $metadata = json_decode($audio['metadata'], true);
-                
-                if(isset($metadata['album']) && stripos($metadata['album'], $album) !== false) {
-                    $audio['metadata'] = $metadata;
-                    $results[] = $audio;
-                }
-            }
-        }
-        
-        return $results;
+        return $this->get_audio_by_metadata_field('album', $album);
     }
 
 
@@ -367,26 +347,39 @@ trait FileManagerAudio {
      * @return array List of audio files
      */
     public function get_audio_by_genre(string $genre): array {
-        
+        return $this->get_audio_by_metadata_field('genre', $genre);
+    }
+
+
+    /**
+     * Get all unique values for metadata field
+     * Generic method to extract unique metadata field values
+     * 
+     * @param string $field Metadata field name
+     * @return array List of unique values
+     */
+    private function get_all_metadata_values(string $field): array {
         // Get all audio files
         $sql = "SELECT * FROM " . TABLE_MEDIA . " WHERE media_type = :media_type";
         $audio_files = $this->db->fetch_all($sql, ['media_type' => 'audio']);
         
-        $results = [];
+        $values = [];
         
         foreach($audio_files as $audio) {
-            // Decode metadata
             if(isset($audio['metadata']) && $audio['metadata']) {
                 $metadata = json_decode($audio['metadata'], true);
                 
-                if(isset($metadata['genre']) && stripos($metadata['genre'], $genre) !== false) {
-                    $audio['metadata'] = $metadata;
-                    $results[] = $audio;
+                if(isset($metadata[$field]) && !empty($metadata[$field])) {
+                    $values[] = $metadata[$field];
                 }
             }
         }
         
-        return $results;
+        // Return unique values sorted alphabetically
+        $values = array_unique($values);
+        sort($values);
+        
+        return $values;
     }
 
 
@@ -396,28 +389,7 @@ trait FileManagerAudio {
      * @return array List of artists
      */
     public function get_all_artists(): array {
-        
-        // Get all audio files
-        $sql = "SELECT * FROM " . TABLE_MEDIA . " WHERE media_type = :media_type";
-        $audio_files = $this->db->fetch_all($sql, ['media_type' => 'audio']);
-        
-        $artists = [];
-        
-        foreach($audio_files as $audio) {
-            if(isset($audio['metadata']) && $audio['metadata']) {
-                $metadata = json_decode($audio['metadata'], true);
-                
-                if(isset($metadata['artist']) && !empty($metadata['artist'])) {
-                    $artists[] = $metadata['artist'];
-                }
-            }
-        }
-        
-        // Return unique artists sorted alphabetically
-        $artists = array_unique($artists);
-        sort($artists);
-        
-        return $artists;
+        return $this->get_all_metadata_values('artist');
     }
 
 
@@ -427,37 +399,12 @@ trait FileManagerAudio {
      * @return array List of albums
      */
     public function get_all_albums(): array {
-        
-        // Get all audio files
-        $sql = "SELECT * FROM " . TABLE_MEDIA . " WHERE media_type = :media_type";
-        $audio_files = $this->db->fetch_all($sql, ['media_type' => 'audio']);
-        
-        $albums = [];
-        
-        foreach($audio_files as $audio) {
-            if(isset($audio['metadata']) && $audio['metadata']) {
-                $metadata = json_decode($audio['metadata'], true);
-                
-                if(isset($metadata['album']) && !empty($metadata['album'])) {
-                    $albums[] = $metadata['album'];
-                }
-            }
-        }
-        
-        // Return unique albums sorted alphabetically
-        $albums = array_unique($albums);
-        sort($albums);
-        
-        return $albums;
+        return $this->get_all_metadata_values('album');
     }
 
 
     /**
      * Abstract methods
      */
-    abstract public function is_command_available(string $command): bool;
-    abstract public function format_duration(int $duration): string;
-    abstract public function format_bitrate(int $bitrate): string;
-    abstract public function get_by_id(int $id): array|false;
     abstract public function get_media_info(int $media_id, ?string $expected_type = null): array|false;
 }

@@ -164,26 +164,6 @@ trait FileManagerVideo {
 
 
     /**
-     * Check if command is available on system
-     * 
-     * @param string $command Command name
-     * @return bool Available
-     */
-    protected function is_command_available(string $command): bool {
-        
-        // On Windows
-        if(strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
-            $output = shell_exec(sprintf('where %s 2>NUL', escapeshellarg($command)));
-            return !empty($output);
-        }
-        
-        // On Unix/Linux
-        $output = shell_exec(sprintf('which %s 2>/dev/null', escapeshellarg($command)));
-        return !empty($output);
-    }
-
-
-    /**
      * Parse FPS from fraction string
      * 
      * @param string $fps_string FPS string like "30000/1001"
@@ -207,45 +187,13 @@ trait FileManagerVideo {
 
 
     /**
-     * Format bitrate to human-readable format
-     * 
-     * @param int $bitrate Bitrate in bits per second
-     * @return string Formatted bitrate
-     */
-    protected function format_bitrate(int $bitrate): string {
-        
-        if($bitrate >= 1000000) {
-            return round($bitrate / 1000000, 2) . ' Mbps';
-        }
-        
-        if($bitrate >= 1000) {
-            return round($bitrate / 1000, 2) . ' Kbps';
-        }
-        
-        return $bitrate . ' bps';
-    }
-
-
-    /**
      * Validate if file is a valid video
      * 
      * @param string $file_path File path
      * @return bool Is valid video
      */
     private function is_valid_video(string $file_path): bool {
-        
-        if(!file_exists($file_path) || !is_readable($file_path)) {
-            return false;
-        }
-        
-        $path_info = pathinfo($file_path);
-        $extension = strtolower($path_info['extension']);
-        
-        $allowed_extensions = [
-            'mp4', 'avi', 'mkv', 'mov', 'wmv', 'flv', 'webm', 'mpeg', 'mpg', '3gp', 'm4v'
-        ];
-        
-        return in_array($extension, $allowed_extensions, true);
+        return $this->is_valid_file($file_path, 'video');
     }
 
 
@@ -292,26 +240,6 @@ trait FileManagerVideo {
         }
         
         return $media;
-    }
-
-
-    /**
-     * Format duration to human-readable format
-     * 
-     * @param int $seconds Duration in seconds
-     * @return string Formatted duration
-     */
-    protected function format_duration(int $seconds): string {
-        
-        $hours = floor($seconds / 3600);
-        $minutes = floor(($seconds % 3600) / 60);
-        $secs = $seconds % 60;
-        
-        if($hours > 0) {
-            return sprintf('%02d:%02d:%02d', $hours, $minutes, $secs);
-        }
-        
-        return sprintf('%02d:%02d', $minutes, $secs);
     }
 
 
@@ -383,6 +311,8 @@ trait FileManagerVideo {
     /**
      * Abstract methods
      */
-    abstract public function get_by_id(int $id): array|false;
     abstract public function get_media_info(int $media_id, ?string $expected_type = null): array|false;
+    abstract public function is_command_available(string $command): bool;
+    abstract public function format_duration(int $duration): string;
+    abstract public function format_bitrate(int $bitrate): string;
 }
