@@ -89,6 +89,7 @@ spl_autoload_register(function(string $class_name) {
         'Db'                        => _MODULES . '/db/class_db.php',
         'DbConnect'                 => _MODULES . '/db/class_dbConnect.php',
         'DbQueryBuilder'            => _MODULES . '/db/class_dbQueryBuilder.php',
+        'DbHelpers'                 => _MODULES . '/db/trait_dbHelpers.php',
         'DbExtends'                 => _MODULES . '/db/trait_dbExtends.php',
         'DbLogger'                  => _MODULES . '/db/trait_dbLogger.php',
         'DbMigrator'                => _MODULES . '/db/class_dbMigrator.php',
