@@ -38,8 +38,9 @@ ob_start();
             <div class="space-y-10" x-data="settingsManager()">
 
                 <!-- Settings Sections -->
+                <div class="columns-2 md:columns-3 sm:columns-1 gap-8">
                 <template x-for="(groupSettings, groupName) in settings" :key="groupName">
-                    <section>
+                    <section class="break-inside-avoid mb-8">
                         <h2 class="mb-4 text-base font-semibold text-zinc-900" x-text="getGroupTitle(groupName)"></h2>
                         <div class="rounded-xl border border-zinc-200/80 bg-white/80 p-5 shadow-sm backdrop-blur">
                             <form class="space-y-4" :data-group="groupName">
@@ -123,6 +124,7 @@ ob_start();
                         </div>
                     </section>
                 </template>
+                </div>
 
 
                 <!-- Messages container -->
