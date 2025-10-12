@@ -74,8 +74,7 @@ trait FileManagerAudio {
      */
     private function extract_audio_metadata(string $file_path): array {
         
-        $extension_raw = sanitize_filename_extension($file_path);
-        $format = is_string($extension_raw) ? $extension_raw : '';
+        $format = sanitize_filename_extension($file_path);
         $extension = $format;
         
         $metadata = [

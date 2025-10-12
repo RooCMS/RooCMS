@@ -67,8 +67,7 @@ trait FileManagerArch {
      */
     private function extract_archive_metadata(string $file_path): array {
         
-        $extension_raw = sanitize_filename_extension($file_path);
-        $extension = is_string($extension_raw) ? $extension_raw : '';
+        $extension = sanitize_filename_extension($file_path);
         
         $metadata = [
             'format' => $extension,

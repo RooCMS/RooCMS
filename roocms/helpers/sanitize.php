@@ -303,7 +303,10 @@ function sanitize_filename(string $filename): string {
  */
 function sanitize_filename_extension(string $filename): string {
     $filename = sanitize_filename($filename);
-    return strtolower(pathinfo($filename, PATHINFO_EXTENSION));
+    $extension = pathinfo($filename, PATHINFO_EXTENSION);
+    
+    // Ensure extension is string (pathinfo can return mixed types in edge cases)
+    return is_string($extension) ? strtolower($extension) : '';
 }
 
 
