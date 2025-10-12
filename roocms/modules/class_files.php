@@ -28,7 +28,7 @@ class Files {
 
     private Db $db;
     private SiteSettings $siteSettings;
-    private ?GD $gd = null;
+    private GD $gd;
 
     // Allowed MIME types by category (will be loaded from SiteSettings in future)
     private array $allowed_mime_types = [];
@@ -265,8 +265,8 @@ class Files {
         // Get and validate MIME type
         $mime_type = mime_content_type($file['tmp_name']) ?: throw new DomainException('Cannot determine file type', 400);
         
-        // Extract and normalize extension
-        $extension = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION) ?: '');
+        // Extract and normalize extension from sanitized filename
+        $extension = sanitize_filename_extension($file['name']) ?: '';
         
         // Return validation results
         return [

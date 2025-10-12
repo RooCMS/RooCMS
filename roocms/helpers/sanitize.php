@@ -293,3 +293,17 @@ function sanitize_filename(string $filename): string {
     
     return $filename;
 }
+
+
+/**
+ * Get filename extension
+ * 
+ * @param string $filename
+ * @return string
+ */
+function sanitize_filename_extension(string $filename): string {
+    $filename = sanitize_filename($filename);
+    return strtolower(pathinfo($filename, PATHINFO_EXTENSION));
+}
+
+

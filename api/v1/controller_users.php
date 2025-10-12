@@ -336,7 +336,7 @@ class UsersController extends BaseController {
 		try {
 			// Require authentication
 			$current_user = $this->require_authentication();
-			if(!$current_user) {
+			if(empty($current_user)) {
 				return; // Error response already sent
 			}
 			
@@ -380,7 +380,7 @@ class UsersController extends BaseController {
 		try {
 			// Require authentication
 			$current_user = $this->require_authentication();
-			if(!$current_user) {
+			if(empty($current_user)) {
 				return; // Error response already sent
 			}
 			

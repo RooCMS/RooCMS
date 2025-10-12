@@ -619,7 +619,7 @@ class Mailer {
         }
 
         // Fallback by the file extension
-        $extension = strtolower(pathinfo($file_path, PATHINFO_EXTENSION));
+        $extension = sanitize_filename_extension($file_path);
         
         return match($extension) {
             'pdf' => 'application/pdf',

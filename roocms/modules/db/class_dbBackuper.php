@@ -216,7 +216,7 @@ class DbBackuper {
 				'size' => filesize($file),
 				'size_human' => format_file_size(filesize($file)),
 				'created' => date('Y-m-d H:i:s', filemtime($file)),
-				'compressed' => in_array(pathinfo($file, PATHINFO_EXTENSION), ['gz', 'zip'])
+				'compressed' => in_array(sanitize_filename_extension($file), ['gz', 'zip'])
 			];
 		}
 
@@ -561,7 +561,7 @@ class DbBackuper {
 	 * @return string File content
 	 */
 	private function read_backup_file(string $backup_file): string {
-		$extension = pathinfo($backup_file, PATHINFO_EXTENSION);
+		$extension = sanitize_filename_extension($backup_file);
 		
 		if($extension === 'gz' && function_exists('gzdecode')) {
 			$compressed_content = read_file($backup_file);

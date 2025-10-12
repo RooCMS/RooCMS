@@ -83,7 +83,7 @@ trait FileManagerVideo {
     private function extract_video_metadata(string $file_path): array {
         
         $metadata = [
-            'format' => pathinfo($file_path, PATHINFO_EXTENSION),
+            'format' => sanitize_filename_extension($file_path),
             'size_human' => format_file_size(filesize($file_path))
         ];
         

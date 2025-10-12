@@ -300,6 +300,12 @@ class UserService {
         
         // Process avatar using Files class (resize to reasonable size, no thumbnails)
         $filename_without_ext = pathinfo($filename, PATHINFO_FILENAME);
+        
+        // Ensure filename is string (pathinfo can return mixed types in edge cases)
+        if(!is_string($filename_without_ext)) {
+            throw new DomainException('Invalid filename for avatar processing', 500);
+        }
+        
         $this->process_avatar_image($avatar_path, $filename_without_ext, $extension);
         
         // Update user profile with avatar path (relative to upload directory)
