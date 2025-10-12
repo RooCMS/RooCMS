@@ -40,6 +40,37 @@ document.addEventListener('alpine:init', () => {
             this.setupAvatarEventListeners();
         },
 
+        // Handle 401 unauthorized responses
+        handleUnauthorized() {
+            setAccessToken(null);
+            window.location.href = '/login';
+        },
+
+        // Generic error handler with 401 check
+        handleError(error, context = 'Operation') {
+            window.log('error', `${context} error:`, error);
+            
+            if (error.status === 401 || error.message?.includes('401') || error.message?.includes('Unauthorized')) {
+                this.handleUnauthorized();
+                return true; // Handled
+            }
+            return false; // Not handled
+        },
+
+        // Wrapper for avatar loading state
+        async withAvatarLoading(asyncFn) {
+            try {
+                this.avatarUploading = true;
+                this.showAvatarError('');
+                this.updateAvatarUI();
+                
+                return await asyncFn();
+            } finally {
+                this.avatarUploading = false;
+                this.updateAvatarUI();
+            }
+        },
+
         // Setup event listeners for avatar functionality
         setupAvatarEventListeners() {
             const avatarInput = document.querySelector('[data-avatar-input]');
@@ -120,13 +151,10 @@ document.addEventListener('alpine:init', () => {
             try {
                 this.loading = true;
                 
-                // Make direct API request to check authorization
                 const response = await request('/v1/users/me');
                 if (!response.ok) {
                     if (response.status === 401) {
-                        // Token expired or invalid, redirect to login
-                        setAccessToken(null);
-                        window.location.href = '/login';
+                        this.handleUnauthorized();
                         return;
                     }
                     throw new Error(`Failed to load profile: ${response.status}`);
@@ -153,7 +181,6 @@ document.addEventListener('alpine:init', () => {
                         this.currentAvatar = `/up/${user.avatar}`;
                     }
 
-                    // Update avatar UI
                     this.updateAvatarUI();
 
                     // Ensure toggle reflects the loaded value
@@ -161,22 +188,15 @@ document.addEventListener('alpine:init', () => {
                         const toggleInput = document.querySelector('input[type="checkbox"][x-model="formData.is_public"]');
                         if (toggleInput) {
                             toggleInput.checked = Boolean(user.is_public);
-                            // Trigger Alpine.js reactivity
                             toggleInput.dispatchEvent(new Event('input', { bubbles: true }));
                         }
                     });
-
                 } else {
                     showErrorMessage('Failed to load profile data');
                 }
             } catch (error) {
-                window.log('error', 'Profile load error:', error);
-                showErrorMessage('Error loading profile data');
-                
-                // If unauthorized, redirect to login
-                if (error.status === 401 || error.message?.includes('401') || error.message?.includes('Unauthorized')) {
-                    setAccessToken(null);
-                    window.location.href = '/login';
+                if (!this.handleError(error, 'Profile load')) {
+                    showErrorMessage('Error loading profile data');
                 }
             } finally {
                 this.loading = false;
@@ -189,10 +209,8 @@ document.addEventListener('alpine:init', () => {
                 this.loading = true;
                 this.errors = {};
 
-                // Clear previous errors
                 clearFieldErrors(['first_name_error', 'last_name_error', 'nickname_error', 'gender_error', 'birthday_error', 'email_error', 'website_error', 'bio_error']);
 
-                // Validate form
                 if (!this.validateForm()) {
                     return;
                 }
@@ -204,9 +222,7 @@ document.addEventListener('alpine:init', () => {
 
                 if (!response.ok) {
                     if (response.status === 401) {
-                        // Token expired or invalid, redirect to login
-                        setAccessToken(null);
-                        window.location.href = '/login';
+                        this.handleUnauthorized();
                         return;
                     }
                 }
@@ -214,9 +230,7 @@ document.addEventListener('alpine:init', () => {
                 const data = await response.json();
 
                 if (response.ok && data.success) {
-                    // Update local user data
                     updateUserData(this.formData);
-
                     this.successMessage = 'Profile updated successfully!';
                     showSuccessMessage('Profile updated successfully!');
                     redirectAfterSuccess('/profile', 2000);
@@ -230,14 +244,9 @@ document.addEventListener('alpine:init', () => {
                     }
                 }
             } catch (error) {
-                window.log('error', 'Profile save error:', error);
-                this.errorMessage = 'Error saving profile. Please try again.';
-                showErrorMessage('Error saving profile. Please try again.');
-                
-                // If unauthorized, redirect to login
-                if (error.status === 401 || error.message?.includes('401') || error.message?.includes('Unauthorized')) {
-                    setAccessToken(null);
-                    window.location.href = '/login';
+                if (!this.handleError(error, 'Profile save')) {
+                    this.errorMessage = 'Error saving profile. Please try again.';
+                    showErrorMessage('Error saving profile. Please try again.');
                 }
             } finally {
                 this.loading = false;
@@ -343,11 +352,7 @@ document.addEventListener('alpine:init', () => {
 
         // Upload avatar to server
         async uploadAvatar(file) {
-            try {
-                this.avatarUploading = true;
-                this.showAvatarError('');
-                this.updateAvatarUI();
-
+            return await this.withAvatarLoading(async () => {
                 const formData = new FormData();
                 formData.append('avatar', file);
 
@@ -358,8 +363,7 @@ document.addEventListener('alpine:init', () => {
 
                 if (!response.ok) {
                     if (response.status === 401) {
-                        setAccessToken(null);
-                        window.location.href = '/login';
+                        this.handleUnauthorized();
                         return;
                     }
                     
@@ -372,41 +376,26 @@ document.addEventListener('alpine:init', () => {
                 // Update current avatar and clear preview (add timestamp to force reload)
                 this.currentAvatar = `/up/${data.data.avatar_path}?t=${Date.now()}`;
                 this.avatarPreview = null;
-                this.updateAvatarUI();
                 
                 showSuccessMessage('Avatar uploaded successfully!');
-
-            } catch (error) {
-                window.log('error', 'Avatar upload error:', error);
-                this.showAvatarError(error.message || 'Failed to upload avatar. Please try again.');
-                this.avatarPreview = null;
-                this.updateAvatarUI();
-                
-                if (error.status === 401 || error.message?.includes('401') || error.message?.includes('Unauthorized')) {
-                    setAccessToken(null);
-                    window.location.href = '/login';
+            }).catch(error => {
+                if (!this.handleError(error, 'Avatar upload')) {
+                    this.showAvatarError(error.message || 'Failed to upload avatar. Please try again.');
                 }
-            } finally {
-                this.avatarUploading = false;
-                this.updateAvatarUI();
-            }
+                this.avatarPreview = null;
+            });
         },
 
         // Delete avatar
         async deleteAvatar() {
-            try {
-                this.avatarUploading = true;
-                this.showAvatarError('');
-                this.updateAvatarUI();
-
+            return await this.withAvatarLoading(async () => {
                 const response = await request('/v1/users/me/avatar', {
                     method: 'DELETE'
                 });
 
                 if (!response.ok) {
                     if (response.status === 401) {
-                        setAccessToken(null);
-                        window.location.href = '/login';
+                        this.handleUnauthorized();
                         return;
                     }
                     
@@ -414,7 +403,6 @@ document.addEventListener('alpine:init', () => {
                         // No avatar to delete, just clear UI
                         this.currentAvatar = null;
                         this.avatarPreview = null;
-                        this.updateAvatarUI();
                         return;
                     }
                     
@@ -425,22 +413,13 @@ document.addEventListener('alpine:init', () => {
                 // Clear avatar from UI
                 this.currentAvatar = null;
                 this.avatarPreview = null;
-                this.updateAvatarUI();
                 
                 showSuccessMessage('Avatar deleted successfully!');
-
-            } catch (error) {
-                window.log('error', 'Avatar delete error:', error);
-                this.showAvatarError(error.message || 'Failed to delete avatar. Please try again.');
-                
-                if (error.status === 401 || error.message?.includes('401') || error.message?.includes('Unauthorized')) {
-                    setAccessToken(null);
-                    window.location.href = '/login';
+            }).catch(error => {
+                if (!this.handleError(error, 'Avatar delete')) {
+                    this.showAvatarError(error.message || 'Failed to delete avatar. Please try again.');
                 }
-            } finally {
-                this.avatarUploading = false;
-                this.updateAvatarUI();
-            }
+            });
         },
 
         // Auto-hide messages after 5 seconds

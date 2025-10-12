@@ -107,7 +107,7 @@ class UserService {
                 throw new DomainException('Nickname already taken', 409) : null,
             'gender' => fn($v) => $v !== null && !in_array($v, ['male', 'female', 'other'], true) ?
                 throw new DomainException('Invalid gender value. Must be one of: male, female, other', 422) : null,
-            'birthday' => fn($v) => !empty($v) && (!($dt = date_create_from_format('Y-m-d', $v)) || date_get_last_errors()['error_count'] > 0) ? 
+            'birthday' => fn($v) => !empty($v) && (!($dt = date_create_from_format('Y-m-d', $v)) || ($errors = date_get_last_errors()) && $errors['error_count'] > 0) ? 
                 throw new DomainException('Invalid birthday format. Use Y-m-d', 422) : null,
             'website' => fn($v) => !empty($v) && !filter_var($v, FILTER_VALIDATE_URL) ? 
                 throw new DomainException('Invalid website URL', 422) : null,
