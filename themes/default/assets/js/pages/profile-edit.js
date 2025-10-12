@@ -80,7 +80,7 @@ document.addEventListener('alpine:init', () => {
                     showErrorMessage('Failed to load profile data');
                 }
             } catch (error) {
-                console.error('Profile load error:', error);
+                log('error', 'Profile load error:', error);
                 showErrorMessage('Error loading profile data');
                 
                 // If unauthorized, redirect to login
@@ -140,7 +140,7 @@ document.addEventListener('alpine:init', () => {
                     }
                 }
             } catch (error) {
-                console.error('Profile save error:', error);
+                log('error', 'Profile save error:', error);
                 this.errorMessage = 'Error saving profile. Please try again.';
                 showErrorMessage('Error saving profile. Please try again.');
                 

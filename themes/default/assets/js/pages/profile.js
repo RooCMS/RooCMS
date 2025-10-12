@@ -99,7 +99,7 @@ document.addEventListener('alpine:init', () => {
                 this.user = data.data || data;
 
             } catch (error) {
-                console.error('Profile load error:', error);
+                log('error', 'Profile load error:', error);
                 this.error = 'Failed to load profile information';
 
                 // If unauthorized, redirect to login
@@ -150,7 +150,7 @@ document.addEventListener('alpine:init', () => {
                 window.location.href = '/';
 
             } catch (error) {
-                console.error('Delete account error:', error);
+                log('error', 'Delete account error:', error);
 
                 // Show error
                 await window.showMessage(
@@ -196,7 +196,7 @@ document.addEventListener('alpine:init', () => {
                 }, 5000);
 
             } catch (error) {
-                console.error('Email verification error:', error);
+                log('error', 'Email verification error:', error);
 
                 // Show error message
                 this.emailVerificationMessage = error.message || 'Failed to send verification email. Please try again.';
@@ -252,7 +252,7 @@ document.addEventListener('alpine:init', () => {
                 );
 
             } catch (error) {
-                console.error('Profile visibility update error:', error);
+                log('error', 'Profile visibility update error:', error);
 
                 // Show error message
                 await window.showMessage(

@@ -43,9 +43,9 @@ document.addEventListener('DOMContentLoaded', async () => {
     /*if (isServiceWorkerSupported()) {
         try {
             await initServiceWorker();
-            console.log('[Main] Service Worker initialized');
+            log('log', '[Main] Service Worker initialized');
         } catch (error) {
-            console.error('[Main] Service Worker initialization failed:', error);
+            log('error', '[Main] Service Worker initialization failed:', error);
         }
     }*/
 
@@ -240,9 +240,30 @@ export async function showMessage(title, message, type = "notice") {
     return await modal(title, message, "OK", "", type);
 }
 
+/**
+ * Log function
+ * @param {string} type - Log type
+ * @param {string} message - Log message
+ * @param {any} data - Log data
+ */
+export function log(type, message, data = null) {
+    const logMethods = {
+        log: console.log,
+        error: console.error,
+        warn: console.warn
+    };
+    
+    const logMethod = logMethods[type];
+    if (logMethod) {
+        logMethod('[Main] ' + message, data ? data : '');
+    }
+}
+
+
 // Make modal functions globally available
 window.modal = modal;
 window.showMessage = showMessage;
+window.log = log;
 
 // Global error handler
-window.addEventListener('error', (e) => console.error('Global error:', e.error));
+window.addEventListener('error', (e) => log('error', 'Global error:', e.error));

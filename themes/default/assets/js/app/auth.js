@@ -129,7 +129,7 @@ export async function getCurrentUser() {
             return userData.data || userData;
         }
     } catch (e) {
-        console.error('Failed to get current user:', e);
+        log('error', 'Failed to get current user:', e);
     }
     return null;
 }

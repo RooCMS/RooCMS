@@ -67,7 +67,6 @@ export async function do_refresh_token() {
         const token = data?.data?.access_token ?? data?.access_token ?? null;
         const newRefreshToken = data?.data?.refresh_token ?? data?.refresh_token ?? null;
 
-        if (DEBUG) console.debug('token refreshed');
         setAccessToken(token);
 
         // Save new refresh token if provided

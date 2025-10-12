@@ -408,7 +408,7 @@ class User {
                       FROM " . TABLE_USERS . " u
                       LEFT JOIN " . TABLE_USER_PROFILES . " p ON u.id = p.user_id
                       {$where_clause}
-                      ORDER BY u.created_at DESC
+                      ORDER BY u.created_at ASC
                       LIMIT ? OFFSET ?";
 
             $params[] = $per_page;

@@ -17,7 +17,7 @@ window.settingsManager = () => ({
 
     // Initialization
     init() {
-        if (DEBUG) console.log('Initializing Alpine settings manager...');
+        if (DEBUG) log('log', 'Initializing Alpine settings manager...');
         this.loadSettings();
     },
 
@@ -40,9 +40,9 @@ window.settingsManager = () => ({
             await this.loadMetaData();
             this.settings = this.processSettingsData(this.settings);
 
-            if (DEBUG) console.log('Settings loaded successfully:', this.settings);
+            if (DEBUG) log('log', 'Settings loaded successfully:', this.settings);
     } catch (error) {
-            if (DEBUG) console.error('Error loading settings:', error);
+            if (DEBUG) log('error', 'Error loading settings:', error);
             this.showMessage('Error loading settings: ' + error.message, 'error');
     } finally {
             this.loading = false;
@@ -65,12 +65,12 @@ window.settingsManager = () => ({
                     }
                 }
             } catch (error) {
-                if (DEBUG) console.warn(`Failed to load meta for ${key}:`, error);
+                if (DEBUG) log('warn', `Failed to load meta for ${key}:`, error);
             }
         });
 
         await Promise.all(metaPromises);
-        if (DEBUG) console.log('Meta loaded:', this.meta);
+        if (DEBUG) log('log', 'Meta loaded:', this.meta);
     },
 
     // Save settings
@@ -105,7 +105,7 @@ window.settingsManager = () => ({
             await this.loadSettings();
 
     } catch (error) {
-            if (DEBUG) console.error('Error saving settings:', error);
+            if (DEBUG) log('error', 'Error saving settings:', error);
             this.showMessage('Error saving settings: ' + error.message, 'error');
     } finally {
             this.loading = false;
@@ -137,7 +137,7 @@ window.settingsManager = () => ({
             await this.loadSettings();
 
     } catch (error) {
-            if (DEBUG) console.error('Error resetting settings:', error);
+            if (DEBUG) log('error', 'Error resetting settings:', error);
             this.showMessage('Error resetting settings: ' + error.message, 'error');
     } finally {
             this.loading = false;
