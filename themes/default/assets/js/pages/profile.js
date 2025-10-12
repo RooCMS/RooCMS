@@ -61,6 +61,31 @@ document.addEventListener('alpine:init', () => {
 
         async init() {
             await this.loadUserProfile();
+            this.setupAvatarDisplay();
+        },
+
+        // Setup avatar display elements
+        setupAvatarDisplay() {
+            this.updateAvatarDisplay();
+        },
+
+        // Update avatar display based on user data
+        updateAvatarDisplay() {
+            const placeholder = document.querySelector('[data-avatar-placeholder]');
+            const avatarImg = document.querySelector('[data-current-avatar]');
+            
+            if (!placeholder || !avatarImg) return;
+            
+            if (this.user && this.user.avatar) {
+                // Show avatar image
+                avatarImg.src = `/up/${this.user.avatar}`;
+                avatarImg.classList.remove('hidden');
+                placeholder.classList.add('hidden');
+            } else {
+                // Show placeholder
+                avatarImg.classList.add('hidden');
+                placeholder.classList.remove('hidden');
+            }
         },
 
         formatDate(timestamp) {
@@ -97,6 +122,9 @@ document.addEventListener('alpine:init', () => {
 
                 const data = await response.json();
                 this.user = data.data || data;
+                
+                // Update avatar display after loading user data
+                this.updateAvatarDisplay();
 
             } catch (error) {
                 window.log('error', 'Profile load error:', error);

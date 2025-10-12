@@ -369,9 +369,6 @@ document.addEventListener('alpine:init', () => {
 
                 const data = await response.json();
                 
-                // Debug: check server response
-                console.log('Server response data:', data);
-                
                 // Update current avatar and clear preview (add timestamp to force reload)
                 this.currentAvatar = `/up/${data.data.avatar_path}?t=${Date.now()}`;
                 this.avatarPreview = null;
