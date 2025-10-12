@@ -87,7 +87,15 @@ export async function do_refresh_token() {
  * @throws {Error} - In case of network or server error
  */
 export async function request(path, options = {}) {
-    const headers = Object.assign({'Content-Type': 'application/json'}, options.headers || {});
+    // Don't set Content-Type for FormData - let browser handle it
+    const headers = {};
+    if (!(options.body instanceof FormData)) {
+        headers['Content-Type'] = 'application/json';
+    }
+    
+    // Add custom headers
+    Object.assign(headers, options.headers || {});
+    
     if (access_token) headers['Authorization'] = `Bearer ${access_token}`;
     const req = Object.assign({}, options, { headers, credentials: 'include' });
 
@@ -147,5 +155,14 @@ export async function request(path, options = {}) {
     }
 
     if (access_token) headers['Authorization'] = `Bearer ${access_token}`; else delete headers['Authorization'];
-    return fetch(API_BASE_URL + path, Object.assign({}, options, { headers, credentials: 'include' }));
+    
+    // Rebuild headers for retry request
+    const retryHeaders = {};
+    if (!(options.body instanceof FormData)) {
+        retryHeaders['Content-Type'] = 'application/json';
+    }
+    Object.assign(retryHeaders, options.headers || {});
+    if (access_token) retryHeaders['Authorization'] = `Bearer ${access_token}`;
+    
+    return fetch(API_BASE_URL + path, Object.assign({}, options, { headers: retryHeaders, credentials: 'include' }));
 }

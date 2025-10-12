@@ -56,6 +56,90 @@ ob_start();
                             </div>
                         </div>
 
+                        <!-- Avatar Section -->
+                        <div class="mb-8 p-4 bg-white/60 rounded-xl border border-purple-200/30">
+                            <h4 class="text-lg font-semibold text-gray-800 mb-4 flex items-center">
+                                <svg class="w-5 h-5 mr-2 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                                </svg>
+                                Profile Avatar
+                            </h4>
+                            
+                            <div class="flex items-start gap-6">
+                                <!-- Current Avatar -->
+                                <div class="flex-shrink-0">
+                                    <div data-avatar-placeholder class="w-24 h-24 bg-gradient-to-br from-gray-200 to-gray-300 rounded-full flex items-center justify-center">
+                                        <svg class="w-12 h-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                                        </svg>
+                                    </div>
+                                    <img data-current-avatar alt="Current Avatar" class="w-24 h-24 rounded-full object-cover border-2 border-white shadow-sm hidden">
+                                    <img data-avatar-preview alt="Avatar Preview" class="w-24 h-24 rounded-full object-cover border-2 border-purple-300 shadow-sm hidden">
+                                </div>
+                                
+                                <!-- Avatar Controls -->
+                                <div class="flex-1">
+                                    <div class="space-y-4">
+                                        <!-- Upload Button -->
+                                        <div>
+                                            <input 
+                                                type="file" 
+                                                id="avatar-upload" 
+                                                accept="image/jpeg,image/png,image/gif,image/webp"
+                                                data-avatar-input
+                                                class="hidden"
+                                            >
+                                            <label 
+                                                for="avatar-upload" 
+                                                data-upload-label
+                                                class="inline-flex items-center px-4 py-2 bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-lg hover:from-purple-600 hover:to-pink-600 transition-all duration-200 cursor-pointer shadow-sm"
+                                            >
+                                                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
+                                                </svg>
+                                                <span data-upload-text>Choose Avatar</span>
+                                            </label>
+                                        </div>
+                                        
+                                        <!-- Delete Button -->
+                                        <div data-delete-container class="hidden">
+                                            <button 
+                                                type="button"
+                                                data-delete-avatar
+                                                class="inline-flex items-center px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors duration-200 shadow-sm"
+                                            >
+                                                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                                                </svg>
+                                                Remove Avatar
+                                            </button>
+                                        </div>
+                                        
+                                        <!-- Avatar Guidelines -->
+                                        <div class="text-sm text-gray-600">
+                                            <p class="mb-1"><strong>Guidelines:</strong></p>
+                                            <ul class="list-disc list-inside space-y-1 text-xs">
+                                                <li>Maximum file size: 5MB</li>
+                                                <li>Supported formats: JPEG, PNG, GIF, WebP</li>
+                                                <li>Recommended size: 400x400 pixels or larger</li>
+                                                <li>Square images work best</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Avatar Error Message -->
+                            <div data-avatar-error class="mt-4 p-3 bg-red-50 border border-red-200 rounded-lg hidden">
+                                <div class="flex items-center">
+                                    <svg class="w-5 h-5 text-red-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                    </svg>
+                                    <span class="text-sm text-red-700" data-avatar-error-text></span>
+                                </div>
+                            </div>
+                        </div>
+
                         <!-- Personal Details Form -->
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <div class="group">

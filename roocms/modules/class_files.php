@@ -525,4 +525,48 @@ class Files {
         
         return $stmt->rowCount() > 0;
     }
+
+
+    /**
+     * Process image using GD (public method for external use)
+     * 
+     * @param string $file_path Full path to image file
+     * @param string $filename Filename without extension
+     * @param string $extension File extension
+     * @param int $max_width Maximum width
+     * @param int $max_height Maximum height
+     * @param bool $watermark Apply watermark
+     * @param bool $force_resize Force resize even if image is smaller than max dimensions
+     * @return bool Success
+     */
+    public function process_image(string $file_path, string $filename, string $extension, int $max_width = 400, int $max_height = 400, bool $watermark = false, bool $force_resize = false): bool {
+        
+        // Get image dimensions
+        $image_info = @getimagesize($file_path);
+        if(!$image_info) {
+            return false; // Cannot process
+        }
+        
+        [$width, $height] = $image_info;
+        
+        // If image is already small enough and we don't force resize, don't resize
+        if(!$force_resize && $width <= $max_width && $height <= $max_height) {
+            return true;
+        }
+        
+        // Use GD to resize/crop image
+        try {
+            $path = dirname($file_path);
+            
+            // For avatars, use fit mode to get exact dimensions
+            $mode = $force_resize ? 'fit' : 'prop';
+            $size_array = ['w' => $max_width, 'h' => $max_height];
+            $this->gd->modify_image($mode, $filename, $extension, $path, $size_array, '', $watermark);
+            return true;
+        } catch(Exception $e) {
+            // If resize fails, log error
+            error_log("Image processing failed: " . $e->getMessage());
+            return false;
+        }
+    }
 }

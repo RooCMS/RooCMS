@@ -21,6 +21,12 @@ document.addEventListener('alpine:init', () => {
             is_public: false
         },
 
+        // Avatar data
+        currentAvatar: null,
+        avatarPreview: null,
+        avatarUploading: false,
+        avatarError: '',
+
         // Form state
         loading: false,
         errors: {},
@@ -31,6 +37,82 @@ document.addEventListener('alpine:init', () => {
         // Initialize component
         async init() {
             await this.loadUserProfile();
+            this.setupAvatarEventListeners();
+        },
+
+        // Setup event listeners for avatar functionality
+        setupAvatarEventListeners() {
+            const avatarInput = document.querySelector('[data-avatar-input]');
+            const deleteButton = document.querySelector('[data-delete-avatar]');
+            
+            if (avatarInput) {
+                avatarInput.addEventListener('change', (e) => this.handleAvatarSelect(e));
+            }
+            
+            if (deleteButton) {
+                deleteButton.addEventListener('click', () => this.deleteAvatar());
+            }
+        },
+
+        // Update avatar UI elements
+        updateAvatarUI() {
+            const placeholder = document.querySelector('[data-avatar-placeholder]');
+            const currentImg = document.querySelector('[data-current-avatar]');
+            const previewImg = document.querySelector('[data-avatar-preview]');
+            const deleteContainer = document.querySelector('[data-delete-container]');
+            const uploadLabel = document.querySelector('[data-upload-label]');
+            const uploadText = document.querySelector('[data-upload-text]');
+            
+            // Hide all initially
+            if (placeholder) placeholder.classList.add('hidden');
+            if (currentImg) currentImg.classList.add('hidden');
+            if (previewImg) previewImg.classList.add('hidden');
+            if (deleteContainer) deleteContainer.classList.add('hidden');
+            
+            // Show appropriate elements
+            if (this.avatarPreview) {
+                if (previewImg) {
+                    previewImg.src = this.avatarPreview;
+                    previewImg.classList.remove('hidden');
+                }
+                if (deleteContainer) deleteContainer.classList.remove('hidden');
+            } else if (this.currentAvatar) {
+                if (currentImg) {
+                    currentImg.src = this.currentAvatar;
+                    currentImg.classList.remove('hidden');
+                }
+                if (deleteContainer) deleteContainer.classList.remove('hidden');
+            } else {
+                if (placeholder) placeholder.classList.remove('hidden');
+            }
+            
+            // Update upload button
+            if (uploadLabel && uploadText) {
+                if (this.avatarUploading) {
+                    uploadLabel.classList.add('opacity-50', 'cursor-not-allowed');
+                    uploadText.textContent = 'Uploading...';
+                } else {
+                    uploadLabel.classList.remove('opacity-50', 'cursor-not-allowed');
+                    uploadText.textContent = 'Choose Avatar';
+                }
+            }
+        },
+
+        // Show/hide avatar error
+        showAvatarError(message) {
+            const errorDiv = document.querySelector('[data-avatar-error]');
+            const errorText = document.querySelector('[data-avatar-error-text]');
+            
+            if (errorDiv && errorText) {
+                if (message) {
+                    errorText.textContent = message;
+                    errorDiv.classList.remove('hidden');
+                    this.avatarError = message;
+                } else {
+                    errorDiv.classList.add('hidden');
+                    this.avatarError = '';
+                }
+            }
         },
 
         // Load current user profile data
@@ -65,6 +147,14 @@ document.addEventListener('alpine:init', () => {
                         bio: user.bio || '',
                         is_public: Boolean(user.is_public)
                     };
+
+                    // Set current avatar if exists
+                    if (user.avatar) {
+                        this.currentAvatar = `/up/${user.avatar}`;
+                    }
+
+                    // Update avatar UI
+                    this.updateAvatarUI();
 
                     // Ensure toggle reflects the loaded value
                     this.$nextTick(() => {
@@ -212,6 +302,150 @@ document.addEventListener('alpine:init', () => {
             }
         },
 
+        // Handle avatar file selection
+        async handleAvatarSelect(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            // Clear previous errors
+            this.showAvatarError('');
+
+            // Validate file type
+            const allowedTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
+            if (!allowedTypes.includes(file.type)) {
+                this.showAvatarError('Please select a valid image file (JPEG, PNG, GIF, or WebP)');
+                event.target.value = '';
+                return;
+            }
+
+            // Validate file size (5MB)
+            const maxSize = 5 * 1024 * 1024;
+            if (file.size > maxSize) {
+                this.showAvatarError('Avatar file size must not exceed 5MB');
+                event.target.value = '';
+                return;
+            }
+
+            // Show preview
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                this.avatarPreview = e.target.result;
+                this.updateAvatarUI();
+            };
+            reader.readAsDataURL(file);
+
+            // Upload avatar
+            await this.uploadAvatar(file);
+            
+            // Clear file input
+            event.target.value = '';
+        },
+
+        // Upload avatar to server
+        async uploadAvatar(file) {
+            try {
+                this.avatarUploading = true;
+                this.showAvatarError('');
+                this.updateAvatarUI();
+
+                const formData = new FormData();
+                formData.append('avatar', file);
+
+                const response = await request('/v1/users/me/avatar', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                if (!response.ok) {
+                    if (response.status === 401) {
+                        setAccessToken(null);
+                        window.location.href = '/login';
+                        return;
+                    }
+                    
+                    const errorData = await response.json();
+                    throw new Error(errorData.message || 'Failed to upload avatar');
+                }
+
+                const data = await response.json();
+                
+                // Debug: check server response
+                console.log('Server response data:', data);
+                
+                // Update current avatar and clear preview (add timestamp to force reload)
+                this.currentAvatar = `/up/${data.data.avatar_path}?t=${Date.now()}`;
+                this.avatarPreview = null;
+                this.updateAvatarUI();
+                
+                showSuccessMessage('Avatar uploaded successfully!');
+
+            } catch (error) {
+                window.log('error', 'Avatar upload error:', error);
+                this.showAvatarError(error.message || 'Failed to upload avatar. Please try again.');
+                this.avatarPreview = null;
+                this.updateAvatarUI();
+                
+                if (error.status === 401 || error.message?.includes('401') || error.message?.includes('Unauthorized')) {
+                    setAccessToken(null);
+                    window.location.href = '/login';
+                }
+            } finally {
+                this.avatarUploading = false;
+                this.updateAvatarUI();
+            }
+        },
+
+        // Delete avatar
+        async deleteAvatar() {
+            try {
+                this.avatarUploading = true;
+                this.showAvatarError('');
+                this.updateAvatarUI();
+
+                const response = await request('/v1/users/me/avatar', {
+                    method: 'DELETE'
+                });
+
+                if (!response.ok) {
+                    if (response.status === 401) {
+                        setAccessToken(null);
+                        window.location.href = '/login';
+                        return;
+                    }
+                    
+                    if (response.status === 404) {
+                        // No avatar to delete, just clear UI
+                        this.currentAvatar = null;
+                        this.avatarPreview = null;
+                        this.updateAvatarUI();
+                        return;
+                    }
+                    
+                    const errorData = await response.json();
+                    throw new Error(errorData.message || 'Failed to delete avatar');
+                }
+
+                // Clear avatar from UI
+                this.currentAvatar = null;
+                this.avatarPreview = null;
+                this.updateAvatarUI();
+                
+                showSuccessMessage('Avatar deleted successfully!');
+
+            } catch (error) {
+                window.log('error', 'Avatar delete error:', error);
+                this.showAvatarError(error.message || 'Failed to delete avatar. Please try again.');
+                
+                if (error.status === 401 || error.message?.includes('401') || error.message?.includes('Unauthorized')) {
+                    setAccessToken(null);
+                    window.location.href = '/login';
+                }
+            } finally {
+                this.avatarUploading = false;
+                this.updateAvatarUI();
+            }
+        },
+
         // Auto-hide messages after 5 seconds
         $nextTick() {
             if (this.successMessage) {
@@ -222,6 +456,11 @@ document.addEventListener('alpine:init', () => {
             if (this.errorMessage) {
                 setTimeout(() => {
                     this.errorMessage = '';
+                }, 5000);
+            }
+            if (this.avatarError) {
+                setTimeout(() => {
+                    this.avatarError = '';
                 }, 5000);
             }
         }

@@ -323,6 +323,85 @@ class UsersController extends BaseController {
 			$this->error_response('Failed to delete user', 500);
 		}
 	}
+
+
+	/**
+	 * Upload avatar for current user
+	 * POST /api/v1/users/me/avatar
+	 * Requires: AuthMiddleware
+	 */
+	public function upload_avatar(): void {
+		$this->log_request('users_upload_avatar');
+		
+		try {
+			// Require authentication
+			$current_user = $this->require_authentication();
+			if(!$current_user) {
+				return; // Error response already sent
+			}
+			
+			// Basic validation
+			if(!isset($this->request->files['avatar'])) {
+				$this->error_response('No avatar file provided', 400);
+				return;
+			}
+			
+			$file = $this->request->files['avatar'];
+			
+			if($file['error'] !== UPLOAD_ERR_OK) {
+				$this->error_response('Avatar upload error: ' . $this->get_upload_error_message($file['error']), 400);
+				return;
+			}
+			
+			// Delegate avatar upload to service
+			$avatar_path = $this->userService->upload_avatar($file, (int)$current_user['id']);
+			
+			$this->json_response([
+				'message' => 'Avatar uploaded successfully',
+				'avatar_path' => $avatar_path
+			], 201);
+			
+		} catch(DomainException $e) {
+			$this->error_response($e->getMessage(), $e->getCode());
+		} catch(Exception $e) {
+			$this->error_response('Failed to upload avatar: ' . $e->getMessage(), 500);
+		}
+	}
+
+
+	/**
+	 * Delete avatar for current user
+	 * DELETE /api/v1/users/me/avatar
+	 * Requires: AuthMiddleware
+	 */
+	public function delete_avatar(): void {
+		$this->log_request('users_delete_avatar');
+		
+		try {
+			// Require authentication
+			$current_user = $this->require_authentication();
+			if(!$current_user) {
+				return; // Error response already sent
+			}
+			
+			// Delegate avatar deletion to service
+			$success = $this->userService->delete_avatar((int)$current_user['id']);
+			
+			if(!$success) {
+				$this->error_response('No avatar to delete', 404);
+				return;
+			}
+			
+			$this->json_response([
+				'message' => 'Avatar deleted successfully'
+			]);
+			
+		} catch(DomainException $e) {
+			$this->error_response($e->getMessage(), $e->getCode());
+		} catch(Exception $e) {
+			$this->error_response('Failed to delete avatar: ' . $e->getMessage(), 500);
+		}
+	}
 }
 
 

@@ -135,7 +135,7 @@ ob_start();
                                                     <div x-show="!user.avatar" class="h-10 w-10 rounded-full bg-zinc-300 flex items-center justify-center">
                                                         <span class="text-sm font-medium text-zinc-700" x-text="getInitials(user)"></span>
                                                     </div>
-                                                    <img x-show="user.avatar" :src="user.avatar" :alt="user.login" class="h-10 w-10 rounded-full object-cover">
+                                                    <img x-show="user.avatar" :src="'/up/' + user.avatar" :alt="user.login" class="h-10 w-10 rounded-full object-cover">
                                                 </div>
                                                 <div class="ml-4">
                                                     <div class="text-sm font-medium text-zinc-900">

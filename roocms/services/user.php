@@ -22,15 +22,17 @@ class UserService {
 
     private Db $db;
     private User $user;
+    private Files $files;
 
 
 
     /**
      * Constructor
      */
-    public function __construct(Db $db, User $user) {
+    public function __construct(Db $db, User $user, Files $files) {
         $this->db = $db;
         $this->user = $user;
+        $this->files = $files;
     }
 
 
@@ -244,5 +246,121 @@ class UserService {
      */
     public function get_users_count(array $filters = []): int {
         return $this->user->get_users_count($filters);
+    }
+
+
+    /**
+     * Upload avatar for user
+     * 
+     * @param array $file Uploaded file from $_FILES
+     * @param int $user_id User ID
+     * @return string Avatar file path
+     * @throws DomainException
+     */
+    public function upload_avatar(array $file, int $user_id): string {
+        
+        // Validate basic file requirements using Files class
+        $file_info = $this->files->validate_uploaded_file($file);
+        
+        // Validate that it's an image
+        if($file_info['media_type'] !== 'image') {
+            throw new DomainException('Avatar must be an image file', 400);
+        }
+        
+        // Validate file size (max 5MB for avatars)
+        $max_size = 5 * 1024 * 1024; // 5MB
+        if($file['size'] > $max_size) {
+            throw new DomainException('Avatar file size must not exceed 5MB', 413);
+        }
+        
+        // Validate MIME type for images
+        $allowed_mimes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
+        if(!in_array($file_info['mime_type'], $allowed_mimes, true)) {
+            throw new DomainException('Avatar must be JPEG, PNG, GIF or WebP image', 415);
+        }
+        
+        // Delete old avatar if exists
+        $this->delete_avatar($user_id);
+        
+        // Generate unique filename and path
+        $extension = $file_info['extension'];
+        $filename = 'avatar_' . $user_id . '_' . time() . '.' . $extension;
+        $avatar_dir = _UPLOADAV . '/';
+        $avatar_path = $avatar_dir . $filename;
+        
+        // Ensure avatar directory exists
+        if(!is_dir($avatar_dir)) {
+            mkdir($avatar_dir, 0755, true);
+        }
+        
+        // Move uploaded file
+        if(!move_uploaded_file($file['tmp_name'], $avatar_path)) {
+            throw new DomainException('Failed to save avatar file', 500);
+        }
+        
+        // Process avatar using Files class (resize to reasonable size, no thumbnails)
+        $filename_without_ext = pathinfo($filename, PATHINFO_FILENAME);
+        $this->process_avatar_image($avatar_path, $filename_without_ext, $extension);
+        
+        // Update user profile with avatar path (relative to upload directory)
+        $relative_path = 'av/' . $filename;
+        $success = $this->user->upsert_profile($user_id, ['avatar' => $relative_path]);
+        
+        if(!$success) {
+            // Clean up file if database update failed
+            @unlink($avatar_path);
+            throw new DomainException('Failed to update user profile with avatar', 500);
+        }
+        
+        return $relative_path;
+    }
+
+
+    /**
+     * Delete avatar for user
+     * 
+     * @param int $user_id User ID
+     * @return bool Success
+     */
+    public function delete_avatar(int $user_id): bool {
+        
+        // Get current user profile
+        $profile = $this->user->get_profile($user_id);
+        
+        if(!$profile || empty($profile['avatar'])) {
+            return false; // No avatar to delete
+        }
+        
+        // Delete physical file
+        $avatar_path = _UPLOAD . '/' . $profile['avatar'];
+        if(file_exists($avatar_path)) {
+            $deleted = @unlink($avatar_path);
+            if(!$deleted) {
+                error_log("Failed to delete avatar file: " . $avatar_path);
+            }
+        }
+        
+        // Update profile to remove avatar
+        return $this->user->upsert_profile($user_id, ['avatar' => null]);
+    }
+
+
+    /**
+     * Process avatar image using Files class functionality
+     * 
+     * @param string $file_path Full path to avatar file
+     * @param string $filename Filename without extension
+     * @param string $extension File extension
+     * @return void
+     */
+    private function process_avatar_image(string $file_path, string $filename, string $extension): void {
+        
+        // Use Files class to process image (resize to 400x400, no watermark for avatars, force resize)
+        $success = $this->files->process_image($file_path, $filename, $extension, 400, 400, false, true);
+        
+        if(!$success) {
+            // Log error but don't throw exception - leave original file
+            error_log("Avatar processing failed for file: " . $file_path);
+        }
     }
 }

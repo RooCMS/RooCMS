@@ -376,4 +376,22 @@ abstract class BaseController {
         // For now, just return true for authenticated users
         return true;
     }
+
+
+	/**
+	 * Get upload error message
+	 * HTTP-specific utility method
+	 */
+	protected function get_upload_error_message(int $error_code): string {
+		return match($error_code) {
+			UPLOAD_ERR_INI_SIZE => 'File too large (exceeds php.ini limit)',
+			UPLOAD_ERR_FORM_SIZE => 'File too large (exceeds form limit)',
+			UPLOAD_ERR_PARTIAL => 'File was only partially uploaded',
+			UPLOAD_ERR_NO_FILE => 'No file was uploaded',
+			UPLOAD_ERR_NO_TMP_DIR => 'Missing temporary folder',
+			UPLOAD_ERR_CANT_WRITE => 'Failed to write file to disk',
+			UPLOAD_ERR_EXTENSION => 'Upload stopped by extension',
+			default => 'Unknown upload error'
+		};
+	}
 }

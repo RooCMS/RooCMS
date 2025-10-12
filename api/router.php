@@ -117,6 +117,8 @@ $api->post('/v1/users/me/verify-email', 'UsersController@request_verify_email', 
 $api->get('/v1/users/verify-email/{verification_code}', 'UsersController@verify_email');
 $api->patch('/v1/users/me', 'UsersController@update_me', ['AuthMiddleware']);
 $api->delete('/v1/users/me', 'UsersController@delete_me', ['AuthMiddleware']);
+$api->post('/v1/users/me/avatar', 'UsersController@upload_avatar', ['AuthMiddleware']);
+$api->delete('/v1/users/me/avatar', 'UsersController@delete_avatar', ['AuthMiddleware']);
 $api->put('/v1/users/{user_id}', 'UsersController@update_user', ['AuthMiddleware', 'RoleMiddleware@admin_access']);
 $api->delete('/v1/users/{user_id}', 'UsersController@delete_user', ['AuthMiddleware', 'RoleMiddleware@admin_access']);
 
@@ -213,6 +215,8 @@ $api->get('/', function() {
             'users_verify_email' => 'GET /api/v1/users/verify-email/{verification_code}',
             'users_update_me' => 'PATCH /api/v1/users/me',
             'users_delete_me' => 'DELETE /api/v1/users/me',
+            'users_upload_avatar' => 'POST /api/v1/users/me/avatar',
+            'users_delete_avatar' => 'DELETE /api/v1/users/me/avatar',
             'users_update_user' => 'PUT /api/v1/users/{user_id}',
             'users_delete_user' => 'DELETE /api/v1/users/{user_id}',
             'media_index' => 'GET /api/v1/media',	
