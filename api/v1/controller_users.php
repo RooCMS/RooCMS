@@ -70,11 +70,13 @@ class UsersController extends BaseController {
 			'is_banned' => fn($v) => isset($v) ? (int)(bool)$v : null,
 		];
 
-		$filters = array_filter(array_map(
-			fn($key, $mapper) => $mapper($params[$key] ?? null),
-			array_keys($filter_mappings),
-			$filter_mappings
-		), fn($v) => $v !== null);
+		$filters = [];
+		foreach($filter_mappings as $key => $mapper) {
+			$value = $mapper($params[$key] ?? null);
+			if($value !== null) {
+				$filters[$key] = $value;
+			}
+		}
 
 		// Add is_deleted filter for privileged roles only
 		if(isset($params['is_deleted']) && in_array($current['role'] ?? 'u', ['m', 'a', 'su'], true)) {

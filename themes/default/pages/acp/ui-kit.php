@@ -4,7 +4,7 @@ if(!defined('RooCMS')) {roocms_protect();}
 $page_title = 'UI Kit — Admin Control Panel — RooCMS';
 $page_description = 'UI components for RooCMS ACP';
 
-$theme_name = basename(dirname(__DIR__));
+$theme_name = basename(dirname(dirname(__DIR__)));
 $theme_base = '/themes/'.$theme_name;
 
 ob_start();

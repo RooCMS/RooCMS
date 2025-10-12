@@ -110,9 +110,9 @@ $api->post('/v1/auth/password/reset', 'AuthController@reset_password');
 $api->put('/v1/auth/password', 'AuthController@update_password', ['AuthMiddleware']);
 
 // Users endpoints
-$api->get('/v1/users', 'UsersController@index');
+$api->get('/v1/users', 'UsersController@index', ['AuthMiddleware']);
 $api->get('/v1/users/me', 'UsersController@me', ['AuthMiddleware']);
-$api->get('/v1/users/{user_id}', 'UsersController@show');
+$api->get('/v1/users/{user_id}', 'UsersController@show', ['AuthMiddleware']);
 $api->post('/v1/users/me/verify-email', 'UsersController@request_verify_email', ['AuthMiddleware']);
 $api->get('/v1/users/verify-email/{verification_code}', 'UsersController@verify_email');
 $api->patch('/v1/users/me', 'UsersController@update_me', ['AuthMiddleware']);
