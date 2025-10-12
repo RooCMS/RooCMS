@@ -25,6 +25,7 @@ if(!defined('RooCMS')) {roocms_protect();}
 class UsersController extends BaseController {
 
     private readonly UserService $userService;
+	private readonly UserListService $userListService;
     private readonly EmailService $emailService;
     private readonly Auth $auth;
 
@@ -33,10 +34,11 @@ class UsersController extends BaseController {
     /**
 	 * Constructor
 	 */
-    public function __construct(UserService $userService, EmailService $emailService, Auth $auth, Db $db, Request $request) {
+    public function __construct(UserService $userService, UserListService $userListService, EmailService $emailService, Auth $auth, Db $db, Request $request) {
         parent::__construct($db, $request);
 
         $this->userService = $userService;
+        $this->userListService = $userListService;
         $this->emailService = $emailService;
         $this->auth = $auth;
     }
@@ -84,8 +86,8 @@ class UsersController extends BaseController {
 		}
 
 		try {
-			$list = $this->userService->get_users_list($pagination['page'], $pagination['limit'], $filters);
-			$total = $this->userService->get_users_count($filters);
+			$list = $this->userListService->get_users_list($pagination['page'], $pagination['limit'], $filters);
+			$total = $this->userListService->get_users_count($filters);
 			$meta = $this->format_pagination_meta($total, $pagination['page'], $pagination['limit']);
 
 			$this->json_response([

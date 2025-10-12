@@ -130,12 +130,13 @@ spl_autoload_register(function(string $class_name) {
         'SiteSettingsService'       => _SERVICES . '/siteSettings.php',
         'UserService'               => _SERVICES . '/user.php',
         'AuthenticationService'     => _SERVICES . '/authentication.php',
-        'StructureService'          => _SERVICES . '/structure.php',
         'RegistrationService'       => _SERVICES . '/registration.php',
         'UserValidationService'     => _SERVICES . '/userValidation.php',
-        'EmailService'              => _SERVICES . '/email.php',
         'UserRecoveryService'       => _SERVICES . '/userRecovery.php',
+        'UserListService'           => _SERVICES . '/userList.php',
+        'EmailService'              => _SERVICES . '/email.php',
         'FilesService'              => _SERVICES . '/files.php',
+        'StructureService'          => _SERVICES . '/structure.php',
         'BackupService'             => _SERVICES . '/backup.php'
     ];
    
@@ -222,11 +223,12 @@ $container->register(Files::class, Files::class, true);
 $container->register(FilesService::class, FilesService::class, true);
 $container->register(DbBackuper::class, DbBackuper::class, true);
 $container->register(BackupService::class, BackupService::class, true);
-$container->register(AuthenticationService::class, AuthenticationService::class, true);
 $container->register(RegistrationService::class, RegistrationService::class, true);
-$container->register(EmailService::class, EmailService::class, true);
 $container->register(UserRecoveryService::class, UserRecoveryService::class, true);
 $container->register(UserValidationService::class, UserValidationService::class, true);
+$container->register(UserListService::class, UserListService::class, true);
+$container->register(EmailService::class, EmailService::class, true);
+$container->register(AuthenticationService::class, AuthenticationService::class, true);
 $container->register(StructureService::class, StructureService::class, true);
 
 /**

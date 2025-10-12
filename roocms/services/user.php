@@ -231,25 +231,6 @@ class UserService {
 
 
     /**
-     * List users (with pagination and filters)
-     */
-    public function get_users_list(int $page = 1, int $per_page = 20, array $filters = []): array {
-        // guard page/per_page
-        $page = max(1, (int)$page);
-        $per_page = max(1, min(100, (int)$per_page));
-        return $this->user->get_users_list($page, $per_page, $filters);
-    }
-
-    
-    /**
-     * Count users (with filters)
-     */
-    public function get_users_count(array $filters = []): int {
-        return $this->user->get_users_count($filters);
-    }
-
-
-    /**
      * Upload avatar for user
      * 
      * @param array $file Uploaded file from $_FILES
