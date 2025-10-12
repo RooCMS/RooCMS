@@ -16,14 +16,14 @@ async function getHealthDetails() {
         });
 
         if (!res.ok) {
-            log('error', 'Failed to fetch health details:', res.status, res.statusText);
+            window.log('error', 'Failed to fetch health details:', res.status, res.statusText);
             return null;
         }
 
         const data = await res.json();
         return data?.data || data;
     } catch (error) {
-        log('error', 'Error fetching health details:', error);
+        window.log('error', 'Error fetching health details:', error);
         return null;
     }
 }
@@ -126,7 +126,7 @@ document.addEventListener('alpine:init', () => {
                     this.error = 'Not able to load system health data';
                 }
             } catch (error) {
-                log('error', 'Error loading system health data:', error);
+                window.log('error', 'Error loading system health data:', error);
                 this.error = 'Error loading system health data';
             } finally {
                 this.loading = false;

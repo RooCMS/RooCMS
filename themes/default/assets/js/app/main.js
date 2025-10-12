@@ -43,9 +43,9 @@ document.addEventListener('DOMContentLoaded', async () => {
     /*if (isServiceWorkerSupported()) {
         try {
             await initServiceWorker();
-            log('log', '[Main] Service Worker initialized');
+            window.log('log', '[Main] Service Worker initialized');
         } catch (error) {
-            log('error', '[Main] Service Worker initialization failed:', error);
+            window.log('error', '[Main] Service Worker initialization failed:', error);
         }
     }*/
 
@@ -266,4 +266,4 @@ window.showMessage = showMessage;
 window.log = log;
 
 // Global error handler
-window.addEventListener('error', (e) => log('error', 'Global error:', e.error));
+window.addEventListener('error', (e) => window.log('error', 'Global error:', e.error));

@@ -28,9 +28,9 @@ window.usersManager = () => ({
     // Initialization
     init() {
         if (DEBUG) {
-            log('log', 'Initializing Alpine users manager...');
-            log('log', 'Access token present:', !!localStorage.getItem('access_token'));
-            log('log', 'Refresh token present:', !!localStorage.getItem('refresh_token'));
+            window.log('log', 'Initializing Alpine users manager...');
+            window.log('log', 'Access token present:', !!localStorage.getItem('access_token'));
+            window.log('log', 'Refresh token present:', !!localStorage.getItem('refresh_token'));
         }
         this.loadUsers();
     },
@@ -73,11 +73,11 @@ window.usersManager = () => ({
                 }
             }
 
-            if (DEBUG) log('log', 'Loading users with params:', params.toString());
+            if (DEBUG) window.log('log', 'Loading users with params:', params.toString());
 
             const response = await request(`/v1/users?${params.toString()}`);
 
-            if (DEBUG) log('log', 'API Response status:', response.status);
+            if (DEBUG) window.log('log', 'API Response status:', response.status);
 
             if (!response.ok) {
                 // Handle specific error cases
@@ -103,12 +103,12 @@ window.usersManager = () => ({
 
             const responseData = await response.json();
 
-            if (DEBUG) log('log', 'Raw API response:', responseData);
+            if (DEBUG) window.log('log', 'Raw API response:', responseData);
 
             // API returns data wrapped in 'data' property
             const data = responseData.data || responseData;
 
-            if (DEBUG) log('log', 'Extracted data:', data);
+            if (DEBUG) window.log('log', 'Extracted data:', data);
 
             this.users = data.items || [];
             this.pagination = {
@@ -119,16 +119,16 @@ window.usersManager = () => ({
             };
 
             if (DEBUG) {
-                log('log', 'Users loaded successfully:', this.users.length, 'users');
-                log('log', 'Pagination:', this.pagination);
-                log('log', 'Pagination buttons should be:', {
+                window.log('log', 'Users loaded successfully:', this.users.length, 'users');
+                window.log('log', 'Pagination:', this.pagination);
+                window.log('log', 'Pagination buttons should be:', {
                     prevDisabled: this.pagination.current <= 1,
                     nextDisabled: this.pagination.current >= this.pagination.last
                 });
-                log('log', 'First user sample:', this.users[0]);
+                window.log('log', 'First user sample:', this.users[0]);
             }
         } catch (error) {
-            if (DEBUG) log('error', 'Error loading users:', error);
+            if (DEBUG) window.log('error', 'Error loading users:', error);
             this.showMessage('Error loading users: ' + error.message, 'error');
         } finally {
             this.loading = false;
@@ -158,12 +158,12 @@ window.usersManager = () => ({
 
     // Pagination methods
     goToPage(page) {
-        if (DEBUG) log('log', 'goToPage called with:', page, 'current:', this.pagination.current, 'last:', this.pagination.last);
+        if (DEBUG) window.log('log', 'goToPage called with:', page, 'current:', this.pagination.current, 'last:', this.pagination.last);
         if (page < 1 || page > this.pagination.last) {
-            if (DEBUG) log('log', 'Page out of range, returning');
+            if (DEBUG) window.log('log', 'Page out of range, returning');
             return;
         }
-        if (DEBUG) log('log', 'Loading page:', page);
+        if (DEBUG) window.log('log', 'Loading page:', page);
         this.loadUsers(page);
     },
 
@@ -269,7 +269,7 @@ window.usersManager = () => ({
     // User action methods
     editUser(user) {
         // TODO: Implement user editing modal/form
-        if (DEBUG) log('log', 'Edit user:', user);
+        if (DEBUG) window.log('log', 'Edit user:', user);
         this.showMessage('User editing not implemented yet', 'error');
     },
 
@@ -295,7 +295,7 @@ window.usersManager = () => ({
             this.loadUsers(this.pagination.current);
             this.showMessage(`User "${user.login}" has been banned`, 'success');
         } catch (error) {
-            if (DEBUG) log('error', 'Error banning user:', error);
+            if (DEBUG) window.log('error', 'Error banning user:', error);
             this.showMessage('Error banning user: ' + error.message, 'error');
         }
     },
@@ -323,7 +323,7 @@ window.usersManager = () => ({
             this.loadUsers(this.pagination.current);
             this.showMessage(`User "${user.login}" has been unbanned`, 'success');
         } catch (error) {
-            if (DEBUG) log('error', 'Error unbanning user:', error);
+            if (DEBUG) window.log('error', 'Error unbanning user:', error);
             this.showMessage('Error unbanning user: ' + error.message, 'error');
         }
     },

@@ -17,11 +17,11 @@ document.addEventListener('alpine:init', () => {
 
     // Initialization
     init() {
-        if (DEBUG) log('log', 'Initializing Alpine debug logs manager with', this.logs.length, 'logs');
+        if (DEBUG) window.log('log', 'Initializing Alpine debug logs manager with', this.logs.length, 'logs');
         
         // Validate logs data
         if (!Array.isArray(this.logs)) {
-            log('warn', 'Debug logs data is not an array, initializing empty array');
+            window.log('warn', 'Debug logs data is not an array, initializing empty array');
             this.logs = [];
         }
     },
@@ -284,7 +284,7 @@ document.addEventListener('alpine:init', () => {
                 'success'
             );
         } catch (error) {
-            if (DEBUG) log('error', 'Error clearing logs:', error);
+            if (DEBUG) window.log('error', 'Error clearing logs:', error);
             await window.modal(
                 'Ошибка',
                 'Произошла ошибка при очистке логов: ' + error.message,
