@@ -216,23 +216,28 @@ ob_start();
                     <div class="flex items-center space-x-2">
                         <button @click="goToPage(pagination.current - 1)"
                                 :disabled="pagination.current <= 1"
-                                class="relative inline-flex items-center px-2 py-2 rounded-l-md border border-zinc-300 bg-white text-sm font-medium text-zinc-500 hover:bg-zinc-50 disabled:opacity-50 disabled:cursor-not-allowed">
+                                class="cursor-pointer relative inline-flex items-center px-2 py-2 rounded-l-md border border-zinc-300 bg-white text-sm font-medium text-zinc-500 hover:bg-zinc-50 disabled:opacity-50 disabled:cursor-not-allowed">
                             <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
                             </svg>
                         </button>
 
                         <template x-for="page in getVisiblePages()" :key="page">
-                            <button @click="goToPage(page)"
-                                    :class="page === pagination.current ?
-                                        'z-10 bg-sky-50 border-sky-500 text-sky-600 relative inline-flex items-center px-4 py-2 border text-sm font-medium' :
-                                        'bg-white border-zinc-300 text-zinc-500 hover:bg-zinc-50 relative inline-flex items-center px-4 py-2 border text-sm font-medium'"
-                                    x-text="page"></button>
+                            <template x-if="page !== '...'">
+                                <button @click="goToPage(page)"
+                                        :class="page === pagination.current ?
+                                            'cursor-pointer z-10 bg-sky-50 border-sky-500 text-sky-600 relative inline-flex items-center px-4 py-2 border text-sm font-medium' :
+                                            'cursor-pointer bg-white border-zinc-300 text-zinc-500 hover:bg-zinc-50 relative inline-flex items-center px-4 py-2 border text-sm font-medium'"
+                                        x-text="page"></button>
+                            </template>
+                            <template x-if="page === '...'">
+                                <span class="relative inline-flex items-center px-4 py-2 border border-zinc-300 bg-white text-sm font-medium text-zinc-700">...</span>
+                            </template>
                         </template>
 
                         <button @click="goToPage(pagination.current + 1)"
                                 :disabled="pagination.current >= pagination.last"
-                                class="relative inline-flex items-center px-2 py-2 rounded-r-md border border-zinc-300 bg-white text-sm font-medium text-zinc-500 hover:bg-zinc-50 disabled:opacity-50 disabled:cursor-not-allowed">
+                                class="cursor-pointer relative inline-flex items-center px-2 py-2 rounded-r-md border border-zinc-300 bg-white text-sm font-medium text-zinc-500 hover:bg-zinc-50 disabled:opacity-50 disabled:cursor-not-allowed">
                             <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
                             </svg>

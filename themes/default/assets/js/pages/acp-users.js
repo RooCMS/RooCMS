@@ -113,7 +113,7 @@ window.usersManager = () => ({
             this.users = data.items || [];
             this.pagination = {
                 current: data.meta?.current_page || 1,
-                last: data.meta?.last_page || 1,
+                last: data.meta?.total_pages || 1,
                 total: data.meta?.total || 0,
                 per_page: data.meta?.per_page || 20
             };
@@ -121,6 +121,10 @@ window.usersManager = () => ({
             if (DEBUG) {
                 console.log('Users loaded successfully:', this.users.length, 'users');
                 console.log('Pagination:', this.pagination);
+                console.log('Pagination buttons should be:', {
+                    prevDisabled: this.pagination.current <= 1,
+                    nextDisabled: this.pagination.current >= this.pagination.last
+                });
                 console.log('First user sample:', this.users[0]);
             }
         } catch (error) {
@@ -154,7 +158,12 @@ window.usersManager = () => ({
 
     // Pagination methods
     goToPage(page) {
-        if (page < 1 || page > this.pagination.last) return;
+        if (DEBUG) console.log('goToPage called with:', page, 'current:', this.pagination.current, 'last:', this.pagination.last);
+        if (page < 1 || page > this.pagination.last) {
+            if (DEBUG) console.log('Page out of range, returning');
+            return;
+        }
+        if (DEBUG) console.log('Loading page:', page);
         this.loadUsers(page);
     },
 
