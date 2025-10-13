@@ -888,4 +888,3 @@
 .toggle-input:checked + .toggle-switch.enabled.danger {
     @apply bg-gradient-to-r from-rose-500 to-pink-500;
 }
-

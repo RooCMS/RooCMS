@@ -106,6 +106,10 @@ document.addEventListener('alpine:init', () => {
             return this.getRoocmsInfo()?.version || 'Unknown';
         },
 
+        get usersCount() {
+            return this.healthData?.['users in system'] || 0;
+        },
+
         async init() {
             await this.loadHealthData();
             this.startCountdown();

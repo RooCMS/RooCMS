@@ -23,6 +23,19 @@ if(!defined('RooCMS')) {roocms_protect();}
  * Provides system health status and diagnostics
  */
 class HealthController extends BaseController {
+
+    private readonly UserListService $userListService;
+
+
+
+    /**
+     * Constructor
+     */
+    public function __construct(Db $db, Request $request, UserListService $userListService) {
+        parent::__construct($db, $request);
+        $this->userListService = $userListService;
+    }
+
     
     /**
      * Get system health status
@@ -63,7 +76,8 @@ class HealthController extends BaseController {
             'database check' => $this->get_database_health(),
             'system_info' => $this->get_detailed_system_info(),
             'php_info' => $this->get_php_info(),
-            'roocms_info' => $this->get_roocms_info()
+            'roocms_info' => $this->get_roocms_info(),
+            'users in system' => $this->get_users_count()
         ];
 
         $this->json_response($response);
@@ -165,13 +179,23 @@ class HealthController extends BaseController {
      */
     private function get_roocms_info(): array {
         $info = [
-            'version' => defined('ROOCMS_FULL_VERSION') ? ROOCMS_FULL_VERSION : 'Unknown',
-            'major_version' => defined('ROOCMS_MAJOR_VERSION') ? ROOCMS_MAJOR_VERSION : 'Unknown',
-            'minor_version' => defined('ROOCMS_MINOR_VERSION') ? ROOCMS_MINOR_VERSION : 'Unknown',
-            'release_version' => defined('ROOCMS_RELEASE_VERSION') ? ROOCMS_RELEASE_VERSION : 'Unknown',
-            'build' => defined('ROOCMS_BUILD_VERSION') ? ROOCMS_BUILD_VERSION : 'Unknown'
+            'version' => ROOCMS_FULL_VERSION,
+            'major_version' => ROOCMS_MAJOR_VERSION,
+            'minor_version' => ROOCMS_MINOR_VERSION,
+            'release_version' => ROOCMS_RELEASE_VERSION,
+            'build' => ROOCMS_BUILD_VERSION
         ];
         
         return $info;
+    }
+
+
+    /**
+     * Get users count
+     * 
+     * @return int
+     */
+    private function get_users_count(): int {
+        return $this->userListService->get_users_count();
     }
 }
