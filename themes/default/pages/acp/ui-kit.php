@@ -34,13 +34,13 @@ ob_start();
 					<h2 class="mb-4 text-base font-semibold text-zinc-900">Кнопки</h2>
 					<div class="rounded-xl border border-zinc-200/80 bg-white/80 p-5 shadow-sm backdrop-blur">
 						<div class="flex flex-wrap gap-3">
-							<button type="button" class="inline-flex items-center justify-center rounded-lg bg-zinc-900 px-4 py-2 text-sm font-medium text-white hover:bg-zinc-800">Primary</button>
-							<button type="button" class="inline-flex items-center justify-center rounded-lg border border-zinc-200 bg-white px-4 py-2 text-sm font-medium text-zinc-900 hover:bg-zinc-50">Secondary</button>
-							<button type="button" class="inline-flex items-center justify-center rounded-lg bg-emerald-600 px-4 py-2 text-sm font-medium text-white hover:bg-emerald-700">Success</button>
-							<button type="button" class="inline-flex items-center justify-center rounded-lg bg-amber-500 px-4 py-2 text-sm font-medium text-white hover:bg-amber-600">Warning</button>
-							<button type="button" class="inline-flex items-center justify-center rounded-lg bg-rose-600 px-4 py-2 text-sm font-medium text-white hover:bg-rose-700">Danger</button>
-							<button type="button" class="inline-flex items-center justify-center rounded-lg px-4 py-2 text-sm font-medium text-zinc-700 hover:bg-zinc-100">Ghost</button>
-							<button type="button" disabled class="inline-flex items-center justify-center rounded-lg border border-zinc-200 bg-white px-4 py-2 text-sm font-medium text-zinc-400">Disabled</button>
+							<button type="button" class="inline-flex items-center justify-center rounded-lg cursor-pointer bg-zinc-900 px-4 py-2 text-sm font-medium text-white hover:bg-zinc-800">Primary</button>
+							<button type="button" class="inline-flex items-center justify-center rounded-lg cursor-pointer 	border border-zinc-200 bg-white px-4 py-2 text-sm font-medium text-zinc-900 hover:bg-zinc-50">Secondary</button>
+							<button type="button" class="inline-flex items-center justify-center rounded-lg cursor-pointer bg-emerald-600 px-4 py-2 text-sm font-medium text-white hover:bg-emerald-700">Success</button>
+							<button type="button" class="inline-flex items-center justify-center rounded-lg cursor-pointer bg-amber-500 px-4 py-2 text-sm font-medium text-white hover:bg-amber-600">Warning</button>
+							<button type="button" class="inline-flex items-center justify-center rounded-lg cursor-pointer bg-rose-600 px-4 py-2 text-sm font-medium text-white hover:bg-rose-700">Danger</button>
+							<button type="button" class="inline-flex items-center justify-center rounded-lg cursor-pointer px-4 py-2 text-sm font-medium text-zinc-700 hover:bg-zinc-100">Ghost</button>
+							<button type="button" disabled class="inline-flex items-center justify-center rounded-lg cursor-pointer border border-zinc-200 bg-white px-4 py-2 text-sm font-medium text-zinc-400">Disabled</button>
 						</div>
 					</div>
 				</section>
@@ -55,6 +55,30 @@ ob_start();
 							<span class="rounded-md bg-emerald-100 px-2.5 py-1 text-emerald-700">Success</span>
 							<span class="rounded-md bg-amber-100 px-2.5 py-1 text-amber-700">Warning</span>
 							<span class="rounded-md bg-rose-100 px-2.5 py-1 text-rose-700">Danger</span>
+						</div>
+					</div>
+				</section>
+
+				<section>
+					<h2 class="mb-4 text-base font-semibold text-zinc-900">Special badges</h2>
+					<div class="rounded-xl border border-zinc-200/80 bg-white/80 p-5 shadow-sm backdrop-blur">
+						<div class="flex flex-wrap items-center gap-3 text-xs font-medium">
+							<span class="rounded-sm bg-zinc-100 border border-zinc-200 px-2.5 py-1 text-zinc-700">Normal</span>
+							<span class="rounded-sm bg-sky-100 border border-sky-200 px-2.5 py-1 text-sky-700">New</span>
+							<span class="rounded-sm bg-emerald-100 border border-emerald-200 px-2.5 py-1 text-emerald-700">Hot</span>
+							<span class="rounded-sm bg-amber-100 border border-amber-200 px-2.5 py-1 text-amber-700">Updated</span>
+							<span class="rounded-sm bg-rose-100 border border-rose-200 px-2.5 py-1 text-rose-700">On hold</span>
+							<span class="rounded-sm bg-blue-100 border border-blue-200 px-2.5 py-1 text-blue-700">Draft</span>
+							<span class="rounded-sm bg-purple-100 border border-purple-200 px-2.5 py-1 text-purple-700">Pending</span>
+							<span class="rounded-sm bg-orange-100 border border-orange-200 px-2.5 py-1 text-orange-700">Archived</span>
+							<span class="rounded-sm bg-gray-100 border border-gray-200 px-2.5 py-1 text-gray-700">Cancelled</span>
+							<span class="rounded-sm bg-pink-100 border border-pink-200 px-2.5 py-1 text-pink-700">Rejected</span>
+							<span class="rounded-sm bg-teal-100 border border-teal-200 px-2.5 py-1 text-teal-700">Scheduled</span>
+							<span class="rounded-sm bg-indigo-100 border border-indigo-200 px-2.5 py-1 text-indigo-700">Verified</span>
+							<span class="rounded-sm bg-lime-100 border border-lime-200 px-2.5 py-1 text-lime-700">Completed</span>
+							<span class="rounded-sm bg-cyan-100 border border-cyan-200 px-2.5 py-1 text-cyan-700">In progress</span>
+							<span class="rounded-sm bg-fuchsia-100 border border-fuchsia-200 px-2.5 py-1 text-fuchsia-700">Deleted</span>
+							<span class="rounded-sm bg-violet-100 border border-violet-200 px-2.5 py-1 text-violet-700">Inactive</span>
 						</div>
 					</div>
 				</section>
