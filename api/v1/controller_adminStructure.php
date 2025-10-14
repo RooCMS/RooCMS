@@ -25,15 +25,15 @@ if(!defined('RooCMS')) {roocms_protect();}
  */
 class AdminStructureController extends BaseController {
 
-    private readonly StructureService $structureService;
+    private readonly StructureManageService $structureManageService;
 
 
     /**
      * Constructor
      */
-    public function __construct(StructureService $structureService, Db $db, Request $request) {
+    public function __construct(StructureService $structureService, StructureManageService $structureManageService, Db $db, Request $request) {
         parent::__construct($db, $request);
-        $this->structureService = $structureService;
+        $this->structureManageService = $structureManageService;
     }
 
 
@@ -63,7 +63,7 @@ class AdminStructureController extends BaseController {
             $limit = min(200, max(1, (int)($params['limit'] ?? 50)));
             $offset = max(0, (int)($params['offset'] ?? 0));
 
-            $result = $this->structureService->get_admin_pages($filters, $limit, $offset);
+            $result = $this->structureManageService->get_admin_pages($filters, $limit, $offset);
 
             $this->json_response([
                 'pages' => $result['pages'],
@@ -93,7 +93,7 @@ class AdminStructureController extends BaseController {
         }
 
         try {
-            $page = $this->structureService->get_admin_page_by_id($id);
+            $page = $this->structureManageService->get_admin_page_by_id($id);
 
             if (!$page) {
                 $this->not_found_response('Page not found');
@@ -119,7 +119,7 @@ class AdminStructureController extends BaseController {
         try {
             $data = $this->get_input_data();
             
-            $created_page = $this->structureService->create_page($data);
+            $created_page = $this->structureManageService->create_page($data);
 
             if ($created_page) {
                 $this->json_response($created_page, 201);
@@ -151,7 +151,7 @@ class AdminStructureController extends BaseController {
         try {
             $data = $this->get_input_data();
             
-            $updated_page = $this->structureService->update_page($id, $data);
+            $updated_page = $this->structureManageService->update_page($id, $data);
 
             if ($updated_page) {
                 $this->json_response($updated_page);
@@ -187,7 +187,7 @@ class AdminStructureController extends BaseController {
         }
 
         try {
-            $success = $this->structureService->delete_page($id);
+            $success = $this->structureManageService->delete_page($id);
 
             if ($success) {
                 $this->json_response([
@@ -227,7 +227,7 @@ class AdminStructureController extends BaseController {
                 return;
             }
 
-            $success = $this->structureService->change_page_status($id, $data['status']);
+            $success = $this->structureManageService->change_page_status($id, $data['status']);
 
             if ($success) {
                 $this->json_response([
@@ -261,7 +261,7 @@ class AdminStructureController extends BaseController {
                 return;
             }
 
-            $this->structureService->reorder_pages($data['pages']);
+            $this->structureManageService->reorder_pages($data['pages']);
 
             $this->json_response([
                 'message' => 'Pages reordered successfully',
