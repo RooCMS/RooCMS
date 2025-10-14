@@ -11,6 +11,8 @@ This document describes the organization of files and directories in the RooCMS 
 ├── 📁 storage/                # Storage
 ├── 📁 themes/                 # Themes
 ├── 📁 up/                     # Uploaded files
+├── 📁 docs/                   # Documentation
+├── 📄 ABOUT.md                # About RooCMS
 ├── 📄 err.php                 # Error handler
 ├── 📄 favicon.ico             # Favicon
 ├── 📄 index.php               # Main entry point
@@ -21,7 +23,7 @@ This document describes the organization of files and directories in the RooCMS 
 ├── 📄 README.md               # Main docs
 ├── 📄 RELEASE.md              # Release info
 ├── 📄 robots.txt              # Robots rules
-└── 📄 structure.md            # Project structure docs
+└── 📄 STRUCTURE.md            # Project structure docs
 ```
 
 ## 🌐 API (`/api/`)
@@ -90,6 +92,7 @@ roocms/modules/
 │   ├── 📄 trait_dbBackuperMSQL.php             # MySQL/MariaDB backup operations
 │   ├── 📄 trait_dbBackuperPSQL.php             # PostgreSQL backup operations
 │   ├── 📄 trait_dbExtends.php                  # Database extension utilities
+|   ├── 📄 trait_dbHelpers.php                  # Database helper methods
 │   └── 📄 trait_dbLogger.php                   # Database logging trait
 ├── 📁 di/                                      # Dependency injection classes
 │   ├── 📄 class_defaultControllerFactory.php   # Default controller factory implementation
@@ -155,10 +158,14 @@ roocms/services/
 ├── 📄 backup.php              # Database backup service
 ├── 📄 email.php               # Email service
 ├── 📄 files.php               # Files management service
+├── 📄 filesCommon.php         # Files common service (trait with common file operations)
 ├── 📄 registration.php        # User registration service
 ├── 📄 siteSettings.php        # Site settings service
 ├── 📄 structure.php           # Structure service
+├── 📄 structureManage.php     # Structure management service
+├── 📄 structureCommon.php     # Structure common service
 ├── 📄 user.php                # User service
+├── 📄 userList.php            # User list service
 ├── 📄 userRecovery.php        # User password recovery service
 └── 📄 userValidation.php      # User validation service
 ```
@@ -223,7 +230,7 @@ storage/
 │       └── 📄 welcome.php     # Welcome template
 ├── 📁 fonts/                  # System fonts
 │   ├── 📄 index.php           # Protected file
-│   └── 📄 trebuc.ttf          # Trebuchet MS font
+│   └── 📄 trebuc.ttf          # Trebuchet MS font for watermarks
 ├── 📄 index.php               # Protected file
 └── 📁 logs/                   # System logs
     ├── 📄 debug.log           # Debug log
@@ -238,7 +245,7 @@ Directory for storing uploaded user files.
 
 ```
 up/
-├── 📁 av/                     # Audio and video files
+├── 📁 av/                     # Avatar files
 ├── 📁 files/                  # General uploaded files
 │   └── 📄 index.php           # Protected file
 ├── 📁 img/                    # Uploaded images
@@ -254,8 +261,11 @@ themes/
 ├── 📁 default/                            # Default theme
 │   ├── 📁 assets/                         # Theme resources
 │   │   ├── 📁 css/                        # CSS styles
+│   │   │   ├── 📄 fonts.css               # Font definitions
 │   │   │   ├── 📄 roocms.css              # RooCMS main styles
-│   │   │   └── 📄 roocms.min.css          # Minified RooCMS styles
+│   │   │   ├── 📄 roocms.min.css          # Minified RooCMS styles
+│   │   │   └── 📁 fonts/                  # Font files (Fira Sans, Open Sans, PT Sans, Ubuntu)
+│   │   │       └── 📄 *.woff, *.woff2     # Font files for different weights and styles
 │   │   └── 📁 js/                         # JavaScript files
 │   │       ├── 📄 alpine.csp.min.js       # Alpine.js with CSP support
 │   │       ├── 📁 app/                    # Application modules
@@ -275,6 +285,7 @@ themes/
 │   │           ├── 📄 acp-dashboard.js    # Admin dashboard page
 │   │           ├── 📄 acp-debug.js        # Admin debug page
 │   │           ├── 📄 acp-settings.js     # Admin settings page
+│   │           ├── 📄 acp-users.js        # Admin users page
 │   │           ├── 📄 login.js            # Login page
 │   │           ├── 📄 password-forgot.js  # Password forgot page
 │   │           ├── 📄 password-reset.js   # Password reset page
@@ -293,7 +304,8 @@ themes/
 │   │   │   ├── 📄 debug.php               # ACP debug page
 │   │   │   ├── 📄 index.php               # ACP dashboard
 │   │   │   ├── 📄 settings.php            # ACP settings
-│   │   │   └── 📄 ui-kit.php              # ACP UI kit
+│   │   │   ├── 📄 ui-kit.php              # ACP UI kit
+│   │   │   └── 📄 users.php               # ACP users page
 │   │   ├── 📄 index.php                   # Home page
 │   │   ├── 📄 login.php                   # Login page
 │   │   ├── 📄 offline.php                 # Offline page (for service worker)
@@ -429,6 +441,7 @@ Comprehensive file management system with support for multiple file types, autom
 - **FileManagerArch trait** (`trait_fileManagerArch.php`) - Archive processing for ZIP, TAR, GZ formats
 - **GD class** (`class_gd.php`) - Advanced image processing library with resize, crop, watermark capabilities
 - **FilesService** (`services/files.php`) - Business logic layer with validation, error handling, and file management
+- **FilesCommonService trait** (`services/filesCommon.php`) - Common file operations trait with upload, delete, and metadata management
 - **API controller** (`controller_media.php`) - RESTful API for media operations
 - **Storage structure** (`/up/`) - Organized file storage by file type
 
@@ -460,6 +473,7 @@ GD (image processing)
 └── SiteSettings integration       # Configuration and watermark settings
 
 FilesService (business layer)
+├── use FilesCommonService         # Common file operations (upload, delete, metadata)
 ├── File validation                # MIME types, size limits, upload errors
 ├── Business rules                 # User permissions, storage quotas
 ├── Error handling                 # Exception management and logging

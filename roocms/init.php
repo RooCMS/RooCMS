@@ -136,6 +136,7 @@ spl_autoload_register(function(string $class_name) {
         'UserListService'           => _SERVICES . '/userList.php',
         'EmailService'              => _SERVICES . '/email.php',
         'FilesService'              => _SERVICES . '/files.php',
+        'FilesCommonService'        => _SERVICES . '/filesCommon.php',
         'StructureService'          => _SERVICES . '/structure.php',
         'StructureManageService'    => _SERVICES . '/structureManage.php',
         'StructureCommonService'    => _SERVICES . '/structureCommon.php',
