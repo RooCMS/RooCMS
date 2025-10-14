@@ -1,5 +1,13 @@
 /* Tailwind CSS 4 | MIT License | https://tailwindcss.com */
+@import url('https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,100..900;1,100..900&family=IBM+Plex+Sans:ital,wght@0,100..700;1,100..700&family=Roboto+Slab:wght@100..900&family=Sofia+Sans:ital,wght@0,1..1000;1,1..1000&display=swap');
 @import "tailwindcss";
+
+@theme {
+    --font-ibm: "IBM Plex Sans", sans-serif;
+    --font-exo: "Exo 2", sans-serif;
+    --font-sofia: "Sofia Sans", sans-serif;
+    --font-roboto-slab: "Roboto Slab", sans-serif;
+}
 
 /*
  * RooCMS Default Style

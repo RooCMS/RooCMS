@@ -305,7 +305,7 @@ ob_start();
 						<div class="mt-6 grid grid-cols-1 gap-4 md:grid-cols-3">
 							<div class="relative inline-block h-12 w-12">
 								<img alt="Online" src="https://i.pravatar.cc/64?img=7" class="block h-12 w-12 rounded-full object-cover ring-2 ring-white transition hover:scale-[1.03] hover:ring-zinc-300">
-								<span class="absolute bottom-0 right-0 inline-block h-3.5 w-3.5 translate-x-[2px] translate-y-[2px] rounded-full bg-emerald-500 ring-2 ring-white"></span>
+								<span class="absolute bottom-0 right-0 inline-block h-3.5 w-3.5 translate-x-[2px] translate-y-[2px] rounded-full bg-emerald-500 ring-2 ring-white animate-pulse"></span>
 							</div>
 							<div class="relative inline-block h-12 w-12">
 								<img alt="Offline" src="https://i.pravatar.cc/64?img=8" class="block h-12 w-12 rounded-full object-cover ring-2 ring-white transition hover:scale-[1.03] hover:ring-zinc-300">

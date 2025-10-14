@@ -31,9 +31,9 @@ function get_csp_header(): string {
     $csp = [
         "default-src" => "'self'",
         "script-src" => "'self' 'nonce-".CSPNONCE."'",
-        "style-src" => "'self' 'unsafe-inline' 'nonce-".CSPNONCE."'",
+        "style-src" => "'self' 'unsafe-inline' 'nonce-".CSPNONCE."' https://fonts.googleapis.com",
         "img-src" => "'self' data: https:",
-        "font-src" => "'self'",
+        "font-src" => "'self' https://fonts.gstatic.com",
         "connect-src" => "'self'",
         "frame-src" => "'none'",
         "object-src" => "'none'",
