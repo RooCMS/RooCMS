@@ -191,4 +191,57 @@ trait FilesCommonService {
 		
 		return $this->files->update_status($id, $status);
 	}
+
+
+	/**
+	 * Check if user has permission to modify the file (delete/update)
+	 * 
+	 * @param array $file File data
+	 * @param array $current_user Current user data
+	 * @param string $operation Operation type (delete, update)
+	 * @throws DomainException
+	 */
+	private function check_modify_permissions(array $file, array $current_user, string $operation): void {
+		$user_id = (int)$current_user['id'];
+		$user_role = $current_user['role'] ?? Role::USER;
+		$file_user_id = isset($file['user_id']) ? (int)$file['user_id'] : null;
+		
+		// Check if user is the author
+		if($file_user_id !== null && $file_user_id === $user_id) {
+			return; // Author can modify their own files
+		}
+		
+		// Check if user has moderator access or higher (moderator, admin, su)
+		if($this->role->has_moderator_access($user_role)) {
+			return; // Moderator, admin, or superuser can modify any file
+		}
+		
+		// Access denied
+		throw new DomainException("Access denied: only file author or moderator/admin can {$operation} files", 403);
+	}
+
+
+	/**
+	 * Get file with formatted data
+	 * 
+	 * @param int $id Media ID
+	 * @return array|null Formatted media data or null
+	 */
+	public function get_file_formatted(int $id): ?array {
+		$media = $this->files->get_by_id($id);
+		
+		if(!$media) {
+			return null;
+		}
+		
+		// Get variants
+		$media['variants'] = $this->files->get_variants($id);
+		
+		return $this->format_media_data($media);
+	}
+
+    /**
+     * Abstract methods
+     */
+    abstract function format_media_data(array $media): array;
 }
