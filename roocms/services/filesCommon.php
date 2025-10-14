@@ -140,8 +140,13 @@ trait FilesCommonService {
 		
 		// Check update success and return formatted data
 		(!$success) && throw new DomainException('Failed to update media', 500);
-		
-		return $this->get_file_formatted($id);
+
+		$formatted = $this->get_file_formatted($id);
+		if ($formatted === null) {
+			throw new DomainException('Failed to retrieve updated media data', 500);
+		}
+
+		return $formatted;
 	}
 
 
