@@ -1,19 +1,7 @@
-
-[![RooCMS](https://dev.roocms.com/skin/default/img/logo.png)](https://www.roocms.com)
+[![RooCMS](https://dev.roocms.com/skin/default/img/logo.png)](https://www.roocms.com) 
 ===============================
- [![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
-[![PHP Version](https://img.shields.io/badge/PHP-8.1%2B-blue)](https://www.php.net/)
-![Database](https://img.shields.io/badge/DB-MySQL%20%7C%20PostgreSQL%20%7C%20Firebird-orange)
+[![RooCMS](https://img.shields.io/badge/RooCMS-2.0.0%20alpha-green)](https://www.roocms.com)  [![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 
-| RooCMS   | Open Source Free CMS                              |
-|:--------:|:--------------------------------------------------|
-| Author   | alex Roosso                                       |
-| Web      | https://www.roocms.com                            |
-| Contact  | info@roocms.com                                   |
-| Download | https://github.com/RooCMS/RooCMS/releases         |
-| Source   | https://github.com/RooCMS/RooCMS                  |
-| License  | GNU GPL v3                                        |
-| CodeRank | [![Codacy Badge](https://app.codacy.com/project/badge/Grade/e9c0df8a7bd5445eb45fc727bf0cd8c4)](https://www.codacy.com/gh/RooCMS/RooCMS/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=RooCMS/RooCMS&amp;utm_campaign=Badge_Grade)  [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/RooCMS/RooCMS/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/RooCMS/RooCMS/?branch=master)                                      |
 
 Contents
 --------
@@ -28,6 +16,7 @@ Contents
 - [Contributing](#contributing)
 - [Security](#security)
 - [License](#license)
+- [CodeRank and Dev Status](#coderrank-and-dev-status)
 
 Notice to our RooCMS Users
 -------------------
@@ -37,31 +26,19 @@ This is the development branch for version 2.0. All code here is unstable and ma
 
 System requirements
 -------------------
- - WebServer:	`Apache 2.2`, `Apache 2.4`, `Nginx`
- - PHP:		`8.1+`
- - DB:		`MySQL 5.7+`, `MariaDB: 10.10+`, `PostgreSQL 14+`, `Firebird`
+ - WebServer:	[![Apache 2.2](https://img.shields.io/badge/Apache-2.2-red)](https://httpd.apache.org/)  [![Apache 2.4](https://img.shields.io/badge/Apache-2.4-red)](https://httpd.apache.org/)  [![Nginx](https://img.shields.io/badge/Nginx-latest-brightgreen)](https://nginx.org/)
+ - PHP:		[![PHP](https://img.shields.io/badge/PHP-8.1+-8892BF.svg)](https://php.net)
+ - DB:		[![MySQL](https://img.shields.io/badge/MySQL-5.7+-00758F)](https://www.mysql.com/)  [![MariaDB](https://img.shields.io/badge/MariaDB-10.10+-C0765A)](https://mariadb.org/)  [![PostgreSQL](https://img.shields.io/badge/PostgreSQL-14+-336791)](https://www.postgresql.org/)  [![Firebird](https://img.shields.io/badge/Firebird-3.0+-F41A0A)](https://www.firebirdsql.org/)
  - Frontend:	Modern browser with JavaScript support
  - PHP Extension: 
-	`Core`
-	`pdo`
-	`calendar`
-	`date`
-	`pcre`
-	`gd`
-	`mbstring`
-	`standard`
-	`curl`
-	`openssl`
-	`json`
-	`fileinfo`
-	`zip`
-	`exif`
+	[![Core](https://img.shields.io/badge/Core-yes-8892BF)](https://php.net)  [![pdo](https://img.shields.io/badge/pdo-yes-8892BF)](https://php.net)  [![calendar](https://img.shields.io/badge/calendar-yes-8892BF)](https://php.net)  [![date](https://img.shields.io/badge/date-yes-8892BF)](https://php.net)  [![pcre](https://img.shields.io/badge/pcre-yes-8892BF)](https://php.net)  [![gd](https://img.shields.io/badge/gd-yes-8892BF)](https://php.net)  [![mbstring](https://img.shields.io/badge/mbstring-yes-8892BF)](https://php.net)  [![standard](https://img.shields.io/badge/standard-yes-8892BF)](https://php.net)  [![curl](https://img.shields.io/badge/curl-yes-8892BF)](https://php.net)  [![openssl](https://img.shields.io/badge/openssl-yes-8892BF)](https://php.net)  [![json](https://img.shields.io/badge/json-yes-8892BF)](https://php.net)  [![fileinfo](https://img.shields.io/badge/fileinfo-yes-8892BF)](https://php.net)  [![zip](https://img.shields.io/badge/zip-yes-8892BF)](https://php.net)  [![exif](https://img.shields.io/badge/exif-yes-8892BF)](https://php.net)
+	
 	
 Recommended software
 --------------------
- - WebServer:	`Apache 2.4`
- - PHP:		`8.4`
- - DB:		`MariaDB: 11.7`
+ - WebServer:	[![Apache 2.4](https://img.shields.io/badge/Apache-2.4-red)](https://httpd.apache.org/)
+ - PHP:		[![PHP](https://img.shields.io/badge/PHP-8.4-8892BF)](https://php.net)
+ - DB:		[![MariaDB](https://img.shields.io/badge/MariaDB-11.7-C0765A)](https://mariadb.org/)
 
 Key Features
 ------------
@@ -139,3 +116,12 @@ If you discover a security vulnerability, please responsibly disclose it to: inf
 License
 -------
 [License](https://gplv3.fsf.org/)
+
+CodeRank and Dev Status
+-------
+
+<div align="center">
+
+![GitHub commit activity](https://img.shields.io/github/commit-activity/m/RooCMS/RooCMS/dev) ![GitHub last commit](https://img.shields.io/github/last-commit/RooCMS/RooCMS/dev) ![Codacy Badge](https://app.codacy.com/project/badge/Grade/e9c0df8a7bd5445eb45fc727bf0cd8c4) ![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/RooCMS/RooCMS/badges/quality-score.png?b=dev)
+
+</div>
