@@ -4,8 +4,8 @@ if(!defined('RooCMS')) {roocms_protect();}
  * RooCMS Theme Layout
  */
 
-$page_title = isset($page_title) && $page_title !== '' ? (string)$page_title : 'RooCMS';
-$page_description = isset($page_description) && $page_description !== '' ? (string)$page_description : 'RooCMS website';
+$page_title = isset($page_title) && $page_title !== '' ? (string)$page_title : SETTING_SITE_NAME;
+$page_description = isset($page_description) && $page_description !== '' ? (string)$page_description : SETTING_SITE_DESCRIPTION;
 $page_keywords = isset($page_keywords) && $page_keywords !== '' ? (string)$page_keywords : '';
 
 // Optional: array of page-specific module scripts
@@ -30,7 +30,7 @@ $theme_base = '/themes/'.$theme_name;
     <meta property="og:type" content="website">
     <meta property="og:title" content="<?php render_html($page_title); ?>">
     <meta property="og:description" content="<?php render_html($page_description); ?>">
-    <meta property="og:site_name" content="RooCMS">
+    <meta property="og:site_name" content="RooCMS" id="og-site-name">
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image">

@@ -10,13 +10,10 @@ const SiteSetting = {};
         const data = await response.json();
 
         if (data.data) {
-            // Flatten all settings to direct properties
-            for (const category in data.data) {
-                for (const key in data.data[category]) {
-                    SiteSetting[key] = data.data[category][key];
-                }
-            }
+            // API returns already flattened settings, just copy them
+            Object.assign(SiteSetting, data.data);
         }
+
     } catch (error) {
         window.log('error', 'Failed to load site settings:', error);
     }

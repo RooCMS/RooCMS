@@ -61,6 +61,24 @@ document.addEventListener('DOMContentLoaded', async () => {
             await getCurrentUser();
         }
     }
+
+    // Update meta tags with site settings
+    // Simple retry mechanism for settings loading
+    // TODO: This can be done without js and using the constant in php SETTING_SITE_NAME in the template,
+    // but I've implemented this through js for testing purposes (in the future it can be removed)
+    // I haven't yet decided how templates will be rendered.
+    const updateMetaTags = () => {
+        if (window.SiteSetting && Object.keys(window.SiteSetting).length > 0 && window.SiteSetting.site_name) {
+            const ogSiteName = document.getElementById('og-site-name');
+            if (ogSiteName) {
+                ogSiteName.setAttribute('content', window.SiteSetting.site_name);
+            }
+        } else {
+            setTimeout(updateMetaTags, 100);
+        }
+    };
+
+    updateMetaTags();
 });
 
 // Global Alpine data
