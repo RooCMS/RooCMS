@@ -17,6 +17,10 @@ import {
     updateUserData
 } from './auth.js';
 
+// Import site settings
+import SiteSetting from './site-settings.js';
+window.SiteSetting = SiteSetting;
+
 // Import utilities and make them globally available
 import * as ValidationUtils from './helpers/validation.js';
 import * as FormatterUtils from './helpers/formatters.js';
