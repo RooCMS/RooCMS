@@ -78,3 +78,50 @@ export function capitalizeFirst(str) {
     if (!str) return '';
     return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
 }
+
+/**
+ * Formats timestamp to relative time (e.g., "2 hours ago")
+ * @param {number} timestamp - Unix timestamp in seconds
+ * @returns {string} - Relative time string
+ */
+export function formatRelativeTime(timestamp) {
+    if (!timestamp) return 'Never';
+
+    const date = new Date(timestamp * 1000);
+    const now = new Date();
+    const diffMs = now - date;
+    const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+    const diffHours = Math.floor(diffMs / (1000 * 60 * 60));
+    const diffMinutes = Math.floor(diffMs / (1000 * 60));
+
+    if (diffDays > 0) {
+        return diffDays === 1 ? '1 day ago' : `${diffDays} days ago`;
+    } else if (diffHours > 0) {
+        return diffHours === 1 ? '1 hour ago' : `${diffHours} hours ago`;
+    } else if (diffMinutes > 0) {
+        return diffMinutes === 1 ? '1 minute ago' : `${diffMinutes} minutes ago`;
+    } else {
+        return 'Just now';
+    }
+}
+
+/**
+ * Gets initials from user data
+ * @param {object} user - User object with first_name, last_name, login
+ * @returns {string} - User initials (2 chars)
+ */
+export function getUserInitials(user) {
+    const firstName = user.first_name || '';
+    const lastName = user.last_name || '';
+    const login = user.login || '';
+
+    if (firstName && lastName) {
+        return (firstName.charAt(0) + lastName.charAt(0)).toUpperCase();
+    } else if (firstName) {
+        return firstName.substring(0, 2).toUpperCase();
+    } else if (lastName) {
+        return lastName.substring(0, 2).toUpperCase();
+    } else {
+        return login.substring(0, 2).toUpperCase();
+    }
+}

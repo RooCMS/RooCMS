@@ -68,7 +68,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     // but I've implemented this through js for testing purposes (in the future it can be removed)
     // I haven't yet decided how templates will be rendered.
     const updateMetaTags = () => {
-        if (window.SiteSetting && Object.keys(window.SiteSetting).length > 0 && window.SiteSetting.site_name) {
+        if (window.SiteSetting && window.SiteSetting.site_name) {
             const ogSiteName = document.getElementById('og-site-name');
             if (ogSiteName) {
                 ogSiteName.setAttribute('content', window.SiteSetting.site_name);

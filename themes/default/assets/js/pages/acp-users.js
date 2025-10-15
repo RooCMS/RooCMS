@@ -5,6 +5,7 @@
 
 import { request } from '../app/api.js';
 import { DEBUG } from '../app/config.js';
+import { formatDateTime, formatRelativeTime, getUserInitials } from '../app/helpers/formatters.js';
 
 // Alpine.js Users Manager Component
 window.usersManager = () => ({
@@ -209,19 +210,7 @@ window.usersManager = () => ({
 
     // User utility methods
     getInitials(user) {
-        const firstName = user.first_name || '';
-        const lastName = user.last_name || '';
-        const login = user.login || '';
-
-        if (firstName && lastName) {
-            return (firstName.charAt(0) + lastName.charAt(0)).toUpperCase();
-        } else if (firstName) {
-            return firstName.substring(0, 2).toUpperCase();
-        } else if (lastName) {
-            return lastName.substring(0, 2).toUpperCase();
-        } else {
-            return login.substring(0, 2).toUpperCase();
-        }
+        return getUserInitials(user);
     },
 
     getRoleLabel(role) {
@@ -245,24 +234,30 @@ window.usersManager = () => ({
     },
 
     formatLastActivity(timestamp) {
-        if (!timestamp) return 'Never';
+        return formatRelativeTime(timestamp);
+    },
 
-        // Convert Unix timestamp (seconds) to milliseconds for JavaScript Date
+    formatBanExpiry(timestamp) {
+        if (!timestamp || timestamp === 0) return 'Permanent';
+
         const date = new Date(timestamp * 1000);
         const now = new Date();
-        const diffMs = now - date;
-        const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
-        const diffHours = Math.floor(diffMs / (1000 * 60 * 60));
-        const diffMinutes = Math.floor(diffMs / (1000 * 60));
 
-        if (diffDays > 0) {
-            return diffDays === 1 ? '1 day ago' : `${diffDays} days ago`;
-        } else if (diffHours > 0) {
-            return diffHours === 1 ? '1 hour ago' : `${diffHours} hours ago`;
-        } else if (diffMinutes > 0) {
-            return diffMinutes === 1 ? '1 minute ago' : `${diffMinutes} minutes ago`;
-        } else {
-            return 'Just now';
+        const formattedDate = formatDateTime(timestamp);
+
+        // Check if already expired
+        if (date < now) {
+            return `Expired (${formattedDate})`;
+        }
+
+        return formattedDate;
+    },
+
+    // Helper: Update user in list
+    updateUserInList(userId, updates) {
+        const userIndex = this.users.findIndex(u => u.id === userId);
+        if (userIndex !== -1) {
+            Object.assign(this.users[userIndex], updates);
         }
     },
 
@@ -274,8 +269,11 @@ window.usersManager = () => ({
     },
 
     async banUser(user) {
-        if (!confirm(`Are you sure you want to ban user "${user.login}"?`)) {
-            return;
+        // Show ban modal with custom form
+        const banData = await this.showBanModal(user);
+        
+        if (!banData) {
+            return; // User cancelled
         }
 
         try {
@@ -283,7 +281,8 @@ window.usersManager = () => ({
                 method: 'PUT',
                 body: JSON.stringify({
                     is_banned: true,
-                    ban_reason: 'Banned by administrator'
+                    ban_reason: banData.reason || 'Banned by administrator',
+                    ban_expired: banData.expires || 0
                 })
             });
 
@@ -291,8 +290,13 @@ window.usersManager = () => ({
                 throw new Error(`Failed to ban user: ${response.status}`);
             }
 
-            // Reload users list
-            this.loadUsers(this.pagination.current);
+            // Update only this user in the list
+            this.updateUserInList(user.id, {
+                is_banned: true,
+                ban_reason: banData.reason || 'Banned by administrator',
+                ban_expired: banData.expires || 0
+            });
+
             this.showMessage(`User "${user.login}" has been banned`, 'success');
         } catch (error) {
             if (DEBUG) window.log('error', 'Error banning user:', error);
@@ -300,8 +304,43 @@ window.usersManager = () => ({
         }
     },
 
+    async showBanModal(user) {
+        return new Promise((resolve) => {
+            // Create modal HTML without extra attributes visible
+            const modalHtml = `<div class="space-y-3 text-left"><p class="text-sm text-zinc-600 mb-2">Ban user: <strong>${user.login}</strong></p><div><label for="ban-reason" class="block text-sm font-medium text-zinc-700 mb-1">Reason (optional)</label><input type="text" id="ban-reason" placeholder="Enter ban reason" class="block w-full rounded-lg border border-zinc-300 px-3 py-2 text-sm focus:border-sky-500 focus:outline-none focus:ring-1 focus:ring-sky-500" /></div><div><label for="ban-expires" class="block text-sm font-medium text-zinc-700 mb-1">Expires (optional)</label><input type="datetime-local" id="ban-expires" class="block w-full rounded-lg border border-zinc-300 px-3 py-2 text-sm focus:border-sky-500 focus:outline-none focus:ring-1 focus:ring-sky-500" /><p class="mt-1 text-xs text-zinc-500">Leave empty for permanent ban</p></div></div>`;
+
+            // Use Alpine modal store
+            const modal = window.Alpine.store('modal');
+            modal.show('Ban User', modalHtml, 'Ban', 'Cancel', 'warning').then((confirmed) => {
+                if (confirmed) {
+                    const reason = document.getElementById('ban-reason')?.value || '';
+                    const expiresInput = document.getElementById('ban-expires')?.value;
+                    
+                    let expires = null;
+                    if (expiresInput) {
+                        // Convert datetime-local to Unix timestamp
+                        expires = Math.floor(new Date(expiresInput).getTime() / 1000);
+                    }
+                    
+                    resolve({ reason, expires });
+                } else {
+                    resolve(null);
+                }
+            });
+        });
+    },
+
     async unbanUser(user) {
-        if (!confirm(`Are you sure you want to unban user "${user.login}"?`)) {
+        // Use modal for confirmation
+        const confirmed = await window.modal(
+            'Unban User', 
+            `Are you sure you want to unban user <strong>${user.login}</strong>?`, 
+            'Unban', 
+            'Cancel', 
+            'notice'
+        );
+        
+        if (!confirmed) {
             return;
         }
 
@@ -310,8 +349,8 @@ window.usersManager = () => ({
                 method: 'PUT',
                 body: JSON.stringify({
                     is_banned: false,
-                    ban_reason: null,
-                    ban_expired: null
+                    ban_reason: '',
+                    ban_expired: 0
                 })
             });
 
@@ -319,8 +358,13 @@ window.usersManager = () => ({
                 throw new Error(`Failed to unban user: ${response.status}`);
             }
 
-            // Reload users list
-            this.loadUsers(this.pagination.current);
+            // Update only this user in the list
+            this.updateUserInList(user.id, {
+                is_banned: false,
+                ban_reason: '',
+                ban_expired: 0
+            });
+
             this.showMessage(`User "${user.login}" has been unbanned`, 'success');
         } catch (error) {
             if (DEBUG) window.log('error', 'Error unbanning user:', error);

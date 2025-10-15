@@ -85,7 +85,7 @@ $theme_base = '/themes/'.$theme_name;
                        </div>
 
                        <h2 class="text-2xl font-bold text-balance text-gray-900 mb-4" x-text="$modal.title"></h2>
-                       <p class="text-pretty text-base text-gray-600 leading-relaxed max-w-md mx-auto" x-text="$modal.message"></p>
+                       <div class="text-pretty text-base text-gray-600 leading-relaxed max-w-md mx-auto" x-html="$modal.message"></div>
                    </div>
 
                    <div class="mt-8 flex flex-col-reverse items-center justify-center gap-4 sm:flex-row" x-bind:class="{ 'justify-center': !showCancelButton, 'justify-end': showCancelButton }">

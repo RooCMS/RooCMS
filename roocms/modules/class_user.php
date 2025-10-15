@@ -403,6 +403,7 @@ class User {
 
             $query = "SELECT 
                         u.id, u.role, u.is_active, u.login, u.email, u.is_verified, u.is_banned,
+                        u.ban_reason, u.ban_expired,
                         u.created_at, u.updated_at, u.last_activity,
                         p.nickname, p.first_name, p.last_name, p.avatar, p.is_public
                       FROM " . TABLE_USERS . " u

@@ -135,7 +135,7 @@ ob_start();
                                                     <div x-show="!user.avatar" class="h-10 w-10 rounded-full bg-zinc-300 flex items-center justify-center">
                                                         <span class="text-sm font-medium text-zinc-700" x-text="getInitials(user)"></span>
                                                     </div>
-                                                    <img x-show="user.avatar" :src="'/up/' + user.avatar" :alt="user.login" class="h-10 w-10 rounded-full object-cover">
+                                                    <img x-show="user.avatar && user.avatar !== 'null'" :src="user.avatar ? '/up/' + user.avatar : ''" :alt="user.login" class="h-10 w-10 rounded-full object-cover">
                                                 </div>
                                                 <div class="ml-4">
                                                     <div class="text-sm font-medium text-zinc-900">
@@ -158,15 +158,22 @@ ob_start();
                                                 <span x-text="getRoleLabel(user.role)"></span>
                                             </span>
                                         </td>
-                                        <td class="px-6 py-4 whitespace-nowrap">
-                                            <div class="flex flex-col gap-1">
+                                        <td class="px-6 py-4">
+                                            <div class="flex flex-col gap-1.5">
                                                 <span class="inline-flex items-center px-2.5 py-1 rounded-md text-xs font-medium"
                                                       :class="user.is_active ? 'bg-emerald-100 text-emerald-700' : 'bg-red-100 text-red-800'">
                                                     <span x-text="user.is_active ? 'Active' : 'Inactive'"></span>
                                                 </span>
-                                                <span x-show="user.is_banned" class="inline-flex items-center px-2.5 py-1 rounded-md text-xs font-medium bg-rose-100 text-rose-700">
-                                                    Banned
-                                                </span>
+                                                <div x-show="user.is_banned" class="flex flex-col gap-1 p-2 bg-rose-50 border border-rose-200 rounded-md">
+                                                    <span class="text-xs font-semibold text-rose-700">🚫 Banned</span>
+                                                    <div x-show="user.ban_reason" class="text-xs text-zinc-700">
+                                                        <span class="font-medium">Reason:</span> <span x-text="user.ban_reason"></span>
+                                                    </div>
+                                                    <div class="text-xs text-zinc-700">
+                                                        <span class="font-medium">Until:</span> 
+                                                        <span x-text="formatBanExpiry(user.ban_expired)" :class="(!user.ban_expired || user.ban_expired === 0) ? 'text-rose-700 font-semibold' : ''"></span>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap text-sm text-zinc-500">
