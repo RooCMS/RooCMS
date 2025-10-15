@@ -19,11 +19,11 @@ if(!defined('RooCMS')) {roocms_protect();}
 
 
 /**
- * AdminStructureController
+ * ACPStructureController
  * Administrative API for site structure management
  * Requires authentication and admin privileges
  */
-class AdminStructureController extends BaseController {
+class ACPStructureController extends BaseController {
 
     private readonly StructureManageService $structureManageService;
 
@@ -39,7 +39,7 @@ class AdminStructureController extends BaseController {
 
     /**
      * Get all pages for admin panel
-     * GET /api/v1/admin/structure
+     * GET /api/v1/acp/structure
      * 
      * Query parameters:
      * - status (string): Filter by status (draft, active, inactive)
@@ -80,7 +80,7 @@ class AdminStructureController extends BaseController {
 
     /**
      * Get page by ID for editing
-     * GET /api/v1/admin/structure/{id}
+     * GET /api/v1/acp/structure/{id}
      * 
      * @param int $id Page ID
      */
@@ -111,7 +111,7 @@ class AdminStructureController extends BaseController {
 
     /**
      * Create new page
-     * POST /api/v1/admin/structure
+     * POST /api/v1/acp/structure
      */
     public function create(): void {
         $this->log_request('admin_structure_create');
@@ -136,7 +136,7 @@ class AdminStructureController extends BaseController {
 
     /**
      * Update existing page
-     * PUT /api/v1/admin/structure/{id}
+     * PUT /api/v1/acp/structure/{id}
      * 
      * @param int $id Page ID
      */
@@ -168,7 +168,7 @@ class AdminStructureController extends BaseController {
 
     /**
      * Delete page
-     * DELETE /api/v1/admin/structure/{id}
+     * DELETE /api/v1/acp/structure/{id}
      * 
      * @param int $id Page ID
      */
@@ -207,7 +207,7 @@ class AdminStructureController extends BaseController {
 
     /**
      * Change page status
-     * PATCH /api/v1/admin/structure/{id}/status
+     * PATCH /api/v1/acp/structure/{id}/status
      * 
      * @param int $id Page ID
      */
@@ -248,7 +248,7 @@ class AdminStructureController extends BaseController {
 
     /**
      * Reorder pages (change sort order)
-     * PUT /api/v1/admin/structure/reorder
+     * PUT /api/v1/acp/structure/reorder
      */
     public function reorder(): void {
         $this->log_request('admin_structure_reorder');

@@ -270,7 +270,7 @@ document.addEventListener('alpine:init', () => {
 
         this.loading = true;
         try {
-            const response = await request('/v1/admin/debug/clear', { method: 'POST' });
+            const response = await request('/v1/acp/debug/clear', { method: 'POST' });
             if (!response.ok) throw new Error(`Failed to clear logs: ${response.status}`);
             
             this.logs = [];

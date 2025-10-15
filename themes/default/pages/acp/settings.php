@@ -1,7 +1,7 @@
 <?php declare(strict_types=1);
 if(!defined('RooCMS')) {roocms_protect();}
 
-$page_title = 'Settings — RooCMS';
+$page_title = 'Settings — Admin Control Panel — RooCMS';
 $page_description = 'System Settings for RooCMS';
 
 $theme_name = basename(dirname(dirname(__DIR__)));
@@ -45,8 +45,8 @@ ob_start();
                         <div class="rounded-xl border border-zinc-200/80 bg-white/80 p-5 shadow-sm backdrop-blur">
                             <form class="space-y-4" :data-group="groupName">
                                 <template x-for="(value, key) in groupSettings" :key="key">
-                                    <div class="field-container">
-                                        <label class="mb-1 block text-sm font-medium text-zinc-800" :for="getFieldId(groupName, key)">
+                                    <div class="field-container border-b border-zinc-200/80 pb-4 last:border-b-0">
+                                        <label class="mb-1 block text-sm font-bold text-zinc-800" :for="getFieldId(groupName, key)">
                                             <div class="flex items-center gap-2">
                                                 <span x-text="getFieldMeta(key, 'title') || key"></span>
                                                 <span x-show="getFieldMeta(key, 'is_required')" class="inline-flex items-center px-2 py-0.5 rounded-md text-xs font-medium bg-red-100 text-red-800 border border-red-200">Required</span>

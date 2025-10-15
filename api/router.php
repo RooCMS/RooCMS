@@ -35,11 +35,12 @@ spl_autoload_register(function(string $controller_name) {
         'AuthController'            => _API . '/v1/controller_auth.php',
         'UsersController'           => _API . '/v1/controller_users.php',
         'BackupController'          => _API . '/v1/controller_backup.php',
-        'AdminSettingsController'   => _API . '/v1/controller_adminSettings.php',
+        'SettingsController'        => _API . '/v1/controller_settings.php',
+        'ACPSettingsController'     => _API . '/v1/controller_acpSettings.php',
         'DebugController'           => _API . '/v1/controller_debug.php',
         'MediaController'           => _API . '/v1/controller_media.php',
         'StructureController'       => _API . '/v1/controller_structure.php',
-        'AdminStructureController'  => _API . '/v1/controller_adminStructure.php',
+        'ACPStructureController'    => _API . '/v1/controller_acpStructure.php',
         'AuthMiddleware'            => _API . '/v1/middleware_auth.php',
         'RoleMiddleware'            => _API . '/v1/middleware_role.php'
     ];
@@ -62,12 +63,13 @@ $container->register(CspController::class, CspController::class);
 $container->register(HealthController::class, HealthController::class);
 $container->register(UsersController::class, UsersController::class);
 $container->register(AuthController::class, AuthController::class);
-$container->register(AdminSettingsController::class, AdminSettingsController::class);
+$container->register(SettingsController::class, SettingsController::class);
+$container->register(ACPSettingsController::class, ACPSettingsController::class);
 $container->register(BackupController::class, BackupController::class);
 $container->register(DebugController::class, DebugController::class);
 $container->register(MediaController::class, MediaController::class);
 $container->register(StructureController::class, StructureController::class);
-$container->register(AdminStructureController::class, AdminStructureController::class);
+$container->register(ACPStructureController::class, ACPStructureController::class);
 
 /**
  * Create controller and middleware factories and router instance
@@ -91,6 +93,9 @@ $api->get('/v1/health/details', 'HealthController@details');
 
 // CSP report endpoint
 $api->post('/v1/csp-report', 'CspController@report');
+
+// Settings endpoints
+$api->get('/v1/settings', 'SettingsController@index');
 
 // Authentication endpoints (public)
 $api->post('/v1/auth/login', 'AuthController@login');
@@ -123,14 +128,14 @@ $api->put('/v1/users/{user_id}', 'UsersController@update_user', ['AuthMiddleware
 $api->delete('/v1/users/{user_id}', 'UsersController@delete_user', ['AuthMiddleware', 'RoleMiddleware@admin_access']);
 
 // Settings routes (admin only)
-$api->get('/v1/admin/settings', 'AdminSettingsController@index', ['AuthMiddleware', 'RoleMiddleware@admin_access']);
-$api->get('/v1/admin/settings/group-{group}', 'AdminSettingsController@get_group', ['AuthMiddleware', 'RoleMiddleware@admin_access']);
-$api->get('/v1/admin/settings/key-{key}', 'AdminSettingsController@get_setting', ['AuthMiddleware', 'RoleMiddleware@admin_access']);
-$api->put('/v1/admin/settings/key-{key}', 'AdminSettingsController@update_setting', ['AuthMiddleware', 'RoleMiddleware@admin_access']);
-$api->patch('/v1/admin/settings', 'AdminSettingsController@update_settings', ['AuthMiddleware', 'RoleMiddleware@admin_access']);
-$api->get('/v1/admin/settings/reset/all', 'AdminSettingsController@reset_all', ['AuthMiddleware', 'RoleMiddleware@admin_access']);
-$api->get('/v1/admin/settings/reset/group-{group}', 'AdminSettingsController@reset_group', ['AuthMiddleware', 'RoleMiddleware@admin_access']);
-$api->get('/v1/admin/settings/reset/key-{key}', 'AdminSettingsController@reset_setting', ['AuthMiddleware', 'RoleMiddleware@admin_access']);
+$api->get('/v1/acp/settings', 'ACPSettingsController@index', ['AuthMiddleware', 'RoleMiddleware@admin_access']);
+$api->get('/v1/acp/settings/group-{group}', 'ACPSettingsController@get_group', ['AuthMiddleware', 'RoleMiddleware@admin_access']);
+$api->get('/v1/acp/settings/key-{key}', 'ACPSettingsController@get_setting', ['AuthMiddleware', 'RoleMiddleware@admin_access']);
+$api->put('/v1/acp/settings/key-{key}', 'ACPSettingsController@update_setting', ['AuthMiddleware', 'RoleMiddleware@admin_access']);
+$api->patch('/v1/acp/settings', 'ACPSettingsController@update_settings', ['AuthMiddleware', 'RoleMiddleware@admin_access']);
+$api->get('/v1/acp/settings/reset/all', 'ACPSettingsController@reset_all', ['AuthMiddleware', 'RoleMiddleware@admin_access']);
+$api->get('/v1/acp/settings/reset/group-{group}', 'ACPSettingsController@reset_group', ['AuthMiddleware', 'RoleMiddleware@admin_access']);
+$api->get('/v1/acp/settings/reset/key-{key}', 'ACPSettingsController@reset_setting', ['AuthMiddleware', 'RoleMiddleware@admin_access']);
 
 // Backup endpoints (admin only)
 $api->post('/v1/backup/create', 'BackupController@create', ['AuthMiddleware', 'RoleMiddleware@admin_access']);
@@ -142,10 +147,10 @@ $api->get('/v1/backup/logs', 'BackupController@logs', ['AuthMiddleware', 'RoleMi
 $api->get('/v1/backup/status', 'BackupController@status', ['AuthMiddleware', 'RoleMiddleware@admin_access']);
 
 // Debug endpoints (admin only)
-$api->post('/v1/admin/debug/clear', 'DebugController@clear', ['AuthMiddleware', 'RoleMiddleware@admin_access']);
+$api->post('/v1/acp/debug/clear', 'DebugController@clear', ['AuthMiddleware', 'RoleMiddleware@admin_access']);
 
 // Media endpoints
-$api->get('/v1/media', 'MediaController@index'); // List media files (public with filters)
+$api->get('/v1/media', 'MediaController@index');
 $api->get('/v1/media/{id}', 'MediaController@show'); 
 $api->get('/v1/media/{id}/file', 'MediaController@download'); // Download file (public) TODO: Add option public/auth
 $api->post('/v1/media/upload', 'MediaController@upload', ['AuthMiddleware']);
@@ -166,13 +171,13 @@ $api->get('/v1/structure/search', 'StructureController@search');
 $api->get('/v1/structure/status/{status}', 'StructureController@pages_by_status');
 
 // Admin Structure endpoints (require authentication + admin role)
-$api->get('/v1/admin/structure', 'AdminStructureController@index', ['AuthMiddleware', 'RoleMiddleware@admin_access']); 
-$api->get('/v1/admin/structure/{id}', 'AdminStructureController@show', ['AuthMiddleware', 'RoleMiddleware@admin_access']);
-$api->post('/v1/admin/structure', 'AdminStructureController@create', ['AuthMiddleware', 'RoleMiddleware@admin_access']);
-$api->put('/v1/admin/structure/{id}', 'AdminStructureController@update', ['AuthMiddleware', 'RoleMiddleware@admin_access']); 
-$api->delete('/v1/admin/structure/{id}', 'AdminStructureController@delete', ['AuthMiddleware', 'RoleMiddleware@admin_access']); 
-$api->patch('/v1/admin/structure/{id}/status', 'AdminStructureController@change_status', ['AuthMiddleware', 'RoleMiddleware@admin_access']);
-$api->put('/v1/admin/structure/reorder', 'AdminStructureController@reorder', ['AuthMiddleware', 'RoleMiddleware@admin_access']); 
+$api->get('/v1/acp/structure', 'ACPStructureController@index', ['AuthMiddleware', 'RoleMiddleware@admin_access']); 
+$api->get('/v1/acp/structure/{id}', 'ACPStructureController@show', ['AuthMiddleware', 'RoleMiddleware@admin_access']);
+$api->post('/v1/acp/structure', 'ACPStructureController@create', ['AuthMiddleware', 'RoleMiddleware@admin_access']);
+$api->put('/v1/acp/structure/{id}', 'ACPStructureController@update', ['AuthMiddleware', 'RoleMiddleware@admin_access']); 
+$api->delete('/v1/acp/structure/{id}', 'ACPStructureController@delete', ['AuthMiddleware', 'RoleMiddleware@admin_access']); 
+$api->patch('/v1/acp/structure/{id}/status', 'ACPStructureController@change_status', ['AuthMiddleware', 'RoleMiddleware@admin_access']);
+$api->put('/v1/acp/structure/reorder', 'ACPStructureController@reorder', ['AuthMiddleware', 'RoleMiddleware@admin_access']); 
 
 // Future routes will be added here
 // Example:
@@ -236,29 +241,29 @@ $api->get('/', function() {
             'structure_current' => 'GET /api/v1/structure/current',
             'structure_search' => 'GET /api/v1/structure/search',
             'structure_pages_by_status' => 'GET /api/v1/structure/status/{status}',
-            'admin_structure_index' => 'GET /api/v1/admin/structure',
-            'admin_structure_show' => 'GET /api/v1/admin/structure/{id}',
-            'admin_structure_create' => 'POST /api/v1/admin/structure',
-            'admin_structure_update' => 'PUT /api/v1/admin/structure/{id}',
-            'admin_structure_delete' => 'DELETE /api/v1/admin/structure/{id}',
-            'admin_structure_change_status' => 'PATCH /api/v1/admin/structure/{id}/status',
-            'admin_structure_reorder' => 'PUT /api/v1/admin/structure/reorder',
-            'admin_backup_create' => 'POST /api/v1/backup/create',
-            'admin_backup_restore' => 'POST /api/v1/backup/restore',
-            'admin_backup_list' => 'GET /api/v1/backup/list',
-            'admin_backup_delete' => 'DELETE /api/v1/backup/delete/{filename}',
-            'admin_backup_download' => 'GET /api/v1/backup/download/{filename}',
-            'admin_backup_logs' => 'GET /api/v1/backup/logs',
-            'admin_backup_status' => 'GET /api/v1/backup/status',
-            'admin_settings_index' => 'GET /api/v1/admin/settings',
-            'admin_settings_get_group' => 'GET /api/v1/admin/settings/group-{group}',
-            'admin_settings_get_setting' => 'GET /api/v1/admin/settings/key-{key}',
-            'admin_settings_update_setting' => 'PUT /api/v1/admin/settings/key-{key}',
-            'admin_settings_update_settings' => 'PATCH /api/v1/admin/settings',
-            'admin_settings_reset_all' => 'GET /api/v1/admin/settings/reset/all',
-            'admin_settings_reset_group' => 'GET /api/v1/admin/settings/reset/group-{group}',
-            'admin_settings_reset_setting' => 'GET /api/v1/admin/settings/reset/key-{key}',
-            'admin_debug_clear' => 'POST /api/v1/admin/debug/clear'
+            'acp_structure_index' => 'GET /api/v1/acp/structure',
+            'acp_structure_show' => 'GET /api/v1/acp/structure/{id}',
+            'acp_structure_create' => 'POST /api/v1/acp/structure',
+            'acp_structure_update' => 'PUT /api/v1/acp/structure/{id}',
+            'acp_structure_delete' => 'DELETE /api/v1/acp/structure/{id}',
+            'acp_structure_change_status' => 'PATCH /api/v1/acp/structure/{id}/status',
+            'acp_structure_reorder' => 'PUT /api/v1/acp/structure/reorder',
+            'acp_backup_create' => 'POST /api/v1/backup/create',
+            'acp_backup_restore' => 'POST /api/v1/backup/restore',
+            'acp_backup_list' => 'GET /api/v1/backup/list',
+            'acp_backup_delete' => 'DELETE /api/v1/backup/delete/{filename}',
+            'acp_backup_download' => 'GET /api/v1/backup/download/{filename}',
+            'acp_backup_logs' => 'GET /api/v1/backup/logs',
+            'acp_backup_status' => 'GET /api/v1/backup/status',
+            'acp_settings_index' => 'GET /api/v1/acp/settings',
+            'acp_settings_get_group' => 'GET /api/v1/acp/settings/group-{group}',
+            'acp_settings_get_setting' => 'GET /api/v1/acp/settings/key-{key}',
+            'acp_settings_update_setting' => 'PUT /api/v1/acp/settings/key-{key}',
+            'acp_settings_update_settings' => 'PATCH /api/v1/acp/settings',
+            'acp_settings_reset_all' => 'GET /api/v1/acp/settings/reset/all',
+            'acp_settings_reset_group' => 'GET /api/v1/acp/settings/reset/group-{group}',
+            'acp_settings_reset_setting' => 'GET /api/v1/acp/settings/reset/key-{key}',
+            'acp_debug_clear' => 'POST /api/v1/acp/debug/clear'
         ]
     ];
 

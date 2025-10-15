@@ -1,7 +1,7 @@
 <?php declare(strict_types=1);
 if(!defined('RooCMS')) {roocms_protect();}
 
-$page_title = 'Users — RooCMS';
+$page_title = 'Users — Admin Control Panel — RooCMS';
 $page_description = 'Users for RooCMS ACP';
 
 $theme_name = basename(dirname(dirname(__DIR__)));

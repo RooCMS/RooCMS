@@ -128,6 +128,7 @@ spl_autoload_register(function(string $class_name) {
         'MiddlewareFactory'         => _MODULES . '/di/interface_middlewareFactory.php',
         'DefaultMiddlewareFactory'  => _MODULES . '/di/class_defaultMiddlewareFactory.php',
         'SiteSettingsService'       => _SERVICES . '/siteSettings.php',
+        'SiteSettingsManageService' => _SERVICES . '/siteSettingsManage.php',
         'UserService'               => _SERVICES . '/user.php',
         'AuthenticationService'     => _SERVICES . '/authentication.php',
         'RegistrationService'       => _SERVICES . '/registration.php',
@@ -211,6 +212,7 @@ $container->register(Request::class, Request::class, true);
  */
 $container->register(SiteSettings::class, fn() => new SiteSettings($db), true);
 $container->register(SiteSettingsService::class, SiteSettingsService::class, true);
+$container->register(SiteSettingsManageService::class, SiteSettingsManageService::class, true);
 
 /** 
  * Register dependencies

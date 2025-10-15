@@ -2,7 +2,7 @@
 if(!defined('RooCMS')) {roocms_protect();}
 
 $page_title = 'Admin Control Panel — RooCMS';
-$page_description = 'Control Panel for RooCMS';
+$page_description = 'Admin Control Panel for RooCMS';
 
 $theme_name = basename(dirname(dirname(__DIR__)));
 $theme_base = '/themes/'.$theme_name;
@@ -100,7 +100,7 @@ ob_start();
 									</svg>
 									RooCMS
 								</span>
-								<span class="text-xs text-zinc-500 ml-2" x-text="roocmsVersion"></span>
+								<span class="text-zinc-500 ml-2" x-text="roocmsVersion"></span>
 							</div>
 							<div class="flex items-center justify-between min-h-[1.5rem]">
 								<span class="flex items-center text-zinc-600">
@@ -109,7 +109,7 @@ ob_start();
 									</svg>
 									PHP
 								</span>
-								<span class="text-xs text-zinc-500 ml-2" x-text="phpVersion"></span>
+								<span class="text-zinc-500 ml-2" x-text="phpVersion"></span>
 							</div>
 							<div class="flex items-center justify-between min-h-[1.5rem]">
 								<span class="flex items-center text-zinc-600">
@@ -118,7 +118,7 @@ ob_start();
 									</svg>
 									Timezone
 								</span>
-								<span class="text-xs text-zinc-500 ml-2" x-text="timezone"></span>
+								<span class="text-zinc-500 ml-2" x-text="timezone"></span>
 							</div>
 							<div class="flex items-center justify-between min-h-[1.5rem]">
 								<span class="flex items-center text-zinc-600">
@@ -127,7 +127,7 @@ ob_start();
 									</svg>
 									API time
 								</span>
-								<span class="text-xs text-zinc-500 ml-2" x-text="apiResponseTime"></span>
+								<span class="text-zinc-500 ml-2" x-text="apiResponseTime"></span>
 							</div>
 							<div class="flex items-center justify-between min-h-[1.5rem]">
 								<span class="flex items-center text-zinc-600">
@@ -136,7 +136,7 @@ ob_start();
 									</svg>
 									Memory
 								</span>
-								<span class="text-xs text-zinc-500 ml-2" x-text="memoryUsage + ' / ' + memoryLimit"></span>
+								<span class="text-zinc-500 ml-2" x-text="memoryUsage + ' / ' + memoryLimit"></span>
 							</div>
 							<div class="flex items-center justify-between min-h-[1.5rem]">
 								<span class="flex items-center text-zinc-600">
@@ -146,7 +146,7 @@ ob_start();
 									</svg>
 									Max execution time
 								</span>
-								<span class="text-xs text-zinc-500 ml-2" x-text="maxExecutionTime"></span>
+								<span class="text-zinc-500 ml-2" x-text="maxExecutionTime"></span>
 							</div>
 						</div>
 					</div>

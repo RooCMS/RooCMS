@@ -29,7 +29,7 @@ window.settingsManager = () => ({
         this.clearMessages();
 
     try {
-        const response = await request('/v1/admin/settings');
+        const response = await request('/v1/acp/settings');
 
         if (!response.ok) {
             throw new Error(`Failed to load settings: ${response.status}`);
@@ -57,7 +57,7 @@ window.settingsManager = () => ({
 
         const metaPromises = allKeys.map(async (key) => {
             try {
-                const response = await request(`/v1/admin/settings/key-${key}`);
+                const response = await request(`/v1/acp/settings/key-${key}`);
                 if (response.ok) {
                     const data = await response.json();
                     if (data.data?.meta) {
@@ -84,7 +84,7 @@ window.settingsManager = () => ({
         try {
             const formData = this.collectFormData();
 
-        const response = await request('/v1/admin/settings', {
+        const response = await request('/v1/acp/settings', {
             method: 'PATCH',
             body: JSON.stringify(formData)
         });
@@ -124,7 +124,7 @@ window.settingsManager = () => ({
         this.clearMessages();
 
     try {
-        const response = await request('/v1/admin/settings/reset/all', {
+        const response = await request('/v1/acp/settings/reset/all', {
             method: 'GET'
         });
 
@@ -199,10 +199,10 @@ window.settingsManager = () => ({
             'string': 'text',
             'color': 'color',
             'text': 'textarea',        // handled separately in template
-            'html': 'text',           // could be enhanced with rich editor later
+            'html': 'text',            // could be enhanced with rich editor later
             'date': 'date',
             'email': 'email',
-            'select': 'select',       // handled separately in template
+            'select': 'select',        // handled separately in template
             'image': 'file',
             'file': 'file'
         };
