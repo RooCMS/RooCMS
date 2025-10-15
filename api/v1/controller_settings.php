@@ -43,7 +43,7 @@ class SettingsController extends BaseController {
     public function index(): void {
         $this->log_request('settings_index');
 
-        $settings = $this->SiteSettingsService->get_all_settings();
+        $settings = $this->SiteSettingsService->get_settings_by_group('site');
         $this->json_response($settings);
     }
 }
