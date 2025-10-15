@@ -900,7 +900,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-  /v1/admin/settings:
+  /v1/acp/settings:
     get:
       summary: Get all settings
       description: Retrieve all system settings grouped by categories
@@ -980,7 +980,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ValidationErrorResponse'
-  /v1/admin/settings/group-{group}:
+  /v1/acp/settings/group-{group}:
     get:
       summary: Get settings by group
       description: Retrieve all settings for a specific group/category
@@ -1021,7 +1021,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-  /v1/admin/settings/key-{key}:
+  /v1/acp/settings/key-{key}:
     get:
       summary: Get specific setting by key
       description: Retrieve a specific setting by its key with metadata
@@ -1130,7 +1130,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ValidationErrorResponse'
-  /v1/admin/settings/reset/all:
+  /v1/acp/settings/reset/all:
     get:
       summary: Reset all settings to defaults
       description: Reset all system settings to their default values
@@ -1157,7 +1157,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-  /v1/admin/settings/reset/group-{group}:
+  /v1/acp/settings/reset/group-{group}:
     get:
       summary: Reset settings group to defaults
       description: Reset all settings in a specific group to their default values
@@ -1198,7 +1198,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-  /v1/admin/settings/reset/key-{key}:
+  /v1/acp/settings/reset/key-{key}:
     get:
       summary: Reset specific setting to default
       description: Reset a specific setting to its default value
@@ -1863,7 +1863,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-  /v1/admin/structure:
+  /v1/acp/structure:
     get:
       summary: Get all pages (Admin)
       description: Retrieve all pages for admin panel with filtering and pagination
@@ -1972,7 +1972,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-  /v1/admin/structure/{id}:
+  /v1/acp/structure/{id}:
     get:
       summary: Get page by ID (Admin)
       description: Retrieve page details for editing
@@ -2135,7 +2135,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-  /v1/admin/structure/{id}/status:
+  /v1/acp/structure/{id}/status:
     patch:
       summary: Change page status (Admin)
       description: Change the status of a page (draft, active, inactive)
@@ -2194,7 +2194,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-  /v1/admin/structure/reorder:
+  /v1/acp/structure/reorder:
     put:
       summary: Reorder pages (Admin)
       description: Change the sort order of multiple pages

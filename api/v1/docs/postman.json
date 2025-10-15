@@ -767,9 +767,9 @@
               }
             ],
             "url": {
-              "raw": "{{base_url}}/v1/admin/settings",
+              "raw": "{{base_url}}/v1/acp/settings",
               "host": ["{{base_url}}"],
-              "path": ["v1", "admin", "settings"]
+              "path": ["v1", "acp", "settings"]
             },
             "description": "Retrieve all system settings grouped by categories"
           },
@@ -797,9 +797,9 @@
               }
             ],
             "url": {
-              "raw": "{{base_url}}/v1/admin/settings/group-site",
+              "raw": "{{base_url}}/v1/acp/settings/group-site",
               "host": ["{{base_url}}"],
-              "path": ["v1", "admin", "settings", "group-site"]
+              "path": ["v1", "acp", "settings", "group-site"]
             },
             "description": "Retrieve all settings for a specific group (e.g., site, mailer)"
           },
@@ -827,9 +827,9 @@
               }
             ],
             "url": {
-              "raw": "{{base_url}}/v1/admin/settings/key-site_name",
+              "raw": "{{base_url}}/v1/acp/settings/key-site_name",
               "host": ["{{base_url}}"],
-              "path": ["v1", "admin", "settings", "key-site_name"]
+              "path": ["v1", "acp", "settings", "key-site_name"]
             },
             "description": "Retrieve a specific setting by its key with metadata"
           },
@@ -866,9 +866,9 @@
               "raw": "{\n  \"value\": \"New Site Name\"\n}"
             },
             "url": {
-              "raw": "{{base_url}}/v1/admin/settings/key-site_name",
+              "raw": "{{base_url}}/v1/acp/settings/key-site_name",
               "host": ["{{base_url}}"],
-              "path": ["v1", "admin", "settings", "key-site_name"]
+              "path": ["v1", "acp", "settings", "key-site_name"]
             },
             "description": "Update a specific setting value with validation"
           },
@@ -905,9 +905,9 @@
               "raw": "{\n  \"site_name\": \"Updated Site\",\n  \"site_domain\": \"updated.com\"\n}"
             },
             "url": {
-              "raw": "{{base_url}}/v1/admin/settings",
+              "raw": "{{base_url}}/v1/acp/settings",
               "host": ["{{base_url}}"],
-              "path": ["v1", "admin", "settings"]
+              "path": ["v1", "acp", "settings"]
             },
             "description": "Update multiple settings at once with validation"
           },
@@ -935,9 +935,9 @@
               }
             ],
             "url": {
-              "raw": "{{base_url}}/v1/admin/settings/reset/all",
+              "raw": "{{base_url}}/v1/acp/settings/reset/all",
               "host": ["{{base_url}}"],
-              "path": ["v1", "admin", "settings", "reset", "all"]
+              "path": ["v1", "acp", "settings", "reset", "all"]
             },
             "description": "Reset all system settings to their default values"
           },
@@ -965,9 +965,9 @@
               }
             ],
             "url": {
-              "raw": "{{base_url}}/v1/admin/settings/reset/group-site",
+              "raw": "{{base_url}}/v1/acp/settings/reset/group-site",
               "host": ["{{base_url}}"],
-              "path": ["v1", "admin", "settings", "reset", "group-site"]
+              "path": ["v1", "acp", "settings", "reset", "group-site"]
             },
             "description": "Reset all settings in a specific group to their default values"
           },
@@ -995,9 +995,9 @@
               }
             ],
             "url": {
-              "raw": "{{base_url}}/v1/admin/settings/reset/key-site_name",
+              "raw": "{{base_url}}/v1/acp/settings/reset/key-site_name",
               "host": ["{{base_url}}"],
-              "path": ["v1", "admin", "settings", "reset", "key-site_name"]
+              "path": ["v1", "acp", "settings", "reset", "key-site_name"]
             },
             "description": "Reset a specific setting to its default value"
           },
@@ -1432,9 +1432,9 @@
               }
             ],
             "url": {
-              "raw": "{{base_url}}/v1/admin/structure?status=active&parent_id=1&search=about&limit=50&offset=0",
+              "raw": "{{base_url}}/v1/acp/structure?status=active&parent_id=1&search=about&limit=50&offset=0",
               "host": ["{{base_url}}"],
-              "path": ["v1", "admin", "structure"],
+              "path": ["v1", "acp", "structure"],
               "query": [
                 {
                   "key": "status",
@@ -1482,9 +1482,9 @@
               }
             ],
             "url": {
-              "raw": "{{base_url}}/v1/admin/structure/5",
+              "raw": "{{base_url}}/v1/acp/structure/5",
               "host": ["{{base_url}}"],
-              "path": ["v1", "admin", "structure", "5"]
+              "path": ["v1", "acp", "structure", "5"]
             },
             "description": "Retrieve page details for editing"
           },
@@ -1509,9 +1509,9 @@
               "raw": "{\n  \"slug\": \"new-page\",\n  \"title\": \"Новая страница\",\n  \"parent_id\": 1,\n  \"status\": \"draft\",\n  \"nav\": true,\n  \"meta_title\": \"Заголовок для SEO\",\n  \"meta_description\": \"Описание для SEO\",\n  \"meta_keywords\": \"ключевые, слова\",\n  \"noindex\": false,\n  \"page_type\": \"page\",\n  \"sort\": 100,\n  \"published_at\": \"2025-01-15 12:00:00\"\n}"
             },
             "url": {
-              "raw": "{{base_url}}/v1/admin/structure",
+              "raw": "{{base_url}}/v1/acp/structure",
               "host": ["{{base_url}}"],
-              "path": ["v1", "admin", "structure"]
+              "path": ["v1", "acp", "structure"]
             },
             "description": "Create a new page in the site structure. \n\n**Slug Requirements:**\n- Only lowercase letters, numbers, hyphens, and underscores\n- Cannot start or end with hyphen\n- Maximum 100 characters\n- Must be unique\n\n**Reserved slugs (cannot be used):**\n- login, register, register-complete\n- password-forgot, password-reset, verify-email\n- profile, profile-edit, offline\n- 403, 404, acp (and all /acp/* paths)"
           },
@@ -1536,9 +1536,9 @@
               "raw": "{\n  \"slug\": \"updated-page\",\n  \"title\": \"Обновленная страница\",\n  \"parent_id\": 1,\n  \"status\": \"active\",\n  \"nav\": true,\n  \"meta_title\": \"Обновленный заголовок\",\n  \"meta_description\": \"Обновленное описание\",\n  \"meta_keywords\": \"обновленные, ключевые, слова\",\n  \"noindex\": false,\n  \"page_type\": \"page\",\n  \"sort\": 150,\n  \"published_at\": \"2025-01-15 12:00:00\"\n}"
             },
             "url": {
-              "raw": "{{base_url}}/v1/admin/structure/5",
+              "raw": "{{base_url}}/v1/acp/structure/5",
               "host": ["{{base_url}}"],
-              "path": ["v1", "admin", "structure", "5"]
+              "path": ["v1", "acp", "structure", "5"]
             },
             "description": "Update existing page. \n\n**Slug Requirements (when updating slug):**\n- Only lowercase letters, numbers, hyphens, and underscores\n- Cannot start or end with hyphen\n- Maximum 100 characters\n- Must be unique\n\n**Reserved slugs (cannot be used):**\n- login, register, register-complete\n- password-forgot, password-reset, verify-email\n- profile, profile-edit, offline\n- 403, 404, acp (and all /acp/* paths)\n\n**Note:** Home page slug cannot be changed from 'index'"
           },
@@ -1559,9 +1559,9 @@
               }
             ],
             "url": {
-              "raw": "{{base_url}}/v1/admin/structure/5",
+              "raw": "{{base_url}}/v1/acp/structure/5",
               "host": ["{{base_url}}"],
-              "path": ["v1", "admin", "structure", "5"]
+              "path": ["v1", "acp", "structure", "5"]
             },
             "description": "Delete page from site structure. Note: Cannot delete home page (ID=1 or slug='index') or pages with children."
           },
@@ -1586,9 +1586,9 @@
               "raw": "{\n  \"status\": \"active\"\n}"
             },
             "url": {
-              "raw": "{{base_url}}/v1/admin/structure/5/status",
+              "raw": "{{base_url}}/v1/acp/structure/5/status",
               "host": ["{{base_url}}"],
-              "path": ["v1", "admin", "structure", "5", "status"]
+              "path": ["v1", "acp", "structure", "5", "status"]
             },
             "description": "Change the status of a page (draft, active, inactive)"
           },
@@ -1613,9 +1613,9 @@
               "raw": "{\n  \"pages\": [\n    {\n      \"id\": 3,\n      \"sort\": 10\n    },\n    {\n      \"id\": 5,\n      \"sort\": 20\n    },\n    {\n      \"id\": 7,\n      \"sort\": 30\n    }\n  ]\n}"
             },
             "url": {
-              "raw": "{{base_url}}/v1/admin/structure/reorder",
+              "raw": "{{base_url}}/v1/acp/structure/reorder",
               "host": ["{{base_url}}"],
-              "path": ["v1", "admin", "structure", "reorder"]
+              "path": ["v1", "acp", "structure", "reorder"]
             },
             "description": "Change the sort order of multiple pages"
           },
