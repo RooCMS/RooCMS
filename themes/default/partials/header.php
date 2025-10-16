@@ -8,7 +8,7 @@ if(!defined('RooCMS')) {roocms_protect();}
             <div class="flex-shrink-0">
                 <a href="/" class="flex items-center space-x-2">
                     <div class="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-r from-blue-600 to-purple-600">
-                        <span class="text-lg font-bold text-white">R</span>
+                        <span class="text-lg font-bold text-white/95">R</span>
                     </div>
                     <span class="text-xl font-bold text-zinc-900">RooCMS</span>
                 </a>
