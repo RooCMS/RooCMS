@@ -200,8 +200,9 @@
     @apply w-full justify-center;
 }
 
+/* Link */
 .link-text {
-    @apply text-sm font-medium text-sky-700 hover:text-sky-900;
+    @apply text-sky-600 hover:text-sky-900 transition-colors;
 }
 
 /* Navigation links */

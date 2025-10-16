@@ -33,7 +33,7 @@ if (localStorage.getItem('access_token')) {
             </h2>
             <p class="mt-2 text-center text-sm text-gray-600">
                 Already have an account?
-                <a href="/login" class="font-medium text-blue-600 hover:text-blue-500 transition-colors">
+                <a href="/login" class="font-medium link-text">
                     Login
                 </a>
             </p>
@@ -150,8 +150,8 @@ if (localStorage.getItem('access_token')) {
             <div class="mt-6 text-center text-sm text-gray-500">
                 <p>
                     By creating an account, you agree to our
-                    <br /><a href="/terms" class="font-medium text-blue-600 hover:text-blue-500 transition-colors">Terms of use</a>
-                    and <a href="/privacy" class="font-medium text-blue-600 hover:text-blue-500 transition-colors">Privacy policy</a>
+                    <br /><a href="/terms" class="link-text font-medium">Terms of use</a>
+                    and <a href="/privacy" class="link-text font-medium">Privacy policy</a>
                 </p>
             </div>
         </div>

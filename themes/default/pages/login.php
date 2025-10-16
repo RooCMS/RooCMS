@@ -33,7 +33,7 @@ if (localStorage.getItem('access_token')) {
             </h2>
             <p class="mt-2 text-center text-sm text-gray-600">
                 No account?
-                <a href="/register" class="font-medium text-blue-600 hover:text-blue-500 transition-colors">
+                <a href="/register" class="link-text font-medium">
                     Register
                 </a>
             </p>
@@ -89,7 +89,7 @@ if (localStorage.getItem('access_token')) {
                 <!-- Forgot password -->
                 <div class="flex items-center justify-between">
                     <div class="text-sm">
-                        <a href="/password-forgot" class="font-medium text-blue-600 hover:text-blue-500 transition-colors">
+                        <a href="/password-forgot" class="font-medium link-text">
                             Forgot password?
                         </a>
                     </div>

@@ -28,7 +28,7 @@ ob_start();
 		<!-- Hero -->
 		<section>
 			<h2 class="mb-3 text-base font-semibold text-zinc-900">Hero</h2>
-			<div class="relative overflow-hidden rounded-3xl border border-zinc-200 bg-gradient-to-r from-amber-100/80 to-sky-50/80 p-10 shadow-sm">
+			<div class="relative overflow-hidden rounded-2xl border border-zinc-200 bg-gradient-to-r from-amber-100/80 to-sky-50/80 p-10 shadow-sm">
 				<div class="absolute inset-0 -z-10 blur-3xl"></div>
 				<h3 class="text-3xl font-bold bg-gradient-to-r from-gray-900 to-gray-600 bg-clip-text text-transparent">Build with RooCMS</h3>
 				<p class="mt-3 max-w-xl text-zinc-600">Лёгкая публика CMS без фреймворков. Простые компоненты, аккуратные градиенты, чистая типографика.</p>

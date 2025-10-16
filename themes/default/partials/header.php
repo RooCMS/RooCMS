@@ -7,9 +7,7 @@ if(!defined('RooCMS')) {roocms_protect();}
             <!-- Logo -->
             <div class="flex-shrink-0">
                 <a href="/" class="flex items-center space-x-2">
-                    <div class="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-r from-blue-600 to-purple-600">
-                        <span class="text-lg font-bold text-white/95">R</span>
-                    </div>
+                    <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-gradient-to-r from-blue-600 to-purple-600 text-xl text-white font-semibold">R</div>
                     <span class="text-xl font-bold text-zinc-900">RooCMS</span>
                 </a>
             </div>
