@@ -535,7 +535,7 @@ ob_start();
                                 </div>
                                 <div class="mt-2 text-xs text-gray-400">Profile access</div>
                                 <div class="mt-3">
-                                    <button @click="toggleProfileVisibility()" class="cursor-pointer text-xs text-white px-3 py-1 rounded-lg transition-all duration-200 flex items-center gap-1 disabled:opacity-50 disabled:cursor-not-allowed"
+                                    <button @click="toggleProfileVisibility()" class="badge text-white cursor-pointer transition-all duration-200 flex items-center gap-1 disabled:opacity-50 disabled:cursor-not-allowed"
                                             x-bind:class="(user || {}).is_public ? 'bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600' : 'bg-gradient-to-r from-gray-500 to-slate-500 hover:from-gray-600 hover:to-slate-600'"
                                             x-bind:disabled="togglingVisibility">
                                         <svg x-show="!togglingVisibility" class="w-3 h-3 flex-shrink-0 py-0 translate-y-0.25" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -560,7 +560,7 @@ ob_start();
                                 </div>
                                 <div class="mt-2 text-xs text-gray-400">Account state</div>
                                 <div class="mt-3">
-                                    <span class="text-xs px-2 py-1 rounded-full border flex items-center gap-1" x-bind:class="user ? (user.is_active ? 'bg-green-100 text-green-800 border-green-200' : 'bg-red-100 text-red-800 border-red-200') : 'bg-gray-100 text-gray-800 border-gray-200'">
+                                    <span class="badge border flex items-center gap-1" x-bind:class="user ? (user.is_active ? 'success border-green-200' : 'danger border-red-200') : 'bg-gray-100 text-gray-800 border-gray-200'">
                                         <svg class="w-3 h-3 flex-shrink-0 py-0 translate-y-0.25" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                                         </svg>
@@ -577,7 +577,7 @@ ob_start();
                                 <div class="text-xl font-bold text-gray-900" x-text="formatDate((user || {}).created_at) || 'Loading...'"></div>
                                 <div class="mt-2 text-xs text-gray-400">Member since</div>
                                 <div class="mt-3">
-                                    <span class="text-xs bg-gradient-to-r from-blue-100 to-indigo-100 text-blue-800 px-2 py-1 rounded-full flex items-center gap-1">
+                                    <span class="badge info border border-sky-200 flex items-center gap-1">
                                         <svg class="w-3 h-3 flex-shrink-0 py-0 translate-y-0.25" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                                         </svg>
@@ -594,7 +594,7 @@ ob_start();
                                 <div class="text-xl font-bold text-gray-900" x-text="formatDateTime((user || {}).last_activity) || 'Loading...'"></div>
                                 <div class="mt-2 text-xs text-gray-400">Recent activity</div>
                                 <div class="mt-3">
-                                    <span class="text-xs bg-gradient-to-r from-green-100 to-emerald-100 text-green-800 px-2 py-1 rounded-full flex items-center gap-1">
+                                    <span class="badge success border border-emerald-200 flex items-center gap-1">
                                         <svg class="w-3 h-3 flex-shrink-0 py-0 translate-y-0.25" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                                         </svg>

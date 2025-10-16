@@ -158,12 +158,12 @@
     @apply border border-zinc-200 bg-white text-zinc-900 hover:bg-zinc-50 focus-visible:outline-zinc-500;
 }
 
-.btn:disabled {
-    @apply opacity-60 cursor-not-allowed;
-}
-
 .btn.outline {
     @apply border border-zinc-300 bg-white text-zinc-600 hover:border-blue-500 hover:text-blue-600 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500;
+}
+
+.btn:disabled {
+    @apply opacity-60 cursor-not-allowed;
 }
 
 .btn svg {
