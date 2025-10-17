@@ -265,7 +265,7 @@ class BackupController extends BaseController {
 	 */
 	private function get_path_parameter(string $name): ?string {
 		$uri = env('REQUEST_URI') ?? '';
-		$path = parse_url($uri, PHP_URL_PATH);
+		$path = sanitize_path($uri);
 		$segments = explode('/', trim($path, '/'));
 		
 		// For backup download: /api/v1/backup/download/{filename}

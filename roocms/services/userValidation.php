@@ -114,7 +114,7 @@ class UserValidationService {
      * @return array|null User data or null if not found/invalid
      */
     public function get_user_by_email(string $email): ?array {
-        if(!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        if(!is_valid_email($email)) {
             return null;
         }
 

@@ -293,7 +293,7 @@ class ACPSettingsController extends BaseController {
      * @return string|null Validation error message or null if valid
      */
     private function validate_email_value(mixed $value): ?string {
-        if (filter_var($value, FILTER_VALIDATE_EMAIL) === false) {
+        if (is_valid_email($value)) {
             return 'Value must be a valid email address';
         }
         return null;

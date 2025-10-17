@@ -321,7 +321,7 @@ class SiteSettings {
             'integer' => filter_var($value, FILTER_VALIDATE_INT) !== false,
             'string', 'text', 'html', 'color', 'image', 'file' => is_string($value),
             'date' => is_numeric($value) && $value > 0,
-            'email' => filter_var($value, FILTER_VALIDATE_EMAIL) !== false,
+            'email' => is_valid_email($value),
             'select' => $this->validate_select_value($value, $setting),
             default => true
         };

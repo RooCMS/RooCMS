@@ -292,7 +292,7 @@ class AuthController extends BaseController {
             return;
         }
 
-        if (!filter_var($data['email'], FILTER_VALIDATE_EMAIL)) {
+        if (!is_valid_email($data['email'])) {
             $this->error_response('Invalid email format', 400);
             return;
         }

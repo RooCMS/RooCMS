@@ -140,7 +140,7 @@ class UserService {
 
         if(isset($user_data['email'])) {
             $email = trim((string)$user_data['email']);
-            if(!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            if(!is_valid_email($email)) {
                 throw new DomainException('Invalid email', 422);
             }
             // Check uniqueness of email
@@ -199,7 +199,7 @@ class UserService {
      */
     public function change_email(int $user_id, string $new_email): bool {
         $new_email = trim($new_email);
-        if(!filter_var($new_email, FILTER_VALIDATE_EMAIL)) {
+        if(!is_valid_email($new_email)) {
             throw new DomainException('Invalid email', 422);
         }
         $existing = $this->user->get_user_by_email($new_email);
