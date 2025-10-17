@@ -32,7 +32,7 @@ class AuthController extends BaseController {
     /**
      * Constructor with dependency injection
      */
-    public function __construct(AuthenticationService $authService, RegistrationService $registrationService, UserRecoveryService $recoveryService, Db $db, Request $request) {
+    public function __construct(Db $db, Request $request, AuthenticationService $authService, RegistrationService $registrationService, UserRecoveryService $recoveryService) {
         parent::__construct($db, $request);
 
         $this->authService = $authService;

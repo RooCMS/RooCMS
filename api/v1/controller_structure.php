@@ -30,7 +30,7 @@ class StructureController extends BaseController {
     /**
      * Constructor
      */
-    public function __construct(StructureService $structureService, Db $db, Request $request) {
+    public function __construct(Db $db, Request $request, StructureService $structureService) {
         parent::__construct($db, $request);
         $this->structureService = $structureService;
     }

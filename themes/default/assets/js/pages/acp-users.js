@@ -271,19 +271,27 @@ window.usersManager = () => ({
     async banUser(user) {
         // Show ban modal with custom form
         const banData = await this.showBanModal(user);
-        
+
         if (!banData) {
             return; // User cancelled
         }
 
         try {
-            const response = await request(`/v1/users/${user.id}`, {
-                method: 'PUT',
-                body: JSON.stringify({
-                    is_banned: true,
-                    ban_reason: banData.reason || 'Banned by administrator',
-                    ban_expired: banData.expires || 0
-                })
+            const requestBody = {};
+
+            // Add reason if provided
+            if (banData.reason && banData.reason.trim()) {
+                requestBody.reason = banData.reason.trim();
+            }
+
+            // Add until timestamp if provided
+            if (banData.expires) {
+                requestBody.until = banData.expires;
+            }
+
+            const response = await request(`/v1/moderate/ban/${user.id}`, {
+                method: 'POST',
+                body: JSON.stringify(requestBody)
             });
 
             if (!response.ok) {
@@ -333,26 +341,19 @@ window.usersManager = () => ({
     async unbanUser(user) {
         // Use modal for confirmation
         const confirmed = await window.modal(
-            'Unban User', 
-            `Are you sure you want to unban user <strong>${user.login}</strong>?`, 
-            'Unban', 
-            'Cancel', 
+            'Unban User',
+            `Are you sure you want to unban user <strong>${user.login}</strong>?`,
+            'Unban',
+            'Cancel',
             'notice'
         );
-        
+
         if (!confirmed) {
             return;
         }
 
         try {
-            const response = await request(`/v1/users/${user.id}`, {
-                method: 'PUT',
-                body: JSON.stringify({
-                    is_banned: false,
-                    ban_reason: '',
-                    ban_expired: 0
-                })
-            });
+            const response = await request(`/v1/moderate/unban/${user.id}`);
 
             if (!response.ok) {
                 throw new Error(`Failed to unban user: ${response.status}`);

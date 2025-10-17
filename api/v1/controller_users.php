@@ -34,7 +34,7 @@ class UsersController extends BaseController {
     /**
 	 * Constructor
 	 */
-    public function __construct(UserService $userService, UserListService $userListService, EmailService $emailService, Auth $auth, Db $db, Request $request) {
+    public function __construct(Db $db, Request $request, UserService $userService, UserListService $userListService, EmailService $emailService, Auth $auth) {
         parent::__construct($db, $request);
 
         $this->userService = $userService;

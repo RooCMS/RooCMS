@@ -30,7 +30,7 @@ class SettingsController extends BaseController {
     /**
      * Constructor
      */
-    public function __construct(SiteSettingsService $SiteSettingsService, Db $db, Request $request) {
+    public function __construct(Db $db, Request $request, SiteSettingsService $SiteSettingsService) {
         parent::__construct($db, $request);
         $this->SiteSettingsService = $SiteSettingsService;
     }

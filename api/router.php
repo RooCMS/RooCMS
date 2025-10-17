@@ -41,6 +41,7 @@ spl_autoload_register(function(string $controller_name) {
         'MediaController'           => _API . '/v1/controller_media.php',
         'StructureController'       => _API . '/v1/controller_structure.php',
         'ACPStructureController'    => _API . '/v1/controller_acpStructure.php',
+        'ModerateController'        => _API . '/v1/controller_moderate.php',
         'AuthMiddleware'            => _API . '/v1/middleware_auth.php',
         'RoleMiddleware'            => _API . '/v1/middleware_role.php'
     ];
@@ -64,6 +65,7 @@ $container->register(HealthController::class, HealthController::class);
 $container->register(UsersController::class, UsersController::class);
 $container->register(AuthController::class, AuthController::class);
 $container->register(SettingsController::class, SettingsController::class);
+$container->register(ModerateController::class, ModerateController::class);
 $container->register(ACPSettingsController::class, ACPSettingsController::class);
 $container->register(BackupController::class, BackupController::class);
 $container->register(DebugController::class, DebugController::class);
@@ -179,6 +181,11 @@ $api->delete('/v1/acp/structure/{id}', 'ACPStructureController@delete', ['AuthMi
 $api->patch('/v1/acp/structure/{id}/status', 'ACPStructureController@change_status', ['AuthMiddleware', 'RoleMiddleware@admin_access']);
 $api->put('/v1/acp/structure/reorder', 'ACPStructureController@reorder', ['AuthMiddleware', 'RoleMiddleware@admin_access']); 
 
+// Moderate endpoints (moderator or higher)
+$api->post('/v1/moderate/ban/{user_id}', 'ModerateController@ban', ['AuthMiddleware', 'RoleMiddleware@moderator_access']);
+$api->get('/v1/moderate/unban/{user_id}', 'ModerateController@unban', ['AuthMiddleware', 'RoleMiddleware@moderator_access']);
+
+
 // Future routes will be added here
 // Example:
 // Admin endpoints (require authentication + admin role)
@@ -263,7 +270,9 @@ $api->get('/', function() {
             'acp_settings_reset_all' => 'GET /api/v1/acp/settings/reset/all',
             'acp_settings_reset_group' => 'GET /api/v1/acp/settings/reset/group-{group}',
             'acp_settings_reset_setting' => 'GET /api/v1/acp/settings/reset/key-{key}',
-            'acp_debug_clear' => 'POST /api/v1/acp/debug/clear'
+            'acp_debug_clear' => 'POST /api/v1/acp/debug/clear',
+            'moderate_ban' => 'POST /api/v1/moderate/ban/{user_id}',
+            'moderate_unban' => 'GET /api/v1/moderate/unban/{user_id}'
         ]
     ];
 

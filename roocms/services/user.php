@@ -151,7 +151,6 @@ class UserService {
             $user_data['email'] = $email;
         }
 
-        // Atomicity
         return (bool)$this->db->transaction(function() use ($user_id, $user_data) {
             return $this->user->update_user($user_id, $user_data);
         });
@@ -171,26 +170,6 @@ class UserService {
      */
     public function set_verified(int $user_id, bool $is_verified): bool {
         return $this->user->update_user($user_id, ['is_verified' => $is_verified ? 1 : 0]);
-    }
-
-
-    /**
-     * Ban user until timestamp with reason; unban if until <= now
-     */
-    public function ban_user(int $user_id, int $until_timestamp, string $reason = ''): bool {
-        $now = time();
-        if($until_timestamp <= $now) {
-            return $this->user->update_user($user_id, [
-                'is_banned' => 0,
-                'ban_expired' => 0,
-                'ban_reason' => ''
-            ]);
-        }
-        return $this->user->update_user($user_id, [
-            'is_banned' => 1,
-            'ban_expired' => $until_timestamp,
-            'ban_reason' => $reason
-        ]);
     }
 
 
