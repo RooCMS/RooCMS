@@ -31,7 +31,7 @@ class ACPStructureController extends BaseController {
     /**
      * Constructor
      */
-    public function __construct(Db $db, Request $request, StructureService $structureService, StructureManageService $structureManageService) {
+    public function __construct(Db $db, Request $request, StructureManageService $structureManageService) {
         parent::__construct($db, $request);
         $this->structureManageService = $structureManageService;
     }
