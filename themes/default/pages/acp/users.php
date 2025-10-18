@@ -160,16 +160,16 @@ ob_start();
                                         </td>
                                         <td class="px-6 py-4">
                                             <div class="flex flex-col gap-1.5">
-                                                <span class="inline-flex items-center px-2.5 py-1 rounded-md text-xs font-medium"
-                                                      :class="user.is_active ? 'bg-emerald-100 text-emerald-700' : 'bg-red-100 text-red-800'">
+                                                <span x-show="!user.is_banned" class="badge"
+                                                      :class="user.is_active ? 'success' : 'danger'">
                                                     <span x-text="user.is_active ? 'Active' : 'Inactive'"></span>
                                                 </span>
-                                                <div x-show="user.is_banned" class="px-2 bg-rose-50 border border-rose-200 rounded-md">
+                                                <div x-show="user.is_banned" class="badge danger">
                                                     <span class="text-xs font-semibold text-rose-700">Banned</span>
                                                     <div x-show="user.ban_reason" class="text-xs text-zinc-700">
                                                         <span class="font-medium">Reason:</span> <span x-text="user.ban_reason"></span>
                                                     </div>
-                                                    <div class="text-xs text-zinc-700 pb-1.5">
+                                                    <div class="text-xs text-zinc-700">
                                                         <span class="font-medium">Until:</span> 
                                                         <span x-text="formatBanExpiry(user.ban_expired)" :class="(!user.ban_expired || user.ban_expired === 0) ? 'text-rose-700' : ''"></span>
                                                     </div>
