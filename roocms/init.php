@@ -130,6 +130,7 @@ spl_autoload_register(function(string $class_name) {
         'SiteSettingsService'       => _SERVICES . '/siteSettings.php',
         'SiteSettingsManageService' => _SERVICES . '/siteSettingsManage.php',
         'UserService'               => _SERVICES . '/user.php',
+        'UserManageService'         => _SERVICES . '/userManage.php',
         'AuthenticationService'     => _SERVICES . '/authentication.php',
         'RegistrationService'       => _SERVICES . '/registration.php',
         'UserValidationService'     => _SERVICES . '/userValidation.php',
@@ -223,6 +224,7 @@ $container->register(User::class, User::class, true);
 $container->register(Role::class, Role::class, true);
 $container->register(ModerateService::class, ModerateService::class, true);
 $container->register(UserService::class, UserService::class, true);
+$container->register(UserManageService::class, UserManageService::class, true);
 $container->register(Structure::class, Structure::class, true);
 $container->register(Mailer::class, Mailer::class, true);
 $container->register(GD::class, GD::class, true);

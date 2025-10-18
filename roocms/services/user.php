@@ -23,16 +23,18 @@ class UserService {
     private Db $db;
     private User $user;
     private Files $files;
+    private UserValidationService $userValidationService;
 
 
 
     /**
      * Constructor
      */
-    public function __construct(Db $db, User $user, Files $files) {
+    public function __construct(Db $db, User $user, Files $files, UserValidationService $userValidationService) {
         $this->db = $db;
         $this->user = $user;
         $this->files = $files;
+        $this->userValidationService = $userValidationService;
     }
 
 
@@ -101,22 +103,21 @@ class UserService {
             $profile_data['gender'] = strtolower((string)$profile_data['gender']);
         }
 
-        // Validate specific fields
-        $validations = [
-            'nickname' => fn($v) => !empty($v) && $this->user->nickname_exists($v, $user_id) ?
-                throw new DomainException('Nickname already taken', 409) : null,
-            'gender' => fn($v) => $v !== null && !in_array($v, ['male', 'female', 'other'], true) ?
-                throw new DomainException('Invalid gender value. Must be one of: male, female, other', 422) : null,
-            'birthday' => fn($v) => !empty($v) && (!($dt = date_create_from_format('Y-m-d', $v)) || ($errors = date_get_last_errors()) && $errors['error_count'] > 0) ? 
-                throw new DomainException('Invalid birthday format. Use Y-m-d', 422) : null,
-            'website' => fn($v) => !empty($v) && !filter_var($v, FILTER_VALIDATE_URL) ? 
-                throw new DomainException('Invalid website URL', 422) : null,
-        ];
+        // Validate specific fields using UserValidationService
+        if(isset($profile_data['nickname']) && !empty($profile_data['nickname'])) {
+            $this->userValidationService->validate_nickname($profile_data['nickname'], $user_id);
+        }
 
-        foreach($validations as $field => $validator) {
-            if(isset($profile_data[$field])) {
-                $validator($profile_data[$field]);
-            }
+        if(isset($profile_data['gender'])) {
+            $this->userValidationService->validate_gender($profile_data['gender']);
+        }
+
+        if(isset($profile_data['birthday'])) {
+            $this->userValidationService->validate_birthday($profile_data['birthday']);
+        }
+
+        if(isset($profile_data['website'])) {
+            $this->userValidationService->validate_website($profile_data['website']);
         }
 
         // Normalize boolean field
@@ -140,14 +141,7 @@ class UserService {
 
         if(isset($user_data['email'])) {
             $email = trim((string)$user_data['email']);
-            if(!is_valid_email($email)) {
-                throw new DomainException('Invalid email', 422);
-            }
-            // Check uniqueness of email
-            $existing = $this->user->get_user_by_email($email);
-            if($existing && (int)$existing['id'] !== $user_id) {
-                throw new DomainException('Email already in use', 409);
-            }
+            $this->userValidationService->validate_email($email, $user_id);
             $user_data['email'] = $email;
         }
 
@@ -178,13 +172,7 @@ class UserService {
      */
     public function change_email(int $user_id, string $new_email): bool {
         $new_email = trim($new_email);
-        if(!is_valid_email($new_email)) {
-            throw new DomainException('Invalid email', 422);
-        }
-        $existing = $this->user->get_user_by_email($new_email);
-        if($existing && (int)$existing['id'] !== $user_id) {
-            throw new DomainException('Email already in use', 409);
-        }
+        $this->userValidationService->validate_email($new_email, $user_id);
         return $this->user->update_user($user_id, ['email' => $new_email]);
     }
 

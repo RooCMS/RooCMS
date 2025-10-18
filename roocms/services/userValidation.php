@@ -179,6 +179,125 @@ class UserValidationService {
 
 
     /**
+     * Validate email format and uniqueness
+     * 
+     * @param string $email Email to validate
+     * @param int|null $exclude_user_id User ID to exclude from uniqueness check
+     * @throws DomainException If validation fails
+     */
+    public function validate_email(string $email, ?int $exclude_user_id = null): void {
+        $email = trim($email);
+        
+        if(!is_valid_email($email)) {
+            throw new DomainException('Invalid email format', 422);
+        }
+
+        // Check uniqueness
+        $existing_user = $this->user->get_user_by_email($email);
+        if($existing_user && (!$exclude_user_id || (int)$existing_user['id'] !== $exclude_user_id)) {
+            throw new DomainException('Email already in use', 409);
+        }
+    }
+
+
+    /**
+     * Validate nickname and uniqueness
+     * 
+     * @param string $nickname Nickname to validate
+     * @param int|null $exclude_user_id User ID to exclude from uniqueness check
+     * @throws DomainException If validation fails
+     */
+    public function validate_nickname(string $nickname, ?int $exclude_user_id = null): void {
+        if(empty($nickname)) {
+            return; // Empty nickname is allowed
+        }
+
+        if($this->user->nickname_exists($nickname, $exclude_user_id)) {
+            throw new DomainException('Nickname already taken', 409);
+        }
+    }
+
+
+    /**
+     * Validate gender value
+     * 
+     * @param string|null $gender Gender to validate
+     * @throws DomainException If validation fails
+     */
+    public function validate_gender(?string $gender): void {
+        if($gender === null || $gender === '') {
+            return; // Empty gender is allowed
+        }
+
+        $gender = strtolower(trim($gender));
+        if(!in_array($gender, ['male', 'female', 'other'], true)) {
+            throw new DomainException('Invalid gender value. Must be one of: male, female, other', 422);
+        }
+    }
+
+
+    /**
+     * Validate birthday format
+     * 
+     * @param string|null $birthday Birthday to validate (Y-m-d format)
+     * @throws DomainException If validation fails
+     */
+    public function validate_birthday(?string $birthday): void {
+        if(empty($birthday)) {
+            return; // Empty birthday is allowed
+        }
+
+        $dt = date_create_from_format('Y-m-d', $birthday);
+        if(!$dt || ($errors = date_get_last_errors()) && $errors['error_count'] > 0) {
+            throw new DomainException('Invalid birthday format. Use Y-m-d', 422);
+        }
+    }
+
+
+    /**
+     * Validate website URL
+     * 
+     * @param string|null $website Website URL to validate
+     * @throws DomainException If validation fails
+     */
+    public function validate_website(?string $website): void {
+        if(empty($website)) {
+            return; // Empty website is allowed
+        }
+
+        if(!filter_var($website, FILTER_VALIDATE_URL)) {
+            throw new DomainException('Invalid website URL', 422);
+        }
+    }
+
+
+    /**
+     * Validate role value
+     * 
+     * @param string $role Role to validate
+     * @throws DomainException If validation fails
+     */
+    public function validate_role(string $role): void {
+        if(!in_array($role, ['u', 'm', 'a', 'su'], true)) {
+            throw new DomainException('Invalid role. Must be one of: u, m, a, su', 422);
+        }
+    }
+
+
+    /**
+     * Validate ban expiration timestamp
+     * 
+     * @param int $timestamp Ban expiration timestamp
+     * @throws DomainException If validation fails
+     */
+    public function validate_ban_expiration(int $timestamp): void {
+        if($timestamp < 0) {
+            throw new DomainException('Invalid ban expiration timestamp', 422);
+        }
+    }
+
+
+    /**
      * Get user ID from user data (handles different field names)
      * 
      * @param array $user User data

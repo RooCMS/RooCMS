@@ -263,9 +263,9 @@ window.usersManager = () => ({
 
     // User action methods
     editUser(user) {
-        // TODO: Implement user editing modal/form
         if (DEBUG) window.log('log', 'Edit user:', user);
-        this.showMessage('User editing not implemented yet', 'error');
+        // Redirect to user edit page with query parameter
+        window.location.href = `/acp/user-edit?id=${user.id}`;
     },
 
     async banUser(user) {

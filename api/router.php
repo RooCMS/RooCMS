@@ -34,6 +34,7 @@ spl_autoload_register(function(string $controller_name) {
         'CspController'             => _API . '/v1/controller_csp.php',
         'AuthController'            => _API . '/v1/controller_auth.php',
         'UsersController'           => _API . '/v1/controller_users.php',
+        'ACPUsersController'        => _API . '/v1/controller_acpUsers.php',
         'BackupController'          => _API . '/v1/controller_backup.php',
         'SettingsController'        => _API . '/v1/controller_settings.php',
         'ACPSettingsController'     => _API . '/v1/controller_acpSettings.php',
@@ -63,6 +64,7 @@ spl_autoload_register(function(string $controller_name) {
 $container->register(CspController::class, CspController::class);
 $container->register(HealthController::class, HealthController::class);
 $container->register(UsersController::class, UsersController::class);
+$container->register(ACPUsersController::class, ACPUsersController::class);
 $container->register(AuthController::class, AuthController::class);
 $container->register(SettingsController::class, SettingsController::class);
 $container->register(ModerateController::class, ModerateController::class);
@@ -185,6 +187,18 @@ $api->put('/v1/acp/structure/reorder', 'ACPStructureController@reorder', ['AuthM
 $api->post('/v1/moderate/ban/{user_id}', 'ModerateController@ban', ['AuthMiddleware', 'RoleMiddleware@moderator_access']);
 $api->get('/v1/moderate/unban/{user_id}', 'ModerateController@unban', ['AuthMiddleware', 'RoleMiddleware@moderator_access']);
 
+// Admin Users endpoints (admin only)
+$api->get('/v1/acp/users/roles', 'ACPUsersController@roles', ['AuthMiddleware', 'RoleMiddleware@admin_access']);
+$api->get('/v1/acp/users/{user_id}', 'ACPUsersController@show', ['AuthMiddleware', 'RoleMiddleware@admin_access']);
+$api->put('/v1/acp/users/{user_id}', 'ACPUsersController@update', ['AuthMiddleware', 'RoleMiddleware@admin_access']);
+$api->put('/v1/acp/users/{user_id}/password', 'ACPUsersController@change_password', ['AuthMiddleware', 'RoleMiddleware@admin_access']);
+$api->patch('/v1/acp/users/{user_id}/role', 'ACPUsersController@change_role', ['AuthMiddleware', 'RoleMiddleware@admin_access']);
+$api->patch('/v1/acp/users/{user_id}/activate', 'ACPUsersController@activate', ['AuthMiddleware', 'RoleMiddleware@admin_access']);
+$api->patch('/v1/acp/users/{user_id}/deactivate', 'ACPUsersController@deactivate', ['AuthMiddleware', 'RoleMiddleware@admin_access']);
+$api->patch('/v1/acp/users/{user_id}/verify', 'ACPUsersController@verify', ['AuthMiddleware', 'RoleMiddleware@admin_access']);
+$api->patch('/v1/acp/users/{user_id}/unverify', 'ACPUsersController@unverify', ['AuthMiddleware', 'RoleMiddleware@admin_access']);
+$api->delete('/v1/acp/users/{user_id}', 'ACPUsersController@delete', ['AuthMiddleware', 'RoleMiddleware@admin_access']);
+
 
 // Future routes will be added here
 // Example:
@@ -271,6 +285,16 @@ $api->get('/', function() {
             'acp_settings_reset_group' => 'GET /api/v1/acp/settings/reset/group-{group}',
             'acp_settings_reset_setting' => 'GET /api/v1/acp/settings/reset/key-{key}',
             'acp_debug_clear' => 'POST /api/v1/acp/debug/clear',
+            'acp_users_roles' => 'GET /api/v1/acp/users/roles',
+            'acp_users_show' => 'GET /api/v1/acp/users/{user_id}',
+            'acp_users_update' => 'PUT /api/v1/acp/users/{user_id}',
+            'acp_users_change_password' => 'PUT /api/v1/acp/users/{user_id}/password',
+            'acp_users_change_role' => 'PATCH /api/v1/acp/users/{user_id}/role',
+            'acp_users_activate' => 'PATCH /api/v1/acp/users/{user_id}/activate',
+            'acp_users_deactivate' => 'PATCH /api/v1/acp/users/{user_id}/deactivate',
+            'acp_users_verify' => 'PATCH /api/v1/acp/users/{user_id}/verify',
+            'acp_users_unverify' => 'PATCH /api/v1/acp/users/{user_id}/unverify',
+            'acp_users_delete' => 'DELETE /api/v1/acp/users/{user_id}',
             'moderate_ban' => 'POST /api/v1/moderate/ban/{user_id}',
             'moderate_unban' => 'GET /api/v1/moderate/unban/{user_id}'
         ]
