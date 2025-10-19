@@ -6,6 +6,8 @@
 import { request } from '../app/api.js';
 import { DEBUG } from '../app/config.js';
 import { formatDateTime, formatRelativeTime, getUserInitials } from '../app/helpers/formatters.js';
+import { isValidEmail } from '../app/helpers/validation.js';
+import { showFieldError, clearFieldErrors } from '../app/helpers/formHelpers.js';
 
 // Alpine.js Users Manager Component
 document.addEventListener('alpine:init', () => {
@@ -26,6 +28,35 @@ document.addEventListener('alpine:init', () => {
         },
         successMessage: '',
         errorMessage: '',
+        editLoading: false,
+        editSaving: false,
+        editingUserId: null,
+        editingUser: {},
+        availableRoles: [],
+        editForm: {
+            email: '',
+            role: 'u',
+            is_active: true,
+            is_verified: false,
+            is_banned: false,
+            ban_reason: '',
+            ban_expired_date: '',
+            nickname: '',
+            first_name: '',
+            last_name: '',
+            gender: '',
+            avatar: '',
+            bio: '',
+            birthday: '',
+            website: '',
+            is_public: false
+        },
+        editPasswordForm: {
+            new_password: '',
+            confirm_password: ''
+        },
+        editSuccessMessage: '',
+        editErrorMessage: '',
 
         // Initialization
         init() {
@@ -34,7 +65,12 @@ document.addEventListener('alpine:init', () => {
                 window.log('log', 'Access token present:', !!localStorage.getItem('access_token'));
                 window.log('log', 'Refresh token present:', !!localStorage.getItem('refresh_token'));
             }
-            this.loadUsers();
+            Promise.all([
+                this.loadAvailableRoles(),
+                this.loadUsers()
+            ]).catch(error => {
+                if (DEBUG) window.log('error', 'Initialization error:', error);
+            });
         },
 
         // Load users from API
@@ -263,10 +299,349 @@ document.addEventListener('alpine:init', () => {
         },
 
         // User action methods
-        editUser(user) {
-            if (DEBUG) window.log('log', 'Edit user:', user);
-            // Redirect to user edit page with query parameter
-            window.location.href = `/acp/user-edit?id=${user.id}`;
+        toggleEditUser(user) {
+            if (DEBUG) window.log('log', 'Toggling edit for user:', user);
+
+            // If editing this user already, close it
+            if (this.editingUserId === user.id) {
+                this.closeEditPanel();
+                return;
+            }
+
+            // Otherwise, open edit for this user
+            this.openEditPanel(user.id);
+        },
+
+        async openEditPanel(userId) {
+            if (this.editSaving) return;
+
+            this.editingUserId = userId;
+            this.editingUser = {};
+            this.editLoading = true;
+            this.clearEditMessages();
+            this.clearEditFieldErrors();
+            this.resetEditPasswordForm();
+
+            try {
+                if (!this.availableRoles || this.availableRoles.length === 0) {
+                    await this.loadAvailableRoles();
+                }
+
+                await this.loadUserDetails(userId);
+            } catch (error) {
+                if (DEBUG) window.log('error', 'Error opening edit panel:', error);
+                this.showEditMessage('Failed to load user data: ' + error.message, 'error');
+            } finally {
+                this.editLoading = false;
+            }
+        },
+
+        closeEditPanel() {
+            this.editingUserId = null;
+            this.editingUser = {};
+            this.clearEditMessages();
+            this.clearEditFieldErrors();
+            this.resetEditPasswordForm();
+        },
+
+        async loadAvailableRoles() {
+            try {
+                const response = await request('/v1/acp/users/roles');
+
+                if (!response.ok) {
+                    throw new Error('Failed to load roles');
+                }
+
+                const responseData = await response.json();
+                this.availableRoles = responseData.data || responseData || [];
+
+                if (DEBUG) window.log('log', 'Available roles loaded:', this.availableRoles);
+            } catch (error) {
+                if (DEBUG) window.log('error', 'Error loading roles:', error);
+                if (!this.availableRoles || this.availableRoles.length === 0) {
+                    this.availableRoles = [
+                        { value: 'u', label: 'User', description: 'Regular user' },
+                        { value: 'm', label: 'Moderator', description: 'Can moderate content' },
+                        { value: 'a', label: 'Admin', description: 'Can manage site settings' },
+                        { value: 'su', label: 'Superuser', description: 'Full system access' }
+                    ];
+                }
+            }
+        },
+
+        async loadUserDetails(userId) {
+            try {
+                const response = await request(`/v1/acp/users/${userId}`);
+
+                if (!response.ok) {
+                    if (response.status === 404) {
+                        this.editingUser = {};
+                        return;
+                    }
+                    throw new Error(`Failed to load user: ${response.status}`);
+                }
+
+                const responseData = await response.json();
+                this.editingUser = responseData.data || responseData || {};
+
+                if (DEBUG) window.log('log', 'Editing user loaded:', this.editingUser);
+
+                this.populateEditForm();
+            } catch (error) {
+                if (DEBUG) window.log('error', 'Error loading user details:', error);
+                throw error;
+            }
+        },
+
+        populateEditForm() {
+            if (!this.editingUser) return;
+
+            const booleanFields = ['is_active', 'is_verified', 'is_banned', 'is_public'];
+            const stringFields = ['email', 'role', 'nickname', 'first_name', 'last_name', 'gender', 'avatar', 'bio', 'birthday', 'website', 'ban_reason'];
+
+            stringFields.forEach(field => {
+                this.editForm[field] = this.editingUser[field] || (field === 'role' ? 'u' : '');
+            });
+
+            booleanFields.forEach(field => {
+                this.editForm[field] = this.convertDbBoolean(this.editingUser[field]);
+            });
+
+            if (this.editingUser.ban_expired && this.editingUser.ban_expired > 0) {
+                const date = new Date(this.editingUser.ban_expired * 1000);
+                this.editForm.ban_expired_date = this.formatDateTimeLocal(date);
+            } else {
+                this.editForm.ban_expired_date = '';
+            }
+        },
+
+        resetEditForm() {
+            this.populateEditForm();
+            this.clearEditMessages();
+            this.clearEditFieldErrors();
+            this.resetEditPasswordForm();
+        },
+
+        resetEditPasswordForm() {
+            this.editPasswordForm.new_password = '';
+            this.editPasswordForm.confirm_password = '';
+        },
+
+        clearEditFieldErrors() {
+            clearFieldErrors(['email_error', 'role_error']);
+        },
+
+        validateEditForm() {
+            this.clearEditFieldErrors();
+            let hasErrors = false;
+
+            if (!this.editForm.email || !isValidEmail(this.editForm.email)) {
+                showFieldError('email_error', 'Please enter a valid email address');
+                hasErrors = true;
+            }
+
+            if (!this.editForm.role) {
+                showFieldError('role_error', 'Please select a role');
+                hasErrors = true;
+            }
+
+            if (hasErrors) {
+                this.showEditMessage('Please fix the errors below', 'error');
+            }
+
+            return !hasErrors;
+        },
+
+        prepareUserUpdateData() {
+            const updateData = {
+                email: this.editForm.email,
+                role: this.editForm.role,
+                is_active: this.editForm.is_active ? 1 : 0,
+                is_verified: this.editForm.is_verified ? 1 : 0,
+                is_banned: this.editForm.is_banned ? 1 : 0,
+                ban_reason: this.editForm.ban_reason || '',
+                nickname: this.editForm.nickname || null,
+                first_name: this.editForm.first_name || null,
+                last_name: this.editForm.last_name || null,
+                gender: this.editForm.gender || null,
+                bio: this.editForm.bio || null,
+                birthday: this.editForm.birthday || null,
+                website: this.editForm.website || null,
+                is_public: this.editForm.is_public ? 1 : 0
+            };
+
+            if (this.editForm.is_banned && this.editForm.ban_expired_date) {
+                const date = new Date(this.editForm.ban_expired_date);
+                updateData.ban_expired = Math.floor(date.getTime() / 1000);
+            } else {
+                updateData.ban_expired = 0;
+            }
+
+            return updateData;
+        },
+
+        convertDbBoolean(value) {
+            return value === true || value === 1 || value === '1';
+        },
+
+        async saveEditedUser(event) {
+            if (event) event.preventDefault();
+            if (this.editSaving) return;
+            if (!this.validateEditForm()) return;
+
+            this.editSaving = true;
+            this.clearEditMessages();
+
+            try {
+                const updateData = this.prepareUserUpdateData();
+                const response = await request(`/v1/acp/users/${this.editingUserId}`, {
+                    method: 'PUT',
+                    body: JSON.stringify(updateData)
+                });
+
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.message || 'Failed to update user');
+                }
+
+                await this.loadUserDetails(this.editingUserId);
+                this.updateUserInList(this.editingUserId, {
+                    email: this.editingUser.email,
+                    role: this.editingUser.role,
+                    is_active: this.convertDbBoolean(this.editingUser.is_active),
+                    is_verified: this.convertDbBoolean(this.editingUser.is_verified),
+                    is_banned: this.convertDbBoolean(this.editingUser.is_banned),
+                    ban_reason: this.editingUser.ban_reason || '',
+                    ban_expired: this.editingUser.ban_expired || 0,
+                    nickname: this.editingUser.nickname || '',
+                    last_activity: this.editingUser.last_activity
+                });
+
+                this.showEditMessage('User updated successfully', 'success');
+            } catch (error) {
+                if (DEBUG) window.log('error', 'Error saving user:', error);
+                this.showEditMessage('Error updating user: ' + error.message, 'error');
+            } finally {
+                this.editSaving = false;
+            }
+        },
+
+        validatePasswordForm() {
+            if (!this.editPasswordForm.new_password) {
+                this.showEditMessage('Please enter a new password', 'error');
+                return false;
+            }
+
+            if (this.editPasswordForm.new_password !== this.editPasswordForm.confirm_password) {
+                this.showEditMessage('Passwords do not match', 'error');
+                return false;
+            }
+
+            return true;
+        },
+
+        async changeUserPassword() {
+            if (this.editSaving) return;
+            if (!this.validatePasswordForm()) return;
+
+            this.editSaving = true;
+            this.clearEditMessages();
+
+            try {
+                const response = await request(`/v1/acp/users/${this.editingUserId}/password`, {
+                    method: 'PUT',
+                    body: JSON.stringify({ password: this.editPasswordForm.new_password })
+                });
+
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.message || 'Failed to change password');
+                }
+
+                this.resetEditPasswordForm();
+                this.showEditMessage('Password changed successfully', 'success');
+            } catch (error) {
+                if (DEBUG) window.log('error', 'Error changing password:', error);
+                this.showEditMessage('Error changing password: ' + error.message, 'error');
+            } finally {
+                this.editSaving = false;
+            }
+        },
+
+        async deleteUserAccount() {
+            const confirmed = await window.modal(
+                'Delete User',
+                `Are you sure you want to delete user <strong>${this.editingUser && this.editingUser.login ? this.editingUser.login : 'Unknown'}</strong>? This action cannot be undone.`,
+                'Delete',
+                'Cancel',
+                'danger'
+            );
+
+            if (!confirmed) return;
+
+            this.editSaving = true;
+            this.clearEditMessages();
+
+            try {
+                const response = await request(`/v1/acp/users/${this.editingUserId}`, {
+                    method: 'DELETE'
+                });
+
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.message || 'Failed to delete user');
+                }
+
+                this.users = this.users.filter(u => u.id !== this.editingUserId);
+                this.showMessage('User deleted successfully', 'success');
+                this.closeEditPanel();
+            } catch (error) {
+                if (DEBUG) window.log('error', 'Error deleting user:', error);
+                this.showEditMessage('Error deleting user: ' + error.message, 'error');
+            } finally {
+                this.editSaving = false;
+            }
+        },
+
+        formatDateTimeLocal(date) {
+            const year = date.getFullYear();
+            const month = String(date.getMonth() + 1).padStart(2, '0');
+            const day = String(date.getDate()).padStart(2, '0');
+            const hours = String(date.getHours()).padStart(2, '0');
+            const minutes = String(date.getMinutes()).padStart(2, '0');
+            return `${year}-${month}-${day}T${hours}:${minutes}`;
+        },
+
+        formatDateTimeValue(timestamp) {
+            return formatDateTime(timestamp);
+        },
+
+        formatRelativeTimeValue(timestamp) {
+            return formatRelativeTime(timestamp);
+        },
+
+        showEditMessage(message, type = 'success') {
+            this.clearEditMessages();
+            if (type === 'success') {
+                this.editSuccessMessage = message;
+                setTimeout(() => {
+                    if (this.editSuccessMessage === message) {
+                        this.editSuccessMessage = '';
+                    }
+                }, 5000);
+            } else {
+                this.editErrorMessage = message;
+                setTimeout(() => {
+                    if (this.editErrorMessage === message) {
+                        this.editErrorMessage = '';
+                    }
+                }, 5000);
+            }
+        },
+
+        clearEditMessages() {
+            this.editSuccessMessage = '';
+            this.editErrorMessage = '';
         },
 
         async banUser(user) {
