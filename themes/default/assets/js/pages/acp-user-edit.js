@@ -9,10 +9,8 @@ import { formatDateTime, formatRelativeTime } from '../app/helpers/formatters.js
 import { isValidEmail, isNotEmpty, hasMinLength, valuesMatch } from '../app/helpers/validation.js';
 import { showFieldError, clearFieldErrors } from '../app/helpers/formHelpers.js';
 
-// Alpine.js User Edit Manager Component
 document.addEventListener('alpine:init', () => {
-    Alpine.data('userEditManager', () => ({
-        // Reactive data
+    window.Alpine.data('userEditManager', () => ({
         user: {},
         availableRoles: [],
         form: {
@@ -42,8 +40,6 @@ document.addEventListener('alpine:init', () => {
         successMessage: '',
         errorMessage: '',
         userId: null,
-
-        // Initialization
         async init() {
             if (DEBUG) window.log('log', 'Initializing User Edit Manager...');
             
@@ -59,7 +55,7 @@ document.addEventListener('alpine:init', () => {
             // Load available roles and user data
             await Promise.all([
                 this.loadAvailableRoles(),
-                this.loadUser()
+                this.loadUserData()
             ]);
         },
 
@@ -104,10 +100,32 @@ document.addEventListener('alpine:init', () => {
             }
         },
 
-        // Load user data
-        async loadUser() {
-            this.loading = true;
+        // Generic API call handler with error handling
+        async handleApiCall(apiCall, successMessage) {
+            this.saving = true;
             this.clearMessages();
+            
+            try {
+                const result = await apiCall();
+                if (successMessage) {
+                    this.showMessage(successMessage, 'success');
+                }
+                return result;
+            } catch (error) {
+                if (DEBUG) window.log('error', 'API call failed:', error);
+                this.showMessage('Error: ' + error.message, 'error');
+                throw error;
+            } finally {
+                this.saving = false;
+            }
+        },
+
+        // Load user data (unified method)
+        async loadUserData(showLoading = true) {
+            if (showLoading) {
+                this.loading = true;
+                this.clearMessages();
+            }
 
             try {
                 if (DEBUG) window.log('log', 'Loading user:', this.userId);
@@ -117,7 +135,6 @@ document.addEventListener('alpine:init', () => {
                 if (!response.ok) {
                     if (response.status === 404) {
                         this.user = {};
-                        this.loading = false;
                         return;
                     }
                     throw new Error(`Failed to load user: ${response.status}`);
@@ -128,86 +145,55 @@ document.addEventListener('alpine:init', () => {
 
                 if (DEBUG) window.log('log', 'User loaded:', this.user);
 
-                // Populate form
-                this.populateForm();
+                // Populate form only on initial load
+                if (showLoading) {
+                    this.populateForm();
+                }
             } catch (error) {
                 if (DEBUG) window.log('error', 'Error loading user:', error);
-                this.showMessage('Failed to load user: ' + error.message, 'error');
+                if (showLoading) {
+                    this.showMessage('Failed to load user: ' + error.message, 'error');
+                }
             } finally {
-                this.loading = false;
+                if (showLoading) {
+                    this.loading = false;
+                }
             }
         },
 
-        // Refresh user data without loading state (for after save)
-        async refreshUserData() {
-            try {
-                if (DEBUG) window.log('log', 'Refreshing user data:', this.userId);
-
-                const response = await request(`/v1/acp/users/${this.userId}`);
-
-                if (!response.ok) {
-                    if (response.status === 404) {
-                        this.user = {};
-                        return;
-                    }
-                    throw new Error(`Failed to refresh user: ${response.status}`);
-                }
-
-                const responseData = await response.json();
-                const freshUserData = responseData.data || responseData;
-
-                // Update only the metadata fields that might have changed, keep other data intact
-                if (freshUserData.updated_at) {
-                    this.user.updated_at = freshUserData.updated_at;
-                }
-                if (freshUserData.last_activity) {
-                    this.user.last_activity = freshUserData.last_activity;
-                }
-                // Keep created_at as is, it shouldn't change
-
-                if (DEBUG) window.log('log', 'User metadata refreshed:', {
-                    updated_at: this.user.updated_at,
-                    last_activity: this.user.last_activity
-                });
-
-            } catch (error) {
-                if (DEBUG) window.log('error', 'Error refreshing user data:', error);
-                // Don't show error message for refresh failures, just log
-            }
+        // Convert database boolean values to JS boolean
+        convertDbBoolean(value) {
+            return value == '1' || value === true;
         },
 
         // Populate form from user data
         populateForm() {
             if (!this.user) return;
 
-            // Account fields
-            this.form.email = this.user.email || '';
-            this.form.role = this.user.role || 'u';
-            this.form.is_active = this.user.is_active == '1' || this.user.is_active === true;
-            this.form.is_verified = this.user.is_verified == '1' || this.user.is_verified === true;
+            // Boolean fields that need conversion
+            const booleanFields = ['is_active', 'is_verified', 'is_banned', 'is_public'];
             
-            // Ban fields
-            this.form.is_banned = this.user.is_banned == '1' || this.user.is_banned === true;
-            this.form.ban_reason = this.user.ban_reason || '';
-            
-            // Convert ban_expired timestamp to datetime-local format
+            // String fields with defaults
+            const stringFields = ['email', 'role', 'nickname', 'first_name', 'last_name', 
+                                'gender', 'avatar', 'bio', 'birthday', 'website', 'ban_reason'];
+
+            // Map string fields
+            stringFields.forEach(field => {
+                this.form[field] = this.user[field] || (field === 'role' ? 'u' : '');
+            });
+
+            // Map boolean fields
+            booleanFields.forEach(field => {
+                this.form[field] = this.convertDbBoolean(this.user[field]);
+            });
+
+            // Handle special ban_expired field
             if (this.user.ban_expired && this.user.ban_expired > 0) {
                 const date = new Date(this.user.ban_expired * 1000);
                 this.form.ban_expired_date = this.formatDateTimeLocal(date);
             } else {
                 this.form.ban_expired_date = '';
             }
-
-            // Profile fields
-            this.form.nickname = this.user.nickname || '';
-            this.form.first_name = this.user.first_name || '';
-            this.form.last_name = this.user.last_name || '';
-            this.form.gender = this.user.gender || '';
-            this.form.avatar = this.user.avatar || '';
-            this.form.bio = this.user.bio || '';
-            this.form.birthday = this.user.birthday || '';
-            this.form.website = this.user.website || '';
-            this.form.is_public = this.user.is_public == '1' || this.user.is_public === true;
 
             if (DEBUG) window.log('log', 'Form populated:', this.form);
         },
@@ -226,20 +212,12 @@ document.addEventListener('alpine:init', () => {
             clearFieldErrors(['email_error', 'role_error']);
         },
 
-        // Save user changes
-        async saveUser(event) {
-            // Always prevent default form submission
-            if (event) event.preventDefault();
-
-            if (this.saving) return;
-
-            // Clear previous field errors
+        // Validate form data
+        validateUserForm() {
             this.clearFieldErrors();
-
-            // Client-side validation
             let hasErrors = false;
 
-            if (!this.form.email || !this.isValidEmail(this.form.email)) {
+            if (!this.form.email || !isValidEmail(this.form.email)) {
                 showFieldError('email_error', 'Please enter a valid email address');
                 hasErrors = true;
             }
@@ -250,85 +228,95 @@ document.addEventListener('alpine:init', () => {
             }
 
             if (hasErrors) {
-                // Also show global error message
                 this.showMessage('Please fix the errors below', 'error');
-                return;
             }
 
-            this.saving = true;
-            this.clearMessages();
-            this.clearFieldErrors();
+            return !hasErrors;
+        },
 
-            try {
-                // Prepare update data
-                const updateData = {
-                    email: this.form.email,
-                    role: this.form.role,
-                    is_active: this.form.is_active ? 1 : 0,
-                    is_verified: this.form.is_verified ? 1 : 0,
-                    is_banned: this.form.is_banned ? 1 : 0,
-                    ban_reason: this.form.ban_reason || '',
-                    nickname: this.form.nickname || null,
-                    first_name: this.form.first_name || null,
-                    last_name: this.form.last_name || null,
-                    gender: this.form.gender || null,
-                    bio: this.form.bio || null,
-                    birthday: this.form.birthday || null,
-                    website: this.form.website || null,
-                    is_public: this.form.is_public ? 1 : 0
-                };
+        // Prepare user data for API request
+        prepareUserUpdateData() {
+            const updateData = {
+                email: this.form.email,
+                role: this.form.role,
+                is_active: this.form.is_active ? 1 : 0,
+                is_verified: this.form.is_verified ? 1 : 0,
+                is_banned: this.form.is_banned ? 1 : 0,
+                ban_reason: this.form.ban_reason || '',
+                nickname: this.form.nickname || null,
+                first_name: this.form.first_name || null,
+                last_name: this.form.last_name || null,
+                gender: this.form.gender || null,
+                bio: this.form.bio || null,
+                birthday: this.form.birthday || null,
+                website: this.form.website || null,
+                is_public: this.form.is_public ? 1 : 0
+            };
 
-                // Handle ban expiration
-                if (this.form.is_banned && this.form.ban_expired_date) {
-                    const date = new Date(this.form.ban_expired_date);
-                    updateData.ban_expired = Math.floor(date.getTime() / 1000);
-                } else {
-                    updateData.ban_expired = 0; // Permanent ban or no ban
-                }
-
-                if (DEBUG) window.log('log', 'Saving user with data:', updateData);
-
-                const response = await request(`/v1/acp/users/${this.userId}`, {
-                    method: 'PUT',
-                    body: JSON.stringify(updateData)
-                });
-
-                if (!response.ok) {
-                    const errorData = await response.json();
-                    throw new Error(errorData.message || 'Failed to update user');
-                }
-
-                this.showMessage('User updated successfully', 'success');
-
-                // Refresh user data without loading state
-                await this.refreshUserData();
-            } catch (error) {
-                if (DEBUG) window.log('error', 'Error saving user:', error);
-                this.showMessage('Error saving user: ' + error.message, 'error');
-            } finally {
-                this.saving = false;
+            // Handle ban expiration
+            if (this.form.is_banned && this.form.ban_expired_date) {
+                const date = new Date(this.form.ban_expired_date);
+                updateData.ban_expired = Math.floor(date.getTime() / 1000);
+            } else {
+                updateData.ban_expired = 0;
             }
+
+            return updateData;
+        },
+
+        // Send user update request to API
+        async sendUserUpdateRequest(updateData) {
+            if (DEBUG) window.log('log', 'Saving user with data:', updateData);
+
+            const response = await request(`/v1/acp/users/${this.userId}`, {
+                method: 'PUT',
+                body: JSON.stringify(updateData)
+            });
+
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.message || 'Failed to update user');
+            }
+
+            return response;
+        },
+
+        // Save user changes
+        async saveUser(event) {
+            if (event) event.preventDefault();
+            if (this.saving) return;
+
+            if (!this.validateUserForm()) return;
+
+            await this.handleApiCall(async () => {
+                const updateData = this.prepareUserUpdateData();
+                await this.sendUserUpdateRequest(updateData);
+                await this.loadUserData(false); // Refresh without loading state
+            }, 'User updated successfully');
+        },
+
+        // Validate password form
+        validatePasswordForm() {
+            if (!this.passwordForm.new_password) {
+                this.showMessage('Please enter a new password', 'error');
+                return false;
+            }
+
+            if (this.passwordForm.new_password !== this.passwordForm.confirm_password) {
+                this.showMessage('Passwords do not match', 'error');
+                return false;
+            }
+
+            return true;
         },
 
         // Change password
         async changePassword() {
             if (this.saving) return;
 
-            // Validate passwords
-            if (!this.passwordForm.new_password) {
-                this.showMessage('Please enter a new password', 'error');
-                return;
-            }
+            if (!this.validatePasswordForm()) return;
 
-            if (this.passwordForm.new_password !== this.passwordForm.confirm_password) {
-                this.showMessage('Passwords do not match', 'error');
-                return;
-            }
-
-            this.saving = true;
-            this.clearMessages();
-
-            try {
+            await this.handleApiCall(async () => {
                 if (DEBUG) window.log('log', 'Changing password for user:', this.userId);
 
                 const response = await request(`/v1/acp/users/${this.userId}/password`, {
@@ -343,22 +331,14 @@ document.addEventListener('alpine:init', () => {
                     throw new Error(errorData.message || 'Failed to change password');
                 }
 
-                this.showMessage('Password changed successfully', 'success');
-                
-                // Clear password fields
+                // Clear password fields on success
                 this.passwordForm.new_password = '';
                 this.passwordForm.confirm_password = '';
-            } catch (error) {
-                if (DEBUG) window.log('error', 'Error changing password:', error);
-                this.showMessage('Error changing password: ' + error.message, 'error');
-            } finally {
-                this.saving = false;
-            }
+            }, 'Password changed successfully');
         },
 
         // Delete user
         async deleteUser() {
-            // Confirm deletion
             const confirmed = await window.modal(
                 'Delete User',
                 `Are you sure you want to delete user <strong>${this.user && this.user.login ? this.user.login : 'Unknown'}</strong>? This action cannot be undone.`,
@@ -369,10 +349,7 @@ document.addEventListener('alpine:init', () => {
 
             if (!confirmed) return;
 
-            this.saving = true;
-            this.clearMessages();
-
-            try {
+            await this.handleApiCall(async () => {
                 if (DEBUG) window.log('log', 'Deleting user:', this.userId);
 
                 const response = await request(`/v1/acp/users/${this.userId}`, {
@@ -384,17 +361,11 @@ document.addEventListener('alpine:init', () => {
                     throw new Error(errorData.message || 'Failed to delete user');
                 }
 
-                this.showMessage('User deleted successfully. Redirecting...', 'success');
-                
                 // Redirect to users list after short delay
                 setTimeout(() => {
                     window.location.href = '/acp/users';
                 }, 1500);
-            } catch (error) {
-                if (DEBUG) window.log('error', 'Error deleting user:', error);
-                this.showMessage('Error deleting user: ' + error.message, 'error');
-                this.saving = false;
-            }
+            }, 'User deleted successfully. Redirecting...');
         },
 
         // Format datetime for datetime-local input
@@ -434,17 +405,5 @@ document.addEventListener('alpine:init', () => {
             this.errorMessage = '';
         },
 
-        // Validation helpers for template
-        isValidEmail(email) {
-            return isValidEmail(email);
-        },
-
-        isNotEmpty(value) {
-            return isNotEmpty(value);
-        },
-
-        hasMinLength(value, minLength) {
-            return hasMinLength(value, minLength);
-        }
     }));
 });

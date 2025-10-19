@@ -45,8 +45,7 @@ set_header('Access-Control-Allow-Headers: Content-Type, Authorization');
  * Handle preflight OPTIONS request
  */
 if (env('REQUEST_METHOD') === 'OPTIONS') {
-    http_response_code(200);
-    exit();
+    getout(200);
 }
 
 /**

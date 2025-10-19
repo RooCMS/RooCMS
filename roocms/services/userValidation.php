@@ -194,7 +194,7 @@ class UserValidationService {
 
         // Check uniqueness
         $existing_user = $this->user->get_user_by_email($email);
-        if($existing_user && (!$exclude_user_id || (int)$existing_user['id'] !== $exclude_user_id)) {
+        if($existing_user && ($exclude_user_id === null || (int)$existing_user['id'] !== $exclude_user_id)) {
             throw new DomainException('Email already in use', 409);
         }
     }
@@ -248,7 +248,7 @@ class UserValidationService {
         }
 
         $dt = date_create_from_format('Y-m-d', $birthday);
-        if(!$dt || ($errors = date_get_last_errors()) && $errors['error_count'] > 0) {
+        if($dt === false || ($errors = date_get_last_errors()) && $errors['error_count'] > 0) {
             throw new DomainException('Invalid birthday format. Use Y-m-d', 422);
         }
     }

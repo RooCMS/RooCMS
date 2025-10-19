@@ -6,8 +6,7 @@ $user_id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
 
 
 if(!$user_id || $user_id <= 0) {
-    http_response_code(404);
-    exit('Invalid user ID');
+    getout(404, 'Invalid user ID');
 }
 
 $page_title = 'Edit User — Admin Control Panel — RooCMS';
@@ -39,7 +38,7 @@ ob_start();
                         <li aria-hidden="true" class="text-zinc-400">/</li>
                         <li><a href="/acp/users" class="hover:text-zinc-700">Users</a></li>
                         <li aria-hidden="true" class="text-zinc-400">/</li>
-                        <li><span class="text-zinc-700">Edit User #<?php echo (int)$user_id; ?></span></li>
+                        <li><span class="text-zinc-700">Edit User #<?php render_html((string)$user_id); ?></span></li>
                     </ol>
                 </nav>
                 <div class="flex items-center justify-between">

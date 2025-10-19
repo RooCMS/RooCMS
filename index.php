@@ -48,8 +48,7 @@ $active_theme = $site['theme'] ?? 'default';
 $uri = env('REQUEST_URI') ?? '/';
 $path = sanitize_path($uri);
 if ($path === false) {
-    http_response_code(400);
-    exit('Bad Request');
+    getout(400, 'Bad Request');
 }
 
 /**

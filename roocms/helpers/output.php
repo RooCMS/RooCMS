@@ -97,3 +97,18 @@ function render_html(string $data, ?bool $hsc = null) : void {
 	// Render HTML without exiting
 	output_html($data, false, $hsc);
 }
+
+
+/**
+ * Get out with HTTP status code and optional message
+ * @param int $code - HTTP status code
+ * @param string $message - message to output
+ * @return void
+ */
+function getout(int $code, string $message = '') : void {
+	http_response_code($code);
+	if($message) {
+		exit($message);
+	}
+	exit();
+}
