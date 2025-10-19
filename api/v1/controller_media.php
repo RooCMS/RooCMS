@@ -165,11 +165,11 @@ class MediaController extends BaseController {
 			}
 			
 			// Send file with proper headers
-			header('Content-Type: ' . $media['mime_type']);
-			header('Content-Length: ' . filesize($file_path));
-			header('Content-Disposition: attachment; filename="' . $media['original_name'] . '"');
-			header('Cache-Control: private, max-age=3600');
-			header('ETag: "' . md5_file($file_path) . '"');
+			set_header('Content-Type: ' . $media['mime_type']);
+			set_header('Content-Length: ' . filesize($file_path));
+			set_header('Content-Disposition: attachment; filename="' . $media['original_name'] . '"');
+			set_header('Cache-Control: private, max-age=3600');
+			set_header('ETag: "' . md5_file($file_path) . '"');
 			
 			if(readfile($file_path) === false) {
 				$this->error_response('Failed to read file', 500);

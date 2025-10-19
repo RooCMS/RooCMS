@@ -119,14 +119,14 @@ ob_start();
                         </div>
 
                         <!-- Status Toggles -->
-                        <div class="space-y-4">
+                        <div>
                             <label class="flex cursor-pointer items-center justify-between gap-4">
                                 <span class="text-sm text-zinc-800">Account Active</span>
                                 <input type="checkbox" id="is_active" x-model="form.is_active" class="peer sr-only">
                                 <span class="relative inline-block h-6 w-11 rounded-full bg-zinc-300 transition peer-checked:bg-emerald-600 after:absolute after:left-0.5 after:top-1/2 after:-translate-y-1/2 after:h-5 after:w-5 after:rounded-full after:bg-white after:transition peer-checked:after:translate-x-5"></span>
                             </label>
                         </div>
-                        <div class="space-y-4">
+                        <div>
                             <label class="flex cursor-pointer items-center justify-between gap-4">
                                 <span class="text-sm text-zinc-800">Email Verified</span>
                                 <input type="checkbox" id="is_verified" x-model="form.is_verified" class="peer sr-only">
@@ -156,9 +156,22 @@ ob_start();
 
                     <!-- Profile Information -->
                     <div class="rounded-xl border border-zinc-200/80 bg-white/80 p-6 shadow-sm backdrop-blur">
-                    <h2 class="text-lg font-semibold text-zinc-900 mb-4">Profile Information</h2>
                     
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <!-- Title -->
+                        <div>
+                            <h2 class="text-lg font-semibold text-zinc-900 mb-4">Profile Information</h2>
+                        </div>
+
+                        <!-- Profile Public -->
+                        <div>
+                            <label class="flex cursor-pointer items-center justify-between gap-4">
+                                <span class="text-sm text-zinc-800">Profile is Public</span>
+                                <input type="checkbox" id="is_public" x-model="form.is_public" class="peer sr-only">
+                                <span class="relative inline-block h-6 w-11 rounded-full bg-zinc-300 transition peer-checked:bg-purple-600 after:absolute after:left-0.5 after:top-1/2 after:-translate-y-1/2 after:h-5 after:w-5 after:rounded-full after:bg-white after:transition peer-checked:after:translate-x-5"></span>
+                            </label>
+                        </div>
+
                         <!-- Nickname -->
                         <div>
                             <label for="nickname" class="block text-sm font-medium text-zinc-700 mb-2">Nickname</label>
@@ -211,15 +224,6 @@ ob_start();
                             <label for="bio" class="block text-sm font-medium text-zinc-700 mb-2">Bio</label>
                             <textarea id="bio" x-model="form.bio" rows="3"
                                       class="block w-full rounded-lg border border-zinc-300 bg-white px-3 py-2 text-sm text-zinc-900 focus:border-sky-500 focus:outline-none focus:ring-1 focus:ring-sky-500"></textarea>
-                        </div>
-
-                        <!-- Profile Public -->
-                        <div class="md:col-span-2">
-                            <label class="flex cursor-pointer items-center justify-between gap-4">
-                                <span class="text-sm text-zinc-800">Profile is Public</span>
-                                <input type="checkbox" id="is_public" x-model="form.is_public" class="peer sr-only">
-                                <span class="relative inline-block h-6 w-11 rounded-full bg-zinc-300 transition peer-checked:bg-purple-600 after:absolute after:left-0.5 after:top-1/2 after:-translate-y-1/2 after:h-5 after:w-5 after:rounded-full after:bg-white after:transition peer-checked:after:translate-x-5"></span>
-                            </label>
                         </div>
                     </div>
                 </div>
