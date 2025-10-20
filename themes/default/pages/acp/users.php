@@ -197,7 +197,7 @@ ob_start();
                                             </div>
                                         </div>
                                     </div>
-                                    
+
                                     <!-- Inline Edit Row -->
                                     <div x-show="editingUserId === user.id" x-transition x-cloak class="col-span-6">
                                         <div class="px-6 py-6 bg-zinc-50/70 border-t border-zinc-200/80 space-y-6">
@@ -232,24 +232,24 @@ ob_start();
                                                         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                                                             <!-- Login (read-only) -->
                                                             <div>
-                                                                <label for="login" class="block text-sm font-medium text-zinc-700 mb-2">Login</label>
-                                                                <input type="text" id="login" x-bind:value="editingUser && editingUser.login ? editingUser.login : ''" readonly disabled autocomplete="username"
+                                                                <label :for="'login_for_' + user.id" class="block text-sm font-medium text-zinc-700 mb-2">Login</label>
+                                                                <input type="text" :id="'login_for_' + user.id" x-bind:value="editingUser && editingUser.login ? editingUser.login : ''" readonly disabled autocomplete="username"
                                                                         class="block w-full rounded-lg border border-zinc-300 bg-zinc-50 px-3 py-2 text-sm text-zinc-500 cursor-not-allowed">
                                                                 <p class="mt-1 text-xs text-zinc-500">Login cannot be changed</p>
                                                             </div>
 
                                                             <!-- Email -->
                                                             <div>
-                                                                <label for="email" class="block text-sm font-medium text-zinc-700 mb-2">Email <span class="badge danger">Required</span></label>
-                                                                <input type="email" id="email" x-model="editForm.email" required
+                                                                <label :for="'email_for_' + user.id" class="block text-sm font-medium text-zinc-700 mb-2">Email <span class="badge danger">Required</span></label>
+                                                                <input type="email" :id="'email_for_' + user.id" x-model="editForm.email" required
                                                                         class="block w-full rounded-lg border border-zinc-300 bg-white px-3 py-2 text-sm text-zinc-900 focus:border-sky-500 focus:outline-none focus:ring-1 focus:ring-sky-500">
                                                                 <div id="email_error" class="mt-1 text-sm text-red-600 hidden"></div>
                                                             </div>
 
                                                             <!-- Role -->
                                                             <div>
-                                                                <label for="role" class="block text-sm font-medium text-zinc-700 mb-2">Role <span class="badge danger">Required</span></label>
-                                                                <select id="role" x-model="editForm.role" required
+                                                                <label :for="'role_for_' + user.id" class="block text-sm font-medium text-zinc-700 mb-2">Role <span class="badge danger">Required</span></label>
+                                                                <select :id="'role_for_' + user.id" x-model="editForm.role" required
                                                                         class="select-custom block w-full rounded-lg border border-zinc-300 bg-white px-3 py-2 text-sm text-zinc-900 focus:border-sky-500 focus:outline-none focus:ring-1 focus:ring-sky-500">
                                                                     <template x-for="role in availableRoles" :key="role.value">
                                                                         <option :value="role.value" x-text="role.label + ' - ' + role.description"></option>
@@ -262,14 +262,14 @@ ob_start();
                                                             <div>
                                                                 <label class="flex cursor-pointer items-center justify-between gap-4">
                                                                     <span class="text-sm text-zinc-800">Account Active</span>
-                                                                    <input type="checkbox" id="is_active" x-model="editForm.is_active" class="peer sr-only">
+                                                                    <input type="checkbox" :id="'is_active_for_' + user.id" x-model="editForm.is_active" class="peer sr-only">
                                                                     <span class="relative inline-block h-6 w-11 rounded-full bg-zinc-300 transition peer-checked:bg-emerald-600 after:absolute after:left-0.5 after:top-1/2 after:-translate-y-1/2 after:h-5 after:w-5 after:rounded-full after:bg-white after:transition peer-checked:after:translate-x-5"></span>
                                                                 </label>
                                                             </div>
                                                             <div>
                                                                 <label class="flex cursor-pointer items-center justify-between gap-4">
                                                                     <span class="text-sm text-zinc-800">Email Verified</span>
-                                                                    <input type="checkbox" id="is_verified" x-model="editForm.is_verified" class="peer sr-only">
+                                                                    <input type="checkbox" :id="'is_verified_for_' + user.id" x-model="editForm.is_verified" class="peer sr-only">
                                                                     <span class="relative inline-block h-6 w-11 rounded-full bg-zinc-300 transition peer-checked:bg-emerald-600 after:absolute after:left-0.5 after:top-1/2 after:-translate-y-1/2 after:h-5 after:w-5 after:rounded-full after:bg-white after:transition peer-checked:after:translate-x-5"></span>
                                                                 </label>
                                                             </div>
@@ -304,20 +304,20 @@ ob_start();
                                                             <div>
                                                                 <label class="flex cursor-pointer items-center justify-between gap-4">
                                                                     <span class="text-sm text-zinc-800">Profile is Public</span>
-                                                                    <input type="checkbox" id="is_public" x-model="editForm.is_public" class="peer sr-only">
+                                                                    <input type="checkbox" :id="'is_public_for_' + user.id" x-model="editForm.is_public" class="peer sr-only">
                                                                     <span class="relative inline-block h-6 w-11 rounded-full bg-zinc-300 transition peer-checked:bg-purple-600 after:absolute after:left-0.5 after:top-1/2 after:-translate-y-1/2 after:h-5 after:w-5 after:rounded-full after:bg-white after:transition peer-checked:after:translate-x-5"></span>
                                                                 </label>
                                                             </div>
 
                                                             <div>
-                                                                <label for="nickname" class="block text-sm font-medium text-zinc-700 mb-2">Nickname</label>
-                                                                <input type="text" id="nickname" x-model="editForm.nickname"
+                                                                <label :for="'nickname_for_' + user.id" class="block text-sm font-medium text-zinc-700 mb-2">Nickname</label>
+                                                                <input type="text" :id="'nickname_for_' + user.id" x-model="editForm.nickname"
                                                                         class="block w-full rounded-lg border border-zinc-300 bg-white px-3 py-2 text-sm text-zinc-900 focus:border-sky-500 focus:outline-none focus:ring-1 focus:ring-sky-500">
                                                             </div>
 
                                                             <div>
-                                                                <label for="gender" class="block text-sm font-medium text-zinc-700 mb-2">Gender</label>
-                                                                <select id="gender" x-model="editForm.gender"
+                                                                <label :for="'gender_for_' + user.id" class="block text-sm font-medium text-zinc-700 mb-2">Gender</label>
+                                                                <select :id="'gender_for_' + user.id" x-model="editForm.gender"
                                                                         class="select-custom block w-full rounded-lg border border-zinc-300 bg-white px-3 py-2 text-sm text-zinc-900 focus:border-sky-500 focus:outline-none focus:ring-1 focus:ring-sky-500">
                                                                     <option value="">Not specified</option>
                                                                     <option value="male">Male</option>
@@ -327,32 +327,32 @@ ob_start();
                                                             </div>
 
                                                             <div>
-                                                                <label for="first_name" class="block text-sm font-medium text-zinc-700 mb-2">First Name</label>
-                                                                <input type="text" id="first_name" x-model="editForm.first_name"
+                                                                <label :for="'first_name_for_' + user.id" class="block text-sm font-medium text-zinc-700 mb-2">First Name</label>
+                                                                <input type="text" :id="'first_name_for_' + user.id" x-model="editForm.first_name"
                                                                         class="block w-full rounded-lg border border-zinc-300 bg-white px-3 py-2 text-sm text-zinc-900 focus:border-sky-500 focus:outline-none focus:ring-1 focus:ring-sky-500">
                                                             </div>
 
                                                             <div>
-                                                                <label for="last_name" class="block text-sm font-medium text-zinc-700 mb-2">Last Name</label>
-                                                                <input type="text" id="last_name" x-model="editForm.last_name"
+                                                                <label :for="'last_name_for_' + user.id" class="block text-sm font-medium text-zinc-700 mb-2">Last Name</label>
+                                                                <input type="text" :id="'last_name_for_' + user.id" x-model="editForm.last_name"
                                                                         class="block w-full rounded-lg border border-zinc-300 bg-white px-3 py-2 text-sm text-zinc-900 focus:border-sky-500 focus:outline-none focus:ring-1 focus:ring-sky-500">
                                                             </div>
 
                                                             <div>
-                                                                <label for="birthday" class="block text-sm font-medium text-zinc-700 mb-2">Birthday</label>
-                                                                <input type="date" id="birthday" x-model="editForm.birthday"
+                                                                <label :for="'birthday_for_' + user.id" class="block text-sm font-medium text-zinc-700 mb-2">Birthday</label>
+                                                                <input type="date" :id="'birthday_for_' + user.id" x-model="editForm.birthday"
                                                                         class="block w-full rounded-lg border border-zinc-300 bg-white px-3 py-2 text-sm text-zinc-900 focus:border-sky-500 focus:outline-none focus:ring-1 focus:ring-sky-500">
                                                             </div>
 
                                                             <div>
-                                                                <label for="website" class="block text-sm font-medium text-zinc-700 mb-2">Website</label>
-                                                                <input type="url" id="website" x-model="editForm.website" placeholder="https://example.com"
+                                                                <label :for="'website_for_' + user.id" class="block text-sm font-medium text-zinc-700 mb-2">Website</label>
+                                                                <input type="url" :id="'website_for_' + user.id" x-model="editForm.website" placeholder="https://example.com"
                                                                         class="block w-full rounded-lg border border-zinc-300 bg-white px-3 py-2 text-sm text-zinc-900 focus:border-sky-500 focus:outline-none focus:ring-1 focus:ring-sky-500">
                                                             </div>
 
                                                             <div class="md:col-span-2">
-                                                                <label for="bio" class="block text-sm font-medium text-zinc-700 mb-2">Bio</label>
-                                                                <textarea id="bio" x-model="editForm.bio" rows="3"
+                                                                <label :for="'bio_for_' + user.id" class="block text-sm font-medium text-zinc-700 mb-2">Bio</label>
+                                                                <textarea :id="'bio_for_' + user.id" x-model="editForm.bio" rows="3"
                                                                             class="block w-full rounded-lg border border-zinc-300 bg-white px-3 py-2 text-sm text-zinc-900 focus:border-sky-500 focus:outline-none focus:ring-1 focus:ring-sky-500"></textarea>
                                                             </div>
                                                         </div>
@@ -365,20 +365,20 @@ ob_start();
                                                         <div class="space-y-4">
                                                             <label class="flex cursor-pointer items-center justify-between gap-4">
                                                                 <span class="text-sm font-medium text-zinc-900">User is Banned</span>
-                                                                <input type="checkbox" id="is_banned" x-model="editForm.is_banned" class="peer sr-only">
+                                                                <input type="checkbox" :id="'is_banned_for_' + user.id" x-model="editForm.is_banned" class="peer sr-only">
                                                                 <span class="relative inline-block h-6 w-11 rounded-full bg-zinc-300 transition peer-checked:bg-red-600 after:absolute after:left-0.5 after:top-1/2 after:-translate-y-1/2 after:h-5 after:w-5 after:rounded-full after:bg-white after:transition peer-checked:after:translate-x-5"></span>
                                                             </label>
 
                                                             <div x-show="editForm.is_banned" class="space-y-4 pl-6 border-l-2 border-rose-300" x-cloak>
                                                                 <div>
-                                                                    <label for="ban_reason" class="block text-sm font-medium text-zinc-700 mb-2">Ban Reason</label>
-                                                                    <textarea id="ban_reason" x-model="editForm.ban_reason" rows="2"
+                                                                    <label :for="'ban_reason_for_' + user.id" class="block text-sm font-medium text-zinc-700 mb-2">Ban Reason</label>
+                                                                    <textarea :id="'ban_reason_for_' + user.id" x-model="editForm.ban_reason" rows="2"
                                                                                 class="block w-full rounded-lg border border-zinc-300 bg-white px-3 py-2 text-sm text-zinc-900 focus:border-sky-500 focus:outline-none focus:ring-1 focus:ring-sky-500"></textarea>
                                                                 </div>
 
                                                                 <div>
-                                                                    <label for="ban_expired" class="block text-sm font-medium text-zinc-700 mb-2">Ban Expires</label>
-                                                                    <input type="datetime-local" id="ban_expired" x-model="editForm.ban_expired_date"
+                                                                    <label :for="'ban_expired_for_' + user.id" class="block text-sm font-medium text-zinc-700 mb-2">Ban Expires</label>
+                                                                    <input type="datetime-local" :id="'ban_expired_for_' + user.id" x-model="editForm.ban_expired_date"
                                                                             class="block w-full rounded-lg border border-zinc-300 bg-white px-3 py-2 text-sm text-zinc-900 focus:border-sky-500 focus:outline-none focus:ring-1 focus:ring-sky-500">
                                                                     <p class="mt-1 text-xs text-zinc-500">Leave empty for permanent ban</p>
                                                                 </div>
@@ -392,15 +392,15 @@ ob_start();
 
                                                         <div class="space-y-4">
                                                             <div>
-                                                                <label for="new_password" class="block text-sm font-medium text-zinc-700 mb-2">New Password</label>
-                                                                <input type="password" id="new_password" x-model="editPasswordForm.new_password" autocomplete="new-password"
+                                                                <label :for="'new_password_for_' + user.id" class="block text-sm font-medium text-zinc-700 mb-2">New Password</label>
+                                                                <input type="password" :id="'new_password_for_' + user.id" x-model="editPasswordForm.new_password" autocomplete="new-password"
                                                                         class="block w-full rounded-lg border border-zinc-300 bg-white px-3 py-2 text-sm text-zinc-900 focus:border-sky-500 focus:outline-none focus:ring-1 focus:ring-sky-500">
                                                                 <p class="mt-1 text-xs text-zinc-500">Leave empty to keep current password</p>
                                                             </div>
 
                                                             <div>
-                                                                <label for="confirm_password" class="block text-sm font-medium text-zinc-700 mb-2">Confirm Password</label>
-                                                                <input type="password" id="confirm_password" x-model="editPasswordForm.confirm_password" autocomplete="new-password"
+                                                                <label :for="'confirm_password_for_' + user.id" class="block text-sm font-medium text-zinc-700 mb-2">Confirm Password</label>
+                                                                <input type="password" :id="'confirm_password_for_' + user.id" x-model="editPasswordForm.confirm_password" autocomplete="new-password"
                                                                         class="block w-full rounded-lg border border-zinc-300 bg-white px-3 py-2 text-sm text-zinc-900 focus:border-sky-500 focus:outline-none focus:ring-1 focus:ring-sky-500">
                                                             </div>
 
