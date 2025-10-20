@@ -197,6 +197,7 @@ ob_start();
                                             </div>
                                         </div>
                                     </div>
+                                    
                                     <!-- Inline Edit Row -->
                                     <div x-show="editingUserId === user.id" x-transition x-cloak class="col-span-6">
                                         <div class="px-6 py-6 bg-zinc-50/70 border-t border-zinc-200/80 space-y-6">

@@ -33,17 +33,12 @@ ob_start();
 				<p class="mt-2 text-sm text-zinc-600">Overview of key metrics and latest actions.</p>
         	</header>
 
-			<div class="mt-10 grid grid-cols-1 gap-6 lg:grid-cols-3">
-				<div class="rounded-xl border border-zinc-200/80 bg-white/80 p-5 shadow-sm backdrop-blur lg:col-span-2">
-					<h2 class="mb-4 text-base font-semibold text-zinc-900">Quick actions</h2>
-					<div class="grid grid-cols-1 gap-3 sm:grid-cols-2">
-						<a href="/acp/content/new" class="block rounded-lg border border-zinc-200/80 bg-white/90 px-4 py-3 text-sm font-medium text-zinc-700 hover:bg-white">New content</a>
-						<a href="/acp/users/new" class="block rounded-lg border border-zinc-200/80 bg-white/90 px-4 py-3 text-sm font-medium text-zinc-700 hover:bg-white">New user</a>
-						<a href="/acp/media" class="block rounded-lg border border-zinc-200/80 bg-white/90 px-4 py-3 text-sm font-medium text-zinc-700 hover:bg-white">Upload media</a>
-						<a href="/acp/settings" class="block rounded-lg border border-zinc-200/80 bg-white/90 px-4 py-3 text-sm font-medium text-zinc-700 hover:bg-white">Settings</a>
-                    </div>
-                </div>
-				<div class="rounded-xl border border-zinc-200/80 bg-white/80 p-5 shadow-sm backdrop-blur" x-data="systemStatus">
+			<div class="mt-10 grid grid-cols-3 grid-rows-3 gap-6">
+				<div class="rounded-xl border border-zinc-200/80 bg-white/80 p-5 shadow-sm backdrop-blur col-span-2 row-span-3">
+					<h2 class="mb-4 text-base font-semibold text-zinc-900">Information</h2>
+				</div>
+
+				<div class="rounded-xl border border-zinc-200/80 bg-white/80 p-5 shadow-sm backdrop-blur col-span-1 row-span-1" x-data="systemStatus">
 					<div class="flex items-center justify-between mb-4">
 						<h2 class="text-base font-semibold text-zinc-900">System status</h2>
 						<div x-show="loading" class="flex items-center text-sm text-zinc-500">
@@ -170,6 +165,16 @@ ob_start();
 					</div>
 
 					<div x-show="error" class="mt-3 text-xs text-red-600" x-text="error"></div>
+                </div>
+
+				<div class="rounded-xl border border-zinc-200/80 bg-white/80 p-5 shadow-sm backdrop-blur col-span-1 row-span-1">
+					<h2 class="mb-4 text-base font-semibold text-zinc-900">Quick actions</h2>
+					<div class="grid grid-cols-1 gap-3 sm:grid-cols-2">
+						<a href="/acp/content/new" class="block rounded-lg border border-zinc-200/80 bg-white/90 px-4 py-3 text-sm font-medium text-zinc-700 hover:bg-white">New content</a>
+						<a href="/acp/users/new" class="block rounded-lg border border-zinc-200/80 bg-white/90 px-4 py-3 text-sm font-medium text-zinc-700 hover:bg-white">New user</a>
+						<a href="/acp/media" class="block rounded-lg border border-zinc-200/80 bg-white/90 px-4 py-3 text-sm font-medium text-zinc-700 hover:bg-white">Upload media</a>
+						<a href="/acp/settings" class="block rounded-lg border border-zinc-200/80 bg-white/90 px-4 py-3 text-sm font-medium text-zinc-700 hover:bg-white">Settings</a>
+                    </div>
                 </div>
             </div>
 		</section>
