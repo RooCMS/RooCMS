@@ -297,12 +297,8 @@ class UserManageService {
      * @return array Roles list
      */
     public function get_available_roles(): array {
-        $roles = $this->role->get_all_roles();
-        return array_map(fn($role) => [
-            'value' => $role,
-            'label' => $this->role->get_role_name($role),
-            'description' => $this->role->get_role_description($role)
-        ], $roles);
+        $roles = $this->role->get_roles_list();
+        return $roles;
     }
 }
 

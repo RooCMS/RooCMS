@@ -238,23 +238,6 @@ class SiteSettings {
 
 
     /**
-     * Get available values for select setting
-     * 
-     * @param string $key Setting key
-     * @return array Array of available values [value => label] or empty array
-     */
-    public function get_select_options(string $key): array {
-        $meta = $this->get_meta($key);
-
-        if (!$meta || $meta['type'] !== 'select' || empty($meta['options'])) {
-            return [];
-        }
-
-        return $meta['options'];
-    }
-
-
-    /**
      * Check if value is valid for select setting
      * 
      * @param mixed $value Value to check

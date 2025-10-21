@@ -68,10 +68,9 @@ ob_start();
                                         @change="applyFilters()"
                                         class="select-custom block w-full rounded-lg border border-zinc-300 bg-white px-3 py-2 text-sm text-zinc-900 focus:border-sky-500 focus:outline-none">
                                     <option value="">All Roles</option>
-                                    <option value="u">User</option>
-                                    <option value="m">Moderator</option>
-                                    <option value="a">Admin</option>
-                                    <option value="su">Superuser</option>
+                                    <template x-for="role in availableRoles" :key="role.key">
+                                        <option :value="role.key" x-text="role.name"></option>
+                                    </template>
                                 </select>
                             </div>
 
@@ -251,8 +250,8 @@ ob_start();
                                                                 <label :for="'role_for_' + user.id" class="block text-sm font-medium text-zinc-700 mb-2">Role <span class="badge danger">Required</span></label>
                                                                 <select :id="'role_for_' + user.id" x-model="editForm.role" required
                                                                         class="select-custom block w-full rounded-lg border border-zinc-300 bg-white px-3 py-2 text-sm text-zinc-900 focus:border-sky-500 focus:outline-none focus:ring-1 focus:ring-sky-500">
-                                                                    <template x-for="role in availableRoles" :key="role.value">
-                                                                        <option :value="role.value" x-text="role.label + ' - ' + role.description"></option>
+                                                                    <template x-for="role in availableRoles" :key="role.key">
+                                                                        <option :value="role.key" x-text="role.name + ' - ' + role.description"></option>
                                                                     </template>
                                                                 </select>
                                                                 <div id="role_error" class="mt-1 text-sm text-red-600 hidden"></div>

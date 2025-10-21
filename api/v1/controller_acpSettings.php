@@ -307,12 +307,6 @@ class ACPSettingsController extends BaseController {
      * @return string|null Validation error message or null if valid
      */
     private function validate_select_value(mixed $value, array $meta): ?string {
-        // Check for empty values
-        $isEmpty = in_array($value, [null, '', 0, '0'], true);
-        if ($isEmpty) {
-            return $meta['is_required'] ? 'This field is required' : null;
-        }
-
         // Select fields must have options defined
         if (empty($meta['options'])) {
             return 'Select field must have options defined';

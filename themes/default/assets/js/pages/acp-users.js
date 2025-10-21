@@ -251,13 +251,8 @@ document.addEventListener('alpine:init', () => {
         },
 
         getRoleLabel(role) {
-            const roleLabels = {
-                'u': 'User',
-                'm': 'Moderator',
-                'a': 'Admin',
-                'su': 'Superuser'
-            };
-            return roleLabels[role] || role;
+            // Use data from API - roles are stored as object with role keys
+            return this.availableRoles?.[role]?.name || role;
         },
 
         getRoleBadgeClass(role) {
@@ -358,14 +353,6 @@ document.addEventListener('alpine:init', () => {
                 if (DEBUG) window.log('log', 'Available roles loaded:', this.availableRoles);
             } catch (error) {
                 if (DEBUG) window.log('error', 'Error loading roles:', error);
-                if (!this.availableRoles || this.availableRoles.length === 0) {
-                    this.availableRoles = [
-                        { value: 'u', label: 'User', description: 'Regular user' },
-                        { value: 'm', label: 'Moderator', description: 'Can moderate content' },
-                        { value: 'a', label: 'Admin', description: 'Can manage site settings' },
-                        { value: 'su', label: 'Superuser', description: 'Full system access' }
-                    ];
-                }
             }
         },
 
