@@ -266,68 +266,6 @@ class UsersController extends BaseController {
 
 
 	/**
-	 * Update user
-	 * PUT /api/v1/users/{user_id}
-	 * Requires: AuthMiddleware + RoleMiddleware@admin_access
-	 * 
-	 * @param int $user_id User ID
-	 * @return void
-	 */
-	public function update_user(int $user_id): void {
-		$this->log_request('users_update_admin', ['user_id' => $user_id]);
-		$data = $this->get_input_data();
-		$field_mapping = [
-			'user' => ['email','is_active','is_verified','is_banned','ban_expired','ban_reason'],
-			'profile' => ['nickname','first_name','last_name','gender','avatar','bio','birthday','website','is_public']
-		];
-
-		// Filter data by allowed fields for each type
-		$user_updates = array_intersect_key($data, array_flip($field_mapping['user']));
-		$profile_updates = array_intersect_key($data, array_flip($field_mapping['profile']));
-
-		if(empty($user_updates) && empty($profile_updates)) {
-			$this->error_response('No valid fields to update', 400);
-			return;
-		}
-
-		try {
-			$this->db->transaction(function() use ($user_id, $user_updates, $profile_updates) {
-				if(!empty($user_updates)) {
-					$this->userService->update_user($user_id, $user_updates);
-				}
-				if(!empty($profile_updates)) {
-					$this->userService->upsert_profile($user_id, $profile_updates);
-				}
-			});
-			$this->json_response(null, 200, 'User updated');
-		} catch(DomainException $e) {
-			$this->error_response($e->getMessage(), $e->getCode() ?: 400);
-		} catch(Exception $e) {
-			$this->error_response('Update failed', 500);
-		}
-	}
-
-
-	/**
-	 * Delete user
-	 * DELETE /api/v1/users/{user_id}
-	 * Requires: AuthMiddleware + RoleMiddleware@admin_access
-	 * 
-	 * @param int $user_id User ID
-	 * @return void
-	 */
-	public function delete_user(int $user_id): void {
-		$this->log_request('users_delete_admin', ['user_id' => $user_id]);
-		try {
-			$this->userService->delete_user($user_id);
-			$this->json_response(null, 200, 'User deleted');
-		} catch(Exception $e) {
-			$this->error_response('Failed to delete user', 500);
-		}
-	}
-
-
-	/**
 	 * Upload avatar for current user
 	 * POST /api/v1/users/me/avatar
 	 * Requires: AuthMiddleware

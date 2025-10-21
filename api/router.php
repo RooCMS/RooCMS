@@ -128,8 +128,6 @@ $api->patch('/v1/users/me', 'UsersController@update_me', ['AuthMiddleware']);
 $api->delete('/v1/users/me', 'UsersController@delete_me', ['AuthMiddleware']);
 $api->post('/v1/users/me/avatar', 'UsersController@upload_avatar', ['AuthMiddleware']);
 $api->delete('/v1/users/me/avatar', 'UsersController@delete_avatar', ['AuthMiddleware']);
-$api->put('/v1/users/{user_id}', 'UsersController@update_user', ['AuthMiddleware', 'RoleMiddleware@admin_access']);
-$api->delete('/v1/users/{user_id}', 'UsersController@delete_user', ['AuthMiddleware', 'RoleMiddleware@admin_access']);
 
 // Settings routes (admin only)
 $api->get('/v1/acp/settings', 'ACPSettingsController@index', ['AuthMiddleware', 'RoleMiddleware@admin_access']);
@@ -243,8 +241,6 @@ $api->get('/', function() {
             'users_delete_me' => 'DELETE /api/v1/users/me',
             'users_upload_avatar' => 'POST /api/v1/users/me/avatar',
             'users_delete_avatar' => 'DELETE /api/v1/users/me/avatar',
-            'users_update_user' => 'PUT /api/v1/users/{user_id}',
-            'users_delete_user' => 'DELETE /api/v1/users/{user_id}',
             'media_index' => 'GET /api/v1/media',	
             'media_show' => 'GET /api/v1/media/{id}',
             'media_download' => 'GET /api/v1/media/{id}/file',

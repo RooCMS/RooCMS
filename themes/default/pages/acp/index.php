@@ -34,7 +34,7 @@ ob_start();
         	</header>
 
 			<div class="mt-10 grid grid-cols-3 grid-rows-3 gap-6">
-				<div class="rounded-xl border border-zinc-200/80 bg-white/80 p-5 shadow-sm backdrop-blur col-span-2 row-span-3">
+				<div class="rounded-xl border border-zinc-200/80 bg-white/80 p-5 shadow-sm backdrop-blur col-span-2 row-span-2">
 					<h2 class="mb-4 text-base font-semibold text-zinc-900">Information</h2>
 				</div>
 
