@@ -297,12 +297,12 @@ class UserManageService {
      * @return array Roles list
      */
     public function get_available_roles(): array {
-        return [
-            ['value' => 'u', 'label' => 'User', 'description' => 'Regular user'],
-            ['value' => 'm', 'label' => 'Moderator', 'description' => 'Can moderate content'],
-            ['value' => 'a', 'label' => 'Admin', 'description' => 'Can manage site settings'],
-            ['value' => 'su', 'label' => 'Superuser', 'description' => 'Full system access']
-        ];
+        $roles = $this->role->get_all_roles();
+        return array_map(fn($role) => [
+            'value' => $role,
+            'label' => $this->role->get_role_name($role),
+            'description' => $this->role->get_role_description($role)
+        ], $roles);
     }
 }
 

@@ -24,6 +24,7 @@ if(!defined('RooCMS')) {roocms_protect();}
 class AuthenticationService {
 
     private Db $db;
+    private User $user;
     private Auth $auth;
     private UserValidationService $validator;
     private SiteSettings $siteSettings;
@@ -33,9 +34,10 @@ class AuthenticationService {
     /**
      * Constructor with dependency injection
      */
-    public function __construct(Db $db, Auth $auth, UserValidationService $validator, SiteSettings $siteSettings) {
+    public function __construct(Db $db, Auth $auth, User $user, UserValidationService $validator, SiteSettings $siteSettings) {
         $this->db = $db;
         $this->auth = $auth;
+        $this->user = $user;
         $this->validator = $validator;
         $this->siteSettings = $siteSettings;
     }
@@ -63,8 +65,8 @@ class AuthenticationService {
         // Generate tokens and update activity
         $user_id = $this->validator->get_user_id($user);
         $tokens = $this->generate_user_tokens($user_id);
-        
-        $this->update_user_activity($user_id);
+
+        $this->user->update_last_activity($user_id);
 
         return [
             'access_token' => $tokens['access_token'],
@@ -136,7 +138,7 @@ class AuthenticationService {
         // Revoke old refresh token and generate new ones
         $this->auth->revoke_refresh_token($refresh_token);
         $tokens = $this->generate_user_tokens($user_id);
-        $this->update_user_activity($user_id);
+        $this->user->update_last_activity($user_id);
 
         return [
             'access_token' => $tokens['access_token'],
@@ -234,19 +236,6 @@ class AuthenticationService {
 
 
     /**
-     * Update user last activity timestamp
-     * 
-     * @param int $user_id User ID
-     */
-    private function update_user_activity(int $user_id): void {
-        $this->db->query(
-            'UPDATE ' . TABLE_USERS . ' SET last_activity = ? WHERE id = ?',
-            [time(), $user_id]
-        );
-    }
-
-
-    /**
      * Format user data for response
      * 
      * @param array $user User data from database
@@ -296,7 +285,7 @@ class AuthenticationService {
             }
 
             // Update last activity
-            $this->update_user_activity((int)$user['id']);
+            $this->user->update_last_activity((int)$user['id']);
 
             return $user;
 

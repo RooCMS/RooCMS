@@ -283,31 +283,6 @@ class ApiHandler {
 
 
     /**
-     * Handle 405 Method Not Allowed
-     * 
-     * @param array $allowedMethods Allowed methods
-     * @return void
-    */
-    public function handle_method_not_allowed(array $allowedMethods = []): void {
-        http_response_code(405);
-        
-        if (!empty($allowedMethods)) {
-            set_header('Allow: ' . implode(', ', $allowedMethods));
-        }
-        
-        $response = [
-            'error' => true,
-            'message' => 'Method not allowed',
-            'status_code' => 405,
-            'allowed_methods' => $allowedMethods,
-            'timestamp' => format_timestamp(time())
-        ];
-        
-        output_json($response);
-    }
-
-
-    /**
      * Handle general errors
      * 
      * @param string $message Message

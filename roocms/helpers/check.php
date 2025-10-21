@@ -107,7 +107,7 @@ function check_php_ini(): array {
             $limit,
             $bytes >= 134217728,
             $bytes >= 134217728 ? '' : 'Memory limit should be at least 128M for stable RooCMS operation'
-        ))(getenv_or_ini('MEMORY_LIMIT'), parse_size(getenv_or_ini('MEMORY_LIMIT'))),
+        ))(env('MEMORY_LIMIT'), parse_size(env('MEMORY_LIMIT'))),
 
         // Max execution time (minimum 30 seconds)
         fn() => (fn($time) => $make_check(
@@ -115,7 +115,7 @@ function check_php_ini(): array {
             $time > 0 ? $time . 's' : 'Unlimited',
             $time === 0 || $time >= 30,
             ($time === 0 || $time >= 30) ? '' : 'Max execution time should be at least 30 seconds'
-        ))((int)getenv_or_ini('MAX_EXECUTION_TIME')),
+        ))((int)env('MAX_EXECUTION_TIME')),
 
         // Upload max filesize (minimum 8M)
         fn() => (fn($size) => $make_check(
@@ -123,7 +123,7 @@ function check_php_ini(): array {
             (string)$size,
             $size >= 8388608,
             $size >= 8388608 ? '' : 'Upload max filesize should be at least 8M'
-        ))(parse_size(getenv_or_ini('UPLOAD_MAX_FILESIZE'))),
+        ))(format_file_size(env('UPLOAD_MAX_FILESIZE'))),
 
         // Post max size (minimum 8M)
         fn() => (fn($size) => $make_check(
@@ -131,7 +131,7 @@ function check_php_ini(): array {
             (string)$size,
             $size >= 8388608,
             $size >= 8388608 ? '' : 'Post max size should be at least 8M'
-        ))(parse_size(getenv_or_ini('POST_MAX_SIZE'))),
+        ))(format_file_size(env('POST_MAX_SIZE'))),
 
         // Timezone
         fn() => (fn($tz) => $make_check(
@@ -139,7 +139,7 @@ function check_php_ini(): array {
             empty($tz) ? 'Not set' : $tz,
             !empty($tz),
             !empty($tz) ? '' : 'Timezone should be configured in php.ini'
-        ))(getenv_or_ini('TIMEZONE'))
+        ))(env('TIMEZONE'))
     ];
 
     // Execute all checks and return results
@@ -215,7 +215,7 @@ function check_server_environment(): array {
     $results = [];
 
     // Check if running on HTTPS
-    $https_value = getenv_or_ini('HTTPS');
+    $https_value = env('HTTPS');
     $is_https = $https_value !== null && $https_value === 'on';
     $results[] = [
         "check" => "HTTPS Support",
@@ -225,7 +225,7 @@ function check_server_environment(): array {
     ];
 
     // Check server software
-    $server_software = getenv_or_ini('SERVER_SOFTWARE') ?? 'Unknown';
+    $server_software = env('SERVER_SOFTWARE') ?? 'Unknown';
     $results[] = [
         "check" => "Web Server",
         "value" => $server_software,
@@ -286,14 +286,4 @@ function parse_size(string $size): int {
         'k' => $value * 1024,
         default => (int)$size
     };
-}
-
-
-/**
- * Get environment variable or ini setting
- * @param string $key
- * @return string
- */
-function getenv_or_ini(string $key): string {
-    return (string)(env($key) ?? ini_get($key) ?? '');
 }

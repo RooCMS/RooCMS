@@ -622,18 +622,18 @@ class Mailer {
         $extension = sanitize_filename_extension($file_path);
         
         return match($extension) {
-            'pdf' => 'application/pdf',
-            'doc' => 'application/msword',
-            'docx' => 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-            'xls' => 'application/vnd.ms-excel',
-            'xlsx' => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-            'jpg', 'jpeg' => 'image/jpeg',
-            'png' => 'image/png',
-            'gif' => 'image/gif',
-            'txt' => 'text/plain',
-            'html' => 'text/html',
-            'zip' => 'application/zip',
-            'rar' => 'application/x-rar-compressed',
+            'pdf'           => 'application/pdf',
+            'doc'           => 'application/msword',
+            'docx'          => 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+            'xls'           => 'application/vnd.ms-excel',
+            'xlsx'          => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+            'jpg', 'jpeg'   => 'image/jpeg',
+            'png'           => 'image/png',
+            'gif'           => 'image/gif',
+            'txt'           => 'text/plain',
+            'html'          => 'text/html',
+            'zip'           => 'application/zip',
+            'rar'           => 'application/x-rar-compressed',
             default => 'application/octet-stream'
         };
     }
