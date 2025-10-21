@@ -2239,6 +2239,580 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+
+  # Debug endpoints
+  /v1/acp/debug/clear:
+    post:
+      summary: Clear debug logs
+      description: Clears all debug log entries (admin only)
+      tags:
+        - Admin Debug
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Debug logs cleared successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Insufficient permissions
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  # Admin Users Management endpoints
+  /v1/acp/users/roles:
+    get:
+      summary: Get available user roles
+      description: Retrieve list of all available user roles and permissions
+      tags:
+        - Admin Users
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: List of user roles retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserRolesResponse'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Insufficient permissions
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /v1/acp/users/{user_id}:
+    get:
+      summary: Get user for editing
+      description: Retrieve full user details for administrative editing
+      tags:
+        - Admin Users
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: user_id
+          in: path
+          required: true
+          description: User ID
+          schema:
+            type: integer
+            minimum: 1
+      responses:
+        '200':
+          description: User details retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminUserResponse'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Insufficient permissions
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: User not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+    put:
+      summary: Update user (admin)
+      description: Update user account and profile data with administrative privileges
+      tags:
+        - Admin Users
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: user_id
+          in: path
+          required: true
+          description: User ID
+          schema:
+            type: integer
+            minimum: 1
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AdminUserUpdateRequest'
+      responses:
+        '200':
+          description: User updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+        '400':
+          description: Invalid input data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Insufficient permissions
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: User not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+    delete:
+      summary: Delete user (admin)
+      description: Permanently delete a user account
+      tags:
+        - Admin Users
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: user_id
+          in: path
+          required: true
+          description: User ID
+          schema:
+            type: integer
+            minimum: 1
+      responses:
+        '200':
+          description: User deleted successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Insufficient permissions
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: User not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /v1/acp/users/{user_id}/password:
+    put:
+      summary: Change user password (admin)
+      description: Change user password without requiring current password (admin only)
+      tags:
+        - Admin Users
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: user_id
+          in: path
+          required: true
+          description: User ID
+          schema:
+            type: integer
+            minimum: 1
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AdminPasswordChangeRequest'
+      responses:
+        '200':
+          description: Password changed successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+        '400':
+          description: Invalid input data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Insufficient permissions
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: User not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /v1/acp/users/{user_id}/role:
+    patch:
+      summary: Change user role (admin)
+      description: Change user role and permissions
+      tags:
+        - Admin Users
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: user_id
+          in: path
+          required: true
+          description: User ID
+          schema:
+            type: integer
+            minimum: 1
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserRoleChangeRequest'
+      responses:
+        '200':
+          description: Role changed successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+        '400':
+          description: Invalid role or input data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Insufficient permissions
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: User not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /v1/acp/users/{user_id}/activate:
+    patch:
+      summary: Activate user account (admin)
+      description: Activate a user account
+      tags:
+        - Admin Users
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: user_id
+          in: path
+          required: true
+          description: User ID
+          schema:
+            type: integer
+            minimum: 1
+      responses:
+        '200':
+          description: User activated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Insufficient permissions
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: User not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /v1/acp/users/{user_id}/deactivate:
+    patch:
+      summary: Deactivate user account (admin)
+      description: Deactivate a user account
+      tags:
+        - Admin Users
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: user_id
+          in: path
+          required: true
+          description: User ID
+          schema:
+            type: integer
+            minimum: 1
+      responses:
+        '200':
+          description: User deactivated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Insufficient permissions
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: User not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /v1/acp/users/{user_id}/verify:
+    patch:
+      summary: Verify user email (admin)
+      description: Mark user email as verified
+      tags:
+        - Admin Users
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: user_id
+          in: path
+          required: true
+          description: User ID
+          schema:
+            type: integer
+            minimum: 1
+      responses:
+        '200':
+          description: User email verified successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Insufficient permissions
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: User not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /v1/acp/users/{user_id}/unverify:
+    patch:
+      summary: Unverify user email (admin)
+      description: Mark user email as unverified
+      tags:
+        - Admin Users
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: user_id
+          in: path
+          required: true
+          description: User ID
+          schema:
+            type: integer
+            minimum: 1
+      responses:
+        '200':
+          description: User email unverified successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Insufficient permissions
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: User not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  # Moderation endpoints
+  /v1/moderate/ban/{user_id}:
+    post:
+      summary: Ban user
+      description: Ban a user for specified period with reason (moderator or admin only)
+      tags:
+        - Moderation
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: user_id
+          in: path
+          required: true
+          description: User ID to ban
+          schema:
+            type: integer
+            minimum: 1
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserBanRequest'
+      responses:
+        '200':
+          description: User banned successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+        '400':
+          description: Invalid input data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Insufficient permissions
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: User not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /v1/moderate/unban/{user_id}:
+    get:
+      summary: Unban user
+      description: Remove ban from a user (moderator or admin only)
+      tags:
+        - Moderation
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: user_id
+          in: path
+          required: true
+          description: User ID to unban
+          schema:
+            type: integer
+            minimum: 1
+      responses:
+        '200':
+          description: User unbanned successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Insufficient permissions
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: User not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
 components:
   securitySchemes:
     bearerAuth:
@@ -3950,6 +4524,155 @@ components:
         is_home:
           type: boolean
           example: true
+
+    # Admin Debug schemas
+    SuccessResponse:
+      type: object
+      properties:
+        status:
+          type: string
+          example: "success"
+        message:
+          type: string
+          example: "Operation completed successfully"
+
+    # Admin Users schemas
+    UserRolesResponse:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: integer
+                example: 1
+              name:
+                type: string
+                example: "admin"
+              title:
+                type: string
+                example: "Administrator"
+              permissions:
+                type: array
+                items:
+                  type: string
+                example: ["admin_access", "moderator_access", "user_management"]
+
+    AdminUserResponse:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 42
+        login:
+          type: string
+          example: "john_doe"
+        email:
+          type: string
+          example: "john@example.com"
+        nickname:
+          type: string
+          nullable: true
+          example: "Johnny"
+        first_name:
+          type: string
+          nullable: true
+          example: "John"
+        last_name:
+          type: string
+          nullable: true
+          example: "Doe"
+        is_active:
+          type: boolean
+          example: true
+        is_verified:
+          type: boolean
+          example: true
+        is_banned:
+          type: boolean
+          example: false
+        ban_reason:
+          type: string
+          nullable: true
+          example: null
+        ban_expired:
+          type: integer
+          nullable: true
+          example: null
+        role:
+          type: string
+          example: "user"
+        created_at:
+          type: string
+          example: "2024-01-15 10:30:00"
+        updated_at:
+          type: string
+          example: "2024-01-15 15:45:00"
+
+    AdminUserUpdateRequest:
+      type: object
+      properties:
+        email:
+          type: string
+          format: email
+          example: "newemail@example.com"
+        is_active:
+          type: boolean
+          example: true
+        is_verified:
+          type: boolean
+          example: true
+        is_banned:
+          type: boolean
+          example: false
+        ban_expired:
+          type: integer
+          nullable: true
+          example: 0
+        ban_reason:
+          type: string
+          nullable: true
+          example: ""
+
+    AdminPasswordChangeRequest:
+      type: object
+      required:
+        - password
+      properties:
+        password:
+          type: string
+          minLength: 8
+          example: "newpassword123"
+
+    UserRoleChangeRequest:
+      type: object
+      required:
+        - role
+      properties:
+        role:
+          type: string
+          enum: ["user", "moderator", "admin", "superuser"]
+          example: "moderator"
+
+    # Moderation schemas
+    UserBanRequest:
+      type: object
+      required:
+        - until
+        - reason
+      properties:
+        until:
+          type: integer
+          description: "Ban expiration timestamp (0 for permanent ban)"
+          example: 1737552000
+        reason:
+          type: string
+          minLength: 1
+          maxLength: 500
+          example: "Violation of community guidelines"
+
 tags:
   - name: API Info
     description: API information
@@ -3973,3 +4696,9 @@ tags:
     description: Site structure and navigation management
   - name: Admin Structure
     description: Administrative site structure management (requires admin access)
+  - name: Admin Debug
+    description: Debug and maintenance tools (requires admin access)
+  - name: Admin Users
+    description: Administrative user management (requires admin access)
+  - name: Moderation
+    description: Content and user moderation (requires moderator access)

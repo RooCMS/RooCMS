@@ -22,7 +22,6 @@ This document describes the organization of files and directories in the RooCMS 
 ├── 📄 phpstan.neon            # PHPStan config
 ├── 📄 README.md               # Main docs
 ├── 📄 RELEASE.md              # Release info
-├── 📄 robots.txt              # Robots rules
 └── 📄 STRUCTURE.md            # Project structure docs
 ```
 
@@ -36,8 +35,9 @@ api/
 ├── 📄 README.md               # API Docs
 ├── 📄 router.php              # Request router
 └── 📁 v1/                     # API version 1
-    ├── 📄 controller_adminSettings.php    # Admin settings controller
-    ├── 📄 controller_adminStructure.php   # Admin structure controller
+    ├── 📄 controller_acpSettings.php      # ACP settings controller
+    ├── 📄 controller_acpStructure.php     # ACP structure controller
+    ├── 📄 controller_acpUsers.php         # ACP users controller
     ├── 📄 controller_auth.php             # Authentication controller
     ├── 📄 controller_backup.php           # Database backup controller
     ├── 📄 controller_base.php             # Base controller
@@ -45,6 +45,8 @@ api/
     ├── 📄 controller_debug.php            # Debug API controller
     ├── 📄 controller_health.php           # Health check controller
     ├── 📄 controller_media.php            # Media files controller
+    ├── 📄 controller_moderate.php         # Moderation controller
+    ├── 📄 controller_settings.php         # Settings controller
     ├── 📄 controller_structure.php        # Structure controller
     ├── 📄 controller_users.php            # Users controller
     ├── 📁 docs/                           # API docs
@@ -92,7 +94,7 @@ roocms/modules/
 │   ├── 📄 trait_dbBackuperMSQL.php             # MySQL/MariaDB backup operations
 │   ├── 📄 trait_dbBackuperPSQL.php             # PostgreSQL backup operations
 │   ├── 📄 trait_dbExtends.php                  # Database extension utilities
-|   ├── 📄 trait_dbHelpers.php                  # Database helper methods
+│   ├── 📄 trait_dbHelpers.php                  # Database helper methods
 │   └── 📄 trait_dbLogger.php                   # Database logging trait
 ├── 📁 di/                                      # Dependency injection classes
 │   ├── 📄 class_defaultControllerFactory.php   # Default controller factory implementation
@@ -159,13 +161,16 @@ roocms/services/
 ├── 📄 email.php               # Email service
 ├── 📄 files.php               # Files management service
 ├── 📄 filesCommon.php         # Files common service (trait with common file operations)
+├── 📄 moderate.php            # Moderation service
 ├── 📄 registration.php        # User registration service
 ├── 📄 siteSettings.php        # Site settings service
+├── 📄 siteSettingsManage.php  # Site settings management service
 ├── 📄 structure.php           # Structure service
-├── 📄 structureManage.php     # Structure management service
 ├── 📄 structureCommon.php     # Structure common service
+├── 📄 structureManage.php     # Structure management service
 ├── 📄 user.php                # User service
 ├── 📄 userList.php            # User list service
+├── 📄 userManage.php          # User management service
 ├── 📄 userRecovery.php        # User password recovery service
 └── 📄 userValidation.php      # User validation service
 ```
@@ -181,39 +186,58 @@ Registers core services and template system:
 
 ```php
 // Register core services
-$container->register(Db::class, function(DependencyContainer $c) {
-    return new Db($c->get(DbConnect::class));
-}, true); // Singleton
+$container->register(DbConnect::class, static fn() => new DbConnect(), true);
+$container->register(Db::class, static fn(DependencyContainer $c) => new Db($c->get(DbConnect::class)), true);
 
-$container->register(Auth::class, Auth::class, true); // Singleton
-$container->register(User::class, User::class, true); // Singleton
-$container->register(Role::class, Role::class, true); // Singleton
-$container->register(UserService::class, UserService::class, true); // Singleton
-$container->register(SiteSettings::class, SiteSettings::class, true); // Singleton
-$container->register(SiteSettingsService::class, SiteSettingsService::class, true); // Singleton
-$container->register(Mailer::class, Mailer::class, true); // Singleton
-$container->register(DbLogger::class, DbLogger::class, true); // Singleton
-$container->register(DbBackuper::class, DbBackuper::class, true); // Singleton
-$container->register(BackupService::class, BackupService::class, true); // Singleton
-$container->register(AuthenticationService::class, AuthenticationService::class, true); // Singleton
-$container->register(RegistrationService::class, RegistrationService::class, true); // Singleton
-$container->register(EmailService::class, EmailService::class, true); // Singleton
-$container->register(UserRecoveryService::class, UserRecoveryService::class, true); // Singleton
-$container->register(UserValidationService::class, UserValidationService::class, true); // Singleton
-$container->register(GD::class, GD::class, true); // Singleton
-$container->register(Files::class, Files::class, true); // Singleton
-$container->register(FilesService::class, FilesService::class, true); // Singleton
+try {
+    $db = $container->get(Db::class);
+} catch (Throwable $e) {
+    error_log('Database initialization failed: ' . $e->getMessage());
+    if(defined('DEBUGMODE') && DEBUGMODE) {
+        throw $e;
+    }
+    exit('Database initialization error.');
+}
 
-// Template renderers and themes
+if($debug instanceof Debugger) {
+    $container->register(Debugger::class, static fn() => $debug, true);
+}
+
+$container->register(Request::class, Request::class, true);
+$container->register(SiteSettings::class, static fn() => new SiteSettings($db), true);
+$container->register(SiteSettingsService::class, SiteSettingsService::class, true);
+$container->register(SiteSettingsManageService::class, SiteSettingsManageService::class, true);
+
+$container->register(Auth::class, Auth::class, true);
+$container->register(User::class, User::class, true);
+$container->register(Role::class, Role::class, true);
+$container->register(ModerateService::class, ModerateService::class, true);
+$container->register(UserService::class, UserService::class, true);
+$container->register(UserManageService::class, UserManageService::class, true);
+$container->register(Structure::class, Structure::class, true);
+$container->register(Mailer::class, Mailer::class, true);
+$container->register(GD::class, GD::class, true);
+$container->register(Files::class, Files::class, true);
+$container->register(FilesService::class, FilesService::class, true);
+$container->register(DbBackuper::class, DbBackuper::class, true);
+$container->register(BackupService::class, BackupService::class, true);
+$container->register(RegistrationService::class, RegistrationService::class, true);
+$container->register(UserRecoveryService::class, UserRecoveryService::class, true);
+$container->register(UserValidationService::class, UserValidationService::class, true);
+$container->register(UserListService::class, UserListService::class, true);
+$container->register(EmailService::class, EmailService::class, true);
+$container->register(AuthenticationService::class, AuthenticationService::class, true);
+$container->register(StructureService::class, StructureService::class, true);
+$container->register(StructureManageService::class, StructureManageService::class, true);
+
 $container->register(TemplateRendererPhp::class, TemplateRendererPhp::class, true);
 $container->register(TemplateRendererHtml::class, TemplateRendererHtml::class, true);
-$container->register(Themes::class, function(DependencyContainer $c) {
-    return new Themes(
-        $c->get(TemplateRendererPhp::class),
-        $c->get(TemplateRendererHtml::class),
-        'themes'
-    );
-}, true);
+$container->register(Themes::class, static fn(DependencyContainer $c) => new Themes(
+    $c->get(SiteSettings::class),
+    $c->get(TemplateRendererPhp::class),
+    $c->get(TemplateRendererHtml::class),
+    'themes'
+), true);
 ```
 
 ## 💾 Storage (`/storage/`)
@@ -280,7 +304,8 @@ themes/
 │   │       │   │   ├── 📄 lazyLoader.js   # Lazy loading helpers (not used)
 │   │       │   │   └── 📄 validation.js   # Validation helpers
 │   │       │   ├── 📄 main.js             # Main module
-│   │       │   └── 📄 serviceWorker.js    # Service worker functionality (draft)
+│   │       │   ├── 📄 serviceWorker.js    # Service worker functionality (draft)
+│   │       │   └── 📄 site-settings.js    # Site settings module
 │   │       └── 📁 pages/                  # Pages scripts
 │   │           ├── 📄 acp-dashboard.js    # Admin dashboard page
 │   │           ├── 📄 acp-debug.js        # Admin debug page

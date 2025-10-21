@@ -1623,6 +1623,339 @@
         }
       ],
       "description": "Administrative site structure management (requires admin access)"
+    },
+    {
+      "name": "Admin Debug",
+      "item": [
+        {
+          "name": "Clear Debug Logs",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/v1/acp/debug/clear",
+              "host": ["{{base_url}}"],
+              "path": ["v1", "acp", "debug", "clear"]
+            },
+            "description": "Clear all debug log entries (admin only)"
+          },
+          "response": []
+        }
+      ],
+      "description": "Debug and maintenance tools (requires admin access)"
+    },
+    {
+      "name": "Admin Users",
+      "item": [
+        {
+          "name": "Get Available User Roles",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/v1/acp/users/roles",
+              "host": ["{{base_url}}"],
+              "path": ["v1", "acp", "users", "roles"]
+            },
+            "description": "Retrieve list of all available user roles and permissions"
+          },
+          "response": []
+        },
+        {
+          "name": "Get User for Editing",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/v1/acp/users/{{user_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["v1", "acp", "users", "{{user_id}}"]
+            },
+            "description": "Retrieve full user details for administrative editing"
+          },
+          "response": []
+        },
+        {
+          "name": "Update User (Admin)",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"newemail@example.com\",\n  \"is_active\": true,\n  \"is_verified\": true,\n  \"is_banned\": false,\n  \"ban_expired\": 0,\n  \"ban_reason\": \"\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/v1/acp/users/{{user_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["v1", "acp", "users", "{{user_id}}"]
+            },
+            "description": "Update user account and profile data with administrative privileges"
+          },
+          "response": []
+        },
+        {
+          "name": "Delete User (Admin)",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/v1/acp/users/{{user_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["v1", "acp", "users", "{{user_id}}"]
+            },
+            "description": "Permanently delete a user account"
+          },
+          "response": []
+        },
+        {
+          "name": "Change User Password (Admin)",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"password\": \"newpassword123\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/v1/acp/users/{{user_id}}/password",
+              "host": ["{{base_url}}"],
+              "path": ["v1", "acp", "users", "{{user_id}}", "password"]
+            },
+            "description": "Change user password without requiring current password (admin only)"
+          },
+          "response": []
+        },
+        {
+          "name": "Change User Role (Admin)",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"role\": \"moderator\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/v1/acp/users/{{user_id}}/role",
+              "host": ["{{base_url}}"],
+              "path": ["v1", "acp", "users", "{{user_id}}", "role"]
+            },
+            "description": "Change user role and permissions"
+          },
+          "response": []
+        },
+        {
+          "name": "Activate User Account (Admin)",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/v1/acp/users/{{user_id}}/activate",
+              "host": ["{{base_url}}"],
+              "path": ["v1", "acp", "users", "{{user_id}}", "activate"]
+            },
+            "description": "Activate a user account"
+          },
+          "response": []
+        },
+        {
+          "name": "Deactivate User Account (Admin)",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/v1/acp/users/{{user_id}}/deactivate",
+              "host": ["{{base_url}}"],
+              "path": ["v1", "acp", "users", "{{user_id}}", "deactivate"]
+            },
+            "description": "Deactivate a user account"
+          },
+          "response": []
+        },
+        {
+          "name": "Verify User Email (Admin)",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/v1/acp/users/{{user_id}}/verify",
+              "host": ["{{base_url}}"],
+              "path": ["v1", "acp", "users", "{{user_id}}", "verify"]
+            },
+            "description": "Mark user email as verified"
+          },
+          "response": []
+        },
+        {
+          "name": "Unverify User Email (Admin)",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/v1/acp/users/{{user_id}}/unverify",
+              "host": ["{{base_url}}"],
+              "path": ["v1", "acp", "users", "{{user_id}}", "unverify"]
+            },
+            "description": "Mark user email as unverified"
+          },
+          "response": []
+        }
+      ],
+      "description": "Administrative user management (requires admin access)"
+    },
+    {
+      "name": "Moderation",
+      "item": [
+        {
+          "name": "Ban User",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"until\": 1737552000,\n  \"reason\": \"Violation of community guidelines\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/v1/moderate/ban/{{user_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["v1", "moderate", "ban", "{{user_id}}"]
+            },
+            "description": "Ban a user for specified period with reason (moderator or admin only)"
+          },
+          "response": []
+        },
+        {
+          "name": "Unban User",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/v1/moderate/unban/{{user_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["v1", "moderate", "unban", "{{user_id}}"]
+            },
+            "description": "Remove ban from a user (moderator or admin only)"
+          },
+          "response": []
+        }
+      ],
+      "description": "Content and user moderation (requires moderator access)"
     }
   ]
 }
