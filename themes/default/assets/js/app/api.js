@@ -166,3 +166,23 @@ export async function request(path, options = {}) {
     
     return fetch(API_BASE_URL + path, Object.assign({}, options, { headers: retryHeaders, credentials: 'include' }));
 }
+
+/**
+ * Handles common API error responses (401, 403) with user-friendly messages
+ * @param {Response} response - The response object from API request
+ * @param {Function} showMessage - Callback function to show messages (message, type)
+ * @returns {boolean} - Returns false if error was handled and request should stop, true to continue normal processing
+ */
+export function handleApiError(response, showMessage) {
+    if (response.status === 401) {
+        showMessage('Authentication required. Please log in.', 'error');
+        // Redirect to login after a short delay
+        setTimeout(() => window.location.href = '/!/login', 2000);
+        return false; // Stop further processing
+    } else if (response.status === 403) {
+        showMessage('Access denied. Privileges required.', 'error');
+        return false; // Stop further processing
+    }
+
+    return true; // Continue normal processing
+}

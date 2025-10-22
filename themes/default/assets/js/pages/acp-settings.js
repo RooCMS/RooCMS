@@ -3,7 +3,7 @@
  * Handles loading, displaying and updating system settings
  */
 
-import { request } from '../app/api.js';
+import { request, handleApiError } from '../app/api.js';
 import { DEBUG } from '../app/config.js';
 
 // Alpine.js Settings Manager Component
@@ -33,6 +33,11 @@ document.addEventListener('alpine:init', () => {
             const response = await request('/v1/acp/settings');
 
             if (!response.ok) {
+                // Handle authentication and authorization errors
+                if (!handleApiError(response, (message, type) => this.showMessage(message, type))) {
+                    return;
+                }
+
                 throw new Error(`Failed to load settings: ${response.status}`);
             }
 
@@ -91,13 +96,20 @@ document.addEventListener('alpine:init', () => {
             });
 
             if (!response.ok) {
-                    if (response.status === 422) {
-                        const errorData = await response.json();
-                        if (errorData.details && errorData.details.validation_errors) {
-                            this.showValidationErrors(errorData.details.validation_errors);
-                            return;
-                        }
+                // Handle authentication and authorization errors
+                if (!handleApiError(response, (message, type) => this.showMessage(message, type))) {
+                    return;
+                }
+
+                // Handle validation errors
+                if (response.status === 422) {
+                    const errorData = await response.json();
+                    if (errorData.details && errorData.details.validation_errors) {
+                        this.showValidationErrors(errorData.details.validation_errors);
+                        return;
                     }
+                }
+
                 throw new Error(`Failed to save settings: ${response.status}`);
             }
 
@@ -130,6 +142,11 @@ document.addEventListener('alpine:init', () => {
             });
 
             if (!response.ok) {
+                // Handle authentication and authorization errors
+                if (!handleApiError(response, (message, type) => this.showMessage(message, type))) {
+                    return;
+                }
+
                 throw new Error(`Failed to reset settings: ${response.status}`);
             }
 

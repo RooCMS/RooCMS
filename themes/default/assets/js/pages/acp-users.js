@@ -3,7 +3,7 @@
  * Handles loading, displaying, searching and managing users in ACP
  */
 
-import { request } from '../app/api.js';
+import { request, handleApiError } from '../app/api.js';
 import { DEBUG } from '../app/config.js';
 import { formatDateTime, formatRelativeTime, getUserInitials } from '../app/helpers/formatters.js';
 import { isValidEmail } from '../app/helpers/validation.js';
@@ -118,14 +118,8 @@ document.addEventListener('alpine:init', () => {
                 if (DEBUG) window.log('log', 'API Response status:', response.status);
 
                 if (!response.ok) {
-                    // Handle specific error cases
-                    if (response.status === 401) {
-                        this.showMessage('Authentication required. Please log in.', 'error');
-                        // Redirect to login after a short delay
-                        setTimeout(() => window.location.href = '/!/login', 2000);
-                        return;
-                    } else if (response.status === 403) {
-                        this.showMessage('Access denied. Admin privileges required.', 'error');
+                    // Handle authentication and authorization errors
+                    if (!handleApiError(response, (message, type) => this.showMessage(message, type))) {
                         return;
                     }
 
