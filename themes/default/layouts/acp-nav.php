@@ -9,7 +9,7 @@ function get_current_page(): string {
     static $page = null;
     return $page ??= (function() {
         $uri = (string)(env('REQUEST_URI') ?? '');
-        $page = str_replace('/acp/', '', basename($uri, '.php'));
+        $page = str_replace('/!/acp/', '', basename($uri, '.php'));
         $page = str_contains($page, '/') ? end(explode('/', $page)) : $page;
         return ($page === 'acp' || $page === '') ? 'index' : trim($page);
     })();
@@ -38,17 +38,17 @@ function get_nav_link_attrs(string $page_key): array {
  */
 $nav_menu = [
     'general' => [
-        ['key' => 'index', 'title' => 'Dashboard', 'url' => '/acp'],
-        ['key' => 'users', 'title' => 'Users', 'url' => '/acp/users'],
-        ['key' => 'content', 'title' => 'Content', 'url' => '/acp/content']
+        ['key' => 'index', 'title' => 'Dashboard', 'url' => '/!/acp'],
+        ['key' => 'users', 'title' => 'Users', 'url' => '/!/acp/users'],
+        ['key' => 'content', 'title' => 'Content', 'url' => '/!/acp/content']
     ],
     'system' => [
-        ['key' => 'settings', 'title' => 'Settings', 'url' => '/acp/settings'],
-        ['key' => 'logs', 'title' => 'Logs', 'url' => '/acp/logs'],
-        ['key' => 'ui-kit', 'title' => 'UI Kit', 'url' => '/acp/ui-kit']
+        ['key' => 'settings', 'title' => 'Settings', 'url' => '/!/acp/settings'],
+        ['key' => 'logs', 'title' => 'Logs', 'url' => '/!/acp/logs'],
+        ['key' => 'ui-kit', 'title' => 'UI Kit', 'url' => '/!/acp/ui-kit']
     ],
     'debug' => [
-        ['key' => 'debug', 'title' => 'Debug', 'url' => '/acp/debug']
+        ['key' => 'debug', 'title' => 'Debug', 'url' => '/!/acp/debug']
     ]
 ];
 
