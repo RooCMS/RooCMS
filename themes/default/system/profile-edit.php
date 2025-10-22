@@ -13,7 +13,7 @@ ob_start();
 ?>
 
 <div class="min-h-full py-8 sm:py-16 lg:py-8">
-    <div class="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 space-y-8">
+    <div class="mx-auto max-w-8xl px-4 sm:px-6 lg:px-8 space-y-8">
         <!-- Profile Edit Header -->
         <div class="text-center relative">
             <div class="absolute inset-0 bg-gradient-to-r from-blue-100/80 to-purple-50/80 rounded-3xl blur-3xl -z-10"></div>
