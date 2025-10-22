@@ -231,7 +231,7 @@ class BackupController extends BaseController {
 		try {
 			// Admin permissions already checked by middleware
 
-			$limit = (int) ($request->get['limit'] ?? 100);
+			$limit = (int) ($this->request->get['limit'] ?? 100);
 			$result = $this->backupService->get_backup_logs($limit);
 			$this->json_response($result);
 

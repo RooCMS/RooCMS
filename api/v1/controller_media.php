@@ -148,7 +148,7 @@ class MediaController extends BaseController {
 			$file_path = _UPLOAD . $media['file_path'] . '/' . $media['filename'];
 			
 			// Check variant request
-			$variant = $request->get['variant'] ?? null;
+			$variant = $this->request->get['variant'] ?? null;
 			if($variant && in_array($variant, ['thumbnail', 'large', 'original'], true)) {
 				$variant_info = $this->filesService->get_variant_file($id, $variant);
 				if($variant_info) {
@@ -249,7 +249,7 @@ class MediaController extends BaseController {
 		try {
 			// Require authentication
 			$current_user = $this->require_authentication();
-			if(!$current_user) {
+			if(empty($current_user)) {
 				return; // Error response already sent
 			}
 			
@@ -282,7 +282,7 @@ class MediaController extends BaseController {
 		try {
 			// Require authentication
 			$current_user = $this->require_authentication();
-			if(!$current_user) {
+			if(empty($current_user)) {
 				return; // Error response already sent
 			}
 			
