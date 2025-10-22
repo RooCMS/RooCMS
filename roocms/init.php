@@ -107,6 +107,7 @@ spl_autoload_register(function(string $class_name) {
         'ThemeConfigInterface'      => _MODULES . '/ui/interface_themeConfig.php',
         'TemplateRendererPhp'       => _MODULES . '/ui/class_templateRendererPhp.php',
         'TemplateRendererHtml'      => _MODULES . '/ui/class_templateRendererHtml.php',
+        'TemplatePathResolver'      => _MODULES . '/ui/trait_templatePathResolver.php',
         'Mailer'                    => _MODULES . '/class_mailer.php',
         'Auth'                      => _MODULES . '/class_auth.php',
         'Role'                      => _MODULES . '/class_role.php',

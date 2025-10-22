@@ -112,7 +112,7 @@ document.addEventListener('alpine:init', () => {
 
                 // Redirect to password reset page after showing success message
                 setTimeout(() => {
-                    window.location.href = '/password-reset';
+                    window.location.href = '/!/password-reset';
                 }, 3000);
 
             } catch (error) {

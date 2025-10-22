@@ -33,17 +33,17 @@ if(!defined('RooCMS')) {roocms_protect();}
 
                 <!-- Not authenticated users - shows Login/Register buttons -->
                 <div id="auth-guest" class="flex items-center space-x-4">
-                    <a href="/login" class="nav-link">
+                    <a href="/!/login" class="nav-link">
                         Login
                     </a>
-                    <a href="/register" class="btn primary">
+                    <a href="/!/register" class="btn primary">
                         Register
                     </a>
                 </div>
 
                 <!-- Authenticated users - shows Profile/Admin/Logout buttons -->
                 <div id="auth-user" class="flex items-center space-x-4 hidden">
-                    <a href="/profile" class="inline-flex items-center nav-link">
+                    <a href="/!/profile" class="inline-flex items-center nav-link">
                         My Profile
                     </a>
                     <!-- Admin Panel Button - Shows only for admins and super admins -->
@@ -107,17 +107,17 @@ if(!defined('RooCMS')) {roocms_protect();}
                 <div class="border-t border-zinc-200 pt-2 mt-2" x-data="authButtons">
                     <!-- Mobile not authenticated users -->
                     <div id="mobile-auth-guest">
-                        <a href="/login" class="block border-l-4 border-transparent py-2 pl-3 pr-4 text-base font-medium text-zinc-700 hover:border-zinc-300 hover:bg-zinc-50 hover:text-zinc-900">
+                        <a href="/!/login" class="block border-l-4 border-transparent py-2 pl-3 pr-4 text-base font-medium text-zinc-700 hover:border-zinc-300 hover:bg-zinc-50 hover:text-zinc-900">
                             Login
                         </a>
-                        <a href="/register" class="block border-l-4 border-transparent py-2 pl-3 pr-4 text-base font-medium text-zinc-700 hover:border-zinc-300 hover:bg-zinc-50 hover:text-zinc-900">
+                        <a href="/!/register" class="block border-l-4 border-transparent py-2 pl-3 pr-4 text-base font-medium text-zinc-700 hover:border-zinc-300 hover:bg-zinc-50 hover:text-zinc-900">
                             Register
                         </a>
                     </div>
 
                     <!-- Mobile authenticated users -->
                     <div id="mobile-auth-user" class="hidden">
-                        <a href="/profile" class="flex items-center border-l-4 border-transparent py-2 pl-3 pr-4 text-base font-medium text-zinc-700 hover:border-zinc-300 hover:bg-zinc-50 hover:text-zinc-900 transition-colors duration-200">
+                        <a href="/!/profile" class="flex items-center border-l-4 border-transparent py-2 pl-3 pr-4 text-base font-medium text-zinc-700 hover:border-zinc-300 hover:bg-zinc-50 hover:text-zinc-900 transition-colors duration-200">
                             My Profile
                         </a>
                         <!-- Admin Panel Button - Shows only for admins and super admins -->

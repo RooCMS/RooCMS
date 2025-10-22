@@ -17,11 +17,14 @@ if(!defined('RooCMS')) {roocms_protect();}
 //#########################################################
 
 
+
 /**
  * Class TemplateRendererHtml
  * Renderer for HTML templates with support for placeholders and includes
  */
 class TemplateRendererHtml implements TemplateRenderer {
+
+	use TemplatePathResolver;
 
 	private const SUPPORTED_EXTENSIONS = ['html', 'htm'];  	// Supported extensions
 	private array $global_vars = []; 						// Global variables
@@ -134,24 +137,7 @@ class TemplateRendererHtml implements TemplateRenderer {
 	 * @return string Full path to the file
 	 */
 	private function get_page_file(string $theme_base, string $path): string {
-		if ($path === '/') {
-			return $theme_base . '/pages/index.html';
-		}
-
-		// First try to find a file with the path name
-		$direct_file = $theme_base . '/pages' . $path . '.html';
-		if (is_file($direct_file)) {
-			return $direct_file;
-		}
-
-		// If the file is not found, try to find index.html in a subfolder
-		$index_file = $theme_base . '/pages' . $path . '/index.html';
-		if (is_file($index_file)) {
-			return $index_file;
-		}
-
-		// Fallback - return the direct path
-		return $direct_file;
+		return $this->resolve_path($theme_base, $path, '.html');
 	}
 
 

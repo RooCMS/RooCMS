@@ -17,14 +17,17 @@ if(!defined('RooCMS')) {roocms_protect();}
 //#########################################################
 
 
+
 /**
  * Class TemplateRendererPhp
  * Renderer for PHP templates
  */
 class TemplateRendererPhp implements TemplateRenderer {
 
-	private const SUPPORTED_EXTENSIONS = ['php'];  // Supported extensions
-	private array $global_vars = []; // Global variables for all templates
+	use TemplatePathResolver;
+
+	private const SUPPORTED_EXTENSIONS = ['php'];  	// Supported extensions
+	private array $global_vars = []; 				// Global variables for all templates
 
 
 
@@ -80,8 +83,7 @@ class TemplateRendererPhp implements TemplateRenderer {
 	 * @inheritDoc
 	 */
 	public function template_exists(string $theme_base, string $path): bool {
-		$page_file = $this->get_page_file($theme_base, $path);
-		return is_file($page_file);
+		return is_file($this->get_page_file($theme_base, $path));
 	}
 
 	/**
@@ -106,24 +108,7 @@ class TemplateRendererPhp implements TemplateRenderer {
 	 * @return string Full path to the file
 	 */
 	private function get_page_file(string $theme_base, string $path): string {
-		if ($path === '/') {
-			return $theme_base . '/pages/index.php';
-		}
-
-		// Direct file
-		$direct = $theme_base . '/pages' . $path . '.php';
-		if (is_file($direct)) {
-			return $direct;
-		}
-
-		// index.php in a subfolder
-		$index = $theme_base . '/pages' . $path . '/index.php';
-		if (is_file($index)) {
-			return $index;
-		}
-
-		// Fallback
-		return $direct;
+		return $this->resolve_path($theme_base, $path, '.php');
 	}
 
 }

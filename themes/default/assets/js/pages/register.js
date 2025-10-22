@@ -131,7 +131,7 @@ document.addEventListener('alpine:init', () => {
                 window.FormHelperUtils.clearFormFields(['login', 'email', 'password', 'password_confirmation']);
 
                 // Redirect to login page
-                window.FormHelperUtils.redirectAfterSuccess('/login');
+                window.FormHelperUtils.redirectAfterSuccess('/!/login');
 
             } catch (error) {
                 const { formError, fieldErrors } = handleRegisterError(error);

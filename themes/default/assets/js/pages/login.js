@@ -124,7 +124,7 @@ document.addEventListener('alpine:init', () => {
                 updateAuthComponents();
 
                 // Redirect after successful login
-                window.FormHelperUtils.redirectAfterSuccess('/profile');
+                window.FormHelperUtils.redirectAfterSuccess('/!/profile');
 
             } catch (error) {
                 this.form_error = handleLoginError(error);

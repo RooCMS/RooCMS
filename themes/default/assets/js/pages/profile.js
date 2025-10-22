@@ -114,7 +114,7 @@ document.addEventListener('alpine:init', () => {
                     if (response.status === 401) {
                         // Token expired or invalid, redirect to login
                         setAccessToken(null);
-                        window.location.href = '/login';
+                        window.location.href = '/!/login';
                         return;
                     }
                     throw new Error(`Failed to load profile: ${response.status}`);
@@ -133,7 +133,7 @@ document.addEventListener('alpine:init', () => {
                 // If unauthorized, redirect to login
                 if (error.status === 401 || error.message?.includes('401') || error.message?.includes('Unauthorized')) {
                     setAccessToken(null);
-                    window.location.href = '/login';
+                    window.location.href = '/!/login';
                 }
             } finally {
                 this.loading = false;

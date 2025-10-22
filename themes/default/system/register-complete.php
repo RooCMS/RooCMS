@@ -71,7 +71,7 @@ ob_start();
 
                 <!-- Back to Login -->
                 <div>
-                    <a href="/login" class="btn primary w-full justify-center">
+                    <a href="/!/login" class="btn primary w-full justify-center">
                         <span>Back to Login</span>
                     </a>
                 </div>

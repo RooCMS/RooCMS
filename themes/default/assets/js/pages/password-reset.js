@@ -136,7 +136,7 @@ document.addEventListener('alpine:init', () => {
                 window.FormHelperUtils.clearFormFields(['token', 'password', 'password_confirmation']);
 
                 // Redirect to login page after success
-                window.FormHelperUtils.redirectAfterSuccess('/login', 2000);
+                window.FormHelperUtils.redirectAfterSuccess('/!/login', 2000);
 
             } catch (error) {
                 this.form_error = handleResetPasswordError(error);

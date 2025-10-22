@@ -130,7 +130,7 @@ document.addEventListener('alpine:init', () => {
 
                 // Determine redirect destination based on authentication status
                 const accessToken = localStorage.getItem('access_token');
-                const redirectUrl = accessToken ? '/profile' : '/login';
+                const redirectUrl = accessToken ? '/!/profile' : '/!/login';
 
                 // Redirect after showing success message
                 setTimeout(() => {
