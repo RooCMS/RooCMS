@@ -121,7 +121,7 @@ if (verificationCode) {
             <div class="mt-6 text-center" x-show="!isAuthenticated">
                 <p class="text-sm text-gray-600">
                     Already have an account?
-                    <a href="/login" class="font-medium text-blue-600 hover:text-blue-500 transition-colors">
+                    <a href="/!/login" class="font-medium text-blue-600 hover:text-blue-500 transition-colors">
                         Sign in
                     </a>
                 </p>
