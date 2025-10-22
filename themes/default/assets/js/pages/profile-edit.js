@@ -43,7 +43,7 @@ document.addEventListener('alpine:init', () => {
         // Handle 401 unauthorized responses
         handleUnauthorized() {
             setAccessToken(null);
-            window.location.href = '/login';
+            window.location.href = '/!/login';
         },
 
         // Generic error handler with 401 check

@@ -122,7 +122,7 @@ document.addEventListener('alpine:init', () => {
                     if (response.status === 401) {
                         this.showMessage('Authentication required. Please log in.', 'error');
                         // Redirect to login after a short delay
-                        setTimeout(() => window.location.href = '/login', 2000);
+                        setTimeout(() => window.location.href = '/!/login', 2000);
                         return;
                     } else if (response.status === 403) {
                         this.showMessage('Access denied. Admin privileges required.', 'error');
