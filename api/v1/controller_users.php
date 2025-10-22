@@ -25,6 +25,7 @@ if(!defined('RooCMS')) {roocms_protect();}
 class UsersController extends BaseController {
 
     private readonly UserService $userService;
+	private readonly UserManageService $userManageService;
 	private readonly UserListService $userListService;
     private readonly EmailService $emailService;
     private readonly Auth $auth;
@@ -34,10 +35,11 @@ class UsersController extends BaseController {
     /**
 	 * Constructor
 	 */
-    public function __construct(Db $db, Request $request, UserService $userService, UserListService $userListService, EmailService $emailService, Auth $auth) {
+    public function __construct(Db $db, Request $request, UserService $userService, UserManageService $userManageService, UserListService $userListService, EmailService $emailService, Auth $auth) {
         parent::__construct($db, $request);
 
         $this->userService = $userService;
+        $this->userManageService = $userManageService;
         $this->userListService = $userListService;
         $this->emailService = $emailService;
         $this->auth = $auth;
@@ -257,7 +259,7 @@ class UsersController extends BaseController {
 		}
 
 		try {
-			$this->userService->delete_user((int)$current['id']);
+			$this->userManageService->delete_user((int)$current['id']);
 			$this->json_response(null, 200, 'User account deleted');
 		} catch(Exception $e) {
 			$this->error_response('Failed to delete account', 500);

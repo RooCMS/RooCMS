@@ -152,28 +152,12 @@ class UserService {
 
 
     /**
-     * Activate/deactivate user account by ID
-     */
-    public function set_active(int $user_id, bool $is_active): bool {
-        return $this->user->update_user($user_id, ['is_active' => $is_active ? 1 : 0]);
-    }
-
-
-    /**
-     * Verify/unverify user by ID
-     */
-    public function set_verified(int $user_id, bool $is_verified): bool {
-        return $this->user->update_user($user_id, ['is_verified' => $is_verified ? 1 : 0]);
-    }
-
-
-    /**
      * Change email with basic validation and uniqueness check
      */
     public function change_email(int $user_id, string $new_email): bool {
         $new_email = trim($new_email);
         $this->userValidationService->validate_email($new_email, $user_id);
-        return $this->user->update_user($user_id, ['email' => $new_email]);
+        return $this->user->update_user($user_id, ['email' => $new_email, 'is_verified' => 0]);
     }
 
 

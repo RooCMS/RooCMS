@@ -263,8 +263,6 @@ class UserManageService {
     }
 
 
-
-
     /**
      * Delete user account (soft delete with cleanup)
      * 
@@ -284,6 +282,9 @@ class UserManageService {
 
             // Clean verification codes
             $this->db->query('DELETE FROM ' . TABLE_VERIFICATION_CODES . ' WHERE user_id = ?', [$user_id]);
+
+            // Delete profile (will be cascaded if FK exists, but safe to delete explicitly)
+            $this->db->query('DELETE FROM ' . TABLE_USER_PROFILES . ' WHERE user_id = ?', [$user_id]);
 
             // Soft delete user
             return $this->user->delete_user($user_id);
