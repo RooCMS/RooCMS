@@ -39,16 +39,16 @@ function get_nav_link_attrs(string $page_key): array {
 $nav_menu = [
     'general' => [
         ['key' => 'index', 'title' => 'Dashboard', 'url' => '/!/acp'],
-        ['key' => 'users', 'title' => 'Users', 'url' => '/!/acp/users'],
-        ['key' => 'content', 'title' => 'Content', 'url' => '/!/acp/content']
+        ['key' => 'structure', 'title' => 'Structure', 'url' => '/!/acp/structure'],
+        ['key' => 'users', 'title' => 'Users', 'url' => '/!/acp/users']
     ],
     'system' => [
-        ['key' => 'settings', 'title' => 'Settings', 'url' => '/!/acp/settings'],
-        ['key' => 'logs', 'title' => 'Logs', 'url' => '/!/acp/logs'],
-        ['key' => 'ui-kit', 'title' => 'UI Kit', 'url' => '/!/acp/ui-kit']
+        ['key' => 'settings', 'title' => 'Settings', 'url' => '/!/acp/settings']
     ],
     'debug' => [
-        ['key' => 'debug', 'title' => 'Debug', 'url' => '/!/acp/debug']
+        ['key' => 'debug', 'title' => 'Debug', 'url' => '/!/acp/debug'],
+        ['key' => 'logs', 'title' => 'Logs', 'url' => '/!/acp/logs'],
+        ['key' => 'ui-kit', 'title' => 'UI Kit', 'url' => '/!/acp/ui-kit']
     ]
 ];
 

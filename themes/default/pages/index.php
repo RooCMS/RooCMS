@@ -20,7 +20,7 @@ ob_start();
                 Simple, fast and secure platform for creating websites.
             </p>
             <div class="mt-10 flex items-center justify-center gap-x-6" role="group" aria-label="Main actions">
-                <a href="/register" class="inline-flex items-center justify-center rounded-md bg-gradient-to-r from-blue-600 to-purple-600 px-8 py-3 text-base font-semibold text-white transition-all hover:from-blue-700 hover:to-purple-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 shadow-lg hover:shadow-xl transform hover:scale-105" aria-describedby="register-desc">
+                <a href="/!/register" class="inline-flex items-center justify-center rounded-md bg-gradient-to-r from-blue-600 to-purple-600 px-8 py-3 text-base font-semibold text-white transition-all hover:from-blue-700 hover:to-purple-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 shadow-lg hover:shadow-xl transform hover:scale-105" aria-describedby="register-desc">
                     Start working
                 </a>
                 <span id="register-desc" class="sr-only">Create your first website with RooCMS</span>
@@ -306,11 +306,11 @@ ob_start();
                 Create your first website on RooCMS today. Fast installation and easy content management.
             </p>
             <div class="flex flex-col sm:flex-row items-center justify-center gap-4" role="group" aria-label="Get started actions">
-                <a href="/register" class="inline-flex items-center justify-center rounded-md bg-gradient-to-r from-blue-600 to-purple-600 px-8 py-3 text-base font-semibold text-white transition-all hover:from-blue-700 hover:to-purple-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 shadow-lg hover:shadow-xl transform hover:scale-105" aria-describedby="register-cta-desc">
+                <a href="/!/register" class="inline-flex items-center justify-center rounded-md bg-gradient-to-r from-blue-600 to-purple-600 px-8 py-3 text-base font-semibold text-white transition-all hover:from-blue-700 hover:to-purple-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 shadow-lg hover:shadow-xl transform hover:scale-105" aria-describedby="register-cta-desc">
                     Create an account
                 </a>
                 <span id="register-cta-desc" class="sr-only">Start using RooCMS by creating a new account</span>
-                <a href="/login" class="inline-flex items-center justify-center rounded-md border border-zinc-300 bg-white px-8 py-3 text-base text-title transition-all hover:bg-zinc-50 focus:outline-none focus:ring-2 focus:ring-zinc-500 focus:ring-offset-2 shadow-sm hover:shadow-md" aria-describedby="login-cta-desc">
+                <a href="/!/login" class="inline-flex items-center justify-center rounded-md border border-zinc-300 bg-white px-8 py-3 text-base text-title transition-all hover:bg-zinc-50 focus:outline-none focus:ring-2 focus:ring-zinc-500 focus:ring-offset-2 shadow-sm hover:shadow-md" aria-describedby="login-cta-desc">
                     Login to the system
                 </a>
                 <span id="login-cta-desc" class="sr-only">Access your existing RooCMS account</span>
