@@ -144,6 +144,7 @@ spl_autoload_register(function(string $class_name) {
         'StructureManageService'    => _SERVICES . '/structureManage.php',
         'StructureCommonService'    => _SERVICES . '/structureCommon.php',
         'ModerateService'           => _SERVICES . '/moderate.php',
+        'DebugService'              => _SERVICES . '/debug.php',
         'BackupService'             => _SERVICES . '/backup.php'
     ];
    
@@ -241,6 +242,7 @@ $container->register(EmailService::class, EmailService::class, true);
 $container->register(AuthenticationService::class, AuthenticationService::class, true);
 $container->register(StructureService::class, StructureService::class, true);
 $container->register(StructureManageService::class, StructureManageService::class, true);
+$container->register(DebugService::class, DebugService::class, true);
 
 /**
  * Register template renderers and themes

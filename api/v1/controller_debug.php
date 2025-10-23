@@ -23,11 +23,14 @@ if(!defined('RooCMS')) {roocms_protect();}
  */
 class DebugController extends BaseController {
 
+    private DebugService $debugService;
+
     /**
      * Constructor
      */
-    public function __construct(Db $db, Request $request) {
+    public function __construct(Db $db, Request $request, DebugService $debugService) {
         parent::__construct($db, $request);
+        $this->debugService = $debugService;
     }
 
 
@@ -40,13 +43,7 @@ class DebugController extends BaseController {
         $this->log_request('debug_clear');
 
         try {
-            // Clear the debug log file
-            if (is_file(DEBUGSLOG) && is_writable(DEBUGSLOG)) {
-                $result = file_put_contents(DEBUGSLOG, '');
-                if ($result === false) {
-                    throw new Exception('Failed to clear debug log file');
-                }
-            }
+            $this->debugService->clear_debug_logs();
 
             $this->json_response([
                 'status' => 'success',
