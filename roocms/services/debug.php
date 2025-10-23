@@ -29,13 +29,13 @@ class DebugService {
     public function get_debug_logs(int $max_entries = 100): array {
         $debug_logs = [];
 
-        if (!is_file(DEBUGSLOG) || !is_readable(DEBUGSLOG)) {
+        if (!$this->debug_log_exists()) {
             return $debug_logs;
         }
 
         // Use read_file without locking to avoid blocking log writes
         // The parsing algorithm below is robust enough to handle partial reads
-        $log_content = read_file(DEBUGSLOG);
+        $log_content = read_file($this->get_debug_log_path());
 
         if ($log_content === false || empty($log_content)) {
             return $debug_logs;
@@ -119,8 +119,8 @@ class DebugService {
      * @throws Exception If clearing fails
      */
     public function clear_debug_logs(): bool {
-        if (is_file(DEBUGSLOG) && is_writable(DEBUGSLOG)) {
-            $result = file_put_contents(DEBUGSLOG, '');
+        if ($this->debug_log_exists() && is_writable($this->get_debug_log_path())) {
+            $result = file_put_contents($this->get_debug_log_path(), '');
             if ($result === false) {
                 throw new Exception('Failed to clear debug log file');
             }
@@ -146,7 +146,7 @@ class DebugService {
      * @return bool True if file exists and readable
      */
     public function debug_log_exists(): bool {
-        return is_file(DEBUGSLOG) && is_readable(DEBUGSLOG);
+        return is_file($this->get_debug_log_path()) && is_readable($this->get_debug_log_path());
     }
 
 
@@ -156,9 +156,9 @@ class DebugService {
      * @return int File size in bytes, 0 if file doesn't exist
      */
     public function get_debug_log_size(): int {
-        if (!is_file(DEBUGSLOG)) {
+        if (!$this->debug_log_exists()) {
             return 0;
         }
-        return filesize(DEBUGSLOG) ?: 0;
+        return filesize($this->get_debug_log_path()) ?: 0;
     }
 }
