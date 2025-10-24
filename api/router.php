@@ -223,6 +223,7 @@ $api->get('/', function() {
             'health' => 'GET /api/v1/health',
             'health_details' => 'GET /api/v1/health/details',
             'csp_report' => 'POST /api/v1/csp-report',
+            'settings' => 'GET /api/v1/settings',
             'auth_login' => 'POST /api/v1/auth/login',
             'auth_register' => 'POST /api/v1/auth/register',
             'auth_logout' => 'POST /api/v1/auth/logout',
