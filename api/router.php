@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * RooCMS - Open Source Free Content Managment System
  * © 2010-2025 alexandr Belov aka alex Roosso. All rights reserved.
