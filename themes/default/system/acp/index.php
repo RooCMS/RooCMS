@@ -26,7 +26,7 @@ ob_start();
 					<ol class="flex items-center gap-2">
 						<li><a href="/" class="hover:text-zinc-700">Home</a></li>
 						<li aria-hidden="true" class="text-zinc-400">/</li>
-						<li><a href="/acp" aria-current="page" class="text-zinc-700">ACP</a></li>
+						<li><a href="/!/acp" aria-current="page" class="text-zinc-700">ACP</a></li>
 					</ol>
 				</nav>
 				<h1 class="text-2xl font-semibold tracking-tight text-zinc-900">Dashboard</h1>

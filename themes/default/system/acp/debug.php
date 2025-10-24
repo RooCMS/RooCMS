@@ -106,7 +106,7 @@ ob_start();
                     <ol class="flex items-center gap-2">
                         <li><a href="/" class="hover:text-zinc-700">Home</a></li>
                         <li aria-hidden="true" class="text-zinc-400">/</li>
-                        <li><a href="/acp" class="hover:text-zinc-700">ACP</a></li>
+                        <li><a href="/!/acp" class="hover:text-zinc-700">ACP</a></li>
                         <li aria-hidden="true" class="text-zinc-400">/</li>
                         <li><span class="text-zinc-700">Debug Logs</span></li>
                     </ol>

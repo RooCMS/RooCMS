@@ -19,9 +19,9 @@ ob_start();
 					<ol class="flex items-center gap-2">
 						<li><a href="/" class="hover:text-zinc-700">Главная</a></li>
 						<li aria-hidden="true" class="text-zinc-400">/</li>
-						<li><a href="/acp" class="hover:text-zinc-700">ACP</a></li>
+						<li><a href="/!/acp" class="hover:text-zinc-700">ACP</a></li>
 						<li aria-hidden="true" class="text-zinc-400">/</li>
-						<li><a href="/acp/ui-kit" aria-current="page" class="text-zinc-700">UI Kit</a></li>
+						<li><a href="/!/acp/ui-kit" aria-current="page" class="text-zinc-700">UI Kit</a></li>
 					</ol>
 				</nav>
 				<h1 class="text-2xl font-semibold tracking-tight text-zinc-900">UI Kit</h1>
