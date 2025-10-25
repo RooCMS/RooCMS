@@ -4,7 +4,7 @@ if(!defined('RooCMS')) {roocms_protect();}
 $page_title = 'Admin Control Panel — RooCMS';
 $page_description = 'Admin Control Panel for RooCMS';
 
-$theme_name = basename(dirname(dirname(__DIR__)));
+$theme_name = basename(dirname(__DIR__, 2));
 $theme_base = '/themes/'.$theme_name;
 
 $page_scripts = [

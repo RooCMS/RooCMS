@@ -40,7 +40,7 @@ class SiteSettings {
             $initialized = true;
 
             $settings = $this->get_all();
-            foreach ($settings as $category => $settings) {
+            foreach ($settings as $category => $settings) {  // TODO: Maybe this code is not needed
                 define('SETTING_'.strtoupper($category), $settings);
                 foreach ($settings as $key => $value) {
                     define('SETTING_'.strtoupper($key), $value);

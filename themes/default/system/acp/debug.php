@@ -84,7 +84,7 @@ if (is_file($debug_log_file) && is_readable($debug_log_file)) {
 $page_title = 'Admin Control Panel - Debug — RooCMS';
 $page_description = 'System Debug logs for RooCMS';
 
-$theme_name = basename(dirname(dirname(__DIR__)));
+$theme_name = basename(dirname(__DIR__, 2));
 $theme_base = '/themes/'.$theme_name;
 
 $page_scripts = [

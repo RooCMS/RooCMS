@@ -4,8 +4,8 @@ if(!defined('RooCMS')) {roocms_protect();}
  * RooCMS Theme Layout
  */
 
-$page_title = isset($page_title) && $page_title !== '' ? (string)$page_title : SETTING_SITE_NAME;
-$page_description = isset($page_description) && $page_description !== '' ? (string)$page_description : SETTING_SITE_DESCRIPTION;
+$page_title = isset($page_title) && $page_title !== '' ? (string)$page_title : 'RooCMS';
+$page_description = isset($page_description) && $page_description !== '' ? (string)$page_description : 'Open Source Content Management System';
 $page_keywords = isset($page_keywords) && $page_keywords !== '' ? (string)$page_keywords : '';
 
 // Optional: array of page-specific module scripts
