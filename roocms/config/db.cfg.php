@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * RooCMS - Open Source Free Content Managment System
  * © 2010-2025 alexandr Belov aka alex Roosso. All rights reserved.
@@ -18,28 +18,15 @@ if(!defined('RooCMS')) {roocms_protect();}
 
 
 //#########################################################
-//	MySQL database connection settings
+//	Database connection settings
 //---------------------------------------------------------
 $db_info = [];
 //---------------------------------------------------------
-$db_info['host'] = "";				#	Database host (default is localhost)
+$db_info['host'] = "";				        #	Database host (default is localhost)
 $db_info['user'] = "";						#	Database user (default is root)
 $db_info['pass'] = "";						#	Database password (default is empty)
-$db_info['base'] = "";				#	Database name (default is empty)
+$db_info['base'] = "";				        #	Database name (default is empty)
 $db_info['port'] = "";					    #	Database port 3306 for mysql, 5432 for postgresql, firebird (default is 3306)
 $db_info['type'] = "";					    #	Database type mysql, postgresql, firebird (default is mysql)
 $db_info['prefix'] = "";					#	Database prefix (default is roocms_)
-//#########################################################
-
-
-//#########################################################
-//	Site parameters
-//---------------------------------------------------------
-$site = [];
-//---------------------------------------------------------
-$site['title'] = "";					#	Site title
-$site['domain'] = "";				#	default domain
-$site['scheme'] = "";		    		    #	Site scheme
-$site['sysemail'] = "";			#	Service email
-$site['theme'] = "default";				        #	Site theme
 //#########################################################

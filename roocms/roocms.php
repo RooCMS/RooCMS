@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * RooCMS - Open Source Free Content Managment System
  * © 2010-2025 alexandr Belov aka alex Roosso. All rights reserved.
@@ -11,16 +11,9 @@
  */
 
 /**
- * Security check function - works without classes for early file protection
- * This function can be called before any autoloading or class initialization
- *
- * @return never
+ * include bootstrap
  */
-function roocms_protect(): never {
-    http_response_code(403);
-    header('Content-Type: text/plain; charset=utf-8');
-    exit('403:Access denied');
-}
+require_once 'bootstrap.php';
 
 //#########################################################
 //	Protect
@@ -33,46 +26,24 @@ if(!defined('RooCMS')) {roocms_protect();}
  * define root roocms path
  */
 if(!defined('_SITEROOT')) {
-    define('_SITEROOT', dirname(__DIR__));
+    define('_SITEROOT', dirname(__FILE__, 2));
 }
 
 /**
  * list of configs
  */
-$configs = [
-    'csp.cfg.php',  // content security policy
-    'set.cfg.php',  // system settings
-    'config.php',   // site settings
-    'defines.php',  // site constants
+$dbconfigs = [
+    'db.cfg.php',       // database settings
+    'deftables.php',    // constants for site tables
 ];
 
 
 /**
  * Include configs
  */
-foreach($configs as $config) {
+foreach($dbconfigs as $config) {
     if(file_exists(_SITEROOT."/roocms/config/".$config)) {
         require_once _SITEROOT."/roocms/config/".$config;
-    }
-}
-
-
-/**
- * list of helpers
- */
-$helpers = [
-    'functions.php',  // functions
-    'sanitize.php',   // sanitize helpers
-    'output.php',     // output helpers
-];
-
-
-/**
- * Include helpers
- */
-foreach($helpers as $helper) {
-    if(file_exists(_HELPERS."/".$helper)) {
-        require_once _HELPERS."/".$helper;
     }
 }
 
@@ -252,7 +223,6 @@ $container->register(TemplateRendererHtml::class, TemplateRendererHtml::class, t
 $container->register(Themes::class, function(DependencyContainer $c) {
 	// Inject renderers via DI, themes dir defaults to 'themes'
 	return new Themes(
-        $c->get(SiteSettings::class),
 		$c->get(TemplateRendererPhp::class),
 		$c->get(TemplateRendererHtml::class),
 		'themes'

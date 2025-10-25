@@ -23,9 +23,9 @@ defined('_SITEROOT') or define('_SITEROOT', dirname(__FILE__, 2));
 
 
 /**
- * include roocms init file
+ * include roocms initialization file
  */
-require_once _SITEROOT.'/roocms/init.php';
+require_once _SITEROOT.'/roocms/roocms.php';
 
 /**
  * Set cache headers

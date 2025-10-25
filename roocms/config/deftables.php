@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * RooCMS - Open Source Free Content Managment System
  * © 2010-2025 alexandr Belov aka alex Roosso. All rights reserved.
@@ -16,17 +16,10 @@
 if(!defined('RooCMS')) {roocms_protect();}
 //#########################################################
 
-
 /**
 * DataBase prefix
 */
 define('DB_PREFIX', $db_info['prefix']);
-
-
-/**
- * Web $Path
- */
-define('_DOMAIN',	str_ireplace(array('http://','https://','www.'), '', $site['domain']));
 
 
 /**
@@ -79,42 +72,3 @@ const TABLE_MEDIA_RELS          = DB_PREFIX.'media_rels';   // Table for media r
 //const TABLE_MAILING = DB_PREFIX.'mailing';
 //const TABLE_MAILING_LINKED = DB_PREFIX.'mailing_links';
 //const TABLE_LOG = DB_PREFIX.'log';
-
-
-/**
-* RooCMS $Path
-*/
-const _ROOCMS       = _SITEROOT.'/roocms';
-const _MODULES      = _ROOCMS.'/modules';
-const _SERVICES     = _ROOCMS.'/services';
-const _HELPERS      = _ROOCMS.'/helpers';
-const _API          = _SITEROOT.'/api';
-const _UPLOAD       = _SITEROOT.'/up';
-const _UPLOADFILES  = _UPLOAD.'/files';
-const _UPLOADIMG    = _UPLOAD.'/img';
-const _UPLOADAV     = _UPLOAD.'/av';
-const _MIGRATIONS   = _ROOCMS.'/database/migrations';
-const _BACKUPS      = _ROOCMS.'/database/backups';
-const _STORAGE      = _SITEROOT.'/storage';
-const _ASSETS       = _STORAGE.'/assets';
-const _LOGS         = _STORAGE.'/logs';
-
-
-/**
- * Roocms $Logs
- */
-const ERRORSLOG = _LOGS."/lowerrors.log";
-const SYSERRLOG = _LOGS."/syserrors.log";
-const DEBUGSLOG = _LOGS."/debug.log";
-
-
-/**
- * RooCMS $Versions
- */
-const ROOCMS_MAJOR_VERSION   = '2';
-const ROOCMS_MINOR_VERSION   = '0';
-const ROOCMS_RELEASE_VERSION = '0';
-const ROOCMS_BUILD_VERSION   = 'alpha';
-const ROOCMS_VERSION         = ROOCMS_MAJOR_VERSION.".".ROOCMS_MINOR_VERSION.".".ROOCMS_RELEASE_VERSION;
-const ROOCMS_FULL_VERSION    = ROOCMS_MAJOR_VERSION.".".ROOCMS_MINOR_VERSION.".".ROOCMS_RELEASE_VERSION." ".ROOCMS_BUILD_VERSION;
-const ROOCMS_VERSION_ID      = ROOCMS_MAJOR_VERSION.ROOCMS_MINOR_VERSION.ROOCMS_RELEASE_VERSION;

@@ -28,7 +28,8 @@ if(!defined('_SITEROOT')) {
 /**
  * Bootstrap RooCMS
  */
-require_once _SITEROOT.'/roocms/init.php';
+//require_once _SITEROOT.'/roocms/web.php';
+require_once _SITEROOT.'/roocms/roocms.php';
 
 /**
  * Disable caching for all pages
