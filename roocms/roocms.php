@@ -143,9 +143,7 @@ $container = new DependencyContainer();
 /** 
  * Register database connection first
  */
-$container->register(DbConnect::class, function() {
-    return new DbConnect();
-}, true);
+$container->register(DbConnect::class, fn() => new DbConnect(), true);
 
 /** 
  * Register database service with proper DI
