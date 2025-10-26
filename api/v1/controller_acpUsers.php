@@ -299,6 +299,33 @@ class ACPUsersController extends BaseController {
 
 
     /**
+     * Delete user avatar (admin version)
+     * DELETE /api/v1/acp/users/{user_id}/avatar
+     * Requires: AuthMiddleware + RoleMiddleware@admin_access
+     *
+     * @param int $user_id User ID
+     */
+    public function delete_avatar(int $user_id): void {
+        $this->log_request('admin_users_delete_avatar', ['user_id' => $user_id]);
+
+        try {
+            $success = $this->userService->delete_avatar($user_id);
+
+            if(!$success) {
+                $this->error_response('Failed to delete avatar or no avatar to delete', 404);
+                return;
+            }
+
+            $this->json_response(null, 200, 'Avatar deleted successfully');
+        } catch(DomainException $e) {
+            $this->error_response($e->getMessage(), $e->getCode() ?: 400);
+        } catch(Exception $e) {
+            $this->error_response('Failed to delete avatar', 500);
+        }
+    }
+
+
+    /**
      * Get available roles
      * GET /api/v1/acp/users/roles
      * Requires: AuthMiddleware + RoleMiddleware@admin_access

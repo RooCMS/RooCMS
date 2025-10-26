@@ -146,6 +146,12 @@ ob_start();
                                                             </svg>
                                                             Verified
                                                         </span>
+                                                        <span x-show="isCurrentUser(user.id)" class="ml-1 inline-flex items-center px-1.5 py-0.5 rounded text-xs font-medium bg-blue-100 text-blue-800">
+                                                            <svg class="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                                                                <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"></path>
+                                                            </svg>
+                                                            This is you
+                                                        </span>
                                                     </div>
                                                     <div class="text-sm text-zinc-500" x-text="user.email"></div>
                                                     <div x-show="user.nickname" class="text-xs text-zinc-400" x-text="'@' + user.nickname"></div>
@@ -290,6 +296,40 @@ ob_start();
                                                                     <dd class="mt-1 text-zinc-900" x-text="editingUser && editingUser.last_activity ? formatRelativeTimeValue(editingUser.last_activity) : ''"></dd>
                                                                 </div>
                                                             </dl>
+                                                        </div>
+                                                    </div>
+
+                                                    <!-- Avatar Management -->
+                                                    <div class="rounded-xl border border-zinc-200/80 bg-white/80 p-6 shadow-sm backdrop-blur" x-show="editingUser.avatar && editingUser.avatar !== 'null'">
+                                                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                                            <div>
+                                                                <h3 class="text-lg font-semibold text-zinc-900 mb-4">Avatar Management</h3>
+                                                            </div>
+                                                            <div class="flex items-center gap-3">
+                                                                <div class="flex-shrink-0 h-16 w-16">
+                                                                    <div x-show="!editingUser.avatar" class="h-16 w-16 rounded-full bg-zinc-300 flex items-center justify-center">
+                                                                        <span class="text-lg font-medium text-zinc-700" x-text="editingUser && editingUser.login ? editingUser.login.charAt(0).toUpperCase() : '?'"></span>
+                                                                    </div>
+                                                                    <img x-show="editingUser.avatar && editingUser.avatar !== 'null'" :src="editingUser && editingUser.avatar ? '/up/' + editingUser.avatar : ''" :alt="editingUser && editingUser.login ? editingUser.login : 'User'" class="h-16 w-16 rounded-full object-cover">
+                                                                </div>
+                                                                <div class="flex flex-col gap-2">
+                                                                    <button x-show="editingUser && editingUser.avatar && editingUser.avatar !== 'null'"
+                                                                            @click="deleteUserAvatar()"
+                                                                            x-bind:disabled="editSaving"
+                                                                            type="button"
+                                                                            class="inline-flex items-center px-3 py-1.5 text-sm font-medium text-rose-700 bg-white border border-rose-300 rounded-lg hover:bg-rose-50 disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-rose-500 cursor-pointer">
+                                                                        <svg x-show="!editSaving" class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                                                                        </svg>
+                                                                        <svg x-show="editSaving" class="animate-spin w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+                                                                        </svg>
+                                                                        <span x-text="editSaving ? 'Deleting...' : 'Delete Avatar'"></span>
+                                                                    </button>
+                                                                    <p x-show="!editingUser.avatar || editingUser.avatar === 'null'" class="text-xs text-zinc-500">No avatar uploaded</p>
+                                                                    <p x-show="editingUser && editingUser.avatar && editingUser.avatar !== 'null'" class="text-xs text-zinc-500">Remove user's avatar</p>
+                                                                </div>
+                                                            </div>
                                                         </div>
                                                     </div>
 

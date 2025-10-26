@@ -195,6 +195,7 @@ $api->patch('/v1/acp/users/{user_id}/activate', 'ACPUsersController@activate', [
 $api->patch('/v1/acp/users/{user_id}/deactivate', 'ACPUsersController@deactivate', ['AuthMiddleware', 'RoleMiddleware@admin_access']);
 $api->patch('/v1/acp/users/{user_id}/verify', 'ACPUsersController@verify', ['AuthMiddleware', 'RoleMiddleware@admin_access']);
 $api->patch('/v1/acp/users/{user_id}/unverify', 'ACPUsersController@unverify', ['AuthMiddleware', 'RoleMiddleware@admin_access']);
+$api->delete('/v1/acp/users/{user_id}/avatar', 'ACPUsersController@delete_avatar', ['AuthMiddleware', 'RoleMiddleware@admin_access']);
 $api->delete('/v1/acp/users/{user_id}', 'ACPUsersController@delete', ['AuthMiddleware', 'RoleMiddleware@admin_access']);
 
 
@@ -291,6 +292,7 @@ $api->get('/', function() {
             'acp_users_deactivate' => 'PATCH /api/v1/acp/users/{user_id}/deactivate',
             'acp_users_verify' => 'PATCH /api/v1/acp/users/{user_id}/verify',
             'acp_users_unverify' => 'PATCH /api/v1/acp/users/{user_id}/unverify',
+            'acp_users_delete_avatar' => 'DELETE /api/v1/acp/users/{user_id}/avatar',
             'acp_users_delete' => 'DELETE /api/v1/acp/users/{user_id}',
             'moderate_ban' => 'POST /api/v1/moderate/ban/{user_id}',
             'moderate_unban' => 'GET /api/v1/moderate/unban/{user_id}'

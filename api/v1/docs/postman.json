@@ -1753,6 +1753,29 @@
           "response": []
         },
         {
+          "name": "Delete User Avatar (Admin)",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/v1/acp/users/{{user_id}}/avatar",
+              "host": ["{{base_url}}"],
+              "path": ["v1", "acp", "users", "{{user_id}}", "avatar"]
+            },
+            "description": "Delete user's avatar image (admin only)"
+          },
+          "response": []
+        },
+        {
           "name": "Change User Password (Admin)",
           "request": {
             "method": "PUT",

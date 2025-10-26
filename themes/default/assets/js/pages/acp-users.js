@@ -60,11 +60,6 @@ document.addEventListener('alpine:init', () => {
 
         // Initialization
         init() {
-            if (DEBUG) {
-                window.log('log', 'Initializing Alpine users manager...');
-                window.log('log', 'Access token present:', !!localStorage.getItem('access_token'));
-                window.log('log', 'Refresh token present:', !!localStorage.getItem('refresh_token'));
-            }
             Promise.all([
                 this.loadAvailableRoles(),
                 this.loadUsers()
@@ -285,6 +280,12 @@ document.addEventListener('alpine:init', () => {
             if (userIndex !== -1) {
                 Object.assign(this.users[userIndex], updates);
             }
+        },
+
+        // Helper: Check if user is current user
+        isCurrentUser(userId) {
+            const currentUser = window.Alpine.store('auth').user;
+            return currentUser && currentUser.id && parseInt(userId) === parseInt(currentUser.id);
         },
 
         // User action methods
@@ -579,6 +580,47 @@ document.addEventListener('alpine:init', () => {
             } catch (error) {
                 if (DEBUG) window.log('error', 'Error deleting user:', error);
                 this.showEditMessage('Error deleting user: ' + error.message, 'error');
+            } finally {
+                this.editSaving = false;
+            }
+        },
+
+        async deleteUserAvatar() {
+            const confirmed = await window.modal(
+                'Delete Avatar',
+                `Are you sure you want to delete the avatar for user <strong>${this.editingUser && this.editingUser.login ? this.editingUser.login : 'Unknown'}</strong>?`,
+                'Delete Avatar',
+                'Cancel',
+                'warning'
+            );
+
+            if (!confirmed) return;
+
+            this.editSaving = true;
+            this.clearEditMessages();
+
+            try {
+                const response = await request(`/v1/acp/users/${this.editingUserId}/avatar`, {
+                    method: 'DELETE'
+                });
+
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.message || 'Failed to delete avatar');
+                }
+
+                // Update the editing user data
+                if (this.editingUser) {
+                    this.editingUser.avatar = null;
+                }
+
+                // Update the user in the list
+                this.updateUserInList(this.editingUserId, { avatar: null });
+
+                this.showEditMessage('Avatar deleted successfully', 'success');
+            } catch (error) {
+                if (DEBUG) window.log('error', 'Error deleting avatar:', error);
+                this.showEditMessage('Error deleting avatar: ' + error.message, 'error');
             } finally {
                 this.editSaving = false;
             }
