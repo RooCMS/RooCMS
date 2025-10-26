@@ -11,7 +11,7 @@ This document describes the organization of files and directories in the RooCMS 
 ├── 📁 storage/                # Storage
 ├── 📁 themes/                 # Themes
 ├── 📁 up/                     # Uploaded files
-├── 📁 docs/                   # Documentation
+├── 📁 docs/                   # Documentation (in feature development)
 ├── 📄 ABOUT.md                # About RooCMS
 ├── 📄 err.php                 # Error handler
 ├── 📄 favicon.ico             # Favicon
@@ -108,17 +108,21 @@ roocms/modules/
     ├── 📄 class_themeConfig.php                # Theme configuration handler
     ├── 📄 class_themes.php                     # Theme management system
     ├── 📄 interface_templateRenderer.php       # Template renderer interface
-    └── 📄 interface_themeConfig.php            # Theme configuration interface
+    ├── 📄 interface_themeConfig.php            # Theme configuration interface
+    └── 📄 trait_templatePathResolver.php       # Template path resolution utilities
 ```
 
 ### ⚙️ Configuration (`/roocms/config/`)
 
 ```
 roocms/config/
-├── 📄 config.php              # Main configuration
 ├── 📄 csp.cfg.php             # Content Security Policy settings
-├── 📄 defines.php             # System constants
-└── 📄 set.cfg.php             # Additional settings
+├── 📄 db.cfg.php              # Database configuration
+├── 📄 defpaths.php            # Default paths constants
+├── 📄 defroocms.php           # RooCMS system constants
+├── 📄 deftables.php           # Database tables constants
+├── 📄 set.cfg.php             # Additional settings
+└── 📄 site.cfg.php            # Site configuration
 ```
 
 ### 🗄️ Database (`/roocms/database/`)
@@ -135,8 +139,8 @@ roocms/database/
 │   ├── 📄 example_2.php           # Migration example 2
 │   ├── 📄 migrate_2_0_0_1.php     # Migration version 2.0.0.1
 │   └── 📄 migrate_2_0_0_2.php     # Migration version 2.0.0.2
-├── 📄 README_Migrate.md           # Migration docs
-└── 📄 README_Backup.md            # Database backup system docs
+├── 📄 README_Backup.md            # Database backup system docs
+└── 📄 README_Migrate.md           # Migration docs
 ```
 
 ### 🛠️ Helpers (`/roocms/helpers/`)
@@ -158,6 +162,7 @@ roocms/helpers/
 roocms/services/
 ├── 📄 authentication.php      # Authentication service
 ├── 📄 backup.php              # Database backup service
+├── 📄 debug.php               # Debug service
 ├── 📄 email.php               # Email service
 ├── 📄 files.php               # Files management service
 ├── 📄 filesCommon.php         # Files common service (trait with common file operations)
@@ -179,10 +184,12 @@ roocms/services/
 
 ```
 roocms/
-└── 📄 init.php                # System initialization file (Initializes configuration, helpers, autoloader, database, and DI container.)
+├── 📄 backend.php             # Backend initialization file (API and Admin panel entry point)
+├── 📄 bootstrap.php           # System bootstrap file (Initializes configuration, helpers, autoloader, database, and DI container)
+└── 📄 frontend.php            # Frontend initialization file (Public pages entry point)
 ```
 
-Registers core services and template system:
+Bootstrap file registers core services and template system:
 
 ```php
 // Register core services
@@ -322,37 +329,40 @@ themes/
 │   ├── 📁 layouts/                        # Layouts templates
 │   │   ├── 📄 acp-nav.php                 # ACP navigation layout
 │   │   └── 📄 base.php                    # Base layout
-│   ├── 📁 pages/                          # Pages templates
+│   ├── 📁 pages/                          # Public pages templates
 │   │   ├── 📄 403.php                     # 403 access denied page
 │   │   ├── 📄 404.php                     # 404 not found page
+│   │   ├── 📄 index.php                   # Home page
+│   │   ├── 📄 offline.php                 # Offline page (for service worker)
+│   │   ├── 📄 privacy.php                 # Privacy policy page
+│   │   ├── 📄 terms.php                   # Terms of service page
+│   │   └── 📄 ui-kit.php                  # UI kit demo page
+│   ├── 📁 partials/                       # Partial templates
+│   │   ├── 📄 footer.php                  # Footer
+│   │   └── 📄 header.php                  # Header
+│   ├── 📁 system/                         # System pages templates
 │   │   ├── 📁 acp/                        # Admin control panel pages
 │   │   │   ├── 📄 debug.php               # ACP debug page
 │   │   │   ├── 📄 index.php               # ACP dashboard
 │   │   │   ├── 📄 settings.php            # ACP settings
 │   │   │   ├── 📄 ui-kit.php              # ACP UI kit
 │   │   │   └── 📄 users.php               # ACP users page
-│   │   ├── 📄 index.php                   # Home page
 │   │   ├── 📄 login.php                   # Login page
-│   │   ├── 📄 offline.php                 # Offline page (for service worker)
 │   │   ├── 📄 password-forgot.php         # Password forgot page
 │   │   ├── 📄 password-reset.php          # Password reset page
-│   │   ├── 📄 privacy.php                 # Privacy policy page
 │   │   ├── 📄 profile.php                 # User profile page
 │   │   ├── 📄 profile-edit.php            # Profile edit page
 │   │   ├── 📄 register.php                # Registration page
 │   │   ├── 📄 register-complete.php       # Registration complete page
-│   │   ├── 📄 terms.php                   # Terms of service page
-│   │   └── 📄 ui-kit.php                  # UI kit demo page
-│   ├── 📁 partials/                       # Partial templates
-│   │   ├── 📄 footer.php                  # Footer
-│   │   └── 📄 header.php                  # Header
+│   │   └── 📄 verify-email.php            # Email verification page
 │   ├── 📄 sw.js                           # Service worker (draft)
 │   ├── 📄 sw.min.js                       # Minified service worker
 │   ├── 📄 tailwind.config.js              # Tailwind CSS configuration
 │   └── 📄 theme.json                      # Theme manifest (type: "php")
 │
-└── 📄 default_html.7z                      # Archive of the default HTML theme (placeholders, includes, conditionals)
-                                            # Note: This theme is currently archived and not used by default; the active theme is the PHP engine in themes/default (theme.json type: "php")
+├── 📄 default_html.7z                      # Archive of the default HTML theme (placeholders, includes, conditionals)
+│                                           # Note: This theme is currently archived and not used by default; the active theme is the PHP engine in themes/default (theme.json type: "php")
+└── 📄 README.md                            # Themes documentation
 ```
 
 HTML engine supports:
@@ -395,7 +405,7 @@ Comprehensive database backup and restore system with CLI and API interfaces, fe
 #### ✨ Key Features
 - **Complete Structure Preservation** - All database objects: PRIMARY/FOREIGN/UNIQUE keys, indexes, constraints, AUTO_INCREMENT, DEFAULT values, ENUM types
 - **Universal Cross-Database Format** - Compatible with MySQL/MariaDB, PostgreSQL, Firebird
-- **Enterprise Security** - Multi-layer protection: .htaccess rules, API-only access, admin authentication, path traversal protection
+- **Enterprise Security** - Multi-layer protection: API-only access, admin authentication, path traversal protection, filename validation
 - **Performance Optimization** - Gzip compression (9:1 ratio), memory efficiency, batch processing, direct SQL queries for maximum speed
 - **Auto-naming** - Date/time-based backup filenames
 - **Transaction Safety** - Rollback support with BEGIN/COMMIT blocks
@@ -478,7 +488,7 @@ Comprehensive file management system with support for multiple file types, autom
 - **File Validation** - MIME type checking, file size limits, upload error handling, sanitization
 - **Database Integration** - Complete file metadata storage with relationships and variants tracking using optimized direct SQL queries
 - **API Interface** - Full CRUD operations via RESTful endpoints with authentication
-- **Business Logic Separation** - Clean architecture with service layer for validation and Media class for core operations
+- **Business Logic Separation** - Clean architecture with service layer for validation and Files class for core operations
 - **Performance Optimized** - Direct SQL queries instead of query builder for faster database operations
 
 #### 🏗️ Architecture
@@ -533,28 +543,38 @@ RooCMS implements a custom dependency injection (DI) container for managing serv
 #### 📋 Registered services
 
 **Core services (singletons):**
-- `Db` - Database connection and queries
+- `DbConnect` - Database connection manager
+- `Db` - Database operations and queries
+- `Debugger` - Debugging and logging system
+- `Request` - HTTP request handling
+- `SiteSettings` - Site settings management
 - `Auth` - Authentication and authorization
 - `User` - User management operations
 - `Role` - Role management system
-- `SiteSettings` - Modern site settings system
+- `Structure` - Structure management system
 - `Mailer` - Email sending system
-- `DbLogger` - Database logging system
+- `GD` - Image processing library
+- `Files` - File management system
 - `DbBackuper` - Database backup and restore operations
+- `SiteSettingsService` - Business logic for site settings
+- `SiteSettingsManageService` - Business logic for site settings management
 - `UserService` - Business logic for user operations
+- `UserManageService` - Business logic for user management
+- `UserListService` - Business logic for user listing
 - `AuthenticationService` - Business logic for authentication
 - `RegistrationService` - Business logic for user registration
-- `EmailService` - Business logic for email operations
-- `UserRecoveryService` - Business logic for password recovery
 - `UserValidationService` - Business logic for user validation
+- `UserRecoveryService` - Business logic for password recovery
+- `EmailService` - Business logic for email operations
+- `FilesService` - Business logic for file operations
+- `StructureService` - Business logic for structure operations
+- `StructureManageService` - Business logic for structure management
+- `ModerateService` - Business logic for moderation
+- `DebugService` - Business logic for debugging
 - `BackupService` - Business logic for backup operations
-- `SiteSettingsService` - Business logic for site settings
-
-**Request-scoped services (new instance per request):**
-- `UsersController` - User management API controller
-- `AuthController` - Authentication API controller
-- `AdminSettingsController` - Admin settings API controller
-- `BackupController` - Database backup API controller
+- `TemplateRendererPhp` - PHP template renderer
+- `TemplateRendererHtml` - HTML template renderer
+- `Themes` - Theme management system
 
 #### 🔗 Service dependencies
 
