@@ -44,6 +44,7 @@ RooCMS следует принципу **"framework-free"** — никаких �
 ### 🌐 RESTful API
 
 - **Полнофункциональный REST API** — версионирование через URL (`/api/v1/`)
+- **14 API контроллеров** — Health, Auth, Users, Settings, Backup, Media, Structure, Moderate, Debug, CSP и др.
 - **JWT аутентификация** — безопасные access/refresh токены
 - **Middleware система** — цепочки обработки запросов (auth, roles, validation)
 - **Динамические маршруты** — параметры в URL (`{id}`, `{slug}`, `{param}`)
@@ -149,9 +150,11 @@ yourdomain.com/
 │   ├── config/             # Конфигурация
 │   ├── database/           # Миграции и бэкапы
 │   ├── helpers/            # Вспомогательные функции
-│   ├── modules/            # Основные классы
-│   ├── services/           # Бизнес-логика
-│   └── init.php            # Инициализация системы
+│   ├── modules/            # Основные классы (23 класса + 16 трейтов + 4 интерфейса)
+│   ├── services/           # Бизнес-логика (18 сервисов)
+│   ├── backend.php         # Инициализация backend
+│   ├── bootstrap.php       # Инициализация системы
+│   └── frontend.php        # Инициализация фронтенда
 ├── themes/                 # Темы оформления
 │   └── default/            # Стандартная тема
 ├── storage/                # Хранилище данных
@@ -183,7 +186,12 @@ yourdomain.com/
 - **BackupService** — резервное копирование
 - **FilesService** — управление файлами
 - **EmailService** — отправка email
-- **UserService** — операции с пользователями
+- **UserService, UserManageService, UserListService** — операции с пользователями
+- **SiteSettingsService, SiteSettingsManageService** — управление настройками
+- **StructureService, StructureManageService** — управление структурой сайта
+- **ModerateService** — модерация контента
+- **DebugService** — отладка и логирование
+- **UserValidationService, UserRecoveryService** — валидация и восстановление пользователей
 
 ---
 
@@ -556,10 +564,10 @@ RooCMS распространяется под лицензией **GNU General 
 
 - **Размер кода**: ~762KB PHP кода (без зависимостей)
 - **Классы**: 23 основных класса
-- **Трейты**: 14 trait компонентов
+- **Трейты**: 16 trait компонентов
 - **Интерфейсы**: 4 интерфейса
-- **API контроллеры**: 11 контроллеров
-- **Сервисы**: 10 бизнес-сервисов
+- **API контроллеры**: 14 контроллеров
+- **Сервисы**: 18 бизнес-сервисов
 
 ### История
 
@@ -611,7 +619,6 @@ RooCMS распространяется под лицензией **GNU General 
 ### Будущие возможности
 
 -  Официальные плагины (blog, shop, forum)
--  GraphQL API
 
 
 ---

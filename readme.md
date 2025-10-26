@@ -48,14 +48,18 @@ Key Features
 ------------
 - **Pure PHP**: No external frameworks or ORM dependencies
 - **Modern PHP 8.1+**: Uses latest PHP features and strict typing
-- **RESTful API**: Complete API interface for all operations
+- **RESTful API**: Complete API interface with 14 controllers for all operations
 - **File Management System**: Advanced file upload, processing and management with multiple format support
-- **Theme System**: Modular theme architecture with modern frontend
-- **Frontend Stack**: Tailwind CSS 4.x + Alpine.js for interactivity
+- **Structure Management**: Flexible site structure system with API and services
+- **Theme System**: Modular theme architecture with PHP and HTML rendering engines
+- **Frontend Stack**: Tailwind CSS 4.x + Alpine.js for interactivity (or use any stack you prefer)
 - **Security First**: CSP support, role-based access, input sanitization
 - **Database Agnostic**: Support for MySQL, MariaDB, PostgreSQL, Firebird
 - **Migration System**: Database schema versioning and migrations
 - **Backup System**: Comprehensive database backup and restore with CLI/API interfaces
+- **Dependency Injection**: Custom DI container for clean architecture
+- **Moderation System**: Content and user moderation capabilities
+- **Debug Service**: Advanced debugging and logging system
 
 Install
 -------
@@ -91,16 +95,24 @@ RooCMS follows a **framework-free** approach with these core principles:
 
 - **No External Dependencies**: Pure PHP without frameworks or ORM
 - **Custom MVC**: Own implementation of Model-View-Controller pattern
+- **Dependency Injection**: Custom DI container with 43 components (23 classes + 16 traits + 4 interfaces)
+- **Service Layer**: 18 business services for clean architecture
 - **File Management**: Advanced file processing with trait-based architecture
-- **API-First Design**: RESTful API as primary interface
+- **API-First Design**: RESTful API as primary interface with 14 controllers
 - **Modern PHP**: PHP 8.1+ features with strict typing
-- **Theme System**: Modular frontend with multiple rendering engines
+- **Theme System**: Modular frontend with multiple rendering engines (PHP and HTML)
 - **Security Focus**: CSP, role-based access, input sanitization
+- **Performance**: Direct SQL queries for maximum efficiency (~2MB memory, 8-15ms response time)
 
 ### Directory Structure
 ```
-├── api/          # RESTful API endpoints
+├── api/          # RESTful API endpoints (14 controllers)
 ├── roocms/       # Core CMS system
+│   ├── config/   # Configuration files
+│   ├── database/ # Migrations and backups
+│   ├── helpers/  # Helper functions
+│   ├── modules/  # Core classes, traits, interfaces
+│   └── services/ # Business logic layer (18 services)
 ├── themes/       # Theme system (Tailwind CSS 4.x + Alpine.js)
 ├── storage/      # Data storage and logs
 └── up/           # User uploaded files
