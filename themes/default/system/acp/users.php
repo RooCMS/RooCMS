@@ -308,7 +308,7 @@ ob_start();
                                                             <div class="flex items-center gap-3">
                                                                 <div class="flex-shrink-0 h-16 w-16">
                                                                     <div x-show="!editingUser.avatar" class="h-16 w-16 rounded-full bg-zinc-300 flex items-center justify-center">
-                                                                        <span class="text-lg font-medium text-zinc-700" x-text="editingUser && editingUser.login ? editingUser.login.charAt(0).toUpperCase() : '?'"></span>
+                                                                        <span class="text-lg font-medium text-zinc-700" x-text="editingUser && editingUser.login ? getInitials(editingUser) : '?'"></span>
                                                                     </div>
                                                                     <img x-show="editingUser.avatar && editingUser.avatar !== 'null'" :src="editingUser && editingUser.avatar ? '/up/' + editingUser.avatar : ''" :alt="editingUser && editingUser.login ? editingUser.login : 'User'" class="h-16 w-16 rounded-full object-cover">
                                                                 </div>

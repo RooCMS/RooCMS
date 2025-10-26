@@ -355,7 +355,7 @@ ob_start();
 
                         <div class="flex gap-3">
                             <a
-                                href="/!/profile"
+                                href="/!/myprofile"
                                 class="btn contrast btn-tr-rl"
                                 :disabled="loading"
                             >

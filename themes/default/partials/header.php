@@ -17,14 +17,11 @@ if(!defined('RooCMS')) {roocms_protect();}
                 <a href="/" class="nav-link">
                     Home
                 </a>
-                <a href="/about" class="nav-link">
-                    About
+                <a href="/404" class="nav-link">
+                    404
                 </a>
                 <a href="/403" class="nav-link">
                     Access denied
-                </a>
-                <a href="/contact" class="nav-link">
-                    Contact
                 </a>
             </nav>
 
@@ -43,7 +40,7 @@ if(!defined('RooCMS')) {roocms_protect();}
 
                 <!-- Authenticated users - shows Profile/Admin/Logout buttons -->
                 <div id="auth-user" class="flex items-center space-x-4 hidden">
-                    <a href="/!/profile" class="inline-flex items-center nav-link">
+                    <a href="/!/myprofile" class="inline-flex items-center nav-link">
                         My Profile
                     </a>
                     <!-- Admin Panel Button - Shows only for admins and super admins -->
@@ -93,14 +90,11 @@ if(!defined('RooCMS')) {roocms_protect();}
                 <a href="/" class="block border-l-4 border-transparent py-2 pl-3 pr-4 text-base font-medium text-zinc-700 hover:border-zinc-300 hover:bg-zinc-50 hover:text-zinc-900">
                     Home
                 </a>
-                <a href="/about" class="block border-l-4 border-transparent py-2 pl-3 pr-4 text-base font-medium text-zinc-700 hover:border-zinc-300 hover:bg-zinc-50 hover:text-zinc-900">
-                    About
+                <a href="/404" class="block border-l-4 border-transparent py-2 pl-3 pr-4 text-base font-medium text-zinc-700 hover:border-zinc-300 hover:bg-zinc-50 hover:text-zinc-900">
+                    404
                 </a>
                 <a href="/403" class="block border-l-4 border-transparent py-2 pl-3 pr-4 text-base font-medium text-zinc-700 hover:border-zinc-300 hover:bg-zinc-50 hover:text-zinc-900">
-                    403
-                </a>
-                <a href="/contact" class="block border-l-4 border-transparent py-2 pl-3 pr-4 text-base font-medium text-zinc-700 hover:border-zinc-300 hover:bg-zinc-50 hover:text-zinc-900">
-                    Contact
+                    Access denied
                 </a>
 
                 <!-- Mobile Auth Links -->
@@ -117,7 +111,7 @@ if(!defined('RooCMS')) {roocms_protect();}
 
                     <!-- Mobile authenticated users -->
                     <div id="mobile-auth-user" class="hidden">
-                        <a href="/!/profile" class="flex items-center border-l-4 border-transparent py-2 pl-3 pr-4 text-base font-medium text-zinc-700 hover:border-zinc-300 hover:bg-zinc-50 hover:text-zinc-900 transition-colors duration-200">
+                        <a href="/!/myprofile" class="flex items-center border-l-4 border-transparent py-2 pl-3 pr-4 text-base font-medium text-zinc-700 hover:border-zinc-300 hover:bg-zinc-50 hover:text-zinc-900 transition-colors duration-200">
                             My Profile
                         </a>
                         <!-- Admin Panel Button - Shows only for admins and super admins -->

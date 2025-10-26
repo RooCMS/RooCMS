@@ -15,7 +15,7 @@ ob_start();
 <script nonce="<?php render_html($csp_nonce); ?>">
 // Redirect if already authenticated
 if (localStorage.getItem('access_token')) {
-    window.location.href = '/!/profile';
+    window.location.href = '/!/myprofile';
 }
 </script>
 

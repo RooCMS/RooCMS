@@ -233,7 +233,7 @@ document.addEventListener('alpine:init', () => {
                     updateUserData(this.formData);
                     this.successMessage = 'Profile updated successfully!';
                     showSuccessMessage('Profile updated successfully!');
-                    redirectAfterSuccess('/!/profile', 2000);
+                    redirectAfterSuccess('/!/myprofile', 2000);
                 } else {
                     if (data.errors) {
                         this.handleValidationErrors(data.errors);
