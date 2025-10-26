@@ -87,11 +87,11 @@ class User {
     private function get_user_by(string $field, int|string $value, bool $with_password = false, bool $detailed = false): ?array {
         try {
             $password_column = $with_password ? ', u.password' : '';
-            $detailed_condition = $detailed ? '' : 'AND u.is_deleted = 0';
-            $detailed_columns = $detailed ? ', u.is_verified, u.created_at, u.updated_at, u.is_deleted, u.deleted_at' : '';
+            $detailed_condition = $detailed ? '' : 'AND u.is_deleted = 0 AND p.is_public = 1'; // TODO: This is need to be modified
+            $detailed_columns = $detailed ? ', u.login, u.email,u.is_verified, u.created_at, u.updated_at, u.is_deleted, u.deleted_at' : '';
             
             $query = "SELECT 
-                        u.id, u.role, u.is_active, u.login, u.email{$password_column}, u.is_banned, 
+                        u.id, u.role, u.is_active{$password_column}, u.is_banned, 
                         u.ban_expired, u.ban_reason, u.last_activity{$detailed_columns},
                         p.nickname, p.first_name, p.last_name, p.gender, p.avatar, p.bio, 
                         p.birthday, p.website, p.is_public
@@ -290,7 +290,7 @@ class User {
      */
     public function login_exists(string $login): bool {
         try {
-            $query = "SELECT COUNT(*) as count FROM " . TABLE_USERS . " WHERE login = ? AND is_deleted = 0";
+            $query = "SELECT COUNT(*) as count FROM " . TABLE_USERS . " WHERE login = ?";
             $result = $this->db->fetch_assoc($query, [$login]);
             return $result && $result['count'] > 0;
         } catch (Exception $e) {
@@ -308,7 +308,7 @@ class User {
     */
     public function email_exists(string $email): bool {
         try {
-            $query = "SELECT COUNT(*) as count FROM " . TABLE_USERS . " WHERE email = ? AND is_deleted = 0";
+            $query = "SELECT COUNT(*) as count FROM " . TABLE_USERS . " WHERE email = ?";
             $result = $this->db->fetch_assoc($query, [$email]);
             return $result && $result['count'] > 0;
         } catch (Exception $e) {

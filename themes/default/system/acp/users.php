@@ -131,11 +131,15 @@ ob_start();
                                     <div class="hover:bg-zinc-50 grid grid-cols-6">
                                         <div class="col-span-2 px-6 py-4 whitespace-nowrap">
                                             <div class="flex items-center">
-                                                <div class="flex-shrink-0 h-10 w-10">
-                                                    <div x-show="!user.avatar" class="h-10 w-10 rounded-full bg-zinc-300 flex items-center justify-center">
-                                                        <span class="text-sm font-medium text-zinc-700" x-text="getInitials(user)"></span>
+                                                <div class="flex-shrink-0 h-10 w-10 relative group">
+                                                    <div x-show="!user.avatar" class="h-10 w-10 rounded-full bg-zinc-300 flex items-center justify-center transition-all duration-200">
+                                                        <span class="text-sm font-medium text-zinc-700 group-hover:opacity-0 transition-opacity duration-200" x-text="getInitials(user)"></span>
                                                     </div>
-                                                    <img x-show="user.avatar && user.avatar !== 'null'" :src="user.avatar ? '/up/' + user.avatar : ''" :alt="user.login" class="h-10 w-10 rounded-full object-cover">
+                                                    <img x-show="user.avatar && user.avatar !== 'null'" :src="user.avatar ? '/up/' + user.avatar : ''" :alt="user.login" class="h-10 w-10 rounded-full object-cover transition-all duration-200 group-hover:brightness-75">
+                                                    <!-- Hover overlay with ID -->
+                                                    <div class="absolute inset-0 rounded-full bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex items-center justify-center">
+                                                        <span class="text-xs font-bold text-white cursor-default" x-text="user.id"></span>
+                                                    </div>
                                                 </div>
                                                 <div class="ml-4">
                                                     <div class="text-sm font-medium text-zinc-900">
