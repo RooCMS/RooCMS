@@ -49,16 +49,13 @@ class Debugger {
 		set_error_handler([$this,'debug_critical_error']);
 		set_exception_handler([$this,'debug_exception_handler']);
 
-		// default : error hide
-		$this->error_report(false);
-
         // for admins all time measure productivity
 		if(DEBUGMODE) {
 			// start productivity timer
 			$this->starttime = env('REQUEST_TIME_FLOAT') ?? microtime(true);
 
-			// try show error
-			$this->error_report(true);
+			// set error reporting
+			$this->set_display_errors();
 
 			// check error log
 			$this->check_errorlog();
@@ -256,28 +253,18 @@ class Debugger {
 
 
 	/**
-	 * on/off error log
-	 *
-	 * @param boolean $show
+	 * Set up display errors and error reporting
 	 */
-	private function error_report(bool $show = false) : void {
+	private function set_display_errors() : void {
 
-		// Set up error log
-		ini_set('error_log', SYSERRLOG);
-		error_reporting(0);
-		ini_set('display_errors', 'off');
-
-
-		if($show) {
-			error_reporting(E_ALL);			#8191
-			ini_set('display_startup_errors',	1);
-			ini_set('display_errors',			1);
-			ini_set('html_errors',				1);
-			ini_set('report_memleaks',			1);
-			ini_set('log_errors_max_len',		4096);
-			ini_set('ignore_repeated_errors',	1);
-			ini_set('ignore_repeated_source',	1);
-		}
+		error_reporting(E_ALL);			#8191
+		ini_set('display_startup_errors',	1);
+		ini_set('display_errors',			1);
+		ini_set('html_errors',				1);
+		ini_set('report_memleaks',			1);
+		ini_set('log_errors_max_len',		4096);
+		ini_set('ignore_repeated_errors',	1);
+		ini_set('ignore_repeated_source',	1);
 	}
 
 

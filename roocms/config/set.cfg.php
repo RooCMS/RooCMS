@@ -29,11 +29,6 @@ const DEBUGMODE = false;
 define('MEMORYUSAGE', memory_get_usage());
 
 /**
- * Set the CSP header
- */
-set_csp_header();
-
-/**
  * Set the Service-Worker-Allowed header
  */
 header('Service-Worker-Allowed: /');
@@ -73,7 +68,9 @@ date_default_timezone_set('UTC');
  * Set up error log
  * For the case if PHP does not write errors to a file
  */
-#ini_set('log_errors',				1);
+#ini_set('log_errors',			    1);
+ini_set('error_log',                SYSERRLOG);
+ini_set('display_errors',           0);
 
 /**
  * Set up style for error display

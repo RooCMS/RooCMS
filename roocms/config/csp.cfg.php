@@ -63,8 +63,4 @@ function get_csp_header(): string {
 /**
  * Set CSP header
  */
-function set_csp_header(): void {
-    if (!headers_sent()) {
-        header('Content-Security-Policy: ' . get_csp_header());
-    }
-}
+header('Content-Security-Policy: ' . get_csp_header());

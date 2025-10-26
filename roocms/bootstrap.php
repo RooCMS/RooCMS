@@ -33,10 +33,10 @@ if(!defined('_SITEROOT')) {
  * list of configs
  */
 $configs = [
-    'csp.cfg.php',      // content security policy
-    'set.cfg.php',      // system settings
     'site.cfg.php',     // site settings
     'defpaths.php',     // constants for site paths
+    'set.cfg.php',      // system settings
+    'csp.cfg.php',      // content security policy
     'defroocms.php',    // constants for roocms versions
 ];
 
