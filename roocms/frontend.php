@@ -22,4 +22,16 @@ if(!defined('RooCMS')) {roocms_protect();}
 //#########################################################
 
 
-
+/**
+ * Register template renderers and themes
+ */
+$container->register(TemplateRendererPhp::class, TemplateRendererPhp::class, true);
+$container->register(TemplateRendererHtml::class, TemplateRendererHtml::class, true);
+$container->register(Themes::class, function(DependencyContainer $c) {
+	// Inject renderers via DI, themes dir defaults to 'themes'
+	return new Themes(
+		$c->get(TemplateRendererPhp::class),
+		$c->get(TemplateRendererHtml::class),
+		'themes'
+	);
+}, true);
