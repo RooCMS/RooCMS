@@ -238,7 +238,6 @@ abstract class BaseController {
     protected function get_pagination_params(): array {
         $page = (int)($this->request->get['page'] ?? 1);
         $limit = (int)($this->request->get['limit'] ?? 10);
-        $offset = (int)($this->request->get['offset'] ?? 0);
         
         // Ensure minimum values
         $page = max(1, $page);

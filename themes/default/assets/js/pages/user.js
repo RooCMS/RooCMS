@@ -59,7 +59,7 @@ document.addEventListener('alpine:init', () => {
             } catch (error) {
                 // Don't log expected errors to console
                 if (![401, 403, 404].includes(error.status)) {
-                    console.error('Error loading user profile:', error);
+                    window.log('error', 'Error loading user profile:', error);
                 }
                 this.handleError(error);
             } finally {
