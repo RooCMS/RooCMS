@@ -1,52 +1,6 @@
 import { request, setAccessToken, setRefreshToken } from '../app/api.js';
 
 /**
- * Calculates the profile completion percentage
- * @param {Object} user - User object
- * @returns {number} - Completion percentage (0-100)
- */
-function calculateProfileCompletion(user) {
-    if (!user) return 0;
-
-    let complete = 0;
-    const fields = ['first_name', 'last_name', 'nickname', 'gender', 'birthday'];
-    const totalFields = fields.length;
-
-    fields.forEach(field => {
-        if (user[field]) complete += (100 / totalFields);
-    });
-
-    return Math.round(complete);
-}
-
-/**
- * Calculates the contact information completion percentage
- * @param {Object} user - User object
- * @returns {number} - Completion percentage (0-100)
- */
-function calculateContactCompletion(user) {
-    if (!user) return 0;
-
-    const requiredFields = ['email', 'bio', 'website'];
-    const optionalFields = ['phone', 'address', 'social_links'];
-
-    let score = 0;
-
-    // Required fields give more points
-    requiredFields.forEach(field => {
-        if (user[field]) score += 30; // 30 points for each required field
-    });
-
-    // Optional fields give less points
-    optionalFields.forEach(field => {
-        if (user[field]) score += 10; // 10 points for each optional field
-    });
-
-    return Math.min(score, 100); // Not more than 100%
-}
-
-
-/**
  * Handles the user profile
  */
 document.addEventListener('alpine:init', () => {
@@ -61,49 +15,80 @@ document.addEventListener('alpine:init', () => {
 
         async init() {
             await this.loadUserProfile();
-            this.setupAvatarDisplay();
         },
 
-        // Setup avatar display elements
-        setupAvatarDisplay() {
-            this.updateAvatarDisplay();
-        },
-
-        // Update avatar display based on user data
-        updateAvatarDisplay() {
-            const placeholder = document.querySelector('[data-avatar-placeholder]');
-            const avatarImg = document.querySelector('[data-current-avatar]');
-            
-            if (!placeholder || !avatarImg) return;
-            
-            if (this.user && this.user.avatar) {
-                // Show avatar image
-                avatarImg.src = `/up/${this.user.avatar}`;
-                avatarImg.classList.remove('hidden');
-                placeholder.classList.add('hidden');
-            } else {
-                // Show placeholder
-                avatarImg.classList.add('hidden');
-                placeholder.classList.remove('hidden');
-            }
-        },
-
+        /**
+         * Format date using global formatter
+         */
         formatDate(timestamp) {
             return window.FormatterUtils.formatDate(timestamp);
         },
 
+        /**
+         * Format datetime using global formatter
+         */
         formatDateTime(timestamp) {
             return window.FormatterUtils.formatDateTime(timestamp);
         },
 
+        /**
+         * Get avatar URL or null
+         */
+        get avatarUrl() {
+            return this.user?.avatar ? `/up/${this.user.avatar}` : null;
+        },
+
+        /**
+         * Calculate profile completion percentage
+         */
         get profileCompletionWidth() {
-            return calculateProfileCompletion(this.user);
+            if (!this.user) return 0;
+
+            const fields = ['first_name', 'last_name', 'nickname', 'gender', 'birthday'];
+            const completed = fields.filter(field => this.user[field]).length;
+            
+            return Math.round((completed / fields.length) * 100);
         },
 
+        /**
+         * Calculate contact information completion percentage
+         */
         get contactCompletionWidth() {
-            return calculateContactCompletion(this.user);
+            if (!this.user) return 0;
+
+            const requiredFields = ['email', 'bio', 'website'];
+            const optionalFields = ['phone', 'address', 'social_links'];
+
+            let score = 0;
+            requiredFields.forEach(field => { if (this.user[field]) score += 30; });
+            optionalFields.forEach(field => { if (this.user[field]) score += 10; });
+
+            return Math.min(score, 100);
         },
 
+        /**
+         * Redirect to login page
+         */
+        redirectToLogin() {
+            setAccessToken(null);
+            window.location.href = '/!/login';
+        },
+
+        /**
+         * Show temporary message with auto-hide
+         */
+        showTempMessage(message, type) {
+            this.emailVerificationMessage = message;
+            this.emailVerificationType = type;
+            setTimeout(() => {
+                this.emailVerificationMessage = '';
+                this.emailVerificationType = '';
+            }, 5000);
+        },
+
+        /**
+         * Load user profile from API
+         */
         async loadUserProfile() {
             try {
                 this.loading = true;
@@ -112,9 +97,7 @@ document.addEventListener('alpine:init', () => {
                 const response = await request('/v1/users/me');
                 if (!response.ok) {
                     if (response.status === 401) {
-                        // Token expired or invalid, redirect to login
-                        setAccessToken(null);
-                        window.location.href = '/!/login';
+                        this.redirectToLogin();
                         return;
                     }
                     throw new Error(`Failed to load profile: ${response.status}`);
@@ -122,9 +105,6 @@ document.addEventListener('alpine:init', () => {
 
                 const data = await response.json();
                 this.user = data.data || data;
-                
-                // Update avatar display after loading user data
-                this.updateAvatarDisplay();
 
             } catch (error) {
                 window.log('error', 'Profile load error:', error);
@@ -132,14 +112,16 @@ document.addEventListener('alpine:init', () => {
 
                 // If unauthorized, redirect to login
                 if (error.status === 401 || error.message?.includes('401') || error.message?.includes('Unauthorized')) {
-                    setAccessToken(null);
-                    window.location.href = '/!/login';
+                    this.redirectToLogin();
                 }
             } finally {
                 this.loading = false;
             }
         },
 
+        /**
+         * Delete user account
+         */
         async deleteAccount() {
             try {
                 const confirmed = await window.modal(
@@ -149,62 +131,45 @@ document.addEventListener('alpine:init', () => {
                     'Cancel'
                 );
 
-                if (!confirmed) {
-                    return; // User canceled the action
-                }
+                if (!confirmed) return;
 
-                // Call API to delete the account
-                const response = await request('/v1/users/me', {
-                    method: 'DELETE'
-                });
+                const response = await request('/v1/users/me', { method: 'DELETE' });
 
                 if (!response.ok) {
                     const errorData = await response.json().catch(() => ({}));
                     throw new Error(errorData.message || `Failed to delete account: ${response.status}`);
                 }
 
-                // Clear tokens
+                // Clear tokens and redirect
                 setAccessToken(null);
                 setRefreshToken(null);
 
-                // Show success message
                 await window.showMessage(
                     'Account deleted',
                     'Your account has been successfully deleted. You will be redirected to the home page.',
                     'success'
                 );
 
-                // Redirect to the home page
                 window.location.href = '/';
 
             } catch (error) {
                 window.log('error', 'Delete account error:', error);
-
-                // Show error
-                await window.showMessage(
-                    'Error',
-                    `Failed to delete account: ${error.message}`,
-                    'alert'
-                );
+                await window.showMessage('Error', `Failed to delete account: ${error.message}`, 'alert');
             }
         },
 
+        /**
+         * Send email verification
+         */
         async sendEmailVerification() {
-            try {
-                if (this.sendingEmailVerification) {
-                    return;
-                }
+            if (this.sendingEmailVerification) return;
 
-                // Clear previous message
+            try {
+                this.sendingEmailVerification = true;
                 this.emailVerificationMessage = '';
                 this.emailVerificationType = '';
 
-                this.sendingEmailVerification = true;
-
-                // Call API to send email verification
-                const response = await request('/v1/users/me/verify-email', {
-                    method: 'POST'
-                });
+                const response = await request('/v1/users/me/verify-email', { method: 'POST' });
 
                 if (!response.ok) {
                     const errorData = await response.json().catch(() => ({}));
@@ -212,54 +177,30 @@ document.addEventListener('alpine:init', () => {
                 }
 
                 const data = await response.json();
-
-                // Show success message
-                this.emailVerificationMessage = data.message || 'Verification email sent successfully!';
-                this.emailVerificationType = 'success';
-
-                // Hide message after 5 seconds
-                setTimeout(() => {
-                    this.emailVerificationMessage = '';
-                    this.emailVerificationType = '';
-                }, 5000);
+                this.showTempMessage(data.message || 'Verification email sent successfully!', 'success');
 
             } catch (error) {
                 window.log('error', 'Email verification error:', error);
-
-                // Show error message
-                this.emailVerificationMessage = error.message || 'Failed to send verification email. Please try again.';
-                this.emailVerificationType = 'error';
-
-                // Hide message after 5 seconds
-                setTimeout(() => {
-                    this.emailVerificationMessage = '';
-                    this.emailVerificationType = '';
-                }, 5000);
+                this.showTempMessage(error.message || 'Failed to send verification email. Please try again.', 'error');
             } finally {
                 this.sendingEmailVerification = false;
             }
         },
 
+        /**
+         * Toggle profile visibility (public/private)
+         */
         async toggleProfileVisibility() {
+            if (!this.user || this.togglingVisibility) return;
+
             try {
-                if (!this.user || this.togglingVisibility) {
-                    return;
-                }
-
                 this.togglingVisibility = true;
-
-                // Determine new visibility state
                 const newVisibility = !this.user.is_public;
 
-                // Call API to update profile visibility
                 const response = await request('/v1/users/me', {
                     method: 'PATCH',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        is_public: newVisibility
-                    })
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ is_public: newVisibility })
                 });
 
                 if (!response.ok) {
@@ -267,12 +208,9 @@ document.addEventListener('alpine:init', () => {
                     throw new Error(errorData.message || `Failed to update profile visibility: ${response.status}`);
                 }
 
-                const data = await response.json();
-
                 // Update local user data
                 this.user.is_public = newVisibility;
 
-                // Show success message
                 await window.showMessage(
                     'Profile Updated',
                     `Your profile is now ${newVisibility ? 'public' : 'private'}.`,
@@ -281,17 +219,11 @@ document.addEventListener('alpine:init', () => {
 
             } catch (error) {
                 window.log('error', 'Profile visibility update error:', error);
-
-                // Show error message
-                await window.showMessage(
-                    'Error',
-                    `Failed to update profile visibility: ${error.message}`,
-                    'alert'
-                );
+                await window.showMessage('Error', `Failed to update profile visibility: ${error.message}`, 'alert');
             } finally {
                 this.togglingVisibility = false;
             }
-        },
+        }
 
     }));
 });
