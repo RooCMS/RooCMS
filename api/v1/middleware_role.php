@@ -143,7 +143,7 @@ class RoleMiddleware {
             return false;
         }
 
-        $roles = is_array($required_roles) ? $required_roles : [$required_roles];
+        $roles = is_string($required_roles) ? [$required_roles] : $required_roles;
 
         if (!in_array($user['role'], $roles, true)) {
             $this->send_error_response('Required role access denied', 403);

@@ -461,7 +461,11 @@ class Files {
             'created_at' => time()
         ];
         
-        return $this->db->insert_array($data, TABLE_MEDIA_RELS);
+        if ($this->db->insert_array($data, TABLE_MEDIA_RELS)) {
+            return (int) $this->db->insert_id();
+        }
+        
+        return false;
     }
 
 

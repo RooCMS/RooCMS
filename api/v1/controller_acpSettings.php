@@ -183,7 +183,7 @@ class ACPSettingsController extends BaseController {
             }, array_keys($data), $data));
 
             // Return validation errors if any
-            if ($validationErrors) {
+            if (!empty($validationErrors)) {
                 $this->validation_error_response($validationErrors);
                 return;
             }
