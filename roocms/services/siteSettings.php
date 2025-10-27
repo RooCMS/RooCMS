@@ -41,6 +41,32 @@ class SiteSettingsService {
 
 
     /**
+     * Get all settings with metadata
+     */
+    public function get_all_settings_with_meta(): array {
+        $settings = $this->siteSettings->get_all();
+        $meta = [];
+
+        // Collect metadata for all settings
+        foreach ($settings as $group => $groupSettings) {
+            if (is_array($groupSettings)) {
+                foreach (array_keys($groupSettings) as $key) {
+                    $settingMeta = $this->siteSettings->get_meta($key);
+                    if ($settingMeta) {
+                        $meta[$key] = $settingMeta;
+                    }
+                }
+            }
+        }
+
+        return [
+            'settings' => $settings,
+            'meta' => $meta
+        ];
+    }
+
+
+    /**
      * Get settings by category/group
      */
     public function get_settings_by_group(string $group): array {

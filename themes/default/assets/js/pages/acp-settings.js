@@ -4,6 +4,7 @@
  */
 
 import { request, handleApiError } from '../app/api.js';
+import { modal } from '../app/main.js';
 import { DEBUG } from '../app/config.js';
 
 // Alpine.js Settings Manager Component
@@ -17,9 +18,9 @@ document.addEventListener('alpine:init', () => {
         errorMessage: '',
 
         // Initialization
-        init() {
+        async init() {
             if (DEBUG) window.log('log', 'Initializing Alpine settings manager...');
-            this.loadSettings();
+            await this.loadSettings();
         },
 
         // Load settings from API
@@ -29,54 +30,22 @@ document.addEventListener('alpine:init', () => {
             this.loading = true;
             this.clearMessages();
 
-        try {
-            const response = await request('/v1/acp/settings');
-
-            if (!response.ok) {
-                // Handle authentication and authorization errors
-                if (!handleApiError(response, (message, type) => this.showMessage(message, type))) {
-                    return;
-                }
-
-                throw new Error(`Failed to load settings: ${response.status}`);
-            }
-
-                const data = await response.json();
-                this.settings = data.data || {};
-                await this.loadMetaData();
+            try {
+                const data = await this.apiRequest('/v1/acp/settings');
+                
+                // API now returns { settings: {...}, meta: {...} }
+                this.settings = data.data?.settings || data.settings || {};
+                this.meta = data.data?.meta || data.meta || {};
+                
                 this.settings = this.processSettingsData(this.settings);
 
-                if (DEBUG) window.log('log', 'Settings loaded successfully:', this.settings);
-        } catch (error) {
+                if (DEBUG) window.log('log', 'Settings and metadata loaded successfully:', { settings: this.settings, meta: this.meta });
+            } catch (error) {
                 if (DEBUG) window.log('error', 'Error loading settings:', error);
-                this.showMessage('Error loading settings: ' + error.message, 'error');
-        } finally {
+                this.showMessage(error.message || 'Error loading settings', 'error');
+            } finally {
                 this.loading = false;
             }
-        },
-
-        // Load metadata for all settings
-        async loadMetaData() {
-            const allKeys = Object.values(this.settings)
-                .filter(group => group && typeof group === 'object')
-                .flatMap(group => Object.keys(group));
-
-            const metaPromises = allKeys.map(async (key) => {
-                try {
-                    const response = await request(`/v1/acp/settings/key-${key}`);
-                    if (response.ok) {
-                        const data = await response.json();
-                        if (data.data?.meta) {
-                            this.meta[key] = data.data.meta;
-                        }
-                    }
-                } catch (error) {
-                    if (DEBUG) window.log('warn', `Failed to load meta for ${key}:`, error);
-                }
-            });
-
-            await Promise.all(metaPromises);
-            if (DEBUG) window.log('log', 'Meta loaded:', this.meta);
         },
 
         // Save settings
@@ -89,38 +58,36 @@ document.addEventListener('alpine:init', () => {
 
             try {
                 const formData = this.collectFormData();
+                const response = await request('/v1/acp/settings', {
+                    method: 'PATCH',
+                    body: JSON.stringify(formData)
+                });
 
-            const response = await request('/v1/acp/settings', {
-                method: 'PATCH',
-                body: JSON.stringify(formData)
-            });
-
-            if (!response.ok) {
-                // Handle authentication and authorization errors
-                if (!handleApiError(response, (message, type) => this.showMessage(message, type))) {
-                    return;
-                }
-
-                // Handle validation errors
-                if (response.status === 422) {
-                    const errorData = await response.json();
-                    if (errorData.details && errorData.details.validation_errors) {
-                        this.showValidationErrors(errorData.details.validation_errors);
+                if (!response.ok) {
+                    // Handle authentication and authorization errors
+                    if (!handleApiError(response, (message, type) => this.showMessage(message, type))) {
                         return;
                     }
+
+                    // Handle validation errors
+                    if (response.status === 422) {
+                        const errorData = await response.json();
+                        if (errorData.details?.validation_errors) {
+                            this.showValidationErrors(errorData.details.validation_errors);
+                            return;
+                        }
+                    }
+
+                    throw new Error(`Failed to save settings: ${response.status}`);
                 }
 
-                throw new Error(`Failed to save settings: ${response.status}`);
-            }
-
-            const result = await response.json();
+                await response.json();
                 this.showMessage('Settings saved successfully');
                 await this.loadSettings();
-
-        } catch (error) {
+            } catch (error) {
                 if (DEBUG) window.log('error', 'Error saving settings:', error);
-                this.showMessage('Error saving settings: ' + error.message, 'error');
-        } finally {
+                this.showMessage(error.message || 'Error saving settings', 'error');
+            } finally {
                 this.loading = false;
             }
         },
@@ -129,37 +96,50 @@ document.addEventListener('alpine:init', () => {
         async resetSettings() {
             if (this.loading) return;
 
-        if (!confirm('Are you sure you want to reset all settings to default values?')) {
-            return;
-        }
+            const confirmed = await this.confirmReset();
+            if (!confirmed) return;
 
             this.loading = true;
             this.clearMessages();
 
-        try {
-            const response = await request('/v1/acp/settings/reset/all', {
-                method: 'GET'
-            });
+            try {
+                await this.apiRequest('/v1/acp/settings/reset/all');
+                this.showMessage('Settings reset to default values');
+                await this.loadSettings();
+            } catch (error) {
+                if (DEBUG) window.log('error', 'Error resetting settings:', error);
+                this.showMessage(error.message || 'Error resetting settings', 'error');
+            } finally {
+                this.loading = false;
+            }
+        },
+
+        // Unified API request handler
+        async apiRequest(url, options = {}) {
+            const response = await request(url, options);
 
             if (!response.ok) {
                 // Handle authentication and authorization errors
                 if (!handleApiError(response, (message, type) => this.showMessage(message, type))) {
-                    return;
+                    throw new Error('Authentication failed');
                 }
 
-                throw new Error(`Failed to reset settings: ${response.status}`);
+                const errorData = await response.json();
+                throw new Error(errorData.message || `Request failed: ${response.status}`);
             }
 
-            const result = await response.json();
-                this.showMessage('Settings reset to default values');
-                await this.loadSettings();
+            return await response.json();
+        },
 
-        } catch (error) {
-                if (DEBUG) window.log('error', 'Error resetting settings:', error);
-                this.showMessage('Error resetting settings: ' + error.message, 'error');
-        } finally {
-                this.loading = false;
-            }
+        // Confirm reset with modal
+        async confirmReset() {
+            return await modal(
+                'Reset Settings',
+                'Are you sure you want to reset all settings to default values?\nThis action cannot be undone.',
+                'Yes, Reset',
+                'Cancel',
+                'warning'
+            );
         },
 
         // Helper methods
@@ -184,23 +164,31 @@ document.addEventListener('alpine:init', () => {
             const processed = {};
 
             for (const [groupName, groupSettings] of Object.entries(data)) {
-                if (groupSettings && typeof groupSettings === 'object') {
-                    processed[groupName] = {};
+                if (!groupSettings || typeof groupSettings !== 'object') continue;
 
-                    for (const [key, value] of Object.entries(groupSettings)) {
-                        processed[groupName][key] = this.getFieldType(key) === 'boolean'
-                            ? this.toBoolean(value)
-                            : value;
-                    }
+                processed[groupName] = {};
+                for (const [key, value] of Object.entries(groupSettings)) {
+                    processed[groupName][key] = this.convertValueByType(key, value);
                 }
             }
 
             return processed;
         },
 
-        // Convert value to boolean properly
-        toBoolean(value) {
-            return !!(value === true || value === 1 || value === '1' || value === 'true');
+        // Convert value based on metadata type
+        convertValueByType(key, value) {
+            const fieldType = this.getFieldType(key);
+
+            switch (fieldType) {
+                case 'boolean':
+                    return !!(value === true || value === 1 || value === '1' || value === 'true');
+                case 'integer':
+                    return typeof value === 'string' ? parseInt(value, 10) : value;
+                case 'number':
+                    return typeof value === 'string' ? parseFloat(value) : value;
+                default:
+                    return value;
+            }
         },
 
         getFieldType(key) {
@@ -212,15 +200,16 @@ document.addEventListener('alpine:init', () => {
             
             // Map field types to HTML input types
             const typeMapping = {
-                'boolean': 'checkbox',     // handled separately in template
+                'boolean': 'checkbox',
                 'integer': 'number',
+                'number': 'number',
                 'string': 'text',
                 'color': 'color',
-                'text': 'textarea',        // handled separately in template
-                'html': 'text',            // could be enhanced with rich editor later
+                'text': 'textarea',
+                'html': 'text',
                 'date': 'date',
                 'email': 'email',
-                'select': 'select',        // handled separately in template
+                'select': 'select',
                 'image': 'file',
                 'file': 'file'
             };
@@ -233,28 +222,19 @@ document.addEventListener('alpine:init', () => {
         },
 
         getFieldOptions(key) {
-            const options = this.meta[key]?.options || {};
-            if (typeof options === 'object') {
-                return options;
-            }
-            return {};
+            return this.meta[key]?.options || {};
         },
 
         collectFormData() {
             const data = {};
 
-            // Flatten settings object to key-value pairs
-            Object.entries(this.settings).forEach(([groupName, groupSettings]) => {
-                if (groupSettings && typeof groupSettings === 'object') {
-                    Object.entries(groupSettings).forEach(([key, value]) => {
-                        // Convert string numbers to numbers for consistency
-                        if (typeof value === 'string' && value !== '' && !isNaN(value)) {
-                            data[key] = Number(value);
-                        } else {
-                            data[key] = value;
-                        }
-                    });
-                }
+            // Flatten settings object to key-value pairs with proper type conversion
+            Object.values(this.settings).forEach((groupSettings) => {
+                if (!groupSettings || typeof groupSettings !== 'object') return;
+
+                Object.entries(groupSettings).forEach(([key, value]) => {
+                    data[key] = this.convertValueByType(key, value);
+                });
             });
 
             return data;
@@ -271,44 +251,38 @@ document.addEventListener('alpine:init', () => {
         showValidationErrors(validationErrors) {
             this.showMessage('Please correct the validation errors below.', 'error');
 
-            Object.entries(validationErrors).forEach(([fieldName, errorMessage]) => {
-                let fieldElement = null;
-                
-                // Method 1: Direct search by name attribute
-                fieldElement = document.querySelector(`[name="${fieldName}"]`);
-                
-                // Method 2: Search by ID in each group
-                if (!fieldElement) {
-                    for (const [groupName, groupSettings] of Object.entries(this.settings)) {
-                        if (groupSettings && typeof groupSettings === 'object' && groupSettings.hasOwnProperty(fieldName)) {
-                            const fieldId = this.getFieldId(groupName, fieldName);
-                            fieldElement = document.getElementById(fieldId);
-                            if (fieldElement) break;
-                        }
-                    }
-                }
-                
-                // Method 3: Fallback - search all input/select/textarea elements
-                if (!fieldElement) {
-                    const allFields = document.querySelectorAll('input, select, textarea');
-                    for (const field of allFields) {
-                        if (field.name === fieldName || field.id.endsWith(`_${fieldName}`)) {
-                            fieldElement = field;
-                            break;
-                        }
-                    }
-                }
+            const entries = Object.entries(validationErrors);
+            entries.forEach(([fieldName, errorMessage], index) => {
+                const fieldElement = this.findFieldElement(fieldName);
 
                 if (fieldElement) {
                     this.highlightFieldError(fieldElement, errorMessage);
 
                     // Scroll to first error
-                    if (Object.keys(validationErrors)[0] === fieldName) {
+                    if (index === 0) {
                         fieldElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
                         setTimeout(() => fieldElement.focus(), 100);
                     }
                 }
             });
+        },
+
+        // Find field element by name
+        findFieldElement(fieldName) {
+            // Try direct name attribute first
+            let field = document.querySelector(`[name="${fieldName}"]`);
+            if (field) return field;
+
+            // Try to find by ID in groups
+            for (const [groupName, groupSettings] of Object.entries(this.settings)) {
+                if (groupSettings?.[fieldName] !== undefined) {
+                    field = document.getElementById(this.getFieldId(groupName, fieldName));
+                    if (field) return field;
+                }
+            }
+
+            // Fallback: search by ID ending with field name
+            return document.querySelector(`[id$="_${fieldName}"]`);
         },
 
         highlightFieldError(fieldElement, errorMessage) {

@@ -39,7 +39,7 @@ class ACPSettingsController extends BaseController {
 
 
     /**
-     * Get all settings
+     * Get all settings with metadata
      * GET /api/v1/acp/settings
      * Requires: AuthMiddleware + RoleMiddleware@admin_access
      */
@@ -47,8 +47,8 @@ class ACPSettingsController extends BaseController {
         $this->log_request('admin_settings_index');
 
         try {
-            $settings = $this->SiteSettingsService->get_all_settings();
-            $this->json_response($settings);
+            $data = $this->SiteSettingsService->get_all_settings_with_meta();
+            $this->json_response($data);
         } catch(Exception $e) {
             $this->error_response('Failed to fetch settings', 500);
         }

@@ -5,27 +5,22 @@
  */
 import { request } from '../app/api.js';
 
+// Auto-refresh interval in seconds
+const REFRESH_INTERVAL = 15;
+
 /**
  * Get system health details from API
- * @returns {Promise<Object|null>} Health details data or null on error
+ * @returns {Promise<Object>} Health details data
  */
 async function getHealthDetails() {
-    try {
-        const res = await request('/v1/health/details', {
-            method: 'GET'
-        });
+    const res = await request('/v1/health/details', { method: 'GET' });
+    const json = await res.json();
 
-        if (!res.ok) {
-            window.log('error', 'Failed to fetch health details:', res.status, res.statusText);
-            return null;
-        }
-
-        const data = await res.json();
-        return data?.data || data;
-    } catch (error) {
-        window.log('error', 'Error fetching health details:', error);
-        return null;
+    if (!res.ok) {
+        throw new Error(json.message || 'Failed to fetch health details');
     }
+
+    return json.data || json;
 }
 
 // Create Alpine component for system status
@@ -35,75 +30,52 @@ document.addEventListener('alpine:init', () => {
         lastUpdated: null,
         healthData: null,
         error: null,
-        countdown: 15,
-
-        // Helper methods for safe data access
-        getApiCheck() {
-            return this.healthData?.['api check'];
-        },
-
-        getDatabaseCheck() {
-            return this.healthData?.['database check'];
-        },
-
-        getSystemInfo() {
-            return this.healthData?.system_info;
-        },
-
-        getPhpInfo() {
-            return this.healthData?.php_info;
-        },
-
-        getRoocmsInfo() {
-            return this.healthData?.roocms_info;
-        },
+        countdown: REFRESH_INTERVAL,
+        countdownTimer: null,
+        refreshTimer: null,
 
         // Computed properties for status
         get apiStatus() {
-            const check = this.getApiCheck();
-            return check?.status === 'ok' ? 'ok' : 'error';
+            const status = this.healthData?.['api check']?.status;
+            return status === 'ok' ? 'ok' : 'error';
         },
 
         get databaseStatus() {
-            const check = this.getDatabaseCheck();
-            const status = check?.status;
+            const status = this.healthData?.['database check']?.status;
             return (status === 'ok' || status === 'healthy') ? 'ok' : 'error';
         },
 
         get apiResponseTime() {
-            const check = this.getApiCheck();
-            if (!check?.response_time) return '0ms';
-            return (check.response_time * 1000).toFixed(0) + 'ms';
+            const responseTime = this.healthData?.['api check']?.response_time;
+            return responseTime ? `${(responseTime * 1000).toFixed(0)}ms` : '0ms';
         },
 
         get memoryUsage() {
-            const memory = this.getSystemInfo()?.memory_usage;
-            if (!memory?.current) return '0MB';
-            return (memory.current / 1024 / 1024).toFixed(1) + 'MB';
+            const current = this.healthData?.system_info?.memory_usage?.current;
+            return current ? `${(current / 1024 / 1024).toFixed(1)}MB` : '0MB';
         },
 
         get memoryLimit() {
-            const memory = this.getSystemInfo()?.memory_usage;
-            const limit = memory?.limit || '0M';
+            const limit = this.healthData?.system_info?.memory_usage?.limit || '0M';
             return limit.replace('M', 'MB');
         },
 
         get phpVersion() {
-            const version = this.getPhpInfo()?.version;
-            return version ? 'PHP ' + version : 'Unknown';
+            const version = this.healthData?.php_info?.version;
+            return version ? `PHP ${version}` : 'Unknown';
         },
 
         get maxExecutionTime() {
-            const config = this.getPhpInfo()?.configuration;
-            return config?.max_execution_time ? config.max_execution_time + 's' : '30s';
+            const time = this.healthData?.php_info?.configuration?.max_execution_time;
+            return time ? `${time}s` : '30s';
         },
 
         get timezone() {
-            return this.getSystemInfo()?.timezone || 'UTC';
+            return this.healthData?.system_info?.timezone || 'UTC';
         },
 
         get roocmsVersion() {
-            return this.getRoocmsInfo()?.version || 'Unknown';
+            return this.healthData?.roocms_info?.version || 'Unknown';
         },
 
         get usersCount() {
@@ -112,7 +84,6 @@ document.addEventListener('alpine:init', () => {
 
         async init() {
             await this.loadHealthData();
-            this.startCountdown();
             this.startAutoRefresh();
         },
 
@@ -121,17 +92,12 @@ document.addEventListener('alpine:init', () => {
             this.error = null;
 
             try {
-                const data = await getHealthDetails();
-                if (data) {
-                    this.healthData = data;
-                    this.lastUpdated = new Date();
-                    this.countdown = 15; // Reset countdown
-                } else {
-                    this.error = 'Not able to load system health data';
-                }
+                this.healthData = await getHealthDetails();
+                this.lastUpdated = new Date();
+                this.resetCountdown();
             } catch (error) {
                 window.log('error', 'Error loading system health data:', error);
-                this.error = 'Error loading system health data';
+                this.error = error.message || 'Error loading system health data';
             } finally {
                 this.loading = false;
             }
@@ -139,24 +105,45 @@ document.addEventListener('alpine:init', () => {
 
         // Format time only
         formatTimeOnly(timestamp) {
-            if (!timestamp) return '';
-            return window.FormatterUtils.formatTimeOnly(timestamp);
+            return timestamp ? window.FormatterUtils.formatTimeOnly(timestamp) : '';
         },
 
-        // Start countdown timer
-        startCountdown() {
-            setInterval(() => {
+        // Reset countdown to initial value
+        resetCountdown() {
+            this.countdown = REFRESH_INTERVAL;
+        },
+
+        // Start auto-refresh with countdown
+        startAutoRefresh() {
+            // Clear existing timers if any
+            this.stopAutoRefresh();
+
+            // Countdown timer (updates every second)
+            this.countdownTimer = setInterval(() => {
                 if (this.countdown > 0) {
                     this.countdown--;
+                } else {
+                    // When countdown reaches 0, reload data
+                    this.loadHealthData();
                 }
             }, 1000);
         },
 
-        // Auto-refresh every countdown seconds
-        startAutoRefresh() {
-            setInterval(() => {
-                this.loadHealthData();
-            }, this.countdown * 1000);
+        // Stop auto-refresh timers
+        stopAutoRefresh() {
+            if (this.countdownTimer) {
+                clearInterval(this.countdownTimer);
+                this.countdownTimer = null;
+            }
+            if (this.refreshTimer) {
+                clearInterval(this.refreshTimer);
+                this.refreshTimer = null;
+            }
+        },
+
+        // Cleanup on component destroy
+        destroy() {
+            this.stopAutoRefresh();
         }
     }));
 });
