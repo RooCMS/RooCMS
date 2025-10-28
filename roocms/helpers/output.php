@@ -65,7 +65,7 @@ function output_json(mixed $data) : void {
 	}
 	
 	echo json_encode($data, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
-	exit();
+	getout();
 }
 
 
@@ -83,7 +83,7 @@ function output_html(string $data, ?bool $exit = true, ?bool $hsc = null) : void
 
 	echo ($hsc !== null) ? htmlspecialchars($data, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8') : $data;
 
-	if ($exit) exit();
+	if ($exit) getout();
 }
 
 
@@ -105,10 +105,8 @@ function render_html(string $data, ?bool $hsc = null) : void {
  * @param string $message - message to output
  * @return void
  */
-function getout(int $code, string $message = '') : void {
-	http_response_code($code);
-	if($message) {
-		exit($message);
-	}
+function getout(int $code = 0, string $message = '') : void {
+	if($code != 0) http_response_code($code);
+	if($message) exit($message);
 	exit();
 }

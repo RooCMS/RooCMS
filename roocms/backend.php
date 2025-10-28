@@ -66,7 +66,7 @@ try {
         throw $e;
     }
     // graceful fallback: stop initialization
-    exit('Database initialization error.');
+    getout(500, 'Database initialization error.');
 }
 
 /** 

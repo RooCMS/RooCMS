@@ -219,7 +219,7 @@ class BackupController extends BaseController {
 		set_header('Pragma: no-cache');
 
 		readfile($filepath);
-		exit;
+		getout();
 	}
 
 
