@@ -1,4 +1,4 @@
-﻿# RooCMS project structure
+# RooCMS project structure
 
 This document describes the organization of files and directories in the RooCMS project.
 
@@ -325,6 +325,7 @@ themes/
 │   │           ├── 📄 profile.js          # Profile page
 │   │           ├── 📄 register.js         # Register page
 │   │           ├── 📄 ui-kit.js           # UI kit page
+│   │           ├── 📄 user.js             # User page
 │   │           └── 📄 verify-email.js     # Email verification page
 │   ├── 📁 layouts/                        # Layouts templates
 │   │   ├── 📄 acp-nav.php                 # ACP navigation layout
@@ -350,10 +351,11 @@ themes/
 │   │   ├── 📄 login.php                   # Login page
 │   │   ├── 📄 password-forgot.php         # Password forgot page
 │   │   ├── 📄 password-reset.php          # Password reset page
-│   │   ├── 📄 profile.php                 # User profile page
-│   │   ├── 📄 profile-edit.php            # Profile edit page
+│   │   ├── 📄 myprofile.php               # User profile page (my profile)
+│   │   ├── 📄 myprofile-edit.php          # Profile edit page (my profile)
 │   │   ├── 📄 register.php                # Registration page
 │   │   ├── 📄 register-complete.php       # Registration complete page
+│   │   ├── 📄 user.php                    # User profile page (public)
 │   │   └── 📄 verify-email.php            # Email verification page
 │   ├── 📄 sw.js                           # Service worker (draft)
 │   ├── 📄 sw.min.js                       # Minified service worker
