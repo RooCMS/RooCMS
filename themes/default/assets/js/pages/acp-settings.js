@@ -31,7 +31,7 @@ document.addEventListener('alpine:init', () => {
             this.clearMessages();
 
             try {
-                const data = await this.apiRequest('/v1/acp/settings');
+                const data = await this.apiRequest('/v1/acp/settings/meta');
                 
                 // API now returns { settings: {...}, meta: {...} }
                 this.settings = data.data?.settings || data.settings || {};

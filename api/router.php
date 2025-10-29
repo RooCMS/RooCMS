@@ -131,6 +131,7 @@ $api->delete('/v1/users/me/avatar', 'UsersController@delete_avatar', ['AuthMiddl
 
 // Settings routes (admin only)
 $api->get('/v1/acp/settings', 'ACPSettingsController@index', ['AuthMiddleware', 'RoleMiddleware@admin_access']);
+$api->get('/v1/acp/settings/meta', 'ACPSettingsController@get_settings_with_meta', ['AuthMiddleware', 'RoleMiddleware@admin_access']);
 $api->get('/v1/acp/settings/group-{group}', 'ACPSettingsController@get_group', ['AuthMiddleware', 'RoleMiddleware@admin_access']);
 $api->get('/v1/acp/settings/key-{key}', 'ACPSettingsController@get_setting', ['AuthMiddleware', 'RoleMiddleware@admin_access']);
 $api->put('/v1/acp/settings/key-{key}', 'ACPSettingsController@update_setting', ['AuthMiddleware', 'RoleMiddleware@admin_access']);
@@ -275,6 +276,7 @@ $api->get('/', function() {
             'acp_backup_logs' => 'GET /api/v1/backup/logs',
             'acp_backup_status' => 'GET /api/v1/backup/status',
             'acp_settings_index' => 'GET /api/v1/acp/settings',
+            'acp_settings_get_with_meta' => 'GET /api/v1/acp/settings/meta',
             'acp_settings_get_group' => 'GET /api/v1/acp/settings/group-{group}',
             'acp_settings_get_setting' => 'GET /api/v1/acp/settings/key-{key}',
             'acp_settings_update_setting' => 'PUT /api/v1/acp/settings/key-{key}',

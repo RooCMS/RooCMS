@@ -24,7 +24,7 @@ if(!defined('RooCMS')) {roocms_protect();}
 
 
 /**
- * list of configs
+ * list of configs for database
  */
 $dbconfigs = [
     'db.cfg.php',       // database settings
@@ -89,7 +89,7 @@ $container->register(SiteSettingsService::class, SiteSettingsService::class, tru
 $container->register(SiteSettingsManageService::class, SiteSettingsManageService::class, true);
 
 /** 
- * Register dependencies
+ * Register dependencies for RooCMS
  */
 $container->register(Auth::class, Auth::class, true);
 $container->register(User::class, User::class, true);
