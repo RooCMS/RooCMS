@@ -32,7 +32,7 @@ $dbconfigs = [
 ];
 
 /**
- * Include configs
+ * Include configs for database
  */
 foreach($dbconfigs as $config) {
     if(file_exists(_SITEROOT."/roocms/config/".$config)) {
@@ -56,6 +56,7 @@ $container->register(Db::class, function(DependencyContainer $c) {
 
 /**
  * Initialize db for backward compatibility
+ * TODO: This is not a good practice, need to remove it
  */
 try {
     $db = $container->get(Db::class);
@@ -70,7 +71,7 @@ try {
 }
 
 /** 
- * Register debugger if available
+ * Register debugger
  */
 if($debug instanceof Debugger) {
     $container->register(Debugger::class, fn() => $debug, true);
@@ -78,11 +79,13 @@ if($debug instanceof Debugger) {
 
 /**
  * Register request
+ * This class is used for sanitizing and validating incoming data
  */
 $container->register(Request::class, Request::class, true);
 
 /**
  * Register site settings
+ * This class is used for getting and setting site settings
  */
 $container->register(SiteSettings::class, fn() => new SiteSettings($db), true);
 $container->register(SiteSettingsService::class, SiteSettingsService::class, true);
