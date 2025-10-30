@@ -61,13 +61,7 @@ class UserService {
         }
         
         // Get user data based on access level
-        if($has_full_access) {
-            // Full access: include detailed data
-            $user = $this->user->get_user_by_id($user_id, true);
-        } else {
-            // Limited access: only basic data
-            $user = $this->user->get_user_by_id($user_id, false);
-        }
+        $user = $this->user->get_user_by_id($user_id, $has_full_access);
 
         if(!$user) {
             return null;
