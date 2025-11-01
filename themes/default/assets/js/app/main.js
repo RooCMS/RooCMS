@@ -84,6 +84,43 @@ document.addEventListener('DOMContentLoaded', async () => {
 // Global Alpine data
 document.addEventListener('alpine:init', () => {
 
+    // Site settings store
+    window.Alpine.store('siteSettings', {
+        // Reactive data from SiteSetting
+        site_name: '',
+        site_domain: '',
+        site_description: '',
+
+        // Initialize with data from SiteSetting when available
+        init() {
+            const updateFromSiteSetting = () => {
+                if (window.SiteSetting) {
+                    this.site_name = window.SiteSetting.site_name || '';
+                    this.site_domain = window.SiteSetting.site_domain || '';
+                    this.site_description = window.SiteSetting.site_description || '';
+                }
+            };
+
+            // Initial update
+            updateFromSiteSetting();
+
+            // Set up polling for async loading (check every 100ms for 5 seconds)
+            let attempts = 0;
+            const maxAttempts = 50;
+            const pollInterval = setInterval(() => {
+                attempts++;
+                updateFromSiteSetting();
+
+                if (window.SiteSetting && window.SiteSetting.site_name || attempts >= maxAttempts) {
+                    clearInterval(pollInterval);
+                }
+            }, 100);
+        }
+    });
+
+    // Initialize siteSettings store
+    window.Alpine.store('siteSettings').init();
+
     // Modal store
     window.Alpine.store('modal', {
         isOpen: false,

@@ -448,7 +448,7 @@ ob_start();
                             <p class="text-gray-700">If you have questions about the present Privacy Policy, please contact us:</p>
 
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                <a href="https://www.roocms.com" target="_blank" class="group flex items-center p-4 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-lg border border-blue-200 hover:shadow-md transition-all duration-300 hover:-translate-y-1">
+                                <a href="/" x-bind:href="'https://' + $store.siteSettings.site_domain" target="_blank" class="group flex items-center p-4 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-lg border border-blue-200 hover:shadow-md transition-all duration-300 hover:-translate-y-1">
                                     <div class="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-r from-blue-500 to-indigo-500 mr-3 group-hover:scale-110 transition-transform duration-300">
                                         <svg class="w-4 h-4 text-white py-0 translate-y-0.25" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
@@ -456,7 +456,7 @@ ob_start();
                                     </div>
                                     <div>
                                         <div class="font-medium text-gray-900">Website</div>
-                                        <div class="text-sm text-gray-600">www.roocms.com</div>
+                                        <div class="text-sm text-gray-600" x-text="$store.siteSettings.site_domain"></div>
                                     </div>
                                 </a>
 
@@ -489,7 +489,7 @@ ob_start();
                         </h3>
 
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            <a href="/terms" class="group flex items-center justify-center p-4 bg-white/80 backdrop-blur-sm rounded-xl border border-gray-200/50 shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1">
+                            <a href="/!/legal/terms" class="group flex items-center justify-center p-4 bg-white/80 backdrop-blur-sm rounded-xl border border-gray-200/50 shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1">
                                 <div class="text-center">
                                     <div class="flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-r from-blue-500 to-indigo-500 mx-auto mb-2 shadow-sm group-hover:scale-110 transition-transform duration-300">
                                         <svg class="w-6 h-6 text-white py-0 translate-y-0.25" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -529,4 +529,4 @@ ob_start();
 </div>
 
 <?php $page_content = ob_get_clean();
-require __DIR__ . '/../layouts/base.php';
+require __DIR__ . '/../../layouts/base.php';

@@ -150,8 +150,8 @@ if (localStorage.getItem('access_token')) {
             <div class="mt-6 text-center text-sm text-gray-500">
                 <p>
                     By creating an account, you agree to our
-                    <br /><a href="/terms" class="link-text font-medium">Terms of use</a>
-                    and <a href="/privacy" class="link-text font-medium">Privacy policy</a>
+                    <br /><a href="/!/legal/terms" class="link-text font-medium">Terms of use</a>
+                    and <a href="/!/legal/privacy" class="link-text font-medium">Privacy policy</a>
                 </p>
             </div>
         </div>
