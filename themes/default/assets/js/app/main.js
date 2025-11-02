@@ -90,7 +90,8 @@ document.addEventListener('alpine:init', () => {
         site_name: '',
         site_domain: '',
         site_description: '',
-
+        site_feedback_email: '',
+        
         // Initialize with data from SiteSetting when available
         init() {
             const updateFromSiteSetting = () => {
@@ -98,6 +99,7 @@ document.addEventListener('alpine:init', () => {
                     this.site_name = window.SiteSetting.site_name || '';
                     this.site_domain = window.SiteSetting.site_domain || '';
                     this.site_description = window.SiteSetting.site_description || '';
+                    this.site_feedback_email = window.SiteSetting.site_feedback_email || '';
                 }
             };
 

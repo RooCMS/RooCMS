@@ -67,6 +67,20 @@ return [
 					'is_serialized' => 0
 				],
 				[
+					'category' => 'site',
+					'sort_order' => 4,
+					'title' => 'Feedback email',
+					'description' => 'Email for feedback',
+					'key' => 'site_feedback_email',
+					'type' => 'email',
+					'options' => null,
+					'value' => null,
+					'default_value' => '',
+					'max_length' => 255,
+					'is_required' => 1,
+					'is_serialized' => 0
+				],
+				[
 					'category' => 'mailer',
 					'sort_order' => 1,
 					'title' => 'Driver of sending mail',

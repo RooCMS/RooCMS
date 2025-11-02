@@ -444,7 +444,7 @@ ob_start();
                                     </div>
                                 </a>
 
-                                <a href="mailto:info@roocms.com" class="group flex items-center p-4 bg-gradient-to-r from-green-50 to-emerald-50 rounded-lg border border-green-200 hover:shadow-md transition-all duration-300 hover:-translate-y-1">
+                                <a href="@" x-bind:href="'mailto:' + $store.siteSettings.site_feedback_email" class="group flex items-center p-4 bg-gradient-to-r from-green-50 to-emerald-50 rounded-lg border border-green-200 hover:shadow-md transition-all duration-300 hover:-translate-y-1">
                                     <div class="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-r from-green-500 to-emerald-500 mr-3 group-hover:scale-110 transition-transform duration-300">
                                         <svg class="w-4 h-4 text-white py-0 translate-y-0.25" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
@@ -452,7 +452,7 @@ ob_start();
                                     </div>
                                     <div>
                                         <div class="font-medium text-gray-900">Email</div>
-                                        <div class="text-sm text-gray-600">info@roocms.com</div>
+                                        <div class="text-sm text-gray-600" x-text="$store.siteSettings.site_feedback_email"></div>
                                     </div>
                                 </a>
                             </div>
