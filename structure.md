@@ -335,8 +335,6 @@ themes/
 │   │   ├── 📄 404.php                     # 404 not found page
 │   │   ├── 📄 index.php                   # Home page
 │   │   ├── 📄 offline.php                 # Offline page (for service worker)
-│   │   ├── 📄 privacy.php                 # Privacy policy page
-│   │   ├── 📄 terms.php                   # Terms of service page
 │   │   └── 📄 ui-kit.php                  # UI kit demo page
 │   ├── 📁 partials/                       # Partial templates
 │   │   ├── 📄 footer.php                  # Footer
@@ -348,6 +346,9 @@ themes/
 │   │   │   ├── 📄 settings.php            # ACP settings
 │   │   │   ├── 📄 ui-kit.php              # ACP UI kit
 │   │   │   └── 📄 users.php               # ACP users page
+│   │   ├── 📁 legal/                      # Legal pages
+│   │   │   ├── 📄 privacy.php             # Privacy policy page
+│   │   │   └── 📄 terms.php               # Terms of service page
 │   │   ├── 📄 login.php                   # Login page
 │   │   ├── 📄 password-forgot.php         # Password forgot page
 │   │   ├── 📄 password-reset.php          # Password reset page
