@@ -56,7 +56,7 @@ ob_start();
                         </div>
 
                         <div class="bg-white/80 backdrop-blur-sm p-5 rounded-xl border border-gray-200/50 shadow-sm space-y-4">
-                            <p class="text-gray-700">The present privacy policy (hereinafter — "Policy") describes how RooCMS collects, uses and protects your personal information.</p>
+                            <p class="text-gray-700">The present privacy policy (hereinafter — "Policy") describes how <span x-text="$store.siteSettings.site_name"></span> collects, uses and protects your personal information.</p>
                             <p class="text-gray-700">We respect your privacy and strive to protect your personal information in accordance with applicable data protection laws.</p>
 
                             <div class="bg-green-50 border-l-4 border-green-400 p-4 rounded-lg">
@@ -90,7 +90,7 @@ ob_start();
     </div>
 
                         <div class="bg-white/80 backdrop-blur-sm p-5 rounded-xl border border-gray-200/50 shadow-sm space-y-4">
-                            <p class="text-gray-700">When using RooCMS we can collect the following types of information:</p>
+                            <p class="text-gray-700">When using <span x-text="$store.siteSettings.site_name"></span> we can collect the following types of information:</p>
 
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                                 <div class="space-y-3">
@@ -132,7 +132,7 @@ ob_start();
                                 <div class="flex items-start">
                                     <div class="w-2 h-2 bg-amber-400 rounded-full mt-2 mr-3 flex-shrink-0"></div>
                                     <div>
-                                        <strong>Cookies:</strong> We use cookies to improve website functionality and analyze traffic. You can manage cookie preferences in your browser settings.
+                                        <strong>Cookies:</strong> We use cookies to improve website functionality and analyze traffic. You can manage cookie preferences in your browser settings. More information about cookies can be found in the <a href="/!/legal/cookie" class="text-blue-600 hover:text-blue-800">Cookie Policy</a>.
                                     </div>
                                 </div>
                             </div>
@@ -176,8 +176,8 @@ ob_start();
                                             <div class="w-2 h-2 bg-purple-400 rounded-full mt-2 mr-3 flex-shrink-0"></div>
                                             <span class="text-sm">Ensuring system security and stability</span>
                                         </li>
-                </ul>
-            </div>
+                                    </ul>
+                                </div>
 
                                 <div class="space-y-3">
                                     <h4 class="font-semibold text-gray-900 text-lg flex items-center">
@@ -193,8 +193,8 @@ ob_start();
                                             <div class="w-2 h-2 bg-pink-400 rounded-full mt-2 mr-3 flex-shrink-0"></div>
                                             <span class="text-sm">Preventing fraud and abuse</span>
                                         </li>
-                </ul>
-            </div>
+                                    </ul>
+                                </div>
                             </div>
 
                             <div class="bg-blue-50 border-l-4 border-blue-400 p-4 rounded-lg">
@@ -225,7 +225,7 @@ ob_start();
                             <div class="px-3 py-1 bg-gradient-to-r from-green-100 to-emerald-100 text-green-800 rounded-full text-sm font-medium border border-green-200">
                                 Privacy
                             </div>
-            </div>
+                        </div>
 
                         <div class="bg-white/80 backdrop-blur-sm p-5 rounded-xl border border-gray-200/50 shadow-sm space-y-4">
                             <p class="text-gray-700">We do not sell, exchange or transfer your personal information to third parties, except in the following cases:</p>
@@ -246,7 +246,7 @@ ob_start();
                                             <span class="text-sm"><strong>Legal compliance:</strong> To comply with legal requirements</span>
                                         </li>
                                     </ul>
-            </div>
+                                </div>
 
                                 <div class="space-y-3">
                                     <h4 class="font-semibold text-gray-900 text-lg flex items-center">
@@ -262,8 +262,8 @@ ob_start();
                                             <div class="w-2 h-2 bg-emerald-400 rounded-full mt-2 mr-3 flex-shrink-0"></div>
                                             <span class="text-sm"><strong>Business transfer:</strong> When transferring business or assets</span>
                                         </li>
-                </ul>
-            </div>
+                                    </ul>
+                                </div>
                             </div>
 
                             <div class="bg-green-50 border-l-4 border-green-400 p-4 rounded-lg">
@@ -303,7 +303,7 @@ ob_start();
                                 <div class="flex items-start">
                                     <div class="w-2 h-2 bg-amber-400 rounded-full mt-2 mr-3 flex-shrink-0"></div>
                                     <div>
-                                        <strong>Cookie Control:</strong> You have full control over cookie settings. Visit your browser's privacy settings to manage or disable cookies. Note that some features may not work properly without cookies enabled.
+                                        <strong>Cookie Control:</strong> You have full control over cookie settings. Visit your browser's privacy settings to manage or disable cookies. Note that some features may not work properly without cookies enabled. More information about cookies can be found in the <a href="/!/legal/cookie" class="text-blue-600 hover:text-blue-800">Cookie Policy</a>.
                                     </div>
                                 </div>
                             </div>
