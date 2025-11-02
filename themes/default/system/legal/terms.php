@@ -403,7 +403,7 @@ ob_start();
                                 <div class="flex items-start">
                                     <div class="w-2 h-2 bg-green-400 rounded-full mt-2 mr-3 flex-shrink-0"></div>
                                     <div>
-                                        <strong>Privacy Policy:</strong> For detailed information about how we handle personal data, please review our <a href="/privacy" class="text-blue-600 hover:text-blue-800 underline font-medium">Privacy Policy</a>.
+                                        <strong>Privacy Policy:</strong> For detailed information about how we handle personal data, please review our <a href="/!/legal/privacy" class="text-blue-600 hover:text-blue-800 underline font-medium">Privacy Policy</a>.
                                     </div>
                                 </div>
                             </div>
