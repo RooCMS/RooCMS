@@ -110,6 +110,8 @@ $theme_base = '/themes/'.$theme_name;
             </div>
         </div>
     </div>
-    
+
+    <?php require __DIR__ . '/../layouts/cookie-conset.php'; ?>
+
 </body>
 </html>

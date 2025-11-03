@@ -249,6 +249,174 @@ ob_start();
                     </div>
                 </div>
 
+                <!-- Data Protection Laws -->
+                <div class="relative">
+                    <div class="absolute inset-0 bg-gradient-to-r from-amber-600/5 to-orange-600/5 rounded-2xl"></div>
+                    <div class="relative bg-gradient-to-br from-amber-50 to-orange-50 rounded-2xl p-6 border border-amber-200/50">
+                        <div class="flex items-center justify-between mb-6">
+                            <h3 class="text-xl font-bold text-gray-900 flex items-center">
+                                <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-gradient-to-r from-amber-500 to-orange-500 mr-3 shadow-sm">
+                                    <svg class="w-5 h-5 text-white py-0 translate-y-0.25" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
+                                    </svg>
+                                </div>
+                                Main laws on data protection
+                            </h3>
+                            <span class="text-xs font-medium text-amber-600 bg-amber-100 px-2 py-1 rounded-full">Compliance</span>
+                        </div>
+                        <p class="text-gray-700 leading-relaxed mb-6">
+                            Our cookie policy complies with the requirements of various international and national laws on the protection of personal data. These laws establish standards for the processing and protection of personal information of users.
+                        </p>
+                        <div class="space-y-4">
+                            <div class="bg-white/60 rounded-lg p-4 border border-amber-200/30">
+                                <h4 class="font-semibold text-gray-900 mb-3 flex items-center">
+                                    <div class="w-3 h-3 bg-blue-500 rounded-full mr-3"></div>
+                                    International standards
+                                </h4>
+                                <div class="space-y-2">
+                                    <div class="flex items-center justify-between py-2 border-b border-gray-100 last:border-b-0">
+                                        <div>
+                                            <span class="font-medium text-gray-900">GDPR (EU)</span>
+                                            <span class="text-sm text-gray-600 ml-2">General Data Protection Regulation</span>
+                                        </div>
+                                        <a href="https://gdpr.eu" target="_blank" class="text-amber-600 hover:text-amber-700 text-sm font-medium flex items-center">
+                                            More information
+                                            <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+                                            </svg>
+                                        </a>
+                                    </div>
+                                    <div class="flex items-center justify-between py-2 border-b border-gray-100 last:border-b-0">
+                                        <div>
+                                            <span class="font-medium text-gray-900">CCPA (California)</span>
+                                            <span class="text-sm text-gray-600 ml-2">California Consumer Privacy Act</span>
+                                        </div>
+                                        <a href="https://oag.ca.gov/privacy/ccpa" target="_blank" class="text-amber-600 hover:text-amber-700 text-sm font-medium flex items-center">
+                                            More information
+                                            <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+                                            </svg>
+                                        </a>
+                                    </div>
+                                    <div class="flex items-center justify-between py-2 border-b border-gray-100 last:border-b-0">
+                                        <div>
+                                            <span class="font-medium text-gray-900">LGPD (Brazil)</span>
+                                            <span class="text-sm text-gray-600 ml-2">Lei Geral de Proteção de Dados</span>
+                                        </div>
+                                        <a href="https://www.gov.br/lgpd" target="_blank" class="text-amber-600 hover:text-amber-700 text-sm font-medium flex items-center">
+                                            More information
+                                            <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+                                            </svg>
+                                        </a>
+                                    </div>
+                                    <div class="flex items-center justify-between py-2 border-b border-gray-100 last:border-b-0">
+                                        <div>
+                                            <span class="font-medium text-gray-900">PIPEDA (Canada)</span>
+                                            <span class="text-sm text-gray-600 ml-2">Personal Information Protection and Electronic Documents Act</span>
+                                        </div>
+                                        <a href="https://www.priv.gc.ca/en/privacy-topics/privacy-laws-in-canada/the-personal-information-protection-and-electronic-documents-act-pipeda/" target="_blank" class="text-amber-600 hover:text-amber-700 text-sm font-medium flex items-center">
+                                            More information
+                                            <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+                                            </svg>
+                                        </a>
+                                    </div>
+                                    <div class="flex items-center justify-between py-2 border-b border-gray-100 last:border-b-0">
+                                        <div>
+                                            <span class="font-medium text-gray-900">UK GDPR (United Kingdom)</span>
+                                            <span class="text-sm text-gray-600 ml-2">UK General Data Protection Regulation</span>
+                                        </div>
+                                        <a href="https://www.gov.uk/data-protection" target="_blank" class="text-amber-600 hover:text-amber-700 text-sm font-medium flex items-center">
+                                            More information
+                                            <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+                                            </svg>
+                                        </a>
+                                    </div>
+                                    <div class="flex items-center justify-between py-2 border-b border-gray-100 last:border-b-0">
+                                        <div>
+                                            <span class="font-medium text-gray-900">Privacy Act (Australia)</span>
+                                            <span class="text-sm text-gray-600 ml-2">Privacy Act 1988</span>
+                                        </div>
+                                        <a href="https://www.oaic.gov.au/privacy/privacy-legislation/the-privacy-act" target="_blank" class="text-amber-600 hover:text-amber-700 text-sm font-medium flex items-center">
+                                            More information
+                                            <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+                                            </svg>
+                                        </a>
+                                    </div>
+                                    <div class="flex items-center justify-between py-2 border-b border-gray-100 last:border-b-0">
+                                        <div>
+                                            <span class="font-medium text-gray-900">PDPL (UAE)</span>
+                                            <span class="text-sm text-gray-600 ml-2">Personal Data Protection Law</span>
+                                        </div>
+                                        <a href="https://u.ae/en/about-the-uae/digital-uae/data/data-protection-laws" target="_blank" class="text-amber-600 hover:text-amber-700 text-sm font-medium flex items-center">
+                                            More information
+                                            <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+                                            </svg>
+                                        </a>
+                                    </div>
+                                    <div class="flex items-center justify-between py-2 border-b border-gray-100 last:border-b-0">
+                                        <div>
+                                            <span class="font-medium text-gray-900">PIPL (China)</span>
+                                            <span class="text-sm text-gray-600 ml-2">Personal Information Protection Law</span>
+                                        </div>
+                                        <a href="https://personalinformationprotectionlaw.com/" target="_blank" class="text-amber-600 hover:text-amber-700 text-sm font-medium flex items-center">
+                                            More information
+                                            <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+                                            </svg>
+                                        </a>
+                                    </div>
+                                    <div class="flex items-center justify-between py-2 border-b border-gray-100 last:border-b-0">
+                                        <div>
+                                            <span class="font-medium text-gray-900">APPI (Japan)</span>
+                                            <span class="text-sm text-gray-600 ml-2">Act on the Protection of Personal Information</span>
+                                        </div>
+                                        <a href="https://www.ppc.go.jp/en/legal/" target="_blank" class="text-amber-600 hover:text-amber-700 text-sm font-medium flex items-center">
+                                            More information
+                                            <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+                                            </svg>
+                                        </a>
+                                    </div>
+                                    <div class="flex items-center justify-between py-2 border-b border-gray-100 last:border-b-0">
+                                        <div>
+                                            <span class="font-medium text-gray-900">PIPA (South Korea)</span>
+                                            <span class="text-sm text-gray-600 ml-2">Personal Information Protection Act</span>
+                                        </div>
+                                        <a href="https://www.pipc.go.kr" target="_blank" class="text-amber-600 hover:text-amber-700 text-sm font-medium flex items-center">
+                                            More information
+                                            <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+                                            </svg>
+                                        </a>
+                                    </div>
+                                    <div class="flex items-center justify-between py-2 border-b border-gray-100 last:border-b-0">
+                                        <div>
+                                            <span class="font-medium text-gray-900">152-Federal Law (Russia)</span>
+                                            <span class="text-sm text-gray-600 ml-2">Law on personal data</span>
+                                        </div>
+                                        <a href="https://pd.rkn.gov.ru" target="_blank" class="text-amber-600 hover:text-amber-700 text-sm font-medium flex items-center">
+                                            More information
+                                            <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+                                            </svg>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mt-6 bg-amber-50/80 rounded-lg p-4 border border-amber-200/50">
+                            <p class="text-sm text-gray-700">
+                                <strong>Note:</strong> We strive to comply with the strictest data protection standards, regardless of the geographical location of our users. If necessary, we can add support for additional regional laws.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
                 <!-- Updates -->
                 <div class="relative">
                     <div class="absolute inset-0 bg-gradient-to-r from-amber-600/5 to-orange-600/5 rounded-2xl"></div>
