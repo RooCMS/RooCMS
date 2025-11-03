@@ -11,7 +11,7 @@ ob_start();
 ?>
 <div class="py-10">
 	<div class="grid grid-cols-1 gap-8 lg:grid-cols-[260px_1fr]">
-		<?php require __DIR__ . '/../../layouts/acp-nav.php'; ?>
+		<?php require __DIR__ . '/../../partials/acp-nav.php'; ?>
 
 		<section>
 			<header class="mb-8">

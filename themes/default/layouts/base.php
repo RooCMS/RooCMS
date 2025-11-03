@@ -111,7 +111,7 @@ $theme_base = '/themes/'.$theme_name;
         </div>
     </div>
 
-    <?php require __DIR__ . '/../layouts/cookie-conset.php'; ?>
+    <?php require __DIR__ . '/../partials/cookie-conset.php'; ?>
 
 </body>
 </html>
