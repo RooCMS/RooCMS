@@ -87,7 +87,7 @@ class User {
     private function get_user_by(string $field, int|string $value, bool $with_password = false, bool $detailed = false): ?array {
         try {
             $password_column = $with_password ? ', u.password' : '';
-            $detailed_condition = $detailed ? '' : 'AND u.is_deleted = 0 AND p.is_public = 1'; // TODO: This is need to be modified
+            $detailed_condition = $detailed ? '' : 'AND u.is_deleted = 0 AND p.is_public = 1 AND u.is_active = 1'; // TODO: This is need to be modified
             $detailed_columns = $detailed ? ', u.login, u.email,u.is_verified, u.created_at, u.updated_at, u.is_deleted, u.deleted_at' : '';
             
             $query = "SELECT 

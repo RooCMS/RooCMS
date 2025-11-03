@@ -233,7 +233,6 @@ class TemplateRendererHtml implements TemplateRenderer {
 			'title' => $meta['title'],
 			'description' => $meta['description'],
 			'theme_base' => $theme_web,
-			'csp_nonce' => CSPNONCE,
 			'content' => '', // will be set later
 			'header' => '',
 			'footer' => '',
