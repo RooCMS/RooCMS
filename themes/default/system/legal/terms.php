@@ -1,9 +1,9 @@
 <?php declare(strict_types=1);
 if(!defined('RooCMS')) {roocms_protect();}
 
-$page_title = 'Terms of Use - RooCMS Content Management System';
-$page_description = 'Official terms of use for RooCMS - free, open-source content management system. Learn about licensing, usage guidelines, technical support, and data privacy policies.';
-$page_keywords = 'RooCMS, terms of use, license, GPL, content management system, free software, open source, technical support, privacy policy';
+$page_title = 'Terms of Use';
+$page_description = 'Official terms of use.';
+$page_keywords = 'terms of use, license, GPL, technical support, privacy policy';
 
 $theme_name = basename(dirname(__DIR__));
 $theme_base = '/themes/'.$theme_name;
@@ -23,7 +23,7 @@ ob_start();
                     Terms of Use
                 </h1>
                 <p class="mt-3 text-lg text-gray-600 max-w-2xl mx-auto">
-                    Rules and conditions for using the RooCMS content management system
+                    Rules and conditions for using this project
                 </p>
                 <div class="mt-4 flex justify-center">
                     <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-gradient-to-r from-blue-100 to-indigo-100 text-blue-800 border border-blue-200">
@@ -58,9 +58,9 @@ ob_start();
 
                         <div class="bg-white/80 backdrop-blur-sm p-5 rounded-xl border border-gray-200/50 shadow-sm">
                             <div class="text-gray-700 space-y-4">
-                <p>The present conditions of use (hereinafter — "Conditions") regulate the use of your content management system RooCMS (hereinafter — "System").</p>
-                <p>By using RooCMS, you agree to the present Conditions. If you do not agree with the Conditions, please do not use the System.</p>
-            </div>
+                            <p>The present conditions of use (hereinafter — "Conditions") regulate the use this project (hereinafter — "Project").</p>
+                            <p>By using this project, you agree to the present Conditions. If you do not agree with the Conditions, please do not use the Project.</p>
+                        </div>
                         </div>
                     </div>
                 </div>
