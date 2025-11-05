@@ -64,9 +64,10 @@ $theme_base = '/themes/'.$theme_name;
 
     <!-- Rejection Overlay -->
     <div
+        x-show="isRejected"
+        class="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4 transition-opacity duration-300 ease-out hidden"
         :class="{ 'opacity-100 visible pointer-events-auto': isRejected, 'opacity-0 invisible pointer-events-none': !isRejected }"
         :aria-hidden="!isRejected"
-        class="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4 transition-opacity duration-300 ease-out"
     >
         <div class="bg-white rounded-2xl shadow-2xl max-w-md w-full p-6 text-center">
             <div class="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
@@ -110,6 +111,7 @@ document.addEventListener('alpine:init', () => {
             this.checkConsentStatus();
             // Remove hidden class after checking status
             this.$el.querySelector('[x-show="!isConsentGiven && !isRejected"]').classList.remove('hidden');
+            this.$el.querySelector('[x-show="isRejected"]').classList.remove('hidden');
         },
         
         checkConsentStatus() {
