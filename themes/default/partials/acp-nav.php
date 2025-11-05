@@ -50,8 +50,8 @@ $nav_menu = [
         ['key' => 'logs', 'title' => 'Logs', 'url' => '/!/acp/logs'],
         ['key' => 'ui-kit', 'title' => 'UI Kit', 'url' => '/!/acp/ui-kit']
     ],
-    'license' => [
-        ['key' => 'terms', 'title' => 'Terms', 'url' => '/!/acp/terms'],
+    'legal' => [
+        ['key' => 'terms', 'title' => 'Terms of Use', 'url' => '/!/acp/terms'],
         ['key' => 'license', 'title' => 'License', 'url' => '/!/acp/license']
     ]
 ];

@@ -1,7 +1,7 @@
 <?php declare(strict_types=1);
 if(!defined('RooCMS')) {roocms_protect();}
 
-$page_title = 'Terms — Admin Control Panel — RooCMS';
+$page_title = 'Terms of Use RooCMS';
 $page_description = 'Terms for RooCMS';
 
 $theme_name = basename(dirname(__DIR__, 2));
