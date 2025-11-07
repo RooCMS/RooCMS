@@ -1,6 +1,6 @@
 # RooCMS project structure
 
-This document describes the organization of files and directories in the RooCMS project.
+This document describes the organization of files and directories in the RooCMS project. The project follows a modular architecture with clear separation of concerns and enterprise-level features.
 
 ## 🏠 Root directory
 
@@ -184,17 +184,26 @@ roocms/services/
 
 ```
 roocms/
-├── 📄 backend.php             # Backend initialization file (API and Admin panel entry point)
-├── 📄 bootstrap.php           # System bootstrap file (Initializes configuration, helpers, autoloader, database, and DI container)
-└── 📄 frontend.php            # Frontend initialization file (Public pages entry point)
+├── 📄 backend.php             # Backend initialization file (API and Admin panel entry point, init: all core services)
+├── 📄 bootstrap.php           # System bootstrap file (Initializes configuration, helpers, autoloader, and DI container)
+└── 📄 frontend.php            # Frontend initialization file (Public pages entry point, init: template system)
 ```
 
-Bootstrap file registers core services and template system:
+**Bootstrap file** (`bootstrap.php`) initializes:
+- Configuration files (site, paths, settings, CSP, constants)
+- Helper functions (functions, sanitize, output)
+- Class autoloader with allowed classes registry
+- Debug helper
+- Dependency Container instance
+
+**Backend file** (`backend.php`) registers core services for API and Admin panel:
 
 ```php
-// Register core services
-$container->register(DbConnect::class, static fn() => new DbConnect(), true);
-$container->register(Db::class, static fn(DependencyContainer $c) => new Db($c->get(DbConnect::class)), true);
+// Register database connection
+$container->register(DbConnect::class, fn() => new DbConnect(), true);
+$container->register(Db::class, function(DependencyContainer $c) {
+    return new Db($c->get(DbConnect::class));
+}, true);
 
 try {
     $db = $container->get(Db::class);
@@ -206,15 +215,20 @@ try {
     exit('Database initialization error.');
 }
 
+// Register debugger
 if($debug instanceof Debugger) {
     $container->register(Debugger::class, static fn() => $debug, true);
 }
 
+// Register request handler
 $container->register(Request::class, Request::class, true);
+
+// Register site settings
 $container->register(SiteSettings::class, static fn() => new SiteSettings($db), true);
 $container->register(SiteSettingsService::class, SiteSettingsService::class, true);
 $container->register(SiteSettingsManageService::class, SiteSettingsManageService::class, true);
 
+// Register core services
 $container->register(Auth::class, Auth::class, true);
 $container->register(User::class, User::class, true);
 $container->register(Role::class, Role::class, true);
@@ -236,7 +250,13 @@ $container->register(EmailService::class, EmailService::class, true);
 $container->register(AuthenticationService::class, AuthenticationService::class, true);
 $container->register(StructureService::class, StructureService::class, true);
 $container->register(StructureManageService::class, StructureManageService::class, true);
+$container->register(DebugService::class, DebugService::class, true);
+```
 
+**Frontend file** (`frontend.php`) registers template system for public pages:
+
+```php
+// Register template renderers and themes
 $container->register(TemplateRendererPhp::class, TemplateRendererPhp::class, true);
 $container->register(TemplateRendererHtml::class, TemplateRendererHtml::class, true);
 $container->register(Themes::class, static fn(DependencyContainer $c) => new Themes(
@@ -328,7 +348,6 @@ themes/
 │   │           ├── 📄 user.js             # User page
 │   │           └── 📄 verify-email.js     # Email verification page
 │   ├── 📁 layouts/                        # Layouts templates
-│   │   ├── 📄 acp-nav.php                 # ACP navigation layout
 │   │   └── 📄 base.php                    # Base layout
 │   ├── 📁 pages/                          # Public pages templates
 │   │   ├── 📄 403.php                     # 403 access denied page
@@ -337,16 +356,21 @@ themes/
 │   │   ├── 📄 offline.php                 # Offline page (for service worker)
 │   │   └── 📄 ui-kit.php                  # UI kit demo page
 │   ├── 📁 partials/                       # Partial templates
+│   │   ├── 📄 acp-nav.php                 # ACP navigation
+│   │   ├── 📄 cookie.php                  # Cookie consent
 │   │   ├── 📄 footer.php                  # Footer
 │   │   └── 📄 header.php                  # Header
 │   ├── 📁 system/                         # System pages templates
 │   │   ├── 📁 acp/                        # Admin control panel pages
 │   │   │   ├── 📄 debug.php               # ACP debug page
 │   │   │   ├── 📄 index.php               # ACP dashboard
+│   │   │   ├── 📄 license.php             # ACP license page
 │   │   │   ├── 📄 settings.php            # ACP settings
+│   │   │   ├── 📄 terms.php               # ACP terms of service page
 │   │   │   ├── 📄 ui-kit.php              # ACP UI kit
 │   │   │   └── 📄 users.php               # ACP users page
 │   │   ├── 📁 legal/                      # Legal pages
+│   │   │   ├── 📄 cookie.php              # Cookie policy page
 │   │   │   ├── 📄 privacy.php             # Privacy policy page
 │   │   │   └── 📄 terms.php               # Terms of service page
 │   │   ├── 📄 login.php                   # Login page
@@ -384,11 +408,14 @@ HTML engine supports:
 - **MVC pattern**: Own implementation of Model-View-Controller
 - **Dependency Injection**: Custom DI container for managing dependencies
 - **SOLID principles**: Clean architecture with dependency inversion
-- **API-first**: RESTful API interface
-- **Theme system**: Modular theme system
+- **API-first**: RESTful API interface with secure endpoints
+- **Theme system**: Modular theme system with PHP and HTML engines
 - **Dynamic Settings**: Meta-driven settings system with type validation
 - **Alpine.js frontend**: Reactive UI components for modern interactivity
-- **Performance optimized**: Direct SQL queries instead of query builder for maximum efficiency
+- **TailwindCSS**: Utility-first CSS framework for rapid UI development
+- **Performance optimized**: Direct SQL queries for maximum efficiency
+- **Security focused**: Multiple layers of protection for sensitive operations
+- **Enterprise features**: Complete backup system, file management, etc.
 
 ### 💾 Database Backup System
 
@@ -683,4 +710,4 @@ AdminSettingsController
 - **Reactive components**: Dynamic UI with conditional rendering and state management
 - **Type-safe forms**: Automatic form generation based on backend metadata
 
-This project is a modern CMS system built on the principles of pure PHP with a focus on performance, security and ease of maintenance.
+This project is a modern CMS system built on the principles of pure PHP with a focus on performance, security, and enterprise-level features. It provides a complete solution for content management with advanced capabilities like backup system, file management, dependency injection, and secure API endpoints.
