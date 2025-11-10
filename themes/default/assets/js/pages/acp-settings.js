@@ -7,6 +7,22 @@ import { request, handleApiError } from '../app/api.js';
 import { modal } from '../app/main.js';
 import { DEBUG } from '../app/config.js';
 
+// Constants
+const INPUT_TYPE_MAPPING = {
+    'boolean': 'checkbox',
+    'integer': 'number',
+    'number': 'number',
+    'string': 'text',
+    'color': 'color',
+    'text': 'textarea',
+    'html': 'text',
+    'date': 'date',
+    'email': 'email',
+    'select': 'select',
+    'image': 'file',
+    'file': 'file'
+};
+
 // Alpine.js Settings Manager Component
 document.addEventListener('alpine:init', () => {
     window.Alpine.data('settingsManager', () => ({
@@ -31,13 +47,12 @@ document.addEventListener('alpine:init', () => {
             this.clearMessages();
 
             try {
-                const data = await this.apiRequest('/v1/acp/settings/meta');
+                const response = await this.apiRequest('/v1/acp/settings/meta');
                 
-                // API now returns { settings: {...}, meta: {...} }
-                this.settings = data.data?.settings || data.settings || {};
-                this.meta = data.data?.meta || data.meta || {};
-                
-                this.settings = this.processSettingsData(this.settings);
+                // Extract settings and meta from response (handle both direct and nested data)
+                const data = response.data || response;
+                this.settings = this.processSettingsData(data.settings || {});
+                this.meta = data.meta || {};
 
                 if (DEBUG) window.log('log', 'Settings and metadata loaded successfully:', { settings: this.settings, meta: this.meta });
             } catch (error) {
@@ -58,35 +73,22 @@ document.addEventListener('alpine:init', () => {
 
             try {
                 const formData = this.collectFormData();
-                const response = await request('/v1/acp/settings', {
+                await this.apiRequest('/v1/acp/settings', {
                     method: 'PATCH',
                     body: JSON.stringify(formData)
                 });
 
-                if (!response.ok) {
-                    // Handle authentication and authorization errors
-                    if (!handleApiError(response, (message, type) => this.showMessage(message, type))) {
-                        return;
-                    }
-
-                    // Handle validation errors
-                    if (response.status === 422) {
-                        const errorData = await response.json();
-                        if (errorData.details?.validation_errors) {
-                            this.showValidationErrors(errorData.details.validation_errors);
-                            return;
-                        }
-                    }
-
-                    throw new Error(`Failed to save settings: ${response.status}`);
-                }
-
-                await response.json();
                 this.showMessage('Settings saved successfully');
                 await this.loadSettings();
             } catch (error) {
                 if (DEBUG) window.log('error', 'Error saving settings:', error);
-                this.showMessage(error.message || 'Error saving settings', 'error');
+                
+                // Check if it's a validation error
+                if (error.validationErrors) {
+                    this.showValidationErrors(error.validationErrors);
+                } else {
+                    this.showMessage(error.message || 'Error saving settings', 'error');
+                }
             } finally {
                 this.loading = false;
             }
@@ -124,8 +126,21 @@ document.addEventListener('alpine:init', () => {
                     throw new Error('Authentication failed');
                 }
 
+                // Handle validation errors (422)
+                if (response.status === 422) {
+                    const errorData = await response.json();
+                    if (errorData.details?.validation_errors) {
+                        const error = new Error('Validation failed');
+                        error.validationErrors = errorData.details.validation_errors;
+                        error.status = response.status;
+                        throw error;
+                    }
+                }
+
                 const errorData = await response.json();
-                throw new Error(errorData.message || `Request failed: ${response.status}`);
+                const error = new Error(errorData.message || `Request failed: ${response.status}`);
+                error.status = response.status;
+                throw error;
             }
 
             return await response.json();
@@ -197,24 +212,7 @@ document.addEventListener('alpine:init', () => {
 
         getInputType(key) {
             const fieldType = this.getFieldType(key);
-            
-            // Map field types to HTML input types
-            const typeMapping = {
-                'boolean': 'checkbox',
-                'integer': 'number',
-                'number': 'number',
-                'string': 'text',
-                'color': 'color',
-                'text': 'textarea',
-                'html': 'text',
-                'date': 'date',
-                'email': 'email',
-                'select': 'select',
-                'image': 'file',
-                'file': 'file'
-            };
-            
-            return typeMapping[fieldType] || 'text';
+            return INPUT_TYPE_MAPPING[fieldType] || 'text';
         },
 
         getFieldMeta(key, prop) {
@@ -228,12 +226,12 @@ document.addEventListener('alpine:init', () => {
         collectFormData() {
             const data = {};
 
-            // Flatten settings object to key-value pairs with proper type conversion
+            // Flatten settings object to key-value pairs (already converted)
             Object.values(this.settings).forEach((groupSettings) => {
                 if (!groupSettings || typeof groupSettings !== 'object') return;
 
                 Object.entries(groupSettings).forEach(([key, value]) => {
-                    data[key] = this.convertValueByType(key, value);
+                    data[key] = value;
                 });
             });
 
@@ -292,25 +290,19 @@ document.addEventListener('alpine:init', () => {
 
             // Find the field container
             const fieldContainer = fieldElement.closest('.field-container');
-            if (fieldContainer) {
-                // Remove any existing error messages for this field
-                const existingError = fieldContainer.querySelector('.field-error-message');
-                if (existingError) {
-                    existingError.remove();
-                }
+            if (!fieldContainer) return;
 
-                // Create new error message element
-                const errorElement = document.createElement('p');
-                errorElement.className = 'field-error-message mt-1 text-xs text-red-600';
-                errorElement.textContent = errorMessage;
+            // Create new error message element
+            const errorElement = document.createElement('p');
+            errorElement.className = 'field-error-message mt-1 text-xs text-red-600';
+            errorElement.textContent = errorMessage;
 
-                // Insert error message after the field or after existing description
-                const fieldDiv = fieldElement.closest('div');
-                if (fieldDiv && fieldDiv.parentNode === fieldContainer) {
-                    fieldDiv.insertAdjacentElement('afterend', errorElement);
-                } else {
-                    fieldContainer.appendChild(errorElement);
-                }
+            // Insert error message after the field or after existing description
+            const fieldDiv = fieldElement.closest('div');
+            if (fieldDiv && fieldDiv.parentNode === fieldContainer) {
+                fieldDiv.insertAdjacentElement('afterend', errorElement);
+            } else {
+                fieldContainer.appendChild(errorElement);
             }
         },
 
@@ -318,27 +310,23 @@ document.addEventListener('alpine:init', () => {
             if (type === 'success') {
                 this.successMessage = message;
                 this.errorMessage = '';
-                // Use global helper for backward compatibility
-                if (window.FormHelperUtils?.showSuccessMessage) {
-                    window.FormHelperUtils.showSuccessMessage(message, '.form-success');
-                }
             } else {
                 this.errorMessage = message;
                 this.successMessage = '';
-                // Use global helper for backward compatibility
-                if (window.FormHelperUtils?.showErrorMessage) {
-                    window.FormHelperUtils.showErrorMessage(message, '.form-error');
-                }
+            }
+            
+            // Use global helper for backward compatibility if available
+            if (window.FormHelperUtils) {
+                const method = type === 'success' ? 'showSuccessMessage' : 'showErrorMessage';
+                const selector = type === 'success' ? '.form-success' : '.form-error';
+                window.FormHelperUtils[method]?.(message, selector);
             }
         },
 
         clearMessages() {
             this.successMessage = '';
             this.errorMessage = '';
-            // Use global helper
-            if (window.FormHelperUtils?.clearFormMessages) {
-                window.FormHelperUtils.clearFormMessages('.form-success', '.form-error');
-            }
+            window.FormHelperUtils?.clearFormMessages?.('.form-success', '.form-error');
         }
     }));
 });

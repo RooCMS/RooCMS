@@ -9,6 +9,16 @@ import { formatDateTime, formatRelativeTime, getUserInitials } from '../app/help
 import { isValidEmail } from '../app/helpers/validation.js';
 import { showFieldError, clearFieldErrors } from '../app/helpers/formHelpers.js';
 
+// Constants
+const ROLE_BADGE_CLASSES = {
+    'u': 'bg-zinc-100 text-zinc-700',
+    'm': 'bg-sky-100 text-sky-700',
+    'a': 'bg-amber-100 text-amber-700',
+    'su': 'bg-rose-100 text-rose-700'
+};
+
+const MESSAGE_AUTO_HIDE_DELAY = 5000;
+
 // Alpine.js Users Manager Component
 document.addEventListener('alpine:init', () => {
     window.Alpine.data('usersManager', () => ({
@@ -68,6 +78,30 @@ document.addEventListener('alpine:init', () => {
             });
         },
 
+        // Unified API request handler
+        async apiRequest(url, options = {}) {
+            const response = await request(url, options);
+
+            if (!response.ok) {
+                // Handle authentication and authorization errors
+                if (!handleApiError(response, (message, type) => this.showMessage(message, type))) {
+                    return null;
+                }
+
+                let errorMessage = `Request failed: ${response.status}`;
+                try {
+                    const errorData = await response.json();
+                    errorMessage = errorData.message || errorMessage;
+                } catch (e) {
+                    // Ignore JSON parse errors
+                }
+                throw new Error(errorMessage);
+            }
+
+            const responseData = await response.json();
+            return responseData.data || responseData;
+        },
+
         // Load users from API
         async loadUsers(page = 1) {
             if (this.loading) return;
@@ -108,34 +142,8 @@ document.addEventListener('alpine:init', () => {
 
                 if (DEBUG) window.log('log', 'Loading users with params:', params.toString());
 
-                const response = await request(`/v1/users?${params.toString()}`);
-
-                if (DEBUG) window.log('log', 'API Response status:', response.status);
-
-                if (!response.ok) {
-                    // Handle authentication and authorization errors
-                    if (!handleApiError(response, (message, type) => this.showMessage(message, type))) {
-                        return;
-                    }
-
-                    let errorMessage = `Failed to load users: ${response.status}`;
-                    try {
-                        const errorData = await response.json();
-                        errorMessage = errorData.message || errorMessage;
-                    } catch (e) {
-                        // Ignore JSON parse errors
-                    }
-                    throw new Error(errorMessage);
-                }
-
-                const responseData = await response.json();
-
-                if (DEBUG) window.log('log', 'Raw API response:', responseData);
-
-                // API returns data wrapped in 'data' property
-                const data = responseData.data || responseData;
-
-                if (DEBUG) window.log('log', 'Extracted data:', data);
+                const data = await this.apiRequest(`/v1/users?${params.toString()}`);
+                if (!data) return;
 
                 this.users = data.items || [];
                 this.pagination = {
@@ -145,15 +153,7 @@ document.addEventListener('alpine:init', () => {
                     per_page: data.meta?.per_page || 20
                 };
 
-                if (DEBUG) {
-                    window.log('log', 'Users loaded successfully:', this.users.length, 'users');
-                    window.log('log', 'Pagination:', this.pagination);
-                    window.log('log', 'Pagination buttons should be:', {
-                        prevDisabled: this.pagination.current <= 1,
-                        nextDisabled: this.pagination.current >= this.pagination.last
-                    });
-                    window.log('log', 'First user sample:', this.users[0]);
-                }
+                if (DEBUG) window.log('log', 'Users loaded:', this.users.length);
             } catch (error) {
                 if (DEBUG) window.log('error', 'Error loading users:', error);
                 this.showMessage('Error loading users: ' + error.message, 'error');
@@ -245,13 +245,7 @@ document.addEventListener('alpine:init', () => {
         },
 
         getRoleBadgeClass(role) {
-            const roleClasses = {
-                'u': 'bg-zinc-100 text-zinc-700',
-                'm': 'bg-sky-100 text-sky-700',
-                'a': 'bg-amber-100 text-amber-700',
-                'su': 'bg-rose-100 text-rose-700'
-            };
-            return roleClasses[role] || 'bg-zinc-100 text-zinc-700';
+            return ROLE_BADGE_CLASSES[role] || ROLE_BADGE_CLASSES['u'];
         },
 
         formatLastActivity(timestamp) {
@@ -336,15 +330,7 @@ document.addEventListener('alpine:init', () => {
 
         async loadAvailableRoles() {
             try {
-                const response = await request('/v1/acp/users/roles');
-
-                if (!response.ok) {
-                    throw new Error('Failed to load roles');
-                }
-
-                const responseData = await response.json();
-                this.availableRoles = responseData.data || responseData || [];
-
+                this.availableRoles = await this.apiRequest('/v1/acp/users/roles');
                 if (DEBUG) window.log('log', 'Available roles loaded:', this.availableRoles);
             } catch (error) {
                 if (DEBUG) window.log('error', 'Error loading roles:', error);
@@ -353,25 +339,16 @@ document.addEventListener('alpine:init', () => {
 
         async loadUserDetails(userId) {
             try {
-                const response = await request(`/v1/acp/users/${userId}`);
-
-                if (!response.ok) {
-                    if (response.status === 404) {
-                        this.editingUser = {};
-                        return;
-                    }
-                    throw new Error(`Failed to load user: ${response.status}`);
-                }
-
-                const responseData = await response.json();
-                this.editingUser = responseData.data || responseData || {};
-
+                this.editingUser = await this.apiRequest(`/v1/acp/users/${userId}`);
                 if (DEBUG) window.log('log', 'Editing user loaded:', this.editingUser);
-
                 this.populateEditForm();
             } catch (error) {
                 if (DEBUG) window.log('error', 'Error loading user details:', error);
-                throw error;
+                if (error.message.includes('404') || error.message.includes('not found')) {
+                    this.editingUser = {};
+                } else {
+                    throw error;
+                }
             }
         },
 
@@ -476,15 +453,10 @@ document.addEventListener('alpine:init', () => {
 
             try {
                 const updateData = this.prepareUserUpdateData();
-                const response = await request(`/v1/acp/users/${this.editingUserId}`, {
+                await this.apiRequest(`/v1/acp/users/${this.editingUserId}`, {
                     method: 'PUT',
                     body: JSON.stringify(updateData)
                 });
-
-                if (!response.ok) {
-                    const errorData = await response.json();
-                    throw new Error(errorData.message || 'Failed to update user');
-                }
 
                 await this.loadUserDetails(this.editingUserId);
                 this.updateUserInList(this.editingUserId, {
@@ -530,15 +502,10 @@ document.addEventListener('alpine:init', () => {
             this.clearEditMessages();
 
             try {
-                const response = await request(`/v1/acp/users/${this.editingUserId}/password`, {
+                await this.apiRequest(`/v1/acp/users/${this.editingUserId}/password`, {
                     method: 'PUT',
                     body: JSON.stringify({ password: this.editPasswordForm.new_password })
                 });
-
-                if (!response.ok) {
-                    const errorData = await response.json();
-                    throw new Error(errorData.message || 'Failed to change password');
-                }
 
                 this.resetEditPasswordForm();
                 this.showEditMessage('Password changed successfully', 'success');
@@ -565,14 +532,9 @@ document.addEventListener('alpine:init', () => {
             this.clearEditMessages();
 
             try {
-                const response = await request(`/v1/acp/users/${this.editingUserId}`, {
+                await this.apiRequest(`/v1/acp/users/${this.editingUserId}`, {
                     method: 'DELETE'
                 });
-
-                if (!response.ok) {
-                    const errorData = await response.json();
-                    throw new Error(errorData.message || 'Failed to delete user');
-                }
 
                 this.users = this.users.filter(u => u.id !== this.editingUserId);
                 this.showMessage('User deleted successfully', 'success');
@@ -600,14 +562,9 @@ document.addEventListener('alpine:init', () => {
             this.clearEditMessages();
 
             try {
-                const response = await request(`/v1/acp/users/${this.editingUserId}/avatar`, {
+                await this.apiRequest(`/v1/acp/users/${this.editingUserId}/avatar`, {
                     method: 'DELETE'
                 });
-
-                if (!response.ok) {
-                    const errorData = await response.json();
-                    throw new Error(errorData.message || 'Failed to delete avatar');
-                }
 
                 // Update the editing user data
                 if (this.editingUser) {
@@ -651,14 +608,14 @@ document.addEventListener('alpine:init', () => {
                     if (this.editSuccessMessage === message) {
                         this.editSuccessMessage = '';
                     }
-                }, 5000);
+                }, MESSAGE_AUTO_HIDE_DELAY);
             } else {
                 this.editErrorMessage = message;
                 setTimeout(() => {
                     if (this.editErrorMessage === message) {
                         this.editErrorMessage = '';
                     }
-                }, 5000);
+                }, MESSAGE_AUTO_HIDE_DELAY);
             }
         },
 
@@ -688,14 +645,10 @@ document.addEventListener('alpine:init', () => {
                     requestBody.until = banData.expires;
                 }
 
-                const response = await request(`/v1/moderate/ban/${user.id}`, {
+                await this.apiRequest(`/v1/moderate/ban/${user.id}`, {
                     method: 'POST',
                     body: JSON.stringify(requestBody)
                 });
-
-                if (!response.ok) {
-                    throw new Error(`Failed to ban user: ${response.status}`);
-                }
 
                 // Update only this user in the list
                 this.updateUserInList(user.id, {
@@ -752,11 +705,7 @@ document.addEventListener('alpine:init', () => {
             }
 
             try {
-                const response = await request(`/v1/moderate/unban/${user.id}`);
-
-                if (!response.ok) {
-                    throw new Error(`Failed to unban user: ${response.status}`);
-                }
+                await this.apiRequest(`/v1/moderate/unban/${user.id}`);
 
                 // Update only this user in the list
                 this.updateUserInList(user.id, {
@@ -777,10 +726,10 @@ document.addEventListener('alpine:init', () => {
             this.clearMessages();
             if (type === 'success') {
                 this.successMessage = message;
-                setTimeout(() => this.successMessage = '', 5000);
+                setTimeout(() => this.successMessage = '', MESSAGE_AUTO_HIDE_DELAY);
             } else {
                 this.errorMessage = message;
-                setTimeout(() => this.errorMessage = '', 5000);
+                setTimeout(() => this.errorMessage = '', MESSAGE_AUTO_HIDE_DELAY);
             }
         },
 

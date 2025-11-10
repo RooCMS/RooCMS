@@ -64,7 +64,7 @@ class UserManageService {
      */
     public function update_user_full(int $user_id, array $data): bool {
         // Check if user exists
-        $existing_user = $this->user->get_user_by_id($user_id);
+        $existing_user = $this->user->get_user_by_id($user_id, true);
         if(!$existing_user) {
             throw new DomainException('User not found', 404);
         }
