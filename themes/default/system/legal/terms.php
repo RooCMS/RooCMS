@@ -3,7 +3,7 @@ if(!defined('RooCMS')) {roocms_protect();}
 
 $page_title = 'Terms of Use';
 $page_description = 'Official terms of use.';
-$page_keywords = 'terms of use, license, GPL, technical support, privacy policy';
+$page_keywords = 'terms of use, license, user agreement, technical support, privacy policy';
 
 $theme_name = basename(dirname(__DIR__));
 $theme_base = '/themes/'.$theme_name;
@@ -58,7 +58,7 @@ ob_start();
 
                         <div class="bg-white/80 backdrop-blur-sm p-5 rounded-xl border border-gray-200/50 shadow-sm">
                             <div class="text-gray-700 space-y-4">
-                            <p>The present conditions of use (hereinafter — "Conditions") regulate the use this project (hereinafter — "Project").</p>
+                            <p>The present conditions of use (hereinafter — "Conditions") regulate the use this project - <span x-text="$store.siteSettings.site_name"></span> (hereinafter — "Project").</p>
                             <p>By using this project, you agree to the present Conditions. If you do not agree with the Conditions, please do not use the Project.</p>
                         </div>
                         </div>
@@ -79,43 +79,56 @@ ob_start();
                                 2. License & Rights
                             </h3>
                             <div class="px-3 py-1 bg-gradient-to-r from-green-100 to-emerald-100 text-green-800 rounded-full text-sm font-medium border border-green-200">
-                                GPLv3
+                                License
                             </div>
                         </div>
 
                         <div class="bg-white/80 backdrop-blur-sm p-5 rounded-xl border border-gray-200/50 shadow-sm space-y-4">
-                            <p>RooCMS is distributed under the <a href="https://www.gnu.org/licenses/gpl-3.0.html" class="text-blue-600 hover:text-blue-800 underline font-medium" target="_blank" rel="noopener noreferrer">GNU General Public License version 3 (GPLv3)</a> - a free software license that guarantees end users the freedom to run, study, share and modify the software.</p>
+                            <p class="text-gray-700">By accessing and using this Project, you are granted a limited, non-exclusive, non-transferable license to use the services and content provided, subject to these Terms of Use.</p>
 
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                                 <div class="space-y-3">
-                                    <h4 class="font-semibold text-gray-900 text-lg">Your Rights:</h4>
+                                    <h4 class="font-semibold text-gray-900 text-lg">Granted Rights:</h4>
                                     <ul class="space-y-2">
                                         <li class="flex items-start">
                                             <div class="w-2 h-2 bg-green-400 rounded-full mt-2 mr-3 flex-shrink-0"></div>
-                                            <span><strong>Use:</strong> Run the system for any purpose without restrictions</span>
+                                            <span><strong>Access:</strong> Use the platform and its features for personal or business purposes</span>
                                         </li>
                                         <li class="flex items-start">
                                             <div class="w-2 h-2 bg-green-400 rounded-full mt-2 mr-3 flex-shrink-0"></div>
-                                            <span><strong>Study:</strong> Access and examine the source code to understand how it works</span>
+                                            <span><strong>Content creation:</strong> Create, publish, and manage your own content within the platform</span>
                                         </li>
                                         <li class="flex items-start">
                                             <div class="w-2 h-2 bg-green-400 rounded-full mt-2 mr-3 flex-shrink-0"></div>
-                                            <span><strong>Share:</strong> Distribute copies of the software to others</span>
+                                            <span><strong>Service usage:</strong> Utilize available tools and functionalities as intended</span>
                                         </li>
                                     </ul>
                                 </div>
                                 <div class="space-y-3">
-                                    <h4 class="font-semibold text-gray-900 text-lg">Your Responsibilities:</h4>
+                                    <h4 class="font-semibold text-gray-900 text-lg">Restrictions:</h4>
                                     <ul class="space-y-2">
                                         <li class="flex items-start">
                                             <div class="w-2 h-2 bg-emerald-400 rounded-full mt-2 mr-3 flex-shrink-0"></div>
-                                            <span><strong>Modify:</strong> Adapt and improve the system to meet your needs</span>
+                                            <span><strong>No redistribution:</strong> You may not copy, distribute, or resell the platform or its services</span>
                                         </li>
                                         <li class="flex items-start">
                                             <div class="w-2 h-2 bg-emerald-400 rounded-full mt-2 mr-3 flex-shrink-0"></div>
-                                            <span><strong>Distribute modifications:</strong> Share your modified versions under the same license</span>
+                                            <span><strong>No reverse engineering:</strong> Attempting to extract source code or underlying technology is prohibited</span>
                                         </li>
-                </ul>
+                                        <li class="flex items-start">
+                                            <div class="w-2 h-2 bg-emerald-400 rounded-full mt-2 mr-3 flex-shrink-0"></div>
+                                            <span><strong>Respect ownership:</strong> All intellectual property rights remain with the platform owner</span>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="bg-blue-50 border-l-4 border-blue-400 p-4 rounded-lg">
+                                <div class="flex items-start">
+                                    <div class="w-2 h-2 bg-blue-400 rounded-full mt-2 mr-3 flex-shrink-0"></div>
+                                    <div>
+                                        <strong>Content Ownership:</strong> You retain ownership of the content you create and publish on this platform. By using our services, you grant us a limited license to host, display, and distribute your content as necessary to provide the service.
+                                    </div>
                                 </div>
                             </div>
 
@@ -123,7 +136,7 @@ ob_start();
                                 <div class="flex items-start">
                                     <div class="w-2 h-2 bg-yellow-400 rounded-full mt-2 mr-3 flex-shrink-0"></div>
                                     <div>
-                    <strong>Important:</strong> If you distribute modified versions of RooCMS, you must make the source code available under the GPLv3 license and keep copyright notices intact.
+                                        <strong>License Termination:</strong> This license is effective until terminated. Your rights under this license will terminate automatically without notice if you fail to comply with any of these Terms of Use.
                                     </div>
                                 </div>
                             </div>
@@ -148,10 +161,10 @@ ob_start();
                             <div class="px-3 py-1 bg-gradient-to-r from-purple-100 to-pink-100 text-purple-800 rounded-full text-sm font-medium border border-purple-200">
                                 Rules
                             </div>
-            </div>
+                        </div>
 
                         <div class="bg-white/80 backdrop-blur-sm p-5 rounded-xl border border-gray-200/50 shadow-sm space-y-6">
-                            <p class="text-gray-700 font-medium">When using RooCMS you agree to:</p>
+                            <p class="text-gray-700 font-medium">When using this Project you agree to:</p>
 
                             <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
                                 <div class="space-y-4">
@@ -180,7 +193,7 @@ ob_start();
                                             <div class="w-2 h-2 bg-green-400 rounded-full mt-2 mr-3 flex-shrink-0"></div>
                                             <span><strong>System integrity:</strong> Not modify or interfere with the normal operation of the system</span>
                                         </li>
-                </ul>
+                                    </ul>
                                 </div>
 
                                 <div class="space-y-4">
@@ -209,7 +222,7 @@ ob_start();
                                             <div class="w-2 h-2 bg-red-400 rounded-full mt-2 mr-3 flex-shrink-0"></div>
                                             <span><strong>Commercial restrictions:</strong> Not use the system for commercial purposes without proper licensing</span>
                                         </li>
-                </ul>
+                                    </ul>
                                 </div>
                             </div>
 
@@ -244,14 +257,14 @@ ob_start();
                         </div>
 
                         <div class="bg-white/80 backdrop-blur-sm p-5 rounded-xl border border-gray-200/50 shadow-sm space-y-4">
-                            <p class="text-gray-700">Technical support for RooCMS is provided on a voluntary basis through official communication channels.</p>
+                            <p class="text-gray-700">Technical support is provided on a voluntary basis through official communication channels.</p>
                             <p class="text-gray-700">Developers are not responsible for direct or indirect losses associated with the use of the System.</p>
 
                             <div class="bg-blue-50 border-l-4 border-blue-400 p-4 rounded-lg">
                                 <div class="flex items-start">
                                     <div class="w-2 h-2 bg-blue-400 rounded-full mt-2 mr-3 flex-shrink-0"></div>
                                     <div>
-                                        <strong>Support Channels:</strong> Get help through our community forums, documentation, or GitHub issues. Our volunteer community is here to assist with questions and troubleshooting.
+                                        <strong>Support Channels:</strong> Get help through our community forums, documentation, or support system. Our volunteer community is here to assist with questions and troubleshooting.
                                     </div>
                                 </div>
                             </div>
@@ -275,11 +288,11 @@ ob_start();
                             <div class="px-3 py-1 bg-gradient-to-r from-cyan-100 to-teal-100 text-cyan-800 rounded-full text-sm font-medium border border-cyan-200">
                                 Updates
                             </div>
-            </div>
+                        </div>
 
                         <div class="bg-white/80 backdrop-blur-sm p-5 rounded-xl border border-gray-200/50 shadow-sm space-y-4">
                             <p class="text-gray-700">The present Conditions may be changed by the developers at any time without prior notice.</p>
-                            <p class="text-gray-700">Continuing to use RooCMS after changes means your agreement with the new conditions.</p>
+                            <p class="text-gray-700">Continuing to use this Project after changes means your agreement with the new conditions.</p>
 
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                                 <div class="space-y-3">
@@ -308,7 +321,7 @@ ob_start();
                                             <div class="w-2 h-2 bg-teal-400 rounded-full mt-2 mr-3 flex-shrink-0"></div>
                                             <span class="text-sm">Clearly mark the last updated date on this page</span>
                                         </li>
-                </ul>
+                                    </ul>
                                 </div>
                             </div>
 
@@ -316,7 +329,7 @@ ob_start();
                                 <div class="flex items-start">
                                     <div class="w-2 h-2 bg-blue-400 rounded-full mt-2 mr-3 flex-shrink-0"></div>
                                     <div>
-                    <strong>Recommendation:</strong> We recommend periodically reviewing these terms to stay informed about any changes. The "Last Updated" date at the bottom of this page indicates when the latest revision was made.
+                                        <strong>Recommendation:</strong> We recommend periodically reviewing these terms to stay informed about any changes. The "Last Updated" date at the bottom of this page indicates when the latest revision was made.
                                     </div>
                                 </div>
                             </div>
@@ -340,10 +353,10 @@ ob_start();
                             <div class="px-3 py-1 bg-gradient-to-r from-emerald-100 to-teal-100 text-emerald-800 rounded-full text-sm font-medium border border-emerald-200">
                                 Security
                             </div>
-            </div>
+                        </div>
 
                         <div class="bg-white/80 backdrop-blur-sm p-5 rounded-xl border border-gray-200/50 shadow-sm space-y-6">
-                            <p class="text-gray-700">RooCMS respects your privacy and is committed to protecting your personal information. Our approach to data privacy includes:</p>
+                            <p class="text-gray-700">We respect your privacy and are committed to protecting your personal information. Our approach to data privacy includes:</p>
 
                             <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
                                 <div class="space-y-4">
@@ -369,7 +382,7 @@ ob_start();
                                             <div class="w-2 h-2 bg-emerald-400 rounded-full mt-2 mr-3 flex-shrink-0"></div>
                                             <span class="text-sm"><strong>Error reports:</strong> Technical data when issues occur</span>
                                         </li>
-                </ul>
+                                    </ul>
                                 </div>
 
                                 <div class="space-y-4">
@@ -395,7 +408,7 @@ ob_start();
                                             <div class="w-2 h-2 bg-teal-400 rounded-full mt-2 mr-3 flex-shrink-0"></div>
                                             <span class="text-sm">Secure coding practices and regular security audits</span>
                                         </li>
-                </ul>
+                                    </ul>
                                 </div>
                             </div>
 
@@ -430,7 +443,7 @@ ob_start();
                         </div>
 
                         <div class="bg-white/80 backdrop-blur-sm p-5 rounded-xl border border-gray-200/50 shadow-sm space-y-4">
-                            <p class="text-gray-700">For questions related to the use of RooCMS, please contact:</p>
+                            <p class="text-gray-700">For questions related to the use of this Project, please contact:</p>
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                                 <a href="/" x-bind:href="'https://' + $store.siteSettings.site_domain" target="_blank" class="group flex items-center p-4 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-lg border border-blue-200 hover:shadow-md transition-all duration-300 hover:-translate-y-1">
                                     <div class="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-r from-blue-500 to-indigo-500 mr-3 group-hover:scale-110 transition-transform duration-300">

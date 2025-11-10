@@ -87,7 +87,7 @@ ob_start();
                             <div class="px-3 py-1 bg-gradient-to-r from-blue-100 to-indigo-100 text-blue-800 rounded-full text-sm font-medium border border-blue-200">
                                 Data Types
                             </div>
-    </div>
+                        </div>
 
                         <div class="bg-white/80 backdrop-blur-sm p-5 rounded-xl border border-gray-200/50 shadow-sm space-y-4">
                             <p class="text-gray-700">When using <span x-text="$store.siteSettings.site_name"></span> we can collect the following types of information:</p>
@@ -108,7 +108,7 @@ ob_start();
                                             <span class="text-sm"><strong>Profile:</strong> Personal information you choose to share</span>
                                         </li>
                                     </ul>
-            </div>
+                                </div>
 
                                 <div class="space-y-3">
                                     <h4 class="font-semibold text-gray-900 text-lg flex items-center">
@@ -124,8 +124,8 @@ ob_start();
                                             <div class="w-2 h-2 bg-indigo-400 rounded-full mt-2 mr-3 flex-shrink-0"></div>
                                             <span class="text-sm"><strong>Usage patterns:</strong> Pages visited, time spent, interactions</span>
                                         </li>
-                </ul>
-            </div>
+                                    </ul>
+                                </div>
                             </div>
 
                             <div class="bg-amber-50 border-l-4 border-amber-400 p-4 rounded-lg">
@@ -361,7 +361,7 @@ ob_start();
                             <div class="px-3 py-1 bg-gradient-to-r from-indigo-100 to-purple-100 text-indigo-800 rounded-full text-sm font-medium border border-indigo-200">
                                 Control
                             </div>
-            </div>
+                        </div>
 
                         <div class="bg-white/80 backdrop-blur-sm p-5 rounded-xl border border-gray-200/50 shadow-sm space-y-4">
                             <p class="text-gray-700">You have the right:</p>
@@ -386,8 +386,8 @@ ob_start();
                                         <div class="w-2 h-2 bg-purple-400 rounded-full mt-2 mr-3 flex-shrink-0"></div>
                                         <span class="text-sm"><strong>Objection:</strong> Refuse to certain types of data processing</span>
                                     </li>
-                </ul>
-            </div>
+                                </ul>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -421,56 +421,6 @@ ob_start();
                                         <strong>Stay Informed:</strong> We will notify you of significant changes through our communication channels. Check back regularly for the most current version.
                                     </div>
                                 </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Contact Information -->
-                <div class="relative">
-                    <div class="absolute inset-0 bg-gradient-to-r from-emerald-600/5 to-teal-600/5 rounded-2xl"></div>
-                    <div class="relative bg-gradient-to-br from-emerald-50 to-teal-50 rounded-2xl p-6 border border-emerald-200/50">
-                        <div class="flex items-center justify-between mb-6">
-                            <h3 class="text-xl font-bold text-gray-900 flex items-center">
-                                <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-gradient-to-r from-emerald-500 to-teal-500 mr-3 shadow-sm">
-                                    <svg class="w-5 h-5 text-white py-0 translate-y-0.25" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
-                                    </svg>
-                                </div>
-                                9. Contact Us
-                            </h3>
-                            <div class="px-3 py-1 bg-gradient-to-r from-emerald-100 to-teal-100 text-emerald-800 rounded-full text-sm font-medium border border-emerald-200">
-                                Support
-                            </div>
-                        </div>
-
-                        <div class="bg-white/80 backdrop-blur-sm p-5 rounded-xl border border-gray-200/50 shadow-sm space-y-4">
-                            <p class="text-gray-700">If you have questions about the present Privacy Policy, please contact us:</p>
-
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                <a href="/" x-bind:href="'https://' + $store.siteSettings.site_domain" target="_blank" class="group flex items-center p-4 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-lg border border-blue-200 hover:shadow-md transition-all duration-300 hover:-translate-y-1">
-                                    <div class="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-r from-blue-500 to-indigo-500 mr-3 group-hover:scale-110 transition-transform duration-300">
-                                        <svg class="w-4 h-4 text-white py-0 translate-y-0.25" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
-                                        </svg>
-                                    </div>
-                                    <div>
-                                        <div class="font-medium text-gray-900">Website</div>
-                                        <div class="text-sm text-gray-600" x-text="$store.siteSettings.site_domain"></div>
-                                    </div>
-                                </a>
-
-                                <a href="@" x-bind:href="'mailto:' + $store.siteSettings.site_feedback_email" class="group flex items-center p-4 bg-gradient-to-r from-green-50 to-emerald-50 rounded-lg border border-green-200 hover:shadow-md transition-all duration-300 hover:-translate-y-1">
-                                    <div class="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-r from-green-500 to-emerald-500 mr-3 group-hover:scale-110 transition-transform duration-300">
-                                        <svg class="w-4 h-4 text-white py-0 translate-y-0.25" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
-                                        </svg>
-                                    </div>
-                                    <div>
-                                        <div class="font-medium text-gray-900">Email</div>
-                                        <div class="text-sm text-gray-600" x-text="$store.siteSettings.site_feedback_email"></div>
-                                    </div>
-                                </a>
                             </div>
                         </div>
                     </div>
