@@ -25,7 +25,14 @@ if (localStorage.getItem('access_token')) {
         <div class="text-center">
             <div class="flex justify-center">
                 <div class="flex h-12 w-12 items-center justify-center rounded-full bg-gradient-to-r from-blue-600 to-purple-600">
-                    <span class="text-xl font-bold text-white">R</span>
+                    <svg class="w-8 h-8" viewBox="0 0 337.5 337.5" xmlns="http://www.w3.org/2000/svg">
+                        <path fill="white" stroke-width=".940744" d="M260.468 23.386a32.59 32.59 0 0 0-32.588 32.589 32.6 32.6 0 0 0 5.415 17.99l-58.372 58.832a43 43 0 0 0-23.74-7.15 43.003 43.003 0 0 0-43.004 43.003 43.003 43.003 0 0 0 43.003 43.004 43 43 0 0 0 24.208-7.462l57.6 60.535a32.6 32.6 0 0 0-5.05 17.422 32.59 32.59 0 0 0 32.59 32.589 32.59 32.59 0 0 0 32.588-32.59 32.59 32.59 0 0 0-32.588-32.587 32.6 32.6 0 0 0-16.415 4.437l-57.722-60.66a43 43 0 0 0 7.79-24.688 43 43 0 0 0-8.116-25.144l58.58-59.04a32.6 32.6 0 0 0 15.82 4.097 32.59 32.59 0 0 0 32.588-32.588 32.59 32.59 0 0 0-32.587-32.59"/>
+                        <rect fill="white" stroke="none" stroke-width=".871106" stroke-dasharray="none" width="10.518" height="25.982" x="202.685" y="134.49" transform="rotate(26.27)scale(1 .99929)skewX(2.16)" ry="0"/>
+                        <rect fill="white" stroke="none" stroke-width=".871097" stroke-dasharray="none" width="10.369" height="42.64" x="-43.174" y="-171.036" transform="rotate(147.38)scale(.99929 1)skewY(2.157)" ry="0"/>
+                        <circle fill="white" stroke-width=".806002" cx="81.833" cy="59.494" r="27.715"/>
+                        <circle fill="white" fill-opacity="1" stroke="none" stroke-width=".806" stroke-dasharray="none" cx="107.015" cy="264.959" r="22.621"/>
+                        <path fill="white" fill-opacity="1" stroke="none" stroke-width=".806002" stroke-dasharray="none" d="M63.608 148.27a20.38 20.38 0 0 0-20.38 20.38 20.38 20.38 0 0 0 20.38 20.382 20.38 20.38 0 0 0 19.598-14.782h18.03v-10.974H83.268a20.38 20.38 0 0 0-19.66-15.006"/>
+                    </svg>
                 </div>
             </div>
             <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">
