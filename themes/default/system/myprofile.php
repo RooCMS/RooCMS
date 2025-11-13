@@ -39,12 +39,16 @@ ob_start();
             <div class="space-y-8">
                 <!-- Profile Avatar -->
                 <div class="text-center">
-                    <div data-avatar-placeholder class="w-48 h-48 bg-gradient-to-br from-gray-200 to-gray-300 rounded-full flex items-center justify-center shadow-sm mx-auto mb-4">
-                        <svg class="w-12 h-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
-                        </svg>
+                    <div class="w-48 h-48 bg-gradient-to-br from-gray-200 to-gray-300 rounded-full flex items-center justify-center shadow-sm mx-auto mb-4">
+                        <template x-if="avatarUrl">
+                            <img :src="avatarUrl" alt="Profile Avatar" class="w-48 h-48 rounded-full object-cover border-4 border-white shadow-sm">
+                        </template>
+                        <template x-if="!avatarUrl">
+                            <svg class="w-12 h-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                            </svg>
+                        </template>
                     </div>
-                    <img data-current-avatar alt="Profile Avatar" class="w-48 h-48 rounded-full object-cover border-4 border-white shadow-sm mx-auto mb-4 hidden">
                 </div>
 
                 <!-- Account Information -->
