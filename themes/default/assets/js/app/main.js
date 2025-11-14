@@ -108,7 +108,7 @@ document.addEventListener('alpine:init', () => {
 
             // Set up polling for async loading (check every 100ms for 5 seconds)
             let attempts = 0;
-            const maxAttempts = 50;
+            const maxAttempts = 10;
             const pollInterval = setInterval(() => {
                 attempts++;
                 updateFromSiteSetting();
