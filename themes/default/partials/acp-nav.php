@@ -1,7 +1,6 @@
 <?php declare(strict_types=1);
 if(!defined('RooCMS')) {roocms_protect();}
 
-
 /**
  * Get current page for navigation highlighting (cached)
  */
