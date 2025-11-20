@@ -12,7 +12,7 @@ $page_scripts = [$theme_base.'/assets/js/pages/ui-kit.js'];
 ob_start();
 ?>
 <div class="py-10">
-	<div class="mx-auto max-w-8xl space-y-10 px-4">
+	<div class="mx-auto max-w-8xl px-4 sm:px-6 lg:px-8">
 		<header>
 			<nav class="mb-4 text-sm text-zinc-500" aria-label="Хлебные крошки">
 				<ol class="flex items-center gap-2">

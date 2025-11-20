@@ -1,5 +1,6 @@
 /**
- * Alpine.js Users Manager Component
+ * ACP Users Manager Component
+ * 
  * Handles loading, displaying, searching and managing users in ACP
  */
 

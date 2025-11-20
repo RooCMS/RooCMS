@@ -1,5 +1,6 @@
 /**
- * Alpine.js Settings Manager Component
+ * ACP Settings Manager Component
+ * 
  * Handles loading, displaying and updating system settings
  */
 

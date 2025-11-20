@@ -1,5 +1,6 @@
 /**
- * Alpine.js Debug Logs Manager Component
+ * ACP Debug Logs Manager Component
+ * 
  * Handles displaying and managing debug logs
  */
 
