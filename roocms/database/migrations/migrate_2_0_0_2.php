@@ -23,6 +23,26 @@ if(!defined('RooCMS')) {roocms_protect();}
 return [
 	'up' => [
 		'data' => [
+			'TABLE_STRUCTURE' => [
+				[
+					'id' => 1,
+					'status' => 'active',
+					'slug' => 'index',
+					'parent_id' => 0,
+					'nav' => '1',
+					'title' => 'Home',
+					'meta_title' => 'Welcome to RooCMS',
+					'meta_description' => 'Welcome to RooCMS',
+					'meta_keywords' => 'RooCMS, CMS, Content Management System',
+					'sort' => 1,
+					'page_type' => 'page',
+					'noindex' => '0',
+					'childs' => 0,
+					'created_at' => time(),
+					'updated_at' => time(),
+					'published_at' => time(),
+				],
+			],
 			'TABLE_SETTINGS' => [
 				[
 					'category' => 'site',

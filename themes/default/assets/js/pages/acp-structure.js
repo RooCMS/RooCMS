@@ -71,8 +71,8 @@ document.addEventListener('alpine:init', () => {
 
                 const response = await this.apiRequest(`/v1/acp/structure?${params.toString()}`);
 
-                this.pages = response.pages || [];
-                this.pagination = response.pagination || this.pagination;
+                this.pages = response.data?.pages || [];
+                this.pagination = response.data?.pagination || this.pagination;
 
             } catch (error) {
                 this.showMessage(error.message || 'Error loading pages', 'error');
@@ -85,7 +85,18 @@ document.addEventListener('alpine:init', () => {
         async loadAvailableParents() {
             try {
                 const response = await this.apiRequest('/v1/acp/structure?limit=1000');
-                this.availableParents = (response.pages || []).filter(page => page.id !== this.editingPageId);
+                const allPages = response.data?.pages || [];
+                
+                // Exclude current page being edited and root page (id=1) from parent options
+                // Root page cannot be a parent - it's the root itself
+                // Also exclude pages with slug="index" to avoid duplicates with static "Root Level" option
+                this.availableParents = allPages.filter(page => {
+                    const pageId = Number(page.id);
+                    const editingId = this.editingPageId ? Number(this.editingPageId) : null;
+                    const isRootPage = pageId === 1 || (page.slug && page.slug === 'index');
+                    // Exclude root page (id=1), pages with slug="index", and current editing page
+                    return !isRootPage && pageId !== editingId;
+                });
             } catch (error) {
                 this.availableParents = [];
             }
@@ -106,7 +117,7 @@ document.addEventListener('alpine:init', () => {
 
             try {
                 const response = await this.apiRequest(`/v1/acp/structure/${pageId}`);
-                this.populateForm(response);
+                this.populateForm(response.data || response);
                 await this.loadAvailableParents();
             } catch (error) {
                 this.showMessage('Error loading page data', 'error');
@@ -137,10 +148,21 @@ document.addEventListener('alpine:init', () => {
 
         // Populate form with page data
         populateForm(pageData) {
+            // Normalize parent_id: if 0 or missing, set to 1 (root)
+            // Root page (id=1) always has parent_id=1 and cannot be changed
+            let parentId = pageData.parent_id;
+            if (!parentId || parentId === 0) {
+                parentId = 1;
+            }
+            // Force parent_id=1 for root page (id=1)
+            if (pageData.id === 1) {
+                parentId = 1;
+            }
+            
             this.form = {
                 slug: pageData.slug || '',
                 title: pageData.title || '',
-                parent_id: pageData.parent_id || 1,
+                parent_id: parentId,
                 page_type: pageData.page_type || 'page',
                 status: pageData.status || 'draft',
                 nav: pageData.nav || false,

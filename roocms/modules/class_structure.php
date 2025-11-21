@@ -164,7 +164,30 @@ class Structure {
 		$tree = [];
 
 		foreach($unit as $i => $value) {
-			if($value['parent_id'] == $parent) {
+			// Skip invalid entries (id=0 or id=parent creating self-reference)
+			if ($value['id'] <= 0 || ($parent > 0 && $value['id'] == $parent)) {
+				continue;
+			}
+
+			// Root page (id=1) is always the root regardless of its parent_id value
+			$is_rootpage = ($value['id'] == 1);
+			
+			// Determine if this page matches the parent criteria
+			$matches_parent = false;
+			
+			if ($parent == 0) {
+				// Load entire tree: include root (id=1) and pages with parent_id=0 or parent_id=1
+				// This handles both old structure (parent_id=0) and new structure (parent_id=1)
+				$matches_parent = $is_rootpage || ($value['parent_id'] == 0) || ($value['parent_id'] == 1);
+			} elseif ($parent == 1) {
+				// Load root page (id=1) and its direct children (parent_id=1)
+				$matches_parent = $is_rootpage || ($value['parent_id'] == 1);
+			} else {
+				// Normal case: match by parent_id
+				$matches_parent = ($value['parent_id'] == $parent);
+			}
+
+			if($matches_parent) {
 				// update level
 				$value['level'] = $level;
 
@@ -261,7 +284,7 @@ class Structure {
 	 */
 	private function update_tree_parent(): void {
 		foreach($this->sitetree as $k => $v) {
-			if($v['parent_id'] != 0 && isset($this->sitetree[$v['parent_id']])) {
+			if($v['parent_id'] != 1 && isset($this->sitetree[$v['parent_id']])) {
 				$this->sitetree[$k]['parent'] = $this->sitetree[$v['parent_id']];
 			}
 		}
@@ -462,6 +485,11 @@ class Structure {
 			return false;
 		}
 
+		// Protect home page (id=1) from parent_id changes - it must remain root
+		if ($page_id === 1 && isset($data['parent_id']) && (int)$data['parent_id'] !== 1) {
+			throw new Exception('Cannot change parent_id of home page (ID=1). Home page must remain root.');
+		}
+
 		// Validate slug if it's being updated
 		if (isset($data['slug'])) {
 			$slug_validation = $this->validate_slug($data['slug'], $page_id);
@@ -622,7 +650,7 @@ class Structure {
 	 * @return array|null Parent page data or null if not found
 	 */
 	public function get_parent_info(int $parent_id): ?array {
-		if ($parent_id <= 0) {
+		if ($parent_id < 1) {
 			return null;
 		}
 
@@ -642,7 +670,7 @@ class Structure {
 	 * @return bool Success
 	 */
 	public function update_parent_childs_count(int $parent_id): bool {
-		if ($parent_id <= 0) {
+		if ($parent_id < 1) {
 			return false;
 		}
 

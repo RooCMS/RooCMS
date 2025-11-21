@@ -97,11 +97,18 @@ class StructureManageService {
                 return null;
             }
 
-            // Protect home page slug from changes
+            // Protect home page (id=1) from changes
             $is_home_page = $page_id === 1 || $existing_page['slug'] === 'index';
+            
+            // Protect home page slug from changes
             $is_slug_change = isset($data['slug']) && $data['slug'] !== 'index';
             if ($is_home_page && $is_slug_change) {
                 throw new Exception('Cannot change slug of home page. Home page must always have slug="index"');
+            }
+            
+            // Protect home page parent_id from changes - it must remain root (parent_id=1)
+            if ($is_home_page && isset($data['parent_id']) && (int)$data['parent_id'] !== 1) {
+                throw new Exception('Cannot change parent_id of home page (ID=1). Home page must remain root.');
             }
 
             // Validate data
@@ -349,8 +356,11 @@ class StructureManageService {
             $errors[] = 'Invalid page type';
         }
 
-        if (isset($data['parent_id']) && (int)$data['parent_id'] < 0) {
-            $errors[] = 'Invalid parent ID';
+        if (isset($data['parent_id'])) {
+            $parent_id = (int)$data['parent_id'];
+            if ($parent_id < 1) {
+                $errors[] = 'Invalid parent ID. Root pages must have parent_id=1';
+            }
         }
 
         return $errors;

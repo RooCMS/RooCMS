@@ -69,12 +69,14 @@ ob_start();
                             <div>
                                 <label for="page-parent" class="block text-sm font-medium text-zinc-700 mb-1">Parent Page</label>
                                 <select id="page-parent" x-model="form.parent_id"
-                                        class="select-custom block w-full rounded-lg border border-zinc-300 bg-white px-3 py-2 text-sm text-zinc-900 focus:border-sky-500 focus:outline-none">
-                                    <option value="1">Root Level</option>
+                                        :disabled="editingPageId === 1"
+                                        :class="editingPageId === 1 ? 'select-custom block w-full rounded-lg border border-zinc-300 bg-zinc-100 px-3 py-2 text-sm text-zinc-500 cursor-not-allowed' : 'select-custom block w-full rounded-lg border border-zinc-300 bg-white px-3 py-2 text-sm text-zinc-900 focus:border-sky-500 focus:outline-none'">
+                                    <option value="1">Root Level (Home Page)</option>
                                     <template x-for="page in availableParents" :key="page.id">
                                         <option :value="page.id" x-text="page.title"></option>
                                     </template>
                                 </select>
+                                <p x-show="editingPageId === 1" class="mt-1 text-xs text-zinc-500">Home page (ID=1) must remain at root level</p>
                             </div>
 
                             <!-- Page Type -->
@@ -99,36 +101,38 @@ ob_start();
                             </div>
 
                             <!-- Navigation -->
-                            <div class="flex items-center pt-6">
-                                <input type="checkbox" id="page-nav" x-model="form.nav"
-                                       class="h-4 w-4 text-sky-600 focus:ring-sky-500 border-zinc-300 rounded">
-                                <label for="page-nav" class="ml-2 block text-sm text-zinc-900">Show in navigation</label>
+                            <div class="mt-8">
+                                <label class="flex cursor-pointer items-center justify-between gap-4">
+                                    <span class="text-sm text-zinc-800">Show in navigation</span>
+                                    <input type="checkbox" id="page-nav" x-model="form.nav" class="peer sr-only">
+                                    <span class="relative inline-block h-6 w-11 rounded-full bg-zinc-300 transition peer-checked:bg-sky-900 after:absolute after:left-0.5 after:top-1/2 after:-translate-y-1/2 after:h-5 after:w-5 after:rounded-full after:bg-white after:transition peer-checked:after:translate-x-5"></span>
+                                </label>
                             </div>
                         </div>
 
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <!-- Meta Title -->
                             <div>
-                                <label for="page-meta-title" class="block text-sm font-medium text-zinc-700 mb-1">Meta Title</label>
-                                <input type="text" id="page-meta-title" x-model="form.meta_title" maxlength="60"
+                                <label for="page-meta-title" class="block text-sm font-medium text-zinc-700 mb-1">SEO: Meta Title (optional)</label>
+                                <input type="text" id="page-meta-title" x-model="form.meta_title" maxlength="70"
                                        class="block w-full rounded-lg border border-zinc-300 bg-white px-3 py-2 text-sm text-zinc-900 placeholder-zinc-400 focus:border-sky-500 focus:outline-none">
-                                <p class="mt-1 text-xs text-zinc-500">SEO title (optional)</p>
                             </div>
 
                             <!-- Noindex -->
-                            <div class="flex items-center pt-6">
-                                <input type="checkbox" id="page-noindex" x-model="form.noindex"
-                                       class="h-4 w-4 text-sky-600 focus:ring-sky-500 border-zinc-300 rounded">
-                                <label for="page-noindex" class="ml-2 block text-sm text-zinc-900">Hide from search engines (noindex)</label>
+                            <div class="mt-8">
+                                <label class="flex cursor-pointer items-center justify-between gap-4">
+                                    <span class="text-sm text-zinc-800">Hide from search engines (noindex)</span>
+                                    <input type="checkbox" id="page-noindex" x-model="form.noindex" class="peer sr-only">
+                                    <span class="relative inline-block h-6 w-11 rounded-full bg-zinc-300 transition peer-checked:bg-sky-900 after:absolute after:left-0.5 after:top-1/2 after:-translate-y-1/2 after:h-5 after:w-5 after:rounded-full after:bg-white after:transition peer-checked:after:translate-x-5"></span>
+                                </label>
                             </div>
                         </div>
 
                         <!-- Meta Description -->
                         <div>
-                            <label for="page-meta-description" class="block text-sm font-medium text-zinc-700 mb-1">Meta Description</label>
+                            <label for="page-meta-description" class="block text-sm font-medium text-zinc-700 mb-1">SEO: Meta Description (optional)</label>
                             <textarea id="page-meta-description" x-model="form.meta_description" rows="3" maxlength="160"
                                       class="block w-full rounded-lg border border-zinc-300 bg-white px-3 py-2 text-sm text-zinc-900 placeholder-zinc-400 focus:border-sky-500 focus:outline-none"></textarea>
-                            <p class="mt-1 text-xs text-zinc-500">SEO description</p>
                         </div>
 
                         <!-- Form Actions -->
@@ -144,6 +148,12 @@ ob_start();
                             </button>
                         </div>
                     </form>
+                </div>
+
+                <!-- Messages container -->
+                <div class="messages-container">
+                    <div class="form-success p-4 rounded-lg bg-green-50 border border-green-200 text-green-800" x-show="successMessage" x-text="successMessage" x-transition></div>
+                    <div class="form-error p-4 rounded-lg bg-red-50 border border-red-200 text-red-800" x-show="errorMessage" x-text="errorMessage" x-transition></div>
                 </div>
 
                 <!-- Filters and Actions -->
@@ -330,12 +340,6 @@ ob_start();
                             </div>
                         </div>
                     </div>
-                </div>
-
-                <!-- Messages container -->
-                <div class="messages-container">
-                    <div class="form-success p-4 rounded-lg bg-green-50 border border-green-200 text-green-800" x-show="successMessage" x-text="successMessage" x-transition></div>
-                    <div class="form-error p-4 rounded-lg bg-red-50 border border-red-200 text-red-800" x-show="errorMessage" x-text="errorMessage" x-transition></div>
                 </div>
             </div>
         </section>
