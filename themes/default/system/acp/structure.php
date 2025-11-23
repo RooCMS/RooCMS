@@ -224,76 +224,164 @@ ob_start();
                         </div>
                     </div>
 
-                    <!-- Pages Table -->
+                    <!-- Pages List -->
                     <div x-show="!loading && pages.length > 0" class="overflow-hidden">
-                        <div class="overflow-x-auto">
-                            <table class="min-w-full divide-y divide-zinc-200">
-                                <thead class="bg-zinc-50">
-                                    <tr>
-                                        <th class="px-5 py-3 text-left text-xs font-medium text-zinc-500 uppercase tracking-wider">Page</th>
-                                        <th class="px-5 py-3 text-left text-xs font-medium text-zinc-500 uppercase tracking-wider">Type</th>
-                                        <th class="px-5 py-3 text-left text-xs font-medium text-zinc-500 uppercase tracking-wider">Status</th>
-                                        <th class="px-5 py-3 text-left text-xs font-medium text-zinc-500 uppercase tracking-wider">Navigation</th>
-                                        <th class="px-5 py-3 text-left text-xs font-medium text-zinc-500 uppercase tracking-wider">Children</th>
-                                        <th class="px-5 py-3 text-left text-xs font-medium text-zinc-500 uppercase tracking-wider">Actions</th>
-                                    </tr>
-                                </thead>
-                                <tbody class="bg-white divide-y divide-zinc-200">
-                                    <template x-for="page in pages" :key="page.id">
-                                        <tr class="hover:bg-zinc-50">
-                                            <td class="px-5 py-4 whitespace-nowrap">
-                                                <div class="flex items-center">
-                                                    <div class="flex-1 min-w-0">
-                                                        <div class="text-sm font-medium text-zinc-900" x-text="page.title"></div>
-                                                        <div class="text-sm text-zinc-500">/<span x-text="page.slug"></span></div>
+                        <!-- Desktop Header -->
+                        <div class="hidden md:grid bg-zinc-50 grid-cols-12 gap-4">
+                            <div class="px-6 py-3 text-left text-xs font-medium text-zinc-500 uppercase tracking-wider col-span-5">Page</div>
+                            <div class="px-6 py-3 text-left text-xs font-medium text-zinc-500 uppercase tracking-wider col-span-2">Type</div>
+                            <div class="px-6 py-3 text-left text-xs font-medium text-zinc-500 uppercase tracking-wider col-span-1">Children</div>
+                            <div class="px-6 py-3 text-left text-xs font-medium text-zinc-500 uppercase tracking-wider col-span-4">Actions</div>
+                        </div>
+                        <!-- Pages Grid -->
+                        <div class="bg-white divide-y divide-zinc-200">
+                            <template x-for="page in pages" :key="page.id">
+                                <div>
+                                    <!-- Desktop View -->
+                                    <div class="hidden md:grid hover:bg-zinc-50 grid-cols-12 gap-4">
+                                        <div class="col-span-5 px-6 py-4">
+                                            <div class="flex items-center">
+                                                <!-- Status & Navigation Icons -->
+                                                <div class="flex-shrink-0 mr-3 flex items-center gap-1">
+                                                    <!-- Status Icons -->
+                                                    <div>
+                                                        <!-- Active status -->
+                                                        <svg x-show="page.status === 'active'" class="w-4 h-4" style="color: #10b981" fill="currentColor" viewBox="0 0 20 20">
+                                                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                                                        </svg>
+                                                        <!-- Draft status -->
+                                                        <svg x-show="page.status === 'draft'" class="w-4 h-4" style="color: #f59e0b" fill="currentColor" viewBox="0 0 20 20">
+                                                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd"></path>
+                                                        </svg>
+                                                        <!-- Inactive status -->
+                                                        <svg x-show="page.status === 'inactive'" class="w-4 h-4" style="color: #ef4444" fill="currentColor" viewBox="0 0 20 20">
+                                                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"></path>
+                                                        </svg>
+                                                    </div>
+                                                    <!-- Navigation Icon -->
+                                                    <div>
+                                                        <svg x-show="page.nav" class="w-3.5 h-3.5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+                                                        </svg>
+                                                        <svg x-show="!page.nav" class="w-3.5 h-3.5 text-zinc-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.878 9.878L3 3m6.878 6.878L21 21"></path>
+                                                        </svg>
                                                     </div>
                                                 </div>
-                                            </td>
-                                            <td class="px-5 py-4 whitespace-nowrap">
-                                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium"
+                                                <div class="flex-1 min-w-0">
+                                                    <div class="text-sm font-medium text-zinc-900" x-text="page.title"></div>
+                                                    <div class="text-sm text-zinc-500">/<span x-text="page.slug"></span></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-span-2 px-6 py-4 align-middle inline-flex items-center">
+                                            <span class="inline-flex items-center px-2.5 py-1 rounded-md text-xs font-medium"
+                                                  :class="page.page_type === 'page' ? 'bg-blue-100 text-blue-800' : 'bg-green-100 text-green-800'"
+                                                  x-text="page.page_type === 'page' ? 'Page' : 'Feed'">
+                                            </span>
+                                        </div>
+                                        <div class="col-span-1 px-6 py-4 text-sm text-zinc-900 align-middle inline-flex items-center" x-text="page.childs"></div>
+                                        <div class="col-span-4 px-6 py-4 text-sm font-medium align-middle inline-flex items-center justify-end">
+                                            <div class="flex items-center gap-2 flex-wrap justify-end">
+                                            <button x-on:click="showEditModal(page.id)"
+                                                    class="inline-flex items-center justify-center rounded-lg border border-zinc-200 bg-white px-3 py-1.5 text-sm font-medium text-zinc-900 hover:bg-zinc-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sky-500 cursor-pointer w-[80px]">
+                                                <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
+                                                </svg>
+                                                Edit
+                                            </button>
+                                            <button x-on:click="changeStatusWithConfirm(page.id, page.status)"
+                                                    :class="getStatusButtonClass(page.status)"
+                                                    class="inline-flex items-center justify-center rounded-lg border px-3 py-1.5 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-offset-2 cursor-pointer w-[80px]">
+                                                <span x-text="getStatusActionText(page.status)"></span>
+                                            </button>
+                                            <button x-on:click="deletePageWithConfirm(page.id, page.title)"
+                                                    :disabled="page.childs > 0 || page.id === 1"
+                                                    class="inline-flex items-center justify-center rounded-lg border border-rose-300 bg-white px-3 py-1.5 text-sm font-medium text-rose-700 hover:bg-rose-50 disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-rose-500 cursor-pointer w-[80px]">
+                                                <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                                                </svg>
+                                                Delete
+                                            </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- Mobile View -->
+                                    <div class="md:hidden p-4 hover:bg-zinc-50 border-b border-zinc-200">
+                                        <div class="flex items-start justify-between mb-3">
+                                            <div class="flex items-center flex-1 min-w-0">
+                                                <!-- Status & Navigation Icons -->
+                                                <div class="flex-shrink-0 mr-3 flex items-center gap-1">
+                                                    <!-- Status Icons -->
+                                                    <div>
+                                                        <!-- Active status -->
+                                                        <svg x-show="page.status === 'active'" class="w-4 h-4" style="color: #10b981" fill="currentColor" viewBox="0 0 20 20">
+                                                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                                                        </svg>
+                                                        <!-- Draft status -->
+                                                        <svg x-show="page.status === 'draft'" class="w-4 h-4" style="color: #f59e0b" fill="currentColor" viewBox="0 0 20 20">
+                                                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd"></path>
+                                                        </svg>
+                                                        <!-- Inactive status -->
+                                                        <svg x-show="page.status === 'inactive'" class="w-4 h-4" style="color: #ef4444" fill="currentColor" viewBox="0 0 20 20">
+                                                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"></path>
+                                                        </svg>
+                                                    </div>
+                                                    <!-- Navigation Icon -->
+                                                    <div>
+                                                        <svg x-show="page.nav" class="w-3.5 h-3.5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+                                                        </svg>
+                                                        <svg x-show="!page.nav" class="w-3.5 h-3.5 text-zinc-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.878 9.878L3 3m6.878 6.878L21 21"></path>
+                                                        </svg>
+                                                    </div>
+                                                </div>
+                                                <div class="flex-1 min-w-0">
+                                                    <div class="text-sm font-medium text-zinc-900" x-text="page.title"></div>
+                                                    <div class="text-sm text-zinc-500">/<span x-text="page.slug"></span></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="flex items-center justify-between mb-3">
+                                            <div class="flex items-center gap-3">
+                                                <span class="inline-flex items-center px-2.5 py-1 rounded-md text-xs font-medium"
                                                       :class="page.page_type === 'page' ? 'bg-blue-100 text-blue-800' : 'bg-green-100 text-green-800'"
                                                       x-text="page.page_type === 'page' ? 'Page' : 'Feed'">
                                                 </span>
-                                            </td>
-                                            <td class="px-5 py-4 whitespace-nowrap">
-                                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium"
-                                                      :class="getStatusBadgeClass(page.status)"
-                                                      x-text="getStatusText(page.status)">
+                                                <span class="text-sm text-zinc-600">
+                                                    <span class="font-medium">Children:</span> <span x-text="page.childs"></span>
                                                 </span>
-                                            </td>
-                                            <td class="px-5 py-4 whitespace-nowrap">
-                                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium"
-                                                      :class="page.nav ? 'bg-green-100 text-green-800' : 'bg-zinc-100 text-zinc-800'"
-                                                      x-text="page.nav ? 'Yes' : 'No'">
-                                                </span>
-                                            </td>
-                                            <td class="px-5 py-4 whitespace-nowrap text-sm text-zinc-900" x-text="page.childs"></td>
-                                            <td class="px-5 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                                <div class="flex items-center gap-2">
-                                                    <button x-on:click="showEditModal(page.id)"
-                                                            class="text-zinc-600 hover:text-zinc-900">
-                                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
-                                                        </svg>
-                                                    </button>
-                                                    <button x-on:click="changeStatusWithConfirm(page.id, page.status)"
-                                                            :class="getStatusButtonClass(page.status)"
-                                                            class="px-2 py-1 text-xs rounded">
-                                                        <span x-text="getStatusActionText(page.status)"></span>
-                                                    </button>
-                                                    <button x-on:click="deletePageWithConfirm(page.id, page.title)"
-                                                            :disabled="page.childs > 0 || page.id === 1"
-                                                            class="text-red-600 hover:text-red-900 disabled:opacity-50 disabled:cursor-not-allowed">
-                                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
-                                                        </svg>
-                                                    </button>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    </template>
-                                </tbody>
-                            </table>
+                                            </div>
+                                        </div>
+                                        <div class="flex items-center gap-2 flex-wrap justify-end">
+                                            <button x-on:click="showEditModal(page.id)"
+                                                    class="inline-flex items-center justify-center rounded-lg border border-zinc-200 bg-white px-3 py-1.5 text-sm font-medium text-zinc-900 hover:bg-zinc-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sky-500 cursor-pointer w-[80px]">
+                                                <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
+                                                </svg>
+                                                Edit
+                                            </button>
+                                            <button x-on:click="changeStatusWithConfirm(page.id, page.status)"
+                                                    :class="getStatusButtonClass(page.status)"
+                                                    class="inline-flex items-center justify-center rounded-lg border px-3 py-1.5 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-offset-2 cursor-pointer w-[80px]">
+                                                <span x-text="getStatusActionText(page.status)"></span>
+                                            </button>
+                                            <button x-on:click="deletePageWithConfirm(page.id, page.title)"
+                                                    :disabled="page.childs > 0 || page.id === 1"
+                                                    class="inline-flex items-center justify-center rounded-lg border border-rose-300 bg-white px-3 py-1.5 text-sm font-medium text-rose-700 hover:bg-rose-50 disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-rose-500 cursor-pointer w-[80px]">
+                                                <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                                                </svg>
+                                                Delete
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </template>
                         </div>
 
                         <!-- Pagination -->

@@ -421,11 +421,11 @@ document.addEventListener('alpine:init', () => {
 
         getStatusButtonClass(status) {
             const classes = {
-                'draft': 'text-green-600 hover:text-green-900',
-                'active': 'text-red-600 hover:text-red-900',
-                'inactive': 'text-yellow-600 hover:text-yellow-900'
+                'draft': 'border-emerald-300 bg-white text-emerald-700 hover:bg-emerald-50 focus:ring-emerald-500',
+                'active': 'border-rose-300 bg-white text-rose-700 hover:bg-rose-50 focus:ring-rose-500',
+                'inactive': 'border-amber-300 bg-white text-amber-700 hover:bg-amber-50 focus:ring-amber-500'
             };
-            return classes[status] || 'text-zinc-600 hover:text-zinc-900';
+            return classes[status] || 'border-zinc-300 bg-white text-zinc-700 hover:bg-zinc-50 focus:ring-zinc-500';
         },
 
         // Validation errors
