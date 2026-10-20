@@ -194,6 +194,48 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+  /v1/auth/refresh/revoke:
+    post:
+      summary: Revoke current refresh token
+      description: Invalidates the active refresh token for current user
+      tags:
+        - Authentication
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Refresh token revoked
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+        '401':
+          description: Authentication required
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /v1/auth/logout:
+    post:
+      summary: Logout current session
+      description: Terminates current user session
+      tags:
+        - Authentication
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Successful logout
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+        '401':
+          description: Authentication required
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
   /v1/auth/refresh:
     post:
       summary: Token refresh
@@ -388,11 +430,424 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+  /v1/structure/tree:
+    get:
+      summary: Public site tree
+      tags:
+        - Structure
+      responses:
+        '200':
+          description: Tree
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StructureTreeResponse'
+  /v1/structure/page/{id}:
+    get:
+      summary: Get page by id
+      tags:
+        - Structure
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Page
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StructurePageResponse'
+        '404':
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /v1/structure/page/slug/{slug}:
+    get:
+      summary: Get page by slug
+      tags:
+        - Structure
+      parameters:
+        - in: path
+          name: slug
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Page
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StructurePageResponse'
+        '404':
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /v1/structure/navigation:
+    get:
+      summary: Navigation menu
+      tags:
+        - Structure
+      responses:
+        '200':
+          description: Navigation items
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StructureNavigationResponse'
+  /v1/structure/breadcrumbs/{id}:
+    get:
+      summary: Breadcrumbs by id
+      tags:
+        - Structure
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Breadcrumbs
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StructureBreadcrumbsResponse'
+  /v1/structure/breadcrumbs/slug/{slug}:
+    get:
+      summary: Breadcrumbs by slug
+      tags:
+        - Structure
+      parameters:
+        - in: path
+          name: slug
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Breadcrumbs
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StructureBreadcrumbsResponse'
+  /v1/structure/seo/{id}:
+    get:
+      summary: SEO by id
+      tags:
+        - Structure
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: SEO data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StructureSeoResponse'
+  /v1/structure/seo/slug/{slug}:
+    get:
+      summary: SEO by slug
+      tags:
+        - Structure
+      parameters:
+        - in: path
+          name: slug
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: SEO data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StructureSeoResponse'
+  /v1/structure/current:
+    get:
+      summary: Current page
+      tags:
+        - Structure
+      responses:
+        '200':
+          description: Current page
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StructurePageResponse'
+  /v1/structure/search:
+    get:
+      summary: Search pages
+      tags:
+        - Structure
+      parameters:
+        - in: query
+          name: q
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Search results
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StructureSearchResponse'
+  /v1/structure/status/{status}:
+    get:
+      summary: Pages by status
+      tags:
+        - Structure
+      parameters:
+        - in: path
+          name: status
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Pages
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StructureSearchResponse'
+  /v1/acp/structure:
+    get:
+      summary: List structure (admin)
+      tags:
+        - ACP Structure
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Structure list
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StructureAdminListResponse'
+    post:
+      summary: Create page (admin)
+      tags:
+        - ACP Structure
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/StructureCreateRequest'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+  /v1/acp/structure/{id}:
+    get:
+      summary: Get page (admin)
+      tags:
+        - ACP Structure
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Page
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StructurePageResponse'
+        '404':
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    put:
+      summary: Update page (admin)
+      tags:
+        - ACP Structure
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/StructureUpdateRequest'
+      responses:
+        '200':
+          description: Updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+    delete:
+      summary: Delete page (admin)
+      tags:
+        - ACP Structure
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Deleted
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+  /v1/acp/structure/{id}/status:
+    patch:
+      summary: Change page status (admin)
+      tags:
+        - ACP Structure
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/StructureStatusRequest'
+      responses:
+        '200':
+          description: Status updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+  /v1/acp/structure/reorder:
+    put:
+      summary: Reorder pages (admin)
+      tags:
+        - ACP Structure
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/StructureReorderRequest'
+      responses:
+        '200':
+          description: Reordered
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+  /v1/moderate/ban/{user_id}:
+    post:
+      summary: Ban user (moderator)
+      tags:
+        - Moderation
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: user_id
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: User banned
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+  /v1/moderate/unban/{user_id}:
+    get:
+      summary: Unban user (moderator)
+      tags:
+        - Moderation
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: user_id
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: User unbanned
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+  /v1/acp/users/roles:
+    get:
+      summary: List roles (admin)
+      tags:
+        - ACP Users
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Roles
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserRolesResponse'
+  /v1/acp/users/{user_id}:
+    get:
+      summary: Get user (admin)
+      tags:
+        - ACP Users
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: user_id
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: User
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
     put:
       summary: Update user (admin)
-      description: Update user fields and profile
       tags:
-        - Users
+        - ACP Users
       security:
         - bearerAuth: []
       parameters:
@@ -409,33 +864,15 @@ paths:
               $ref: '#/components/schemas/AdminUserUpdateRequest'
       responses:
         '200':
-          description: User updated
+          description: Updated
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/SuccessResponse'
-        '401':
-          description: Authentication required
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-        '403':
-          description: Admin role required
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-        '422':
-          description: Validation error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ValidationErrorResponse'
     delete:
       summary: Delete user (admin)
       tags:
-        - Users
+        - ACP Users
       security:
         - bearerAuth: []
       parameters:
@@ -446,29 +883,294 @@ paths:
             type: integer
       responses:
         '200':
-          description: User deleted
+          description: Deleted
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/SuccessResponse'
-        '401':
-          description: Authentication required
+  /v1/acp/users/{user_id}/password:
+    put:
+      summary: Change password (admin)
+      tags:
+        - ACP Users
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: user_id
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AdminUserPasswordRequest'
+      responses:
+        '200':
+          description: Password changed
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorResponse'
-        '403':
-          description: Admin role required
+                $ref: '#/components/schemas/SuccessResponse'
+  /v1/acp/users/{user_id}/role:
+    patch:
+      summary: Change role (admin)
+      tags:
+        - ACP Users
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: user_id
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AdminUserRoleRequest'
+      responses:
+        '200':
+          description: Role changed
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorResponse'
-        '404':
-          description: Not found
+                $ref: '#/components/schemas/SuccessResponse'
+  /v1/acp/users/{user_id}/activate:
+    patch:
+      summary: Activate user (admin)
+      tags:
+        - ACP Users
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: user_id
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Activated
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorResponse'
+                $ref: '#/components/schemas/SuccessResponse'
+  /v1/acp/users/{user_id}/deactivate:
+    patch:
+      summary: Deactivate user (admin)
+      tags:
+        - ACP Users
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: user_id
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Deactivated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+  /v1/acp/users/{user_id}/verify:
+    patch:
+      summary: Verify user (admin)
+      tags:
+        - ACP Users
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: user_id
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Verified
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+  /v1/acp/users/{user_id}/unverify:
+    patch:
+      summary: Unverify user (admin)
+      tags:
+        - ACP Users
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: user_id
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Unverified
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+  /v1/acp/users/{user_id}/avatar:
+    delete:
+      summary: Delete user avatar (admin)
+      tags:
+        - ACP Users
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: user_id
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Avatar deleted
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+  /v1/backup/create:
+    post:
+      summary: Create backup (admin)
+      tags:
+        - Backup
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Backup created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BackupCreateResponse'
+  /v1/backup/restore:
+    post:
+      summary: Restore backup (admin)
+      tags:
+        - Backup
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BackupRestoreRequest'
+      responses:
+        '200':
+          description: Restore started
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BackupRestoreResponse'
+  /v1/backup/list:
+    get:
+      summary: List backups (admin)
+      tags:
+        - Backup
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Backup list
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BackupListResponse'
+  /v1/backup/delete/{filename}:
+    delete:
+      summary: Delete backup (admin)
+      tags:
+        - Backup
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: filename
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Deleted
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+  /v1/backup/download/{filename}:
+    get:
+      summary: Download backup (admin)
+      tags:
+        - Backup
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: filename
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Backup file
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
+  /v1/backup/logs:
+    get:
+      summary: Backup logs (admin)
+      tags:
+        - Backup
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Logs
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BackupLogsResponse'
+  /v1/backup/status:
+    get:
+      summary: Backup status (admin)
+      tags:
+        - Backup
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Status
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BackupStatusResponse'
+  /v1/acp/debug/clear:
+    post:
+      summary: Clear debug logs (admin)
+      tags:
+        - Debug
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Logs cleared
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
   /v1/users/me:
     get:
       summary: Get current user
@@ -478,7 +1180,7 @@ paths:
         - bearerAuth: []
       responses:
         '200':
-          description: Current user
+          description: Current user profile
           content:
             application/json:
               schema:
@@ -490,7 +1192,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
     patch:
-      summary: Update my profile
+      summary: Update current user
       tags:
         - Users
       security:
@@ -500,47 +1202,286 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/UserUpdateMeRequest'
+              $ref: '#/components/schemas/UserUpdateRequest'
       responses:
         '200':
-          description: Profile updated
+          description: Updated
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/SuccessResponse'
-        '400':
-          description: Bad request
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
+                $ref: '#/components/schemas/User'
         '401':
           description: Authentication required
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-        '422':
-          description: Validation error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ValidationErrorResponse'
     delete:
-      summary: Delete my account
+      summary: Delete current user
       tags:
         - Users
       security:
         - bearerAuth: []
       responses:
         '200':
-          description: Account deleted
+          description: Deleted
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/SuccessResponse'
         '401':
           description: Authentication required
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /v1/users/me/avatar:
+    post:
+      summary: Upload avatar for current user
+      tags:
+        - Users
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+      responses:
+        '200':
+          description: Avatar uploaded
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+        '401':
+          description: Authentication required
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    delete:
+      summary: Delete avatar for current user
+      tags:
+        - Users
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Avatar deleted
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+        '401':
+          description: Authentication required
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /v1/users/me/verify-email:
+    post:
+      summary: Request email verification for current user
+      tags:
+        - Users
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Verification email sent
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+        '401':
+          description: Authentication required
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /v1/users/verify-email/{verification_code}:
+    get:
+      summary: Verify email by code
+      tags:
+        - Users
+      parameters:
+        - in: path
+          name: verification_code
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Email verified
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+        '400':
+          description: Invalid code
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /v1/settings:
+    get:
+      summary: Public site settings
+      tags:
+        - Settings
+      responses:
+        '200':
+          description: Public settings
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SettingsPublicResponse'
+  /v1/media:
+    get:
+      summary: List media files
+      tags:
+        - Media
+      responses:
+        '200':
+          description: Media list
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MediaListResponse'
+    post:
+      summary: Upload media (auth)
+      tags:
+        - Media
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+      responses:
+        '200':
+          description: Uploaded
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MediaUploadResponse'
+        '401':
+          description: Authentication required
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /v1/media/{id}:
+    get:
+      summary: Get media by id
+      tags:
+        - Media
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Media item
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Media'
+        '404':
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    put:
+      summary: Update media (auth)
+      tags:
+        - Media
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MediaUpdateRequest'
+      responses:
+        '200':
+          description: Updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+        '401':
+          description: Authentication required
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    delete:
+      summary: Delete media (auth)
+      tags:
+        - Media
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Deleted
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+        '401':
+          description: Authentication required
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /v1/media/{id}/file:
+    get:
+      summary: Download media file
+      tags:
+        - Media
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: File stream
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
+        '404':
+          description: Not found
           content:
             application/json:
               schema:
