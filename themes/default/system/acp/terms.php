@@ -248,7 +248,7 @@ ob_start();
                             <div class="space-y-4">
                                 <p class="text-sm text-zinc-600">For questions related to the use of RooCMS, please contact:</p>
                                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                    <a href="https://roocms.com" target="_blank" class="flex items-center p-4 border border-zinc-200 rounded-lg hover:bg-zinc-50 transition-colors">
+                                    <a href="https://roocms.com" target="_blank" rel="noopener noreferrer" class="flex items-center p-4 border border-zinc-200 rounded-lg hover:bg-zinc-50 transition-colors">
                                         <div class="flex h-8 w-8 items-center justify-center rounded-lg bg-zinc-100 mr-3">
                                             <svg class="w-4 h-4 text-zinc-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>

@@ -445,7 +445,7 @@ ob_start();
                         <div class="bg-white/80 backdrop-blur-sm p-5 rounded-xl border border-gray-200/50 shadow-sm space-y-4">
                             <p class="text-gray-700">For questions related to the use of this Project, please contact:</p>
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                <a href="/" x-bind:href="'https://' + $store.siteSettings.site_domain" target="_blank" class="group flex items-center p-4 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-lg border border-blue-200 hover:shadow-md transition-all duration-300 hover:-translate-y-1">
+                                <a href="/" x-bind:href="'https://' + $store.siteSettings.site_domain" target="_blank" rel="noopener noreferrer" class="group flex items-center p-4 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-lg border border-blue-200 hover:shadow-md transition-all duration-300 hover:-translate-y-1">
                                     <div class="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-r from-blue-500 to-indigo-500 mr-3 group-hover:scale-110 transition-transform duration-300">
                                         <svg class="w-4 h-4 text-white py-0 translate-y-0.25" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>

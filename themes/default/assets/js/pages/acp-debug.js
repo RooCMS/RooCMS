@@ -6,6 +6,7 @@
 
 import { request } from '../app/api.js';
 import { DEBUG } from '../app/config.js';
+import { escapeHtml } from '../app/helpers/formatters.js';
 
 // Alpine.js Debug Logs Manager Component
 document.addEventListener('alpine:init', () => {
@@ -303,7 +304,7 @@ document.addEventListener('alpine:init', () => {
             if (DEBUG) window.log('error', 'Error clearing logs:', error);
             await window.modal(
                 'Ошибка',
-                'Произошла ошибка при очистке логов: ' + error.message,
+                'Произошла ошибка при очистке логов: ' + escapeHtml(error.message),
                 'OK',
                 '',
                 'alert'
