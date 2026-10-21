@@ -404,7 +404,7 @@ ob_start();
                                 </div>
                                 <div class="text-xl font-bold">
                                     <span x-show="(user || {}).website">
-                                        <a x-bind:href="(user || {}).website" target="_blank" class="hover:underline flex items-center" x-text="(user || {}).website">
+                                        <a x-bind:href="websiteUrl" target="_blank" rel="nofollow noopener noreferrer" class="hover:underline flex items-center" x-text="(user || {}).website">
                                             <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
                                             </svg>
@@ -414,7 +414,7 @@ ob_start();
                                 </div>
                                 <div class="mt-2 text-xs text-gray-400">Personal site</div>
                                 <div class="mt-3" x-show="(user || {}).website">
-                                    <a x-bind:href="(user || {}).website" target="_blank" class="text-xs bg-gradient-to-r from-green-500 to-emerald-500 text-white px-3 py-1 rounded-lg hover:from-green-600 hover:to-emerald-600 transition-all duration-200 flex items-center gap-1 cursor-pointer max-w-24">
+                                    <a x-bind:href="websiteUrl" target="_blank" rel="nofollow noopener noreferrer" class="text-xs bg-gradient-to-r from-green-500 to-emerald-500 text-white px-3 py-1 rounded-lg hover:from-green-600 hover:to-emerald-600 transition-all duration-200 flex items-center gap-1 cursor-pointer max-w-24">
                                         <svg class="w-3 h-3 flex-shrink-0 py-0 translate-y-0.25" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
                                         </svg>

@@ -150,6 +150,7 @@ $api->get('/v1/backup/logs', 'BackupController@logs', ['AuthMiddleware', 'RoleMi
 $api->get('/v1/backup/status', 'BackupController@status', ['AuthMiddleware', 'RoleMiddleware@admin_access']);
 
 // Debug endpoints (admin only)
+$api->get('/v1/acp/debug/logs', 'DebugController@logs', ['AuthMiddleware', 'RoleMiddleware@admin_access']);
 $api->post('/v1/acp/debug/clear', 'DebugController@clear', ['AuthMiddleware', 'RoleMiddleware@admin_access']);
 
 // Media endpoints
@@ -284,6 +285,7 @@ $api->get('/', function() {
             'acp_settings_reset_all' => 'GET /api/v1/acp/settings/reset/all',
             'acp_settings_reset_group' => 'GET /api/v1/acp/settings/reset/group-{group}',
             'acp_settings_reset_setting' => 'GET /api/v1/acp/settings/reset/key-{key}',
+            'acp_debug_logs' => 'GET /api/v1/acp/debug/logs',
             'acp_debug_clear' => 'POST /api/v1/acp/debug/clear',
             'acp_users_roles' => 'GET /api/v1/acp/users/roles',
             'acp_users_show' => 'GET /api/v1/acp/users/{user_id}',

@@ -1,8 +1,8 @@
 // Profile Edit JavaScript
 // Handles profile editing functionality with Alpine.js
 
-import { request, setAccessToken } from '../app/api.js';
-import { getCurrentUser, updateUserData } from '../app/auth.js';
+import { request } from '../app/api.js';
+import { getCurrentUser, updateUserData, clearSession } from '../app/auth.js';
 import { isValidEmail, isNotEmpty } from '../app/helpers/validation.js';
 import { showFieldError, clearFieldErrors, showSuccessMessage, showErrorMessage, redirectAfterSuccess } from '../app/helpers/formHelpers.js';
 
@@ -42,7 +42,7 @@ document.addEventListener('alpine:init', () => {
 
         // Handle 401 unauthorized responses
         handleUnauthorized() {
-            setAccessToken(null);
+            clearSession();
             window.location.href = '/!/login';
         },
 
@@ -304,8 +304,7 @@ document.addEventListener('alpine:init', () => {
         // Validate URL format
         isValidUrl(url) {
             try {
-                new URL(url);
-                return true;
+                return ['http:', 'https:'].includes(new URL(url).protocol);
             } catch {
                 return false;
             }

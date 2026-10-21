@@ -104,14 +104,22 @@ export async function register(login, email, password, password_confirmation) {
 }
 
 /**
+ * Clears local session: access token, refresh token and cached user data
+ * @returns {void}
+ */
+export function clearSession() {
+    setAccessToken(null);
+    setRefreshToken(null);
+    clearUserData();
+}
+
+/**
  * Logs out user
  * @returns {Promise<void>}
  */
 export async function logout() {
     try { await request('/v1/auth/logout', { method: 'POST' }); } catch(e) {}
-    setAccessToken(null);
-    setRefreshToken(null);
-    clearUserData();
+    clearSession();
     // Redirect to home page after logout
     window.location.href = '/';
 }
@@ -204,7 +212,10 @@ export function getUserAvatar() {
 
 export function getUserFullName() {
     const user = getUserData();
-    return user?.full_name || user?.first_name + ' ' + user?.last_name || null;
+    if (user?.full_name) return user.full_name;
+
+    const full_name = [user?.first_name, user?.last_name].filter(Boolean).join(' ');
+    return full_name || null;
 }
 
 export function isUserAdmin() {

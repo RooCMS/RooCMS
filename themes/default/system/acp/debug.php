@@ -1,86 +1,6 @@
 <?php declare(strict_types=1);
 if(!defined('RooCMS')) {roocms_protect();}
 
-// Read debug logs
-$debug_logs = [];
-$debug_log_file = _LOGS . '/debug.log';
-
-if (is_file($debug_log_file) && is_readable($debug_log_file)) {
-    // Use read_file without locking to avoid blocking log writes
-    // The parsing algorithm below is robust enough to handle partial reads
-    $log_content = read_file($debug_log_file);
-    
-    if ($log_content !== false && !empty($log_content)) {
-        // Convert the sequence of JSON objects into a JSON array
-        // Normalize line endings for cross-platform compatibility (Windows/Unix)
-        $normalized_content = str_replace(["\r\n", "\r"], "\n", $log_content);
-        $normalized_content = trim($normalized_content);
-        
-        // Remove trailing comma and newline if present
-        $normalized_content = rtrim($normalized_content, ",\n");
-        
-        // Split content by lines to process each JSON object separately
-        // This is more robust than trying to parse the entire file as one JSON array
-        $lines = explode("\n", $normalized_content);
-        $current_json = '';
-        $brace_count = 0;
-        $valid_entries = [];
-        $max_entries = 100; // Limit to last 100 entries for performance
-        
-        foreach ($lines as $line) {
-            $line = trim($line);
-            if (empty($line)) continue;
-            
-            $current_json .= $line;
-            
-            // Count braces to determine when we have a complete JSON object
-            $brace_count += substr_count($line, '{') - substr_count($line, '}');
-            
-            // When brace count reaches 0, we should have a complete JSON object
-            if ($brace_count === 0 && !empty($current_json)) {
-                // Remove trailing comma if present
-                $current_json = rtrim($current_json, ',');
-                
-                // Try to decode this JSON object
-                $entry = json_decode($current_json, true);
-                if ($entry !== null && is_array($entry)) {
-                    $valid_entries[] = $entry;
-                    
-                    // Keep only the last N entries for performance
-                    if (count($valid_entries) > $max_entries) {
-                        array_shift($valid_entries);
-                    }
-                }
-                
-                // Reset for next object
-                $current_json = '';
-                $brace_count = 0;
-            }
-        }
-        
-            // Filter entries that have debug data
-        foreach ($valid_entries as $entry) {
-            if (isset($entry['debug']) && is_array($entry['debug'])) {
-                    $debug_logs[] = $entry;
-            }
-        }
-
-        // Sort by timestamp (newest first)
-        if (!empty($debug_logs)) {
-        usort($debug_logs, function($a, $b) {
-            $time_a = $a['timestamp'] ?? '';
-            $time_b = $b['timestamp'] ?? '';
-
-            // Convert timestamps to comparable values
-            $time_a_val = is_numeric($time_a) ? (float)$time_a : strtotime($time_a);
-            $time_b_val = is_numeric($time_b) ? (float)$time_b : strtotime($time_b);
-
-            return $time_b_val <=> $time_a_val;
-        });
-        }
-    }
-}
-
 $page_title = 'Admin Control Panel - Debug — RooCMS';
 $page_description = 'System Debug logs for RooCMS';
 
@@ -115,7 +35,7 @@ ob_start();
                 <p class="mt-2 text-sm text-zinc-600">System debug information and performance metrics</p>
             </header>
 
-            <div class="space-y-6" x-data="debugLogsManager(<?= htmlspecialchars(json_encode($debug_logs), ENT_QUOTES, 'UTF-8') ?>)">
+            <div class="space-y-6" x-data="debugLogsManager">
 
                 <!-- Controls -->
                 <div class="rounded-xl border border-zinc-200/80 bg-white/80 p-5 shadow-sm backdrop-blur">

@@ -1,4 +1,5 @@
-import { request, setAccessToken, setRefreshToken } from '../app/api.js';
+import { request } from '../app/api.js';
+import { clearSession } from '../app/auth.js';
 
 /**
  * Handles the user profile
@@ -39,6 +40,20 @@ document.addEventListener('alpine:init', () => {
         },
 
         /**
+         * Website URL for href: only http(s) links, otherwise empty string
+         */
+        get websiteUrl() {
+            const website = this.user?.website;
+            if (!website) return '';
+
+            try {
+                return ['http:', 'https:'].includes(new URL(website).protocol) ? website : '';
+            } catch {
+                return '';
+            }
+        },
+
+        /**
          * Calculate profile completion percentage
          */
         get profileCompletionWidth() {
@@ -70,7 +85,7 @@ document.addEventListener('alpine:init', () => {
          * Redirect to login page
          */
         redirectToLogin() {
-            setAccessToken(null);
+            clearSession();
             window.location.href = '/!/login';
         },
 
@@ -140,9 +155,8 @@ document.addEventListener('alpine:init', () => {
                     throw new Error(errorData.message || `Failed to delete account: ${response.status}`);
                 }
 
-                // Clear tokens and redirect
-                setAccessToken(null);
-                setRefreshToken(null);
+                // Clear tokens and cached user data, then redirect
+                clearSession();
 
                 await window.showMessage(
                     'Account deleted',

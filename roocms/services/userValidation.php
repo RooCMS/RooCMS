@@ -268,6 +268,12 @@ class UserValidationService {
         if(!filter_var($website, FILTER_VALIDATE_URL)) {
             throw new DomainException('Invalid website URL', 422);
         }
+
+        // Only web links are allowed (blocks javascript:, data:, file: and other schemes)
+        $scheme = parse_url($website, PHP_URL_SCHEME);
+        if(!is_string($scheme) || !in_array(strtolower($scheme), ['http', 'https'], true)) {
+            throw new DomainException('Website URL must start with http:// or https://', 422);
+        }
     }
 
 

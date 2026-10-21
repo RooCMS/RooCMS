@@ -35,8 +35,27 @@ class DebugController extends BaseController {
 
 
     /**
+     * Get debug logs
+     * GET /api/v1/acp/debug/logs
+     * Requires: AuthMiddleware + RoleMiddleware@admin_access
+     */
+    public function logs(): void {
+        $this->log_request('debug_logs');
+
+        try {
+            $this->json_response([
+                'logs' => $this->debugService->get_debug_logs()
+            ]);
+
+        } catch (Exception $e) {
+            $this->error_response('Failed to read debug logs', 500);
+        }
+    }
+
+
+    /**
      * Clear debug logs
-     * POST /api/v1/admin/debug/clear
+     * POST /api/v1/acp/debug/clear
      * Requires: AuthMiddleware + RoleMiddleware@admin_access
      */
     public function clear(): void {

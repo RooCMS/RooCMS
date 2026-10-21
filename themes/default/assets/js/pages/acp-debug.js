@@ -9,21 +9,36 @@ import { DEBUG } from '../app/config.js';
 
 // Alpine.js Debug Logs Manager Component
 document.addEventListener('alpine:init', () => {
-    Alpine.data('debugLogsManager', (initialLogs) => ({
+    Alpine.data('debugLogsManager', () => ({
     // Reactive data
-    logs: initialLogs || [],
+    logs: [],
     expandedIndex: null,
     _searchQuery: '',
     loading: false,
 
     // Initialization
-    init() {
-        if (DEBUG) window.log('log', 'Initializing Alpine debug logs manager with', this.logs.length, 'logs');
-        
-        // Validate logs data
-        if (!Array.isArray(this.logs)) {
-            window.log('warn', 'Debug logs data is not an array, initializing empty array');
+    async init() {
+        await this.loadLogs();
+    },
+
+    // Load logs from API (admin only)
+    async loadLogs() {
+        if (this.loading) return;
+        this.loading = true;
+        try {
+            const response = await request('/v1/acp/debug/logs');
+            if (!response.ok) throw new Error(`Failed to load logs: ${response.status}`);
+
+            const data = await response.json();
+            const logs = data?.data?.logs;
+            this.logs = Array.isArray(logs) ? logs : [];
+
+            if (DEBUG) window.log('log', 'Debug logs loaded:', this.logs.length);
+        } catch (error) {
+            window.log('error', 'Error loading debug logs:', error);
             this.logs = [];
+        } finally {
+            this.loading = false;
         }
     },
 

@@ -61,6 +61,16 @@ export async function do_refresh_token() {
         if (!res.ok) {
             access_token = null;
             localStorage.removeItem('access_token');
+
+            // Refresh token was rejected by server (invalid/expired): drop the whole session
+            if (res.status >= 400 && res.status < 500) {
+                setRefreshToken(null);
+                localStorage.removeItem('user_data');
+                if (window.Alpine?.store('auth')) {
+                    window.Alpine.store('auth').user = null;
+                    window.Alpine.store('auth').isAuthenticated = false;
+                }
+            }
             return;
         }
         const data = await res.json();

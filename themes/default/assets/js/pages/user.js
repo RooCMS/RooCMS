@@ -136,7 +136,17 @@ document.addEventListener('alpine:init', () => {
 
         // Get website link
         get websiteLink() {
-            return this.user?.website ? { url: this.user.website, text: this.user.website } : null;
+            const website = this.user?.website;
+            if (!website) return null;
+
+            // Only web links are rendered as href (blocks javascript:, data: etc.)
+            try {
+                if (!['http:', 'https:'].includes(new URL(website).protocol)) return null;
+            } catch {
+                return null;
+            }
+
+            return { url: website, text: website };
         }
     }));
 });
