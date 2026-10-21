@@ -268,7 +268,7 @@ class UserService {
     private function process_avatar_image(string $file_path, string $filename, string $extension): void {
         
         // Use Files class to process image (resize to 400x400, no watermark for avatars, force resize)
-        $success = $this->files->process_image($file_path, $filename, $extension, 400, 400, false, true);
+        $success = $this->files->resize_image($file_path, $filename, $extension, 400, 400, false, true);
         
         if(!$success) {
             // Log error but don't throw exception - leave original file

@@ -58,7 +58,7 @@ class StructureService {
             $tree = $this->structure->load_tree($parent_id, $max_level, $include_children);
             
             if ($tree === false) {
-                return null;
+                return [];
             }
 
             // Apply filters

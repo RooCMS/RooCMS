@@ -318,7 +318,8 @@ class AcpUsersTest extends ApiTestCase {
         $this->assertSame(0, (int)$this->data($this->acp('GET', '/'.$user['id']), 'is_active'));
 
         $this->assertApiError(403, $this->login($user), 'login of deactivated user:');
-        $this->assertApiError(403, $this->api('GET', '/v1/users/me', null, $user['token']), 'token of deactivated user:');
+        // AuthenticationService::verify_token() looks only for active users, so the token is simply invalid: 401
+        $this->assertApiError(401, $this->api('GET', '/v1/users/me', null, $user['token']), 'token of deactivated user:');
 
         $this->assertApiSuccess($this->acp('PATCH', '/'.$user['id'].'/activate'));
         $this->assertSame(1, (int)$this->data($this->acp('GET', '/'.$user['id']), 'is_active'));

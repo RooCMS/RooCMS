@@ -139,7 +139,8 @@ class Structure {
 
 		// construct tree
 		if(!empty($tree)) {
-			return $this->construct_tree($tree, $parent, $maxlevel, $child);
+			// construct_tree() returns null when the requested branch does not exist
+			return $this->construct_tree($tree, $parent, $maxlevel, $child) ?? false;
 		}
 		else {
 			return false;
@@ -262,7 +263,7 @@ class Structure {
 		$this->page_slug        = (string)$data['slug'];
 		$this->page_status      = (string)$data['status'];
 		$this->page_title       = (string)$data['title'];
-		$this->page_meta_title  = !empty(trim($data['meta_title'])) ? $data['meta_title'] : $data['title'];
+		$this->page_meta_title  = !empty(trim((string)($data['meta_title'] ?? ''))) ? $data['meta_title'] : $data['title']; // meta_title is NULL for pages created without it
 		$this->page_meta_desc   = (string)$data['meta_description'];
 		$this->page_meta_keys   = (string)$data['meta_keywords'];
 		$this->page_noindex     = (bool)$data['noindex'];

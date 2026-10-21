@@ -360,10 +360,44 @@ class StructureManageService {
             $parent_id = (int)$data['parent_id'];
             if ($parent_id < 1) {
                 $errors[] = 'Invalid parent ID. Root pages must have parent_id=1';
+            } elseif (!$this->structure->page_exists($parent_id)) {
+                $errors[] = 'Parent page does not exist';
+            } elseif (!$is_creating && $exclude_id !== 1 && $this->is_page_or_descendant($parent_id, $exclude_id)) {
+                // the home page (id=1) is allowed to keep parent_id=1: that case is checked in update_page()
+                $errors[] = 'A page cannot be its own parent or be moved under its own descendant';
             }
         }
 
         return $errors;
+    }
+
+
+    /**
+     * Check that the candidate page is the page itself or lies somewhere below it in the tree
+     * Used to forbid cycles when a page is moved
+     *
+     * @param int $candidate_id Page that is going to become the parent
+     * @param int $page_id Page that is being moved
+     * @return bool True if the candidate is the page or one of its descendants
+     */
+    private function is_page_or_descendant(int $candidate_id, int $page_id): bool {
+        $current = $candidate_id;
+
+        // the depth limit protects against an already broken (cyclic) tree in the database
+        for ($i = 0; $i < 100 && $current > 0; $i++) {
+            if ($current === $page_id) {
+                return true;
+            }
+
+            $info = $this->structure->get_parent_info($current);
+            if (!$info) {
+                return false;
+            }
+
+            $current = (int)$info['parent_id'];
+        }
+
+        return false;
     }
 
 

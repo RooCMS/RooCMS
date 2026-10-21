@@ -578,8 +578,10 @@ class Files {
 
 
     /**
-     * Process image using GD (public method for external use)
-     * 
+     * Resize image in place using GD (public method for external use, e.g. avatars)
+     * Not the same as FileManagerImage::process_image() that builds the variants of an uploaded image:
+     * a method with the same name here would silently override the trait one
+     *
      * @param string $file_path Full path to image file
      * @param string $filename Filename without extension
      * @param string $extension File extension
@@ -589,7 +591,7 @@ class Files {
      * @param bool $force_resize Force resize even if image is smaller than max dimensions
      * @return bool Success
      */
-    public function process_image(string $file_path, string $filename, string $extension, int $max_width = 400, int $max_height = 400, bool $watermark = false, bool $force_resize = false): bool {
+    public function resize_image(string $file_path, string $filename, string $extension, int $max_width = 400, int $max_height = 400, bool $watermark = false, bool $force_resize = false): bool {
         
         // Get image dimensions
         $image_info = @getimagesize($file_path);
