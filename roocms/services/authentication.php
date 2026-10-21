@@ -169,7 +169,7 @@ class AuthenticationService {
      * @throws DomainException
      */
     public function revoke_access_token(int $user_id, string $access_token): void {
-        $this->auth->revoke_access_token($access_token);
+        $this->auth->revoke_access_token_of_user($access_token, $user_id);
     }
 
 
@@ -181,7 +181,7 @@ class AuthenticationService {
      * @throws DomainException
      */
     public function revoke_refresh_token(int $user_id, string $refresh_token): void {
-        $this->auth->revoke_refresh_token($refresh_token);
+        $this->auth->revoke_refresh_token_of_user($refresh_token, $user_id);
     }
 
 

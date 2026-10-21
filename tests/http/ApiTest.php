@@ -3,70 +3,13 @@
 /**
  * HTTP tests against a running RooCMS instance
  *
- * Base URL:  ROOCMS_TEST_URL (default https://dev.roocms.com)
- * Self-signed certificate: set ROOCMS_TEST_INSECURE=1
+ * See ApiTestCase for environment variables
  *
  * The tests are read-only and use no credentials: they never create accounts or change data.
  */
-class ApiTest extends TestCase {
+require_once __DIR__.'/ApiTestCase.php';
 
-    private string $base_url;
-
-
-    protected function setUp(): void {
-        $this->base_url = rtrim((string)(getenv('ROOCMS_TEST_URL') ?: 'https://dev.roocms.com'), '/');
-    }
-
-
-    /**
-     * Send request and return status, headers, body and decoded JSON
-     * Skips the test if the server is unreachable
-     */
-    private function http(string $method, string $path, ?string $body = null, array $headers = []): array {
-        $header_lines = [];
-        foreach($headers as $name => $value) {
-            $header_lines[] = $name.': '.$value;
-        }
-
-        $context = stream_context_create([
-            'http' => [
-                'method'        => $method,
-                'header'        => implode("\r\n", $header_lines),
-                'content'       => $body ?? '',
-                'ignore_errors' => true,
-                'timeout'       => 15,
-                'follow_location' => 0,
-            ],
-            'ssl' => [
-                'verify_peer'      => getenv('ROOCMS_TEST_INSECURE') !== '1',
-                'verify_peer_name' => getenv('ROOCMS_TEST_INSECURE') !== '1',
-            ],
-        ]);
-
-        $content = @file_get_contents($this->base_url.$path, false, $context);
-        if($content === false || empty($http_response_header)) {
-            $this->skip('server is unreachable: '.$this->base_url);
-        }
-
-        preg_match('#^HTTP/\S+\s+(\d{3})#', $http_response_header[0], $m);
-
-        $parsed_headers = [];
-        foreach(array_slice($http_response_header, 1) as $line) {
-            if(str_contains($line, ':')) {
-                [$name, $value] = explode(':', $line, 2);
-                $parsed_headers[strtolower(trim($name))] = trim($value);
-            }
-        }
-
-        $json = json_decode($content, true);
-
-        return [
-            'status'  => (int)($m[1] ?? 0),
-            'headers' => $parsed_headers,
-            'body'    => $content,
-            'json'    => is_array($json) ? $json : null,
-        ];
-    }
+class ApiTest extends ApiTestCase {
 
 
     public function testHealthEndpointIsPublic(): void {

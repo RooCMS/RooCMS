@@ -243,9 +243,9 @@ class UserService {
             return false; // No avatar to delete
         }
         
-        // Delete physical file
-        $avatar_path = _UPLOAD . '/' . $profile['avatar'];
-        if(file_exists($avatar_path)) {
+        // Delete physical file only inside the avatar directory (the stored value is never trusted as a path)
+        $avatar_path = _UPLOADAV . '/' . basename((string)$profile['avatar']);
+        if(str_starts_with((string)$profile['avatar'], 'av/') && is_file($avatar_path)) {
             $deleted = @unlink($avatar_path);
             if(!$deleted) {
                 error_log("Failed to delete avatar file: " . $avatar_path);

@@ -55,7 +55,7 @@ class AuthController extends BaseController {
         
         // Validate required fields
         $required = ['login', 'password'];
-        $validation_errors = $this->validate_required($data, $required);
+        $validation_errors = $this->validate_required($data, $required) + $this->validate_string_fields($data, $required);
         
         if (!empty($validation_errors)) {
             $this->validation_error_response($validation_errors);
@@ -86,7 +86,7 @@ class AuthController extends BaseController {
         
         // Validate required fields
         $required = ['login', 'email', 'password'];
-        $validation_errors = $this->validate_required($data, $required);
+        $validation_errors = $this->validate_required($data, $required) + $this->validate_string_fields($data, array_merge($required, ['password_confirmation']));
         
         if (!empty($validation_errors)) {
             $this->validation_error_response($validation_errors);
@@ -192,6 +192,12 @@ class AuthController extends BaseController {
             return;
         }
 
+        $validation_errors = $this->validate_string_fields($data, ['refresh_token']);
+        if (!empty($validation_errors)) {
+            $this->validation_error_response($validation_errors);
+            return;
+        }
+
         try {
             $this->authService->revoke_refresh_token((int)$user['id'], (string)$data['refresh_token']);
             $this->json_response(null, 200, 'Refresh token revoked');
@@ -215,6 +221,12 @@ class AuthController extends BaseController {
         
         if (!isset($data['refresh_token']) || empty($data['refresh_token'])) {
             $this->error_response('Refresh token required', 400);
+            return;
+        }
+
+        $validation_errors = $this->validate_string_fields($data, ['refresh_token']);
+        if (!empty($validation_errors)) {
+            $this->validation_error_response($validation_errors);
             return;
         }
 
@@ -249,7 +261,7 @@ class AuthController extends BaseController {
         
         // Validate required fields
         $required = ['current_password', 'new_password'];
-        $validation_errors = $this->validate_required($data, $required);
+        $validation_errors = $this->validate_required($data, $required) + $this->validate_string_fields($data, array_merge($required, ['new_password_confirmation']));
         
         if (!empty($validation_errors)) {
             $this->validation_error_response($validation_errors);
@@ -292,6 +304,12 @@ class AuthController extends BaseController {
             return;
         }
 
+        $validation_errors = $this->validate_string_fields($data, ['email']);
+        if (!empty($validation_errors)) {
+            $this->validation_error_response($validation_errors);
+            return;
+        }
+
         if (!is_valid_email($data['email'])) {
             $this->error_response('Invalid email format', 400);
             return;
@@ -320,7 +338,7 @@ class AuthController extends BaseController {
         
         // Validate required fields
         $required = ['token', 'password'];
-        $validation_errors = $this->validate_required($data, $required);
+        $validation_errors = $this->validate_required($data, $required) + $this->validate_string_fields($data, array_merge($required, ['password_confirmation']));
         
         if (!empty($validation_errors)) {
             $this->validation_error_response($validation_errors);

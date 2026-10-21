@@ -82,13 +82,23 @@ class UsersController extends BaseController {
 			}
 		}
 
-		// Add is_deleted filter for privileged roles only
-		if(isset($params['is_deleted']) && in_array($current['role'] ?? 'u', ['m', 'a', 'su'], true)) {
+		// Privileged roles only: is_deleted filter and e-mail addresses
+		$privileged = in_array($current['role'] ?? 'u', ['m', 'a', 'su'], true);
+		if(isset($params['is_deleted']) && $privileged) {
 			$filters['is_deleted'] = (int)(bool)$params['is_deleted'];
 		}
 
+		// Regular users must not see e-mails, so they must not be able to search by them either
+		$filters['search_email'] = $privileged;
+
 		try {
 			$list = $this->userListService->get_users_list($pagination['page'], $pagination['limit'], $filters);
+			if(!$privileged) {
+				$list = array_map(function($item) {
+					unset($item['email']);
+					return $item;
+				}, $list);
+			}
 			$total = $this->userListService->get_users_count($filters);
 			$meta = $this->format_pagination_meta($total, $pagination['page'], $pagination['limit']);
 
@@ -214,7 +224,7 @@ class UsersController extends BaseController {
 		$data = $this->get_input_data();
 		$field_mapping = [
 			'user' => ['email'],
-			'profile' => ['nickname','first_name','last_name','gender','avatar','bio','birthday','website','is_public']
+			'profile' => ['nickname','first_name','last_name','gender','bio','birthday','website','is_public']
 		];
 
 		// Filter data by allowed fields for each type
@@ -223,6 +233,17 @@ class UsersController extends BaseController {
 
 		if(empty($user_updates) && empty($profile_updates)) {
 			$this->error_response('No valid fields to update', 400);
+			return;
+		}
+
+		// Text fields must be strings (an array would be saved as "Array"), is_public must be a scalar
+		$validation_errors = $this->validate_string_fields($data, ['email', 'nickname', 'first_name', 'last_name', 'gender', 'bio', 'birthday', 'website']);
+		if(isset($data['is_public']) && !is_scalar($data['is_public'])) {
+			$validation_errors['is_public'] = "Field 'is_public' must be a boolean";
+		}
+
+		if(!empty($validation_errors)) {
+			$this->validation_error_response($validation_errors);
 			return;
 		}
 

@@ -49,6 +49,35 @@ class Files {
         'other'
     ];
 
+    // Extensions that may be taken from the client file name.
+    // Anything else (php, phtml, phar, html, svg, ...) is replaced by an extension derived from the real MIME type
+    private const SAFE_EXTENSIONS = [
+        'jpg', 'jpeg', 'png', 'gif', 'webp', 'bmp', 'tiff',
+        'pdf', 'doc', 'docx', 'xls', 'xlsx', 'ppt', 'pptx', 'odt', 'ods', 'odp', 'txt', 'rtf',
+        'mp4', 'avi', 'mkv', 'mov', 'wmv', 'flv', 'webm', 'mpeg', 'mpg', '3gp', 'm4v',
+        'mp3', 'wav', 'ogg', 'flac', 'aac', 'm4a', 'wma', 'ape', 'opus',
+        'zip', '7z', 'rar', 'tar', 'gz', 'bz2', 'xz'
+    ];
+
+    // Extension by detected MIME type (for allowed MIME types)
+    private const MIME_EXTENSIONS = [
+        'image/jpeg' => 'jpg', 'image/png' => 'png', 'image/gif' => 'gif', 'image/webp' => 'webp',
+        'application/pdf' => 'pdf',
+        'application/msword' => 'doc',
+        'application/vnd.openxmlformats-officedocument.wordprocessingml.document' => 'docx',
+        'application/vnd.ms-excel' => 'xls',
+        'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' => 'xlsx',
+        'application/vnd.ms-powerpoint' => 'ppt',
+        'application/vnd.openxmlformats-officedocument.presentationml.presentation' => 'pptx',
+        'text/plain' => 'txt', 'application/rtf' => 'rtf',
+        'video/mp4' => 'mp4', 'video/avi' => 'avi', 'video/x-msvideo' => 'avi', 'video/quicktime' => 'mov',
+        'video/x-ms-wmv' => 'wmv', 'video/x-flv' => 'flv', 'video/webm' => 'webm',
+        'audio/mpeg' => 'mp3', 'audio/wav' => 'wav', 'audio/ogg' => 'ogg', 'audio/flac' => 'flac',
+        'audio/aac' => 'aac', 'audio/x-m4a' => 'm4a',
+        'application/zip' => 'zip', 'application/x-7z-compressed' => '7z', 'application/x-rar-compressed' => 'rar',
+        'application/x-tar' => 'tar', 'application/gzip' => 'gz', 'application/x-bzip2' => 'bz2'
+    ];
+
     // Variant types
     public const VARIANT_TYPES = [
         'original'  => ['modify' => 'no',   'width' => 0,    'height' => 0,    'suffix' => '',           'watermark' => false],
@@ -265,9 +294,10 @@ class Files {
         // Get and validate MIME type
         $mime_type = mime_content_type($file['tmp_name']) ?: throw new DomainException('Cannot determine file type', 400);
         
-        // Extract and normalize extension from sanitized filename
-        $extension = sanitize_filename_extension($file['name']) ?: '';
-        
+        // Extension from the client file name is trusted only if it is a known safe one,
+        // otherwise it comes from the real MIME type (a file named shell.php must never be stored as .php)
+        $extension = $this->resolve_extension($mime_type, sanitize_filename_extension($file['name']) ?: '');
+
         // Return validation results
         return [
             'mime_type' => $mime_type,
@@ -278,8 +308,24 @@ class Files {
 
 
     /**
+     * Choose a safe extension for the stored file
+     *
+     * @param string $mime_type MIME type detected from the file content
+     * @param string $client_extension Lowercase extension from the client file name (may be empty)
+     * @return string Safe extension: the client one if it is in the safe list, otherwise by MIME type, otherwise "bin"
+     */
+    private function resolve_extension(string $mime_type, string $client_extension): string {
+        if(in_array($client_extension, self::SAFE_EXTENSIONS, true)) {
+            return $client_extension;
+        }
+
+        return self::MIME_EXTENSIONS[$mime_type] ?? 'bin';
+    }
+
+
+    /**
      * Upload file to storage
-     * 
+     *
      * @param array $file Uploaded file from $_FILES
      * @param int|null $user_id User ID who uploads file
      * @param array $options Additional options

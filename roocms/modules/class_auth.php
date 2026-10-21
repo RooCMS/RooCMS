@@ -219,4 +219,30 @@ class Auth {
         $refresh_hash = $this->hash_data($refresh_token);
         $this->db->query('DELETE FROM ' . TABLE_TOKENS . ' WHERE refresh = ?', [$refresh_hash]);
     }
+
+
+    /**
+     * Revoke refresh token only if it belongs to the given user
+     *
+     * @param string $refresh_token
+     * @param int $user_id Owner of the token
+     * @return void
+     */
+    public function revoke_refresh_token_of_user(string $refresh_token, int $user_id): void {
+        $refresh_hash = $this->hash_data($refresh_token);
+        $this->db->query('DELETE FROM ' . TABLE_TOKENS . ' WHERE refresh = ? AND user_id = ?', [$refresh_hash, $user_id]);
+    }
+
+
+    /**
+     * Revoke access token only if it belongs to the given user
+     *
+     * @param string $token
+     * @param int $user_id Owner of the token
+     * @return void
+     */
+    public function revoke_access_token_of_user(string $token, int $user_id): void {
+        $token_hash = $this->hash_data($token);
+        $this->db->query('DELETE FROM ' . TABLE_TOKENS . ' WHERE token = ? AND user_id = ?', [$token_hash, $user_id]);
+    }
 }

@@ -36,11 +36,22 @@ abstract class TestCase {
 
 
     /**
-     * Run setUp, then the test method
+     * Runs after every test method, even if the test failed (cleanup)
+     */
+    protected function tearDown(): void {}
+
+
+    /**
+     * Run setUp, then the test method, then tearDown
      */
     final public function run(string $method): void {
         $this->setUp();
-        $this->$method();
+
+        try {
+            $this->$method();
+        } finally {
+            $this->tearDown();
+        }
     }
 
 

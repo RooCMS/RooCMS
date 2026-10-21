@@ -394,9 +394,9 @@ class User {
 
             // Search filter
             if (!empty($filters['search'])) {
-                $where_conditions[] = "(u.login LIKE ? OR u.email LIKE ? OR p.nickname LIKE ? OR p.first_name LIKE ? OR p.last_name LIKE ?)";
-                $search_term = '%' . $filters['search'] . '%';
-                $params = array_merge($params, array_fill(0, 5, $search_term));
+                [$search_condition, $search_params] = $this->build_search_condition((string)$filters['search'], $filters['search_email'] ?? true);
+                $where_conditions[] = $search_condition;
+                $params = array_merge($params, $search_params);
             }
 
             $where_clause = empty($where_conditions) ? '' : 'WHERE ' . implode(' AND ', $where_conditions);
@@ -424,8 +424,28 @@ class User {
 
     
     /**
+     * Build WHERE condition for the users search
+     *
+     * @param string $search Search string
+     * @param bool $search_email Search in e-mail too (false for users who must not see e-mails)
+     * @return array [sql condition, params]
+     */
+    private function build_search_condition(string $search, bool $search_email = true): array {
+        $fields = ['u.login', 'p.nickname', 'p.first_name', 'p.last_name'];
+        if($search_email) {
+            $fields[] = 'u.email';
+        }
+
+        $condition = '(' . implode(' LIKE ? OR ', $fields) . ' LIKE ?)';
+        $params = array_fill(0, count($fields), '%' . $search . '%');
+
+        return [$condition, $params];
+    }
+
+
+    /**
      * Get users count
-     * 
+     *
      * @param array $filters Filters
      * @return int
      */
@@ -456,9 +476,9 @@ class User {
 
             // Handle search filter separately
             if (!empty($filters['search'])) {
-                $where_conditions[] = "(u.login LIKE ? OR u.email LIKE ? OR p.nickname LIKE ? OR p.first_name LIKE ? OR p.last_name LIKE ?)";
-                $search_term = '%' . $filters['search'] . '%';
-                $params = array_merge($params, array_fill(0, 5, $search_term));
+                [$search_condition, $search_params] = $this->build_search_condition((string)$filters['search'], $filters['search_email'] ?? true);
+                $where_conditions[] = $search_condition;
+                $params = array_merge($params, $search_params);
             }
 
             $where_clause = empty($where_conditions) ? '' : 'WHERE ' . implode(' AND ', $where_conditions);

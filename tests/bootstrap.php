@@ -22,6 +22,27 @@ if(PHP_SAPI !== 'cli') {
 
 
 /**
+ * Local settings for HTTP tests (credentials of test users): tests/.env.local
+ * Format: KEY=value, one per line, "#" starts a comment. Real environment variables take priority
+ */
+$env_file = __DIR__.'/.env.local';
+if(is_file($env_file)) {
+    foreach(file($env_file, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES) ?: [] as $line) {
+        $line = trim($line);
+        if($line === '' || $line[0] === '#' || !str_contains($line, '=')) {
+            continue;
+        }
+
+        [$key, $value] = explode('=', $line, 2);
+        $key = trim($key);
+        if($key !== '' && getenv($key) === false) {
+            putenv($key.'='.trim($value));
+        }
+    }
+}
+
+
+/**
  * Minimal bootstrap for unit tests
  * Does NOT load site configs or connect to the database: only pure classes and helpers
  */

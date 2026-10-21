@@ -71,7 +71,8 @@ class UserManageService {
 
         // Separate user and profile data
         $user_fields = ['email', 'role', 'is_active', 'is_verified', 'is_banned', 'ban_expired', 'ban_reason'];
-        $profile_fields = ['nickname', 'first_name', 'last_name', 'gender', 'avatar', 'bio', 'birthday', 'website', 'is_public'];
+        // "avatar" is not here on purpose: it is set only by the avatar upload
+        $profile_fields = ['nickname', 'first_name', 'last_name', 'gender', 'bio', 'birthday', 'website', 'is_public'];
 
         $user_updates = array_intersect_key($data, array_flip($user_fields));
         $profile_updates = array_intersect_key($data, array_flip($profile_fields));
@@ -178,10 +179,7 @@ class UserManageService {
      */
     public function change_user_password(int $user_id, string $new_password): bool {
         // Check if user exists
-        $existing_user = $this->user->get_user_by_id($user_id);
-        if(!$existing_user) {
-            throw new DomainException('User not found', 404);
-        }
+        $this->get_existing_user($user_id);
 
         // Validate password strength
         $this->userValidationService->validate_password_strength($new_password);
@@ -210,10 +208,7 @@ class UserManageService {
         $this->userValidationService->validate_role($new_role);
 
         // Check if user exists
-        $existing_user = $this->user->get_user_by_id($user_id);
-        if(!$existing_user) {
-            throw new DomainException('User not found', 404);
-        }
+        $this->get_existing_user($user_id);
 
         return $this->user->update_user($user_id, ['role' => $new_role]);
     }
@@ -271,10 +266,7 @@ class UserManageService {
      */
     public function delete_user(int $user_id): bool {
         // Check if user exists
-        $existing_user = $this->user->get_user_by_id($user_id);
-        if(!$existing_user) {
-            throw new DomainException('User not found', 404);
-        }
+        $this->get_existing_user($user_id);
 
         return (bool)$this->db->transaction(function() use ($user_id) {
             // Clean tokens
@@ -301,5 +293,22 @@ class UserManageService {
         $roles = $this->role->get_roles_list();
         return $roles;
     }
-}
 
+
+    /**
+     * Get an existing (not deleted) user for management operations
+     * Uses the detailed lookup: the public one hides users with a private profile, inactive and deleted users
+     *
+     * @param int $user_id User ID
+     * @return array User data
+     * @throws DomainException If user does not exist or is deleted
+     */
+    private function get_existing_user(int $user_id): array {
+        $user = $this->user->get_user_by_id($user_id, true);
+        if(!$user || !empty($user['is_deleted'])) {
+            throw new DomainException('User not found', 404);
+        }
+
+        return $user;
+    }
+}

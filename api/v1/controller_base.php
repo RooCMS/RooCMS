@@ -219,13 +219,35 @@ abstract class BaseController {
      */
     protected function validate_required(array $data, array $required): array {
         $errors = [];
-        
+
         foreach ($required as $field) {
             if (!isset($data[$field]) || $data[$field] === '' || $data[$field] === null) {
                 $errors[$field] = "Field '{$field}' is required";
             }
         }
-        
+
+        return $errors;
+    }
+
+
+    /**
+     * Check that the given fields, if present, are strings (not arrays, objects or numbers)
+     * Prevents TypeError in services with typed parameters and arrays saved as "Array"
+     * null is allowed: it is treated as "not passed"
+     *
+     * @param array $data Input data
+     * @param array $fields Names of fields that must be strings
+     * @return array Errors by field name
+     */
+    protected function validate_string_fields(array $data, array $fields): array {
+        $errors = [];
+
+        foreach ($fields as $field) {
+            if (isset($data[$field]) && !is_string($data[$field])) {
+                $errors[$field] = "Field '{$field}' must be a string";
+            }
+        }
+
         return $errors;
     }
     
