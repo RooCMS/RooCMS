@@ -26,6 +26,7 @@ class DependencyContainer {
     private array $services = [];
     private array $singletons = [];
     private array $instances = [];
+    private array $resolving = [];
 
 
     
@@ -50,11 +51,9 @@ class DependencyContainer {
      * @throws Exception If service is not registered or cannot be resolved
      */
     public function get(string $interface): object {
-        // Return singleton instance if exists
-        if ($this->singletons[$interface] ?? false) {
-            if (isset($this->instances[$interface])) {
-                return $this->instances[$interface];
-            }
+        // Return ready instance if exists (singleton or set via set_instance)
+        if (isset($this->instances[$interface])) {
+            return $this->instances[$interface];
         }
 
         // Check if service is registered
@@ -62,8 +61,20 @@ class DependencyContainer {
             throw new Exception("Service '".$interface."' is not registered");
         }
 
+        // Protect from circular dependencies
+        if (in_array($interface, $this->resolving, true)) {
+            $chain = implode(' -> ', [...$this->resolving, $interface]);
+            throw new Exception("Circular dependency detected: ".$chain);
+        }
+
         $implementation = $this->services[$interface];
-        $instance = $this->resolve($implementation);
+
+        $this->resolving[] = $interface;
+        try {
+            $instance = $this->resolve($implementation);
+        } finally {
+            array_pop($this->resolving);
+        }
 
         // Store singleton instance
         if ($this->singletons[$interface] ?? false) {
@@ -81,7 +92,7 @@ class DependencyContainer {
      * @return bool
      */
     public function has(string $interface): bool {
-        return isset($this->services[$interface]);
+        return isset($this->services[$interface]) || isset($this->instances[$interface]);
     }
 
 
@@ -137,16 +148,17 @@ class DependencyContainer {
             }
 
             // Try to resolve dependency from container
-            try {
-                $dependencies[] = $this->get($type_name);
-            } catch (Exception $e) {
-                // If dependency cannot be resolved and parameter allows null, use null
+            if (!$this->has($type_name)) {
+                // Service is not registered: nullable parameter gets null, otherwise error
                 if ($type->allowsNull()) {
                     $dependencies[] = null;
-                } else {
-                    throw new Exception("Cannot resolve dependency '".$type_name."' for class '".$implementation."': " . $e->getMessage());
+                    continue;
                 }
+                throw new Exception("Cannot resolve dependency '".$type_name."' for class '".$implementation."': Service '".$type_name."' is not registered");
             }
+
+            // Registered service: errors (circular dependency, constructor failures) propagate as is
+            $dependencies[] = $this->get($type_name);
         }
 
         return new $implementation(...$dependencies);
@@ -158,11 +170,10 @@ class DependencyContainer {
      *
      * @param string $interface Interface or service name
      * @param object $instance Service instance
-     * @param bool $singleton Whether to treat as singleton
+     * @param bool $singleton Unused, kept for signature compatibility (instance always has priority in get())
      */
     public function set_instance(string $interface, object $instance, bool $singleton = false): void {
         $this->instances[$interface] = $instance;
-        $this->singletons[$interface] = $singleton;
     }
 
 

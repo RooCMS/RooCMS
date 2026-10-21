@@ -192,8 +192,8 @@ class UserValidationService {
             throw new DomainException('Invalid email format', 422);
         }
 
-        // Check uniqueness
-        $existing_user = $this->user->get_user_by_email($email);
+        // Check uniqueness among all users (the public lookup hides private, inactive and deleted accounts)
+        $existing_user = $this->user->get_user_by_email($email, true);
         if($existing_user && ($exclude_user_id === null || (int)$existing_user['id'] !== $exclude_user_id)) {
             throw new DomainException('Email already in use', 409);
         }
