@@ -10,6 +10,7 @@ This document describes the organization of files and directories in the RooCMS 
 ├── 📁 roocms/                 # Core RooCMS
 ├── 📁 storage/                # Storage
 ├── 📁 themes/                 # Themes
+├── 📁 tests/                  # Tests (CLI runner without dependencies)
 ├── 📁 up/                     # Uploaded files
 ├── 📁 docs/                   # Documentation (in feature development)
 ├── 📄 ABOUT.md                # About RooCMS
