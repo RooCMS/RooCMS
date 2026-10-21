@@ -23,19 +23,15 @@ if(!defined('RooCMS')) {roocms_protect();}
  */
 class DefaultMiddlewareFactory implements MiddlewareFactory {
 
-    private readonly AuthenticationService $authService;
-    private readonly UserValidationService $validator;
-    private readonly Role $role;
+    private readonly DependencyContainer $container;
 
 
     
     /**
      * Constructor
      */
-    public function __construct(AuthenticationService $authService, UserValidationService $validator, Role $role) {
-        $this->authService = $authService;
-        $this->validator = $validator;
-        $this->role = $role;
+    public function __construct(DependencyContainer $container) {
+        $this->container = $container;
     }
 
     /**
@@ -50,15 +46,17 @@ class DefaultMiddlewareFactory implements MiddlewareFactory {
             throw new Exception("Middleware class '".$middlewareClass."' not found");
         }
 
-        // Inject dependencies based on middleware type
-        switch ($middlewareClass) {
-            case 'AuthMiddleware':
-                return new AuthMiddleware($this->authService, $this->validator);
-            case 'RoleMiddleware':
-                return new RoleMiddleware($this->role, $this->authService);
-            default:
-                // For other middleware without dependencies
-                return new $middlewareClass();
+        // Registered in DI container
+        if ($this->container->has($middlewareClass)) {
+            return $this->container->get($middlewareClass);
         }
+
+        // Middleware without required dependencies
+        $constructor = (new ReflectionClass($middlewareClass))->getConstructor();
+        if ($constructor === null || $constructor->getNumberOfRequiredParameters() === 0) {
+            return new $middlewareClass();
+        }
+
+        throw new Exception("Middleware '".$middlewareClass."' is not registered in DI container");
     }
 }

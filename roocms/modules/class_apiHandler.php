@@ -197,33 +197,30 @@ class ApiHandler {
      * @return bool
      */
     private function execute_middleware(string $middlewareSpec): bool {
-        // Support Middleware@method syntax
-        if (strpos($middlewareSpec, '@') !== false) {
-            list($middlewareClass, $method) = explode('@', $middlewareSpec, 2);
+        // Support Middleware@method syntax, default method is handle()
+        [$middlewareClass, $method] = str_contains($middlewareSpec, '@')
+            ? explode('@', $middlewareSpec, 2)
+            : [$middlewareSpec, 'handle'];
 
-            try {
-                $middleware = $this->middlewareFactory->create($middlewareClass);
-                if (method_exists($middleware, $method)) {
-                    return $middleware->$method();
-                }
-            } catch (Exception $e) {
-                $this->handle_error('Failed to create middleware '.$middlewareClass.': '.$e->getMessage());
-                return false;
-            }
-        } else {
-            // Traditional middleware syntax - look for handle() method
-            try {
-                $middleware = $this->middlewareFactory->create($middlewareSpec);
-                if (method_exists($middleware, 'handle')) {
-                    return $middleware->handle();
-                }
-            } catch (Exception $e) {
-                $this->handle_error('Failed to create middleware '.$middlewareSpec.': '.$e->getMessage());
-                return false;
-            }
+        try {
+            $middleware = $this->middlewareFactory->create($middlewareClass);
+        } catch (Throwable $e) {
+            $this->handle_error('Failed to create middleware '.$middlewareClass, $e);
+            return false;
         }
 
-        return true;
+        // A missing method must never let the request through
+        if (!method_exists($middleware, $method)) {
+            $this->handle_error('Method '.$method.' not found in middleware '.$middlewareClass);
+            return false;
+        }
+
+        try {
+            return (bool)$middleware->$method();
+        } catch (Throwable $e) {
+            $this->handle_error('Middleware '.$middlewareClass.' failed', $e);
+            return false;
+        }
     }
 
 
@@ -237,20 +234,26 @@ class ApiHandler {
     private function execute_handler(callable|string $handler, array $params = []): mixed {
         if (is_string($handler)) {
             // Handle Controller@method syntax
-            if (strpos($handler, '@') !== false) {
-                list($controllerClass, $method) = explode('@', $handler, 2);
+            if (str_contains($handler, '@')) {
+                [$controllerClass, $method] = explode('@', $handler, 2);
 
                 try {
                     $controller = $this->controllerFactory->create($controllerClass);
+                } catch (Throwable $e) {
+                    $this->handle_error('Failed to create controller '.$controllerClass, $e);
+                    return false;
+                }
 
-                    if (method_exists($controller, $method)) {
-                        return call_user_func_array([$controller, $method], $params);
-                    } else {
-                        $this->handle_error('Method '.$method.' not found in controller '.$controllerClass);
-                        return false;
-                    }
-                } catch (Exception $e) {
-                    $this->handle_error('Failed to create controller '.$controllerClass.': '.$e->getMessage());
+                if (!method_exists($controller, $method)) {
+                    $this->handle_error('Method '.$method.' not found in controller '.$controllerClass);
+                    return false;
+                }
+
+                // Errors raised while the controller works are not creation errors
+                try {
+                    return call_user_func_array([$controller, $method], $params);
+                } catch (Throwable $e) {
+                    $this->handle_error('Controller '.$controllerClass.'@'.$method.' failed', $e);
                     return false;
                 }
             }
@@ -283,17 +286,21 @@ class ApiHandler {
 
 
     /**
-     * Handle general errors
+     * Handle general errors (500)
+     * Cause is logged; details go to the client only in debug mode, they may contain SQL or paths
      * 
      * @param string $message Message
+     * @param Throwable|null $e Cause
      * @return void
     */
-    private function handle_error(string $message): void {
+    private function handle_error(string $message, ?Throwable $e = null): void {
+        $details = $message.($e ? ': '.$e->getMessage() : '');
+        error_log('ApiHandler: '.$details);
         http_response_code(500);
         
         $response = [
             'error' => true,
-            'message' => $message,
+            'message' => (defined('DEBUGMODE') && DEBUGMODE) ? $details : 'Internal server error',
             'status_code' => 500,
             'timestamp' => format_timestamp(time())
         ];

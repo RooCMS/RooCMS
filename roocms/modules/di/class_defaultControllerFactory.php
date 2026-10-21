@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * RooCMS - Open Source Free Content Managment System
  * © 2010-2025 alexandr Belov aka alex Roosso. All rights reserved.
@@ -51,7 +51,7 @@ class DefaultControllerFactory implements ControllerFactory {
         try {
             return $this->container->get($controllerClass);
         } catch (Exception $e) {
-            // Fallback to manual creation if not registered
+            // Controller must be registered in DI container
             throw new Exception("Controller '".$controllerClass."' not registered in DI container: " . $e->getMessage());
         }
     }

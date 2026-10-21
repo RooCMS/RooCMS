@@ -76,14 +76,16 @@ $container->register(StructureController::class, StructureController::class);
 $container->register(ACPStructureController::class, ACPStructureController::class);
 
 /**
+ * Register middleware (non-singleton)
+ */
+$container->register(AuthMiddleware::class, AuthMiddleware::class);
+$container->register(RoleMiddleware::class, RoleMiddleware::class);
+
+/**
  * Create controller and middleware factories and router instance
  */
 $controllerFactory = new DefaultControllerFactory($container);
-$middlewareFactory = new DefaultMiddlewareFactory(
-    $container->get(AuthenticationService::class),
-    $container->get(UserValidationService::class), 
-    $container->get(Role::class)
-);
+$middlewareFactory = new DefaultMiddlewareFactory($container);
 $api = new ApiHandler($controllerFactory, $middlewareFactory);
 
 
