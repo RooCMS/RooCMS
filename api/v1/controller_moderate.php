@@ -26,17 +26,55 @@ class ModerateController extends BaseController {
 
     private readonly ModerateService $moderateService;
     private readonly User $user;
+    private readonly Role $role;
 
 
 
     /**
      * Constructor
      */
-    public function __construct(Db $db, Request $request, ModerateService $moderateService, User $user) {
+    public function __construct(Db $db, Request $request, ModerateService $moderateService, User $user, Role $role) {
         parent::__construct($db, $request);
 
         $this->moderateService = $moderateService;
         $this->user = $user;
+        $this->role = $role;
+    }
+
+
+    /**
+     * Check that the current moderator is allowed to moderate the target user
+     * The target must exist and must have a strictly lower role level than the moderator
+     * Sends an error response and returns false if moderation is not allowed
+     *
+     * @param int $user_id Target user ID
+     * @return bool
+     */
+    private function can_moderate(int $user_id): bool {
+        $moderator = $this->get_authenticated_user();
+        if (empty($moderator)) {
+            $this->error_response('Authentication required', 401);
+            return false;
+        }
+
+        // detailed = true: moderation must also work for non-public, inactive or already banned users
+        $target = $this->user->get_user_by_id($user_id, true);
+        if (!$target) {
+            $this->error_response('User not found', 404);
+            return false;
+        }
+
+        if ((int)$moderator['id'] === $user_id) {
+            $this->error_response('You cannot moderate yourself', 403);
+            return false;
+        }
+
+        if ($this->role->get_role_level($target['role']) >= $this->role->get_role_level($moderator['role'])) {
+            $this->error_response('You cannot moderate a user with an equal or higher role', 403);
+            return false;
+        }
+
+        return true;
     }
 
 
@@ -51,9 +89,8 @@ class ModerateController extends BaseController {
     public function ban(int $user_id): void {
         $this->log_request('moderate_ban', ['user_id' => $user_id]);
 
-        // Check if user exists
-        if (!$this->user->get_user_by_id($user_id)) {
-            $this->error_response('User not found', 404);
+        // Check that user exists and moderator outranks the target
+        if (!$this->can_moderate($user_id)) {
             return;
         }
 
@@ -88,9 +125,8 @@ class ModerateController extends BaseController {
     public function unban(int $user_id): void {
         $this->log_request('moderate_unban', ['user_id' => $user_id]);
 
-        // Check if user exists
-        if (!$this->user->get_user_by_id($user_id)) {
-            $this->error_response('User not found', 404);
+        // Check that user exists and moderator outranks the target
+        if (!$this->can_moderate($user_id)) {
             return;
         }
 

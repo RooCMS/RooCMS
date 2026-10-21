@@ -25,6 +25,12 @@ if(!defined('RooCMS')) {roocms_protect();}
  */
 class SiteSettingsManageService {
 
+    /**
+     * Settings that must never fall back to their default value on reset:
+     * a predictable default would weaken security (and invalidate all sessions)
+     */
+    private const PROTECTED_KEYS = ['security_token_hash_key'];
+
     private Db $db;
     private SiteSettings $siteSettings;
 
@@ -66,6 +72,10 @@ class SiteSettingsManageService {
      * Reset setting to default value
      */
     public function reset_setting(string $key): bool {
+        if(in_array($key, self::PROTECTED_KEYS, true)) {
+            return false;
+        }
+
         try {
             $this->db->query(
                 'UPDATE ' . TABLE_SETTINGS . ' SET value = NULL, updated_at = ? WHERE `key` = ?',
@@ -84,8 +94,8 @@ class SiteSettingsManageService {
     public function reset_group_settings(string $group): bool {
         try {
             $this->db->query(
-                'UPDATE ' . TABLE_SETTINGS . ' SET value = NULL, updated_at = ? WHERE category = ?',
-                [time(), $group]
+                'UPDATE ' . TABLE_SETTINGS . ' SET value = NULL, updated_at = ? WHERE category = ?' . $this->protected_keys_clause(),
+                array_merge([time(), $group], self::PROTECTED_KEYS)
             );
             return true;
         } catch (Exception $e) {
@@ -100,13 +110,23 @@ class SiteSettingsManageService {
     public function reset_all_settings(): bool {
         try {
             $this->db->query(
-                'UPDATE ' . TABLE_SETTINGS . ' SET value = NULL, updated_at = ?',
-                [time()]
+                'UPDATE ' . TABLE_SETTINGS . ' SET value = NULL, updated_at = ? WHERE 1=1' . $this->protected_keys_clause(),
+                array_merge([time()], self::PROTECTED_KEYS)
             );
             return true;
         } catch (Exception $e) {
             return false;
         }
+    }
+
+
+    /**
+     * SQL condition excluding protected settings from mass reset
+     * Parameters: PROTECTED_KEYS in the same order
+     */
+    private function protected_keys_clause(): string {
+        $placeholders = implode(', ', array_fill(0, count(self::PROTECTED_KEYS), '?'));
+        return ' AND `key` NOT IN (' . $placeholders . ')';
     }
 
 

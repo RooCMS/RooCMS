@@ -194,10 +194,6 @@ document.addEventListener('alpine:init', () => {
             return isUserModerator();
         },
 
-        hasPermission(permission) {
-            return hasUserPermission(permission);
-        },
-
         // User data getters
         getId() {
             return getUserId();
