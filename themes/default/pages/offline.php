@@ -30,15 +30,18 @@ ob_start();
 
         <!-- Actions -->
         <div class="space-y-4">
-            <button 
-                onclick="window.location.reload()" 
+            <!-- Handlers are attached in the script below: CSP forbids inline onclick and javascript: URLs -->
+            <button
+                type="button"
+                id="offline-retry"
                 class="btn-primary-full"
             >
                 Try Again
             </button>
-            
-            <a 
-                href="javascript:history.back()" 
+
+            <a
+                href="/"
+                id="offline-back"
                 class="btn-secondary w-full text-center"
             >
                 Go Back
@@ -66,6 +69,19 @@ function updateNetworkStatus() {
         statusEl.className = 'text-sm text-red-600';
     }
 }
+
+// Buttons
+document.getElementById('offline-retry').addEventListener('click', () => {
+    window.location.reload();
+});
+
+// Go back in history if there is something to go back to, otherwise follow the link to the home page
+document.getElementById('offline-back').addEventListener('click', (event) => {
+    if (window.history.length > 1) {
+        event.preventDefault();
+        window.history.back();
+    }
+});
 
 // Initial check
 updateNetworkStatus();

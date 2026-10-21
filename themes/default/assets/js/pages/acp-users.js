@@ -6,9 +6,9 @@
 
 import { request, handleApiError } from '../app/api.js';
 import { DEBUG } from '../app/config.js';
-import { formatDateTime, formatRelativeTime, getUserInitials } from '../app/helpers/formatters.js';
+import { escapeHtml, formatDateTime, formatRelativeTime, getUserInitials } from '../app/helpers/formatters.js';
 import { isValidEmail } from '../app/helpers/validation.js';
-import { showFieldError, clearFieldErrors } from '../app/helpers/formHelpers.js';
+import { showFieldError } from '../app/helpers/formHelpers.js';
 
 // Constants
 const ROLE_BADGE_CLASSES = {
@@ -42,6 +42,7 @@ document.addEventListener('alpine:init', () => {
         editLoading: false,
         editSaving: false,
         editingUserId: null,
+        editRequestId: 0,
         editingUser: {},
         availableRoles: [],
         editForm: {
@@ -76,6 +77,7 @@ document.addEventListener('alpine:init', () => {
                 this.loadUsers()
             ]).catch(error => {
                 if (DEBUG) window.log('error', 'Initialization error:', error);
+                this.showRequestError(error, 'Error loading roles');
             });
         },
 
@@ -84,11 +86,6 @@ document.addEventListener('alpine:init', () => {
             const response = await request(url, options);
 
             if (!response.ok) {
-                // Handle authentication and authorization errors
-                if (!handleApiError(response, (message, type) => this.showMessage(message, type))) {
-                    return null;
-                }
-
                 let errorMessage = `Request failed: ${response.status}`;
                 try {
                     const errorData = await response.json();
@@ -96,11 +93,24 @@ document.addEventListener('alpine:init', () => {
                 } catch (e) {
                     // Ignore JSON parse errors
                 }
-                throw new Error(errorMessage);
+                const error = new Error(errorMessage);
+                error.status = response.status;
+                throw error;
             }
 
             const responseData = await response.json();
             return responseData.data || responseData;
+        },
+
+        // Display request errors at the operation level, in the relevant panel.
+        showRequestError(error, prefix, edit = false) {
+            const show = (message, type) => edit
+                ? this.showEditMessage(message, type)
+                : this.showMessage(message, type);
+
+            if (handleApiError(error, show)) {
+                show(`${prefix}: ${error.message}`, 'error');
+            }
         },
 
         // Load users from API
@@ -157,7 +167,7 @@ document.addEventListener('alpine:init', () => {
                 if (DEBUG) window.log('log', 'Users loaded:', this.users.length);
             } catch (error) {
                 if (DEBUG) window.log('error', 'Error loading users:', error);
-                this.showMessage('Error loading users: ' + error.message, 'error');
+                this.showRequestError(error, 'Error loading users');
             } finally {
                 this.loading = false;
             }
@@ -285,6 +295,8 @@ document.addEventListener('alpine:init', () => {
 
         // User action methods
         toggleEditUser(user) {
+            if (this.editSaving) return;
+
             if (DEBUG) window.log('log', 'Toggling edit for user:', user);
 
             // If editing this user already, close it
@@ -300,6 +312,7 @@ document.addEventListener('alpine:init', () => {
         async openEditPanel(userId) {
             if (this.editSaving) return;
 
+            const requestId = ++this.editRequestId;
             this.editingUserId = userId;
             this.editingUser = {};
             this.editLoading = true;
@@ -312,40 +325,44 @@ document.addEventListener('alpine:init', () => {
                     await this.loadAvailableRoles();
                 }
 
-                await this.loadUserDetails(userId);
+                if (requestId !== this.editRequestId) return;
+                await this.loadUserDetails(userId, requestId);
             } catch (error) {
+                if (requestId !== this.editRequestId) return;
                 if (DEBUG) window.log('error', 'Error opening edit panel:', error);
-                this.showEditMessage('Failed to load user data: ' + error.message, 'error');
+                this.showRequestError(error, 'Failed to load user data', true);
             } finally {
-                this.editLoading = false;
+                if (requestId === this.editRequestId) this.editLoading = false;
             }
         },
 
         closeEditPanel() {
+            ++this.editRequestId;
             this.editingUserId = null;
             this.editingUser = {};
+            this.editLoading = false;
             this.clearEditMessages();
             this.clearEditFieldErrors();
             this.resetEditPasswordForm();
         },
 
         async loadAvailableRoles() {
-            try {
-                this.availableRoles = await this.apiRequest('/v1/acp/users/roles');
-                if (DEBUG) window.log('log', 'Available roles loaded:', this.availableRoles);
-            } catch (error) {
-                if (DEBUG) window.log('error', 'Error loading roles:', error);
-            }
+            this.availableRoles = await this.apiRequest('/v1/acp/users/roles');
+            if (DEBUG) window.log('log', 'Available roles loaded:', this.availableRoles);
         },
 
-        async loadUserDetails(userId) {
+        async loadUserDetails(userId, requestId = this.editRequestId) {
             try {
-                this.editingUser = await this.apiRequest(`/v1/acp/users/${userId}`);
+                const user = await this.apiRequest(`/v1/acp/users/${userId}`);
+                if (requestId !== this.editRequestId || userId !== this.editingUserId) return;
+
+                this.editingUser = user;
                 if (DEBUG) window.log('log', 'Editing user loaded:', this.editingUser);
                 this.populateEditForm();
             } catch (error) {
+                if (requestId !== this.editRequestId || userId !== this.editingUserId) return;
                 if (DEBUG) window.log('error', 'Error loading user details:', error);
-                if (error.message.includes('404') || error.message.includes('not found')) {
+                if (error.status === 404 || error.message.includes('404') || error.message.includes('not found')) {
                     this.editingUser = {};
                 } else {
                     throw error;
@@ -387,8 +404,13 @@ document.addEventListener('alpine:init', () => {
             this.editPasswordForm.confirm_password = '';
         },
 
+        // The edit form is rendered inside the list for every user, so error elements have per-user ids
+        // (email_error_for_<id>); they are cleared by attribute to also reset the row that has just been closed
         clearEditFieldErrors() {
-            clearFieldErrors(['email_error', 'role_error']);
+            document.querySelectorAll('[data-edit-field-error]').forEach(element => {
+                element.textContent = '';
+                element.classList.add('hidden');
+            });
         },
 
         validateEditForm() {
@@ -396,12 +418,12 @@ document.addEventListener('alpine:init', () => {
             let hasErrors = false;
 
             if (!this.editForm.email || !isValidEmail(this.editForm.email)) {
-                showFieldError('email_error', 'Please enter a valid email address');
+                showFieldError(`email_error_for_${this.editingUserId}`, 'Please enter a valid email address');
                 hasErrors = true;
             }
 
             if (!this.editForm.role) {
-                showFieldError('role_error', 'Please select a role');
+                showFieldError(`role_error_for_${this.editingUserId}`, 'Please select a role');
                 hasErrors = true;
             }
 
@@ -446,7 +468,7 @@ document.addEventListener('alpine:init', () => {
 
         async saveEditedUser(event) {
             if (event) event.preventDefault();
-            if (this.editSaving) return;
+            if (this.editSaving || this.editLoading || !this.editingUser.id) return;
             if (!this.validateEditForm()) return;
 
             this.editSaving = true;
@@ -475,7 +497,7 @@ document.addEventListener('alpine:init', () => {
                 this.showEditMessage('User updated successfully', 'success');
             } catch (error) {
                 if (DEBUG) window.log('error', 'Error saving user:', error);
-                this.showEditMessage('Error updating user: ' + error.message, 'error');
+                this.showRequestError(error, 'Error updating user', true);
             } finally {
                 this.editSaving = false;
             }
@@ -496,7 +518,7 @@ document.addEventListener('alpine:init', () => {
         },
 
         async changeUserPassword() {
-            if (this.editSaving) return;
+            if (this.editSaving || this.editLoading || !this.editingUser.id) return;
             if (!this.validatePasswordForm()) return;
 
             this.editSaving = true;
@@ -512,22 +534,24 @@ document.addEventListener('alpine:init', () => {
                 this.showEditMessage('Password changed successfully', 'success');
             } catch (error) {
                 if (DEBUG) window.log('error', 'Error changing password:', error);
-                this.showEditMessage('Error changing password: ' + error.message, 'error');
+                this.showRequestError(error, 'Error changing password', true);
             } finally {
                 this.editSaving = false;
             }
         },
 
         async deleteUserAccount() {
+            if (this.editSaving || this.editLoading || !this.editingUser.id) return;
+            const requestId = this.editRequestId;
             const confirmed = await window.modal(
                 'Delete User',
-                `Are you sure you want to delete user <strong>${this.editingUser && this.editingUser.login ? this.editingUser.login : 'Unknown'}</strong>? This action cannot be undone.`,
+                `Are you sure you want to delete user <strong>${escapeHtml(this.editingUser && this.editingUser.login ? this.editingUser.login : 'Unknown')}</strong>? This action cannot be undone.`,
                 'Delete',
                 'Cancel',
                 'danger'
             );
 
-            if (!confirmed) return;
+            if (!confirmed || this.editSaving || this.editLoading || requestId !== this.editRequestId) return;
 
             this.editSaving = true;
             this.clearEditMessages();
@@ -542,22 +566,24 @@ document.addEventListener('alpine:init', () => {
                 this.closeEditPanel();
             } catch (error) {
                 if (DEBUG) window.log('error', 'Error deleting user:', error);
-                this.showEditMessage('Error deleting user: ' + error.message, 'error');
+                this.showRequestError(error, 'Error deleting user', true);
             } finally {
                 this.editSaving = false;
             }
         },
 
         async deleteUserAvatar() {
+            if (this.editSaving || this.editLoading || !this.editingUser.id) return;
+            const requestId = this.editRequestId;
             const confirmed = await window.modal(
                 'Delete Avatar',
-                `Are you sure you want to delete the avatar for user <strong>${this.editingUser && this.editingUser.login ? this.editingUser.login : 'Unknown'}</strong>?`,
+                `Are you sure you want to delete the avatar for user <strong>${escapeHtml(this.editingUser && this.editingUser.login ? this.editingUser.login : 'Unknown')}</strong>?`,
                 'Delete Avatar',
                 'Cancel',
                 'warning'
             );
 
-            if (!confirmed) return;
+            if (!confirmed || this.editSaving || this.editLoading || requestId !== this.editRequestId) return;
 
             this.editSaving = true;
             this.clearEditMessages();
@@ -578,7 +604,7 @@ document.addEventListener('alpine:init', () => {
                 this.showEditMessage('Avatar deleted successfully', 'success');
             } catch (error) {
                 if (DEBUG) window.log('error', 'Error deleting avatar:', error);
-                this.showEditMessage('Error deleting avatar: ' + error.message, 'error');
+                this.showRequestError(error, 'Error deleting avatar', true);
             } finally {
                 this.editSaving = false;
             }
@@ -661,14 +687,14 @@ document.addEventListener('alpine:init', () => {
                 this.showMessage(`User "${user.login}" has been banned`, 'success');
             } catch (error) {
                 if (DEBUG) window.log('error', 'Error banning user:', error);
-                this.showMessage('Error banning user: ' + error.message, 'error');
+                this.showRequestError(error, 'Error banning user');
             }
         },
 
         async showBanModal(user) {
             return new Promise((resolve) => {
                 // Create modal HTML without extra attributes visible
-                const modalHtml = `<div class="space-y-3 text-left"><p class="text-sm text-zinc-600 mb-2">Ban user: <strong>${user.login}</strong></p><div><label for="ban-reason" class="block text-sm font-medium text-zinc-700 mb-1">Reason (optional)</label><input type="text" id="ban-reason" placeholder="Enter ban reason" class="block w-full rounded-lg border border-zinc-300 px-3 py-2 text-sm focus:border-sky-500 focus:outline-none focus:ring-1 focus:ring-sky-500" /></div><div><label for="ban-expires" class="block text-sm font-medium text-zinc-700 mb-1">Expires (optional)</label><input type="datetime-local" id="ban-expires" class="block w-full rounded-lg border border-zinc-300 px-3 py-2 text-sm focus:border-sky-500 focus:outline-none focus:ring-1 focus:ring-sky-500" /><p class="mt-1 text-xs text-zinc-500">Leave empty for permanent ban</p></div></div>`;
+                const modalHtml = `<div class="space-y-3 text-left"><p class="text-sm text-zinc-600 mb-2">Ban user: <strong>${escapeHtml(user.login)}</strong></p><div><label for="ban-reason" class="block text-sm font-medium text-zinc-700 mb-1">Reason (optional)</label><input type="text" id="ban-reason" placeholder="Enter ban reason" class="block w-full rounded-lg border border-zinc-300 px-3 py-2 text-sm focus:border-sky-500 focus:outline-none focus:ring-1 focus:ring-sky-500" /></div><div><label for="ban-expires" class="block text-sm font-medium text-zinc-700 mb-1">Expires (optional)</label><input type="datetime-local" id="ban-expires" class="block w-full rounded-lg border border-zinc-300 px-3 py-2 text-sm focus:border-sky-500 focus:outline-none focus:ring-1 focus:ring-sky-500" /><p class="mt-1 text-xs text-zinc-500">Leave empty for permanent ban</p></div></div>`;
 
                 // Use Alpine modal store
                 const modal = window.Alpine.store('modal');
@@ -695,7 +721,7 @@ document.addEventListener('alpine:init', () => {
             // Use modal for confirmation
             const confirmed = await window.modal(
                 'Unban User',
-                `Are you sure you want to unban user <strong>${user.login}</strong>?`,
+                `Are you sure you want to unban user <strong>${escapeHtml(user.login)}</strong>?`,
                 'Unban',
                 'Cancel',
                 'notice'
@@ -718,7 +744,7 @@ document.addEventListener('alpine:init', () => {
                 this.showMessage(`User "${user.login}" has been unbanned`, 'success');
             } catch (error) {
                 if (DEBUG) window.log('error', 'Error unbanning user:', error);
-                this.showMessage('Error unbanning user: ' + error.message, 'error');
+                this.showRequestError(error, 'Error unbanning user');
             }
         },
 

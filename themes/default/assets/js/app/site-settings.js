@@ -4,9 +4,12 @@ import { request } from './api.js';
 const SiteSetting = {};
 
 // Load settings from API
-(async () => {
+export const siteSettingsReady = (async () => {
     try {
         const response = await request('/v1/settings');
+        if (!response.ok) {
+            throw new Error(`Failed to load site settings: ${response.status}`);
+        }
         const data = await response.json();
 
         if (data.data) {
@@ -15,8 +18,10 @@ const SiteSetting = {};
         }
 
     } catch (error) {
-        window.log('error', 'Failed to load site settings:', error);
+        console.error('Failed to load site settings:', error);
     }
+
+    return SiteSetting;
 })();
 
 export default SiteSetting;

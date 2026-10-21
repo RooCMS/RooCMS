@@ -57,7 +57,15 @@ document.addEventListener('alpine:init', () => {
             // Field-specific errors from server
             if (error.details) {
                 Object.keys(error.details).forEach(field => {
-                    window.FormHelperUtils.showFieldError(`${field}-error`, error.details[field]);
+                    // Server keys use underscores (password_confirmation), element ids use hyphens (password-confirmation-error)
+                    const errorId = `${field.replace(/_/g, '-')}-error`;
+
+                    if (document.getElementById(errorId)) {
+                        window.FormHelperUtils.showFieldError(errorId, error.details[field]);
+                    } else {
+                        // No element for this field: do not lose the message
+                        this.form_error = String(error.details[field]);
+                    }
                 });
             } 
             // Conflict errors (409) - user already exists

@@ -48,20 +48,23 @@ document.addEventListener('alpine:init', () => {
             this.clearMessages();
 
             try {
-                const response = await this.apiRequest('/v1/acp/settings/meta');
-                
-                // Extract settings and meta from response (handle both direct and nested data)
-                const data = response.data || response;
-                this.settings = this.processSettingsData(data.settings || {});
-                this.meta = data.meta || {};
-
-                if (DEBUG) window.log('log', 'Settings and metadata loaded successfully:', { settings: this.settings, meta: this.meta });
+                await this.fetchSettings();
             } catch (error) {
                 if (DEBUG) window.log('error', 'Error loading settings:', error);
                 this.showMessage(error.message || 'Error loading settings', 'error');
             } finally {
                 this.loading = false;
             }
+        },
+
+        // Refresh data within an operation that already manages the loading state.
+        async fetchSettings() {
+            const response = await this.apiRequest('/v1/acp/settings/meta');
+            const data = response.data || response;
+            this.meta = data.meta || {};
+            this.settings = this.processSettingsData(data.settings || {});
+
+            if (DEBUG) window.log('log', 'Settings and metadata loaded successfully:', { settings: this.settings, meta: this.meta });
         },
 
         // Save settings
@@ -79,8 +82,8 @@ document.addEventListener('alpine:init', () => {
                     body: JSON.stringify(formData)
                 });
 
+                await this.fetchSettings();
                 this.showMessage('Settings saved successfully');
-                await this.loadSettings();
             } catch (error) {
                 if (DEBUG) window.log('error', 'Error saving settings:', error);
                 
@@ -100,15 +103,15 @@ document.addEventListener('alpine:init', () => {
             if (this.loading) return;
 
             const confirmed = await this.confirmReset();
-            if (!confirmed) return;
+            if (!confirmed || this.loading) return;
 
             this.loading = true;
             this.clearMessages();
 
             try {
                 await this.apiRequest('/v1/acp/settings/reset/all');
+                await this.fetchSettings();
                 this.showMessage('Settings reset to default values');
-                await this.loadSettings();
             } catch (error) {
                 if (DEBUG) window.log('error', 'Error resetting settings:', error);
                 this.showMessage(error.message || 'Error resetting settings', 'error');

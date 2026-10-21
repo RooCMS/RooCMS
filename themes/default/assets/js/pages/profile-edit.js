@@ -36,8 +36,24 @@ document.addEventListener('alpine:init', () => {
 
         // Initialize component
         async init() {
+            this.watchMessages();
             await this.loadUserProfile();
             this.setupAvatarEventListeners();
+        },
+
+        // Auto-hide messages 5 seconds after they appear
+        // (do not name a data method $nextTick: it would collide with the Alpine magic of the same name)
+        watchMessages() {
+            ['successMessage', 'errorMessage', 'avatarError'].forEach(field => {
+                this.$watch(field, value => {
+                    if (!value) return;
+
+                    setTimeout(() => {
+                        // Hide only the message that was shown, not a newer one
+                        if (this[field] === value) this[field] = '';
+                    }, 5000);
+                });
+            });
         },
 
         // Handle 401 unauthorized responses
@@ -59,6 +75,8 @@ document.addEventListener('alpine:init', () => {
 
         // Wrapper for avatar loading state
         async withAvatarLoading(asyncFn) {
+            if (this.avatarUploading) return;
+
             try {
                 this.avatarUploading = true;
                 this.showAvatarError('');
@@ -93,6 +111,12 @@ document.addEventListener('alpine:init', () => {
             const deleteContainer = document.querySelector('[data-delete-container]');
             const uploadLabel = document.querySelector('[data-upload-label]');
             const uploadText = document.querySelector('[data-upload-text]');
+            const avatarInput = document.querySelector('[data-avatar-input]');
+            const deleteButton = document.querySelector('[data-delete-avatar]');
+
+            // Disable file selection and deletion until the current avatar operation finishes.
+            if (avatarInput) avatarInput.disabled = this.avatarUploading;
+            if (deleteButton) deleteButton.disabled = this.avatarUploading;
             
             // Hide all initially
             if (placeholder) placeholder.classList.add('hidden');
@@ -235,8 +259,9 @@ document.addEventListener('alpine:init', () => {
                     showSuccessMessage('Profile updated successfully!');
                     redirectAfterSuccess('/!/myprofile', 2000);
                 } else {
-                    if (data.errors) {
-                        this.handleValidationErrors(data.errors);
+                    const validationErrors = data.details?.validation_errors ?? data.errors;
+                    if (validationErrors && Object.keys(validationErrors).length > 0) {
+                        this.handleValidationErrors(validationErrors);
                         this.errorMessage = 'Please fix the errors and try again.';
                     } else {
                         this.errorMessage = data.message || 'Failed to update profile';
@@ -312,6 +337,11 @@ document.addEventListener('alpine:init', () => {
 
         // Handle avatar file selection
         async handleAvatarSelect(event) {
+            if (this.avatarUploading) {
+                event.target.value = '';
+                return;
+            }
+
             const file = event.target.files[0];
             if (!file) return;
 
@@ -334,14 +364,6 @@ document.addEventListener('alpine:init', () => {
                 return;
             }
 
-            // Show preview
-            const reader = new FileReader();
-            reader.onload = (e) => {
-                this.avatarPreview = e.target.result;
-                this.updateAvatarUI();
-            };
-            reader.readAsDataURL(file);
-
             // Upload avatar
             await this.uploadAvatar(file);
             
@@ -352,36 +374,47 @@ document.addEventListener('alpine:init', () => {
         // Upload avatar to server
         async uploadAvatar(file) {
             return await this.withAvatarLoading(async () => {
-                const formData = new FormData();
-                formData.append('avatar', file);
+                try {
+                    // Hold the lock while reading the preview as well as uploading.
+                    this.avatarPreview = await new Promise((resolve, reject) => {
+                        const reader = new FileReader();
+                        reader.onload = event => resolve(event.target.result);
+                        reader.onerror = () => reject(new Error('Failed to read avatar file'));
+                        reader.onabort = () => reject(new Error('Avatar file reading was cancelled'));
+                        reader.readAsDataURL(file);
+                    });
+                    this.updateAvatarUI();
 
-                const response = await request('/v1/users/me/avatar', {
-                    method: 'POST',
-                    body: formData
-                });
+                    const formData = new FormData();
+                    formData.append('avatar', file);
 
-                if (!response.ok) {
-                    if (response.status === 401) {
-                        this.handleUnauthorized();
-                        return;
+                    const response = await request('/v1/users/me/avatar', {
+                        method: 'POST',
+                        body: formData
+                    });
+
+                    if (!response.ok) {
+                        if (response.status === 401) {
+                            this.handleUnauthorized();
+                            return;
+                        }
+
+                        const errorData = await response.json();
+                        throw new Error(errorData.message || 'Failed to upload avatar');
                     }
-                    
-                    const errorData = await response.json();
-                    throw new Error(errorData.message || 'Failed to upload avatar');
-                }
 
-                const data = await response.json();
-                
-                // Update current avatar and clear preview (add timestamp to force reload)
-                this.currentAvatar = `/up/${data.data.avatar_path}?t=${Date.now()}`;
-                this.avatarPreview = null;
-                
-                showSuccessMessage('Avatar uploaded successfully!');
-            }).catch(error => {
-                if (!this.handleError(error, 'Avatar upload')) {
-                    this.showAvatarError(error.message || 'Failed to upload avatar. Please try again.');
+                    const data = await response.json();
+
+                    // Add timestamp to force the uploaded avatar to reload.
+                    this.currentAvatar = `/up/${data.data.avatar_path}?t=${Date.now()}`;
+                    showSuccessMessage('Avatar uploaded successfully!');
+                } catch (error) {
+                    if (!this.handleError(error, 'Avatar upload')) {
+                        this.showAvatarError(error.message || 'Failed to upload avatar. Please try again.');
+                    }
+                } finally {
+                    this.avatarPreview = null;
                 }
-                this.avatarPreview = null;
             });
         },
 
@@ -421,23 +454,5 @@ document.addEventListener('alpine:init', () => {
             });
         },
 
-        // Auto-hide messages after 5 seconds
-        $nextTick() {
-            if (this.successMessage) {
-                setTimeout(() => {
-                    this.successMessage = '';
-                }, 5000);
-            }
-            if (this.errorMessage) {
-                setTimeout(() => {
-                    this.errorMessage = '';
-                }, 5000);
-            }
-            if (this.avatarError) {
-                setTimeout(() => {
-                    this.avatarError = '';
-                }, 5000);
-            }
-        }
     }));
 });

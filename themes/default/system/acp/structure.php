@@ -48,7 +48,8 @@ ob_start();
                         </button>
                     </div>
 
-                    <form x-on:submit.prevent="savePage()" class="space-y-4">
+                    <p x-show="formLoading" class="text-sm text-zinc-500">Loading page data...</p>
+                    <form x-show="formReady" x-on:submit.prevent="savePage()" class="space-y-4">
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <!-- Slug -->
                             <div>
@@ -163,7 +164,7 @@ ob_start();
                         <div class="flex flex-col sm:flex-row gap-3 items-start sm:items-center">
                             <div class="flex items-center gap-2">
                                 <label for="status-filter" class="text-sm font-medium text-zinc-700">Status:</label>
-                                <select id="status-filter" x-model="filters.status" x-on:change="loadPages()"
+                                <select id="status-filter" x-model="filters.status"
                                         class="select-custom rounded-lg border border-zinc-300 bg-white px-3 py-1.5 text-sm text-zinc-900 focus:border-sky-500 focus:outline-none">
                                     <option value="">All</option>
                                     <option value="draft">Draft</option>
@@ -173,7 +174,7 @@ ob_start();
                             </div>
                             <div class="flex items-center gap-2">
                                 <label for="search-filter" class="text-sm font-medium text-zinc-700">Search:</label>
-                                <input type="text" id="search-filter" x-model.debounce.300ms="filters.search" x-on:input="loadPages()"
+                                <input type="text" id="search-filter" x-model.debounce.300ms="filters.search"
                                        placeholder="Title or slug..."
                                        class="rounded-lg border border-zinc-300 bg-white px-3 py-1.5 text-sm text-zinc-900 placeholder-zinc-400 focus:border-sky-500 focus:outline-none">
                             </div>

@@ -6,6 +6,7 @@
 
 import { request, handleApiError } from '../app/api.js';
 import { DEBUG } from '../app/config.js';
+import { escapeHtml } from '../app/helpers/formatters.js';
 
 // Alpine.js Structure Manager Component
 document.addEventListener('alpine:init', () => {
@@ -25,6 +26,7 @@ document.addEventListener('alpine:init', () => {
             search: ''
         },
         loading: false,
+        reloadQueued: false,
         successMessage: '',
         errorMessage: '',
 
@@ -32,6 +34,9 @@ document.addEventListener('alpine:init', () => {
         showCreateForm: false,
         editingPageId: null,
         modalLoading: false,
+        formLoading: false,
+        formReady: false,
+        formRequestId: 0,
         form: {
             slug: '',
             title: '',
@@ -46,6 +51,11 @@ document.addEventListener('alpine:init', () => {
 
         // Initialization
         init() {
+            // Filters are watched instead of x-on:input/x-on:change: x-model.debounce updates the model
+            // with a delay, so an input handler would read the previous value of the search string.
+            this.$watch('filters.status', () => this.applyFilters());
+            this.$watch('filters.search', () => this.applyFilters());
+
             Promise.all([
                 this.loadPages()
             ]).catch(error => {
@@ -53,9 +63,20 @@ document.addEventListener('alpine:init', () => {
             });
         },
 
+        // A changed filter changes the result set: start from the first page
+        applyFilters() {
+            this.pagination.offset = 0;
+            this.pagination.current_page = 1;
+            return this.loadPages();
+        },
+
         // Load pages from API
         async loadPages() {
-            if (this.loading) return;
+            // A request is already running: repeat it afterwards with the current filters instead of losing the change
+            if (this.loading) {
+                this.reloadQueued = true;
+                return;
+            }
 
             this.loading = true;
             this.clearMessages();
@@ -78,14 +99,31 @@ document.addEventListener('alpine:init', () => {
                 this.showMessage(error.message || 'Error loading pages', 'error');
             } finally {
                 this.loading = false;
+
+                if (this.reloadQueued) {
+                    this.reloadQueued = false;
+                    this.loadPages();
+                }
             }
         },
 
         // Load available parent pages for dropdown
-        async loadAvailableParents() {
+        async loadAvailableParents(requestId = this.formRequestId) {
             try {
-                const response = await this.apiRequest('/v1/acp/structure?limit=1000');
-                const allPages = response.data?.pages || [];
+                const allPages = [];
+                let offset = 0;
+                let total = 0;
+
+                do {
+                    const response = await this.apiRequest(`/v1/acp/structure?limit=200&offset=${offset}`);
+                    if (requestId !== this.formRequestId) return;
+                    const pages = response.data?.pages || [];
+                    if (pages.length === 0) break;
+
+                    allPages.push(...pages);
+                    offset += pages.length;
+                    total = Number(response.data?.pagination?.total ?? offset);
+                } while (offset < total);
                 
                 // Exclude current page being edited and root page (id=1) from parent options
                 // Root page cannot be a parent - it's the root itself
@@ -98,36 +136,62 @@ document.addEventListener('alpine:init', () => {
                     return !isRootPage && pageId !== editingId;
                 });
             } catch (error) {
-                this.availableParents = [];
+                if (requestId === this.formRequestId) this.availableParents = [];
             }
         },
 
         // Show create form
         async showCreateFormModal() {
+            if (this.modalLoading) return;
+            const requestId = ++this.formRequestId;
             this.editingPageId = null;
             this.showCreateForm = true;
+            this.formLoading = true;
+            this.formReady = false;
+            this.availableParents = [];
             this.resetForm();
-            await this.loadAvailableParents();
+            try {
+                await this.loadAvailableParents(requestId);
+                if (requestId === this.formRequestId) this.formReady = true;
+            } finally {
+                if (requestId === this.formRequestId) this.formLoading = false;
+            }
         },
 
         // Show edit modal
         async showEditModal(pageId) {
+            if (this.modalLoading) return;
+            const requestId = ++this.formRequestId;
             this.editingPageId = pageId;
             this.showCreateForm = true;
+            this.formLoading = true;
+            this.formReady = false;
+            this.availableParents = [];
+            this.resetForm();
 
             try {
                 const response = await this.apiRequest(`/v1/acp/structure/${pageId}`);
+                if (requestId !== this.formRequestId) return;
                 this.populateForm(response.data || response);
-                await this.loadAvailableParents();
+                await this.loadAvailableParents(requestId);
+                if (requestId === this.formRequestId) this.formReady = true;
             } catch (error) {
+                if (requestId !== this.formRequestId) return;
                 this.showMessage('Error loading page data', 'error');
+            } finally {
+                if (requestId === this.formRequestId) this.formLoading = false;
             }
         },
 
         // Close edit form
-        closeEditForm() {
+        closeEditForm(force = false) {
+            if (this.modalLoading && !force) return;
+            ++this.formRequestId;
             this.showCreateForm = false;
             this.editingPageId = null;
+            this.formLoading = false;
+            this.formReady = false;
+            this.availableParents = [];
             this.resetForm();
         },
 
@@ -174,7 +238,7 @@ document.addEventListener('alpine:init', () => {
 
         // Save page (create or update)
         async savePage() {
-            if (this.modalLoading) return;
+            if (this.modalLoading || this.formLoading || !this.formReady) return;
 
             this.modalLoading = true;
             this.clearMessages();
@@ -192,7 +256,7 @@ document.addEventListener('alpine:init', () => {
                 });
 
                 this.showMessage(`Page ${this.editingPageId ? 'updated' : 'created'} successfully`);
-                this.closeEditForm();
+                this.closeEditForm(true);
                 await this.loadPages();
 
             } catch (error) {
@@ -226,7 +290,7 @@ document.addEventListener('alpine:init', () => {
 
             const confirmed = await window.modal(
                 'Change Page Status',
-                `Are you sure you want to change status of "<strong>${page.title}</strong>" from ${statusText[currentStatus]} to ${statusText[newStatus]}?`,
+                `Are you sure you want to change status of "<strong>${escapeHtml(page.title)}</strong>" from ${statusText[currentStatus]} to ${statusText[newStatus]}?`,
                 'Change Status',
                 'Cancel',
                 'notice'
@@ -261,7 +325,7 @@ document.addEventListener('alpine:init', () => {
             if (page.childs > 0) {
                 await window.modal(
                     'Cannot Delete Page',
-                    `Page "<strong>${title}</strong>" has ${page.childs} child page(s). Please delete child pages first.`,
+                    `Page "<strong>${escapeHtml(title)}</strong>" has ${page.childs} child page(s). Please delete child pages first.`,
                     'OK',
                     '',
                     'warning'
@@ -282,7 +346,7 @@ document.addEventListener('alpine:init', () => {
 
             const confirmed = await window.modal(
                 'Delete Page',
-                `Are you sure you want to delete page "<strong>${title}</strong>"? This action cannot be undone.`,
+                `Are you sure you want to delete page "<strong>${escapeHtml(title)}</strong>"? This action cannot be undone.`,
                 'Delete',
                 'Cancel',
                 'alert'

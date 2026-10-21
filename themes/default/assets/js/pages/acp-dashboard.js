@@ -26,7 +26,7 @@ async function getHealthDetails() {
 // Create Alpine component for system status
 document.addEventListener('alpine:init', () => {
     window.Alpine.data('systemStatus', () => ({
-        loading: true,
+        loading: false,
         lastUpdated: null,
         healthData: null,
         error: null,
@@ -88,17 +88,19 @@ document.addEventListener('alpine:init', () => {
         },
 
         async loadHealthData() {
+            if (this.loading) return;
+
             this.loading = true;
             this.error = null;
 
             try {
                 this.healthData = await getHealthDetails();
                 this.lastUpdated = new Date();
-                this.resetCountdown();
             } catch (error) {
                 window.log('error', 'Error loading system health data:', error);
                 this.error = error.message || 'Error loading system health data';
             } finally {
+                this.resetCountdown();
                 this.loading = false;
             }
         },
@@ -120,9 +122,12 @@ document.addEventListener('alpine:init', () => {
 
             // Countdown timer (updates every second)
             this.countdownTimer = setInterval(() => {
+                if (this.loading) return;
+
                 if (this.countdown > 0) {
                     this.countdown--;
-                } else {
+                }
+                if (this.countdown === 0) {
                     // When countdown reaches 0, reload data
                     this.loadHealthData();
                 }

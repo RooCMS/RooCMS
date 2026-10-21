@@ -56,8 +56,9 @@ function handleLoginError(error) {
             return 'Invalid login credentials. Please check your login/email and password.';
 
         case 403: // Forbidden - account issues
-            if (error.message?.includes('not verified')) {
-                return 'Your account is not verified. Please check your email for verification link.';
+            // Server messages: "Account is not active" and "Account is banned" (UserValidationService::validate_account_status)
+            if (error.message?.includes('not active')) {
+                return 'Your account is not active. Please contact support.';
             } else if (error.message?.includes('banned')) {
                 return 'Your account has been banned. Please contact support.';
             } else {

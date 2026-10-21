@@ -75,19 +75,6 @@ if(!defined('RooCMS')) {roocms_protect();}
                 </div>
             </div>
 
-            <script nonce="<?php render_html($csp_nonce); ?>">
-            // Show correct auth buttons immediately to prevent flickering
-            const isAuth = !!localStorage.getItem('access_token');
-            ['auth-guest', 'mobile-auth-guest'].forEach(id => {
-                const el = document.getElementById(id);
-                if (el) el.classList.toggle('hidden', isAuth);
-            });
-            ['auth-user', 'mobile-auth-user'].forEach(id => {
-                const el = document.getElementById(id);
-                if (el) el.classList.toggle('hidden', !isAuth);
-            });
-            </script>
-
             <!-- Mobile menu button (placeholder for future JS implementation) -->
             <div class="md:hidden">
                 <button type="button" class="inline-flex items-center justify-center rounded-md p-2 text-zinc-700 hover:bg-zinc-100 hover:text-zinc-900 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-zinc-900" x-on:click="$store.mobileMenu.toggle()">
@@ -150,4 +137,16 @@ if(!defined('RooCMS')) {roocms_protect();}
             </div>
         </div>
     </div>
+    <script nonce="<?php render_html($csp_nonce); ?>">
+    // Both desktop and mobile auth links are now available in the DOM.
+    const isAuth = !!localStorage.getItem('access_token');
+    ['auth-guest', 'mobile-auth-guest'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.classList.toggle('hidden', isAuth);
+    });
+    ['auth-user', 'mobile-auth-user'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.classList.toggle('hidden', !isAuth);
+    });
+    </script>
 </header>

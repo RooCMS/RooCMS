@@ -7,7 +7,15 @@ import { formatDate, formatDateTime } from '../app/helpers/formatters.js';
  * @returns {Promise<object>} - User data
  */
 async function getUserById(user_id) {
-    const res = await request(`/v1/users/${user_id}`, { method: 'GET' });
+    // TODO: Move user ID validation to the backend API.
+    const id = Number(user_id);
+    if (!/^\d+$/.test(String(user_id)) || !Number.isSafeInteger(id) || id <= 0) {
+        const error = new Error('Invalid user ID');
+        error.status = 400;
+        throw error;
+    }
+
+    const res = await request(`/v1/users/${id}`, { method: 'GET' });
     const json = await res.json();
 
     if (!res.ok) {
@@ -21,6 +29,7 @@ async function getUserById(user_id) {
 
 // Error messages map for better UX
 const ERROR_MESSAGES = {
+    400: { message: 'Invalid user ID', showLogin: false },
     401: { message: 'To view this user\'s profile, you need to sign in.', showLogin: true },
     403: { message: 'Access denied to user profile', showLogin: false },
     404: { message: 'User not found', showLogin: false }
@@ -58,7 +67,7 @@ document.addEventListener('alpine:init', () => {
                 this.updatePageMeta();
             } catch (error) {
                 // Don't log expected errors to console
-                if (![401, 403, 404].includes(error.status)) {
+                if (![400, 401, 403, 404].includes(error.status)) {
                     window.log('error', 'Error loading user profile:', error);
                 }
                 this.handleError(error);

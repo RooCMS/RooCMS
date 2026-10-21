@@ -18,7 +18,7 @@ import {
 } from './auth.js';
 
 // Import site settings
-import SiteSetting from './site-settings.js';
+import SiteSetting, { siteSettingsReady } from './site-settings.js';
 window.SiteSetting = SiteSetting;
 
 // Import utilities and make them globally available
@@ -62,23 +62,12 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     }
 
-    // Update meta tags with site settings
-    // Simple retry mechanism for settings loading
-    // TODO: This can be done without js and using the constant in php SETTING_SITE_NAME in the template,
-    // but I've implemented this through js for testing purposes (in the future it can be removed)
-    // I haven't yet decided how templates will be rendered.
-    const updateMetaTags = () => {
-        if (window.SiteSetting && window.SiteSetting.site_name) {
-            const ogSiteName = document.getElementById('og-site-name');
-            if (ogSiteName) {
-                ogSiteName.setAttribute('content', window.SiteSetting.site_name);
-            }
-        } else {
-            setTimeout(updateMetaTags, 100);
-        }
-    };
-
-    updateMetaTags();
+    // Update meta tags once the settings request has finished.
+    const settings = await siteSettingsReady;
+    const ogSiteName = document.getElementById('og-site-name');
+    if (ogSiteName && settings.site_name) {
+        ogSiteName.setAttribute('content', settings.site_name);
+    }
 });
 
 // Global Alpine data
@@ -92,36 +81,15 @@ document.addEventListener('alpine:init', () => {
         site_description: '',
         site_feedback_email: '',
         
-        // Initialize with data from SiteSetting when available
-        init() {
-            const updateFromSiteSetting = () => {
-                if (window.SiteSetting) {
-                    this.site_name = window.SiteSetting.site_name || '';
-                    this.site_domain = window.SiteSetting.site_domain || '';
-                    this.site_description = window.SiteSetting.site_description || '';
-                    this.site_feedback_email = window.SiteSetting.site_feedback_email || '';
-                }
-            };
-
-            // Initial update
-            updateFromSiteSetting();
-
-            // Set up polling for async loading (check every 100ms for 5 seconds)
-            let attempts = 0;
-            const maxAttempts = 10;
-            const pollInterval = setInterval(() => {
-                attempts++;
-                updateFromSiteSetting();
-
-                if (window.SiteSetting && window.SiteSetting.site_name || attempts >= maxAttempts) {
-                    clearInterval(pollInterval);
-                }
-            }, 100);
+        // Alpine calls init() when the store is registered.
+        async init() {
+            const settings = await siteSettingsReady;
+            this.site_name = settings.site_name || '';
+            this.site_domain = settings.site_domain || '';
+            this.site_description = settings.site_description || '';
+            this.site_feedback_email = settings.site_feedback_email || '';
         }
     });
-
-    // Initialize siteSettings store
-    window.Alpine.store('siteSettings').init();
 
     // Modal store
     window.Alpine.store('modal', {

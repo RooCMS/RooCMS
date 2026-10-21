@@ -252,7 +252,7 @@ ob_start();
                                                                 <label :for="'email_for_' + user.id" class="block text-sm font-medium text-zinc-700 mb-2">Email <span class="badge danger">Required</span></label>
                                                                 <input type="email" :id="'email_for_' + user.id" x-model="editForm.email" required
                                                                         class="block w-full rounded-lg border border-zinc-300 bg-white px-3 py-2 text-sm text-zinc-900 focus:border-sky-500 focus:outline-none focus:ring-1 focus:ring-sky-500">
-                                                                <div id="email_error" class="mt-1 text-sm text-red-600 hidden"></div>
+                                                                <div :id="'email_error_for_' + user.id" data-edit-field-error class="mt-1 text-sm text-red-600 hidden"></div>
                                                             </div>
 
                                                             <!-- Role -->
@@ -264,7 +264,7 @@ ob_start();
                                                                         <option :value="role.key" x-text="role.name + ' - ' + role.description"></option>
                                                                     </template>
                                                                 </select>
-                                                                <div id="role_error" class="mt-1 text-sm text-red-600 hidden"></div>
+                                                                <div :id="'role_error_for_' + user.id" data-edit-field-error class="mt-1 text-sm text-red-600 hidden"></div>
                                                             </div>
 
                                                             <!-- Status Toggles -->

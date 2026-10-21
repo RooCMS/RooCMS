@@ -7,7 +7,7 @@ $page_description = 'Privacy policy RooCMS';
 $theme_name = basename(dirname(__DIR__));
 $theme_base = '/themes/'.$theme_name;
 
-$page_scripts = [$theme_base.'/assets/js/pages/privacy.js'];
+$page_scripts = [];
 
 ob_start();
 ?>

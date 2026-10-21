@@ -9,6 +9,14 @@
 import { request, setAccessToken, setRefreshToken } from './api.js';
 
 
+// Login responses use user_id, while profile responses use id.
+function normalizeUserData(userData) {
+    if (!userData) return null;
+
+    return { ...userData, id: userData.id ?? userData.user_id ?? null };
+}
+
+
 /**
  * Clears user data from localStorage
  * @returns {void}
@@ -28,6 +36,7 @@ export function clearUserData() {
  * @returns {void}
  */
 export function setUserData(userData) {
+    userData = normalizeUserData(userData);
     if (userData) {
         localStorage.setItem('user_data', JSON.stringify(userData));
         // Update Alpine store if available
@@ -149,7 +158,7 @@ export async function getCurrentUser() {
 export function getUserData() {
     try {
         const data = localStorage.getItem('user_data');
-        return data ? JSON.parse(data) : null;
+        return data ? normalizeUserData(JSON.parse(data)) : null;
     } catch (e) {
         return null;
     }

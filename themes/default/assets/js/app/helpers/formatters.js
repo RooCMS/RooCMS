@@ -3,6 +3,16 @@
  */
 
 /**
+ * Escapes text for insertion into HTML
+ * @param {string|number|null|undefined} value - Value to escape
+ * @returns {string} - Escaped text
+ */
+export function escapeHtml(value) {
+    const entities = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' };
+    return String(value ?? '').replace(/[&<>"']/g, character => entities[character]);
+}
+
+/**
  * Formats timestamp to date
  * @param {number|string} timestamp - Unix timestamp or date string
  * @returns {string} - Formatted date
