@@ -73,11 +73,10 @@ function safe_json_decode(string $json_string, int $max_size = 1048576): ?array 
         return null;
     }
 
-    // Decode JSON
-    $data = json_decode($json_string, true, 512, JSON_THROW_ON_ERROR);
-
-    // Check for JSON errors
-    if (json_last_error() !== JSON_ERROR_NONE) {
+    // Decode JSON (broken JSON must give null, not an exception)
+    try {
+        $data = json_decode($json_string, true, 512, JSON_THROW_ON_ERROR);
+    } catch (JsonException $e) {
         return null;
     }
 
