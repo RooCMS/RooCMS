@@ -190,15 +190,14 @@ document.addEventListener('alpine:init', () => {
     getDumpTypeColor(dump) {
         const type = this.getDumpType(dump).toLowerCase();
         const colors = {
-            'string':   'bg-green-100 text-green-800',
-            'number':   'bg-blue-100 text-blue-800',
-            'boolean':  'bg-yellow-100 text-yellow-800',
-            'null':     'bg-gray-100 text-gray-800',
-            'object':   'bg-orange-100 text-orange-800',
-            'function': 'bg-pink-100 text-pink-800'
+            'string':   'success',
+            'number':   'info',
+            'boolean':  'warning',
+            'null':     'neutral',
+            'object':   'orange',
+            'function': 'pink'
         };
-        return type.includes('array') ? 'bg-purple-100 text-purple-800' : 
-               colors[type] || 'bg-indigo-100 text-indigo-800';
+        return type.includes('array') ? 'violet' : colors[type] || 'indigo';
     },
 
     // Dump analysis helpers (consolidated)

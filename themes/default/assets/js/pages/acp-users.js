@@ -12,10 +12,10 @@ import { showFieldError } from '../app/helpers/formHelpers.js';
 
 // Constants
 const ROLE_BADGE_CLASSES = {
-    'u': 'bg-zinc-100 text-zinc-700',
-    'm': 'bg-sky-100 text-sky-700',
-    'a': 'bg-amber-100 text-amber-700',
-    'su': 'bg-rose-100 text-rose-700'
+    'u': 'neutral',
+    'm': 'info',
+    'a': 'warning',
+    'su': 'danger'
 };
 
 const MESSAGE_AUTO_HIDE_DELAY = 5000;

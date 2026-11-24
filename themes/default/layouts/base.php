@@ -118,6 +118,7 @@ $theme_base = '/themes/'.$theme_name;
                            </span>
                        </button>
                    </div>
+                </div>
             </div>
         </div>
     </div>

@@ -13,44 +13,38 @@ $page_scripts = [
 	$theme_base.'/assets/js/pages/acp-dashboard.js'
 ];
 
+$acp_heading = 'Dashboard';
+$acp_intro = 'Overview of key metrics and latest actions.';
+$acp_breadcrumb = 'ACP';
+$acp_home_label = 'Home';
+
 ob_start();
 ?>
 
-<div class="py-10">
-	<div class="grid grid-cols-1 gap-8 lg:grid-cols-[260px_1fr] px-4 sm:px-6 lg:px-8 space-y-8">
+<div class="acp-shell">
+	<div class="acp-layout">
 		<?php require __DIR__ . '/../../partials/acp-nav.php'; ?>
 
-		<section>
+		<section class="acp-content">
 			<header class="mb-8">
-				<nav class="mb-3 text-sm text-zinc-500" aria-label="Breadcrumbs">
-					<ol class="flex items-center gap-2">
-						<li><a href="/" class="hover:text-zinc-700">Home</a></li>
-						<li aria-hidden="true" class="text-zinc-400">/</li>
-						<li><a href="/!/acp" aria-current="page" class="text-zinc-700">ACP</a></li>
-					</ol>
-				</nav>
-				<h1 class="text-2xl font-semibold tracking-tight text-zinc-900">Dashboard</h1>
-				<p class="mt-2 text-sm text-zinc-600">Overview of key metrics and latest actions.</p>
+                <?php require __DIR__ . '/../../partials/acp-heading.php'; ?>
         	</header>
 
-			<div class="mt-10 grid grid-cols-3 grid-rows-3 gap-6">
-				<div class="rounded-xl border border-zinc-200/80 bg-white/80 p-5 shadow-sm backdrop-blur col-span-2 row-span-2">
-					<h2 class="mb-4 text-base font-semibold text-zinc-900">Information</h2>
+			<div class="acp-dashboard">
+				<div class="ui-panel xl:col-span-2 xl:row-span-2">
+					<h2 class="ui-section-title">Information</h2>
 				</div>
 
-				<div class="rounded-xl border border-zinc-200/80 bg-white/80 p-5 shadow-sm backdrop-blur col-span-1 row-span-1" x-data="systemStatus">
+				<div class="ui-panel col-span-1 row-span-1" x-data="systemStatus">
 					<div class="flex items-center justify-between mb-4">
 						<h2 class="text-base font-semibold text-zinc-900">System status</h2>
-						<div x-show="loading" class="flex items-center text-sm text-zinc-500">
-							<svg class="animate-spin -ml-1 mr-2 h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-								<circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-								<path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-							</svg>
+						<div x-show="loading" class="inline-flex items-center gap-3 text-sm text-zinc-500">
+							<?php require __DIR__ . '/../../partials/ui-spinner.php'; ?>
 							Updating...
 						</div>
 						<div x-show="!loading && lastUpdated" class="flex items-center gap-3 text-xs">
 							<span class="text-zinc-400" x-text="'Updated: ' + formatTimeOnly(lastUpdated)"></span>
-							<span class="inline-flex items-center px-2 py-0.5 rounded-md text-xs font-mono border border-neutral-300 bg-transparent text-zinc-400">
+							<span class="badge neutral compact font-mono">
 								<span x-text="countdown + 's'"></span>
 							</span>
 						</div>
@@ -63,8 +57,8 @@ ob_start();
 								</svg>
 								API
 							</span>
-							<span class="rounded-md px-2 py-0.5 text-xs font-medium"
-							      :class="apiStatus === 'ok' ? 'bg-emerald-50 text-emerald-700' : (apiStatus === 'error' ? 'bg-red-50 text-red-700' : 'bg-gray-50 text-gray-700')"
+							<span class="badge compact"
+							      :class="apiStatus === 'ok' ? 'success' : (apiStatus === 'error' ? 'danger' : 'neutral')"
 							      x-text="apiStatus === 'ok' ? 'OK' : (apiStatus === 'error' ? 'Error' : 'Loading...')">
 							</span>
 						</li>
@@ -75,8 +69,8 @@ ob_start();
 								</svg>
 								Database
 							</span>
-							<span class="rounded-md px-2 py-0.5 text-xs font-medium"
-							      :class="databaseStatus === 'ok' ? 'bg-emerald-50 text-emerald-700' : (databaseStatus === 'error' ? 'bg-red-50 text-red-700' : 'bg-gray-50 text-gray-700')"
+							<span class="badge compact"
+							      :class="databaseStatus === 'ok' ? 'success' : (databaseStatus === 'error' ? 'danger' : 'neutral')"
 							      x-text="databaseStatus === 'ok' ? 'OK' : (databaseStatus === 'error' ? 'Error' : 'Loading...')">
 							</span>
 						</li>
@@ -159,7 +153,7 @@ ob_start();
 									</svg>
 									Total registered users
 								</span>
-								<span class="text-sm  text-zinc-500 ml-2" x-text="usersCount"></span>
+								<span class="text-sm text-zinc-500 ml-2" x-text="usersCount"></span>
 							</div>
 						</div>
 					</div>
@@ -167,13 +161,13 @@ ob_start();
 					<div x-show="error" class="mt-3 text-xs text-red-600" x-text="error"></div>
                 </div>
 
-				<div class="rounded-xl border border-zinc-200/80 bg-white/80 p-5 shadow-sm backdrop-blur col-span-1 row-span-1">
-					<h2 class="mb-4 text-base font-semibold text-zinc-900">Quick actions</h2>
+				<div class="ui-panel col-span-1 row-span-1">
+					<h2 class="ui-section-title">Quick actions</h2>
 					<div class="grid grid-cols-1 gap-3 sm:grid-cols-2">
-						<a href="/acp/content/new" class="block rounded-lg border border-zinc-200/80 bg-white/90 px-4 py-3 text-sm font-medium text-zinc-700 hover:bg-white">New content</a>
-						<a href="/acp/users/new" class="block rounded-lg border border-zinc-200/80 bg-white/90 px-4 py-3 text-sm font-medium text-zinc-700 hover:bg-white">New user</a>
-						<a href="/acp/media" class="block rounded-lg border border-zinc-200/80 bg-white/90 px-4 py-3 text-sm font-medium text-zinc-700 hover:bg-white">Upload media</a>
-						<a href="/acp/settings" class="block rounded-lg border border-zinc-200/80 bg-white/90 px-4 py-3 text-sm font-medium text-zinc-700 hover:bg-white">Settings</a>
+						<a href="/!/acp/structure" class="btn secondary full-width">Structure</a>
+						<a href="/!/acp/users" class="btn secondary full-width">Users</a>
+						<a href="/!/acp/debug" class="btn secondary full-width">Debug</a>
+						<a href="/!/acp/settings" class="btn secondary full-width">Settings</a>
                     </div>
                 </div>
             </div>

@@ -6,6 +6,7 @@
 
 import { request, handleApiError } from '../app/api.js';
 import { DEBUG } from '../app/config.js';
+import { set_control_error, clear_control_errors } from '../app/helpers/controlErrors.js';
 
 // Constants
 const INPUT_TYPE_MAPPING = {
@@ -242,11 +243,7 @@ document.addEventListener('alpine:init', () => {
         },
 
         clearValidationErrors() {
-            document.querySelectorAll('.validation-error').forEach(el => {
-                el.classList.remove('validation-error', 'border-red-500', 'focus:border-red-500');
-                el.classList.add('border-zinc-300', 'focus:border-sky-500');
-            });
-            document.querySelectorAll('.field-error-message').forEach(el => el.remove());
+            clear_control_errors(this.$root);
         },
 
         showValidationErrors(validationErrors) {
@@ -287,26 +284,7 @@ document.addEventListener('alpine:init', () => {
         },
 
         highlightFieldError(fieldElement, errorMessage) {
-            // Add error classes to the field
-            fieldElement.classList.add('validation-error', 'border-red-500', 'focus:border-red-500');
-            fieldElement.classList.remove('border-zinc-300', 'focus:border-sky-500');
-
-            // Find the field container
-            const fieldContainer = fieldElement.closest('.field-container');
-            if (!fieldContainer) return;
-
-            // Create new error message element
-            const errorElement = document.createElement('p');
-            errorElement.className = 'field-error-message mt-1 text-xs text-red-600';
-            errorElement.textContent = errorMessage;
-
-            // Insert error message after the field or after existing description
-            const fieldDiv = fieldElement.closest('div');
-            if (fieldDiv && fieldDiv.parentNode === fieldContainer) {
-                fieldDiv.insertAdjacentElement('afterend', errorElement);
-            } else {
-                fieldContainer.appendChild(errorElement);
-            }
+            set_control_error(fieldElement, errorMessage);
         },
 
         showMessage(message, type = 'success') {

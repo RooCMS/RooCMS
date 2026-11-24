@@ -6,27 +6,22 @@ $page_description = 'UI components for RooCMS ACP';
 
 $theme_name = basename(dirname(__DIR__, 2));
 $theme_base = '/themes/'.$theme_name;
-$page_scripts = [$theme_base.'/assets/js/pages/acp-ui-kit.js'];
+$page_scripts = [$theme_base.'/assets/js/app/acp.js', $theme_base.'/assets/js/pages/acp-ui-kit.js'];
+
+$acp_heading = 'UI Kit';
+$acp_intro = 'Компоненты админ-панели и интерактивные примеры. Все данные демонстрационные и не сохраняются на сервере.';
+$acp_breadcrumb = 'UI Kit';
+$acp_home_label = 'Главная';
 
 ob_start();
 ?>
-<div class="py-10 px-4 sm:px-6" id="acp-ui-kit">
-	<div class="grid grid-cols-1 gap-8 lg:grid-cols-[260px_1fr]">
+<div class="acp-shell" id="acp-ui-kit">
+	<div class="acp-layout">
 		<?php require __DIR__ . '/../../partials/acp-nav.php'; ?>
 
-		<section class="min-w-0">
+		<section class="acp-content">
 			<header class="mb-8">
-				<nav class="mb-3 text-sm text-zinc-500" aria-label="Хлебные крошки">
-					<ol class="flex items-center gap-2">
-						<li><a href="/" class="hover:text-zinc-700">Главная</a></li>
-						<li aria-hidden="true" class="text-zinc-400">/</li>
-						<li><a href="/!/acp" class="hover:text-zinc-700">ACP</a></li>
-						<li aria-hidden="true" class="text-zinc-400">/</li>
-						<li><a href="/!/acp/ui-kit" aria-current="page" class="text-zinc-700">UI Kit</a></li>
-					</ol>
-				</nav>
-				<h1 class="text-2xl font-semibold tracking-tight text-zinc-900">UI Kit</h1>
-				<p class="mt-2 text-sm text-zinc-600">Компоненты админ-панели и интерактивные примеры. Все данные демонстрационные и не сохраняются на сервере.</p>
+                <?php require __DIR__ . '/../../partials/acp-heading.php'; ?>
 				<nav class="mt-4 flex flex-wrap gap-2" aria-label="Разделы UI Kit">
 					<a class="btn secondary small" href="#kit-buttons">Кнопки</a>
 					<a class="btn secondary small" href="#kit-form">Формы</a>
@@ -37,84 +32,118 @@ ob_start();
 			</header>
 
 			<div class="space-y-10">
+				<section id="kit-components">
+					<h2 class="ui-section-title">Компоненты ACP</h2>
+					<div class="ui-panel space-y-4">
+						<p class="text-sm text-zinc-600">Эти же классы используются на рабочих страницах панели. Базовые стили определены в assets/css/components.css; меняйте компонент целиком, не копируйте его оформление на каждую страницу.</p>
+						<dl class="grid grid-cols-1 gap-4 text-sm md:grid-cols-2">
+							<div class="ui-detail"><dt class="font-mono font-semibold">ui-panel</dt><dd class="ui-hint">Карточка; варианты spacious, flush и gradient.</dd></div>
+							<div class="ui-detail"><dt class="font-mono font-semibold">ui-control / ui-label / ui-hint</dt><dd class="ui-hint">Поля и подписи; варианты compact, search, color, valid. Ошибка — aria-invalid="true".</dd></div>
+							<div class="ui-detail"><dt class="font-mono font-semibold">btn / badge / alert</dt><dd class="ui-hint">Кнопки, бейджи и сообщения с именованными цветовыми вариантами.</dd></div>
+							<div class="ui-detail"><dt class="font-mono font-semibold">ui-toolbar / ui-actions / ui-pagination</dt><dd class="ui-hint">Адаптивные панели фильтров, действий и навигации.</dd></div>
+						</dl>
+						<div class="ui-toolbar">
+							<label class="ui-label">Компактный фильтр
+								<select class="ui-control compact select-custom"><option>Все записи</option><option>Активные</option></select>
+							</label>
+							<div class="ui-actions">
+								<button type="button" class="btn outline success small">Активировать</button>
+								<button type="button" class="btn outline warning small">В черновики</button>
+								<button type="button" class="btn outline danger small">Удалить</button>
+								<button type="button" class="btn outline danger small" disabled>Удалить (недоступно)</button>
+							</div>
+						</div>
+					</div>
+				</section>
+
 				<!-- Buttons -->
 				<section id="kit-buttons">
-					<h2 class="mb-4 text-base font-semibold text-zinc-900">Кнопки</h2>
-					<div class="rounded-xl border border-zinc-200/80 bg-white/80 p-5 shadow-sm backdrop-blur">
-						<div class="flex flex-wrap gap-3">
+					<h2 class="ui-section-title">Кнопки</h2>
+					<div class="ui-panel">
+						<div class="flex flex-wrap items-center gap-3">
 							<button type="button" class="btn primary">Primary</button>
 							<button type="button" class="btn secondary">Secondary</button>
 							<button type="button" class="btn success">Success</button>
 							<button type="button" class="btn warning">Warning</button>
 							<button type="button" class="btn danger">Danger</button>
-							<button type="button" class="btn outline">Ghost</button>
+							<button type="button" class="btn outline">Outline</button>
 							<button type="button" disabled class="btn secondary">Disabled</button>
+							<button type="button" class="btn primary small">Small</button>
+							<button type="button" class="btn primary large">Large</button>
+							<button type="button" class="btn secondary small">Small secondary</button>
+							<button type="button" class="btn secondary large">Large secondary</button>
+							<button type="button" class="btn primary" disabled aria-busy="true"><?php require __DIR__ . '/../../partials/ui-spinner.php'; ?> Сохранение…</button>
 						</div>
 					</div>
 				</section>
 
 				<!-- Badges -->
-				<section>
-					<h2 class="mb-4 text-base font-semibold text-zinc-900">Бейджи</h2>
-					<div class="rounded-xl border border-zinc-200/80 bg-white/80 p-5 shadow-sm backdrop-blur">
+				<section class="acp-content">
+					<h2 class="ui-section-title">Бейджи</h2>
+					<div class="ui-panel">
 						<div class="flex flex-wrap items-center gap-3 text-xs font-medium">
-							<span class="rounded-md bg-zinc-100 px-2.5 py-1 text-zinc-700">Neutral</span>
-							<span class="rounded-md bg-sky-100 px-2.5 py-1 text-sky-700">Info</span>
-							<span class="rounded-md bg-emerald-100 px-2.5 py-1 text-emerald-700">Success</span>
-							<span class="rounded-md bg-amber-100 px-2.5 py-1 text-amber-700">Warning</span>
-							<span class="rounded-md bg-rose-100 px-2.5 py-1 text-rose-700">Danger</span>
+							<span class="badge neutral">Neutral</span>
+							<span class="badge info">Info</span>
+							<span class="badge success">Success</span>
+							<span class="badge warning">Warning</span>
+							<span class="badge danger">Danger</span>
+							<span class="badge success compact">Компактный</span>
 						</div>
 					</div>
 				</section>
 
-				<section>
-					<h2 class="mb-4 text-base font-semibold text-zinc-900">Статусы</h2>
-					<div class="rounded-xl border border-zinc-200/80 bg-white/80 p-5 shadow-sm backdrop-blur">
+				<section class="acp-content">
+					<h2 class="ui-section-title">Статусы</h2>
+					<div class="ui-panel">
 						<div class="flex flex-wrap items-center gap-3 text-xs font-medium">
-							<span class="rounded-sm bg-zinc-100 border border-zinc-200 px-2.5 py-1 text-zinc-700">Normal</span>
-							<span class="rounded-sm bg-sky-100 border border-sky-200 px-2.5 py-1 text-sky-700">New</span>
-							<span class="rounded-sm bg-emerald-100 border border-emerald-200 px-2.5 py-1 text-emerald-700">Hot</span>
-							<span class="rounded-sm bg-amber-100 border border-amber-200 px-2.5 py-1 text-amber-700">Updated</span>
-							<span class="rounded-sm bg-rose-100 border border-rose-200 px-2.5 py-1 text-rose-700">On hold</span>
-							<span class="rounded-sm bg-blue-100 border border-blue-200 px-2.5 py-1 text-blue-700">Draft</span>
-							<span class="rounded-sm bg-purple-100 border border-purple-200 px-2.5 py-1 text-purple-700">Pending</span>
-							<span class="rounded-sm bg-orange-100 border border-orange-200 px-2.5 py-1 text-orange-700">Archived</span>
-							<span class="rounded-sm bg-gray-100 border border-gray-200 px-2.5 py-1 text-gray-700">Cancelled</span>
-							<span class="rounded-sm bg-pink-100 border border-pink-200 px-2.5 py-1 text-pink-700">Rejected</span>
-							<span class="rounded-sm bg-teal-100 border border-teal-200 px-2.5 py-1 text-teal-700">Scheduled</span>
-							<span class="rounded-sm bg-indigo-100 border border-indigo-200 px-2.5 py-1 text-indigo-700">Verified</span>
-							<span class="rounded-sm bg-lime-100 border border-lime-200 px-2.5 py-1 text-lime-700">Completed</span>
-							<span class="rounded-sm bg-cyan-100 border border-cyan-200 px-2.5 py-1 text-cyan-700">In progress</span>
-							<span class="rounded-sm bg-fuchsia-100 border border-fuchsia-200 px-2.5 py-1 text-fuchsia-700">Deleted</span>
-							<span class="rounded-sm bg-violet-100 border border-violet-200 px-2.5 py-1 text-violet-700">Inactive</span>
+							<span class="badge neutral outlined">Normal</span>
+							<span class="badge info outlined">New</span>
+							<span class="badge success outlined">Hot</span>
+							<span class="badge warning outlined">Updated</span>
+							<span class="badge danger outlined">On hold</span>
+							<span class="badge info outlined">Draft</span>
+							<span class="badge violet outlined">Pending</span>
+							<span class="badge orange outlined">Archived</span>
+							<span class="badge neutral outlined">Cancelled</span>
+							<span class="badge pink outlined">Rejected</span>
+							<span class="badge success outlined">Scheduled</span>
+							<span class="badge indigo outlined">Verified</span>
+							<span class="badge success outlined">Completed</span>
+							<span class="badge info outlined">In progress</span>
+							<span class="badge violet outlined">Deleted</span>
+							<span class="badge violet outlined">Inactive</span>
 						</div>
 					</div>
 				</section>
 
 				<!-- Cards -->
 				<section>
-					<h2 class="mb-4 text-base font-semibold text-zinc-900">Карточки</h2>
-					<div class="grid grid-cols-1 gap-4 md:grid-cols-3">
-						<div class="rounded-xl border border-zinc-200/80 bg-white/80 p-5 shadow-sm backdrop-blur">
+					<h2 class="ui-section-title">Карточки</h2>
+					<div class="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-4">
+						<div class="ui-panel">
 							<h3 class="mb-2 text-sm font-semibold text-zinc-900">Базовая карточка</h3>
 							<p class="text-sm text-zinc-600">Минимальная, чистая, с мягкой тенью.</p>
 						</div>
-						<div class="rounded-xl border border-zinc-200/80 bg-white/80 p-0 shadow-sm backdrop-blur">
+						<div class="ui-panel flush">
 							<div class="border-b border-zinc-200/80 p-4 text-sm font-semibold text-zinc-900">Заголовок</div>
 							<div class="p-4 text-sm text-zinc-600">Тело карточки с содержимым.</div>
 							<div class="border-t border-zinc-200/80 p-3 text-right"><a href="#kit-form" class="text-sm font-medium text-zinc-700 hover:text-zinc-900">Действие</a></div>
 						</div>
-						<div class="rounded-xl border border-zinc-200/80 bg-gradient-to-br from-white/90 to-zinc-50/90 p-5 shadow-sm backdrop-blur">
+						<div class="ui-panel gradient">
 							<h3 class="mb-2 text-sm font-semibold text-zinc-900">Карточка (gradient)</h3>
 							<p class="text-sm text-zinc-600">Аккуратный градиент и стекло.</p>
+						</div>
+						<div class="ui-panel spacious">
+							<h3 class="mb-2 text-sm font-semibold text-zinc-900">Увеличенные отступы</h3>
+							<p class="text-sm text-zinc-600">Вариант spacious: отступы 24 px вместо стандартных 20 px.</p>
 						</div>
 					</div>
 				</section>
 
 				<!-- Progress -->
 				<section>
-					<h2 class="mb-4 text-base font-semibold text-zinc-900">Прогресс</h2>
-					<div class="rounded-xl border border-zinc-200/80 bg-white/80 p-5 shadow-sm backdrop-blur">
+					<h2 class="ui-section-title">Прогресс</h2>
+					<div class="ui-panel">
 						<div class="space-y-4">
 							<div>
 								<div class="mb-1 flex items-center justify-between text-xs text-zinc-600">
@@ -140,8 +169,8 @@ ob_start();
 
 				<!-- Pagination -->
 				<section>
-					<h2 class="mb-4 text-base font-semibold text-zinc-900">Пагинация</h2>
-					<div class="rounded-xl border border-zinc-200/80 bg-white/80 p-5 shadow-sm backdrop-blur">
+					<h2 class="ui-section-title">Пагинация</h2>
+					<div class="ui-panel">
 						<nav class="flex flex-wrap items-center justify-between gap-3" aria-label="Пагинация" data-pagination>
 							<button type="button" class="btn secondary small" data-previous>Назад</button>
 							<ul class="flex flex-wrap items-center gap-1">
@@ -157,116 +186,183 @@ ob_start();
 
 				<!-- Alerts -->
 				<section>
-					<h2 class="mb-4 text-base font-semibold text-zinc-900">Оповещения</h2>
+					<h2 class="ui-section-title">Оповещения</h2>
 					<div class="grid grid-cols-1 gap-4 md:grid-cols-2">
-						<div class="rounded-xl border border-zinc-200/80 bg-white/80 p-4 shadow-sm backdrop-blur">
+						<div class="alert neutral">
 							<div class="text-sm text-zinc-800">Neutral: простое уведомление.</div>
 						</div>
-						<div class="rounded-xl border border-sky-200 bg-sky-50 p-4 shadow-sm">
+						<div class="alert info">
 							<div class="text-sm text-sky-800">Info: информационное сообщение.</div>
 						</div>
-						<div class="rounded-xl border border-emerald-200 bg-emerald-50 p-4 shadow-sm">
+						<div class="alert success">
 							<div class="text-sm text-emerald-800">Success: успешно выполнено.</div>
 						</div>
-						<div class="rounded-xl border border-amber-200 bg-amber-50 p-4 shadow-sm">
+						<div class="alert warning">
 							<div class="text-sm text-amber-800">Warning: обратите внимание.</div>
 						</div>
-						<div class="rounded-xl border border-rose-200 bg-rose-50 p-4 shadow-sm md:col-span-2">
+						<div class="alert danger md:col-span-2">
 							<div class="text-sm text-rose-800">Danger: произошла ошибка.</div>
-						</div>
-					</div>
-				</section>
-
-				<!-- Toggles -->
-				<section>
-					<h2 class="mb-4 text-base font-semibold text-zinc-900">Тумблеры</h2>
-					<div class="rounded-xl border border-zinc-200/80 bg-white/80 p-5 shadow-sm backdrop-blur">
-						<div class="grid grid-cols-1 gap-4 md:grid-cols-2">
-							<label class="flex cursor-pointer items-center justify-between gap-4">
-								<span class="text-sm text-zinc-800">Уведомления</span>
-								<input type="checkbox" role="switch" class="peer sr-only">
-								<span aria-hidden="true" class="relative inline-block h-6 w-11 rounded-full bg-zinc-300 transition peer-checked:bg-sky-900 after:absolute after:left-0.5 after:top-1/2 after:-translate-y-1/2 after:h-5 after:w-5 after:rounded-full after:bg-white after:transition peer-checked:after:translate-x-5"></span>
-							</label>
-							<label class="flex cursor-pointer items-center justify-between gap-4">
-								<span class="text-sm text-zinc-800">Автосохранение</span>
-								<input type="checkbox" role="switch" class="peer sr-only" checked>
-								<span aria-hidden="true" class="relative inline-block h-6 w-11 rounded-full bg-zinc-300 transition peer-checked:bg-emerald-600 after:absolute after:left-0.5 after:top-1/2 after:-translate-y-1/2 after:h-5 after:w-5 after:rounded-full after:bg-white after:transition peer-checked:after:translate-x-5"></span>
-							</label>
 						</div>
 					</div>
 				</section>
 
 				<!-- Forms -->
 				<section id="kit-form">
-					<h2 class="mb-4 text-base font-semibold text-zinc-900">Формы</h2>
-					<div class="rounded-xl border border-zinc-200/80 bg-white/80 p-5 shadow-sm backdrop-blur">
-						<form class="space-y-4" data-demo-form>
-							<div>
-								<label for="f-name" class="mb-1 block text-sm font-medium text-zinc-800">Имя</label>
-								<input id="f-name" name="name" type="text" required autocomplete="name" class="block w-full rounded-lg border border-zinc-300 bg-white px-3 py-2 text-sm text-zinc-900 placeholder-zinc-400 focus:border-sky-500 focus:outline-none" placeholder="Иван Иванов">
+					<h2 class="ui-section-title">Формы</h2>
+					<div class="space-y-6">
+						<section id="kit-fields">
+							<h3 class="ui-section-title">Поля и выбор</h3>
+							<div class="ui-panel">
+								<form class="space-y-4" data-demo-form>
+									<div>
+										<label for="f-name" class="ui-label">Имя</label>
+										<input id="f-name" name="name" type="text" required autocomplete="name" class="ui-control" placeholder="Иван Иванов">
+									</div>
+									<div>
+										<label for="f-email" class="ui-label">Email</label>
+										<input id="f-email" name="email" type="email" required autocomplete="email" aria-describedby="f-email-help" class="ui-control" placeholder="you@example.com">
+										<p id="f-email-help" class="ui-hint">Имя, email и роль обязательны. Данные остаются в этом примере.</p>
+									</div>
+									<div>
+										<label for="f-role" class="ui-label">Роль</label>
+										<select id="f-role" name="role" class="ui-control select-custom" required>
+											<option value="">Выберите роль</option>
+											<option>Администратор</option>
+											<option>Редактор</option>
+											<option>Гость</option>
+										</select>
+									</div>
+									<fieldset>
+										<legend class="mb-2 text-sm font-medium text-zinc-800">Подписки</legend>
+										<label class="mb-2 flex items-center gap-3 text-sm text-zinc-800"><input name="subscriptions[]" value="news" type="checkbox"> Новости</label>
+										<label class="mb-2 flex items-center gap-3 text-sm text-zinc-800"><input name="subscriptions[]" value="updates" type="checkbox"> Обновления</label>
+									</fieldset>
+									<fieldset>
+										<legend class="mb-2 text-sm font-medium text-zinc-800">Уровень доступа</legend>
+										<label class="mb-2 flex items-center gap-3 text-sm text-zinc-800"><input name="access" value="full" type="radio"> Полный</label>
+										<label class="mb-2 flex items-center gap-3 text-sm text-zinc-800"><input name="access" value="limited" type="radio"> Ограниченный</label>
+									</fieldset>
+									<div class="grid gap-4 md:grid-cols-2">
+										<label class="ui-label">Цвет
+											<input id="kit-color" type="color" value="#0284c7" class="ui-control color mt-1">
+										</label>
+										<label class="ui-label">Файл (без отправки)
+											<input id="kit-file" type="file" class="ui-file mt-1">
+										</label>
+										<label class="ui-label">Список с группами
+											<select class="ui-control select-custom"><option value="">Выберите раздел</option><optgroup label="Контент"><option>Страницы</option><option disabled>Архив (недоступен)</option></optgroup><optgroup label="Управление"><option>Пользователи</option><option>Настройки</option></optgroup></select>
+										</label>
+									</div>
+									<div>
+										<label for="f-notes" class="ui-label">Заметки</label>
+										<textarea id="f-notes" name="notes" class="ui-control" rows="3" placeholder="Краткое описание..."></textarea>
+									</div>
+									<div class="flex flex-wrap items-center justify-between gap-3">
+										<p class="text-sm text-emerald-700" role="status" data-form-status></p>
+										<div class="ui-actions">
+											<button type="reset" class="btn secondary">Сбросить</button>
+											<button type="submit" class="btn primary">Проверить форму</button>
+										</div>
+									</div>
+								</form>
 							</div>
-							<div>
-								<label for="f-email" class="mb-1 block text-sm font-medium text-zinc-800">Email</label>
-								<input id="f-email" name="email" type="email" required autocomplete="email" aria-describedby="f-email-help" class="block w-full rounded-lg border border-zinc-300 bg-white px-3 py-2 text-sm text-zinc-900 placeholder-zinc-400 focus:border-sky-500 focus:outline-none" placeholder="you@example.com">
-								<p id="f-email-help" class="mt-1 text-xs text-zinc-500">Имя и email обязательны. Данные остаются в этом примере.</p>
-							</div>
-							<div>
-								<label for="f-role" class="mb-1 block text-sm font-medium text-zinc-800">Роль</label>
-								<select id="f-role" name="role" class="select-custom block w-full rounded-lg border border-zinc-300 bg-white px-3 py-2 text-sm text-zinc-900 focus:border-sky-500 focus:outline-none">
-									<option>Администратор</option>
-									<option>Редактор</option>
-									<option>Гость</option>
-								</select>
-							</div>
-							<fieldset>
-								<legend class="mb-2 text-sm font-medium text-zinc-800">Подписки</legend>
-								<label class="mb-2 flex items-center gap-3 text-sm text-zinc-800"><input name="subscriptions[]" value="news" type="checkbox" class="h-4 w-4 rounded border-zinc-300 text-zinc-900 focus:ring-zinc-500"> Новости</label>
-								<label class="mb-2 flex items-center gap-3 text-sm text-zinc-800"><input name="subscriptions[]" value="updates" type="checkbox" class="h-4 w-4 rounded border-zinc-300 text-zinc-900 focus:ring-zinc-500"> Обновления</label>
-							</fieldset>
-							<fieldset>
-								<legend class="mb-2 text-sm font-medium text-zinc-800">Уровень доступа</legend>
-								<label class="mb-2 flex items-center gap-3 text-sm text-zinc-800"><input name="access" value="limited" type="radio" class="h-4 w-4 border-zinc-300 text-zinc-900 focus:ring-zinc-500"> Полный</label>
-								<label class="mb-2 flex items-center gap-3 text-sm text-zinc-800"><input name="access" type="radio" class="h-4 w-4 border-zinc-300 text-zinc-900 focus:ring-zinc-500"> Ограниченный</label>
-							</fieldset>
-							<div>
-								<label for="f-notes" class="mb-1 block text-sm font-medium text-zinc-800">Заметки</label>
-								<textarea id="f-notes" name="notes" class="block w-full rounded-lg border border-zinc-300 bg-white px-3 py-2 text-sm text-zinc-900 placeholder-zinc-400 focus:border-sky-500 focus:outline-none" rows="3" placeholder="Краткое описание..."></textarea>
-							</div>
-							<div class="flex flex-wrap items-center justify-between gap-3">
-								<p class="text-sm text-emerald-700" role="status" data-form-status></p>
-								<div class="flex gap-2">
-									<button type="reset" class="btn secondary">Сбросить</button>
-									<button type="submit" class="btn primary">Проверить форму</button>
+						</section>
+						<section id="kit-field-groups">
+							<h3 class="ui-section-title">Группы полей</h3>
+							<div class="ui-panel">
+								<div class="grid grid-cols-1 gap-4 md:grid-cols-2">
+									<label class="block">
+										<span class="mb-1 block text-sm font-medium text-zinc-800">URL</span>
+										<div class="flex rounded-lg border border-zinc-300 focus-within:border-sky-500">
+											<span class="inline-flex items-center rounded-l-lg border-r border-zinc-300 bg-zinc-50 px-3 text-sm text-zinc-500">https://</span>
+											<input type="text" class="min-w-0 flex-1 rounded-r-lg bg-white px-3 py-2 text-sm text-zinc-900 outline-none" placeholder="dev.roocms.com">
+										</div>
+									</label>
+									<label class="block">
+										<span class="mb-1 block text-sm font-medium text-zinc-800">Поиск</span>
+										<div class="flex rounded-lg border border-zinc-300 focus-within:border-sky-500">
+											<input type="search" id="kit-search" class="min-w-0 flex-1 rounded-l-lg bg-white px-3 py-2 text-sm text-zinc-900 outline-none" placeholder="Запрос...">
+											<button type="button" data-search class="btn primary">Найти</button>
+										</div>
+									</label>
 								</div>
 							</div>
-						</form>
-					</div>
-				</section>
-
-				<!-- Quote blocks -->
-				<section>
-					<h2 class="mb-4 text-base font-semibold text-zinc-900">Состояния полей</h2>
-					<div class="grid grid-cols-1 gap-4 md:grid-cols-2 rounded-xl border border-zinc-200/80 bg-white/80 p-5 shadow-sm">
-						<label class="block text-sm text-zinc-800">Только чтение
-							<input type="text" value="ID-1024" readonly class="mt-1 block w-full rounded-lg border border-zinc-300 bg-zinc-50 px-3 py-2">
-						</label>
-						<label class="block text-sm text-zinc-500">Недоступное поле
-							<input type="text" value="Недоступно для вашей роли" disabled class="mt-1 block w-full rounded-lg border border-zinc-200 bg-zinc-100 px-3 py-2 cursor-not-allowed">
-						</label>
-						<label class="block text-sm text-zinc-800">Поле с ошибкой
-							<input type="email" value="invalid-email" aria-invalid="true" aria-describedby="kit-field-error" class="mt-1 block w-full rounded-lg border border-rose-500 bg-white px-3 py-2">
-							<span id="kit-field-error" class="mt-1 block text-xs text-rose-700">Введите email в формате name@example.com.</span>
-						</label>
-						<label class="block text-sm text-zinc-800">Корректное поле
-							<input type="email" value="editor@example.com" aria-describedby="kit-field-success" class="mt-1 block w-full rounded-lg border border-emerald-500 bg-white px-3 py-2">
-							<span id="kit-field-success" class="mt-1 block text-xs text-emerald-700">Адрес указан верно.</span>
-						</label>
+						</section>
+						<section id="kit-switches">
+							<h3 class="ui-section-title">Переключатели</h3>
+							<div class="ui-panel">
+								<div class="grid grid-cols-1 gap-4 md:grid-cols-2">
+									<label class="flex cursor-pointer items-center justify-between gap-4">
+										<span class="text-sm text-zinc-800">Уведомления</span>
+										<input type="checkbox" role="switch" class="peer sr-only">
+										<span aria-hidden="true" class="ui-switch"></span>
+									</label>
+									<label class="flex cursor-pointer items-center justify-between gap-4">
+										<span class="text-sm text-zinc-800">Автосохранение</span>
+										<input type="checkbox" role="switch" class="peer sr-only" checked>
+										<span aria-hidden="true" class="ui-switch success"></span>
+									</label>
+								</div>
+							</div>
+						</section>
+						<section id="kit-field-states">
+							<h3 class="ui-section-title">Состояния полей</h3>
+							<div class="ui-panel grid grid-cols-1 gap-4 md:grid-cols-2">
+								<label class="ui-label">Только чтение
+									<input type="text" value="ID-1024" readonly class="ui-control mt-1">
+								</label>
+								<label class="block text-sm text-zinc-500">Недоступное поле
+									<input type="text" value="Недоступно для вашей роли" disabled class="ui-control mt-1">
+								</label>
+								<label class="ui-label">Поле с ошибкой
+									<input id="kit-invalid" type="email" value="invalid-email" aria-invalid="true" aria-describedby="kit-field-error" class="ui-control mt-1">
+									<span id="kit-field-error" class="ui-error block">Введите email в формате name@example.com.</span>
+								</label>
+								<label class="ui-label">Корректное поле
+									<input id="kit-valid" type="email" value="editor@example.com" aria-describedby="kit-field-success" class="ui-control valid mt-1">
+									<span id="kit-field-success" class="mt-1 block text-xs text-emerald-700">Адрес указан верно.</span>
+								</label>
+								<label class="ui-label md:col-span-2">Недоступный список
+									<select id="kit-disabled-select" class="ui-control select-custom mt-1" disabled><option>Недоступно</option></select>
+								</label>
+								<label class="flex items-center gap-3 text-sm"><input type="checkbox" disabled> Недоступный checkbox</label>
+								<label class="flex items-center gap-3 text-sm"><input type="checkbox" disabled checked> Отмеченный недоступный checkbox</label>
+								<label class="flex items-center gap-3 text-sm"><input type="radio" name="kit-disabled-radio" disabled> Недоступный radio</label>
+								<label class="flex items-center gap-3 text-sm"><input type="radio" name="kit-disabled-radio" disabled checked> Выбранный недоступный radio</label>
+								<label class="flex cursor-not-allowed items-center justify-between gap-4 text-sm text-zinc-500">
+									<span>Недоступный переключатель</span>
+									<input type="checkbox" role="switch" class="peer sr-only" disabled checked>
+									<span aria-hidden="true" class="ui-switch success"></span>
+								</label>
+							</div>
+						</section>
+						<section id="kit-choice-controls">
+							<h3 class="ui-section-title">Динамические поля</h3>
+							<div class="ui-panel space-y-4" x-data="kitSelectDemo">
+								<p class="ui-hint">Пример обновления значения и вариантов select, изменения доступности и повторного создания поля.</p>
+								<template x-if="visible">
+									<div>
+										<label for="kit-dynamic-select" class="ui-label">Динамический выбор</label>
+										<select id="kit-dynamic-select" class="ui-control select-custom" x-model="value" :disabled="disabled">
+											<template x-for="choice in choices" :key="choice.value"><option :value="choice.value" x-text="choice.label"></option></template>
+										</select>
+									</div>
+								</template>
+								<p class="ui-hint">Значение x-model: <span data-select-model x-text="value"></span></p>
+								<div class="ui-actions">
+									<button type="button" class="btn secondary small" @click="changeValue">Изменить значение</button>
+									<button type="button" class="btn secondary small" @click="addOption">Добавить вариант</button>
+									<button type="button" class="btn secondary small" @click="toggleDisabled">Переключить disabled</button>
+									<button type="button" class="btn secondary small" @click="toggleVisible">Пересоздать поле</button>
+								</div>
+							</div>
+						</section>
 					</div>
 				</section>
 
 				<section id="kit-modals">
-					<h2 class="mb-4 text-base font-semibold text-zinc-900">Модальные окна</h2>
-					<div class="rounded-xl border border-zinc-200/80 bg-white/80 p-5 shadow-sm">
+					<h2 class="ui-section-title">Модальные окна</h2>
+					<div class="ui-panel">
 						<div class="flex flex-wrap gap-3">
 							<button type="button" class="btn info" data-modal-type="notice">Информация</button>
 							<button type="button" class="btn success" data-modal-type="success">Успех</button>
@@ -278,9 +374,9 @@ ob_start();
 				</section>
 
 				<section>
-					<h2 class="mb-4 text-base font-semibold text-zinc-900">Пустое состояние и раскрывающийся блок</h2>
+					<h2 class="ui-section-title">Пустое состояние и раскрывающийся блок</h2>
 					<div class="grid grid-cols-1 gap-4 md:grid-cols-2">
-						<div class="rounded-xl border border-dashed border-zinc-300 bg-white/80 p-5 text-center">
+						<div class="ui-panel ui-empty border-dashed">
 							<h3 class="text-sm font-semibold text-zinc-900">Пока нет записей</h3>
 								<p class="mt-2 mb-4 text-sm text-zinc-600">Добавьте первую запись, чтобы начать работу.</p>
 							<a href="#kit-form" class="btn primary">Заполнить пример</a>
@@ -293,21 +389,21 @@ ob_start();
 				</section>
 
 				<section>
-					<h2 class="mb-4 text-base font-semibold text-zinc-900">Цветные цитаты / аннотации</h2>
+					<h2 class="ui-section-title">Цветные цитаты / аннотации</h2>
 					<div class="grid grid-cols-1 gap-4 md:grid-cols-2">
-						<blockquote class="rounded-xl border-l-4 border-sky-500 bg-sky-50/80 p-4 text-sm text-sky-900 shadow-sm">
+						<blockquote class="alert note info">
 							<p class="mb-1 font-medium">Info</p>
 							<p>Подсказка с дополнительной информацией.</p>
 						</blockquote>
-						<blockquote class="rounded-xl border-l-4 border-emerald-500 bg-emerald-50/80 p-4 text-sm text-emerald-900 shadow-sm">
+						<blockquote class="alert note success">
 							<p class="mb-1 font-medium">Success</p>
 							<p>Операция выполнена успешно.</p>
 						</blockquote>
-						<blockquote class="rounded-xl border-l-4 border-amber-500 bg-amber-50/80 p-4 text-sm text-amber-900 shadow-sm">
+						<blockquote class="alert note warning">
 							<p class="mb-1 font-medium">Warning</p>
 							<p>Обратите внимание на важный нюанс.</p>
 						</blockquote>
-						<blockquote class="rounded-xl border-l-4 border-rose-500 bg-rose-50/80 p-4 text-sm text-rose-900 shadow-sm">
+						<blockquote class="alert note danger">
 							<p class="mb-1 font-medium">Danger</p>
 							<p>Ошибка: требуется вмешательство.</p>
 						</blockquote>
@@ -316,8 +412,8 @@ ob_start();
 
 				<!-- Tabs -->
 				<section id="kit-tabs">
-					<h2 class="mb-4 text-base font-semibold text-zinc-900">Вкладки</h2>
-					<div class="rounded-xl border border-zinc-200/80 bg-white/80 p-5 shadow-sm backdrop-blur">
+					<h2 class="ui-section-title">Вкладки</h2>
+					<div class="ui-panel">
 						<div class="flex flex-wrap gap-2" role="tablist" aria-label="Пример вкладок">
 							<button type="button" id="kit-tab-overview" role="tab" aria-selected="true" aria-controls="kit-panel-overview" class="btn primary">Обзор</button>
 							<button type="button" id="kit-tab-profile" role="tab" aria-selected="false" aria-controls="kit-panel-profile" tabindex="-1" class="btn secondary">Профиль</button>
@@ -331,78 +427,56 @@ ob_start();
 
 				<!-- Skeletons -->
 				<section>
-					<h2 class="mb-4 text-base font-semibold text-zinc-900">Состояние загрузки</h2>
-					<div class="rounded-xl border border-zinc-200/80 bg-white/80 p-5 shadow-sm backdrop-blur">
-						<div class="animate-pulse space-y-3" aria-hidden="true">
-							<div class="h-4 w-1/3 rounded bg-zinc-200"></div>
-							<div class="h-3 w-full rounded bg-zinc-200"></div>
-							<div class="h-3 w-5/6 rounded bg-zinc-200"></div>
-							<div class="h-3 w-2/3 rounded bg-zinc-200"></div>
+					<h2 class="ui-section-title">Состояние загрузки</h2>
+					<div class="ui-loading" role="status"><?php require __DIR__ . '/../../partials/ui-spinner.php'; ?> Загрузка данных…</div>
+					<div class="ui-panel">
+						<div class="skeleton-container" aria-hidden="true">
+							<div class="skeleton-line title"></div>
+							<div class="skeleton-line full"></div>
+							<div class="skeleton-line large"></div>
+							<div class="skeleton-line medium"></div>
 						</div>
 					</div>
 				</section>
 
 				<!-- Avatars / Stack -->
 				<section>
-					<h2 class="mb-4 text-base font-semibold text-zinc-900">Аватары и стек</h2>
-					<div class="rounded-xl border border-zinc-200/80 bg-white/80 p-5 shadow-sm backdrop-blur">
+					<h2 class="ui-section-title">Аватары и стек</h2>
+					<div class="ui-panel">
 						<div class="flex items-center gap-3">
-							<span role="img" aria-label="A" class="h-10 w-10 rounded-full object-cover transition hover:scale-[1.03] hover:ring-2 hover:ring-zinc-300 inline-flex items-center justify-center bg-sky-100 text-sm font-semibold text-sky-800">АИ</span>
-							<span role="img" aria-label="B" class="h-10 w-10 rounded-full object-cover transition hover:scale-[1.03] hover:ring-2 hover:ring-zinc-300 inline-flex items-center justify-center bg-sky-100 text-sm font-semibold text-sky-800">МП</span>
-							<span role="img" aria-label="C" class="h-10 w-10 rounded-full object-cover transition hover:scale-[1.03] hover:ring-2 hover:ring-zinc-300 inline-flex items-center justify-center bg-sky-100 text-sm font-semibold text-sky-800">ЕК</span>
+							<span role="img" aria-label="A" class="avatar small initials">АИ</span>
+							<span role="img" aria-label="B" class="avatar small initials">МП</span>
+							<span role="img" aria-label="C" class="avatar small initials">ЕК</span>
 						</div>
 						<div class="mt-4 flex -space-x-2">
-							<span role="img" aria-label="A" class="h-8 w-8 rounded-full ring-2 ring-white inline-flex items-center justify-center bg-sky-100 text-sm font-semibold text-sky-800">АИ</span>
-							<span role="img" aria-label="B" class="h-8 w-8 rounded-full ring-2 ring-white inline-flex items-center justify-center bg-sky-100 text-sm font-semibold text-sky-800">МП</span>
-							<span role="img" aria-label="C" class="h-8 w-8 rounded-full ring-2 ring-white inline-flex items-center justify-center bg-sky-100 text-sm font-semibold text-sky-800">ЕК</span>
+							<span role="img" aria-label="A" class="avatar stack initials ring-2 ring-white">АИ</span>
+							<span role="img" aria-label="B" class="avatar stack initials ring-2 ring-white">МП</span>
+							<span role="img" aria-label="C" class="avatar stack initials ring-2 ring-white">ЕК</span>
 							<span class="flex h-8 w-8 items-center justify-center rounded-full bg-zinc-200 text-xs text-zinc-700 ring-2 ring-white">+5</span>
 						</div>
 
 						<!-- Avatars with status/counter -->
 						<div class="mt-6 grid grid-cols-1 gap-4 md:grid-cols-3">
-							<div class="relative inline-block h-12 w-12">
-								<span role="img" aria-label="Online" class="h-12 w-12 rounded-full object-cover ring-2 ring-white transition hover:scale-[1.03] hover:ring-zinc-300 inline-flex items-center justify-center bg-sky-100 text-sm font-semibold text-sky-800">АИ</span>
-								<span class="absolute bottom-0 right-0 inline-block h-3.5 w-3.5 translate-x-[2px] translate-y-[2px] rounded-full bg-emerald-500 ring-2 ring-white animate-pulse"></span>
+							<div class="avatar-with-status medium">
+								<span role="img" aria-label="Online" class="avatar medium initials">АИ</span>
+								<span class="status-indicator online"></span>
 							</div>
-							<div class="relative inline-block h-12 w-12">
-								<span role="img" aria-label="Offline" class="h-12 w-12 rounded-full object-cover ring-2 ring-white transition hover:scale-[1.03] hover:ring-zinc-300 inline-flex items-center justify-center bg-sky-100 text-sm font-semibold text-sky-800">МП</span>
-								<span class="absolute bottom-0 right-0 inline-block h-3.5 w-3.5 translate-x-[2px] translate-y-[2px] rounded-full bg-zinc-400 ring-2 ring-white"></span>
+							<div class="avatar-with-status medium">
+								<span role="img" aria-label="Offline" class="avatar medium initials">МП</span>
+								<span class="status-indicator offline"></span>
 							</div>
-							<div class="relative inline-block h-12 w-12">
-								<span role="img" aria-label="Messages" class="h-12 w-12 rounded-full object-cover ring-2 ring-white transition hover:scale-[1.03] hover:ring-zinc-300 inline-flex items-center justify-center bg-sky-100 text-sm font-semibold text-sky-800">ЕК</span>
-								<span class="absolute top-0 right-0 inline-flex -translate-y-[2px] translate-x-[2px] items-center justify-center rounded-full bg-rose-600 px-1.5 text-[10px] font-medium text-white ring-2 ring-white">12</span>
+							<div class="avatar-with-status medium">
+								<span role="img" aria-label="Messages" class="avatar medium initials">ЕК</span>
+								<span class="notification-badge">12</span>
 							</div>
-						</div>
-					</div>
-				</section>
-
-				<!-- Input group -->
-				<section>
-					<h2 class="mb-4 text-base font-semibold text-zinc-900">Группы полей</h2>
-					<div class="rounded-xl border border-zinc-200/80 bg-white/80 p-5 shadow-sm backdrop-blur">
-						<div class="grid grid-cols-1 gap-4 md:grid-cols-2">
-							<label class="block">
-								<span class="mb-1 block text-sm font-medium text-zinc-800">URL</span>
-								<div class="flex rounded-lg border border-zinc-300 focus-within:border-sky-500">
-									<span class="inline-flex items-center rounded-l-lg border-r border-zinc-300 bg-zinc-50 px-3 text-sm text-zinc-500">https://</span>
-									<input type="text" class="min-w-0 flex-1 rounded-r-lg bg-white px-3 py-2 text-sm text-zinc-900 outline-none" placeholder="dev.roocms.com">
-								</div>
-							</label>
-							<label class="block">
-								<span class="mb-1 block text-sm font-medium text-zinc-800">Поиск</span>
-								<div class="flex rounded-lg border border-zinc-300 focus-within:border-sky-500">
-									<input type="search" id="kit-search" class="min-w-0 flex-1 rounded-l-lg bg-white px-3 py-2 text-sm text-zinc-900 outline-none" placeholder="Запрос...">
-									<button type="button" data-search class="btn primary">Найти</button>
-								</div>
-							</label>
 						</div>
 					</div>
 				</section>
 
 				<!-- Chips & Divider -->
 				<section>
-					<h2 class="mb-4 text-base font-semibold text-zinc-900">Метки и разделитель</h2>
-					<div class="rounded-xl border border-zinc-200/80 bg-white/80 p-5 shadow-sm backdrop-blur">
+					<h2 class="ui-section-title">Метки и разделитель</h2>
+					<div class="ui-panel">
 						<div class="mb-4 flex flex-wrap gap-2" data-chips>
 							<?php foreach (['Design', 'UX', 'CMS'] as $demo_chip): ?>
 								<span class="chip" data-chip>
@@ -425,67 +499,67 @@ ob_start();
 				</section>
 				<section>
 					<div class="grid grid-cols-1 gap-6 sm:grid-cols-2 xl:grid-cols-4">
-						<div class="rounded-xl border border-zinc-200/80 bg-white/80 p-5 shadow-sm backdrop-blur">
+						<div class="ui-panel">
 							<div class="text-xs font-medium text-zinc-500">Выручка</div>
 							<div class="mt-2 text-2xl font-semibold text-zinc-900">$2.6M</div>
 							<div class="mt-1 text-xs text-emerald-600">+4.5% за неделю</div>
 										</div>
-						<div class="rounded-xl border border-zinc-200/80 bg-white/80 p-5 shadow-sm backdrop-blur">
+						<div class="ui-panel">
 							<div class="text-xs font-medium text-zinc-500">Средний чек</div>
 							<div class="mt-2 text-2xl font-semibold text-zinc-900">$455</div>
-							<div class="mt-1 text-xs text-zinc-500">−0.5% за неделю</div>
+							<div class="ui-hint">−0.5% за неделю</div>
 									</div>
-						<div class="rounded-xl border border-zinc-200/80 bg-white/80 p-5 shadow-sm backdrop-blur">
+						<div class="ui-panel">
 							<div class="text-xs font-medium text-zinc-500">Продажи</div>
 							<div class="mt-2 text-2xl font-semibold text-zinc-900">5,888</div>
 							<div class="mt-1 text-xs text-emerald-600">+4.5% за неделю</div>
 									</div>
-						<div class="rounded-xl border border-zinc-200/80 bg-white/80 p-5 shadow-sm backdrop-blur">
+						<div class="ui-panel">
 							<div class="text-xs font-medium text-zinc-500">Просмотры</div>
 							<div class="mt-2 text-2xl font-semibold text-zinc-900">823,067</div>
 							<div class="mt-1 text-xs text-emerald-600">+21.2% за неделю</div>
 						</div>
 					</div>
 
-					<div id="kit-orders" class="mt-10 rounded-xl border border-zinc-200/80 bg-white/80 p-5 shadow-sm backdrop-blur">
+					<div id="kit-orders" class="ui-panel mt-10">
 						<div class="mb-4 flex items-center justify-between">
 							<h2 class="text-base font-semibold text-zinc-900">Последние заказы</h2>
 							<span class="badge neutral">Демо</span>
 						</div>
 						<p class="mb-3 text-sm text-zinc-600" role="status" data-search-status>Показано заказов: 3</p>
 						<div class="-mx-5 overflow-x-auto px-5" role="region" aria-label="Таблица заказов с горизонтальной прокруткой" tabindex="0">
-							<table id="kit-orders-table" class="min-w-full text-left text-sm" aria-label="Последние заказы">
+							<table id="kit-orders-table" class="ui-table" aria-label="Последние заказы">
 								<caption class="sr-only">Демонстрационные заказы. Поиск доступен в разделе «Группы полей».</caption>
-								<thead class="border-b border-zinc-200/80 text-zinc-500">
+								<thead >
 									<tr>
-										<th scope="col" class="py-3 pr-6 font-medium">Номер</th>
-										<th scope="col" class="py-3 pr-6 font-medium">Дата</th>
-										<th scope="col" class="py-3 pr-6 font-medium">Клиент</th>
-										<th scope="col" class="py-3 pr-6 font-medium">Событие</th>
-										<th scope="col" class="py-3 pr-0 font-medium text-right">Сумма</th>
+										<th scope="col" class="font-medium">Номер</th>
+										<th scope="col" class="font-medium">Дата</th>
+										<th scope="col" class="font-medium">Клиент</th>
+										<th scope="col" class="font-medium">Событие</th>
+										<th scope="col" class="font-medium text-right">Сумма</th>
 									</tr>
 								</thead>
-								<tbody class="divide-y divide-zinc-100/80">
-									<tr class="hover:bg-zinc-50">
-										<td class="py-3 pr-6 text-zinc-900">3000</td>
-										<td class="py-3 pr-6 text-zinc-600">9 мая 2024</td>
-										<td class="py-3 pr-6 text-zinc-900">Leslie Alexander</td>
-										<td class="py-3 pr-6 text-zinc-900">Bear Hug: Live in Concert</td>
-										<td class="py-3 pr-0 text-right text-zinc-900">US$80.00</td>
+								<tbody >
+									<tr >
+										<td class="text-zinc-900">3000</td>
+										<td class="text-zinc-600">9 мая 2024</td>
+										<td class="text-zinc-900">Leslie Alexander</td>
+										<td class="text-zinc-900">Bear Hug: Live in Concert</td>
+										<td class="text-right text-zinc-900">US$80.00</td>
 									</tr>
-									<tr class="hover:bg-zinc-50">
-										<td class="py-3 pr-6 text-zinc-900">3001</td>
-										<td class="py-3 pr-6 text-zinc-600">5 мая 2024</td>
-										<td class="py-3 pr-6 text-zinc-900">Michael Foster</td>
-										<td class="py-3 pr-6 text-zinc-900">Six Fingers — DJ Set</td>
-										<td class="py-3 pr-0 text-right text-zinc-900">US$299.00</td>
+									<tr >
+										<td class="text-zinc-900">3001</td>
+										<td class="text-zinc-600">5 мая 2024</td>
+										<td class="text-zinc-900">Michael Foster</td>
+										<td class="text-zinc-900">Six Fingers — DJ Set</td>
+										<td class="text-right text-zinc-900">US$299.00</td>
 									</tr>
-									<tr class="hover:bg-zinc-50">
-										<td class="py-3 pr-6 text-zinc-900">3002</td>
-										<td class="py-3 pr-6 text-zinc-600">28 апр 2024</td>
-										<td class="py-3 pr-6 text-zinc-900">Dries Vincent</td>
-										<td class="py-3 pr-6 text-zinc-900">We All Look The Same</td>
-										<td class="py-3 pr-0 text-right text-zinc-900">US$150.00</td>
+									<tr >
+										<td class="text-zinc-900">3002</td>
+										<td class="text-zinc-600">28 апр 2024</td>
+										<td class="text-zinc-900">Dries Vincent</td>
+										<td class="text-zinc-900">We All Look The Same</td>
+										<td class="text-right text-zinc-900">US$150.00</td>
 									</tr>
 								</tbody>
 							</table>

@@ -8,8 +8,8 @@ function get_current_page(): string {
     static $page = null;
     return $page ??= (function() {
         $uri = (string)(env('REQUEST_URI') ?? '');
-        $page = str_replace('/!/acp/', '', basename($uri, '.php'));
-        $page = str_contains($page, '/') ? end(explode('/', $page)) : $page;
+        $path = rtrim((string)parse_url($uri, PHP_URL_PATH), '/');
+        $page = basename($path, '.php');
         return ($page === 'acp' || $page === '') ? 'index' : trim($page);
     })();
 }
@@ -22,13 +22,9 @@ function get_nav_link_attrs(string $page_key): array {
 
     return [
         'aria_current' => $is_active ? 'aria-current="page"' : '',
-        'classes' => $is_active
-            ? 'border border-zinc-200 bg-white/60 backdrop-blur px-3 py-2 text-sm font-medium text-zinc-900 shadow-sm hover:bg-white'
-            : 'px-3 py-2 text-sm font-medium text-zinc-700 border border-transparent hover:text-zinc-900 hover:bg-white/20 hover:border-zinc-200',
+        'classes' => 'acp-nav-link'.($is_active ? ' active' : ''),
         'dot_classes' => $is_active ? 'bg-zinc-400' : 'bg-zinc-300',
-        'mobile_classes' => $is_active
-            ? 'whitespace-nowrap rounded-lg border border-zinc-200 bg-white/90 px-3 py-2 text-sm font-medium text-zinc-900'
-            : 'whitespace-nowrap rounded-lg border border-zinc-200 bg-white/70 px-3 py-2 text-sm text-zinc-700'
+        'mobile_classes' => 'acp-nav-link mobile'.($is_active ? ' active' : '')
     ];
 }
 
@@ -50,7 +46,6 @@ $nav_menu = [
         ['key' => 'ui-kit', 'title' => 'UI Kit', 'url' => '/!/acp/ui-kit']
     ],
     'legal' => [
-        ['key' => 'terms', 'title' => 'Terms of Use', 'url' => '/!/acp/terms'],
         ['key' => 'license', 'title' => 'License', 'url' => '/!/acp/license']
     ]
 ];
@@ -67,7 +62,7 @@ $nav_menu = [
                 <?php foreach ($section_items as $item): ?>
                     <?php $attrs = get_nav_link_attrs($item['key']); ?>
                     <li>
-                        <a href="<?php render_html($item['url']); ?>" <?php render_html($attrs['aria_current']); ?> class="flex items-center gap-3 rounded-lg <?php render_html($attrs['classes']); ?>">
+                        <a href="<?php render_html($item['url']); ?>" <?php render_html($attrs['aria_current']); ?> class="<?php render_html($attrs['classes']); ?>">
                             <span class="inline-block h-2 w-2 rounded-full <?php render_html($attrs['dot_classes']); ?>"></span>
                             <span><?php render_html($item['title']); ?></span>
                         </a>
@@ -79,12 +74,12 @@ $nav_menu = [
 </aside>
 
 <!-- Mobile navigation ACP -->
-<div class="mt-6 px-4 lg:hidden">
+<div class="min-w-0 lg:hidden">
     <nav aria-label="ACP navigation" class="flex gap-2 overflow-x-auto">
         <?php foreach ($nav_menu as $section_items): ?>
             <?php foreach ($section_items as $item): ?>
                 <?php $attrs = get_nav_link_attrs($item['key']); ?>
-                <a href="<?php render_html($item['url']); ?>" class="<?php render_html($attrs['mobile_classes']); ?>"><?php render_html($item['title']); ?></a>
+                <a href="<?php render_html($item['url']); ?>" <?php render_html($attrs['aria_current']); ?> class="<?php render_html($attrs['mobile_classes']); ?>"><?php render_html($item['title']); ?></a>
             <?php endforeach; ?>
         <?php endforeach; ?>
     </nav>

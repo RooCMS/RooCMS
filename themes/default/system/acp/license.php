@@ -12,33 +12,28 @@ $page_scripts = [
     $theme_base.'/assets/js/app/acp-access.js'
 ];
 
+$acp_heading = 'GNU General Public License';
+$acp_intro = 'RooCMS license information and GPLv3 text';
+$acp_breadcrumb = 'License';
+$acp_home_label = 'Home';
+
 ob_start();
 ?>
 
-<div class="py-10">
-    <div class="grid grid-cols-1 gap-8 lg:grid-cols-[260px_1fr] px-4 sm:px-6 lg:px-8 space-y-8">
+<div class="acp-shell">
+    <div class="acp-layout">
         <?php require __DIR__ . '/../../partials/acp-nav.php'; ?>
 
-        <section>
+        <section class="acp-content">
             <header class="mb-8">
-                <nav class="mb-3 text-sm text-zinc-500" aria-label="Breadcrumbs">
-                    <ol class="flex items-center gap-2">
-                        <li><a href="/" class="hover:text-zinc-700">Home</a></li>
-                        <li aria-hidden="true" class="text-zinc-400">/</li>
-                        <li><a href="/!/acp" class="hover:text-zinc-700">ACP</a></li>
-                        <li aria-hidden="true" class="text-zinc-400">/</li>
-                        <li><span class="text-zinc-700">License</span></li>
-                    </ol>
-                </nav>
-                <h1 class="text-2xl font-semibold tracking-tight text-zinc-900">GNU General Public License</h1>
-                <p class="mt-2 text-sm text-zinc-600">RooCMS license information and GPLv3 text</p>
+                <?php require __DIR__ . '/../../partials/acp-heading.php'; ?>
             </header>
 
             <!-- License Content Container -->
             <div class="space-y-8">
 
                 <!-- License Header -->
-                <div class="rounded-xl border border-zinc-200/80 bg-white/80 p-6 shadow-sm backdrop-blur">
+                <div class="ui-panel spacious">
                     <div class="text-center">
                         <h2 class="text-2xl font-semibold text-zinc-900">
                             GNU GENERAL PUBLIC LICENSE
@@ -47,12 +42,12 @@ ob_start();
                             Version 3, 29 June 2007
                         </p>
                         <div class="mt-4 flex justify-center">
-                            <span class="rounded-md bg-zinc-100 px-2.5 py-1 text-xs font-medium text-zinc-700">
+                            <span class="badge neutral">
                                 GPLv3
                             </span>
                         </div>
                         <div class="mt-4 text-center">
-                            <a href="https://www.gnu.org/licenses/gpl-3.0.html" target="_blank" rel="noopener noreferrer" class="inline-flex items-center px-4 py-2 border border-zinc-300 text-sm font-medium rounded-lg text-zinc-700 bg-white hover:bg-zinc-50 transition-colors">
+                            <a href="https://www.gnu.org/licenses/gpl-3.0.html" target="_blank" rel="noopener noreferrer" class="btn secondary">
                                 <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
                                 </svg>
@@ -66,9 +61,9 @@ ob_start();
                 <div class="space-y-6">
 
                     <!-- Preamble -->
-                    <section>
-                        <h2 class="mb-4 text-base font-semibold text-zinc-900">Preamble</h2>
-                        <div class="rounded-xl border border-zinc-200/80 bg-white/80 p-5 shadow-sm backdrop-blur">
+                    <section class="acp-content">
+                        <h2 class="ui-section-title">Preamble</h2>
+                        <div class="ui-panel">
                             <div class="text-sm text-zinc-600 space-y-4">
                                 <p>The GNU General Public License is a free, copyleft license for software and other kinds of works.</p>
                                 <p>The licenses for most software and other practical works are designed to take away your freedom to share and change the works. By contrast, the GNU General Public License is intended to guarantee your freedom to share and change all versions of a program—to make sure it remains free software for all its users. We, the Free Software Foundation, use the GNU General Public License for most of our software; it applies also to any other work released this way by its authors. You can apply it to your programs, too.</p>
@@ -85,8 +80,8 @@ ob_start();
 
                     <!-- Key Points Summary -->
                     <section>
-                        <h2 class="mb-4 text-base font-semibold text-zinc-900">Key License Points</h2>
-                        <div class="rounded-xl border border-zinc-200/80 bg-white/80 p-5 shadow-sm backdrop-blur">
+                        <h2 class="ui-section-title">Key License Points</h2>
+                        <div class="ui-panel">
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                                 <div class="space-y-3">
                                     <h3 class="text-sm font-semibold text-zinc-900">Your Rights:</h3>
@@ -132,7 +127,7 @@ ob_start();
                                 </div>
                             </div>
 
-                            <blockquote class="rounded-xl border-l-4 border-sky-500 bg-sky-50 p-4 text-sm text-sky-900 mt-4">
+                            <blockquote class="alert note info mt-4">
                                 <p><strong>Important:</strong> The GNU General Public License is designed to guarantee your freedom to share and change free software. It ensures that the software remains free for all its users.</p>
                             </blockquote>
                         </div>
@@ -140,8 +135,8 @@ ob_start();
 
                     <!-- RooCMS License Info -->
                     <section>
-                        <h2 class="mb-4 text-base font-semibold text-zinc-900">RooCMS License Information</h2>
-                        <div class="rounded-xl border border-zinc-200/80 bg-white/80 p-5 shadow-sm backdrop-blur">
+                        <h2 class="ui-section-title">RooCMS License Information</h2>
+                        <div class="ui-panel">
                             <div class="space-y-4">
                                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                                     <div class="space-y-3">
@@ -156,8 +151,8 @@ ob_start();
                                         <h3 class="text-sm font-semibold text-zinc-900">License Compliance</h3>
                                         <p class="text-sm text-zinc-600">All RooCMS distributions include the full GPLv3 license text and maintain copyright notices as required.</p>
                                         <div class="flex items-center space-x-2">
-                                            <span class="rounded-md bg-emerald-100 px-2.5 py-1 text-xs font-medium text-emerald-700">GPLv3 Compliant</span>
-                                            <span class="rounded-md bg-sky-100 px-2.5 py-1 text-xs font-medium text-sky-700">Free Software</span>
+                                            <span class="badge success">GPLv3 Compliant</span>
+                                            <span class="badge info">Free Software</span>
                                         </div>
                                     </div>
                                 </div>
@@ -167,7 +162,7 @@ ob_start();
                                         <div class="text-sm text-zinc-600">
                                             For the complete license text, visit the official GNU website
                                         </div>
-                                        <a href="https://www.gnu.org/licenses/gpl-3.0.html" target="_blank" rel="noopener noreferrer" class="inline-flex items-center px-4 py-2 border border-zinc-300 text-sm font-medium rounded-lg text-zinc-700 bg-white hover:bg-zinc-50 transition-colors">
+                                        <a href="https://www.gnu.org/licenses/gpl-3.0.html" target="_blank" rel="noopener noreferrer" class="btn secondary">
                                             <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
                                             </svg>

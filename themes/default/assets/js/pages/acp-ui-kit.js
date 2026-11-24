@@ -1,5 +1,23 @@
 // Local UI Kit examples: no API requests and no inline handlers (CSP).
+import { set_control_error, clear_control_error, clear_control_errors } from '../app/helpers/controlErrors.js';
+
 const kit = document.getElementById('acp-ui-kit');
+
+document.addEventListener('alpine:init', () => {
+    window.Alpine.data('kitSelectDemo', () => ({
+        value: 'editor',
+        disabled: false,
+        visible: true,
+        choices: [{ value: 'admin', label: 'Администратор' }, { value: 'editor', label: 'Редактор' }],
+        changeValue() { this.value = this.value === 'admin' ? 'editor' : 'admin'; },
+        toggleDisabled() { this.disabled = !this.disabled; },
+        toggleVisible() { this.visible = !this.visible; },
+        addOption() {
+            if (!this.choices.some((item) => item.value === 'guest')) this.choices.push({ value: 'guest', label: 'Гость' });
+            this.value = 'guest';
+        }
+    }));
+});
 
 if (kit) {
     const form = kit.querySelector('[data-demo-form]');
@@ -8,8 +26,17 @@ if (kit) {
         event.preventDefault();
         form_status.textContent = 'Форма заполнена верно. Демонстрационные данные не отправлялись.';
     });
-    form.addEventListener('reset', () => { form_status.textContent = ''; });
-    form.addEventListener('input', () => { form_status.textContent = ''; });
+    form.addEventListener('invalid', (event) => {
+        set_control_error(event.target, event.target.validationMessage);
+    }, true);
+    form.addEventListener('reset', () => {
+        form_status.textContent = '';
+        clear_control_errors(form);
+    });
+    form.addEventListener('input', (event) => {
+        form_status.textContent = '';
+        clear_control_error(event.target);
+    });
 
     const tabs = [...kit.querySelectorAll('[role="tab"]')];
     const activate_tab = (tab, focus = false) => {

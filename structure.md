@@ -367,7 +367,6 @@ themes/
 │   │   │   ├── 📄 index.php               # ACP dashboard
 │   │   │   ├── 📄 license.php             # ACP license page
 │   │   │   ├── 📄 settings.php            # ACP settings
-│   │   │   ├── 📄 terms.php               # ACP terms of service page
 │   │   │   ├── 📄 ui-kit.php              # ACP UI kit
 │   │   │   └── 📄 users.php               # ACP users page
 │   │   ├── 📁 legal/                      # Legal pages

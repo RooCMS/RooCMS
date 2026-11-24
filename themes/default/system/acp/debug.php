@@ -13,47 +13,42 @@ $page_scripts = [
     $theme_base.'/assets/js/pages/acp-debug.js'
 ];
 
+$acp_heading = 'Debug Logs';
+$acp_intro = 'System debug information and performance metrics';
+$acp_breadcrumb = 'Debug Logs';
+$acp_home_label = 'Home';
+
 ob_start();
 ?>
 
-<div class="py-10">
-    <div class="grid grid-cols-1 gap-8 lg:grid-cols-[260px_1fr] px-4 sm:px-6 lg:px-8 space-y-8 max-w-full">
+<div class="acp-shell">
+    <div class="acp-layout">
         <?php require __DIR__ . '/../../partials/acp-nav.php'; ?>
 
         <section class="min-w-0 overflow-hidden">
             <header class="mb-8">
-                <nav class="mb-3 text-sm text-zinc-500" aria-label="Breadcrumbs">
-                    <ol class="flex items-center gap-2">
-                        <li><a href="/" class="hover:text-zinc-700">Home</a></li>
-                        <li aria-hidden="true" class="text-zinc-400">/</li>
-                        <li><a href="/!/acp" class="hover:text-zinc-700">ACP</a></li>
-                        <li aria-hidden="true" class="text-zinc-400">/</li>
-                        <li><span class="text-zinc-700">Debug Logs</span></li>
-                    </ol>
-                </nav>
-                <h1 class="text-2xl font-semibold tracking-tight text-zinc-900">Debug Logs</h1>
-                <p class="mt-2 text-sm text-zinc-600">System debug information and performance metrics</p>
+                <?php require __DIR__ . '/../../partials/acp-heading.php'; ?>
             </header>
 
             <div class="space-y-6" x-data="debugLogsManager">
 
                 <!-- Controls -->
-                <div class="rounded-xl border border-zinc-200/80 bg-white/80 p-5 shadow-sm backdrop-blur">
-                    <div class="flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between">
+                <div class="ui-panel">
+                    <div class="ui-toolbar">
                             <div class="flex items-center gap-2">
                                 <span class="text-sm font-medium text-zinc-700">Search:</span>
                                 <input type="text"
                                        x-model="searchQuery"
                                        placeholder="Search logs..."
-                                       class="rounded-lg border border-zinc-300 bg-white px-3 py-1.5 text-sm focus:border-sky-500 focus:outline-none min-w-48">
+                                       class="ui-control compact min-w-48">
                         </div>
 
-                        <div class="flex items-center gap-2">
+                        <div class="ui-actions">
                             <span class="text-sm text-zinc-500" x-text="'Showing ' + filteredLogs.length + ' of ' + logs.length + ' logs'"></span>
                             <button type="button"
                                     @click="clearLogs()"
                                     :disabled="logs.length === 0"
-                                    class="inline-flex items-center justify-center rounded-lg border border-red-300 bg-red-50 px-3 py-1.5 text-sm font-medium text-red-700 hover:bg-red-100 disabled:opacity-50 transition-colors cursor-pointer">
+                                    class="btn outline danger small">
                                 <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
                                 </svg>
@@ -66,51 +61,51 @@ ob_start();
                 <!-- Logs List -->
                 <div class="space-y-4">
                     <template x-for="(log, index) in filteredLogs" :key="index">
-                        <div class="rounded-xl border border-zinc-200/80 bg-white/80 shadow-sm backdrop-blur overflow-hidden max-w-full"
-                             :class="{ 'ring-2 ring-sky-500 ring-opacity-50': expandedIndex === index }">
+                        <div class="ui-panel flush overflow-hidden max-w-full"
+                             :class="{ 'is-expanded': expandedIndex === index }">
 
                             <!-- Log Header -->
-                            <div class="p-5 cursor-pointer" @click="toggleExpanded(index)">
-                                <div class="flex items-center justify-between">
-                                    <div class="flex items-center gap-4">
-                                        <div class="flex items-center gap-2">
-                                            <div class="w-3 h-3 rounded-full"
+                            <button type="button" class="ui-disclosure" @click="toggleExpanded(index)" :aria-expanded="expandedIndex === index">
+                                <span class="flex items-center justify-between">
+                                    <span class="flex min-w-0 flex-wrap items-center gap-3">
+                                        <span class="flex items-center gap-2">
+                                            <span class="w-3 h-3 rounded-full"
                                                  :class="getStatusColor(log)">
-                                            </div>
+                                            </span>
                                             <span class="text-sm font-medium text-zinc-900" x-text="formatTimestamp(log.timestamp)"></span>
-                                        </div>
+                                        </span>
 
-                                        <div class="flex items-center gap-4 text-sm text-zinc-600">
-                                            <div class="flex items-center gap-1" x-show="hasPerformanceValue(log, 'execution_time')">
+                                        <span class="flex flex-wrap items-center gap-3 text-sm text-zinc-600">
+                                            <span class="flex items-center gap-1" x-show="hasPerformanceValue(log, 'execution_time')">
                                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                                                 </svg>
                                                 <span x-text="(getPerformanceValue(log, 'execution_time') || 0) + 's'"></span>
-                                            </div>
+                                            </span>
 
-                                            <div class="flex items-center gap-1" x-show="hasPerformanceValue(log, 'memory_usage')">
+                                            <span class="flex items-center gap-1" x-show="hasPerformanceValue(log, 'memory_usage')">
                                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14M5 12a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v4a2 2 0 01-2 2M5 12a2 2 0 00-2 2v4a2 2 0 002 2h14a2 2 0 002-2v-4a2 2 0 00-2-2"></path>
                                                 </svg>
                                                 <span x-text="(getPerformanceValue(log, 'memory_usage') || 0) + 'MB'"></span>
-                                            </div>
+                                            </span>
 
-                                            <div class="flex items-center gap-1" x-show="hasPerformanceValue(log, 'db_queries')">
+                                            <span class="flex items-center gap-1" x-show="hasPerformanceValue(log, 'db_queries')">
                                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-5.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4"></path>
                                                 </svg>
                                                 <span x-text="(getPerformanceValue(log, 'db_queries') || 0) + ' queries'"></span>
-                                            </div>
-                                        </div>
-                                    </div>
+                                            </span>
+                                        </span>
+                                    </span>
 
-                                    <div class="flex items-center gap-2">
+                                    <span class="flex items-center gap-2">
                                         <svg class="w-5 h-5 text-zinc-400 transition-transform" :class="{ 'rotate-180': expandedIndex === index }" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m6 9 6 6 6-6"></path>
                                         </svg>
-                                    </div>
-                                </div>
-                            </div>
+                                    </span>
+                                </span>
+                            </button>
 
                             <!-- Expanded Content -->
                             <div x-show="expandedIndex === index"
@@ -129,7 +124,7 @@ ob_start();
                                         <h4 class="text-sm font-semibold text-zinc-900 mb-3">Request Initiator</h4>
                                         <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-4">
                                             <!-- Connection Info -->
-                                            <div class="bg-white rounded-lg border border-zinc-200 p-4">
+                                            <div class="ui-detail spacious">
                                                 <h5 class="text-sm font-medium text-zinc-900 mb-3 flex items-center">
                                                     <svg class="w-4 h-4 mr-2 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">
                                                         <path stroke-linecap="round" stroke-linejoin="round" d="M8.288 15.038a5.25 5.25 0 0 1 7.424 0M5.106 11.856c3.807-3.808 9.98-3.808 13.788 0M1.924 8.674c5.565-5.565 14.587-5.565 20.152 0M12.53 18.22l-.53.53-.53-.53a.75.75 0 0 1 1.06 0Z" />
@@ -157,7 +152,7 @@ ob_start();
                                             </div>
                                             
                                             <!-- Request Info -->
-                                            <div class="bg-white rounded-lg border border-zinc-200 p-4">
+                                            <div class="ui-detail spacious">
                                                 <h5 class="text-sm font-medium text-zinc-900 mb-3 flex items-center">
                                                     <svg class="w-4 h-4 mr-2 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
@@ -187,11 +182,11 @@ ob_start();
                                         
                                         <!-- User Agent & Referer -->
                                         <div class="space-y-3">
-                                            <div x-show="hasInitiatorValue(log, 'user_agent')" class="bg-white rounded-lg border border-zinc-200 p-4">
+                                            <div x-show="hasInitiatorValue(log, 'user_agent')" class="ui-detail spacious">
                                                 <h5 class="text-sm font-medium text-zinc-900 mb-2">User Agent</h5>
                                                 <div class="text-xs text-zinc-600 bg-zinc-50 rounded p-2 font-mono break-all overflow-x-auto" x-text="getInitiatorValue(log, 'user_agent')"></div>
                                             </div>
-                                            <div x-show="hasInitiatorValue(log, 'referer')" class="bg-white rounded-lg border border-zinc-200 p-4">
+                                            <div x-show="hasInitiatorValue(log, 'referer')" class="ui-detail spacious">
                                                 <h5 class="text-sm font-medium text-zinc-900 mb-2">Referer</h5>
                                                 <div class="text-xs text-zinc-600 bg-zinc-50 rounded p-2 font-mono break-all overflow-x-auto" x-text="getInitiatorValue(log, 'referer')"></div>
                                             </div>
@@ -202,21 +197,21 @@ ob_start();
                                     <div>
                                         <h4 class="text-sm font-semibold text-zinc-900 mb-3">Performance</h4>
                                         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 max-w-full">
-                                            <div class="bg-white rounded-lg p-3 border border-zinc-200 min-w-0 overflow-hidden" x-show="hasPerformanceValue(log, 'execution_time')">
+                                            <div class="ui-detail" x-show="hasPerformanceValue(log, 'execution_time')">
                                                 <div class="text-xs text-zinc-500 uppercase tracking-wide">Execution Time</div>
                                                 <div class="text-lg font-semibold text-zinc-900" x-text="(getPerformanceValue(log, 'execution_time') || 0) + 's'"></div>
                                                 <div class="text-xs text-zinc-500" x-text="getPerformanceStatus(getPerformanceValue(log, 'execution_time') || 0, 'time')"></div>
                                             </div>
-                                            <div class="bg-white rounded-lg p-3 border border-zinc-200 min-w-0 overflow-hidden" x-show="hasPerformanceValue(log, 'memory_usage')">
+                                            <div class="ui-detail" x-show="hasPerformanceValue(log, 'memory_usage')">
                                                 <div class="text-xs text-zinc-500 uppercase tracking-wide">Memory Usage</div>
                                                 <div class="text-lg font-semibold text-zinc-900" x-text="(getPerformanceValue(log, 'memory_usage') || 0) + 'MB'"></div>
                                                 <div class="text-xs text-zinc-500" x-text="getPerformanceStatus(getPerformanceValue(log, 'memory_usage') || 0, 'memory')"></div>
                                             </div>
-                                            <div class="bg-white rounded-lg p-3 border border-zinc-200 min-w-0 overflow-hidden" x-show="hasPerformanceValue(log, 'memory_peak')">
+                                            <div class="ui-detail" x-show="hasPerformanceValue(log, 'memory_peak')">
                                                 <div class="text-xs text-zinc-500 uppercase tracking-wide">Peak Memory</div>
                                                 <div class="text-lg font-semibold text-zinc-900" x-text="(getPerformanceValue(log, 'memory_peak') || 0) + 'MB'"></div>
                                             </div>
-                                            <div class="bg-white rounded-lg p-3 border border-zinc-200 min-w-0 overflow-hidden" x-show="hasPerformanceValue(log, 'db_queries')">
+                                            <div class="ui-detail" x-show="hasPerformanceValue(log, 'db_queries')">
                                                 <div class="text-xs text-zinc-500 uppercase tracking-wide">DB Queries</div>
                                                 <div class="text-lg font-semibold text-zinc-900" x-text="getPerformanceValue(log, 'db_queries') || 0"></div>
                                             </div>
@@ -227,25 +222,25 @@ ob_start();
                                     <div x-show="hasQueryStats(log)">
                                         <h4 class="text-sm font-semibold text-zinc-900 mb-3">Query Statistics</h4>
                                         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
-                                            <div class="bg-white rounded-lg p-3 border border-zinc-200 min-w-0 overflow-hidden">
+                                            <div class="ui-detail">
                                                 <div class="text-xs text-zinc-500 uppercase tracking-wide">Total Queries</div>
                                                 <div class="text-lg font-semibold text-zinc-900" x-text="getQueryStatsValue(log, 'count_queries') || 0"></div>
                                                 <div class="text-xs text-zinc-500">Database queries executed</div>
                                             </div>
 
-                                            <div class="bg-white rounded-lg p-3 border border-zinc-200 min-w-0 overflow-hidden">
+                                            <div class="ui-detail">
                                                 <div class="text-xs text-zinc-500 uppercase tracking-wide">Total Time</div>
                                                 <div class="text-lg font-semibold text-zinc-900" x-text="getQueryStatsValue(log, 'total_time') ? (Math.round(getQueryStatsValue(log, 'total_time') * 1000 * 100) / 100 + 'ms') : '0ms'"></div>
                                                 <div class="text-xs text-zinc-500">All queries combined</div>
                                             </div>
 
-                                            <div class="bg-white rounded-lg p-3 border border-zinc-200 min-w-0 overflow-hidden">
+                                            <div class="ui-detail">
                                                 <div class="text-xs text-zinc-500 uppercase tracking-wide">Average Time</div>
                                                 <div class="text-lg font-semibold text-zinc-900" x-text="getQueryStatsValue(log, 'average_time') ? (Math.round(getQueryStatsValue(log, 'average_time') * 1000 * 100) / 100 + 'ms') : '0ms'"></div>
                                                 <div class="text-xs text-zinc-500">Per query average</div>
                                             </div>
 
-                                            <div class="bg-white rounded-lg p-3 border border-zinc-200 min-w-0 overflow-hidden">
+                                            <div class="ui-detail">
                                                 <div class="text-xs text-zinc-500 uppercase tracking-wide">Query Memory</div>
                                                 <div class="text-lg font-semibold text-zinc-900" x-text="getQueryStatsValue(log, 'memory_usage') ? (Math.round(getQueryStatsValue(log, 'memory_usage') / 1024 / 1024 * 100) / 100 + 'MB') : '0MB'"></div>
                                                 <div class="text-xs text-zinc-500">Memory used for queries</div>
@@ -253,7 +248,7 @@ ob_start();
                                         </div>
 
                                         <!-- Individual Queries -->
-                                        <div x-show="hasQueryStatsQueries(log)" class="bg-white rounded-lg border border-zinc-200 p-4">
+                                        <div x-show="hasQueryStatsQueries(log)" class="ui-detail spacious">
                                             <h5 class="text-sm font-medium text-zinc-900 mb-3">Individual Queries</h5>
                                             <div class="space-y-3 max-h-64 overflow-y-auto">
                                                 <template x-for="(query, queryIndex) in (getQueryStatsValue(log, 'queries') || [])" :key="queryIndex">
@@ -286,7 +281,7 @@ ob_start();
                                                     <div class="flex items-start justify-between mb-2">
                                                         <div class="flex items-center gap-2">
                                                             <span class="text-sm font-medium text-zinc-900" x-text="dump.label"></span>
-                                                                <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium" :class="getDumpTypeColor(dump)" x-text="getDumpType(dump)"></span>
+                                                                <span class="badge compact" :class="getDumpTypeColor(dump)" x-text="getDumpType(dump)"></span>
                                                             </div>
                                                             <div class="text-xs text-zinc-500" x-text="dump.caller.file + ':' + dump.caller.line + ' in ' + dump.caller.function + '()'"></div>
                                                         </div>
@@ -354,7 +349,7 @@ ob_start();
                                                     <!-- Raw Value (always show for all dumps) -->
                                                     <div class="p-4">
                                                         <h6 class="text-xs font-semibold text-zinc-700 mb-2 uppercase tracking-wide">Value</h6>
-                                                        <div class="bg-zinc-50 rounded p-3 font-mono text-sm overflow-x-auto max-w-full min-w-0">
+                                                        <div class="ui-code">
                                                             <pre class="whitespace-pre-wrap break-words max-w-full overflow-hidden min-w-0" x-text="formatDumpValue(dump)"></pre>
                                                         </div>
                                                     </div>
@@ -367,25 +362,25 @@ ob_start();
                                     <div>
                                         <h4 class="text-sm font-semibold text-zinc-900 mb-3">Environment</h4>
                                         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-                                            <div class="bg-white rounded-lg p-3 border border-zinc-200 min-w-0 overflow-hidden" x-show="hasEnvironmentValue(log, 'php.checks.version')">
+                                            <div class="ui-detail" x-show="hasEnvironmentValue(log, 'php.checks.version')">
                                                 <div class="text-xs text-zinc-500 uppercase tracking-wide mb-1">PHP Version</div>
                                                 <div class="text-sm font-medium text-zinc-900" x-text="getEnvironmentValue(log, 'php.checks.version.value') || 'N/A'"></div>
                                                 <div class="text-xs" :class="getEnvironmentValue(log, 'php.checks.version.status') === 'ok' ? 'text-green-600' : 'text-red-600'" x-text="getEnvironmentValue(log, 'php.checks.version.message') || ''"></div>
                                             </div>
 
-                                            <div class="bg-white rounded-lg p-3 border border-zinc-200 min-w-0 overflow-hidden" x-show="hasEnvironmentValue(log, 'php.checks.memory_limit')">
+                                            <div class="ui-detail" x-show="hasEnvironmentValue(log, 'php.checks.memory_limit')">
                                                 <div class="text-xs text-zinc-500 uppercase tracking-wide mb-1">Memory Limit</div>
                                                 <div class="text-sm font-medium text-zinc-900" x-text="getEnvironmentValue(log, 'php.checks.memory_limit.value') || 'N/A'"></div>
                                                 <div class="text-xs" :class="getEnvironmentValue(log, 'php.checks.memory_limit.status') === 'ok' ? 'text-green-600' : 'text-red-600'" x-text="getEnvironmentValue(log, 'php.checks.memory_limit.message') || ''"></div>
                                             </div>
 
-                                            <div class="bg-white rounded-lg p-3 border border-zinc-200 min-w-0 overflow-hidden" x-show="hasEnvironmentValue(log, 'php.checks.max_execution_time')">
+                                            <div class="ui-detail" x-show="hasEnvironmentValue(log, 'php.checks.max_execution_time')">
                                                 <div class="text-xs text-zinc-500 uppercase tracking-wide mb-1">Max Execution Time</div>
                                                 <div class="text-sm font-medium text-zinc-900" x-text="getEnvironmentValue(log, 'php.checks.max_execution_time.value') || 'N/A'"></div>
                                                 <div class="text-xs" :class="getEnvironmentValue(log, 'php.checks.max_execution_time.status') === 'ok' ? 'text-green-600' : 'text-red-600'" x-text="getEnvironmentValue(log, 'php.checks.max_execution_time.message') || ''"></div>
                                             </div>
 
-                                            <div class="bg-white rounded-lg p-3 border border-zinc-200 min-w-0 overflow-hidden" x-show="hasEnvironmentValue(log, 'php.checks.extensions')">
+                                            <div class="ui-detail" x-show="hasEnvironmentValue(log, 'php.checks.extensions')">
                                                 <div class="text-xs text-zinc-500 uppercase tracking-wide mb-1">Extensions</div>
                                                 <div class="text-sm font-medium text-zinc-900" x-text="getEnvironmentValue(log, 'php.checks.extensions.status') === 'ok' ? 'All loaded' : 'Missing some'"></div>
                                                 <div x-show="getEnvironmentValue(log, 'php.checks.extensions.missing') && getEnvironmentValue(log, 'php.checks.extensions.missing').length > 0" class="text-xs text-red-600" x-text="'Missing: ' + (getEnvironmentValue(log, 'php.checks.extensions.missing') || []).join(', ')"></div>
@@ -397,7 +392,7 @@ ob_start();
                                     <div x-show="hasFilesystemValue(log, 'disk_space') || hasFilesystemValue(log, 'uploads') || hasFilesystemValue(log, 'logs')">
                                         <h4 class="text-sm font-semibold text-zinc-900 mb-3">Filesystem</h4>
                                         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                                            <div class="bg-white rounded-lg p-3 border border-zinc-200 min-w-0 overflow-hidden" x-show="hasFilesystemValue(log, 'disk_space')">
+                                            <div class="ui-detail" x-show="hasFilesystemValue(log, 'disk_space')">
                                                 <div class="text-xs text-zinc-500 uppercase tracking-wide mb-1">Disk Space</div>
                                                 <div class="text-sm font-medium text-zinc-900" x-text="getFilesystemValue(log, 'disk_space.message') || 'N/A'"></div>
                                                 <div class="text-xs text-zinc-500">
@@ -405,13 +400,13 @@ ob_start();
                                                 </div>
                                             </div>
 
-                                            <div class="bg-white rounded-lg p-3 border border-zinc-200 min-w-0 overflow-hidden" x-show="hasFilesystemValue(log, 'uploads')">
+                                            <div class="ui-detail" x-show="hasFilesystemValue(log, 'uploads')">
                                                 <div class="text-xs text-zinc-500 uppercase tracking-wide mb-1">Uploads Directory</div>
                                                 <div class="text-sm font-medium text-zinc-900" x-text="getFilesystemValue(log, 'uploads.message') || 'N/A'"></div>
                                                 <div class="text-xs text-zinc-500 break-all overflow-hidden" x-text="getFilesystemValue(log, 'uploads.path') || ''"></div>
                                             </div>
 
-                                            <div class="bg-white rounded-lg p-3 border border-zinc-200 min-w-0 overflow-hidden" x-show="hasFilesystemValue(log, 'logs')">
+                                            <div class="ui-detail" x-show="hasFilesystemValue(log, 'logs')">
                                                 <div class="text-xs text-zinc-500 uppercase tracking-wide mb-1">Logs Directory</div>
                                                 <div class="text-sm font-medium text-zinc-900" x-text="getFilesystemValue(log, 'logs.message') || 'N/A'"></div>
                                                 <div class="text-xs text-zinc-500 break-all overflow-hidden" x-text="getFilesystemValue(log, 'logs.path') || ''"></div>
@@ -423,19 +418,19 @@ ob_start();
                                     <div x-show="hasUserEnvValue(log, 'user_functions') || hasUserEnvValue(log, 'user_classes') || hasUserEnvValue(log, 'user_constants')">
                                         <h4 class="text-sm font-semibold text-zinc-900 mb-3">User Environment</h4>
                                         <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                                            <div class="bg-white rounded-lg p-3 border border-zinc-200 min-w-0 overflow-hidden">
+                                            <div class="ui-detail">
                                                 <div class="text-xs text-zinc-500 uppercase tracking-wide mb-1">User Functions</div>
                                                 <div class="text-lg font-semibold text-zinc-900" x-text="(getUserEnvValue(log, 'user_functions') || []).length"></div>
                                                 <div class="text-xs text-zinc-500">Custom functions loaded</div>
                                             </div>
 
-                                            <div class="bg-white rounded-lg p-3 border border-zinc-200 min-w-0 overflow-hidden">
+                                            <div class="ui-detail">
                                                 <div class="text-xs text-zinc-500 uppercase tracking-wide mb-1">User Classes</div>
                                                 <div class="text-lg font-semibold text-zinc-900" x-text="(getUserEnvValue(log, 'user_classes') || []).length"></div>
                                                 <div class="text-xs text-zinc-500">Custom classes loaded</div>
                                             </div>
 
-                                            <div class="bg-white rounded-lg p-3 border border-zinc-200 min-w-0 overflow-hidden">
+                                            <div class="ui-detail">
                                                 <div class="text-xs text-zinc-500 uppercase tracking-wide mb-1">User Constants</div>
                                                 <div class="text-lg font-semibold text-zinc-900" x-text="(getUserEnvValue(log, 'user_constants') || []).length"></div>
                                                 <div class="text-xs text-zinc-500">Custom constants defined</div>
@@ -447,19 +442,19 @@ ob_start();
                                     <div x-show="hasServerLoad(log)">
                                         <h4 class="text-sm font-semibold text-zinc-900 mb-3">Server Load</h4>
                                         <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                                            <div class="bg-white rounded-lg p-3 border border-zinc-200 min-w-0 overflow-hidden">
+                                            <div class="ui-detail">
                                                 <div class="text-xs text-zinc-500 uppercase tracking-wide mb-1">1 Minute</div>
                                                 <div class="text-lg font-semibold text-zinc-900" x-text="getServerLoadValue(log, '1min') || 'N/A'"></div>
                                                 <div class="text-xs text-zinc-500">Average load</div>
                                             </div>
 
-                                            <div class="bg-white rounded-lg p-3 border border-zinc-200 min-w-0 overflow-hidden">
+                                            <div class="ui-detail">
                                                 <div class="text-xs text-zinc-500 uppercase tracking-wide mb-1">5 Minutes</div>
                                                 <div class="text-lg font-semibold text-zinc-900" x-text="getServerLoadValue(log, '5min') || 'N/A'"></div>
                                                 <div class="text-xs text-zinc-500">Average load</div>
                                             </div>
 
-                                            <div class="bg-white rounded-lg p-3 border border-zinc-200 min-w-0 overflow-hidden">
+                                            <div class="ui-detail">
                                                 <div class="text-xs text-zinc-500 uppercase tracking-wide mb-1">15 Minutes</div>
                                                 <div class="text-lg font-semibold text-zinc-900" x-text="getServerLoadValue(log, '15min') || 'N/A'"></div>
                                                 <div class="text-xs text-zinc-500">Average load</div>
@@ -470,7 +465,7 @@ ob_start();
                                     <!-- Process Info -->
                                     <div x-show="hasProcessId(log)">
                                         <h4 class="text-sm font-semibold text-zinc-900 mb-3">Process Info</h4>
-                                        <div class="bg-white rounded-lg p-3 border border-zinc-200">
+                                        <div class="ui-detail">
                                             <div class="text-xs text-zinc-500 uppercase tracking-wide mb-1">Process ID</div>
                                             <div class="text-lg font-semibold text-zinc-900" x-text="getProcessId(log) || 'N/A'"></div>
                                             <div class="text-xs text-zinc-500">Current PHP process identifier</div>
@@ -491,20 +486,20 @@ ob_start();
                     </template>
 
                     <!-- Empty State -->
-                    <div x-show="logs.length === 0" class="text-center py-12">
+                    <div x-show="logs.length === 0" class="ui-empty">
                         <svg class="mx-auto h-12 w-12 text-zinc-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
                         </svg>
-                        <h3 class="mt-2 text-sm font-medium text-zinc-900">No debug logs</h3>
+                        <h3 class="ui-empty-title">No debug logs</h3>
                         <p class="mt-1 text-sm text-zinc-500">Debug logs will appear here when DEBUGMODE is enabled.</p>
                     </div>
 
                     <!-- No Results -->
-                    <div x-show="logs.length > 0 && filteredLogs.length === 0" class="text-center py-12">
+                    <div x-show="logs.length > 0 && filteredLogs.length === 0" class="ui-empty">
                         <svg class="mx-auto h-12 w-12 text-zinc-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
                         </svg>
-                        <h3 class="mt-2 text-sm font-medium text-zinc-900">No matching logs</h3>
+                        <h3 class="ui-empty-title">No matching logs</h3>
                         <p class="mt-1 text-sm text-zinc-500">Try adjusting your search or filter criteria.</p>
                     </div>
                 </div>

@@ -458,11 +458,11 @@ document.addEventListener('alpine:init', () => {
         // Status helpers
         getStatusBadgeClass(status) {
             const classes = {
-                'draft': 'bg-yellow-100 text-yellow-800',
-                'active': 'bg-green-100 text-green-800',
-                'inactive': 'bg-red-100 text-red-800'
+                'draft': 'warning',
+                'active': 'success',
+                'inactive': 'danger'
             };
-            return classes[status] || 'bg-zinc-100 text-zinc-800';
+            return classes[status] || 'neutral';
         },
 
         getStatusText(status) {
@@ -485,11 +485,11 @@ document.addEventListener('alpine:init', () => {
 
         getStatusButtonClass(status) {
             const classes = {
-                'draft': 'border-emerald-300 bg-white text-emerald-700 hover:bg-emerald-50 focus:ring-emerald-500',
-                'active': 'border-rose-300 bg-white text-rose-700 hover:bg-rose-50 focus:ring-rose-500',
-                'inactive': 'border-amber-300 bg-white text-amber-700 hover:bg-amber-50 focus:ring-amber-500'
+                'draft': 'outline success',
+                'active': 'outline danger',
+                'inactive': 'outline warning'
             };
-            return classes[status] || 'border-zinc-300 bg-white text-zinc-700 hover:bg-zinc-50 focus:ring-zinc-500';
+            return classes[status] || 'secondary';
         },
 
         // Validation errors

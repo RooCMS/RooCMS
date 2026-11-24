@@ -4,6 +4,7 @@
 
 /* Tailwind CSS 4 | MIT License | https://tailwindcss.com */
 @import "tailwindcss";
+@import "./components.css" layer(components);
 
 /* Set fonts */
 @theme {
@@ -25,10 +26,17 @@
  * license http://www.gnu.org/licenses/gpl-3.0.html
  */
 
+/* Keep reusable defaults below explicit Tailwind utilities in the cascade. */
+@layer components {
+
 /* Modal visibility control */
 .modal-hidden {
     display: none !important;
 }
+
+/* Dialogs must cover the sticky header and cookie panel (both z-50). */
+#modal-backdrop { z-index: 60; }
+#modal { z-index: 70; }
 
 /* Rating group */
 /* Keep focus visible in the admin component gallery, including hidden switches. */
@@ -36,12 +44,12 @@
     scroll-margin-top: 6rem;
 }
 
-#acp-ui-kit :is(button, a, input, select, textarea, summary, [tabindex]):focus-visible {
+:where(#acp-ui-kit) :where(button, a, summary, [tabindex]):not(:where(.ui-control, input, select, textarea)):focus-visible {
     outline: 2px solid #0284c7;
     outline-offset: 3px;
 }
 
-#acp-ui-kit .peer:focus-visible + span {
+:where(#acp-ui-kit) .peer:focus-visible + span {
     outline: 2px solid #0284c7;
     outline-offset: 3px;
 }
@@ -149,39 +157,39 @@
 
 /* Buttons */
 .btn {
-    @apply inline-flex items-center justify-center gap-2 rounded-md px-4 py-2 text-sm font-medium transition shadow-sm focus-visible:outline-2 focus-visible:outline-offset-2 cursor-pointer;
+    @apply inline-flex items-center justify-center gap-2 rounded-md border border-transparent px-4 py-2 text-sm font-medium transition shadow-sm focus-visible:outline-2 focus-visible:outline-offset-2 cursor-pointer;
 }
 
 .btn.primary {
-    @apply bg-gradient-to-r from-blue-600 to-purple-600 text-white hover:from-blue-700 hover:to-purple-700 focus-visible:outline-blue-500;
+    @apply bg-gradient-to-r from-blue-600 to-purple-600 text-white not-disabled:hover:from-blue-700 not-disabled:hover:to-purple-700 focus-visible:outline-blue-500;
 }
 
 .btn.danger {
-    @apply bg-gradient-to-r from-red-500 to-rose-600 text-white hover:from-red-600 hover:to-rose-700 focus-visible:outline-rose-500;
+    @apply bg-gradient-to-r from-red-500 to-rose-600 text-white not-disabled:hover:from-red-600 not-disabled:hover:to-rose-700 focus-visible:outline-rose-500;
 }
 
 .btn.success {
-    @apply bg-gradient-to-r from-emerald-600 to-green-600 text-white hover:from-emerald-700 hover:to-green-700 focus-visible:outline-emerald-500;
+    @apply bg-gradient-to-r from-emerald-600 to-green-600 text-white not-disabled:hover:from-emerald-700 not-disabled:hover:to-green-700 focus-visible:outline-emerald-500;
 }
 
 .btn.info {
-    @apply bg-gradient-to-r from-sky-500 to-blue-600 text-white hover:from-sky-600 hover:to-blue-700 focus-visible:outline-sky-500;
+    @apply bg-gradient-to-r from-sky-500 to-blue-600 text-white not-disabled:hover:from-sky-600 not-disabled:hover:to-blue-700 focus-visible:outline-sky-500;
 }
 
 .btn.warning {
-    @apply bg-gradient-to-r from-amber-500 to-orange-600 text-white hover:from-amber-600 hover:to-orange-700 focus-visible:outline-amber-500;
+    @apply bg-gradient-to-r from-amber-500 to-orange-600 text-white not-disabled:hover:from-amber-600 not-disabled:hover:to-orange-700 focus-visible:outline-amber-500;
 }
 
 .btn.contrast {
-    @apply bg-gradient-to-r from-gray-500 to-slate-600 text-white hover:from-gray-600 hover:to-slate-700 focus-visible:outline-gray-500;
+    @apply bg-gradient-to-r from-gray-500 to-slate-600 text-white not-disabled:hover:from-gray-600 not-disabled:hover:to-slate-700 focus-visible:outline-gray-500;
 }
 
 .btn.secondary {
-    @apply border border-zinc-200 bg-white text-zinc-900 hover:bg-zinc-50 focus-visible:outline-zinc-500;
+    @apply border border-zinc-200 bg-white text-zinc-900 not-disabled:hover:bg-zinc-50 focus-visible:outline-zinc-500;
 }
 
 .btn.outline {
-    @apply border border-zinc-300 bg-white text-zinc-600 hover:border-blue-500 hover:text-blue-600 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500;
+    @apply border border-zinc-300 bg-none bg-white text-zinc-600 not-disabled:hover:border-blue-500 not-disabled:hover:text-blue-600 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500;
 }
 
 .btn:disabled {
@@ -654,7 +662,7 @@
 }
 
 .avatar-with-status .avatar {
-    @apply block ring-2 ring-white;
+    @apply ring-2 ring-white;
 }
 
 .avatar-with-status .status-indicator {
@@ -928,3 +936,5 @@
 .toggle-input:checked + .toggle-switch.enabled.danger {
     @apply bg-gradient-to-r from-rose-500 to-pink-500;
 }
+
+} /* components */
