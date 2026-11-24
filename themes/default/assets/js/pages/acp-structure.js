@@ -293,7 +293,7 @@ document.addEventListener('alpine:init', () => {
                 `Are you sure you want to change status of "<strong>${escapeHtml(page.title)}</strong>" from ${statusText[currentStatus]} to ${statusText[newStatus]}?`,
                 'Change Status',
                 'Cancel',
-                'notice'
+                'info'
             );
 
             if (confirmed) {
@@ -349,7 +349,7 @@ document.addEventListener('alpine:init', () => {
                 `Are you sure you want to delete page "<strong>${escapeHtml(title)}</strong>"? This action cannot be undone.`,
                 'Delete',
                 'Cancel',
-                'alert'
+                'danger'
             );
 
             if (confirmed) {

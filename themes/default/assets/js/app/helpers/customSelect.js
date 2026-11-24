@@ -74,7 +74,7 @@ export function init_custom_selects(root) {
             if (destroyed) return;
             // x-for can create options after x-model has applied its initial value.
             const model_value = select._x_model?.get();
-            if (model_value !== undefined && options().some((option) => option.value === String(model_value ?? ''))) {
+            if (model_value !== undefined) {
                 select.value = String(model_value ?? '');
             }
             button.className = select.className.replace(/\bui-select-native\b/g, '') + ' ui-select-trigger';
@@ -89,12 +89,17 @@ export function init_custom_selects(root) {
             if (select.required) button.setAttribute('aria-required', 'true');
             const label_text = [...select.labels].map((label) => {
                 const copy = label.cloneNode(true);
-                copy.querySelectorAll('select, button').forEach((control) => control.remove());
+                copy.querySelectorAll('select, button, .ui-error').forEach((control) => control.remove());
                 return copy.textContent.trim();
             }).join(' ');
             const labelled_by = select.getAttribute('aria-labelledby');
-            if (labelled_by) button.setAttribute('aria-labelledby', labelled_by);
-            else button.setAttribute('aria-label', select.getAttribute('aria-label') || label_text || button.textContent);
+            if (labelled_by) {
+                button.setAttribute('aria-labelledby', labelled_by);
+                button.removeAttribute('aria-label');
+            } else {
+                button.removeAttribute('aria-labelledby');
+                button.setAttribute('aria-label', select.getAttribute('aria-label') || label_text || button.textContent);
+            }
             menu.setAttribute('aria-label', label_text || select.getAttribute('aria-label') || 'Выберите значение');
             if (button.disabled || !select.getClientRects().length) close();
             if (is_open()) { render(); highlight(select.selectedIndex); }
@@ -165,7 +170,7 @@ export function init_custom_selects(root) {
         });
         const focus = () => button.focus();
         const invalid = (event) => { event.preventDefault(); button.focus(); };
-        const reset = () => window.Alpine ? window.Alpine.nextTick(sync) : setTimeout(sync, 0);
+        const reset = () => window.Alpine.nextTick(sync);
         select.addEventListener('focus', focus);
         select.addEventListener('invalid', invalid);
         select.addEventListener('change', sync);
@@ -175,7 +180,7 @@ export function init_custom_selects(root) {
             attributeFilter: ['disabled', 'selected', 'label', 'value', 'hidden', 'class', 'aria-invalid', 'aria-describedby', 'required'] });
         // Alpine's native x-model remains the source of truth, including asynchronous API updates.
         let effect;
-        window.Alpine?.nextTick(() => {
+        window.Alpine.nextTick(() => {
             if (destroyed) return;
             effect = window.Alpine.effect(() => {
                 select._x_model?.get();
@@ -199,14 +204,23 @@ export function init_custom_selects(root) {
             button.remove(); menu.remove();
         } });
     };
-    const scan = () => {
-        for (const [select, control] of controls) {
-            if (!root.contains(select)) { control.destroy(); controls.delete(select); }
-        }
-        root.querySelectorAll('select').forEach(enhance);
+    const enhance_tree = (node) => {
+        if (!(node instanceof Element)) return;
+        if (node.matches('select')) enhance(node);
+        node.querySelectorAll('select').forEach(enhance);
     };
-    scan();
-    new MutationObserver(scan).observe(root, { childList: true, subtree: true });
+    enhance_tree(root);
+    new MutationObserver((records) => {
+        if (records.some((record) => [...record.removedNodes].some((node) =>
+            node instanceof Element && (node.matches('select') || node.querySelector('select'))))) {
+            for (const [select, control] of controls) {
+                if (!root.contains(select)) { control.destroy(); controls.delete(select); }
+            }
+        }
+        records.forEach((record) => record.addedNodes.forEach((node) => {
+            if (root.contains(node)) enhance_tree(node);
+        }));
+    }).observe(root, { childList: true, subtree: true });
     window.addEventListener('resize', () => controls.forEach((control) => control.close()));
     document.addEventListener('scroll', (event) => {
         controls.forEach((control) => { if (!control.menu.contains(event.target)) control.close(); });

@@ -130,9 +130,9 @@ document.addEventListener('alpine:init', () => {
                     throw new Error('Authentication failed');
                 }
 
+                const errorData = await response.json();
                 // Handle validation errors (422)
                 if (response.status === 422) {
-                    const errorData = await response.json();
                     if (errorData.details?.validation_errors) {
                         const error = new Error('Validation failed');
                         error.validationErrors = errorData.details.validation_errors;
@@ -141,7 +141,6 @@ document.addEventListener('alpine:init', () => {
                     }
                 }
 
-                const errorData = await response.json();
                 const error = new Error(errorData.message || `Request failed: ${response.status}`);
                 error.status = response.status;
                 throw error;
@@ -249,42 +248,24 @@ document.addEventListener('alpine:init', () => {
         showValidationErrors(validationErrors) {
             this.showMessage('Please correct the validation errors below.', 'error');
 
-            const entries = Object.entries(validationErrors);
-            entries.forEach(([fieldName, errorMessage], index) => {
+            let first_field = null;
+            Object.entries(validationErrors).forEach(([fieldName, errorMessage]) => {
                 const fieldElement = this.findFieldElement(fieldName);
 
                 if (fieldElement) {
-                    this.highlightFieldError(fieldElement, errorMessage);
-
-                    // Scroll to first error
-                    if (index === 0) {
-                        fieldElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                        setTimeout(() => fieldElement.focus(), 100);
-                    }
+                    set_control_error(fieldElement, errorMessage);
+                    first_field ??= fieldElement;
                 }
             });
+            if (first_field) {
+                first_field.focus({ preventScroll: true });
+                first_field.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
         },
 
         // Find field element by name
         findFieldElement(fieldName) {
-            // Try direct name attribute first
-            let field = document.querySelector(`[name="${fieldName}"]`);
-            if (field) return field;
-
-            // Try to find by ID in groups
-            for (const [groupName, groupSettings] of Object.entries(this.settings)) {
-                if (groupSettings?.[fieldName] !== undefined) {
-                    field = document.getElementById(this.getFieldId(groupName, fieldName));
-                    if (field) return field;
-                }
-            }
-
-            // Fallback: search by ID ending with field name
-            return document.querySelector(`[id$="_${fieldName}"]`);
-        },
-
-        highlightFieldError(fieldElement, errorMessage) {
-            set_control_error(fieldElement, errorMessage);
+            return this.$root.querySelector(`[name="${CSS.escape(fieldName)}"]`);
         },
 
         showMessage(message, type = 'success') {
@@ -295,19 +276,11 @@ document.addEventListener('alpine:init', () => {
                 this.errorMessage = message;
                 this.successMessage = '';
             }
-            
-            // Use global helper for backward compatibility if available
-            if (window.FormHelperUtils) {
-                const method = type === 'success' ? 'showSuccessMessage' : 'showErrorMessage';
-                const selector = type === 'success' ? '.form-success' : '.form-error';
-                window.FormHelperUtils[method]?.(message, selector);
-            }
         },
 
         clearMessages() {
             this.successMessage = '';
             this.errorMessage = '';
-            window.FormHelperUtils?.clearFormMessages?.('.form-success', '.form-error');
         }
     }));
 });

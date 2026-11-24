@@ -5,17 +5,13 @@
  */
 
 // Create Alpine component for ACP
-import { init_custom_selects } from './helpers/customSelect.js?v=2';
+import { init_custom_selects } from './helpers/customSelect.js';
 
-let controls_initialized = false;
 const init_controls = () => {
     const root = document.querySelector('.acp-shell');
-    if (!root || controls_initialized) return;
-    controls_initialized = true;
-    init_custom_selects(root);
+    if (root) init_custom_selects(root);
 };
-document.addEventListener('alpine:initialized', init_controls);
-document.addEventListener('DOMContentLoaded', () => queueMicrotask(init_controls));
+document.addEventListener('alpine:initialized', init_controls, { once: true });
 
 document.addEventListener('alpine:init', () => {
     window.Alpine.data('acp', () => ({

@@ -168,7 +168,7 @@ document.addEventListener('alpine:init', () => {
 
             } catch (error) {
                 window.log('error', 'Delete account error:', error);
-                await window.showMessage('Error', `Failed to delete account: ${error.message}`, 'alert');
+                await window.showMessage('Error', `Failed to delete account: ${error.message}`, 'danger');
             }
         },
 
@@ -233,7 +233,7 @@ document.addEventListener('alpine:init', () => {
 
             } catch (error) {
                 window.log('error', 'Profile visibility update error:', error);
-                await window.showMessage('Error', `Failed to update profile visibility: ${error.message}`, 'alert');
+                await window.showMessage('Error', `Failed to update profile visibility: ${error.message}`, 'danger');
             } finally {
                 this.togglingVisibility = false;
             }

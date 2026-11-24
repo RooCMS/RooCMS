@@ -56,7 +56,7 @@ function notifyUserAboutUpdate() {
             'A new version of the application is available. Update now?',
             'Update',
             'Later',
-            'notice'
+            'info'
         ).then((confirmed) => {
             if (confirmed) {
                 window.location.reload();

@@ -306,7 +306,7 @@ document.addEventListener('alpine:init', () => {
                 'Произошла ошибка при очистке логов: ' + escapeHtml(error.message),
                 'OK',
                 '',
-                'alert'
+                'danger'
             );
         } finally {
             this.loading = false;

@@ -10,15 +10,14 @@ export function clear_control_error(field) {
     if (descriptions.length) field.setAttribute('aria-describedby', descriptions.join(' '));
     else field.removeAttribute('aria-describedby');
     field.removeAttribute('aria-invalid');
-    field.classList.remove('validation-error');
     delete field.dataset.controlErrorId;
 }
 
 export function set_control_error(field, message) {
     clear_control_error(field);
-    const error = field.ownerDocument.createElement('p');
+    const error = field.ownerDocument.createElement('span');
     error.id = `control-error-${++control_error_id}`;
-    error.className = 'field-error-message ui-error';
+    error.className = 'ui-error block';
     error.textContent = message;
     error.setAttribute('role', 'alert');
     field.dataset.controlErrorId = error.id;

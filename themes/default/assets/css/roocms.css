@@ -29,36 +29,13 @@
 /* Keep reusable defaults below explicit Tailwind utilities in the cascade. */
 @layer components {
 
-/* Modal visibility control */
-.modal-hidden {
-    display: none !important;
-}
-
 /* Dialogs must cover the sticky header and cookie panel (both z-50). */
 #modal-backdrop { z-index: 60; }
 #modal { z-index: 70; }
 
-/* Rating group */
-/* Keep focus visible in the admin component gallery, including hidden switches. */
+/* Anchor navigation clears the sticky site header. */
 #acp-ui-kit [id] {
     scroll-margin-top: 6rem;
-}
-
-:where(#acp-ui-kit) :where(button, a, summary, [tabindex]):not(:where(.ui-control, input, select, textarea)):focus-visible {
-    outline: 2px solid #0284c7;
-    outline-offset: 3px;
-}
-
-:where(#acp-ui-kit) .peer:focus-visible + span {
-    outline: 2px solid #0284c7;
-    outline-offset: 3px;
-}
-
-@media (prefers-reduced-motion: reduce) {
-    #acp-ui-kit *, #acp-ui-kit *::before, #acp-ui-kit *::after {
-        animation: none !important;
-        transition: none !important;
-    }
 }
 
 .rating-group {
@@ -935,6 +912,11 @@
 
 .toggle-input:checked + .toggle-switch.enabled.danger {
     @apply bg-gradient-to-r from-rose-500 to-pink-500;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .skeleton-container { animation: none; }
+    .btn, .btn svg, .avatar { transition: none; }
 }
 
 } /* components */

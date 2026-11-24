@@ -12,6 +12,7 @@ document.addEventListener('alpine:init', () => {
         changeValue() { this.value = this.value === 'admin' ? 'editor' : 'admin'; },
         toggleDisabled() { this.disabled = !this.disabled; },
         toggleVisible() { this.visible = !this.visible; },
+        removeOption() { this.choices = this.choices.filter((item) => item.value !== this.value); },
         addOption() {
             if (!this.choices.some((item) => item.value === 'guest')) this.choices.push({ value: 'guest', label: 'Гость' });
             this.value = 'guest';
@@ -134,12 +135,10 @@ if (kit) {
 
     kit.querySelectorAll('[data-modal-type]').forEach((button) => {
         button.addEventListener('click', async () => {
-            if (typeof window.modal !== 'function') return;
             const type = button.dataset.modalType;
             const confirmed = await window.modal('Пример модального окна',
                 'Это демонстрация. Действия с данными не выполняются.', 'Продолжить', 'Отмена', type);
             kit.querySelector('[data-modal-status]').textContent = confirmed ? 'Действие подтверждено.' : 'Действие отменено.';
-            button.focus();
         });
     });
 }

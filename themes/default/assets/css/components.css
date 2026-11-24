@@ -4,7 +4,6 @@
 .acp-content { @apply min-w-0; }
 .acp-dashboard { @apply grid grid-cols-1 gap-6 xl:grid-cols-3; }
 .acp-settings-grid { @apply columns-1 gap-6 xl:columns-2 2xl:columns-3; }
-.acp-users-table { min-width: 64rem; }
 .acp-nav-link { @apply flex items-center gap-3 rounded-lg border border-transparent px-3 py-2 text-sm font-medium text-zinc-700 hover:border-zinc-200 hover:bg-white/20 hover:text-zinc-900 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-500; }
 .acp-nav-link.active { @apply border-zinc-200 bg-white/60 text-zinc-900 shadow-sm backdrop-blur hover:bg-white; }
 .acp-nav-link.mobile { @apply whitespace-nowrap border-zinc-200 bg-white/70; }
@@ -40,7 +39,7 @@
 .ui-control.search { @apply pl-10; }
 .ui-control.color { @apply h-10 w-20 cursor-pointer p-1; }
 .ui-control.valid { @apply border-emerald-500; }
-.ui-control:is([aria-invalid="true"], .validation-error) { @apply border-rose-500; }
+.ui-control[aria-invalid="true"] { @apply border-rose-500; }
 .ui-file {
     @apply block w-full text-sm text-zinc-500 file:mr-4 file:rounded-lg file:border-0 file:bg-zinc-50 file:px-4 file:py-2 file:text-sm file:font-medium file:text-zinc-700 hover:file:bg-zinc-100;
 }
@@ -116,6 +115,17 @@ input:disabled + .ui-switch { @apply cursor-not-allowed opacity-50; }
 .ui-table tbody tr:hover { @apply bg-zinc-50; }
 .ui-pagination { @apply flex flex-wrap items-center justify-between gap-4; }
 .ui-page-list { @apply flex flex-wrap items-center gap-1; }
+.ui-filter-grid { @apply grid grid-cols-1 items-end gap-4 sm:grid-cols-2 xl:grid-cols-[minmax(0,1fr)_9rem_9rem_auto]; }
+.ui-filter-search { @apply min-w-0 sm:col-span-2 xl:col-span-1; }
+.ui-record-list { @apply divide-y divide-zinc-200/80; }
+.ui-record-row { @apply grid grid-cols-2 gap-x-4 gap-y-3 p-5 text-sm xl:grid-cols-[minmax(0,1fr)_6rem_7rem_7rem_10rem] xl:items-center xl:gap-3; }
+.ui-record-row.is-open { @apply bg-sky-50/60; }
+.ui-record-heading { @apply hidden border-b border-zinc-200/80 bg-zinc-50/80 py-3 text-xs font-medium uppercase tracking-wide text-zinc-500 xl:grid; }
+.ui-record-cell { @apply min-w-0; overflow-wrap: anywhere; }
+.ui-record-identity { @apply col-span-2 flex min-w-0 items-start gap-3 xl:col-span-1; }
+.ui-record-label { @apply mb-1 block text-xs text-zinc-500 xl:hidden; }
+.ui-record-actions { @apply col-span-2 flex flex-wrap items-center justify-end gap-2 border-t border-zinc-100 pt-3 xl:col-span-1 xl:border-0 xl:pt-0; }
+.ui-record-editor { @apply border-t border-zinc-200/80 bg-zinc-50/70 p-4 sm:p-5; }
 .ui-code { @apply max-w-full min-w-0 overflow-x-auto rounded-lg bg-zinc-50 p-3 font-mono text-sm; }
 .ui-disclosure { @apply w-full cursor-pointer p-5 text-left; }
 .ui-disclosure:focus-visible { @apply outline-2 outline-offset-2 outline-sky-500; }

@@ -8,7 +8,7 @@ import { request, handleApiError } from '../app/api.js';
 import { DEBUG } from '../app/config.js';
 import { escapeHtml, formatDateTime, formatRelativeTime, getUserInitials } from '../app/helpers/formatters.js';
 import { isValidEmail } from '../app/helpers/validation.js';
-import { showFieldError } from '../app/helpers/formHelpers.js';
+import { set_control_error, clear_control_errors } from '../app/helpers/controlErrors.js';
 
 // Constants
 const ROLE_BADGE_CLASSES = {
@@ -32,10 +32,14 @@ document.addEventListener('alpine:init', () => {
             per_page: 20
         },
         loading: false,
+        listRequestId: 0,
         searchQuery: '',
         filters: {
             role: '',
             status: ''
+        },
+        get hasFilters() {
+            return Boolean(this.searchQuery.trim() || this.filters.role || this.filters.status);
         },
         successMessage: '',
         errorMessage: '',
@@ -115,7 +119,7 @@ document.addEventListener('alpine:init', () => {
 
         // Load users from API
         async loadUsers(page = 1) {
-            if (this.loading) return;
+            const requestId = ++this.listRequestId;
 
             this.loading = true;
             this.clearMessages();
@@ -154,7 +158,7 @@ document.addEventListener('alpine:init', () => {
                 if (DEBUG) window.log('log', 'Loading users with params:', params.toString());
 
                 const data = await this.apiRequest(`/v1/users?${params.toString()}`);
-                if (!data) return;
+                if (!data || requestId !== this.listRequestId) return;
 
                 this.users = data.items || [];
                 this.pagination = {
@@ -166,10 +170,11 @@ document.addEventListener('alpine:init', () => {
 
                 if (DEBUG) window.log('log', 'Users loaded:', this.users.length);
             } catch (error) {
+                if (requestId !== this.listRequestId) return;
                 if (DEBUG) window.log('error', 'Error loading users:', error);
                 this.showRequestError(error, 'Error loading users');
             } finally {
-                this.loading = false;
+                if (requestId === this.listRequestId) this.loading = false;
             }
         },
 
@@ -249,9 +254,11 @@ document.addEventListener('alpine:init', () => {
         getInitials(user) {
             return getUserInitials(user);
         },
+        hasAvatar(user) {
+            return Boolean(user.avatar && user.avatar !== 'null');
+        },
 
         getRoleLabel(role) {
-            // Use data from API - roles are stored as object with role keys
             return this.availableRoles?.[role]?.name || role;
         },
 
@@ -404,13 +411,8 @@ document.addEventListener('alpine:init', () => {
             this.editPasswordForm.confirm_password = '';
         },
 
-        // The edit form is rendered inside the list for every user, so error elements have per-user ids
-        // (email_error_for_<id>); they are cleared by attribute to also reset the row that has just been closed
         clearEditFieldErrors() {
-            document.querySelectorAll('[data-edit-field-error]').forEach(element => {
-                element.textContent = '';
-                element.classList.add('hidden');
-            });
+            clear_control_errors(this.$root);
         },
 
         validateEditForm() {
@@ -418,12 +420,12 @@ document.addEventListener('alpine:init', () => {
             let hasErrors = false;
 
             if (!this.editForm.email || !isValidEmail(this.editForm.email)) {
-                showFieldError(`email_error_for_${this.editingUserId}`, 'Please enter a valid email address');
+                set_control_error(this.$root.querySelector(`#email_for_${this.editingUserId}`), 'Please enter a valid email address');
                 hasErrors = true;
             }
 
             if (!this.editForm.role) {
-                showFieldError(`role_error_for_${this.editingUserId}`, 'Please select a role');
+                set_control_error(this.$root.querySelector(`#role_for_${this.editingUserId}`), 'Please select a role');
                 hasErrors = true;
             }
 
@@ -694,7 +696,7 @@ document.addEventListener('alpine:init', () => {
         async showBanModal(user) {
             return new Promise((resolve) => {
                 // Create modal HTML without extra attributes visible
-                const modalHtml = `<div class="space-y-3 text-left"><p class="text-sm text-zinc-600 mb-2">Ban user: <strong>${escapeHtml(user.login)}</strong></p><div><label for="ban-reason" class="block text-sm font-medium text-zinc-700 mb-1">Reason (optional)</label><input type="text" id="ban-reason" placeholder="Enter ban reason" class="block w-full rounded-lg border border-zinc-300 px-3 py-2 text-sm focus:border-sky-500 focus:outline-none focus:ring-1 focus:ring-sky-500" /></div><div><label for="ban-expires" class="block text-sm font-medium text-zinc-700 mb-1">Expires (optional)</label><input type="datetime-local" id="ban-expires" class="block w-full rounded-lg border border-zinc-300 px-3 py-2 text-sm focus:border-sky-500 focus:outline-none focus:ring-1 focus:ring-sky-500" /><p class="mt-1 text-xs text-zinc-500">Leave empty for permanent ban</p></div></div>`;
+                const modalHtml = `<div class="space-y-3 text-left"><p class="text-sm text-zinc-600 mb-2">Ban user: <strong>${escapeHtml(user.login)}</strong></p><div><label for="ban-reason" class="ui-label">Reason (optional)</label><input type="text" id="ban-reason" placeholder="Enter ban reason" class="ui-control" /></div><div><label for="ban-expires" class="ui-label">Expires (optional)</label><input type="datetime-local" id="ban-expires" class="ui-control" /><p class="ui-hint">Leave empty for permanent ban</p></div></div>`;
 
                 // Use Alpine modal store
                 const modal = window.Alpine.store('modal');
@@ -724,7 +726,7 @@ document.addEventListener('alpine:init', () => {
                 `Are you sure you want to unban user <strong>${escapeHtml(user.login)}</strong>?`,
                 'Unban',
                 'Cancel',
-                'notice'
+                'info'
             );
 
             if (!confirmed) {

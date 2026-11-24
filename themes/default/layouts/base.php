@@ -69,22 +69,22 @@ $theme_base = '/themes/'.$theme_name;
 
     <?php require __DIR__ . '/../partials/cookie.php'; ?>
 
-    <div class="fixed inset-0 flex w-screen justify-center overflow-y-auto bg-zinc-950/25 px-2 py-2 transition duration-100 focus:outline-0 data-closed:opacity-0 data-enter:ease-out data-leave:ease-in sm:px-6 sm:py-8 lg:px-8 lg:py-16 dark:bg-zinc-950/50 opacity-0 modal-hidden" id="modal-backdrop" :class="{ 'opacity-100': $modal.isOpen, 'opacity-0': !$modal.isOpen, 'modal-hidden': !$modal.isOpen }" x-data="modalStore" x-show="$modal.isOpen" x-transition:enter="ease-out duration-300" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100" x-transition:leave="ease-in duration-200" x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0"></div>
-    <div class="fixed inset-0 w-screen overflow-y-auto pt-6 sm:pt-0 modal-hidden" id="modal" x-data="modalStore" x-show="$modal.isOpen" :class="{ 'modal-hidden': !$modal.isOpen }" x-transition:enter="ease-out duration-300" x-transition:enter-start="opacity-0 scale-95" x-transition:enter-end="opacity-100 scale-100" x-transition:leave="ease-in duration-200" x-transition:leave-start="opacity-100 scale-100" x-transition:leave-end="opacity-0 scale-95">
+    <div class="fixed inset-0 flex w-screen justify-center overflow-y-auto bg-zinc-950/25 px-2 py-2 sm:px-6 sm:py-8 lg:px-8 lg:py-16 dark:bg-zinc-950/50" id="modal-backdrop" x-cloak x-data="modalStore" x-show="$modal.isOpen" x-transition:enter="ease-out duration-300" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100" x-transition:leave="ease-in duration-200" x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0"></div>
+    <div class="fixed inset-0 w-screen overflow-y-auto pt-6 sm:pt-0" id="modal" x-cloak x-data="modalStore" x-show="$modal.isOpen" x-transition:enter="ease-out duration-300" x-transition:enter-start="opacity-0 scale-95" x-transition:enter-end="opacity-100 scale-100" x-transition:leave="ease-in duration-200" x-transition:leave-start="opacity-100 scale-100" x-transition:leave-end="opacity-0 scale-95">
         <div class="grid min-h-full grid-rows-[1fr_auto] justify-items-center sm:grid-rows-[1fr_auto_3fr] sm:p-4" @click="cancel()">
             <div class="sm:max-w-lg row-start-2 w-full min-w-0 relative" @click.stop>
                 
-                <div class="absolute inset-0 bg-gradient-to-r from-red-600/5 to-orange-600/5 rounded-xl" x-bind:class="{
-                    'from-red-600/5 to-orange-600/5': $modal.type === 'alert',
+                <div class="absolute inset-0 bg-gradient-to-r rounded-xl" x-bind:class="{
+                    'from-red-600/5 to-orange-600/5': $modal.type === 'danger',
                     'from-orange-600/5 to-yellow-600/5': $modal.type === 'warning',
-                    'from-blue-600/5 to-indigo-600/5': $modal.type === 'notice',
+                    'from-blue-600/5 to-indigo-600/5': $modal.type === 'info',
                     'from-emerald-600/5 to-green-600/5': $modal.type === 'success'
                 }"></div>
 
-                <div class="relative bg-gradient-to-br from-white to-gray-50 rounded-xl p-8 border border-gray-200/50 shadow-xl backdrop-blur-sm transition-all duration-300 transform scale-100" x-bind:class="{
-                    'from-red-50 to-white': $modal.type === 'alert',
+                <div class="relative bg-white bg-gradient-to-br rounded-xl p-8 border border-gray-200/50 shadow-xl backdrop-blur-sm transition-all duration-300 transform scale-100" x-bind:class="{
+                    'from-red-50 to-white': $modal.type === 'danger',
                     'from-orange-50 to-white': $modal.type === 'warning',
-                    'from-blue-50 to-white': $modal.type === 'notice',
+                    'from-blue-50 to-white': $modal.type === 'info',
                     'from-emerald-50 to-white': $modal.type === 'success'
                 }" role="dialog" aria-modal="true" aria-labelledby="modal-title" aria-describedby="modal-message">
                    <div class="text-center">
@@ -99,19 +99,14 @@ $theme_base = '/themes/'.$theme_name;
                        <div id="modal-message" class="text-pretty text-base text-gray-600 leading-relaxed max-w-md mx-auto" x-html="$modal.message"></div>
                    </div>
 
-                   <div class="mt-8 flex flex-col-reverse items-center justify-center gap-4 sm:flex-row" x-bind:class="{ 'justify-center': !showCancelButton, 'justify-end': showCancelButton }">
+                   <div class="mt-8 flex flex-col-reverse items-center gap-4 sm:flex-row" x-bind:class="{ 'justify-center': !showCancelButton, 'justify-end': showCancelButton }">
                        <button x-show="showCancelButton" @click="cancel()" class="btn contrast" type="button">
                            <span class="flex items-center gap-2">
                                <span class="leading-none">✕</span>
                                <span x-text="$modal.cancel_text"></span>
                            </span>
                        </button>
-                       <button data-modal-confirm @click="confirm()" class="btn" x-bind:class="{
-                           'btn danger': $modal.type === 'alert',
-                           'btn warning': $modal.type === 'warning',
-                           'btn info': $modal.type === 'notice',
-                           'btn success': $modal.type === 'success'
-                       }" type="button">
+                       <button data-modal-confirm @click="confirm()" class="btn" x-bind:class="$modal.type" type="button">
                            <span class="flex items-center gap-2">
                                <span x-text="$modal.confirm_text"></span>
                                <span class="text-lg leading-none">✓</span>

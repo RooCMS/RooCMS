@@ -1253,7 +1253,7 @@ function hello() {
 					<p class="font-semibold text-zinc-900">Примеры использования</p>
 					<ul class="mt-2 list-disc space-y-1 pl-4">
 						<li><span class="text-zinc-700">Используйте <code class="rounded bg-white px-1">window.modalExamples.show*()</code> для вызова модальных окон.</span></li>
-						<li><span class="text-zinc-700">Поддерживаются типы: <code class="rounded bg-white px-1">alert</code>, <code class="rounded bg-white px-1">warning</code>, <code class="rounded bg-white px-1">notice</code>.</span></li>
+						<li><span class="text-zinc-700">Поддерживаются типы: <code class="rounded bg-white px-1">danger</code>, <code class="rounded bg-white px-1">warning</code>, <code class="rounded bg-white px-1">success</code>, <code class="rounded bg-white px-1">info</code>.</span></li>
 						<li><span class="text-zinc-700">Функция возвращает Promise с результатом выбора пользователя.</span></li>
 						<li><span class="text-zinc-700">Для CSP совместимости все модальные окна используют глобальные функции.</span></li>
 					</ul>

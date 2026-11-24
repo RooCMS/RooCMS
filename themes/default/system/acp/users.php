@@ -30,178 +30,114 @@ ob_start();
                 <?php require __DIR__ . '/../../partials/acp-heading.php'; ?>
             </header>
 
-            <div class="space-y-8" x-data="usersManager()" x-cloak>
+            <div class="space-y-5" x-data="usersManager()" x-cloak>
 
-                <!-- Search and Filters -->
-                <div class="ui-panel spacious">
-                    <div class="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
-                        <!-- Search -->
-                        <div class="flex-1 max-w-md">
-                            <label for="search" class="ui-label">Search Users</label>
+                <div role="status" class="alert success" x-show="successMessage" x-text="successMessage"></div>
+                <div role="alert" class="alert danger" x-show="errorMessage" x-text="errorMessage"></div>
+
+                <!-- Search and filters -->
+                <div class="ui-panel">
+                    <div class="ui-filter-grid">
+                        <div class="ui-filter-search">
+                            <label for="search" class="ui-label">Search users</label>
                             <div class="relative">
-                                <input type="text"
-                                       id="search"
-                                       x-model="searchQuery"
-                                       @input.debounce.300ms="searchUsers()"
-                                       placeholder="Search by login, email, name..."
+                                <input type="search" id="search" x-model="searchQuery"
+                                       @input.debounce.300ms="searchUsers()" placeholder="Login, email or name"
                                        class="ui-control search">
-                                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                    <svg class="h-5 w-5 text-zinc-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
-                                    </svg>
-                                </div>
+                                <svg aria-hidden="true" class="pointer-events-none absolute left-3 top-2.5 h-4 w-4 text-zinc-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                                </svg>
                             </div>
                         </div>
-
-                        <!-- Filters -->
-                        <div class="flex flex-wrap gap-4">
-                            <!-- Role Filter -->
-                            <div class="min-w-[140px]">
-                                <label for="role-filter" class="ui-label">Role</label>
-                                <select id="role-filter"
-                                        x-model="filters.role"
-                                        @change="applyFilters()"
-                                        class="ui-control select-custom">
-                                    <option value="">All Roles</option>
-                                    <template x-for="role in availableRoles" :key="role.key">
-                                        <option :value="role.key" x-text="role.name"></option>
-                                    </template>
-                                </select>
-                            </div>
-
-                            <!-- Status Filter -->
-                            <div class="min-w-[140px]">
-                                <label for="status-filter" class="ui-label">Status</label>
-                                <select id="status-filter"
-                                        x-model="filters.status"
-                                        @change="applyFilters()"
-                                        class="ui-control select-custom">
-                                    <option value="">All Status</option>
-                                    <option value="active">Active</option>
-                                    <option value="inactive">Inactive</option>
-                                    <option value="banned">Banned</option>
-                                </select>
-                            </div>
-
-                            <!-- Clear Filters -->
-                            <div class="flex items-end">
-                                <button type="button"
-                                        @click="clearFilters()"
-                                        class="btn secondary">
-                                    Clear Filters
-                                </button>
-                            </div>
+                        <div class="min-w-0">
+                            <label for="role-filter" class="ui-label">Role</label>
+                            <select id="role-filter" x-model="filters.role" @change="applyFilters()" class="ui-control select-custom">
+                                <option value="">All roles</option>
+                                <template x-for="role in availableRoles" :key="role.key"><option :value="role.key" x-text="role.name"></option></template>
+                            </select>
                         </div>
+                        <div class="min-w-0">
+                            <label for="status-filter" class="ui-label">Status</label>
+                            <select id="status-filter" x-model="filters.status" @change="applyFilters()" class="ui-control select-custom">
+                                <option value="">All statuses</option>
+                                <option value="active">Active</option>
+                                <option value="inactive">Inactive</option>
+                                <option value="banned">Banned</option>
+                            </select>
+                        </div>
+                        <button type="button" @click="clearFilters()" :disabled="!hasFilters" class="btn secondary">Reset filters</button>
                     </div>
                 </div>
 
                 <!-- Users List -->
                 <div class="ui-panel flush overflow-hidden">
-                    <!-- Loading State -->
-                    <div x-show="loading" class="flex items-center justify-center py-12">
-                        <div class="inline-flex items-center gap-3 text-sm text-zinc-500">
-                            <?php require __DIR__ . '/../../partials/ui-spinner.php'; ?>
-                            Loading users...
+                    <div class="ui-panel-header ui-toolbar">
+                        <div class="flex items-center gap-2">
+                            <h2 class="text-base font-semibold text-zinc-900">Users</h2>
+                            <span class="badge neutral" x-show="!loading" x-text="pagination.total"></span>
                         </div>
+                        <p class="text-sm text-zinc-500" role="status" aria-live="polite">
+                            <span x-show="loading">Loading users…</span>
+                            <span x-show="!loading && pagination.total > 0">Showing <span x-text="getShowingFrom()"></span>–<span x-text="getShowingTo()"></span> of <span x-text="pagination.total"></span></span>
+                        </p>
+                    </div>
+                    <div x-show="loading" class="ui-loading" role="status">
+                        <?php require __DIR__ . '/../../partials/ui-spinner.php'; ?> Loading users…
                     </div>
 
-                    <!-- Users Table -->
-                    <div x-show="!loading" class="overflow-x-auto">
-                        <div class="acp-users-table divide-y divide-zinc-200">
-                            <div class="bg-zinc-50">
-                                <div class="grid grid-cols-6">
-                                    <div class="ui-table-heading col-span-2">User</div>
-                                    <div class="ui-table-heading col-span-1">Role</div>
-                                    <div class="ui-table-heading col-span-1">Status</div>
-                                    <div class="ui-table-heading col-span-1">Last Activity</div>
-                                    <div class="ui-table-heading col-span-1">Actions</div>
-                                </div>
-                            </div>
-                            <div class="bg-white divide-y divide-zinc-200">
-                                <template x-for="user in users" :key="user.id">
-                                <div>
-                                    <div class="hover:bg-zinc-50 grid grid-cols-6">
-                                        <div class="col-span-2 px-6 py-4 whitespace-nowrap">
-                                            <div class="flex items-center">
-                                                <div class="flex-shrink-0 h-10 w-10 relative group">
-                                                    <div x-show="!user.avatar" class="h-10 w-10 rounded-full bg-zinc-300 flex items-center justify-center transition-all duration-200">
-                                                        <span class="text-sm font-medium text-zinc-700 group-hover:opacity-0 transition-opacity duration-200" x-text="getInitials(user)"></span>
-                                                    </div>
-                                                    <img x-show="user.avatar && user.avatar !== 'null'" :src="user.avatar ? '/up/' + user.avatar : ''" :alt="user.login" class="h-10 w-10 rounded-full object-cover transition-all duration-200 group-hover:brightness-75">
-                                                    <!-- Hover overlay with ID -->
-                                                    <div class="absolute inset-0 rounded-full bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex items-center justify-center">
-                                                        <span class="text-xs font-bold text-white cursor-default" x-text="user.id"></span>
-                                                    </div>
+                    <div x-show="!loading && users.length > 0">
+                        <div class="ui-record-row ui-record-heading" aria-hidden="true">
+                            <span>User</span><span>Role</span><span>Status</span><span>Last activity</span><span class="text-right">Actions</span>
+                        </div>
+                        <div class="ui-record-list" role="list" aria-label="Users">
+                            <template x-for="user in users" :key="user.id">
+                                <div role="listitem">
+                                    <div class="ui-record-row" :class="{ 'is-open': editingUserId === user.id }">
+                                        <div class="ui-record-cell ui-record-identity">
+                                            <div class="shrink-0">
+                                                <span x-show="!hasAvatar(user)" class="avatar small initials" x-text="getInitials(user)" aria-hidden="true"></span>
+                                                <template x-if="hasAvatar(user)"><img :src="'/up/' + user.avatar" alt="" class="avatar small object-cover"></template>
+                                            </div>
+                                            <div class="min-w-0">
+                                                <div class="flex flex-wrap items-center gap-1.5">
+                                                    <span class="font-semibold text-zinc-900" x-text="user.login"></span>
+                                                    <span x-show="user.is_verified" class="text-emerald-600" title="Verified" aria-label="Verified">
+                                                        <svg aria-hidden="true" class="h-4 w-4" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
+                                                    </span>
+                                                    <span x-show="isCurrentUser(user.id)" class="badge violet compact">You</span>
                                                 </div>
-                                                <div class="ml-4">
-                                                    <div class="text-sm font-medium text-zinc-900">
-                                                        <span x-text="user.login"></span>
-                                                        <span x-show="user.is_verified" class="badge success compact ml-1">
-                                                            <svg class="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
-                                                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
-                                                            </svg>
-                                                            Verified
-                                                        </span>
-                                                        <span x-show="isCurrentUser(user.id)" class="badge violet compact ml-1">
-                                                            <svg class="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
-                                                                <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"></path>
-                                                            </svg>
-                                                            This is you
-                                                        </span>
-                                                    </div>
-                                                    <div class="text-sm text-zinc-500" x-text="user.email"></div>
-                                                    <div x-show="user.nickname" class="text-xs text-zinc-400" x-text="'@' + user.nickname"></div>
-                                                </div>
+                                                <p class="text-zinc-500" x-text="user.email"></p>
+                                                <p class="ui-hint"><span x-text="'ID ' + user.id"></span><span x-show="user.nickname" x-text="' · @' + user.nickname"></span></p>
                                             </div>
                                         </div>
-                                        <div class="col-span-1 px-6 py-4 whitespace-nowrap align-middle inline-flex items-center">
-                                            <span class="badge"
-                                                  :class="getRoleBadgeClass(user.role)">
-                                                <span x-text="getRoleLabel(user.role)"></span>
-                                            </span>
+                                        <div class="ui-record-cell">
+                                            <span class="ui-record-label">Role</span>
+                                            <span class="badge" :class="getRoleBadgeClass(user.role)" x-text="getRoleLabel(user.role)"></span>
                                         </div>
-                                        <div class="col-span-1 px-6 py-4 align-middle inline-flex items-center">
-                                            <div class="flex flex-col gap-1.5">
-                                                <span x-show="!user.is_banned" class="badge"
-                                                      :class="user.is_active ? 'success' : 'danger'">
-                                                    <span x-text="user.is_active ? 'Active' : 'Inactive'"></span>
-                                                </span>
-                                                <div x-show="user.is_banned" class="badge danger">
-                                                    <span class="text-xs font-semibold text-rose-700">Banned</span>
-                                                    <div x-show="user.ban_reason" class="text-xs text-zinc-700">
-                                                        <span class="font-medium">Reason:</span> <span x-text="user.ban_reason"></span>
-                                                    </div>
-                                                    <div class="text-xs text-zinc-700">
-                                                        <span class="font-medium">Until:</span>
-                                                        <span x-text="formatBanExpiry(user.ban_expired)" :class="(!user.ban_expired || user.ban_expired === 0) ? 'text-rose-700' : ''"></span>
-                                                    </div>
-                                                </div>
+                                        <div class="ui-record-cell">
+                                            <span class="ui-record-label">Status</span>
+                                            <span class="badge" :class="user.is_banned ? 'danger' : (user.is_active ? 'success' : 'neutral')" x-text="user.is_banned ? 'Banned' : (user.is_active ? 'Active' : 'Inactive')"></span>
+                                            <div x-show="user.is_banned" class="mt-1 space-y-1 text-xs text-zinc-500">
+                                                <p x-show="user.ban_reason" class="line-clamp-2" :title="user.ban_reason" x-text="user.ban_reason"></p>
+                                                <p x-text="formatBanExpiry(user.ban_expired)"></p>
                                             </div>
                                         </div>
-                                        <div class="col-span-1 px-6 py-4 whitespace-nowrap text-sm text-zinc-500 align-middle inline-flex items-center">
-                                            <span x-text="formatLastActivity(user.last_activity)"></span>
+                                        <div class="ui-record-cell text-zinc-500">
+                                            <span class="ui-record-label">Last activity</span>
+                                            <span :title="formatDateTimeValue(user.last_activity)" x-text="formatLastActivity(user.last_activity)"></span>
                                         </div>
-                                        <div class="col-span-1 px-6 py-4 whitespace-nowrap text-sm font-medium align-middle inline-flex items-center">
-                                            <div class="ui-actions">
-                                                <button @click="toggleEditUser(user)"
-                                                        class="btn secondary small">
-                                                    <span x-text="editingUserId === user.id ? 'Close' : 'Edit'"></span>
-                                                </button>
-                                                <button x-show="!user.is_banned" @click="banUser(user)"
-                                                        class="btn danger small">
-                                                    Ban
-                                                </button>
-                                                <button x-show="user.is_banned" @click="unbanUser(user)"
-                                                        class="btn success small">
-                                                    Unban
-                                                </button>
-                                            </div>
+                                        <div class="ui-record-actions">
+                                            <button type="button" @click="toggleEditUser(user)" :aria-expanded="editingUserId === user.id" :aria-controls="'user-editor-' + user.id" :aria-label="'Edit user ' + user.login" class="btn secondary small">
+                                                <span x-text="editingUserId === user.id ? 'Close' : 'Edit'"></span>
+                                            </button>
+                                            <button type="button" x-show="!user.is_banned" @click="banUser(user)" :aria-label="'Ban user ' + user.login" class="btn outline danger small">Ban</button>
+                                            <button type="button" x-show="user.is_banned" @click="unbanUser(user)" :aria-label="'Unban user ' + user.login" class="btn outline success small">Unban</button>
                                         </div>
                                     </div>
 
                                     <!-- Inline Edit Row -->
-                                    <div x-show="editingUserId === user.id" x-transition x-cloak class="col-span-6">
-                                        <div class="px-6 py-6 bg-zinc-50/70 border-t border-zinc-200/80 space-y-6">
+                                    <div x-show="editingUserId === user.id" x-transition x-cloak :id="'user-editor-' + user.id">
+                                        <div class="ui-record-editor space-y-6">
 
                                             <!-- Loading State -->
                                             <div x-show="editLoading" class="flex items-center justify-center py-8">
@@ -241,7 +177,6 @@ ob_start();
                                                                 <label :for="'email_for_' + user.id" class="ui-label">Email <span class="badge danger">Required</span></label>
                                                                 <input type="email" :id="'email_for_' + user.id" x-model="editForm.email" required
                                                                         class="ui-control">
-                                                                <div :id="'email_error_for_' + user.id" data-edit-field-error class="mt-1 text-sm text-red-600 hidden"></div>
                                                             </div>
 
                                                             <!-- Role -->
@@ -253,7 +188,6 @@ ob_start();
                                                                         <option :value="role.key" x-text="role.name + ' - ' + role.description"></option>
                                                                     </template>
                                                                 </select>
-                                                                <div :id="'role_error_for_' + user.id" data-edit-field-error class="mt-1 text-sm text-red-600 hidden"></div>
                                                             </div>
 
                                                             <!-- Status Toggles -->
@@ -449,7 +383,7 @@ ob_start();
 
                                                     <!-- Actions -->
                                                     <div class="p-6 rounded-xl border border-zinc-200/80 bg-zinc-50/50 backdrop-blur">
-                                                        <div class="flex flex-col sm:flex-row gap-4 justify-between items-center">
+                                                        <div class="ui-toolbar">
                                                             <div class="flex items-center gap-4">
                                                                 <div x-show="editSaving" x-cloak class="flex items-center gap-2 text-sky-600">
                                                                     <?php require __DIR__ . '/../../partials/ui-spinner.php'; ?>
@@ -459,7 +393,7 @@ ob_start();
                                                                 <div class="text-red-800" x-show="editErrorMessage" x-text="editErrorMessage" x-transition></div>
                                                             </div>
 
-                                                            <div class="flex gap-3">
+                                                            <div class="ui-actions">
                                                                 <button x-on:click="deleteUserAccount()" type="button" x-bind:disabled="editSaving"
                                                                         class="btn outline danger">
                                                                     Delete User
@@ -483,19 +417,19 @@ ob_start();
                                         </div>
                                     </div>
                                 </div>
-                                </template>
-                            </div>
+                            </template>
                         </div>
                     </div>
 
 
                     <!-- Empty State -->
-                    <div x-show="!loading && users.length === 0" class="ui-empty">
+                    <div x-show="!loading && !errorMessage && users.length === 0" class="ui-empty">
                         <svg class="mx-auto h-12 w-12 text-zinc-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
                         </svg>
                         <h3 class="ui-empty-title">No users found</h3>
-                        <p class="mt-1 text-sm text-zinc-500">Try adjusting your search or filters.</p>
+                        <p class="mt-1 text-sm text-zinc-500" x-text="hasFilters ? 'Try a different search or reset the filters.' : 'Registered users will appear here.'"></p>
+                        <button type="button" x-show="hasFilters" @click="clearFilters()" class="btn secondary small mt-4">Reset filters</button>
                     </div>
                 </div>
 
@@ -517,7 +451,8 @@ ob_start();
                             </svg>
                         </button>
 
-                        <template x-for="page in getVisiblePages()" :key="page">
+                        <template x-for="(page, index) in getVisiblePages()" :key="index">
+                            <span>
                             <template x-if="page !== '...'">
                                 <button @click="goToPage(page)"
                                         class="btn small" :class="page === pagination.current ? 'primary' : 'secondary'" :aria-current="page === pagination.current ? 'page' : null" x-text="page"></button>
@@ -525,6 +460,7 @@ ob_start();
                             <template x-if="page === '...'">
                                 <span class="px-2 text-sm text-zinc-500">...</span>
                             </template>
+                            </span>
                         </template>
 
                         <button type="button" aria-label="Next page" @click="goToPage(pagination.current + 1)"
@@ -537,11 +473,7 @@ ob_start();
                     </div>
                 </div>
 
-                <!-- Messages -->
-                <div class="messages-container">
-                    <div class="form-success alert success" x-show="successMessage" x-text="successMessage" x-transition></div>
-                    <div class="form-error alert danger" x-show="errorMessage" x-text="errorMessage" x-transition></div>
-                </div>
+
             </div>
         </section>
     </div>

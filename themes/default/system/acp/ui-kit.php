@@ -28,6 +28,7 @@ ob_start();
 					<a class="btn secondary small" href="#kit-tabs">Вкладки</a>
 					<a class="btn secondary small" href="#kit-modals">Модальные окна</a>
 					<a class="btn secondary small" href="#kit-orders">Таблица</a>
+                    <a class="btn secondary small" href="#kit-records">Списки</a>
 				</nav>
 			</header>
 
@@ -270,6 +271,13 @@ ob_start();
 						<section id="kit-field-groups">
 							<h3 class="ui-section-title">Группы полей</h3>
 							<div class="ui-panel">
+								<h4 class="mb-3 text-sm font-semibold text-zinc-900">Панель фильтров</h4>
+								<div class="ui-filter-grid mb-6">
+									<label class="ui-label ui-filter-search">Поиск по списку<input type="search" placeholder="Логин, email или имя" class="ui-control mt-1"></label>
+									<label class="ui-label min-w-0">Фильтр роли<select class="ui-control select-custom mt-1"><option>Все роли</option><option>Admin</option><option>User</option></select></label>
+									<label class="ui-label min-w-0">Фильтр статуса<select class="ui-control select-custom mt-1"><option>Все статусы</option><option>Активен</option><option>Заблокирован</option></select></label>
+									<button type="button" class="btn secondary" disabled>Сбросить</button>
+								</div>
 								<div class="grid grid-cols-1 gap-4 md:grid-cols-2">
 									<label class="block">
 										<span class="mb-1 block text-sm font-medium text-zinc-800">URL</span>
@@ -352,6 +360,7 @@ ob_start();
 								<div class="ui-actions">
 									<button type="button" class="btn secondary small" @click="changeValue">Изменить значение</button>
 									<button type="button" class="btn secondary small" @click="addOption">Добавить вариант</button>
+									<button type="button" class="btn secondary small" @click="removeOption">Удалить выбранный вариант</button>
 									<button type="button" class="btn secondary small" @click="toggleDisabled">Переключить disabled</button>
 									<button type="button" class="btn secondary small" @click="toggleVisible">Пересоздать поле</button>
 								</div>
@@ -364,10 +373,10 @@ ob_start();
 					<h2 class="ui-section-title">Модальные окна</h2>
 					<div class="ui-panel">
 						<div class="flex flex-wrap gap-3">
-							<button type="button" class="btn info" data-modal-type="notice">Информация</button>
+							<button type="button" class="btn info" data-modal-type="info">Информация</button>
 							<button type="button" class="btn success" data-modal-type="success">Успех</button>
 							<button type="button" class="btn warning" data-modal-type="warning">Предупреждение</button>
-							<button type="button" class="btn danger" data-modal-type="alert">Подтверждение</button>
+							<button type="button" class="btn danger" data-modal-type="danger">Подтверждение</button>
 						</div>
 						<p class="mt-3 text-sm text-zinc-600" role="status" data-modal-status></p>
 					</div>
@@ -472,6 +481,42 @@ ob_start();
 						</div>
 					</div>
 				</section>
+
+                <section id="kit-records">
+                    <h2 class="ui-section-title">Список записей</h2>
+                    <p class="mb-4 text-sm text-zinc-600">Строки с действиями на широком экране, карточки с подписями на узком. Этот компонент используется в списке пользователей ACP.</p>
+                    <div class="ui-panel flush overflow-hidden">
+                        <div class="ui-panel-header ui-toolbar">
+                            <div class="flex items-center gap-2"><h3 class="font-semibold text-zinc-900">Пользователи</h3><span class="badge neutral">2</span></div>
+                            <span class="text-sm text-zinc-500">Демонстрационные данные</span>
+                        </div>
+                        <div class="ui-record-row ui-record-heading" aria-hidden="true">
+                            <span>Пользователь</span><span>Роль</span><span>Статус</span><span>Активность</span><span class="text-right">Действия</span>
+                        </div>
+                        <div class="ui-record-list" role="list" aria-label="Пример списка пользователей">
+                            <div class="ui-record-row" role="listitem">
+                                <div class="ui-record-cell ui-record-identity">
+                                    <span class="avatar small initials shrink-0" aria-hidden="true">АИ</span>
+                                    <div class="min-w-0"><p class="font-semibold text-zinc-900">alex</p><p class="text-zinc-500">alex@example.com</p><p class="ui-hint">ID 1024 · @alex</p></div>
+                                </div>
+                                <div class="ui-record-cell"><span class="ui-record-label">Роль</span><span class="badge warning">Admin</span></div>
+                                <div class="ui-record-cell"><span class="ui-record-label">Статус</span><span class="badge success">Активен</span></div>
+                                <div class="ui-record-cell text-zinc-500"><span class="ui-record-label">Активность</span>5 минут назад</div>
+                                <div class="ui-record-actions"><button type="button" class="btn secondary small" disabled>Edit</button><button type="button" class="btn outline danger small" disabled>Ban</button></div>
+                            </div>
+                            <div class="ui-record-row" role="listitem">
+                                <div class="ui-record-cell ui-record-identity">
+                                    <span class="avatar small initials shrink-0" aria-hidden="true">МП</span>
+                                    <div class="min-w-0"><p class="font-semibold text-zinc-900">maria</p><p class="text-zinc-500">maria.long.email@example.com</p><p class="ui-hint">ID 1025</p></div>
+                                </div>
+                                <div class="ui-record-cell"><span class="ui-record-label">Роль</span><span class="badge neutral">User</span></div>
+                                <div class="ui-record-cell"><span class="ui-record-label">Статус</span><span class="badge danger">Заблокирован</span><p class="ui-hint">Нарушение правил · бессрочно</p></div>
+                                <div class="ui-record-cell text-zinc-500"><span class="ui-record-label">Активность</span>Вчера</div>
+                                <div class="ui-record-actions"><button type="button" class="btn secondary small" disabled>Edit</button><button type="button" class="btn outline success small" disabled>Unban</button></div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
 
 				<!-- Chips & Divider -->
 				<section>
