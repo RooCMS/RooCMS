@@ -185,12 +185,12 @@ class UserService {
             throw new DomainException('Avatar must be JPEG, PNG, GIF or WebP image', 415);
         }
         
-        // Delete old avatar if exists
-        $this->delete_avatar($user_id);
-        
-        // Generate unique filename and path
+        // Remember the old avatar: it is removed only after the new one is stored
+        $old_avatar = $this->user->get_profile($user_id)['avatar'] ?? null;
+
+        // Generate unique filename and path (random suffix: two uploads within one second must not collide)
         $extension = $file_info['extension'];
-        $filename = 'avatar_' . $user_id . '_' . time() . '.' . $extension;
+        $filename = 'avatar_' . $user_id . '_' . time() . '_' . bin2hex(random_bytes(4)) . '.' . $extension;
         $avatar_dir = _UPLOADAV . '/';
         $avatar_path = $avatar_dir . $filename;
         
@@ -223,7 +223,12 @@ class UserService {
             @unlink($avatar_path);
             throw new DomainException('Failed to update user profile with avatar', 500);
         }
-        
+
+        // New avatar is saved: now the old physical file can go
+        if(is_string($old_avatar) && $old_avatar !== $relative_path) {
+            $this->remove_avatar_file($old_avatar);
+        }
+
         return $relative_path;
     }
 
@@ -243,17 +248,29 @@ class UserService {
             return false; // No avatar to delete
         }
         
-        // Delete physical file only inside the avatar directory (the stored value is never trusted as a path)
-        $avatar_path = _UPLOADAV . '/' . basename((string)$profile['avatar']);
-        if(str_starts_with((string)$profile['avatar'], 'av/') && is_file($avatar_path)) {
-            $deleted = @unlink($avatar_path);
-            if(!$deleted) {
-                error_log("Failed to delete avatar file: " . $avatar_path);
-            }
-        }
-        
+        $this->remove_avatar_file((string)$profile['avatar']);
+
         // Update profile to remove avatar
         return $this->user->upsert_profile($user_id, ['avatar' => null]);
+    }
+
+
+    /**
+     * Delete physical avatar file only inside the avatar directory (the stored value is never trusted as a path)
+     *
+     * @param string|null $avatar Stored avatar value (av/filename)
+     * @return void
+     */
+    private function remove_avatar_file(?string $avatar): void {
+
+        if($avatar === null || !str_starts_with($avatar, 'av/')) {
+            return;
+        }
+
+        $avatar_path = _UPLOADAV . '/' . basename($avatar);
+        if(is_file($avatar_path) && !@unlink($avatar_path)) {
+            error_log("Failed to delete avatar file: " . $avatar_path);
+        }
     }
 
 

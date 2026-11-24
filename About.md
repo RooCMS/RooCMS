@@ -100,14 +100,13 @@ RooCMS следует принципу **"framework-free"** — никаких �
 - **PHP**: 8.1 или выше
 - **Веб-сервер**: Apache 2.4+ / nginx 1.18+
 - **База данных**: MySQL 5.7+ / MariaDB 10.10+ / PostgreSQL 14+ / Firebird
-- **Память**: 128MB RAM (рекомендуется 256MB+)
 - **PHP расширения**: PDO, JSON, mbstring, openssl, curl, gd, fileinfo, zip, exif
 
 **Рекомендуемые:**
 - **PHP**: 8.4
 - **Веб-сервер**: Apache 2.4
 - **База данных**: MariaDB 11.7
-- **Память**: 1GB+ RAM
+
 
 ### Производительность
 

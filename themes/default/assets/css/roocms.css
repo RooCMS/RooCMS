@@ -31,6 +31,28 @@
 }
 
 /* Rating group */
+/* Keep focus visible in the admin component gallery, including hidden switches. */
+#acp-ui-kit [id] {
+    scroll-margin-top: 6rem;
+}
+
+#acp-ui-kit :is(button, a, input, select, textarea, summary, [tabindex]):focus-visible {
+    outline: 2px solid #0284c7;
+    outline-offset: 3px;
+}
+
+#acp-ui-kit .peer:focus-visible + span {
+    outline: 2px solid #0284c7;
+    outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    #acp-ui-kit *, #acp-ui-kit *::before, #acp-ui-kit *::after {
+        animation: none !important;
+        transition: none !important;
+    }
+}
+
 .rating-group {
     display: inline-flex;
     direction: rtl;

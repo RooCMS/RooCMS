@@ -87,11 +87,14 @@ class Themes {
 	 * @throws Exception If theme config factory is not set
 	 */
 	public function set_theme(string $theme_name): bool {
-		$this->current_theme_config = ($this->theme_config_factory)($theme_name, $this->themes_dir);
+		$theme_config = ($this->theme_config_factory)($theme_name, $this->themes_dir);
 
-		if (!$this->current_theme_config->exists()) {
+		// A missing theme must not replace the current one
+		if (!$theme_config->exists()) {
 			return false;
 		}
+
+		$this->current_theme_config = $theme_config;
 
 		return true;
 	}
@@ -139,12 +142,12 @@ class Themes {
 			return false;
 		}
 
-		$result = $this->render($path, $data);
-
-		// Restore original theme
-		$this->current_theme_config = $original_theme;
-
-		return $result;
+		try {
+			return $this->render($path, $data);
+		} finally {
+			// Restore original theme
+			$this->current_theme_config = $original_theme;
+		}
 	}
 
 

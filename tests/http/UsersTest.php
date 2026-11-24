@@ -146,6 +146,24 @@ class UsersTest extends ApiTestCase {
     }
 
 
+    public function testListSearchEscapesLikeWildcards(): void {
+        $user = $this->register_user();
+
+        $all = $this->data($this->api('GET', '/v1/users', null, $user['token']))['meta']['total'];
+
+        foreach(['%', '_', '%25%25'] as $wildcard) {
+            $response = $this->api('GET', '/v1/users?search='.rawurlencode($wildcard === '%25%25' ? '%%' : $wildcard), null, $user['token']);
+            $this->assertApiSuccess($response);
+            $total = $this->data($response)['meta']['total'];
+            $this->assertTrue($total < $all, 'search "'.$wildcard.'" must not match every user (total '.$total.' of '.$all.')');
+        }
+
+        $found = $this->api('GET', '/v1/users?search='.rawurlencode($user['login']), null, $user['token']);
+        $ids = array_map(fn($item) => (int)$item['id'], $this->data($found, 'items'));
+        $this->assertTrue(in_array($user['id'], $ids, true), 'plain search must still find the user');
+    }
+
+
     public function testListHidesDeletedUsersFromRegularUsers(): void {
         $user = $this->register_user();
 
@@ -705,7 +723,7 @@ class UsersTest extends ApiTestCase {
 
         $this->assertApiSuccess($response, 201, 'upload:');
         $path = $this->data($response, 'avatar_path');
-        $this->assertTrue(is_string($path) && preg_match('#^av/avatar_'.$user['id'].'_\d+\.png$#', $path) === 1, 'avatar_path format, got '.json_encode($path));
+        $this->assertTrue(is_string($path) && preg_match('#^av/avatar_'.$user['id'].'_\d+_[0-9a-f]{8}\.png$#', $path) === 1, 'avatar_path format, got '.json_encode($path));
 
         $this->assertSame($path, $this->me($user['token'])['avatar'], 'profile must reference the avatar');
 
@@ -713,6 +731,7 @@ class UsersTest extends ApiTestCase {
         $second = $this->upload_avatar($user['token'], 'avatar2.png', $png, 'image/png');
         $this->assertApiSuccess($second, 201, 'second upload:');
         $this->assertSame($this->data($second, 'avatar_path'), $this->me($user['token'])['avatar']);
+        $this->assertTrue($this->data($second, 'avatar_path') !== $path, 'second upload must get a different file name');
 
         // delete
         $this->assertApiSuccess($this->api('DELETE', '/v1/users/me/avatar', null, $user['token']), 200, 'delete:');

@@ -1,0 +1,6 @@
+# Apache 2.4+: theme PHP files are templates, they must be executed only by the engine, never requested directly
+Options -Indexes
+
+<FilesMatch "\.(php|phar|phtml|php[0-9]?)$">
+	Require all denied
+</FilesMatch>

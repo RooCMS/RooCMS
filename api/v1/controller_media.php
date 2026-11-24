@@ -26,20 +26,82 @@ class MediaController extends BaseController {
 
 	private FilesService $filesService;
 	private Files $files;
+	private AuthenticationService $authService;
+
+	/** Viewer resolved once per request (optional authentication on public routes) */
+	private ?array $viewer = null;
+	private bool $viewer_resolved = false;
 
 
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param Db $db Database instance
 	 * @param FilesService $filesService Files service
 	 * @param Files $files Files class for constants access
+	 * @param AuthenticationService $authService Used for optional token check on public routes
 	 */
-	public function __construct(Db $db, Request $request, FilesService $filesService, Files $files) {
+	public function __construct(Db $db, Request $request, FilesService $filesService, Files $files, AuthenticationService $authService) {
 		parent::__construct($db, $request);
 		$this->filesService = $filesService;
 		$this->files = $files;
+		$this->authService = $authService;
+	}
+
+
+	/**
+	 * Resolve current viewer on public routes (token is optional)
+	 * Invalid/expired token is treated as guest
+	 */
+	private function get_viewer(): ?array {
+		if($this->viewer_resolved) {
+			return $this->viewer;
+		}
+		$this->viewer_resolved = true;
+
+		$user = $this->get_authenticated_user();
+		if(empty($user)) {
+			try {
+				$token = get_bearer_token();
+				$user = $token ? $this->authService->verify_token($token) : null;
+			} catch(Throwable $e) {
+				$user = null;
+			}
+		}
+
+		$this->viewer = !empty($user) ? $user : null;
+		return $this->viewer;
+	}
+
+
+	/**
+	 * Moderator/admin/superuser may see everything
+	 */
+	private function is_privileged_viewer(): bool {
+		$viewer = $this->get_viewer();
+		return $viewer !== null && in_array($viewer['role'] ?? null, [Role::MODERATOR, Role::ADMIN, Role::SUPERUSER], true);
+	}
+
+
+	/**
+	 * Can viewer see full record (privileged or owner)
+	 */
+	private function can_view_full(array $media): bool {
+		if($this->is_privileged_viewer()) {
+			return true;
+		}
+		$viewer = $this->get_viewer();
+		return $viewer !== null && isset($media['user_id']) && (int)$media['user_id'] === (int)$viewer['id'];
+	}
+
+
+	/**
+	 * Remove fields that must not be exposed to non-privileged viewers
+	 */
+	private function strip_private_fields(array $media): array {
+		unset($media['user_id'], $media['metadata']);
+		return $media;
 	}
 
 
@@ -78,9 +140,20 @@ class MediaController extends BaseController {
 			if($user_id) $filters['user_id'] = $user_id;
 			if($search) $filters['search'] = $search;
 			
-			// Delegate to service
+			// Non-privileged viewers: only ready media, no filtering by uploader
+			$privileged = $this->is_privileged_viewer();
+			if(!$privileged) {
+				$filters['status'] = 'ready';
+				unset($filters['user_id']);
+			}
+
+			// Delegate to service (same filters for list and count)
 			$media_files = $this->filesService->get_media_list($filters, $page, $limit);
 			$total = $this->filesService->get_media_count($filters);
+
+			if(!$privileged) {
+				$media_files = array_map(fn(array $item): array => $this->strip_private_fields($item), $media_files);
+			}
 			
 			// Prepare response
 			$response = [
@@ -99,7 +172,8 @@ class MediaController extends BaseController {
 			$this->json_response($response);
 			
 		} catch(Exception $e) {
-			$this->error_response('Failed to get media list: ' . $e->getMessage(), 500);
+			error_log('media list: ' . $e->getMessage());
+			$this->error_response('Failed to get media list', 500);
 		}
 	}
 
@@ -114,16 +188,25 @@ class MediaController extends BaseController {
 		try {
 			// Delegate to service
 			$media = $this->filesService->get_file_formatted($id);
-			
+
 			if(!$media) {
 				$this->error_response('Media not found', 404);
 				return;
 			}
-			
+
+			if(!$this->can_view_full($media)) {
+				if(($media['status'] ?? null) !== 'ready') {
+					$this->error_response('Media not found', 404);
+					return;
+				}
+				$media = $this->strip_private_fields($media);
+			}
+
 			$this->json_response($media);
 			
 		} catch(Exception $e) {
-			$this->error_response('Failed to get media info: ' . $e->getMessage(), 500);
+			error_log('media show: ' . $e->getMessage());
+			$this->error_response('Failed to get media info', 500);
 		}
 	}
 
@@ -139,11 +222,11 @@ class MediaController extends BaseController {
 			// Get media info from service
 			$media = $this->filesService->get_file($id);
 			
-			if(!$media) {
+			if(!$media || (!$this->can_view_full($media) && ($media['status'] ?? null) !== 'ready')) {
 				$this->error_response('Media not found', 404);
 				return;
 			}
-			
+
 			// Build file path
 			$file_path = _UPLOAD . $media['file_path'] . '/' . $media['filename'];
 			
@@ -167,7 +250,11 @@ class MediaController extends BaseController {
 			// Send file with proper headers
 			set_header('Content-Type: ' . $media['mime_type']);
 			set_header('Content-Length: ' . filesize($file_path));
-			set_header('Content-Disposition: attachment; filename="' . $media['original_name'] . '"');
+			$raw_name = (string)($media['original_name'] ?? '');
+			$utf8_name = preg_replace('/[\x00-\x1F\x7F]/', '', $raw_name) ?? '';
+			$ascii_name = preg_replace('/[^\x20-\x7E]|["\\\\\/]/', '_', $utf8_name) ?? '';
+			if(trim($ascii_name, " _.") === '') $ascii_name = 'download';
+			set_header('Content-Disposition: attachment; filename="' . $ascii_name . '"; filename*=UTF-8\'\'' . rawurlencode($utf8_name));
 			set_header('Cache-Control: private, max-age=3600');
 			set_header('ETag: "' . md5_file($file_path) . '"');
 			
@@ -176,7 +263,8 @@ class MediaController extends BaseController {
 			}
 			
 		} catch(Exception $e) {
-			$this->error_response('Failed to download file: ' . $e->getMessage(), 500);
+			error_log('media download: ' . $e->getMessage());
+			$this->error_response('Failed to download file', 500);
 		}
 	}
 
@@ -232,9 +320,10 @@ class MediaController extends BaseController {
 			], 201);
 			
 		} catch(DomainException $e) {
-			$this->error_response($e->getMessage(), $e->getCode());
+			$this->error_response($e->getMessage(), $e->getCode() ?: 400);
 		} catch(Exception $e) {
-			$this->error_response('Failed to upload file: ' . $e->getMessage(), 500);
+			error_log('media upload: ' . $e->getMessage());
+			$this->error_response('Failed to upload file', 500);
 		}
 	}
 
@@ -265,9 +354,10 @@ class MediaController extends BaseController {
 			]);
 			
 		} catch(DomainException $e) {
-			$this->error_response($e->getMessage(), $e->getCode());
+			$this->error_response($e->getMessage(), $e->getCode() ?: 400);
 		} catch(Exception $e) {
-			$this->error_response('Failed to update media: ' . $e->getMessage(), 500);
+			error_log('media update: ' . $e->getMessage());
+			$this->error_response('Failed to update media', 500);
 		}
 	}
 
@@ -300,9 +390,10 @@ class MediaController extends BaseController {
 			]);
 			
 		} catch(DomainException $e) {
-			$this->error_response($e->getMessage(), $e->getCode());
+			$this->error_response($e->getMessage(), $e->getCode() ?: 400);
 		} catch(Exception $e) {
-			$this->error_response('Failed to delete media: ' . $e->getMessage(), 500);
+			error_log('media delete: ' . $e->getMessage());
+			$this->error_response('Failed to delete media', 500);
 		}
 	}
 }

@@ -309,3 +309,13 @@ function sanitize_filename_extension(string $filename): string {
 }
 
 
+/**
+ * Escape LIKE wildcards in a user supplied search term
+ * Use together with ESCAPE '!' in the SQL condition
+ * 
+ * @param string $term
+ * @return string
+ */
+function escape_like(string $term): string {
+    return str_replace(['!', '%', '_'], ['!!', '!%', '!_'], $term);
+}

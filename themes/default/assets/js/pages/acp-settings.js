@@ -5,7 +5,6 @@
  */
 
 import { request, handleApiError } from '../app/api.js';
-import { modal } from '../app/main.js';
 import { DEBUG } from '../app/config.js';
 
 // Constants
@@ -152,7 +151,7 @@ document.addEventListener('alpine:init', () => {
 
         // Confirm reset with modal
         async confirmReset() {
-            return await modal(
+            return await window.modal(
                 'Reset Settings',
                 'Are you sure you want to reset all settings to default values?\nThis action cannot be undone.',
                 'Yes, Reset',

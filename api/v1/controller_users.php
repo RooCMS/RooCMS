@@ -325,9 +325,10 @@ class UsersController extends BaseController {
 			], 201);
 			
 		} catch(DomainException $e) {
-			$this->error_response($e->getMessage(), $e->getCode());
+			$this->error_response($e->getMessage(), $e->getCode() ?: 400);
 		} catch(Exception $e) {
-			$this->error_response('Failed to upload avatar: ' . $e->getMessage(), 500);
+			error_log('users upload_avatar: ' . $e->getMessage());
+			$this->error_response('Failed to upload avatar', 500);
 		}
 	}
 
@@ -360,9 +361,10 @@ class UsersController extends BaseController {
 			]);
 			
 		} catch(DomainException $e) {
-			$this->error_response($e->getMessage(), $e->getCode());
+			$this->error_response($e->getMessage(), $e->getCode() ?: 400);
 		} catch(Exception $e) {
-			$this->error_response('Failed to delete avatar: ' . $e->getMessage(), 500);
+			error_log('users delete_avatar: ' . $e->getMessage());
+			$this->error_response('Failed to delete avatar', 500);
 		}
 	}
 }

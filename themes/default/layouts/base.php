@@ -37,12 +37,21 @@ $theme_base = '/themes/'.$theme_name;
     <meta property="twitter:title" content="<?php render_html($page_title); ?>">
     <meta property="twitter:description" content="<?php render_html($page_description); ?>">
 
-    <link rel="stylesheet" href="<?php render_html($theme_base); ?>/assets/css/roocms.min.css">
+    <link rel="stylesheet" href="<?php render_html($theme_base); ?>/assets/css/roocms.min.css?v=<?php render_html((string)filemtime(__DIR__.'/../assets/css/roocms.min.css')); ?>">
 
     <!-- Page-level modules should be loaded via $page_scripts when needed -->
-    <script defer type="module" src="<?php render_html($theme_base); ?>/assets/js/app/main.js" nonce="<?php render_html($csp_nonce); ?>"></script>
+    <script defer type="module" src="<?php render_html($theme_base); ?>/assets/js/app/main.js?v=<?php render_html((string)filemtime(__DIR__.'/../assets/js/app/main.js')); ?>" nonce="<?php render_html($csp_nonce); ?>"></script>
     <?php foreach($page_scripts as $script_path): ?>
-        <?php $resolved = (strpos($script_path, '/') === 0) ? $script_path : ($theme_base.'/'.ltrim($script_path, '/')); ?>
+        <?php
+        $resolved = (strpos($script_path, '/') === 0) ? $script_path : ($theme_base.'/'.ltrim($script_path, '/'));
+        $local_script_path = (string)parse_url($resolved, PHP_URL_PATH);
+        if (str_starts_with($local_script_path, $theme_base.'/')) {
+            $local_script_file = dirname(__DIR__).substr($local_script_path, strlen($theme_base));
+            if (is_file($local_script_file)) {
+                $resolved .= (str_contains($resolved, '?') ? '&' : '?').'v='.filemtime($local_script_file);
+            }
+        }
+        ?>
         <script defer type="module" src="<?php render_html($resolved); ?>" nonce="<?php render_html($csp_nonce); ?>"></script>
     <?php endforeach; ?>
 
@@ -77,7 +86,7 @@ $theme_base = '/themes/'.$theme_name;
                     'from-orange-50 to-white': $modal.type === 'warning',
                     'from-blue-50 to-white': $modal.type === 'notice',
                     'from-emerald-50 to-white': $modal.type === 'success'
-                }" data-headlessui-state="open" data-open="">
+                }" role="dialog" aria-modal="true" aria-labelledby="modal-title" aria-describedby="modal-message">
                    <div class="text-center">
                        <div class="flex justify-center">
                            <div class="flex h-16 w-16 items-center justify-center">
@@ -86,8 +95,8 @@ $theme_base = '/themes/'.$theme_name;
                            </div>
                        </div>
 
-                       <h2 class="text-2xl font-bold text-balance text-gray-900 mb-4" x-text="$modal.title"></h2>
-                       <div class="text-pretty text-base text-gray-600 leading-relaxed max-w-md mx-auto" x-html="$modal.message"></div>
+                       <h2 id="modal-title" class="text-2xl font-bold text-balance text-gray-900 mb-4" x-text="$modal.title"></h2>
+                       <div id="modal-message" class="text-pretty text-base text-gray-600 leading-relaxed max-w-md mx-auto" x-html="$modal.message"></div>
                    </div>
 
                    <div class="mt-8 flex flex-col-reverse items-center justify-center gap-4 sm:flex-row" x-bind:class="{ 'justify-center': !showCancelButton, 'justify-end': showCancelButton }">
@@ -97,7 +106,7 @@ $theme_base = '/themes/'.$theme_name;
                                <span x-text="$modal.cancel_text"></span>
                            </span>
                        </button>
-                       <button @click="confirm()" class="btn" x-bind:class="{
+                       <button data-modal-confirm @click="confirm()" class="btn" x-bind:class="{
                            'btn danger': $modal.type === 'alert',
                            'btn warning': $modal.type === 'warning',
                            'btn info': $modal.type === 'notice',

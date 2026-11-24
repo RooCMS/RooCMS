@@ -187,6 +187,70 @@ class MediaTest extends ApiTestCase {
     }
 
 
+    public function testShowHidesPrivateFieldsFromGuest(): void {
+        $user = $this->create_user();
+        $media = $this->upload_png($user);
+
+        $response = $this->api('GET', '/v1/media/'.$media['id']);
+        $this->assertApiSuccess($response);
+        $data = $this->data($response);
+        $this->assertTrue(!array_key_exists('user_id', $data), 'guest must not see user_id');
+        $this->assertTrue(!array_key_exists('metadata', $data), 'guest must not see metadata');
+        $this->assertTrue(!empty($data['file_path']), 'file_path must stay visible');
+        $this->assertTrue(!empty($data['filename']), 'filename must stay visible');
+    }
+
+
+    public function testShowExposesUserIdToOwner(): void {
+        $user = $this->create_user();
+        $media = $this->upload_png($user);
+
+        $response = $this->api('GET', '/v1/media/'.$media['id'], null, $user['token']);
+        $this->assertApiSuccess($response);
+        $this->assertSame((int)$user['id'], (int)$this->data($response, 'user_id'));
+    }
+
+
+    public function testShowHidesUserIdFromOtherUser(): void {
+        $owner = $this->create_user();
+        $stranger = $this->create_user();
+        $media = $this->upload_png($owner);
+
+        $response = $this->api('GET', '/v1/media/'.$media['id'], null, $stranger['token']);
+        $this->assertApiSuccess($response);
+        $this->assertTrue(!array_key_exists('user_id', $this->data($response)), 'other user must not see user_id');
+    }
+
+
+    public function testListHidesPrivateFieldsFromGuest(): void {
+        $user = $this->create_user();
+        $this->upload_png($user);
+
+        $response = $this->api('GET', '/v1/media?limit=50');
+        $this->assertApiSuccess($response);
+        $items = $this->data($response)['data'];
+        $this->assertTrue(count($items) >= 1, 'list must not be empty');
+        foreach($items as $item) {
+            $this->assertTrue(!array_key_exists('user_id', $item), 'guest list must not contain user_id');
+            $this->assertTrue(!array_key_exists('metadata', $item), 'guest list must not contain metadata');
+            $this->assertSame('ready', $item['status']);
+        }
+    }
+
+
+    public function testListIgnoresUserIdFilterForGuest(): void {
+        $user_a = $this->create_user();
+        $user_b = $this->create_user();
+        $this->upload_png($user_a);
+        $this->upload_png($user_b);
+
+        $response = $this->api('GET', '/v1/media?user_id='.$user_a['id']);
+        $this->assertApiSuccess($response);
+        $this->assertTrue(!array_key_exists('user_id', $this->data($response)['filters'] ?? []), 'user_id filter must not be applied for guest');
+        $this->assertTrue((int)$this->data($response)['pagination']['total'] >= 2, 'guest must not be able to filter by uploader');
+    }
+
+
     public function testShowMissingMediaIsNotFound(): void {
         $this->assertApiError(404, $this->api('GET', '/v1/media/2147483000'));
     }
@@ -202,6 +266,18 @@ class MediaTest extends ApiTestCase {
         $this->assertStringContains('image/png', $response['headers']['content-type'] ?? '');
         $this->assertSame((string)strlen($this->png()), $response['headers']['content-length'] ?? '');
         $this->assertStringContains('pixel.png', $response['headers']['content-disposition'] ?? '');
+    }
+
+
+    public function testDownloadContentDispositionIsSafe(): void {
+        $user = $this->create_user();
+        $media = $this->upload_png($user, [], "q\"uote файл.png");
+
+        $response = $this->api('GET', '/v1/media/'.$media['id'].'/file');
+        $this->assertStatus(200, $response);
+        $cd = $response['headers']['content-disposition'] ?? '';
+        $this->assertTrue(preg_match('/^attachment; filename="[\x20-\x7E]*"; filename\*=UTF-8\'\'[A-Za-z0-9%._~-]+$/', $cd) === 1, 'unexpected Content-Disposition: '.$cd);
+        $this->assertTrue(preg_match('/filename="[^"\\\\]*"/', $cd) === 1, 'ascii filename must not contain quotes or backslashes: '.$cd);
     }
 
 
@@ -257,7 +333,8 @@ class MediaTest extends ApiTestCase {
         $media_a = $this->upload_png($user_a);
         $media_b = $this->upload_png($user_b);
 
-        $response = $this->api('GET', '/v1/media?user_id='.$user_a['id']);
+        // user_id is exposed and filterable only for privileged viewers (moderator/admin/superuser)
+        $response = $this->api('GET', '/v1/media?user_id='.$user_a['id'], null, $this->token_for('moderator'));
         $this->assertApiSuccess($response);
 
         $ids = array_map(fn($m) => (int)$m['id'], $this->data($response)['data']);

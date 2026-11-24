@@ -96,9 +96,13 @@ document.addEventListener('alpine:init', () => {
         isOpen: false,
         title: '', message: '', confirm_text: '', cancel_text: '', type: 'alert',
         resolve: null,
+        return_focus: null,
+        keyboard_handler: null,
 
         show(title, message, confirm_text = "OK", cancel_text = "Cancel", type = "alert") {
+            if (this.isOpen) this.cancel();
             return new Promise((resolve) => {
+                this.return_focus = document.activeElement;
                 this.title = title;
                 this.message = message.replace(/\n/g, '<br>');
                 this.confirm_text = confirm_text;
@@ -107,6 +111,28 @@ document.addEventListener('alpine:init', () => {
                 this.resolve = resolve;
                 this.isOpen = true;
                 this.setIcon(type);
+                this.keyboard_handler = (event) => {
+                    if (event.key === 'Escape') {
+                        event.preventDefault();
+                        event.stopPropagation();
+                        this.cancel();
+                    } else if (event.key === 'Tab') {
+                        const buttons = [...document.querySelectorAll('#modal button')]
+                            .filter((button) => !button.disabled && button.getClientRects().length);
+                        const index = buttons.indexOf(document.activeElement);
+                        if (buttons.length) {
+                            event.preventDefault();
+                            const next = event.shiftKey
+                                ? (index <= 0 ? buttons.length - 1 : index - 1)
+                                : (index + 1) % buttons.length;
+                            buttons[next].focus();
+                        }
+                    }
+                };
+                document.addEventListener('keydown', this.keyboard_handler, true);
+                window.Alpine.nextTick(() => {
+                    if (this.isOpen) document.querySelector('#modal button[data-modal-confirm]')?.focus();
+                });
             });
         },
 
@@ -126,8 +152,18 @@ document.addEventListener('alpine:init', () => {
             });
         },
 
-        confirm() { if (this.resolve) { this.resolve(true); this.resolve = null; this.isOpen = false; } },
-        cancel() { if (this.resolve) { this.resolve(false); this.resolve = null; this.isOpen = false; } }
+        close(confirmed) {
+            const resolve = this.resolve;
+            this.resolve = null;
+            this.isOpen = false;
+            if (this.keyboard_handler) document.removeEventListener('keydown', this.keyboard_handler, true);
+            this.keyboard_handler = null;
+            this.return_focus?.focus();
+            this.return_focus = null;
+            if (resolve) resolve(confirmed);
+        },
+        confirm() { this.close(true); },
+        cancel() { this.close(false); }
     });
 
     // Mobile menu store

@@ -375,8 +375,8 @@ class Structure {
 		}
 
 		if (!empty($filters['search'])) {
-			$where_conditions[] = "(title LIKE ? OR slug LIKE ?)";
-			$search_param = '%' . $filters['search'] . '%';
+			$where_conditions[] = "(title LIKE ? ESCAPE '!' OR slug LIKE ? ESCAPE '!')";
+			$search_param = '%' . escape_like((string)$filters['search']) . '%';
 			$params_bind[] = $search_param;
 			$params_bind[] = $search_param;
 		}

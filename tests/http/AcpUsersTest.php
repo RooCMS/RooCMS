@@ -258,7 +258,10 @@ class AcpUsersTest extends ApiTestCase {
         $this->assertApiSuccess($this->login($user, $new), 200, 'login with new password:');
         $this->assertApiError(401, $this->login($user), 'login with old password:');
 
-        // keep create_user() cleanup working: it logs in with the original password and falls back to the old token
+        // all sessions of the user are terminated: the old token is no longer valid
+        $this->assertApiError(401, $this->api('GET', '/v1/users/me', null, $user['token']), 'old token after password change:');
+
+        // keep create_user() cleanup working: it logs in with the original password
         $this->acp('PUT', '/'.$user['id'].'/password', ['password' => $user['password']]);
     }
 

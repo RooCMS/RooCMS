@@ -494,11 +494,13 @@ class Db {
 	 * @throws Exception
 	 */
 	private function handle_error(string $message, string $sql = '', array $params = []): never {
+		error_log('Db: ' . $message);
 		http_response_code(500);
 
+		// SQL text and table names must not reach the client outside debug mode
 		$response = [
 			'error' => true,
-			'message' => $message,
+			'message' => (defined('DEBUGMODE') && DEBUGMODE) ? $message : 'Database error',
 			'status_code' => 500,
 			'timestamp' => date('Y-m-d H:i:s')
 		];

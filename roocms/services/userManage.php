@@ -190,8 +190,15 @@ class UserManageService {
             throw new DomainException('Failed to hash password', 500);
         }
 
-        // Update password
-        return $this->user->update_user($user_id, ['password' => $password_hash]);
+        // Update password and terminate all sessions of the user atomically
+        return (bool)$this->db->transaction(function() use ($user_id, $password_hash) {
+            $updated = $this->user->update_user($user_id, ['password' => $password_hash]);
+
+            // Revoke all tokens (like AuthenticationService::update_password -> logout_all_devices)
+            $this->db->query('DELETE FROM ' . TABLE_TOKENS . ' WHERE user_id = ?', [$user_id]);
+
+            return $updated;
+        });
     }
 
 

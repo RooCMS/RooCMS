@@ -199,13 +199,13 @@ class FilesService {
 		$limit = max(1, min(100, (int)$limit));
 		
 		$query = "SELECT * FROM " . TABLE_MEDIA . " 
-				  WHERE original_name LIKE :search 
+				  WHERE original_name LIKE :search ESCAPE '!' 
 				  AND status != 'deleted'
 				  ORDER BY created_at DESC 
 				  LIMIT :limit";
 		
 		return $this->db->fetch_all($query, [
-			'search' => '%' . $search_term . '%',
+			'search' => '%' . escape_like($search_term) . '%',
 			'limit' => $limit
 		]);
 	}
@@ -303,7 +303,7 @@ class FilesService {
 		}
 		
 		// Handle search filter separately
-		isset($filters['search']) && ($where_conditions[] = '(original_name LIKE :search OR description LIKE :search)') && ($params['search'] = '%' . $filters['search'] . '%');
+		isset($filters['search']) && ($where_conditions[] = '(original_name LIKE :search ESCAPE \'!\' OR description LIKE :search ESCAPE \'!\')') && ($params['search'] = '%' . escape_like((string)$filters['search']) . '%');
 		
 		// Build and execute SQL with pagination
 		$sql = 'SELECT * FROM ' . TABLE_MEDIA . 
@@ -340,7 +340,7 @@ class FilesService {
 		}
 		
 		// Handle search filter separately
-		isset($filters['search']) && ($where_conditions[] = '(original_name LIKE :search OR description LIKE :search)') && ($params['search'] = '%' . $filters['search'] . '%');
+		isset($filters['search']) && ($where_conditions[] = '(original_name LIKE :search ESCAPE \'!\' OR description LIKE :search ESCAPE \'!\')') && ($params['search'] = '%' . escape_like((string)$filters['search']) . '%');
 		
 		// Build and execute SQL
 		$sql = 'SELECT COUNT(*) as total FROM ' . TABLE_MEDIA . (!empty($where_conditions) ? ' WHERE ' . implode(' AND ', $where_conditions) : '');

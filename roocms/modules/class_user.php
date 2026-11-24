@@ -436,8 +436,11 @@ class User {
             $fields[] = 'u.email';
         }
 
-        $condition = '(' . implode(' LIKE ? OR ', $fields) . ' LIKE ?)';
-        $params = array_fill(0, count($fields), '%' . $search . '%');
+        // Escape LIKE wildcards in user input ('!' is the escape character)
+        $escaped = str_replace(['!', '%', '_'], ['!!', '!%', '!_'], $search);
+
+        $condition = '(' . implode(" LIKE ? ESCAPE '!' OR ", $fields) . " LIKE ? ESCAPE '!')";
+        $params = array_fill(0, count($fields), '%' . $escaped . '%');
 
         return [$condition, $params];
     }

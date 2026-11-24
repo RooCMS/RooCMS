@@ -6,14 +6,15 @@ $page_description = 'UI components for RooCMS ACP';
 
 $theme_name = basename(dirname(__DIR__, 2));
 $theme_base = '/themes/'.$theme_name;
+$page_scripts = [$theme_base.'/assets/js/pages/acp-ui-kit.js'];
 
 ob_start();
 ?>
-<div class="py-10">
+<div class="py-10 px-4 sm:px-6" id="acp-ui-kit">
 	<div class="grid grid-cols-1 gap-8 lg:grid-cols-[260px_1fr]">
 		<?php require __DIR__ . '/../../partials/acp-nav.php'; ?>
 
-		<section>
+		<section class="min-w-0">
 			<header class="mb-8">
 				<nav class="mb-3 text-sm text-zinc-500" aria-label="Хлебные крошки">
 					<ol class="flex items-center gap-2">
@@ -25,22 +26,29 @@ ob_start();
 					</ol>
 				</nav>
 				<h1 class="text-2xl font-semibold tracking-tight text-zinc-900">UI Kit</h1>
-				<p class="mt-2 text-sm text-zinc-600">Галерея базовых компонентов интерфейса для ACP.</p>
+				<p class="mt-2 text-sm text-zinc-600">Компоненты админ-панели и интерактивные примеры. Все данные демонстрационные и не сохраняются на сервере.</p>
+				<nav class="mt-4 flex flex-wrap gap-2" aria-label="Разделы UI Kit">
+					<a class="btn secondary small" href="#kit-buttons">Кнопки</a>
+					<a class="btn secondary small" href="#kit-form">Формы</a>
+					<a class="btn secondary small" href="#kit-tabs">Вкладки</a>
+					<a class="btn secondary small" href="#kit-modals">Модальные окна</a>
+					<a class="btn secondary small" href="#kit-orders">Таблица</a>
+				</nav>
 			</header>
 
 			<div class="space-y-10">
 				<!-- Buttons -->
-				<section>
+				<section id="kit-buttons">
 					<h2 class="mb-4 text-base font-semibold text-zinc-900">Кнопки</h2>
 					<div class="rounded-xl border border-zinc-200/80 bg-white/80 p-5 shadow-sm backdrop-blur">
 						<div class="flex flex-wrap gap-3">
-							<button type="button" class="inline-flex items-center justify-center rounded-lg cursor-pointer bg-zinc-900 px-4 py-2 text-sm font-medium text-white hover:bg-zinc-800">Primary</button>
-							<button type="button" class="inline-flex items-center justify-center rounded-lg cursor-pointer 	border border-zinc-200 bg-white px-4 py-2 text-sm font-medium text-zinc-900 hover:bg-zinc-50">Secondary</button>
-							<button type="button" class="inline-flex items-center justify-center rounded-lg cursor-pointer bg-emerald-600 px-4 py-2 text-sm font-medium text-white hover:bg-emerald-700">Success</button>
-							<button type="button" class="inline-flex items-center justify-center rounded-lg cursor-pointer bg-amber-500 px-4 py-2 text-sm font-medium text-white hover:bg-amber-600">Warning</button>
-							<button type="button" class="inline-flex items-center justify-center rounded-lg cursor-pointer bg-rose-600 px-4 py-2 text-sm font-medium text-white hover:bg-rose-700">Danger</button>
-							<button type="button" class="inline-flex items-center justify-center rounded-lg cursor-pointer px-4 py-2 text-sm font-medium text-zinc-700 hover:bg-zinc-100">Ghost</button>
-							<button type="button" disabled class="inline-flex items-center justify-center rounded-lg cursor-pointer border border-zinc-200 bg-white px-4 py-2 text-sm font-medium text-zinc-400">Disabled</button>
+							<button type="button" class="btn primary">Primary</button>
+							<button type="button" class="btn secondary">Secondary</button>
+							<button type="button" class="btn success">Success</button>
+							<button type="button" class="btn warning">Warning</button>
+							<button type="button" class="btn danger">Danger</button>
+							<button type="button" class="btn outline">Ghost</button>
+							<button type="button" disabled class="btn secondary">Disabled</button>
 						</div>
 					</div>
 				</section>
@@ -60,7 +68,7 @@ ob_start();
 				</section>
 
 				<section>
-					<h2 class="mb-4 text-base font-semibold text-zinc-900">Special badges</h2>
+					<h2 class="mb-4 text-base font-semibold text-zinc-900">Статусы</h2>
 					<div class="rounded-xl border border-zinc-200/80 bg-white/80 p-5 shadow-sm backdrop-blur">
 						<div class="flex flex-wrap items-center gap-3 text-xs font-medium">
 							<span class="rounded-sm bg-zinc-100 border border-zinc-200 px-2.5 py-1 text-zinc-700">Normal</span>
@@ -94,7 +102,7 @@ ob_start();
 						<div class="rounded-xl border border-zinc-200/80 bg-white/80 p-0 shadow-sm backdrop-blur">
 							<div class="border-b border-zinc-200/80 p-4 text-sm font-semibold text-zinc-900">Заголовок</div>
 							<div class="p-4 text-sm text-zinc-600">Тело карточки с содержимым.</div>
-							<div class="border-t border-zinc-200/80 p-3 text-right"><a href="#" class="text-sm font-medium text-zinc-700 hover:text-zinc-900">Действие</a></div>
+							<div class="border-t border-zinc-200/80 p-3 text-right"><a href="#kit-form" class="text-sm font-medium text-zinc-700 hover:text-zinc-900">Действие</a></div>
 						</div>
 						<div class="rounded-xl border border-zinc-200/80 bg-gradient-to-br from-white/90 to-zinc-50/90 p-5 shadow-sm backdrop-blur">
 							<h3 class="mb-2 text-sm font-semibold text-zinc-900">Карточка (gradient)</h3>
@@ -113,7 +121,7 @@ ob_start();
 									<span>Загрузка</span>
 									<span>45%</span>
 								</div>
-								<div class="h-2 w-full overflow-hidden rounded-md bg-zinc-200" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="45">
+								<div class="h-2 w-full overflow-hidden rounded-md bg-zinc-200" role="progressbar" aria-label="Прогресс выполнения" aria-valuemin="0" aria-valuemax="100" aria-valuenow="45" aria-valuetext="Загрузка: 45%">
 									<div class="h-full w-[45%] rounded-md bg-zinc-900"></div>
 								</div>
 							</div>
@@ -122,7 +130,7 @@ ob_start();
 									<span>Обработка</span>
 									<span class="text-emerald-700">70%</span>
 								</div>
-								<div class="h-2 w-full overflow-hidden rounded-full bg-emerald-100" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="70">
+								<div class="h-2 w-full overflow-hidden rounded-full bg-emerald-100" role="progressbar" aria-label="Прогресс выполнения" aria-valuemin="0" aria-valuemax="100" aria-valuenow="70" aria-valuetext="Обработка: 70%">
 									<div class="h-full w-[70%] rounded-full bg-emerald-600"></div>
 								</div>
 							</div>
@@ -134,17 +142,16 @@ ob_start();
 				<section>
 					<h2 class="mb-4 text-base font-semibold text-zinc-900">Пагинация</h2>
 					<div class="rounded-xl border border-zinc-200/80 bg-white/80 p-5 shadow-sm backdrop-blur">
-						<nav class="flex items-center justify-between" aria-label="Пагинация">
-							<a href="#" class="rounded-lg border border-zinc-200 px-3 py-2 text-sm text-zinc-700 hover:bg-zinc-50">Назад</a>
-							<ul class="flex items-center gap-1">
-								<li><a href="#" class="inline-flex h-9 w-9 items-center justify-center rounded-lg border border-zinc-200 text-sm text-zinc-700 hover:bg-zinc-50">1</a></li>
-								<li><a aria-current="page" href="#" class="inline-flex h-9 w-9 items-center justify-center rounded-lg bg-zinc-900 text-sm font-medium text-white">2</a></li>
-								<li><a href="#" class="inline-flex h-9 w-9 items-center justify-center rounded-lg border border-zinc-200 text-sm text-zinc-700 hover:bg-zinc-50">3</a></li>
-								<li><span class="inline-flex h-9 w-9 items-center justify-center text-sm text-zinc-400">…</span></li>
-								<li><a href="#" class="inline-flex h-9 w-9 items-center justify-center rounded-lg border border-zinc-200 text-sm text-zinc-700 hover:bg-zinc-50">10</a></li>
+						<nav class="flex flex-wrap items-center justify-between gap-3" aria-label="Пагинация" data-pagination>
+							<button type="button" class="btn secondary small" data-previous>Назад</button>
+							<ul class="flex flex-wrap items-center gap-1">
+								<?php foreach ([1, 2, 3, 4, 10] as $demo_page): ?>
+									<li><button type="button" class="btn <?php render_html($demo_page === 2 ? 'primary' : 'secondary'); ?> small" data-page="<?php render_html((string)$demo_page); ?>" <?php if ($demo_page === 2): ?>aria-current="page"<?php endif; ?>><?php render_html((string)$demo_page); ?></button></li>
+								<?php endforeach; ?>
 							</ul>
-							<a href="#" class="rounded-lg border border-zinc-200 px-3 py-2 text-sm text-zinc-700 hover:bg-zinc-50">Вперёд</a>
+							<button type="button" class="btn secondary small" data-next>Вперёд</button>
 						</nav>
+						<p class="mt-3 text-sm text-zinc-600" role="status" data-page-status>Страница 2 из 10</p>
 					</div>
 				</section>
 
@@ -177,31 +184,31 @@ ob_start();
 						<div class="grid grid-cols-1 gap-4 md:grid-cols-2">
 							<label class="flex cursor-pointer items-center justify-between gap-4">
 								<span class="text-sm text-zinc-800">Уведомления</span>
-								<input type="checkbox" class="peer sr-only">
-								<span class="relative inline-block h-6 w-11 rounded-full bg-zinc-300 transition peer-checked:bg-sky-900 after:absolute after:left-0.5 after:top-1/2 after:-translate-y-1/2 after:h-5 after:w-5 after:rounded-full after:bg-white after:transition peer-checked:after:translate-x-5"></span>
+								<input type="checkbox" role="switch" class="peer sr-only">
+								<span aria-hidden="true" class="relative inline-block h-6 w-11 rounded-full bg-zinc-300 transition peer-checked:bg-sky-900 after:absolute after:left-0.5 after:top-1/2 after:-translate-y-1/2 after:h-5 after:w-5 after:rounded-full after:bg-white after:transition peer-checked:after:translate-x-5"></span>
 							</label>
 							<label class="flex cursor-pointer items-center justify-between gap-4">
 								<span class="text-sm text-zinc-800">Автосохранение</span>
-								<input type="checkbox" class="peer sr-only" checked>
-								<span class="relative inline-block h-6 w-11 rounded-full bg-zinc-300 transition peer-checked:bg-emerald-600 after:absolute after:left-0.5 after:top-1/2 after:-translate-y-1/2 after:h-5 after:w-5 after:rounded-full after:bg-white after:transition peer-checked:after:translate-x-5"></span>
+								<input type="checkbox" role="switch" class="peer sr-only" checked>
+								<span aria-hidden="true" class="relative inline-block h-6 w-11 rounded-full bg-zinc-300 transition peer-checked:bg-emerald-600 after:absolute after:left-0.5 after:top-1/2 after:-translate-y-1/2 after:h-5 after:w-5 after:rounded-full after:bg-white after:transition peer-checked:after:translate-x-5"></span>
 							</label>
 						</div>
 					</div>
 				</section>
 
 				<!-- Forms -->
-				<section>
+				<section id="kit-form">
 					<h2 class="mb-4 text-base font-semibold text-zinc-900">Формы</h2>
 					<div class="rounded-xl border border-zinc-200/80 bg-white/80 p-5 shadow-sm backdrop-blur">
-						<form action="#" method="post" class="space-y-4">
+						<form class="space-y-4" data-demo-form>
 							<div>
 								<label for="f-name" class="mb-1 block text-sm font-medium text-zinc-800">Имя</label>
-								<input id="f-name" name="name" type="text" class="block w-full rounded-lg border border-zinc-300 bg-white px-3 py-2 text-sm text-zinc-900 placeholder-zinc-400 focus:border-sky-500 focus:outline-none" placeholder="Иван Иванов">
+								<input id="f-name" name="name" type="text" required autocomplete="name" class="block w-full rounded-lg border border-zinc-300 bg-white px-3 py-2 text-sm text-zinc-900 placeholder-zinc-400 focus:border-sky-500 focus:outline-none" placeholder="Иван Иванов">
 							</div>
 							<div>
 								<label for="f-email" class="mb-1 block text-sm font-medium text-zinc-800">Email</label>
-								<input id="f-email" name="email" type="email" class="block w-full rounded-lg border border-zinc-300 bg-white px-3 py-2 text-sm text-zinc-900 placeholder-zinc-400 focus:border-sky-500 focus:outline-none" placeholder="you@example.com">
-								<p class="mt-1 text-xs text-zinc-500">Мы никому не передаём ваш email.</p>
+								<input id="f-email" name="email" type="email" required autocomplete="email" aria-describedby="f-email-help" class="block w-full rounded-lg border border-zinc-300 bg-white px-3 py-2 text-sm text-zinc-900 placeholder-zinc-400 focus:border-sky-500 focus:outline-none" placeholder="you@example.com">
+								<p id="f-email-help" class="mt-1 text-xs text-zinc-500">Имя и email обязательны. Данные остаются в этом примере.</p>
 							</div>
 							<div>
 								<label for="f-role" class="mb-1 block text-sm font-medium text-zinc-800">Роль</label>
@@ -213,23 +220,23 @@ ob_start();
 							</div>
 							<fieldset>
 								<legend class="mb-2 text-sm font-medium text-zinc-800">Подписки</legend>
-								<label class="mb-2 flex items-center gap-3 text-sm text-zinc-800"><input type="checkbox" class="h-4 w-4 rounded border-zinc-300 text-zinc-900 focus:ring-zinc-500"> Новости</label>
-								<label class="mb-2 flex items-center gap-3 text-sm text-zinc-800"><input type="checkbox" class="h-4 w-4 rounded border-zinc-300 text-zinc-900 focus:ring-zinc-500"> Обновления</label>
+								<label class="mb-2 flex items-center gap-3 text-sm text-zinc-800"><input name="subscriptions[]" value="news" type="checkbox" class="h-4 w-4 rounded border-zinc-300 text-zinc-900 focus:ring-zinc-500"> Новости</label>
+								<label class="mb-2 flex items-center gap-3 text-sm text-zinc-800"><input name="subscriptions[]" value="updates" type="checkbox" class="h-4 w-4 rounded border-zinc-300 text-zinc-900 focus:ring-zinc-500"> Обновления</label>
 							</fieldset>
 							<fieldset>
 								<legend class="mb-2 text-sm font-medium text-zinc-800">Уровень доступа</legend>
-								<label class="mb-2 flex items-center gap-3 text-sm text-zinc-800"><input name="access" type="radio" class="h-4 w-4 border-zinc-300 text-zinc-900 focus:ring-zinc-500"> Полный</label>
+								<label class="mb-2 flex items-center gap-3 text-sm text-zinc-800"><input name="access" value="limited" type="radio" class="h-4 w-4 border-zinc-300 text-zinc-900 focus:ring-zinc-500"> Полный</label>
 								<label class="mb-2 flex items-center gap-3 text-sm text-zinc-800"><input name="access" type="radio" class="h-4 w-4 border-zinc-300 text-zinc-900 focus:ring-zinc-500"> Ограниченный</label>
 							</fieldset>
 							<div>
 								<label for="f-notes" class="mb-1 block text-sm font-medium text-zinc-800">Заметки</label>
-								<textarea id="f-notes" class="block w-full rounded-lg border border-zinc-300 bg-white px-3 py-2 text-sm text-zinc-900 placeholder-zinc-400 focus:border-sky-500 focus:outline-none" rows="3" placeholder="Краткое описание..."></textarea>
+								<textarea id="f-notes" name="notes" class="block w-full rounded-lg border border-zinc-300 bg-white px-3 py-2 text-sm text-zinc-900 placeholder-zinc-400 focus:border-sky-500 focus:outline-none" rows="3" placeholder="Краткое описание..."></textarea>
 							</div>
-							<div class="flex items-center justify-between">
-								<p class="text-xs text-rose-600">Пример ошибки: Email обязателен</p>
+							<div class="flex flex-wrap items-center justify-between gap-3">
+								<p class="text-sm text-emerald-700" role="status" data-form-status></p>
 								<div class="flex gap-2">
-									<button type="button" class="inline-flex items-center justify-center rounded-lg px-4 py-2 text-sm font-medium text-zinc-700 hover:bg-zinc-100">Отмена</button>
-									<button type="submit" class="inline-flex items-center justify-center rounded-lg bg-zinc-900 px-4 py-2 text-sm font-medium text-white hover:bg-zinc-800">Сохранить</button>
+									<button type="reset" class="btn secondary">Сбросить</button>
+									<button type="submit" class="btn primary">Проверить форму</button>
 								</div>
 							</div>
 						</form>
@@ -237,6 +244,54 @@ ob_start();
 				</section>
 
 				<!-- Quote blocks -->
+				<section>
+					<h2 class="mb-4 text-base font-semibold text-zinc-900">Состояния полей</h2>
+					<div class="grid grid-cols-1 gap-4 md:grid-cols-2 rounded-xl border border-zinc-200/80 bg-white/80 p-5 shadow-sm">
+						<label class="block text-sm text-zinc-800">Только чтение
+							<input type="text" value="ID-1024" readonly class="mt-1 block w-full rounded-lg border border-zinc-300 bg-zinc-50 px-3 py-2">
+						</label>
+						<label class="block text-sm text-zinc-500">Недоступное поле
+							<input type="text" value="Недоступно для вашей роли" disabled class="mt-1 block w-full rounded-lg border border-zinc-200 bg-zinc-100 px-3 py-2 cursor-not-allowed">
+						</label>
+						<label class="block text-sm text-zinc-800">Поле с ошибкой
+							<input type="email" value="invalid-email" aria-invalid="true" aria-describedby="kit-field-error" class="mt-1 block w-full rounded-lg border border-rose-500 bg-white px-3 py-2">
+							<span id="kit-field-error" class="mt-1 block text-xs text-rose-700">Введите email в формате name@example.com.</span>
+						</label>
+						<label class="block text-sm text-zinc-800">Корректное поле
+							<input type="email" value="editor@example.com" aria-describedby="kit-field-success" class="mt-1 block w-full rounded-lg border border-emerald-500 bg-white px-3 py-2">
+							<span id="kit-field-success" class="mt-1 block text-xs text-emerald-700">Адрес указан верно.</span>
+						</label>
+					</div>
+				</section>
+
+				<section id="kit-modals">
+					<h2 class="mb-4 text-base font-semibold text-zinc-900">Модальные окна</h2>
+					<div class="rounded-xl border border-zinc-200/80 bg-white/80 p-5 shadow-sm">
+						<div class="flex flex-wrap gap-3">
+							<button type="button" class="btn info" data-modal-type="notice">Информация</button>
+							<button type="button" class="btn success" data-modal-type="success">Успех</button>
+							<button type="button" class="btn warning" data-modal-type="warning">Предупреждение</button>
+							<button type="button" class="btn danger" data-modal-type="alert">Подтверждение</button>
+						</div>
+						<p class="mt-3 text-sm text-zinc-600" role="status" data-modal-status></p>
+					</div>
+				</section>
+
+				<section>
+					<h2 class="mb-4 text-base font-semibold text-zinc-900">Пустое состояние и раскрывающийся блок</h2>
+					<div class="grid grid-cols-1 gap-4 md:grid-cols-2">
+						<div class="rounded-xl border border-dashed border-zinc-300 bg-white/80 p-5 text-center">
+							<h3 class="text-sm font-semibold text-zinc-900">Пока нет записей</h3>
+								<p class="mt-2 mb-4 text-sm text-zinc-600">Добавьте первую запись, чтобы начать работу.</p>
+							<a href="#kit-form" class="btn primary">Заполнить пример</a>
+						</div>
+						<details class="rounded-xl border border-zinc-200 bg-white/80 p-5">
+							<summary class="cursor-pointer text-sm font-semibold text-zinc-900">Как использовать этот UI Kit?</summary>
+							<p class="mt-3 text-sm text-zinc-600">Копируйте разметку нужного компонента. Кнопки используют общие классы btn и модификаторы primary, secondary, success, warning, danger, info; размеры — small и large.</p>
+						</details>
+					</div>
+				</section>
+
 				<section>
 					<h2 class="mb-4 text-base font-semibold text-zinc-900">Цветные цитаты / аннотации</h2>
 					<div class="grid grid-cols-1 gap-4 md:grid-cols-2">
@@ -260,23 +315,25 @@ ob_start();
 				</section>
 
 				<!-- Tabs -->
-				<section>
+				<section id="kit-tabs">
 					<h2 class="mb-4 text-base font-semibold text-zinc-900">Вкладки</h2>
 					<div class="rounded-xl border border-zinc-200/80 bg-white/80 p-5 shadow-sm backdrop-blur">
-						<nav class="flex gap-2" aria-label="Вкладки">
-							<a href="#" class="rounded-lg bg-zinc-900 px-3 py-1.5 text-sm font-medium text-white">Обзор</a>
-							<a href="#" class="rounded-lg border border-zinc-200 px-3 py-1.5 text-sm text-zinc-700 hover:bg-zinc-50">Профиль</a>
-							<a href="#" class="rounded-lg border border-zinc-200 px-3 py-1.5 text-sm text-zinc-700 hover:bg-zinc-50">Настройки</a>
-						</nav>
-						<div class="mt-4 text-sm text-zinc-600">Контент активной вкладки.</div>
+						<div class="flex flex-wrap gap-2" role="tablist" aria-label="Пример вкладок">
+							<button type="button" id="kit-tab-overview" role="tab" aria-selected="true" aria-controls="kit-panel-overview" class="btn primary">Обзор</button>
+							<button type="button" id="kit-tab-profile" role="tab" aria-selected="false" aria-controls="kit-panel-profile" tabindex="-1" class="btn secondary">Профиль</button>
+							<button type="button" id="kit-tab-settings" role="tab" aria-selected="false" aria-controls="kit-panel-settings" tabindex="-1" class="btn secondary">Настройки</button>
+						</div>
+						<div id="kit-panel-overview" role="tabpanel" aria-labelledby="kit-tab-overview" tabindex="0" class="mt-4 text-sm text-zinc-600">Обзор компонентов админ-панели. Переключайте вкладки мышью или стрелками на клавиатуре.</div>
+						<div id="kit-panel-profile" role="tabpanel" aria-labelledby="kit-tab-profile" tabindex="0" class="mt-4 text-sm text-zinc-600" hidden>Профиль: Иван Иванов, редактор. Пример содержимого второй вкладки.</div>
+						<div id="kit-panel-settings" role="tabpanel" aria-labelledby="kit-tab-settings" tabindex="0" class="mt-4 text-sm text-zinc-600" hidden>Настройки: уведомления включены. Пример содержимого третьей вкладки.</div>
 					</div>
 				</section>
 
 				<!-- Skeletons -->
 				<section>
-					<h2 class="mb-4 text-base font-semibold text-zinc-900">Skeleton загрузчики</h2>
+					<h2 class="mb-4 text-base font-semibold text-zinc-900">Состояние загрузки</h2>
 					<div class="rounded-xl border border-zinc-200/80 bg-white/80 p-5 shadow-sm backdrop-blur">
-						<div class="animate-pulse space-y-3">
+						<div class="animate-pulse space-y-3" aria-hidden="true">
 							<div class="h-4 w-1/3 rounded bg-zinc-200"></div>
 							<div class="h-3 w-full rounded bg-zinc-200"></div>
 							<div class="h-3 w-5/6 rounded bg-zinc-200"></div>
@@ -290,29 +347,29 @@ ob_start();
 					<h2 class="mb-4 text-base font-semibold text-zinc-900">Аватары и стек</h2>
 					<div class="rounded-xl border border-zinc-200/80 bg-white/80 p-5 shadow-sm backdrop-blur">
 						<div class="flex items-center gap-3">
-							<img alt="A" src="https://i.pravatar.cc/40?img=1" class="h-10 w-10 rounded-full object-cover transition hover:scale-[1.03] hover:ring-2 hover:ring-zinc-300">
-							<img alt="B" src="https://i.pravatar.cc/40?img=2" class="h-10 w-10 rounded-full object-cover transition hover:scale-[1.03] hover:ring-2 hover:ring-zinc-300">
-							<img alt="C" src="https://i.pravatar.cc/40?img=3" class="h-10 w-10 rounded-full object-cover transition hover:scale-[1.03] hover:ring-2 hover:ring-zinc-300">
+							<span role="img" aria-label="A" class="h-10 w-10 rounded-full object-cover transition hover:scale-[1.03] hover:ring-2 hover:ring-zinc-300 inline-flex items-center justify-center bg-sky-100 text-sm font-semibold text-sky-800">АИ</span>
+							<span role="img" aria-label="B" class="h-10 w-10 rounded-full object-cover transition hover:scale-[1.03] hover:ring-2 hover:ring-zinc-300 inline-flex items-center justify-center bg-sky-100 text-sm font-semibold text-sky-800">МП</span>
+							<span role="img" aria-label="C" class="h-10 w-10 rounded-full object-cover transition hover:scale-[1.03] hover:ring-2 hover:ring-zinc-300 inline-flex items-center justify-center bg-sky-100 text-sm font-semibold text-sky-800">ЕК</span>
 						</div>
 						<div class="mt-4 flex -space-x-2">
-							<img alt="A" src="https://i.pravatar.cc/40?img=4" class="h-8 w-8 rounded-full ring-2 ring-white">
-							<img alt="B" src="https://i.pravatar.cc/40?img=5" class="h-8 w-8 rounded-full ring-2 ring-white">
-							<img alt="C" src="https://i.pravatar.cc/40?img=6" class="h-8 w-8 rounded-full ring-2 ring-white">
+							<span role="img" aria-label="A" class="h-8 w-8 rounded-full ring-2 ring-white inline-flex items-center justify-center bg-sky-100 text-sm font-semibold text-sky-800">АИ</span>
+							<span role="img" aria-label="B" class="h-8 w-8 rounded-full ring-2 ring-white inline-flex items-center justify-center bg-sky-100 text-sm font-semibold text-sky-800">МП</span>
+							<span role="img" aria-label="C" class="h-8 w-8 rounded-full ring-2 ring-white inline-flex items-center justify-center bg-sky-100 text-sm font-semibold text-sky-800">ЕК</span>
 							<span class="flex h-8 w-8 items-center justify-center rounded-full bg-zinc-200 text-xs text-zinc-700 ring-2 ring-white">+5</span>
 						</div>
 
 						<!-- Avatars with status/counter -->
 						<div class="mt-6 grid grid-cols-1 gap-4 md:grid-cols-3">
 							<div class="relative inline-block h-12 w-12">
-								<img alt="Online" src="https://i.pravatar.cc/64?img=7" class="block h-12 w-12 rounded-full object-cover ring-2 ring-white transition hover:scale-[1.03] hover:ring-zinc-300">
+								<span role="img" aria-label="Online" class="h-12 w-12 rounded-full object-cover ring-2 ring-white transition hover:scale-[1.03] hover:ring-zinc-300 inline-flex items-center justify-center bg-sky-100 text-sm font-semibold text-sky-800">АИ</span>
 								<span class="absolute bottom-0 right-0 inline-block h-3.5 w-3.5 translate-x-[2px] translate-y-[2px] rounded-full bg-emerald-500 ring-2 ring-white animate-pulse"></span>
 							</div>
 							<div class="relative inline-block h-12 w-12">
-								<img alt="Offline" src="https://i.pravatar.cc/64?img=8" class="block h-12 w-12 rounded-full object-cover ring-2 ring-white transition hover:scale-[1.03] hover:ring-zinc-300">
+								<span role="img" aria-label="Offline" class="h-12 w-12 rounded-full object-cover ring-2 ring-white transition hover:scale-[1.03] hover:ring-zinc-300 inline-flex items-center justify-center bg-sky-100 text-sm font-semibold text-sky-800">МП</span>
 								<span class="absolute bottom-0 right-0 inline-block h-3.5 w-3.5 translate-x-[2px] translate-y-[2px] rounded-full bg-zinc-400 ring-2 ring-white"></span>
 							</div>
 							<div class="relative inline-block h-12 w-12">
-								<img alt="Messages" src="https://i.pravatar.cc/64?img=9" class="block h-12 w-12 rounded-full object-cover ring-2 ring-white transition hover:scale-[1.03] hover:ring-zinc-300">
+								<span role="img" aria-label="Messages" class="h-12 w-12 rounded-full object-cover ring-2 ring-white transition hover:scale-[1.03] hover:ring-zinc-300 inline-flex items-center justify-center bg-sky-100 text-sm font-semibold text-sky-800">ЕК</span>
 								<span class="absolute top-0 right-0 inline-flex -translate-y-[2px] translate-x-[2px] items-center justify-center rounded-full bg-rose-600 px-1.5 text-[10px] font-medium text-white ring-2 ring-white">12</span>
 							</div>
 						</div>
@@ -321,7 +378,7 @@ ob_start();
 
 				<!-- Input group -->
 				<section>
-					<h2 class="mb-4 text-base font-semibold text-zinc-900">Input group</h2>
+					<h2 class="mb-4 text-base font-semibold text-zinc-900">Группы полей</h2>
 					<div class="rounded-xl border border-zinc-200/80 bg-white/80 p-5 shadow-sm backdrop-blur">
 						<div class="grid grid-cols-1 gap-4 md:grid-cols-2">
 							<label class="block">
@@ -334,8 +391,8 @@ ob_start();
 							<label class="block">
 								<span class="mb-1 block text-sm font-medium text-zinc-800">Поиск</span>
 								<div class="flex rounded-lg border border-zinc-300 focus-within:border-sky-500">
-									<input type="text" class="min-w-0 flex-1 rounded-l-lg bg-white px-3 py-2 text-sm text-zinc-900 outline-none" placeholder="Запрос...">
-									<button type="button" class="rounded-r-lg bg-zinc-900 px-3 py-2 text-sm font-medium text-white hover:bg-zinc-800">Найти</button>
+									<input type="search" id="kit-search" class="min-w-0 flex-1 rounded-l-lg bg-white px-3 py-2 text-sm text-zinc-900 outline-none" placeholder="Запрос...">
+									<button type="button" data-search class="btn primary">Найти</button>
 								</div>
 							</label>
 						</div>
@@ -344,22 +401,18 @@ ob_start();
 
 				<!-- Chips & Divider -->
 				<section>
-					<h2 class="mb-4 text-base font-semibold text-зinc-900">Чипсы и разделитель</h2>
+					<h2 class="mb-4 text-base font-semibold text-zinc-900">Метки и разделитель</h2>
 					<div class="rounded-xl border border-zinc-200/80 bg-white/80 p-5 shadow-sm backdrop-blur">
-						<div class="mb-4 flex flex-wrap gap-2">
-							<span class="inline-flex items-center gap-2 rounded-full border border-zinc-200 bg-white pl-3 pr-1 py-1 text-xs text-zinc-700">
-								Design
-								<button type="button" class="inline-flex h-5 w-5 items-center justify-center rounded-full bg-zinc-100 text-[12px] leading-none text-zinc-500 hover:bg-zinc-200 cursor-pointer">×</button>
-							</span>
-							<span class="inline-flex items-center gap-2 rounded-full border border-zinc-200 bg-white pl-3 pr-1 py-1 text-xs text-zinc-700">
-								UX
-								<button type="button" class="inline-flex h-5 w-5 items-center justify-center rounded-full bg-zinc-100 text-[12px] leading-none text-zinc-500 hover:bg-zinc-200 cursor-pointer">×</button>
-							</span>
-							<span class="inline-flex items-center gap-2 rounded-full border border-zinc-200 bg-white pl-3 pr-1 py-1 text-xs text-zinc-700">
-								CMS
-								<button type="button" class="inline-flex h-5 w-5 items-center justify-center rounded-full bg-zinc-100 text-[12px] leading-none text-zinc-500 hover:bg-zinc-200 cursor-pointer">×</button>
-							</span>
+						<div class="mb-4 flex flex-wrap gap-2" data-chips>
+							<?php foreach (['Design', 'UX', 'CMS'] as $demo_chip): ?>
+								<span class="chip" data-chip>
+									<?php render_html($demo_chip); ?>
+									<button type="button" class="remove-btn" aria-label="Удалить метку <?php render_html($demo_chip); ?>" data-remove-chip="<?php render_html($demo_chip); ?>">×</button>
+								</span>
+							<?php endforeach; ?>
 						</div>
+						<button type="button" class="btn secondary small" data-restore-chips>Восстановить метки</button>
+						<p class="mt-2 text-sm text-zinc-600" role="status" data-chip-status></p>
 						<div class="relative py-3">
 							<div class="absolute inset-0 flex items-center" aria-hidden="true">
 								<div class="w-full border-t border-zinc-200"></div>
@@ -394,13 +447,15 @@ ob_start();
 						</div>
 					</div>
 
-					<div class="mt-10 rounded-xl border border-zinc-200/80 bg-white/80 p-5 shadow-sm backdrop-blur">
+					<div id="kit-orders" class="mt-10 rounded-xl border border-zinc-200/80 bg-white/80 p-5 shadow-sm backdrop-blur">
 						<div class="mb-4 flex items-center justify-between">
 							<h2 class="text-base font-semibold text-zinc-900">Последние заказы</h2>
-							<a href="/acp/orders" class="text-sm font-medium text-zinc-700 hover:text-zinc-900">Все заказы</a>
+							<span class="badge neutral">Демо</span>
 						</div>
-						<div class="-mx-5 overflow-x-auto px-5">
-							<table class="min-w-full text-left text-sm" aria-label="Последние заказы">
+						<p class="mb-3 text-sm text-zinc-600" role="status" data-search-status>Показано заказов: 3</p>
+						<div class="-mx-5 overflow-x-auto px-5" role="region" aria-label="Таблица заказов с горизонтальной прокруткой" tabindex="0">
+							<table id="kit-orders-table" class="min-w-full text-left text-sm" aria-label="Последние заказы">
+								<caption class="sr-only">Демонстрационные заказы. Поиск доступен в разделе «Группы полей».</caption>
 								<thead class="border-b border-zinc-200/80 text-zinc-500">
 									<tr>
 										<th scope="col" class="py-3 pr-6 font-medium">Номер</th>
