@@ -319,7 +319,7 @@ class AcpSettingsTest extends ApiTestCase {
         ], $token);
 
         $this->assertApiError(422, $response);
-        $this->assertTrue(is_array($response['json']['details']['validation_errors'] ?? null), 'validation_errors is missing');
+        $this->assertTrue(isset($response['json']['details']['validation_errors']['mailer_port']), 'validation_errors.mailer_port is missing');
         $this->assertSame($before, $this->setting_value(self::SAFE_KEY, $token), 'valid part of an invalid patch must not be saved');
     }
 

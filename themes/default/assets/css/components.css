@@ -3,7 +3,12 @@
 .acp-layout { @apply grid grid-cols-1 gap-8 lg:grid-cols-[260px_minmax(0,1fr)]; }
 .acp-content { @apply min-w-0; }
 .acp-dashboard { @apply grid grid-cols-1 gap-6 xl:grid-cols-3; }
-.acp-settings-grid { @apply columns-1 gap-6 xl:columns-2 2xl:columns-3; }
+.ui-settings-layout { @apply grid items-start gap-5 xl:grid-cols-[12rem_minmax(0,1fr)]; }
+.ui-settings-nav { @apply min-w-0 xl:sticky xl:top-6; }
+.ui-settings-link { @apply flex w-full cursor-pointer items-center gap-3 rounded-lg border border-transparent px-3 py-3 text-left text-sm font-medium text-zinc-500 hover:bg-white/60 hover:text-zinc-900 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-500 disabled:cursor-default; }
+.ui-settings-link.is-active { @apply border-violet-200/70 bg-violet-50 text-violet-800; }
+.ui-settings-field { @apply grid min-w-0 gap-3 px-5 py-5 md:grid-cols-[minmax(0,1fr)_minmax(0,1.2fr)] md:gap-6; }
+.ui-settings-actions { @apply z-10 rounded-xl border border-zinc-200/80 bg-white/95 p-4 shadow-lg backdrop-blur sm:p-5; }
 .acp-nav-link { @apply flex items-center gap-3 rounded-lg border border-transparent px-3 py-2 text-sm font-medium text-zinc-700 hover:border-zinc-200 hover:bg-white/20 hover:text-zinc-900 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-500; }
 .acp-nav-link.active { @apply border-zinc-200 bg-white/60 text-zinc-900 shadow-sm backdrop-blur hover:bg-white; }
 .acp-nav-link.mobile { @apply whitespace-nowrap border-zinc-200 bg-white/70; }

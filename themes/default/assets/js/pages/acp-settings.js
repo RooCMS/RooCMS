@@ -24,12 +24,20 @@ const INPUT_TYPE_MAPPING = {
     'file': 'file'
 };
 
+const SETTINGS_GROUPS = {
+    site: { title: 'Site settings', description: 'Your site identity, domain and contact details.', icon: 'M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0ZM3 12h18M12 3a18 18 0 0 1 0 18 18 18 0 0 1 0-18Z' },
+    mailer: { title: 'Email settings', description: 'Sending mail, sender details and SMTP connection.', icon: 'M4 5h16v14H4zM4 6l8 6 8-6' },
+    security: { title: 'Security', description: 'Passwords, authentication tokens and session lifetime.', icon: 'm12 3 8 4v5c0 5-8 9-8 9s-8-4-8-9V7l8-4Zm-4 9 3 3 5-6' },
+    gd: { title: 'Images', description: 'Image dimensions, thumbnail quality and watermarks.', icon: 'M4 4h16v16H4zM4 16l5-5 4 4 3-3 4 4M14 8h.01' }
+};
+
 // Alpine.js Settings Manager Component
 document.addEventListener('alpine:init', () => {
     window.Alpine.data('settingsManager', () => ({
         // Reactive data
         settings: {},
         meta: {},
+        active_group: '',
         loading: false,
         successMessage: '',
         errorMessage: '',
@@ -63,6 +71,7 @@ document.addEventListener('alpine:init', () => {
             const data = response.data || response;
             this.meta = data.meta || {};
             this.settings = this.processSettingsData(data.settings || {});
+            if (!this.settings[this.active_group]) this.active_group = Object.keys(this.settings)[0] || '';
 
             if (DEBUG) window.log('log', 'Settings and metadata loaded successfully:', { settings: this.settings, meta: this.meta });
         },
@@ -161,15 +170,12 @@ document.addEventListener('alpine:init', () => {
         },
 
         // Helper methods
-        getGroupTitle(groupName) {
-            const titles = {
-                'site': 'Site settings',
-                'general': 'General settings',
-                'mailer': 'Email settings',
-                'security': 'Security',
-                'system': 'System'
+        get_group_meta(group_name) {
+            return SETTINGS_GROUPS[group_name] || {
+                title: group_name.charAt(0).toUpperCase() + group_name.slice(1),
+                description: '',
+                icon: 'M4 7h16M4 17h16M8 4v6m8 4v6'
             };
-            return titles[groupName] || groupName.charAt(0).toUpperCase() + groupName.slice(1);
         },
 
         // Generate unique field ID
@@ -258,8 +264,11 @@ document.addEventListener('alpine:init', () => {
                 }
             });
             if (first_field) {
-                first_field.focus({ preventScroll: true });
-                first_field.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                this.active_group = this.meta[first_field.name].category;
+                this.$nextTick(() => {
+                    first_field.focus({ preventScroll: true });
+                    first_field.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                });
             }
         },
 

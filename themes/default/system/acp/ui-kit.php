@@ -30,6 +30,7 @@ ob_start();
 					<a class="btn secondary small" href="#kit-orders">Таблица</a>
                     <a class="btn secondary small" href="#kit-records">Списки</a>
                     <a class="btn secondary small" href="#kit-structure">Структура</a>
+                    <a class="btn secondary small" href="#kit-settings">Настройки</a>
 				</nav>
 			</header>
 
@@ -554,6 +555,32 @@ ob_start();
                                 <div class="ui-record-actions"><button type="button" class="btn secondary small" disabled>Edit</button><button type="button" class="btn outline success small" disabled>Unban</button></div>
                             </div>
                         </div>
+                    </div>
+                </section>
+
+                <section id="kit-settings">
+                    <h2 class="ui-section-title">Настройки по разделам</h2>
+                    <p class="mb-4 text-sm text-zinc-600">Один открытый раздел, подпись и подсказка рядом с полем. Переключение разделов сохраняет введённые значения. Панель действий закрепляется у нижнего края окна; ошибки открывают соответствующий раздел.</p>
+                    <div class="ui-settings-layout">
+                        <nav class="ui-settings-nav" aria-label="Пример разделов настроек">
+                            <p class="mb-3 px-3 text-xs font-medium uppercase tracking-wider text-zinc-400">Конфигурация</p>
+                            <button type="button" class="ui-settings-link is-active" aria-pressed="true" disabled>Сайт</button>
+                            <button type="button" class="ui-settings-link" aria-pressed="false" disabled>Почта</button>
+                        </nav>
+                        <section class="ui-panel flush">
+                            <header class="ui-panel-header"><h3 class="text-base font-semibold text-zinc-900">Настройки сайта</h3><p class="ui-hint">Название, домен и контактные данные.</p></header>
+                            <div class="ui-settings-field">
+                                <div><label for="kit-settings-name" class="ui-label">Название сайта <span class="text-rose-500" aria-hidden="true">*</span></label><p id="kit-settings-name-help" class="ui-hint">Отображается в заголовке сайта.</p></div>
+                                <input id="kit-settings-name" aria-describedby="kit-settings-name-help" required class="ui-control" value="RooCMS">
+                            </div>
+                            <div class="ui-settings-field border-t border-zinc-100">
+                                <div><label for="kit-settings-switch" class="ui-label">Уведомления</label><p id="kit-settings-switch-help" class="ui-hint">Получать сообщения о событиях сайта.</p></div>
+                                <label class="ui-setting-row justify-start"><input id="kit-settings-switch" aria-describedby="kit-settings-switch-help" type="checkbox" role="switch" class="peer sr-only" checked><span class="ui-switch" aria-hidden="true"></span><span class="text-sm text-zinc-500">Включены</span></label>
+                            </div>
+                        </section>
+                    </div>
+                    <div class="ui-settings-actions mt-5">
+                        <div class="ui-toolbar"><p class="text-xs text-zinc-500">Изменения всех разделов сохраняются вместе.</p><div class="ui-actions"><button type="button" class="btn secondary" disabled>По умолчанию</button><button type="button" class="btn primary" disabled>Сохранить</button></div></div>
                     </div>
                 </section>
 

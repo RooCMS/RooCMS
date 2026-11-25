@@ -193,11 +193,14 @@ class ACPSettingsController extends BaseController {
         }
 
         try {
-            // Validate all settings using array functions
-            $validationErrors = array_filter(array_map(function($key, $value) {
-                return !$this->SiteSettingsManageService->setting_exists($key) ? 'Setting not found'
+            $validationErrors = [];
+            foreach ($data as $key => $value) {
+                $error = !$this->SiteSettingsManageService->setting_exists($key) ? 'Setting not found'
                     : (($meta = $this->SiteSettingsManageService->get_setting_meta($key)) ? $this->validate_setting_value($value, $meta) : 'Setting metadata not found');
-            }, array_keys($data), $data));
+                if ($error !== null) {
+                    $validationErrors[$key] = $error;
+                }
+            }
 
             // Return validation errors if any
             if (!empty($validationErrors)) {
