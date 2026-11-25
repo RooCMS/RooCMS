@@ -430,6 +430,7 @@ document.addEventListener('alpine:init', () => {
             }
 
             if (hasErrors) {
+                this.$root.querySelector(`#email_for_${this.editingUserId}`).closest('details').open = true;
                 this.showEditMessage('Please fix the errors below', 'error');
             }
 

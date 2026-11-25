@@ -116,7 +116,7 @@ class Structure {
 			$query = "SELECT
 						id, slug, parent_id, status, nav, title, meta_title, meta_description, meta_keywords,
 						noindex, page_type, sort, childs, created_at, updated_at, published_at
-					FROM " . TABLE_STRUCTURE . " ORDER BY sort";
+						FROM " . TABLE_STRUCTURE . " ORDER BY sort";
 			
 			$rows = $this->db->fetch_all($query);
 			
@@ -140,7 +140,7 @@ class Structure {
 		// construct tree
 		if(!empty($tree)) {
 			// construct_tree() returns null when the requested branch does not exist
-			return $this->construct_tree($tree, $parent, $maxlevel, $child) ?? false;
+			return $this->construct_tree($tree, $parent, $maxlevel, $child, path: $parent > 1 ? ($tree[$parent]['structure_path'] ?? '') : '') ?? false;
 		}
 		else {
 			return false;
@@ -159,14 +159,14 @@ class Structure {
 	 *
 	 * @return array|null
 	 */
-	private function construct_tree(array $unit, int $parent = 0, int $maxlevel = 0, bool $child = true, int $level = 0): ?array {
+	private function construct_tree(array $unit, int $parent = 0, int $maxlevel = 0, bool $child = true, int $level = 0, string $path = ''): ?array {
 
 		// create array
 		$tree = [];
 
 		foreach($unit as $i => $value) {
-			// Skip invalid entries (id=0 or id=parent creating self-reference)
-			if ($value['id'] <= 0 || ($parent > 0 && $value['id'] == $parent)) {
+			// Skip invalid entries, self-references and pages already added by a subtree.
+			if ($value['id'] <= 0 || ($parent > 0 && $value['id'] == $parent) || isset($tree[$value['id']])) {
 				continue;
 			}
 
@@ -191,6 +191,7 @@ class Structure {
 			if($matches_parent) {
 				// update level
 				$value['level'] = $level;
+				$value['structure_path'] = $is_rootpage ? '/' : rtrim($path, '/') . '/' . $value['slug'];
 
 				// add branch(s)
 				$tree[$value['id']] = $value;
@@ -198,7 +199,7 @@ class Structure {
 				// check child
 				if($child && ($maxlevel == 0 || $level+1 <= $maxlevel)) {
 
-					$subtree = $this->construct_tree($unit, $value['id'], $maxlevel, $child, $level + 1);
+					$subtree = $this->construct_tree($unit, $value['id'], $maxlevel, $child, $level + 1, $value['structure_path']);
 
 					if(is_array($subtree)) {
 						$tree = $tree + $subtree;
@@ -356,56 +357,18 @@ class Structure {
 	 * @return array Array with pages and total count
 	 */
 	public function get_admin_pages(array $filters = [], int $limit = 50, int $offset = 0): array {
-		$query = "SELECT id, slug, parent_id, status, nav, title, meta_title, meta_description, meta_keywords, 
-		                noindex, page_type, sort, childs, created_at, updated_at, published_at
-		         FROM " . TABLE_STRUCTURE;
-		
-		$where_conditions = [];
-		$params_bind = [];
-
-		// Apply filters
-		if (!empty($filters['status']) && in_array($filters['status'], ['draft', 'active', 'inactive'])) {
-			$where_conditions[] = "status = ?";
-			$params_bind[] = $filters['status'];
-		}
-
-		if (isset($filters['parent_id']) && is_numeric($filters['parent_id'])) {
-			$where_conditions[] = "parent_id = ?";
-			$params_bind[] = (int)$filters['parent_id'];
-		}
-
-		if (!empty($filters['search'])) {
-			$where_conditions[] = "(title LIKE ? ESCAPE '!' OR slug LIKE ? ESCAPE '!')";
-			$search_param = '%' . escape_like((string)$filters['search']) . '%';
-			$params_bind[] = $search_param;
-			$params_bind[] = $search_param;
-		}
-
-		if (!empty($where_conditions)) {
-			$query .= " WHERE " . implode(" AND ", $where_conditions);
-		}
-
-		$query .= " ORDER BY sort ASC, id ASC LIMIT ? OFFSET ?";
-		$params_bind[] = min(200, max(1, $limit));
-		$params_bind[] = max(0, $offset);
-
-		$pages = $this->db->fetch_all($query, $params_bind);
-
-		// Get total count
-		$count_query = "SELECT COUNT(*) as total FROM " . TABLE_STRUCTURE;
-		if (!empty($where_conditions)) {
-			$count_query .= " WHERE " . implode(" AND ", $where_conditions);
-			$count_params = array_slice($params_bind, 0, -2);
-		} else {
-			$count_params = [];
-		}
-		
-		$total_result = $this->db->fetch_assoc($count_query, $count_params);
-		$total = (int)$total_result['total'];
-
+		$pages = array_filter($this->sitetree, static function(array $page) use ($filters): bool {
+			if (in_array($filters['status'] ?? '', ['draft', 'active', 'inactive'], true)
+				&& $page['status'] !== $filters['status']) return false;
+			if (isset($filters['parent_id']) && is_numeric($filters['parent_id'])
+				&& (int)$page['parent_id'] !== (int)$filters['parent_id']) return false;
+			$search = (string)($filters['search'] ?? '');
+			return $search === '' || mb_stripos($page['title'], $search) !== false
+				|| mb_stripos($page['slug'], $search) !== false;
+		});
 		return [
-			'pages' => $pages,
-			'total' => $total
+			'pages' => array_slice($pages, max(0, $offset), min(200, max(1, $limit))),
+			'total' => count($pages)
 		];
 	}
 

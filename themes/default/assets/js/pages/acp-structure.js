@@ -5,7 +5,6 @@
  */
 
 import { request, handleApiError } from '../app/api.js';
-import { DEBUG } from '../app/config.js';
 import { escapeHtml } from '../app/helpers/formatters.js';
 
 // Alpine.js Structure Manager Component
@@ -56,18 +55,24 @@ document.addEventListener('alpine:init', () => {
             this.$watch('filters.status', () => this.applyFilters());
             this.$watch('filters.search', () => this.applyFilters());
 
-            Promise.all([
-                this.loadPages()
-            ]).catch(error => {
-                if (DEBUG) window.log('error', 'Initialization error:', error);
-            });
+            this.loadPages();
         },
 
         // A changed filter changes the result set: start from the first page
         applyFilters() {
+            this.closeEditForm();
             this.pagination.offset = 0;
             this.pagination.current_page = 1;
             return this.loadPages();
+        },
+
+        reset_filters() {
+            this.filters.search = '';
+            this.filters.status = '';
+        },
+
+        indent_levels(page) {
+            return Math.min(page.level, 4);
         },
 
         // Load pages from API
@@ -158,12 +163,16 @@ document.addEventListener('alpine:init', () => {
             }
         },
 
-        // Show edit modal
+        // Toggle inline edit form
         async showEditModal(pageId) {
             if (this.modalLoading) return;
+            if (this.editingPageId === pageId) {
+                this.closeEditForm();
+                return;
+            }
             const requestId = ++this.formRequestId;
             this.editingPageId = pageId;
-            this.showCreateForm = true;
+            this.showCreateForm = false;
             this.formLoading = true;
             this.formReady = false;
             this.availableParents = [];
@@ -172,9 +181,10 @@ document.addEventListener('alpine:init', () => {
             try {
                 const response = await this.apiRequest(`/v1/acp/structure/${pageId}`);
                 if (requestId !== this.formRequestId) return;
-                this.populateForm(response.data || response);
                 await this.loadAvailableParents(requestId);
-                if (requestId === this.formRequestId) this.formReady = true;
+                if (requestId !== this.formRequestId) return;
+                this.populateForm(response.data || response);
+                this.formReady = true;
             } catch (error) {
                 if (requestId !== this.formRequestId) return;
                 this.showMessage('Error loading page data', 'error');
@@ -282,15 +292,10 @@ document.addEventListener('alpine:init', () => {
             };
 
             const newStatus = statusMap[currentStatus] || 'active';
-            const statusText = {
-                'draft': 'Draft',
-                'active': 'Active',
-                'inactive': 'Inactive'
-            };
 
             const confirmed = await window.modal(
                 'Change Page Status',
-                `Are you sure you want to change status of "<strong>${escapeHtml(page.title)}</strong>" from ${statusText[currentStatus]} to ${statusText[newStatus]}?`,
+                `Are you sure you want to change status of "<strong>${escapeHtml(page.title)}</strong>" from ${this.getStatusText(currentStatus)} to ${this.getStatusText(newStatus)}?`,
                 'Change Status',
                 'Cancel',
                 'info'
@@ -411,6 +416,7 @@ document.addEventListener('alpine:init', () => {
         },
 
         goToPage(page) {
+            this.closeEditForm();
             this.pagination.offset = (page - 1) * this.pagination.limit;
             this.pagination.current_page = page;
             this.loadPages();
@@ -481,15 +487,6 @@ document.addEventListener('alpine:init', () => {
                 'inactive': 'Draft'
             };
             return actions[status] || 'Change';
-        },
-
-        getStatusButtonClass(status) {
-            const classes = {
-                'draft': 'outline success',
-                'active': 'outline danger',
-                'inactive': 'outline warning'
-            };
-            return classes[status] || 'secondary';
         },
 
         // Validation errors

@@ -23,11 +23,11 @@ ob_start();
 
 <div class="acp-shell">
     <div class="acp-layout">
-        <?php require __DIR__ . '/../../partials/acp-nav.php'; ?>
+        <?php require __DIR__ . '/../partials/acp-nav.php'; ?>
 
         <section class="acp-content">
             <header class="mb-8">
-                <?php require __DIR__ . '/../../partials/acp-heading.php'; ?>
+                <?php require __DIR__ . '/../partials/acp-heading.php'; ?>
             </header>
 
             <div class="space-y-5" x-data="usersManager()" x-cloak>
@@ -137,7 +137,7 @@ ob_start();
 
                                     <!-- Inline Edit Row -->
                                     <div x-show="editingUserId === user.id" x-transition x-cloak :id="'user-editor-' + user.id">
-                                        <div class="ui-record-editor space-y-6">
+                                        <div class="ui-record-editor">
 
                                             <!-- Loading State -->
                                             <div x-show="editLoading" class="flex items-center justify-center py-8">
@@ -158,120 +158,21 @@ ob_start();
 
                                             <!-- Edit Form -->
                                             <div x-show="!editLoading && editingUser && editingUser.login">
-                                                <form x-on:submit.prevent="saveEditedUser($event)" novalidate class="space-y-6">
-                                                    <!-- Account Information -->
-                                                    <div class="ui-panel spacious">
-                                                        <h3 class="text-lg font-semibold text-zinc-900 mb-4">Account Information</h3>
-
-                                                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                                                            <!-- Login (read-only) -->
-                                                            <div>
-                                                                <label :for="'login_for_' + user.id" class="ui-label">Login</label>
-                                                                <input type="text" :id="'login_for_' + user.id" x-bind:value="editingUser && editingUser.login ? editingUser.login : ''" readonly disabled autocomplete="username"
-                                                                        class="ui-control">
-                                                                <p class="ui-hint">Login cannot be changed</p>
-                                                            </div>
-
-                                                            <!-- Email -->
-                                                            <div>
-                                                                <label :for="'email_for_' + user.id" class="ui-label">Email <span class="badge danger">Required</span></label>
-                                                                <input type="email" :id="'email_for_' + user.id" x-model="editForm.email" required
-                                                                        class="ui-control">
-                                                            </div>
-
-                                                            <!-- Role -->
-                                                            <div>
-                                                                <label :for="'role_for_' + user.id" class="ui-label">Role <span class="badge danger">Required</span></label>
-                                                                <select :id="'role_for_' + user.id" x-model="editForm.role" required
-                                                                        class="ui-control select-custom">
-                                                                    <template x-for="role in availableRoles" :key="role.key">
-                                                                        <option :value="role.key" x-text="role.name + ' - ' + role.description"></option>
-                                                                    </template>
-                                                                </select>
-                                                            </div>
-
-                                                            <!-- Status Toggles -->
-                                                            <div>
-                                                                <label class="flex cursor-pointer items-center justify-between gap-4">
-                                                                    <span class="text-sm text-zinc-800">Account Active</span>
-                                                                    <input type="checkbox" :id="'is_active_for_' + user.id" x-model="editForm.is_active" class="peer sr-only">
-                                                                    <span class="ui-switch success"></span>
-                                                                </label>
-                                                            </div>
-                                                            <div>
-                                                                <label class="flex cursor-pointer items-center justify-between gap-4">
-                                                                    <span class="text-sm text-zinc-800">Email Verified</span>
-                                                                    <input type="checkbox" :id="'is_verified_for_' + user.id" x-model="editForm.is_verified" class="peer sr-only">
-                                                                    <span class="ui-switch success"></span>
-                                                                </label>
-                                                            </div>
-                                                        </div>
-
-                                                        <!-- Created/Updated Info -->
-                                                        <div x-show="editingUser && editingUser.created_at" class="mt-6 pt-6 border-t border-zinc-200">
-                                                            <dl class="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
-                                                                <div>
-                                                                    <dt class="font-medium text-zinc-500">Created</dt>
-                                                                    <dd class="mt-1 text-zinc-900" x-text="editingUser && editingUser.created_at ? formatDateTimeValue(editingUser.created_at) : ''"></dd>
-                                                                </div>
-                                                                <div>
-                                                                    <dt class="font-medium text-zinc-500">Updated</dt>
-                                                                    <dd class="mt-1 text-zinc-900" x-text="editingUser && editingUser.updated_at ? formatDateTimeValue(editingUser.updated_at) : ''"></dd>
-                                                                </div>
-                                                                <div>
-                                                                    <dt class="font-medium text-zinc-500">Last Activity</dt>
-                                                                    <dd class="mt-1 text-zinc-900" x-text="editingUser && editingUser.last_activity ? formatRelativeTimeValue(editingUser.last_activity) : ''"></dd>
-                                                                </div>
-                                                            </dl>
-                                                        </div>
-                                                    </div>
-
-                                                    <!-- Avatar Management -->
-                                                    <div class="ui-panel spacious" x-show="editingUser.avatar && editingUser.avatar !== 'null'">
-                                                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                                            <div>
-                                                                <h3 class="text-lg font-semibold text-zinc-900 mb-4">Avatar Management</h3>
-                                                            </div>
-                                                            <div class="flex items-center gap-3">
-                                                                <div class="flex-shrink-0 h-16 w-16">
-                                                                    <div x-show="!editingUser.avatar" class="h-16 w-16 rounded-full bg-zinc-300 flex items-center justify-center">
-                                                                        <span class="text-lg font-medium text-zinc-700" x-text="editingUser && editingUser.login ? getInitials(editingUser) : '?'"></span>
-                                                                    </div>
-                                                                    <img x-show="editingUser.avatar && editingUser.avatar !== 'null'" :src="editingUser && editingUser.avatar ? '/up/' + editingUser.avatar : ''" :alt="editingUser && editingUser.login ? editingUser.login : 'User'" class="h-16 w-16 rounded-full object-cover">
-                                                                </div>
-                                                                <div class="flex flex-col gap-2">
-                                                                    <button x-show="editingUser && editingUser.avatar && editingUser.avatar !== 'null'"
-                                                                            @click="deleteUserAvatar()"
-                                                                            x-bind:disabled="editSaving"
-                                                                            type="button"
-                                                                            class="btn outline danger small">
-                                                                        <svg x-show="!editSaving" class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
-                                                                        </svg>
-                                                                        <svg x-show="editSaving" class="ui-spinner small mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
-                                                                        </svg>
-                                                                        <span x-text="editSaving ? 'Deleting...' : 'Delete Avatar'"></span>
-                                                                    </button>
-                                                                    <p x-show="!editingUser.avatar || editingUser.avatar === 'null'" class="text-xs text-zinc-500">No avatar uploaded</p>
-                                                                    <p x-show="editingUser && editingUser.avatar && editingUser.avatar !== 'null'" class="text-xs text-zinc-500">Remove user's avatar</p>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-
+                                                <form x-on:submit.prevent="saveEditedUser($event)" novalidate class="space-y-3">
                                                     <!-- Profile Information -->
-                                                    <div class="ui-panel spacious">
-                                                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                                            <div>
-                                                                <h3 class="text-lg font-semibold text-zinc-900 mb-4">Profile Information</h3>
+                                                    <details class="ui-editor-section" open>
+                                                        <summary class="ui-editor-summary"><span>Profile Information<span class="ui-editor-caption">Personal details, visibility and avatar</span></span></summary>
+                                                        <div class="ui-editor-body grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-3">
+                                                            <div class="md:col-span-2 xl:col-span-3 flex flex-wrap items-center gap-x-6 gap-y-3">
+                                                            <div class="flex flex-wrap items-center gap-3" x-show="hasAvatar(editingUser)">
+                                                                <template x-if="hasAvatar(editingUser)"><img :src="'/up/' + editingUser.avatar" alt="" class="avatar small object-cover"></template>
+                                                                <button @click="deleteUserAvatar()" :disabled="editSaving" type="button" class="btn outline danger small">Delete Avatar</button>
                                                             </div>
 
-                                                            <div>
-                                                                <label class="flex cursor-pointer items-center justify-between gap-4">
+                                                                <label class="flex cursor-pointer items-center gap-2">
                                                                     <span class="text-sm text-zinc-800">Profile is Public</span>
-                                                                    <input type="checkbox" :id="'is_public_for_' + user.id" x-model="editForm.is_public" class="peer sr-only">
-                                                                    <span class="ui-switch"></span>
+                                                                    <input type="checkbox" :id="'is_public_for_' + user.id" x-model="editForm.is_public" role="switch" class="peer sr-only">
+                                                                    <span aria-hidden="true" class="ui-switch"></span>
                                                                 </label>
                                                             </div>
 
@@ -312,30 +213,79 @@ ob_start();
 
                                                             <div>
                                                                 <label :for="'website_for_' + user.id" class="ui-label">Website</label>
-                                                                <input type="url" :id="'website_for_' + user.id" x-model="editForm.website" placeholder="https://example.com"
+                                                                <input type="url" name="website" :id="'website_for_' + user.id" x-model="editForm.website" autocomplete="url" placeholder="https://example.com"
                                                                         class="ui-control">
                                                             </div>
 
-                                                            <div class="md:col-span-2">
+                                                            <div class="md:col-span-2 xl:col-span-3">
                                                                 <label :for="'bio_for_' + user.id" class="ui-label">Bio</label>
-                                                                <textarea :id="'bio_for_' + user.id" x-model="editForm.bio" rows="3"
+                                                                <textarea :id="'bio_for_' + user.id" x-model="editForm.bio" rows="2"
                                                                             class="ui-control"></textarea>
                                                             </div>
                                                         </div>
-                                                    </div>
+                                                    </details>
 
+                                                    <!-- System Information -->
+                                                    <div class="ui-editor-grid">
+                                                    <details class="ui-editor-section">
+                                                        <summary class="ui-editor-summary"><span>System Info</span></summary>
+                                                        <div class="ui-editor-body">
+                                                        <div class="grid grid-cols-1 md:grid-cols-[minmax(0,2fr)_minmax(0,1fr)] gap-3">
+                                                            <!-- Email -->
+                                                            <div>
+                                                                <label :for="'email_for_' + user.id" class="ui-label">Email <span class="text-rose-600" aria-hidden="true">*</span></label>
+                                                                <input type="email" name="email" :id="'email_for_' + user.id" x-model="editForm.email" autocomplete="off" required
+                                                                        class="ui-control">
+                                                            </div>
+
+                                                            <!-- Role -->
+                                                            <div>
+                                                                <label :for="'role_for_' + user.id" class="ui-label">Role <span class="text-rose-600" aria-hidden="true">*</span></label>
+                                                                <select :id="'role_for_' + user.id" x-model="editForm.role" required
+                                                                        class="ui-control select-custom">
+                                                                    <template x-for="role in availableRoles" :key="role.key">
+                                                                        <option :value="role.key" x-text="role.name"></option>
+                                                                    </template>
+                                                                </select>
+                                                            </div>
+
+                                                        </div>
+
+                                                        <div class="mt-3 flex flex-wrap items-center gap-x-6 gap-y-3 border-t border-zinc-100 pt-3">
+                                                                <label class="flex cursor-pointer items-center gap-2">
+                                                                    <span class="text-sm text-zinc-800">Account Active</span>
+                                                                    <input type="checkbox" :id="'is_active_for_' + user.id" x-model="editForm.is_active" role="switch" class="peer sr-only">
+                                                                    <span aria-hidden="true" class="ui-switch success"></span>
+                                                                </label>
+                                                                <label class="flex cursor-pointer items-center gap-2">
+                                                                    <span class="text-sm text-zinc-800">Email Verified</span>
+                                                                    <input type="checkbox" :id="'is_verified_for_' + user.id" x-model="editForm.is_verified" role="switch" class="peer sr-only">
+                                                                    <span aria-hidden="true" class="ui-switch success"></span>
+                                                                </label>
+                                                            <dl class="ui-editor-meta md:ml-auto">
+                                                                <div x-show="editingUser.created_at">
+                                                                    <dt>Created</dt>
+                                                                    <dd x-text="editingUser.created_at ? formatDateTimeValue(editingUser.created_at) : ''"></dd>
+                                                                </div>
+                                                                <div x-show="editingUser.updated_at">
+                                                                    <dt>Updated</dt>
+                                                                    <dd x-text="editingUser.updated_at ? formatDateTimeValue(editingUser.updated_at) : ''"></dd>
+                                                                </div>
+                                                            </dl>
+                                                        </div>
+                                                        </div>
+                                                    </details>
                                                     <!-- Ban Management -->
-                                                    <div class="ui-panel spacious">
-                                                        <h3 class="text-lg font-semibold text-zinc-900 mb-4">Ban Management</h3>
-
-                                                        <div class="space-y-4">
+                                                    <details class="ui-editor-section">
+                                                        <summary class="ui-editor-summary"><span>Ban Management<span class="ui-editor-caption">Account restrictions and ban expiry</span></span><span x-show="editForm.is_banned" class="badge danger compact">Banned</span></summary>
+                                                        <div class="ui-editor-body space-y-4">
                                                             <label class="flex cursor-pointer items-center justify-between gap-4">
                                                                 <span class="text-sm font-medium text-zinc-900">User is Banned</span>
-                                                                <input type="checkbox" :id="'is_banned_for_' + user.id" x-model="editForm.is_banned" class="peer sr-only">
-                                                                <span class="ui-switch"></span>
+                                                                <input type="checkbox" :id="'is_banned_for_' + user.id" x-model="editForm.is_banned" role="switch" class="peer sr-only">
+                                                                <span aria-hidden="true" class="ui-switch"></span>
                                                             </label>
 
-                                                            <div x-show="editForm.is_banned" class="space-y-4 pl-6 border-l-2 border-rose-300" x-cloak>
+                                                            <div x-show="editForm.is_banned" class="grid gap-4 md:grid-cols-2" x-cloak>
                                                                 <div>
                                                                     <label :for="'ban_reason_for_' + user.id" class="ui-label">Ban Reason</label>
                                                                     <textarea :id="'ban_reason_for_' + user.id" x-model="editForm.ban_reason" rows="2"
@@ -350,13 +300,12 @@ ob_start();
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                    </div>
+                                                    </details>
 
                                                     <!-- Password Change -->
-                                                    <div class="ui-panel spacious">
-                                                        <h3 class="text-lg font-semibold text-zinc-900 mb-4">Change Password</h3>
-
-                                                        <div class="space-y-4">
+                                                    <details class="ui-editor-section">
+                                                        <summary class="ui-editor-summary"><span>Change Password<span class="ui-editor-caption">Set a new password for this account</span></span></summary>
+                                                        <div class="ui-editor-body grid gap-4 md:grid-cols-2">
                                                             <div>
                                                                 <label :for="'new_password_for_' + user.id" class="ui-label">New Password</label>
                                                                 <input type="password" :id="'new_password_for_' + user.id" x-model="editPasswordForm.new_password" autocomplete="new-password"
@@ -371,7 +320,7 @@ ob_start();
                                                             </div>
 
                                                             <button x-on:click="changeUserPassword()" type="button" x-bind:disabled="editSaving || !editPasswordForm.new_password"
-                                                                    class="btn secondary">
+                                                                    class="btn secondary small md:col-span-2 md:justify-self-start">
                                                                 <svg x-show="editSaving" class="ui-spinner small mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                                                                     <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
                                                                     <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
@@ -379,18 +328,20 @@ ob_start();
                                                                 Change Password
                                                             </button>
                                                         </div>
+                                                    </details>
+
                                                     </div>
 
                                                     <!-- Actions -->
-                                                    <div class="p-6 rounded-xl border border-zinc-200/80 bg-zinc-50/50 backdrop-blur">
+                                                    <div class="ui-editor-footer">
                                                         <div class="ui-toolbar">
                                                             <div class="flex items-center gap-4">
                                                                 <div x-show="editSaving" x-cloak class="flex items-center gap-2 text-sky-600">
                                                                     <?php require __DIR__ . '/../../partials/ui-spinner.php'; ?>
                                                                     <span class="text-sm font-medium">Saving...</span>
                                                                 </div>
-                                                                <div class="text-green-800" x-show="editSuccessMessage" x-text="editSuccessMessage" x-transition></div>
-                                                                <div class="text-red-800" x-show="editErrorMessage" x-text="editErrorMessage" x-transition></div>
+                                                                <div role="status" class="text-sm text-emerald-700" x-show="editSuccessMessage" x-text="editSuccessMessage" x-transition></div>
+                                                                <div role="alert" class="text-sm text-rose-700" x-show="editErrorMessage" x-text="editErrorMessage" x-transition></div>
                                                             </div>
 
                                                             <div class="ui-actions">

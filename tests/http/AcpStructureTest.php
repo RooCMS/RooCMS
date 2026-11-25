@@ -211,17 +211,57 @@ class AcpStructureTest extends ApiTestCase {
     }
 
 
-    public function testIndexIsSortedBySortThenId(): void {
+    public function testIndexKeepsSiblingSortOrder(): void {
         $pages = $this->data($this->admin('GET', '?limit=200'), 'pages');
-
-        for($i = 1; $i < count($pages); $i++) {
-            $prev = $pages[$i - 1];
-            $cur = $pages[$i];
-            $this->assertTrue(
-                $prev['sort'] < $cur['sort'] || ($prev['sort'] === $cur['sort'] && $prev['id'] < $cur['id']),
-                'pages '.$prev['id'].' and '.$cur['id'].' are not ordered by sort, id'
-            );
+        $previous = [];
+        foreach ($pages as $page) {
+            if ($page['id'] === 1) continue;
+            $parent_id = $page['parent_id'];
+            if (isset($previous[$parent_id])) {
+                $prev = $previous[$parent_id];
+                $this->assertTrue(
+                    $prev['sort'] <= $page['sort'],
+                    'Sibling pages must be ordered by sort'
+                );
+            }
+            $previous[$parent_id] = $page;
         }
+    }
+
+    public function testHierarchyKeepsPathsWhenFilteredAndPaginated(): void {
+        $response = $this->admin('GET', '?limit=200');
+        $this->assertApiSuccess($response);
+        $pages = $this->data($response, 'pages');
+        $positions = array_flip(array_column($pages, 'id'));
+        foreach ($pages as $position => $page) {
+            $this->assertTrue(isset($page['structure_path'], $page['level']));
+            if ($page['id'] === 1) {
+                $this->assertSame('/', $page['structure_path']);
+                $this->assertSame(0, $page['level']);
+            } elseif (isset($positions[$page['parent_id']])) {
+                $parent_position = $positions[$page['parent_id']];
+                $this->assertTrue($parent_position < $position, 'Parent must precede its child');
+                $parent = $pages[$parent_position];
+                $this->assertSame(rtrim($parent['structure_path'], '/').'/'.$page['slug'], $page['structure_path']);
+                $this->assertSame($parent['level'] + 1, $page['level']);
+            }
+        }
+        $sample = $pages[min(2, count($pages) - 1)];
+        foreach ($pages as $page) {
+            if ($page['level'] > 1) {
+                $sample = $page;
+                break;
+            }
+        }
+        $filtered = $this->data($this->admin('GET', '?search='.rawurlencode($sample['slug'])), 'pages');
+        $found = array_values(array_filter($filtered, static fn(array $page): bool => $page['id'] === $sample['id']));
+        $this->assertSame($sample['structure_path'], $found[0]['structure_path']);
+        $slice = $this->data($this->admin('GET', '?limit=1&offset='.$positions[$sample['id']]), 'pages');
+        $this->assertSame($sample, $slice[0]);
+        $response = $this->api('GET', '/v1/structure/breadcrumbs/'.$sample['id']);
+        $this->assertApiSuccess($response);
+        $crumbs = array_filter($this->data($response, 'breadcrumbs'), static fn(array $crumb): bool => $crumb['slug'] !== 'index');
+        $this->assertSame($sample['structure_path'], '/'.implode('/', array_column($crumbs, 'slug')));
     }
 
 

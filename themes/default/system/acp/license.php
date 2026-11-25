@@ -22,11 +22,11 @@ ob_start();
 
 <div class="acp-shell">
     <div class="acp-layout">
-        <?php require __DIR__ . '/../../partials/acp-nav.php'; ?>
+        <?php require __DIR__ . '/../partials/acp-nav.php'; ?>
 
         <section class="acp-content">
             <header class="mb-8">
-                <?php require __DIR__ . '/../../partials/acp-heading.php'; ?>
+                <?php require __DIR__ . '/../partials/acp-heading.php'; ?>
             </header>
 
             <!-- License Content Container -->

@@ -357,7 +357,6 @@ themes/
 │   │   ├── 📄 offline.php                 # Offline page (for service worker)
 │   │   └── 📄 ui-kit.php                  # UI kit demo page
 │   ├── 📁 partials/                       # Partial templates
-│   │   ├── 📄 acp-nav.php                 # ACP navigation
 │   │   ├── 📄 cookie.php                  # Cookie consent
 │   │   ├── 📄 footer.php                  # Footer
 │   │   └── 📄 header.php                  # Header
@@ -374,6 +373,9 @@ themes/
 │   │   │   ├── 📄 privacy.php             # Privacy policy page
 │   │   │   └── 📄 terms.php               # Terms of service page
 │   │   ├── 📄 login.php                   # Login page
+│   │   ├── 📁 partials/                   # System partial templates
+│   │   │   ├── 📄 acp-heading.php         # ACP heading and breadcrumbs
+│   │   │   └── 📄 acp-nav.php             # ACP navigation
 │   │   ├── 📄 password-forgot.php         # Password forgot page
 │   │   ├── 📄 password-reset.php          # Password reset page
 │   │   ├── 📄 myprofile.php               # User profile page (my profile)

@@ -25,6 +25,7 @@ if(!defined('RooCMS')) {roocms_protect();}
 trait StructureCommonService {
 
 
+
     /**
      * Check if page is published
      * 

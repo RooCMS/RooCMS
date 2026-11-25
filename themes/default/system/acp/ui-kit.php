@@ -17,11 +17,11 @@ ob_start();
 ?>
 <div class="acp-shell" id="acp-ui-kit">
 	<div class="acp-layout">
-		<?php require __DIR__ . '/../../partials/acp-nav.php'; ?>
+		<?php require __DIR__ . '/../partials/acp-nav.php'; ?>
 
 		<section class="acp-content">
 			<header class="mb-8">
-                <?php require __DIR__ . '/../../partials/acp-heading.php'; ?>
+                <?php require __DIR__ . '/../partials/acp-heading.php'; ?>
 				<nav class="mt-4 flex flex-wrap gap-2" aria-label="Разделы UI Kit">
 					<a class="btn secondary small" href="#kit-buttons">Кнопки</a>
 					<a class="btn secondary small" href="#kit-form">Формы</a>
@@ -29,6 +29,7 @@ ob_start();
 					<a class="btn secondary small" href="#kit-modals">Модальные окна</a>
 					<a class="btn secondary small" href="#kit-orders">Таблица</a>
                     <a class="btn secondary small" href="#kit-records">Списки</a>
+                    <a class="btn secondary small" href="#kit-structure">Структура</a>
 				</nav>
 			</header>
 
@@ -419,7 +420,45 @@ ob_start();
 					</div>
 				</section>
 
-				<!-- Tabs -->
+				<!-- Compact editor -->
+				<section id="kit-editor">
+					<h2 class="ui-section-title">Компактная форма редактирования</h2>
+					<div class="ui-record-editor space-y-3">
+						<details class="ui-editor-section" open>
+							<summary class="ui-editor-summary"><span>Профиль<span class="ui-editor-caption">Дополнительные сведения и видимость</span></span></summary>
+							<div class="ui-editor-body space-y-4">
+								<label class="flex cursor-pointer items-center justify-between gap-4"><span class="text-sm text-zinc-800">Публичный профиль</span><input type="checkbox" role="switch" class="peer sr-only" checked><span aria-hidden="true" class="ui-switch"></span></label>
+								<div><label for="kit-editor-bio" class="ui-label">О себе</label><textarea id="kit-editor-bio" rows="2" class="ui-control"></textarea></div>
+							</div>
+						</details>
+						<div class="ui-editor-grid">
+						<details class="ui-editor-section">
+							<summary class="ui-editor-summary"><span>System Info</span></summary>
+							<div class="ui-editor-body">
+							<div class="grid gap-3 md:grid-cols-[minmax(0,2fr)_minmax(0,1fr)]">
+								<div><label for="kit-editor-email" class="ui-label">Email <span class="text-rose-600" aria-hidden="true">*</span></label><input id="kit-editor-email" type="email" required value="editor@example.com" class="ui-control"></div>
+								<div><label for="kit-editor-role" class="ui-label">Роль</label><select id="kit-editor-role" class="ui-control select-custom"><option>Редактор</option><option>Пользователь</option></select></div>
+							</div>
+							<div class="mt-3 flex flex-wrap items-center gap-x-6 gap-y-3 border-t border-zinc-100 pt-3">
+								<label class="flex cursor-pointer items-center gap-2"><span class="text-sm text-zinc-800">Активен</span><input type="checkbox" role="switch" class="peer sr-only" checked><span aria-hidden="true" class="ui-switch success"></span></label>
+								<label class="flex cursor-pointer items-center gap-2"><span class="text-sm text-zinc-800">Email подтверждён</span><input type="checkbox" role="switch" class="peer sr-only" checked><span aria-hidden="true" class="ui-switch success"></span></label>
+								<dl class="ui-editor-meta md:ml-auto"><div><dt>Создан</dt><dd>20.11.2026, 10:00</dd></div><div><dt>Обновлён</dt><dd>25.11.2026, 12:00</dd></div></dl>
+							</div>
+							</div>
+						</details>
+							<details class="ui-editor-section">
+								<summary class="ui-editor-summary"><span>Блокировка</span></summary>
+								<div class="ui-editor-body"><label class="flex cursor-pointer items-center justify-between gap-4"><span class="text-sm text-zinc-800">Пользователь заблокирован</span><input type="checkbox" role="switch" class="peer sr-only"><span aria-hidden="true" class="ui-switch"></span></label></div>
+							</details>
+							<details class="ui-editor-section">
+								<summary class="ui-editor-summary"><span>Смена пароля</span></summary>
+								<div class="ui-editor-body"><label for="kit-editor-password" class="ui-label">Новый пароль</label><input id="kit-editor-password" type="password" autocomplete="new-password" class="ui-control"></div>
+							</details>
+						</div>
+						<div class="ui-editor-footer"><p class="ui-hint">Дополнительные секции раскрываются мышью, Enter или пробелом. На десктопах парные секции стоят рядом, на мобильных — друг под другом. Все значения сохраняются при сворачивании.</p></div>
+					</div>
+				</section>
+
 				<section id="kit-tabs">
 					<h2 class="ui-section-title">Вкладки</h2>
 					<div class="ui-panel">
@@ -514,6 +553,46 @@ ob_start();
                                 <div class="ui-record-cell text-zinc-500"><span class="ui-record-label">Активность</span>Вчера</div>
                                 <div class="ui-record-actions"><button type="button" class="btn secondary small" disabled>Edit</button><button type="button" class="btn outline success small" disabled>Unban</button></div>
                             </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="kit-structure">
+                    <h2 class="ui-section-title">Страницы и редактор</h2>
+                    <p class="mb-4 text-sm text-zinc-600">Вариант списка structure: название, полный путь вложенности, публикация, навигация и действия. Родитель предшествует дочерним страницам; ui-tree-indent обозначает уровни (до четырёх визуальных отступов, полный путь не сокращается). Редактор раскрывается под выбранной строкой.</p>
+                    <div class="ui-panel flush overflow-hidden">
+                        <div class="ui-record-row structure ui-record-heading" aria-hidden="true">
+                            <span>Страница</span><span>Публикация</span><span>Навигация</span><span class="text-right">Действия</span>
+                        </div>
+                        <div class="ui-record-row structure is-open">
+                            <div class="ui-record-cell ui-record-identity">
+                                <span class="flex shrink-0 self-stretch" aria-hidden="true"><span class="ui-tree-indent"></span><span class="ui-tree-indent"></span></span>
+                                <span class="ui-record-icon" role="img" aria-label="Страница" title="Страница"><svg aria-hidden="true" class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M14 3H6v18h13V8Zm0 0v5h5M9 13h6m-6 4h4"></path></svg></span>
+                                <div class="min-w-0"><p class="font-semibold text-zinc-900">Веб-разработка</p><p class="mt-0.5 break-all font-mono text-xs text-zinc-500">/services/web-development</p></div>
+                            </div>
+                            <div class="ui-record-cell"><span class="ui-record-label">Публикация</span><span class="badge compact outlined success">Активна</span></div>
+                            <div class="ui-record-cell text-xs text-zinc-500"><span class="ui-record-label">Навигация</span>В меню</div>
+                            <div class="ui-record-actions"><button type="button" class="btn secondary small" disabled>Закрыть</button></div>
+                        </div>
+                        <div class="ui-record-editor">
+                            <div class="mb-5"><h3 class="text-base font-semibold text-zinc-900">Настройки страницы</h3><p class="ui-hint">Основные сведения, публикация и SEO.</p></div>
+                            <div class="grid grid-cols-1 items-start gap-4 lg:grid-cols-3">
+                                <section class="ui-editor-section lg:col-span-2">
+                                    <h4 class="ui-editor-heading">Данные страницы</h4>
+                                    <div class="space-y-4 p-4">
+                                        <div><label for="kit-page-title" class="ui-label">Название</label><input id="kit-page-title" class="ui-control" value="О компании"></div>
+                                        <div><label for="kit-page-slug" class="ui-label">URL slug</label><input id="kit-page-slug" class="ui-control font-mono" value="about"><p class="ui-hint">Идентификатор страницы в URL.</p></div>
+                                    </div>
+                                </section>
+                                <section class="ui-editor-section">
+                                    <h4 class="ui-editor-heading">Публикация</h4>
+                                    <div class="space-y-4 p-4">
+                                        <div><label for="kit-page-status" class="ui-label">Статус</label><select id="kit-page-status" class="ui-control select-custom"><option>Активна</option><option>Черновик</option></select></div>
+                                        <label class="ui-setting-row border-t border-zinc-100 pt-4"><span>Показывать в меню<span class="ui-hint">Включить в навигацию сайта.</span></span><input type="checkbox" role="switch" class="peer sr-only" checked><span aria-hidden="true" class="ui-switch success"></span></label>
+                                    </div>
+                                </section>
+                            </div>
+                            <div class="ui-editor-footer ui-toolbar mt-4"><p class="text-xs text-zinc-500">Изменения применяются после сохранения.</p><div class="ui-actions"><button type="button" class="btn secondary" disabled>Отмена</button><button type="button" class="btn primary" disabled>Сохранить</button></div></div>
                         </div>
                     </div>
                 </section>

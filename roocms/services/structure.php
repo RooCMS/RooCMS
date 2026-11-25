@@ -191,36 +191,25 @@ class StructureService {
      */
     public function get_breadcrumbs(): array {
         try {
-            $current_page = $this->structure->get_current_page();
+            $page = $this->structure->get_page_by_id($this->structure->page_id);
             $breadcrumbs = [];
-            
-            // Add main page
-            if ($current_page['id'] !== 1) {
-                $home_page = $this->get_page_by_id(1);
-                if ($home_page) {
-                    $breadcrumbs[] = [
-                        'title' => $home_page['title'],
-                        'slug' => $home_page['slug'],
-                        'url' => '/',
-                        'is_current' => false
-                    ];
-                }
-            }
-
-            // Build path to current page
-            $path = $this->build_page_path($current_page['id']);
-            
-            foreach ($path as $page) {
-                if ($page['id'] === 1) continue; // Main page already added
-                
-                $breadcrumbs[] = [
+            while ($page && (int)$page['id'] !== 1) {
+                array_unshift($breadcrumbs, [
                     'title' => $page['title'],
                     'slug' => $page['slug'],
-                    'url' => '/' . $page['slug'],
-                    'is_current' => $page['id'] === $current_page['id']
-                ];
+                    'url' => $this->build_page_url($page['slug']),
+                    'is_current' => (int)$page['id'] === $this->structure->page_id
+                ]);
+                $page = $page['parent'] ?: null;
             }
-
+            if ($breadcrumbs && ($home_page = $this->structure->get_page_by_id(1))) {
+                array_unshift($breadcrumbs, [
+                    'title' => $home_page['title'],
+                    'slug' => $home_page['slug'],
+                    'url' => '/',
+                    'is_current' => false
+                ]);
+            }
             return $breadcrumbs;
         } catch (Exception $e) {
             error_log('Error building breadcrumbs: ' . $e->getMessage());
@@ -353,34 +342,7 @@ class StructureService {
     }
 
 
-    /**
-     * Build path to page (breadcrumbs)
-     * 
-     * @param int $page_id Page ID
-     * @return array Path to page
-     */
-    private function build_page_path(int $page_id): array {
-        $path = [];
-        $current_id = $page_id;
 
-        // Prevent infinite loop
-        $max_depth = 10; // max depth of page path
-        $depth = 0;
-
-        while ($current_id > 0 && $depth < $max_depth) {
-            $page = $this->structure->get_page_by_id($current_id);
-            
-            if (!$page) {
-                break;
-            }
-
-            array_unshift($path, $page);
-            $current_id = (int)$page['parent_id'];
-            $depth++;
-        }
-
-        return $path;
-    }
 
 
     /**

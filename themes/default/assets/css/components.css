@@ -12,6 +12,7 @@
 .ui-panel { @apply min-w-0 rounded-xl border border-zinc-200/80 bg-white/80 p-5 shadow-sm backdrop-blur; }
 .ui-panel.flush { @apply p-0; }
 .ui-panel.spacious { @apply p-6; }
+.ui-panel.compact { @apply p-4; }
 .ui-panel.gradient { @apply bg-gradient-to-br from-white/90 to-zinc-50/90; }
 .ui-panel.is-expanded { @apply ring-2 ring-sky-500/50; }
 .ui-panel-header { @apply border-b border-zinc-200/80 px-5 py-4; }
@@ -126,6 +127,28 @@ input:disabled + .ui-switch { @apply cursor-not-allowed opacity-50; }
 .ui-record-label { @apply mb-1 block text-xs text-zinc-500 xl:hidden; }
 .ui-record-actions { @apply col-span-2 flex flex-wrap items-center justify-end gap-2 border-t border-zinc-100 pt-3 xl:col-span-1 xl:border-0 xl:pt-0; }
 .ui-record-editor { @apply border-t border-zinc-200/80 bg-zinc-50/70 p-4 sm:p-5; }
+.ui-record-row.structure { @apply xl:grid-cols-[minmax(0,1fr)_7rem_7rem_8rem]; }
+.ui-tree-indent { @apply w-3 shrink-0 self-stretch border-l border-zinc-200/80 sm:w-5; }
+.ui-record-icon { @apply flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-zinc-200/80 bg-zinc-50 text-zinc-500; }
+.ui-record-row.is-open .ui-record-icon { @apply border-sky-200 bg-white text-sky-800; }
+.ui-record-title { @apply cursor-pointer text-left font-semibold text-zinc-900 hover:text-sky-800 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-500; }
+.ui-editor-section { @apply min-w-0 rounded-xl border border-zinc-200/80 bg-white/80; }
+.ui-editor-heading { @apply border-b border-zinc-100 px-4 py-3 text-sm font-semibold text-zinc-900; }
+.ui-setting-row { @apply flex cursor-pointer items-center justify-between gap-4; }
+.ui-setting-row > span:first-child { @apply min-w-0 text-sm font-medium text-zinc-800; }
+.ui-setting-row .ui-hint { @apply block font-normal; }
+.ui-editor-grid { @apply grid grid-cols-1 items-start gap-3 lg:grid-cols-2; }
+.ui-editor-summary { @apply flex cursor-pointer items-center justify-between gap-3 rounded-xl px-4 py-3 text-sm font-semibold text-zinc-900 hover:bg-zinc-50; list-style: none; }
+.ui-editor-summary::-webkit-details-marker { display: none; }
+.ui-editor-summary::after { content: '+'; @apply text-lg font-normal text-zinc-400; }
+.ui-editor-section[open] > .ui-editor-summary::after { content: '−'; }
+.ui-editor-summary:focus-visible { @apply outline-2 outline-offset-2 outline-sky-500; }
+.ui-editor-caption { @apply mt-0.5 block text-xs font-normal text-zinc-500 md:ml-3 md:mt-0 md:inline; }
+.ui-editor-meta { @apply flex flex-wrap gap-x-4 gap-y-1 text-xs text-zinc-500; }
+.ui-editor-meta > div { @apply flex flex-wrap gap-x-1; }
+.ui-editor-meta dd { @apply text-zinc-700; }
+.ui-editor-body { @apply border-t border-zinc-100 p-4; }
+.ui-editor-footer { @apply border-t border-zinc-200/80 pt-4; }
 .ui-code { @apply max-w-full min-w-0 overflow-x-auto rounded-lg bg-zinc-50 p-3 font-mono text-sm; }
 .ui-disclosure { @apply w-full cursor-pointer p-5 text-left; }
 .ui-disclosure:focus-visible { @apply outline-2 outline-offset-2 outline-sky-500; }

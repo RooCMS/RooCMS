@@ -426,6 +426,6 @@ class StructureManageService {
             'updated_at' => (int)$page['updated_at'],
             'published_at' => (int)$page['published_at'],
             'is_published' => $this->is_page_published($page)
-        ];
+        ] + array_intersect_key($page, ['level' => true, 'structure_path' => true]);
     }
 }
