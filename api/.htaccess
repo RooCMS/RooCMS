@@ -12,14 +12,12 @@ Options -MultiViews
     Satisfy Any
 </Files>
 
-# CORS headers
-Header always set Access-Control-Allow-Origin "*"
-Header always set Access-Control-Allow-Methods "GET, POST, PUT, PATCH, DELETE, OPTIONS"
-Header always set Access-Control-Allow-Headers "Content-Type, Authorization"
-
 # Handle preflight OPTIONS requests
 RewriteCond %{REQUEST_METHOD} OPTIONS
 RewriteRule ^(.*)$ index.php [L]
+
+# Render Markdown documentation without entering the API router
+RewriteRule ^(README\.md|v1/docs/[a-z-]+\.md)$ docs.php [END,NC]
 
 # Always route versioned API prefixes (e.g., /v1, /v1/...) to index.php
 RewriteRule ^v[0-9]+(/.*)?$ index.php [L,QSA]

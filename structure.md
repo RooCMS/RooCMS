@@ -50,9 +50,7 @@ api/
     ├── 📄 controller_settings.php         # Settings controller
     ├── 📄 controller_structure.php        # Structure controller
     ├── 📄 controller_users.php            # Users controller
-    ├── 📁 docs/                           # API docs
-    │   ├── 📄 postman.json                # Postman collection
-    │   └── 📄 swagger.yaml                # Swagger docs
+    ├── 📁 docs/                           # Markdown API reference by section; index: api/README.md
     ├── 📄 middleware_auth.php             # Middleware authentication
     └── 📄 middleware_role.php             # Middleware roles
 ```

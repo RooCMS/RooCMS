@@ -97,9 +97,7 @@ ob_start();
                     </div>
                 </div>
 
-                <div class="ui-settings-actions sticky bottom-4" x-show="active_group || errorMessage" x-cloak>
-                    <div class="form-success alert success mb-4" x-show="successMessage" x-text="successMessage" role="status"></div>
-                    <div class="form-error alert danger mb-4" x-show="errorMessage" x-text="errorMessage" role="alert"></div>
+                <div class="ui-settings-actions sticky bottom-4" x-show="active_group" x-cloak>
                     <div class="ui-toolbar">
                         <p class="text-xs text-zinc-500">Changes in all sections are saved together.</p>
                         <div class="ui-actions">

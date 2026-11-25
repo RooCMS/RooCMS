@@ -483,8 +483,6 @@ $api->delete('/v1/myfeature/{id}', 'MyFeatureController@delete',
 - 🔌 [API документация](api/README.md)
 - 🗄️ [Система миграций](roocms/database/README_Migrate.md)
 - 💾 [Система бэкапов](roocms/database/README_Backup.md)
-- 📊 [Swagger API схема](api/v1/docs/swagger.yaml)
-- 📮 [Postman коллекция](api/v1/docs/postman.json)
 
 ---
 

@@ -1,3 +1,4 @@
+import { show_notice } from '../app/helpers/notices.js';
 /**
  * ACP Settings Manager Component
  * 
@@ -39,8 +40,6 @@ document.addEventListener('alpine:init', () => {
         meta: {},
         active_group: '',
         loading: false,
-        successMessage: '',
-        errorMessage: '',
 
         // Initialization
         async init() {
@@ -53,7 +52,6 @@ document.addEventListener('alpine:init', () => {
             if (this.loading) return;
 
             this.loading = true;
-            this.clearMessages();
 
             try {
                 await this.fetchSettings();
@@ -81,7 +79,6 @@ document.addEventListener('alpine:init', () => {
             if (this.loading) return;
 
             this.loading = true;
-            this.clearMessages();
             this.clearValidationErrors();
 
             try {
@@ -115,7 +112,6 @@ document.addEventListener('alpine:init', () => {
             if (!confirmed || this.loading) return;
 
             this.loading = true;
-            this.clearMessages();
 
             try {
                 await this.apiRequest('/v1/acp/settings/reset/all');
@@ -187,7 +183,7 @@ document.addEventListener('alpine:init', () => {
         processSettingsData(data) {
             const processed = {};
 
-            for (const [groupName, groupSettings] of Object.entries(data)) {
+            for (const [groupName, groupSettings] of Object.entries(data).reverse()) {
                 if (!groupSettings || typeof groupSettings !== 'object') continue;
 
                 processed[groupName] = {};
@@ -277,19 +273,6 @@ document.addEventListener('alpine:init', () => {
             return this.$root.querySelector(`[name="${CSS.escape(fieldName)}"]`);
         },
 
-        showMessage(message, type = 'success') {
-            if (type === 'success') {
-                this.successMessage = message;
-                this.errorMessage = '';
-            } else {
-                this.errorMessage = message;
-                this.successMessage = '';
-            }
-        },
-
-        clearMessages() {
-            this.successMessage = '';
-            this.errorMessage = '';
-        }
+        showMessage: show_notice
     }));
 });

@@ -190,6 +190,11 @@ ob_start();
 				<!-- Alerts -->
 				<section>
 					<h2 class="ui-section-title">Оповещения</h2>
+					<p class="ui-hint mb-4">Уведомления о действиях появляются справа снизу, не сдвигают содержимое и автоматически исчезают через 15 секунд. Их можно закрыть вручную.</p>
+					<div class="ui-actions mb-4">
+						<button type="button" class="btn secondary" data-notice-type="success">Успешное уведомление</button>
+						<button type="button" class="btn secondary" data-notice-type="danger">Уведомление об ошибке</button>
+					</div>
 					<div class="grid grid-cols-1 gap-4 md:grid-cols-2">
 						<div class="alert neutral">
 							<div class="text-sm text-zinc-800">Neutral: простое уведомление.</div>

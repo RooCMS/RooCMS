@@ -185,22 +185,18 @@ class Debugger {
 		$message = $exception->getMessage();
 		$file = $exception->getFile();
 		$line = $exception->getLine();
-		$trace = $exception->getTraceAsString();
 		
 		// Determine exception severity
 		$severity = match(true) {
-			$exception instanceof Error => 'Fatal Error',
-			$exception instanceof TypeError => 'Type Error', 
-			$exception instanceof ParseError => 'Parse Error',
 			$exception instanceof ArgumentCountError => 'Argument Error',
+			$exception instanceof TypeError => 'Type Error',
+			$exception instanceof ParseError => 'Parse Error',
 			$exception instanceof ArithmeticError => 'Arithmetic Error',
 			$exception instanceof AssertionError => 'Assertion Error',
+			$exception instanceof Error => 'Fatal Error',
 			default => 'Uncaught Exception'
 		};
 
-		// Read existing log
-		$subj = read_file(ERRORSLOG);
-		
 		// Create exception log entry
 		$error_data = [
 			'time' => $time,
@@ -211,44 +207,34 @@ class Debugger {
 			'message' => $message,
 			'file' => $file,
 			'line' => $line,
-			'trace' => explode("\n", $trace)
+			'trace' => explode("\n", $exception->getTraceAsString())
 		];
 		
-		$error_json = json_encode($error_data, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
-		$subj .= $error_json . ",\r\n";
-
-		// Write to log file
-		$f = fopen(ERRORSLOG, 'w+');
-		if(is_writable(ERRORSLOG)) {
-			fwrite($f, $subj);
-		}
-		fclose($f);
+		file_put_contents(ERRORSLOG, json_encode($error_data, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE).",\r\n", FILE_APPEND | LOCK_EX);
 
 		// Display error if in debug mode
 		if(DEBUGMODE) {
-			$safe_message = htmlspecialchars($message, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
-			$safe_file = htmlspecialchars($file, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
-			
-			echo json_encode([
+			$response = [
 				'error' => 'exception',
 				'severity' => $severity,
 				'class' => $class,
-				'message' => $safe_message,
-				'file' => basename($safe_file),
+				'message' => $message,
+				'file' => basename($file),
 				'line' => $line,
 				'time' => $time
-			], JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+			];
 		} else {
 			// User-friendly error message
-			echo json_encode([
+			$response = [
 				'error' => 'internal_error',
 				'message' => 'Something went wrong. We are working on fixing the issue.',
 				'time' => $time,
 				'reference' => substr(md5($time . $message), 0, 8)
-			], JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+			];
 		}
 
-		exit(1);
+		http_response_code(500);
+		output_json($response);
 	}
 
 

@@ -1,3 +1,4 @@
+import { show_notice } from '../app/helpers/notices.js';
 /**
  * ACP Structure Manager Component
  * 
@@ -26,8 +27,6 @@ document.addEventListener('alpine:init', () => {
         },
         loading: false,
         reloadQueued: false,
-        successMessage: '',
-        errorMessage: '',
 
         // Form state
         showCreateForm: false,
@@ -84,7 +83,6 @@ document.addEventListener('alpine:init', () => {
             }
 
             this.loading = true;
-            this.clearMessages();
 
             try {
                 const params = new URLSearchParams({
@@ -251,7 +249,6 @@ document.addEventListener('alpine:init', () => {
             if (this.modalLoading || this.formLoading || !this.formReady) return;
 
             this.modalLoading = true;
-            this.clearMessages();
 
             try {
                 const url = this.editingPageId
@@ -496,27 +493,6 @@ document.addEventListener('alpine:init', () => {
         },
 
         // Messages
-        showMessage(message, type = 'success') {
-            if (type === 'success') {
-                this.successMessage = message;
-                this.errorMessage = '';
-            } else {
-                this.errorMessage = message;
-                this.successMessage = '';
-            }
-
-            setTimeout(() => {
-                if (type === 'success') {
-                    this.successMessage = '';
-                } else {
-                    this.errorMessage = '';
-                }
-            }, 5000);
-        },
-
-        clearMessages() {
-            this.successMessage = '';
-            this.errorMessage = '';
-        }
+        showMessage: show_notice
     }));
 });

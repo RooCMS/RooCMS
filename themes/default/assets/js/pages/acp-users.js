@@ -1,3 +1,4 @@
+import { show_notice } from '../app/helpers/notices.js';
 /**
  * ACP Users Manager Component
  * 
@@ -18,7 +19,6 @@ const ROLE_BADGE_CLASSES = {
     'su': 'danger'
 };
 
-const MESSAGE_AUTO_HIDE_DELAY = 5000;
 
 // Alpine.js Users Manager Component
 document.addEventListener('alpine:init', () => {
@@ -32,6 +32,7 @@ document.addEventListener('alpine:init', () => {
             per_page: 20
         },
         loading: false,
+        load_failed: false,
         listRequestId: 0,
         searchQuery: '',
         filters: {
@@ -41,8 +42,6 @@ document.addEventListener('alpine:init', () => {
         get hasFilters() {
             return Boolean(this.searchQuery.trim() || this.filters.role || this.filters.status);
         },
-        successMessage: '',
-        errorMessage: '',
         editLoading: false,
         editSaving: false,
         editingUserId: null,
@@ -71,8 +70,6 @@ document.addEventListener('alpine:init', () => {
             new_password: '',
             confirm_password: ''
         },
-        editSuccessMessage: '',
-        editErrorMessage: '',
 
         // Initialization
         init() {
@@ -122,7 +119,7 @@ document.addEventListener('alpine:init', () => {
             const requestId = ++this.listRequestId;
 
             this.loading = true;
-            this.clearMessages();
+            this.load_failed = false;
 
             try {
                 const params = new URLSearchParams({
@@ -172,6 +169,7 @@ document.addEventListener('alpine:init', () => {
             } catch (error) {
                 if (requestId !== this.listRequestId) return;
                 if (DEBUG) window.log('error', 'Error loading users:', error);
+                this.load_failed = true;
                 this.showRequestError(error, 'Error loading users');
             } finally {
                 if (requestId === this.listRequestId) this.loading = false;
@@ -323,7 +321,6 @@ document.addEventListener('alpine:init', () => {
             this.editingUserId = userId;
             this.editingUser = {};
             this.editLoading = true;
-            this.clearEditMessages();
             this.clearEditFieldErrors();
             this.resetEditPasswordForm();
 
@@ -348,7 +345,6 @@ document.addEventListener('alpine:init', () => {
             this.editingUserId = null;
             this.editingUser = {};
             this.editLoading = false;
-            this.clearEditMessages();
             this.clearEditFieldErrors();
             this.resetEditPasswordForm();
         },
@@ -401,7 +397,6 @@ document.addEventListener('alpine:init', () => {
 
         resetEditForm() {
             this.populateEditForm();
-            this.clearEditMessages();
             this.clearEditFieldErrors();
             this.resetEditPasswordForm();
         },
@@ -475,7 +470,6 @@ document.addEventListener('alpine:init', () => {
             if (!this.validateEditForm()) return;
 
             this.editSaving = true;
-            this.clearEditMessages();
 
             try {
                 const updateData = this.prepareUserUpdateData();
@@ -525,7 +519,6 @@ document.addEventListener('alpine:init', () => {
             if (!this.validatePasswordForm()) return;
 
             this.editSaving = true;
-            this.clearEditMessages();
 
             try {
                 await this.apiRequest(`/v1/acp/users/${this.editingUserId}/password`, {
@@ -557,7 +550,6 @@ document.addEventListener('alpine:init', () => {
             if (!confirmed || this.editSaving || this.editLoading || requestId !== this.editRequestId) return;
 
             this.editSaving = true;
-            this.clearEditMessages();
 
             try {
                 await this.apiRequest(`/v1/acp/users/${this.editingUserId}`, {
@@ -589,7 +581,6 @@ document.addEventListener('alpine:init', () => {
             if (!confirmed || this.editSaving || this.editLoading || requestId !== this.editRequestId) return;
 
             this.editSaving = true;
-            this.clearEditMessages();
 
             try {
                 await this.apiRequest(`/v1/acp/users/${this.editingUserId}/avatar`, {
@@ -630,29 +621,7 @@ document.addEventListener('alpine:init', () => {
             return formatRelativeTime(timestamp);
         },
 
-        showEditMessage(message, type = 'success') {
-            this.clearEditMessages();
-            if (type === 'success') {
-                this.editSuccessMessage = message;
-                setTimeout(() => {
-                    if (this.editSuccessMessage === message) {
-                        this.editSuccessMessage = '';
-                    }
-                }, MESSAGE_AUTO_HIDE_DELAY);
-            } else {
-                this.editErrorMessage = message;
-                setTimeout(() => {
-                    if (this.editErrorMessage === message) {
-                        this.editErrorMessage = '';
-                    }
-                }, MESSAGE_AUTO_HIDE_DELAY);
-            }
-        },
-
-        clearEditMessages() {
-            this.editSuccessMessage = '';
-            this.editErrorMessage = '';
-        },
+        showEditMessage: show_notice,
 
         async banUser(user) {
             // Show ban modal with custom form
@@ -752,20 +721,6 @@ document.addEventListener('alpine:init', () => {
         },
 
         // Message handling
-        showMessage(message, type = 'success') {
-            this.clearMessages();
-            if (type === 'success') {
-                this.successMessage = message;
-                setTimeout(() => this.successMessage = '', MESSAGE_AUTO_HIDE_DELAY);
-            } else {
-                this.errorMessage = message;
-                setTimeout(() => this.errorMessage = '', MESSAGE_AUTO_HIDE_DELAY);
-            }
-        },
-
-        clearMessages() {
-            this.successMessage = '';
-            this.errorMessage = '';
-        }
+        showMessage: show_notice
     }));
 });

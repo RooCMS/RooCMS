@@ -31,11 +31,6 @@ ob_start();
             </header>
 
             <div class="space-y-5" x-data="structureManager()">
-                <div x-show="successMessage || errorMessage" x-cloak aria-live="polite">
-                    <div class="form-success alert success" x-show="successMessage" x-text="successMessage"></div>
-                    <div class="form-error alert danger" x-show="errorMessage" x-text="errorMessage" role="alert"></div>
-                </div>
-
                 <template x-if="showCreateForm">
                     <div class="ui-panel spacious">
                         <?php require __DIR__ . '/../partials/acp-structure-form.php'; ?>

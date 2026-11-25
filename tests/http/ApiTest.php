@@ -28,6 +28,18 @@ class ApiTest extends ApiTestCase {
     }
 
 
+    public function testUncaughtExceptionReturnsJson500(): void {
+        // A PHP filename is rejected by sanitize_path before API dispatch.
+        $response = $this->http('GET', '/api/v1/controller_health.php');
+
+        $this->assertSame(500, $response['status']);
+        $this->assertStringContains('application/json', $response['headers']['content-type'] ?? '');
+        $this->assertStringContains('charset=utf-8', $response['headers']['content-type'] ?? '');
+        $this->assertTrue($response['json'] !== null, 'Uncaught exceptions must return valid JSON');
+        $this->assertTrue(in_array($response['json']['error'] ?? null, ['internal_error', 'exception'], true));
+    }
+
+
     public function testPreflightRequestIsAnswered(): void {
         $response = $this->http('OPTIONS', '/api/v1/users');
 

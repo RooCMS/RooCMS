@@ -170,6 +170,9 @@ input:disabled + .ui-switch { @apply cursor-not-allowed opacity-50; }
 .badge.outlined { @apply border; border-color: color-mix(in srgb, currentColor 20%, transparent); }
 .avatar.initials { @apply inline-flex items-center justify-center bg-sky-100 text-sm font-semibold text-sky-800; }
 .avatar.stack { @apply h-8 w-8; }
+.ui-notices { @apply pointer-events-none fixed right-4 bottom-4 z-[80] flex max-h-[calc(100dvh-2rem)] w-96 max-w-[calc(100%-2rem)] flex-col gap-3 overflow-y-auto; }
+.ui-notice { @apply pointer-events-auto flex items-start gap-3 break-words shadow-lg; }
+.ui-notice-close { @apply shrink-0 cursor-pointer rounded px-1 text-xl leading-none opacity-60 hover:opacity-100 focus-visible:outline-2 focus-visible:outline-offset-2; }
 .alert.neutral { @apply border-zinc-200 bg-white/80 text-zinc-800; }
 .alert.note { @apply rounded-xl; }
 .alert.note.info { @apply border-l-sky-500; }

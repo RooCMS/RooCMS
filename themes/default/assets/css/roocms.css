@@ -914,6 +914,26 @@
     @apply bg-gradient-to-r from-rose-500 to-pink-500;
 }
 
+/* Rendered Markdown, shared by documentation and the public UI Kit. */
+.markdown-content { @apply min-w-0 text-sm leading-7 text-zinc-600; overflow-wrap: anywhere; }
+.markdown-content > :first-child { @apply mt-0; }
+.markdown-content h1 { @apply mb-6 text-3xl font-bold leading-tight tracking-tight text-zinc-900; }
+.markdown-content h2 { @apply mb-4 mt-10 border-t border-zinc-100 pt-6 text-xl font-semibold leading-snug text-zinc-900; }
+.markdown-content h3 { @apply mb-3 mt-6 text-base font-semibold text-zinc-900; }
+.markdown-content p { @apply my-4; }
+.markdown-content a { @apply text-sky-700 underline decoration-sky-200 underline-offset-4 hover:text-sky-900; }
+.markdown-content :not(pre) > code { @apply rounded bg-zinc-100 px-1.5 py-0.5 font-mono text-xs text-zinc-800; }
+.markdown-content pre { @apply my-5 max-w-full overflow-x-auto rounded-lg border border-zinc-200 bg-zinc-50 p-4 font-mono text-xs leading-6 text-zinc-800; overflow-wrap: normal; }
+.markdown-content ul { @apply my-4 list-disc space-y-2 pl-5; }
+.markdown-content ol { @apply my-4 list-decimal space-y-2 pl-5; }
+.markdown-content table { @apply my-5 block w-full overflow-x-auto text-left text-sm; }
+.markdown-content thead { @apply border-b border-zinc-200 text-zinc-500; }
+.markdown-content th { @apply py-3 pr-6 font-medium; }
+.markdown-content td { @apply border-b border-zinc-100 py-3 pr-6 align-top; }
+.markdown-content tbody tr:hover { @apply bg-zinc-50; }
+.markdown-content blockquote { @apply my-5 rounded-xl border border-sky-200 bg-sky-50 px-5 py-1 text-sky-900; }
+.markdown-content strong { @apply font-semibold text-zinc-900; }
+
 @media (prefers-reduced-motion: reduce) {
     .skeleton-container { animation: none; }
     .btn, .btn svg, .avatar { transition: none; }

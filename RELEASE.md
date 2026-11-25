@@ -195,7 +195,7 @@ php roocms/database/backup_cli.php list
 
 - ℹ️ **Alpha статус** - Некоторые функции могут работать нестабильно, тестируйте перед продакшеном
 - ℹ️ **Миграции обязательны** - Для работы системы необходимо выполнить миграции БД
-- ℹ️ **Новая документация** - API документация доступна в `api/README.md` и Swagger схемах
+- ℹ️ **Документация API** - Markdown-документация по разделам доступна в [api/README.md](api/README.md)
 - ℹ️ **Обратная несовместимость** - версия 2.0 не совместима с предыдущими версиями
 
 
@@ -311,8 +311,6 @@ php roocms/database/backup_cli.php list        # Список всех бэка�
 - 🔌 [API документация](api/README.md)
 - 🗄️ [Система миграций](roocms/database/README_Migrate.md)
 - 💾 [Система резервного копирования](roocms/database/README_Backup.md)
-- 📊 [Swagger API схема](api/v1/docs/swagger.yaml)
-- 📮 [Postman коллекция](api/v1/docs/postman.json)
 - ⚖️ [Лицензия GPL v3](LICENSE.md)
 - 🌐 [Официальный сайт](https://www.roocms.com)
 - 📧 [Поддержка](mailto:info@roocms.com)

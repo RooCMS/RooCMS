@@ -826,7 +826,21 @@ function hello() {
 			</div>
 		</section>
 
-		<!-- Table -->
+		<!-- Markdown -->
+		<section>
+			<h2 class="mb-3 text-base font-semibold text-zinc-900">Markdown-документ</h2>
+			<div class="content-card p-5 sm:p-8">
+				<article class="markdown-content">
+					<h1>Документация</h1>
+					<p>Общий стиль для Markdown: <strong>выделение</strong>, <code>параметры</code> и <a href="/api/README.md">ссылки на разделы</a>.</p>
+					<h2>GET /v1/health</h2>
+					<p>Блоки кода и широкие таблицы прокручиваются внутри документа.</p>
+					<pre><code>{"success":true,"data":{"status":"healthy"}}</code></pre>
+					<table><thead><tr><th>Параметр</th><th>Тип</th><th>Описание</th></tr></thead><tbody><tr><td><code>limit</code></td><td>int</td><td>Количество записей.</td></tr></tbody></table>
+				</article>
+			</div>
+		</section>
+
 		<section>
 			<h2 class="mb-3 text-base font-semibold text-zinc-900">Таблица</h2>
 			<div class="rounded-xl border border-zinc-200 bg-white p-5 shadow-sm">

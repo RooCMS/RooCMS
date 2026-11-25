@@ -81,7 +81,7 @@ Documentation
 - API overview and examples: `api/README.md`
 - Database migrations: `roocms/database/README_Migrate.md`
 - Database backup system: `roocms/database/README_Backup.md`
-- API schemas: `api/v1/docs/swagger.yaml`, `api/v1/docs/postman.json`
+- API reference by section: [Markdown documentation](api/README.md)
 
 Useful links
 ------------

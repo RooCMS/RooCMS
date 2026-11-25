@@ -1,5 +1,6 @@
 // Local UI Kit examples: no API requests and no inline handlers (CSP).
 import { set_control_error, clear_control_error, clear_control_errors } from '../app/helpers/controlErrors.js';
+import { show_notice } from '../app/helpers/notices.js';
 
 const kit = document.getElementById('acp-ui-kit');
 
@@ -21,6 +22,10 @@ document.addEventListener('alpine:init', () => {
 });
 
 if (kit) {
+    kit.querySelectorAll('[data-notice-type]').forEach((button) => {
+        button.addEventListener('click', () => show_notice('Пример уведомления. Оно исчезнет через 15 секунд.', button.dataset.noticeType));
+    });
+
     const form = kit.querySelector('[data-demo-form]');
     const form_status = kit.querySelector('[data-form-status]');
     form.addEventListener('submit', (event) => {

@@ -1,0 +1,91 @@
+{
+    "time": "25.11.2026 13:47:18",
+    "uri": "\/api\/v1\/controller_auth.php",
+    "type": "exception",
+    "severity": "Uncaught Exception",
+    "class": "InvalidArgumentException",
+    "message": "Invalid URL provided",
+    "file": "F:\\home\\roocms.com\\dev\\api\\index.php",
+    "line": 66,
+    "trace": [
+        "#0 {main}"
+    ]
+},
+{
+    "time": "25.11.2026 13:47:25",
+    "uri": "\/api\/v1\/controller_auth.php",
+    "type": "exception",
+    "severity": "Uncaught Exception",
+    "class": "InvalidArgumentException",
+    "message": "Invalid URL provided",
+    "file": "F:\\home\\roocms.com\\dev\\api\\index.php",
+    "line": 66,
+    "trace": [
+        "#0 {main}"
+    ]
+},
+{
+    "time": "25.11.2026 13:47:32",
+    "uri": "\/api\/v1\/controller_auth.php",
+    "type": "exception",
+    "severity": "Uncaught Exception",
+    "class": "InvalidArgumentException",
+    "message": "Invalid URL provided",
+    "file": "F:\\home\\roocms.com\\dev\\api\\index.php",
+    "line": 66,
+    "trace": [
+        "#0 {main}"
+    ]
+},
+{
+    "time": "25.11.2026 13:47:38",
+    "uri": "\/api\/v1\/controller_auth.php",
+    "type": "exception",
+    "severity": "Uncaught Exception",
+    "class": "InvalidArgumentException",
+    "message": "Invalid URL provided",
+    "file": "F:\\home\\roocms.com\\dev\\api\\index.php",
+    "line": 66,
+    "trace": [
+        "#0 {main}"
+    ]
+},
+{
+    "time": "25.11.2026 13:47:48",
+    "uri": "\/api\/v1\/controller_auth.php",
+    "type": "exception",
+    "severity": "Uncaught Exception",
+    "class": "InvalidArgumentException",
+    "message": "Invalid URL provided",
+    "file": "F:\\home\\roocms.com\\dev\\api\\index.php",
+    "line": 66,
+    "trace": [
+        "#0 {main}"
+    ]
+},
+{
+    "time": "25.11.2026 13:48:12",
+    "uri": "\/api\/v1\/controller_health.php",
+    "type": "exception",
+    "severity": "Uncaught Exception",
+    "class": "InvalidArgumentException",
+    "message": "Invalid URL provided",
+    "file": "F:\\home\\roocms.com\\dev\\api\\index.php",
+    "line": 66,
+    "trace": [
+        "#0 {main}"
+    ]
+},
+{
+    "time": "25.11.2026 13:52:29",
+    "uri": "\/api\/v1\/controller_health.php",
+    "type": "exception",
+    "severity": "Uncaught Exception",
+    "class": "InvalidArgumentException",
+    "message": "Invalid URL provided",
+    "file": "F:\\home\\roocms.com\\dev\\api\\index.php",
+    "line": 66,
+    "trace": [
+        "#0 {main}"
+    ]
+},
